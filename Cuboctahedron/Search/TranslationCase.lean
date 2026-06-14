@@ -1,4 +1,5 @@
 import Cuboctahedron.Geometry.UnfoldingFeasible
+import Cuboctahedron.Search.Farkas2D
 import Cuboctahedron.Search.NonIdentityCase
 
 /-!
@@ -25,6 +26,58 @@ theorem unfolded_feasible_cases
 abbrev SeqRealizesPairWord (w : PairWord) (seq : Step14 -> Face) : Prop :=
   StartsXp seq /\ PairWordMatchesSeq w seq
 
+def xpStartConstraints : List StrictLin2 :=
+  [{ a := 1, b := 1, c := 1 },
+   { a := 1, b := -1, c := 1 },
+   { a := -1, b := 1, c := 1 },
+   { a := -1, b := -1, c := 1 }]
+
+def translationConstraints (_seq : Step14 -> Face) (_b : Vec3 Rat) :
+    List StrictLin2 :=
+  xpStartConstraints
+
+structure TranslationUnfoldedFeasible (seq : Step14 -> Face) (b : Vec3 Rat) where
+  feasible : UnfoldedFeasible seq
+  startsXp : StartsXp seq
+
+theorem xpStartConstraints_holds_of_interior {p : Vec3 Real}
+    (h : InFaceInterior Face.xp p) :
+    forall L, L ∈ xpStartConstraints -> L.Holds p.y p.z := by
+  intro L hmem
+  rcases h with ⟨hxDot, hint⟩
+  have hx : p.x = 1 := by
+    simpa [normalR, normalQ, offsetR, offsetQ, dot] using hxDot
+  have htppp := hint Face.tppp (by decide)
+  have htppm := hint Face.tppm (by decide)
+  have htpmp := hint Face.tpmp (by decide)
+  have htpmm := hint Face.tpmm (by decide)
+  simp [normalR, normalQ, offsetR, offsetQ, dot] at htppp htppm htpmp htpmm
+  simp [xpStartConstraints] at hmem
+  rcases hmem with rfl | rfl | rfl | rfl
+  · simp [StrictLin2.Holds, StrictLin2.eval]
+    linarith
+  · simp [StrictLin2.Holds, StrictLin2.eval]
+    linarith
+  · simp [StrictLin2.Holds, StrictLin2.eval]
+    linarith
+  · simp [StrictLin2.Holds, StrictLin2.eval]
+    linarith
+
+theorem translation_feasible_implies_constraints
+    {seq : Step14 -> Face}
+    {b : Vec3 Rat}
+    (h : TranslationUnfoldedFeasible seq b) :
+    exists y z : Real,
+      forall L, L ∈ translationConstraints seq b -> L.Holds y z := by
+  rcases h.feasible with ⟨data⟩
+  refine ⟨data.p0.y, data.p0.z, ?_⟩
+  intro L hmem
+  have hStartInterior : InFaceInterior Face.xp data.p0 := by
+    rw [← h.startsXp]
+    exact data.start_interior
+  exact xpStartConstraints_holds_of_interior hStartInterior L (by
+    simpa [translationConstraints] using hmem)
+
 example :
     IsIdentityLinear (pairWordOfSeq sampleStartedSeq) \/
       IsNonIdentityLinear (pairWordOfSeq sampleStartedSeq) :=
@@ -32,5 +85,6 @@ example :
 
 #check pairword_linear_cases
 #check unfolded_feasible_cases
+#check translation_feasible_implies_constraints
 
 end Cuboctahedron
