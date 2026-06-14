@@ -16,6 +16,9 @@ def stepSucc (i : Step14) : Step14 :=
 def lastImpact : Impact15 :=
   ⟨14, by decide⟩
 
+def zeroVec3R : Vec3 Real :=
+  { x := 0, y := 0, z := 0 }
+
 def pointOnSegment (a b : Vec3 Real) (t : Real) : Vec3 Real :=
   vecAdd a (scalarMul t (vecSub b a))
 
@@ -31,15 +34,16 @@ structure BilliardOrbit14 where
   v : Impact15 -> Vec3 Real
   face : Step14 -> Face
   time : Step14 -> Real
-  time_pos : forall i, 0 < time i
-  impact_interior : forall i, InFaceInterior (face i) (p i.castSucc)
+  time_pos : forall i : Step14, 0 < time i
+  velocity_nonzero : forall i : Step14, v i.castSucc = zeroVec3R -> False
+  impact_interior : forall i : Step14, InFaceInterior (face i) (p i.castSucc)
   next_point :
-    forall i, p (stepSucc i).castSucc =
+    forall i : Step14, p (stepSucc i).castSucc =
       vecAdd (p i.castSucc) (scalarMul (time i) (v i.castSucc))
   segment_valid :
-    forall i, SegmentTravelValid (p i.castSucc) (p (stepSucc i).castSucc)
+    forall i : Step14, SegmentTravelValid (p i.castSucc) (p (stepSucc i).castSucc)
   reflection_law :
-    forall i, v (stepSucc i).castSucc =
+    forall i : Step14, v (stepSucc i).castSucc =
       reflectVec (v i.castSucc) (normalR (face (stepSucc i)))
   p_periodic : p lastImpact = p 0
   v_periodic : v lastImpact = v 0
@@ -47,7 +51,7 @@ structure BilliardOrbit14 where
 namespace BilliardOrbit14
 
 def Nonsingular (o : BilliardOrbit14) : Prop :=
-  forall i, InFaceInterior (o.face i) (o.p i.castSucc)
+  forall i : Step14, InFaceInterior (o.face i) (o.p i.castSucc)
 
 def Periodic (o : BilliardOrbit14) : Prop :=
   o.p lastImpact = o.p 0 /\ o.v lastImpact = o.v 0
@@ -99,6 +103,9 @@ def rotateOrbit (o : BilliardOrbit14) (k : Step14) : BilliardOrbit14 where
   time_pos := by
     intro i
     exact o.time_pos (shiftStep k i)
+  velocity_nonzero := by
+    intro i
+    simpa [shiftStep, zeroVec3R] using o.velocity_nonzero (shiftStep k i)
   impact_interior := by
     intro i
     simpa [shiftStep] using o.impact_interior (shiftStep k i)

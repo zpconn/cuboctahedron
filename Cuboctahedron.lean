@@ -1,4 +1,4 @@
-import Cuboctahedron.Geometry.BilliardOrbit
+import Cuboctahedron.Geometry.UnfoldingFeasible
 
 /-!
 Root module for the cuboctahedron omnihedral billiard formalization.
