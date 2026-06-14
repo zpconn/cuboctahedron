@@ -1,4 +1,4 @@
-import Cuboctahedron.Geometry.Polyhedron
+import Cuboctahedron.Geometry.Reflection
 
 /-!
 Root module for the cuboctahedron omnihedral billiard formalization.
