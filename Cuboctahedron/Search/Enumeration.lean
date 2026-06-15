@@ -47,10 +47,11 @@ noncomputable instance pairWordFintype : Fintype PairWord := by
   classical
   exact Fintype.ofEquiv (Fin 13 -> PairId) pairWordEquivFn.symm
 
-noncomputable instance validPairWordDecidablePred :
+instance validPairWordDecidablePred :
     DecidablePred ValidPairWord := by
-  classical
-  exact fun w => Classical.propDecidable (ValidPairWord w)
+  intro w
+  unfold ValidPairWord pairCount
+  infer_instance
 
 abbrev ValidPairWordSubtype := { w : PairWord // ValidPairWord w }
 

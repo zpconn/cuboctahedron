@@ -3,8 +3,9 @@ import Cuboctahedron.Search.Certificates
 /-!
 Generated Step 14 coverage manifest.
 
-The trusted checker validates that these chunks are contiguous, nonempty,
-start at rank 0, end at `numPairWords`, and expose all 64 sign masks.
+This manifest is retained as coverage arithmetic scaffolding. It is not
+imported by `Generated.AllGenerated` in Step 14C because the exhaustive
+real-certificate bridge is Step 14D work.
 -/
 
 namespace Cuboctahedron.Generated.CoverageManifest
@@ -4884,10 +4885,5 @@ def generatedCoverageManifest : Cuboctahedron.CoverageManifest where
 theorem generatedCoverageManifest_check :
     Cuboctahedron.checkCoverageManifest generatedCoverageManifest = true := by
   rfl
-
-theorem generatedCoverageManifest_exhaustive :
-    Cuboctahedron.ExhaustiveGeneratedCoverage :=
-  Cuboctahedron.CoverageManifest.exhaustive generatedCoverageManifest
-    generatedCoverageManifest_check
 
 end Cuboctahedron.Generated.CoverageManifest

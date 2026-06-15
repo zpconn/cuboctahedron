@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Generate exact small-sample certificate data for the cuboctahedron project.
 
-This script is intentionally untrusted.  It uses exact rational arithmetic and
-emits data that Lean or the independent checker can verify.
+This script is intentionally untrusted. It uses exact rational arithmetic and
+emits data that Lean and the independent checker verify.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import math
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -79,9 +80,58 @@ FACE_MINUS = {
     "d1m1": "tmpm",
     "dm11": "tpmm",
 }
+FACE_NORMALS = {
+    "xp": (1, 0, 0),
+    "xm": (-1, 0, 0),
+    "yp": (0, 1, 0),
+    "ym": (0, -1, 0),
+    "zp": (0, 0, 1),
+    "zm": (0, 0, -1),
+    "tmmm": (-1, -1, -1),
+    "tmmp": (-1, -1, 1),
+    "tmpm": (-1, 1, -1),
+    "tmpp": (-1, 1, 1),
+    "tpmm": (1, -1, -1),
+    "tpmp": (1, -1, 1),
+    "tppm": (1, 1, -1),
+    "tppp": (1, 1, 1),
+}
+FACE_OFFSETS = {
+    "xp": Fraction(1),
+    "xm": Fraction(1),
+    "yp": Fraction(1),
+    "ym": Fraction(1),
+    "zp": Fraction(1),
+    "zm": Fraction(1),
+    "tmmm": Fraction(2),
+    "tmmp": Fraction(2),
+    "tmpm": Fraction(2),
+    "tmpp": Fraction(2),
+    "tpmm": Fraction(2),
+    "tpmp": Fraction(2),
+    "tppm": Fraction(2),
+    "tppp": Fraction(2),
+}
+FACE_ORDER = [
+    "xp",
+    "xm",
+    "yp",
+    "ym",
+    "zp",
+    "zm",
+    "tmmm",
+    "tmmp",
+    "tmpm",
+    "tmpp",
+    "tpmm",
+    "tpmp",
+    "tppm",
+    "tppp",
+]
 
 Vec = tuple[Fraction, Fraction, Fraction]
 Mat = tuple[tuple[Fraction, Fraction, Fraction], ...]
+Aff = tuple[Mat, Vec]
 
 
 def q(value: int | Fraction) -> Fraction:
@@ -120,6 +170,10 @@ def vec_add(a: Vec, b: Vec) -> Vec:
     return (a[0] + b[0], a[1] + b[1], a[2] + b[2])
 
 
+def vec_sub(a: Vec, b: Vec) -> Vec:
+    return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
+
+
 def vec_scale(c: Fraction, v: Vec) -> Vec:
     return (c * v[0], c * v[1], c * v[2])
 
@@ -133,9 +187,27 @@ def reflection_matrix(n: Vec) -> Mat:
     )
 
 
+def reflection_delta_from_plane(n: Vec, c: Fraction) -> Vec:
+    return vec_scale(Fraction(2) * c / dot(n, n), n)
+
+
 def reflection_delta(pair_id: str) -> Vec:
-    n = vec(NORMALS[pair_id])
-    return vec_scale(Fraction(2) * OFFSETS[pair_id] / dot(n, n), n)
+    return reflection_delta_from_plane(vec(NORMALS[pair_id]), OFFSETS[pair_id])
+
+
+def aff_id() -> Aff:
+    return mat_id(), vec((0, 0, 0))
+
+
+def face_reflection(face: str) -> Aff:
+    n = vec(FACE_NORMALS[face])
+    return reflection_matrix(n), reflection_delta_from_plane(n, FACE_OFFSETS[face])
+
+
+def aff_compose(a: Aff, b: Aff) -> Aff:
+    am, av = a
+    bm, bv = b
+    return mat_mul(am, bm), vec_add(mat_vec(am, bv), av)
 
 
 RPAIR = {pair_id: reflection_matrix(vec(normal)) for pair_id, normal in NORMALS.items()}
@@ -156,34 +228,113 @@ def prefix_matrices(word: list[str]) -> list[Mat]:
     return pref
 
 
+def path_prefix_matrices(seq: list[str]) -> list[Mat]:
+    pref = [mat_id()]
+    for index in range(1, 14):
+        pref.append(mat_mul(pref[-1], face_reflection(seq[index])[0]))
+    return pref
+
+
+def total_aff(seq: list[str]) -> Aff:
+    result = aff_id()
+    for index in list(range(1, 14)) + [0]:
+        result = aff_compose(result, face_reflection(seq[index]))
+    return result
+
+
 def is_identity(m: Mat) -> bool:
     return m == mat_id()
 
 
-def rat_to_json(x: Fraction) -> str:
-    if x.denominator == 1:
-        return str(x.numerator)
-    return f"{x.numerator}/{x.denominator}"
+def fixed_part(m: Mat) -> Mat:
+    ident = mat_id()
+    return tuple(tuple(m[i][j] - ident[i][j] for j in range(3)) for i in range(3))
 
 
-def mat_to_json(m: Mat) -> list[list[str]]:
-    return [[rat_to_json(x) for x in row] for row in m]
+def cross_left(axis: Vec) -> Mat:
+    x, y, z = axis
+    return (
+        (Fraction(0), -z, y),
+        (z, Fraction(0), -x),
+        (-y, x, Fraction(0)),
+    )
 
 
-def vec_to_json(v: Vec) -> list[str]:
-    return [rat_to_json(x) for x in v]
+def transpose(m: Mat) -> Mat:
+    return tuple(tuple(m[j][i] for j in range(3)) for i in range(3))
 
 
-def lean_rat(x: Fraction) -> str:
-    if x.denominator == 1:
-        return str(x.numerator)
-    if x.numerator < 0:
-        return f"({x.numerator}/{x.denominator})"
-    return f"({x.numerator}/{x.denominator})"
+def solve_linear_system(a: Mat, b: Vec) -> Vec:
+    rows = [list(a[i]) + [b[i]] for i in range(3)]
+    pivot_cols: list[int] = []
+    pivot_row = 0
+    for col in range(3):
+        found = next((row for row in range(pivot_row, 3) if rows[row][col] != 0), None)
+        if found is None:
+            continue
+        rows[pivot_row], rows[found] = rows[found], rows[pivot_row]
+        div = rows[pivot_row][col]
+        rows[pivot_row] = [value / div for value in rows[pivot_row]]
+        for row in range(3):
+            if row == pivot_row or rows[row][col] == 0:
+                continue
+            factor = rows[row][col]
+            rows[row] = [rows[row][j] - factor * rows[pivot_row][j] for j in range(4)]
+        pivot_cols.append(col)
+        pivot_row += 1
+    for row in range(pivot_row, 3):
+        if all(rows[row][col] == 0 for col in range(3)) and rows[row][3] != 0:
+            raise ValueError("inconsistent linear system")
+    solution = [Fraction(0), Fraction(0), Fraction(0)]
+    for row, col in enumerate(pivot_cols):
+        solution[col] = rows[row][3]
+    return tuple(solution)  # type: ignore[return-value]
 
 
-def lean_vec(v: Vec) -> str:
-    return "{ x := " + lean_rat(v[0]) + ", y := " + lean_rat(v[1]) + ", z := " + lean_rat(v[2]) + " }"
+def kernel_line_cross_factor(m: Mat, axis: Vec) -> Mat:
+    fixed = fixed_part(m)
+    fixed_t = transpose(fixed)
+    rows = []
+    for target_row in cross_left(axis):
+        rows.append(solve_linear_system(fixed_t, target_row))
+    result: Mat = tuple(rows)  # type: ignore[assignment]
+    if mat_mul(result, fixed) != cross_left(axis):
+        raise ValueError("kernel-line witness failed self-check")
+    return result
+
+
+def rref(a: Mat) -> tuple[list[list[Fraction]], list[int]]:
+    rows = [list(row) for row in a]
+    pivot_cols: list[int] = []
+    pivot_row = 0
+    for col in range(3):
+        found = next((row for row in range(pivot_row, 3) if rows[row][col] != 0), None)
+        if found is None:
+            continue
+        rows[pivot_row], rows[found] = rows[found], rows[pivot_row]
+        div = rows[pivot_row][col]
+        rows[pivot_row] = [value / div for value in rows[pivot_row]]
+        for row in range(3):
+            if row == pivot_row or rows[row][col] == 0:
+                continue
+            factor = rows[row][col]
+            rows[row] = [rows[row][j] - factor * rows[pivot_row][j] for j in range(3)]
+        pivot_cols.append(col)
+        pivot_row += 1
+    return rows, pivot_cols
+
+
+def one_dimensional_fixed_axis(m: Mat) -> Vec:
+    rows, pivot_cols = rref(fixed_part(m))
+    free_cols = [col for col in range(3) if col not in pivot_cols]
+    if len(free_cols) != 1:
+        raise ValueError("fixed space is not one-dimensional")
+    free = free_cols[0]
+    axis = [Fraction(0), Fraction(0), Fraction(0)]
+    axis[free] = Fraction(1)
+    for row, col in enumerate(pivot_cols):
+        axis[col] = -rows[row][free]
+    return tuple(axis)  # type: ignore[return-value]
 
 
 def enumerate_pair_words(limit: int) -> list[list[str]]:
@@ -211,8 +362,38 @@ def enumerate_pair_words(limit: int) -> list[list[str]]:
     return result
 
 
+def pair_word_at_rank(rank: int) -> list[str]:
+    words = enumerate_pair_words(rank + 1)
+    return words[rank]
+
+
 def valid_pair_word(word: list[str]) -> bool:
-    return {pair_id: word.count(pair_id) for pair_id in PAIR_IDS} == PAIR_COUNTS
+    return len(word) == 13 and {pair_id: word.count(pair_id) for pair_id in PAIR_IDS} == PAIR_COUNTS
+
+
+def multinomial_count(counts: dict[str, int]) -> int:
+    total = sum(counts.values())
+    denominator = 1
+    for pair_id in PAIR_IDS:
+        denominator *= math.factorial(counts[pair_id])
+    return math.factorial(total) // denominator
+
+
+def lex_rank_pair_word(word: list[str]) -> int:
+    if not valid_pair_word(word):
+        raise ValueError("invalid pair word")
+    rank = 0
+    remaining = dict(PAIR_COUNTS)
+    for current in word:
+        current_code = PAIR_IDS.index(current)
+        for smaller in PAIR_IDS[:current_code]:
+            if remaining[smaller] == 0:
+                continue
+            trial = dict(remaining)
+            trial[smaller] -= 1
+            rank += multinomial_count(trial)
+        remaining[current] -= 1
+    return rank
 
 
 def sign_assignment(word: list[str], mask: int) -> list[int]:
@@ -242,94 +423,585 @@ def translation_vector(word: list[str], mask: int) -> tuple[Vec, list[str]]:
     return b, seq
 
 
-@dataclass(frozen=True)
-class WordRecord:
-    sample_index: int
-    word: list[str]
-    linear: Mat
+def impact_denom(seq: list[str], b: Vec, impact: int) -> Fraction:
+    if impact == 0:
+        face = seq[0]
+    elif impact < 14:
+        face = seq[impact]
+    else:
+        face = seq[0]
+    prefix_index = max(impact - 1, 0)
+    if prefix_index > 13:
+        prefix_index = 13
+    prefix = path_prefix_matrices(seq)[prefix_index]
+    normal = mat_vec(prefix, vec(FACE_NORMALS[face]))
+    return dot(normal, b)
 
-    @property
-    def identity(self) -> bool:
-        return is_identity(self.linear)
+
+def forced_sequence_from_axis(word: list[str], axis: Vec) -> list[str]:
+    pref = prefix_matrices(word)
+    seq = ["xp"]
+    for index, pair_id in enumerate(word):
+        d = dot(mat_vec(pref[index], vec(NORMALS[pair_id])), axis)
+        if d == 0:
+            raise ValueError("axis does not force this pair sign")
+        seq.append(FACE_PLUS[pair_id] if d > 0 else FACE_MINUS[pair_id])
+    return seq
+
+
+def final_axis_dot(word: list[str], axis: Vec) -> Fraction:
+    return dot(mat_vec(prefix_matrices(word)[13], vec(NORMALS["x"])), axis)
+
+
+def first_axis_zero_index(word: list[str], axis: Vec) -> int:
+    pref = prefix_matrices(word)
+    for index, pair_id in enumerate(word):
+        if dot(mat_vec(pref[index], vec(NORMALS[pair_id])), axis) == 0:
+            return index
+    raise ValueError("no zero axis dot found")
+
+
+def first_bad_translation_impact(seq: list[str], b: Vec) -> int:
+    for impact in range(1, 14):
+        if impact_denom(seq, b, impact) <= 0:
+            return impact
+    raise ValueError("no bad translation impact denominator found")
+
+
+def rat_to_json(x: Fraction) -> str:
+    if x.denominator == 1:
+        return str(x.numerator)
+    return f"{x.numerator}/{x.denominator}"
+
+
+def vec_to_json(v: Vec) -> list[str]:
+    return [rat_to_json(x) for x in v]
+
+
+def mat_to_json(m: Mat) -> list[list[str]]:
+    return [[rat_to_json(x) for x in row] for row in m]
+
+
+def lean_rat(x: Fraction) -> str:
+    if x.denominator == 1:
+        return str(x.numerator)
+    return f"({x.numerator}/{x.denominator})"
+
+
+def lean_vec(v: Vec) -> str:
+    return "{ x := " + lean_rat(v[0]) + ", y := " + lean_rat(v[1]) + ", z := " + lean_rat(v[2]) + " }"
+
+
+def lean_mat3(m: Mat) -> str:
+    fields = [
+        ("m00", m[0][0]), ("m01", m[0][1]), ("m02", m[0][2]),
+        ("m10", m[1][0]), ("m11", m[1][1]), ("m12", m[1][2]),
+        ("m20", m[2][0]), ("m21", m[2][1]), ("m22", m[2][2]),
+    ]
+    return "{ " + ", ".join(f"{name} := {lean_rat(value)}" for name, value in fields) + " }"
+
+
+def lean_mat4_id() -> str:
+    return "mat4Id"
+
+
+def lean_pair_id(pair_id: str) -> str:
+    return f"PairId.{pair_id}"
+
+
+def lean_face(face: str) -> str:
+    return f"Face.{face}"
+
+
+def lean_pair_word_literal(word: list[str]) -> str:
+    return "  ⟨#[" + ", ".join(lean_pair_id(pair_id) for pair_id in word) + "], by decide⟩"
+
+
+def lean_face_vector_literal(seq: list[str]) -> str:
+    return "  ⟨#[" + ", ".join(lean_face(face) for face in seq) + "], by decide⟩"
+
+
+def word_name(rank: int) -> str:
+    return f"wordRank{rank:09d}"
+
+
+def seq_name(name: str) -> str:
+    return f"{name}Seq"
+
+
+@dataclass(frozen=True)
+class NonIdCertPayload:
+    name: str
+    rank: int
+    word: list[str]
+    axis: Vec
+    kernel_cross_factor: Mat
+    forced_seq: list[str]
+    failure: dict
 
     def to_json(self) -> dict:
         return {
-            "sample_index": self.sample_index,
+            "name": self.name,
+            "rank": self.rank,
             "word": self.word,
-            "valid": valid_pair_word(self.word),
-            "linear": {
-                "identity": self.identity,
-                "matrix": mat_to_json(self.linear),
-            },
+            "axis": vec_to_json(self.axis),
+            "kernel_cross_factor": mat_to_json(self.kernel_cross_factor),
+            "forced_seq": self.forced_seq,
+            "failure": self.failure,
         }
 
 
-def build_payload(sample_size: int) -> dict:
-    words = [
-        WordRecord(i + 1, word, total_linear(word))
-        for i, word in enumerate(enumerate_pair_words(sample_size))
-    ]
-    nonidentity_records = []
-    for chunk_rank, record in enumerate(record for record in words if not record.identity):
-        nonidentity_records.append({
-            "rank": record.sample_index - 1,
-            "chunk_rank": chunk_rank,
-            "sample_index": record.sample_index,
-            "word": record.word,
-            "kind": "nonidentity_linear",
-            "lean_smoke_certificate": "TranslationFailure.badTranslationVector",
-        })
-    translation_records = []
-    translation_rank = 0
-    for record in words:
-        if record.identity:
-            for mask in range(64):
-                b, seq = translation_vector(record.word, mask)
-                translation_records.append({
-                    "rank": record.sample_index - 1,
-                    "assignment_rank": translation_rank,
-                    "sample_index": record.sample_index,
-                    "mask": mask,
-                    "seq": seq,
-                    "b": vec_to_json(b),
-                    "has_farkas_certificate": False,
-                })
-                translation_rank += 1
+@dataclass(frozen=True)
+class TranslationCertPayload:
+    name: str
+    rank: int
+    mask: int
+    word: list[str]
+    seq: list[str]
+    b: Vec
+    failure: dict
+
+    def to_json(self) -> dict:
+        return {
+            "name": self.name,
+            "rank": self.rank,
+            "mask": self.mask,
+            "word": self.word,
+            "seq": self.seq,
+            "b": vec_to_json(self.b),
+            "failure": self.failure,
+        }
+
+
+def build_nonid_bad_direction(rank: int) -> NonIdCertPayload:
+    word = pair_word_at_rank(rank)
+    matrix = total_linear(word)
+    axis = one_dimensional_fixed_axis(matrix)
+    failure_index = first_axis_zero_index(word, axis)
+    return NonIdCertPayload(
+        name="nonIdBadDirection000",
+        rank=rank,
+        word=word,
+        axis=axis,
+        kernel_cross_factor=kernel_line_cross_factor(matrix, axis),
+        forced_seq=["xp"] + [FACE_PLUS[pair_id] for pair_id in word],
+        failure={"kind": "badDirectionSign", "index": failure_index},
+    )
+
+
+def build_nonid_bad_pair_balance(rank: int) -> NonIdCertPayload:
+    word = pair_word_at_rank(rank)
+    matrix = total_linear(word)
+    axis = one_dimensional_fixed_axis(matrix)
+    if final_axis_dot(word, axis) < 0:
+        axis = tuple(-value for value in axis)  # type: ignore[assignment]
+    if final_axis_dot(word, axis) <= 0:
+        raise ValueError("axis orientation failed")
+    forced_seq = forced_sequence_from_axis(word, axis)
+    if len(set(forced_seq)) == 14:
+        raise ValueError("forced sequence unexpectedly omnihedral")
+    return NonIdCertPayload(
+        name="nonIdBadPairBalance000",
+        rank=rank,
+        word=word,
+        axis=axis,
+        kernel_cross_factor=kernel_line_cross_factor(matrix, axis),
+        forced_seq=forced_seq,
+        failure={"kind": "badPairBalance"},
+    )
+
+
+def build_translation_bad_direction(rank: int, mask: int) -> TranslationCertPayload:
+    word = pair_word_at_rank(rank)
+    b, seq = translation_vector(word, mask)
+    failure_impact = first_bad_translation_impact(seq, b)
+    return TranslationCertPayload(
+        name="translationBadDirection000",
+        rank=rank,
+        mask=mask,
+        word=word,
+        seq=seq,
+        b=b,
+        failure={"kind": "badDirectionSign", "impact": failure_impact},
+    )
+
+
+def build_payload() -> dict:
+    nonid_certs = [build_nonid_bad_direction(1)]
+    translation_certs = [build_translation_bad_direction(0, 0)]
+    word_ranks = sorted({0, *(cert.rank for cert in nonid_certs), *(cert.rank for cert in translation_certs)})
+    words = [{"rank": rank, "word": pair_word_at_rank(rank)} for rank in word_ranks]
     return {
-        "schema_version": 1,
-        "mode": "small-sample",
+        "schema_version": 2,
+        "mode": "small-sample-real-certs",
         "expected_sanity_counts": {
             "pair_words": EXPECTED_PAIR_WORDS,
             "identity_linear_words": EXPECTED_IDENTITY_WORDS,
             "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
         },
-        "pair_words": [record.to_json() for record in words],
-        "nonidentity_records": nonidentity_records,
-        "translation_records": translation_records,
+        "pair_words": words,
+        "nonidentity_certs": [cert.to_json() for cert in nonid_certs],
+        "translation_certs": [cert.to_json() for cert in translation_certs],
         "chunks": {
             "nonidentity": {
                 "name": "NonIdentity.Chunk0000",
-                "startRank": 0,
-                "endRank": len(nonidentity_records),
-                "expectedItems": len(nonidentity_records),
-                "records": nonidentity_records,
+                "covered_ranks": [cert.rank for cert in nonid_certs],
+                "cert_names": [cert.name for cert in nonid_certs],
             },
             "translation": {
                 "name": "Translation.Chunk0000",
-                "startRank": 0,
-                "endRank": len(translation_records),
-                "expectedItems": len(translation_records),
-                "records": translation_records,
+                "covered_cases": [
+                    {"pair_rank": cert.rank, "sign_mask": cert.mask}
+                    for cert in translation_certs
+                ],
+                "cert_names": [cert.name for cert in translation_certs],
             },
         },
-        "coverage": build_coverage_payload(),
         "summary": {
             "pair_words_sampled": len(words),
-            "identity_linear_sampled": sum(1 for record in words if record.identity),
-            "nonidentity_linear_sampled": sum(1 for record in words if not record.identity),
-            "translation_sign_assignments_sampled": len(translation_records),
+            "nonidentity_certs": len(nonid_certs),
+            "translation_certs": len(translation_certs),
         },
     }
+
+
+def append_word_definitions(lines: list[str], payload: dict) -> None:
+    for record in payload["pair_words"]:
+        rank = record["rank"]
+        name = word_name(rank)
+        lines.append(f"def {name} : PairWord :=")
+        lines.append(lean_pair_word_literal(record["word"]))
+        lines.append("")
+        append_pair_word_get_theorems(lines, name, record["word"])
+
+
+def append_pair_word_get_theorems(lines: list[str], name: str, word: list[str]) -> None:
+    for index, pair_id in enumerate(word):
+        pair = lean_pair_id(pair_id)
+        lines.extend([
+            f"@[simp] theorem {name}_get{index:02d}_num :",
+            f"    {name}.get ({index} : WordIndex) = {pair} := by",
+            "  decide",
+            "",
+            f"@[simp] theorem {name}_get{index:02d}_mk (h : {index} < 13) :",
+            f"    {name}.get ⟨{index}, h⟩ = {pair} := by",
+            f"  have hi : (⟨{index}, h⟩ : WordIndex) = ({index} : WordIndex) := by",
+            "    ext",
+            "    rfl",
+            "  rw [hi]",
+            "  decide",
+            "",
+        ])
+
+
+def append_face_vector_get_theorems(lines: list[str], name: str, seq: list[str]) -> None:
+    for index, face in enumerate(seq):
+        face_term = lean_face(face)
+        lines.extend([
+            f"@[simp] theorem {name}_get{index:02d}_num :",
+            f"    {name}.get ({index} : Step14) = {face_term} := by",
+            "  decide",
+            "",
+            f"@[simp] theorem {name}_get{index:02d}_mk (h : {index} < 14) :",
+            f"    {name}.get ⟨{index}, h⟩ = {face_term} := by",
+            f"  have hi : (⟨{index}, h⟩ : Step14) = ({index} : Step14) := by",
+            "    ext",
+            "    rfl",
+            "  rw [hi]",
+            "  decide",
+            "",
+        ])
+
+
+def append_nonid_cert(lines: list[str], cert: dict) -> None:
+    name = cert["name"]
+    forced = seq_name(name)
+    axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
+    kernel = tuple(tuple(Fraction(x) for x in row) for row in cert["kernel_cross_factor"])  # type: ignore[assignment]
+    lines.append(f"def {forced} : Vector Face 14 :=")
+    lines.append(lean_face_vector_literal(cert["forced_seq"]))
+    lines.append("")
+    append_face_vector_get_theorems(lines, forced, cert["forced_seq"])
+    lines.append(f"def {name} : NonIdCert where")
+    lines.append(f"  word := {word_name(cert['rank'])}")
+    lines.append(f"  axis := {lean_vec(axis)}")
+    lines.append(f"  kernel := {{ crossFactor := {lean_mat3(kernel)} }}")
+    lines.append(f"  forcedSeq := {forced}")
+    lines.append("  p0 := { x := 0, y := 0, z := 0 }")
+    lines.append("  lambda := 0")
+    lines.append(f"  solve := {{ leftInverse := {lean_mat4_id()} }}")
+    failure = cert["failure"]
+    if failure["kind"] == "badDirectionSign":
+        lines.append(f"  failure := NonIdFailure.badDirectionSign ⟨{failure['index']}, by decide⟩")
+    elif failure["kind"] == "badPairBalance":
+        lines.append("  failure := NonIdFailure.badPairBalance")
+    else:
+        raise ValueError(f"unsupported nonidentity failure: {failure['kind']}")
+    lines.append("")
+
+
+def append_translation_cert(lines: list[str], cert: dict) -> None:
+    name = cert["name"]
+    seq = seq_name(name)
+    b = tuple(Fraction(x) for x in cert["b"])  # type: ignore[assignment]
+    lines.append(f"def {seq} : Vector Face 14 :=")
+    lines.append(lean_face_vector_literal(cert["seq"]))
+    lines.append("")
+    append_face_vector_get_theorems(lines, seq, cert["seq"])
+    lines.append(f"def {name} : TranslationCert where")
+    lines.append(f"  word := {word_name(cert['rank'])}")
+    lines.append(f"  signMask := ⟨{cert['mask']}, by decide⟩")
+    lines.append(f"  seq := {seq}")
+    lines.append(f"  b := {lean_vec(b)}")
+    failure = cert["failure"]
+    if failure["kind"] == "badDirectionSign":
+        lines.append(f"  failure := TranslationFailure.badDirectionSign ⟨{failure['impact']}, by decide⟩")
+    elif failure["kind"] == "badTranslationVector":
+        lines.append("  failure := TranslationFailure.badTranslationVector")
+    else:
+        raise ValueError(f"unsupported translation failure: {failure['kind']}")
+    lines.append("")
+
+
+def append_nonid_check_theorem(lines: list[str], cert: dict) -> None:
+    name = cert["name"]
+    failure = cert["failure"]
+    if failure["kind"] != "badDirectionSign":
+        raise ValueError(f"unsupported nonidentity proof template: {failure['kind']}")
+    idx = failure["index"]
+    word = word_name(cert["rank"])
+    lines.extend([
+        f"theorem {name}_check : checkNonIdCert {name} = true := by",
+        f"  apply checkNonIdCert_badDirectionSign {name} ⟨{idx}, by decide⟩",
+        "  · rfl",
+        f"  · unfold {name} {word} ValidPairWord pairCount",
+        "    decide",
+        "  · rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+        f"    simp [{name}, pairLinearProductRight, pairLinearSuffixNat, reflM,",
+        "      canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
+        "    norm_num",
+        "  · rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+        f"    simp [{name}, checkKernelLineWitness, checkVec3NonzeroQ,",
+        "      pairLinearProductRight, pairLinearSuffixNat, reflM, canonicalNormalQ,",
+        "      matSub, matId, scalarMat, outer, dot, matMul, matVec, fixedPart,",
+        "      crossLeftMatrix]",
+        "    norm_num",
+        "  · intro f hf",
+        f"    cases f <;> simp [{name}, pairOfFace, pairPrefixLinearNat,",
+        "      canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,",
+        "      scalarMat, outer, matVec] at hf ⊢",
+        "",
+    ])
+
+
+def append_translation_check_theorem(lines: list[str], cert: dict) -> None:
+    name = cert["name"]
+    failure = cert["failure"]
+    if failure["kind"] != "badDirectionSign":
+        raise ValueError(f"unsupported translation proof template: {failure['kind']}")
+    impact = failure["impact"]
+    word = word_name(cert["rank"])
+    lines.extend([
+        f"theorem {name}_check : checkTranslationCert {name} = true := by",
+        f"  apply checkTranslationCert_badDirectionSign {name} ⟨{impact}, by decide⟩",
+        "  · rfl",
+        f"  · unfold {name} {word} ValidPairWord pairCount",
+        "    decide",
+        "  · rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+        f"    simp [{name}, pairLinearProductRight, pairLinearSuffixNat, reflM,",
+        "      canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
+        "    norm_num",
+        "  · intro i",
+        f"    fin_cases i <;> simp [{name}, translationChoiceSeq, signedPositiveAt,",
+        "      maskBitForPair, countPairBeforeNat, faceVectorSeq, faceOfPairSign]",
+        "  · apply Vec3.ext <;> norm_num [",
+        f"      {name}, TranslationCert.seqFun, faceVectorSeq, totalAff,",
+        "      totalOrder, composeFaceList, affCompose, faceReflectionQ, reflM,",
+        "      reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,",
+        "      dot, matMul, matVec, vecAdd, scalarMul]",
+        "  · decide",
+        "  · decide",
+        "  · norm_num [",
+        f"      {name}, TranslationCert.seqFun, faceVectorSeq, impactDenom,",
+        "      impactPlaneNormalQ, copiedNormalQ, preImpactNormalQ,",
+        "      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,",
+        "      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId,",
+        "      affId, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul]",
+        "",
+    ])
+
+
+def write_lean(payload: dict) -> None:
+    lines: list[str] = [
+        "import Cuboctahedron.Search.Certificates",
+        "",
+        "/-!",
+        "Small exact generated sample for Step 14C.",
+        "",
+        "This file is generated by `scripts/generate_exact_certificates.py --small-sample`.",
+        "It is not an exhaustive certificate chunk.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.SmallSample",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "",
+    ]
+    append_word_definitions(lines, payload)
+    for cert in payload["nonidentity_certs"]:
+        append_nonid_cert(lines, cert)
+    for cert in payload["translation_certs"]:
+        append_translation_cert(lines, cert)
+    for cert in payload["nonidentity_certs"]:
+        append_nonid_check_theorem(lines, cert)
+    for cert in payload["translation_certs"]:
+        append_translation_check_theorem(lines, cert)
+    nonid_names = ", ".join(cert["name"] for cert in payload["nonidentity_certs"])
+    translation_names = ", ".join(cert["name"] for cert in payload["translation_certs"])
+    word_names = ", ".join(word_name(record["rank"]) for record in payload["pair_words"])
+    nonid_check_names = ", ".join(
+        cert["name"] + "_check" for cert in payload["nonidentity_certs"]
+    )
+    translation_check_names = ", ".join(
+        cert["name"] + "_check" for cert in payload["translation_certs"]
+    )
+    lines.extend([
+        "def samplePairWords : Array PairWord :=",
+        f"  #[{word_names}]",
+        "",
+        "def nonIdCerts : Array NonIdCert :=",
+        f"  #[{nonid_names}]",
+        "",
+        "def translationCerts : Array TranslationCert :=",
+        f"  #[{translation_names}]",
+        "",
+        "theorem nonIdCerts_check : checkNonIdCerts nonIdCerts = true := by",
+        f"  simp [checkNonIdCerts, nonIdCerts, {nonid_check_names}]",
+        "",
+        "theorem translationCerts_check : checkTranslationCerts translationCerts = true := by",
+        f"  simp [checkTranslationCerts, translationCerts, {translation_check_names}]",
+        "",
+        "end Cuboctahedron.Generated.SmallSample",
+        "",
+    ])
+    LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_nonidentity_chunk(payload: dict) -> None:
+    chunk = payload["chunks"]["nonidentity"]
+    certs = payload["nonidentity_certs"]
+    rank_check_names = [
+        f"{cert['name']}_coveredRank" for cert in certs
+    ]
+    cert_check_names = [
+        f"SmallSample.{cert['name']}_check" for cert in certs
+    ]
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.SmallSample",
+        "",
+        "/-!",
+        "Generated non-identity real-certificate sample chunk for Step 14C.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Chunk0000",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "",
+        "open Cuboctahedron.Generated.SmallSample",
+        "",
+    ]
+    for cert in certs:
+        lines.extend([
+            f"theorem {cert['name']}_coveredRank :",
+            f"    checkNonIdCoveredRank {cert['rank']} SmallSample.{cert['name']} = true := by",
+            "  decide",
+            "",
+        ])
+    lines.extend([
+        "def chunk : GeneratedNonIdCertChunk where",
+        f"  name := \"{chunk['name']}\"",
+        f"  coveredRanks := #[{', '.join(str(rank) for rank in chunk['covered_ranks'])}]",
+        "  certs := nonIdCerts",
+        "",
+        "def certs : Array NonIdCert :=",
+        "  chunk.certs",
+        "",
+        "theorem certs_check : checkGeneratedNonIdCertChunk chunk = true := by",
+        "  simp [checkGeneratedNonIdCertChunk, checkNonIdCoveredRankList,",
+        "    chunk, SmallSample.nonIdCerts,",
+        f"    {', '.join(rank_check_names + cert_check_names)}]",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Chunk0000",
+        "",
+    ])
+    NONIDENTITY_CHUNK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_translation_chunk(payload: dict) -> None:
+    chunk = payload["chunks"]["translation"]
+    certs = payload["translation_certs"]
+    cert_check_names = [
+        f"SmallSample.{cert['name']}_check" for cert in certs
+    ]
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.SmallSample",
+        "",
+        "/-!",
+        "Generated translation real-certificate sample chunk for Step 14C.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation.Chunk0000",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "",
+        "open Cuboctahedron.Generated.SmallSample",
+        "",
+    ]
+    case_names = []
+    for index, covered in enumerate(chunk["covered_cases"]):
+        case_name = f"coveredCase{index:03d}"
+        case_names.append(case_name)
+        lines.extend([
+            f"def {case_name} : GeneratedTranslationCase where",
+            f"  pairRank := {covered['pair_rank']}",
+            f"  signMask := {covered['sign_mask']}",
+            "",
+        ])
+    covered_check_names = []
+    for index, cert in enumerate(certs):
+        covered_name = case_names[index]
+        theorem_name = f"{cert['name']}_coveredCase"
+        covered_check_names.append(theorem_name)
+        lines.extend([
+            f"theorem {theorem_name} :",
+            f"    checkTranslationCoveredCase {covered_name} SmallSample.{cert['name']} = true := by",
+            "  decide",
+            "",
+        ])
+    lines.extend([
+        "def chunk : GeneratedTranslationCertChunk where",
+        f"  name := \"{chunk['name']}\"",
+        f"  coveredCases := #[{', '.join(case_names)}]",
+        "  certs := translationCerts",
+        "",
+        "def certs : Array TranslationCert :=",
+        "  chunk.certs",
+        "",
+        "theorem certs_check : checkGeneratedTranslationCertChunk chunk = true := by",
+        "  simp [checkGeneratedTranslationCertChunk, checkTranslationCoveredCaseList,",
+        "    chunk, SmallSample.translationCerts,",
+        f"    {', '.join(covered_check_names + cert_check_names)}]",
+        "",
+        "end Cuboctahedron.Generated.Translation.Chunk0000",
+        "",
+    ])
+    TRANSLATION_CHUNK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
 def build_coverage_chunks() -> list[dict]:
@@ -354,310 +1026,6 @@ def build_coverage_payload() -> dict:
     }
 
 
-def lean_pair_word_name(index: int) -> str:
-    return f"word{index:03d}"
-
-
-def lean_seq_name(index: int) -> str:
-    return f"seq{index:03d}"
-
-
-def lean_cert_name(index: int) -> str:
-    return f"translationCert{index:03d}"
-
-
-def lean_nonidentity_theorem_name(index: int) -> str:
-    return f"word{index:03d}_totalLinear_ne_id"
-
-
-def lean_identity_theorem_name(index: int) -> str:
-    return f"word{index:03d}_totalLinear_id"
-
-
-def lean_valid_theorem_name(index: int) -> str:
-    return f"word{index:03d}_valid"
-
-
-def lean_chunk_nonidentity_cert_name(index: int) -> str:
-    return f"cert{index:03d}"
-
-
-def lean_translation_seq_name(index: int) -> str:
-    return f"choiceSeq{index:03d}"
-
-
-def lean_translation_choice_cert_name(index: int) -> str:
-    return f"choiceCert{index:03d}"
-
-
-def lean_seq_face(word: list[str], index: int) -> str:
-    if index == 0:
-        return "Face.xp"
-    return f"Face.{FACE_PLUS[word[index - 1]]}"
-
-
-def append_seq_definition(lines: list[str], index: int, word: list[str]) -> None:
-    lines.append(f"def {lean_seq_name(index)} (i : Step14) : Face :=")
-    lines.append("  match i.val with")
-    for step in range(13):
-        lines.append(f"  | {step} => {lean_seq_face(word, step)}")
-    lines.append(f"  | _ => {lean_seq_face(word, 13)}")
-    lines.append("")
-    lines.append(f"def {lean_pair_word_name(index)} : PairWord :=")
-    lines.append(f"  pairWordOfSeq {lean_seq_name(index)}")
-    lines.append("")
-
-
-def append_valid_theorem(lines: list[str], index: int) -> None:
-    word_name = lean_pair_word_name(index)
-    lines.extend([
-        f"theorem {lean_valid_theorem_name(index)} : ValidPairWord {word_name} := by",
-        f"  unfold {word_name} pairWordOfSeq ValidPairWord pairCount",
-        "  decide",
-        "",
-    ])
-
-
-def append_identity_theorems(lines: list[str], index: int) -> None:
-    seq_name = lean_seq_name(index)
-    word_name = lean_pair_word_name(index)
-    theorem_name = lean_identity_theorem_name(index)
-    lines.extend([
-        f"theorem {seq_name}_starts : StartsXp {seq_name} := by",
-        "  rfl",
-        "",
-        f"theorem {theorem_name} :",
-        f"    totalLinearOfPairWord {word_name} = (matId : Mat3 Rat) := by",
-        f"  have hBridge : totalLinear {seq_name} = totalLinearOfPairWord {word_name} :=",
-        f"    totalLinear_eq_totalLinearOfPairWord {seq_name}_starts",
-        f"      (pairWordOfSeq_matches {seq_name})",
-        "  rw [\u2190 hBridge]",
-        "  apply Mat3.ext <;>",
-        f"    norm_num [totalLinear, totalAff, composeFaceList, totalOrder, {seq_name},",
-        "      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,",
-        "      matId, dot, affCompose, matMul, matVec, vecAdd, affId]",
-        "",
-    ])
-
-
-def append_nonidentity_theorems(lines: list[str], index: int) -> None:
-    seq_name = lean_seq_name(index)
-    word_name = lean_pair_word_name(index)
-    theorem_name = lean_nonidentity_theorem_name(index)
-    lines.extend([
-        f"theorem {seq_name}_starts : StartsXp {seq_name} := by",
-        "  rfl",
-        "",
-        f"theorem {seq_name}_totalLinear_ne_id :",
-        f"    totalLinear {seq_name} \u2260 (matId : Mat3 Rat) := by",
-        "  intro h",
-        "  have hx := congrArg Mat3.m00 h",
-        f"  norm_num [totalLinear, totalAff, composeFaceList, totalOrder, {seq_name},",
-        "    faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,",
-        "    matId, dot, affCompose, matMul, matVec, vecAdd, affId] at hx",
-        "",
-        f"theorem {theorem_name} :",
-        f"    totalLinearOfPairWord {word_name} \u2260 (matId : Mat3 Rat) := by",
-        "  intro hWord",
-        f"  have hBridge : totalLinear {seq_name} = totalLinearOfPairWord {word_name} :=",
-        f"    totalLinear_eq_totalLinearOfPairWord {seq_name}_starts",
-        f"      (pairWordOfSeq_matches {seq_name})",
-        f"  exact {seq_name}_totalLinear_ne_id (by rw [hBridge, hWord])",
-        "",
-    ])
-
-
-def write_lean(payload: dict) -> None:
-    records = payload["pair_words"]
-    nonidentity_records = payload["nonidentity_records"]
-    lines: list[str] = [
-        "import Cuboctahedron.Search.Certificates",
-        "",
-        "/-!",
-        "Small exact generated sample for Step 12.",
-        "",
-        "This file is generated by `scripts/generate_exact_certificates.py --small-sample`.",
-        "It is not an exhaustive certificate chunk.",
-        "-/",
-        "",
-        "namespace Cuboctahedron.Generated.SmallSample",
-        "",
-        "set_option maxHeartbeats 800000",
-        "",
-    ]
-    for index, record in enumerate(records):
-        append_seq_definition(lines, index, record["word"])
-    for index, _record in enumerate(records):
-        append_valid_theorem(lines, index)
-    nonidentity_word_indexes = [record["sample_index"] - 1 for record in nonidentity_records]
-    identity_word_indexes = [
-        record["sample_index"] - 1
-        for record in records
-        if record["linear"]["identity"]
-    ]
-    for word_index in identity_word_indexes:
-        append_identity_theorems(lines, word_index)
-    for word_index in nonidentity_word_indexes:
-        append_nonidentity_theorems(lines, word_index)
-    word_names = ", ".join(lean_pair_word_name(i) for i in range(len(records)))
-    lines.extend([
-        "def samplePairWords : Array PairWord :=",
-        f"  #[{word_names}]",
-        "",
-    ])
-    lines.extend([
-        "def translationCerts : Array TranslationCert :=",
-        "  #[]",
-        "",
-        "def nonIdCerts : Array NonIdCert :=",
-        "  #[]",
-        "",
-        "example : samplePairWords.size = 7 := by",
-        "  decide",
-        "",
-        "example : translationCerts.size = 0 := by",
-        "  decide",
-        "",
-        "example : checkTranslationCerts translationCerts = true := by",
-        "  simp [checkTranslationCerts, translationCerts]",
-        "",
-        "example : checkNonIdCerts nonIdCerts = true := by",
-        "  simp [checkNonIdCerts, nonIdCerts]",
-        "",
-        "end Cuboctahedron.Generated.SmallSample",
-        "",
-    ])
-    LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
-    LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
-
-
-def append_chunk_meta(lines: list[str], chunk: dict) -> None:
-    lines.extend([
-        "def chunkMeta : GeneratedChunkMeta where",
-        f"  name := \"{chunk['name']}\"",
-        f"  startRank := {chunk['startRank']}",
-        f"  endRank := {chunk['endRank']}",
-        f"  expectedItems := {chunk['expectedItems']}",
-        "",
-    ])
-
-
-def write_nonidentity_chunk(payload: dict) -> None:
-    chunk = payload["chunks"]["nonidentity"]
-    records = chunk["records"]
-    lines: list[str] = [
-        "import Cuboctahedron.Generated.SmallSample",
-        "",
-        "/-!",
-        "Generated non-identity sample chunk for Step 13.",
-        "",
-        "This is a small exact chunk scaffold, not the exhaustive final search.",
-        "-/",
-        "",
-        "namespace Cuboctahedron.Generated.NonIdentity.Chunk0000",
-        "",
-        "set_option maxHeartbeats 800000",
-        "",
-        "open Cuboctahedron.Generated.SmallSample",
-        "",
-    ]
-    append_chunk_meta(lines, chunk)
-    for cert_index, record in enumerate(records):
-        sample_index = record["sample_index"] - 1
-        cert_name = lean_chunk_nonidentity_cert_name(cert_index)
-        lines.extend([
-            f"def {cert_name} : NonIdentityLinearCert where",
-            f"  rank := {record['rank']}",
-            f"  word := {lean_pair_word_name(sample_index)}",
-            "",
-            f"theorem {cert_name}_check :",
-            f"    checkNonIdentityLinearCert {cert_name} = true := by",
-            f"  simp [checkNonIdentityLinearCert, {cert_name},",
-            f"    {lean_valid_theorem_name(sample_index)},",
-            f"    {lean_nonidentity_theorem_name(sample_index)}]",
-            "",
-        ])
-    cert_names = [lean_chunk_nonidentity_cert_name(i) for i in range(len(records))]
-    lines.extend([
-        "def certs : Array NonIdentityLinearCert :=",
-        f"  #[{', '.join(cert_names)}]",
-        "",
-        "theorem certs_check : checkNonIdentityChunk chunkMeta certs = true := by",
-        "  simp [checkNonIdentityChunk, checkChunkMeta, chunkMeta,",
-        "    checkNonIdentityLinearCerts, certs,",
-        "    " + ", ".join(f"{name}_check" for name in cert_names) + "]",
-        "",
-        "end Cuboctahedron.Generated.NonIdentity.Chunk0000",
-        "",
-    ])
-    NONIDENTITY_CHUNK_PATH.parent.mkdir(parents=True, exist_ok=True)
-    NONIDENTITY_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
-
-
-def write_translation_chunk(payload: dict) -> None:
-    chunk = payload["chunks"]["translation"]
-    records = chunk["records"]
-    lines: list[str] = [
-        "import Cuboctahedron.Generated.SmallSample",
-        "",
-        "/-!",
-        "Generated translation-choice sample chunk for Step 13.",
-        "",
-        "This is a small exact chunk scaffold, not the exhaustive final search.",
-        "-/",
-        "",
-        "namespace Cuboctahedron.Generated.Translation.Chunk0000",
-        "",
-        "set_option maxHeartbeats 800000",
-        "set_option maxRecDepth 10000",
-        "",
-        "open Cuboctahedron.Generated.SmallSample",
-        "",
-    ]
-    append_chunk_meta(lines, chunk)
-    for cert_index, record in enumerate(records):
-        sample_index = record["sample_index"] - 1
-        mask = record["mask"]
-        seq_name = lean_translation_seq_name(cert_index)
-        cert_name = lean_translation_choice_cert_name(cert_index)
-        lines.extend([
-            f"def {seq_name} : Vector Face 14 :=",
-            f"  Vector.ofFn (translationChoiceSeq {lean_pair_word_name(sample_index)} "
-            f"\u27e8{mask}, by decide\u27e9)",
-            "",
-            f"def {cert_name} : TranslationChoiceCert where",
-            f"  rank := {record['rank']}",
-            f"  word := {lean_pair_word_name(sample_index)}",
-            f"  signMask := \u27e8{mask}, by decide\u27e9",
-            f"  seq := {seq_name}",
-            f"  b := translationVectorOfChoice {lean_pair_word_name(sample_index)} "
-            f"\u27e8{mask}, by decide\u27e9",
-            "",
-            f"theorem {cert_name}_check :",
-            f"    checkTranslationChoiceCert {cert_name} = true := by",
-            f"  simp [checkTranslationChoiceCert, {cert_name}, {seq_name},",
-            f"    {lean_valid_theorem_name(sample_index)},",
-            f"    {lean_identity_theorem_name(sample_index)},",
-            "    TranslationSeqMatches]",
-            "",
-        ])
-    cert_names = [lean_translation_choice_cert_name(i) for i in range(len(records))]
-    lines.extend([
-        "def certs : Array TranslationChoiceCert :=",
-        f"  #[{', '.join(cert_names)}]",
-        "",
-        "theorem certs_check : checkTranslationChunk chunkMeta certs = true := by",
-        "  simp [checkTranslationChunk, checkChunkMeta, chunkMeta,",
-        "    checkTranslationChoiceCerts, certs,",
-        "    " + ", ".join(f"{name}_check" for name in cert_names) + "]",
-        "",
-        "end Cuboctahedron.Generated.Translation.Chunk0000",
-        "",
-    ])
-    TRANSLATION_CHUNK_PATH.parent.mkdir(parents=True, exist_ok=True)
-    TRANSLATION_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
-
-
 def write_coverage_manifest(payload: dict) -> None:
     coverage = payload["coverage"] if "coverage" in payload else payload
     lines = [
@@ -666,8 +1034,9 @@ def write_coverage_manifest(payload: dict) -> None:
         "/-!",
         "Generated Step 14 coverage manifest.",
         "",
-        "The trusted checker validates that these chunks are contiguous, nonempty,",
-        "start at rank 0, end at `numPairWords`, and expose all 64 sign masks.",
+        "This manifest is retained as coverage arithmetic scaffolding. It is not",
+        "imported by `Generated.AllGenerated` in Step 14C because the exhaustive",
+        "real-certificate bridge is Step 14D work.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated.CoverageManifest",
@@ -693,11 +1062,6 @@ def write_coverage_manifest(payload: dict) -> None:
         "    Cuboctahedron.checkCoverageManifest generatedCoverageManifest = true := by",
         "  rfl",
         "",
-        "theorem generatedCoverageManifest_exhaustive :",
-        "    Cuboctahedron.ExhaustiveGeneratedCoverage :=",
-        "  Cuboctahedron.CoverageManifest.exhaustive generatedCoverageManifest",
-        "    generatedCoverageManifest_check",
-        "",
         "end Cuboctahedron.Generated.CoverageManifest",
         "",
     ])
@@ -709,53 +1073,21 @@ def write_all_generated() -> None:
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
-        "import Cuboctahedron.Generated.CoverageManifest",
         "",
         "/-!",
-        "Aggregate import for generated sample chunks and exhaustive generated coverage.",
+        "Aggregate import for generated Step 14C real-certificate sample chunks.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated",
         "",
         "noncomputable def allGeneratedCheck : Bool :=",
-        "  checkGeneratedChunks NonIdentity.Chunk0000.chunkMeta",
-        "    NonIdentity.Chunk0000.certs",
-        "    Translation.Chunk0000.chunkMeta",
-        "    Translation.Chunk0000.certs",
+        "  checkGeneratedNonIdCertChunk NonIdentity.Chunk0000.chunk &&",
+        "    checkGeneratedTranslationCertChunk Translation.Chunk0000.chunk",
         "",
         "theorem allGeneratedCheck_true : allGeneratedCheck = true := by",
-        "  unfold allGeneratedCheck checkGeneratedChunks",
+        "  unfold allGeneratedCheck",
         "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
         "  rfl",
-        "",
-        "theorem sampleChunkRankabilityCoverage :",
-        "    GeneratedCoverage NonIdentity.Chunk0000.certs",
-        "      Translation.Chunk0000.certs :=",
-        "  generatedCoverage_of_checked_chunks",
-        "    NonIdentity.Chunk0000.certs_check",
-        "    Translation.Chunk0000.certs_check",
-        "",
-        "theorem allSampleChunkRankabilityCoverage :",
-        "    GeneratedCoverage NonIdentity.Chunk0000.certs",
-        "      Translation.Chunk0000.certs :=",
-        "  sampleChunkRankabilityCoverage",
-        "",
-        "theorem generatedCoverageManifest_exhaustive :",
-        "    ExhaustiveGeneratedCoverage :=",
-        "  CoverageManifest.generatedCoverageManifest_exhaustive",
-        "",
-        "theorem exhaustiveGeneratedCoverage :",
-        "    ExhaustiveGeneratedCoverage :=",
-        "  generatedCoverageManifest_exhaustive",
-        "",
-        "theorem allPairRanksCovered (r : Fin numPairWords) :",
-        "    Exists fun chunk : CoverageChunk =>",
-        "      CoverageChunk.CoversPairRank chunk r :=",
-        "  exhaustiveGeneratedCoverage.pair_rank_covered r",
-        "",
-        "theorem allSignMasksCovered (mask : SignMask) :",
-        "    mask.val < numSignMasks :=",
-        "  exhaustiveGeneratedCoverage.sign_mask_covered mask",
         "",
         "end Cuboctahedron.Generated",
         "",
@@ -784,7 +1116,7 @@ def write_coverage_json(payload: dict) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--small-sample", action="store_true", help="generate the deterministic Step 12 sample")
+    parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
     parser.add_argument("--mode", choices=["small-sample", "coverage-manifest"], help="generation mode")
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
@@ -803,7 +1135,8 @@ def main() -> None:
         print(f"json: {COVERAGE_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"coverage manifest: {COVERAGE_MANIFEST_PATH.relative_to(REPO_ROOT)}")
         return
-    payload = build_payload(sample_size=7)
+    payload = build_payload()
+    payload["coverage"] = build_coverage_payload()
     write_json(payload)
     write_coverage_json(payload)
     write_lean(payload)
@@ -812,18 +1145,15 @@ def main() -> None:
     write_coverage_manifest(payload)
     write_all_generated()
     print(
-        "generated small sample: "
+        "generated small real-cert sample: "
         f"{payload['summary']['pair_words_sampled']} pair words, "
-        f"{payload['summary']['identity_linear_sampled']} identity, "
-        f"{payload['summary']['nonidentity_linear_sampled']} nonidentity, "
-        f"{payload['summary']['translation_sign_assignments_sampled']} translation sign assignments"
+        f"{payload['summary']['nonidentity_certs']} nonidentity certs, "
+        f"{payload['summary']['translation_certs']} translation certs"
     )
     print(f"json: {JSON_PATH.relative_to(REPO_ROOT)}")
     print(f"lean: {LEAN_PATH.relative_to(REPO_ROOT)}")
     print(f"nonidentity chunk: {NONIDENTITY_CHUNK_PATH.relative_to(REPO_ROOT)}")
     print(f"translation chunk: {TRANSLATION_CHUNK_PATH.relative_to(REPO_ROOT)}")
-    print(f"coverage manifest: {COVERAGE_MANIFEST_PATH.relative_to(REPO_ROOT)}")
-    print(f"all generated: {ALL_GENERATED_PATH.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":

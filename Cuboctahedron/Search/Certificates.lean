@@ -103,6 +103,221 @@ def pairPrefixLinearNat (w : PairWord) : Nat -> Mat3 Rat
       else
         pairPrefixLinearNat w n
 
+@[simp] theorem dropStart_one (h : (1 : Step14) ≠ (0 : Step14)) :
+    dropStart (1 : Step14) h = (0 : WordIndex) := by
+  change dropStart (⟨1, by decide⟩ : Step14) h =
+    (⟨0, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_two (h : (2 : Step14) ≠ (0 : Step14)) :
+    dropStart (2 : Step14) h = (1 : WordIndex) := by
+  change dropStart (⟨2, by decide⟩ : Step14) h =
+    (⟨1, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_three (h : (3 : Step14) ≠ (0 : Step14)) :
+    dropStart (3 : Step14) h = (2 : WordIndex) := by
+  change dropStart (⟨3, by decide⟩ : Step14) h =
+    (⟨2, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_four (h : (4 : Step14) ≠ (0 : Step14)) :
+    dropStart (4 : Step14) h = (3 : WordIndex) := by
+  change dropStart (⟨4, by decide⟩ : Step14) h =
+    (⟨3, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_five (h : (5 : Step14) ≠ (0 : Step14)) :
+    dropStart (5 : Step14) h = (4 : WordIndex) := by
+  change dropStart (⟨5, by decide⟩ : Step14) h =
+    (⟨4, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_six (h : (6 : Step14) ≠ (0 : Step14)) :
+    dropStart (6 : Step14) h = (5 : WordIndex) := by
+  change dropStart (⟨6, by decide⟩ : Step14) h =
+    (⟨5, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_seven (h : (7 : Step14) ≠ (0 : Step14)) :
+    dropStart (7 : Step14) h = (6 : WordIndex) := by
+  change dropStart (⟨7, by decide⟩ : Step14) h =
+    (⟨6, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_eight (h : (8 : Step14) ≠ (0 : Step14)) :
+    dropStart (8 : Step14) h = (7 : WordIndex) := by
+  change dropStart (⟨8, by decide⟩ : Step14) h =
+    (⟨7, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_nine (h : (9 : Step14) ≠ (0 : Step14)) :
+    dropStart (9 : Step14) h = (8 : WordIndex) := by
+  change dropStart (⟨9, by decide⟩ : Step14) h =
+    (⟨8, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_ten (h : (10 : Step14) ≠ (0 : Step14)) :
+    dropStart (10 : Step14) h = (9 : WordIndex) := by
+  change dropStart (⟨10, by decide⟩ : Step14) h =
+    (⟨9, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_eleven (h : (11 : Step14) ≠ (0 : Step14)) :
+    dropStart (11 : Step14) h = (10 : WordIndex) := by
+  change dropStart (⟨11, by decide⟩ : Step14) h =
+    (⟨10, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_twelve (h : (12 : Step14) ≠ (0 : Step14)) :
+    dropStart (12 : Step14) h = (11 : WordIndex) := by
+  change dropStart (⟨12, by decide⟩ : Step14) h =
+    (⟨11, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem dropStart_thirteen (h : (13 : Step14) ≠ (0 : Step14)) :
+    dropStart (13 : Step14) h = (12 : WordIndex) := by
+  change dropStart (⟨13, by decide⟩ : Step14) h =
+    (⟨12, by decide⟩ : WordIndex)
+  apply Fin.ext
+  simp [dropStart]
+
+@[simp] theorem pairAtStartedIndex_one (w : PairWord) :
+    pairAtStartedIndex w (1 : Step14) = w.get (0 : WordIndex) := by
+  change pairAtStartedIndex w (⟨1, by decide⟩ : Step14) =
+    w.get ⟨0, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_two (w : PairWord) :
+    pairAtStartedIndex w (2 : Step14) = w.get (1 : WordIndex) := by
+  change pairAtStartedIndex w (⟨2, by decide⟩ : Step14) =
+    w.get ⟨1, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_three (w : PairWord) :
+    pairAtStartedIndex w (3 : Step14) = w.get (2 : WordIndex) := by
+  change pairAtStartedIndex w (⟨3, by decide⟩ : Step14) =
+    w.get ⟨2, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_four (w : PairWord) :
+    pairAtStartedIndex w (4 : Step14) = w.get (3 : WordIndex) := by
+  change pairAtStartedIndex w (⟨4, by decide⟩ : Step14) =
+    w.get ⟨3, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_five (w : PairWord) :
+    pairAtStartedIndex w (5 : Step14) = w.get (4 : WordIndex) := by
+  change pairAtStartedIndex w (⟨5, by decide⟩ : Step14) =
+    w.get ⟨4, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_six (w : PairWord) :
+    pairAtStartedIndex w (6 : Step14) = w.get (5 : WordIndex) := by
+  change pairAtStartedIndex w (⟨6, by decide⟩ : Step14) =
+    w.get ⟨5, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_seven (w : PairWord) :
+    pairAtStartedIndex w (7 : Step14) = w.get (6 : WordIndex) := by
+  change pairAtStartedIndex w (⟨7, by decide⟩ : Step14) =
+    w.get ⟨6, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_eight (w : PairWord) :
+    pairAtStartedIndex w (8 : Step14) = w.get (7 : WordIndex) := by
+  change pairAtStartedIndex w (⟨8, by decide⟩ : Step14) =
+    w.get ⟨7, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_nine (w : PairWord) :
+    pairAtStartedIndex w (9 : Step14) = w.get (8 : WordIndex) := by
+  change pairAtStartedIndex w (⟨9, by decide⟩ : Step14) =
+    w.get ⟨8, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_ten (w : PairWord) :
+    pairAtStartedIndex w (10 : Step14) = w.get (9 : WordIndex) := by
+  change pairAtStartedIndex w (⟨10, by decide⟩ : Step14) =
+    w.get ⟨9, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_eleven (w : PairWord) :
+    pairAtStartedIndex w (11 : Step14) = w.get (10 : WordIndex) := by
+  change pairAtStartedIndex w (⟨11, by decide⟩ : Step14) =
+    w.get ⟨10, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_twelve (w : PairWord) :
+    pairAtStartedIndex w (12 : Step14) = w.get (11 : WordIndex) := by
+  change pairAtStartedIndex w (⟨12, by decide⟩ : Step14) =
+    w.get ⟨11, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+@[simp] theorem pairAtStartedIndex_thirteen (w : PairWord) :
+    pairAtStartedIndex w (13 : Step14) = w.get (12 : WordIndex) := by
+  change pairAtStartedIndex w (⟨13, by decide⟩ : Step14) =
+    w.get ⟨12, by decide⟩
+  unfold pairAtStartedIndex
+  rw [dif_neg (by decide)]
+  congr
+
+def pairLinearSuffixNat (w : PairWord) (start : Nat) : Nat -> Mat3 Rat
+  | 0 => reflM (canonicalNormalQ PairId.x)
+  | fuel + 1 =>
+      if h : start < 13 then
+        matMul (reflM (canonicalNormalQ (w.get ⟨start, h⟩)))
+          (pairLinearSuffixNat w (start + 1) fuel)
+      else
+        reflM (canonicalNormalQ PairId.x)
+
+def pairLinearProductRight (w : PairWord) : Mat3 Rat :=
+  pairLinearSuffixNat w 0 13
+
+theorem totalLinearOfPairWord_eq_pairLinearProductRight
+    (w : PairWord) :
+    totalLinearOfPairWord w = pairLinearProductRight w := by
+  unfold totalLinearOfPairWord totalLinear totalAff totalOrder
+  unfold pairLinearProductRight pairLinearSuffixNat canonicalSeqOfPairWord
+  simp [pairLinearSuffixNat, composeFaceList, affCompose, faceReflectionQ,
+    normalQ_faceOfPairSign_true, offsetQ, affId, matMul_matId]
+
 noncomputable def checkNonIdCommon (cert : NonIdCert) : Bool := by
   classical
   exact decide (ValidPairWord cert.word) &&
@@ -267,6 +482,137 @@ noncomputable def checkNonIdCert (cert : NonIdCert) : Bool :=
 noncomputable def checkNonIdCerts (certs : Array NonIdCert) : Bool :=
   certs.toList.all checkNonIdCert
 
+theorem checkNonIdCert_badDirectionSign
+    (cert : NonIdCert) (i : WordIndex)
+    (hFailure : cert.failure = NonIdFailure.badDirectionSign i)
+    (hValid : ValidPairWord cert.word)
+    (hNonId : totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel = true)
+    (hAxisZero : AxisDotZeroAtWord cert.word cert.axis i) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdBadDirectionSignFailure, hValid, hNonId, hKernel,
+    checkAxisDotZeroAtWord, hAxisZero]
+
+def pairIdsInLexOrder : List PairId :=
+  [PairId.x, PairId.y, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1,
+    PairId.dm11]
+
+def pairIdLexCode : PairId -> Nat
+  | PairId.x => 0
+  | PairId.y => 1
+  | PairId.z => 2
+  | PairId.d111 => 3
+  | PairId.d11m => 4
+  | PairId.d1m1 => 5
+  | PairId.dm11 => 6
+
+structure PairCounts where
+  x : Nat
+  y : Nat
+  z : Nat
+  d111 : Nat
+  d11m : Nat
+  d1m1 : Nat
+  dm11 : Nat
+deriving DecidableEq, Repr
+
+def PairCounts.initial : PairCounts where
+  x := 1
+  y := 2
+  z := 2
+  d111 := 2
+  d11m := 2
+  d1m1 := 2
+  dm11 := 2
+
+def PairCounts.get (counts : PairCounts) : PairId -> Nat
+  | PairId.x => counts.x
+  | PairId.y => counts.y
+  | PairId.z => counts.z
+  | PairId.d111 => counts.d111
+  | PairId.d11m => counts.d11m
+  | PairId.d1m1 => counts.d1m1
+  | PairId.dm11 => counts.dm11
+
+def PairCounts.decrement (counts : PairCounts) : PairId -> PairCounts
+  | PairId.x => { counts with x := counts.x - 1 }
+  | PairId.y => { counts with y := counts.y - 1 }
+  | PairId.z => { counts with z := counts.z - 1 }
+  | PairId.d111 => { counts with d111 := counts.d111 - 1 }
+  | PairId.d11m => { counts with d11m := counts.d11m - 1 }
+  | PairId.d1m1 => { counts with d1m1 := counts.d1m1 - 1 }
+  | PairId.dm11 => { counts with dm11 := counts.dm11 - 1 }
+
+def PairCounts.total (counts : PairCounts) : Nat :=
+  counts.x + counts.y + counts.z + counts.d111 + counts.d11m +
+    counts.d1m1 + counts.dm11
+
+def pairWordLexBlockCount (counts : PairCounts) : Nat :=
+  Nat.factorial counts.total /
+    (Nat.factorial counts.x * Nat.factorial counts.y *
+      Nat.factorial counts.z * Nat.factorial counts.d111 *
+        Nat.factorial counts.d11m * Nat.factorial counts.d1m1 *
+          Nat.factorial counts.dm11)
+
+def pairWordLexRankAux
+    (w : PairWord) (pos : Nat) : Nat -> PairCounts -> Nat
+  | 0, _ => 0
+  | fuel + 1, counts =>
+      if h : pos < 13 then
+        let current := w.get ⟨pos, h⟩
+        let smallerCount :=
+          ((pairIdsInLexOrder.filter fun p =>
+              decide (pairIdLexCode p < pairIdLexCode current /\
+                0 < counts.get p)).map fun p =>
+                pairWordLexBlockCount (counts.decrement p)).sum
+        smallerCount +
+          pairWordLexRankAux w (pos + 1) fuel
+            (counts.decrement current)
+      else
+        0
+
+def pairWordLexRank (w : PairWord) : Nat :=
+  pairWordLexRankAux w 0 13 PairCounts.initial
+
+def pairWordLexRank? (w : PairWord) : Option (Fin numPairWords) :=
+  if ValidPairWord w then
+    let rank := pairWordLexRank w
+    if h : rank < numPairWords then
+      some ⟨rank, h⟩
+    else
+      none
+  else
+    none
+
+structure GeneratedNonIdCertChunk where
+  name : String
+  coveredRanks : Array Nat
+  certs : Array NonIdCert
+deriving DecidableEq, Repr
+
+def checkNonIdCoveredRank (rank : Nat) (cert : NonIdCert) :
+    Bool :=
+  if h : rank < numPairWords then
+    decide (pairWordLexRank? cert.word = some ⟨rank, h⟩)
+  else
+    false
+
+noncomputable def checkNonIdCoveredRankList :
+    List Nat -> List NonIdCert -> Bool
+  | [], [] => true
+  | rank :: ranks, cert :: certs =>
+      checkNonIdCoveredRank rank cert &&
+        checkNonIdCert cert &&
+          checkNonIdCoveredRankList ranks certs
+  | _, _ => false
+
+noncomputable def checkGeneratedNonIdCertChunk
+    (chunk : GeneratedNonIdCertChunk) : Bool :=
+  checkNonIdCoveredRankList chunk.coveredRanks.toList chunk.certs.toList
+
 structure GeneratedChunkMeta where
   name : String
   startRank : Nat
@@ -421,6 +767,56 @@ noncomputable def checkTranslationCert (cert : TranslationCert) : Bool :=
 
 noncomputable def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
   certs.toList.all checkTranslationCert
+
+theorem checkTranslationCert_badDirectionSign
+    (cert : TranslationCert) (i : Impact15)
+    (hFailure : cert.failure = TranslationFailure.badDirectionSign i)
+    (hValid : ValidPairWord cert.word)
+    (hLinear : totalLinearOfPairWord cert.word = (matId : Mat3 Rat))
+    (hMatches : TranslationSeqMatches cert.word cert.signMask cert.seq)
+    (hB : (totalAff cert.seqFun).b = cert.b)
+    (hi0 : i ≠ (0 : Impact15))
+    (hilast : i ≠ lastImpact)
+    (hDenom : impactDenom cert.seqFun cert.b i <= 0) :
+    checkTranslationCert cert = true := by
+  rw [checkTranslationCert, hFailure]
+  simp [checkTranslationCommon, hValid, hLinear, hMatches, hB, hi0,
+    hilast, hDenom]
+
+structure GeneratedTranslationCase where
+  pairRank : Nat
+  signMask : Nat
+deriving DecidableEq, Repr
+
+structure GeneratedTranslationCertChunk where
+  name : String
+  coveredCases : Array GeneratedTranslationCase
+  certs : Array TranslationCert
+deriving DecidableEq, Repr
+
+def checkTranslationCoveredCase
+    (covered : GeneratedTranslationCase) (cert : TranslationCert) : Bool :=
+  if hrank : covered.pairRank < numPairWords then
+    if hmask : covered.signMask < numSignMasks then
+      decide (pairWordLexRank? cert.word = some ⟨covered.pairRank, hrank⟩) &&
+        decide (cert.signMask = ⟨covered.signMask, hmask⟩)
+    else
+      false
+  else
+    false
+
+noncomputable def checkTranslationCoveredCaseList :
+    List GeneratedTranslationCase -> List TranslationCert -> Bool
+  | [], [] => true
+  | covered :: coveredCases, cert :: certs =>
+      checkTranslationCoveredCase covered cert &&
+        checkTranslationCert cert &&
+          checkTranslationCoveredCaseList coveredCases certs
+  | _, _ => false
+
+noncomputable def checkGeneratedTranslationCertChunk
+    (chunk : GeneratedTranslationCertChunk) : Bool :=
+  checkTranslationCoveredCaseList chunk.coveredCases.toList chunk.certs.toList
 
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)

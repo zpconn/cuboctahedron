@@ -1,59 +1,31 @@
 import Cuboctahedron.Generated.SmallSample
 
 /-!
-Generated non-identity sample chunk for Step 13.
-
-This is a small exact chunk scaffold, not the exhaustive final search.
+Generated non-identity real-certificate sample chunk for Step 14C.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Chunk0000
 
-set_option maxHeartbeats 800000
+set_option maxHeartbeats 1600000
+set_option maxRecDepth 10000
 
 open Cuboctahedron.Generated.SmallSample
 
-def chunkMeta : GeneratedChunkMeta where
+theorem nonIdBadDirection000_coveredRank :
+    checkNonIdCoveredRank 1 SmallSample.nonIdBadDirection000 = true := by
+  decide
+
+def chunk : GeneratedNonIdCertChunk where
   name := "NonIdentity.Chunk0000"
-  startRank := 0
-  endRank := 3
-  expectedItems := 3
+  coveredRanks := #[1]
+  certs := nonIdCerts
 
-def cert000 : NonIdentityLinearCert where
-  rank := 1
-  word := word001
+def certs : Array NonIdCert :=
+  chunk.certs
 
-theorem cert000_check :
-    checkNonIdentityLinearCert cert000 = true := by
-  simp [checkNonIdentityLinearCert, cert000,
-    word001_valid,
-    word001_totalLinear_ne_id]
-
-def cert001 : NonIdentityLinearCert where
-  rank := 4
-  word := word004
-
-theorem cert001_check :
-    checkNonIdentityLinearCert cert001 = true := by
-  simp [checkNonIdentityLinearCert, cert001,
-    word004_valid,
-    word004_totalLinear_ne_id]
-
-def cert002 : NonIdentityLinearCert where
-  rank := 6
-  word := word006
-
-theorem cert002_check :
-    checkNonIdentityLinearCert cert002 = true := by
-  simp [checkNonIdentityLinearCert, cert002,
-    word006_valid,
-    word006_totalLinear_ne_id]
-
-def certs : Array NonIdentityLinearCert :=
-  #[cert000, cert001, cert002]
-
-theorem certs_check : checkNonIdentityChunk chunkMeta certs = true := by
-  simp [checkNonIdentityChunk, checkChunkMeta, chunkMeta,
-    checkNonIdentityLinearCerts, certs,
-    cert000_check, cert001_check, cert002_check]
+theorem certs_check : checkGeneratedNonIdCertChunk chunk = true := by
+  simp [checkGeneratedNonIdCertChunk, checkNonIdCoveredRankList,
+    chunk, SmallSample.nonIdCerts,
+    nonIdBadDirection000_coveredRank, SmallSample.nonIdBadDirection000_check]
 
 end Cuboctahedron.Generated.NonIdentity.Chunk0000

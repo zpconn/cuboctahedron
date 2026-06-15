@@ -144,6 +144,14 @@ def matSub [Sub alpha] (A B : Mat3 alpha) : Mat3 alpha where
   m21 := A.m21 - B.m21
   m22 := A.m22 - B.m22
 
+theorem matMul_matId {alpha : Type u} [Semiring alpha] (A : Mat3 alpha) :
+    matMul A (matId : Mat3 alpha) = A := by
+  apply Mat3.ext <;> simp [matMul, matId]
+
+theorem matId_matMul {alpha : Type u} [Semiring alpha] (A : Mat3 alpha) :
+    matMul (matId : Mat3 alpha) A = A := by
+  apply Mat3.ext <;> simp [matMul, matId]
+
 theorem matId_matVec {alpha : Type u} [Semiring alpha] (p : Vec3 alpha) :
     matVec (matId : Mat3 alpha) p = p := by
   apply Vec3.ext <;> simp [matVec, matId]
