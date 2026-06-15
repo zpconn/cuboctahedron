@@ -267,9 +267,10 @@ def build_payload(sample_size: int) -> dict:
         for i, word in enumerate(enumerate_pair_words(sample_size))
     ]
     nonidentity_records = []
-    for rank, record in enumerate(record for record in words if not record.identity):
+    for chunk_rank, record in enumerate(record for record in words if not record.identity):
         nonidentity_records.append({
-            "rank": rank,
+            "rank": record.sample_index - 1,
+            "chunk_rank": chunk_rank,
             "sample_index": record.sample_index,
             "word": record.word,
             "kind": "nonidentity_linear",
@@ -282,7 +283,8 @@ def build_payload(sample_size: int) -> dict:
             for mask in range(64):
                 b, seq = translation_vector(record.word, mask)
                 translation_records.append({
-                    "rank": translation_rank,
+                    "rank": record.sample_index - 1,
+                    "assignment_rank": translation_rank,
                     "sample_index": record.sample_index,
                     "mask": mask,
                     "seq": seq,
@@ -649,7 +651,7 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "",
         "/-!",
-        "Aggregate import for generated Step 13 chunks.",
+        "Aggregate import for generated sample chunks and their rankability coverage.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated",
@@ -664,6 +666,13 @@ def write_all_generated() -> None:
         "  unfold allGeneratedCheck checkGeneratedChunks",
         "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
         "  rfl",
+        "",
+        "theorem allGeneratedCoverage :",
+        "    GeneratedCoverage NonIdentity.Chunk0000.certs",
+        "      Translation.Chunk0000.certs :=",
+        "  generatedCoverage_of_checked_chunks",
+        "    NonIdentity.Chunk0000.certs_check",
+        "    Translation.Chunk0000.certs_check",
         "",
         "end Cuboctahedron.Generated",
         "",

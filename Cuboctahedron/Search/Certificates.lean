@@ -1,3 +1,4 @@
+import Cuboctahedron.Search.Enumeration
 import Cuboctahedron.Search.TranslationCase
 
 /-!
@@ -5,8 +6,6 @@ Translation-case certificate wrappers.
 -/
 
 namespace Cuboctahedron
-
-abbrev SignMask := Fin 64
 
 abbrev SeqRealizesTranslationChoice
     (w : PairWord) (_mask : SignMask) (seq : Step14 -> Face) : Prop :=
@@ -303,6 +302,131 @@ noncomputable def checkGeneratedChunks
     (translationCerts : Array TranslationChoiceCert) : Bool :=
   checkNonIdentityChunk nonIdentityMeta nonIdentityCerts &&
     checkTranslationChunk translationMeta translationCerts
+
+theorem checkNonIdentityLinearCert_valid
+    (cert : NonIdentityLinearCert)
+    (hcheck : checkNonIdentityLinearCert cert = true) :
+    ValidPairWord cert.word := by
+  simp [checkNonIdentityLinearCert] at hcheck
+  exact hcheck.1
+
+theorem checkNonIdentityLinearCerts_valid
+    {certs : Array NonIdentityLinearCert}
+    (hcheck : checkNonIdentityLinearCerts certs = true) :
+    forall cert, cert ∈ certs.toList -> ValidPairWord cert.word := by
+  have hindex :
+      forall (i : Nat) (h : i < certs.size),
+        checkNonIdentityLinearCert certs[i] = true := by
+    simpa [checkNonIdentityLinearCerts, List.all_eq_true] using hcheck
+  intro cert hmem
+  have hArray : cert ∈ certs := by
+    simpa [Array.mem_toList_iff] using hmem
+  rcases (Array.mem_iff_getElem.mp hArray) with ⟨i, hi, hget⟩
+  exact checkNonIdentityLinearCert_valid cert (by
+    simpa [hget] using hindex i hi)
+
+theorem checkTranslationChoiceCert_valid
+    (cert : TranslationChoiceCert)
+    (hcheck : checkTranslationChoiceCert cert = true) :
+    ValidPairWord cert.word := by
+  simp [checkTranslationChoiceCert] at hcheck
+  exact hcheck.1.1.1
+
+theorem checkTranslationChoiceCerts_valid
+    {certs : Array TranslationChoiceCert}
+    (hcheck : checkTranslationChoiceCerts certs = true) :
+    forall cert, cert ∈ certs.toList -> ValidPairWord cert.word := by
+  have hindex :
+      forall (i : Nat) (h : i < certs.size),
+        checkTranslationChoiceCert certs[i] = true := by
+    simpa [checkTranslationChoiceCerts, List.all_eq_true] using hcheck
+  intro cert hmem
+  have hArray : cert ∈ certs := by
+    simpa [Array.mem_toList_iff] using hmem
+  rcases (Array.mem_iff_getElem.mp hArray) with ⟨i, hi, hget⟩
+  exact checkTranslationChoiceCert_valid cert (by
+    simpa [hget] using hindex i hi)
+
+theorem checkNonIdentityChunk_certs
+    {chunkMeta : GeneratedChunkMeta}
+    {certs : Array NonIdentityLinearCert}
+    (hcheck : checkNonIdentityChunk chunkMeta certs = true) :
+    checkNonIdentityLinearCerts certs = true := by
+  simp [checkNonIdentityChunk] at hcheck
+  exact hcheck.2
+
+theorem checkTranslationChunk_certs
+    {chunkMeta : GeneratedChunkMeta}
+    {certs : Array TranslationChoiceCert}
+    (hcheck : checkTranslationChunk chunkMeta certs = true) :
+    checkTranslationChoiceCerts certs = true := by
+  simp [checkTranslationChunk] at hcheck
+  exact hcheck.2
+
+def NonIdentityCertHasRank (cert : NonIdentityLinearCert) : Prop :=
+  exists r : Fin numPairWords, rankPairWord? cert.word = some r
+
+def TranslationChoiceCertHasRank (cert : TranslationChoiceCert) : Prop :=
+  (exists r : Fin numPairWords, rankPairWord? cert.word = some r) /\
+    rankSignMask cert.signMask = cert.signMask
+
+theorem NonIdentityCertHasRank.of_valid
+    {cert : NonIdentityLinearCert}
+    (hvalid : ValidPairWord cert.word) :
+    NonIdentityCertHasRank cert :=
+  rankPairWord?_some_of_valid hvalid
+
+theorem TranslationChoiceCertHasRank.of_valid
+    {cert : TranslationChoiceCert}
+    (hvalid : ValidPairWord cert.word) :
+    TranslationChoiceCertHasRank cert := by
+  exact ⟨rankPairWord?_some_of_valid hvalid, rfl⟩
+
+structure GeneratedCoverage
+    (nonIdentityCerts : Array NonIdentityLinearCert)
+    (translationCerts : Array TranslationChoiceCert) : Prop where
+  nonidentity_ranked :
+    forall cert, cert ∈ nonIdentityCerts.toList ->
+      NonIdentityCertHasRank cert
+  translation_ranked :
+    forall cert, cert ∈ translationCerts.toList ->
+      TranslationChoiceCertHasRank cert
+
+structure ExhaustiveGeneratedCoverage
+    (nonIdentityCerts : Array NonIdentityLinearCert)
+    (translationCerts : Array TranslationChoiceCert) : Prop where
+  nonidentity_complete :
+    forall r : Fin numPairWords,
+      totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
+        exists cert, cert ∈ nonIdentityCerts.toList /\
+          cert.word = unrankPairWord r
+  translation_complete :
+    forall (r : Fin numPairWords) (mask : SignMask),
+      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+        exists cert, cert ∈ translationCerts.toList /\
+          cert.word = unrankPairWord r /\ cert.signMask = mask
+
+theorem generatedCoverage_of_checked_chunks
+    {nonIdentityMeta : GeneratedChunkMeta}
+    {nonIdentityCerts : Array NonIdentityLinearCert}
+    {translationMeta : GeneratedChunkMeta}
+    {translationCerts : Array TranslationChoiceCert}
+    (hNonIdentity :
+      checkNonIdentityChunk nonIdentityMeta nonIdentityCerts = true)
+    (hTranslation :
+      checkTranslationChunk translationMeta translationCerts = true) :
+    GeneratedCoverage nonIdentityCerts translationCerts := by
+  refine ⟨?_, ?_⟩
+  · have hvalid :=
+      checkNonIdentityLinearCerts_valid
+        (checkNonIdentityChunk_certs hNonIdentity)
+    intro cert hmem
+    exact NonIdentityCertHasRank.of_valid (hvalid cert hmem)
+  · have hvalid :=
+      checkTranslationChoiceCerts_valid
+        (checkTranslationChunk_certs hTranslation)
+    intro cert hmem
+    exact TranslationChoiceCertHasRank.of_valid (hvalid cert hmem)
 
 theorem checkNonIdCert_sound
     (cert : NonIdCert)

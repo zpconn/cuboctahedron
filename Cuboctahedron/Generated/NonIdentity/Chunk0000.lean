@@ -19,7 +19,7 @@ def chunkMeta : GeneratedChunkMeta where
   expectedItems := 3
 
 def cert000 : NonIdentityLinearCert where
-  rank := 0
+  rank := 1
   word := word001
 
 theorem cert000_check :
@@ -29,7 +29,7 @@ theorem cert000_check :
     word001_totalLinear_ne_id]
 
 def cert001 : NonIdentityLinearCert where
-  rank := 1
+  rank := 4
   word := word004
 
 theorem cert001_check :
@@ -39,7 +39,7 @@ theorem cert001_check :
     word004_totalLinear_ne_id]
 
 def cert002 : NonIdentityLinearCert where
-  rank := 2
+  rank := 6
   word := word006
 
 theorem cert002_check :

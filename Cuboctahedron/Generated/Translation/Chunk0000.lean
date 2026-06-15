@@ -40,7 +40,7 @@ def choiceSeq001 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨1, by decide⟩)
 
 def choiceCert001 : TranslationChoiceCert where
-  rank := 1
+  rank := 0
   word := word000
   signMask := ⟨1, by decide⟩
   seq := choiceSeq001
@@ -57,7 +57,7 @@ def choiceSeq002 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨2, by decide⟩)
 
 def choiceCert002 : TranslationChoiceCert where
-  rank := 2
+  rank := 0
   word := word000
   signMask := ⟨2, by decide⟩
   seq := choiceSeq002
@@ -74,7 +74,7 @@ def choiceSeq003 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨3, by decide⟩)
 
 def choiceCert003 : TranslationChoiceCert where
-  rank := 3
+  rank := 0
   word := word000
   signMask := ⟨3, by decide⟩
   seq := choiceSeq003
@@ -91,7 +91,7 @@ def choiceSeq004 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨4, by decide⟩)
 
 def choiceCert004 : TranslationChoiceCert where
-  rank := 4
+  rank := 0
   word := word000
   signMask := ⟨4, by decide⟩
   seq := choiceSeq004
@@ -108,7 +108,7 @@ def choiceSeq005 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨5, by decide⟩)
 
 def choiceCert005 : TranslationChoiceCert where
-  rank := 5
+  rank := 0
   word := word000
   signMask := ⟨5, by decide⟩
   seq := choiceSeq005
@@ -125,7 +125,7 @@ def choiceSeq006 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨6, by decide⟩)
 
 def choiceCert006 : TranslationChoiceCert where
-  rank := 6
+  rank := 0
   word := word000
   signMask := ⟨6, by decide⟩
   seq := choiceSeq006
@@ -142,7 +142,7 @@ def choiceSeq007 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨7, by decide⟩)
 
 def choiceCert007 : TranslationChoiceCert where
-  rank := 7
+  rank := 0
   word := word000
   signMask := ⟨7, by decide⟩
   seq := choiceSeq007
@@ -159,7 +159,7 @@ def choiceSeq008 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨8, by decide⟩)
 
 def choiceCert008 : TranslationChoiceCert where
-  rank := 8
+  rank := 0
   word := word000
   signMask := ⟨8, by decide⟩
   seq := choiceSeq008
@@ -176,7 +176,7 @@ def choiceSeq009 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨9, by decide⟩)
 
 def choiceCert009 : TranslationChoiceCert where
-  rank := 9
+  rank := 0
   word := word000
   signMask := ⟨9, by decide⟩
   seq := choiceSeq009
@@ -193,7 +193,7 @@ def choiceSeq010 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨10, by decide⟩)
 
 def choiceCert010 : TranslationChoiceCert where
-  rank := 10
+  rank := 0
   word := word000
   signMask := ⟨10, by decide⟩
   seq := choiceSeq010
@@ -210,7 +210,7 @@ def choiceSeq011 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨11, by decide⟩)
 
 def choiceCert011 : TranslationChoiceCert where
-  rank := 11
+  rank := 0
   word := word000
   signMask := ⟨11, by decide⟩
   seq := choiceSeq011
@@ -227,7 +227,7 @@ def choiceSeq012 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨12, by decide⟩)
 
 def choiceCert012 : TranslationChoiceCert where
-  rank := 12
+  rank := 0
   word := word000
   signMask := ⟨12, by decide⟩
   seq := choiceSeq012
@@ -244,7 +244,7 @@ def choiceSeq013 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨13, by decide⟩)
 
 def choiceCert013 : TranslationChoiceCert where
-  rank := 13
+  rank := 0
   word := word000
   signMask := ⟨13, by decide⟩
   seq := choiceSeq013
@@ -261,7 +261,7 @@ def choiceSeq014 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨14, by decide⟩)
 
 def choiceCert014 : TranslationChoiceCert where
-  rank := 14
+  rank := 0
   word := word000
   signMask := ⟨14, by decide⟩
   seq := choiceSeq014
@@ -278,7 +278,7 @@ def choiceSeq015 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨15, by decide⟩)
 
 def choiceCert015 : TranslationChoiceCert where
-  rank := 15
+  rank := 0
   word := word000
   signMask := ⟨15, by decide⟩
   seq := choiceSeq015
@@ -295,7 +295,7 @@ def choiceSeq016 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨16, by decide⟩)
 
 def choiceCert016 : TranslationChoiceCert where
-  rank := 16
+  rank := 0
   word := word000
   signMask := ⟨16, by decide⟩
   seq := choiceSeq016
@@ -312,7 +312,7 @@ def choiceSeq017 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨17, by decide⟩)
 
 def choiceCert017 : TranslationChoiceCert where
-  rank := 17
+  rank := 0
   word := word000
   signMask := ⟨17, by decide⟩
   seq := choiceSeq017
@@ -329,7 +329,7 @@ def choiceSeq018 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨18, by decide⟩)
 
 def choiceCert018 : TranslationChoiceCert where
-  rank := 18
+  rank := 0
   word := word000
   signMask := ⟨18, by decide⟩
   seq := choiceSeq018
@@ -346,7 +346,7 @@ def choiceSeq019 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨19, by decide⟩)
 
 def choiceCert019 : TranslationChoiceCert where
-  rank := 19
+  rank := 0
   word := word000
   signMask := ⟨19, by decide⟩
   seq := choiceSeq019
@@ -363,7 +363,7 @@ def choiceSeq020 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨20, by decide⟩)
 
 def choiceCert020 : TranslationChoiceCert where
-  rank := 20
+  rank := 0
   word := word000
   signMask := ⟨20, by decide⟩
   seq := choiceSeq020
@@ -380,7 +380,7 @@ def choiceSeq021 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨21, by decide⟩)
 
 def choiceCert021 : TranslationChoiceCert where
-  rank := 21
+  rank := 0
   word := word000
   signMask := ⟨21, by decide⟩
   seq := choiceSeq021
@@ -397,7 +397,7 @@ def choiceSeq022 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨22, by decide⟩)
 
 def choiceCert022 : TranslationChoiceCert where
-  rank := 22
+  rank := 0
   word := word000
   signMask := ⟨22, by decide⟩
   seq := choiceSeq022
@@ -414,7 +414,7 @@ def choiceSeq023 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨23, by decide⟩)
 
 def choiceCert023 : TranslationChoiceCert where
-  rank := 23
+  rank := 0
   word := word000
   signMask := ⟨23, by decide⟩
   seq := choiceSeq023
@@ -431,7 +431,7 @@ def choiceSeq024 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨24, by decide⟩)
 
 def choiceCert024 : TranslationChoiceCert where
-  rank := 24
+  rank := 0
   word := word000
   signMask := ⟨24, by decide⟩
   seq := choiceSeq024
@@ -448,7 +448,7 @@ def choiceSeq025 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨25, by decide⟩)
 
 def choiceCert025 : TranslationChoiceCert where
-  rank := 25
+  rank := 0
   word := word000
   signMask := ⟨25, by decide⟩
   seq := choiceSeq025
@@ -465,7 +465,7 @@ def choiceSeq026 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨26, by decide⟩)
 
 def choiceCert026 : TranslationChoiceCert where
-  rank := 26
+  rank := 0
   word := word000
   signMask := ⟨26, by decide⟩
   seq := choiceSeq026
@@ -482,7 +482,7 @@ def choiceSeq027 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨27, by decide⟩)
 
 def choiceCert027 : TranslationChoiceCert where
-  rank := 27
+  rank := 0
   word := word000
   signMask := ⟨27, by decide⟩
   seq := choiceSeq027
@@ -499,7 +499,7 @@ def choiceSeq028 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨28, by decide⟩)
 
 def choiceCert028 : TranslationChoiceCert where
-  rank := 28
+  rank := 0
   word := word000
   signMask := ⟨28, by decide⟩
   seq := choiceSeq028
@@ -516,7 +516,7 @@ def choiceSeq029 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨29, by decide⟩)
 
 def choiceCert029 : TranslationChoiceCert where
-  rank := 29
+  rank := 0
   word := word000
   signMask := ⟨29, by decide⟩
   seq := choiceSeq029
@@ -533,7 +533,7 @@ def choiceSeq030 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨30, by decide⟩)
 
 def choiceCert030 : TranslationChoiceCert where
-  rank := 30
+  rank := 0
   word := word000
   signMask := ⟨30, by decide⟩
   seq := choiceSeq030
@@ -550,7 +550,7 @@ def choiceSeq031 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨31, by decide⟩)
 
 def choiceCert031 : TranslationChoiceCert where
-  rank := 31
+  rank := 0
   word := word000
   signMask := ⟨31, by decide⟩
   seq := choiceSeq031
@@ -567,7 +567,7 @@ def choiceSeq032 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨32, by decide⟩)
 
 def choiceCert032 : TranslationChoiceCert where
-  rank := 32
+  rank := 0
   word := word000
   signMask := ⟨32, by decide⟩
   seq := choiceSeq032
@@ -584,7 +584,7 @@ def choiceSeq033 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨33, by decide⟩)
 
 def choiceCert033 : TranslationChoiceCert where
-  rank := 33
+  rank := 0
   word := word000
   signMask := ⟨33, by decide⟩
   seq := choiceSeq033
@@ -601,7 +601,7 @@ def choiceSeq034 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨34, by decide⟩)
 
 def choiceCert034 : TranslationChoiceCert where
-  rank := 34
+  rank := 0
   word := word000
   signMask := ⟨34, by decide⟩
   seq := choiceSeq034
@@ -618,7 +618,7 @@ def choiceSeq035 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨35, by decide⟩)
 
 def choiceCert035 : TranslationChoiceCert where
-  rank := 35
+  rank := 0
   word := word000
   signMask := ⟨35, by decide⟩
   seq := choiceSeq035
@@ -635,7 +635,7 @@ def choiceSeq036 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨36, by decide⟩)
 
 def choiceCert036 : TranslationChoiceCert where
-  rank := 36
+  rank := 0
   word := word000
   signMask := ⟨36, by decide⟩
   seq := choiceSeq036
@@ -652,7 +652,7 @@ def choiceSeq037 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨37, by decide⟩)
 
 def choiceCert037 : TranslationChoiceCert where
-  rank := 37
+  rank := 0
   word := word000
   signMask := ⟨37, by decide⟩
   seq := choiceSeq037
@@ -669,7 +669,7 @@ def choiceSeq038 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨38, by decide⟩)
 
 def choiceCert038 : TranslationChoiceCert where
-  rank := 38
+  rank := 0
   word := word000
   signMask := ⟨38, by decide⟩
   seq := choiceSeq038
@@ -686,7 +686,7 @@ def choiceSeq039 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨39, by decide⟩)
 
 def choiceCert039 : TranslationChoiceCert where
-  rank := 39
+  rank := 0
   word := word000
   signMask := ⟨39, by decide⟩
   seq := choiceSeq039
@@ -703,7 +703,7 @@ def choiceSeq040 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨40, by decide⟩)
 
 def choiceCert040 : TranslationChoiceCert where
-  rank := 40
+  rank := 0
   word := word000
   signMask := ⟨40, by decide⟩
   seq := choiceSeq040
@@ -720,7 +720,7 @@ def choiceSeq041 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨41, by decide⟩)
 
 def choiceCert041 : TranslationChoiceCert where
-  rank := 41
+  rank := 0
   word := word000
   signMask := ⟨41, by decide⟩
   seq := choiceSeq041
@@ -737,7 +737,7 @@ def choiceSeq042 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨42, by decide⟩)
 
 def choiceCert042 : TranslationChoiceCert where
-  rank := 42
+  rank := 0
   word := word000
   signMask := ⟨42, by decide⟩
   seq := choiceSeq042
@@ -754,7 +754,7 @@ def choiceSeq043 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨43, by decide⟩)
 
 def choiceCert043 : TranslationChoiceCert where
-  rank := 43
+  rank := 0
   word := word000
   signMask := ⟨43, by decide⟩
   seq := choiceSeq043
@@ -771,7 +771,7 @@ def choiceSeq044 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨44, by decide⟩)
 
 def choiceCert044 : TranslationChoiceCert where
-  rank := 44
+  rank := 0
   word := word000
   signMask := ⟨44, by decide⟩
   seq := choiceSeq044
@@ -788,7 +788,7 @@ def choiceSeq045 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨45, by decide⟩)
 
 def choiceCert045 : TranslationChoiceCert where
-  rank := 45
+  rank := 0
   word := word000
   signMask := ⟨45, by decide⟩
   seq := choiceSeq045
@@ -805,7 +805,7 @@ def choiceSeq046 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨46, by decide⟩)
 
 def choiceCert046 : TranslationChoiceCert where
-  rank := 46
+  rank := 0
   word := word000
   signMask := ⟨46, by decide⟩
   seq := choiceSeq046
@@ -822,7 +822,7 @@ def choiceSeq047 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨47, by decide⟩)
 
 def choiceCert047 : TranslationChoiceCert where
-  rank := 47
+  rank := 0
   word := word000
   signMask := ⟨47, by decide⟩
   seq := choiceSeq047
@@ -839,7 +839,7 @@ def choiceSeq048 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨48, by decide⟩)
 
 def choiceCert048 : TranslationChoiceCert where
-  rank := 48
+  rank := 0
   word := word000
   signMask := ⟨48, by decide⟩
   seq := choiceSeq048
@@ -856,7 +856,7 @@ def choiceSeq049 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨49, by decide⟩)
 
 def choiceCert049 : TranslationChoiceCert where
-  rank := 49
+  rank := 0
   word := word000
   signMask := ⟨49, by decide⟩
   seq := choiceSeq049
@@ -873,7 +873,7 @@ def choiceSeq050 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨50, by decide⟩)
 
 def choiceCert050 : TranslationChoiceCert where
-  rank := 50
+  rank := 0
   word := word000
   signMask := ⟨50, by decide⟩
   seq := choiceSeq050
@@ -890,7 +890,7 @@ def choiceSeq051 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨51, by decide⟩)
 
 def choiceCert051 : TranslationChoiceCert where
-  rank := 51
+  rank := 0
   word := word000
   signMask := ⟨51, by decide⟩
   seq := choiceSeq051
@@ -907,7 +907,7 @@ def choiceSeq052 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨52, by decide⟩)
 
 def choiceCert052 : TranslationChoiceCert where
-  rank := 52
+  rank := 0
   word := word000
   signMask := ⟨52, by decide⟩
   seq := choiceSeq052
@@ -924,7 +924,7 @@ def choiceSeq053 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨53, by decide⟩)
 
 def choiceCert053 : TranslationChoiceCert where
-  rank := 53
+  rank := 0
   word := word000
   signMask := ⟨53, by decide⟩
   seq := choiceSeq053
@@ -941,7 +941,7 @@ def choiceSeq054 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨54, by decide⟩)
 
 def choiceCert054 : TranslationChoiceCert where
-  rank := 54
+  rank := 0
   word := word000
   signMask := ⟨54, by decide⟩
   seq := choiceSeq054
@@ -958,7 +958,7 @@ def choiceSeq055 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨55, by decide⟩)
 
 def choiceCert055 : TranslationChoiceCert where
-  rank := 55
+  rank := 0
   word := word000
   signMask := ⟨55, by decide⟩
   seq := choiceSeq055
@@ -975,7 +975,7 @@ def choiceSeq056 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨56, by decide⟩)
 
 def choiceCert056 : TranslationChoiceCert where
-  rank := 56
+  rank := 0
   word := word000
   signMask := ⟨56, by decide⟩
   seq := choiceSeq056
@@ -992,7 +992,7 @@ def choiceSeq057 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨57, by decide⟩)
 
 def choiceCert057 : TranslationChoiceCert where
-  rank := 57
+  rank := 0
   word := word000
   signMask := ⟨57, by decide⟩
   seq := choiceSeq057
@@ -1009,7 +1009,7 @@ def choiceSeq058 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨58, by decide⟩)
 
 def choiceCert058 : TranslationChoiceCert where
-  rank := 58
+  rank := 0
   word := word000
   signMask := ⟨58, by decide⟩
   seq := choiceSeq058
@@ -1026,7 +1026,7 @@ def choiceSeq059 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨59, by decide⟩)
 
 def choiceCert059 : TranslationChoiceCert where
-  rank := 59
+  rank := 0
   word := word000
   signMask := ⟨59, by decide⟩
   seq := choiceSeq059
@@ -1043,7 +1043,7 @@ def choiceSeq060 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨60, by decide⟩)
 
 def choiceCert060 : TranslationChoiceCert where
-  rank := 60
+  rank := 0
   word := word000
   signMask := ⟨60, by decide⟩
   seq := choiceSeq060
@@ -1060,7 +1060,7 @@ def choiceSeq061 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨61, by decide⟩)
 
 def choiceCert061 : TranslationChoiceCert where
-  rank := 61
+  rank := 0
   word := word000
   signMask := ⟨61, by decide⟩
   seq := choiceSeq061
@@ -1077,7 +1077,7 @@ def choiceSeq062 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨62, by decide⟩)
 
 def choiceCert062 : TranslationChoiceCert where
-  rank := 62
+  rank := 0
   word := word000
   signMask := ⟨62, by decide⟩
   seq := choiceSeq062
@@ -1094,7 +1094,7 @@ def choiceSeq063 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word000 ⟨63, by decide⟩)
 
 def choiceCert063 : TranslationChoiceCert where
-  rank := 63
+  rank := 0
   word := word000
   signMask := ⟨63, by decide⟩
   seq := choiceSeq063
@@ -1111,7 +1111,7 @@ def choiceSeq064 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨0, by decide⟩)
 
 def choiceCert064 : TranslationChoiceCert where
-  rank := 64
+  rank := 2
   word := word002
   signMask := ⟨0, by decide⟩
   seq := choiceSeq064
@@ -1128,7 +1128,7 @@ def choiceSeq065 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨1, by decide⟩)
 
 def choiceCert065 : TranslationChoiceCert where
-  rank := 65
+  rank := 2
   word := word002
   signMask := ⟨1, by decide⟩
   seq := choiceSeq065
@@ -1145,7 +1145,7 @@ def choiceSeq066 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨2, by decide⟩)
 
 def choiceCert066 : TranslationChoiceCert where
-  rank := 66
+  rank := 2
   word := word002
   signMask := ⟨2, by decide⟩
   seq := choiceSeq066
@@ -1162,7 +1162,7 @@ def choiceSeq067 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨3, by decide⟩)
 
 def choiceCert067 : TranslationChoiceCert where
-  rank := 67
+  rank := 2
   word := word002
   signMask := ⟨3, by decide⟩
   seq := choiceSeq067
@@ -1179,7 +1179,7 @@ def choiceSeq068 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨4, by decide⟩)
 
 def choiceCert068 : TranslationChoiceCert where
-  rank := 68
+  rank := 2
   word := word002
   signMask := ⟨4, by decide⟩
   seq := choiceSeq068
@@ -1196,7 +1196,7 @@ def choiceSeq069 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨5, by decide⟩)
 
 def choiceCert069 : TranslationChoiceCert where
-  rank := 69
+  rank := 2
   word := word002
   signMask := ⟨5, by decide⟩
   seq := choiceSeq069
@@ -1213,7 +1213,7 @@ def choiceSeq070 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨6, by decide⟩)
 
 def choiceCert070 : TranslationChoiceCert where
-  rank := 70
+  rank := 2
   word := word002
   signMask := ⟨6, by decide⟩
   seq := choiceSeq070
@@ -1230,7 +1230,7 @@ def choiceSeq071 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨7, by decide⟩)
 
 def choiceCert071 : TranslationChoiceCert where
-  rank := 71
+  rank := 2
   word := word002
   signMask := ⟨7, by decide⟩
   seq := choiceSeq071
@@ -1247,7 +1247,7 @@ def choiceSeq072 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨8, by decide⟩)
 
 def choiceCert072 : TranslationChoiceCert where
-  rank := 72
+  rank := 2
   word := word002
   signMask := ⟨8, by decide⟩
   seq := choiceSeq072
@@ -1264,7 +1264,7 @@ def choiceSeq073 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨9, by decide⟩)
 
 def choiceCert073 : TranslationChoiceCert where
-  rank := 73
+  rank := 2
   word := word002
   signMask := ⟨9, by decide⟩
   seq := choiceSeq073
@@ -1281,7 +1281,7 @@ def choiceSeq074 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨10, by decide⟩)
 
 def choiceCert074 : TranslationChoiceCert where
-  rank := 74
+  rank := 2
   word := word002
   signMask := ⟨10, by decide⟩
   seq := choiceSeq074
@@ -1298,7 +1298,7 @@ def choiceSeq075 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨11, by decide⟩)
 
 def choiceCert075 : TranslationChoiceCert where
-  rank := 75
+  rank := 2
   word := word002
   signMask := ⟨11, by decide⟩
   seq := choiceSeq075
@@ -1315,7 +1315,7 @@ def choiceSeq076 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨12, by decide⟩)
 
 def choiceCert076 : TranslationChoiceCert where
-  rank := 76
+  rank := 2
   word := word002
   signMask := ⟨12, by decide⟩
   seq := choiceSeq076
@@ -1332,7 +1332,7 @@ def choiceSeq077 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨13, by decide⟩)
 
 def choiceCert077 : TranslationChoiceCert where
-  rank := 77
+  rank := 2
   word := word002
   signMask := ⟨13, by decide⟩
   seq := choiceSeq077
@@ -1349,7 +1349,7 @@ def choiceSeq078 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨14, by decide⟩)
 
 def choiceCert078 : TranslationChoiceCert where
-  rank := 78
+  rank := 2
   word := word002
   signMask := ⟨14, by decide⟩
   seq := choiceSeq078
@@ -1366,7 +1366,7 @@ def choiceSeq079 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨15, by decide⟩)
 
 def choiceCert079 : TranslationChoiceCert where
-  rank := 79
+  rank := 2
   word := word002
   signMask := ⟨15, by decide⟩
   seq := choiceSeq079
@@ -1383,7 +1383,7 @@ def choiceSeq080 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨16, by decide⟩)
 
 def choiceCert080 : TranslationChoiceCert where
-  rank := 80
+  rank := 2
   word := word002
   signMask := ⟨16, by decide⟩
   seq := choiceSeq080
@@ -1400,7 +1400,7 @@ def choiceSeq081 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨17, by decide⟩)
 
 def choiceCert081 : TranslationChoiceCert where
-  rank := 81
+  rank := 2
   word := word002
   signMask := ⟨17, by decide⟩
   seq := choiceSeq081
@@ -1417,7 +1417,7 @@ def choiceSeq082 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨18, by decide⟩)
 
 def choiceCert082 : TranslationChoiceCert where
-  rank := 82
+  rank := 2
   word := word002
   signMask := ⟨18, by decide⟩
   seq := choiceSeq082
@@ -1434,7 +1434,7 @@ def choiceSeq083 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨19, by decide⟩)
 
 def choiceCert083 : TranslationChoiceCert where
-  rank := 83
+  rank := 2
   word := word002
   signMask := ⟨19, by decide⟩
   seq := choiceSeq083
@@ -1451,7 +1451,7 @@ def choiceSeq084 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨20, by decide⟩)
 
 def choiceCert084 : TranslationChoiceCert where
-  rank := 84
+  rank := 2
   word := word002
   signMask := ⟨20, by decide⟩
   seq := choiceSeq084
@@ -1468,7 +1468,7 @@ def choiceSeq085 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨21, by decide⟩)
 
 def choiceCert085 : TranslationChoiceCert where
-  rank := 85
+  rank := 2
   word := word002
   signMask := ⟨21, by decide⟩
   seq := choiceSeq085
@@ -1485,7 +1485,7 @@ def choiceSeq086 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨22, by decide⟩)
 
 def choiceCert086 : TranslationChoiceCert where
-  rank := 86
+  rank := 2
   word := word002
   signMask := ⟨22, by decide⟩
   seq := choiceSeq086
@@ -1502,7 +1502,7 @@ def choiceSeq087 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨23, by decide⟩)
 
 def choiceCert087 : TranslationChoiceCert where
-  rank := 87
+  rank := 2
   word := word002
   signMask := ⟨23, by decide⟩
   seq := choiceSeq087
@@ -1519,7 +1519,7 @@ def choiceSeq088 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨24, by decide⟩)
 
 def choiceCert088 : TranslationChoiceCert where
-  rank := 88
+  rank := 2
   word := word002
   signMask := ⟨24, by decide⟩
   seq := choiceSeq088
@@ -1536,7 +1536,7 @@ def choiceSeq089 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨25, by decide⟩)
 
 def choiceCert089 : TranslationChoiceCert where
-  rank := 89
+  rank := 2
   word := word002
   signMask := ⟨25, by decide⟩
   seq := choiceSeq089
@@ -1553,7 +1553,7 @@ def choiceSeq090 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨26, by decide⟩)
 
 def choiceCert090 : TranslationChoiceCert where
-  rank := 90
+  rank := 2
   word := word002
   signMask := ⟨26, by decide⟩
   seq := choiceSeq090
@@ -1570,7 +1570,7 @@ def choiceSeq091 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨27, by decide⟩)
 
 def choiceCert091 : TranslationChoiceCert where
-  rank := 91
+  rank := 2
   word := word002
   signMask := ⟨27, by decide⟩
   seq := choiceSeq091
@@ -1587,7 +1587,7 @@ def choiceSeq092 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨28, by decide⟩)
 
 def choiceCert092 : TranslationChoiceCert where
-  rank := 92
+  rank := 2
   word := word002
   signMask := ⟨28, by decide⟩
   seq := choiceSeq092
@@ -1604,7 +1604,7 @@ def choiceSeq093 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨29, by decide⟩)
 
 def choiceCert093 : TranslationChoiceCert where
-  rank := 93
+  rank := 2
   word := word002
   signMask := ⟨29, by decide⟩
   seq := choiceSeq093
@@ -1621,7 +1621,7 @@ def choiceSeq094 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨30, by decide⟩)
 
 def choiceCert094 : TranslationChoiceCert where
-  rank := 94
+  rank := 2
   word := word002
   signMask := ⟨30, by decide⟩
   seq := choiceSeq094
@@ -1638,7 +1638,7 @@ def choiceSeq095 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨31, by decide⟩)
 
 def choiceCert095 : TranslationChoiceCert where
-  rank := 95
+  rank := 2
   word := word002
   signMask := ⟨31, by decide⟩
   seq := choiceSeq095
@@ -1655,7 +1655,7 @@ def choiceSeq096 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨32, by decide⟩)
 
 def choiceCert096 : TranslationChoiceCert where
-  rank := 96
+  rank := 2
   word := word002
   signMask := ⟨32, by decide⟩
   seq := choiceSeq096
@@ -1672,7 +1672,7 @@ def choiceSeq097 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨33, by decide⟩)
 
 def choiceCert097 : TranslationChoiceCert where
-  rank := 97
+  rank := 2
   word := word002
   signMask := ⟨33, by decide⟩
   seq := choiceSeq097
@@ -1689,7 +1689,7 @@ def choiceSeq098 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨34, by decide⟩)
 
 def choiceCert098 : TranslationChoiceCert where
-  rank := 98
+  rank := 2
   word := word002
   signMask := ⟨34, by decide⟩
   seq := choiceSeq098
@@ -1706,7 +1706,7 @@ def choiceSeq099 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨35, by decide⟩)
 
 def choiceCert099 : TranslationChoiceCert where
-  rank := 99
+  rank := 2
   word := word002
   signMask := ⟨35, by decide⟩
   seq := choiceSeq099
@@ -1723,7 +1723,7 @@ def choiceSeq100 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨36, by decide⟩)
 
 def choiceCert100 : TranslationChoiceCert where
-  rank := 100
+  rank := 2
   word := word002
   signMask := ⟨36, by decide⟩
   seq := choiceSeq100
@@ -1740,7 +1740,7 @@ def choiceSeq101 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨37, by decide⟩)
 
 def choiceCert101 : TranslationChoiceCert where
-  rank := 101
+  rank := 2
   word := word002
   signMask := ⟨37, by decide⟩
   seq := choiceSeq101
@@ -1757,7 +1757,7 @@ def choiceSeq102 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨38, by decide⟩)
 
 def choiceCert102 : TranslationChoiceCert where
-  rank := 102
+  rank := 2
   word := word002
   signMask := ⟨38, by decide⟩
   seq := choiceSeq102
@@ -1774,7 +1774,7 @@ def choiceSeq103 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨39, by decide⟩)
 
 def choiceCert103 : TranslationChoiceCert where
-  rank := 103
+  rank := 2
   word := word002
   signMask := ⟨39, by decide⟩
   seq := choiceSeq103
@@ -1791,7 +1791,7 @@ def choiceSeq104 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨40, by decide⟩)
 
 def choiceCert104 : TranslationChoiceCert where
-  rank := 104
+  rank := 2
   word := word002
   signMask := ⟨40, by decide⟩
   seq := choiceSeq104
@@ -1808,7 +1808,7 @@ def choiceSeq105 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨41, by decide⟩)
 
 def choiceCert105 : TranslationChoiceCert where
-  rank := 105
+  rank := 2
   word := word002
   signMask := ⟨41, by decide⟩
   seq := choiceSeq105
@@ -1825,7 +1825,7 @@ def choiceSeq106 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨42, by decide⟩)
 
 def choiceCert106 : TranslationChoiceCert where
-  rank := 106
+  rank := 2
   word := word002
   signMask := ⟨42, by decide⟩
   seq := choiceSeq106
@@ -1842,7 +1842,7 @@ def choiceSeq107 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨43, by decide⟩)
 
 def choiceCert107 : TranslationChoiceCert where
-  rank := 107
+  rank := 2
   word := word002
   signMask := ⟨43, by decide⟩
   seq := choiceSeq107
@@ -1859,7 +1859,7 @@ def choiceSeq108 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨44, by decide⟩)
 
 def choiceCert108 : TranslationChoiceCert where
-  rank := 108
+  rank := 2
   word := word002
   signMask := ⟨44, by decide⟩
   seq := choiceSeq108
@@ -1876,7 +1876,7 @@ def choiceSeq109 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨45, by decide⟩)
 
 def choiceCert109 : TranslationChoiceCert where
-  rank := 109
+  rank := 2
   word := word002
   signMask := ⟨45, by decide⟩
   seq := choiceSeq109
@@ -1893,7 +1893,7 @@ def choiceSeq110 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨46, by decide⟩)
 
 def choiceCert110 : TranslationChoiceCert where
-  rank := 110
+  rank := 2
   word := word002
   signMask := ⟨46, by decide⟩
   seq := choiceSeq110
@@ -1910,7 +1910,7 @@ def choiceSeq111 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨47, by decide⟩)
 
 def choiceCert111 : TranslationChoiceCert where
-  rank := 111
+  rank := 2
   word := word002
   signMask := ⟨47, by decide⟩
   seq := choiceSeq111
@@ -1927,7 +1927,7 @@ def choiceSeq112 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨48, by decide⟩)
 
 def choiceCert112 : TranslationChoiceCert where
-  rank := 112
+  rank := 2
   word := word002
   signMask := ⟨48, by decide⟩
   seq := choiceSeq112
@@ -1944,7 +1944,7 @@ def choiceSeq113 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨49, by decide⟩)
 
 def choiceCert113 : TranslationChoiceCert where
-  rank := 113
+  rank := 2
   word := word002
   signMask := ⟨49, by decide⟩
   seq := choiceSeq113
@@ -1961,7 +1961,7 @@ def choiceSeq114 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨50, by decide⟩)
 
 def choiceCert114 : TranslationChoiceCert where
-  rank := 114
+  rank := 2
   word := word002
   signMask := ⟨50, by decide⟩
   seq := choiceSeq114
@@ -1978,7 +1978,7 @@ def choiceSeq115 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨51, by decide⟩)
 
 def choiceCert115 : TranslationChoiceCert where
-  rank := 115
+  rank := 2
   word := word002
   signMask := ⟨51, by decide⟩
   seq := choiceSeq115
@@ -1995,7 +1995,7 @@ def choiceSeq116 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨52, by decide⟩)
 
 def choiceCert116 : TranslationChoiceCert where
-  rank := 116
+  rank := 2
   word := word002
   signMask := ⟨52, by decide⟩
   seq := choiceSeq116
@@ -2012,7 +2012,7 @@ def choiceSeq117 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨53, by decide⟩)
 
 def choiceCert117 : TranslationChoiceCert where
-  rank := 117
+  rank := 2
   word := word002
   signMask := ⟨53, by decide⟩
   seq := choiceSeq117
@@ -2029,7 +2029,7 @@ def choiceSeq118 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨54, by decide⟩)
 
 def choiceCert118 : TranslationChoiceCert where
-  rank := 118
+  rank := 2
   word := word002
   signMask := ⟨54, by decide⟩
   seq := choiceSeq118
@@ -2046,7 +2046,7 @@ def choiceSeq119 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨55, by decide⟩)
 
 def choiceCert119 : TranslationChoiceCert where
-  rank := 119
+  rank := 2
   word := word002
   signMask := ⟨55, by decide⟩
   seq := choiceSeq119
@@ -2063,7 +2063,7 @@ def choiceSeq120 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨56, by decide⟩)
 
 def choiceCert120 : TranslationChoiceCert where
-  rank := 120
+  rank := 2
   word := word002
   signMask := ⟨56, by decide⟩
   seq := choiceSeq120
@@ -2080,7 +2080,7 @@ def choiceSeq121 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨57, by decide⟩)
 
 def choiceCert121 : TranslationChoiceCert where
-  rank := 121
+  rank := 2
   word := word002
   signMask := ⟨57, by decide⟩
   seq := choiceSeq121
@@ -2097,7 +2097,7 @@ def choiceSeq122 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨58, by decide⟩)
 
 def choiceCert122 : TranslationChoiceCert where
-  rank := 122
+  rank := 2
   word := word002
   signMask := ⟨58, by decide⟩
   seq := choiceSeq122
@@ -2114,7 +2114,7 @@ def choiceSeq123 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨59, by decide⟩)
 
 def choiceCert123 : TranslationChoiceCert where
-  rank := 123
+  rank := 2
   word := word002
   signMask := ⟨59, by decide⟩
   seq := choiceSeq123
@@ -2131,7 +2131,7 @@ def choiceSeq124 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨60, by decide⟩)
 
 def choiceCert124 : TranslationChoiceCert where
-  rank := 124
+  rank := 2
   word := word002
   signMask := ⟨60, by decide⟩
   seq := choiceSeq124
@@ -2148,7 +2148,7 @@ def choiceSeq125 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨61, by decide⟩)
 
 def choiceCert125 : TranslationChoiceCert where
-  rank := 125
+  rank := 2
   word := word002
   signMask := ⟨61, by decide⟩
   seq := choiceSeq125
@@ -2165,7 +2165,7 @@ def choiceSeq126 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨62, by decide⟩)
 
 def choiceCert126 : TranslationChoiceCert where
-  rank := 126
+  rank := 2
   word := word002
   signMask := ⟨62, by decide⟩
   seq := choiceSeq126
@@ -2182,7 +2182,7 @@ def choiceSeq127 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word002 ⟨63, by decide⟩)
 
 def choiceCert127 : TranslationChoiceCert where
-  rank := 127
+  rank := 2
   word := word002
   signMask := ⟨63, by decide⟩
   seq := choiceSeq127
@@ -2199,7 +2199,7 @@ def choiceSeq128 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨0, by decide⟩)
 
 def choiceCert128 : TranslationChoiceCert where
-  rank := 128
+  rank := 3
   word := word003
   signMask := ⟨0, by decide⟩
   seq := choiceSeq128
@@ -2216,7 +2216,7 @@ def choiceSeq129 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨1, by decide⟩)
 
 def choiceCert129 : TranslationChoiceCert where
-  rank := 129
+  rank := 3
   word := word003
   signMask := ⟨1, by decide⟩
   seq := choiceSeq129
@@ -2233,7 +2233,7 @@ def choiceSeq130 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨2, by decide⟩)
 
 def choiceCert130 : TranslationChoiceCert where
-  rank := 130
+  rank := 3
   word := word003
   signMask := ⟨2, by decide⟩
   seq := choiceSeq130
@@ -2250,7 +2250,7 @@ def choiceSeq131 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨3, by decide⟩)
 
 def choiceCert131 : TranslationChoiceCert where
-  rank := 131
+  rank := 3
   word := word003
   signMask := ⟨3, by decide⟩
   seq := choiceSeq131
@@ -2267,7 +2267,7 @@ def choiceSeq132 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨4, by decide⟩)
 
 def choiceCert132 : TranslationChoiceCert where
-  rank := 132
+  rank := 3
   word := word003
   signMask := ⟨4, by decide⟩
   seq := choiceSeq132
@@ -2284,7 +2284,7 @@ def choiceSeq133 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨5, by decide⟩)
 
 def choiceCert133 : TranslationChoiceCert where
-  rank := 133
+  rank := 3
   word := word003
   signMask := ⟨5, by decide⟩
   seq := choiceSeq133
@@ -2301,7 +2301,7 @@ def choiceSeq134 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨6, by decide⟩)
 
 def choiceCert134 : TranslationChoiceCert where
-  rank := 134
+  rank := 3
   word := word003
   signMask := ⟨6, by decide⟩
   seq := choiceSeq134
@@ -2318,7 +2318,7 @@ def choiceSeq135 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨7, by decide⟩)
 
 def choiceCert135 : TranslationChoiceCert where
-  rank := 135
+  rank := 3
   word := word003
   signMask := ⟨7, by decide⟩
   seq := choiceSeq135
@@ -2335,7 +2335,7 @@ def choiceSeq136 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨8, by decide⟩)
 
 def choiceCert136 : TranslationChoiceCert where
-  rank := 136
+  rank := 3
   word := word003
   signMask := ⟨8, by decide⟩
   seq := choiceSeq136
@@ -2352,7 +2352,7 @@ def choiceSeq137 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨9, by decide⟩)
 
 def choiceCert137 : TranslationChoiceCert where
-  rank := 137
+  rank := 3
   word := word003
   signMask := ⟨9, by decide⟩
   seq := choiceSeq137
@@ -2369,7 +2369,7 @@ def choiceSeq138 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨10, by decide⟩)
 
 def choiceCert138 : TranslationChoiceCert where
-  rank := 138
+  rank := 3
   word := word003
   signMask := ⟨10, by decide⟩
   seq := choiceSeq138
@@ -2386,7 +2386,7 @@ def choiceSeq139 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨11, by decide⟩)
 
 def choiceCert139 : TranslationChoiceCert where
-  rank := 139
+  rank := 3
   word := word003
   signMask := ⟨11, by decide⟩
   seq := choiceSeq139
@@ -2403,7 +2403,7 @@ def choiceSeq140 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨12, by decide⟩)
 
 def choiceCert140 : TranslationChoiceCert where
-  rank := 140
+  rank := 3
   word := word003
   signMask := ⟨12, by decide⟩
   seq := choiceSeq140
@@ -2420,7 +2420,7 @@ def choiceSeq141 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨13, by decide⟩)
 
 def choiceCert141 : TranslationChoiceCert where
-  rank := 141
+  rank := 3
   word := word003
   signMask := ⟨13, by decide⟩
   seq := choiceSeq141
@@ -2437,7 +2437,7 @@ def choiceSeq142 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨14, by decide⟩)
 
 def choiceCert142 : TranslationChoiceCert where
-  rank := 142
+  rank := 3
   word := word003
   signMask := ⟨14, by decide⟩
   seq := choiceSeq142
@@ -2454,7 +2454,7 @@ def choiceSeq143 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨15, by decide⟩)
 
 def choiceCert143 : TranslationChoiceCert where
-  rank := 143
+  rank := 3
   word := word003
   signMask := ⟨15, by decide⟩
   seq := choiceSeq143
@@ -2471,7 +2471,7 @@ def choiceSeq144 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨16, by decide⟩)
 
 def choiceCert144 : TranslationChoiceCert where
-  rank := 144
+  rank := 3
   word := word003
   signMask := ⟨16, by decide⟩
   seq := choiceSeq144
@@ -2488,7 +2488,7 @@ def choiceSeq145 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨17, by decide⟩)
 
 def choiceCert145 : TranslationChoiceCert where
-  rank := 145
+  rank := 3
   word := word003
   signMask := ⟨17, by decide⟩
   seq := choiceSeq145
@@ -2505,7 +2505,7 @@ def choiceSeq146 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨18, by decide⟩)
 
 def choiceCert146 : TranslationChoiceCert where
-  rank := 146
+  rank := 3
   word := word003
   signMask := ⟨18, by decide⟩
   seq := choiceSeq146
@@ -2522,7 +2522,7 @@ def choiceSeq147 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨19, by decide⟩)
 
 def choiceCert147 : TranslationChoiceCert where
-  rank := 147
+  rank := 3
   word := word003
   signMask := ⟨19, by decide⟩
   seq := choiceSeq147
@@ -2539,7 +2539,7 @@ def choiceSeq148 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨20, by decide⟩)
 
 def choiceCert148 : TranslationChoiceCert where
-  rank := 148
+  rank := 3
   word := word003
   signMask := ⟨20, by decide⟩
   seq := choiceSeq148
@@ -2556,7 +2556,7 @@ def choiceSeq149 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨21, by decide⟩)
 
 def choiceCert149 : TranslationChoiceCert where
-  rank := 149
+  rank := 3
   word := word003
   signMask := ⟨21, by decide⟩
   seq := choiceSeq149
@@ -2573,7 +2573,7 @@ def choiceSeq150 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨22, by decide⟩)
 
 def choiceCert150 : TranslationChoiceCert where
-  rank := 150
+  rank := 3
   word := word003
   signMask := ⟨22, by decide⟩
   seq := choiceSeq150
@@ -2590,7 +2590,7 @@ def choiceSeq151 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨23, by decide⟩)
 
 def choiceCert151 : TranslationChoiceCert where
-  rank := 151
+  rank := 3
   word := word003
   signMask := ⟨23, by decide⟩
   seq := choiceSeq151
@@ -2607,7 +2607,7 @@ def choiceSeq152 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨24, by decide⟩)
 
 def choiceCert152 : TranslationChoiceCert where
-  rank := 152
+  rank := 3
   word := word003
   signMask := ⟨24, by decide⟩
   seq := choiceSeq152
@@ -2624,7 +2624,7 @@ def choiceSeq153 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨25, by decide⟩)
 
 def choiceCert153 : TranslationChoiceCert where
-  rank := 153
+  rank := 3
   word := word003
   signMask := ⟨25, by decide⟩
   seq := choiceSeq153
@@ -2641,7 +2641,7 @@ def choiceSeq154 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨26, by decide⟩)
 
 def choiceCert154 : TranslationChoiceCert where
-  rank := 154
+  rank := 3
   word := word003
   signMask := ⟨26, by decide⟩
   seq := choiceSeq154
@@ -2658,7 +2658,7 @@ def choiceSeq155 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨27, by decide⟩)
 
 def choiceCert155 : TranslationChoiceCert where
-  rank := 155
+  rank := 3
   word := word003
   signMask := ⟨27, by decide⟩
   seq := choiceSeq155
@@ -2675,7 +2675,7 @@ def choiceSeq156 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨28, by decide⟩)
 
 def choiceCert156 : TranslationChoiceCert where
-  rank := 156
+  rank := 3
   word := word003
   signMask := ⟨28, by decide⟩
   seq := choiceSeq156
@@ -2692,7 +2692,7 @@ def choiceSeq157 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨29, by decide⟩)
 
 def choiceCert157 : TranslationChoiceCert where
-  rank := 157
+  rank := 3
   word := word003
   signMask := ⟨29, by decide⟩
   seq := choiceSeq157
@@ -2709,7 +2709,7 @@ def choiceSeq158 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨30, by decide⟩)
 
 def choiceCert158 : TranslationChoiceCert where
-  rank := 158
+  rank := 3
   word := word003
   signMask := ⟨30, by decide⟩
   seq := choiceSeq158
@@ -2726,7 +2726,7 @@ def choiceSeq159 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨31, by decide⟩)
 
 def choiceCert159 : TranslationChoiceCert where
-  rank := 159
+  rank := 3
   word := word003
   signMask := ⟨31, by decide⟩
   seq := choiceSeq159
@@ -2743,7 +2743,7 @@ def choiceSeq160 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨32, by decide⟩)
 
 def choiceCert160 : TranslationChoiceCert where
-  rank := 160
+  rank := 3
   word := word003
   signMask := ⟨32, by decide⟩
   seq := choiceSeq160
@@ -2760,7 +2760,7 @@ def choiceSeq161 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨33, by decide⟩)
 
 def choiceCert161 : TranslationChoiceCert where
-  rank := 161
+  rank := 3
   word := word003
   signMask := ⟨33, by decide⟩
   seq := choiceSeq161
@@ -2777,7 +2777,7 @@ def choiceSeq162 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨34, by decide⟩)
 
 def choiceCert162 : TranslationChoiceCert where
-  rank := 162
+  rank := 3
   word := word003
   signMask := ⟨34, by decide⟩
   seq := choiceSeq162
@@ -2794,7 +2794,7 @@ def choiceSeq163 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨35, by decide⟩)
 
 def choiceCert163 : TranslationChoiceCert where
-  rank := 163
+  rank := 3
   word := word003
   signMask := ⟨35, by decide⟩
   seq := choiceSeq163
@@ -2811,7 +2811,7 @@ def choiceSeq164 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨36, by decide⟩)
 
 def choiceCert164 : TranslationChoiceCert where
-  rank := 164
+  rank := 3
   word := word003
   signMask := ⟨36, by decide⟩
   seq := choiceSeq164
@@ -2828,7 +2828,7 @@ def choiceSeq165 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨37, by decide⟩)
 
 def choiceCert165 : TranslationChoiceCert where
-  rank := 165
+  rank := 3
   word := word003
   signMask := ⟨37, by decide⟩
   seq := choiceSeq165
@@ -2845,7 +2845,7 @@ def choiceSeq166 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨38, by decide⟩)
 
 def choiceCert166 : TranslationChoiceCert where
-  rank := 166
+  rank := 3
   word := word003
   signMask := ⟨38, by decide⟩
   seq := choiceSeq166
@@ -2862,7 +2862,7 @@ def choiceSeq167 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨39, by decide⟩)
 
 def choiceCert167 : TranslationChoiceCert where
-  rank := 167
+  rank := 3
   word := word003
   signMask := ⟨39, by decide⟩
   seq := choiceSeq167
@@ -2879,7 +2879,7 @@ def choiceSeq168 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨40, by decide⟩)
 
 def choiceCert168 : TranslationChoiceCert where
-  rank := 168
+  rank := 3
   word := word003
   signMask := ⟨40, by decide⟩
   seq := choiceSeq168
@@ -2896,7 +2896,7 @@ def choiceSeq169 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨41, by decide⟩)
 
 def choiceCert169 : TranslationChoiceCert where
-  rank := 169
+  rank := 3
   word := word003
   signMask := ⟨41, by decide⟩
   seq := choiceSeq169
@@ -2913,7 +2913,7 @@ def choiceSeq170 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨42, by decide⟩)
 
 def choiceCert170 : TranslationChoiceCert where
-  rank := 170
+  rank := 3
   word := word003
   signMask := ⟨42, by decide⟩
   seq := choiceSeq170
@@ -2930,7 +2930,7 @@ def choiceSeq171 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨43, by decide⟩)
 
 def choiceCert171 : TranslationChoiceCert where
-  rank := 171
+  rank := 3
   word := word003
   signMask := ⟨43, by decide⟩
   seq := choiceSeq171
@@ -2947,7 +2947,7 @@ def choiceSeq172 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨44, by decide⟩)
 
 def choiceCert172 : TranslationChoiceCert where
-  rank := 172
+  rank := 3
   word := word003
   signMask := ⟨44, by decide⟩
   seq := choiceSeq172
@@ -2964,7 +2964,7 @@ def choiceSeq173 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨45, by decide⟩)
 
 def choiceCert173 : TranslationChoiceCert where
-  rank := 173
+  rank := 3
   word := word003
   signMask := ⟨45, by decide⟩
   seq := choiceSeq173
@@ -2981,7 +2981,7 @@ def choiceSeq174 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨46, by decide⟩)
 
 def choiceCert174 : TranslationChoiceCert where
-  rank := 174
+  rank := 3
   word := word003
   signMask := ⟨46, by decide⟩
   seq := choiceSeq174
@@ -2998,7 +2998,7 @@ def choiceSeq175 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨47, by decide⟩)
 
 def choiceCert175 : TranslationChoiceCert where
-  rank := 175
+  rank := 3
   word := word003
   signMask := ⟨47, by decide⟩
   seq := choiceSeq175
@@ -3015,7 +3015,7 @@ def choiceSeq176 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨48, by decide⟩)
 
 def choiceCert176 : TranslationChoiceCert where
-  rank := 176
+  rank := 3
   word := word003
   signMask := ⟨48, by decide⟩
   seq := choiceSeq176
@@ -3032,7 +3032,7 @@ def choiceSeq177 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨49, by decide⟩)
 
 def choiceCert177 : TranslationChoiceCert where
-  rank := 177
+  rank := 3
   word := word003
   signMask := ⟨49, by decide⟩
   seq := choiceSeq177
@@ -3049,7 +3049,7 @@ def choiceSeq178 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨50, by decide⟩)
 
 def choiceCert178 : TranslationChoiceCert where
-  rank := 178
+  rank := 3
   word := word003
   signMask := ⟨50, by decide⟩
   seq := choiceSeq178
@@ -3066,7 +3066,7 @@ def choiceSeq179 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨51, by decide⟩)
 
 def choiceCert179 : TranslationChoiceCert where
-  rank := 179
+  rank := 3
   word := word003
   signMask := ⟨51, by decide⟩
   seq := choiceSeq179
@@ -3083,7 +3083,7 @@ def choiceSeq180 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨52, by decide⟩)
 
 def choiceCert180 : TranslationChoiceCert where
-  rank := 180
+  rank := 3
   word := word003
   signMask := ⟨52, by decide⟩
   seq := choiceSeq180
@@ -3100,7 +3100,7 @@ def choiceSeq181 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨53, by decide⟩)
 
 def choiceCert181 : TranslationChoiceCert where
-  rank := 181
+  rank := 3
   word := word003
   signMask := ⟨53, by decide⟩
   seq := choiceSeq181
@@ -3117,7 +3117,7 @@ def choiceSeq182 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨54, by decide⟩)
 
 def choiceCert182 : TranslationChoiceCert where
-  rank := 182
+  rank := 3
   word := word003
   signMask := ⟨54, by decide⟩
   seq := choiceSeq182
@@ -3134,7 +3134,7 @@ def choiceSeq183 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨55, by decide⟩)
 
 def choiceCert183 : TranslationChoiceCert where
-  rank := 183
+  rank := 3
   word := word003
   signMask := ⟨55, by decide⟩
   seq := choiceSeq183
@@ -3151,7 +3151,7 @@ def choiceSeq184 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨56, by decide⟩)
 
 def choiceCert184 : TranslationChoiceCert where
-  rank := 184
+  rank := 3
   word := word003
   signMask := ⟨56, by decide⟩
   seq := choiceSeq184
@@ -3168,7 +3168,7 @@ def choiceSeq185 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨57, by decide⟩)
 
 def choiceCert185 : TranslationChoiceCert where
-  rank := 185
+  rank := 3
   word := word003
   signMask := ⟨57, by decide⟩
   seq := choiceSeq185
@@ -3185,7 +3185,7 @@ def choiceSeq186 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨58, by decide⟩)
 
 def choiceCert186 : TranslationChoiceCert where
-  rank := 186
+  rank := 3
   word := word003
   signMask := ⟨58, by decide⟩
   seq := choiceSeq186
@@ -3202,7 +3202,7 @@ def choiceSeq187 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨59, by decide⟩)
 
 def choiceCert187 : TranslationChoiceCert where
-  rank := 187
+  rank := 3
   word := word003
   signMask := ⟨59, by decide⟩
   seq := choiceSeq187
@@ -3219,7 +3219,7 @@ def choiceSeq188 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨60, by decide⟩)
 
 def choiceCert188 : TranslationChoiceCert where
-  rank := 188
+  rank := 3
   word := word003
   signMask := ⟨60, by decide⟩
   seq := choiceSeq188
@@ -3236,7 +3236,7 @@ def choiceSeq189 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨61, by decide⟩)
 
 def choiceCert189 : TranslationChoiceCert where
-  rank := 189
+  rank := 3
   word := word003
   signMask := ⟨61, by decide⟩
   seq := choiceSeq189
@@ -3253,7 +3253,7 @@ def choiceSeq190 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨62, by decide⟩)
 
 def choiceCert190 : TranslationChoiceCert where
-  rank := 190
+  rank := 3
   word := word003
   signMask := ⟨62, by decide⟩
   seq := choiceSeq190
@@ -3270,7 +3270,7 @@ def choiceSeq191 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word003 ⟨63, by decide⟩)
 
 def choiceCert191 : TranslationChoiceCert where
-  rank := 191
+  rank := 3
   word := word003
   signMask := ⟨63, by decide⟩
   seq := choiceSeq191
@@ -3287,7 +3287,7 @@ def choiceSeq192 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨0, by decide⟩)
 
 def choiceCert192 : TranslationChoiceCert where
-  rank := 192
+  rank := 5
   word := word005
   signMask := ⟨0, by decide⟩
   seq := choiceSeq192
@@ -3304,7 +3304,7 @@ def choiceSeq193 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨1, by decide⟩)
 
 def choiceCert193 : TranslationChoiceCert where
-  rank := 193
+  rank := 5
   word := word005
   signMask := ⟨1, by decide⟩
   seq := choiceSeq193
@@ -3321,7 +3321,7 @@ def choiceSeq194 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨2, by decide⟩)
 
 def choiceCert194 : TranslationChoiceCert where
-  rank := 194
+  rank := 5
   word := word005
   signMask := ⟨2, by decide⟩
   seq := choiceSeq194
@@ -3338,7 +3338,7 @@ def choiceSeq195 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨3, by decide⟩)
 
 def choiceCert195 : TranslationChoiceCert where
-  rank := 195
+  rank := 5
   word := word005
   signMask := ⟨3, by decide⟩
   seq := choiceSeq195
@@ -3355,7 +3355,7 @@ def choiceSeq196 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨4, by decide⟩)
 
 def choiceCert196 : TranslationChoiceCert where
-  rank := 196
+  rank := 5
   word := word005
   signMask := ⟨4, by decide⟩
   seq := choiceSeq196
@@ -3372,7 +3372,7 @@ def choiceSeq197 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨5, by decide⟩)
 
 def choiceCert197 : TranslationChoiceCert where
-  rank := 197
+  rank := 5
   word := word005
   signMask := ⟨5, by decide⟩
   seq := choiceSeq197
@@ -3389,7 +3389,7 @@ def choiceSeq198 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨6, by decide⟩)
 
 def choiceCert198 : TranslationChoiceCert where
-  rank := 198
+  rank := 5
   word := word005
   signMask := ⟨6, by decide⟩
   seq := choiceSeq198
@@ -3406,7 +3406,7 @@ def choiceSeq199 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨7, by decide⟩)
 
 def choiceCert199 : TranslationChoiceCert where
-  rank := 199
+  rank := 5
   word := word005
   signMask := ⟨7, by decide⟩
   seq := choiceSeq199
@@ -3423,7 +3423,7 @@ def choiceSeq200 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨8, by decide⟩)
 
 def choiceCert200 : TranslationChoiceCert where
-  rank := 200
+  rank := 5
   word := word005
   signMask := ⟨8, by decide⟩
   seq := choiceSeq200
@@ -3440,7 +3440,7 @@ def choiceSeq201 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨9, by decide⟩)
 
 def choiceCert201 : TranslationChoiceCert where
-  rank := 201
+  rank := 5
   word := word005
   signMask := ⟨9, by decide⟩
   seq := choiceSeq201
@@ -3457,7 +3457,7 @@ def choiceSeq202 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨10, by decide⟩)
 
 def choiceCert202 : TranslationChoiceCert where
-  rank := 202
+  rank := 5
   word := word005
   signMask := ⟨10, by decide⟩
   seq := choiceSeq202
@@ -3474,7 +3474,7 @@ def choiceSeq203 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨11, by decide⟩)
 
 def choiceCert203 : TranslationChoiceCert where
-  rank := 203
+  rank := 5
   word := word005
   signMask := ⟨11, by decide⟩
   seq := choiceSeq203
@@ -3491,7 +3491,7 @@ def choiceSeq204 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨12, by decide⟩)
 
 def choiceCert204 : TranslationChoiceCert where
-  rank := 204
+  rank := 5
   word := word005
   signMask := ⟨12, by decide⟩
   seq := choiceSeq204
@@ -3508,7 +3508,7 @@ def choiceSeq205 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨13, by decide⟩)
 
 def choiceCert205 : TranslationChoiceCert where
-  rank := 205
+  rank := 5
   word := word005
   signMask := ⟨13, by decide⟩
   seq := choiceSeq205
@@ -3525,7 +3525,7 @@ def choiceSeq206 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨14, by decide⟩)
 
 def choiceCert206 : TranslationChoiceCert where
-  rank := 206
+  rank := 5
   word := word005
   signMask := ⟨14, by decide⟩
   seq := choiceSeq206
@@ -3542,7 +3542,7 @@ def choiceSeq207 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨15, by decide⟩)
 
 def choiceCert207 : TranslationChoiceCert where
-  rank := 207
+  rank := 5
   word := word005
   signMask := ⟨15, by decide⟩
   seq := choiceSeq207
@@ -3559,7 +3559,7 @@ def choiceSeq208 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨16, by decide⟩)
 
 def choiceCert208 : TranslationChoiceCert where
-  rank := 208
+  rank := 5
   word := word005
   signMask := ⟨16, by decide⟩
   seq := choiceSeq208
@@ -3576,7 +3576,7 @@ def choiceSeq209 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨17, by decide⟩)
 
 def choiceCert209 : TranslationChoiceCert where
-  rank := 209
+  rank := 5
   word := word005
   signMask := ⟨17, by decide⟩
   seq := choiceSeq209
@@ -3593,7 +3593,7 @@ def choiceSeq210 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨18, by decide⟩)
 
 def choiceCert210 : TranslationChoiceCert where
-  rank := 210
+  rank := 5
   word := word005
   signMask := ⟨18, by decide⟩
   seq := choiceSeq210
@@ -3610,7 +3610,7 @@ def choiceSeq211 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨19, by decide⟩)
 
 def choiceCert211 : TranslationChoiceCert where
-  rank := 211
+  rank := 5
   word := word005
   signMask := ⟨19, by decide⟩
   seq := choiceSeq211
@@ -3627,7 +3627,7 @@ def choiceSeq212 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨20, by decide⟩)
 
 def choiceCert212 : TranslationChoiceCert where
-  rank := 212
+  rank := 5
   word := word005
   signMask := ⟨20, by decide⟩
   seq := choiceSeq212
@@ -3644,7 +3644,7 @@ def choiceSeq213 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨21, by decide⟩)
 
 def choiceCert213 : TranslationChoiceCert where
-  rank := 213
+  rank := 5
   word := word005
   signMask := ⟨21, by decide⟩
   seq := choiceSeq213
@@ -3661,7 +3661,7 @@ def choiceSeq214 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨22, by decide⟩)
 
 def choiceCert214 : TranslationChoiceCert where
-  rank := 214
+  rank := 5
   word := word005
   signMask := ⟨22, by decide⟩
   seq := choiceSeq214
@@ -3678,7 +3678,7 @@ def choiceSeq215 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨23, by decide⟩)
 
 def choiceCert215 : TranslationChoiceCert where
-  rank := 215
+  rank := 5
   word := word005
   signMask := ⟨23, by decide⟩
   seq := choiceSeq215
@@ -3695,7 +3695,7 @@ def choiceSeq216 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨24, by decide⟩)
 
 def choiceCert216 : TranslationChoiceCert where
-  rank := 216
+  rank := 5
   word := word005
   signMask := ⟨24, by decide⟩
   seq := choiceSeq216
@@ -3712,7 +3712,7 @@ def choiceSeq217 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨25, by decide⟩)
 
 def choiceCert217 : TranslationChoiceCert where
-  rank := 217
+  rank := 5
   word := word005
   signMask := ⟨25, by decide⟩
   seq := choiceSeq217
@@ -3729,7 +3729,7 @@ def choiceSeq218 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨26, by decide⟩)
 
 def choiceCert218 : TranslationChoiceCert where
-  rank := 218
+  rank := 5
   word := word005
   signMask := ⟨26, by decide⟩
   seq := choiceSeq218
@@ -3746,7 +3746,7 @@ def choiceSeq219 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨27, by decide⟩)
 
 def choiceCert219 : TranslationChoiceCert where
-  rank := 219
+  rank := 5
   word := word005
   signMask := ⟨27, by decide⟩
   seq := choiceSeq219
@@ -3763,7 +3763,7 @@ def choiceSeq220 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨28, by decide⟩)
 
 def choiceCert220 : TranslationChoiceCert where
-  rank := 220
+  rank := 5
   word := word005
   signMask := ⟨28, by decide⟩
   seq := choiceSeq220
@@ -3780,7 +3780,7 @@ def choiceSeq221 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨29, by decide⟩)
 
 def choiceCert221 : TranslationChoiceCert where
-  rank := 221
+  rank := 5
   word := word005
   signMask := ⟨29, by decide⟩
   seq := choiceSeq221
@@ -3797,7 +3797,7 @@ def choiceSeq222 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨30, by decide⟩)
 
 def choiceCert222 : TranslationChoiceCert where
-  rank := 222
+  rank := 5
   word := word005
   signMask := ⟨30, by decide⟩
   seq := choiceSeq222
@@ -3814,7 +3814,7 @@ def choiceSeq223 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨31, by decide⟩)
 
 def choiceCert223 : TranslationChoiceCert where
-  rank := 223
+  rank := 5
   word := word005
   signMask := ⟨31, by decide⟩
   seq := choiceSeq223
@@ -3831,7 +3831,7 @@ def choiceSeq224 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨32, by decide⟩)
 
 def choiceCert224 : TranslationChoiceCert where
-  rank := 224
+  rank := 5
   word := word005
   signMask := ⟨32, by decide⟩
   seq := choiceSeq224
@@ -3848,7 +3848,7 @@ def choiceSeq225 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨33, by decide⟩)
 
 def choiceCert225 : TranslationChoiceCert where
-  rank := 225
+  rank := 5
   word := word005
   signMask := ⟨33, by decide⟩
   seq := choiceSeq225
@@ -3865,7 +3865,7 @@ def choiceSeq226 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨34, by decide⟩)
 
 def choiceCert226 : TranslationChoiceCert where
-  rank := 226
+  rank := 5
   word := word005
   signMask := ⟨34, by decide⟩
   seq := choiceSeq226
@@ -3882,7 +3882,7 @@ def choiceSeq227 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨35, by decide⟩)
 
 def choiceCert227 : TranslationChoiceCert where
-  rank := 227
+  rank := 5
   word := word005
   signMask := ⟨35, by decide⟩
   seq := choiceSeq227
@@ -3899,7 +3899,7 @@ def choiceSeq228 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨36, by decide⟩)
 
 def choiceCert228 : TranslationChoiceCert where
-  rank := 228
+  rank := 5
   word := word005
   signMask := ⟨36, by decide⟩
   seq := choiceSeq228
@@ -3916,7 +3916,7 @@ def choiceSeq229 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨37, by decide⟩)
 
 def choiceCert229 : TranslationChoiceCert where
-  rank := 229
+  rank := 5
   word := word005
   signMask := ⟨37, by decide⟩
   seq := choiceSeq229
@@ -3933,7 +3933,7 @@ def choiceSeq230 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨38, by decide⟩)
 
 def choiceCert230 : TranslationChoiceCert where
-  rank := 230
+  rank := 5
   word := word005
   signMask := ⟨38, by decide⟩
   seq := choiceSeq230
@@ -3950,7 +3950,7 @@ def choiceSeq231 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨39, by decide⟩)
 
 def choiceCert231 : TranslationChoiceCert where
-  rank := 231
+  rank := 5
   word := word005
   signMask := ⟨39, by decide⟩
   seq := choiceSeq231
@@ -3967,7 +3967,7 @@ def choiceSeq232 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨40, by decide⟩)
 
 def choiceCert232 : TranslationChoiceCert where
-  rank := 232
+  rank := 5
   word := word005
   signMask := ⟨40, by decide⟩
   seq := choiceSeq232
@@ -3984,7 +3984,7 @@ def choiceSeq233 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨41, by decide⟩)
 
 def choiceCert233 : TranslationChoiceCert where
-  rank := 233
+  rank := 5
   word := word005
   signMask := ⟨41, by decide⟩
   seq := choiceSeq233
@@ -4001,7 +4001,7 @@ def choiceSeq234 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨42, by decide⟩)
 
 def choiceCert234 : TranslationChoiceCert where
-  rank := 234
+  rank := 5
   word := word005
   signMask := ⟨42, by decide⟩
   seq := choiceSeq234
@@ -4018,7 +4018,7 @@ def choiceSeq235 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨43, by decide⟩)
 
 def choiceCert235 : TranslationChoiceCert where
-  rank := 235
+  rank := 5
   word := word005
   signMask := ⟨43, by decide⟩
   seq := choiceSeq235
@@ -4035,7 +4035,7 @@ def choiceSeq236 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨44, by decide⟩)
 
 def choiceCert236 : TranslationChoiceCert where
-  rank := 236
+  rank := 5
   word := word005
   signMask := ⟨44, by decide⟩
   seq := choiceSeq236
@@ -4052,7 +4052,7 @@ def choiceSeq237 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨45, by decide⟩)
 
 def choiceCert237 : TranslationChoiceCert where
-  rank := 237
+  rank := 5
   word := word005
   signMask := ⟨45, by decide⟩
   seq := choiceSeq237
@@ -4069,7 +4069,7 @@ def choiceSeq238 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨46, by decide⟩)
 
 def choiceCert238 : TranslationChoiceCert where
-  rank := 238
+  rank := 5
   word := word005
   signMask := ⟨46, by decide⟩
   seq := choiceSeq238
@@ -4086,7 +4086,7 @@ def choiceSeq239 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨47, by decide⟩)
 
 def choiceCert239 : TranslationChoiceCert where
-  rank := 239
+  rank := 5
   word := word005
   signMask := ⟨47, by decide⟩
   seq := choiceSeq239
@@ -4103,7 +4103,7 @@ def choiceSeq240 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨48, by decide⟩)
 
 def choiceCert240 : TranslationChoiceCert where
-  rank := 240
+  rank := 5
   word := word005
   signMask := ⟨48, by decide⟩
   seq := choiceSeq240
@@ -4120,7 +4120,7 @@ def choiceSeq241 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨49, by decide⟩)
 
 def choiceCert241 : TranslationChoiceCert where
-  rank := 241
+  rank := 5
   word := word005
   signMask := ⟨49, by decide⟩
   seq := choiceSeq241
@@ -4137,7 +4137,7 @@ def choiceSeq242 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨50, by decide⟩)
 
 def choiceCert242 : TranslationChoiceCert where
-  rank := 242
+  rank := 5
   word := word005
   signMask := ⟨50, by decide⟩
   seq := choiceSeq242
@@ -4154,7 +4154,7 @@ def choiceSeq243 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨51, by decide⟩)
 
 def choiceCert243 : TranslationChoiceCert where
-  rank := 243
+  rank := 5
   word := word005
   signMask := ⟨51, by decide⟩
   seq := choiceSeq243
@@ -4171,7 +4171,7 @@ def choiceSeq244 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨52, by decide⟩)
 
 def choiceCert244 : TranslationChoiceCert where
-  rank := 244
+  rank := 5
   word := word005
   signMask := ⟨52, by decide⟩
   seq := choiceSeq244
@@ -4188,7 +4188,7 @@ def choiceSeq245 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨53, by decide⟩)
 
 def choiceCert245 : TranslationChoiceCert where
-  rank := 245
+  rank := 5
   word := word005
   signMask := ⟨53, by decide⟩
   seq := choiceSeq245
@@ -4205,7 +4205,7 @@ def choiceSeq246 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨54, by decide⟩)
 
 def choiceCert246 : TranslationChoiceCert where
-  rank := 246
+  rank := 5
   word := word005
   signMask := ⟨54, by decide⟩
   seq := choiceSeq246
@@ -4222,7 +4222,7 @@ def choiceSeq247 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨55, by decide⟩)
 
 def choiceCert247 : TranslationChoiceCert where
-  rank := 247
+  rank := 5
   word := word005
   signMask := ⟨55, by decide⟩
   seq := choiceSeq247
@@ -4239,7 +4239,7 @@ def choiceSeq248 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨56, by decide⟩)
 
 def choiceCert248 : TranslationChoiceCert where
-  rank := 248
+  rank := 5
   word := word005
   signMask := ⟨56, by decide⟩
   seq := choiceSeq248
@@ -4256,7 +4256,7 @@ def choiceSeq249 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨57, by decide⟩)
 
 def choiceCert249 : TranslationChoiceCert where
-  rank := 249
+  rank := 5
   word := word005
   signMask := ⟨57, by decide⟩
   seq := choiceSeq249
@@ -4273,7 +4273,7 @@ def choiceSeq250 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨58, by decide⟩)
 
 def choiceCert250 : TranslationChoiceCert where
-  rank := 250
+  rank := 5
   word := word005
   signMask := ⟨58, by decide⟩
   seq := choiceSeq250
@@ -4290,7 +4290,7 @@ def choiceSeq251 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨59, by decide⟩)
 
 def choiceCert251 : TranslationChoiceCert where
-  rank := 251
+  rank := 5
   word := word005
   signMask := ⟨59, by decide⟩
   seq := choiceSeq251
@@ -4307,7 +4307,7 @@ def choiceSeq252 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨60, by decide⟩)
 
 def choiceCert252 : TranslationChoiceCert where
-  rank := 252
+  rank := 5
   word := word005
   signMask := ⟨60, by decide⟩
   seq := choiceSeq252
@@ -4324,7 +4324,7 @@ def choiceSeq253 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨61, by decide⟩)
 
 def choiceCert253 : TranslationChoiceCert where
-  rank := 253
+  rank := 5
   word := word005
   signMask := ⟨61, by decide⟩
   seq := choiceSeq253
@@ -4341,7 +4341,7 @@ def choiceSeq254 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨62, by decide⟩)
 
 def choiceCert254 : TranslationChoiceCert where
-  rank := 254
+  rank := 5
   word := word005
   signMask := ⟨62, by decide⟩
   seq := choiceSeq254
@@ -4358,7 +4358,7 @@ def choiceSeq255 : Vector Face 14 :=
   Vector.ofFn (translationChoiceSeq word005 ⟨63, by decide⟩)
 
 def choiceCert255 : TranslationChoiceCert where
-  rank := 255
+  rank := 5
   word := word005
   signMask := ⟨63, by decide⟩
   seq := choiceSeq255

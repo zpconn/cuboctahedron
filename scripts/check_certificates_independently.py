@@ -215,9 +215,10 @@ def check_payload(payload):
 
     nonidentity_records = payload["nonidentity_records"]
     require(len(nonidentity_records) == nonidentity_count, "nonidentity record count")
-    for expected_rank, record in enumerate(nonidentity_records):
-        require(record["rank"] == expected_rank, f"nonidentity rank {expected_rank}")
+    for expected_chunk_rank, record in enumerate(nonidentity_records):
+        require(record["chunk_rank"] == expected_chunk_rank, f"nonidentity chunk rank {expected_chunk_rank}")
         index = record["sample_index"]
+        require(record["rank"] == index - 1, f"nonidentity global rank {index}")
         word = record["word"]
         require(word == words_by_index[index], f"nonidentity word echo {index}")
         require(total_linear(word) != identity_matrix(), f"nonidentity classification {index}")
@@ -228,9 +229,13 @@ def check_payload(payload):
 
     translation_records = payload["translation_records"]
     require(len(translation_records) == identity_count * 64, "translation record count")
-    for expected_rank, record in enumerate(translation_records):
-        require(record["rank"] == expected_rank, f"translation rank {expected_rank}")
+    for expected_assignment_rank, record in enumerate(translation_records):
+        require(
+            record["assignment_rank"] == expected_assignment_rank,
+            f"translation assignment rank {expected_assignment_rank}",
+        )
         index = record["sample_index"]
+        require(record["rank"] == index - 1, f"translation global rank {index}")
         word = words_by_index[index]
         require(total_linear(word) == identity_matrix(), f"translation identity word {index}")
         mask = record["mask"]
