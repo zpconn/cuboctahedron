@@ -15,6 +15,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
+COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_dag.json"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -184,6 +185,26 @@ def require(condition, message):
         raise SystemExit(f"check failed: {message}")
 
 
+def expected_coverage_payload():
+    return {
+        "rootCounts": PAIR_COUNTS,
+        "startRank": 0,
+        "endRank": EXPECTED_PAIR_WORDS,
+        "pairWordCount": EXPECTED_PAIR_WORDS,
+        "signMaskCount": 64,
+        "coverageKind": "complete-pair-count-root",
+    }
+
+
+def check_coverage_payload(coverage):
+    expected = expected_coverage_payload()
+    require(coverage == expected, "coverage payload")
+    return {
+        "coverage_pair_words": coverage["pairWordCount"],
+        "coverage_sign_masks": coverage["signMaskCount"],
+    }
+
+
 def check_payload(payload):
     require(payload.get("schema_version") == 1, "schema version")
     require(payload.get("mode") == "small-sample", "mode")
@@ -194,6 +215,7 @@ def check_payload(payload):
         sanity["translation_sign_assignments"] == EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
         "translation sign-assignment sanity count",
     )
+    coverage_summary = check_coverage_payload(payload["coverage"])
 
     words_by_index = {}
     identity_count = 0
@@ -275,15 +297,33 @@ def check_payload(payload):
         "translation_sign_assignments_sampled": len(translation_records),
         "nonidentity_chunk_items": nonidentity_chunk["expectedItems"],
         "translation_chunk_items": translation_chunk["expectedItems"],
+        **coverage_summary,
     }
+
+
+def check_coverage_file(payload):
+    require(payload.get("schema_version") == 1, "coverage schema version")
+    require(payload.get("mode") == "coverage-dag", "coverage mode")
+    return check_coverage_payload(payload["coverage"])
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check the deterministic Step 12 sample")
+    parser.add_argument("--mode", choices=["small-sample", "coverage-dag"], help="check mode")
     args = parser.parse_args()
-    if not args.small_sample:
-        parser.error("only --small-sample is implemented in Step 12")
+    mode = args.mode or ("small-sample" if args.small_sample else None)
+    if mode is None:
+        parser.error("use --small-sample or --mode coverage-dag")
+    if mode == "coverage-dag":
+        payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_coverage_file(payload)
+        print("independent coverage check passed")
+        print(f"coverage pair words: {summary['coverage_pair_words']}")
+        print(f"coverage sign masks: {summary['coverage_sign_masks']}")
+        print(f"sanity identity linear words: {EXPECTED_IDENTITY_WORDS}")
+        print(f"sanity translation sign assignments: {EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}")
+        return
     payload = json.loads(JSON_PATH.read_text(encoding="utf-8"))
     summary = check_payload(payload)
     print("independent check passed")
@@ -293,6 +333,8 @@ def main():
     print(f"sample translation sign assignments: {summary['translation_sign_assignments_sampled']}")
     print(f"nonidentity chunk items: {summary['nonidentity_chunk_items']}")
     print(f"translation chunk items: {summary['translation_chunk_items']}")
+    print(f"coverage pair words: {summary['coverage_pair_words']}")
+    print(f"coverage sign masks: {summary['coverage_sign_masks']}")
     print(f"sanity pair words: {EXPECTED_PAIR_WORDS}")
     print(f"sanity identity linear words: {EXPECTED_IDENTITY_WORDS}")
     print(f"sanity translation sign assignments: {EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}")

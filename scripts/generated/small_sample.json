@@ -7251,6 +7251,22 @@
       "startRank": 0
     }
   },
+  "coverage": {
+    "coverageKind": "complete-pair-count-root",
+    "endRank": 97297200,
+    "pairWordCount": 97297200,
+    "rootCounts": {
+      "d111": 2,
+      "d11m": 2,
+      "d1m1": 2,
+      "dm11": 2,
+      "x": 1,
+      "y": 2,
+      "z": 2
+    },
+    "signMaskCount": 64,
+    "startRank": 0
+  },
   "expected_sanity_counts": {
     "identity_linear_words": 2468088,
     "pair_words": 97297200,

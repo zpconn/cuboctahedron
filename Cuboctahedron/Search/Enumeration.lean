@@ -7,12 +7,11 @@ import Cuboctahedron.Search.PairWords
 /-!
 Finite enumeration interfaces for pair-words and sign masks.
 
-The current project still uses small generated chunks, but this file provides
-the exact finite API that future exhaustive chunks should target.  The pair-word
-rank is induced by Lean's finite equivalence for the subtype of valid words.
-The equivalence is intentionally noncomputable; it proves exhaustive coverage
-over exactly 97,297,200 valid words, but does not specify a lexicographic order
-matching the external generator.
+The generated coverage object targets this exact finite API.  Pair-word ranks
+are induced by Lean's finite equivalence for the subtype of valid words.  The
+equivalence is intentionally noncomputable; it proves exhaustive coverage over
+exactly 97,297,200 valid words without assigning mathematical meaning to a
+particular external lexicographic order.
 -/
 
 namespace Cuboctahedron

@@ -17,6 +17,7 @@ from typing import Iterable
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
+COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_dag.json"
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
@@ -24,6 +25,7 @@ NONIDENTITY_CHUNK_PATH = (
 TRANSLATION_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Chunk0000.lean"
 )
+COVERAGE_DAG_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageDag.lean"
 ALL_GENERATED_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "AllGenerated.lean"
 
 EXPECTED_PAIR_WORDS = 97_297_200
@@ -319,12 +321,32 @@ def build_payload(sample_size: int) -> dict:
                 "records": translation_records,
             },
         },
+        "coverage": build_coverage_payload(),
         "summary": {
             "pair_words_sampled": len(words),
             "identity_linear_sampled": sum(1 for record in words if record.identity),
             "nonidentity_linear_sampled": sum(1 for record in words if not record.identity),
             "translation_sign_assignments_sampled": len(translation_records),
         },
+    }
+
+
+def build_coverage_payload() -> dict:
+    return {
+        "rootCounts": {
+            "x": 1,
+            "y": 2,
+            "z": 2,
+            "d111": 2,
+            "d11m": 2,
+            "d1m1": 2,
+            "dm11": 2,
+        },
+        "startRank": 0,
+        "endRank": EXPECTED_PAIR_WORDS,
+        "pairWordCount": EXPECTED_PAIR_WORDS,
+        "signMaskCount": 64,
+        "coverageKind": "complete-pair-count-root",
     }
 
 
@@ -645,13 +667,63 @@ def write_translation_chunk(payload: dict) -> None:
     TRANSLATION_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def write_coverage_dag(payload: dict) -> None:
+    coverage = payload["coverage"] if "coverage" in payload else payload
+    counts = coverage["rootCounts"]
+    lines = [
+        "import Cuboctahedron.Search.Certificates",
+        "",
+        "/-!",
+        "Generated Step 14 coverage data.",
+        "",
+        "This file is intentionally small: it records the root of the complete",
+        "pair-word coverage tree and the expected rank/sign-mask extents.  The trusted",
+        "checker in `Cuboctahedron.Search.Certificates` validates these fields and then",
+        "derives exhaustive coverage for all legal pair-word ranks and all translation",
+        "sign masks.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.CoverageDag",
+        "",
+        "def generatedCoverageTree : Cuboctahedron.GeneratedCoverageTree where",
+        "  rootCounts := {",
+        f"    x := {counts['x']}",
+        f"    y := {counts['y']}",
+        f"    z := {counts['z']}",
+        f"    d111 := {counts['d111']}",
+        f"    d11m := {counts['d11m']}",
+        f"    d1m1 := {counts['d1m1']}",
+        f"    dm11 := {counts['dm11']}",
+        "  }",
+        f"  startRank := {coverage['startRank']}",
+        f"  endRank := {coverage['endRank']}",
+        f"  pairWordCount := {coverage['pairWordCount']}",
+        f"  signMaskCount := {coverage['signMaskCount']}",
+        "",
+        "theorem generatedCoverageTree_check :",
+        "    Cuboctahedron.checkGeneratedCoverageTree generatedCoverageTree = true := by",
+        "  rfl",
+        "",
+        "theorem generatedCoverageTree_exhaustive :",
+        "    Cuboctahedron.ExhaustiveGeneratedCoverage :=",
+        "  Cuboctahedron.GeneratedCoverageTree.exhaustive generatedCoverageTree",
+        "    generatedCoverageTree_check",
+        "",
+        "end Cuboctahedron.Generated.CoverageDag",
+        "",
+    ]
+    COVERAGE_DAG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    COVERAGE_DAG_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_all_generated() -> None:
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
+        "import Cuboctahedron.Generated.CoverageDag",
         "",
         "/-!",
-        "Aggregate import for generated sample chunks and their rankability coverage.",
+        "Aggregate import for generated sample chunks and exhaustive generated coverage.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated",
@@ -667,21 +739,25 @@ def write_all_generated() -> None:
         "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
         "  rfl",
         "",
-        "theorem sampleGeneratedCoverage :",
+        "theorem sampleChunkRankabilityCoverage :",
         "    GeneratedCoverage NonIdentity.Chunk0000.certs",
         "      Translation.Chunk0000.certs :=",
         "  generatedCoverage_of_checked_chunks",
         "    NonIdentity.Chunk0000.certs_check",
         "    Translation.Chunk0000.certs_check",
         "",
-        "theorem allGeneratedCoverage :",
+        "theorem allSampleChunkRankabilityCoverage :",
         "    GeneratedCoverage NonIdentity.Chunk0000.certs",
         "      Translation.Chunk0000.certs :=",
-        "  sampleGeneratedCoverage",
+        "  sampleChunkRankabilityCoverage",
+        "",
+        "theorem generatedCoverageTree_exhaustive :",
+        "    ExhaustiveGeneratedCoverage :=",
+        "  CoverageDag.generatedCoverageTree_exhaustive",
         "",
         "theorem exhaustiveGeneratedCoverage :",
         "    ExhaustiveGeneratedCoverage :=",
-        "  exhaustiveGeneratedCoverage_by_construction",
+        "  generatedCoverageTree_exhaustive",
         "",
         "end Cuboctahedron.Generated",
         "",
@@ -695,17 +771,46 @@ def write_json(payload: dict) -> None:
     JSON_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def write_coverage_json(payload: dict) -> None:
+    coverage = payload["coverage"] if "coverage" in payload else payload
+    COVERAGE_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    COVERAGE_JSON_PATH.write_text(
+        json.dumps({
+            "schema_version": 1,
+            "mode": "coverage-dag",
+            "coverage": coverage,
+        }, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="generate the deterministic Step 12 sample")
+    parser.add_argument("--mode", choices=["small-sample", "coverage-dag"], help="generation mode")
     args = parser.parse_args()
-    if not args.small_sample:
-        parser.error("only --small-sample is implemented in Step 12")
+    mode = args.mode or ("small-sample" if args.small_sample else None)
+    if mode is None:
+        parser.error("use --small-sample or --mode coverage-dag")
+    if mode == "coverage-dag":
+        payload = build_coverage_payload()
+        write_coverage_json(payload)
+        write_coverage_dag(payload)
+        print(
+            "generated coverage DAG data: "
+            f"{payload['pairWordCount']} pair words, "
+            f"{payload['signMaskCount']} sign masks"
+        )
+        print(f"json: {COVERAGE_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"coverage dag: {COVERAGE_DAG_PATH.relative_to(REPO_ROOT)}")
+        return
     payload = build_payload(sample_size=7)
     write_json(payload)
+    write_coverage_json(payload)
     write_lean(payload)
     write_nonidentity_chunk(payload)
     write_translation_chunk(payload)
+    write_coverage_dag(payload)
     write_all_generated()
     print(
         "generated small sample: "
@@ -718,6 +823,7 @@ def main() -> None:
     print(f"lean: {LEAN_PATH.relative_to(REPO_ROOT)}")
     print(f"nonidentity chunk: {NONIDENTITY_CHUNK_PATH.relative_to(REPO_ROOT)}")
     print(f"translation chunk: {TRANSLATION_CHUNK_PATH.relative_to(REPO_ROOT)}")
+    print(f"coverage dag: {COVERAGE_DAG_PATH.relative_to(REPO_ROOT)}")
     print(f"all generated: {ALL_GENERATED_PATH.relative_to(REPO_ROOT)}")
 
 

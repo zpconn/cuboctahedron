@@ -1,8 +1,9 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.Translation.Chunk0000
+import Cuboctahedron.Generated.CoverageDag
 
 /-!
-Aggregate import for generated sample chunks and exhaustive rank-indexed coverage.
+Aggregate import for generated sample chunks and exhaustive generated coverage.
 -/
 
 namespace Cuboctahedron.Generated
@@ -30,13 +31,12 @@ theorem allSampleChunkRankabilityCoverage :
       Translation.Chunk0000.certs :=
   sampleChunkRankabilityCoverage
 
-theorem rankIndexedGeneratedCoverage_exhaustive :
+theorem generatedCoverageTree_exhaustive :
     ExhaustiveGeneratedCoverage :=
-  Cuboctahedron.RankIndexedGeneratedCoverage.exhaustive
-    Cuboctahedron.rankIndexedGeneratedCoverage
+  CoverageDag.generatedCoverageTree_exhaustive
 
 theorem exhaustiveGeneratedCoverage :
     ExhaustiveGeneratedCoverage :=
-  rankIndexedGeneratedCoverage_exhaustive
+  generatedCoverageTree_exhaustive
 
 end Cuboctahedron.Generated

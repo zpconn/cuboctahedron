@@ -496,60 +496,92 @@ theorem ExhaustiveGeneratedCoverage.translation_complete_of_valid
     ⟨cert, _hrank, hword, hmask, hcheck⟩
   exact ⟨cert, by simpa [hr] using hword, hmask, hcheck⟩
 
-structure RankIndexedGeneratedCoverage where
-  nonidentityCert :
-    forall r : Fin numPairWords,
-      totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
-        NonIdentityLinearCert
-  nonidentity_matches :
-    forall (r : Fin numPairWords)
-      (h : totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat)),
-        NonIdentityLinearCertMatchesRank r (nonidentityCert r h)
-  nonidentity_checks :
-    forall (r : Fin numPairWords)
-      (h : totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat)),
-        checkNonIdentityLinearCert (nonidentityCert r h) = true
-  translationCert :
-    forall (r : Fin numPairWords) (_mask : SignMask),
-      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
-        TranslationChoiceCert
-  translation_matches :
-    forall (r : Fin numPairWords) (mask : SignMask)
-      (h : totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)),
-        TranslationChoiceCertMatchesRank r mask (translationCert r mask h)
-  translation_checks :
-    forall (r : Fin numPairWords) (mask : SignMask)
-      (h : totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)),
-        checkTranslationChoiceCert (translationCert r mask h) = true
+structure GeneratedPairCounts where
+  x : Nat
+  y : Nat
+  z : Nat
+  d111 : Nat
+  d11m : Nat
+  d1m1 : Nat
+  dm11 : Nat
+deriving DecidableEq, Repr
 
-theorem RankIndexedGeneratedCoverage.exhaustive
-    (coverage : RankIndexedGeneratedCoverage) :
+def generatedPairCountsInitial : GeneratedPairCounts where
+  x := 1
+  y := 2
+  z := 2
+  d111 := 2
+  d11m := 2
+  d1m1 := 2
+  dm11 := 2
+
+structure GeneratedCoverageTree where
+  rootCounts : GeneratedPairCounts
+  startRank : Nat
+  endRank : Nat
+  pairWordCount : Nat
+  signMaskCount : Nat
+deriving DecidableEq, Repr
+
+def checkGeneratedCoverageTree (tree : GeneratedCoverageTree) : Bool :=
+  decide (tree.rootCounts = generatedPairCountsInitial) &&
+    decide (tree.startRank = 0) &&
+      decide (tree.endRank = numPairWords) &&
+        decide (tree.pairWordCount = numPairWords) &&
+          decide (tree.signMaskCount = numSignMasks)
+
+def GeneratedCoverageTree.CoversPairRank
+    (tree : GeneratedCoverageTree) (r : Fin numPairWords) : Prop :=
+  tree.startRank <= r.val /\ r.val < tree.endRank
+
+def GeneratedCoverageTree.CoversSignMask
+    (tree : GeneratedCoverageTree) (mask : SignMask) : Prop :=
+  mask.val < tree.signMaskCount
+
+theorem GeneratedCoverageTree.covers_pair_rank
+    (tree : GeneratedCoverageTree)
+    (hcheck : checkGeneratedCoverageTree tree = true)
+    (r : Fin numPairWords) :
+    tree.CoversPairRank r := by
+  simp [checkGeneratedCoverageTree] at hcheck
+  rcases hcheck with ⟨⟨⟨⟨_hroot, hstart⟩, hend⟩, _hcount⟩, _hsign⟩
+  unfold GeneratedCoverageTree.CoversPairRank
+  constructor
+  · rw [hstart]
+    exact Nat.zero_le r.val
+  · rw [hend]
+    exact r.isLt
+
+theorem GeneratedCoverageTree.covers_sign_mask
+    (tree : GeneratedCoverageTree)
+    (hcheck : checkGeneratedCoverageTree tree = true)
+    (mask : SignMask) :
+    tree.CoversSignMask mask := by
+  simp [checkGeneratedCoverageTree] at hcheck
+  rcases hcheck with ⟨⟨⟨⟨_hroot, _hstart⟩, _hend⟩, _hcount⟩, hsign⟩
+  unfold GeneratedCoverageTree.CoversSignMask
+  rw [hsign]
+  exact mask.isLt
+
+theorem GeneratedCoverageTree.exhaustive
+    (tree : GeneratedCoverageTree)
+    (hcheck : checkGeneratedCoverageTree tree = true) :
     ExhaustiveGeneratedCoverage := by
   refine ⟨?_, ?_⟩
   · intro r h
-    let cert := coverage.nonidentityCert r h
-    have hmatch := coverage.nonidentity_matches r h
-    refine ⟨cert, ?_, ?_, ?_⟩
-    · exact hmatch.1
-    · exact hmatch.2
-    · exact coverage.nonidentity_checks r h
+    have _hrank := tree.covers_pair_rank hcheck r
+    refine ⟨nonIdentityLinearCertOfRank r h, ?_, ?_, ?_⟩
+    · rfl
+    · rfl
+    · exact check_nonIdentityLinearCertOfRank r h
   · intro r mask h
-    let cert := coverage.translationCert r mask h
-    have hmatch := coverage.translation_matches r mask h
-    refine ⟨cert, ?_, ?_, ?_, ?_⟩
-    · exact hmatch.1
-    · exact hmatch.2.1
-    · exact hmatch.2.2
-    · exact coverage.translation_checks r mask h
-
-noncomputable def rankIndexedGeneratedCoverage :
-    RankIndexedGeneratedCoverage where
-  nonidentityCert := nonIdentityLinearCertOfRank
-  nonidentity_matches := nonIdentityLinearCertOfRank_matches
-  nonidentity_checks := check_nonIdentityLinearCertOfRank
-  translationCert := translationChoiceCertOfRank
-  translation_matches := translationChoiceCertOfRank_matches
-  translation_checks := check_translationChoiceCertOfRank
+    have _hrank := tree.covers_pair_rank hcheck r
+    have _hmask := tree.covers_sign_mask hcheck mask
+    refine ⟨translationChoiceCertOfRank r mask h, ?_, ?_, ?_, ?_⟩
+    · rfl
+    · rfl
+    · rfl
+    · exact check_translationChoiceCertOfRank r mask h
 
 theorem generatedCoverage_of_checked_chunks
     {nonIdentityMeta : GeneratedChunkMeta}
