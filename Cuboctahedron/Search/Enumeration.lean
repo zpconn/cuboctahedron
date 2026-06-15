@@ -14,6 +14,13 @@ namespace Cuboctahedron
 
 def expectedNumPairWords : Nat := 97297200
 
+theorem expectedNumPairWords_formula :
+    expectedNumPairWords =
+      Nat.choose 13 1 * Nat.choose 12 2 * Nat.choose 10 2 *
+        Nat.choose 8 2 * Nat.choose 6 2 * Nat.choose 4 2 *
+          Nat.choose 2 2 := by
+  norm_num [expectedNumPairWords, Nat.choose]
+
 def pairWordEquivFn : PairWord ≃ (Fin 13 -> PairId) where
   toFun := Vector.get
   invFun := Vector.ofFn

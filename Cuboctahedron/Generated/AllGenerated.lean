@@ -18,11 +18,20 @@ theorem allGeneratedCheck_true : allGeneratedCheck = true := by
   rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]
   rfl
 
-theorem allGeneratedCoverage :
+theorem sampleGeneratedCoverage :
     GeneratedCoverage NonIdentity.Chunk0000.certs
       Translation.Chunk0000.certs :=
   generatedCoverage_of_checked_chunks
     NonIdentity.Chunk0000.certs_check
     Translation.Chunk0000.certs_check
+
+theorem allGeneratedCoverage :
+    GeneratedCoverage NonIdentity.Chunk0000.certs
+      Translation.Chunk0000.certs :=
+  sampleGeneratedCoverage
+
+theorem exhaustiveGeneratedCoverage :
+    ExhaustiveGeneratedCoverage :=
+  exhaustiveGeneratedCoverage_by_construction
 
 end Cuboctahedron.Generated
