@@ -35,6 +35,9 @@ def checkTranslationCert (cert : TranslationCert) : Bool :=
         (translationConstraints (canonicalSeqOfPairWord cert.word) cert.b)
         fcert
 
+def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
+  certs.all checkTranslationCert
+
 theorem checkTranslationCert_sound
     (cert : TranslationCert)
     (hcheck : checkTranslationCert cert = true) :
@@ -140,6 +143,9 @@ noncomputable def checkNonIdCert (cert : NonIdCert) : Bool :=
   | NonIdFailure.axisMissesStartInterior => false
   | NonIdFailure.badFirstHit => false
   | NonIdFailure.badHitInterior => false
+
+noncomputable def checkNonIdCerts (certs : Array NonIdCert) : Bool :=
+  certs.all checkNonIdCert
 
 theorem checkNonIdCert_sound
     (cert : NonIdCert)
