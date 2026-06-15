@@ -29,10 +29,7 @@ def checkTranslationCert (cert : TranslationCert) : Bool :=
   | TranslationFailure.badTranslationVector =>
       decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
   | TranslationFailure.badDirectionSign => false
-  | TranslationFailure.farkas fcert =>
-      checkFarkas
-        (translationConstraints (canonicalSeqOfPairWord cert.word) cert.b)
-        fcert
+  | TranslationFailure.farkas _fcert => false
 
 def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
   certs.toList.all checkTranslationCert
@@ -61,22 +58,6 @@ theorem checkTranslationCert_sound
       simp [checkTranslationCert, hfailure] at hcheck
   | farkas fcert =>
       simp [checkTranslationCert, hfailure] at hcheck
-      have hTransFeasible :
-          TranslationUnfoldedFeasible seq cert.b := {
-        feasible := hFeasible
-        startsXp := hRealize.startsXp
-      }
-      rcases translation_feasible_implies_constraints hTransFeasible with
-        ⟨y, z, hConstraints⟩
-      have hNoConstraints :=
-        checkFarkas_sound
-          (constraints :=
-            translationConstraints (canonicalSeqOfPairWord cert.word) cert.b)
-          (cert := fcert) hcheck
-      apply hNoConstraints
-      exact ⟨y, z, by
-        intro L hmem
-        exact hConstraints L (by simpa [translationConstraints] using hmem)⟩
 
 def faceVectorSeq (faces : Vector Face 14) : Step14 -> Face :=
   fun i => faces.get i

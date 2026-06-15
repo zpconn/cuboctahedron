@@ -80,6 +80,14 @@ def totalLinear (seq : Fin 14 -> Face) : Mat3 Rat :=
 @[simp] theorem totalLinear_eq_M (seq : Fin 14 -> Face) :
     totalLinear seq = (totalAff seq).M := rfl
 
+theorem totalAff_eq_finalPath (seq : Fin 14 -> Face) :
+    totalAff seq =
+      affCompose (pathPrefixAffNat seq 13) (faceReflectionQ (seq 0)) := by
+  unfold totalAff totalOrder composeFaceList pathPrefixAffNat
+  simp [composeFaceList, pathPrefixAffNat, affCompose_id_left,
+    affCompose_id_right]
+  repeat rw [← affCompose_assoc]
+
 def constantSeq (f : Face) : Fin 14 -> Face :=
   fun _ => f
 

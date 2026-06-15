@@ -75,6 +75,25 @@ theorem affCompose_apply {alpha : Type u} [CommSemiring alpha]
   apply Vec3.ext <;>
     simp [affApply, affCompose, matVec, matMul, vecAdd] <;> ring
 
+theorem affCompose_assoc {alpha : Type u} [CommSemiring alpha]
+    (A B C : Aff3 alpha) :
+    affCompose (affCompose A B) C = affCompose A (affCompose B C) := by
+  apply Aff3.ext
+  · apply Mat3.ext <;> simp [affCompose, matMul] <;> ring
+  · apply Vec3.ext <;> simp [affCompose, matVec, matMul, vecAdd] <;> ring
+
+theorem affCompose_id_left {alpha : Type u} [Semiring alpha] (A : Aff3 alpha) :
+    affCompose (affId : Aff3 alpha) A = A := by
+  apply Aff3.ext
+  · apply Mat3.ext <;> simp [affCompose, affId, matMul, matId]
+  · apply Vec3.ext <;> simp [affCompose, affId, matVec, matId, vecAdd]
+
+theorem affCompose_id_right {alpha : Type u} [Semiring alpha] (A : Aff3 alpha) :
+    affCompose A (affId : Aff3 alpha) = A := by
+  apply Aff3.ext
+  · apply Mat3.ext <;> simp [affCompose, affId, matMul, matId]
+  · apply Vec3.ext <;> simp [affCompose, affId, matVec, matId, vecAdd]
+
 theorem affApply_vecAdd_real
     (A : Aff3 Real) (p v : Vec3 Real) :
     affApply A (vecAdd p v) =

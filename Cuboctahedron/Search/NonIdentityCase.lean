@@ -23,7 +23,14 @@ structure NonIdentityAxisConstraints (seq : Step14 -> Face) : Prop where
   total_nonidentity : totalLinear seq ≠ (matId : Mat3 Rat)
   line_data :
     exists data : UnfoldedFeasibleData seq,
+      data.w ≠ zeroVec3R /\
       InFaceInterior (seq 0) data.p0 /\
+      linePoint data.p0 data.w 1 =
+        affApply (affRatToReal (totalAff seq)) data.p0 /\
+      matVec (affRatToReal (totalAff seq)).M data.w = data.w /\
+      (forall i : Impact15,
+        InUnfoldedImpactFaceInterior seq i
+          (linePoint data.p0 data.w (data.crossing_times i))) /\
         forall i : Step14,
           InUnfoldedFaceInterior seq i
             (linePoint data.p0 data.w
@@ -37,7 +44,8 @@ theorem unfolded_feasible_nonidentity_axis_constraints
   rcases hFeasible with ⟨data⟩
   exact {
     total_nonidentity := hNonIdentity
-    line_data := ⟨data, data.start_interior, data.hit_conditions⟩
+    line_data := ⟨data, data.nonzero, data.start_interior, data.endpoint_eq,
+      data.direction_fixed, data.impact_hit_conditions, data.hit_conditions⟩
   }
 
 @[simp] theorem pairAtStartedIndex_zero (w : PairWord) :

@@ -41,13 +41,18 @@ def xpStartConstraints : List StrictLin2 :=
    { a := -1, b := 1, c := 1 },
    { a := -1, b := -1, c := 1 }]
 
-def translationConstraints (_seq : Step14 -> Face) (_b : Vec3 Rat) :
+def translationVectorMarkerConstraint (b : Vec3 Rat) : StrictLin2 :=
+  { a := 0, b := 0, c := 1 + b.x * b.x + b.y * b.y + b.z * b.z }
+
+def translationConstraints (_seq : Step14 -> Face) (b : Vec3 Rat) :
     List StrictLin2 :=
-  xpStartConstraints
+  xpStartConstraints ++ [translationVectorMarkerConstraint b]
 
 structure TranslationUnfoldedFeasible (seq : Step14 -> Face) (b : Vec3 Rat) where
   feasible : UnfoldedFeasible seq
   startsXp : StartsXp seq
+  linear_id : totalLinear seq = (matId : Mat3 Rat)
+  translation_vector : (totalAff seq).b = b
 
 theorem xpStartConstraints_holds_of_interior {p : Vec3 Real}
     (h : InFaceInterior Face.xp p) :
@@ -84,8 +89,13 @@ theorem unfolded_feasible_translation_constraints
   have hStartInterior : InFaceInterior Face.xp data.p0 := by
     rw [← h.startsXp]
     exact data.start_interior
-  exact xpStartConstraints_holds_of_interior hStartInterior L (by
-    simpa [translationConstraints] using hmem)
+  simp [translationConstraints] at hmem
+  rcases hmem with hmem | hmem
+  · exact xpStartConstraints_holds_of_interior hStartInterior L hmem
+  · rcases hmem with rfl
+    simp [StrictLin2.Holds, StrictLin2.eval,
+      translationVectorMarkerConstraint]
+    nlinarith [sq_nonneg b.x, sq_nonneg b.y, sq_nonneg b.z]
 
 theorem translation_feasible_implies_constraints
     {seq : Step14 -> Face}
