@@ -263,6 +263,39 @@ theorem matVec_zeroVec3R (M : Mat3 Real) :
     matVec M zeroVec3R = zeroVec3R := by
   apply Vec3.ext <;> simp [matVec, zeroVec3R]
 
+structure NoFixedVectorWitness where
+  leftInverse : Mat3 Rat
+deriving DecidableEq, Repr
+
+def checkNoFixedVectorWitness
+    (M : Mat3 Rat) (witness : NoFixedVectorWitness) : Bool :=
+  decide (matMul witness.leftInverse (fixedPart M) = (matId : Mat3 Rat))
+
+theorem checkNoFixedVectorWitness_real_zero
+    {M : Mat3 Rat} {witness : NoFixedVectorWitness}
+    (hcheck : checkNoFixedVectorWitness M witness = true)
+    {w : Vec3 Real}
+    (hfix : matVec (M.map fun q => (q : Real)) w = w) :
+    w = zeroVec3R := by
+  have hleft :
+      matMul witness.leftInverse (fixedPart M) = (matId : Mat3 Rat) := by
+    simpa [checkNoFixedVectorWitness] using hcheck
+  have hleftR :
+      matMul (witness.leftInverse.map fun q => (q : Real))
+          ((fixedPart M).map fun q => (q : Real)) =
+        (matId : Mat3 Real) := by
+    rw [← matMul_ratToReal3, hleft]
+    apply Mat3.ext <;> simp [Mat3.map, matId]
+  have hz := fixedPart_real_zero_of_fixed M hfix
+  have hzero :
+      matVec
+          (matMul (witness.leftInverse.map fun q => (q : Real))
+            ((fixedPart M).map fun q => (q : Real))) w =
+        zeroVec3R := by
+    rw [matVec_matMul, hz, matVec_zeroVec3R]
+  rw [hleftR] at hzero
+  simpa [matId_matVec] using hzero
+
 theorem matVec_crossLeftMatrix_real (axis : Vec3 Rat) (v : Vec3 Real) :
     matVec ((crossLeftMatrix axis).map fun q => (q : Real)) v =
       cross (vecRatToReal axis) v := by

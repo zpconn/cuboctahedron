@@ -7,58 +7,6 @@ Translation-case certificate wrappers.
 
 namespace Cuboctahedron
 
-abbrev SeqRealizesTranslationChoice
-    (w : PairWord) (_mask : SignMask) (seq : Step14 -> Face) : Prop :=
-  SeqRealizesPairWord w seq
-
-inductive TranslationFailure
-  | badTranslationVector
-  | badDirectionSign
-  | farkas (cert : FarkasCert)
-deriving DecidableEq, Repr
-
-structure TranslationCert where
-  word : PairWord
-  signMask : SignMask
-  b : Vec3 Rat
-  failure : TranslationFailure
-deriving DecidableEq, Repr
-
-def checkTranslationCert (cert : TranslationCert) : Bool :=
-  match cert.failure with
-  | TranslationFailure.badTranslationVector =>
-      decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
-  | TranslationFailure.badDirectionSign => false
-  | TranslationFailure.farkas _fcert => false
-
-def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
-  certs.toList.all checkTranslationCert
-
-theorem checkTranslationCert_sound
-    (cert : TranslationCert)
-    (hcheck : checkTranslationCert cert = true) :
-    ¬ exists seq,
-      SeqRealizesTranslationChoice cert.word cert.signMask seq /\
-        totalLinear seq = (matId : Mat3 Rat) /\
-        UnfoldedFeasible seq := by
-  intro hbad
-  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
-  cases hfailure : cert.failure with
-  | badTranslationVector =>
-      simp [checkTranslationCert, hfailure] at hcheck
-      have hNonIdentity :
-          totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) :=
-        hcheck
-      have hWordLinear :
-          totalLinearOfPairWord cert.word = (matId : Mat3 Rat) := by
-        rw [← hRealize.linear_eq]
-        exact hLinear
-      exact hNonIdentity hWordLinear
-  | badDirectionSign =>
-      simp [checkTranslationCert, hfailure] at hcheck
-  | farkas fcert =>
-      simp [checkTranslationCert, hfailure] at hcheck
-
 def faceVectorSeq (faces : Vector Face 14) : Step14 -> Face :=
   fun i => faces.get i
 
@@ -69,12 +17,22 @@ def faceVectorSeq (faces : Vector Face 14) : Step14 -> Face :=
   change (Vector.ofFn seq)[i.val] = seq i
   exact Vector.getElem_ofFn i.isLt
 
+structure BadFirstHitWitness where
+  step : Step14
+deriving DecidableEq, Repr
+
+structure BadHitInteriorWitness where
+  impact : Impact15
+  badFace : Face
+deriving DecidableEq, Repr
+
 inductive NonIdFailure
-  | badDirectionSign
+  | noFixedAxis (witness : NoFixedVectorWitness)
+  | badDirectionSign (i : WordIndex)
   | badPairBalance
   | axisMissesStartInterior
-  | badFirstHit
-  | badHitInterior
+  | badFirstHit (witness : BadFirstHitWitness)
+  | badHitInterior (witness : BadHitInteriorWitness)
 deriving DecidableEq, Repr
 
 structure NonIdCert where
@@ -121,6 +79,30 @@ theorem nonIdCert_forcedSeq_exact_of_signed_normals
     faceVectorSeq cert.forcedSeq = seq :=
   seq_eq_of_start_and_signed_normals hStart hNormals
 
+def zeroVec3Q : Vec3 Rat :=
+  { x := 0, y := 0, z := 0 }
+
+def canonicalOffsetQ : PairId -> Rat
+  | PairId.x => 1
+  | PairId.y => 1
+  | PairId.z => 1
+  | PairId.d111 => 2
+  | PairId.d11m => 2
+  | PairId.d1m1 => 2
+  | PairId.dm11 => 2
+
+def pairReflectionDeltaQ (p : PairId) : Vec3 Rat :=
+  reflD (canonicalNormalQ p) (canonicalOffsetQ p)
+
+def pairPrefixLinearNat (w : PairWord) : Nat -> Mat3 Rat
+  | 0 => matId
+  | n + 1 =>
+      if h : n < 13 then
+        matMul (pairPrefixLinearNat w n)
+          (reflM (canonicalNormalQ (w.get ⟨n, h⟩)))
+      else
+        pairPrefixLinearNat w n
+
 noncomputable def checkNonIdCommon (cert : NonIdCert) : Bool := by
   classical
   exact decide (ValidPairWord cert.word) &&
@@ -136,17 +118,138 @@ noncomputable def checkNonIdPairBalanceFailure (cert : NonIdCert) : Bool := by
   exact decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)) &&
     decide (¬ ValidPairWord cert.word)
 
+noncomputable def checkNonIdNoFixedAxisFailure
+    (cert : NonIdCert) (witness : NoFixedVectorWitness) : Bool := by
+  classical
+  exact
+    if ValidPairWord cert.word then
+      if totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) then
+        checkNoFixedVectorWitness (totalLinearOfPairWord cert.word) witness
+      else
+        false
+    else
+      false
+
+def wordImpact (i : WordIndex) : Impact15 :=
+  (afterStart i).castSucc
+
+@[simp] theorem impactFace_wordImpact
+    (seq : Step14 -> Face) (i : WordIndex) :
+    impactFace seq (wordImpact i) = seq (afterStart i) := by
+  unfold impactFace wordImpact afterStart
+  have hlt : i.val + 1 < 14 := Nat.succ_lt_succ i.isLt
+  simp [hlt]
+
+def AxisDotZeroAtWord
+    (w : PairWord) (axis : Vec3 Rat) (i : WordIndex) : Prop :=
+  forall f : Face,
+    pairOfFace f = w.get i ->
+      dot (matVec (pairPrefixLinearNat w i.val) (normalQ f)) axis = 0
+
+def finalAxisDotQ (w : PairWord) (axis : Vec3 Rat) : Rat :=
+  dot (matVec (pairPrefixLinearNat w 13) (normalQ Face.xp)) axis
+
+def AxisForcesForcedSeq
+    (w : PairWord) (axis : Vec3 Rat) (forcedSeq : Step14 -> Face) : Prop :=
+  StartsXp forcedSeq /\
+    PairWordMatchesSeq w forcedSeq /\
+      0 < finalAxisDotQ w axis /\
+        forall i : WordIndex, forall f : Face,
+          pairOfFace f = w.get i ->
+            0 < dot (matVec (pairPrefixLinearNat w i.val) (normalQ f)) axis ->
+              normalQ (forcedSeq (afterStart i)) = normalQ f
+
+def candidateWQ (seq : Step14 -> Face) (p0 : Vec3 Rat) : Vec3 Rat :=
+  vecSub (affApply (totalAff seq) p0) p0
+
+def candidateLinePointQ (p0 w : Vec3 Rat) (t : Rat) : Vec3 Rat :=
+  vecAdd p0 (scalarMul t w)
+
+def candidateImpactDenomQ
+    (seq : Step14 -> Face) (w : Vec3 Rat) (i : Impact15) : Rat :=
+  dot (impactPlaneNormalQ seq i) w
+
+def candidateImpactTimeQ
+    (seq : Step14 -> Face) (p0 w : Vec3 Rat) (i : Impact15) : Rat :=
+  if i = (0 : Impact15) then
+    0
+  else if i = lastImpact then
+    1
+  else
+    (impactPlaneOffsetQ seq i - dot (impactPlaneNormalQ seq i) p0) /
+      candidateImpactDenomQ seq w i
+
+def CandidateOrderingFails
+    (seq : Step14 -> Face) (p0 w : Vec3 Rat)
+    (witness : BadFirstHitWitness) : Prop :=
+  candidateImpactTimeQ seq p0 w (nextImpact witness.step) <=
+    candidateImpactTimeQ seq p0 w witness.step.castSucc
+
+def CandidateHitInteriorFails
+    (seq : Step14 -> Face) (p0 w : Vec3 Rat)
+    (witness : BadHitInteriorWitness) : Prop :=
+  witness.badFace ≠ impactFace seq witness.impact /\
+    copiedOffsetQ seq witness.impact witness.badFace <=
+      dot (copiedNormalQ seq witness.impact witness.badFace)
+        (candidateLinePointQ p0 w
+          (candidateImpactTimeQ seq p0 w witness.impact))
+
+noncomputable def checkAxisDotZeroAtWord
+    (w : PairWord) (axis : Vec3 Rat) (i : WordIndex) : Bool := by
+  classical
+  exact decide (AxisDotZeroAtWord w axis i)
+
+noncomputable def checkAxisForcesForcedSeq (cert : NonIdCert) : Bool := by
+  classical
+  exact decide (AxisForcesForcedSeq cert.word cert.axis
+    (faceVectorSeq cert.forcedSeq))
+
+noncomputable def checkNonIdBadDirectionSignFailure
+    (cert : NonIdCert) (i : WordIndex) : Bool := by
+  classical
+  exact decide (ValidPairWord cert.word) &&
+    decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)) &&
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel &&
+        checkAxisDotZeroAtWord cert.word cert.axis i
+
 noncomputable def checkNonIdAxisMissesStartInteriorData (cert : NonIdCert) : Bool := by
   classical
-  exact checkNonIdCommon cert && decide (¬ XpStartInteriorQ cert.p0)
+  exact checkNonIdCommon cert &&
+    checkAxisForcesForcedSeq cert &&
+      decide (¬ XpStartInteriorQ cert.p0)
+
+noncomputable def checkNonIdBadFirstHitData
+    (cert : NonIdCert) (witness : BadFirstHitWitness) : Bool := by
+  classical
+  let seq := faceVectorSeq cert.forcedSeq
+  let w := candidateWQ seq cert.p0
+  exact checkNonIdCommon cert &&
+    checkAxisForcesForcedSeq cert &&
+      decide (CandidateOrderingFails seq cert.p0 w witness)
+
+noncomputable def checkNonIdBadHitInteriorData
+    (cert : NonIdCert) (witness : BadHitInteriorWitness) : Bool := by
+  classical
+  let seq := faceVectorSeq cert.forcedSeq
+  let w := candidateWQ seq cert.p0
+  exact checkNonIdCommon cert &&
+    checkAxisForcesForcedSeq cert &&
+      decide (CandidateHitInteriorFails seq cert.p0 w witness)
 
 noncomputable def checkNonIdCert (cert : NonIdCert) : Bool :=
   match cert.failure with
+  | NonIdFailure.noFixedAxis witness =>
+      checkNonIdNoFixedAxisFailure cert witness
   | NonIdFailure.badPairBalance => checkNonIdPairBalanceFailure cert
-  | NonIdFailure.badDirectionSign => false
-  | NonIdFailure.axisMissesStartInterior => false
-  | NonIdFailure.badFirstHit => false
-  | NonIdFailure.badHitInterior => false
+  | NonIdFailure.badDirectionSign i =>
+      checkNonIdBadDirectionSignFailure cert i
+  | NonIdFailure.axisMissesStartInterior =>
+      checkNonIdAxisMissesStartInteriorData cert
+  | NonIdFailure.badFirstHit witness =>
+      checkNonIdBadFirstHitData cert witness
+  | NonIdFailure.badHitInterior witness =>
+      checkNonIdBadHitInteriorData cert witness
 
 noncomputable def checkNonIdCerts (certs : Array NonIdCert) : Bool :=
   certs.toList.all checkNonIdCert
@@ -181,30 +284,6 @@ noncomputable def checkNonIdentityChunk
     (chunkMeta : GeneratedChunkMeta)
     (certs : Array NonIdentityLinearCert) : Bool :=
   checkChunkMeta chunkMeta certs.size && checkNonIdentityLinearCerts certs
-
-def zeroVec3Q : Vec3 Rat :=
-  { x := 0, y := 0, z := 0 }
-
-def canonicalOffsetQ : PairId -> Rat
-  | PairId.x => 1
-  | PairId.y => 1
-  | PairId.z => 1
-  | PairId.d111 => 2
-  | PairId.d11m => 2
-  | PairId.d1m1 => 2
-  | PairId.dm11 => 2
-
-def pairReflectionDeltaQ (p : PairId) : Vec3 Rat :=
-  reflD (canonicalNormalQ p) (canonicalOffsetQ p)
-
-def pairPrefixLinearNat (w : PairWord) : Nat -> Mat3 Rat
-  | 0 => matId
-  | n + 1 =>
-      if h : n < 13 then
-        matMul (pairPrefixLinearNat w n)
-          (reflM (canonicalNormalQ (w.get ⟨n, h⟩)))
-      else
-        pairPrefixLinearNat w n
 
 def countPairBeforeNat (w : PairWord) (p : PairId) : Nat -> Nat
   | 0 => 0
@@ -267,6 +346,175 @@ def translationVectorOfChoice
 def TranslationSeqMatches
     (w : PairWord) (mask : SignMask) (seq : Vector Face 14) : Prop :=
   forall i : Step14, faceVectorSeq seq i = translationChoiceSeq w mask i
+
+structure SeqRealizesTranslationChoice
+    (w : PairWord) (mask : SignMask) (seq : Step14 -> Face) : Prop where
+  realizes : SeqRealizesPairWord w seq
+  choice_matches : forall i : Step14, seq i = translationChoiceSeq w mask i
+
+theorem SeqRealizesTranslationChoice.linear_eq
+    {w : PairWord} {mask : SignMask} {seq : Step14 -> Face}
+    (h : SeqRealizesTranslationChoice w mask seq) :
+    totalLinear seq = totalLinearOfPairWord w :=
+  h.realizes.linear_eq
+
+theorem translationChoiceSeq_starts
+    (w : PairWord) (mask : SignMask) :
+    StartsXp (translationChoiceSeq w mask) := by
+  simp [StartsXp, translationChoiceSeq]
+
+theorem translationChoiceSeq_pair_matches
+    (w : PairWord) (mask : SignMask) :
+    PairWordMatchesSeq w (translationChoiceSeq w mask) := by
+  intro i
+  simp [translationChoiceSeq, afterStart_ne_zero i]
+
+inductive TranslationFailure
+  | badTranslationVector
+  | badDirectionSign (i : Impact15)
+  | farkas (cert : FarkasCert)
+deriving DecidableEq, Repr
+
+structure TranslationCert where
+  word : PairWord
+  signMask : SignMask
+  seq : Vector Face 14
+  b : Vec3 Rat
+  failure : TranslationFailure
+deriving DecidableEq, Repr
+
+def TranslationCert.seqFun (cert : TranslationCert) : Step14 -> Face :=
+  faceVectorSeq cert.seq
+
+noncomputable def checkTranslationCommon (cert : TranslationCert) : Bool := by
+  classical
+  exact decide (ValidPairWord cert.word) &&
+    decide (totalLinearOfPairWord cert.word = (matId : Mat3 Rat)) &&
+    decide (TranslationSeqMatches cert.word cert.signMask cert.seq) &&
+    decide ((totalAff cert.seqFun).b = cert.b)
+
+noncomputable def checkTranslationCert (cert : TranslationCert) : Bool :=
+  match cert.failure with
+  | TranslationFailure.badTranslationVector =>
+      checkTranslationCommon cert && decide (cert.b = zeroVec3Q)
+  | TranslationFailure.badDirectionSign i =>
+      checkTranslationCommon cert &&
+        decide (i ≠ (0 : Impact15)) &&
+          decide (i ≠ lastImpact) &&
+            decide (impactDenom cert.seqFun cert.b i <= 0)
+  | TranslationFailure.farkas fcert =>
+      checkTranslationCommon cert &&
+        checkFarkas (translationConstraints cert.seqFun cert.b) fcert
+
+noncomputable def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
+  certs.toList.all checkTranslationCert
+
+theorem checkTranslationCommon_valid
+    (cert : TranslationCert)
+    (hcheck : checkTranslationCommon cert = true) :
+    ValidPairWord cert.word := by
+  simp [checkTranslationCommon] at hcheck
+  exact hcheck.1.1.1
+
+theorem checkTranslationCommon_linear
+    (cert : TranslationCert)
+    (hcheck : checkTranslationCommon cert = true) :
+    totalLinearOfPairWord cert.word = (matId : Mat3 Rat) := by
+  simp [checkTranslationCommon] at hcheck
+  exact hcheck.1.1.2
+
+theorem checkTranslationCommon_matches
+    (cert : TranslationCert)
+    (hcheck : checkTranslationCommon cert = true) :
+    TranslationSeqMatches cert.word cert.signMask cert.seq := by
+  simp [checkTranslationCommon] at hcheck
+  exact hcheck.1.2
+
+theorem checkTranslationCommon_b
+    (cert : TranslationCert)
+    (hcheck : checkTranslationCommon cert = true) :
+    (totalAff cert.seqFun).b = cert.b := by
+  simp [checkTranslationCommon] at hcheck
+  exact hcheck.2
+
+theorem seq_eq_translation_cert_seq
+    {cert : TranslationCert} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesTranslationChoice cert.word cert.signMask seq)
+    (hCommon : checkTranslationCommon cert = true) :
+    seq = cert.seqFun := by
+  funext i
+  have hcert := checkTranslationCommon_matches cert hCommon i
+  rw [hRealize.choice_matches i]
+  exact hcert.symm
+
+theorem translation_unfolded_feasible_of_cert
+    {cert : TranslationCert} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesTranslationChoice cert.word cert.signMask seq)
+    (hCommon : checkTranslationCommon cert = true)
+    (hFeasible : UnfoldedFeasible seq) :
+    TranslationUnfoldedFeasible seq cert.b := by
+  have hseq : seq = cert.seqFun :=
+    seq_eq_translation_cert_seq hRealize hCommon
+  refine {
+    feasible := hFeasible
+    startsXp := hRealize.realizes.startsXp
+    linear_id := ?_
+    translation_vector := ?_
+  }
+  · rw [hRealize.linear_eq]
+    exact checkTranslationCommon_linear cert hCommon
+  · rw [hseq]
+    exact checkTranslationCommon_b cert hCommon
+
+theorem checkTranslationCert_sound
+    (cert : TranslationCert)
+    (hcheck : checkTranslationCert cert = true) :
+    ¬ exists seq,
+      SeqRealizesTranslationChoice cert.word cert.signMask seq /\
+        totalLinear seq = (matId : Mat3 Rat) /\
+        UnfoldedFeasible seq := by
+  intro hbad
+  rcases hbad with ⟨seq, hRealize, _hLinear, hFeasible⟩
+  cases hfailure : cert.failure with
+  | badTranslationVector =>
+      simp [checkTranslationCert, hfailure] at hcheck
+      have hTrans :=
+        translation_unfolded_feasible_of_cert hRealize hcheck.1 hFeasible
+      rcases hTrans.feasible with ⟨data⟩
+      have hw : data.w = vecRatToReal cert.b :=
+        translation_direction_eq_of_endpoint data hTrans.linear_id
+          hTrans.translation_vector
+      have hbzero : cert.b = zeroVec3Q := hcheck.2
+      apply data.nonzero
+      rw [hw, hbzero]
+      apply Vec3.ext <;> simp [vecRatToReal, zeroVec3Q, zeroVec3R]
+  | badDirectionSign i =>
+      simp [checkTranslationCert, hfailure] at hcheck
+      rcases hcheck with ⟨⟨⟨hCommon, hi0⟩, hilast⟩, hdenNonpos⟩
+      have hseq : seq = cert.seqFun :=
+        seq_eq_translation_cert_seq hRealize hCommon
+      have hTrans :=
+        translation_unfolded_feasible_of_cert hRealize hCommon hFeasible
+      have hdenPos :=
+        unfolded_feasible_translation_denominators_positive hTrans i hi0 hilast
+      have hdenPosCert : 0 < impactDenom cert.seqFun cert.b i := by
+        simpa [hseq] using hdenPos
+      exact not_le_of_gt hdenPosCert hdenNonpos
+  | farkas fcert =>
+      simp [checkTranslationCert, hfailure] at hcheck
+      rcases hcheck with ⟨hCommon, hFarkas⟩
+      have hseq : seq = cert.seqFun :=
+        seq_eq_translation_cert_seq hRealize hCommon
+      have hTrans :=
+        translation_unfolded_feasible_of_cert hRealize hCommon hFeasible
+      have hConstraints :=
+        translation_feasible_implies_constraints hTrans
+      have hConstraintsCert :
+          exists y z : Real,
+            forall L, L ∈ translationConstraints cert.seqFun cert.b ->
+              L.Holds y z := by
+        simpa [hseq] using hConstraints
+      exact checkFarkas_sound hFarkas hConstraintsCert
 
 structure TranslationChoiceCert where
   rank : Nat
@@ -634,6 +882,337 @@ theorem generatedCoverage_of_checked_chunks
     intro cert hmem
     exact TranslationChoiceCertHasRank.of_valid (hvalid cert hmem)
 
+theorem pathPrefixAffNat_M_eq_pairPrefixLinearNat
+    {seq : Step14 -> Face} {w : PairWord}
+    (hMatch : PairWordMatchesSeq w seq) :
+    forall n : Nat, n <= 13 ->
+      (pathPrefixAffNat seq n).M = pairPrefixLinearNat w n := by
+  intro n
+  induction n with
+  | zero =>
+      intro _hn
+      rfl
+  | succ n ih =>
+      intro hnSucc
+      have hn13 : n < 13 := by omega
+      have hsucc14 : n + 1 < 14 := by omega
+      have hface :
+          (faceReflectionQ (seq ⟨n + 1, hsucc14⟩)).M =
+            reflM (canonicalNormalQ (w.get ⟨n, hn13⟩)) := by
+        have hpair := hMatch ⟨n, hn13⟩
+        have hpair' :
+            pairOfFace (seq ⟨n + 1, hsucc14⟩) =
+              pairOfFace (faceOfPairSign (w.get ⟨n, hn13⟩) true) := by
+          simpa [afterStart] using hpair.symm
+        have hlin :=
+          faceReflection_linear_eq_of_pairOfFace_eq hpair'
+        simpa [faceReflectionQ, normalQ_faceOfPairSign_true]
+          using hlin
+      simp [pathPrefixAffNat, pairPrefixLinearNat, hsucc14, hn13,
+        ih (by omega), hface, affCompose]
+
+theorem dot_preImpactNormalR_axis_eq_pairPrefix
+    {seq : Step14 -> Face} {w : PairWord} {axis : Vec3 Rat}
+    (hMatch : PairWordMatchesSeq w seq)
+    (i : WordIndex) :
+    dot (preImpactNormalR seq (wordImpact i)) (vecRatToReal axis) =
+      ((dot
+        (matVec (pairPrefixLinearNat w i.val)
+          (normalQ (seq (afterStart i)))) axis : Rat) : Real) := by
+  have hPrefix :=
+    pathPrefixAffNat_M_eq_pairPrefixLinearNat (seq := seq) (w := w)
+      hMatch i.val (by omega)
+  unfold preImpactNormalR preImpactNormalQ preImpactCopyAff vecRatToReal
+  rw [impactFace_wordImpact]
+  change dot
+    ((matVec (pathPrefixAffNat seq ((wordImpact i).val - 1)).M
+      (normalQ (seq (afterStart i)))).map fun q => (q : Real))
+    (axis.map fun q => (q : Real)) =
+      ((dot
+        (matVec (pairPrefixLinearNat w i.val)
+          (normalQ (seq (afterStart i)))) axis : Rat) : Real)
+  have hSub : (wordImpact i).val - 1 = i.val := by
+    simp [wordImpact, afterStart]
+  rw [hSub, hPrefix]
+  simp [Vec3.map, dot]
+
+theorem dot_preImpactNormalR_axis_eq_finalAxis
+    {seq : Step14 -> Face} {w : PairWord} {axis : Vec3 Rat}
+    (hStart : StartsXp seq)
+    (hMatch : PairWordMatchesSeq w seq) :
+    dot (preImpactNormalR seq lastImpact) (vecRatToReal axis) =
+      ((finalAxisDotQ w axis : Rat) : Real) := by
+  have hPrefix :=
+    pathPrefixAffNat_M_eq_pairPrefixLinearNat (seq := seq) (w := w)
+      hMatch 13 (by omega)
+  unfold preImpactNormalR preImpactNormalQ preImpactCopyAff vecRatToReal
+  change dot
+    ((matVec (pathPrefixAffNat seq (lastImpact.val - 1)).M
+      (normalQ (impactFace seq lastImpact))).map fun q => (q : Real))
+    (axis.map fun q => (q : Real)) =
+      ((finalAxisDotQ w axis : Rat) : Real)
+  have hSub : lastImpact.val - 1 = 13 := by
+    simp [lastImpact]
+  have hFace : impactFace seq lastImpact = Face.xp := by
+    simpa [impactFace, lastImpact, StartsXp] using hStart
+  rw [hSub, hPrefix, hFace]
+  simp [finalAxisDotQ, Vec3.map, dot]
+
+theorem preImpactNormalQ_axis_zero_of_axisDotZeroAtWord
+    {seq : Step14 -> Face} {w : PairWord} {axis : Vec3 Rat}
+    (hMatch : PairWordMatchesSeq w seq)
+    {i : WordIndex}
+    (hzero : AxisDotZeroAtWord w axis i) :
+    dot (preImpactNormalQ seq (wordImpact i)) axis = 0 := by
+  have hPrefix :=
+    pathPrefixAffNat_M_eq_pairPrefixLinearNat (seq := seq) (w := w)
+      hMatch i.val (by omega)
+  have hpair : pairOfFace (seq (afterStart i)) = w.get i := by
+    exact (hMatch i).symm
+  have hzeroFace := hzero (seq (afterStart i)) hpair
+  unfold preImpactNormalQ preImpactCopyAff
+  rw [impactFace_wordImpact]
+  change dot
+    (matVec (pathPrefixAffNat seq ((wordImpact i).val - 1)).M
+      (normalQ (seq (afterStart i)))) axis = 0
+  have hSub : (wordImpact i).val - 1 = i.val := by
+    simp [wordImpact, afterStart]
+  rw [hSub, hPrefix]
+  exact hzeroFace
+
+theorem dot_preImpactNormalR_axis_zero_of_axisDotZeroAtWord
+    {seq : Step14 -> Face} {w : PairWord} {axis : Vec3 Rat}
+    (hMatch : PairWordMatchesSeq w seq)
+    {i : WordIndex}
+    (hzero : AxisDotZeroAtWord w axis i) :
+    dot (preImpactNormalR seq (wordImpact i)) (vecRatToReal axis) = 0 := by
+  have hzeroQ :=
+    preImpactNormalQ_axis_zero_of_axisDotZeroAtWord
+      (seq := seq) (w := w) (axis := axis) hMatch hzero
+  have hcast := congrArg (fun q : Rat => (q : Real)) hzeroQ
+  simpa [preImpactNormalR, vecRatToReal, Vec3.map, dot] using hcast
+
+theorem XpStartInteriorQ_of_real
+    {p : Vec3 Rat}
+    (h : InFaceInterior Face.xp (vecRatToReal p)) :
+    XpStartInteriorQ p := by
+  have hxR : (p.x : Real) = 1 := by
+    simpa [vecRatToReal, Vec3.map, normalR, normalQ, offsetR, offsetQ, dot]
+      using h.1
+  have hInteriorAtOne :
+      InFaceInterior Face.xp
+        { x := (1 : Real), y := (p.y : Real), z := (p.z : Real) } := by
+    simpa [vecRatToReal, Vec3.map, hxR] using h
+  have hDiamond :=
+    (xp_face_interior_iff (p.y : Real) (p.z : Real)).mp hInteriorAtOne
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · exact_mod_cast hxR
+  · exact_mod_cast hDiamond.1
+  · exact_mod_cast hDiamond.2.1
+  · exact_mod_cast hDiamond.2.2.1
+  · exact_mod_cast hDiamond.2.2.2
+
+theorem forcedSeq_eq_of_axisForces
+    {cert : NonIdCert} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord cert.word seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq)
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq)) :
+    faceVectorSeq cert.forcedSeq = seq := by
+  rcases hForces with
+    ⟨hForcedStart, _hForcedMatch, hFinalPositive, hForceSigns⟩
+  have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+    hRealize.linear_eq
+  rcases hAxisConstraints.line_data with
+    ⟨data, _hNonzero, _hStart, _hEnd, hFixed, _hForward, hForwardAll,
+      _hImpact, _hPreImpact, _hOpen, _hHit⟩
+  have hFixedWord :
+      matVec ((totalLinearOfPairWord cert.word).map fun q => (q : Real))
+          data.w = data.w := by
+    rw [← hSeqLinear]
+    simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+  have hCross :
+      cross (vecRatToReal cert.axis) data.w = zeroVec3R :=
+    checkKernelLineWitness_real_axisLine hKernel hFixedWord
+  have hAxisNonzero :
+      vecRatToReal cert.axis ≠ zeroVec3R :=
+    checkKernelLineWitness_axis_nonzero hKernel
+  rcases cross_eq_zero_scalar_of_axis_ne_zero hAxisNonzero hCross with
+    ⟨lambda, hParallel⟩
+  have hLastNeZero : lastImpact ≠ (0 : Impact15) := by
+    intro h
+    have hv := congrArg Fin.val h
+    simp [lastImpact] at hv
+  have hLastForward := hForwardAll lastImpact hLastNeZero
+  have hFinalAxisR :
+      0 < ((finalAxisDotQ cert.word cert.axis : Rat) : Real) := by
+    exact_mod_cast hFinalPositive
+  have hLastAxis :
+      dot (preImpactNormalR seq lastImpact)
+          (vecRatToReal cert.axis) =
+        ((finalAxisDotQ cert.word cert.axis : Rat) : Real) :=
+    dot_preImpactNormalR_axis_eq_finalAxis
+      (seq := seq) (w := cert.word) (axis := cert.axis)
+      hRealize.startsXp hRealize.pair_matches
+  have hLambdaPos : 0 < lambda := by
+    have hLastDot :
+        dot (preImpactNormalR seq lastImpact) data.w =
+          lambda *
+            dot (preImpactNormalR seq lastImpact)
+              (vecRatToReal cert.axis) := by
+      rw [hParallel]
+      simp [scalarMul, dot]
+      ring
+    rw [hLastDot, hLastAxis] at hLastForward
+    nlinarith
+  apply seq_eq_of_start_and_signed_normals
+  · rw [hForcedStart, hRealize.startsXp]
+  · intro j hj
+    let i : WordIndex := dropStart j hj
+    have hjEq : afterStart i = j := afterStart_dropStart j hj
+    have hi0 : wordImpact i ≠ (0 : Impact15) := by
+      intro h
+      have hv := congrArg Fin.val h
+      simp [wordImpact, afterStart] at hv
+    have hForward := hForwardAll (wordImpact i) hi0
+    have hAxisEq :
+        dot (preImpactNormalR seq (wordImpact i))
+            (vecRatToReal cert.axis) =
+          ((dot
+            (matVec (pairPrefixLinearNat cert.word i.val)
+              (normalQ (seq (afterStart i)))) cert.axis : Rat) : Real) :=
+      dot_preImpactNormalR_axis_eq_pairPrefix
+        (seq := seq) (w := cert.word) (axis := cert.axis)
+        hRealize.pair_matches i
+    have hDotW :
+        dot (preImpactNormalR seq (wordImpact i)) data.w =
+          lambda *
+            dot (preImpactNormalR seq (wordImpact i))
+              (vecRatToReal cert.axis) := by
+      rw [hParallel]
+      simp [scalarMul, dot]
+      ring
+    rw [hDotW, hAxisEq] at hForward
+    have hAxisPositiveQ :
+        0 <
+          dot
+            (matVec (pairPrefixLinearNat cert.word i.val)
+              (normalQ (seq (afterStart i)))) cert.axis := by
+      have hAxisPositiveR :
+          0 <
+            ((dot
+              (matVec (pairPrefixLinearNat cert.word i.val)
+                (normalQ (seq (afterStart i)))) cert.axis : Rat) : Real) := by
+        nlinarith
+      exact_mod_cast hAxisPositiveR
+    have hPair : pairOfFace (seq (afterStart i)) = cert.word.get i :=
+      (hRealize.pair_matches i).symm
+    have hNormal :=
+      hForceSigns i (seq (afterStart i)) hPair hAxisPositiveQ
+    rw [← hjEq]
+    exact hNormal
+
+theorem nonIdCert_forces_candidate_data
+    {cert : NonIdCert} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord cert.word seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq)
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel = true)
+    (hSolve :
+      checkAffineAxisSolveWitness (totalAff (faceVectorSeq cert.forcedSeq))
+        cert.axis cert.p0 cert.lambda cert.solve = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq)) :
+    exists data : UnfoldedFeasibleData seq,
+      faceVectorSeq cert.forcedSeq = seq /\
+        data.p0 = vecRatToReal cert.p0 /\
+          data.w = vecRatToReal (candidateWQ seq cert.p0) := by
+  have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+    hRealize.linear_eq
+  have hForcedEq : faceVectorSeq cert.forcedSeq = seq :=
+    forcedSeq_eq_of_axisForces
+      (cert := cert) (seq := seq) hRealize hAxisConstraints hKernel hForces
+  have hKernelSeq :
+      checkKernelLineWitness (totalLinear seq) cert.axis cert.kernel = true := by
+    rwa [hSeqLinear]
+  have hSolveSeq :
+      checkAffineAxisSolveWitness (totalAff seq)
+        cert.axis cert.p0 cert.lambda cert.solve = true := by
+    simpa [← hForcedEq] using hSolve
+  rcases
+    unfolded_feasible_nonidentity_forces_start_point
+      hAxisConstraints hRealize.startsXp hKernelSeq hSolveSeq with
+    ⟨data, hp0⟩
+  have hEnd := data.endpoint_eq
+  rw [hp0] at hEnd
+  have hx := congrArg Vec3.x hEnd
+  have hy := congrArg Vec3.y hEnd
+  have hz := congrArg Vec3.z hEnd
+  have hw :
+      data.w = vecRatToReal (candidateWQ seq cert.p0) := by
+    apply Vec3.ext
+    · simp [candidateWQ, vecRatToReal, Vec3.map, linePoint, vecAdd,
+        scalarMul, vecSub, affApply, affRatToReal, Aff3.map, Mat3.map,
+        matVec] at hx ⊢
+      linarith
+    · simp [candidateWQ, vecRatToReal, Vec3.map, linePoint, vecAdd,
+        scalarMul, vecSub, affApply, affRatToReal, Aff3.map, Mat3.map,
+        matVec] at hy ⊢
+      linarith
+    · simp [candidateWQ, vecRatToReal, Vec3.map, linePoint, vecAdd,
+        scalarMul, vecSub, affApply, affRatToReal, Aff3.map, Mat3.map,
+        matVec] at hz ⊢
+      linarith
+  exact ⟨data, hForcedEq, hp0, hw⟩
+
+theorem candidateImpactTimeQ_eq_crossing_time
+    {seq : Step14 -> Face} {p0 wq : Vec3 Rat}
+    {data : UnfoldedFeasibleData seq} (i : Impact15)
+    (hp0 : data.p0 = vecRatToReal p0)
+    (hw : data.w = vecRatToReal wq) :
+    data.crossing_times i =
+      (candidateImpactTimeQ seq p0 wq i : Real) := by
+  by_cases hi0 : i = (0 : Impact15)
+  · subst i
+    simp [candidateImpactTimeQ, data.t0]
+  · by_cases hilast : i = lastImpact
+    · subst i
+      rw [data.t14]
+      simp [candidateImpactTimeQ, lastImpact]
+    · have hPlane :=
+        copied_face_plane_of_unfolded_interior
+          (data.pre_impact_hit_conditions i)
+      have hForward := data.preImpact_forward_all i hi0
+      rw [hw] at hForward
+      have hDenPosR :
+          0 < ((candidateImpactDenomQ seq wq i : Rat) : Real) := by
+        simpa [candidateImpactDenomQ, impactPlaneNormalQ, copiedNormalQ,
+          preImpactNormalR, preImpactNormalQ, vecRatToReal, Vec3.map, dot]
+          using hForward
+      have hPlane' :
+          dot (vecRatToReal (impactPlaneNormalQ seq i))
+              (linePoint (vecRatToReal p0) (vecRatToReal wq)
+                (data.crossing_times i)) =
+            (impactPlaneOffsetQ seq i : Real) := by
+        simpa [hp0, hw] using hPlane
+      have hEquation :
+          data.crossing_times i *
+              ((candidateImpactDenomQ seq wq i : Rat) : Real) =
+            ((impactPlaneOffsetQ seq i -
+                dot (impactPlaneNormalQ seq i) p0 : Rat) : Real) := by
+        simp [candidateImpactDenomQ, linePoint, vecAdd, scalarMul,
+          vecRatToReal, Vec3.map, dot] at hPlane' ⊢
+        linarith
+      simp [candidateImpactTimeQ, hi0, hilast]
+      field_simp [ne_of_gt hDenPosR]
+      simpa [candidateImpactDenomQ, dot] using hEquation
+
 theorem checkNonIdCert_sound
     (cert : NonIdCert)
     (hcheck : checkNonIdCert cert = true) :
@@ -645,17 +1224,254 @@ theorem checkNonIdCert_sound
   intro hbad
   rcases hbad with ⟨seq, hRealize, _hStart, _hLinear, _hFeasible⟩
   cases hfailure : cert.failure with
+  | noFixedAxis witness =>
+      unfold checkNonIdCert at hcheck
+      rw [hfailure] at hcheck
+      unfold checkNonIdNoFixedAxisFailure at hcheck
+      by_cases hValid : ValidPairWord cert.word
+      · simp [hValid] at hcheck
+        by_cases hWordNonId :
+            totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)
+        · simp [hWordNonId] at hcheck
+          have hNoFixed :
+              checkNoFixedVectorWitness
+                (totalLinearOfPairWord cert.word) witness = true := hcheck
+          have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+            hRealize.linear_eq
+          have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by
+            intro hSeqId
+            apply hWordNonId
+            rw [← hSeqLinear]
+            exact hSeqId
+          have hAxisConstraints :=
+            unfolded_feasible_nonidentity_axis_constraints _hFeasible hSeqNonId
+          rcases nonidentity_axis_constraints_fixed_direction hAxisConstraints with
+            ⟨data, hNonzero, hFixed⟩
+          have hFixedWord :
+              matVec ((totalLinearOfPairWord cert.word).map fun q => (q : Real))
+                  data.w = data.w := by
+            rw [← hSeqLinear]
+            simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+          exact hNonzero
+            (checkNoFixedVectorWitness_real_zero hNoFixed hFixedWord)
+        · simp [hWordNonId] at hcheck
+      · simp [hValid] at hcheck
   | badPairBalance =>
       simp [checkNonIdCert, hfailure, checkNonIdPairBalanceFailure] at hcheck
       exact hcheck.2 hRealize.valid
-  | badDirectionSign =>
-      simp [checkNonIdCert, hfailure] at hcheck
+  | badDirectionSign i =>
+      simp [checkNonIdCert, hfailure, checkNonIdBadDirectionSignFailure,
+        checkAxisDotZeroAtWord] at hcheck
+      rcases hcheck with ⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, hAxisZero⟩
+      have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+        hRealize.linear_eq
+      have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by
+        intro hSeqId
+        apply hWordNonId
+        rw [← hSeqLinear]
+        exact hSeqId
+      have hAxisConstraints :=
+        unfolded_feasible_nonidentity_axis_constraints _hFeasible hSeqNonId
+      have hKernelSeq :
+          checkKernelLineWitness (totalLinear seq) cert.axis cert.kernel = true := by
+        rwa [hSeqLinear]
+      rcases hAxisConstraints.line_data with
+        ⟨data, _hNonzero, _hStart, _hEnd, hFixed, _hForward, hForwardAll,
+          _hImpact, _hPreImpact, _hOpen, _hHit⟩
+      have hFixedWord :
+          matVec ((totalLinearOfPairWord cert.word).map fun q => (q : Real))
+              data.w = data.w := by
+        rw [← hSeqLinear]
+        simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+      have hCross :
+          cross (vecRatToReal cert.axis) data.w = zeroVec3R :=
+        checkKernelLineWitness_real_axisLine hKernel hFixedWord
+      have hAxisNonzero :
+          vecRatToReal cert.axis ≠ zeroVec3R :=
+        checkKernelLineWitness_axis_nonzero hKernel
+      rcases cross_eq_zero_scalar_of_axis_ne_zero hAxisNonzero hCross with
+        ⟨lambda, hParallel⟩
+      have hi0 : wordImpact i ≠ (0 : Impact15) := by
+        intro h
+        have hv := congrArg Fin.val h
+        simp [wordImpact, afterStart] at hv
+      have hZeroAxis :
+          dot (preImpactNormalR seq (wordImpact i))
+            (vecRatToReal cert.axis) = 0 :=
+        dot_preImpactNormalR_axis_zero_of_axisDotZeroAtWord
+          (seq := seq) (w := cert.word) (axis := cert.axis)
+          hRealize.pair_matches hAxisZero
+      have hDotW :
+          dot (preImpactNormalR seq (wordImpact i)) data.w = 0 := by
+        rw [hParallel]
+        calc
+          dot (preImpactNormalR seq (wordImpact i))
+              (scalarMul lambda (vecRatToReal cert.axis)) =
+              lambda *
+                dot (preImpactNormalR seq (wordImpact i))
+                  (vecRatToReal cert.axis) := by
+            simp [scalarMul, dot]
+            ring
+          _ = 0 := by
+            rw [hZeroAxis]
+            ring
+      have hPos := hForwardAll (wordImpact i) hi0
+      linarith
   | axisMissesStartInterior =>
-      simp [checkNonIdCert, hfailure] at hcheck
-  | badFirstHit =>
-      simp [checkNonIdCert, hfailure] at hcheck
-  | badHitInterior =>
-      simp [checkNonIdCert, hfailure] at hcheck
+      simp [checkNonIdCert, hfailure, checkNonIdAxisMissesStartInteriorData,
+        checkAxisForcesForcedSeq] at hcheck
+      rcases hcheck with ⟨⟨hCommon, hForces⟩, hNotInteriorQ⟩
+      simp [checkNonIdCommon] at hCommon
+      rcases hCommon with
+        ⟨⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, _hForcedMatches⟩, hSolve⟩
+      have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+        hRealize.linear_eq
+      have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by
+        intro hSeqId
+        apply hWordNonId
+        rw [← hSeqLinear]
+        exact hSeqId
+      have hAxisConstraints :=
+        unfolded_feasible_nonidentity_axis_constraints _hFeasible hSeqNonId
+      have hForcedEq : faceVectorSeq cert.forcedSeq = seq :=
+        forcedSeq_eq_of_axisForces
+          (cert := cert) (seq := seq) hRealize hAxisConstraints
+          hKernel hForces
+      have hKernelSeq :
+          checkKernelLineWitness (totalLinear seq) cert.axis cert.kernel = true := by
+        rwa [hSeqLinear]
+      have hSolveSeq :
+          checkAffineAxisSolveWitness (totalAff seq)
+            cert.axis cert.p0 cert.lambda cert.solve = true := by
+        simpa [← hForcedEq] using hSolve
+      rcases
+        unfolded_feasible_nonidentity_forces_start_point
+          hAxisConstraints hRealize.startsXp hKernelSeq hSolveSeq with
+        ⟨data, hp0⟩
+      have hp0Interior :
+          InFaceInterior Face.xp (vecRatToReal cert.p0) := by
+        rw [← hp0]
+        rw [← hRealize.startsXp]
+        exact data.start_interior
+      exact hNotInteriorQ (XpStartInteriorQ_of_real hp0Interior)
+  | badFirstHit witness =>
+      simp [checkNonIdCert, hfailure, checkNonIdBadFirstHitData,
+        checkAxisForcesForcedSeq] at hcheck
+      rcases hcheck with ⟨⟨hCommon, hForces⟩, hFails⟩
+      simp [checkNonIdCommon] at hCommon
+      rcases hCommon with
+        ⟨⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, _hForcedMatches⟩, hSolve⟩
+      have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+        hRealize.linear_eq
+      have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by
+        intro hSeqId
+        apply hWordNonId
+        rw [← hSeqLinear]
+        exact hSeqId
+      have hAxisConstraints :=
+        unfolded_feasible_nonidentity_axis_constraints _hFeasible hSeqNonId
+      rcases
+        nonIdCert_forces_candidate_data
+          (cert := cert) (seq := seq) hRealize hAxisConstraints
+          hKernel hSolve hForces with
+        ⟨data, hForcedEq, hp0, hw⟩
+      have hFailsSeq :
+          CandidateOrderingFails seq cert.p0
+            (candidateWQ seq cert.p0) witness := by
+        simpa [hForcedEq] using hFails
+      have htCur :=
+        candidateImpactTimeQ_eq_crossing_time
+          (seq := seq) (p0 := cert.p0)
+          (wq := candidateWQ seq cert.p0)
+          (data := data) witness.step.castSucc hp0 hw
+      have htNext :=
+        candidateImpactTimeQ_eq_crossing_time
+          (seq := seq) (p0 := cert.p0)
+          (wq := candidateWQ seq cert.p0)
+          (data := data) (nextImpact witness.step) hp0 hw
+      have hIndexLt :
+          (witness.step.castSucc : Impact15) < nextImpact witness.step := by
+        change witness.step.val < witness.step.val + 1
+        omega
+      have hStrict := data.increasing hIndexLt
+      rw [htCur, htNext] at hStrict
+      have hFailsR :
+          ((candidateImpactTimeQ seq cert.p0
+              (candidateWQ seq cert.p0) (nextImpact witness.step) : Rat) :
+                Real) <=
+            ((candidateImpactTimeQ seq cert.p0
+              (candidateWQ seq cert.p0) witness.step.castSucc : Rat) :
+                Real) := by
+        exact_mod_cast hFailsSeq
+      linarith
+  | badHitInterior witness =>
+      simp [checkNonIdCert, hfailure, checkNonIdBadHitInteriorData,
+        checkAxisForcesForcedSeq] at hcheck
+      rcases hcheck with ⟨⟨hCommon, hForces⟩, hFails⟩
+      simp [checkNonIdCommon] at hCommon
+      rcases hCommon with
+        ⟨⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, _hForcedMatches⟩, hSolve⟩
+      have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+        hRealize.linear_eq
+      have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by
+        intro hSeqId
+        apply hWordNonId
+        rw [← hSeqLinear]
+        exact hSeqId
+      have hAxisConstraints :=
+        unfolded_feasible_nonidentity_axis_constraints _hFeasible hSeqNonId
+      rcases
+        nonIdCert_forces_candidate_data
+          (cert := cert) (seq := seq) hRealize hAxisConstraints
+          hKernel hSolve hForces with
+        ⟨data, hForcedEq, hp0, hw⟩
+      have hFailsSeq :
+          CandidateHitInteriorFails seq cert.p0
+            (candidateWQ seq cert.p0) witness := by
+        simpa [hForcedEq] using hFails
+      rcases hFailsSeq with ⟨hBadFace, hOffsetLe⟩
+      have hStrict :=
+        copied_strict_halfspace_of_unfolded_interior
+          (data.pre_impact_hit_conditions witness.impact) hBadFace
+      have hTime :=
+        candidateImpactTimeQ_eq_crossing_time
+          (seq := seq) (p0 := cert.p0)
+          (wq := candidateWQ seq cert.p0)
+          (data := data) witness.impact hp0 hw
+      rw [hp0, hw, hTime] at hStrict
+      have hLine :
+          linePoint (vecRatToReal cert.p0)
+              (vecRatToReal (candidateWQ seq cert.p0))
+              ((candidateImpactTimeQ seq cert.p0
+                (candidateWQ seq cert.p0) witness.impact : Rat) : Real) =
+            vecRatToReal
+              (candidateLinePointQ cert.p0 (candidateWQ seq cert.p0)
+                (candidateImpactTimeQ seq cert.p0
+                  (candidateWQ seq cert.p0) witness.impact)) := by
+        apply Vec3.ext <;>
+          simp [linePoint, candidateLinePointQ, vecRatToReal, Vec3.map,
+            vecAdd, scalarMul]
+      rw [hLine] at hStrict
+      have hOffsetLeR :
+          ((copiedOffsetQ seq witness.impact witness.badFace : Rat) :
+              Real) <=
+            dot (vecRatToReal
+                (copiedNormalQ seq witness.impact witness.badFace))
+              (vecRatToReal
+                (candidateLinePointQ cert.p0 (candidateWQ seq cert.p0)
+                  (candidateImpactTimeQ seq cert.p0
+                    (candidateWQ seq cert.p0) witness.impact))) := by
+        have hOffsetLeCast :
+            ((copiedOffsetQ seq witness.impact witness.badFace : Rat) :
+                Real) <=
+              ((dot (copiedNormalQ seq witness.impact witness.badFace)
+                (candidateLinePointQ cert.p0 (candidateWQ seq cert.p0)
+                  (candidateImpactTimeQ seq cert.p0
+                    (candidateWQ seq cert.p0) witness.impact)) : Rat) :
+                  Real) := by
+          exact_mod_cast hOffsetLe
+        simpa [vecRatToReal, Vec3.map, dot] using hOffsetLeCast
+      linarith
 
 def sampleNonIdentityTranslationSeq (i : Step14) : Face :=
   if i = 0 then Face.xp else Face.yp
@@ -692,26 +1508,6 @@ theorem sampleNonIdentityTranslationWord_not_valid :
     ¬ ValidPairWord sampleNonIdentityTranslationWord := by
   unfold sampleNonIdentityTranslationWord pairWordOfSeq ValidPairWord pairCount
   decide
-
-def tinyBadTranslationCert : TranslationCert where
-  word := sampleNonIdentityTranslationWord
-  signMask := ⟨0, by decide⟩
-  b := { x := 0, y := 0, z := 0 }
-  failure := TranslationFailure.badTranslationVector
-
-example : checkTranslationCert tinyBadTranslationCert = true := by
-  simp [checkTranslationCert, tinyBadTranslationCert,
-    sampleNonIdentityTranslationWord_totalLinear_ne_id]
-
-example :
-    ¬ exists seq,
-      SeqRealizesTranslationChoice tinyBadTranslationCert.word
-        tinyBadTranslationCert.signMask seq /\
-        totalLinear seq = (matId : Mat3 Rat) /\
-        UnfoldedFeasible seq :=
-  checkTranslationCert_sound tinyBadTranslationCert (by
-    simp [checkTranslationCert, tinyBadTranslationCert,
-      sampleNonIdentityTranslationWord_totalLinear_ne_id])
 
 def sampleNonIdentityFaceVector : Vector Face 14 :=
   Vector.ofFn sampleNonIdentityTranslationSeq

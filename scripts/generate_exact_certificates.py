@@ -505,20 +505,9 @@ def write_lean(payload: dict) -> None:
         f"  #[{word_names}]",
         "",
     ])
-    for cert_index, record in enumerate(nonidentity_records):
-        word_index = record["sample_index"] - 1
-        lines.extend([
-            f"def {lean_cert_name(cert_index)} : TranslationCert where",
-            f"  word := {lean_pair_word_name(word_index)}",
-            "  signMask := \u27e80, by decide\u27e9",
-            "  b := { x := 0, y := 0, z := 0 }",
-            "  failure := TranslationFailure.badTranslationVector",
-            "",
-        ])
-    cert_names = ", ".join(lean_cert_name(i) for i in range(len(nonidentity_records)))
     lines.extend([
         "def translationCerts : Array TranslationCert :=",
-        f"  #[{cert_names}]",
+        "  #[]",
         "",
         "def nonIdCerts : Array NonIdCert :=",
         "  #[]",
@@ -526,13 +515,11 @@ def write_lean(payload: dict) -> None:
         "example : samplePairWords.size = 7 := by",
         "  decide",
         "",
-        f"example : translationCerts.size = {len(nonidentity_records)} := by",
+        "example : translationCerts.size = 0 := by",
         "  decide",
         "",
         "example : checkTranslationCerts translationCerts = true := by",
-        "  simp [checkTranslationCerts, translationCerts, checkTranslationCert,",
-        "    " + ", ".join(lean_cert_name(i) for i in range(len(nonidentity_records))) + ",",
-        "    " + ", ".join(lean_nonidentity_theorem_name(i) for i in nonidentity_word_indexes) + "]",
+        "  simp [checkTranslationCerts, translationCerts]",
         "",
         "example : checkNonIdCerts nonIdCerts = true := by",
         "  simp [checkNonIdCerts, nonIdCerts]",

@@ -295,26 +295,8 @@ theorem word006_totalLinear_ne_id :
 def samplePairWords : Array PairWord :=
   #[word000, word001, word002, word003, word004, word005, word006]
 
-def translationCert000 : TranslationCert where
-  word := word001
-  signMask := ⟨0, by decide⟩
-  b := { x := 0, y := 0, z := 0 }
-  failure := TranslationFailure.badTranslationVector
-
-def translationCert001 : TranslationCert where
-  word := word004
-  signMask := ⟨0, by decide⟩
-  b := { x := 0, y := 0, z := 0 }
-  failure := TranslationFailure.badTranslationVector
-
-def translationCert002 : TranslationCert where
-  word := word006
-  signMask := ⟨0, by decide⟩
-  b := { x := 0, y := 0, z := 0 }
-  failure := TranslationFailure.badTranslationVector
-
 def translationCerts : Array TranslationCert :=
-  #[translationCert000, translationCert001, translationCert002]
+  #[]
 
 def nonIdCerts : Array NonIdCert :=
   #[]
@@ -322,13 +304,11 @@ def nonIdCerts : Array NonIdCert :=
 example : samplePairWords.size = 7 := by
   decide
 
-example : translationCerts.size = 3 := by
+example : translationCerts.size = 0 := by
   decide
 
 example : checkTranslationCerts translationCerts = true := by
-  simp [checkTranslationCerts, translationCerts, checkTranslationCert,
-    translationCert000, translationCert001, translationCert002,
-    word001_totalLinear_ne_id, word004_totalLinear_ne_id, word006_totalLinear_ne_id]
+  simp [checkTranslationCerts, translationCerts]
 
 example : checkNonIdCerts nonIdCerts = true := by
   simp [checkNonIdCerts, nonIdCerts]
