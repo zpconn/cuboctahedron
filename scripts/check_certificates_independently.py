@@ -15,11 +15,12 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
-COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_dag.json"
+COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
 EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS = 157_957_632
+COVERAGE_CHUNK_SIZE = 100_000
 
 PAIR_IDS = ["x", "y", "z", "d111", "d11m", "d1m1", "dm11"]
 PAIR_COUNTS = {
@@ -185,23 +186,27 @@ def require(condition, message):
         raise SystemExit(f"check failed: {message}")
 
 
-def expected_coverage_payload():
-    return {
-        "rootCounts": PAIR_COUNTS,
-        "startRank": 0,
-        "endRank": EXPECTED_PAIR_WORDS,
-        "pairWordCount": EXPECTED_PAIR_WORDS,
-        "signMaskCount": 64,
-        "coverageKind": "complete-pair-count-root",
-    }
-
-
 def check_coverage_payload(coverage):
-    expected = expected_coverage_payload()
-    require(coverage == expected, "coverage payload")
+    require(coverage["coverageKind"] == "contiguous-rank-intervals", "coverage kind")
+    require(coverage["pairWordCount"] == EXPECTED_PAIR_WORDS, "coverage pair-word count")
+    require(coverage["signMaskCount"] == 64, "coverage sign-mask count")
+    require(coverage["chunkSize"] == COVERAGE_CHUNK_SIZE, "coverage chunk size")
+    chunks = coverage["chunks"]
+    require(chunks, "coverage chunks nonempty")
+    expected_start = 0
+    for index, chunk in enumerate(chunks):
+        require(chunk["startRank"] == expected_start, f"coverage chunk {index} start")
+        require(chunk["startRank"] < chunk["endRank"], f"coverage chunk {index} nonempty")
+        require(
+            chunk["expectedItems"] == chunk["endRank"] - chunk["startRank"],
+            f"coverage chunk {index} item count",
+        )
+        expected_start = chunk["endRank"]
+    require(expected_start == EXPECTED_PAIR_WORDS, "coverage final rank")
     return {
         "coverage_pair_words": coverage["pairWordCount"],
         "coverage_sign_masks": coverage["signMaskCount"],
+        "coverage_chunks": len(chunks),
     }
 
 
@@ -303,24 +308,25 @@ def check_payload(payload):
 
 def check_coverage_file(payload):
     require(payload.get("schema_version") == 1, "coverage schema version")
-    require(payload.get("mode") == "coverage-dag", "coverage mode")
+    require(payload.get("mode") == "coverage-manifest", "coverage mode")
     return check_coverage_payload(payload["coverage"])
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check the deterministic Step 12 sample")
-    parser.add_argument("--mode", choices=["small-sample", "coverage-dag"], help="check mode")
+    parser.add_argument("--mode", choices=["small-sample", "coverage-manifest"], help="check mode")
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
-        parser.error("use --small-sample or --mode coverage-dag")
-    if mode == "coverage-dag":
+        parser.error("use --small-sample or --mode coverage-manifest")
+    if mode == "coverage-manifest":
         payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
         summary = check_coverage_file(payload)
-        print("independent coverage check passed")
+        print("independent coverage manifest check passed")
         print(f"coverage pair words: {summary['coverage_pair_words']}")
         print(f"coverage sign masks: {summary['coverage_sign_masks']}")
+        print(f"coverage chunks: {summary['coverage_chunks']}")
         print(f"sanity identity linear words: {EXPECTED_IDENTITY_WORDS}")
         print(f"sanity translation sign assignments: {EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}")
         return
@@ -335,6 +341,7 @@ def main():
     print(f"translation chunk items: {summary['translation_chunk_items']}")
     print(f"coverage pair words: {summary['coverage_pair_words']}")
     print(f"coverage sign masks: {summary['coverage_sign_masks']}")
+    print(f"coverage chunks: {summary['coverage_chunks']}")
     print(f"sanity pair words: {EXPECTED_PAIR_WORDS}")
     print(f"sanity identity linear words: {EXPECTED_IDENTITY_WORDS}")
     print(f"sanity translation sign assignments: {EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}")

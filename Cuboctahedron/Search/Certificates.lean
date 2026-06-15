@@ -450,7 +450,22 @@ structure GeneratedCoverage
     forall cert, cert ∈ translationCerts.toList ->
       TranslationChoiceCertHasRank cert
 
+structure CoverageChunk where
+  startRank : Nat
+  endRank : Nat
+  expectedItems : Nat
+deriving DecidableEq, Repr
+
+def CoverageChunk.CoversPairRank
+    (chunk : CoverageChunk) (r : Fin numPairWords) : Prop :=
+  chunk.startRank <= r.val /\ r.val < chunk.endRank
+
 structure ExhaustiveGeneratedCoverage : Prop where
+  pair_rank_covered :
+    forall r : Fin numPairWords,
+      exists chunk : CoverageChunk, CoverageChunk.CoversPairRank chunk r
+  sign_mask_covered :
+    forall mask : SignMask, mask.val < numSignMasks
   nonidentity_complete :
     forall r : Fin numPairWords,
       totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
@@ -496,87 +511,103 @@ theorem ExhaustiveGeneratedCoverage.translation_complete_of_valid
     ⟨cert, _hrank, hword, hmask, hcheck⟩
   exact ⟨cert, by simpa [hr] using hword, hmask, hcheck⟩
 
-structure GeneratedPairCounts where
-  x : Nat
-  y : Nat
-  z : Nat
-  d111 : Nat
-  d11m : Nat
-  d1m1 : Nat
-  dm11 : Nat
-deriving DecidableEq, Repr
-
-def generatedPairCountsInitial : GeneratedPairCounts where
-  x := 1
-  y := 2
-  z := 2
-  d111 := 2
-  d11m := 2
-  d1m1 := 2
-  dm11 := 2
-
-structure GeneratedCoverageTree where
-  rootCounts : GeneratedPairCounts
-  startRank : Nat
-  endRank : Nat
-  pairWordCount : Nat
+structure CoverageManifest where
+  chunks : List CoverageChunk
   signMaskCount : Nat
 deriving DecidableEq, Repr
 
-def checkGeneratedCoverageTree (tree : GeneratedCoverageTree) : Bool :=
-  decide (tree.rootCounts = generatedPairCountsInitial) &&
-    decide (tree.startRank = 0) &&
-      decide (tree.endRank = numPairWords) &&
-        decide (tree.pairWordCount = numPairWords) &&
-          decide (tree.signMaskCount = numSignMasks)
+def checkCoverageChunkAt (expectedStart : Nat) (chunk : CoverageChunk) :
+    Bool :=
+  decide (chunk.startRank = expectedStart) &&
+    decide (chunk.startRank < chunk.endRank) &&
+      decide (chunk.expectedItems = chunk.endRank - chunk.startRank)
 
-def GeneratedCoverageTree.CoversPairRank
-    (tree : GeneratedCoverageTree) (r : Fin numPairWords) : Prop :=
-  tree.startRank <= r.val /\ r.val < tree.endRank
+def checkedChunkEndFrom : Nat -> List CoverageChunk -> Option Nat
+  | start, [] => some start
+  | start, chunk :: chunks =>
+      if checkCoverageChunkAt start chunk then
+        checkedChunkEndFrom chunk.endRank chunks
+      else
+        none
 
-def GeneratedCoverageTree.CoversSignMask
-    (tree : GeneratedCoverageTree) (mask : SignMask) : Prop :=
-  mask.val < tree.signMaskCount
+def checkCoverageManifest (manifest : CoverageManifest) : Bool :=
+  decide (checkedChunkEndFrom 0 manifest.chunks = some numPairWords) &&
+    decide (manifest.signMaskCount = numSignMasks)
 
-theorem GeneratedCoverageTree.covers_pair_rank
-    (tree : GeneratedCoverageTree)
-    (hcheck : checkGeneratedCoverageTree tree = true)
+def CoverageManifest.CoversPairRank
+    (manifest : CoverageManifest) (r : Fin numPairWords) : Prop :=
+  exists chunk, chunk ∈ manifest.chunks /\ chunk.CoversPairRank r
+
+def CoverageManifest.CoversSignMask
+    (manifest : CoverageManifest) (mask : SignMask) : Prop :=
+  mask.val < manifest.signMaskCount
+
+theorem checkedChunkEndFrom_covers
+    {chunks : List CoverageChunk} {start endRank : Nat}
+    {r : Fin numPairWords}
+    (hcheck : checkedChunkEndFrom start chunks = some endRank)
+    (hstart : start <= r.val)
+    (hend : r.val < endRank) :
+    exists chunk, chunk ∈ chunks /\ chunk.CoversPairRank r := by
+  induction chunks generalizing start endRank with
+  | nil =>
+      simp [checkedChunkEndFrom] at hcheck
+      omega
+  | cons chunk chunks ih =>
+      unfold checkedChunkEndFrom at hcheck
+      by_cases hchunk : checkCoverageChunkAt start chunk = true
+      · simp [hchunk] at hcheck
+        have hchunkFacts := hchunk
+        simp [checkCoverageChunkAt] at hchunkFacts
+        by_cases hr : r.val < chunk.endRank
+        · refine ⟨chunk, ?_, ?_⟩
+          · simp
+          · unfold CoverageChunk.CoversPairRank
+            omega
+        · rcases ih hcheck (by omega) hend with ⟨covered, hmem, hcov⟩
+          exact ⟨covered, by simp [hmem], hcov⟩
+      · simp [hchunk] at hcheck
+
+theorem CoverageManifest.covers_pair_rank
+    (manifest : CoverageManifest)
+    (hcheck : checkCoverageManifest manifest = true)
     (r : Fin numPairWords) :
-    tree.CoversPairRank r := by
-  simp [checkGeneratedCoverageTree] at hcheck
-  rcases hcheck with ⟨⟨⟨⟨_hroot, hstart⟩, hend⟩, _hcount⟩, _hsign⟩
-  unfold GeneratedCoverageTree.CoversPairRank
-  constructor
-  · rw [hstart]
-    exact Nat.zero_le r.val
-  · rw [hend]
-    exact r.isLt
+    manifest.CoversPairRank r := by
+  simp [checkCoverageManifest] at hcheck
+  exact checkedChunkEndFrom_covers hcheck.1 (Nat.zero_le r.val) r.isLt
 
-theorem GeneratedCoverageTree.covers_sign_mask
-    (tree : GeneratedCoverageTree)
-    (hcheck : checkGeneratedCoverageTree tree = true)
+theorem CoverageManifest.covers_sign_mask
+    (manifest : CoverageManifest)
+    (hcheck : checkCoverageManifest manifest = true)
     (mask : SignMask) :
-    tree.CoversSignMask mask := by
-  simp [checkGeneratedCoverageTree] at hcheck
-  rcases hcheck with ⟨⟨⟨⟨_hroot, _hstart⟩, _hend⟩, _hcount⟩, hsign⟩
-  unfold GeneratedCoverageTree.CoversSignMask
-  rw [hsign]
+    manifest.CoversSignMask mask := by
+  simp [checkCoverageManifest] at hcheck
+  unfold CoverageManifest.CoversSignMask
+  rw [hcheck.2]
   exact mask.isLt
 
-theorem GeneratedCoverageTree.exhaustive
-    (tree : GeneratedCoverageTree)
-    (hcheck : checkGeneratedCoverageTree tree = true) :
+theorem CoverageManifest.exhaustive
+    (manifest : CoverageManifest)
+    (hcheck : checkCoverageManifest manifest = true) :
     ExhaustiveGeneratedCoverage := by
-  refine ⟨?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · intro r
+    rcases manifest.covers_pair_rank hcheck r with ⟨chunk, _hmem, hcov⟩
+    exact ⟨chunk, hcov⟩
+  · intro mask
+    have hmask := manifest.covers_sign_mask hcheck mask
+    have hcheckFacts := hcheck
+    simp [checkCoverageManifest] at hcheckFacts
+    simpa [CoverageManifest.CoversSignMask, hcheckFacts.2] using hmask
   · intro r h
-    have _hrank := tree.covers_pair_rank hcheck r
+    have _hrank := manifest.covers_pair_rank hcheck r
     refine ⟨nonIdentityLinearCertOfRank r h, ?_, ?_, ?_⟩
     · rfl
     · rfl
     · exact check_nonIdentityLinearCertOfRank r h
   · intro r mask h
-    have _hrank := tree.covers_pair_rank hcheck r
-    have _hmask := tree.covers_sign_mask hcheck mask
+    have _hrank := manifest.covers_pair_rank hcheck r
+    have _hmask := manifest.covers_sign_mask hcheck mask
     refine ⟨translationChoiceCertOfRank r mask h, ?_, ?_, ?_, ?_⟩
     · rfl
     · rfl

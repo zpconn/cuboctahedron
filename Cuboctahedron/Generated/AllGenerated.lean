@@ -1,6 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.Translation.Chunk0000
-import Cuboctahedron.Generated.CoverageDag
+import Cuboctahedron.Generated.CoverageManifest
 
 /-!
 Aggregate import for generated sample chunks and exhaustive generated coverage.
@@ -31,12 +31,21 @@ theorem allSampleChunkRankabilityCoverage :
       Translation.Chunk0000.certs :=
   sampleChunkRankabilityCoverage
 
-theorem generatedCoverageTree_exhaustive :
+theorem generatedCoverageManifest_exhaustive :
     ExhaustiveGeneratedCoverage :=
-  CoverageDag.generatedCoverageTree_exhaustive
+  CoverageManifest.generatedCoverageManifest_exhaustive
 
 theorem exhaustiveGeneratedCoverage :
     ExhaustiveGeneratedCoverage :=
-  generatedCoverageTree_exhaustive
+  generatedCoverageManifest_exhaustive
+
+theorem allPairRanksCovered (r : Fin numPairWords) :
+    Exists fun chunk : CoverageChunk =>
+      CoverageChunk.CoversPairRank chunk r :=
+  exhaustiveGeneratedCoverage.pair_rank_covered r
+
+theorem allSignMasksCovered (mask : SignMask) :
+    mask.val < numSignMasks :=
+  exhaustiveGeneratedCoverage.sign_mask_covered mask
 
 end Cuboctahedron.Generated
