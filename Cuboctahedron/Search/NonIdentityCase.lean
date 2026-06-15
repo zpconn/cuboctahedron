@@ -28,8 +28,12 @@ structure NonIdentityAxisConstraints (seq : Step14 -> Face) : Prop where
       linePoint data.p0 data.w 1 =
         affApply (affRatToReal (totalAff seq)) data.p0 /\
       matVec (affRatToReal (totalAff seq)).M data.w = data.w /\
+      PreImpactForward seq data.w /\
       (forall i : Impact15,
         InUnfoldedImpactFaceInterior seq i
+          (linePoint data.p0 data.w (data.crossing_times i))) /\
+      (forall i : Impact15,
+        InPreUnfoldedImpactFaceInterior seq i
           (linePoint data.p0 data.w (data.crossing_times i))) /\
         forall i : Step14,
           InUnfoldedFaceInterior seq i
@@ -45,8 +49,43 @@ theorem unfolded_feasible_nonidentity_axis_constraints
   exact {
     total_nonidentity := hNonIdentity
     line_data := ⟨data, data.nonzero, data.start_interior, data.endpoint_eq,
-      data.direction_fixed, data.impact_hit_conditions, data.hit_conditions⟩
+      data.direction_fixed, data.preImpact_forward, data.impact_hit_conditions,
+      data.pre_impact_hit_conditions, data.hit_conditions⟩
   }
+
+theorem nonidentity_axis_constraints_fixed_direction
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      data.w ≠ zeroVec3R /\
+      matVec (affRatToReal (totalAff seq)).M data.w = data.w := by
+  rcases h.line_data with
+    ⟨data, hNonzero, _hStart, _hEndpoint, hFixed, _hForward,
+      _hImpact, _hPreImpact, _hHit⟩
+  exact ⟨data, hNonzero, hFixed⟩
+
+theorem nonidentity_axis_constraints_preImpact_forward
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      PreImpactForward seq data.w /\
+      forall i : Impact15,
+        InPreUnfoldedImpactFaceInterior seq i
+          (linePoint data.p0 data.w (data.crossing_times i)) := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, hForward,
+      _hImpact, hPreImpact, _hHit⟩
+  exact ⟨data, hForward, hPreImpact⟩
+
+theorem nonidentity_axis_constraints_start_interior
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      InFaceInterior (seq 0) data.p0 := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, hStart, _hEndpoint, _hFixed, _hForward,
+      _hImpact, _hPreImpact, _hHit⟩
+  exact ⟨data, hStart⟩
 
 @[simp] theorem pairAtStartedIndex_zero (w : PairWord) :
     pairAtStartedIndex w 0 = PairId.x := by

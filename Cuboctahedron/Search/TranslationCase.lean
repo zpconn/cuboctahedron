@@ -54,11 +54,11 @@ def translationLinePointLin (b : Vec3 Rat) (t : Lin2) : Vec3 Lin2 where
 
 def copiedNormalQ (seq : Step14 -> Face) (i : Impact15) (g : Face) :
     Vec3 Rat :=
-  matVec (impactCopyAff seq i).M (normalQ g)
+  matVec (preImpactCopyAff seq i).M (normalQ g)
 
 def copiedOffsetQ (seq : Step14 -> Face) (i : Impact15) (g : Face) :
     Rat :=
-  offsetQ g + dot (copiedNormalQ seq i g) (impactCopyAff seq i).b
+  offsetQ g + dot (copiedNormalQ seq i g) (preImpactCopyAff seq i).b
 
 def impactPlaneNormalQ (seq : Step14 -> Face) (i : Impact15) : Vec3 Rat :=
   copiedNormalQ seq i (impactFace seq i)
@@ -134,7 +134,6 @@ structure TranslationUnfoldedFeasible (seq : Step14 -> Face) (b : Vec3 Rat) wher
   startsXp : StartsXp seq
   linear_id : totalLinear seq = (matId : Mat3 Rat)
   translation_vector : (totalAff seq).b = b
-  denominators_positive : TranslationDenominatorsPositive seq b
 
 theorem xpStartConstraints_holds_of_interior {p : Vec3 Real}
     (h : InFaceInterior Face.xp p) :
@@ -158,63 +157,6 @@ theorem xpStartConstraints_holds_of_interior {p : Vec3 Real}
     linarith
   · simp [StrictLin2.Holds, StrictLin2.eval]
     linarith
-
-def vecRatToReal (v : Vec3 Rat) : Vec3 Real :=
-  v.map fun q => (q : Real)
-
-def PreservesDot (M : Mat3 Real) : Prop :=
-  forall u v : Vec3 Real, dot (matVec M u) (matVec M v) = dot u v
-
-theorem matId_preservesDot : PreservesDot (matId : Mat3 Real) := by
-  intro u v
-  simp [matId_matVec]
-
-theorem matMul_preservesDot {A B : Mat3 Real}
-    (hA : PreservesDot A) (hB : PreservesDot B) :
-    PreservesDot (matMul A B) := by
-  intro u v
-  rw [matVec_matMul, matVec_matMul, hA, hB]
-
-theorem faceReflection_preservesDot (f : Face) :
-    PreservesDot (affRatToReal (faceReflectionQ f)).M := by
-  cases f <;>
-    intro u v <;>
-    simp [affRatToReal, faceReflectionQ, reflM, reflD,
-      Aff3.map, Mat3.map, Vec3.map, matSub, scalarMat, outer, matId,
-      matVec, dot, normalQ, offsetQ] <;>
-    ring_nf
-
-theorem pathPrefixAffNat_preservesDot
-    (seq : Step14 -> Face) :
-    forall n : Nat, PreservesDot (affRatToReal (pathPrefixAffNat seq n)).M := by
-  intro n
-  induction n with
-  | zero =>
-      intro u v
-      simp [pathPrefixAffNat, affRatToReal, affId, Aff3.map, Mat3.map,
-        Vec3.map, matVec, matId, dot]
-  | succ n ih =>
-      unfold pathPrefixAffNat
-      by_cases hn : n + 1 < 14
-      · simp [hn, affRatToReal_compose]
-        exact matMul_preservesDot ih (faceReflection_preservesDot (seq ⟨n + 1, hn⟩))
-      · simp [hn, ih]
-
-theorem finalPathAff_preservesDot
-    (seq : Step14 -> Face) :
-    PreservesDot (affRatToReal (finalPathAff seq)).M := by
-  unfold finalPathAff
-  rw [affRatToReal_compose]
-  exact matMul_preservesDot (pathPrefixAffNat_preservesDot seq 13)
-    (faceReflection_preservesDot (seq 0))
-
-theorem impactCopyAff_preservesDot
-    (seq : Step14 -> Face) (i : Impact15) :
-    PreservesDot (affRatToReal (impactCopyAff seq i)).M := by
-  unfold impactCopyAff pathPrefixAff
-  by_cases hi : i.val < 14
-  · simp [hi, pathPrefixAffNat_preservesDot]
-  · simp [hi, finalPathAff_preservesDot]
 
 theorem matVec_ratToReal (M : Mat3 Rat) (v : Vec3 Rat) :
     matVec (affRatToReal ({ M := M, b := { x := 0, y := 0, z := 0 } } : Aff3 Rat)).M
@@ -255,34 +197,34 @@ theorem copied_dot_apply_eq
 
 theorem copied_strict_halfspace_of_unfolded_interior
     {seq : Step14 -> Face} {i : Impact15} {x : Vec3 Real} {g : Face}
-    (h : InUnfoldedImpactFaceInterior seq i x)
+    (h : InPreUnfoldedImpactFaceInterior seq i x)
     (hg : g ≠ impactFace seq i) :
     dot (vecRatToReal (copiedNormalQ seq i g)) x <
       (copiedOffsetQ seq i g : Real) := by
   rcases h with ⟨p, hpInterior, hx⟩
   rcases hpInterior with ⟨_, hpStrict⟩
   have hstrict := hpStrict g hg
-  have hdot := copied_dot_apply_eq (impactCopyAff seq i)
-    (impactCopyAff_preservesDot seq i) (normalQ g) p
+  have hdot := copied_dot_apply_eq (preImpactCopyAff seq i)
+    (preImpactCopyAff_preservesDot seq i) (normalQ g) p
   have hx' :
-      affApply (affRatToReal (impactCopyAff seq i)) p = x := by
-    simpa [unfoldedImpactAt] using hx
+      affApply (affRatToReal (preImpactCopyAff seq i)) p = x := by
+    simpa [preImpactUnfoldedAt] using hx
   rw [hx'] at hdot
   simp [copiedNormalQ, copiedOffsetQ, normalR, offsetR, vecRatToReal] at hdot hstrict ⊢
   linarith
 
 theorem copied_face_plane_of_unfolded_interior
     {seq : Step14 -> Face} {i : Impact15} {x : Vec3 Real}
-    (h : InUnfoldedImpactFaceInterior seq i x) :
+    (h : InPreUnfoldedImpactFaceInterior seq i x) :
     dot (vecRatToReal (impactPlaneNormalQ seq i)) x =
       (impactPlaneOffsetQ seq i : Real) := by
   rcases h with ⟨p, hpInterior, hx⟩
   rcases hpInterior with ⟨hpOn, _⟩
-  have hdot := copied_dot_apply_eq (impactCopyAff seq i)
-    (impactCopyAff_preservesDot seq i) (normalQ (impactFace seq i)) p
+  have hdot := copied_dot_apply_eq (preImpactCopyAff seq i)
+    (preImpactCopyAff_preservesDot seq i) (normalQ (impactFace seq i)) p
   have hx' :
-      affApply (affRatToReal (impactCopyAff seq i)) p = x := by
-    simpa [unfoldedImpactAt] using hx
+      affApply (affRatToReal (preImpactCopyAff seq i)) p = x := by
+    simpa [preImpactUnfoldedAt] using hx
   rw [hx'] at hdot
   simp [impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ,
     copiedOffsetQ, normalR, offsetR, vecRatToReal] at hdot hpOn ⊢
@@ -372,7 +314,7 @@ theorem impactTimeLin_eval_eq_crossing_time
       have hw : data.w = vecRatToReal b :=
         translation_direction_eq_of_endpoint data hLinear hB
       have hplane := copied_face_plane_of_unfolded_interior
-        (data.impact_hit_conditions i)
+        (data.pre_impact_hit_conditions i)
       have hdenQ : 0 < impactDenom seq b i := hDen i hi0 hilast
       have hdenR : (impactDenom seq b i : Real) ≠ 0 := by
         exact_mod_cast ne_of_gt hdenQ
@@ -433,15 +375,30 @@ theorem interiorConstraints_holds
   have hw : data.w = vecRatToReal b :=
     translation_direction_eq_of_endpoint data hLinear hB
   have hstrict := copied_strict_halfspace_of_unfolded_interior
-    (data.impact_hit_conditions i) hgNeProp
+    (data.pre_impact_hit_conditions i) hgNeProp
   simpa [hp0, hw] using hstrict
+
+theorem impactDenom_cast_eq_dot_preImpact
+    (seq : Step14 -> Face) (b : Vec3 Rat) (i : Impact15) :
+    (impactDenom seq b i : Real) =
+      dot (preImpactNormalR seq i) (vecRatToReal b) := by
+  simp [impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactNormalR,
+    preImpactNormalQ, vecRatToReal, dot]
 
 theorem unfolded_feasible_translation_denominators_positive
     {seq : Step14 -> Face}
     {b : Vec3 Rat}
     (h : TranslationUnfoldedFeasible seq b) :
-    TranslationDenominatorsPositive seq b :=
-  h.denominators_positive
+    TranslationDenominatorsPositive seq b := by
+  rcases h.feasible with ⟨data⟩
+  intro i hi0 hilast
+  have hw : data.w = vecRatToReal b :=
+    translation_direction_eq_of_endpoint data h.linear_id h.translation_vector
+  have hpos := data.preImpact_forward i hi0 hilast
+  rw [hw] at hpos
+  have hposCast : (0 : Real) < (impactDenom seq b i : Real) := by
+    simpa [impactDenom_cast_eq_dot_preImpact] using hpos
+  exact_mod_cast hposCast
 
 theorem unfolded_feasible_translation_constraints
     {seq : Step14 -> Face}
@@ -463,7 +420,8 @@ theorem unfolded_feasible_translation_constraints
           (impactTimeLin seq b i).eval data.p0.y data.p0.z =
             data.crossing_times i :=
         impactTimeLin_eval_eq_crossing_time data h.startsXp h.linear_id
-          h.translation_vector h.denominators_positive
+          h.translation_vector
+          (unfolded_feasible_translation_denominators_positive h)
     rcases hmem with hmem | hmem
     · exact orderingConstraints_holds data hTime L hmem
     · exact interiorConstraints_holds data h.startsXp h.linear_id

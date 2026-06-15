@@ -89,10 +89,97 @@ def unfoldedImpactAt (seq : Step14 -> Face) (i : Impact15) (p : Vec3 Real) :
     Vec3 Real :=
   affApply (affRatToReal (impactCopyAff seq i)) p
 
+def vecRatToReal (v : Vec3 Rat) : Vec3 Real :=
+  v.map fun q => (q : Real)
+
+def preImpactCopyAff (seq : Step14 -> Face) (i : Impact15) : Aff3 Rat :=
+  pathPrefixAffNat seq (i.val - 1)
+
+def preImpactUnfoldedAt (seq : Step14 -> Face) (i : Impact15)
+    (p : Vec3 Real) : Vec3 Real :=
+  affApply (affRatToReal (preImpactCopyAff seq i)) p
+
+def preImpactNormalQ (seq : Step14 -> Face) (i : Impact15) : Vec3 Rat :=
+  matVec (preImpactCopyAff seq i).M (normalQ (impactFace seq i))
+
+def preImpactNormalR (seq : Step14 -> Face) (i : Impact15) : Vec3 Real :=
+  vecRatToReal (preImpactNormalQ seq i)
+
+def PreImpactForward
+    (seq : Step14 -> Face) (w : Vec3 Real) : Prop :=
+  forall i : Impact15,
+    i ≠ (0 : Impact15) -> i ≠ lastImpact ->
+      0 < dot (preImpactNormalR seq i) w
+
+def PreservesDot (M : Mat3 Real) : Prop :=
+  forall u v : Vec3 Real, dot (matVec M u) (matVec M v) = dot u v
+
+theorem matId_preservesDot : PreservesDot (matId : Mat3 Real) := by
+  intro u v
+  simp [matId_matVec]
+
+theorem matMul_preservesDot {A B : Mat3 Real}
+    (hA : PreservesDot A) (hB : PreservesDot B) :
+    PreservesDot (matMul A B) := by
+  intro u v
+  rw [matVec_matMul, matVec_matMul, hA, hB]
+
+theorem faceReflection_preservesDot (f : Face) :
+    PreservesDot (affRatToReal (faceReflectionQ f)).M := by
+  cases f <;>
+    intro u v <;>
+    simp [affRatToReal, faceReflectionQ, reflM, reflD,
+      Aff3.map, Mat3.map, Vec3.map, matSub, scalarMat, outer, matId,
+      matVec, dot, normalQ, offsetQ] <;>
+    ring_nf
+
+theorem pathPrefixAffNat_preservesDot
+    (seq : Step14 -> Face) :
+    forall n : Nat, PreservesDot (affRatToReal (pathPrefixAffNat seq n)).M := by
+  intro n
+  induction n with
+  | zero =>
+      intro u v
+      simp [pathPrefixAffNat, affRatToReal, affId, Aff3.map, Mat3.map,
+        Vec3.map, matVec, matId, dot]
+  | succ n ih =>
+      unfold pathPrefixAffNat
+      by_cases hn : n + 1 < 14
+      · simp [hn, affRatToReal_compose]
+        exact matMul_preservesDot ih (faceReflection_preservesDot (seq ⟨n + 1, hn⟩))
+      · simp [hn, ih]
+
+theorem finalPathAff_preservesDot
+    (seq : Step14 -> Face) :
+    PreservesDot (affRatToReal (finalPathAff seq)).M := by
+  unfold finalPathAff
+  rw [affRatToReal_compose]
+  exact matMul_preservesDot (pathPrefixAffNat_preservesDot seq 13)
+    (faceReflection_preservesDot (seq 0))
+
+theorem impactCopyAff_preservesDot
+    (seq : Step14 -> Face) (i : Impact15) :
+    PreservesDot (affRatToReal (impactCopyAff seq i)).M := by
+  unfold impactCopyAff pathPrefixAff
+  by_cases hi : i.val < 14
+  · simp [hi, pathPrefixAffNat_preservesDot]
+  · simp [hi, finalPathAff_preservesDot]
+
+theorem preImpactCopyAff_preservesDot
+    (seq : Step14 -> Face) (i : Impact15) :
+    PreservesDot (affRatToReal (preImpactCopyAff seq i)).M := by
+  unfold preImpactCopyAff
+  exact pathPrefixAffNat_preservesDot seq (i.val - 1)
+
 def InUnfoldedImpactFaceInterior (seq : Step14 -> Face) (i : Impact15)
     (x : Vec3 Real) : Prop :=
   exists p : Vec3 Real,
     InFaceInterior (impactFace seq i) p /\ unfoldedImpactAt seq i p = x
+
+def InPreUnfoldedImpactFaceInterior (seq : Step14 -> Face) (i : Impact15)
+    (x : Vec3 Real) : Prop :=
+  exists p : Vec3 Real,
+    InFaceInterior (impactFace seq i) p /\ preImpactUnfoldedAt seq i p = x
 
 def InUnfoldedFaceInterior (seq : Step14 -> Face) (i : Step14)
     (x : Vec3 Real) : Prop :=
@@ -106,6 +193,50 @@ theorem InUnfoldedFaceInterior_iff
   unfold InUnfoldedFaceInterior InUnfoldedImpactFaceInterior impactFace
     unfoldedImpactAt unfoldedImpact impactCopyAff
   simp
+
+theorem preImpact_eq_impact_on_face
+    {seq : Step14 -> Face} {i : Impact15} {p : Vec3 Real}
+    (h : InFaceInterior (impactFace seq i) p) :
+    preImpactUnfoldedAt seq i p = unfoldedImpactAt seq i p := by
+  fin_cases i <;>
+    simp [preImpactUnfoldedAt, unfoldedImpactAt, preImpactCopyAff,
+      impactCopyAff, impactFace, pathPrefixAff, pathPrefixAffNat,
+      finalPathAff, affRatToReal_compose, affCompose_apply] at h ⊢
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (1 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (2 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (3 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (4 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (5 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (6 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (7 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (8 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (9 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (10 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (11 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (12 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq (13 : Step14)) (p := p) (by simpa using h)]
+  · rw [faceReflectionQ_real_fix_of_inFaceInterior
+      (f := seq 0) (p := p) (by simpa using h)]
+
+theorem pre_unfolded_impact_of_unfolded
+    {seq : Step14 -> Face} {i : Impact15} {x : Vec3 Real}
+    (h : InUnfoldedImpactFaceInterior seq i x) :
+    InPreUnfoldedImpactFaceInterior seq i x := by
+  rcases h with ⟨p, hp, hx⟩
+  exact ⟨p, hp, (preImpact_eq_impact_on_face hp).trans hx⟩
 
 theorem stepSucc_mk_of_succ_lt {n : Nat} (hn : n < 14)
     (hsucc : n + 1 < 14) :
@@ -352,6 +483,126 @@ theorem billiard_direction_fixed
       scalarMul (totalTravelTime o) (o.v 0) := by
   rw [matVec_scalarMul, totalAff_unfolded_velocity]
 
+theorem billiard_incoming_normal_velocity_pos
+    (o : BilliardOrbit14) {n : Nat}
+    (hnpos : 0 < n) (hn14 : n < 14) :
+    0 <
+      dot (normalR (o.face ⟨n, hn14⟩))
+        (o.v (⟨n - 1, by omega⟩ : Step14).castSucc) := by
+  let prev : Step14 := ⟨n - 1, by omega⟩
+  let cur : Step14 := ⟨n, hn14⟩
+  have hstep : stepSucc prev = cur := by
+    ext
+    simp [prev, cur, stepSucc, Fin.val_add]
+    omega
+  have hpnext := o.next_point prev
+  have hpnext' :
+      o.p cur.castSucc =
+        vecAdd (o.p prev.castSucc)
+          (scalarMul (o.time prev) (o.v prev.castSucc)) := by
+    simpa [hstep] using hpnext
+  have hOn := (o.impact_interior cur).1
+  have hInteriorRaw :=
+    (o.segment_valid prev).2 (1 / 2) (by norm_num) (by norm_num)
+      (o.face cur)
+  have hInterior :
+      dot (normalR (o.face cur))
+          (pointOnSegment (o.p prev.castSucc) (o.p cur.castSucc) (1 / 2)) <
+        offsetR (o.face cur) := by
+    simpa [hstep] using hInteriorRaw
+  have hmid :
+      pointOnSegment (o.p prev.castSucc) (o.p cur.castSucc) (1 / 2) =
+        vecAdd (o.p prev.castSucc)
+          (scalarMul ((1 / 2) * o.time prev) (o.v prev.castSucc)) := by
+    rw [hpnext']
+    apply Vec3.ext <;>
+      simp [pointOnSegment, vecSub, vecAdd, scalarMul] <;>
+      ring
+  have hOn' :
+      dot (normalR (o.face cur))
+          (vecAdd (o.p prev.castSucc)
+            (scalarMul (o.time prev) (o.v prev.castSucc))) =
+        offsetR (o.face cur) := by
+    rw [← hpnext']
+    exact hOn
+  have hInterior' :
+      dot (normalR (o.face cur))
+          (vecAdd (o.p prev.castSucc)
+            (scalarMul ((1 / 2) * o.time prev) (o.v prev.castSucc))) <
+        offsetR (o.face cur) := by
+    rw [← hmid]
+    exact hInterior
+  have htime := o.time_pos prev
+  simp [dot, vecAdd, scalarMul] at hOn' hInterior' ⊢
+  ring_nf at hOn' hInterior' ⊢
+  set A : Real :=
+    (normalR (o.face cur)).x * (o.p prev.castSucc).x +
+      (normalR (o.face cur)).y * (o.p prev.castSucc).y +
+      (normalR (o.face cur)).z * (o.p prev.castSucc).z
+  set D : Real :=
+    (normalR (o.face cur)).x * (o.v prev.castSucc).x +
+      (normalR (o.face cur)).y * (o.v prev.castSucc).y +
+      (normalR (o.face cur)).z * (o.v prev.castSucc).z
+  have hOnD : A + o.time prev * D = offsetR (o.face cur) := by
+    dsimp [A, D]
+    nlinarith
+  have hInteriorD : A + (1 / 2) * o.time prev * D < offsetR (o.face cur) := by
+    dsimp [A, D]
+    nlinarith
+  have hD : 0 < D := by
+    nlinarith
+  simpa [D, dot, cur, prev] using hD
+
+theorem billiard_preImpact_forward
+    (o : BilliardOrbit14) :
+    PreImpactForward o.face
+      (scalarMul (totalTravelTime o) (o.v 0)) := by
+  intro i hi0 hilast
+  have hnpos : 0 < i.val := by
+    by_contra h
+    apply hi0
+    apply Fin.ext
+    omega
+  have hn14 : i.val < 14 := by
+    have hle : i.val <= 14 := Nat.le_of_lt_succ i.isLt
+    have hne : i.val ≠ 14 := by
+      intro hv
+      apply hilast
+      apply Fin.ext
+      simpa [lastImpact] using hv
+    omega
+  let prev : Step14 := ⟨i.val - 1, by omega⟩
+  let cur : Step14 := ⟨i.val, hn14⟩
+  have hvel :=
+    pathPrefix_unfolded_velocity o (i.val - 1) (by omega)
+  have hpres := preImpactCopyAff_preservesDot o.face i
+    (normalR (o.face cur)) (o.v prev.castSucc)
+  have hcast :
+      matVec (affRatToReal (preImpactCopyAff o.face i)).M
+          (normalR (o.face cur)) =
+        preImpactNormalR o.face i := by
+    apply Vec3.ext <;>
+      simp [preImpactNormalR, preImpactNormalQ, vecRatToReal, normalR,
+        preImpactCopyAff, cur, impactFace, hn14, affRatToReal, Aff3.map,
+        Mat3.map, Vec3.map, matVec]
+  have hcopy : preImpactCopyAff o.face i = pathPrefixAffNat o.face (i.val - 1) := rfl
+  have hvel' :
+      matVec (affRatToReal (preImpactCopyAff o.face i)).M
+          (o.v prev.castSucc) = o.v 0 := by
+    simpa [preImpactCopyAff, prev] using hvel
+  rw [hcast, hvel'] at hpres
+  have hincoming :=
+    billiard_incoming_normal_velocity_pos o hnpos hn14
+  have hT := totalTravelTime_pos o
+  have hscale :
+      dot (preImpactNormalR o.face i)
+          (scalarMul (totalTravelTime o) (o.v 0)) =
+        totalTravelTime o * dot (preImpactNormalR o.face i) (o.v 0) := by
+    simp [scalarMul, dot]
+    ring
+  rw [hscale, hpres]
+  exact mul_pos hT (by simpa [cur, prev] using hincoming)
+
 structure UnfoldedFeasibleData (seq : Step14 -> Face) where
   p0 : Vec3 Real
   w : Vec3 Real
@@ -368,10 +619,15 @@ structure UnfoldedFeasibleData (seq : Step14 -> Face) where
   impact_hit_conditions :
     forall i : Impact15,
       InUnfoldedImpactFaceInterior seq i (linePoint p0 w (crossing_times i))
+  pre_impact_hit_conditions :
+    forall i : Impact15,
+      InPreUnfoldedImpactFaceInterior seq i (linePoint p0 w (crossing_times i))
   endpoint_eq :
     linePoint p0 w 1 = affApply (affRatToReal (totalAff seq)) p0
   direction_fixed :
     matVec (affRatToReal (totalAff seq)).M w = w
+  preImpact_forward :
+    PreImpactForward seq w
 
 def UnfoldedFeasible (seq : Step14 -> Face) : Prop :=
   Nonempty (UnfoldedFeasibleData seq)
@@ -393,8 +649,11 @@ theorem billiard_implies_unfolded
     increasing := normalizedCrossingTime_strictMono o
     hit_conditions := ?_
     impact_hit_conditions := billiard_unfolded_impact_hit o
+    pre_impact_hit_conditions := fun i =>
+      pre_unfolded_impact_of_unfolded (billiard_unfolded_impact_hit o i)
     endpoint_eq := billiard_endpoint_eq o
     direction_fixed := billiard_direction_fixed o
+    preImpact_forward := billiard_preImpact_forward o
   }⟩
   · intro hw
     have hT : totalTravelTime o ≠ 0 := (totalTravelTime_pos o).ne'
