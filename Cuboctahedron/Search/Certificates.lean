@@ -113,7 +113,7 @@ noncomputable def checkNonIdCommon (cert : NonIdCert) : Bool := by
       (totalAff (faceVectorSeq cert.forcedSeq))
       cert.axis cert.p0 cert.lambda cert.solve
 
-noncomputable def checkNonIdPairBalanceFailure (cert : NonIdCert) : Bool := by
+noncomputable def checkNonIdInvalidPairWordFailure (cert : NonIdCert) : Bool := by
   classical
   exact decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)) &&
     decide (¬ ValidPairWord cert.word)
@@ -203,6 +203,19 @@ noncomputable def checkAxisForcesForcedSeq (cert : NonIdCert) : Bool := by
   classical
   exact decide (AxisForcesForcedSeq cert.word cert.axis
     (faceVectorSeq cert.forcedSeq))
+
+noncomputable def checkNonIdForcedPairBalanceFailure (cert : NonIdCert) : Bool := by
+  classical
+  exact decide (ValidPairWord cert.word) &&
+    decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)) &&
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel &&
+        checkAxisForcesForcedSeq cert &&
+          decide (¬ IsOmniSeq (faceVectorSeq cert.forcedSeq))
+
+noncomputable def checkNonIdPairBalanceFailure (cert : NonIdCert) : Bool :=
+  checkNonIdInvalidPairWordFailure cert ||
+    checkNonIdForcedPairBalanceFailure cert
 
 noncomputable def checkNonIdBadDirectionSignFailure
     (cert : NonIdCert) (i : WordIndex) : Bool := by
@@ -1257,8 +1270,30 @@ theorem checkNonIdCert_sound
         · simp [hWordNonId] at hcheck
       · simp [hValid] at hcheck
   | badPairBalance =>
-      simp [checkNonIdCert, hfailure, checkNonIdPairBalanceFailure] at hcheck
-      exact hcheck.2 hRealize.valid
+      simp [checkNonIdCert, hfailure, checkNonIdPairBalanceFailure,
+        checkNonIdInvalidPairWordFailure,
+        checkNonIdForcedPairBalanceFailure,
+        checkAxisForcesForcedSeq] at hcheck
+      rcases hcheck with hInvalid | hForced
+      · exact hInvalid.2 hRealize.valid
+      · rcases hForced with
+          ⟨⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, hForces⟩, hNotOmni⟩
+        have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+          hRealize.linear_eq
+        have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by
+          intro hSeqId
+          apply hWordNonId
+          rw [← hSeqLinear]
+          exact hSeqId
+        have hAxisConstraints :=
+          unfolded_feasible_nonidentity_axis_constraints _hFeasible hSeqNonId
+        have hForcedEq : faceVectorSeq cert.forcedSeq = seq :=
+          forcedSeq_eq_of_axisForces
+            (cert := cert) (seq := seq) hRealize hAxisConstraints
+            hKernel hForces
+        exact hNotOmni (by
+          rw [hForcedEq]
+          exact hRealize.omni)
   | badDirectionSign i =>
       simp [checkNonIdCert, hfailure, checkNonIdBadDirectionSignFailure,
         checkAxisDotZeroAtWord] at hcheck
@@ -1522,11 +1557,16 @@ def tinyBadPairBalanceNonIdCert : NonIdCert where
   solve := { leftInverse := mat4Id }
   failure := NonIdFailure.badPairBalance
 
-example : checkNonIdCert tinyBadPairBalanceNonIdCert = true := by
+theorem tinyBadPairBalanceNonIdCert_check :
+    checkNonIdCert tinyBadPairBalanceNonIdCert = true := by
+  have hInvalid :
+      checkNonIdInvalidPairWordFailure tinyBadPairBalanceNonIdCert = true := by
+    simp [checkNonIdInvalidPairWordFailure, tinyBadPairBalanceNonIdCert,
+      sampleNonIdentityTranslationWord_totalLinear_ne_id,
+      sampleNonIdentityTranslationWord_not_valid]
   simp [checkNonIdCert, tinyBadPairBalanceNonIdCert,
-    checkNonIdPairBalanceFailure,
-    sampleNonIdentityTranslationWord_totalLinear_ne_id,
-    sampleNonIdentityTranslationWord_not_valid]
+    checkNonIdPairBalanceFailure]
+  exact Or.inl hInvalid
 
 example :
     ¬ exists seq,
@@ -1534,11 +1574,8 @@ example :
         StartsXp seq /\
         totalLinear seq ≠ (matId : Mat3 Rat) /\
         UnfoldedFeasible seq :=
-  checkNonIdCert_sound tinyBadPairBalanceNonIdCert (by
-    simp [checkNonIdCert, tinyBadPairBalanceNonIdCert,
-      checkNonIdPairBalanceFailure,
-      sampleNonIdentityTranslationWord_totalLinear_ne_id,
-      sampleNonIdentityTranslationWord_not_valid])
+  checkNonIdCert_sound tinyBadPairBalanceNonIdCert
+    tinyBadPairBalanceNonIdCert_check
 
 example : checkFarkas tinyContradictionConstraints tinyContradictionCert = true := by
   norm_num [checkFarkas, checkFarkasTerm, checkFarkasPositive,
