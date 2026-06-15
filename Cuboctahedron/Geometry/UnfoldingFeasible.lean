@@ -105,6 +105,12 @@ def preImpactNormalQ (seq : Step14 -> Face) (i : Impact15) : Vec3 Rat :=
 def preImpactNormalR (seq : Step14 -> Face) (i : Impact15) : Vec3 Real :=
   vecRatToReal (preImpactNormalQ seq i)
 
+def transitionEndImpact (i : Step14) : Impact15 :=
+  ⟨i.val + 1, by omega⟩
+
+def segmentTime (a b s : Real) : Real :=
+  a + s * (b - a)
+
 def PreImpactForward
     (seq : Step14 -> Face) (w : Vec3 Real) : Prop :=
   forall i : Impact15,
@@ -186,6 +192,22 @@ def InPreUnfoldedImpactFaceInterior (seq : Step14 -> Face) (i : Impact15)
     (x : Vec3 Real) : Prop :=
   exists p : Vec3 Real,
     InFaceInterior (impactFace seq i) p /\ preImpactUnfoldedAt seq i p = x
+
+def InPreUnfoldedPolyhedronInterior (seq : Step14 -> Face) (i : Impact15)
+    (x : Vec3 Real) : Prop :=
+  exists p : Vec3 Real,
+    InPolyhedronInterior p /\ preImpactUnfoldedAt seq i p = x
+
+def PreImpactOpenSegmentInterior
+    (seq : Step14 -> Face)
+    (p0 w : Vec3 Real)
+    (crossing_times : Impact15 -> Real) : Prop :=
+  forall i : Step14, forall s : Real,
+    0 < s -> s < 1 ->
+      InPreUnfoldedPolyhedronInterior seq (transitionEndImpact i)
+        (linePoint p0 w
+          (segmentTime (crossing_times i.castSucc)
+            (crossing_times (transitionEndImpact i)) s))
 
 def InUnfoldedFaceInterior (seq : Step14 -> Face) (i : Step14)
     (x : Vec3 Real) : Prop :=
@@ -351,6 +373,78 @@ theorem linePoint_normalizedCrossingTime
   apply Vec3.ext <;>
     simp [linePoint, vecAdd, scalarMul, normalizedCrossingTime] <;>
     field_simp [hpos.ne']
+
+theorem cumulativeTime_transitionEnd
+    (o : BilliardOrbit14) (i : Step14) :
+    cumulativeTime o (transitionEndImpact i) =
+      cumulativeTime o i.castSucc + o.time i := by
+  unfold cumulativeTime transitionEndImpact
+  change (Finset.range (i.val + 1)).sum
+      (fun n => if h : n < 14 then o.time ⟨n, h⟩ else 0) =
+    (Finset.range i.val).sum
+      (fun n => if h : n < 14 then o.time ⟨n, h⟩ else 0) +
+      o.time i
+  rw [Finset.sum_range_succ]
+  simp [i.isLt]
+
+theorem preImpactCopyAff_transitionEnd
+    (seq : Step14 -> Face) (i : Step14) :
+    preImpactCopyAff seq (transitionEndImpact i) =
+      pathPrefixAffNat seq i.val := by
+  simp [preImpactCopyAff, transitionEndImpact]
+
+theorem billiard_preImpact_open_segment_interior
+    (o : BilliardOrbit14) :
+    PreImpactOpenSegmentInterior o.face (o.p 0)
+      (scalarMul (totalTravelTime o) (o.v 0))
+      (normalizedCrossingTime o) := by
+  intro i s hs0 hs1
+  let q : Vec3 Real :=
+    pointOnSegment (o.p i.castSucc) (o.p (stepSucc i).castSucc) s
+  refine ⟨q, (o.segment_valid i).2 s hs0 hs1, ?_⟩
+  have hq :
+      q =
+        vecAdd (o.p i.castSucc)
+          (scalarMul (s * o.time i) (o.v i.castSucc)) := by
+    dsimp [q]
+    rw [o.next_point i]
+    apply Vec3.ext <;>
+      simp [pointOnSegment, vecSub, vecAdd, scalarMul] <;>
+      ring
+  have hpos := pathPrefix_unfolded_position o i.val i.isLt
+  have hvel := pathPrefix_unfolded_velocity o i.val i.isLt
+  have hiCast :
+      (⟨i.val, Nat.lt_trans i.isLt (by decide)⟩ : Impact15) =
+        i.castSucc := by
+    ext
+    rfl
+  have hpos' :
+      unfoldedImpact o.face i (o.p i.castSucc) =
+        linePoint (o.p 0) (o.v 0) (cumulativeTime o i.castSucc) := by
+    simpa [hiCast] using hpos
+  have hvel' :
+      matVec (affRatToReal (pathPrefixAffNat o.face i.val)).M
+          (o.v i.castSucc) = o.v 0 := by
+    simpa [hiCast] using hvel
+  have hcum := cumulativeTime_transitionEnd o i
+  have hT := totalTravelTime_pos o
+  unfold preImpactUnfoldedAt
+  rw [preImpactCopyAff_transitionEnd, hq, affApply_line_real]
+  change
+    vecAdd
+        (unfoldedImpact o.face i (o.p i.castSucc))
+        (scalarMul (s * o.time i)
+          (matVec (affRatToReal (pathPrefixAffNat o.face i.val)).M
+            (o.v i.castSucc))) =
+      linePoint (o.p 0) (scalarMul (totalTravelTime o) (o.v 0))
+        (segmentTime (normalizedCrossingTime o i.castSucc)
+          (normalizedCrossingTime o (transitionEndImpact i)) s)
+  rw [hpos', hvel']
+  apply Vec3.ext <;>
+    simp [linePoint, segmentTime, normalizedCrossingTime, vecAdd, scalarMul,
+      hcum] <;>
+    field_simp [hT.ne'] <;>
+    ring
 
 theorem billiard_unfolded_hit
     (o : BilliardOrbit14) (i : Step14) :
@@ -736,6 +830,8 @@ structure UnfoldedFeasibleData (seq : Step14 -> Face) where
     PreImpactForward seq w
   preImpact_forward_all :
     PreImpactForwardAll seq w
+  open_segment_interior :
+    PreImpactOpenSegmentInterior seq p0 w crossing_times
 
 def UnfoldedFeasible (seq : Step14 -> Face) : Prop :=
   Nonempty (UnfoldedFeasibleData seq)
@@ -763,6 +859,7 @@ theorem billiard_implies_unfolded
     direction_fixed := billiard_direction_fixed o
     preImpact_forward := billiard_preImpact_forward o
     preImpact_forward_all := billiard_preImpact_forward_all o
+    open_segment_interior := billiard_preImpact_open_segment_interior o
   }⟩
   · intro hw
     have hT : totalTravelTime o ≠ 0 := (totalTravelTime_pos o).ne'

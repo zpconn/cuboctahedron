@@ -104,6 +104,23 @@ noncomputable def checkForcedSeqMatchesWord (cert : NonIdCert) : Bool := by
   exact decide (StartsXp (faceVectorSeq cert.forcedSeq) /\
     PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq))
 
+theorem checkForcedSeqMatchesWord_sound
+    (cert : NonIdCert)
+    (hcheck : checkForcedSeqMatchesWord cert = true) :
+    StartsXp (faceVectorSeq cert.forcedSeq) /\
+      PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq) := by
+  classical
+  simpa [checkForcedSeqMatchesWord] using hcheck
+
+theorem nonIdCert_forcedSeq_exact_of_signed_normals
+    (cert : NonIdCert) {seq : Step14 -> Face}
+    (hStart : faceVectorSeq cert.forcedSeq 0 = seq 0)
+    (hNormals :
+      forall i : Step14, i ≠ (0 : Step14) ->
+        normalQ (faceVectorSeq cert.forcedSeq i) = normalQ (seq i)) :
+    faceVectorSeq cert.forcedSeq = seq :=
+  seq_eq_of_start_and_signed_normals hStart hNormals
+
 noncomputable def checkNonIdCommon (cert : NonIdCert) : Bool := by
   classical
   exact decide (ValidPairWord cert.word) &&
@@ -736,6 +753,8 @@ example : checkFarkas tinyContradictionConstraints tinyContradictionCert = true 
 #check checkTranslationCert
 #check checkTranslationCert_sound
 #check checkNonIdCert
+#check checkForcedSeqMatchesWord_sound
+#check nonIdCert_forcedSeq_exact_of_signed_normals
 #check checkNonIdCert_sound
 
 end Cuboctahedron

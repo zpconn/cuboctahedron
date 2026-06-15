@@ -36,6 +36,7 @@ structure NonIdentityAxisConstraints (seq : Step14 -> Face) : Prop where
       (forall i : Impact15,
         InPreUnfoldedImpactFaceInterior seq i
           (linePoint data.p0 data.w (data.crossing_times i))) /\
+      PreImpactOpenSegmentInterior seq data.p0 data.w data.crossing_times /\
         forall i : Step14,
           InUnfoldedFaceInterior seq i
             (linePoint data.p0 data.w
@@ -52,7 +53,7 @@ theorem unfolded_feasible_nonidentity_axis_constraints
     line_data := ⟨data, data.nonzero, data.start_interior, data.endpoint_eq,
       data.direction_fixed, data.preImpact_forward, data.preImpact_forward_all,
       data.impact_hit_conditions, data.pre_impact_hit_conditions,
-      data.hit_conditions⟩
+      data.open_segment_interior, data.hit_conditions⟩
   }
 
 theorem nonidentity_axis_constraints_fixed_direction
@@ -63,7 +64,7 @@ theorem nonidentity_axis_constraints_fixed_direction
       matVec (affRatToReal (totalAff seq)).M data.w = data.w := by
   rcases h.line_data with
     ⟨data, hNonzero, _hStart, _hEndpoint, hFixed, _hForward,
-      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
   exact ⟨data, hNonzero, hFixed⟩
 
 theorem nonidentity_axis_constraints_preImpact_forward
@@ -76,7 +77,7 @@ theorem nonidentity_axis_constraints_preImpact_forward
           (linePoint data.p0 data.w (data.crossing_times i)) := by
   rcases h.line_data with
     ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, hForward,
-      _hForwardAll, _hImpact, hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, hPreImpact, _hOpen, _hHit⟩
   exact ⟨data, hForward, hPreImpact⟩
 
 theorem nonidentity_axis_constraints_preImpact_forward_all
@@ -89,7 +90,7 @@ theorem nonidentity_axis_constraints_preImpact_forward_all
           (linePoint data.p0 data.w (data.crossing_times i)) := by
   rcases h.line_data with
     ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
-      hForwardAll, _hImpact, hPreImpact, _hHit⟩
+      hForwardAll, _hImpact, hPreImpact, _hOpen, _hHit⟩
   exact ⟨data, hForwardAll, hPreImpact⟩
 
 theorem nonidentity_axis_constraints_start_interior
@@ -99,7 +100,7 @@ theorem nonidentity_axis_constraints_start_interior
       InFaceInterior (seq 0) data.p0 := by
   rcases h.line_data with
     ⟨data, _hNonzero, hStart, _hEndpoint, _hFixed, _hForward,
-      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
   exact ⟨data, hStart⟩
 
 @[simp] theorem pairAtStartedIndex_zero (w : PairWord) :
@@ -376,7 +377,7 @@ theorem unfolded_feasible_nonidentity_forces_axis
       exists lambda : Real, data.w = scalarMul lambda (vecRatToReal axis) := by
   rcases h.line_data with
     ⟨data, hNonzero, _hStart, _hEndpoint, hFixed, _hForward,
-      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
   have hFixed' :
       matVec ((totalLinear seq).map fun q => (q : Real)) data.w = data.w := by
     simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
@@ -395,8 +396,50 @@ theorem unfolded_feasible_nonidentity_forces_face_signs
           0 < dot (preImpactNormalR seq i) data.w := by
   rcases h.line_data with
     ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
-      hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+      hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
   exact ⟨data, hForwardAll⟩
+
+theorem face_eq_of_normalQ_eq {f g : Face}
+    (h : normalQ f = normalQ g) :
+    f = g := by
+  cases f <;> cases g <;> simp [normalQ] at h ⊢ <;> norm_num at h
+
+theorem seq_eq_of_start_and_signed_normals
+    {seq forcedSeq : Step14 -> Face}
+    (hStart : forcedSeq 0 = seq 0)
+    (hNormals :
+      forall i : Step14, i ≠ (0 : Step14) ->
+        normalQ (forcedSeq i) = normalQ (seq i)) :
+    forcedSeq = seq := by
+  funext i
+  by_cases hi : i = 0
+  · subst i
+    exact hStart
+  · exact face_eq_of_normalQ_eq (hNormals i hi)
+
+def ForcedSignedFaceSequence
+    (seq forcedSeq : Step14 -> Face)
+    (data : UnfoldedFeasibleData seq) : Prop :=
+  forcedSeq = seq /\
+    forall i : Impact15,
+      i ≠ (0 : Impact15) ->
+        0 < dot (preImpactNormalR seq i) data.w
+
+theorem unfolded_feasible_nonidentity_forces_exact_sequence
+    {seq forcedSeq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq)
+    (hStart : forcedSeq 0 = seq 0)
+    (hNormals :
+      forall i : Step14, i ≠ (0 : Step14) ->
+        normalQ (forcedSeq i) = normalQ (seq i)) :
+    exists data : UnfoldedFeasibleData seq,
+      ForcedSignedFaceSequence seq forcedSeq data := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
+      hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
+  exact ⟨data,
+    seq_eq_of_start_and_signed_normals hStart hNormals,
+    hForwardAll⟩
 
 theorem unfolded_feasible_nonidentity_first_hit_data
     {seq : Step14 -> Face}
@@ -405,14 +448,48 @@ theorem unfolded_feasible_nonidentity_first_hit_data
       (forall i : Impact15,
         InPreUnfoldedImpactFaceInterior seq i
           (linePoint data.p0 data.w (data.crossing_times i))) /\
+      PreImpactOpenSegmentInterior seq data.p0 data.w data.crossing_times /\
       (forall i : Step14,
         InUnfoldedFaceInterior seq i
           (linePoint data.p0 data.w
             (data.crossing_times i.castSucc))) := by
   rcases h.line_data with
     ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
-      _hForwardAll, _hImpact, hPreImpact, hHit⟩
-  exact ⟨data, hPreImpact, hHit⟩
+      _hForwardAll, _hImpact, hPreImpact, hOpen, hHit⟩
+  exact ⟨data, hPreImpact, hOpen, hHit⟩
+
+structure ExactFirstHitSignData
+    (seq : Step14 -> Face) (data : UnfoldedFeasibleData seq) : Prop where
+  forward_signs :
+    forall i : Impact15,
+      i ≠ (0 : Impact15) ->
+        0 < dot (preImpactNormalR seq i) data.w
+  impact_hits :
+    forall i : Impact15,
+      InPreUnfoldedImpactFaceInterior seq i
+        (linePoint data.p0 data.w (data.crossing_times i))
+  open_segments :
+    PreImpactOpenSegmentInterior seq data.p0 data.w data.crossing_times
+  intended_hits :
+    forall i : Step14,
+      InUnfoldedFaceInterior seq i
+        (linePoint data.p0 data.w
+          (data.crossing_times i.castSucc))
+
+theorem unfolded_feasible_nonidentity_exact_first_hit_sign_data
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      ExactFirstHitSignData seq data := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
+      hForwardAll, _hImpact, hPreImpact, hOpen, hHit⟩
+  exact ⟨data, {
+    forward_signs := hForwardAll
+    impact_hits := hPreImpact
+    open_segments := hOpen
+    intended_hits := hHit
+  }⟩
 
 structure Vec4 where
   x0 : Rat
@@ -785,7 +862,7 @@ theorem unfolded_feasible_nonidentity_forces_start_point
       data.p0 = vecRatToReal certP := by
   rcases h.line_data with
     ⟨data, _hNonzero, _hStartInterior, _hEndpoint, hFixed, _hForward,
-      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
   have hFixed' :
       matVec ((totalLinear seq).map fun q => (q : Real)) data.w = data.w := by
     simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
@@ -816,7 +893,9 @@ example :
 #check unfolded_feasible_nonidentity_forces_axis
 #check unfolded_feasible_nonidentity_forces_start_point
 #check unfolded_feasible_nonidentity_forces_face_signs
+#check unfolded_feasible_nonidentity_forces_exact_sequence
 #check unfolded_feasible_nonidentity_first_hit_data
+#check unfolded_feasible_nonidentity_exact_first_hit_sign_data
 #check unfolded_feasible_nonidentity_axis_constraints
 
 end Cuboctahedron
