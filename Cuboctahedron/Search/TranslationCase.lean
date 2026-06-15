@@ -72,7 +72,7 @@ theorem xpStartConstraints_holds_of_interior {p : Vec3 Real}
   · simp [StrictLin2.Holds, StrictLin2.eval]
     linarith
 
-theorem translation_feasible_implies_constraints
+theorem unfolded_feasible_translation_constraints
     {seq : Step14 -> Face}
     {b : Vec3 Rat}
     (h : TranslationUnfoldedFeasible seq b) :
@@ -87,6 +87,14 @@ theorem translation_feasible_implies_constraints
   exact xpStartConstraints_holds_of_interior hStartInterior L (by
     simpa [translationConstraints] using hmem)
 
+theorem translation_feasible_implies_constraints
+    {seq : Step14 -> Face}
+    {b : Vec3 Rat}
+    (h : TranslationUnfoldedFeasible seq b) :
+    exists y z : Real,
+      forall L, L ∈ translationConstraints seq b -> L.Holds y z :=
+  unfolded_feasible_translation_constraints h
+
 example :
     IsIdentityLinear (pairWordOfSeq sampleStartedSeq) \/
       IsNonIdentityLinear (pairWordOfSeq sampleStartedSeq) :=
@@ -94,6 +102,7 @@ example :
 
 #check pairword_linear_cases
 #check unfolded_feasible_cases
+#check unfolded_feasible_translation_constraints
 #check translation_feasible_implies_constraints
 
 end Cuboctahedron

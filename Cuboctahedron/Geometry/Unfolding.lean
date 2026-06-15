@@ -27,6 +27,26 @@ in order `0, 1, ..., 13`.
 def prefixAff (seq : Fin 14 -> Face) (i : Fin 15) : Aff3 Rat :=
   prefixAffNat seq i.val
 
+/--
+Prefix products for unfolded impact copies.
+
+`pathPrefixAff seq i` maps the physical copy containing the `i`th impact into
+the initial unfolded straight-line copy.  It excludes `F0`; for `i > 0` it
+applies the reflections `F1, ..., Fi` in path order.  The current face is
+included because a point on that face is fixed by its own reflection.
+-/
+def pathPrefixAffNat (seq : Fin 14 -> Face) : Nat -> Aff3 Rat
+  | 0 => affId
+  | n + 1 =>
+      if h : n + 1 < 14 then
+        affCompose (pathPrefixAffNat seq n)
+          (faceReflectionQ (seq ⟨n + 1, h⟩))
+      else
+        pathPrefixAffNat seq n
+
+def pathPrefixAff (seq : Fin 14 -> Face) (i : Fin 14) : Aff3 Rat :=
+  pathPrefixAffNat seq i.val
+
 def composeFaceList (seq : Fin 14 -> Face) : List (Fin 14) -> Aff3 Rat
   | [] => affId
   | i :: is => affCompose (faceReflectionQ (seq i)) (composeFaceList seq is)

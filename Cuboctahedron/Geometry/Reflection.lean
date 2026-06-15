@@ -45,4 +45,31 @@ theorem faceReflectionQ_real_apply_eq_reflectPoint (f : Face) (p : Vec3 Real) :
       vecAdd, vecSub, scalarMul, normalR, normalQ, offsetR, offsetQ, dot] <;>
     ring
 
+theorem faceReflectionQ_real_linear_eq_reflectVec
+    (f : Face) (v : Vec3 Real) :
+    matVec (affRatToReal (faceReflectionQ f)).M v =
+      reflectVec v (normalR f) := by
+  cases f <;>
+    apply Vec3.ext <;>
+    simp [affRatToReal, faceReflectionQ, reflM, reflD, reflectVec,
+      Aff3.map, Mat3.map, Vec3.map, matSub, scalarMat, outer, matId, matVec,
+      vecSub, scalarMul, normalR, normalQ, offsetQ, dot] <;>
+    ring
+
+theorem reflectVec_face_involutive (f : Face) (v : Vec3 Real) :
+    reflectVec (reflectVec v (normalR f)) (normalR f) = v := by
+  cases f <;>
+    apply Vec3.ext <;>
+    simp [reflectVec, vecSub, scalarMul, normalR, normalQ, dot] <;>
+    ring
+
+theorem faceReflectionQ_real_fix_of_inFaceInterior
+    {f : Face} {p : Vec3 Real}
+    (h : InFaceInterior f p) :
+    affApply (affRatToReal (faceReflectionQ f)) p = p := by
+  rw [faceReflectionQ_real_apply_eq_reflectPoint]
+  rcases h with ⟨hon, _⟩
+  apply Vec3.ext <;>
+    simp [reflectPoint, vecSub, scalarMul, hon]
+
 end Cuboctahedron

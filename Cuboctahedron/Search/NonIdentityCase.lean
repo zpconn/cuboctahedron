@@ -1,4 +1,4 @@
-import Cuboctahedron.Geometry.Unfolding
+import Cuboctahedron.Geometry.UnfoldingFeasible
 import Cuboctahedron.Search.Itineraries
 
 /-!
@@ -18,6 +18,27 @@ def totalLinearOfPairWord (w : PairWord) : Mat3 Rat :=
 
 def IsNonIdentityLinear (w : PairWord) : Prop :=
   totalLinearOfPairWord w ≠ (matId : Mat3 Rat)
+
+structure NonIdentityAxisConstraints (seq : Step14 -> Face) : Prop where
+  total_nonidentity : totalLinear seq ≠ (matId : Mat3 Rat)
+  line_data :
+    exists data : UnfoldedFeasibleData seq,
+      InFaceInterior (seq 0) data.p0 /\
+        forall i : Step14,
+          InUnfoldedFaceInterior seq i
+            (linePoint data.p0 data.w
+              (data.crossing_times i.castSucc))
+
+theorem unfolded_feasible_nonidentity_axis_constraints
+    {seq : Step14 -> Face}
+    (hFeasible : UnfoldedFeasible seq)
+    (hNonIdentity : totalLinear seq ≠ (matId : Mat3 Rat)) :
+    NonIdentityAxisConstraints seq := by
+  rcases hFeasible with ⟨data⟩
+  exact {
+    total_nonidentity := hNonIdentity
+    line_data := ⟨data, data.start_interior, data.hit_conditions⟩
+  }
 
 @[simp] theorem pairAtStartedIndex_zero (w : PairWord) :
     pairAtStartedIndex w 0 = PairId.x := by
