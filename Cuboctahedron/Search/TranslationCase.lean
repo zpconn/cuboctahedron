@@ -23,8 +23,17 @@ theorem unfolded_feasible_cases
   let _ := h
   exact Classical.em _
 
-abbrev SeqRealizesPairWord (w : PairWord) (seq : Step14 -> Face) : Prop :=
-  StartsXp seq /\ PairWordMatchesSeq w seq
+structure SeqRealizesPairWord (w : PairWord) (seq : Step14 -> Face) : Prop where
+  valid : ValidPairWord w
+  startsXp : StartsXp seq
+  pair_matches : PairWordMatchesSeq w seq
+  omni : IsOmniSeq seq
+
+theorem SeqRealizesPairWord.linear_eq
+    {w : PairWord} {seq : Step14 -> Face}
+    (h : SeqRealizesPairWord w seq) :
+    totalLinear seq = totalLinearOfPairWord w :=
+  totalLinear_eq_totalLinearOfPairWord h.startsXp h.pair_matches
 
 def xpStartConstraints : List StrictLin2 :=
   [{ a := 1, b := 1, c := 1 },
