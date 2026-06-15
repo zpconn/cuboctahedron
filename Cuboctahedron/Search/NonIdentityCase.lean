@@ -29,6 +29,7 @@ structure NonIdentityAxisConstraints (seq : Step14 -> Face) : Prop where
         affApply (affRatToReal (totalAff seq)) data.p0 /\
       matVec (affRatToReal (totalAff seq)).M data.w = data.w /\
       PreImpactForward seq data.w /\
+      PreImpactForwardAll seq data.w /\
       (forall i : Impact15,
         InUnfoldedImpactFaceInterior seq i
           (linePoint data.p0 data.w (data.crossing_times i))) /\
@@ -49,8 +50,9 @@ theorem unfolded_feasible_nonidentity_axis_constraints
   exact {
     total_nonidentity := hNonIdentity
     line_data := ⟨data, data.nonzero, data.start_interior, data.endpoint_eq,
-      data.direction_fixed, data.preImpact_forward, data.impact_hit_conditions,
-      data.pre_impact_hit_conditions, data.hit_conditions⟩
+      data.direction_fixed, data.preImpact_forward, data.preImpact_forward_all,
+      data.impact_hit_conditions, data.pre_impact_hit_conditions,
+      data.hit_conditions⟩
   }
 
 theorem nonidentity_axis_constraints_fixed_direction
@@ -61,7 +63,7 @@ theorem nonidentity_axis_constraints_fixed_direction
       matVec (affRatToReal (totalAff seq)).M data.w = data.w := by
   rcases h.line_data with
     ⟨data, hNonzero, _hStart, _hEndpoint, hFixed, _hForward,
-      _hImpact, _hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
   exact ⟨data, hNonzero, hFixed⟩
 
 theorem nonidentity_axis_constraints_preImpact_forward
@@ -74,8 +76,21 @@ theorem nonidentity_axis_constraints_preImpact_forward
           (linePoint data.p0 data.w (data.crossing_times i)) := by
   rcases h.line_data with
     ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, hForward,
-      _hImpact, hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, hPreImpact, _hHit⟩
   exact ⟨data, hForward, hPreImpact⟩
+
+theorem nonidentity_axis_constraints_preImpact_forward_all
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      PreImpactForwardAll seq data.w /\
+      forall i : Impact15,
+        InPreUnfoldedImpactFaceInterior seq i
+          (linePoint data.p0 data.w (data.crossing_times i)) := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
+      hForwardAll, _hImpact, hPreImpact, _hHit⟩
+  exact ⟨data, hForwardAll, hPreImpact⟩
 
 theorem nonidentity_axis_constraints_start_interior
     {seq : Step14 -> Face}
@@ -84,7 +99,7 @@ theorem nonidentity_axis_constraints_start_interior
       InFaceInterior (seq 0) data.p0 := by
   rcases h.line_data with
     ⟨data, _hNonzero, hStart, _hEndpoint, _hFixed, _hForward,
-      _hImpact, _hPreImpact, _hHit⟩
+      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
   exact ⟨data, hStart⟩
 
 @[simp] theorem pairAtStartedIndex_zero (w : PairWord) :
@@ -194,6 +209,210 @@ def checkKernelLineWitness
   checkVec3NonzeroQ axis &&
     decide (matVec M axis = axis) &&
     decide (matMul witness.crossFactor (fixedPart M) = crossLeftMatrix axis)
+
+theorem checkVec3NonzeroQ_sound {v : Vec3 Rat}
+    (h : checkVec3NonzeroQ v = true) :
+    vec3NonzeroQ v := by
+  unfold checkVec3NonzeroQ at h
+  unfold vec3NonzeroQ
+  simp only [Bool.or_eq_true, decide_eq_true_eq] at h
+  simpa [or_assoc] using h
+
+theorem vecRatToReal_ne_zero_of_nonzeroQ {v : Vec3 Rat}
+    (h : vec3NonzeroQ v) :
+    vecRatToReal v ≠ zeroVec3R := by
+  intro hz
+  rcases h with hx | hy | hzq
+  · apply hx
+    have hzx := congrArg Vec3.x hz
+    simpa [vecRatToReal, zeroVec3R] using hzx
+  · apply hy
+    have hzy := congrArg Vec3.y hz
+    simpa [vecRatToReal, zeroVec3R] using hzy
+  · apply hzq
+    have hzz := congrArg Vec3.z hz
+    simpa [vecRatToReal, zeroVec3R] using hzz
+
+theorem matVec_ratToReal3 (M : Mat3 Rat) (v : Vec3 Rat) :
+    matVec (M.map fun q => (q : Real)) (vecRatToReal v) =
+      vecRatToReal (matVec M v) := by
+  apply Vec3.ext <;> simp [matVec, vecRatToReal, Mat3.map, Vec3.map]
+
+theorem matMul_ratToReal3 (A B : Mat3 Rat) :
+    (matMul A B).map (fun q => (q : Real)) =
+      matMul (A.map fun q => (q : Real)) (B.map fun q => (q : Real)) := by
+  apply Mat3.ext <;> simp [Mat3.map, matMul]
+
+theorem fixedPart_real_zero_of_fixed
+    (M : Mat3 Rat) {w : Vec3 Real}
+    (hfix : matVec (M.map fun q => (q : Real)) w = w) :
+    matVec ((fixedPart M).map fun q => (q : Real)) w = zeroVec3R := by
+  apply Vec3.ext
+  · have hx := congrArg Vec3.x hfix
+    simp [fixedPart, matSub, matId, matVec, Mat3.map, zeroVec3R] at hx ⊢
+    linarith
+  · have hy := congrArg Vec3.y hfix
+    simp [fixedPart, matSub, matId, matVec, Mat3.map, zeroVec3R] at hy ⊢
+    linarith
+  · have hz := congrArg Vec3.z hfix
+    simp [fixedPart, matSub, matId, matVec, Mat3.map, zeroVec3R] at hz ⊢
+    linarith
+
+theorem matVec_zeroVec3R (M : Mat3 Real) :
+    matVec M zeroVec3R = zeroVec3R := by
+  apply Vec3.ext <;> simp [matVec, zeroVec3R]
+
+theorem matVec_crossLeftMatrix_real (axis : Vec3 Rat) (v : Vec3 Real) :
+    matVec ((crossLeftMatrix axis).map fun q => (q : Real)) v =
+      cross (vecRatToReal axis) v := by
+  apply Vec3.ext <;>
+    simp [crossLeftMatrix, matVec, cross, vecRatToReal, Mat3.map, Vec3.map] <;>
+    ring
+
+theorem checkKernelLineWitness_axis_nonzero
+    {M : Mat3 Rat} {axis : Vec3 Rat} {witness : KernelLineWitness}
+    (hcheck : checkKernelLineWitness M axis witness = true) :
+    vecRatToReal axis ≠ zeroVec3R := by
+  have hNonzero : checkVec3NonzeroQ axis = true := by
+    simp [checkKernelLineWitness] at hcheck
+    exact hcheck.1.1
+  exact vecRatToReal_ne_zero_of_nonzeroQ (checkVec3NonzeroQ_sound hNonzero)
+
+theorem checkKernelLineWitness_axis_fixed
+    {M : Mat3 Rat} {axis : Vec3 Rat} {witness : KernelLineWitness}
+    (hcheck : checkKernelLineWitness M axis witness = true) :
+    matVec (M.map fun q => (q : Real)) (vecRatToReal axis) =
+      vecRatToReal axis := by
+  have hAxis : matVec M axis = axis := by
+    simp [checkKernelLineWitness] at hcheck
+    exact hcheck.1.2
+  rw [matVec_ratToReal3, hAxis]
+
+theorem checkKernelLineWitness_real_axisLine
+    {M : Mat3 Rat} {axis : Vec3 Rat} {witness : KernelLineWitness}
+    (hcheck : checkKernelLineWitness M axis witness = true)
+    {w : Vec3 Real}
+    (hfix : matVec (M.map fun q => (q : Real)) w = w) :
+    cross (vecRatToReal axis) w = zeroVec3R := by
+  have hFactor : matMul witness.crossFactor (fixedPart M) = crossLeftMatrix axis := by
+    simp [checkKernelLineWitness] at hcheck
+    exact hcheck.2
+  have hFactorR :
+      matMul (witness.crossFactor.map fun q => (q : Real))
+          ((fixedPart M).map fun q => (q : Real)) =
+        (crossLeftMatrix axis).map fun q => (q : Real) := by
+    rw [← matMul_ratToReal3, hFactor]
+  have hz := fixedPart_real_zero_of_fixed M hfix
+  have hzero :
+      matVec
+          (matMul (witness.crossFactor.map fun q => (q : Real))
+            ((fixedPart M).map fun q => (q : Real))) w =
+        zeroVec3R := by
+    rw [matVec_matMul, hz, matVec_zeroVec3R]
+  rw [hFactorR] at hzero
+  simpa [matVec_crossLeftMatrix_real] using hzero
+
+theorem cross_eq_zero_scalar_of_axis_ne_zero
+    {axis w : Vec3 Real}
+    (haxis : axis ≠ zeroVec3R)
+    (hcross : cross axis w = zeroVec3R) :
+    exists lambda : Real, w = scalarMul lambda axis := by
+  have hxCross := congrArg Vec3.x hcross
+  have hyCross := congrArg Vec3.y hcross
+  have hzCross := congrArg Vec3.z hcross
+  simp [cross, zeroVec3R] at hxCross hyCross hzCross
+  by_cases hx : axis.x = 0
+  · by_cases hy : axis.y = 0
+    · have hz : axis.z ≠ 0 := by
+        intro hzz
+        apply haxis
+        apply Vec3.ext <;> simp [zeroVec3R, hx, hy, hzz]
+      refine ⟨w.z / axis.z, ?_⟩
+      apply Vec3.ext
+      · have hmul : axis.z * w.x = 0 := by
+          simpa [hx] using hyCross
+        have hwx : w.x = 0 := (mul_eq_zero.mp hmul).resolve_left hz
+        simp [scalarMul, hx, hwx]
+      · have hmul : axis.z * w.y = 0 := by
+          have hneg : -(axis.z * w.y) = 0 := by
+            simpa [hy] using hxCross
+          nlinarith
+        have hwy : w.y = 0 := (mul_eq_zero.mp hmul).resolve_left hz
+        simp [scalarMul, hy, hwy]
+      · simp [scalarMul]
+        field_simp [hz]
+    · refine ⟨w.y / axis.y, ?_⟩
+      apply Vec3.ext
+      · have hmul : axis.y * w.x = 0 := by
+          have hneg : -(axis.y * w.x) = 0 := by
+            simpa [hx] using hzCross
+          nlinarith
+        have hwx : w.x = 0 := (mul_eq_zero.mp hmul).resolve_left hy
+        simp [scalarMul, hx, hwx]
+      · simp [scalarMul]
+        field_simp [hy]
+      · simp [scalarMul]
+        field_simp [hy]
+        nlinarith [hxCross]
+  · refine ⟨w.x / axis.x, ?_⟩
+    apply Vec3.ext
+    · simp [scalarMul]
+      field_simp [hx]
+    · simp [scalarMul]
+      field_simp [hx]
+      nlinarith
+    · simp [scalarMul]
+      field_simp [hx]
+      nlinarith
+
+theorem unfolded_feasible_nonidentity_forces_axis
+    {seq : Step14 -> Face} {axis : Vec3 Rat} {kernel : KernelLineWitness}
+    (h : NonIdentityAxisConstraints seq)
+    (hKernel :
+      checkKernelLineWitness (totalLinear seq) axis kernel = true) :
+    exists data : UnfoldedFeasibleData seq,
+      data.w ≠ zeroVec3R /\
+      cross (vecRatToReal axis) data.w = zeroVec3R /\
+      exists lambda : Real, data.w = scalarMul lambda (vecRatToReal axis) := by
+  rcases h.line_data with
+    ⟨data, hNonzero, _hStart, _hEndpoint, hFixed, _hForward,
+      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+  have hFixed' :
+      matVec ((totalLinear seq).map fun q => (q : Real)) data.w = data.w := by
+    simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+  have hCross :=
+    checkKernelLineWitness_real_axisLine hKernel hFixed'
+  have hAxisNonzero := checkKernelLineWitness_axis_nonzero hKernel
+  exact ⟨data, hNonzero, hCross,
+    cross_eq_zero_scalar_of_axis_ne_zero hAxisNonzero hCross⟩
+
+theorem unfolded_feasible_nonidentity_forces_face_signs
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      forall i : Impact15,
+        i ≠ (0 : Impact15) ->
+          0 < dot (preImpactNormalR seq i) data.w := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
+      hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+  exact ⟨data, hForwardAll⟩
+
+theorem unfolded_feasible_nonidentity_first_hit_data
+    {seq : Step14 -> Face}
+    (h : NonIdentityAxisConstraints seq) :
+    exists data : UnfoldedFeasibleData seq,
+      (forall i : Impact15,
+        InPreUnfoldedImpactFaceInterior seq i
+          (linePoint data.p0 data.w (data.crossing_times i))) /\
+      (forall i : Step14,
+        InUnfoldedFaceInterior seq i
+          (linePoint data.p0 data.w
+            (data.crossing_times i.castSucc))) := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStart, _hEndpoint, _hFixed, _hForward,
+      _hForwardAll, _hImpact, hPreImpact, hHit⟩
+  exact ⟨data, hPreImpact, hHit⟩
 
 structure Vec4 where
   x0 : Rat
@@ -320,6 +539,270 @@ def checkAffineAxisSolveWitness
     decide (mat4Vec (axisSolveMatrix A axis) (axisSolveVector p0 lambda) =
       axisSolveRhs A)
 
+structure Vec4R where
+  x0 : Real
+  x1 : Real
+  x2 : Real
+  x3 : Real
+deriving Inhabited
+
+namespace Vec4R
+
+theorem ext {a b : Vec4R}
+    (h0 : a.x0 = b.x0) (h1 : a.x1 = b.x1)
+    (h2 : a.x2 = b.x2) (h3 : a.x3 = b.x3) : a = b := by
+  cases a
+  cases b
+  simp_all
+
+end Vec4R
+
+structure Mat4R where
+  m00 : Real
+  m01 : Real
+  m02 : Real
+  m03 : Real
+  m10 : Real
+  m11 : Real
+  m12 : Real
+  m13 : Real
+  m20 : Real
+  m21 : Real
+  m22 : Real
+  m23 : Real
+  m30 : Real
+  m31 : Real
+  m32 : Real
+  m33 : Real
+deriving Inhabited
+
+namespace Mat4R
+
+theorem ext {A B : Mat4R}
+    (h00 : A.m00 = B.m00) (h01 : A.m01 = B.m01)
+    (h02 : A.m02 = B.m02) (h03 : A.m03 = B.m03)
+    (h10 : A.m10 = B.m10) (h11 : A.m11 = B.m11)
+    (h12 : A.m12 = B.m12) (h13 : A.m13 = B.m13)
+    (h20 : A.m20 = B.m20) (h21 : A.m21 = B.m21)
+    (h22 : A.m22 = B.m22) (h23 : A.m23 = B.m23)
+    (h30 : A.m30 = B.m30) (h31 : A.m31 = B.m31)
+    (h32 : A.m32 = B.m32) (h33 : A.m33 = B.m33) : A = B := by
+  cases A
+  cases B
+  simp_all
+
+end Mat4R
+
+def vec4RatToReal (v : Vec4) : Vec4R where
+  x0 := v.x0
+  x1 := v.x1
+  x2 := v.x2
+  x3 := v.x3
+
+def mat4RatToReal (A : Mat4) : Mat4R where
+  m00 := A.m00; m01 := A.m01; m02 := A.m02; m03 := A.m03
+  m10 := A.m10; m11 := A.m11; m12 := A.m12; m13 := A.m13
+  m20 := A.m20; m21 := A.m21; m22 := A.m22; m23 := A.m23
+  m30 := A.m30; m31 := A.m31; m32 := A.m32; m33 := A.m33
+
+def mat4IdR : Mat4R where
+  m00 := 1; m01 := 0; m02 := 0; m03 := 0
+  m10 := 0; m11 := 1; m12 := 0; m13 := 0
+  m20 := 0; m21 := 0; m22 := 1; m23 := 0
+  m30 := 0; m31 := 0; m32 := 0; m33 := 1
+
+def mat4VecR (A : Mat4R) (v : Vec4R) : Vec4R where
+  x0 := A.m00 * v.x0 + A.m01 * v.x1 + A.m02 * v.x2 + A.m03 * v.x3
+  x1 := A.m10 * v.x0 + A.m11 * v.x1 + A.m12 * v.x2 + A.m13 * v.x3
+  x2 := A.m20 * v.x0 + A.m21 * v.x1 + A.m22 * v.x2 + A.m23 * v.x3
+  x3 := A.m30 * v.x0 + A.m31 * v.x1 + A.m32 * v.x2 + A.m33 * v.x3
+
+def mat4MulR (A B : Mat4R) : Mat4R where
+  m00 := A.m00 * B.m00 + A.m01 * B.m10 + A.m02 * B.m20 + A.m03 * B.m30
+  m01 := A.m00 * B.m01 + A.m01 * B.m11 + A.m02 * B.m21 + A.m03 * B.m31
+  m02 := A.m00 * B.m02 + A.m01 * B.m12 + A.m02 * B.m22 + A.m03 * B.m32
+  m03 := A.m00 * B.m03 + A.m01 * B.m13 + A.m02 * B.m23 + A.m03 * B.m33
+  m10 := A.m10 * B.m00 + A.m11 * B.m10 + A.m12 * B.m20 + A.m13 * B.m30
+  m11 := A.m10 * B.m01 + A.m11 * B.m11 + A.m12 * B.m21 + A.m13 * B.m31
+  m12 := A.m10 * B.m02 + A.m11 * B.m12 + A.m12 * B.m22 + A.m13 * B.m32
+  m13 := A.m10 * B.m03 + A.m11 * B.m13 + A.m12 * B.m23 + A.m13 * B.m33
+  m20 := A.m20 * B.m00 + A.m21 * B.m10 + A.m22 * B.m20 + A.m23 * B.m30
+  m21 := A.m20 * B.m01 + A.m21 * B.m11 + A.m22 * B.m21 + A.m23 * B.m31
+  m22 := A.m20 * B.m02 + A.m21 * B.m12 + A.m22 * B.m22 + A.m23 * B.m32
+  m23 := A.m20 * B.m03 + A.m21 * B.m13 + A.m22 * B.m23 + A.m23 * B.m33
+  m30 := A.m30 * B.m00 + A.m31 * B.m10 + A.m32 * B.m20 + A.m33 * B.m30
+  m31 := A.m30 * B.m01 + A.m31 * B.m11 + A.m32 * B.m21 + A.m33 * B.m31
+  m32 := A.m30 * B.m02 + A.m31 * B.m12 + A.m32 * B.m22 + A.m33 * B.m32
+  m33 := A.m30 * B.m03 + A.m31 * B.m13 + A.m32 * B.m23 + A.m33 * B.m33
+
+theorem mat4IdR_vec (v : Vec4R) :
+    mat4VecR mat4IdR v = v := by
+  apply Vec4R.ext <;> simp [mat4VecR, mat4IdR]
+
+theorem mat4VecR_mul (A B : Mat4R) (v : Vec4R) :
+    mat4VecR (mat4MulR A B) v = mat4VecR A (mat4VecR B v) := by
+  apply Vec4R.ext <;> simp [mat4VecR, mat4MulR] <;> ring
+
+theorem mat4Mul_ratToReal (A B : Mat4) :
+    mat4RatToReal (mat4Mul A B) =
+      mat4MulR (mat4RatToReal A) (mat4RatToReal B) := by
+  apply Mat4R.ext <;> simp [mat4RatToReal, mat4Mul, mat4MulR]
+
+theorem mat4Vec_ratToReal (A : Mat4) (v : Vec4) :
+    mat4VecR (mat4RatToReal A) (vec4RatToReal v) =
+      vec4RatToReal (mat4Vec A v) := by
+  apply Vec4R.ext <;> simp [mat4VecR, mat4RatToReal, vec4RatToReal, mat4Vec]
+
+theorem mat4Id_ratToReal :
+    mat4RatToReal mat4Id = mat4IdR := by
+  apply Mat4R.ext <;> simp [mat4RatToReal, mat4Id, mat4IdR]
+
+def axisSolveVectorR (p0 : Vec3 Real) (lambda : Real) : Vec4R where
+  x0 := p0.x
+  x1 := p0.y
+  x2 := p0.z
+  x3 := lambda
+
+theorem checkAffineAxisSolveWitness_real_unique
+    {A : Aff3 Rat} {axis p0 : Vec3 Rat} {lambda : Rat}
+    {witness : AffineAxisSolveWitness}
+    (hcheck : checkAffineAxisSolveWitness A axis p0 lambda witness = true)
+    {y : Vec4R}
+    (hy :
+      mat4VecR (mat4RatToReal (axisSolveMatrix A axis)) y =
+        vec4RatToReal (axisSolveRhs A)) :
+    y = vec4RatToReal (axisSolveVector p0 lambda) := by
+  have hleft :
+      mat4Mul witness.leftInverse (axisSolveMatrix A axis) = mat4Id := by
+    simp [checkAffineAxisSolveWitness] at hcheck
+    exact hcheck.1
+  have hsol :
+      mat4Vec (axisSolveMatrix A axis) (axisSolveVector p0 lambda) =
+        axisSolveRhs A := by
+    simp [checkAffineAxisSolveWitness] at hcheck
+    exact hcheck.2
+  have hleftR :
+      mat4MulR (mat4RatToReal witness.leftInverse)
+          (mat4RatToReal (axisSolveMatrix A axis)) =
+        mat4IdR := by
+    rw [← mat4Mul_ratToReal, hleft, mat4Id_ratToReal]
+  have hsolR :
+      mat4VecR (mat4RatToReal (axisSolveMatrix A axis))
+          (vec4RatToReal (axisSolveVector p0 lambda)) =
+        vec4RatToReal (axisSolveRhs A) := by
+    rw [mat4Vec_ratToReal, hsol]
+  calc
+    y = mat4VecR mat4IdR y := (mat4IdR_vec y).symm
+    _ = mat4VecR
+          (mat4MulR (mat4RatToReal witness.leftInverse)
+            (mat4RatToReal (axisSolveMatrix A axis))) y := by rw [hleftR]
+    _ = mat4VecR (mat4RatToReal witness.leftInverse)
+          (mat4VecR (mat4RatToReal (axisSolveMatrix A axis)) y) := by
+            rw [mat4VecR_mul]
+    _ = mat4VecR (mat4RatToReal witness.leftInverse)
+          (vec4RatToReal (axisSolveRhs A)) := by rw [hy]
+    _ = mat4VecR (mat4RatToReal witness.leftInverse)
+          (mat4VecR (mat4RatToReal (axisSolveMatrix A axis))
+            (vec4RatToReal (axisSolveVector p0 lambda))) := by rw [hsolR]
+    _ = mat4VecR
+          (mat4MulR (mat4RatToReal witness.leftInverse)
+            (mat4RatToReal (axisSolveMatrix A axis)))
+          (vec4RatToReal (axisSolveVector p0 lambda)) := by
+            rw [mat4VecR_mul]
+    _ = mat4VecR mat4IdR (vec4RatToReal (axisSolveVector p0 lambda)) := by
+            rw [hleftR]
+    _ = vec4RatToReal (axisSolveVector p0 lambda) := mat4IdR_vec _
+
+theorem checkAffineAxisSolveWitness_real_start_eq
+    {A : Aff3 Rat} {axis certP : Vec3 Rat} {certLambda : Rat}
+    {witness : AffineAxisSolveWitness}
+    (hcheck : checkAffineAxisSolveWitness A axis certP certLambda witness = true)
+    {p : Vec3 Real} {lambda : Real}
+    (hsol :
+      mat4VecR (mat4RatToReal (axisSolveMatrix A axis))
+        (axisSolveVectorR p lambda) =
+        vec4RatToReal (axisSolveRhs A)) :
+    p = vecRatToReal certP := by
+  have huniq :=
+    checkAffineAxisSolveWitness_real_unique
+      (A := A) (axis := axis) (p0 := certP) (lambda := certLambda)
+      (witness := witness) hcheck hsol
+  apply Vec3.ext
+  · exact congrArg Vec4R.x0 huniq
+  · exact congrArg Vec4R.x1 huniq
+  · exact congrArg Vec4R.x2 huniq
+
+theorem endpoint_axis_solve_equation
+    {seq : Step14 -> Face} {axis : Vec3 Rat}
+    {data : UnfoldedFeasibleData seq} {lambda : Real}
+    (hStart : StartsXp seq)
+    (hParallel : data.w = scalarMul lambda (vecRatToReal axis)) :
+    mat4VecR (mat4RatToReal (axisSolveMatrix (totalAff seq) axis))
+        (axisSolveVectorR data.p0 lambda) =
+      vec4RatToReal (axisSolveRhs (totalAff seq)) := by
+  have hStartInterior : InFaceInterior Face.xp data.p0 := by
+    rw [← hStart]
+    exact data.start_interior
+  have hp0x : data.p0.x = 1 := by
+    simpa [normalR, normalQ, offsetR, offsetQ, dot] using hStartInterior.1
+  have hx := congrArg Vec3.x data.endpoint_eq
+  have hy := congrArg Vec3.y data.endpoint_eq
+  have hz := congrArg Vec3.z data.endpoint_eq
+  rw [hParallel] at hx hy hz
+  apply Vec4R.ext
+  · simp [axisSolveMatrix, axisSolveVectorR, axisSolveRhs, mat4VecR,
+      mat4RatToReal, vec4RatToReal, linePoint, affApply, affRatToReal,
+      Aff3.map, Mat3.map, Vec3.map, matVec, vecAdd, scalarMul,
+      vecRatToReal] at hx ⊢
+    ring_nf at hx ⊢
+    linarith
+  · simp [axisSolveMatrix, axisSolveVectorR, axisSolveRhs, mat4VecR,
+      mat4RatToReal, vec4RatToReal, linePoint, affApply, affRatToReal,
+      Aff3.map, Mat3.map, Vec3.map, matVec, vecAdd, scalarMul,
+      vecRatToReal] at hy ⊢
+    ring_nf at hy ⊢
+    linarith
+  · simp [axisSolveMatrix, axisSolveVectorR, axisSolveRhs, mat4VecR,
+      mat4RatToReal, vec4RatToReal, linePoint, affApply, affRatToReal,
+      Aff3.map, Mat3.map, Vec3.map, matVec, vecAdd, scalarMul,
+      vecRatToReal] at hz ⊢
+    ring_nf at hz ⊢
+    linarith
+  · simp [axisSolveMatrix, axisSolveVectorR, axisSolveRhs, mat4VecR,
+      mat4RatToReal, vec4RatToReal, hp0x]
+
+theorem unfolded_feasible_nonidentity_forces_start_point
+    {seq : Step14 -> Face} {axis certP : Vec3 Rat}
+    {kernel : KernelLineWitness} {certLambda : Rat}
+    {solve : AffineAxisSolveWitness}
+    (h : NonIdentityAxisConstraints seq)
+    (hStart : StartsXp seq)
+    (hKernel :
+      checkKernelLineWitness (totalLinear seq) axis kernel = true)
+    (hSolve :
+      checkAffineAxisSolveWitness (totalAff seq) axis certP certLambda solve = true) :
+    exists data : UnfoldedFeasibleData seq,
+      data.p0 = vecRatToReal certP := by
+  rcases h.line_data with
+    ⟨data, _hNonzero, _hStartInterior, _hEndpoint, hFixed, _hForward,
+      _hForwardAll, _hImpact, _hPreImpact, _hHit⟩
+  have hFixed' :
+      matVec ((totalLinear seq).map fun q => (q : Real)) data.w = data.w := by
+    simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+  have hCross :=
+    checkKernelLineWitness_real_axisLine hKernel hFixed'
+  have hAxisNonzero := checkKernelLineWitness_axis_nonzero hKernel
+  rcases cross_eq_zero_scalar_of_axis_ne_zero hAxisNonzero hCross with
+    ⟨lambda, hParallel⟩
+  have hsolveR :=
+    endpoint_axis_solve_equation (seq := seq) (axis := axis)
+      (data := data) (lambda := lambda) hStart hParallel
+  exact ⟨data,
+    checkAffineAxisSolveWitness_real_start_eq
+      (A := totalAff seq) (axis := axis) (certP := certP)
+      (certLambda := certLambda) (witness := solve)
+      hSolve hsolveR⟩
+
 example :
     totalLinear sampleStartedSeq =
       totalLinearOfPairWord (pairWordOfSeq sampleStartedSeq) := by
@@ -328,5 +811,12 @@ example :
 
 #check totalLinearOfPairWord
 #check totalLinear_eq_totalLinearOfPairWord
+#check checkKernelLineWitness_real_axisLine
+#check checkAffineAxisSolveWitness_real_unique
+#check unfolded_feasible_nonidentity_forces_axis
+#check unfolded_feasible_nonidentity_forces_start_point
+#check unfolded_feasible_nonidentity_forces_face_signs
+#check unfolded_feasible_nonidentity_first_hit_data
+#check unfolded_feasible_nonidentity_axis_constraints
 
 end Cuboctahedron

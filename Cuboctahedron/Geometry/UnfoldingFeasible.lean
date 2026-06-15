@@ -111,6 +111,12 @@ def PreImpactForward
     i ≠ (0 : Impact15) -> i ≠ lastImpact ->
       0 < dot (preImpactNormalR seq i) w
 
+def PreImpactForwardAll
+    (seq : Step14 -> Face) (w : Vec3 Real) : Prop :=
+  forall i : Impact15,
+    i ≠ (0 : Impact15) ->
+      0 < dot (preImpactNormalR seq i) w
+
 def PreservesDot (M : Mat3 Real) : Prop :=
   forall u v : Vec3 Real, dot (matVec M u) (matVec M v) = dot u v
 
@@ -603,6 +609,106 @@ theorem billiard_preImpact_forward
   rw [hscale, hpres]
   exact mul_pos hT (by simpa [cur, prev] using hincoming)
 
+theorem billiard_final_incoming_normal_velocity_pos
+    (o : BilliardOrbit14) :
+    0 <
+      dot (normalR (o.face 0))
+        (o.v (⟨13, by decide⟩ : Step14).castSucc) := by
+  let prev : Step14 := ⟨13, by decide⟩
+  have hstep : stepSucc prev = 0 := by
+    simpa [prev] using stepSucc_thirteen
+  have hpnext := o.next_point prev
+  have hpnext' :
+      o.p (0 : Impact15) =
+        vecAdd (o.p prev.castSucc)
+          (scalarMul (o.time prev) (o.v prev.castSucc)) := by
+    simpa [hstep] using hpnext
+  have hOn := (o.impact_interior (0 : Step14)).1
+  have hInteriorRaw :=
+    (o.segment_valid prev).2 (1 / 2) (by norm_num) (by norm_num)
+      (o.face 0)
+  have hInterior :
+      dot (normalR (o.face 0))
+          (pointOnSegment (o.p prev.castSucc) (o.p (0 : Impact15)) (1 / 2)) <
+        offsetR (o.face 0) := by
+    simpa [hstep] using hInteriorRaw
+  have hmid :
+      pointOnSegment (o.p prev.castSucc) (o.p (0 : Impact15)) (1 / 2) =
+        vecAdd (o.p prev.castSucc)
+          (scalarMul ((1 / 2) * o.time prev) (o.v prev.castSucc)) := by
+    rw [hpnext']
+    apply Vec3.ext <;>
+      simp [pointOnSegment, vecSub, vecAdd, scalarMul] <;>
+      ring
+  have hOn' :
+      dot (normalR (o.face 0))
+          (vecAdd (o.p prev.castSucc)
+            (scalarMul (o.time prev) (o.v prev.castSucc))) =
+        offsetR (o.face 0) := by
+    rw [← hpnext']
+    exact hOn
+  have hInterior' :
+      dot (normalR (o.face 0))
+          (vecAdd (o.p prev.castSucc)
+            (scalarMul ((1 / 2) * o.time prev) (o.v prev.castSucc))) <
+        offsetR (o.face 0) := by
+    rw [← hmid]
+    exact hInterior
+  have htime := o.time_pos prev
+  simp [dot, vecAdd, scalarMul] at hOn' hInterior' ⊢
+  ring_nf at hOn' hInterior' ⊢
+  set A : Real :=
+    (normalR (o.face 0)).x * (o.p prev.castSucc).x +
+      (normalR (o.face 0)).y * (o.p prev.castSucc).y +
+      (normalR (o.face 0)).z * (o.p prev.castSucc).z
+  set D : Real :=
+    (normalR (o.face 0)).x * (o.v prev.castSucc).x +
+      (normalR (o.face 0)).y * (o.v prev.castSucc).y +
+      (normalR (o.face 0)).z * (o.v prev.castSucc).z
+  have hOnD : A + o.time prev * D = offsetR (o.face 0) := by
+    dsimp [A, D]
+    nlinarith
+  have hInteriorD : A + (1 / 2) * o.time prev * D < offsetR (o.face 0) := by
+    dsimp [A, D]
+    nlinarith
+  have hD : 0 < D := by
+    nlinarith
+  simpa [D, dot, prev] using hD
+
+theorem billiard_preImpact_forward_all
+    (o : BilliardOrbit14) :
+    PreImpactForwardAll o.face
+      (scalarMul (totalTravelTime o) (o.v 0)) := by
+  intro i hi0
+  by_cases hilast : i = lastImpact
+  · subst i
+    have hpres := preImpactCopyAff_preservesDot o.face lastImpact
+      (normalR (o.face 0)) (o.v (⟨13, by decide⟩ : Step14).castSucc)
+    have hcast :
+        matVec (affRatToReal (preImpactCopyAff o.face lastImpact)).M
+            (normalR (o.face 0)) =
+          preImpactNormalR o.face lastImpact := by
+      apply Vec3.ext <;>
+        simp [preImpactNormalR, preImpactNormalQ, vecRatToReal, normalR,
+          preImpactCopyAff, impactFace, lastImpact, affRatToReal, Aff3.map,
+          Mat3.map, Vec3.map, matVec]
+    have hvel' :
+        matVec (affRatToReal (preImpactCopyAff o.face lastImpact)).M
+            (o.v (⟨13, by decide⟩ : Step14).castSucc) = o.v 0 := by
+      simpa [preImpactCopyAff, lastImpact] using
+        pathPrefix_unfolded_velocity o 13 (by decide)
+    rw [hcast, hvel'] at hpres
+    have hT := totalTravelTime_pos o
+    have hscale :
+        dot (preImpactNormalR o.face lastImpact)
+            (scalarMul (totalTravelTime o) (o.v 0)) =
+          totalTravelTime o * dot (preImpactNormalR o.face lastImpact) (o.v 0) := by
+      simp [scalarMul, dot]
+      ring
+    rw [hscale, hpres]
+    exact mul_pos hT (billiard_final_incoming_normal_velocity_pos o)
+  · exact billiard_preImpact_forward o i hi0 hilast
+
 structure UnfoldedFeasibleData (seq : Step14 -> Face) where
   p0 : Vec3 Real
   w : Vec3 Real
@@ -628,6 +734,8 @@ structure UnfoldedFeasibleData (seq : Step14 -> Face) where
     matVec (affRatToReal (totalAff seq)).M w = w
   preImpact_forward :
     PreImpactForward seq w
+  preImpact_forward_all :
+    PreImpactForwardAll seq w
 
 def UnfoldedFeasible (seq : Step14 -> Face) : Prop :=
   Nonempty (UnfoldedFeasibleData seq)
@@ -654,6 +762,7 @@ theorem billiard_implies_unfolded
     endpoint_eq := billiard_endpoint_eq o
     direction_fixed := billiard_direction_fixed o
     preImpact_forward := billiard_preImpact_forward o
+    preImpact_forward_all := billiard_preImpact_forward_all o
   }⟩
   · intro hw
     have hT : totalTravelTime o ≠ 0 := (totalTravelTime_pos o).ne'
