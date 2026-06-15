@@ -9,6 +9,8 @@ It is not an exhaustive certificate chunk.
 
 namespace Cuboctahedron.Generated.SmallSample
 
+set_option maxHeartbeats 800000
+
 def seq000 (i : Step14) : Face :=
   match i.val with
   | 0 => Face.xp
@@ -148,6 +150,90 @@ def seq006 (i : Step14) : Face :=
 
 def word006 : PairWord :=
   pairWordOfSeq seq006
+
+theorem word000_valid : ValidPairWord word000 := by
+  unfold word000 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem word001_valid : ValidPairWord word001 := by
+  unfold word001 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem word002_valid : ValidPairWord word002 := by
+  unfold word002 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem word003_valid : ValidPairWord word003 := by
+  unfold word003 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem word004_valid : ValidPairWord word004 := by
+  unfold word004 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem word005_valid : ValidPairWord word005 := by
+  unfold word005 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem word006_valid : ValidPairWord word006 := by
+  unfold word006 pairWordOfSeq ValidPairWord pairCount
+  decide
+
+theorem seq000_starts : StartsXp seq000 := by
+  rfl
+
+theorem word000_totalLinear_id :
+    totalLinearOfPairWord word000 = (matId : Mat3 Rat) := by
+  have hBridge : totalLinear seq000 = totalLinearOfPairWord word000 :=
+    totalLinear_eq_totalLinearOfPairWord seq000_starts
+      (pairWordOfSeq_matches seq000)
+  rw [← hBridge]
+  apply Mat3.ext <;>
+    norm_num [totalLinear, totalAff, composeFaceList, totalOrder, seq000,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,
+      matId, dot, affCompose, matMul, matVec, vecAdd, affId]
+
+theorem seq002_starts : StartsXp seq002 := by
+  rfl
+
+theorem word002_totalLinear_id :
+    totalLinearOfPairWord word002 = (matId : Mat3 Rat) := by
+  have hBridge : totalLinear seq002 = totalLinearOfPairWord word002 :=
+    totalLinear_eq_totalLinearOfPairWord seq002_starts
+      (pairWordOfSeq_matches seq002)
+  rw [← hBridge]
+  apply Mat3.ext <;>
+    norm_num [totalLinear, totalAff, composeFaceList, totalOrder, seq002,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,
+      matId, dot, affCompose, matMul, matVec, vecAdd, affId]
+
+theorem seq003_starts : StartsXp seq003 := by
+  rfl
+
+theorem word003_totalLinear_id :
+    totalLinearOfPairWord word003 = (matId : Mat3 Rat) := by
+  have hBridge : totalLinear seq003 = totalLinearOfPairWord word003 :=
+    totalLinear_eq_totalLinearOfPairWord seq003_starts
+      (pairWordOfSeq_matches seq003)
+  rw [← hBridge]
+  apply Mat3.ext <;>
+    norm_num [totalLinear, totalAff, composeFaceList, totalOrder, seq003,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,
+      matId, dot, affCompose, matMul, matVec, vecAdd, affId]
+
+theorem seq005_starts : StartsXp seq005 := by
+  rfl
+
+theorem word005_totalLinear_id :
+    totalLinearOfPairWord word005 = (matId : Mat3 Rat) := by
+  have hBridge : totalLinear seq005 = totalLinearOfPairWord word005 :=
+    totalLinear_eq_totalLinearOfPairWord seq005_starts
+      (pairWordOfSeq_matches seq005)
+  rw [← hBridge]
+  apply Mat3.ext <;>
+    norm_num [totalLinear, totalAff, composeFaceList, totalOrder, seq005,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,
+      matId, dot, affCompose, matMul, matVec, vecAdd, affId]
 
 theorem seq001_starts : StartsXp seq001 := by
   rfl

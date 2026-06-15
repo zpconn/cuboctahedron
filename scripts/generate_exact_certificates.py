@@ -18,6 +18,13 @@ from typing import Iterable
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
+NONIDENTITY_CHUNK_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
+)
+TRANSLATION_CHUNK_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Chunk0000.lean"
+)
+ALL_GENERATED_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "AllGenerated.lean"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -259,28 +266,30 @@ def build_payload(sample_size: int) -> dict:
         WordRecord(i + 1, word, total_linear(word))
         for i, word in enumerate(enumerate_pair_words(sample_size))
     ]
-    nonidentity_records = [
-        {
+    nonidentity_records = []
+    for rank, record in enumerate(record for record in words if not record.identity):
+        nonidentity_records.append({
+            "rank": rank,
             "sample_index": record.sample_index,
             "word": record.word,
             "kind": "nonidentity_linear",
             "lean_smoke_certificate": "TranslationFailure.badTranslationVector",
-        }
-        for record in words
-        if not record.identity
-    ]
+        })
     translation_records = []
+    translation_rank = 0
     for record in words:
         if record.identity:
             for mask in range(64):
                 b, seq = translation_vector(record.word, mask)
                 translation_records.append({
+                    "rank": translation_rank,
                     "sample_index": record.sample_index,
                     "mask": mask,
                     "seq": seq,
                     "b": vec_to_json(b),
                     "has_farkas_certificate": False,
                 })
+                translation_rank += 1
     return {
         "schema_version": 1,
         "mode": "small-sample",
@@ -292,6 +301,22 @@ def build_payload(sample_size: int) -> dict:
         "pair_words": [record.to_json() for record in words],
         "nonidentity_records": nonidentity_records,
         "translation_records": translation_records,
+        "chunks": {
+            "nonidentity": {
+                "name": "NonIdentity.Chunk0000",
+                "startRank": 0,
+                "endRank": len(nonidentity_records),
+                "expectedItems": len(nonidentity_records),
+                "records": nonidentity_records,
+            },
+            "translation": {
+                "name": "Translation.Chunk0000",
+                "startRank": 0,
+                "endRank": len(translation_records),
+                "expectedItems": len(translation_records),
+                "records": translation_records,
+            },
+        },
         "summary": {
             "pair_words_sampled": len(words),
             "identity_linear_sampled": sum(1 for record in words if record.identity),
@@ -317,6 +342,26 @@ def lean_nonidentity_theorem_name(index: int) -> str:
     return f"word{index:03d}_totalLinear_ne_id"
 
 
+def lean_identity_theorem_name(index: int) -> str:
+    return f"word{index:03d}_totalLinear_id"
+
+
+def lean_valid_theorem_name(index: int) -> str:
+    return f"word{index:03d}_valid"
+
+
+def lean_chunk_nonidentity_cert_name(index: int) -> str:
+    return f"cert{index:03d}"
+
+
+def lean_translation_seq_name(index: int) -> str:
+    return f"choiceSeq{index:03d}"
+
+
+def lean_translation_choice_cert_name(index: int) -> str:
+    return f"choiceCert{index:03d}"
+
+
 def lean_seq_face(word: list[str], index: int) -> str:
     if index == 0:
         return "Face.xp"
@@ -333,6 +378,38 @@ def append_seq_definition(lines: list[str], index: int, word: list[str]) -> None
     lines.append(f"def {lean_pair_word_name(index)} : PairWord :=")
     lines.append(f"  pairWordOfSeq {lean_seq_name(index)}")
     lines.append("")
+
+
+def append_valid_theorem(lines: list[str], index: int) -> None:
+    word_name = lean_pair_word_name(index)
+    lines.extend([
+        f"theorem {lean_valid_theorem_name(index)} : ValidPairWord {word_name} := by",
+        f"  unfold {word_name} pairWordOfSeq ValidPairWord pairCount",
+        "  decide",
+        "",
+    ])
+
+
+def append_identity_theorems(lines: list[str], index: int) -> None:
+    seq_name = lean_seq_name(index)
+    word_name = lean_pair_word_name(index)
+    theorem_name = lean_identity_theorem_name(index)
+    lines.extend([
+        f"theorem {seq_name}_starts : StartsXp {seq_name} := by",
+        "  rfl",
+        "",
+        f"theorem {theorem_name} :",
+        f"    totalLinearOfPairWord {word_name} = (matId : Mat3 Rat) := by",
+        f"  have hBridge : totalLinear {seq_name} = totalLinearOfPairWord {word_name} :=",
+        f"    totalLinear_eq_totalLinearOfPairWord {seq_name}_starts",
+        f"      (pairWordOfSeq_matches {seq_name})",
+        "  rw [\u2190 hBridge]",
+        "  apply Mat3.ext <;>",
+        f"    norm_num [totalLinear, totalAff, composeFaceList, totalOrder, {seq_name},",
+        "      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, scalarMat, outer,",
+        "      matId, dot, affCompose, matMul, matVec, vecAdd, affId]",
+        "",
+    ])
 
 
 def append_nonidentity_theorems(lines: list[str], index: int) -> None:
@@ -377,10 +454,21 @@ def write_lean(payload: dict) -> None:
         "",
         "namespace Cuboctahedron.Generated.SmallSample",
         "",
+        "set_option maxHeartbeats 800000",
+        "",
     ]
     for index, record in enumerate(records):
         append_seq_definition(lines, index, record["word"])
+    for index, _record in enumerate(records):
+        append_valid_theorem(lines, index)
     nonidentity_word_indexes = [record["sample_index"] - 1 for record in nonidentity_records]
+    identity_word_indexes = [
+        record["sample_index"] - 1
+        for record in records
+        if record["linear"]["identity"]
+    ]
+    for word_index in identity_word_indexes:
+        append_identity_theorems(lines, word_index)
     for word_index in nonidentity_word_indexes:
         append_nonidentity_theorems(lines, word_index)
     word_names = ", ".join(lean_pair_word_name(i) for i in range(len(records)))
@@ -428,6 +516,162 @@ def write_lean(payload: dict) -> None:
     LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def append_chunk_meta(lines: list[str], chunk: dict) -> None:
+    lines.extend([
+        "def chunkMeta : GeneratedChunkMeta where",
+        f"  name := \"{chunk['name']}\"",
+        f"  startRank := {chunk['startRank']}",
+        f"  endRank := {chunk['endRank']}",
+        f"  expectedItems := {chunk['expectedItems']}",
+        "",
+    ])
+
+
+def write_nonidentity_chunk(payload: dict) -> None:
+    chunk = payload["chunks"]["nonidentity"]
+    records = chunk["records"]
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.SmallSample",
+        "",
+        "/-!",
+        "Generated non-identity sample chunk for Step 13.",
+        "",
+        "This is a small exact chunk scaffold, not the exhaustive final search.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Chunk0000",
+        "",
+        "set_option maxHeartbeats 800000",
+        "",
+        "open Cuboctahedron.Generated.SmallSample",
+        "",
+    ]
+    append_chunk_meta(lines, chunk)
+    for cert_index, record in enumerate(records):
+        sample_index = record["sample_index"] - 1
+        cert_name = lean_chunk_nonidentity_cert_name(cert_index)
+        lines.extend([
+            f"def {cert_name} : NonIdentityLinearCert where",
+            f"  rank := {record['rank']}",
+            f"  word := {lean_pair_word_name(sample_index)}",
+            "",
+            f"theorem {cert_name}_check :",
+            f"    checkNonIdentityLinearCert {cert_name} = true := by",
+            f"  simp [checkNonIdentityLinearCert, {cert_name},",
+            f"    {lean_valid_theorem_name(sample_index)},",
+            f"    {lean_nonidentity_theorem_name(sample_index)}]",
+            "",
+        ])
+    cert_names = [lean_chunk_nonidentity_cert_name(i) for i in range(len(records))]
+    lines.extend([
+        "def certs : Array NonIdentityLinearCert :=",
+        f"  #[{', '.join(cert_names)}]",
+        "",
+        "theorem certs_check : checkNonIdentityChunk chunkMeta certs = true := by",
+        "  simp [checkNonIdentityChunk, checkChunkMeta, chunkMeta,",
+        "    checkNonIdentityLinearCerts, certs,",
+        "    " + ", ".join(f"{name}_check" for name in cert_names) + "]",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Chunk0000",
+        "",
+    ])
+    NONIDENTITY_CHUNK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_translation_chunk(payload: dict) -> None:
+    chunk = payload["chunks"]["translation"]
+    records = chunk["records"]
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.SmallSample",
+        "",
+        "/-!",
+        "Generated translation-choice sample chunk for Step 13.",
+        "",
+        "This is a small exact chunk scaffold, not the exhaustive final search.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation.Chunk0000",
+        "",
+        "set_option maxHeartbeats 800000",
+        "set_option maxRecDepth 10000",
+        "",
+        "open Cuboctahedron.Generated.SmallSample",
+        "",
+    ]
+    append_chunk_meta(lines, chunk)
+    for cert_index, record in enumerate(records):
+        sample_index = record["sample_index"] - 1
+        mask = record["mask"]
+        seq_name = lean_translation_seq_name(cert_index)
+        cert_name = lean_translation_choice_cert_name(cert_index)
+        lines.extend([
+            f"def {seq_name} : Vector Face 14 :=",
+            f"  Vector.ofFn (translationChoiceSeq {lean_pair_word_name(sample_index)} "
+            f"\u27e8{mask}, by decide\u27e9)",
+            "",
+            f"def {cert_name} : TranslationChoiceCert where",
+            f"  rank := {record['rank']}",
+            f"  word := {lean_pair_word_name(sample_index)}",
+            f"  signMask := \u27e8{mask}, by decide\u27e9",
+            f"  seq := {seq_name}",
+            f"  b := translationVectorOfChoice {lean_pair_word_name(sample_index)} "
+            f"\u27e8{mask}, by decide\u27e9",
+            "",
+            f"theorem {cert_name}_check :",
+            f"    checkTranslationChoiceCert {cert_name} = true := by",
+            f"  simp [checkTranslationChoiceCert, {cert_name}, {seq_name},",
+            f"    {lean_valid_theorem_name(sample_index)},",
+            f"    {lean_identity_theorem_name(sample_index)},",
+            "    TranslationSeqMatches]",
+            "",
+        ])
+    cert_names = [lean_translation_choice_cert_name(i) for i in range(len(records))]
+    lines.extend([
+        "def certs : Array TranslationChoiceCert :=",
+        f"  #[{', '.join(cert_names)}]",
+        "",
+        "theorem certs_check : checkTranslationChunk chunkMeta certs = true := by",
+        "  simp [checkTranslationChunk, checkChunkMeta, chunkMeta,",
+        "    checkTranslationChoiceCerts, certs,",
+        "    " + ", ".join(f"{name}_check" for name in cert_names) + "]",
+        "",
+        "end Cuboctahedron.Generated.Translation.Chunk0000",
+        "",
+    ])
+    TRANSLATION_CHUNK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_CHUNK_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_all_generated() -> None:
+    lines = [
+        "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
+        "import Cuboctahedron.Generated.Translation.Chunk0000",
+        "",
+        "/-!",
+        "Aggregate import for generated Step 13 chunks.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated",
+        "",
+        "noncomputable def allGeneratedCheck : Bool :=",
+        "  checkGeneratedChunks NonIdentity.Chunk0000.chunkMeta",
+        "    NonIdentity.Chunk0000.certs",
+        "    Translation.Chunk0000.chunkMeta",
+        "    Translation.Chunk0000.certs",
+        "",
+        "theorem allGeneratedCheck_true : allGeneratedCheck = true := by",
+        "  unfold allGeneratedCheck checkGeneratedChunks",
+        "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
+        "  rfl",
+        "",
+        "end Cuboctahedron.Generated",
+        "",
+    ]
+    ALL_GENERATED_PATH.parent.mkdir(parents=True, exist_ok=True)
+    ALL_GENERATED_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_json(payload: dict) -> None:
     JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     JSON_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -442,6 +686,9 @@ def main() -> None:
     payload = build_payload(sample_size=7)
     write_json(payload)
     write_lean(payload)
+    write_nonidentity_chunk(payload)
+    write_translation_chunk(payload)
+    write_all_generated()
     print(
         "generated small sample: "
         f"{payload['summary']['pair_words_sampled']} pair words, "
@@ -451,6 +698,9 @@ def main() -> None:
     )
     print(f"json: {JSON_PATH.relative_to(REPO_ROOT)}")
     print(f"lean: {LEAN_PATH.relative_to(REPO_ROOT)}")
+    print(f"nonidentity chunk: {NONIDENTITY_CHUNK_PATH.relative_to(REPO_ROOT)}")
+    print(f"translation chunk: {TRANSLATION_CHUNK_PATH.relative_to(REPO_ROOT)}")
+    print(f"all generated: {ALL_GENERATED_PATH.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":

@@ -215,7 +215,8 @@ def check_payload(payload):
 
     nonidentity_records = payload["nonidentity_records"]
     require(len(nonidentity_records) == nonidentity_count, "nonidentity record count")
-    for record in nonidentity_records:
+    for expected_rank, record in enumerate(nonidentity_records):
+        require(record["rank"] == expected_rank, f"nonidentity rank {expected_rank}")
         index = record["sample_index"]
         word = record["word"]
         require(word == words_by_index[index], f"nonidentity word echo {index}")
@@ -227,7 +228,8 @@ def check_payload(payload):
 
     translation_records = payload["translation_records"]
     require(len(translation_records) == identity_count * 64, "translation record count")
-    for record in translation_records:
+    for expected_rank, record in enumerate(translation_records):
+        require(record["rank"] == expected_rank, f"translation rank {expected_rank}")
         index = record["sample_index"]
         word = words_by_index[index]
         require(total_linear(word) == identity_matrix(), f"translation identity word {index}")
@@ -237,6 +239,21 @@ def check_payload(payload):
         require(vector_from_json(record["b"]) == b, f"translation vector {index}/{mask}")
         require(record["seq"] == seq, f"translation sequence {index}/{mask}")
         require(record["has_farkas_certificate"] is False, f"farkas flag {index}/{mask}")
+
+    chunks = payload["chunks"]
+    nonidentity_chunk = chunks["nonidentity"]
+    require(nonidentity_chunk["name"] == "NonIdentity.Chunk0000", "nonidentity chunk name")
+    require(nonidentity_chunk["startRank"] == 0, "nonidentity chunk start")
+    require(nonidentity_chunk["endRank"] == len(nonidentity_records), "nonidentity chunk end")
+    require(nonidentity_chunk["expectedItems"] == len(nonidentity_records), "nonidentity chunk items")
+    require(nonidentity_chunk["records"] == nonidentity_records, "nonidentity chunk records")
+
+    translation_chunk = chunks["translation"]
+    require(translation_chunk["name"] == "Translation.Chunk0000", "translation chunk name")
+    require(translation_chunk["startRank"] == 0, "translation chunk start")
+    require(translation_chunk["endRank"] == len(translation_records), "translation chunk end")
+    require(translation_chunk["expectedItems"] == len(translation_records), "translation chunk items")
+    require(translation_chunk["records"] == translation_records, "translation chunk records")
 
     summary = payload["summary"]
     require(summary["pair_words_sampled"] == len(payload["pair_words"]), "summary pair words")
@@ -251,6 +268,8 @@ def check_payload(payload):
         "identity_linear_sampled": identity_count,
         "nonidentity_linear_sampled": nonidentity_count,
         "translation_sign_assignments_sampled": len(translation_records),
+        "nonidentity_chunk_items": nonidentity_chunk["expectedItems"],
+        "translation_chunk_items": translation_chunk["expectedItems"],
     }
 
 
@@ -267,6 +286,8 @@ def main():
     print(f"sample identity linear words: {summary['identity_linear_sampled']}")
     print(f"sample nonidentity linear words: {summary['nonidentity_linear_sampled']}")
     print(f"sample translation sign assignments: {summary['translation_sign_assignments_sampled']}")
+    print(f"nonidentity chunk items: {summary['nonidentity_chunk_items']}")
+    print(f"translation chunk items: {summary['translation_chunk_items']}")
     print(f"sanity pair words: {EXPECTED_PAIR_WORDS}")
     print(f"sanity identity linear words: {EXPECTED_IDENTITY_WORDS}")
     print(f"sanity translation sign assignments: {EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}")

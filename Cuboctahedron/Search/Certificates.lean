@@ -36,7 +36,7 @@ def checkTranslationCert (cert : TranslationCert) : Bool :=
         fcert
 
 def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
-  certs.all checkTranslationCert
+  certs.toList.all checkTranslationCert
 
 theorem checkTranslationCert_sound
     (cert : TranslationCert)
@@ -81,6 +81,13 @@ theorem checkTranslationCert_sound
 
 def faceVectorSeq (faces : Vector Face 14) : Step14 -> Face :=
   fun i => faces.get i
+
+@[simp] theorem faceVectorSeq_ofFn (seq : Step14 -> Face) :
+    faceVectorSeq (Vector.ofFn seq) = seq := by
+  funext i
+  unfold faceVectorSeq
+  change (Vector.ofFn seq)[i.val] = seq i
+  exact Vector.getElem_ofFn i.isLt
 
 inductive NonIdFailure
   | badDirectionSign
@@ -145,7 +152,157 @@ noncomputable def checkNonIdCert (cert : NonIdCert) : Bool :=
   | NonIdFailure.badHitInterior => false
 
 noncomputable def checkNonIdCerts (certs : Array NonIdCert) : Bool :=
-  certs.all checkNonIdCert
+  certs.toList.all checkNonIdCert
+
+structure GeneratedChunkMeta where
+  name : String
+  startRank : Nat
+  endRank : Nat
+  expectedItems : Nat
+deriving DecidableEq, Repr
+
+def checkChunkMeta (chunkMeta : GeneratedChunkMeta) (items : Nat) : Bool :=
+  decide (chunkMeta.expectedItems = items) &&
+    decide (chunkMeta.endRank = chunkMeta.startRank + items)
+
+structure NonIdentityLinearCert where
+  rank : Nat
+  word : PairWord
+deriving DecidableEq, Repr
+
+noncomputable def checkNonIdentityLinearCert
+    (cert : NonIdentityLinearCert) : Bool := by
+  classical
+  exact decide (ValidPairWord cert.word) &&
+    decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
+
+noncomputable def checkNonIdentityLinearCerts
+    (certs : Array NonIdentityLinearCert) : Bool :=
+  certs.toList.all checkNonIdentityLinearCert
+
+noncomputable def checkNonIdentityChunk
+    (chunkMeta : GeneratedChunkMeta)
+    (certs : Array NonIdentityLinearCert) : Bool :=
+  checkChunkMeta chunkMeta certs.size && checkNonIdentityLinearCerts certs
+
+def zeroVec3Q : Vec3 Rat :=
+  { x := 0, y := 0, z := 0 }
+
+def canonicalOffsetQ : PairId -> Rat
+  | PairId.x => 1
+  | PairId.y => 1
+  | PairId.z => 1
+  | PairId.d111 => 2
+  | PairId.d11m => 2
+  | PairId.d1m1 => 2
+  | PairId.dm11 => 2
+
+def pairReflectionDeltaQ (p : PairId) : Vec3 Rat :=
+  reflD (canonicalNormalQ p) (canonicalOffsetQ p)
+
+def pairPrefixLinearNat (w : PairWord) : Nat -> Mat3 Rat
+  | 0 => matId
+  | n + 1 =>
+      if h : n < 13 then
+        matMul (pairPrefixLinearNat w n)
+          (reflM (canonicalNormalQ (w.get ⟨n, h⟩)))
+      else
+        pairPrefixLinearNat w n
+
+def countPairBeforeNat (w : PairWord) (p : PairId) : Nat -> Nat
+  | 0 => 0
+  | n + 1 =>
+      countPairBeforeNat w p n +
+        if h : n < 13 then
+          if w.get ⟨n, h⟩ = p then 1 else 0
+        else
+          0
+
+def maskBitForPair (mask : SignMask) : PairId -> Bool
+  | PairId.x => false
+  | PairId.y => decide (mask.val % 2 = 1)
+  | PairId.z => decide ((mask.val / 2) % 2 = 1)
+  | PairId.d111 => decide ((mask.val / 4) % 2 = 1)
+  | PairId.d11m => decide ((mask.val / 8) % 2 = 1)
+  | PairId.d1m1 => decide ((mask.val / 16) % 2 = 1)
+  | PairId.dm11 => decide ((mask.val / 32) % 2 = 1)
+
+def signedPositiveAt (w : PairWord) (mask : SignMask) (i : WordIndex) :
+    Bool :=
+  let p := w.get i
+  match p with
+  | PairId.x => false
+  | _ =>
+      let firstSign := maskBitForPair mask p
+      if countPairBeforeNat w p i.val = 0 then firstSign else !firstSign
+
+def signedCoeffAt (w : PairWord) (mask : SignMask) (i : WordIndex) :
+    Rat :=
+  if signedPositiveAt w mask i then 1 else -1
+
+def translationChoiceSeq
+    (w : PairWord) (mask : SignMask) (i : Step14) : Face :=
+  if h : i = 0 then
+    Face.xp
+  else
+    let wi := dropStart i h
+    faceOfPairSign (w.get wi) (signedPositiveAt w mask wi)
+
+def translationPrefixVectorNat
+    (w : PairWord) (mask : SignMask) : Nat -> Vec3 Rat
+  | 0 => zeroVec3Q
+  | n + 1 =>
+      if h : n < 13 then
+        let i : WordIndex := ⟨n, h⟩
+        let prefixM := pairPrefixLinearNat w n
+        let pair := w.get i
+        vecAdd (translationPrefixVectorNat w mask n)
+          (scalarMul (signedCoeffAt w mask i)
+            (matVec prefixM (pairReflectionDeltaQ pair)))
+      else
+        translationPrefixVectorNat w mask n
+
+def translationVectorOfChoice
+    (w : PairWord) (mask : SignMask) : Vec3 Rat :=
+  vecAdd (translationPrefixVectorNat w mask 13)
+    (matVec (pairPrefixLinearNat w 13) (pairReflectionDeltaQ PairId.x))
+
+def TranslationSeqMatches
+    (w : PairWord) (mask : SignMask) (seq : Vector Face 14) : Prop :=
+  forall i : Step14, faceVectorSeq seq i = translationChoiceSeq w mask i
+
+structure TranslationChoiceCert where
+  rank : Nat
+  word : PairWord
+  signMask : SignMask
+  seq : Vector Face 14
+  b : Vec3 Rat
+deriving DecidableEq, Repr
+
+noncomputable def checkTranslationChoiceCert
+    (cert : TranslationChoiceCert) : Bool := by
+  classical
+  exact decide (ValidPairWord cert.word) &&
+    decide (totalLinearOfPairWord cert.word = (matId : Mat3 Rat)) &&
+    decide (TranslationSeqMatches cert.word cert.signMask cert.seq) &&
+    decide (cert.b = translationVectorOfChoice cert.word cert.signMask)
+
+noncomputable def checkTranslationChoiceCerts
+    (certs : Array TranslationChoiceCert) : Bool :=
+  certs.toList.all checkTranslationChoiceCert
+
+noncomputable def checkTranslationChunk
+    (chunkMeta : GeneratedChunkMeta)
+    (certs : Array TranslationChoiceCert) : Bool :=
+  checkChunkMeta chunkMeta certs.size && checkTranslationChoiceCerts certs
+
+noncomputable def checkGeneratedChunks
+    (nonIdentityMeta : GeneratedChunkMeta)
+    (nonIdentityCerts : Array NonIdentityLinearCert)
+    (translationMeta : GeneratedChunkMeta)
+    (translationCerts : Array TranslationChoiceCert) : Bool :=
+  checkNonIdentityChunk nonIdentityMeta nonIdentityCerts &&
+    checkTranslationChunk translationMeta translationCerts
 
 theorem checkNonIdCert_sound
     (cert : NonIdCert)

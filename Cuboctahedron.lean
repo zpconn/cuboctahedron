@@ -1,5 +1,5 @@
 import Cuboctahedron.Geometry.UnfoldingFeasible
-import Cuboctahedron.Generated.SmallSample
+import Cuboctahedron.Generated.AllGenerated
 import Cuboctahedron.Search.Certificates
 import Cuboctahedron.Search.Farkas2D
 import Cuboctahedron.Search.Itineraries
