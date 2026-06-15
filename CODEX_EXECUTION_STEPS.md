@@ -798,9 +798,230 @@ Done when:
 
 works and `lake build` passes.
 
+## Step 14A: Strengthen Unfolded Feasibility
+
+Goal: make `UnfoldedFeasible` strong enough that finite search certificates can
+actually refute it.
+
+Current blocker to avoid:
+
+```lean
+def InUnfoldedFaceInterior (seq : Step14 -> Face) (i : Step14)
+    (_x : Vec3 Real) : Prop :=
+  exists p : Vec3 Real, InFaceInterior (seq i) p
+```
+
+This ignores the line point `_x`, so Step 15 cannot honestly prove
+`¬ UnfoldedFeasible seq`. Replace it with a predicate that says the actual
+unfolded line point lies in the relative interior of the corresponding unfolded
+copy of the intended face.
+
+Complete or revise:
+
+```text
+Cuboctahedron/Geometry/UnfoldingFeasible.lean
+Cuboctahedron/Geometry/Unfolding.lean
+Cuboctahedron/Search/TranslationCase.lean
+Cuboctahedron/Search/NonIdentityCase.lean
+```
+
+Define:
+
+- exact real interpretation of the prefix affine copy at each impact;
+- `InUnfoldedFaceInterior seq i x` in terms of the pulled-back or pushed-forward
+  face interior, not an existential unrelated to `x`;
+- unfolded hit constraints that imply the strict face-interior inequalities used
+  by translation/Farkas certificates;
+- unfolded nonidentity constraints that imply the exact axis/first-hit failures
+  checked by nonidentity certificates.
+
+Prove:
+
+```lean
+theorem unfolded_feasible_translation_constraints :
+  -- a feasible identity-linear unfolded itinerary yields the generated
+  -- strict linear constraints in y,z
+
+theorem unfolded_feasible_nonidentity_axis_constraints :
+  -- a feasible nonidentity unfolded itinerary yields the exact axis/sign/start
+  -- conditions checked by nonidentity certificates
+```
+
+Keep:
+
+```lean
+theorem billiard_implies_unfolded
+```
+
+valid after strengthening the definition.
+
+Done when:
+
+```bash
+lake build
+```
+
+passes and no theorem about `¬ UnfoldedFeasible` relies on a vacuous or
+line-point-ignoring definition.
+
+## Step 14B: Complete Failure Certificate Soundness
+
+Goal: make the certificate checkers prove real impossibility, not just classify
+linear parts or sign choices.
+
+Complete:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Search/NonIdentityCase.lean
+Cuboctahedron/Search/TranslationCase.lean
+```
+
+Nonidentity checker requirements:
+
+- `checkNonIdCert` must have usable checked branches for all failure modes that
+  the generator may emit:
+  - no fixed axis / invalid kernel witness;
+  - bad direction sign;
+  - bad pair balance;
+  - axis misses the `xp` start interior;
+  - bad first hit;
+  - bad hit interior.
+- The only accepted `NonIdCert` branches may be branches with a proved
+  contradiction against `UnfoldedFeasible`.
+- `checkNonIdCert_sound` must consume checked certificates for valid pair words,
+  not only the current invalid-pair-word smoke case.
+
+Translation checker requirements:
+
+- `SeqRealizesTranslationChoice` must include the sign-mask-specific face
+  sequence, not ignore the mask.
+- `checkTranslationCert` must accept real failure certificates:
+  - bad translation vector or direction sign when applicable;
+  - Farkas certificates for infeasible strict linear systems.
+- `checkTranslationCert_sound` must use the strengthened translation constraints
+  from Step 14A.
+
+Done when:
+
+```lean
+#check checkNonIdCert_sound
+#check checkTranslationCert_sound
+```
+
+work for nontrivial valid-word examples, and `lake build` passes.
+
+## Step 14C: Generate Real Failure Certificates
+
+Goal: make generated data contain checked impossibility certificates for every
+covered case.
+
+Update:
+
+```text
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+Cuboctahedron/Generated/AllGenerated.lean
+```
+
+Requirements:
+
+- nonidentity generated chunks contain `NonIdCert`, not only
+  `NonIdentityLinearCert`;
+- translation generated chunks contain `TranslationCert`, not only
+  `TranslationChoiceCert`;
+- every generated certificate is checked by Lean with `checkNonIdCert` or
+  `checkTranslationCert`;
+- every chunk or prefix-tree node proves the ranks/sign masks it covers;
+- the independent checker verifies exact rational data and reports the known
+  sanity counts, but Lean remains the trusted checker.
+
+If full per-case chunks are too large, switch to prefix-tree compression before
+Step 15. A prefix-tree leaf must still carry a checked failure certificate whose
+soundness theorem rules out every completion covered by that leaf.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --small-sample
+python3 scripts/check_certificates_independently.py --small-sample
+lake build
+```
+
+passes for representative nonidentity and translation failure certificates.
+
+## Step 14D: Exhaustive Failure-Coverage Interface
+
+Goal: expose exactly the coverage API Step 15 needs.
+
+Revise `ExhaustiveGeneratedCoverage` so it no longer manufactures lightweight
+rank-indexed classification certs. Its completeness fields must return checked
+failure certificates:
+
+```lean
+structure ExhaustiveGeneratedCoverage : Prop where
+  pair_rank_covered :
+    forall r : Fin numPairWords,
+      exists chunk : CoverageChunk, CoverageChunk.CoversPairRank chunk r
+  sign_mask_covered :
+    forall mask : SignMask, mask.val < numSignMasks
+  nonidentity_complete :
+    forall r : Fin numPairWords,
+      totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
+        exists cert : NonIdCert,
+          cert.word = unrankPairWord r /\
+          checkNonIdCert cert = true
+  translation_complete :
+    forall (r : Fin numPairWords) (mask : SignMask),
+      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+        exists cert : TranslationCert,
+          cert.word = unrankPairWord r /\
+          cert.signMask = mask /\
+          checkTranslationCert cert = true
+```
+
+Add bridge lemmas:
+
+```lean
+theorem ExhaustiveGeneratedCoverage.nonidentity_failure_of_valid :
+  -- valid pair word + nonidentity linear part gives checked NonIdCert
+
+theorem ExhaustiveGeneratedCoverage.translation_failure_of_valid :
+  -- valid pair word + sign mask + identity linear part gives checked
+  -- TranslationCert
+
+theorem translation_mask_exists_of_omni_seq :
+  -- started omnihedral sequence realizing an identity pair word has one of the
+  -- 64 legal sign masks and matches `translationChoiceSeq`
+```
+
+Done when:
+
+```lean
+#check ExhaustiveGeneratedCoverage.nonidentity_failure_of_valid
+#check ExhaustiveGeneratedCoverage.translation_failure_of_valid
+#check translation_mask_exists_of_omni_seq
+```
+
+work and `lake build` passes.
+
 ## Step 15: Complete Finite Impossibility Theorems
 
 Goal: assemble the certificate soundness and enumeration coverage into the two main finite case theorems.
+
+Prerequisites:
+
+- Step 14A has strengthened `UnfoldedFeasible`.
+- Step 14B has sound real failure certificate checkers.
+- Step 14C has generated checked `NonIdCert` and `TranslationCert` data.
+- Step 14D exposes exhaustive coverage returning those checked failure
+  certificates.
+
+Do not start Step 15 while `ExhaustiveGeneratedCoverage` still returns only
+`NonIdentityLinearCert` or `TranslationChoiceCert`. Those classify cases but do
+not prove impossibility.
 
 Create or complete:
 
@@ -977,6 +1198,10 @@ Use these rules if the project gets too large or slow.
 9. `add exact certificate generator`
 10. `integrate generated sample chunks`
 11. `prove enumeration coverage`
-12. `assemble finite impossibility theorems`
-13. `prove final cuboctahedron theorem`
-14. `record final validation output`
+12. `strengthen unfolded feasibility`
+13. `complete failure certificate soundness`
+14. `generate real failure certificates`
+15. `expose exhaustive failure coverage`
+16. `assemble finite impossibility theorems`
+17. `prove final cuboctahedron theorem`
+18. `record final validation output`
