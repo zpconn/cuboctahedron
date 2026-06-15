@@ -336,6 +336,31 @@ theorem check_translationChoiceCertOfRank
   simp [checkTranslationChoiceCert, translationChoiceCertOfRank,
     unrankPairWord_valid, h, TranslationSeqMatches]
 
+def NonIdentityLinearCertMatchesRank
+    (r : Fin numPairWords) (cert : NonIdentityLinearCert) : Prop :=
+  cert.rank = r.val /\ cert.word = unrankPairWord r
+
+def TranslationChoiceCertMatchesRank
+    (r : Fin numPairWords) (mask : SignMask)
+    (cert : TranslationChoiceCert) : Prop :=
+  cert.rank = r.val /\
+    cert.word = unrankPairWord r /\
+      cert.signMask = mask
+
+theorem nonIdentityLinearCertOfRank_matches
+    (r : Fin numPairWords)
+    (h : totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat)) :
+    NonIdentityLinearCertMatchesRank r (nonIdentityLinearCertOfRank r h) := by
+  simp [NonIdentityLinearCertMatchesRank, nonIdentityLinearCertOfRank]
+
+theorem translationChoiceCertOfRank_matches
+    (r : Fin numPairWords)
+    (mask : SignMask)
+    (h : totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)) :
+    TranslationChoiceCertMatchesRank r mask
+      (translationChoiceCertOfRank r mask h) := by
+  simp [TranslationChoiceCertMatchesRank, translationChoiceCertOfRank]
+
 theorem checkNonIdentityLinearCert_valid
     (cert : NonIdentityLinearCert)
     (hcheck : checkNonIdentityLinearCert cert = true) :
@@ -439,20 +464,92 @@ structure ExhaustiveGeneratedCoverage : Prop where
           cert.word = unrankPairWord r /\ cert.signMask = mask /\
           checkTranslationChoiceCert cert = true
 
-theorem exhaustiveGeneratedCoverage_by_construction :
+theorem ExhaustiveGeneratedCoverage.nonidentity_complete_of_valid
+    (coverage : ExhaustiveGeneratedCoverage)
+    (w : PairWord)
+    (hvalid : ValidPairWord w)
+    (hM : totalLinearOfPairWord w ≠ (matId : Mat3 Rat)) :
+    exists cert,
+      cert.word = w /\ checkNonIdentityLinearCert cert = true := by
+  rcases unrank_rank_pairword w hvalid with ⟨r, hr⟩
+  have hM' :
+      totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) := by
+    simpa [hr] using hM
+  rcases coverage.nonidentity_complete r hM' with
+    ⟨cert, _hrank, hword, hcheck⟩
+  exact ⟨cert, by simpa [hr] using hword, hcheck⟩
+
+theorem ExhaustiveGeneratedCoverage.translation_complete_of_valid
+    (coverage : ExhaustiveGeneratedCoverage)
+    (w : PairWord)
+    (mask : SignMask)
+    (hvalid : ValidPairWord w)
+    (hM : totalLinearOfPairWord w = (matId : Mat3 Rat)) :
+    exists cert,
+      cert.word = w /\ cert.signMask = mask /\
+        checkTranslationChoiceCert cert = true := by
+  rcases unrank_rank_pairword w hvalid with ⟨r, hr⟩
+  have hM' :
+      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) := by
+    simpa [hr] using hM
+  rcases coverage.translation_complete r mask hM' with
+    ⟨cert, _hrank, hword, hmask, hcheck⟩
+  exact ⟨cert, by simpa [hr] using hword, hmask, hcheck⟩
+
+structure RankIndexedGeneratedCoverage where
+  nonidentityCert :
+    forall r : Fin numPairWords,
+      totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
+        NonIdentityLinearCert
+  nonidentity_matches :
+    forall (r : Fin numPairWords)
+      (h : totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat)),
+        NonIdentityLinearCertMatchesRank r (nonidentityCert r h)
+  nonidentity_checks :
+    forall (r : Fin numPairWords)
+      (h : totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat)),
+        checkNonIdentityLinearCert (nonidentityCert r h) = true
+  translationCert :
+    forall (r : Fin numPairWords) (_mask : SignMask),
+      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+        TranslationChoiceCert
+  translation_matches :
+    forall (r : Fin numPairWords) (mask : SignMask)
+      (h : totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)),
+        TranslationChoiceCertMatchesRank r mask (translationCert r mask h)
+  translation_checks :
+    forall (r : Fin numPairWords) (mask : SignMask)
+      (h : totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)),
+        checkTranslationChoiceCert (translationCert r mask h) = true
+
+theorem RankIndexedGeneratedCoverage.exhaustive
+    (coverage : RankIndexedGeneratedCoverage) :
     ExhaustiveGeneratedCoverage := by
   refine ⟨?_, ?_⟩
   · intro r h
-    refine ⟨nonIdentityLinearCertOfRank r h, ?_, ?_, ?_⟩
-    · rfl
-    · rfl
-    · exact check_nonIdentityLinearCertOfRank r h
+    let cert := coverage.nonidentityCert r h
+    have hmatch := coverage.nonidentity_matches r h
+    refine ⟨cert, ?_, ?_, ?_⟩
+    · exact hmatch.1
+    · exact hmatch.2
+    · exact coverage.nonidentity_checks r h
   · intro r mask h
-    refine ⟨translationChoiceCertOfRank r mask h, ?_, ?_, ?_, ?_⟩
-    · rfl
-    · rfl
-    · rfl
-    · exact check_translationChoiceCertOfRank r mask h
+    let cert := coverage.translationCert r mask h
+    have hmatch := coverage.translation_matches r mask h
+    refine ⟨cert, ?_, ?_, ?_, ?_⟩
+    · exact hmatch.1
+    · exact hmatch.2.1
+    · exact hmatch.2.2
+    · exact coverage.translation_checks r mask h
+
+noncomputable def rankIndexedGeneratedCoverage :
+    RankIndexedGeneratedCoverage where
+  nonidentityCert := nonIdentityLinearCertOfRank
+  nonidentity_matches := nonIdentityLinearCertOfRank_matches
+  nonidentity_checks := check_nonIdentityLinearCertOfRank
+  translationCert := translationChoiceCertOfRank
+  translation_matches := translationChoiceCertOfRank_matches
+  translation_checks := check_translationChoiceCertOfRank
 
 theorem generatedCoverage_of_checked_chunks
     {nonIdentityMeta : GeneratedChunkMeta}
