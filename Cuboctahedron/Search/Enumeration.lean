@@ -1187,6 +1187,27 @@ theorem rankPairWord?_some_of_valid
   refine ⟨validPairWordEquivFin ⟨w, h⟩, ?_⟩
   simp [rankPairWord?, h]
 
+theorem rankPairWord?_eq_some_iff_unrank
+    (w : PairWord) (r : Fin numPairWords) :
+    rankPairWord? w = some r <-> w = unrankPairWord r := by
+  constructor
+  · intro h
+    unfold rankPairWord? at h
+    by_cases hvalid : ValidPairWord w
+    · simp [hvalid] at h
+      unfold unrankPairWord
+      have hsub :
+          (⟨w, hvalid⟩ : ValidPairWordSubtype) =
+            (validPairWordEquivFin).symm r := by
+        apply validPairWordEquivFin.injective
+        rw [Equiv.apply_symm_apply]
+        exact h
+      exact congrArg Subtype.val hsub
+    · simp [hvalid] at h
+  · intro h
+    rw [h]
+    exact rank_unrank_pairword r
+
 theorem rankPairWord?_none_of_invalid
     {w : PairWord} (h : ¬ ValidPairWord w) :
     rankPairWord? w = none := by

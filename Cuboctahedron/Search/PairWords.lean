@@ -53,6 +53,22 @@ def faceOfPairSign : PairId -> Bool -> Face
   | PairId.dm11, true => Face.tmpp
   | PairId.dm11, false => Face.tpmm
 
+def positiveSignOfFace : Face -> Bool
+  | Face.xp => true
+  | Face.xm => false
+  | Face.yp => true
+  | Face.ym => false
+  | Face.zp => true
+  | Face.zm => false
+  | Face.tppp => true
+  | Face.tmmm => false
+  | Face.tppm => true
+  | Face.tmmp => false
+  | Face.tpmp => true
+  | Face.tmpm => false
+  | Face.tmpp => true
+  | Face.tpmm => false
+
 abbrev PairWord := Vector PairId 13
 
 abbrev pairCount (p : PairId) (w : PairWord) : Nat :=
@@ -70,6 +86,10 @@ def ValidPairWord (w : PairWord) : Prop :=
 @[simp] theorem pairOfFace_faceOfPairSign (p : PairId) (positive : Bool) :
     pairOfFace (faceOfPairSign p positive) = p := by
   cases p <;> cases positive <;> rfl
+
+@[simp] theorem faceOfPairSign_pairOfFace_positiveSignOfFace (f : Face) :
+    faceOfPairSign (pairOfFace f) (positiveSignOfFace f) = f := by
+  cases f <;> rfl
 
 @[simp] theorem normalQ_faceOfPairSign_true (p : PairId) :
     normalQ (faceOfPairSign p true) = canonicalNormalQ p := by

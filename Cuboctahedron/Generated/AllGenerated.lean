@@ -16,4 +16,16 @@ theorem allGeneratedCheck_true : allGeneratedCheck = true := by
   rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]
   rfl
 
+theorem nonidentityChunk_sound :
+    List.Forall₂ NonIdRankCertificateCovered
+      NonIdentity.Chunk0000.chunk.coveredRanks.toList
+      NonIdentity.Chunk0000.chunk.certs.toList :=
+  checkGeneratedNonIdCertChunk_sound NonIdentity.Chunk0000.certs_check
+
+theorem translationChunk_sound :
+    List.Forall₂ TranslationCaseCertificateCovered
+      Translation.Chunk0000.chunk.coveredCases.toList
+      Translation.Chunk0000.chunk.certs.toList :=
+  checkGeneratedTranslationCertChunk_sound Translation.Chunk0000.certs_check
+
 end Cuboctahedron.Generated

@@ -613,6 +613,47 @@ noncomputable def checkGeneratedNonIdCertChunk
     (chunk : GeneratedNonIdCertChunk) : Bool :=
   checkNonIdCoveredRankList chunk.coveredRanks.toList chunk.certs.toList
 
+def NonIdRankCertificateCovered (rank : Nat) (cert : NonIdCert) :
+    Prop :=
+  checkNonIdCoveredRank rank cert = true /\
+    checkNonIdCert cert = true
+
+theorem checkNonIdCoveredRank_sound
+    {rank : Nat} {cert : NonIdCert}
+    (hcheck : checkNonIdCoveredRank rank cert = true) :
+    exists h : rank < numPairWords,
+      pairWordLexRank? cert.word = some ⟨rank, h⟩ := by
+  unfold checkNonIdCoveredRank at hcheck
+  by_cases hrank : rank < numPairWords
+  · refine ⟨hrank, ?_⟩
+    simpa [hrank] using hcheck
+  · simp [hrank] at hcheck
+
+theorem checkNonIdCoveredRankList_sound
+    {ranks : List Nat} {certs : List NonIdCert}
+    (hcheck : checkNonIdCoveredRankList ranks certs = true) :
+    List.Forall₂ NonIdRankCertificateCovered ranks certs := by
+  induction ranks generalizing certs with
+  | nil =>
+      cases certs with
+      | nil => exact List.Forall₂.nil
+      | cons cert certs =>
+          simp [checkNonIdCoveredRankList] at hcheck
+  | cons rank ranks ih =>
+      cases certs with
+      | nil =>
+          simp [checkNonIdCoveredRankList] at hcheck
+      | cons cert certs =>
+          simp [checkNonIdCoveredRankList] at hcheck
+          exact List.Forall₂.cons hcheck.1 (ih hcheck.2)
+
+theorem checkGeneratedNonIdCertChunk_sound
+    {chunk : GeneratedNonIdCertChunk}
+    (hcheck : checkGeneratedNonIdCertChunk chunk = true) :
+    List.Forall₂ NonIdRankCertificateCovered
+      chunk.coveredRanks.toList chunk.certs.toList := by
+  exact checkNonIdCoveredRankList_sound hcheck
+
 structure GeneratedChunkMeta where
   name : String
   startRank : Nat
@@ -728,6 +769,16 @@ theorem translationChoiceSeq_pair_matches
   intro i
   simp [translationChoiceSeq, afterStart_ne_zero i]
 
+theorem translation_mask_exists_of_omni_seq
+    {w : PairWord} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord w seq)
+    (hChoice :
+      exists mask : SignMask,
+        forall i : Step14, seq i = translationChoiceSeq w mask i) :
+    exists mask : SignMask, SeqRealizesTranslationChoice w mask seq := by
+  rcases hChoice with ⟨mask, hmask⟩
+  exact ⟨mask, ⟨hRealize, hmask⟩⟩
+
 inductive TranslationFailure
   | badTranslationVector
   | badDirectionSign (i : Impact15)
@@ -817,6 +868,59 @@ noncomputable def checkTranslationCoveredCaseList :
 noncomputable def checkGeneratedTranslationCertChunk
     (chunk : GeneratedTranslationCertChunk) : Bool :=
   checkTranslationCoveredCaseList chunk.coveredCases.toList chunk.certs.toList
+
+def TranslationCaseCertificateCovered
+    (covered : GeneratedTranslationCase) (cert : TranslationCert) :
+    Prop :=
+  checkTranslationCoveredCase covered cert = true /\
+    checkTranslationCert cert = true
+
+theorem checkTranslationCoveredCase_sound
+    {covered : GeneratedTranslationCase} {cert : TranslationCert}
+    (hcheck : checkTranslationCoveredCase covered cert = true) :
+    (exists (hrank : covered.pairRank < numPairWords)
+        (hmask : covered.signMask < numSignMasks),
+      pairWordLexRank? cert.word = some ⟨covered.pairRank, hrank⟩ /\
+        cert.signMask = ⟨covered.signMask, hmask⟩) := by
+  unfold checkTranslationCoveredCase at hcheck
+  by_cases hrank : covered.pairRank < numPairWords
+  · by_cases hmask : covered.signMask < numSignMasks
+    · refine ⟨hrank, hmask, ?_⟩
+      have hparts :
+          pairWordLexRank? cert.word =
+              some ⟨covered.pairRank, hrank⟩ /\
+            cert.signMask = ⟨covered.signMask, hmask⟩ := by
+        simpa [hrank, hmask] using hcheck
+      exact hparts
+    · simp [hrank, hmask] at hcheck
+  · simp [hrank] at hcheck
+
+theorem checkTranslationCoveredCaseList_sound
+    {coveredCases : List GeneratedTranslationCase}
+    {certs : List TranslationCert}
+    (hcheck :
+      checkTranslationCoveredCaseList coveredCases certs = true) :
+    List.Forall₂ TranslationCaseCertificateCovered coveredCases certs := by
+  induction coveredCases generalizing certs with
+  | nil =>
+      cases certs with
+      | nil => exact List.Forall₂.nil
+      | cons cert certs =>
+          simp [checkTranslationCoveredCaseList] at hcheck
+  | cons covered coveredCases ih =>
+      cases certs with
+      | nil =>
+          simp [checkTranslationCoveredCaseList] at hcheck
+      | cons cert certs =>
+          simp [checkTranslationCoveredCaseList] at hcheck
+          exact List.Forall₂.cons hcheck.1 (ih hcheck.2)
+
+theorem checkGeneratedTranslationCertChunk_sound
+    {chunk : GeneratedTranslationCertChunk}
+    (hcheck : checkGeneratedTranslationCertChunk chunk = true) :
+    List.Forall₂ TranslationCaseCertificateCovered
+      chunk.coveredCases.toList chunk.certs.toList := by
+  exact checkTranslationCoveredCaseList_sound hcheck
 
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)
@@ -1124,46 +1228,47 @@ structure ExhaustiveGeneratedCoverage : Prop where
   nonidentity_complete :
     forall r : Fin numPairWords,
       totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
-        exists cert, cert.rank = r.val /\
+        exists cert : NonIdCert,
           cert.word = unrankPairWord r /\
-          checkNonIdentityLinearCert cert = true
+            checkNonIdCert cert = true
   translation_complete :
     forall (r : Fin numPairWords) (mask : SignMask),
       totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
-        exists cert, cert.rank = r.val /\
-          cert.word = unrankPairWord r /\ cert.signMask = mask /\
-          checkTranslationChoiceCert cert = true
+        exists cert : TranslationCert,
+          cert.word = unrankPairWord r /\
+            cert.signMask = mask /\
+              checkTranslationCert cert = true
 
-theorem ExhaustiveGeneratedCoverage.nonidentity_complete_of_valid
+theorem ExhaustiveGeneratedCoverage.nonidentity_failure_of_valid
     (coverage : ExhaustiveGeneratedCoverage)
     (w : PairWord)
     (hvalid : ValidPairWord w)
     (hM : totalLinearOfPairWord w ≠ (matId : Mat3 Rat)) :
-    exists cert,
-      cert.word = w /\ checkNonIdentityLinearCert cert = true := by
+    exists cert : NonIdCert,
+      cert.word = w /\ checkNonIdCert cert = true := by
   rcases unrank_rank_pairword w hvalid with ⟨r, hr⟩
   have hM' :
       totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) := by
     simpa [hr] using hM
   rcases coverage.nonidentity_complete r hM' with
-    ⟨cert, _hrank, hword, hcheck⟩
+    ⟨cert, hword, hcheck⟩
   exact ⟨cert, by simpa [hr] using hword, hcheck⟩
 
-theorem ExhaustiveGeneratedCoverage.translation_complete_of_valid
+theorem ExhaustiveGeneratedCoverage.translation_failure_of_valid
     (coverage : ExhaustiveGeneratedCoverage)
     (w : PairWord)
     (mask : SignMask)
     (hvalid : ValidPairWord w)
     (hM : totalLinearOfPairWord w = (matId : Mat3 Rat)) :
-    exists cert,
+    exists cert : TranslationCert,
       cert.word = w /\ cert.signMask = mask /\
-        checkTranslationChoiceCert cert = true := by
+        checkTranslationCert cert = true := by
   rcases unrank_rank_pairword w hvalid with ⟨r, hr⟩
   have hM' :
       totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) := by
     simpa [hr] using hM
   rcases coverage.translation_complete r mask hM' with
-    ⟨cert, _hrank, hword, hmask, hcheck⟩
+    ⟨cert, hword, hmask, hcheck⟩
   exact ⟨cert, by simpa [hr] using hword, hmask, hcheck⟩
 
 structure CoverageManifest where
@@ -1241,33 +1346,24 @@ theorem CoverageManifest.covers_sign_mask
   rw [hcheck.2]
   exact mask.isLt
 
-theorem CoverageManifest.exhaustive
+theorem CoverageManifest.exhaustive_pair_rank_coverage
     (manifest : CoverageManifest)
     (hcheck : checkCoverageManifest manifest = true) :
-    ExhaustiveGeneratedCoverage := by
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · intro r
-    rcases manifest.covers_pair_rank hcheck r with ⟨chunk, _hmem, hcov⟩
-    exact ⟨chunk, hcov⟩
-  · intro mask
-    have hmask := manifest.covers_sign_mask hcheck mask
-    have hcheckFacts := hcheck
-    simp [checkCoverageManifest] at hcheckFacts
-    simpa [CoverageManifest.CoversSignMask, hcheckFacts.2] using hmask
-  · intro r h
-    have _hrank := manifest.covers_pair_rank hcheck r
-    refine ⟨nonIdentityLinearCertOfRank r h, ?_, ?_, ?_⟩
-    · rfl
-    · rfl
-    · exact check_nonIdentityLinearCertOfRank r h
-  · intro r mask h
-    have _hrank := manifest.covers_pair_rank hcheck r
-    have _hmask := manifest.covers_sign_mask hcheck mask
-    refine ⟨translationChoiceCertOfRank r mask h, ?_, ?_, ?_, ?_⟩
-    · rfl
-    · rfl
-    · rfl
-    · exact check_translationChoiceCertOfRank r mask h
+    forall r : Fin numPairWords,
+      exists chunk : CoverageChunk, CoverageChunk.CoversPairRank chunk r := by
+  intro r
+  rcases manifest.covers_pair_rank hcheck r with ⟨chunk, _hmem, hcov⟩
+  exact ⟨chunk, hcov⟩
+
+theorem CoverageManifest.exhaustive_sign_mask_coverage
+    (manifest : CoverageManifest)
+    (hcheck : checkCoverageManifest manifest = true) :
+    forall mask : SignMask, mask.val < numSignMasks := by
+  intro mask
+  have hmask := manifest.covers_sign_mask hcheck mask
+  have hcheckFacts := hcheck
+  simp [checkCoverageManifest] at hcheckFacts
+  simpa [CoverageManifest.CoversSignMask, hcheckFacts.2] using hmask
 
 theorem generatedCoverage_of_checked_chunks
     {nonIdentityMeta : GeneratedChunkMeta}
