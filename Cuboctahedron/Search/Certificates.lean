@@ -694,6 +694,135 @@ def countPairBeforeNat (w : PairWord) (p : PairId) : Nat -> Nat
         else
           0
 
+def PairOccursNat (w : PairWord) (p : PairId) (n : Nat) : Prop :=
+  exists h : n < 13, w.get ⟨n, h⟩ = p
+
+theorem pair_occurs_of_pairCount_pos
+    {w : PairWord} {p : PairId}
+    (hcount : 0 < pairCount p w) :
+    exists i : WordIndex, w.get i = p := by
+  classical
+  rw [pairCount_eq_card_get] at hcount
+  rcases (Fintype.card_pos_iff.mp hcount) with ⟨i⟩
+  exact ⟨i.1, i.2⟩
+
+theorem pair_occurs_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) (p : PairId) :
+    exists i : WordIndex, w.get i = p := by
+  apply pair_occurs_of_pairCount_pos
+  cases p <;> unfold ValidPairWord at hvalid <;> omega
+
+theorem pairOccursNat_of_pair_occurs
+    {w : PairWord} {p : PairId}
+    (h : exists i : WordIndex, w.get i = p) :
+    exists n : Nat, PairOccursNat w p n := by
+  rcases h with ⟨i, hi⟩
+  exact ⟨i.val, i.isLt, hi⟩
+
+noncomputable def firstPairIndexOf
+    (w : PairWord) (p : PairId)
+    (h : exists i : WordIndex, w.get i = p) : WordIndex := by
+  classical
+  let hn := pairOccursNat_of_pair_occurs h
+  exact ⟨Nat.find hn, (Nat.find_spec hn).1⟩
+
+theorem firstPairIndexOf_get
+    (w : PairWord) (p : PairId)
+    (h : exists i : WordIndex, w.get i = p) :
+    w.get (firstPairIndexOf w p h) = p := by
+  classical
+  unfold firstPairIndexOf
+  exact (Nat.find_spec (pairOccursNat_of_pair_occurs h)).2
+
+theorem firstPairIndexOf_min
+    (w : PairWord) (p : PairId)
+    (h : exists i : WordIndex, w.get i = p)
+    {n : Nat}
+    (hn : n < (firstPairIndexOf w p h).val) :
+    ¬ PairOccursNat w p n := by
+  classical
+  unfold firstPairIndexOf at hn
+  exact Nat.find_min (pairOccursNat_of_pair_occurs h) hn
+
+theorem countPairBeforeNat_eq_zero_of_no_pair_before
+    (w : PairWord) (p : PairId) :
+    forall n : Nat,
+      (forall m : Nat, m < n -> ¬ PairOccursNat w p m) ->
+        countPairBeforeNat w p n = 0
+  | 0, _ => rfl
+  | n + 1, hnone => by
+      have hprev :
+          countPairBeforeNat w p n = 0 :=
+        countPairBeforeNat_eq_zero_of_no_pair_before w p n
+          (by
+            intro m hm
+            exact hnone m (by omega))
+      have hnot : ¬ PairOccursNat w p n := hnone n (by omega)
+      unfold countPairBeforeNat
+      rw [hprev]
+      by_cases hn : n < 13
+      · have hne : w.get ⟨n, hn⟩ ≠ p := by
+          intro hget
+          exact hnot ⟨hn, hget⟩
+        simp [hn, hne]
+      · simp [hn]
+
+theorem countPairBeforeNat_firstPairIndexOf
+    (w : PairWord) (p : PairId)
+    (h : exists i : WordIndex, w.get i = p) :
+    countPairBeforeNat w p (firstPairIndexOf w p h).val = 0 := by
+  apply countPairBeforeNat_eq_zero_of_no_pair_before
+  intro n hn
+  exact firstPairIndexOf_min w p h hn
+
+theorem countPairBeforeNat_pos_of_get_lt
+    (w : PairWord) (p : PairId)
+    {j n : Nat}
+    (hjlt : j < n)
+    (hj13 : j < 13)
+    (hget : w.get ⟨j, hj13⟩ = p) :
+    0 < countPairBeforeNat w p n := by
+  induction n with
+  | zero => omega
+  | succ n ih =>
+      unfold countPairBeforeNat
+      by_cases hlt : j < n
+      · have hpos := ih hlt
+        omega
+      · have hjeq : j = n := by omega
+        subst n
+        simp [hj13, hget]
+
+theorem firstPairIndexOf_eq_of_count_zero
+    (w : PairWord) (p : PairId)
+    (h : exists i : WordIndex, w.get i = p)
+    (i : WordIndex)
+    (hget : w.get i = p)
+    (hcount : countPairBeforeNat w p i.val = 0) :
+    i = firstPairIndexOf w p h := by
+  apply Fin.ext
+  have hnotBefore :
+      ¬ i.val < (firstPairIndexOf w p h).val := by
+    intro hi
+    exact firstPairIndexOf_min w p h hi ⟨i.isLt, hget⟩
+  have hle : (firstPairIndexOf w p h).val <= i.val := by omega
+  by_cases hlt : (firstPairIndexOf w p h).val < i.val
+  · have hpos :
+        0 < countPairBeforeNat w p i.val :=
+      countPairBeforeNat_pos_of_get_lt w p hlt
+        (firstPairIndexOf w p h).isLt
+        (firstPairIndexOf_get w p h)
+    omega
+  · omega
+
+theorem face_eq_of_pair_sign_eq
+    {f g : Face}
+    (hpair : pairOfFace f = pairOfFace g)
+    (hsign : positiveSignOfFace f = positiveSignOfFace g) :
+    f = g := by
+  cases f <;> cases g <;>
+    simp [pairOfFace, positiveSignOfFace] at hpair hsign ⊢
+
 def maskBitForPair (mask : SignMask) : PairId -> Bool
   | PairId.x => false
   | PairId.y => decide (mask.val % 2 = 1)
@@ -702,6 +831,60 @@ def maskBitForPair (mask : SignMask) : PairId -> Bool
   | PairId.d11m => decide ((mask.val / 8) % 2 = 1)
   | PairId.d1m1 => decide ((mask.val / 16) % 2 = 1)
   | PairId.dm11 => decide ((mask.val / 32) % 2 = 1)
+
+def boolBitNat (b : Bool) : Nat :=
+  if b then 1 else 0
+
+def signMaskOfBits
+    (y z d111 d11m d1m1 dm11 : Bool) : SignMask :=
+  ⟨boolBitNat y + 2 * boolBitNat z + 4 * boolBitNat d111 +
+      8 * boolBitNat d11m + 16 * boolBitNat d1m1 +
+        32 * boolBitNat dm11,
+    by
+      cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+        cases d1m1 <;> cases dm11 <;> norm_num [boolBitNat, numSignMasks]⟩
+
+@[simp] theorem maskBitForPair_signMaskOfBits_y
+    (y z d111 d11m d1m1 dm11 : Bool) :
+    maskBitForPair (signMaskOfBits y z d111 d11m d1m1 dm11)
+      PairId.y = y := by
+  cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+    cases d1m1 <;> cases dm11 <;> decide
+
+@[simp] theorem maskBitForPair_signMaskOfBits_z
+    (y z d111 d11m d1m1 dm11 : Bool) :
+    maskBitForPair (signMaskOfBits y z d111 d11m d1m1 dm11)
+      PairId.z = z := by
+  cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+    cases d1m1 <;> cases dm11 <;> decide
+
+@[simp] theorem maskBitForPair_signMaskOfBits_d111
+    (y z d111 d11m d1m1 dm11 : Bool) :
+    maskBitForPair (signMaskOfBits y z d111 d11m d1m1 dm11)
+      PairId.d111 = d111 := by
+  cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+    cases d1m1 <;> cases dm11 <;> decide
+
+@[simp] theorem maskBitForPair_signMaskOfBits_d11m
+    (y z d111 d11m d1m1 dm11 : Bool) :
+    maskBitForPair (signMaskOfBits y z d111 d11m d1m1 dm11)
+      PairId.d11m = d11m := by
+  cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+    cases d1m1 <;> cases dm11 <;> decide
+
+@[simp] theorem maskBitForPair_signMaskOfBits_d1m1
+    (y z d111 d11m d1m1 dm11 : Bool) :
+    maskBitForPair (signMaskOfBits y z d111 d11m d1m1 dm11)
+      PairId.d1m1 = d1m1 := by
+  cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+    cases d1m1 <;> cases dm11 <;> decide
+
+@[simp] theorem maskBitForPair_signMaskOfBits_dm11
+    (y z d111 d11m d1m1 dm11 : Bool) :
+    maskBitForPair (signMaskOfBits y z d111 d11m d1m1 dm11)
+      PairId.dm11 = dm11 := by
+  cases y <;> cases z <;> cases d111 <;> cases d11m <;>
+    cases d1m1 <;> cases dm11 <;> decide
 
 def signedPositiveAt (w : PairWord) (mask : SignMask) (i : WordIndex) :
     Bool :=
@@ -769,15 +952,159 @@ theorem translationChoiceSeq_pair_matches
   intro i
   simp [translationChoiceSeq, afterStart_ne_zero i]
 
-theorem translation_mask_exists_of_omni_seq
+noncomputable def firstPairPositive
+    (w : PairWord) (seq : Step14 -> Face)
+    (hvalid : ValidPairWord w) (p : PairId) : Bool :=
+  positiveSignOfFace
+    (seq (afterStart
+      (firstPairIndexOf w p (pair_occurs_of_valid hvalid p))))
+
+noncomputable def translationMaskOfSeq
+    (w : PairWord) (seq : Step14 -> Face)
+    (hvalid : ValidPairWord w) : SignMask :=
+  signMaskOfBits
+    (firstPairPositive w seq hvalid PairId.y)
+    (firstPairPositive w seq hvalid PairId.z)
+    (firstPairPositive w seq hvalid PairId.d111)
+    (firstPairPositive w seq hvalid PairId.d11m)
+    (firstPairPositive w seq hvalid PairId.d1m1)
+    (firstPairPositive w seq hvalid PairId.dm11)
+
+theorem signedPositiveAt_translationMaskOfSeq
     {w : PairWord} {seq : Step14 -> Face}
     (hRealize : SeqRealizesPairWord w seq)
-    (hChoice :
-      exists mask : SignMask,
-        forall i : Step14, seq i = translationChoiceSeq w mask i) :
+    (i : WordIndex) :
+    signedPositiveAt w
+        (translationMaskOfSeq w seq hRealize.valid) i =
+      positiveSignOfFace (seq (afterStart i)) := by
+  classical
+  have hsignForPair :
+      forall p : PairId, p ≠ PairId.x -> w.get i = p ->
+        (if countPairBeforeNat w p i.val = 0 then
+            firstPairPositive w seq hRealize.valid p
+          else
+            ! firstPairPositive w seq hRealize.valid p) =
+          positiveSignOfFace (seq (afterStart i)) := by
+    intro p hpne hpget
+    let first := firstPairIndexOf w p
+      (pair_occurs_of_valid hRealize.valid p)
+    have hfirstGet : w.get first = p := by
+      simpa [first] using
+        firstPairIndexOf_get w p
+          (pair_occurs_of_valid hRealize.valid p)
+    by_cases hcount : countPairBeforeNat w p i.val = 0
+    · have hiFirst : i = first :=
+        firstPairIndexOf_eq_of_count_zero w p
+          (pair_occurs_of_valid hRealize.valid p) i hpget hcount
+      have hfirstCount :
+          countPairBeforeNat w p first.val = 0 := by
+        simpa [first] using
+          countPairBeforeNat_firstPairIndexOf w p
+            (pair_occurs_of_valid hRealize.valid p)
+      simp [firstPairPositive, first, hiFirst, hfirstCount]
+    · have hfirstCount :
+          countPairBeforeNat w p first.val = 0 := by
+        simpa [first] using
+          countPairBeforeNat_firstPairIndexOf w p
+            (pair_occurs_of_valid hRealize.valid p)
+      have hneIndex : i ≠ first := by
+        intro hi
+        rw [hi, hfirstCount] at hcount
+        exact hcount rfl
+      have hstepNe : afterStart i ≠ afterStart first := by
+        intro hstep
+        apply hneIndex
+        apply Fin.ext
+        have hv := congrArg Fin.val hstep
+        simp [afterStart] at hv
+        exact hv
+      have hfacesNe :
+          seq (afterStart i) ≠ seq (afterStart first) := by
+        intro hfaces
+        exact hstepNe (hRealize.omni.1 hfaces)
+      have hpairCurrent :
+          pairOfFace (seq (afterStart i)) = p := by
+        rw [← hRealize.pair_matches i, hpget]
+      have hpairFirst :
+          pairOfFace (seq (afterStart first)) = p := by
+        rw [← hRealize.pair_matches first, hfirstGet]
+      have hpairSame :
+          pairOfFace (seq (afterStart i)) =
+            pairOfFace (seq (afterStart first)) := by
+        rw [hpairCurrent, hpairFirst]
+      have hsignNe :
+          positiveSignOfFace (seq (afterStart i)) ≠
+            positiveSignOfFace (seq (afterStart first)) := by
+        intro hsign
+        exact hfacesNe (face_eq_of_pair_sign_eq hpairSame hsign)
+      have hsignOpp :
+          positiveSignOfFace (seq (afterStart i)) =
+            ! positiveSignOfFace (seq (afterStart first)) := by
+        cases hc : positiveSignOfFace (seq (afterStart i)) <;>
+          cases hf : positiveSignOfFace (seq (afterStart first)) <;>
+          simp [hc, hf] at hsignNe ⊢
+      simp [hcount, firstPairPositive, first, hsignOpp]
+  cases hp : w.get i with
+  | x =>
+      have hpair :
+          pairOfFace (seq (afterStart i)) = PairId.x := by
+        rw [← hRealize.pair_matches i, hp]
+      have hnotXp : seq (afterStart i) ≠ Face.xp := by
+        intro hface
+        have hsame : seq (afterStart i) = seq (0 : Step14) := by
+          rw [hface, hRealize.startsXp]
+        exact afterStart_ne_zero i (hRealize.omni.1 hsame)
+      cases hseq : seq (afterStart i) <;>
+        simp [signedPositiveAt, hp, positiveSignOfFace, pairOfFace, hseq]
+          at hpair hnotXp ⊢
+  | y =>
+      simpa [signedPositiveAt, hp, translationMaskOfSeq]
+        using hsignForPair PairId.y (by decide) hp
+  | z =>
+      simpa [signedPositiveAt, hp, translationMaskOfSeq]
+        using hsignForPair PairId.z (by decide) hp
+  | d111 =>
+      simpa [signedPositiveAt, hp, translationMaskOfSeq]
+        using hsignForPair PairId.d111 (by decide) hp
+  | d11m =>
+      simpa [signedPositiveAt, hp, translationMaskOfSeq]
+        using hsignForPair PairId.d11m (by decide) hp
+  | d1m1 =>
+      simpa [signedPositiveAt, hp, translationMaskOfSeq]
+        using hsignForPair PairId.d1m1 (by decide) hp
+  | dm11 =>
+      simpa [signedPositiveAt, hp, translationMaskOfSeq]
+        using hsignForPair PairId.dm11 (by decide) hp
+
+theorem translation_mask_exists_of_omni_seq
+    {w : PairWord} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord w seq) :
     exists mask : SignMask, SeqRealizesTranslationChoice w mask seq := by
-  rcases hChoice with ⟨mask, hmask⟩
-  exact ⟨mask, ⟨hRealize, hmask⟩⟩
+  classical
+  let mask := translationMaskOfSeq w seq hRealize.valid
+  refine ⟨mask, ⟨hRealize, ?_⟩⟩
+  intro i
+  by_cases hi0 : i = (0 : Step14)
+  · rw [hi0]
+    simpa [translationChoiceSeq, StartsXp] using hRealize.startsXp
+  · let wi := dropStart i hi0
+    have hafter : afterStart wi = i := by
+      simp [wi]
+    have hsign :
+        signedPositiveAt w mask wi =
+          positiveSignOfFace (seq i) := by
+      simpa [mask, hafter] using
+        signedPositiveAt_translationMaskOfSeq hRealize wi
+    have hpair :
+        w.get wi = pairOfFace (seq i) := by
+      simpa [hafter] using hRealize.pair_matches wi
+    calc
+      seq i = faceOfPairSign (pairOfFace (seq i))
+          (positiveSignOfFace (seq i)) := by
+            exact (faceOfPairSign_pairOfFace_positiveSignOfFace
+              (seq i)).symm
+      _ = translationChoiceSeq w mask i := by
+            simp [translationChoiceSeq, hi0, wi, hpair, hsign]
 
 inductive TranslationFailure
   | badTranslationVector
