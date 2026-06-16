@@ -15,6 +15,8 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Iterable
 
+import exact_profile
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
@@ -1117,11 +1119,34 @@ def write_coverage_json(payload: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
-    parser.add_argument("--mode", choices=["small-sample", "coverage-manifest"], help="generation mode")
+    parser.add_argument(
+        "--mode",
+        choices=["small-sample", "coverage-manifest", "profile-exhaustive-states"],
+        help="generation mode",
+    )
+    parser.add_argument(
+        "--profile-limit",
+        type=int,
+        help="development-only limit for profile-exhaustive-states",
+    )
+    parser.add_argument(
+        "--profile-output",
+        type=Path,
+        default=exact_profile.PROFILE_JSON_PATH,
+        help="output path for profile-exhaustive-states JSON",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
-        parser.error("use --small-sample or --mode coverage-manifest")
+        parser.error("use --small-sample or --mode coverage-manifest/profile-exhaustive-states")
+    if mode == "profile-exhaustive-states":
+        if args.profile_limit is not None and args.profile_limit < 0:
+            parser.error("--profile-limit must be nonnegative")
+        payload = exact_profile.build_profile_payload(limit=args.profile_limit)
+        exact_profile.write_profile_payload(payload, args.profile_output)
+        exact_profile.print_profile_summary(payload)
+        print(f"json: {args.profile_output}")
+        return
     if mode == "coverage-manifest":
         payload = build_coverage_payload()
         write_coverage_json(payload)

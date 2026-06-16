@@ -14,6 +14,8 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Iterable
 
+import exact_profile
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
@@ -492,11 +494,30 @@ def check_coverage_file(payload):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
-    parser.add_argument("--mode", choices=["small-sample", "coverage-manifest"], help="check mode")
+    parser.add_argument(
+        "--mode",
+        choices=["small-sample", "coverage-manifest", "profile-exhaustive-states"],
+        help="check mode",
+    )
+    parser.add_argument(
+        "--profile-input",
+        type=Path,
+        default=exact_profile.PROFILE_JSON_PATH,
+        help="input path for profile-exhaustive-states JSON",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
-        parser.error("use --small-sample or --mode coverage-manifest")
+        parser.error("use --small-sample or --mode coverage-manifest/profile-exhaustive-states")
+    if mode == "profile-exhaustive-states":
+        payload = exact_profile.load_profile_payload(args.profile_input)
+        counts = exact_profile.check_profile_payload(payload)
+        exact_profile.print_profile_summary(payload, prefix="independent profile check passed")
+        if payload.get("complete", False):
+            print("known sanity counts verified")
+        else:
+            print(f"partial profile pair words checked: {counts['pair_words']:,}")
+        return
     if mode == "coverage-manifest":
         payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
         summary = check_coverage_file(payload)
