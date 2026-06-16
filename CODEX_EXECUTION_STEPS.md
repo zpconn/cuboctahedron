@@ -1010,12 +1010,216 @@ work and `lake build` passes.
 ## Step 14E: Exhaustive Real Certificate Data
 
 Goal: produce the concrete exhaustive `ExhaustiveGeneratedCoverage` witness that
-Step 15 needs.
+Step 15 needs, without raw flat per-case certificate output.
 
 Step 14C may stop at representative real certificates. Step 14E must not. It
 must extend the generator and generated Lean files so every nonidentity rank and
 every identity rank/sign-mask case is covered by a checked real failure
 certificate.
+
+Raw one-certificate-per-case generation is not the default implementation path:
+it is expected to be hundreds of GB to TB-scale. Complete Steps 14E.1 through
+14E.7 before starting Step 15.
+
+## Step 14E.1: Exhaustive Case-State Profiler
+
+Goal: measure exact compression opportunities before generating trusted proof
+data.
+
+Update:
+
+```text
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+```
+
+Add non-proof modes:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states
+python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states
+```
+
+Requirements:
+
+- Use exact rational arithmetic only.
+- Enumerate all valid pair-word ranks.
+- For nonidentity words, group by exact rational state: prefix counts, linear
+  product, fixed-axis data, forced-sign data, and first exact failure category.
+- For identity words, group all 64 masks by translation vector, sequence,
+  denominator-sign pattern, and normalized strict linear constraint system.
+- Print size estimates for flat certificates, prefix-tree leaves, symmetry
+  classes, and shared Farkas groups.
+- This step is profiling only. It must not emit trusted Lean completeness
+  theorems.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states
+python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states
+```
+
+pass and report the known sanity counts:
+
+```text
+pair-words: 97,297,200
+identity linear words: 2,468,088
+translation sign assignments: 157,957,632
+```
+
+## Step 14E.2: Symmetry and Canonicalization Layer
+
+Goal: reduce raw cases by formally transporting failures from canonical
+representatives.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+```
+
+Requirements:
+
+- Formalize only cuboctahedron symmetries that preserve the started-at-`xp`
+  finite theorem shape.
+- Define canonicalization for pair words and translation sign masks under those
+  symmetries.
+- Prove Lean transport lemmas:
+  - a checked nonidentity failure for a canonical case yields a checked failure
+    for every raw case in its orbit;
+  - a checked translation failure for a canonical `(rank, mask)` yields a
+    checked failure for every transported raw `(rank, mask)`.
+- The independent checker must verify that canonicalization is deterministic
+  and every raw case maps to exactly one canonical representative.
+
+Done when:
+
+```lean
+#check canonical_nonidentity_failure_transport
+#check canonical_translation_failure_transport
+```
+
+work for representative generated canonical cases, and `lake build` passes.
+
+## Step 14E.3: Prefix-State Coverage Trees
+
+Goal: make compressed coverage a trusted Lean object.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+```
+
+Requirements:
+
+- Define Lean datatypes for nonidentity and translation coverage trees.
+- A tree leaf must contain either:
+  - a real checked `NonIdCert` or `TranslationCert`; or
+  - a family certificate whose checker returns a real checked certificate for
+    every covered raw case.
+- Define Boolean checkers for tree structure, rank/mask interval coverage,
+  branch disjointness, and leaf certificate validity.
+- Prove soundness/completeness theorems:
+  - every nonidentity rank routed to a checked tree yields a checked
+    `NonIdCert`;
+  - every identity rank and `SignMask` routed to a checked tree yields a checked
+    `TranslationCert`.
+- Do not use `native_decide`; generated tree proofs must be small enough for
+  ordinary kernel checking.
+
+Done when:
+
+```lean
+#check checkNonIdCoverageTree_sound
+#check checkTranslationCoverageTree_sound
+```
+
+work for representative generated trees, and `lake build` passes.
+
+## Step 14E.4: Nonidentity Family Certificates
+
+Goal: prune large nonidentity pair-word subtrees with exact family failures.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Generated/NonIdentity/
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+```
+
+Requirements:
+
+- Generate prefix-tree pruning certificates for these exact failure families:
+  - no fixed axis;
+  - bad direction sign;
+  - bad pair balance;
+  - axis misses `xp` start interior;
+  - bad first hit;
+  - bad hit interior.
+- Prefer family leaves over explicit per-rank leaves. Emit explicit checked
+  `NonIdCert` leaves only when no family certificate applies.
+- Every generated family leaf must prove all completions satisfy its family
+  hypotheses and return a checked `NonIdCert` for each raw rank.
+- The independent checker must reject any nonidentity rank not covered by
+  exactly one leaf.
+
+Done when:
+
+```lean
+#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage
+#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage_sound
+```
+
+work for nontrivial prefix subtrees, and `lake build` passes.
+
+## Step 14E.5: Translation Family and Shared Farkas Certificates
+
+Goal: prune translation cases by shared exact constraint systems and reusable
+Farkas witnesses.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Generated/Translation/
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+```
+
+Requirements:
+
+- Generate family certificates for:
+  - zero translation vector;
+  - bad denominator/direction sign;
+  - shared infeasible strict systems via sparse exact `FarkasCert`.
+- Normalize translation constraint systems so equivalent cases share one
+  Farkas certificate.
+- Prove Lean transport from a normalized Farkas certificate to every raw
+  `(rank, mask)` case in its group.
+- Emit explicit checked `TranslationCert` leaves only when grouping fails.
+- The independent checker must reject any identity rank/sign-mask case not
+  covered by exactly one leaf.
+
+Done when:
+
+```lean
+#check Cuboctahedron.Generated.Translation.sampleFamilyCoverage
+#check Cuboctahedron.Generated.Translation.sampleFamilyCoverage_sound
+```
+
+work for nontrivial translation groups, and `lake build` passes.
+
+## Step 14E.6: Exhaustive Real Certificate Generator Mode
+
+Goal: generate compressed exhaustive real certificate data.
 
 Update:
 
@@ -1037,10 +1241,41 @@ python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
 Requirements:
 
 - Use exact rational arithmetic only.
-- Generate checked `NonIdCert` data for every rank whose pair-word has
+- Generate compressed nonidentity coverage for every rank whose pair-word has
   nonidentity linear part.
-- Generate checked `TranslationCert` data for every identity rank and every
+- Generate compressed translation coverage for every identity rank and every
   legal `SignMask`.
+- Emit JSON summaries including raw case counts, compressed leaf counts,
+  generated Lean sizes, and independent checker counts.
+- Reject the run if any raw case is uncovered, multiply covered, or covered
+  only by a classifier instead of a real failure certificate.
+- Do not use C++ counts as proof data. They may be printed only as sanity
+  checks.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+```
+
+pass on the compressed generated data.
+
+## Step 14E.7: Concrete Exhaustive Coverage Witness
+
+Goal: expose the concrete Lean witness consumed by Step 15.
+
+Update:
+
+```text
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+Cuboctahedron/Generated/AllGenerated.lean
+```
+
+Requirements:
+
 - The generated Lean layer must prove:
 
 ```lean
@@ -1068,10 +1303,6 @@ def exhaustiveGeneratedCoverage : ExhaustiveGeneratedCoverage := ...
 
 - Do not use `axiom`, `sorry`, `admit`, `native_decide`, `unsafe`, C++ counts,
   or sample-only chunks to prove completeness.
-- If per-case generated files are too large, use prefix-tree or interval
-  compression. Every compressed leaf must still return a real checked
-  `NonIdCert` or `TranslationCert`, and Lean must prove the covered rank/mask
-  family is complete.
 
 Done when:
 
@@ -1087,6 +1318,7 @@ work, and:
 python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
 python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
 lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 ```
 
 all pass.
@@ -1102,7 +1334,7 @@ Prerequisites:
 - Step 14C has generated checked `NonIdCert` and `TranslationCert` data.
 - Step 14D exposes exhaustive coverage returning those checked failure
   certificates.
-- Step 14E has produced a concrete, Lean-checked
+- Step 14E.7 has produced a concrete, Lean-checked
   `Generated.exhaustiveGeneratedCoverage` witness.
 
 Do not start Step 15 while `ExhaustiveGeneratedCoverage` still returns only
