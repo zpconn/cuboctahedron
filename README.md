@@ -1,6 +1,6 @@
 # Cuboctahedron Omnihedral Billiards
 
-This repo contains a fully formalized proof of the following theorem in Lean 4:
+This repo is building a fully formalized proof of the following theorem in Lean 4:
 
 ```
 It is not possible to construct an omnihedral orbit inside the cuboctahedron.
@@ -13,6 +13,14 @@ The `cuboctahedron`, pictured below, is a quasiregular Archimedean polyhedron wi
 <img width="500" height="490" alt="image" src="https://github.com/user-attachments/assets/896ae16c-8587-4926-8cee-da614f5b7c38" />
 
 An `omnihedral orbit` is a periodic nonsingular billiard trajectory inside the polyhedron that touches each face precisely once before repeating.
+
+# Proof Strategy
+
+The proof strategy is to turn a geometric existence question into a finite collection of exact algebra checks. Instead of trying to draw every possible billiard path, the repo studies the order in which a hypothetical orbit could hit the 14 faces. Any omnihedral orbit can be cyclically re-indexed so that it starts on a chosen square face, and then the remaining work is to rule out every possible order of the other 13 faces.
+
+For each proposed face order, the billiard reflections are unfolded: rather than making the path bounce inside the cuboctahedron, the faces are reflected into space so the path becomes a straight line. After one full circuit through the 14 faces, the accumulated unfolding is an affine isometry. There are two conceptual cases. If its linear part is not the identity, then any periodic orbit would have to lie on a forced invariant axis, leaving only a small exact check that the resulting candidate actually starts and crosses faces in the required nonsingular way. If the linear part is the identity, the unfolding is a translation, and the possible starting points form a polygonal region cut out by linear inequalities; the itinerary is impossible when those inequalities are infeasible.
+
+The Lean project is intended to make every step of that reduction auditable. The geometry of the cuboctahedron is encoded with rational normals and offsets, the finite enumeration is represented by Lean definitions, and generated certificate files are treated only as data that Lean must verify. External scripts may help produce the certificates, but they are not part of the trusted proof. Once finished, the main theorem should say that no nonsingular period-14 billiard orbit touches every face exactly once, and `lake build` plus the axiom check should confirm that the proof contains no `sorry`, custom axioms, floating point approximations, `unsafe`, or `native_decide`.
 
 # Background
 
