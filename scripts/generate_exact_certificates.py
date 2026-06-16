@@ -21,7 +21,9 @@ import exact_profile
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
+CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
+CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
 )
@@ -440,6 +442,74 @@ def impact_denom(seq: list[str], b: Vec, impact: int) -> Fraction:
     return dot(normal, b)
 
 
+def pair_of_face(face: str) -> str:
+    for pair_id in PAIR_IDS:
+        if FACE_PLUS[pair_id] == face or FACE_MINUS[pair_id] == face:
+            return pair_id
+    raise ValueError(face)
+
+
+def positive_sign_of_face(face: str) -> bool:
+    return FACE_PLUS[pair_of_face(face)] == face
+
+
+def sym_vec(sym: dict, v: Vec) -> Vec:
+    x, y, z = v
+    if sym["swapYZ"]:
+        y, z = z, y
+    if sym["negY"]:
+        y = -y
+    if sym["negZ"]:
+        z = -z
+    return (x, y, z)
+
+
+FACE_BY_NORMAL = {vec(normal): face for face, normal in FACE_NORMALS.items()}
+
+
+def sym_face(sym: dict, face: str) -> str:
+    return FACE_BY_NORMAL[sym_vec(sym, vec(FACE_NORMALS[face]))]
+
+
+def sym_pair(sym: dict, pair_id: str) -> str:
+    return pair_of_face(sym_face(sym, FACE_PLUS[pair_id]))
+
+
+def sym_word(sym: dict, word: list[str]) -> list[str]:
+    return [sym_pair(sym, pair_id) for pair_id in word]
+
+
+def sym_seq(sym: dict, seq: list[str]) -> list[str]:
+    return [sym_face(sym, face) for face in seq]
+
+
+def mask_from_word_seq(word: list[str], seq: list[str]) -> int:
+    mask = 0
+    for pair_index, pair_id in enumerate(PAIR_IDS[1:]):
+        first = word.index(pair_id)
+        if positive_sign_of_face(seq[first + 1]):
+            mask |= 1 << pair_index
+    return mask
+
+
+def transported_translation_mask(sym: dict, word: list[str], mask: int) -> int:
+    _b, seq = translation_vector(word, mask)
+    raw_word = sym_word(sym, word)
+    raw_seq = sym_seq(sym, seq)
+    return mask_from_word_seq(raw_word, raw_seq)
+
+
+def lean_started_sym(sym: dict) -> str:
+    def lean_bool(value: bool) -> str:
+        return "true" if value else "false"
+
+    return (
+        "{ swapYZ := " + lean_bool(sym["swapYZ"]) +
+        ", negY := " + lean_bool(sym["negY"]) +
+        ", negZ := " + lean_bool(sym["negZ"]) + " }"
+    )
+
+
 def forced_sequence_from_axis(word: list[str], axis: Vec) -> list[str]:
     pref = prefix_matrices(word)
     seq = ["xp"]
@@ -663,6 +733,89 @@ def build_payload() -> dict:
             "pair_words_sampled": len(words),
             "nonidentity_certs": len(nonid_certs),
             "translation_certs": len(translation_certs),
+        },
+    }
+
+
+CANONICAL_SAMPLE_SYM = {"swapYZ": False, "negY": False, "negZ": True}
+
+
+def transport_nonid_cert(cert: NonIdCertPayload, sym: dict, name: str) -> NonIdCertPayload:
+    raw_word = sym_word(sym, cert.word)
+    raw_rank = lex_rank_pair_word(raw_word)
+    matrix = total_linear(raw_word)
+    raw_axis = sym_vec(sym, cert.axis)
+    raw_forced_seq = sym_seq(sym, cert.forced_seq)
+    failure = dict(cert.failure)
+    return NonIdCertPayload(
+        name=name,
+        rank=raw_rank,
+        word=raw_word,
+        axis=raw_axis,
+        kernel_cross_factor=kernel_line_cross_factor(matrix, raw_axis),
+        forced_seq=raw_forced_seq,
+        failure=failure,
+    )
+
+
+def transport_translation_cert(
+    cert: TranslationCertPayload, sym: dict, name: str
+) -> TranslationCertPayload:
+    raw_word = sym_word(sym, cert.word)
+    raw_seq = sym_seq(sym, cert.seq)
+    raw_mask = mask_from_word_seq(raw_word, raw_seq)
+    raw_b, checked_seq = translation_vector(raw_word, raw_mask)
+    if checked_seq != raw_seq:
+        raise ValueError("transported translation sequence does not match mask")
+    expected_b = sym_vec(sym, cert.b)
+    if raw_b != expected_b:
+        raise ValueError("transported translation vector mismatch")
+    failure = dict(cert.failure)
+    raw_rank = lex_rank_pair_word(raw_word)
+    return TranslationCertPayload(
+        name=name,
+        rank=raw_rank,
+        mask=raw_mask,
+        word=raw_word,
+        seq=raw_seq,
+        b=raw_b,
+        failure=failure,
+    )
+
+
+def build_canonical_payload() -> dict:
+    canonical_nonid = build_nonid_bad_direction(1)
+    canonical_translation = build_translation_bad_direction(0, 0)
+    raw_nonid = transport_nonid_cert(
+        canonical_nonid, CANONICAL_SAMPLE_SYM, "nonIdBadDirectionSym000"
+    )
+    raw_translation = transport_translation_cert(
+        canonical_translation, CANONICAL_SAMPLE_SYM, "translationBadDirectionSym000"
+    )
+    records = {
+        canonical_nonid.rank: canonical_nonid.word,
+        canonical_translation.rank: canonical_translation.word,
+        raw_nonid.rank: raw_nonid.word,
+        raw_translation.rank: raw_translation.word,
+    }
+    words = [{"rank": rank, "word": records[rank]} for rank in sorted(records)]
+    return {
+        "schema_version": 1,
+        "mode": "canonical-symmetry-sample",
+        "symmetry": CANONICAL_SAMPLE_SYM,
+        "pair_words": words,
+        "nonidentity": {
+            "canonical": canonical_nonid.to_json(),
+            "raw": raw_nonid.to_json(),
+        },
+        "translation": {
+            "canonical": canonical_translation.to_json(),
+            "raw": raw_translation.to_json(),
+        },
+        "summary": {
+            "canonical_pair_words": len(words),
+            "nonidentity_transport_cases": 1,
+            "translation_transport_cases": 1,
         },
     }
 
@@ -1075,9 +1228,10 @@ def write_all_generated() -> None:
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
+        "import Cuboctahedron.Generated.CanonicalSample",
         "",
         "/-!",
-        "Aggregate import for generated Step 14C real-certificate sample chunks.",
+        "Aggregate import for generated Step 14C/14E real-certificate sample chunks.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated",
@@ -1091,6 +1245,18 @@ def write_all_generated() -> None:
         "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
         "  rfl",
         "",
+        "theorem nonidentityChunk_sound :",
+        "    List.Forall₂ NonIdRankCertificateCovered",
+        "      NonIdentity.Chunk0000.chunk.coveredRanks.toList",
+        "      NonIdentity.Chunk0000.chunk.certs.toList :=",
+        "  checkGeneratedNonIdCertChunk_sound NonIdentity.Chunk0000.certs_check",
+        "",
+        "theorem translationChunk_sound :",
+        "    List.Forall₂ TranslationCaseCertificateCovered",
+        "      Translation.Chunk0000.chunk.coveredCases.toList",
+        "      Translation.Chunk0000.chunk.certs.toList :=",
+        "  checkGeneratedTranslationCertChunk_sound Translation.Chunk0000.certs_check",
+        "",
         "end Cuboctahedron.Generated",
         "",
     ]
@@ -1098,9 +1264,97 @@ def write_all_generated() -> None:
     ALL_GENERATED_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def write_canonical_lean(payload: dict) -> None:
+    sym = payload["symmetry"]
+    raw_nonid = payload["nonidentity"]["raw"]
+    raw_translation = payload["translation"]["raw"]
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.SmallSample",
+        "",
+        "/-!",
+        "Generated representative symmetry/canonicalization sample for Step 14E.2.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.CanonicalSample",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "",
+        "def sampleSym : StartedSym :=",
+        f"  {lean_started_sym(sym)}",
+        "",
+    ]
+    append_word_definitions(lines, payload)
+    append_nonid_cert(lines, raw_nonid)
+    append_translation_cert(lines, raw_translation)
+    append_nonid_check_theorem(lines, raw_nonid)
+    append_translation_check_theorem(lines, raw_translation)
+    lines.extend([
+        "def nonidentityTransport : CanonicalNonIdTransport where",
+        "  sym := sampleSym",
+        "  canonical := Cuboctahedron.Generated.SmallSample.nonIdBadDirection000",
+        f"  raw := {raw_nonid['name']}",
+        "",
+        "theorem nonidentity_transport_check :",
+        "    checkCanonicalNonIdTransport nonidentityTransport = true := by",
+        "  simp [checkCanonicalNonIdTransport, nonidentityTransport, sampleSym,",
+        f"    {raw_nonid['name']}_check,",
+        "    Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check]",
+        "  decide",
+        "",
+        "theorem nonidentity_transport_raw_check :",
+        f"    checkNonIdCert {raw_nonid['name']} = true :=",
+        "  canonical_nonidentity_failure_transport nonidentityTransport",
+        "    nonidentity_transport_check",
+        "",
+        "def translationTransport : CanonicalTranslationTransport where",
+        "  sym := sampleSym",
+        "  canonical := Cuboctahedron.Generated.SmallSample.translationBadDirection000",
+        f"  raw := {raw_translation['name']}",
+        "",
+        "theorem translation_transport_check :",
+        "    checkCanonicalTranslationTransport translationTransport = true := by",
+        "  simp [checkCanonicalTranslationTransport, translationTransport, sampleSym,",
+        f"    {raw_translation['name']}_check,",
+        "    Cuboctahedron.Generated.SmallSample.translationBadDirection000_check]",
+        "  refine And.intro ?left0 ?failure",
+        "  · refine And.intro ?left1 ?vec",
+        "    · refine And.intro ?left2 ?seq",
+        "      · exact And.intro (by decide) (by decide)",
+        "      · decide",
+        "    · norm_num [",
+        f"        {raw_translation['name']},",
+        "        Cuboctahedron.Generated.SmallSample.translationBadDirection000, symVecQ, negIf]",
+        "  · decide",
+        "",
+        "theorem translation_transport_raw_check :",
+        f"    checkTranslationCert {raw_translation['name']} = true :=",
+        "  canonical_translation_failure_transport translationTransport",
+        "    translation_transport_check",
+        "",
+        "#check canonical_nonidentity_failure_transport",
+        "#check canonical_translation_failure_transport",
+        "#check nonidentity_transport_check",
+        "#check translation_transport_check",
+        "",
+        "end Cuboctahedron.Generated.CanonicalSample",
+        "",
+    ])
+    CANONICAL_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CANONICAL_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_json(payload: dict) -> None:
     JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     JSON_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def write_canonical_json(payload: dict) -> None:
+    CANONICAL_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CANONICAL_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def write_coverage_json(payload: dict) -> None:
@@ -1121,7 +1375,12 @@ def main() -> None:
     parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
     parser.add_argument(
         "--mode",
-        choices=["small-sample", "coverage-manifest", "profile-exhaustive-states"],
+        choices=[
+            "small-sample",
+            "coverage-manifest",
+            "profile-exhaustive-states",
+            "canonical-symmetry-sample",
+        ],
         help="generation mode",
     )
     parser.add_argument(
@@ -1138,7 +1397,10 @@ def main() -> None:
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
-        parser.error("use --small-sample or --mode coverage-manifest/profile-exhaustive-states")
+        parser.error(
+            "use --small-sample or --mode coverage-manifest/"
+            "profile-exhaustive-states/canonical-symmetry-sample"
+        )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
             parser.error("--profile-limit must be nonnegative")
@@ -1146,6 +1408,15 @@ def main() -> None:
         exact_profile.write_profile_payload(payload, args.profile_output)
         exact_profile.print_profile_summary(payload)
         print(f"json: {args.profile_output}")
+        return
+    if mode == "canonical-symmetry-sample":
+        payload = build_canonical_payload()
+        write_canonical_json(payload)
+        write_canonical_lean(payload)
+        write_all_generated()
+        print("generated canonical symmetry sample")
+        print(f"json: {CANONICAL_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {CANONICAL_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "coverage-manifest":
         payload = build_coverage_payload()

@@ -20,6 +20,7 @@ import exact_profile
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
+CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -358,6 +359,56 @@ def impact_denom(seq, b, impact):
     return dot(mat_vec(prefix, normal(face)), b)
 
 
+def positive_sign_of_face(face):
+    return FACE_PLUS[pair_of_face(face)] == face
+
+
+def sym_vec(sym, v):
+    x, y, z = v
+    if sym["swapYZ"]:
+        y, z = z, y
+    if sym["negY"]:
+        y = -y
+    if sym["negZ"]:
+        z = -z
+    return (x, y, z)
+
+
+FACE_BY_NORMAL = {vec(normal_value): face for face, normal_value in FACE_NORMALS.items()}
+
+
+def sym_face(sym, face):
+    return FACE_BY_NORMAL[sym_vec(sym, normal(face))]
+
+
+def sym_pair(sym, pair_id):
+    return pair_of_face(sym_face(sym, FACE_PLUS[pair_id]))
+
+
+def sym_word(sym, word):
+    return [sym_pair(sym, pair_id) for pair_id in word]
+
+
+def sym_seq(sym, seq):
+    return [sym_face(sym, face) for face in seq]
+
+
+def mask_from_word_seq(word, seq):
+    mask = 0
+    for pair_index, pair_id in enumerate(PAIR_IDS[1:]):
+        first = word.index(pair_id)
+        if positive_sign_of_face(seq[first + 1]):
+            mask |= 1 << pair_index
+    return mask
+
+
+def transported_translation_mask(sym, word, mask):
+    _b, seq = translation_vector(word, mask)
+    raw_word = sym_word(sym, word)
+    raw_seq = sym_seq(sym, seq)
+    return mask_from_word_seq(raw_word, raw_seq)
+
+
 def check_coverage_payload(coverage):
     require(coverage["coverageKind"] == "contiguous-rank-intervals", "coverage kind")
     require(coverage["pairWordCount"] == EXPECTED_PAIR_WORDS, "coverage pair-word count")
@@ -491,12 +542,143 @@ def check_coverage_file(payload):
     return check_coverage_payload(payload["coverage"])
 
 
+STARTED_SYMS = [
+    {"swapYZ": False, "negY": False, "negZ": False},
+    {"swapYZ": False, "negY": False, "negZ": True},
+    {"swapYZ": False, "negY": True, "negZ": False},
+    {"swapYZ": False, "negY": True, "negZ": True},
+    {"swapYZ": True, "negY": False, "negZ": False},
+    {"swapYZ": True, "negY": False, "negZ": True},
+    {"swapYZ": True, "negY": True, "negZ": False},
+    {"swapYZ": True, "negY": True, "negZ": True},
+]
+
+
+def canonical_word(word):
+    return min(sym_word(sym, word) for sym in STARTED_SYMS)
+
+
+def canonical_translation_choice(word, mask):
+    candidates = []
+    for sym in STARTED_SYMS:
+        raw_word = sym_word(sym, word)
+        raw_mask = transported_translation_mask(sym, word, mask)
+        candidates.append((raw_word, raw_mask))
+    return min(candidates)
+
+
+def check_nonid_cert_record(cert):
+    word = cert["word"]
+    require(valid_pair_word(word), f"valid nonidentity cert {cert['name']}")
+    require(total_linear(word) != identity_matrix(), f"nonidentity matrix {cert['name']}")
+    axis = vector_from_json(cert["axis"])
+    cross_factor = matrix_from_json(cert["kernel_cross_factor"])
+    require(check_kernel_line_witness(word, axis, cross_factor), f"kernel {cert['name']}")
+    failure = cert["failure"]
+    if failure["kind"] == "badDirectionSign":
+        index = failure["index"]
+        require(0 <= index < 13, f"bad direction index {cert['name']}")
+        pref = prefix_matrices(word)
+        require(dot(mat_vec(pref[index], vec(NORMALS[word[index]])), axis) == 0,
+                f"bad direction zero {cert['name']}")
+    elif failure["kind"] == "badPairBalance":
+        seq = cert["forced_seq"]
+        require(axis_forces_sequence(word, axis, seq), f"forced sequence {cert['name']}")
+        require(len(set(seq)) != 14, f"bad pair balance {cert['name']}")
+    else:
+        raise SystemExit(f"check failed: unsupported nonidentity failure {failure['kind']}")
+
+
+def check_translation_cert_record(cert):
+    word = cert["word"]
+    mask = cert["mask"]
+    require(valid_pair_word(word), f"valid translation cert {cert['name']}")
+    require(total_linear(word) == identity_matrix(), f"translation identity {cert['name']}")
+    b, seq = translation_vector(word, mask)
+    require(vector_from_json(cert["b"]) == b, f"translation vector {cert['name']}")
+    require(cert["seq"] == seq, f"translation seq {cert['name']}")
+    require(total_aff(seq)[1] == b, f"translation total affine {cert['name']}")
+    failure = cert["failure"]
+    if failure["kind"] == "badDirectionSign":
+        impact = failure["impact"]
+        require(impact not in (0, 14), f"bad direction impact {cert['name']}")
+        require(impact_denom(seq, b, impact) <= 0, f"bad direction denominator {cert['name']}")
+    elif failure["kind"] == "badTranslationVector":
+        require(b == vec((0, 0, 0)), f"bad translation vector {cert['name']}")
+    else:
+        raise SystemExit(f"check failed: unsupported translation failure {failure['kind']}")
+
+
+def check_canonical_file(payload):
+    require(payload.get("schema_version") == 1, "canonical schema version")
+    require(payload.get("mode") == "canonical-symmetry-sample", "canonical mode")
+    sym = payload["symmetry"]
+    require(sym in STARTED_SYMS, "sample symmetry is started symmetry")
+
+    words_by_rank = {}
+    for record in payload["pair_words"]:
+        rank = record["rank"]
+        word = record["word"]
+        require(valid_pair_word(word), f"canonical valid word {rank}")
+        require(lex_rank_pair_word(word) == rank, f"canonical lex rank {rank}")
+        words_by_rank[rank] = word
+
+    nonid = payload["nonidentity"]
+    canonical_nonid = nonid["canonical"]
+    raw_nonid = nonid["raw"]
+    check_nonid_cert_record(canonical_nonid)
+    check_nonid_cert_record(raw_nonid)
+    require(raw_nonid["word"] == sym_word(sym, canonical_nonid["word"]),
+            "nonidentity transported word")
+    require(vector_from_json(raw_nonid["axis"]) ==
+            sym_vec(sym, vector_from_json(canonical_nonid["axis"])),
+            "nonidentity transported axis")
+    require(raw_nonid["forced_seq"] == sym_seq(sym, canonical_nonid["forced_seq"]),
+            "nonidentity transported forced sequence")
+    require(raw_nonid["failure"] == canonical_nonid["failure"],
+            "nonidentity transported failure")
+    require(canonical_word(canonical_nonid["word"]) ==
+            min(sym_word(s, canonical_nonid["word"]) for s in STARTED_SYMS),
+            "nonidentity canonical deterministic")
+
+    translation = payload["translation"]
+    canonical_translation = translation["canonical"]
+    raw_translation = translation["raw"]
+    check_translation_cert_record(canonical_translation)
+    check_translation_cert_record(raw_translation)
+    require(raw_translation["word"] == sym_word(sym, canonical_translation["word"]),
+            "translation transported word")
+    require(raw_translation["seq"] == sym_seq(sym, canonical_translation["seq"]),
+            "translation transported sequence")
+    require(raw_translation["mask"] == transported_translation_mask(
+        sym, canonical_translation["word"], canonical_translation["mask"]),
+        "translation transported mask")
+    require(vector_from_json(raw_translation["b"]) ==
+            sym_vec(sym, vector_from_json(canonical_translation["b"])),
+            "translation transported vector")
+    require(raw_translation["failure"] == canonical_translation["failure"],
+            "translation transported failure")
+    require(canonical_translation_choice(
+        canonical_translation["word"], canonical_translation["mask"]) ==
+        min((sym_word(s, canonical_translation["word"]),
+             transported_translation_mask(
+                 s, canonical_translation["word"], canonical_translation["mask"]))
+            for s in STARTED_SYMS),
+        "translation canonical deterministic")
+    return payload["summary"]
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
     parser.add_argument(
         "--mode",
-        choices=["small-sample", "coverage-manifest", "profile-exhaustive-states"],
+        choices=[
+            "small-sample",
+            "coverage-manifest",
+            "profile-exhaustive-states",
+            "canonical-symmetry-sample",
+        ],
         help="check mode",
     )
     parser.add_argument(
@@ -508,7 +690,10 @@ def main():
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
-        parser.error("use --small-sample or --mode coverage-manifest/profile-exhaustive-states")
+        parser.error(
+            "use --small-sample or --mode coverage-manifest/"
+            "profile-exhaustive-states/canonical-symmetry-sample"
+        )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
         counts = exact_profile.check_profile_payload(payload)
@@ -517,6 +702,14 @@ def main():
             print("known sanity counts verified")
         else:
             print(f"partial profile pair words checked: {counts['pair_words']:,}")
+        return
+    if mode == "canonical-symmetry-sample":
+        payload = json.loads(CANONICAL_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_canonical_file(payload)
+        print("independent canonical symmetry sample check passed")
+        print(f"canonical pair words: {summary['canonical_pair_words']}")
+        print(f"nonidentity transport cases: {summary['nonidentity_transport_cases']}")
+        print(f"translation transport cases: {summary['translation_transport_cases']}")
         return
     if mode == "coverage-manifest":
         payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))

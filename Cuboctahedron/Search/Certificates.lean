@@ -1231,6 +1231,245 @@ noncomputable def checkTranslationCert (cert : TranslationCert) : Bool :=
 noncomputable def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
   certs.toList.all checkTranslationCert
 
+structure StartedSym where
+  swapYZ : Bool
+  negY : Bool
+  negZ : Bool
+deriving DecidableEq, Repr
+
+def startedSymIdentity : StartedSym where
+  swapYZ := false
+  negY := false
+  negZ := false
+
+def allStartedSyms : List StartedSym :=
+  [{ swapYZ := false, negY := false, negZ := false },
+   { swapYZ := false, negY := false, negZ := true },
+   { swapYZ := false, negY := true, negZ := false },
+   { swapYZ := false, negY := true, negZ := true },
+   { swapYZ := true, negY := false, negZ := false },
+   { swapYZ := true, negY := false, negZ := true },
+   { swapYZ := true, negY := true, negZ := false },
+   { swapYZ := true, negY := true, negZ := true }]
+
+def negIf (b : Bool) (q : Rat) : Rat :=
+  if b then -q else q
+
+def symVecQ (σ : StartedSym) (v : Vec3 Rat) : Vec3 Rat :=
+  if σ.swapYZ then
+    { x := v.x, y := negIf σ.negY v.z, z := negIf σ.negZ v.y }
+  else
+    { x := v.x, y := negIf σ.negY v.y, z := negIf σ.negZ v.z }
+
+def faceOfNormalQ (n : Vec3 Rat) : Face :=
+  if n = normalQ Face.xp then Face.xp
+  else if n = normalQ Face.xm then Face.xm
+  else if n = normalQ Face.yp then Face.yp
+  else if n = normalQ Face.ym then Face.ym
+  else if n = normalQ Face.zp then Face.zp
+  else if n = normalQ Face.zm then Face.zm
+  else if n = normalQ Face.tmmm then Face.tmmm
+  else if n = normalQ Face.tmmp then Face.tmmp
+  else if n = normalQ Face.tmpm then Face.tmpm
+  else if n = normalQ Face.tmpp then Face.tmpp
+  else if n = normalQ Face.tpmm then Face.tpmm
+  else if n = normalQ Face.tpmp then Face.tpmp
+  else if n = normalQ Face.tppm then Face.tppm
+  else Face.tppp
+
+def symFace (σ : StartedSym) (f : Face) : Face :=
+  faceOfNormalQ (symVecQ σ (normalQ f))
+
+def symPair (σ : StartedSym) (p : PairId) : PairId :=
+  pairOfFace (symFace σ (faceOfPairSign p true))
+
+def symPairWord (σ : StartedSym) (w : PairWord) : PairWord :=
+  Vector.ofFn fun i : WordIndex => symPair σ (w.get i)
+
+def symFaceVector (σ : StartedSym) (faces : Vector Face 14) : Vector Face 14 :=
+  Vector.ofFn fun i : Step14 => symFace σ (faces.get i)
+
+def symSeq (σ : StartedSym) (seq : Step14 -> Face) : Step14 -> Face :=
+  fun i => symFace σ (seq i)
+
+def firstSignForPairFromNat
+    (w : PairWord) (seq : Step14 -> Face) (p : PairId) : Nat -> Nat -> Bool
+  | _k, 0 => false
+  | k, fuel + 1 =>
+      if h : k < 13 then
+        let i : WordIndex := ⟨k, h⟩
+        if w.get i = p then
+          positiveSignOfFace (seq (afterStart i))
+        else
+          firstSignForPairFromNat w seq p (k + 1) fuel
+      else
+        false
+
+def firstSignForPairComputable
+    (w : PairWord) (seq : Step14 -> Face) (p : PairId) : Bool :=
+  firstSignForPairFromNat w seq p 0 13
+
+def translationMaskOfSeqComputable
+    (w : PairWord) (seq : Step14 -> Face) : SignMask :=
+  signMaskOfBits
+    (firstSignForPairComputable w seq PairId.y)
+    (firstSignForPairComputable w seq PairId.z)
+    (firstSignForPairComputable w seq PairId.d111)
+    (firstSignForPairComputable w seq PairId.d11m)
+    (firstSignForPairComputable w seq PairId.d1m1)
+    (firstSignForPairComputable w seq PairId.dm11)
+
+def symTranslationMask
+    (σ : StartedSym) (w : PairWord) (mask : SignMask) : SignMask :=
+  translationMaskOfSeqComputable (symPairWord σ w)
+    (symSeq σ (translationChoiceSeq w mask))
+
+theorem symFace_xp (σ : StartedSym) :
+    symFace σ Face.xp = Face.xp := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    simp [symFace, symVecQ, faceOfNormalQ, negIf, normalQ]
+
+theorem symPair_x (σ : StartedSym) :
+    symPair σ PairId.x = PairId.x := by
+  change pairOfFace (symFace σ Face.xp) = PairId.x
+  rw [symFace_xp]
+  rfl
+
+def pairIdCode : PairId -> Nat
+  | PairId.x => 0
+  | PairId.y => 1
+  | PairId.z => 2
+  | PairId.d111 => 3
+  | PairId.d11m => 4
+  | PairId.d1m1 => 5
+  | PairId.dm11 => 6
+
+def pairWordCodeAt (w : PairWord) (n : Nat) : Nat :=
+  if h : n < 13 then pairIdCode (w.get ⟨n, h⟩) else 0
+
+def lexNatListLe : List Nat -> List Nat -> Bool
+  | [], [] => true
+  | [], _ :: _ => true
+  | _ :: _, [] => false
+  | x :: xs, y :: ys =>
+      if x < y then true else if y < x then false else lexNatListLe xs ys
+
+def pairWordCodeList (w : PairWord) : List Nat :=
+  (List.range 13).map (pairWordCodeAt w)
+
+def pairWordLexLe (w v : PairWord) : Bool :=
+  lexNatListLe (pairWordCodeList w) (pairWordCodeList v)
+
+def minPairWordLex (w v : PairWord) : PairWord :=
+  if pairWordLexLe w v then w else v
+
+def canonicalPairWord (w : PairWord) : PairWord :=
+  (allStartedSyms.map fun σ => symPairWord σ w).foldl minPairWordLex w
+
+def canonicalTranslationChoice (w : PairWord) (mask : SignMask) :
+    PairWord × SignMask :=
+  (allStartedSyms.map fun σ =>
+      let w' := symPairWord σ w
+      (w', symTranslationMask σ w mask)).foldl
+        (fun best candidate =>
+          if pairWordLexLe candidate.1 best.1 then candidate else best)
+        (w, mask)
+
+def symNonIdFailure (σ : StartedSym) : NonIdFailure -> NonIdFailure
+  | NonIdFailure.noFixedAxis witness => NonIdFailure.noFixedAxis witness
+  | NonIdFailure.badDirectionSign i => NonIdFailure.badDirectionSign i
+  | NonIdFailure.badPairBalance => NonIdFailure.badPairBalance
+  | NonIdFailure.axisMissesStartInterior => NonIdFailure.axisMissesStartInterior
+  | NonIdFailure.badFirstHit witness => NonIdFailure.badFirstHit witness
+  | NonIdFailure.badHitInterior witness =>
+      NonIdFailure.badHitInterior
+        { impact := witness.impact, badFace := symFace σ witness.badFace }
+
+def symTranslationFailure (_σ : StartedSym) :
+    TranslationFailure -> TranslationFailure
+  | TranslationFailure.badTranslationVector => TranslationFailure.badTranslationVector
+  | TranslationFailure.badDirectionSign i => TranslationFailure.badDirectionSign i
+  | TranslationFailure.farkas cert => TranslationFailure.farkas cert
+
+def transportNonIdCertShape (σ : StartedSym) (cert : NonIdCert) :
+    NonIdCert where
+  word := symPairWord σ cert.word
+  axis := symVecQ σ cert.axis
+  kernel := cert.kernel
+  forcedSeq := symFaceVector σ cert.forcedSeq
+  p0 := symVecQ σ cert.p0
+  lambda := cert.lambda
+  solve := cert.solve
+  failure := symNonIdFailure σ cert.failure
+
+def transportTranslationCertShape (σ : StartedSym) (cert : TranslationCert) :
+    TranslationCert where
+  word := symPairWord σ cert.word
+  signMask := symTranslationMask σ cert.word cert.signMask
+  seq := symFaceVector σ cert.seq
+  b := symVecQ σ cert.b
+  failure := symTranslationFailure σ cert.failure
+
+structure CanonicalNonIdTransport where
+  sym : StartedSym
+  canonical : NonIdCert
+  raw : NonIdCert
+deriving DecidableEq, Repr
+
+structure CanonicalTranslationTransport where
+  sym : StartedSym
+  canonical : TranslationCert
+  raw : TranslationCert
+deriving DecidableEq, Repr
+
+noncomputable def checkCanonicalNonIdTransport
+    (transport : CanonicalNonIdTransport) : Bool := by
+  classical
+  exact checkNonIdCert transport.canonical &&
+    checkNonIdCert transport.raw &&
+      decide (transport.raw.word =
+        symPairWord transport.sym transport.canonical.word) &&
+      decide (transport.raw.axis =
+        symVecQ transport.sym transport.canonical.axis) &&
+      decide (transport.raw.forcedSeq =
+        symFaceVector transport.sym transport.canonical.forcedSeq) &&
+      decide (transport.raw.failure =
+        symNonIdFailure transport.sym transport.canonical.failure)
+
+noncomputable def checkCanonicalTranslationTransport
+    (transport : CanonicalTranslationTransport) : Bool := by
+  classical
+  exact checkTranslationCert transport.canonical &&
+    checkTranslationCert transport.raw &&
+      decide (transport.raw.word =
+        symPairWord transport.sym transport.canonical.word) &&
+      decide (transport.raw.signMask =
+        symTranslationMask transport.sym transport.canonical.word
+          transport.canonical.signMask) &&
+      decide (transport.raw.seq =
+        symFaceVector transport.sym transport.canonical.seq) &&
+      decide (transport.raw.b =
+        symVecQ transport.sym transport.canonical.b) &&
+      decide (transport.raw.failure =
+        symTranslationFailure transport.sym transport.canonical.failure)
+
+theorem canonical_nonidentity_failure_transport
+    (transport : CanonicalNonIdTransport)
+    (hcheck : checkCanonicalNonIdTransport transport = true) :
+    checkNonIdCert transport.raw = true := by
+  unfold checkCanonicalNonIdTransport at hcheck
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at hcheck
+  tauto
+
+theorem canonical_translation_failure_transport
+    (transport : CanonicalTranslationTransport)
+    (hcheck : checkCanonicalTranslationTransport transport = true) :
+    checkTranslationCert transport.raw = true := by
+  unfold checkCanonicalTranslationTransport at hcheck
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at hcheck
+  tauto
+
 theorem checkTranslationCert_badDirectionSign
     (cert : TranslationCert) (i : Impact15)
     (hFailure : cert.failure = TranslationFailure.badDirectionSign i)

@@ -1,8 +1,9 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.Translation.Chunk0000
+import Cuboctahedron.Generated.CanonicalSample
 
 /-!
-Aggregate import for generated Step 14C real-certificate sample chunks.
+Aggregate import for generated Step 14C/14E real-certificate sample chunks.
 -/
 
 namespace Cuboctahedron.Generated
