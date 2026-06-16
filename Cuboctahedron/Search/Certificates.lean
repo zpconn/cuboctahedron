@@ -496,6 +496,91 @@ theorem checkNonIdCert_badDirectionSign
   simp [checkNonIdBadDirectionSignFailure, hValid, hNonId, hKernel,
     checkAxisDotZeroAtWord, hAxisZero]
 
+theorem checkNonIdCert_noFixedAxis
+    (cert : NonIdCert) (witness : NoFixedVectorWitness)
+    (hFailure : cert.failure = NonIdFailure.noFixedAxis witness)
+    (hValid : ValidPairWord cert.word)
+    (hNonId : totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
+    (hNoFixed :
+      checkNoFixedVectorWitness (totalLinearOfPairWord cert.word)
+        witness = true) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdNoFixedAxisFailure, hValid, hNonId, hNoFixed]
+
+theorem checkNonIdCert_badPairBalance_invalid
+    (cert : NonIdCert)
+    (hFailure : cert.failure = NonIdFailure.badPairBalance)
+    (hNonId : totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
+    (hInvalid : ¬ ValidPairWord cert.word) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdPairBalanceFailure, checkNonIdInvalidPairWordFailure,
+    hNonId, hInvalid]
+
+theorem checkNonIdCert_badPairBalance_forced
+    (cert : NonIdCert)
+    (hFailure : cert.failure = NonIdFailure.badPairBalance)
+    (hValid : ValidPairWord cert.word)
+    (hNonId : totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq))
+    (hNotOmni : ¬ IsOmniSeq (faceVectorSeq cert.forcedSeq)) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdPairBalanceFailure, checkNonIdInvalidPairWordFailure,
+    checkNonIdForcedPairBalanceFailure, hValid, hNonId, hKernel,
+    checkAxisForcesForcedSeq, hForces, hNotOmni]
+
+theorem checkNonIdCert_axisMissesStartInterior
+    (cert : NonIdCert)
+    (hFailure : cert.failure = NonIdFailure.axisMissesStartInterior)
+    (hCommon : checkNonIdCommon cert = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq))
+    (hNotInterior : ¬ XpStartInteriorQ cert.p0) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdAxisMissesStartInteriorData, hCommon,
+    checkAxisForcesForcedSeq, hForces, hNotInterior]
+
+theorem checkNonIdCert_badFirstHit
+    (cert : NonIdCert) (witness : BadFirstHitWitness)
+    (hFailure : cert.failure = NonIdFailure.badFirstHit witness)
+    (hCommon : checkNonIdCommon cert = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq))
+    (hOrdering :
+      CandidateOrderingFails (faceVectorSeq cert.forcedSeq) cert.p0
+        (candidateWQ (faceVectorSeq cert.forcedSeq) cert.p0)
+        witness) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdBadFirstHitData, hCommon, checkAxisForcesForcedSeq,
+    hForces, hOrdering]
+
+theorem checkNonIdCert_badHitInterior
+    (cert : NonIdCert) (witness : BadHitInteriorWitness)
+    (hFailure : cert.failure = NonIdFailure.badHitInterior witness)
+    (hCommon : checkNonIdCommon cert = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq))
+    (hInterior :
+      CandidateHitInteriorFails (faceVectorSeq cert.forcedSeq) cert.p0
+        (candidateWQ (faceVectorSeq cert.forcedSeq) cert.p0)
+        witness) :
+    checkNonIdCert cert = true := by
+  rw [checkNonIdCert, hFailure]
+  simp [checkNonIdBadHitInteriorData, hCommon, checkAxisForcesForcedSeq,
+    hForces, hInterior]
+
 def pairIdsInLexOrder : List PairId :=
   [PairId.x, PairId.y, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1,
     PairId.dm11]
@@ -1160,6 +1245,32 @@ theorem checkTranslationCert_badDirectionSign
   rw [checkTranslationCert, hFailure]
   simp [checkTranslationCommon, hValid, hLinear, hMatches, hB, hi0,
     hilast, hDenom]
+
+theorem checkTranslationCert_badTranslationVector
+    (cert : TranslationCert)
+    (hFailure : cert.failure = TranslationFailure.badTranslationVector)
+    (hValid : ValidPairWord cert.word)
+    (hLinear : totalLinearOfPairWord cert.word = (matId : Mat3 Rat))
+    (hMatches : TranslationSeqMatches cert.word cert.signMask cert.seq)
+    (hB : (totalAff cert.seqFun).b = cert.b)
+    (hZero : cert.b = zeroVec3Q) :
+    checkTranslationCert cert = true := by
+  rw [checkTranslationCert, hFailure]
+  simp [checkTranslationCommon, hValid, hLinear, hMatches, hB, hZero]
+
+theorem checkTranslationCert_farkas
+    (cert : TranslationCert) (fcert : FarkasCert)
+    (hFailure : cert.failure = TranslationFailure.farkas fcert)
+    (hValid : ValidPairWord cert.word)
+    (hLinear : totalLinearOfPairWord cert.word = (matId : Mat3 Rat))
+    (hMatches : TranslationSeqMatches cert.word cert.signMask cert.seq)
+    (hB : (totalAff cert.seqFun).b = cert.b)
+    (hFarkas :
+      checkFarkas (translationConstraints cert.seqFun cert.b) fcert =
+        true) :
+    checkTranslationCert cert = true := by
+  rw [checkTranslationCert, hFailure]
+  simp [checkTranslationCommon, hValid, hLinear, hMatches, hB, hFarkas]
 
 structure GeneratedTranslationCase where
   pairRank : Nat
