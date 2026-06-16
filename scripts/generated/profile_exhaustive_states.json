@@ -1,0 +1,53 @@
+{
+  "actual_counts": {
+    "identity_linear_words": 2468088,
+    "nonidentity_words": 94829112,
+    "pair_words": 97297200,
+    "translation_sign_assignments": 157957632
+  },
+  "backend": "compiled-exact-cpp-compressed",
+  "complete": true,
+  "expected_sanity_counts": {
+    "identity_linear_words": 2468088,
+    "pair_words": 97297200,
+    "translation_sign_assignments": 157957632
+  },
+  "mode": "profile-exhaustive-states",
+  "nonidentity_groups": [
+    {
+      "count": 94829112,
+      "details": {
+        "case": "nonidentity",
+        "failure": "compressedStateSummary"
+      },
+      "key": "case=nonidentity;failure=compressedStateSummary",
+      "samples": []
+    }
+  ],
+  "profile_limit": null,
+  "samples": [],
+  "schema_version": 1,
+  "size_estimates": {
+    "compressed_nonidentity_linear_groups": 9840,
+    "flat_nonidentity_certs": 94829112,
+    "flat_total_certs": 252786744,
+    "flat_translation_certs": 157957632,
+    "nonidentity_state_groups": 1,
+    "note": "Compiled exact profiler stores state-family groups and bounded samples; no Lean proof data is emitted.",
+    "prefix_tree_leaf_estimate": 2,
+    "shared_farkas_groups": 0,
+    "symmetry_classes": "not_formalized_yet",
+    "translation_state_groups": 1
+  },
+  "translation_groups": [
+    {
+      "count": 157957632,
+      "details": {
+        "case": "translation",
+        "failure": "compressedStateSummary"
+      },
+      "key": "case=translation;failure=compressedStateSummary",
+      "samples": []
+    }
+  ]
+}

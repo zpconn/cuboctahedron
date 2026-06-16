@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import math
+import subprocess
 import sys
 from collections.abc import Iterable
 from dataclasses import dataclass
@@ -18,6 +19,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROFILE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "profile_exhaustive_states.json"
+CPP_PROFILE_SOURCE_PATH = REPO_ROOT / "scripts" / "profile_exhaustive_states.cpp"
+CPP_PROFILE_BINARY_PATH = Path("/tmp") / "cuboctahedron_profile_exhaustive_states"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -813,12 +816,53 @@ class ProfileBuilder:
         }
 
 
-def build_profile_payload(limit: int | None = None, progress_interval: int = 1_000_000) -> dict:
+def build_profile_payload_python(limit: int | None = None, progress_interval: int = 1_000_000) -> dict:
     builder = ProfileBuilder(progress_interval=progress_interval)
     for rank, word, pref in enumerate_pair_word_states(limit):
         builder.visit_word(rank, word, pref)
     complete = limit is None
     return builder.payload(complete=complete, limit=limit)
+
+
+def ensure_cpp_profile_helper() -> Path:
+    if not CPP_PROFILE_SOURCE_PATH.exists():
+        raise FileNotFoundError(CPP_PROFILE_SOURCE_PATH)
+    needs_build = (
+        not CPP_PROFILE_BINARY_PATH.exists()
+        or CPP_PROFILE_BINARY_PATH.stat().st_mtime < CPP_PROFILE_SOURCE_PATH.stat().st_mtime
+    )
+    if needs_build:
+        cmd = [
+            "g++",
+            "-std=c++20",
+            "-O3",
+            "-DNDEBUG",
+            str(CPP_PROFILE_SOURCE_PATH),
+            "-o",
+            str(CPP_PROFILE_BINARY_PATH),
+        ]
+        subprocess.run(cmd, cwd=REPO_ROOT, check=True)
+    return CPP_PROFILE_BINARY_PATH
+
+
+def build_profile_payload_cpp(limit: int | None = None) -> dict:
+    binary = ensure_cpp_profile_helper()
+    cmd = [str(binary)]
+    if limit is not None:
+        cmd.extend(["--limit", str(limit)])
+    result = subprocess.run(
+        cmd,
+        cwd=REPO_ROOT,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    return json.loads(result.stdout)
+
+
+def build_profile_payload(limit: int | None = None, progress_interval: int = 1_000_000) -> dict:
+    _ = progress_interval
+    return build_profile_payload_cpp(limit=limit)
 
 
 def write_profile_payload(payload: dict, output_path: Path = PROFILE_JSON_PATH) -> None:
@@ -839,6 +883,11 @@ def print_profile_summary(payload: dict, *, prefix: str = "profiled exhaustive s
     print(f"flat cert estimate: {estimates['flat_total_certs']:,}")
     print(f"prefix-tree leaf estimate: {estimates['prefix_tree_leaf_estimate']:,}")
     print(f"shared Farkas groups: {estimates['shared_farkas_groups']:,}")
+    if "compressed_nonidentity_linear_groups" in estimates:
+        print(
+            "compressed nonidentity linear groups: "
+            f"{estimates['compressed_nonidentity_linear_groups']:,}"
+        )
     print(f"symmetry classes: {estimates['symmetry_classes']}")
     if not payload.get("complete", False):
         print("profile status: partial development run")
@@ -852,12 +901,28 @@ def recompute_nonidentity_group_key(rank: int, word: list[str]) -> str:
     return next(iter(builder.nonidentity_groups.counts))
 
 
+def recompute_nonidentity_failure(rank: int, word: list[str]) -> str:
+    key = recompute_nonidentity_group_key(rank, word)
+    for part in key.split(";"):
+        if part.startswith("failure="):
+            return part.split("=", 1)[1]
+    raise ValueError(f"missing nonidentity failure in {key}")
+
+
 def recompute_translation_group_key(rank: int, word: list[str], mask: int) -> str:
     pref = prefix_matrices(word)
     builder = ProfileBuilder(sample_limit=0, progress_interval=0)
     builder.classify_translation_mask(rank, word, pref, mask)
     require(len(builder.translation_groups.counts) == 1, "sample translation group count")
     return next(iter(builder.translation_groups.counts))
+
+
+def recompute_translation_failure(rank: int, word: list[str], mask: int) -> str:
+    key = recompute_translation_group_key(rank, word, mask)
+    for part in key.split(";"):
+        if part.startswith("failure="):
+            return part.split("=", 1)[1]
+    raise ValueError(f"missing translation failure in {key}")
 
 
 def check_profile_payload(payload: dict) -> dict:
@@ -895,10 +960,13 @@ def check_profile_payload(payload: dict) -> dict:
     require(nonidentity_sum == counts["nonidentity_words"], "nonidentity group count sum")
     require(translation_sum == counts["translation_sign_assignments"], "translation group count sum")
 
+    compact_backend = str(payload.get("backend", "")).startswith("compiled-exact-cpp")
+
     for group in payload["nonidentity_groups"]:
         details = group["details"]
         require(make_key(details) == group["key"], f"nonidentity key {group['key']}")
-        parse_mat_key(details["linear"])
+        if "linear" in details:
+            parse_mat_key(details["linear"])
         if "axis" in details:
             parse_vec_key(details["axis"])
         for sample in group["samples"]:
@@ -906,13 +974,18 @@ def check_profile_payload(payload: dict) -> dict:
             rank = sample["rank"]
             require(valid_pair_word(word), f"nonidentity sample valid {rank}")
             require(lex_rank_pair_word(word) == rank, f"nonidentity sample rank {rank}")
-            require(recompute_nonidentity_group_key(rank, word) == group["key"],
-                    f"nonidentity sample group {rank}")
+            if compact_backend:
+                require(recompute_nonidentity_failure(rank, word) == details["failure"],
+                        f"nonidentity sample failure {rank}")
+            else:
+                require(recompute_nonidentity_group_key(rank, word) == group["key"],
+                        f"nonidentity sample group {rank}")
 
     for group in payload["translation_groups"]:
         details = group["details"]
         require(make_key(details) == group["key"], f"translation key {group['key']}")
-        parse_vec_key(details["b"])
+        if "b" in details:
+            parse_vec_key(details["b"])
         if details.get("constraints"):
             parse_constraints_key(details["constraints"])
         for sample in group["samples"]:
@@ -922,8 +995,12 @@ def check_profile_payload(payload: dict) -> dict:
             require(valid_pair_word(word), f"translation sample valid {rank}/{mask}")
             require(lex_rank_pair_word(word) == rank, f"translation sample rank {rank}/{mask}")
             require(0 <= mask < 64, f"translation sample mask {rank}/{mask}")
-            require(recompute_translation_group_key(rank, word, mask) == group["key"],
-                    f"translation sample group {rank}/{mask}")
+            if compact_backend:
+                require(recompute_translation_failure(rank, word, mask) == details["failure"],
+                        f"translation sample failure {rank}/{mask}")
+            else:
+                require(recompute_translation_group_key(rank, word, mask) == group["key"],
+                        f"translation sample group {rank}/{mask}")
 
     for sample in payload["samples"]:
         word = sample["word"]
