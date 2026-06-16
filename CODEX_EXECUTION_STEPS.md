@@ -1102,7 +1102,13 @@ Done when:
 #check canonical_translation_failure_transport
 ```
 
-work for representative generated canonical cases, and `lake build` passes.
+work for representative generated canonical cases,
+
+```bash
+python3 scripts/check_certificates_independently.py --mode canonical-orbit-coverage --limit 10000
+```
+
+passes as the development smoke test, and `lake build` passes.
 
 ## Step 14E.3: Prefix-State Coverage Trees
 

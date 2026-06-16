@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+from functools import lru_cache
 from fractions import Fraction
 from pathlib import Path
 from typing import Iterable
@@ -374,6 +375,15 @@ def sym_vec(sym, v):
     return (x, y, z)
 
 
+def started_sym_key(sym):
+    return (sym["swapYZ"], sym["negY"], sym["negZ"])
+
+
+def started_sym_from_key(key):
+    swap_yz, neg_y, neg_z = key
+    return {"swapYZ": swap_yz, "negY": neg_y, "negZ": neg_z}
+
+
 FACE_BY_NORMAL = {vec(normal_value): face for face, normal_value in FACE_NORMALS.items()}
 
 
@@ -385,8 +395,18 @@ def sym_pair(sym, pair_id):
     return pair_of_face(sym_face(sym, FACE_PLUS[pair_id]))
 
 
+@lru_cache(maxsize=None)
+def sym_pair_cached(sym_key_value, pair_id):
+    return sym_pair(started_sym_from_key(sym_key_value), pair_id)
+
+
+@lru_cache(maxsize=None)
+def sym_word_tuple(sym_key_value, word_tuple):
+    return tuple(sym_pair_cached(sym_key_value, pair_id) for pair_id in word_tuple)
+
+
 def sym_word(sym, word):
-    return [sym_pair(sym, pair_id) for pair_id in word]
+    return list(sym_word_tuple(started_sym_key(sym), tuple(word)))
 
 
 def sym_seq(sym, seq):
@@ -402,11 +422,38 @@ def mask_from_word_seq(word, seq):
     return mask
 
 
-def transported_translation_mask(sym, word, mask):
-    _b, seq = translation_vector(word, mask)
-    raw_word = sym_word(sym, word)
+def mask_bit_for_pair(mask, pair_id):
+    if pair_id == "x":
+        return False
+    return ((mask >> (PAIR_IDS.index(pair_id) - 1)) & 1) == 1
+
+
+def translation_choice_seq(word, mask):
+    seen = {pair_id: 0 for pair_id in PAIR_IDS}
+    seq = ["xp"]
+    for pair_id in word:
+        if pair_id == "x":
+            positive = False
+        else:
+            first_positive = mask_bit_for_pair(mask, pair_id)
+            positive = first_positive if seen[pair_id] == 0 else not first_positive
+        seq.append(face_of_pair_sign(pair_id, positive))
+        seen[pair_id] += 1
+    return seq
+
+
+@lru_cache(maxsize=None)
+def transported_translation_mask_cached(sym_key_value, word_tuple, mask):
+    sym = started_sym_from_key(sym_key_value)
+    word = list(word_tuple)
+    seq = translation_choice_seq(word, mask)
+    raw_word = list(sym_word_tuple(sym_key_value, word_tuple))
     raw_seq = sym_seq(sym, seq)
     return mask_from_word_seq(raw_word, raw_seq)
+
+
+def transported_translation_mask(sym, word, mask):
+    return transported_translation_mask_cached(started_sym_key(sym), tuple(word), mask)
 
 
 def check_coverage_payload(coverage):
@@ -554,17 +601,132 @@ STARTED_SYMS = [
 ]
 
 
+@lru_cache(maxsize=None)
+def canonical_word_tuple(word_tuple):
+    return min(sym_word_tuple(started_sym_key(sym), word_tuple) for sym in STARTED_SYMS)
+
+
 def canonical_word(word):
-    return min(sym_word(sym, word) for sym in STARTED_SYMS)
+    return list(canonical_word_tuple(tuple(word)))
+
+
+@lru_cache(maxsize=None)
+def canonical_translation_choice_cached(word_tuple, mask):
+    candidates = []
+    for sym in STARTED_SYMS:
+        raw_word = sym_word_tuple(started_sym_key(sym), word_tuple)
+        raw_mask = transported_translation_mask_cached(
+            started_sym_key(sym), word_tuple, mask
+        )
+        candidates.append((raw_word, raw_mask))
+    return min(candidates)
 
 
 def canonical_translation_choice(word, mask):
-    candidates = []
+    raw_word, raw_mask = canonical_translation_choice_cached(tuple(word), mask)
+    return list(raw_word), raw_mask
+
+
+def sym_action_key(sym):
+    return tuple(sym_pair(sym, pair_id) for pair_id in PAIR_IDS)
+
+
+def compose_sym(left, right):
+    target = tuple(sym_pair(left, sym_pair(right, pair_id)) for pair_id in PAIR_IDS)
+    for candidate in STARTED_SYMS:
+        if sym_action_key(candidate) == target:
+            return candidate
+    raise SystemExit(f"check failed: started symmetry composition missing {target}")
+
+
+def check_started_symmetry_group():
+    identity = {"swapYZ": False, "negY": False, "negZ": False}
+    action_keys = {sym_action_key(sym) for sym in STARTED_SYMS}
+    require(len(action_keys) == len(STARTED_SYMS), "started symmetry actions are distinct")
+    require(identity in STARTED_SYMS, "started symmetry identity present")
     for sym in STARTED_SYMS:
-        raw_word = sym_word(sym, word)
-        raw_mask = transported_translation_mask(sym, word, mask)
-        candidates.append((raw_word, raw_mask))
-    return min(candidates)
+        require(sym_face(sym, "xp") == "xp", f"started symmetry fixes xp {sym}")
+        require(sym_pair(sym, "x") == "x", f"started symmetry fixes x pair {sym}")
+        require(compose_sym(identity, sym) == sym, f"left identity {sym}")
+        require(compose_sym(sym, identity) == sym, f"right identity {sym}")
+        has_inverse = any(
+            compose_sym(sym, candidate) == identity
+            and compose_sym(candidate, sym) == identity
+            for candidate in STARTED_SYMS
+        )
+        require(has_inverse, f"started symmetry inverse {sym}")
+    for left in STARTED_SYMS:
+        for right in STARTED_SYMS:
+            _ = compose_sym(left, right)
+
+
+def orbit_words(word):
+    return [sym_word(sym, word) for sym in STARTED_SYMS]
+
+
+def check_word_orbit_canonical(word, rank):
+    require(valid_pair_word(word), f"canonical orbit valid word {rank}")
+    canonical = canonical_word(word)
+    require(canonical == min(orbit_words(word)), f"canonical word minimum {rank}")
+    for sym in STARTED_SYMS:
+        raw = sym_word(sym, word)
+        require(valid_pair_word(raw), f"transported valid word {rank}")
+        require(canonical_word(raw) == canonical, f"word orbit representative {rank} {sym}")
+    return canonical
+
+
+def check_translation_orbit_canonical(word, mask, rank):
+    canonical = canonical_translation_choice(word, mask)
+    candidates = [
+        (sym_word(sym, word), transported_translation_mask(sym, word, mask))
+        for sym in STARTED_SYMS
+    ]
+    require(canonical == min(candidates), f"canonical translation minimum {rank}:{mask}")
+    for raw_word, raw_mask in candidates:
+        require(
+            canonical_translation_choice(raw_word, raw_mask) == canonical,
+            f"translation orbit representative {rank}:{mask}",
+        )
+    return canonical
+
+
+def check_canonical_orbit_coverage(limit):
+    check_started_symmetry_group()
+    pair_words = 0
+    identity_words = 0
+    translation_cases = 0
+    canonical_words = set()
+    canonical_translation_cases = set()
+    for rank, word, pref in exact_profile.enumerate_pair_word_states(limit):
+        pair_words += 1
+        canonical_words.add(tuple(check_word_orbit_canonical(word, rank)))
+        if mat_mul(pref[-1], RPAIR["x"]) == identity_matrix():
+            identity_words += 1
+            for mask in range(64):
+                translation_cases += 1
+                canonical_word_value, canonical_mask_value = (
+                    check_translation_orbit_canonical(word, mask, rank)
+                )
+                canonical_translation_cases.add(
+                    (tuple(canonical_word_value), canonical_mask_value)
+                )
+    if limit is None:
+        require(pair_words == EXPECTED_PAIR_WORDS, "canonical full pair-word count")
+        require(identity_words == EXPECTED_IDENTITY_WORDS, "canonical full identity count")
+        require(
+            translation_cases == EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            "canonical full translation sign assignment count",
+        )
+    else:
+        require(pair_words <= limit, "canonical limited pair-word count")
+    return {
+        "pair_words": pair_words,
+        "identity_words": identity_words,
+        "translation_cases": translation_cases,
+        "canonical_word_classes": len(canonical_words),
+        "canonical_translation_classes": len(canonical_translation_cases),
+        "complete": limit is None,
+    }
 
 
 def check_nonid_cert_record(cert):
@@ -678,8 +840,15 @@ def main():
             "coverage-manifest",
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
+            "canonical-orbit-coverage",
         ],
         help="check mode",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="optional pair-word limit for canonical-orbit-coverage",
     )
     parser.add_argument(
         "--profile-input",
@@ -692,7 +861,8 @@ def main():
     if mode is None:
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
-            "profile-exhaustive-states/canonical-symmetry-sample"
+            "profile-exhaustive-states/canonical-symmetry-sample/"
+            "canonical-orbit-coverage"
         )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
@@ -710,6 +880,23 @@ def main():
         print(f"canonical pair words: {summary['canonical_pair_words']}")
         print(f"nonidentity transport cases: {summary['nonidentity_transport_cases']}")
         print(f"translation transport cases: {summary['translation_transport_cases']}")
+        return
+    if mode == "canonical-orbit-coverage":
+        summary = check_canonical_orbit_coverage(args.limit)
+        prefix = (
+            "independent canonical orbit coverage check passed"
+            if summary["complete"]
+            else "independent limited canonical orbit coverage check passed"
+        )
+        print(prefix)
+        print(f"pair-words checked: {summary['pair_words']:,}")
+        print(f"identity words checked: {summary['identity_words']:,}")
+        print(f"translation choices checked: {summary['translation_cases']:,}")
+        print(f"canonical word classes seen: {summary['canonical_word_classes']:,}")
+        print(
+            "canonical translation classes seen: "
+            f"{summary['canonical_translation_classes']:,}"
+        )
         return
     if mode == "coverage-manifest":
         payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
