@@ -2327,6 +2327,74 @@ theorem checkNonIdCert_sound
         simpa [vecRatToReal, Vec3.map, dot] using hOffsetLeCast
       linarith
 
+theorem generated_nonidentity_complete_of_coverage
+    (coverage : ExhaustiveGeneratedCoverage) :
+    forall seq : Step14 -> Face,
+      IsOmniSeq seq ->
+      StartsXp seq ->
+      totalLinear seq ≠ (matId : Mat3 Rat) ->
+      ¬ UnfoldedFeasible seq := by
+  intro seq hOmni hStart hM hFeasible
+  rcases seq_to_pairword seq hOmni hStart with ⟨w, hValid, hMatch⟩
+  let hRealize : SeqRealizesPairWord w seq := {
+    valid := hValid
+    startsXp := hStart
+    pair_matches := hMatch
+    omni := hOmni
+  }
+  have hWordNonId :
+      totalLinearOfPairWord w ≠ (matId : Mat3 Rat) := by
+    intro hWordId
+    apply hM
+    rw [hRealize.linear_eq, hWordId]
+  rcases coverage.nonidentity_failure_of_valid w hValid hWordNonId with
+    ⟨cert, hCertWord, hCertCheck⟩
+  have hCertRealize : SeqRealizesPairWord cert.word seq := by
+    simpa [hCertWord] using hRealize
+  exact (checkNonIdCert_sound cert hCertCheck)
+    ⟨seq, hCertRealize, hStart, hM, hFeasible⟩
+
+theorem generated_translation_complete_of_coverage
+    (coverage : ExhaustiveGeneratedCoverage) :
+    forall seq : Step14 -> Face,
+      IsOmniSeq seq ->
+      StartsXp seq ->
+      totalLinear seq = (matId : Mat3 Rat) ->
+      ¬ UnfoldedFeasible seq := by
+  intro seq hOmni hStart hM hFeasible
+  rcases seq_to_pairword seq hOmni hStart with ⟨w, hValid, hMatch⟩
+  let hRealize : SeqRealizesPairWord w seq := {
+    valid := hValid
+    startsXp := hStart
+    pair_matches := hMatch
+    omni := hOmni
+  }
+  have hWordId :
+      totalLinearOfPairWord w = (matId : Mat3 Rat) :=
+    hRealize.linear_eq.symm.trans hM
+  rcases translation_mask_exists_of_omni_seq hRealize with
+    ⟨mask, hChoice⟩
+  rcases coverage.translation_failure_of_valid w mask hValid hWordId with
+    ⟨cert, hCertWord, hCertMask, hCertCheck⟩
+  have hCertChoice :
+      SeqRealizesTranslationChoice cert.word cert.signMask seq := by
+    simpa [hCertWord, hCertMask] using hChoice
+  exact (checkTranslationCert_sound cert hCertCheck)
+    ⟨seq, hCertChoice, hM, hFeasible⟩
+
+theorem no_unfolded_omni_starting_xp_of_coverage
+    (coverage : ExhaustiveGeneratedCoverage) :
+    forall seq : Step14 -> Face,
+      IsOmniSeq seq ->
+      StartsXp seq ->
+      ¬ UnfoldedFeasible seq := by
+  intro seq hOmni hStart hFeasible
+  by_cases hM : totalLinear seq = (matId : Mat3 Rat)
+  · exact generated_translation_complete_of_coverage coverage
+      seq hOmni hStart hM hFeasible
+  · exact generated_nonidentity_complete_of_coverage coverage
+      seq hOmni hStart hM hFeasible
+
 def sampleNonIdentityTranslationSeq (i : Step14) : Face :=
   if i = 0 then Face.xp else Face.yp
 
