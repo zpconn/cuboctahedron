@@ -1007,6 +1007,90 @@ Done when:
 
 work and `lake build` passes.
 
+## Step 14E: Exhaustive Real Certificate Data
+
+Goal: produce the concrete exhaustive `ExhaustiveGeneratedCoverage` witness that
+Step 15 needs.
+
+Step 14C may stop at representative real certificates. Step 14E must not. It
+must extend the generator and generated Lean files so every nonidentity rank and
+every identity rank/sign-mask case is covered by a checked real failure
+certificate.
+
+Update:
+
+```text
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+Cuboctahedron/Generated/AllGenerated.lean
+```
+
+Add generator mode:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+```
+
+Requirements:
+
+- Use exact rational arithmetic only.
+- Generate checked `NonIdCert` data for every rank whose pair-word has
+  nonidentity linear part.
+- Generate checked `TranslationCert` data for every identity rank and every
+  legal `SignMask`.
+- The generated Lean layer must prove:
+
+```lean
+theorem Cuboctahedron.Generated.NonIdentity.complete :
+  forall r : Fin numPairWords,
+    totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
+      exists cert : NonIdCert,
+        cert.word = unrankPairWord r /\
+          checkNonIdCert cert = true
+
+theorem Cuboctahedron.Generated.Translation.complete :
+  forall (r : Fin numPairWords) (mask : SignMask),
+    totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+      exists cert : TranslationCert,
+        cert.word = unrankPairWord r /\
+          cert.signMask = mask /\
+            checkTranslationCert cert = true
+```
+
+- `Cuboctahedron.Generated.AllGenerated` must define:
+
+```lean
+def exhaustiveGeneratedCoverage : ExhaustiveGeneratedCoverage := ...
+```
+
+- Do not use `axiom`, `sorry`, `admit`, `native_decide`, `unsafe`, C++ counts,
+  or sample-only chunks to prove completeness.
+- If per-case generated files are too large, use prefix-tree or interval
+  compression. Every compressed leaf must still return a real checked
+  `NonIdCert` or `TranslationCert`, and Lean must prove the covered rank/mask
+  family is complete.
+
+Done when:
+
+```lean
+#check Cuboctahedron.Generated.NonIdentity.complete
+#check Cuboctahedron.Generated.Translation.complete
+#check Cuboctahedron.Generated.exhaustiveGeneratedCoverage
+```
+
+work, and:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+```
+
+all pass.
+
 ## Step 15: Complete Finite Impossibility Theorems
 
 Goal: assemble the certificate soundness and enumeration coverage into the two main finite case theorems.
@@ -1018,10 +1102,16 @@ Prerequisites:
 - Step 14C has generated checked `NonIdCert` and `TranslationCert` data.
 - Step 14D exposes exhaustive coverage returning those checked failure
   certificates.
+- Step 14E has produced a concrete, Lean-checked
+  `Generated.exhaustiveGeneratedCoverage` witness.
 
 Do not start Step 15 while `ExhaustiveGeneratedCoverage` still returns only
 `NonIdentityLinearCert` or `TranslationChoiceCert`. Those classify cases but do
 not prove impossibility.
+
+Do not start Step 15 while generated data is sample-only. Step 15 requires a
+concrete exhaustive coverage witness, not just the `_of_coverage` assembly
+lemmas.
 
 Create or complete:
 
