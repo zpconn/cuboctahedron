@@ -19,6 +19,7 @@ def canonicalCoverageManifest : Cuboctahedron.CanonicalCoverageManifest where
   canonicalTranslationChoiceClassCount := 19744704
   maxPairWordOrbit := 8
   maxTranslationChoiceOrbit := 8
+  proofReducingTransformIds := Cuboctahedron.proofReducingStartedTransformIds
   proofReducingTransformCount := 8
   reversalProofTransportEnabled := false
 
@@ -34,7 +35,9 @@ theorem canonicalCoverageManifest_sound :
   canonicalTranslationChoiceClassCount_eq := rfl
   maxPairWordOrbit_eq := rfl
   maxTranslationChoiceOrbit_eq := rfl
+  proofReducingTransformIds_eq := rfl
   proofReducingTransformCount_eq := rfl
+  startedSymGroupChecked := Cuboctahedron.checkStartedSymGroup_true
   reversalPolicy_eq := rfl
 
 theorem canonicalCoverageManifest_check :

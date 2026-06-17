@@ -1602,6 +1602,7 @@ def build_canonical_coverage_payload() -> dict:
             {"id": index, "sym": sym}
             for index, sym in enumerate(STARTED_SYMS)
         ],
+        "proof_reducing_transform_ids": list(range(len(STARTED_SYMS))),
         "rank_coverage": {
             "coverageKind": coverage["coverageKind"],
             "pairWordCount": coverage["pairWordCount"],
@@ -1682,6 +1683,7 @@ def write_canonical_coverage_manifest(payload: dict) -> None:
         f"  canonicalTranslationChoiceClassCount := {canonical['translation_choice_classes']}",
         f"  maxPairWordOrbit := {canonical['max_pair_word_orbit']}",
         f"  maxTranslationChoiceOrbit := {canonical['max_translation_choice_orbit']}",
+        "  proofReducingTransformIds := Cuboctahedron.proofReducingStartedTransformIds",
         "  proofReducingTransformCount := 8",
         "  reversalProofTransportEnabled := false",
         "",
@@ -1697,7 +1699,9 @@ def write_canonical_coverage_manifest(payload: dict) -> None:
         "  canonicalTranslationChoiceClassCount_eq := rfl",
         "  maxPairWordOrbit_eq := rfl",
         "  maxTranslationChoiceOrbit_eq := rfl",
+        "  proofReducingTransformIds_eq := rfl",
         "  proofReducingTransformCount_eq := rfl",
+        "  startedSymGroupChecked := Cuboctahedron.checkStartedSymGroup_true",
         "  reversalPolicy_eq := rfl",
         "",
         "theorem canonicalCoverageManifest_check :",

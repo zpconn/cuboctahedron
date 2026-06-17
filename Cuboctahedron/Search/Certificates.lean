@@ -1293,6 +1293,35 @@ def symFace (σ : StartedSym) (f : Face) : Face :=
 def symPair (σ : StartedSym) (p : PairId) : PairId :=
   pairOfFace (symFace σ (faceOfPairSign p true))
 
+def transformedMaskBit
+    (σ : StartedSym) (mask : SignMask) (target : PairId) : Bool :=
+  if symPair σ PairId.y = target then
+    positiveSignOfFace
+      (symFace σ (faceOfPairSign PairId.y
+        (maskBitForPair mask PairId.y)))
+  else if symPair σ PairId.z = target then
+    positiveSignOfFace
+      (symFace σ (faceOfPairSign PairId.z
+        (maskBitForPair mask PairId.z)))
+  else if symPair σ PairId.d111 = target then
+    positiveSignOfFace
+      (symFace σ (faceOfPairSign PairId.d111
+        (maskBitForPair mask PairId.d111)))
+  else if symPair σ PairId.d11m = target then
+    positiveSignOfFace
+      (symFace σ (faceOfPairSign PairId.d11m
+        (maskBitForPair mask PairId.d11m)))
+  else if symPair σ PairId.d1m1 = target then
+    positiveSignOfFace
+      (symFace σ (faceOfPairSign PairId.d1m1
+        (maskBitForPair mask PairId.d1m1)))
+  else if symPair σ PairId.dm11 = target then
+    positiveSignOfFace
+      (symFace σ (faceOfPairSign PairId.dm11
+        (maskBitForPair mask PairId.dm11)))
+  else
+    false
+
 def symPairWord (σ : StartedSym) (w : PairWord) : PairWord :=
   Vector.ofFn fun i : WordIndex => symPair σ (w.get i)
 
@@ -1330,9 +1359,14 @@ def translationMaskOfSeqComputable
     (firstSignForPairComputable w seq PairId.dm11)
 
 def symTranslationMask
-    (σ : StartedSym) (w : PairWord) (mask : SignMask) : SignMask :=
-  translationMaskOfSeqComputable (symPairWord σ w)
-    (symSeq σ (translationChoiceSeq w mask))
+    (σ : StartedSym) (_w : PairWord) (mask : SignMask) : SignMask :=
+  signMaskOfBits
+    (transformedMaskBit σ mask PairId.y)
+    (transformedMaskBit σ mask PairId.z)
+    (transformedMaskBit σ mask PairId.d111)
+    (transformedMaskBit σ mask PairId.d11m)
+    (transformedMaskBit σ mask PairId.d1m1)
+    (transformedMaskBit σ mask PairId.dm11)
 
 noncomputable def checkSymPairWordValid
     (σ : StartedSym) (w : PairWord) : Bool := by
@@ -1448,8 +1482,18 @@ def translationChoiceLexLe
   else
     false
 
+def betterPairTransform (w : PairWord)
+    (best candidate : StartedSym) : StartedSym :=
+  if pairWordLexLe (symPairWord candidate w) (symPairWord best w) then
+    candidate
+  else
+    best
+
+def canonicalPairTransform (w : PairWord) : StartedSym :=
+  allStartedSyms.foldl (betterPairTransform w) startedSymIdentity
+
 def canonicalPairWord (w : PairWord) : PairWord :=
-  (allStartedSyms.map fun σ => symPairWord σ w).foldl minPairWordLex w
+  symPairWord (canonicalPairTransform w) w
 
 structure CanonicalPairWordResult where
   sym : StartedSym
@@ -1463,19 +1507,28 @@ def betterPairWordResult
 
 def canonicalPairWordWithTransform (w : PairWord) :
     CanonicalPairWordResult :=
-  (allStartedSyms.map fun σ =>
-      ({ sym := σ, word := symPairWord σ w } :
-        CanonicalPairWordResult)).foldl betterPairWordResult
-        { sym := startedSymIdentity, word := w }
+  let σ := canonicalPairTransform w
+  { sym := σ, word := symPairWord σ w }
+
+def betterTranslationTransform
+    (w : PairWord) (mask : SignMask)
+    (best candidate : StartedSym) : StartedSym :=
+  let bestChoice := (symPairWord best w, symTranslationMask best w mask)
+  let candidateChoice :=
+    (symPairWord candidate w, symTranslationMask candidate w mask)
+  if translationChoiceLexLe candidateChoice bestChoice then
+    candidate
+  else
+    best
+
+def canonicalTranslationTransform
+    (w : PairWord) (mask : SignMask) : StartedSym :=
+  allStartedSyms.foldl (betterTranslationTransform w mask) startedSymIdentity
 
 def canonicalTranslationChoice (w : PairWord) (mask : SignMask) :
     PairWord × SignMask :=
-  (allStartedSyms.map fun σ =>
-      let w' := symPairWord σ w
-      (w', symTranslationMask σ w mask)).foldl
-        (fun best candidate =>
-          if translationChoiceLexLe candidate best then candidate else best)
-        (w, mask)
+  let σ := canonicalTranslationTransform w mask
+  (symPairWord σ w, symTranslationMask σ w mask)
 
 structure CanonicalTranslationChoiceResult where
   sym : StartedSym
@@ -1500,12 +1553,9 @@ def betterTranslationChoiceResult
 def canonicalTranslationChoiceWithTransform
     (w : PairWord) (mask : SignMask) :
     CanonicalTranslationChoiceResult :=
-  (allStartedSyms.map fun σ =>
-      let w' := symPairWord σ w
-      ({ sym := σ, word := w', mask := symTranslationMask σ w mask } :
-        CanonicalTranslationChoiceResult)).foldl
-        betterTranslationChoiceResult
-        { sym := startedSymIdentity, word := w, mask := mask }
+  let σ := canonicalTranslationTransform w mask
+  { sym := σ, word := symPairWord σ w,
+    mask := symTranslationMask σ w mask }
 
 noncomputable def checkSymLinearIdentityPreservation
     (σ : StartedSym) (w : PairWord) : Bool := by
@@ -2902,6 +2952,9 @@ def expectedCanonicalPairWordClassCount : Nat := 12162150
 
 def expectedCanonicalTranslationChoiceClassCount : Nat := 19744704
 
+def proofReducingStartedTransformIds : List Nat :=
+  [0, 1, 2, 3, 4, 5, 6, 7]
+
 def startedTransformSym : Nat -> StartedSym
   | 0 => { swapYZ := false, negY := false, negZ := false }
   | 1 => { swapYZ := false, negY := false, negZ := true }
@@ -2912,6 +2965,17 @@ def startedTransformSym : Nat -> StartedSym
   | 6 => { swapYZ := true, negY := true, negZ := false }
   | 7 => { swapYZ := true, negY := true, negZ := true }
   | _ => startedSymIdentity
+
+def startedTransformSym? : Nat -> Option StartedSym
+  | 0 => some (startedTransformSym 0)
+  | 1 => some (startedTransformSym 1)
+  | 2 => some (startedTransformSym 2)
+  | 3 => some (startedTransformSym 3)
+  | 4 => some (startedTransformSym 4)
+  | 5 => some (startedTransformSym 5)
+  | 6 => some (startedTransformSym 6)
+  | 7 => some (startedTransformSym 7)
+  | _ => none
 
 def startedTransformIdOfSym (σ : StartedSym) : Nat :=
   if σ = startedTransformSym 0 then 0
@@ -2932,6 +2996,71 @@ def startedSymInverse (σ : StartedSym) : StartedSym :=
 
 def startedTransformValid (id : Nat) : Prop :=
   id < allStartedSyms.length
+
+theorem startedTransformSym?_idOfSym (σ : StartedSym) :
+    startedTransformSym? (startedTransformIdOfSym σ) = some σ := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    decide
+
+theorem startedTransformIdOfSym_valid (σ : StartedSym) :
+    startedTransformValid (startedTransformIdOfSym σ) := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    simp [startedTransformValid, startedTransformIdOfSym, startedTransformSym,
+      allStartedSyms]
+
+theorem symPair_inverse (σ : StartedSym) (p : PairId) :
+    symPair (startedSymInverse σ) (symPair σ p) = p := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;> cases p <;>
+    decide
+
+theorem symPairWord_inverse (σ : StartedSym) (w : PairWord) :
+    symPairWord (startedSymInverse σ) (symPairWord σ w) = w := by
+  apply vector_ext_from_get
+  intro i
+  unfold symPairWord
+  have hinner :
+      (Vector.ofFn
+        (fun k : WordIndex => symPair σ (w.get k))).get i =
+        symPair σ (w.get i) := by
+    change
+      (Vector.ofFn
+        (fun k : WordIndex => symPair σ (w.get k)))[i.val] =
+        symPair σ (w.get i)
+    exact Vector.getElem_ofFn i.isLt
+  have houter :
+      (Vector.ofFn
+        (fun j : WordIndex =>
+          symPair (startedSymInverse σ)
+            ((Vector.ofFn
+              (fun k : WordIndex => symPair σ (w.get k))).get j))).get i =
+        symPair (startedSymInverse σ)
+          ((Vector.ofFn
+            (fun k : WordIndex => symPair σ (w.get k))).get i) := by
+    change
+      (Vector.ofFn
+        (fun j : WordIndex =>
+          symPair (startedSymInverse σ)
+            ((Vector.ofFn
+              (fun k : WordIndex => symPair σ (w.get k))).get j)))[i.val] =
+        symPair (startedSymInverse σ)
+          ((Vector.ofFn
+            (fun k : WordIndex => symPair σ (w.get k))).get i)
+    exact Vector.getElem_ofFn i.isLt
+  rw [houter, hinner]
+  exact symPair_inverse σ (w.get i)
+
+theorem symTranslationMask_inverse
+    (σ : StartedSym) (w : PairWord) (mask : SignMask) :
+    symTranslationMask (startedSymInverse σ) (symPairWord σ w)
+      (symTranslationMask σ w mask) = mask := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    simp [symTranslationMask, transformedMaskBit]
+  all_goals
+    fin_cases mask <;> decide
 
 structure CanonicalPairCaseId where
   rank : Nat
@@ -3071,9 +3200,223 @@ structure CanonicalCoverageManifest where
   canonicalTranslationChoiceClassCount : Nat
   maxPairWordOrbit : Nat
   maxTranslationChoiceOrbit : Nat
+  proofReducingTransformIds : List Nat
   proofReducingTransformCount : Nat
   reversalProofTransportEnabled : Bool
 deriving DecidableEq, Repr
+
+def CanonicalPairCoverageSound
+    (coverage : CanonicalPairCoverage) : Prop :=
+  exists rawRank : Fin numPairWords,
+    coverage = canonicalPairCoverage rawRank
+
+def CanonicalTranslationCoverageSound
+    (coverage : CanonicalTranslationCoverage) : Prop :=
+  exists rawRank : Fin numPairWords, exists rawMask : SignMask,
+    coverage = canonicalTranslationCoverage rawRank rawMask
+
+theorem canonicalPairCoverage_sound (r : Fin numPairWords) :
+    CanonicalPairCoverageSound (canonicalPairCoverage r) :=
+  ⟨r, rfl⟩
+
+theorem canonicalTranslationCoverage_sound
+    (r : Fin numPairWords) (mask : SignMask) :
+    CanonicalTranslationCoverageSound
+      (canonicalTranslationCoverage r mask) :=
+  ⟨r, mask, rfl⟩
+
+theorem CanonicalPairCoverageSound.rawRank_lt
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    coverage.rawRank < numPairWords := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage]
+
+theorem CanonicalPairCoverageSound.rawWord_eq
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    coverage.rawWord =
+      unrankPairWord ⟨coverage.rawRank, h.rawRank_lt⟩ := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage]
+
+theorem CanonicalPairCoverageSound.rawTransform_valid
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    startedTransformValid coverage.rawToCanonicalTransformId := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform,
+    startedTransformIdOfSym_valid]
+
+theorem CanonicalPairCoverageSound.rawTransform_id
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    startedTransformSym? coverage.rawToCanonicalTransformId =
+      some coverage.rawToCanonicalTransform := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform,
+    startedTransformSym?_idOfSym]
+
+theorem CanonicalPairCoverageSound.inverseTransform_valid
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    startedTransformValid coverage.canonicalToRawTransformId := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform,
+    startedTransformIdOfSym_valid]
+
+theorem CanonicalPairCoverageSound.inverseTransform_id
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    startedTransformSym? coverage.canonicalToRawTransformId =
+      some coverage.canonicalToRawTransform := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform,
+    startedTransformSym?_idOfSym]
+
+theorem CanonicalPairCoverageSound.raw_to_canonical
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    symPairWord coverage.rawToCanonicalTransform coverage.rawWord =
+      coverage.canonical.word := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform]
+
+theorem CanonicalPairCoverageSound.canonical_to_raw
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    symPairWord coverage.canonicalToRawTransform
+      coverage.canonical.word = coverage.rawWord := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform,
+    symPairWord_inverse]
+
+theorem CanonicalPairCoverageSound.canonical_rule
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    coverage.canonical.word =
+      proofReducingCanonicalPairWord coverage.rawWord := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage, canonicalPairWordWithTransform,
+    proofReducingCanonicalPairWord, canonicalPairWord]
+
+theorem CanonicalPairCoverageSound.canonical_rank
+    {coverage : CanonicalPairCoverage}
+    (h : CanonicalPairCoverageSound coverage) :
+    coverage.canonical.rank =
+      pairWordLexRank coverage.canonical.word := by
+  rcases h with ⟨r, rfl⟩
+  simp [canonicalPairCoverage]
+
+theorem CanonicalTranslationCoverageSound.rawRank_lt
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    coverage.rawRank < numPairWords := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage]
+
+theorem CanonicalTranslationCoverageSound.rawWord_eq
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    coverage.rawWord =
+      unrankPairWord ⟨coverage.rawRank, h.rawRank_lt⟩ := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage]
+
+theorem CanonicalTranslationCoverageSound.rawTransform_valid
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    startedTransformValid coverage.rawToCanonicalTransformId := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform,
+    startedTransformIdOfSym_valid]
+
+theorem CanonicalTranslationCoverageSound.rawTransform_id
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    startedTransformSym? coverage.rawToCanonicalTransformId =
+      some coverage.rawToCanonicalTransform := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform,
+    startedTransformSym?_idOfSym]
+
+theorem CanonicalTranslationCoverageSound.inverseTransform_valid
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    startedTransformValid coverage.canonicalToRawTransformId := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform,
+    startedTransformIdOfSym_valid]
+
+theorem CanonicalTranslationCoverageSound.inverseTransform_id
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    startedTransformSym? coverage.canonicalToRawTransformId =
+      some coverage.canonicalToRawTransform := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform,
+    startedTransformSym?_idOfSym]
+
+theorem CanonicalTranslationCoverageSound.raw_to_canonical_word
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    symPairWord coverage.rawToCanonicalTransform coverage.rawWord =
+      coverage.canonical.word := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform]
+
+theorem CanonicalTranslationCoverageSound.raw_to_canonical_mask
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    symTranslationMask coverage.rawToCanonicalTransform coverage.rawWord
+      coverage.rawMask = coverage.canonical.mask := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform]
+
+theorem CanonicalTranslationCoverageSound.canonical_to_raw_word
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    symPairWord coverage.canonicalToRawTransform
+      coverage.canonical.word = coverage.rawWord := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform, symPairWord_inverse]
+
+theorem CanonicalTranslationCoverageSound.canonical_to_raw_mask
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    symTranslationMask coverage.canonicalToRawTransform
+      coverage.canonical.word coverage.canonical.mask =
+        coverage.rawMask := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform, symTranslationMask_inverse]
+
+theorem CanonicalTranslationCoverageSound.canonical_rule
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    (coverage.canonical.word, coverage.canonical.mask) =
+      proofReducingCanonicalTranslationChoice
+        coverage.rawWord coverage.rawMask := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage,
+    canonicalTranslationChoiceWithTransform,
+    proofReducingCanonicalTranslationChoice,
+    canonicalTranslationChoice]
+
+theorem CanonicalTranslationCoverageSound.canonical_rank
+    {coverage : CanonicalTranslationCoverage}
+    (h : CanonicalTranslationCoverageSound coverage) :
+    coverage.canonical.rank =
+      pairWordLexRank coverage.canonical.word := by
+  rcases h with ⟨r, mask, rfl⟩
+  simp [canonicalTranslationCoverage]
 
 structure CanonicalCoverageManifestSound
     (manifest : CanonicalCoverageManifest) : Prop where
@@ -3092,8 +3435,11 @@ structure CanonicalCoverageManifestSound
       expectedCanonicalTranslationChoiceClassCount
   maxPairWordOrbit_eq : manifest.maxPairWordOrbit = 8
   maxTranslationChoiceOrbit_eq : manifest.maxTranslationChoiceOrbit = 8
+  proofReducingTransformIds_eq :
+    manifest.proofReducingTransformIds = proofReducingStartedTransformIds
   proofReducingTransformCount_eq :
     manifest.proofReducingTransformCount = allStartedSyms.length
+  startedSymGroupChecked : checkStartedSymGroup = true
   reversalPolicy_eq :
     manifest.reversalProofTransportEnabled =
       reversalProofTransportEnabled
@@ -3115,27 +3461,90 @@ theorem checkCanonicalCoverageManifest_sound
 
 def CanonicalCoverageManifest.CoversPairRank
     (_manifest : CanonicalCoverageManifest) (r : Fin numPairWords) : Prop :=
-  exists coverage : CanonicalPairCoverage, coverage = canonicalPairCoverage r
+  exists coverage : CanonicalPairCoverage,
+    coverage = canonicalPairCoverage r /\
+      CanonicalPairCoverageSound coverage
 
 def CanonicalCoverageManifest.CoversTranslationChoice
     (_manifest : CanonicalCoverageManifest)
     (r : Fin numPairWords) (mask : SignMask) : Prop :=
   exists coverage : CanonicalTranslationCoverage,
-    coverage = canonicalTranslationCoverage r mask
+    coverage = canonicalTranslationCoverage r mask /\
+      CanonicalTranslationCoverageSound coverage
 
 theorem CanonicalCoverageManifest.covers_pair_rank
     (manifest : CanonicalCoverageManifest)
     (_hcheck : checkCanonicalCoverageManifest manifest = true)
     (r : Fin numPairWords) :
     manifest.CoversPairRank r := by
-  exact ⟨canonicalPairCoverage r, rfl⟩
+  exact ⟨canonicalPairCoverage r, rfl, canonicalPairCoverage_sound r⟩
 
 theorem CanonicalCoverageManifest.covers_translation_choice
     (manifest : CanonicalCoverageManifest)
     (_hcheck : checkCanonicalCoverageManifest manifest = true)
     (r : Fin numPairWords) (mask : SignMask) :
     manifest.CoversTranslationChoice r mask := by
-  exact ⟨canonicalTranslationCoverage r mask, rfl⟩
+  exact ⟨canonicalTranslationCoverage r mask, rfl,
+    canonicalTranslationCoverage_sound r mask⟩
+
+theorem CanonicalCoverageManifest.covers_nonidentity_rank
+    (manifest : CanonicalCoverageManifest)
+    (hcheck : checkCanonicalCoverageManifest manifest = true)
+    (r : Fin numPairWords)
+    (_hNonIdentity :
+      totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat)) :
+    manifest.CoversPairRank r :=
+  manifest.covers_pair_rank hcheck r
+
+theorem CanonicalCoverageManifest.covers_identity_translation_choice
+    (manifest : CanonicalCoverageManifest)
+    (hcheck : checkCanonicalCoverageManifest manifest = true)
+    (r : Fin numPairWords) (mask : SignMask)
+    (_hIdentity :
+      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)) :
+    manifest.CoversTranslationChoice r mask :=
+  manifest.covers_translation_choice hcheck r mask
+
+theorem canonicalPairCoverage_exact_once
+    {r : Fin numPairWords} {a b : CanonicalPairCoverage}
+    (ha : CanonicalPairCoverageSound a)
+    (hb : CanonicalPairCoverageSound b)
+    (har : a.rawRank = r.val)
+    (hbr : b.rawRank = r.val) :
+    a = b := by
+  rcases ha with ⟨ra, haeq⟩
+  rcases hb with ⟨rb, hbeq⟩
+  have hra : ra = r := by
+    apply Fin.ext
+    simpa [haeq, canonicalPairCoverage] using har
+  have hrb : rb = r := by
+    apply Fin.ext
+    simpa [hbeq, canonicalPairCoverage] using hbr
+  rw [haeq, hbeq, hra, hrb]
+
+theorem canonicalTranslationCoverage_exact_once
+    {r : Fin numPairWords} {mask : SignMask}
+    {a b : CanonicalTranslationCoverage}
+    (ha : CanonicalTranslationCoverageSound a)
+    (hb : CanonicalTranslationCoverageSound b)
+    (har : a.rawRank = r.val)
+    (hbr : b.rawRank = r.val)
+    (ham : a.rawMask = mask)
+    (hbm : b.rawMask = mask) :
+    a = b := by
+  rcases ha with ⟨ra, ma, haeq⟩
+  rcases hb with ⟨rb, mb, hbeq⟩
+  have hra : ra = r := by
+    apply Fin.ext
+    simpa [haeq, canonicalTranslationCoverage] using har
+  have hrb : rb = r := by
+    apply Fin.ext
+    simpa [hbeq, canonicalTranslationCoverage] using hbr
+  have hma : ma = mask := by
+    simpa [haeq, canonicalTranslationCoverage] using ham
+  have hmb : mb = mask := by
+    simpa [hbeq, canonicalTranslationCoverage] using hbm
+  rw [haeq, hbeq, hra, hrb, hma, hmb]
 
 theorem generatedCoverage_of_checked_chunks
     {nonIdentityMeta : GeneratedChunkMeta}

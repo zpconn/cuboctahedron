@@ -1046,6 +1046,15 @@ def check_canonical_coverage_manifest(payload):
         require(record["id"] == expected_id, f"canonical transform id {expected_id}")
         require(record["sym"] == STARTED_SYMS[expected_id],
                 f"canonical transform sym {expected_id}")
+    proof_reducing_transform_ids = payload.get("proof_reducing_transform_ids")
+    require(
+        proof_reducing_transform_ids == list(range(len(STARTED_SYMS))),
+        "canonical proof-reducing transform ids",
+    )
+    require(
+        proof_reducing_transform_ids == [record["id"] for record in transform_ids],
+        "canonical proof-reducing ids match transform table",
+    )
 
     rank_coverage = payload["rank_coverage"]
     expected_chunk_count = math.ceil(EXPECTED_PAIR_WORDS / COVERAGE_CHUNK_SIZE)

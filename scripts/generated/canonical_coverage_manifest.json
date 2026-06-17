@@ -7,6 +7,16 @@
   },
   "coverage_kind": "functional-started-symmetry-canonicalization",
   "mode": "canonical-coverage-manifest",
+  "proof_reducing_transform_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
   "rank_coverage": {
     "chunkCount": 973,
     "chunkSize": 100000,
