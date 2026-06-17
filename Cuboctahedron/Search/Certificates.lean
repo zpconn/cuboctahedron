@@ -17,6 +17,12 @@ def faceVectorSeq (faces : Vector Face 14) : Step14 -> Face :=
   change (Vector.ofFn seq)[i.val] = seq i
   exact Vector.getElem_ofFn i.isLt
 
+theorem vector_ext_from_get {α : Type} {n : Nat} (a b : Vector α n)
+    (h : forall i : Fin n, a.get i = b.get i) : a = b := by
+  apply Vector.ext
+  intro i hi
+  exact h ⟨i, hi⟩
+
 structure BadFirstHitWitness where
   step : Step14
 deriving DecidableEq, Repr
@@ -1413,6 +1419,19 @@ def transportNonIdCertShape (σ : StartedSym) (cert : NonIdCert) :
   solve := cert.solve
   failure := symNonIdFailure σ cert.failure
 
+def transportNonIdCertWith
+    (σ : StartedSym) (cert : NonIdCert)
+    (kernel : KernelLineWitness) (solve : AffineAxisSolveWitness) :
+    NonIdCert where
+  word := symPairWord σ cert.word
+  axis := symVecQ σ cert.axis
+  kernel := kernel
+  forcedSeq := symFaceVector σ cert.forcedSeq
+  p0 := symVecQ σ cert.p0
+  lambda := cert.lambda
+  solve := solve
+  failure := symNonIdFailure σ cert.failure
+
 def transportTranslationCertShape (σ : StartedSym) (cert : TranslationCert) :
     TranslationCert where
   word := symPairWord σ cert.word
@@ -1436,37 +1455,21 @@ deriving DecidableEq, Repr
 noncomputable def checkCanonicalNonIdTransport
     (transport : CanonicalNonIdTransport) : Bool := by
   classical
+  let transported :=
+    transportNonIdCertWith transport.sym transport.canonical
+      transport.raw.kernel transport.raw.solve
   exact checkNonIdCert transport.canonical &&
-    decide (checkNonIdCert transport.raw =
-      checkNonIdCert transport.canonical) &&
-      decide (transport.raw.word =
-        symPairWord transport.sym transport.canonical.word) &&
-      decide (transport.raw.axis =
-        symVecQ transport.sym transport.canonical.axis) &&
-      decide (transport.raw.p0 =
-        symVecQ transport.sym transport.canonical.p0) &&
-      decide (transport.raw.forcedSeq =
-        symFaceVector transport.sym transport.canonical.forcedSeq) &&
-      decide (transport.raw.failure =
-        symNonIdFailure transport.sym transport.canonical.failure)
+    checkNonIdCert transported &&
+      decide (transport.raw = transported)
 
 noncomputable def checkCanonicalTranslationTransport
     (transport : CanonicalTranslationTransport) : Bool := by
   classical
+  let transported :=
+    transportTranslationCertShape transport.sym transport.canonical
   exact checkTranslationCert transport.canonical &&
-    decide (checkTranslationCert transport.raw =
-      checkTranslationCert transport.canonical) &&
-      decide (transport.raw.word =
-        symPairWord transport.sym transport.canonical.word) &&
-      decide (transport.raw.signMask =
-        symTranslationMask transport.sym transport.canonical.word
-          transport.canonical.signMask) &&
-      decide (transport.raw.seq =
-        symFaceVector transport.sym transport.canonical.seq) &&
-      decide (transport.raw.b =
-        symVecQ transport.sym transport.canonical.b) &&
-      decide (transport.raw.failure =
-        symTranslationFailure transport.sym transport.canonical.failure)
+    checkTranslationCert transported &&
+      decide (transport.raw = transported)
 
 theorem canonical_nonidentity_failure_transport
     (transport : CanonicalNonIdTransport)
@@ -1474,13 +1477,18 @@ theorem canonical_nonidentity_failure_transport
     checkNonIdCert transport.raw = true := by
   unfold checkCanonicalNonIdTransport at hcheck
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hcheck
-  have hcanonical : checkNonIdCert transport.canonical = true := by
+  have htransported :
+      checkNonIdCert
+        (transportNonIdCertWith transport.sym transport.canonical
+          transport.raw.kernel transport.raw.solve) = true := by
     tauto
-  have hagree :
-      checkNonIdCert transport.raw =
-        checkNonIdCert transport.canonical := by
+  have hRawEq :
+      transport.raw =
+        transportNonIdCertWith transport.sym transport.canonical
+          transport.raw.kernel transport.raw.solve := by
     tauto
-  rw [hagree, hcanonical]
+  rw [hRawEq]
+  exact htransported
 
 theorem canonical_translation_failure_transport
     (transport : CanonicalTranslationTransport)
@@ -1488,13 +1496,17 @@ theorem canonical_translation_failure_transport
     checkTranslationCert transport.raw = true := by
   unfold checkCanonicalTranslationTransport at hcheck
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hcheck
-  have hcanonical : checkTranslationCert transport.canonical = true := by
+  have htransported :
+      checkTranslationCert
+        (transportTranslationCertShape transport.sym transport.canonical) =
+          true := by
     tauto
-  have hagree :
-      checkTranslationCert transport.raw =
-        checkTranslationCert transport.canonical := by
+  have hRawEq :
+      transport.raw =
+        transportTranslationCertShape transport.sym transport.canonical := by
     tauto
-  rw [hagree, hcanonical]
+  rw [hRawEq]
+  exact htransported
 
 theorem checkTranslationCert_badDirectionSign
     (cert : TranslationCert) (i : Impact15)

@@ -1058,15 +1058,84 @@ def nonidentityTransport : CanonicalNonIdTransport where
   canonical := Cuboctahedron.Generated.SmallSample.nonIdBadDirection000
   raw := nonIdBadDirectionSym000
 
+theorem nonidentity_transport_eq :
+    nonIdBadDirectionSym000 =
+      transportNonIdCertWith sampleSym
+        Cuboctahedron.Generated.SmallSample.nonIdBadDirection000
+        nonIdBadDirectionSym000.kernel
+        nonIdBadDirectionSym000.solve := by
+  unfold nonIdBadDirectionSym000 transportNonIdCertWith
+  rw [Cuboctahedron.NonIdCert.mk.injEq]
+  constructor
+  · apply vector_ext_from_get
+    intro i
+    fin_cases i <;> decide
+  constructor
+  · apply Vec3.ext <;> norm_num [
+      Cuboctahedron.Generated.SmallSample.nonIdBadDirection000,
+      sampleSym, symVecQ, negIf]
+  constructor
+  · rfl
+  constructor
+  · apply vector_ext_from_get
+    intro i
+    fin_cases i <;> decide
+  constructor
+  · apply Vec3.ext <;> norm_num [
+      Cuboctahedron.Generated.SmallSample.nonIdBadDirection000,
+      sampleSym, symVecQ, negIf]
+  constructor
+  · rfl
+  constructor
+  · rfl
+  · rfl
+
 theorem nonidentity_transport_check :
     checkCanonicalNonIdTransport nonidentityTransport = true := by
-  have hraw : checkNonIdCert nonIdBadDirectionSym000 = true :=
-    nonIdBadDirectionSym000_check
-  simp [checkCanonicalNonIdTransport, nonidentityTransport, sampleSym,
-    hraw, Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check]
-  decide
+  have htransported :
+      checkNonIdCert
+        (transportNonIdCertWith sampleSym
+          Cuboctahedron.Generated.SmallSample.nonIdBadDirection000
+          nonIdBadDirectionSym000.kernel
+          nonIdBadDirectionSym000.solve) = true := by
+    rw [← nonidentity_transport_eq]
+    apply checkNonIdCert_badDirectionSign nonIdBadDirectionSym000 ⟨3, by decide⟩
+    · rfl
+    · unfold nonIdBadDirectionSym000 wordRank000000814 ValidPairWord pairCount
+      decide
+    · rw [totalLinearOfPairWord_eq_pairLinearProductRight]
+      simp [nonIdBadDirectionSym000, pairLinearProductRight, pairLinearSuffixNat, reflM,
+        canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
+      norm_num
+    · rw [totalLinearOfPairWord_eq_pairLinearProductRight]
+      simp [nonIdBadDirectionSym000, checkKernelLineWitness, checkVec3NonzeroQ,
+        pairLinearProductRight, pairLinearSuffixNat, reflM, canonicalNormalQ,
+        matSub, matId, scalarMat, outer, dot, matMul, matVec, fixedPart,
+        crossLeftMatrix]
+      norm_num
+    · intro f hf
+      cases f <;> simp [nonIdBadDirectionSym000, pairOfFace, pairPrefixLinearNat,
+        canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,
+        scalarMat, outer, matVec] at hf ⊢
+  unfold checkCanonicalNonIdTransport
+  change
+      (checkNonIdCert Cuboctahedron.Generated.SmallSample.nonIdBadDirection000 &&
+        checkNonIdCert
+          (transportNonIdCertWith sampleSym
+            Cuboctahedron.Generated.SmallSample.nonIdBadDirection000
+            nonIdBadDirectionSym000.kernel
+            nonIdBadDirectionSym000.solve) &&
+          decide (nonIdBadDirectionSym000 =
+            transportNonIdCertWith sampleSym
+              Cuboctahedron.Generated.SmallSample.nonIdBadDirection000
+              nonIdBadDirectionSym000.kernel
+              nonIdBadDirectionSym000.solve)) = true
+  rw [Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check,
+    htransported]
+  simp only [Bool.true_and]
+  exact decide_eq_true nonidentity_transport_eq
 
-theorem nonidentity_transport_raw_check :
+theorem nonidentity_transport_derived_check :
     checkNonIdCert nonIdBadDirectionSym000 = true :=
   canonical_nonidentity_failure_transport nonidentityTransport
     nonidentity_transport_check
@@ -1076,24 +1145,74 @@ def translationTransport : CanonicalTranslationTransport where
   canonical := Cuboctahedron.Generated.SmallSample.translationBadDirection000
   raw := translationBadDirectionSym000
 
+theorem translation_transport_eq :
+    translationBadDirectionSym000 =
+      transportTranslationCertShape sampleSym
+        Cuboctahedron.Generated.SmallSample.translationBadDirection000 := by
+  unfold translationBadDirectionSym000 transportTranslationCertShape
+  rw [Cuboctahedron.TranslationCert.mk.injEq]
+  constructor
+  · apply vector_ext_from_get
+    intro i
+    fin_cases i <;> decide
+  constructor
+  · decide
+  constructor
+  · apply vector_ext_from_get
+    intro i
+    fin_cases i <;> decide
+  constructor
+  · apply Vec3.ext <;> norm_num [
+      Cuboctahedron.Generated.SmallSample.translationBadDirection000,
+      sampleSym, symVecQ, negIf]
+  · rfl
+
 theorem translation_transport_check :
     checkCanonicalTranslationTransport translationTransport = true := by
-  have hraw : checkTranslationCert translationBadDirectionSym000 = true :=
-    translationBadDirectionSym000_check
-  simp [checkCanonicalTranslationTransport, translationTransport, sampleSym,
-    hraw,
-    Cuboctahedron.Generated.SmallSample.translationBadDirection000_check]
-  refine And.intro ?left0 ?failure
-  · refine And.intro ?left1 ?vec
-    · refine And.intro ?left2 ?seq
-      · exact And.intro (by decide) (by decide)
-      · decide
+  have htransported :
+      checkTranslationCert
+        (transportTranslationCertShape sampleSym
+          Cuboctahedron.Generated.SmallSample.translationBadDirection000) = true := by
+    rw [← translation_transport_eq]
+    apply checkTranslationCert_badDirectionSign translationBadDirectionSym000 ⟨1, by decide⟩
+    · rfl
+    · unfold translationBadDirectionSym000 wordRank000000815 ValidPairWord pairCount
+      decide
+    · rw [totalLinearOfPairWord_eq_pairLinearProductRight]
+      simp [translationBadDirectionSym000, pairLinearProductRight, pairLinearSuffixNat, reflM,
+        canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
+      norm_num
+    · intro i
+      fin_cases i <;> simp [translationBadDirectionSym000, translationChoiceSeq, signedPositiveAt,
+        maskBitForPair, countPairBeforeNat, faceVectorSeq, faceOfPairSign]
+    · apply Vec3.ext <;> norm_num [
+        translationBadDirectionSym000, TranslationCert.seqFun, faceVectorSeq, totalAff,
+        totalOrder, composeFaceList, affCompose, faceReflectionQ, reflM,
+        reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+        dot, matMul, matVec, vecAdd, scalarMul]
+    · decide
+    · decide
     · norm_num [
-        translationBadDirectionSym000,
-        Cuboctahedron.Generated.SmallSample.translationBadDirection000, symVecQ, negIf]
-  · decide
+        translationBadDirectionSym000, TranslationCert.seqFun, faceVectorSeq, impactDenom,
+        impactPlaneNormalQ, copiedNormalQ, preImpactNormalQ,
+        preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+        faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId,
+        affId, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul]
+  unfold checkCanonicalTranslationTransport
+  change
+      (checkTranslationCert Cuboctahedron.Generated.SmallSample.translationBadDirection000 &&
+        checkTranslationCert
+          (transportTranslationCertShape sampleSym
+            Cuboctahedron.Generated.SmallSample.translationBadDirection000) &&
+          decide (translationBadDirectionSym000 =
+            transportTranslationCertShape sampleSym
+              Cuboctahedron.Generated.SmallSample.translationBadDirection000)) = true
+  rw [Cuboctahedron.Generated.SmallSample.translationBadDirection000_check,
+    htransported]
+  simp only [Bool.true_and]
+  exact decide_eq_true translation_transport_eq
 
-theorem translation_transport_raw_check :
+theorem translation_transport_derived_check :
     checkTranslationCert translationBadDirectionSym000 = true :=
   canonical_translation_failure_transport translationTransport
     translation_transport_check
