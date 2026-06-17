@@ -8,6 +8,7 @@ before Lean checks the emitted certificates.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from functools import lru_cache
@@ -1513,8 +1514,40 @@ def nonid_failure_matches_family(family_kind, cert):
     return False
 
 
+NONID_FAMILY_FAILURE_KINDS = {
+    "noFixedAxis",
+    "badDirectionSign",
+    "badPairBalance",
+    "axisMissesStartInterior",
+    "badFirstHit",
+    "badHitInterior",
+}
+
+
+def canonical_json(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"))
+
+
+def normalized_state_id(prefix, key):
+    digest = hashlib.sha256(canonical_json(key).encode("utf-8")).hexdigest()
+    return f"{prefix}:{digest[:24]}"
+
+
+def nonid_cert_state_key(cert):
+    return {
+        "word": cert["word"],
+        "axis": cert["axis"],
+        "kernel_cross_factor": cert["kernel_cross_factor"],
+        "forced_seq": cert["forced_seq"],
+        "p0": cert["p0"],
+        "lambda": cert["lambda"],
+        "solve_left_inverse": cert["solve_left_inverse"],
+        "failure": cert["failure"],
+    }
+
+
 def check_nonidentity_family_file(payload):
-    require(payload.get("schema_version") == 1, "nonidentity family schema version")
+    require(payload.get("schema_version") == 2, "nonidentity family schema version")
     require(payload.get("mode") == "nonidentity-family-sample", "nonidentity family mode")
 
     words_by_rank = {}
@@ -1530,15 +1563,30 @@ def check_nonidentity_family_file(payload):
     covered_once = {}
     canonical_covered_once = {}
     family_summaries = []
+    present_failure_kinds = set()
+    multi_rank_family_seen = False
     for family in payload["families"]:
         start_rank = family["startRank"]
         end_rank = family["endRank"]
         require(0 <= start_rank < end_rank <= EXPECTED_PAIR_WORDS,
                 f"family interval bounds {family['name']}")
+        family_kind = family["failure_kind"]
+        require(
+            family_kind in NONID_FAMILY_FAILURE_KINDS,
+            f"family supported failure kind {family['name']}",
+        )
+        present_failure_kinds.add(family_kind)
+        prefix = family["prefix"]
+        require(
+            isinstance(prefix, list) and all(pair_id in PAIR_IDS for pair_id in prefix),
+            f"family valid prefix {family['name']}",
+        )
         expected_canonical_ranks = list(range(start_rank, end_rank))
         coverages = [
             check_pair_coverage_record(record) for record in family["coverages"]
         ]
+        if len(coverages) > 1:
+            multi_rank_family_seen = True
         require(
             [coverage["canonical_rank"] for coverage in coverages]
             == expected_canonical_ranks,
@@ -1552,11 +1600,50 @@ def check_nonidentity_family_file(payload):
                 f"family cert count {family['name']}")
         require(len(family["cert_names"]) == len(expected_canonical_ranks),
                 f"family cert name count {family['name']}")
+        require(len(family["memberStateIds"]) == len(expected_canonical_ranks),
+                f"family state-id count {family['name']}")
+        require(len(family["memberStateKeys"]) == len(expected_canonical_ranks),
+                f"family state-key count {family['name']}")
+        expected_member_keys = [
+            nonid_cert_state_key(cert) for cert in family["certs"]
+        ]
+        expected_member_ids = [
+            normalized_state_id("nonid-member", key)
+            for key in expected_member_keys
+        ]
+        require(
+            family["memberStateKeys"] == expected_member_keys,
+            f"family member state keys {family['name']}",
+        )
+        require(
+            family["memberStateIds"] == expected_member_ids,
+            f"family member state ids {family['name']}",
+        )
+        expected_family_state_key = {
+            "failure_kind": family_kind,
+            "prefix": prefix,
+            "canonical_rank_interval": [start_rank, end_rank],
+            "member_state_ids": expected_member_ids,
+            "member_state_keys": expected_member_keys,
+        }
+        require(
+            family["normalizedStateKey"] == expected_family_state_key,
+            f"family normalized state key {family['name']}",
+        )
+        require(
+            family["normalizedStateId"]
+            == normalized_state_id("nonid-family", expected_family_state_key),
+            f"family normalized state id {family['name']}",
+        )
         for coverage, cert_name, cert in zip(
             coverages, family["cert_names"], family["certs"], strict=True
         ):
             rank = coverage["raw_rank"]
             canonical_rank = coverage["canonical_rank"]
+            require(
+                coverage["canonical_word"][:len(prefix)] == prefix,
+                f"family canonical prefix {family['name']} {canonical_rank}",
+            )
             require(rank not in covered_once, f"family duplicate coverage rank {rank}")
             require(
                 canonical_rank not in canonical_covered_once,
@@ -1568,7 +1655,7 @@ def check_nonidentity_family_file(payload):
             require(coverage["raw_word"] == cert["word"],
                     f"family coverage word echo {rank}")
             require(
-                nonid_failure_matches_family(family["failure_kind"], cert),
+                nonid_failure_matches_family(family_kind, cert),
                 f"family failure kind {rank}",
             )
             check_nonid_cert_record(cert)
@@ -1593,9 +1680,39 @@ def check_nonidentity_family_file(payload):
     summary = payload["summary"]
     require(summary["families"] == len(payload["families"]), "family summary count")
     require(summary["covered_ranks"] == len(covered_once), "family summary coverage")
+    require(
+        set(summary["supported_failure_kinds"]) == NONID_FAMILY_FAILURE_KINDS,
+        "family supported failure summary",
+    )
+    require(
+        set(summary["present_failure_kinds"]) == present_failure_kinds,
+        "family present failure summary",
+    )
+    accounting = payload["failure_kind_accounting"]
+    absent_records = accounting["absent"]
+    absent_failure_kinds = {record["failure_kind"] for record in absent_records}
+    require(
+        set(accounting["present"]) == present_failure_kinds,
+        "family accounting present set",
+    )
+    require(
+        absent_failure_kinds <= NONID_FAMILY_FAILURE_KINDS,
+        "family accounting absent set supported",
+    )
+    require(
+        set(accounting["accounted_for"]) == NONID_FAMILY_FAILURE_KINDS,
+        "family accounting all failure kinds",
+    )
+    require(
+        present_failure_kinds | absent_failure_kinds == NONID_FAMILY_FAILURE_KINDS,
+        "family present-or-absent failure coverage",
+    )
+    require(multi_rank_family_seen, "family nontrivial multi-rank leaf")
     return {
         "families": len(payload["families"]),
         "covered_ranks": len(covered_once),
+        "present_failure_kinds": sorted(present_failure_kinds),
+        "absent_failure_kinds": sorted(absent_failure_kinds),
         "intervals": family_summaries,
     }
 

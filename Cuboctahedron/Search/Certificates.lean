@@ -2188,37 +2188,54 @@ def checkNonIdFamilyFailureMatches
 structure NonIdFamilyCert where
   name : String
   failure : NonIdFamilyFailure
+  pairPrefix : Array PairId
+  normalizedStateId : String
   coverages : Array CanonicalPairCoverage
   certs : Array NonIdCert
 deriving DecidableEq, Repr
 
+def pairWordHasPrefixList : List PairId -> PairWord -> Nat -> Bool
+  | [], _, _ => true
+  | p :: ps, w, idx =>
+      if h : idx < 13 then
+        decide (w.get ⟨idx, h⟩ = p) &&
+          pairWordHasPrefixList ps w (idx + 1)
+      else
+        false
+
+def pairWordHasPrefix (pairPrefix : Array PairId) (w : PairWord) : Bool :=
+  pairWordHasPrefixList pairPrefix.toList w 0
+
 noncomputable def checkNonIdFamilyEntries
-    (family : NonIdFamilyFailure) (expectedStart endRank : Nat) :
+    (pairPrefix : Array PairId) (family : NonIdFamilyFailure)
+    (expectedStart endRank : Nat) :
     List CanonicalPairCoverage -> List NonIdCert -> Bool
   | [], [] => decide (expectedStart = endRank)
   | coverage :: coverages, cert :: certs =>
       checkCanonicalPairCoverage coverage &&
         (decide (coverage.canonical.rank = expectedStart) &&
-          (checkNonIdCoveredRank coverage.rawRank cert &&
-            (checkNonIdCert cert &&
-              (checkNonIdFamilyFailureMatches family cert &&
-                checkNonIdFamilyEntries family (expectedStart + 1)
-                  endRank coverages certs))))
+          (pairWordHasPrefix pairPrefix coverage.canonical.word &&
+            (checkNonIdCoveredRank coverage.rawRank cert &&
+              (checkNonIdCert cert &&
+                (checkNonIdFamilyFailureMatches family cert &&
+                  checkNonIdFamilyEntries pairPrefix family (expectedStart + 1)
+                    endRank coverages certs)))))
   | _, _ => false
 
 noncomputable def checkNonIdFamilyCert
     (interval : RankInterval) (family : NonIdFamilyCert) : Bool :=
   checkRankInterval interval &&
-    checkNonIdFamilyEntries family.failure interval.startRank
+    checkNonIdFamilyEntries family.pairPrefix family.failure interval.startRank
       interval.endRank family.coverages.toList family.certs.toList
 
 theorem checkNonIdFamilyEntries_sound
+    {pairPrefix : Array PairId}
     {family : NonIdFamilyFailure}
     {coverages : List CanonicalPairCoverage} {certs : List NonIdCert}
     {expectedStart endRank : Nat} {coverage : CanonicalPairCoverage}
     (hcheck :
-      checkNonIdFamilyEntries family expectedStart endRank coverages certs =
-        true)
+      checkNonIdFamilyEntries pairPrefix family expectedStart endRank
+        coverages certs = true)
     (hmem : coverage ∈ coverages) :
     exists cert : NonIdCert,
       checkNonIdCoveredRank coverage.rawRank cert = true /\
@@ -2234,18 +2251,20 @@ theorem checkNonIdFamilyEntries_sound
           have hparts :
               checkCanonicalPairCoverage current = true /\
                 current.canonical.rank = expectedStart /\
-                  checkNonIdCoveredRank current.rawRank cert = true /\
-                    checkNonIdCert cert = true /\
-                      checkNonIdFamilyFailureMatches family cert = true /\
-                        checkNonIdFamilyEntries family (expectedStart + 1)
-                          endRank coverages certs = true := by
+                  pairWordHasPrefix pairPrefix current.canonical.word = true /\
+                    checkNonIdCoveredRank current.rawRank cert = true /\
+                      checkNonIdCert cert = true /\
+                        checkNonIdFamilyFailureMatches family cert = true /\
+                          checkNonIdFamilyEntries pairPrefix family
+                            (expectedStart + 1) endRank coverages certs =
+                              true := by
             simpa only [checkNonIdFamilyEntries, Bool.and_eq_true,
               decide_eq_true_eq] using hcheck
           simp at hmem
           rcases hmem with hEq | hmem
           · subst coverage
-            exact ⟨cert, hparts.2.2.1, hparts.2.2.2.1⟩
-          · exact ih hparts.2.2.2.2.2 hmem
+            exact ⟨cert, hparts.2.2.2.1, hparts.2.2.2.2.1⟩
+          · exact ih hparts.2.2.2.2.2.2 hmem
 
 theorem checkNonIdFamilyCert_sound
     {interval : RankInterval} {family : NonIdFamilyCert}

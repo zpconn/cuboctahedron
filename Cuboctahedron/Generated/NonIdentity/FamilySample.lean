@@ -3487,6 +3487,21 @@ theorem nonIdFamilyBadFirstHit000_familyFailure :
       nonIdFamilyBadFirstHit000 = true := by
   rfl
 
+theorem nonIdFamilyBadDirection000Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11]
+      nonIdFamilyBadDirection000Coverage.canonical.word = true := by
+  decide
+
+theorem nonIdFamilyBadDirection001Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11]
+      nonIdFamilyBadDirection001Coverage.canonical.word = true := by
+  decide
+
+theorem nonIdFamilyBadDirection002Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11]
+      nonIdFamilyBadDirection002Coverage.canonical.word = true := by
+  decide
+
 def sampleBadDirectionFamilyCertInterval : RankInterval where
   startRank := 13
   endRank := 16
@@ -3494,6 +3509,8 @@ def sampleBadDirectionFamilyCertInterval : RankInterval where
 def sampleBadDirectionFamilyCert : NonIdFamilyCert where
   name := "sampleBadDirectionFamily"
   failure := NonIdFamilyFailure.badDirectionSign
+  pairPrefix := #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11]
+  normalizedStateId := "nonid-family:04cc05c4d29afa4e14a0300f"
   coverages := #[nonIdFamilyBadDirection000Coverage, nonIdFamilyBadDirection001Coverage, nonIdFamilyBadDirection002Coverage]
   certs := #[nonIdFamilyBadDirection000, nonIdFamilyBadDirection001, nonIdFamilyBadDirection002]
 
@@ -3503,12 +3520,13 @@ theorem sampleBadDirectionFamilyCert_check :
   change
       (checkRankInterval { startRank := 13, endRank := 16 } &&
         checkNonIdFamilyEntries
+          #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11]
           NonIdFamilyFailure.badDirectionSign
           13 16
           [nonIdFamilyBadDirection000Coverage, nonIdFamilyBadDirection001Coverage, nonIdFamilyBadDirection002Coverage]
           [nonIdFamilyBadDirection000, nonIdFamilyBadDirection001, nonIdFamilyBadDirection002]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyBadDirection000Coverage_check, nonIdFamilyBadDirection001Coverage_check, nonIdFamilyBadDirection002Coverage_check, nonIdFamilyBadDirection000Coverage_canonicalRank, nonIdFamilyBadDirection001Coverage_canonicalRank, nonIdFamilyBadDirection002Coverage_canonicalRank, nonIdFamilyBadDirection000Coverage_coveredRank, nonIdFamilyBadDirection001Coverage_coveredRank, nonIdFamilyBadDirection002Coverage_coveredRank, nonIdFamilyBadDirection000_coveredRank, nonIdFamilyBadDirection001_coveredRank, nonIdFamilyBadDirection002_coveredRank, nonIdFamilyBadDirection000_check, nonIdFamilyBadDirection001_check, nonIdFamilyBadDirection002_check, nonIdFamilyBadDirection000_familyFailure, nonIdFamilyBadDirection001_familyFailure, nonIdFamilyBadDirection002_familyFailure]
+    nonIdFamilyBadDirection000Coverage_check, nonIdFamilyBadDirection001Coverage_check, nonIdFamilyBadDirection002Coverage_check, nonIdFamilyBadDirection000Coverage_canonicalRank, nonIdFamilyBadDirection001Coverage_canonicalRank, nonIdFamilyBadDirection002Coverage_canonicalRank, nonIdFamilyBadDirection000Coverage_coveredRank, nonIdFamilyBadDirection001Coverage_coveredRank, nonIdFamilyBadDirection002Coverage_coveredRank, nonIdFamilyBadDirection000Coverage_prefix, nonIdFamilyBadDirection001Coverage_prefix, nonIdFamilyBadDirection002Coverage_prefix, nonIdFamilyBadDirection000_coveredRank, nonIdFamilyBadDirection001_coveredRank, nonIdFamilyBadDirection002_coveredRank, nonIdFamilyBadDirection000_check, nonIdFamilyBadDirection001_check, nonIdFamilyBadDirection002_check, nonIdFamilyBadDirection000_familyFailure, nonIdFamilyBadDirection001_familyFailure, nonIdFamilyBadDirection002_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleBadDirectionFamilyCert_leafCheck :
@@ -3537,6 +3555,11 @@ theorem sampleBadDirectionFamilyCert_treeCheck :
     NonIdCoverageTree.interval]
   norm_num [numPairWords, sampleBadDirectionFamilyCertInterval]
 
+theorem nonIdFamilyBadPairBalance000Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.dm11]
+      nonIdFamilyBadPairBalance000Coverage.canonical.word = true := by
+  decide
+
 def sampleBadPairBalanceFamilyCertInterval : RankInterval where
   startRank := 102
   endRank := 103
@@ -3544,6 +3567,8 @@ def sampleBadPairBalanceFamilyCertInterval : RankInterval where
 def sampleBadPairBalanceFamilyCert : NonIdFamilyCert where
   name := "sampleBadPairBalanceFamily"
   failure := NonIdFamilyFailure.badPairBalance
+  pairPrefix := #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.dm11]
+  normalizedStateId := "nonid-family:1ae3dd1e6143009159e50616"
   coverages := #[nonIdFamilyBadPairBalance000Coverage]
   certs := #[nonIdFamilyBadPairBalance000]
 
@@ -3553,12 +3578,13 @@ theorem sampleBadPairBalanceFamilyCert_check :
   change
       (checkRankInterval { startRank := 102, endRank := 103 } &&
         checkNonIdFamilyEntries
+          #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.dm11]
           NonIdFamilyFailure.badPairBalance
           102 103
           [nonIdFamilyBadPairBalance000Coverage]
           [nonIdFamilyBadPairBalance000]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyBadPairBalance000Coverage_check, nonIdFamilyBadPairBalance000Coverage_canonicalRank, nonIdFamilyBadPairBalance000Coverage_coveredRank, nonIdFamilyBadPairBalance000_coveredRank, nonIdFamilyBadPairBalance000_check, nonIdFamilyBadPairBalance000_familyFailure]
+    nonIdFamilyBadPairBalance000Coverage_check, nonIdFamilyBadPairBalance000Coverage_canonicalRank, nonIdFamilyBadPairBalance000Coverage_coveredRank, nonIdFamilyBadPairBalance000Coverage_prefix, nonIdFamilyBadPairBalance000_coveredRank, nonIdFamilyBadPairBalance000_check, nonIdFamilyBadPairBalance000_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleBadPairBalanceFamilyCert_leafCheck :
@@ -3587,6 +3613,16 @@ theorem sampleBadPairBalanceFamilyCert_treeCheck :
     NonIdCoverageTree.interval]
   norm_num [numPairWords, sampleBadPairBalanceFamilyCertInterval]
 
+theorem nonIdFamilyAxisMiss000Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1]
+      nonIdFamilyAxisMiss000Coverage.canonical.word = true := by
+  decide
+
+theorem nonIdFamilyAxisMiss001Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1]
+      nonIdFamilyAxisMiss001Coverage.canonical.word = true := by
+  decide
+
 def sampleAxisMissFamilyCertInterval : RankInterval where
   startRank := 104
   endRank := 106
@@ -3594,6 +3630,8 @@ def sampleAxisMissFamilyCertInterval : RankInterval where
 def sampleAxisMissFamilyCert : NonIdFamilyCert where
   name := "sampleAxisMissFamily"
   failure := NonIdFamilyFailure.axisMissesStartInterior
+  pairPrefix := #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1]
+  normalizedStateId := "nonid-family:9305d54d2cdedac8195dc41c"
   coverages := #[nonIdFamilyAxisMiss000Coverage, nonIdFamilyAxisMiss001Coverage]
   certs := #[nonIdFamilyAxisMiss000, nonIdFamilyAxisMiss001]
 
@@ -3603,12 +3641,13 @@ theorem sampleAxisMissFamilyCert_check :
   change
       (checkRankInterval { startRank := 104, endRank := 106 } &&
         checkNonIdFamilyEntries
+          #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1]
           NonIdFamilyFailure.axisMissesStartInterior
           104 106
           [nonIdFamilyAxisMiss000Coverage, nonIdFamilyAxisMiss001Coverage]
           [nonIdFamilyAxisMiss000, nonIdFamilyAxisMiss001]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyAxisMiss000Coverage_check, nonIdFamilyAxisMiss001Coverage_check, nonIdFamilyAxisMiss000Coverage_canonicalRank, nonIdFamilyAxisMiss001Coverage_canonicalRank, nonIdFamilyAxisMiss000Coverage_coveredRank, nonIdFamilyAxisMiss001Coverage_coveredRank, nonIdFamilyAxisMiss000_coveredRank, nonIdFamilyAxisMiss001_coveredRank, nonIdFamilyAxisMiss000_check, nonIdFamilyAxisMiss001_check, nonIdFamilyAxisMiss000_familyFailure, nonIdFamilyAxisMiss001_familyFailure]
+    nonIdFamilyAxisMiss000Coverage_check, nonIdFamilyAxisMiss001Coverage_check, nonIdFamilyAxisMiss000Coverage_canonicalRank, nonIdFamilyAxisMiss001Coverage_canonicalRank, nonIdFamilyAxisMiss000Coverage_coveredRank, nonIdFamilyAxisMiss001Coverage_coveredRank, nonIdFamilyAxisMiss000Coverage_prefix, nonIdFamilyAxisMiss001Coverage_prefix, nonIdFamilyAxisMiss000_coveredRank, nonIdFamilyAxisMiss001_coveredRank, nonIdFamilyAxisMiss000_check, nonIdFamilyAxisMiss001_check, nonIdFamilyAxisMiss000_familyFailure, nonIdFamilyAxisMiss001_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleAxisMissFamilyCert_leafCheck :
@@ -3637,6 +3676,11 @@ theorem sampleAxisMissFamilyCert_treeCheck :
     NonIdCoverageTree.interval]
   norm_num [numPairWords, sampleAxisMissFamilyCertInterval]
 
+theorem nonIdFamilyBadFirstHit000Coverage_prefix :
+    pairWordHasPrefix #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m]
+      nonIdFamilyBadFirstHit000Coverage.canonical.word = true := by
+  decide
+
 def sampleBadFirstHitFamilyCertInterval : RankInterval where
   startRank := 159
   endRank := 160
@@ -3644,6 +3688,8 @@ def sampleBadFirstHitFamilyCertInterval : RankInterval where
 def sampleBadFirstHitFamilyCert : NonIdFamilyCert where
   name := "sampleBadFirstHitFamily"
   failure := NonIdFamilyFailure.badFirstHit
+  pairPrefix := #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m]
+  normalizedStateId := "nonid-family:99937cf855e673090610fb58"
   coverages := #[nonIdFamilyBadFirstHit000Coverage]
   certs := #[nonIdFamilyBadFirstHit000]
 
@@ -3653,12 +3699,13 @@ theorem sampleBadFirstHitFamilyCert_check :
   change
       (checkRankInterval { startRank := 159, endRank := 160 } &&
         checkNonIdFamilyEntries
+          #[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m]
           NonIdFamilyFailure.badFirstHit
           159 160
           [nonIdFamilyBadFirstHit000Coverage]
           [nonIdFamilyBadFirstHit000]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyBadFirstHit000Coverage_check, nonIdFamilyBadFirstHit000Coverage_canonicalRank, nonIdFamilyBadFirstHit000Coverage_coveredRank, nonIdFamilyBadFirstHit000_coveredRank, nonIdFamilyBadFirstHit000_check, nonIdFamilyBadFirstHit000_familyFailure]
+    nonIdFamilyBadFirstHit000Coverage_check, nonIdFamilyBadFirstHit000Coverage_canonicalRank, nonIdFamilyBadFirstHit000Coverage_coveredRank, nonIdFamilyBadFirstHit000Coverage_prefix, nonIdFamilyBadFirstHit000_coveredRank, nonIdFamilyBadFirstHit000_check, nonIdFamilyBadFirstHit000_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleBadFirstHitFamilyCert_leafCheck :

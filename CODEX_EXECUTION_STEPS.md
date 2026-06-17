@@ -1284,13 +1284,18 @@ scripts/check_certificates_independently.py
 
 Requirements:
 
-- Generate prefix-tree pruning certificates for these exact failure families:
+- Support prefix-tree pruning certificates for these exact failure families:
   - no fixed axis;
   - bad direction sign;
   - bad pair balance;
   - axis misses `xp` start interior;
   - bad first hit;
   - bad hit interior.
+- Generate checked family leaves for every nonempty failure family in the
+  current generated domain. If a supported failure constructor has no concrete
+  family leaf in that domain, emit explicit failure-kind accounting explaining
+  whether it is globally absent for valid nonidentity pair-words or merely not
+  represented by the bounded sample.
 - Prefer family leaves over explicit per-rank leaves. Emit explicit checked
   `NonIdCert` leaves only when no family certificate applies.
 - Generate family leaves over canonical nonidentity groups after
@@ -1303,6 +1308,9 @@ Requirements:
   excludes every raw rank mapped to it by the canonical manifest.
 - The independent checker must reject any nonidentity raw rank or canonical id
   not covered by exactly one leaf.
+- The independent checker must reject any supported nonidentity failure
+  constructor that is neither present as a family leaf nor explicitly accounted
+  for by the generated failure-kind accounting.
 
 Done when:
 

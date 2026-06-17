@@ -8,6 +8,7 @@ emits data that Lean and the independent checker verify.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from dataclasses import dataclass
@@ -2469,6 +2470,60 @@ def nonid_family_failure_lean(kind: str) -> str:
     raise ValueError(f"unsupported nonidentity family failure: {kind}")
 
 
+NONID_FAMILY_FAILURE_KINDS = [
+    "noFixedAxis",
+    "badDirectionSign",
+    "badPairBalance",
+    "axisMissesStartInterior",
+    "badFirstHit",
+    "badHitInterior",
+]
+
+
+def canonical_json(value: object) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"))
+
+
+def normalized_state_id(prefix: str, key: object) -> str:
+    digest = hashlib.sha256(canonical_json(key).encode("utf-8")).hexdigest()
+    return f"{prefix}:{digest[:24]}"
+
+
+def nonid_cert_state_key(cert: NonIdCertPayload | dict) -> dict:
+    payload = cert.to_json() if isinstance(cert, NonIdCertPayload) else cert
+    return {
+        "word": payload["word"],
+        "axis": payload["axis"],
+        "kernel_cross_factor": payload["kernel_cross_factor"],
+        "forced_seq": payload["forced_seq"],
+        "p0": payload["p0"],
+        "lambda": payload["lambda"],
+        "solve_left_inverse": payload["solve_left_inverse"],
+        "failure": payload["failure"],
+    }
+
+
+def common_pair_prefix(words: list[list[str]]) -> list[str]:
+    if not words:
+        return []
+    prefix: list[str] = []
+    for column in zip(*words, strict=True):
+        first = column[0]
+        if all(pair_id == first for pair_id in column):
+            prefix.append(first)
+        else:
+            break
+    return prefix
+
+
+def lean_pair_array_literal(prefix: list[str]) -> str:
+    return "#[" + ", ".join(lean_pair_id(pair_id) for pair_id in prefix) + "]"
+
+
+def lean_string(value: str) -> str:
+    return json.dumps(value)
+
+
 def build_nonidentity_family_payload() -> dict:
     specs = [
         ("sampleBadDirectionFamily", "sampleBadDirectionFamilyCert",
@@ -2510,11 +2565,36 @@ def build_nonidentity_family_payload() -> dict:
                 f"family {family_name} canonical ranks are not contiguous: "
                 f"{canonical_ranks}"
             )
+        canonical_words = [
+            coverage["canonical_word"] for coverage in coverage_records
+        ]
+        pair_prefix = common_pair_prefix(canonical_words)
+        member_state_keys = [nonid_cert_state_key(cert) for cert in certs]
+        member_state_ids = [
+            normalized_state_id("nonid-member", key)
+            for key in member_state_keys
+        ]
+        family_state_key = {
+            "failure_kind": failure_kind,
+            "prefix": pair_prefix,
+            "canonical_rank_interval": [
+                min(canonical_ranks),
+                max(canonical_ranks) + 1,
+            ],
+            "member_state_ids": member_state_ids,
+            "member_state_keys": member_state_keys,
+        }
+        family_state_id = normalized_state_id("nonid-family", family_state_key)
         all_certs.extend(certs)
         families.append({
             "name": family_name,
             "lean_name": lean_name,
             "failure_kind": failure_kind,
+            "prefix": pair_prefix,
+            "normalizedStateId": family_state_id,
+            "normalizedStateKey": family_state_key,
+            "memberStateIds": member_state_ids,
+            "memberStateKeys": member_state_keys,
             "startRank": min(canonical_ranks),
             "endRank": max(canonical_ranks) + 1,
             "rawStartRank": start_rank,
@@ -2525,26 +2605,49 @@ def build_nonidentity_family_payload() -> dict:
             "certs": [cert.to_json() for cert in certs],
         })
     records = {cert.rank: cert.word for cert in all_certs}
+    present_failure_kinds = sorted({family["failure_kind"] for family in families})
+    absent_failure_kinds = [
+        {
+            "failure_kind": "noFixedAxis",
+            "status": "globally-absent-for-valid-nonidentity-pair-words",
+            "reason": (
+                "The total linear part is a product of fourteen reflections, "
+                "so nonidentity valid words are orientation-preserving "
+                "three-dimensional orthogonal maps with a fixed axis."
+            ),
+        },
+        {
+            "failure_kind": "badHitInterior",
+            "status": "not-present-in-this-representative-sample",
+            "reason": (
+                "The certificate language and Lean proof template support this "
+                "failure kind; the bounded representative family sample did "
+                "not include a rank whose exact candidate reaches this case."
+            ),
+        },
+    ]
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "mode": "nonidentity-family-sample",
         "pair_words": [
             {"rank": rank, "word": records[rank]}
             for rank in sorted(records)
         ],
         "families": families,
+        "failure_kind_accounting": {
+            "present": present_failure_kinds,
+            "absent": absent_failure_kinds,
+            "accounted_for": sorted(
+                set(present_failure_kinds) |
+                {record["failure_kind"] for record in absent_failure_kinds}
+            ),
+        },
         "summary": {
             "families": len(families),
             "covered_ranks": len(all_certs),
             "coverage_kind": "mixed-contiguous-family-leaves",
-            "supported_failure_kinds": [
-                "noFixedAxis",
-                "badDirectionSign",
-                "badPairBalance",
-                "axisMissesStartInterior",
-                "badFirstHit",
-                "badHitInterior",
-            ],
+            "supported_failure_kinds": NONID_FAMILY_FAILURE_KINDS,
+            "present_failure_kinds": present_failure_kinds,
         },
     }
 
@@ -3219,6 +3322,7 @@ def write_nonidentity_family_lean(payload: dict) -> None:
         family_coverage_names = ", ".join(
             f"{cert['name']}Coverage" for cert in family_certs
         )
+        family_prefix_literal = lean_pair_array_literal(family["prefix"])
         covered_ranks = ", ".join(str(rank) for rank in family["coveredRanks"])
         covered_coverage_list = ", ".join(
             f"{cert['name']}Coverage" for cert in family_certs
@@ -3232,6 +3336,17 @@ def write_nonidentity_family_lean(payload: dict) -> None:
         coverage_covered_names = [
             f"{cert['name']}Coverage_coveredRank" for cert in family_certs
         ]
+        coverage_prefix_names: list[str] = []
+        for cert in family_certs:
+            prefix_theorem = f"{cert['name']}Coverage_prefix"
+            coverage_prefix_names.append(prefix_theorem)
+            lines.extend([
+                f"theorem {prefix_theorem} :",
+                f"    pairWordHasPrefix {family_prefix_literal}",
+                f"      {cert['name']}Coverage.canonical.word = true := by",
+                "  decide",
+                "",
+            ])
         covered_check_names = [f"{cert['name']}_coveredRank" for cert in family_certs]
         cert_check_names = [f"{cert['name']}_check" for cert in family_certs]
         family_match_names = [f"{cert['name']}_familyFailure" for cert in family_certs]
@@ -3243,6 +3358,8 @@ def write_nonidentity_family_lean(payload: dict) -> None:
             f"def {cert_name} : NonIdFamilyCert where",
             f"  name := \"{family['name']}\"",
             f"  failure := {nonid_family_failure_lean(family['failure_kind'])}",
+            f"  pairPrefix := {family_prefix_literal}",
+            f"  normalizedStateId := {lean_string(family['normalizedStateId'])}",
             f"  coverages := #[{family_coverage_names}]",
             f"  certs := #[{family_cert_names}]",
             "",
@@ -3253,12 +3370,13 @@ def write_nonidentity_family_lean(payload: dict) -> None:
             "      (checkRankInterval { startRank := " + str(family["startRank"]) +
               ", endRank := " + str(family["endRank"]) + " } &&",
             "        checkNonIdFamilyEntries",
+            f"          {family_prefix_literal}",
             f"          {nonid_family_failure_lean(family['failure_kind'])}",
             f"          {family['startRank']} {family['endRank']}",
             f"          [{covered_coverage_list}]",
             f"          [{family_cert_names}]) = true",
             "  simp [checkRankInterval, checkNonIdFamilyEntries,",
-            f"    {', '.join(coverage_check_names + coverage_rank_names + coverage_covered_names + covered_check_names + cert_check_names + family_match_names)}]",
+            f"    {', '.join(coverage_check_names + coverage_rank_names + coverage_covered_names + coverage_prefix_names + covered_check_names + cert_check_names + family_match_names)}]",
             "  norm_num [numPairWords]",
             "",
             f"theorem {leaf_check} :",
