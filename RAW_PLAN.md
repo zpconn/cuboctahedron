@@ -820,7 +820,12 @@ def checkChunk (chunk : CertChunk) : Bool :=
   -- each cert checks
 ```
 
-But do not force a certificate for every raw rank if compression is needed. Prefer a prefix-tree certificate.
+Do not force a certificate for every raw rank. The exhaustive phase should be
+canonical-first: cyclically start at `xp`, quotient by the started symmetry
+group fixing `xp`, add itinerary reversal only after the relevant Lean transport
+theorem is available, and group by exact rational state before emitting Lean
+data. Prefix trees, family certificates, and shared Farkas witnesses should be
+the default path rather than a fallback after flat chunks fail.
 
 ### 11.4 Prefix-tree compression
 
@@ -850,9 +855,15 @@ theorem checkSearchTree_sound :
   NoFeasibleCompletion tree
 ```
 
-This prevents needing a Lean object for every one of the 97,297,200 pair-words if a subtree can be killed earlier.
+This prevents needing a Lean object for every one of the 97,297,200 pair-words
+if a subtree can be killed earlier. Search trees should be indexed by canonical
+case representatives, with a Lean-checked manifest transporting raw ranks and
+translation masks to those representatives.
 
-Codex should first try the simpler chunked certificate design. If build size or time explodes, switch to prefix-tree compression.
+Codex should not begin with raw flat chunks for the exhaustive proof. It should
+first profile symmetry orbits, reversal orbits, exact nonidentity state groups,
+translation constraint groups, and shared Farkas witnesses. Flat chunks are only
+diagnostic output behind an explicit opt-in flag.
 
 ---
 

@@ -56,6 +56,19 @@ The exhaustive enumeration used the 7 opposite face-pairs, since opposite faces 
 
 linear pair-words to check. The computation split them as follows:
 
+For the Lean proof pipeline, these raw cases should not be emitted as one
+certificate per case. After cyclically starting at (X_+), the remaining search
+still has the eight symmetries of the square (X_+) face: swap (y,z) and
+independently negate (y) and (z). The formal certificate pipeline should
+canonicalize by this started symmetry group, then add itinerary reversal where
+the Lean transport theorem has been proved, and finally group cases by exact
+rational state. In the non-identity case that means sharing fixed-axis,
+forced-sign, affine-axis, and first-failure witnesses. In the translation case
+that means normalizing the strict linear inequality system and reusing sparse
+Farkas certificates across all equivalent masks. The raw C++ counts below
+remain useful sanity checks, but the trusted proof should use canonical
+coverage manifests plus Lean-checked transport and family soundness.
+
 | Case                                                                  | Exhaustive result |
 | --------------------------------------------------------------------- | ----------------: |
 | Pair-words checked                                                    |        97,297,200 |

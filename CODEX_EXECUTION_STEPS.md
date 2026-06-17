@@ -1017,9 +1017,23 @@ must extend the generator and generated Lean files so every nonidentity rank and
 every identity rank/sign-mask case is covered by a checked real failure
 certificate.
 
-Raw one-certificate-per-case generation is not the default implementation path:
-it is expected to be hundreds of GB to TB-scale. Complete Steps 14E.1 through
-14E.7 before starting Step 15.
+Raw one-certificate-per-case generation is not an acceptable default
+implementation path: it is expected to be hundreds of GB to TB-scale and would
+hide the actual mathematical structure of the search. Step 14E must be
+canonical-first:
+
+- start from the already proved cyclic reindexing to `Face.xp`;
+- quotient by the full eight-element stabilizer of the started `xp` face;
+- add itinerary reversal/time-reversal canonicalization where Lean transport is
+  proved, and otherwise use reversal only as a grouping key backed by family
+  certificates for every raw member;
+- group by exact rational states before emitting generated Lean data;
+- share kernel, axis, affine-solve, sign-balance, constraint, and Farkas
+  witnesses wherever exact normalization proves they are identical.
+
+Flat per-case chunks may be generated only for diagnostics behind an explicit
+`--allow-flat-exhaustive` flag. Complete Steps 14E.1 through 14E.7 before
+starting Step 15.
 
 ## Step 14E.1: Exhaustive Case-State Profiler
 
@@ -1036,28 +1050,44 @@ scripts/check_certificates_independently.py
 Add non-proof modes:
 
 ```bash
-python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states
-python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states
+python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states --with-symmetry --with-reversal
+python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states --with-symmetry --with-reversal
 ```
 
 Requirements:
 
 - Use exact rational arithmetic only.
 - Enumerate all valid pair-word ranks.
+- Report raw pair-word counts, identity/nonidentity counts, and translation
+  sign-mask counts.
+- Report started-symmetry orbit counts under the eight symmetries preserving
+  `Face.xp`.
+- Report itinerary-reversal orbit counts and combined
+  started-symmetry/reversal canonical counts.
 - For nonidentity words, group by exact rational state: prefix counts, linear
-  product, fixed-axis data, forced-sign data, and first exact failure category.
+  product, fixed-axis data, forced-sign data, affine-axis data, and first exact
+  failure category.
 - For identity words, group all 64 masks by translation vector, sequence,
   denominator-sign pattern, and normalized strict linear constraint system.
-- Print size estimates for flat certificates, prefix-tree leaves, symmetry
-  classes, and shared Farkas groups.
+- Normalize translation constraint systems by clearing denominators, dividing
+  by positive rational content, sorting duplicate positive-scalar inequalities,
+  and retaining exact maps back to original constraint indices.
+- Group sparse Farkas witnesses by normalized support and positive rational
+  scale.
+- Print size estimates for flat certificates, canonical representatives,
+  prefix-tree leaves, exact-state family leaves, shared Farkas groups, and final
+  generated Lean files.
+- If estimates exceed the configured generated-data budget, this step must
+  recommend the next required compression layer instead of proceeding to
+  exhaustive emission.
 - This step is profiling only. It must not emit trusted Lean completeness
   theorems.
 
 Done when:
 
 ```bash
-python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states
-python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states
+python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states --with-symmetry --with-reversal
+python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states --with-symmetry --with-reversal
 ```
 
 pass and report the known sanity counts:
@@ -1068,10 +1098,10 @@ identity linear words: 2,468,088
 translation sign assignments: 157,957,632
 ```
 
-## Step 14E.2: Symmetry and Canonicalization Layer
+## Step 14E.2: Full Canonicalization and Transport Layer
 
 Goal: reduce raw cases by formally transporting failures from canonical
-representatives.
+representatives under all proved started transformations.
 
 Update:
 
@@ -1083,10 +1113,27 @@ scripts/check_certificates_independently.py
 
 Requirements:
 
-- Formalize only cuboctahedron symmetries that preserve the started-at-`xp`
-  finite theorem shape.
-- Define canonicalization for pair words and translation sign masks under those
-  symmetries.
+- Formalize the full eight-element cuboctahedron symmetry group preserving the
+  started-at-`xp` finite theorem shape: swap `y` and `z`, negate `y`, negate
+  `z`, and their compositions.
+- Prove the action laws needed by the checker: identity, closure under
+  composition, inverse existence, pair-word validity preservation,
+  sign-mask-legality preservation, and preservation of the identity/nonidentity
+  linear classification.
+- Define deterministic canonicalization for pair words and translation sign
+  masks under those symmetries using the lexicographic minimum of the exact
+  transformed data.
+- Add a separate reversal transform:
+  - reconstruct the exact started face sequence;
+  - reverse the billiard itinerary with the documented unfolding convention;
+  - cyclically restart at `Face.xp`;
+  - re-extract the pair word and, for translation cases, the legal sign mask.
+- Prove reversal transport before allowing reversal to reduce Lean proof
+  obligations. Until that theorem exists, reversal may be used only as a
+  generator grouping key, and every raw reversed member must still be covered by
+  a checked family certificate.
+- Define the combined canonical rule as the lexicographic minimum over all
+  proved started symmetries and proved reversal transports.
 - Prove Lean transport lemmas:
   - a checked nonidentity failure for a canonical case yields a checked failure
     for every raw case in its orbit;
@@ -1094,18 +1141,24 @@ Requirements:
     checked failure for every transported raw `(rank, mask)`.
 - The independent checker must verify that canonicalization is deterministic
   and every raw case maps to exactly one canonical representative. The full
-  canonical-orbit manifest records the started-symmetry group checks used for
-  this: the eight actions fix the `x` pair, are distinct, are closed under
-  composition, and use the lexicographic minimum as the canonical rule.
+  canonical-orbit manifest records:
+  - the started-symmetry group checks;
+  - the reversal checks and whether reversal is proof-transport-enabled;
+  - the canonical rule used for pair words and translation choices;
+  - raw counts, canonical counts, maximum orbit sizes, and exact transform ids.
 
 Done when:
 
 ```lean
 #check canonical_nonidentity_failure_transport
 #check canonical_translation_failure_transport
+#check canonical_reversal_nonidentity_transport
+#check canonical_reversal_translation_transport
 ```
 
-work for representative generated canonical cases,
+work for representative generated canonical and reversal cases, or the reversal
+checks are replaced by a generated manifest explicitly marking reversal as
+grouping-only and not proof-reducing,
 
 ```bash
 python3 scripts/check_certificates_independently.py --mode canonical-orbit-coverage --limit 10000
@@ -1115,6 +1168,54 @@ python3 scripts/check_certificates_independently.py --mode canonical-orbit-cover
 
 passes as the development smoke test plus full-run manifest check, and
 `lake build` passes.
+
+## Step 14E.2A: Canonical Coverage Manifest
+
+Goal: make raw-to-canonical coverage a compact trusted object before any
+certificate families are generated.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+Cuboctahedron/Generated/
+```
+
+Requirements:
+
+- Define a compact manifest format mapping raw pair-word ranks and translation
+  `(rank, mask)` choices to canonical case ids plus exact transform ids.
+- The manifest may use intervals, prefix states, or run-length encoding, but it
+  must not rely on approximate hashes or C++ counts.
+- Lean checkers must verify:
+  - every raw nonidentity rank and every raw identity `(rank, mask)` is covered;
+  - no raw case is covered twice;
+  - each transform listed in the manifest is one of the Lean-defined started
+    symmetries or proved reversal transforms;
+  - applying the transform to the canonical representative reconstructs the raw
+    pair word or translation choice;
+  - canonical ids are deterministic and match the canonicalization rule.
+- The independent checker must run the same manifest checks with exact rational
+  data and print raw counts, canonical counts, and compression ratios.
+
+Done when:
+
+```lean
+#check checkCanonicalCoverageManifest_sound
+#check Cuboctahedron.Generated.canonicalCoverageManifest
+#check Cuboctahedron.Generated.canonicalCoverageManifest_sound
+```
+
+work, and:
+
+```bash
+python3 scripts/check_certificates_independently.py --mode canonical-coverage-manifest
+lake build
+```
+
+pass.
 
 ## Step 14E.3: Prefix-State Coverage Trees
 
@@ -1131,17 +1232,25 @@ scripts/check_certificates_independently.py
 Requirements:
 
 - Define Lean datatypes for nonidentity and translation coverage trees.
+- Trees are indexed by canonical case ids from Step 14E.2A, not by raw ranks
+  directly. Raw coverage is recovered only through the canonical coverage
+  manifest and transport/family soundness.
 - A tree leaf must contain either:
   - a real checked `NonIdCert` or `TranslationCert`; or
+  - a transported representative certificate; or
   - a family certificate whose checker returns a real checked certificate for
-    every covered raw case.
+    every covered canonical case and therefore every raw case mapped to it; or
+  - a shared-state certificate such as a reused kernel/rank/axis witness or a
+    shared Farkas witness.
 - Define Boolean checkers for tree structure, rank/mask interval coverage,
   branch disjointness, and leaf certificate validity.
 - Prove soundness/completeness theorems:
-  - every nonidentity rank routed to a checked tree yields a checked
+  - every nonidentity canonical id routed to a checked tree yields a checked
     `NonIdCert`;
-  - every identity rank and `SignMask` routed to a checked tree yields a checked
-    `TranslationCert`.
+  - every identity canonical translation id routed to a checked tree yields a
+    checked `TranslationCert`;
+  - composing tree coverage with the canonical manifest gives raw-rank and
+    raw-mask coverage.
 - Do not use `native_decide`; generated tree proofs must be small enough for
   ordinary kernel checking.
 
@@ -1178,10 +1287,16 @@ Requirements:
   - bad hit interior.
 - Prefer family leaves over explicit per-rank leaves. Emit explicit checked
   `NonIdCert` leaves only when no family certificate applies.
+- Generate family leaves over canonical nonidentity groups after
+  started-symmetry, proved reversal, and exact-state grouping.
+- Share kernel-line, fixed-axis, sign-balance, affine-solve, start-interior,
+  first-hit, and hit-interior witnesses by exact normalized state id.
 - Every generated family leaf must prove all completions satisfy its family
-  hypotheses and return a checked `NonIdCert` for each raw rank.
-- The independent checker must reject any nonidentity rank not covered by
-  exactly one leaf.
+  hypotheses and return a checked `NonIdCert` for each canonical member.
+- Prove a generic Lean theorem that the checked canonical/family certificate
+  excludes every raw rank mapped to it by the canonical manifest.
+- The independent checker must reject any nonidentity raw rank or canonical id
+  not covered by exactly one leaf.
 
 Done when:
 
@@ -1214,11 +1329,17 @@ Requirements:
   - shared infeasible strict systems via sparse exact `FarkasCert`.
 - Normalize translation constraint systems so equivalent cases share one
   Farkas certificate.
-- Prove Lean transport from a normalized Farkas certificate to every raw
-  `(rank, mask)` case in its group.
+- Normalize by clearing denominators, dividing by positive rational content,
+  sorting duplicate positive-scalar inequalities, and storing exact index maps
+  from normalized constraints back to original constraints.
+- Normalize sparse Farkas certificates by support order and positive rational
+  scale, then share the witness across every equivalent normalized system.
+- Prove Lean transport from a normalized Farkas certificate to every canonical
+  translation case in its group, and compose it with the canonical manifest to
+  cover every raw `(rank, mask)` case.
 - Emit explicit checked `TranslationCert` leaves only when grouping fails.
-- The independent checker must reject any identity rank/sign-mask case not
-  covered by exactly one leaf.
+- The independent checker must reject any identity raw `(rank, mask)` or
+  canonical translation id not covered by exactly one leaf.
 
 Done when:
 
@@ -1253,6 +1374,10 @@ python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
 Requirements:
 
 - Use exact rational arithmetic only.
+- Refuse to emit exhaustive generated Lean unless Steps 14E.1, 14E.2, 14E.2A,
+  14E.3, 14E.4, and 14E.5 have produced valid manifests and summaries.
+- Consume canonical/group manifests as the source of case ids. Do not enumerate
+  flat raw certificate arrays by default.
 - Generate compressed nonidentity coverage for every rank whose pair-word has
   nonidentity linear part.
 - Generate compressed translation coverage for every identity rank and every
@@ -1261,6 +1386,8 @@ Requirements:
   generated Lean sizes, and independent checker counts.
 - Reject the run if any raw case is uncovered, multiply covered, or covered
   only by a classifier instead of a real failure certificate.
+- Reject the run if the generator would fall back to flat per-case data without
+  the explicit `--allow-flat-exhaustive` diagnostic flag.
 - Do not use C++ counts as proof data. They may be printed only as sanity
   checks.
 
@@ -1312,6 +1439,14 @@ theorem Cuboctahedron.Generated.Translation.complete :
 ```lean
 def exhaustiveGeneratedCoverage : ExhaustiveGeneratedCoverage := ...
 ```
+
+- The witness must be assembled from:
+  - the canonical coverage manifest from Step 14E.2A;
+  - canonical nonidentity and translation coverage trees from Step 14E.3;
+  - nonidentity family soundness from Step 14E.4;
+  - translation shared-Farkas/family soundness from Step 14E.5;
+  - transport soundness for started symmetries and any proved reversal
+    transforms.
 
 - Do not use `axiom`, `sorry`, `admit`, `native_decide`, `unsafe`, C++ counts,
   or sample-only chunks to prove completeness.
