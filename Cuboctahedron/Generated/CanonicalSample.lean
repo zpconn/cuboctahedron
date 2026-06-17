@@ -1060,10 +1060,8 @@ def nonidentityTransport : CanonicalNonIdTransport where
 
 theorem nonidentity_transport_check :
     checkCanonicalNonIdTransport nonidentityTransport = true := by
-  have hraw :
-      checkCanonicalNonIdRawFailure nonIdBadDirectionSym000 = true :=
-    checkCanonicalNonIdRawFailure_of_check nonIdBadDirectionSym000
-      nonIdBadDirectionSym000_check
+  have hraw : checkNonIdCert nonIdBadDirectionSym000 = true :=
+    nonIdBadDirectionSym000_check
   simp [checkCanonicalNonIdTransport, nonidentityTransport, sampleSym,
     hraw, Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check]
   decide
@@ -1080,10 +1078,8 @@ def translationTransport : CanonicalTranslationTransport where
 
 theorem translation_transport_check :
     checkCanonicalTranslationTransport translationTransport = true := by
-  have hraw :
-      checkCanonicalTranslationRawFailure translationBadDirectionSym000 = true :=
-    checkCanonicalTranslationRawFailure_of_check translationBadDirectionSym000
-      translationBadDirectionSym000_check
+  have hraw : checkTranslationCert translationBadDirectionSym000 = true :=
+    translationBadDirectionSym000_check
   simp [checkCanonicalTranslationTransport, translationTransport, sampleSym,
     hraw,
     Cuboctahedron.Generated.SmallSample.translationBadDirection000_check]

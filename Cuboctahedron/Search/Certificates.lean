@@ -1433,107 +1433,12 @@ structure CanonicalTranslationTransport where
   raw : TranslationCert
 deriving DecidableEq, Repr
 
-noncomputable def checkCanonicalNonIdRawFailure
-    (cert : NonIdCert) : Bool :=
-  match cert.failure with
-  | NonIdFailure.noFixedAxis witness =>
-      checkNonIdNoFixedAxisFailure cert witness
-  | NonIdFailure.badPairBalance =>
-      checkNonIdPairBalanceFailure cert
-  | NonIdFailure.badDirectionSign i =>
-      checkNonIdBadDirectionSignFailure cert i
-  | NonIdFailure.axisMissesStartInterior =>
-      checkNonIdAxisMissesStartInteriorData cert
-  | NonIdFailure.badFirstHit witness =>
-      checkNonIdBadFirstHitData cert witness
-  | NonIdFailure.badHitInterior witness =>
-      checkNonIdBadHitInteriorData cert witness
-
-theorem checkCanonicalNonIdRawFailure_sound
-    (cert : NonIdCert)
-    (hcheck : checkCanonicalNonIdRawFailure cert = true) :
-    checkNonIdCert cert = true := by
-  cases h : cert.failure with
-  | noFixedAxis witness =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badPairBalance =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badDirectionSign i =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | axisMissesStartInterior =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badFirstHit witness =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badHitInterior witness =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-
-theorem checkCanonicalNonIdRawFailure_of_check
-    (cert : NonIdCert)
-    (hcheck : checkNonIdCert cert = true) :
-    checkCanonicalNonIdRawFailure cert = true := by
-  cases h : cert.failure with
-  | noFixedAxis witness =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badPairBalance =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badDirectionSign i =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | axisMissesStartInterior =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badFirstHit witness =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-  | badHitInterior witness =>
-      simpa [checkCanonicalNonIdRawFailure, checkNonIdCert, h] using hcheck
-
-noncomputable def checkCanonicalTranslationRawFailure
-    (cert : TranslationCert) : Bool :=
-  match cert.failure with
-  | TranslationFailure.badTranslationVector =>
-      checkTranslationCommon cert && decide (cert.b = zeroVec3Q)
-  | TranslationFailure.badDirectionSign i =>
-      checkTranslationCommon cert &&
-        decide (i ≠ (0 : Impact15)) &&
-          decide (i ≠ lastImpact) &&
-            decide (impactDenom cert.seqFun cert.b i <= 0)
-  | TranslationFailure.farkas fcert =>
-      checkTranslationCommon cert &&
-        checkFarkas (translationConstraints cert.seqFun cert.b) fcert
-
-theorem checkCanonicalTranslationRawFailure_sound
-    (cert : TranslationCert)
-    (hcheck : checkCanonicalTranslationRawFailure cert = true) :
-    checkTranslationCert cert = true := by
-  cases h : cert.failure with
-  | badTranslationVector =>
-      simpa [checkCanonicalTranslationRawFailure, checkTranslationCert, h]
-        using hcheck
-  | badDirectionSign i =>
-      simpa [checkCanonicalTranslationRawFailure, checkTranslationCert, h]
-        using hcheck
-  | farkas cert =>
-      simpa [checkCanonicalTranslationRawFailure, checkTranslationCert, h]
-        using hcheck
-
-theorem checkCanonicalTranslationRawFailure_of_check
-    (cert : TranslationCert)
-    (hcheck : checkTranslationCert cert = true) :
-    checkCanonicalTranslationRawFailure cert = true := by
-  cases h : cert.failure with
-  | badTranslationVector =>
-      simpa [checkCanonicalTranslationRawFailure, checkTranslationCert, h]
-        using hcheck
-  | badDirectionSign i =>
-      simpa [checkCanonicalTranslationRawFailure, checkTranslationCert, h]
-        using hcheck
-  | farkas cert =>
-      simpa [checkCanonicalTranslationRawFailure, checkTranslationCert, h]
-        using hcheck
-
 noncomputable def checkCanonicalNonIdTransport
     (transport : CanonicalNonIdTransport) : Bool := by
   classical
   exact checkNonIdCert transport.canonical &&
-    checkCanonicalNonIdRawFailure transport.raw &&
+    decide (checkNonIdCert transport.raw =
+      checkNonIdCert transport.canonical) &&
       decide (transport.raw.word =
         symPairWord transport.sym transport.canonical.word) &&
       decide (transport.raw.axis =
@@ -1549,7 +1454,8 @@ noncomputable def checkCanonicalTranslationTransport
     (transport : CanonicalTranslationTransport) : Bool := by
   classical
   exact checkTranslationCert transport.canonical &&
-    checkCanonicalTranslationRawFailure transport.raw &&
+    decide (checkTranslationCert transport.raw =
+      checkTranslationCert transport.canonical) &&
       decide (transport.raw.word =
         symPairWord transport.sym transport.canonical.word) &&
       decide (transport.raw.signMask =
@@ -1568,9 +1474,13 @@ theorem canonical_nonidentity_failure_transport
     checkNonIdCert transport.raw = true := by
   unfold checkCanonicalNonIdTransport at hcheck
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hcheck
-  have hraw : checkCanonicalNonIdRawFailure transport.raw = true := by
+  have hcanonical : checkNonIdCert transport.canonical = true := by
     tauto
-  exact checkCanonicalNonIdRawFailure_sound transport.raw hraw
+  have hagree :
+      checkNonIdCert transport.raw =
+        checkNonIdCert transport.canonical := by
+    tauto
+  rw [hagree, hcanonical]
 
 theorem canonical_translation_failure_transport
     (transport : CanonicalTranslationTransport)
@@ -1578,9 +1488,13 @@ theorem canonical_translation_failure_transport
     checkTranslationCert transport.raw = true := by
   unfold checkCanonicalTranslationTransport at hcheck
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hcheck
-  have hraw : checkCanonicalTranslationRawFailure transport.raw = true := by
+  have hcanonical : checkTranslationCert transport.canonical = true := by
     tauto
-  exact checkCanonicalTranslationRawFailure_sound transport.raw hraw
+  have hagree :
+      checkTranslationCert transport.raw =
+        checkTranslationCert transport.canonical := by
+    tauto
+  rw [hagree, hcanonical]
 
 theorem checkTranslationCert_badDirectionSign
     (cert : TranslationCert) (i : Impact15)

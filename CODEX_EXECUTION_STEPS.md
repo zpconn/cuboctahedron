@@ -1110,6 +1110,7 @@ work for representative generated canonical cases,
 ```bash
 python3 scripts/check_certificates_independently.py --mode canonical-orbit-coverage --limit 10000
 python3 scripts/check_certificates_independently.py --mode canonical-orbit-coverage-manifest
+! grep -R "checkCanonical.*RawFailure" Cuboctahedron scripts/generate_exact_certificates.py
 ```
 
 passes as the development smoke test plus full-run manifest check, and
