@@ -1669,14 +1669,124 @@ def checkTranslationCaseBox (box : TranslationCaseBox) : Bool :=
       (decide (box.startMask < box.endMask) &&
         decide (box.endMask <= numSignMasks)))
 
+inductive NonIdFamilyFailure
+  | noFixedAxis
+  | badDirectionSign
+  | badPairBalance
+  | axisMissesStartInterior
+  | badFirstHit
+  | badHitInterior
+deriving DecidableEq, Repr
+
+def checkNonIdFamilyFailureMatches
+    (family : NonIdFamilyFailure) (cert : NonIdCert) : Bool :=
+  match family, cert.failure with
+  | NonIdFamilyFailure.noFixedAxis, NonIdFailure.noFixedAxis _ => true
+  | NonIdFamilyFailure.badDirectionSign, NonIdFailure.badDirectionSign _ => true
+  | NonIdFamilyFailure.badPairBalance, NonIdFailure.badPairBalance => true
+  | NonIdFamilyFailure.axisMissesStartInterior,
+      NonIdFailure.axisMissesStartInterior => true
+  | NonIdFamilyFailure.badFirstHit, NonIdFailure.badFirstHit _ => true
+  | NonIdFamilyFailure.badHitInterior, NonIdFailure.badHitInterior _ => true
+  | _, _ => false
+
+structure NonIdFamilyCert where
+  name : String
+  failure : NonIdFamilyFailure
+  coveredRanks : Array Nat
+  certs : Array NonIdCert
+deriving DecidableEq, Repr
+
+noncomputable def checkNonIdFamilyEntries
+    (family : NonIdFamilyFailure) (expectedStart endRank : Nat) :
+    List Nat -> List NonIdCert -> Bool
+  | [], [] => decide (expectedStart = endRank)
+  | rank :: ranks, cert :: certs =>
+      decide (rank = expectedStart) &&
+        (checkNonIdCoveredRank rank cert &&
+          (checkNonIdCert cert &&
+            (checkNonIdFamilyFailureMatches family cert &&
+              checkNonIdFamilyEntries family (expectedStart + 1)
+                endRank ranks certs)))
+  | _, _ => false
+
+noncomputable def checkNonIdFamilyCert
+    (interval : RankInterval) (family : NonIdFamilyCert) : Bool :=
+  checkRankInterval interval &&
+    checkNonIdFamilyEntries family.failure interval.startRank
+      interval.endRank family.coveredRanks.toList family.certs.toList
+
+theorem checkNonIdFamilyEntries_sound
+    {family : NonIdFamilyFailure}
+    {ranks : List Nat} {certs : List NonIdCert}
+    {expectedStart endRank : Nat} {r : Fin numPairWords}
+    (hcheck :
+      checkNonIdFamilyEntries family expectedStart endRank ranks certs =
+        true)
+    (hstart : expectedStart <= r.val)
+    (hend : r.val < endRank) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  induction ranks generalizing expectedStart certs with
+  | nil =>
+      cases certs with
+      | nil =>
+          simp [checkNonIdFamilyEntries] at hcheck
+          omega
+      | cons cert certs =>
+          simp [checkNonIdFamilyEntries] at hcheck
+  | cons rank ranks ih =>
+      cases certs with
+      | nil =>
+          simp [checkNonIdFamilyEntries] at hcheck
+      | cons cert certs =>
+          change
+            (decide (rank = expectedStart) &&
+              (checkNonIdCoveredRank rank cert &&
+                (checkNonIdCert cert &&
+                  (checkNonIdFamilyFailureMatches family cert &&
+                    checkNonIdFamilyEntries family (expectedStart + 1)
+                      endRank ranks certs)))) = true at hcheck
+          cases hRankEqBool : decide (rank = expectedStart)
+          · simp [hRankEqBool] at hcheck
+          · simp [hRankEqBool] at hcheck
+            have hRankEq : rank = expectedStart :=
+              of_decide_eq_true hRankEqBool
+            cases hCovered : checkNonIdCoveredRank rank cert
+            · simp [hCovered] at hcheck
+            · simp [hCovered] at hcheck
+              cases hCert : checkNonIdCert cert
+              · simp [hCert] at hcheck
+              · simp [hCert] at hcheck
+                cases hMatches :
+                    checkNonIdFamilyFailureMatches family cert
+                · simp [hMatches] at hcheck
+                · simp [hMatches] at hcheck
+                  by_cases hrCurrent : r.val < expectedStart + 1
+                  · have hr : r.val = expectedStart := by omega
+                    refine ⟨cert, ?_, hCert⟩
+                    simpa [hRankEq, hr] using hCovered
+                  · exact ih hcheck (by omega)
+
+theorem checkNonIdFamilyCert_sound
+    {interval : RankInterval} {family : NonIdFamilyCert}
+    (hcheck : checkNonIdFamilyCert interval family = true)
+    {r : Fin numPairWords}
+    (hcontains : interval.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  simp only [checkNonIdFamilyCert, Bool.and_eq_true] at hcheck
+  exact
+    checkNonIdFamilyEntries_sound hcheck.2 hcontains.1
+      hcontains.2
+
 inductive NonIdCoverageLeaf
   | raw (cert : NonIdCert)
   | transported (transport : CanonicalNonIdTransport)
+  | family (family : NonIdFamilyCert)
 deriving DecidableEq, Repr
-
-def NonIdCoverageLeaf.cert : NonIdCoverageLeaf -> NonIdCert
-  | NonIdCoverageLeaf.raw cert => cert
-  | NonIdCoverageLeaf.transported transport => transport.raw
 
 noncomputable def checkNonIdCoverageLeafPayload
     (interval : RankInterval) : NonIdCoverageLeaf -> Bool
@@ -1686,12 +1796,21 @@ noncomputable def checkNonIdCoverageLeafPayload
   | NonIdCoverageLeaf.transported transport =>
       checkNonIdCoveredRank interval.startRank transport.raw &&
         checkCanonicalNonIdTransport transport
+  | NonIdCoverageLeaf.family family =>
+      checkNonIdFamilyCert interval family
 
 noncomputable def checkNonIdCoverageLeaf
     (interval : RankInterval) (leaf : NonIdCoverageLeaf) : Bool :=
   checkRankInterval interval &&
-    (decide (interval.endRank = interval.startRank + 1) &&
-      checkNonIdCoverageLeafPayload interval leaf)
+    match leaf with
+    | NonIdCoverageLeaf.raw _ =>
+        decide (interval.endRank = interval.startRank + 1) &&
+          checkNonIdCoverageLeafPayload interval leaf
+    | NonIdCoverageLeaf.transported _ =>
+        decide (interval.endRank = interval.startRank + 1) &&
+          checkNonIdCoverageLeafPayload interval leaf
+    | NonIdCoverageLeaf.family _ =>
+        checkNonIdCoverageLeafPayload interval leaf
 
 theorem checkNonIdCoverageLeaf_sound
     {interval : RankInterval} {leaf : NonIdCoverageLeaf}
@@ -1701,18 +1820,19 @@ theorem checkNonIdCoverageLeaf_sound
     exists cert : NonIdCert,
       checkNonIdCoveredRank r.val cert = true /\
         checkNonIdCert cert = true := by
-  have hparts :
-      checkRankInterval interval = true /\
-        interval.endRank = interval.startRank + 1 /\
-          checkNonIdCoverageLeafPayload interval leaf = true := by
-    simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true,
-      decide_eq_true_eq] using hcheck
-  rcases hparts with ⟨_hInterval, hSingleton, hPayload⟩
-  have hr : r.val = interval.startRank := by
-    unfold RankInterval.ContainsPairRank at hcontains
-    omega
   cases leaf with
   | raw cert =>
+      have hparts :
+          checkRankInterval interval = true /\
+            interval.endRank = interval.startRank + 1 /\
+              checkNonIdCoverageLeafPayload interval
+                (NonIdCoverageLeaf.raw cert) = true := by
+        simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      rcases hparts with ⟨_hInterval, hSingleton, hPayload⟩
+      have hr : r.val = interval.startRank := by
+        unfold RankInterval.ContainsPairRank at hcontains
+        omega
       change
         (checkNonIdCoveredRank interval.startRank cert &&
           checkNonIdCert cert) = true at hPayload
@@ -1721,6 +1841,17 @@ theorem checkNonIdCoverageLeaf_sound
       · simp [hRank] at hPayload
         exact ⟨cert, by simpa [hr] using hRank, hPayload⟩
   | transported transport =>
+      have hparts :
+          checkRankInterval interval = true /\
+            interval.endRank = interval.startRank + 1 /\
+              checkNonIdCoverageLeafPayload interval
+                (NonIdCoverageLeaf.transported transport) = true := by
+        simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      rcases hparts with ⟨_hInterval, hSingleton, hPayload⟩
+      have hr : r.val = interval.startRank := by
+        unfold RankInterval.ContainsPairRank at hcontains
+        omega
       change
         (checkNonIdCoveredRank interval.startRank transport.raw &&
           checkCanonicalNonIdTransport transport) = true at hPayload
@@ -1730,6 +1861,14 @@ theorem checkNonIdCoverageLeaf_sound
         have hCert :=
           canonical_nonidentity_failure_transport transport hPayload
         exact ⟨transport.raw, by simpa [hr] using hRank, hCert⟩
+  | family family =>
+      have hparts :
+          checkRankInterval interval = true /\
+            checkNonIdCoverageLeafPayload interval
+              (NonIdCoverageLeaf.family family) = true := by
+        simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true]
+          using hcheck
+      exact checkNonIdFamilyCert_sound hparts.2 hcontains
 
 inductive NonIdCoverageTree
   | leaf (interval : RankInterval) (leaf : NonIdCoverageLeaf)

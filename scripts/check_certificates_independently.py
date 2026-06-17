@@ -23,6 +23,9 @@ JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
 COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_sample.json"
+NONIDENTITY_FAMILY_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "nonidentity_family_sample.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -1008,6 +1011,87 @@ def check_coverage_tree_file(payload):
     }
 
 
+def nonid_failure_matches_family(family_kind, cert):
+    failure_kind = cert["failure"]["kind"]
+    if family_kind == "badDirectionSign":
+        return failure_kind == "badDirectionSign"
+    if family_kind == "badPairBalance":
+        return failure_kind == "badPairBalance"
+    if family_kind == "noFixedAxis":
+        return failure_kind == "noFixedAxis"
+    if family_kind == "axisMissesStartInterior":
+        return failure_kind == "axisMissesStartInterior"
+    if family_kind == "badFirstHit":
+        return failure_kind == "badFirstHit"
+    if family_kind == "badHitInterior":
+        return failure_kind == "badHitInterior"
+    return False
+
+
+def check_nonidentity_family_file(payload):
+    require(payload.get("schema_version") == 1, "nonidentity family schema version")
+    require(payload.get("mode") == "nonidentity-family-sample", "nonidentity family mode")
+
+    words_by_rank = {}
+    for record in payload["pair_words"]:
+        rank = record["rank"]
+        word = record["word"]
+        require(0 <= rank < EXPECTED_PAIR_WORDS, f"family pair rank bounds {rank}")
+        require(valid_pair_word(word), f"family valid word {rank}")
+        require(lex_rank_pair_word(word) == rank, f"family lex rank {rank}")
+        require(rank not in words_by_rank, f"family duplicate pair word rank {rank}")
+        words_by_rank[rank] = word
+
+    covered_once = {}
+    family_summaries = []
+    for family in payload["families"]:
+        start_rank = family["startRank"]
+        end_rank = family["endRank"]
+        require(0 <= start_rank < end_rank <= EXPECTED_PAIR_WORDS,
+                f"family interval bounds {family['name']}")
+        expected_ranks = list(range(start_rank, end_rank))
+        require(family["coveredRanks"] == expected_ranks,
+                f"family contiguous ranks {family['name']}")
+        require(len(family["certs"]) == len(expected_ranks),
+                f"family cert count {family['name']}")
+        require(len(family["cert_names"]) == len(expected_ranks),
+                f"family cert name count {family['name']}")
+        for rank, cert_name, cert in zip(
+            expected_ranks, family["cert_names"], family["certs"], strict=True
+        ):
+            require(rank not in covered_once, f"family duplicate coverage rank {rank}")
+            require(cert["name"] == cert_name, f"family cert name echo {rank}")
+            require(cert["rank"] == rank, f"family cert rank echo {rank}")
+            require(words_by_rank.get(rank) == cert["word"], f"family word echo {rank}")
+            require(
+                nonid_failure_matches_family(family["failure_kind"], cert),
+                f"family failure kind {rank}",
+            )
+            check_nonid_cert_record(cert)
+            covered_once[rank] = family["name"]
+        family_summaries.append({
+            "name": family["name"],
+            "start": start_rank,
+            "end": end_rank,
+            "covered": len(expected_ranks),
+        })
+
+    required_ranks = {
+        rank
+        for family in payload["families"]
+        for rank in range(family["startRank"], family["endRank"])
+    }
+    require(set(covered_once) == required_ranks, "family exact-once coverage")
+    summary = payload["summary"]
+    require(summary["families"] == len(payload["families"]), "family summary count")
+    require(summary["covered_ranks"] == len(covered_once), "family summary coverage")
+    return {
+        "families": len(payload["families"]),
+        "covered_ranks": len(covered_once),
+        "intervals": family_summaries,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -1019,6 +1103,7 @@ def main():
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
             "coverage-tree-sample",
+            "nonidentity-family-sample",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
         ],
@@ -1042,8 +1127,8 @@ def main():
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
-            "coverage-tree-sample/canonical-orbit-coverage/"
-            "canonical-orbit-coverage-manifest"
+            "coverage-tree-sample/nonidentity-family-sample/"
+            "canonical-orbit-coverage/canonical-orbit-coverage-manifest"
         )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
@@ -1077,6 +1162,18 @@ def main():
             f"{summary['transported_translation_rank']}/"
             f"{summary['transported_translation_mask']}"
         )
+        return
+    if mode == "nonidentity-family-sample":
+        payload = json.loads(NONIDENTITY_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_nonidentity_family_file(payload)
+        print("independent nonidentity family sample check passed")
+        print(f"families: {summary['families']}")
+        print(f"covered ranks: {summary['covered_ranks']}")
+        for interval in summary["intervals"]:
+            print(
+                "family interval: "
+                f"{interval['name']} [{interval['start']}, {interval['end']})"
+            )
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

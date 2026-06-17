@@ -23,9 +23,15 @@ JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
 COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_sample.json"
+NONIDENTITY_FAMILY_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "nonidentity_family_sample.json"
+)
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 COVERAGE_TREE_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageTreeSample.lean"
+NONIDENTITY_FAMILY_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilySample.lean"
+)
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
 )
@@ -1017,6 +1023,7 @@ def write_lean(payload: dict) -> None:
         "",
         "set_option maxHeartbeats 1600000",
         "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
         "",
     ]
     append_word_definitions(lines, payload)
@@ -1243,6 +1250,7 @@ def write_coverage_manifest(payload: dict) -> None:
 def write_all_generated() -> None:
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
+        "import Cuboctahedron.Generated.NonIdentity.FamilySample",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.CanonicalSample",
         "import Cuboctahedron.Generated.CoverageTreeSample",
@@ -1277,14 +1285,16 @@ def write_all_generated() -> None:
         "noncomputable def allGeneratedCoverageTreeCheck : Bool :=",
         "  checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&",
         "    checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&",
-        "      checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&",
-        "        checkTranslationCoverageTree CoverageTreeSample.translationTransportTree",
+        "      checkNonIdCoverageTree NonIdentity.sampleFamilyCoverage &&",
+        "        checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&",
+        "          checkTranslationCoverageTree CoverageTreeSample.translationTransportTree",
         "",
         "theorem allGeneratedCoverageTreeCheck_true :",
         "    allGeneratedCoverageTreeCheck = true := by",
         "  unfold allGeneratedCoverageTreeCheck",
         "  rw [CoverageTreeSample.nonIdRawTree_check,",
         "    CoverageTreeSample.nonIdTransportTree_check,",
+        "    NonIdentity.sampleFamilyCoverage_check,",
         "    CoverageTreeSample.translationRawTree_check,",
         "    CoverageTreeSample.translationTransportTree_check]",
         "  rfl",
@@ -1688,6 +1698,233 @@ def write_coverage_tree_lean(payload: dict) -> None:
     COVERAGE_TREE_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def nonid_family_failure_lean(kind: str) -> str:
+    if kind == "badDirectionSign":
+        return "NonIdFamilyFailure.badDirectionSign"
+    if kind == "badPairBalance":
+        return "NonIdFamilyFailure.badPairBalance"
+    if kind == "noFixedAxis":
+        return "NonIdFamilyFailure.noFixedAxis"
+    if kind == "axisMissesStartInterior":
+        return "NonIdFamilyFailure.axisMissesStartInterior"
+    if kind == "badFirstHit":
+        return "NonIdFamilyFailure.badFirstHit"
+    if kind == "badHitInterior":
+        return "NonIdFamilyFailure.badHitInterior"
+    raise ValueError(f"unsupported nonidentity family failure: {kind}")
+
+
+def build_nonidentity_family_payload() -> dict:
+    start_rank = 6
+    end_rank = 9
+    certs: list[NonIdCertPayload] = []
+    for offset, rank in enumerate(range(start_rank, end_rank)):
+        cert = build_nonid_bad_direction(rank)
+        certs.append(
+            NonIdCertPayload(
+                name=f"nonIdFamilyBadDirection{offset:03d}",
+                rank=cert.rank,
+                word=cert.word,
+                axis=cert.axis,
+                kernel_cross_factor=cert.kernel_cross_factor,
+                forced_seq=cert.forced_seq,
+                failure=cert.failure,
+            )
+        )
+    records = {cert.rank: cert.word for cert in certs}
+    return {
+        "schema_version": 1,
+        "mode": "nonidentity-family-sample",
+        "pair_words": [
+            {"rank": rank, "word": records[rank]}
+            for rank in sorted(records)
+        ],
+        "families": [
+            {
+                "name": "sampleBadDirectionFamily",
+                "lean_name": "sampleFamilyCert",
+                "tree_name": "sampleFamilyCoverage",
+                "failure_kind": "badDirectionSign",
+                "startRank": start_rank,
+                "endRank": end_rank,
+                "coveredRanks": [cert.rank for cert in certs],
+                "cert_names": [cert.name for cert in certs],
+                "certs": [cert.to_json() for cert in certs],
+            }
+        ],
+        "summary": {
+            "families": 1,
+            "covered_ranks": len(certs),
+            "coverage_kind": "contiguous-family-leaf",
+        },
+    }
+
+
+def write_nonidentity_family_json(payload: dict) -> None:
+    NONIDENTITY_FAMILY_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_FAMILY_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_nonidentity_family_lean(payload: dict) -> None:
+    family = payload["families"][0]
+    certs = family["certs"]
+    covered_check_names = [f"{cert['name']}_coveredRank" for cert in certs]
+    cert_check_names = [f"{cert['name']}_check" for cert in certs]
+    family_match_names = [f"{cert['name']}_familyFailure" for cert in certs]
+    cert_names = ", ".join(f"{cert['name']}" for cert in certs)
+    covered_ranks = ", ".join(str(rank) for rank in family["coveredRanks"])
+    covered_rank_list = ", ".join(str(rank) for rank in family["coveredRanks"])
+    lines: list[str] = [
+        "import Cuboctahedron.Search.Certificates",
+        "",
+        "/-!",
+        "Generated representative non-identity family coverage sample for Step 14E.4.",
+        "",
+        "This file exercises one family leaf covering a nontrivial contiguous",
+        "rank interval. It is representative data, not the exhaustive search tree.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "",
+    ]
+    append_word_definitions(lines, payload)
+    for cert in certs:
+        append_nonid_cert(lines, cert)
+    for cert in certs:
+        matrix = total_linear(cert["word"])
+        matrix_name = f"{cert['name']}_totalLinear"
+        axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
+        kernel = tuple(tuple(Fraction(x) for x in row) for row in cert["kernel_cross_factor"])  # type: ignore[assignment]
+        failure = cert["failure"]
+        if failure["kind"] != "badDirectionSign":
+            raise ValueError(f"unsupported family proof template: {failure['kind']}")
+        idx = failure["index"]
+        word = word_name(cert["rank"])
+        lines.extend([
+            f"theorem {matrix_name} :",
+            f"    totalLinearOfPairWord {word} = {lean_mat3(matrix)} := by",
+            "  rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+            "  simp [pairLinearProductRight, pairLinearSuffixNat, reflM,",
+            "    canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
+            "  norm_num",
+            "",
+            f"theorem {cert['name']}_kernelCheck :",
+            "    checkKernelLineWitness",
+            f"      (totalLinearOfPairWord {word})",
+            f"      {lean_vec(axis)}",
+            f"      {{ crossFactor := {lean_mat3(kernel)} }} = true := by",
+            f"  rw [{matrix_name}]",
+            "  norm_num [checkKernelLineWitness, checkVec3NonzeroQ, fixedPart,",
+            "    crossLeftMatrix, matSub, matId, matMul, matVec]",
+            "",
+            f"theorem {cert['name']}_check :",
+            f"    checkNonIdCert {cert['name']} = true := by",
+            f"  apply checkNonIdCert_badDirectionSign {cert['name']} ⟨{idx}, by decide⟩",
+            "  · rfl",
+            f"  · unfold {cert['name']} {word} ValidPairWord pairCount",
+            "    decide",
+            f"  · change totalLinearOfPairWord {word} ≠ matId",
+            f"    rw [{matrix_name}]",
+            "    intro h",
+            "    have hm00 := congrArg Mat3.m00 h",
+            "    norm_num [matId] at hm00",
+            f"  · simpa [{cert['name']}] using {cert['name']}_kernelCheck",
+            "  · intro f hf",
+            f"    cases f <;> simp [{cert['name']}, pairOfFace, pairPrefixLinearNat,",
+            "      canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,",
+            "      scalarMat, outer, matVec] at hf ⊢ <;> norm_num at hf ⊢",
+            "",
+        ])
+    for cert in certs:
+        lines.extend([
+            f"theorem {cert['name']}_coveredRank :",
+            f"    checkNonIdCoveredRank {cert['rank']} {cert['name']} = true := by",
+            "  decide",
+            "",
+            f"theorem {cert['name']}_familyFailure :",
+            "    checkNonIdFamilyFailureMatches",
+            f"      {nonid_family_failure_lean(family['failure_kind'])}",
+            f"      {cert['name']} = true := by",
+            "  rfl",
+            "",
+        ])
+    lines.extend([
+        "def sampleFamilyInterval : RankInterval where",
+        f"  startRank := {family['startRank']}",
+        f"  endRank := {family['endRank']}",
+        "",
+        "def sampleFamilyCert : NonIdFamilyCert where",
+        f"  name := \"{family['name']}\"",
+        f"  failure := {nonid_family_failure_lean(family['failure_kind'])}",
+        f"  coveredRanks := #[{covered_ranks}]",
+        f"  certs := #[{cert_names}]",
+        "",
+        "theorem sampleFamilyCert_check :",
+        "    checkNonIdFamilyCert sampleFamilyInterval sampleFamilyCert = true := by",
+        "  unfold checkNonIdFamilyCert sampleFamilyInterval sampleFamilyCert",
+        "  change",
+        "      (checkRankInterval { startRank := " + str(family["startRank"]) +
+          ", endRank := " + str(family["endRank"]) + " } &&",
+        "        checkNonIdFamilyEntries",
+        f"          {nonid_family_failure_lean(family['failure_kind'])}",
+        f"          {family['startRank']} {family['endRank']}",
+        f"          [{covered_rank_list}]",
+        f"          [{cert_names}]) = true",
+        "  simp [checkRankInterval, checkNonIdFamilyEntries,",
+        f"    {', '.join(covered_check_names + cert_check_names + family_match_names)}]",
+        "  norm_num [numPairWords]",
+        "",
+        "theorem sampleFamilyLeaf_check :",
+        "    checkNonIdCoverageLeaf sampleFamilyInterval",
+        "      (NonIdCoverageLeaf.family sampleFamilyCert) = true := by",
+        "  unfold checkNonIdCoverageLeaf checkNonIdCoverageLeafPayload",
+        "  change",
+        "      (checkRankInterval sampleFamilyInterval &&",
+        "        checkNonIdFamilyCert sampleFamilyInterval sampleFamilyCert) = true",
+        "  rw [sampleFamilyCert_check]",
+        "  simp [sampleFamilyInterval, checkRankInterval]",
+        "  norm_num [numPairWords]",
+        "",
+        "def sampleFamilyCoverage : NonIdCoverageTree :=",
+        "  NonIdCoverageTree.branch sampleFamilyInterval",
+        "    [NonIdCoverageTree.leaf sampleFamilyInterval",
+        "      (NonIdCoverageLeaf.family sampleFamilyCert)]",
+        "",
+        "theorem sampleFamilyCoverage_check :",
+        "    checkNonIdCoverageTree sampleFamilyCoverage = true := by",
+        "  unfold checkNonIdCoverageTree sampleFamilyCoverage coverageTreeFuel",
+        "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
+        "    sampleFamilyLeaf_check, checkRankInterval,",
+        "    NonIdCoverageTree.interval]",
+        "  norm_num [numPairWords, sampleFamilyInterval]",
+        "",
+        "theorem sampleFamilyCoverage_sound",
+        "    {r : Fin numPairWords}",
+        "    (hcontains : sampleFamilyCoverage.interval.ContainsPairRank r) :",
+        "    exists cert : NonIdCert,",
+        "      checkNonIdCoveredRank r.val cert = true /\\",
+        "        checkNonIdCert cert = true :=",
+        "  checkNonIdCoverageTree_sound sampleFamilyCoverage_check hcontains",
+        "",
+        "#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage",
+        "#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage_sound",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity",
+        "",
+    ])
+    NONIDENTITY_FAMILY_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_FAMILY_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_json(payload: dict) -> None:
     JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     JSON_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -1725,6 +1962,7 @@ def main() -> None:
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
             "coverage-tree-sample",
+            "nonidentity-family-sample",
         ],
         help="generation mode",
     )
@@ -1745,7 +1983,7 @@ def main() -> None:
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
-            "coverage-tree-sample"
+            "coverage-tree-sample/nonidentity-family-sample"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -1772,6 +2010,15 @@ def main() -> None:
         print("generated representative coverage tree sample")
         print(f"json: {COVERAGE_TREE_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {COVERAGE_TREE_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "nonidentity-family-sample":
+        payload = build_nonidentity_family_payload()
+        write_nonidentity_family_json(payload)
+        write_nonidentity_family_lean(payload)
+        write_all_generated()
+        print("generated representative nonidentity family sample")
+        print(f"json: {NONIDENTITY_FAMILY_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {NONIDENTITY_FAMILY_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "coverage-manifest":
         payload = build_coverage_payload()

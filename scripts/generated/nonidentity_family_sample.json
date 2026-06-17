@@ -1,0 +1,270 @@
+{
+  "families": [
+    {
+      "cert_names": [
+        "nonIdFamilyBadDirection000",
+        "nonIdFamilyBadDirection001",
+        "nonIdFamilyBadDirection002"
+      ],
+      "certs": [
+        {
+          "axis": [
+            "0",
+            "1",
+            "1"
+          ],
+          "failure": {
+            "index": 0,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-7/8",
+              "1",
+              "0"
+            ],
+            [
+              "-1/2",
+              "-7/8",
+              "0"
+            ],
+            [
+              "1/2",
+              "7/8",
+              "0"
+            ]
+          ],
+          "name": "nonIdFamilyBadDirection000",
+          "rank": 6,
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "dm11"
+          ]
+        },
+        {
+          "axis": [
+            "-1",
+            "6",
+            "1"
+          ],
+          "failure": {
+            "index": 8,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tppm",
+            "tmpp",
+            "tpmp",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-35/8",
+              "37/2",
+              "0"
+            ],
+            [
+              "-1",
+              "13/8",
+              "0"
+            ],
+            [
+              "13/8",
+              "35/4",
+              "0"
+            ]
+          ],
+          "name": "nonIdFamilyBadDirection001",
+          "rank": 7,
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d11m",
+            "dm11",
+            "d1m1",
+            "dm11"
+          ]
+        },
+        {
+          "axis": [
+            "0",
+            "1",
+            "1"
+          ],
+          "failure": {
+            "index": 0,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tppm",
+            "tmpp",
+            "tmpp",
+            "tpmp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-7/8",
+              "1",
+              "0"
+            ],
+            [
+              "-1/2",
+              "-7/8",
+              "0"
+            ],
+            [
+              "1/2",
+              "7/8",
+              "0"
+            ]
+          ],
+          "name": "nonIdFamilyBadDirection002",
+          "rank": 8,
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d11m",
+            "dm11",
+            "dm11",
+            "d1m1"
+          ]
+        }
+      ],
+      "coveredRanks": [
+        6,
+        7,
+        8
+      ],
+      "endRank": 9,
+      "failure_kind": "badDirectionSign",
+      "lean_name": "sampleFamilyCert",
+      "name": "sampleBadDirectionFamily",
+      "startRank": 6,
+      "tree_name": "sampleFamilyCoverage"
+    }
+  ],
+  "mode": "nonidentity-family-sample",
+  "pair_words": [
+    {
+      "rank": 6,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "d11m",
+        "d1m1",
+        "dm11",
+        "dm11"
+      ]
+    },
+    {
+      "rank": 7,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d1m1",
+        "dm11"
+      ]
+    },
+    {
+      "rank": 8,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "dm11",
+        "d1m1"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "coverage_kind": "contiguous-family-leaf",
+    "covered_ranks": 3,
+    "families": 1
+  }
+}

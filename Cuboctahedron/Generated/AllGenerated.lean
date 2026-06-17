@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
+import Cuboctahedron.Generated.NonIdentity.FamilySample
 import Cuboctahedron.Generated.Translation.Chunk0000
 import Cuboctahedron.Generated.CanonicalSample
 import Cuboctahedron.Generated.CoverageTreeSample
@@ -33,14 +34,16 @@ theorem translationChunk_sound :
 noncomputable def allGeneratedCoverageTreeCheck : Bool :=
   checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&
     checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&
-      checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&
-        checkTranslationCoverageTree CoverageTreeSample.translationTransportTree
+      checkNonIdCoverageTree NonIdentity.sampleFamilyCoverage &&
+        checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&
+          checkTranslationCoverageTree CoverageTreeSample.translationTransportTree
 
 theorem allGeneratedCoverageTreeCheck_true :
     allGeneratedCoverageTreeCheck = true := by
   unfold allGeneratedCoverageTreeCheck
   rw [CoverageTreeSample.nonIdRawTree_check,
     CoverageTreeSample.nonIdTransportTree_check,
+    NonIdentity.sampleFamilyCoverage_check,
     CoverageTreeSample.translationRawTree_check,
     CoverageTreeSample.translationTransportTree_check]
   rfl
