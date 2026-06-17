@@ -2909,6 +2909,11 @@ def main() -> None:
         action="store_true",
         help="include grouping-only reversal canonical counts in profile-exhaustive-states",
     )
+    parser.add_argument(
+        "--exact-state-groups",
+        action="store_true",
+        help="compute exact full-state group summaries in profile-exhaustive-states",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -2924,6 +2929,7 @@ def main() -> None:
             limit=args.profile_limit,
             with_symmetry=args.with_symmetry,
             with_reversal=args.with_reversal,
+            exact_state_groups=args.exact_state_groups,
         )
         exact_profile.write_profile_payload(payload, args.profile_output)
         exact_profile.print_profile_summary(payload)

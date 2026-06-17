@@ -1108,6 +1108,7 @@ def build_profile_payload_cpp(
     *,
     with_symmetry: bool = False,
     with_reversal: bool = False,
+    exact_state_groups: bool = False,
 ) -> dict:
     binary = ensure_cpp_profile_helper()
     cmd = [str(binary)]
@@ -1117,6 +1118,8 @@ def build_profile_payload_cpp(
         cmd.append("--with-symmetry")
     if with_reversal:
         cmd.append("--with-reversal")
+    if exact_state_groups:
+        cmd.append("--exact-state-groups")
     result = subprocess.run(
         cmd,
         cwd=REPO_ROOT,
@@ -1133,12 +1136,14 @@ def build_profile_payload(
     *,
     with_symmetry: bool = False,
     with_reversal: bool = False,
+    exact_state_groups: bool = False,
 ) -> dict:
     _ = progress_interval
     return build_profile_payload_cpp(
         limit=limit,
         with_symmetry=with_symmetry,
         with_reversal=with_reversal,
+        exact_state_groups=exact_state_groups,
     )
 
 
@@ -1183,8 +1188,20 @@ def print_profile_summary(payload: dict, *, prefix: str = "profiled exhaustive s
     print(f"identity linear words: {counts['identity_linear_words']:,}")
     print(f"nonidentity words: {counts['nonidentity_words']:,}")
     print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
-    print(f"nonidentity state groups: {len(payload['nonidentity_groups']):,}")
-    print(f"translation state groups: {len(payload['translation_groups']):,}")
+    print(f"nonidentity state groups: {estimates['nonidentity_state_groups']:,}")
+    print(f"translation state groups: {estimates['translation_state_groups']:,}")
+    exact_summary = estimates.get("exact_state_group_summary")
+    if isinstance(exact_summary, dict) and exact_summary.get("computed") is True:
+        nonid_exact = exact_summary["nonidentity"]
+        translation_exact = exact_summary["translation"]
+        if exact_summary.get("formula_exact") is True:
+            print("exact state group mode: formula")
+        print(f"exact nonidentity state groups: {nonid_exact['total_groups']:,}")
+        print(f"exact translation state groups: {translation_exact['total_groups']:,}")
+        if exact_summary.get("formula_exact") is True:
+            print("exact Farkas-needed groups: bounded-only in detailed runs")
+        else:
+            print(f"exact Farkas-needed groups: {translation_exact['needsFarkas']:,}")
     print(f"flat cert estimate: {estimates['flat_total_certs']:,}")
     print(f"prefix-tree leaf estimate: {estimates['prefix_tree_leaf_estimate']:,}")
     print(f"shared Farkas groups: {estimates['shared_farkas_groups']:,}")
@@ -1293,6 +1310,7 @@ def check_profile_payload(payload: dict) -> dict:
     require(isinstance(options, dict), "options object")
     with_symmetry = bool(options.get("with_symmetry", False))
     with_reversal = bool(options.get("with_reversal", False))
+    exact_state_groups = bool(options.get("exact_state_groups", False))
     if with_reversal:
         require(
             options.get("reversal_proof_transport_enabled") is False,
@@ -1330,6 +1348,42 @@ def check_profile_payload(payload: dict) -> dict:
     require(nonidentity_sum == counts["nonidentity_words"], "nonidentity group count sum")
     require(translation_sum == counts["translation_sign_assignments"], "translation group count sum")
     estimates = payload["size_estimates"]
+    exact_summary = estimates.get("exact_state_group_summary")
+    require(isinstance(exact_summary, dict), "exact state group summary object")
+    require(exact_summary.get("computed") is exact_state_groups, "exact state group computed flag")
+    if exact_state_groups:
+        nonid_summary = exact_summary.get("nonidentity")
+        translation_summary = exact_summary.get("translation")
+        require(isinstance(nonid_summary, dict), "nonidentity exact summary")
+        require(isinstance(translation_summary, dict), "translation exact summary")
+        formula_exact = exact_summary.get("formula_exact") is True
+        nonid_total = (
+            nonid_summary["noFixedAxis"]
+            + nonid_summary["badDirectionSign"]
+            + nonid_summary["badPairBalance"]
+            + nonid_summary["needsAxisSolveOrSimulation"]
+            + nonid_summary.get("pathSensitiveUnbucketed", 0)
+        )
+        translation_total = (
+            translation_summary["badTranslationVector"]
+            + translation_summary["badDirectionSign"]
+            + translation_summary["needsFarkas"]
+            + translation_summary.get("pathSensitiveUnbucketed", 0)
+        )
+        require(nonid_total == nonid_summary["total_groups"], "nonidentity exact summary sum")
+        require(translation_total == translation_summary["total_groups"], "translation exact summary sum")
+        require(estimates["nonidentity_state_groups"] == nonid_total, "nonidentity exact state group estimate")
+        require(estimates["translation_state_groups"] == translation_total, "translation exact state group estimate")
+        require(nonid_total > 0 or counts["nonidentity_words"] == 0, "nonidentity exact groups nonempty")
+        require(translation_total > 0 or counts["translation_sign_assignments"] == 0,
+                "translation exact groups nonempty")
+        if formula_exact:
+            require(nonid_summary.get("pathSensitiveUnbucketed") == counts["nonidentity_words"],
+                    "formula nonidentity path-sensitive count")
+            require(translation_summary.get("pathSensitiveUnbucketed") ==
+                    counts["translation_sign_assignments"],
+                    "formula translation path-sensitive count")
+            require(isinstance(exact_summary.get("formula_reason"), str), "formula reason")
     if with_symmetry:
         symmetry = estimates.get("symmetry_classes")
         require(isinstance(symmetry, dict), "symmetry class summary")
@@ -1409,10 +1463,16 @@ def check_profile_payload(payload: dict) -> dict:
             "flat translation")
     require(estimates["flat_total_certs"] == counts["nonidentity_words"] +
             counts["translation_sign_assignments"], "flat total")
-    require(estimates["nonidentity_state_groups"] == len(payload["nonidentity_groups"]),
-            "nonidentity group estimate")
-    require(estimates["translation_state_groups"] == len(payload["translation_groups"]),
-            "translation group estimate")
+    if not exact_state_groups:
+        require(estimates["nonidentity_state_groups"] == len(payload["nonidentity_groups"]),
+                "nonidentity group estimate")
+        require(estimates["translation_state_groups"] == len(payload["translation_groups"]),
+                "translation group estimate")
+    else:
+        require(estimates["nonidentity_state_groups"] >= len(payload["nonidentity_groups"]),
+                "nonidentity exact group estimate lower bound")
+        require(estimates["translation_state_groups"] >= len(payload["translation_groups"]),
+                "translation exact group estimate lower bound")
     return counts
 
 

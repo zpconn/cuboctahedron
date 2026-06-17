@@ -25,6 +25,7 @@
     }
   ],
   "options": {
+    "exact_state_groups": true,
     "reversal_proof_transport_enabled": false,
     "with_reversal": true,
     "with_symmetry": true
@@ -46,12 +47,32 @@
     },
     "compressed_nonidentity_linear_groups": 9840,
     "estimated_lean_bytes": 16336309248,
+    "exact_state_group_summary": {
+      "computed": true,
+      "formula_exact": true,
+      "formula_reason": "nonidentity keys include the prefix-count path; translation keys include the signed face sequence",
+      "nonidentity": {
+        "badDirectionSign": 0,
+        "badPairBalance": 0,
+        "needsAxisSolveOrSimulation": 0,
+        "noFixedAxis": 0,
+        "pathSensitiveUnbucketed": 94829112,
+        "total_groups": 94829112
+      },
+      "translation": {
+        "badDirectionSign": 0,
+        "badTranslationVector": 0,
+        "needsFarkas": 0,
+        "pathSensitiveUnbucketed": 157957632,
+        "total_groups": 157957632
+      }
+    },
     "flat_nonidentity_certs": 94829112,
     "flat_total_certs": 252786744,
     "flat_translation_certs": 157957632,
-    "nonidentity_state_groups": 1,
+    "nonidentity_state_groups": 94829112,
     "note": "Compiled exact profiler stores state-family groups and bounded samples; no Lean proof data is emitted.",
-    "prefix_tree_leaf_estimate": 2,
+    "prefix_tree_leaf_estimate": 252786744,
     "reversal_classes": {
       "exact": true,
       "fixed_pair_word_classes": 720,
@@ -70,7 +91,7 @@
       "source": "scripts/generated/canonical_orbit_coverage.json",
       "translation_choice_classes": 19744704
     },
-    "translation_state_groups": 1
+    "translation_state_groups": 157957632
   },
   "translation_groups": [
     {

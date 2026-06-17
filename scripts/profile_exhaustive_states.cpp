@@ -517,8 +517,12 @@ struct Profiler {
     long long rank = 0;
     bool with_symmetry = false;
     bool with_reversal = false;
+    bool exact_state_groups = false;
+    bool exact_state_groups_formula = false;
     array<Group, 4> nonid_groups{};
     array<Group, 3> translation_groups{};
+    array<unordered_set<string>, 4> nonid_state_keys{};
+    array<unordered_set<string>, 3> translation_state_keys{};
     unordered_set<uint64_t> farkas_hashes;
     unordered_map<string, AxisInfo> axis_cache;
     vector<Sample> top_samples;
@@ -587,6 +591,18 @@ struct Profiler {
         return dot(mat_vec(pref[13], normal_pair(0)), axis);
     }
 
+    string sign_pattern_key(const Vec &axis) {
+        string out;
+        out.reserve(13);
+        for (int i = 0; i < 13; ++i) {
+            Q d = dot(mat_vec(pref[i], normal_pair(word[i])), axis);
+            if (d > Q(0)) out.push_back('+');
+            else if (d < Q(0)) out.push_back('-');
+            else out.push_back('0');
+        }
+        return out;
+    }
+
     int first_axis_zero(const Vec &axis) {
         for (int i = 0; i < 13; ++i) {
             Q d = dot(mat_vec(pref[i], normal_pair(word[i])), axis);
@@ -625,6 +641,7 @@ struct Profiler {
         }
         if (!it->second.has_axis) {
             ++nonid_groups[0].count;
+            nonid_state_keys[0].insert("failure=noFixedAxis;linear=" + key);
             add_sample(nonid_groups[0]);
             return;
         }
@@ -636,16 +653,30 @@ struct Profiler {
         }
         if (fdot == Q(0) || first_axis_zero(axis) >= 0) {
             ++nonid_groups[1].count;
+            nonid_state_keys[1].insert(
+                "failure=badDirectionSign;linear=" + key +
+                ";axis=" + vec_key(axis) +
+                ";forcedSigns=" + sign_pattern_key(axis));
             add_sample(nonid_groups[1]);
             return;
         }
         auto seq = forced_seq(axis);
         if (!seq_omni(seq)) {
             ++nonid_groups[2].count;
+            nonid_state_keys[2].insert(
+                "failure=badPairBalance;linear=" + key +
+                ";axis=" + vec_key(axis) +
+                ";forcedSigns=" + sign_pattern_key(axis) +
+                ";forcedSeq=" + seq_json(seq));
             add_sample(nonid_groups[2], -1, &seq);
             return;
         }
         ++nonid_groups[3].count;
+        nonid_state_keys[3].insert(
+            "failure=needsAxisSolveOrSimulation;linear=" + key +
+            ";axis=" + vec_key(axis) +
+            ";forcedSigns=" + sign_pattern_key(axis) +
+            ";forcedSeq=" + seq_json(seq));
         add_sample(nonid_groups[3], -1, &seq);
     }
 
@@ -712,6 +743,9 @@ struct Profiler {
             Vec b = translation_vector(mask, seq);
             if (vec_eq(b, vec_zero())) {
                 ++translation_groups[0].count;
+                translation_state_keys[0].insert(
+                    "failure=badTranslationVector;b=" + vec_key(b) +
+                    ";seq=" + seq_json(seq));
                 add_sample(translation_groups[0], mask, &seq);
                 continue;
             }
@@ -733,12 +767,17 @@ struct Profiler {
             }
             if (bad) {
                 ++translation_groups[1].count;
+                translation_state_keys[1].insert(
+                    "failure=badDirectionSign;b=" + vec_key(b) +
+                    ";seq=" + seq_json(seq) +
+                    ";denominatorSigns=" + denom_pattern);
                 add_sample(translation_groups[1], mask, &seq);
                 continue;
             }
             ++translation_groups[2].count;
             add_sample(translation_groups[2], mask, &seq);
             string key = vec_key(b) + "|" + denom_pattern + "|" + seq_json(seq);
+            translation_state_keys[2].insert("failure=needsFarkas;" + key);
             farkas_hashes.insert(fnv1a(key));
         }
     }
@@ -1060,6 +1099,14 @@ struct Profiler {
         for (const auto &g : nonid_groups) if (g.count > 0) ++nonid_group_count;
         long long trans_group_count = 0;
         for (const auto &g : translation_groups) if (g.count > 0) ++trans_group_count;
+        long long exact_nonid_group_count = 0;
+        long long exact_translation_group_count = 0;
+        for (const auto &s : nonid_state_keys) exact_nonid_group_count += static_cast<long long>(s.size());
+        for (const auto &s : translation_state_keys) exact_translation_group_count += static_cast<long long>(s.size());
+        if (exact_state_groups_formula) {
+            exact_nonid_group_count = nonidentity;
+            exact_translation_group_count = translation_assignments;
+        }
         ostringstream out;
         out << "{";
         out << "\"schema_version\":1,";
@@ -1068,6 +1115,7 @@ struct Profiler {
         out << "\"options\":{";
         out << "\"with_symmetry\":" << (with_symmetry ? "true" : "false") << ",";
         out << "\"with_reversal\":" << (with_reversal ? "true" : "false") << ",";
+        out << "\"exact_state_groups\":" << (exact_state_groups ? "true" : "false") << ",";
         out << "\"reversal_proof_transport_enabled\":false},";
         out << "\"complete\":" << (complete ? "true" : "false") << ",";
         if (complete) out << "\"profile_limit\":null,";
@@ -1103,9 +1151,30 @@ struct Profiler {
         out << "\"flat_nonidentity_certs\":" << nonidentity << ",";
         out << "\"flat_translation_certs\":" << translation_assignments << ",";
         out << "\"flat_total_certs\":" << flat_total << ",";
-        out << "\"prefix_tree_leaf_estimate\":" << (nonid_group_count + trans_group_count) << ",";
-        out << "\"nonidentity_state_groups\":" << nonid_group_count << ",";
-        out << "\"translation_state_groups\":" << trans_group_count << ",";
+        out << "\"prefix_tree_leaf_estimate\":"
+            << (exact_state_groups ? (exact_nonid_group_count + exact_translation_group_count)
+                                   : (nonid_group_count + trans_group_count)) << ",";
+        out << "\"nonidentity_state_groups\":" << (exact_state_groups ? exact_nonid_group_count : nonid_group_count) << ",";
+        out << "\"translation_state_groups\":" << (exact_state_groups ? exact_translation_group_count : trans_group_count) << ",";
+        out << "\"exact_state_group_summary\":{";
+        out << "\"computed\":" << (exact_state_groups ? "true" : "false") << ",";
+        out << "\"formula_exact\":" << (exact_state_groups_formula ? "true" : "false") << ",";
+        if (exact_state_groups_formula) {
+            out << "\"formula_reason\":\"nonidentity keys include the prefix-count path; translation keys include the signed face sequence\",";
+        }
+        out << "\"nonidentity\":{";
+        out << "\"total_groups\":" << exact_nonid_group_count << ",";
+        out << "\"noFixedAxis\":" << nonid_state_keys[0].size() << ",";
+        out << "\"badDirectionSign\":" << nonid_state_keys[1].size() << ",";
+        out << "\"badPairBalance\":" << nonid_state_keys[2].size() << ",";
+        out << "\"needsAxisSolveOrSimulation\":" << nonid_state_keys[3].size() << ",";
+        out << "\"pathSensitiveUnbucketed\":" << (exact_state_groups_formula ? nonidentity : 0) << "},";
+        out << "\"translation\":{";
+        out << "\"total_groups\":" << exact_translation_group_count << ",";
+        out << "\"badTranslationVector\":" << translation_state_keys[0].size() << ",";
+        out << "\"badDirectionSign\":" << translation_state_keys[1].size() << ",";
+        out << "\"needsFarkas\":" << translation_state_keys[2].size() << ",";
+        out << "\"pathSensitiveUnbucketed\":" << (exact_state_groups_formula ? translation_assignments : 0) << "}},";
         out << "\"shared_farkas_groups\":" << farkas_hashes.size() << ",";
         out << "\"compressed_nonidentity_linear_groups\":" << compressed_nonidentity_linear_groups << ",";
         if (with_symmetry && complete) {
@@ -1220,6 +1289,7 @@ int main(int argc, char **argv) {
     cin.tie(nullptr);
     Profiler profiler;
     bool force_compressed = false;
+    bool force_exact_state_groups = false;
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
         if (arg == "--limit") {
@@ -1227,6 +1297,8 @@ int main(int argc, char **argv) {
             profiler.limit = stoll(argv[++i]);
         } else if (arg == "--compressed-full") {
             force_compressed = true;
+        } else if (arg == "--exact-state-groups") {
+            force_exact_state_groups = true;
         } else if (arg == "--with-symmetry") {
             profiler.with_symmetry = true;
         } else if (arg == "--with-reversal") {
@@ -1240,7 +1312,12 @@ int main(int argc, char **argv) {
     }
     if (force_compressed || profiler.limit < 0) {
         profiler.profile_compressed_full();
+        if (force_exact_state_groups) {
+            profiler.exact_state_groups = true;
+            profiler.exact_state_groups_formula = true;
+        }
     } else {
+        profiler.exact_state_groups = true;
         profiler.rec(0);
     }
     cout << profiler.payload_json() << "\n";

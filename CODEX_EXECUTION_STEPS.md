@@ -1050,8 +1050,8 @@ scripts/check_certificates_independently.py
 Add non-proof modes:
 
 ```bash
-python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states --with-symmetry --with-reversal
-python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states --with-symmetry --with-reversal
+python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states --with-symmetry --with-reversal --exact-state-groups
+python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states --with-symmetry --with-reversal --exact-state-groups
 ```
 
 Requirements:
@@ -1071,6 +1071,10 @@ Requirements:
   failure category.
 - For identity words, group all 64 masks by translation vector, sequence,
   denominator-sign pattern, and normalized strict linear constraint system.
+- For the full compiled profile, exact path-sensitive group totals may be
+  reported by formula when the group key includes data, such as prefix-count
+  paths or signed face sequences, that is injective on raw cases. Bounded runs
+  must still materialize and check detailed exact buckets.
 - Normalize translation constraint systems by clearing denominators, dividing
   by positive rational content, sorting duplicate positive-scalar inequalities,
   and retaining exact maps back to original constraint indices.
@@ -1088,8 +1092,8 @@ Requirements:
 Done when:
 
 ```bash
-python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states --with-symmetry --with-reversal
-python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states --with-symmetry --with-reversal
+python3 scripts/generate_exact_certificates.py --mode profile-exhaustive-states --with-symmetry --with-reversal --exact-state-groups
+python3 scripts/check_certificates_independently.py --mode profile-exhaustive-states --with-symmetry --with-reversal --exact-state-groups
 ```
 
 pass and report the known sanity counts:

@@ -1290,6 +1290,11 @@ def main():
         action="store_true",
         help="require grouping-only reversal summaries in profile-exhaustive-states",
     )
+    parser.add_argument(
+        "--exact-state-groups",
+        action="store_true",
+        help="require exact state-group summaries in profile-exhaustive-states",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -1306,6 +1311,9 @@ def main():
             require(options.get("with_symmetry") is True, "profile was not generated with --with-symmetry")
         if args.with_reversal:
             require(options.get("with_reversal") is True, "profile was not generated with --with-reversal")
+        if args.exact_state_groups:
+            require(options.get("exact_state_groups") is True,
+                    "profile was not generated with --exact-state-groups")
         counts = exact_profile.check_profile_payload(payload)
         exact_profile.print_profile_summary(payload, prefix="independent profile check passed")
         if payload.get("complete", False):
