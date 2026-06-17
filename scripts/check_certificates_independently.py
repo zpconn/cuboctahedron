@@ -22,6 +22,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
+COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_sample.json"
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -942,6 +943,71 @@ def check_canonical_file(payload):
     return payload["summary"]
 
 
+def check_coverage_tree_file(payload):
+    require(payload.get("schema_version") == 1, "coverage tree schema version")
+    require(payload.get("mode") == "coverage-tree-sample", "coverage tree mode")
+
+    canonical_payload = json.loads(CANONICAL_JSON_PATH.read_text(encoding="utf-8"))
+    canonical_summary = check_canonical_file(canonical_payload)
+    raw_nonid = canonical_payload["nonidentity"]["raw"]
+    raw_translation = canonical_payload["translation"]["raw"]
+
+    nonid_trees = payload["nonidentity_trees"]
+    require(len(nonid_trees) == 2, "coverage tree nonidentity count")
+    require(nonid_trees[0] == {
+        "name": "nonIdRawTree",
+        "rank": 1,
+        "leaf": "raw",
+        "cert": "SmallSample.nonIdBadDirection000",
+    }, "coverage tree raw nonidentity leaf")
+    require(0 <= nonid_trees[0]["rank"] < EXPECTED_PAIR_WORDS,
+            "coverage tree raw nonidentity rank bounds")
+    require(nonid_trees[1] == {
+        "name": "nonIdTransportTree",
+        "rank": raw_nonid["rank"],
+        "leaf": "transported",
+        "transport": "CanonicalSample.nonidentityTransport",
+        "raw_cert": f"CanonicalSample.{raw_nonid['name']}",
+    }, "coverage tree transported nonidentity leaf")
+    require(0 <= nonid_trees[1]["rank"] < EXPECTED_PAIR_WORDS,
+            "coverage tree transported nonidentity rank bounds")
+
+    translation_trees = payload["translation_trees"]
+    require(len(translation_trees) == 2, "coverage tree translation count")
+    require(translation_trees[0] == {
+        "name": "translationRawTree",
+        "rank": 0,
+        "mask": 0,
+        "leaf": "raw",
+        "cert": "SmallSample.translationBadDirection000",
+    }, "coverage tree raw translation leaf")
+    require(0 <= translation_trees[0]["rank"] < EXPECTED_PAIR_WORDS,
+            "coverage tree raw translation rank bounds")
+    require(0 <= translation_trees[0]["mask"] < 64,
+            "coverage tree raw translation mask bounds")
+    require(translation_trees[1] == {
+        "name": "translationTransportTree",
+        "rank": raw_translation["rank"],
+        "mask": raw_translation["mask"],
+        "leaf": "transported",
+        "transport": "CanonicalSample.translationTransport",
+        "raw_cert": f"CanonicalSample.{raw_translation['name']}",
+    }, "coverage tree transported translation leaf")
+    require(0 <= translation_trees[1]["rank"] < EXPECTED_PAIR_WORDS,
+            "coverage tree transported translation rank bounds")
+    require(0 <= translation_trees[1]["mask"] < 64,
+            "coverage tree transported translation mask bounds")
+
+    return {
+        "nonidentity_trees": len(nonid_trees),
+        "translation_trees": len(translation_trees),
+        "canonical_pair_words": canonical_summary["canonical_pair_words"],
+        "transported_nonidentity_rank": raw_nonid["rank"],
+        "transported_translation_rank": raw_translation["rank"],
+        "transported_translation_mask": raw_translation["mask"],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -952,6 +1018,7 @@ def main():
             "coverage-manifest",
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
+            "coverage-tree-sample",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
         ],
@@ -975,7 +1042,8 @@ def main():
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
-            "canonical-orbit-coverage/canonical-orbit-coverage-manifest"
+            "coverage-tree-sample/canonical-orbit-coverage/"
+            "canonical-orbit-coverage-manifest"
         )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
@@ -993,6 +1061,22 @@ def main():
         print(f"canonical pair words: {summary['canonical_pair_words']}")
         print(f"nonidentity transport cases: {summary['nonidentity_transport_cases']}")
         print(f"translation transport cases: {summary['translation_transport_cases']}")
+        return
+    if mode == "coverage-tree-sample":
+        payload = json.loads(COVERAGE_TREE_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_coverage_tree_file(payload)
+        print("independent coverage tree sample check passed")
+        print(f"nonidentity trees: {summary['nonidentity_trees']}")
+        print(f"translation trees: {summary['translation_trees']}")
+        print(
+            "transported nonidentity rank: "
+            f"{summary['transported_nonidentity_rank']}"
+        )
+        print(
+            "transported translation case: "
+            f"{summary['transported_translation_rank']}/"
+            f"{summary['transported_translation_mask']}"
+        )
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

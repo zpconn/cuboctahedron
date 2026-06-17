@@ -22,8 +22,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
+COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_sample.json"
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
+COVERAGE_TREE_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageTreeSample.lean"
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
 )
@@ -1243,6 +1245,7 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.CanonicalSample",
+        "import Cuboctahedron.Generated.CoverageTreeSample",
         "",
         "/-!",
         "Aggregate import for generated Step 14C/14E real-certificate sample chunks.",
@@ -1270,6 +1273,21 @@ def write_all_generated() -> None:
         "      Translation.Chunk0000.chunk.coveredCases.toList",
         "      Translation.Chunk0000.chunk.certs.toList :=",
         "  checkGeneratedTranslationCertChunk_sound Translation.Chunk0000.certs_check",
+        "",
+        "noncomputable def allGeneratedCoverageTreeCheck : Bool :=",
+        "  checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&",
+        "    checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&",
+        "      checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&",
+        "        checkTranslationCoverageTree CoverageTreeSample.translationTransportTree",
+        "",
+        "theorem allGeneratedCoverageTreeCheck_true :",
+        "    allGeneratedCoverageTreeCheck = true := by",
+        "  unfold allGeneratedCoverageTreeCheck",
+        "  rw [CoverageTreeSample.nonIdRawTree_check,",
+        "    CoverageTreeSample.nonIdTransportTree_check,",
+        "    CoverageTreeSample.translationRawTree_check,",
+        "    CoverageTreeSample.translationTransportTree_check]",
+        "  rfl",
         "",
         "end Cuboctahedron.Generated",
         "",
@@ -1440,6 +1458,236 @@ def write_canonical_lean(payload: dict) -> None:
     CANONICAL_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def build_coverage_tree_payload() -> dict:
+    canonical = build_canonical_payload()
+    raw_nonid = canonical["nonidentity"]["raw"]
+    raw_translation = canonical["translation"]["raw"]
+    return {
+        "schema_version": 1,
+        "mode": "coverage-tree-sample",
+        "nonidentity_trees": [
+            {
+                "name": "nonIdRawTree",
+                "rank": 1,
+                "leaf": "raw",
+                "cert": "SmallSample.nonIdBadDirection000",
+            },
+            {
+                "name": "nonIdTransportTree",
+                "rank": raw_nonid["rank"],
+                "leaf": "transported",
+                "transport": "CanonicalSample.nonidentityTransport",
+                "raw_cert": f"CanonicalSample.{raw_nonid['name']}",
+            },
+        ],
+        "translation_trees": [
+            {
+                "name": "translationRawTree",
+                "rank": 0,
+                "mask": 0,
+                "leaf": "raw",
+                "cert": "SmallSample.translationBadDirection000",
+            },
+            {
+                "name": "translationTransportTree",
+                "rank": raw_translation["rank"],
+                "mask": raw_translation["mask"],
+                "leaf": "transported",
+                "transport": "CanonicalSample.translationTransport",
+                "raw_cert": f"CanonicalSample.{raw_translation['name']}",
+            },
+        ],
+    }
+
+
+def write_coverage_tree_json(payload: dict) -> None:
+    COVERAGE_TREE_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    COVERAGE_TREE_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_coverage_tree_lean(payload: dict) -> None:
+    raw_nonid_rank = payload["nonidentity_trees"][0]["rank"]
+    transported_nonid_rank = payload["nonidentity_trees"][1]["rank"]
+    raw_translation = payload["translation_trees"][0]
+    transported_translation = payload["translation_trees"][1]
+    lines = [
+        "import Cuboctahedron.Generated.CanonicalSample",
+        "",
+        "/-!",
+        "Generated representative prefix-state coverage trees for Step 14E.3.",
+        "",
+        "These small trees exercise both direct real-certificate leaves and",
+        "canonical-transport leaves.  They are intentionally representative data, not",
+        "the exhaustive search tree.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.CoverageTreeSample",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "",
+        "def rankInterval (rank : Nat) : RankInterval where",
+        "  startRank := rank",
+        "  endRank := rank + 1",
+        "",
+        "def caseBox (rank mask : Nat) : TranslationCaseBox where",
+        "  startRank := rank",
+        "  endRank := rank + 1",
+        "  startMask := mask",
+        "  endMask := mask + 1",
+        "",
+        "theorem nonIdRawCoveredRank :",
+        f"    checkNonIdCoveredRank {raw_nonid_rank}",
+        "      Cuboctahedron.Generated.SmallSample.nonIdBadDirection000 = true := by",
+        "  decide",
+        "",
+        "theorem nonIdTransportCoveredRank :",
+        f"    checkNonIdCoveredRank {transported_nonid_rank}",
+        "      Cuboctahedron.Generated.CanonicalSample.nonidentityTransport.raw = true := by",
+        "  decide",
+        "",
+        "def nonIdRawTree : NonIdCoverageTree :=",
+        f"  NonIdCoverageTree.branch (rankInterval {raw_nonid_rank})",
+        f"    [NonIdCoverageTree.leaf (rankInterval {raw_nonid_rank})",
+        "      (NonIdCoverageLeaf.raw",
+        "        Cuboctahedron.Generated.SmallSample.nonIdBadDirection000)]",
+        "",
+        "def nonIdTransportTree : NonIdCoverageTree :=",
+        f"  NonIdCoverageTree.branch (rankInterval {transported_nonid_rank})",
+        f"    [NonIdCoverageTree.leaf (rankInterval {transported_nonid_rank})",
+        "      (NonIdCoverageLeaf.transported",
+        "        Cuboctahedron.Generated.CanonicalSample.nonidentityTransport)]",
+        "",
+        "theorem nonIdRawTree_check :",
+        "    checkNonIdCoverageTree nonIdRawTree = true := by",
+        "  unfold checkNonIdCoverageTree checkNonIdCoverageTreeFuel nonIdRawTree",
+        "    coverageTreeFuel rankInterval",
+        "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
+        "    checkNonIdCoverageLeaf,",
+        "    checkNonIdCoverageLeafPayload, checkRankInterval,",
+        "    nonIdRawCoveredRank,",
+        "    Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check]",
+        "  norm_num [numPairWords, NonIdCoverageTree.interval]",
+        "",
+        "theorem nonIdTransportTree_check :",
+        "    checkNonIdCoverageTree nonIdTransportTree = true := by",
+        "  unfold checkNonIdCoverageTree checkNonIdCoverageTreeFuel",
+        "    nonIdTransportTree coverageTreeFuel rankInterval",
+        "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
+        "    checkNonIdCoverageLeaf,",
+        "    checkNonIdCoverageLeafPayload, checkRankInterval,",
+        "    nonIdTransportCoveredRank,",
+        "    Cuboctahedron.Generated.CanonicalSample.nonidentity_transport_check]",
+        "  norm_num [numPairWords, NonIdCoverageTree.interval]",
+        "",
+        "theorem nonIdRawTree_sound :",
+        "    exists cert : NonIdCert,",
+        f"      checkNonIdCoveredRank {raw_nonid_rank} cert = true /\\ checkNonIdCert cert = true :=",
+        "  checkNonIdCoverageTree_sound nonIdRawTree_check",
+        f"    (r := ⟨{raw_nonid_rank}, by decide⟩) (by",
+        "      simp [NonIdCoverageTree.interval, RankInterval.ContainsPairRank,",
+        "        nonIdRawTree, rankInterval])",
+        "",
+        "theorem nonIdTransportTree_sound :",
+        "    exists cert : NonIdCert,",
+        f"      checkNonIdCoveredRank {transported_nonid_rank} cert = true /\\ checkNonIdCert cert = true :=",
+        "  checkNonIdCoverageTree_sound nonIdTransportTree_check",
+        f"    (r := ⟨{transported_nonid_rank}, by decide⟩) (by",
+        "      simp [NonIdCoverageTree.interval, RankInterval.ContainsPairRank,",
+        "        nonIdTransportTree, rankInterval])",
+        "",
+        "def translationRawCase : GeneratedTranslationCase where",
+        f"  pairRank := {raw_translation['rank']}",
+        f"  signMask := {raw_translation['mask']}",
+        "",
+        "def translationTransportCase : GeneratedTranslationCase where",
+        f"  pairRank := {transported_translation['rank']}",
+        f"  signMask := {transported_translation['mask']}",
+        "",
+        "theorem translationRawCoveredCase :",
+        f"    checkTranslationCoveredCase {{ pairRank := {raw_translation['rank']}, signMask := {raw_translation['mask']} }}",
+        "      Cuboctahedron.Generated.SmallSample.translationBadDirection000 = true := by",
+        "  decide",
+        "",
+        "theorem translationTransportCoveredCase :",
+        f"    checkTranslationCoveredCase {{ pairRank := {transported_translation['rank']}, signMask := {transported_translation['mask']} }}",
+        "      Cuboctahedron.Generated.CanonicalSample.translationTransport.raw = true := by",
+        "  decide",
+        "",
+        "def translationRawTree : TranslationCoverageTree :=",
+        f"  TranslationCoverageTree.rankBranch (caseBox {raw_translation['rank']} {raw_translation['mask']})",
+        f"    [TranslationCoverageTree.maskBranch (caseBox {raw_translation['rank']} {raw_translation['mask']})",
+        f"      [TranslationCoverageTree.leaf (caseBox {raw_translation['rank']} {raw_translation['mask']})",
+        "        (TranslationCoverageLeaf.raw",
+        "          Cuboctahedron.Generated.SmallSample.translationBadDirection000)]]",
+        "",
+        "def translationTransportTree : TranslationCoverageTree :=",
+        f"  TranslationCoverageTree.rankBranch (caseBox {transported_translation['rank']} {transported_translation['mask']})",
+        f"    [TranslationCoverageTree.maskBranch (caseBox {transported_translation['rank']} {transported_translation['mask']})",
+        f"      [TranslationCoverageTree.leaf (caseBox {transported_translation['rank']} {transported_translation['mask']})",
+        "        (TranslationCoverageLeaf.transported",
+        "          Cuboctahedron.Generated.CanonicalSample.translationTransport)]]",
+        "",
+        "theorem translationRawTree_check :",
+        "    checkTranslationCoverageTree translationRawTree = true := by",
+        "  unfold checkTranslationCoverageTree checkTranslationCoverageTreeFuel",
+        "    translationRawTree coverageTreeFuel caseBox",
+        "  simp [checkTranslationCoverageTreeFuel,",
+        "    checkTranslationRankChildrenWith, checkTranslationMaskChildrenWith,",
+        "    checkTranslationCoverageLeaf, checkTranslationCoverageLeafPayload,",
+        "    checkTranslationCaseBox, translationRawCase,",
+        "    translationRawCoveredCase,",
+        "    Cuboctahedron.Generated.SmallSample.translationBadDirection000_check]",
+        "  norm_num [numPairWords, numSignMasks, TranslationCoverageTree.box]",
+        "",
+        "theorem translationTransportTree_check :",
+        "    checkTranslationCoverageTree translationTransportTree = true := by",
+        "  unfold checkTranslationCoverageTree checkTranslationCoverageTreeFuel",
+        "    translationTransportTree coverageTreeFuel caseBox",
+        "  simp [checkTranslationCoverageTreeFuel,",
+        "    checkTranslationRankChildrenWith, checkTranslationMaskChildrenWith,",
+        "    checkTranslationCoverageLeaf, checkTranslationCoverageLeafPayload,",
+        "    checkTranslationCaseBox, translationTransportCase,",
+        "    translationTransportCoveredCase,",
+        "    Cuboctahedron.Generated.CanonicalSample.translation_transport_check]",
+        "  norm_num [numPairWords, numSignMasks, TranslationCoverageTree.box]",
+        "",
+        "theorem translationRawTree_sound :",
+        "    exists cert : TranslationCert,",
+        "      checkTranslationCoveredCase",
+        f"          {{ pairRank := {raw_translation['rank']}, signMask := {raw_translation['mask']} }} cert = true /\\",
+        "        checkTranslationCert cert = true :=",
+        "  checkTranslationCoverageTree_sound translationRawTree_check",
+        f"    (r := ⟨{raw_translation['rank']}, by decide⟩) (mask := ⟨{raw_translation['mask']}, by decide⟩) (by",
+        "      simp [TranslationCoverageTree.box, TranslationCaseBox.Contains,",
+        "        translationRawTree, caseBox])",
+        "",
+        "theorem translationTransportTree_sound :",
+        "    exists cert : TranslationCert,",
+        "      checkTranslationCoveredCase",
+        f"          {{ pairRank := {transported_translation['rank']}, signMask := {transported_translation['mask']} }} cert = true /\\",
+        "        checkTranslationCert cert = true :=",
+        "  checkTranslationCoverageTree_sound translationTransportTree_check",
+        f"    (r := ⟨{transported_translation['rank']}, by decide⟩) (mask := ⟨{transported_translation['mask']}, by decide⟩) (by",
+        "      simp [TranslationCoverageTree.box, TranslationCaseBox.Contains,",
+        "        translationTransportTree, caseBox])",
+        "",
+        "#check checkNonIdCoverageTree_sound",
+        "#check checkTranslationCoverageTree_sound",
+        "#check nonIdTransportTree_sound",
+        "#check translationTransportTree_sound",
+        "",
+        "end Cuboctahedron.Generated.CoverageTreeSample",
+        "",
+    ]
+    COVERAGE_TREE_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    COVERAGE_TREE_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_json(payload: dict) -> None:
     JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     JSON_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -1476,6 +1724,7 @@ def main() -> None:
             "coverage-manifest",
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
+            "coverage-tree-sample",
         ],
         help="generation mode",
     )
@@ -1495,7 +1744,8 @@ def main() -> None:
     if mode is None:
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
-            "profile-exhaustive-states/canonical-symmetry-sample"
+            "profile-exhaustive-states/canonical-symmetry-sample/"
+            "coverage-tree-sample"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -1513,6 +1763,15 @@ def main() -> None:
         print("generated canonical symmetry sample")
         print(f"json: {CANONICAL_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {CANONICAL_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "coverage-tree-sample":
+        payload = build_coverage_tree_payload()
+        write_coverage_tree_json(payload)
+        write_coverage_tree_lean(payload)
+        write_all_generated()
+        print("generated representative coverage tree sample")
+        print(f"json: {COVERAGE_TREE_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {COVERAGE_TREE_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "coverage-manifest":
         payload = build_coverage_payload()

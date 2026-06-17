@@ -1637,6 +1637,493 @@ theorem checkGeneratedTranslationCertChunk_sound
       chunk.coveredCases.toList chunk.certs.toList := by
   exact checkTranslationCoveredCaseList_sound hcheck
 
+structure RankInterval where
+  startRank : Nat
+  endRank : Nat
+deriving DecidableEq, Repr
+
+def RankInterval.ContainsPairRank
+    (interval : RankInterval) (r : Fin numPairWords) : Prop :=
+  interval.startRank <= r.val /\ r.val < interval.endRank
+
+def checkRankInterval (interval : RankInterval) : Bool :=
+  decide (interval.startRank < interval.endRank) &&
+    decide (interval.endRank <= numPairWords)
+
+structure TranslationCaseBox where
+  startRank : Nat
+  endRank : Nat
+  startMask : Nat
+  endMask : Nat
+deriving DecidableEq, Repr
+
+def TranslationCaseBox.Contains
+    (box : TranslationCaseBox) (r : Fin numPairWords)
+    (mask : SignMask) : Prop :=
+  box.startRank <= r.val /\ r.val < box.endRank /\
+    box.startMask <= mask.val /\ mask.val < box.endMask
+
+def checkTranslationCaseBox (box : TranslationCaseBox) : Bool :=
+  decide (box.startRank < box.endRank) &&
+    (decide (box.endRank <= numPairWords) &&
+      (decide (box.startMask < box.endMask) &&
+        decide (box.endMask <= numSignMasks)))
+
+inductive NonIdCoverageLeaf
+  | raw (cert : NonIdCert)
+  | transported (transport : CanonicalNonIdTransport)
+deriving DecidableEq, Repr
+
+def NonIdCoverageLeaf.cert : NonIdCoverageLeaf -> NonIdCert
+  | NonIdCoverageLeaf.raw cert => cert
+  | NonIdCoverageLeaf.transported transport => transport.raw
+
+noncomputable def checkNonIdCoverageLeafPayload
+    (interval : RankInterval) : NonIdCoverageLeaf -> Bool
+  | NonIdCoverageLeaf.raw cert =>
+      checkNonIdCoveredRank interval.startRank cert &&
+        checkNonIdCert cert
+  | NonIdCoverageLeaf.transported transport =>
+      checkNonIdCoveredRank interval.startRank transport.raw &&
+        checkCanonicalNonIdTransport transport
+
+noncomputable def checkNonIdCoverageLeaf
+    (interval : RankInterval) (leaf : NonIdCoverageLeaf) : Bool :=
+  checkRankInterval interval &&
+    (decide (interval.endRank = interval.startRank + 1) &&
+      checkNonIdCoverageLeafPayload interval leaf)
+
+theorem checkNonIdCoverageLeaf_sound
+    {interval : RankInterval} {leaf : NonIdCoverageLeaf}
+    (hcheck : checkNonIdCoverageLeaf interval leaf = true)
+    {r : Fin numPairWords}
+    (hcontains : interval.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  have hparts :
+      checkRankInterval interval = true /\
+        interval.endRank = interval.startRank + 1 /\
+          checkNonIdCoverageLeafPayload interval leaf = true := by
+    simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true,
+      decide_eq_true_eq] using hcheck
+  rcases hparts with ⟨_hInterval, hSingleton, hPayload⟩
+  have hr : r.val = interval.startRank := by
+    unfold RankInterval.ContainsPairRank at hcontains
+    omega
+  cases leaf with
+  | raw cert =>
+      change
+        (checkNonIdCoveredRank interval.startRank cert &&
+          checkNonIdCert cert) = true at hPayload
+      cases hRank : checkNonIdCoveredRank interval.startRank cert
+      · simp [hRank] at hPayload
+      · simp [hRank] at hPayload
+        exact ⟨cert, by simpa [hr] using hRank, hPayload⟩
+  | transported transport =>
+      change
+        (checkNonIdCoveredRank interval.startRank transport.raw &&
+          checkCanonicalNonIdTransport transport) = true at hPayload
+      cases hRank : checkNonIdCoveredRank interval.startRank transport.raw
+      · simp [hRank] at hPayload
+      · simp [hRank] at hPayload
+        have hCert :=
+          canonical_nonidentity_failure_transport transport hPayload
+        exact ⟨transport.raw, by simpa [hr] using hRank, hCert⟩
+
+inductive NonIdCoverageTree
+  | leaf (interval : RankInterval) (leaf : NonIdCoverageLeaf)
+  | branch (interval : RankInterval) (children : List NonIdCoverageTree)
+deriving Repr
+
+def NonIdCoverageTree.interval : NonIdCoverageTree -> RankInterval
+  | NonIdCoverageTree.leaf interval _ => interval
+  | NonIdCoverageTree.branch interval _ => interval
+
+def coverageTreeFuel : Nat := 64
+
+def checkNonIdCoverageChildrenWith
+    (checkChild : NonIdCoverageTree -> Bool)
+    (expectedStart endRank : Nat) :
+    List NonIdCoverageTree -> Bool
+  | [] => decide (expectedStart = endRank)
+  | child :: children =>
+      decide (child.interval.startRank = expectedStart) &&
+        (checkChild child &&
+          checkNonIdCoverageChildrenWith checkChild
+            child.interval.endRank endRank children)
+
+noncomputable def checkNonIdCoverageTreeFuel :
+    Nat -> NonIdCoverageTree -> Bool
+  | 0, _ => false
+  | _fuel + 1, NonIdCoverageTree.leaf interval leaf =>
+      checkNonIdCoverageLeaf interval leaf
+  | fuel + 1, NonIdCoverageTree.branch interval children =>
+      checkRankInterval interval &&
+        checkNonIdCoverageChildrenWith
+          (checkNonIdCoverageTreeFuel fuel)
+          interval.startRank interval.endRank children
+
+noncomputable def checkNonIdCoverageTree
+    (tree : NonIdCoverageTree) : Bool :=
+  checkNonIdCoverageTreeFuel coverageTreeFuel tree
+
+theorem checkNonIdCoverageChildrenWith_route
+    {checkChild : NonIdCoverageTree -> Bool}
+    {children : List NonIdCoverageTree}
+    {expectedStart endRank : Nat}
+    {r : Fin numPairWords}
+    (hcheck :
+      checkNonIdCoverageChildrenWith checkChild
+        expectedStart endRank children = true)
+    (hstart : expectedStart <= r.val)
+    (hend : r.val < endRank) :
+    exists child : NonIdCoverageTree,
+      child ∈ children /\
+        child.interval.ContainsPairRank r /\
+          checkChild child = true := by
+  induction children generalizing expectedStart with
+  | nil =>
+      simp [checkNonIdCoverageChildrenWith] at hcheck
+      omega
+  | cons child children ih =>
+      change
+        (decide (child.interval.startRank = expectedStart) &&
+          (checkChild child &&
+            checkNonIdCoverageChildrenWith checkChild
+              child.interval.endRank endRank children)) = true at hcheck
+      cases hStartEqBool :
+          decide (child.interval.startRank = expectedStart)
+      · simp [hStartEqBool] at hcheck
+      · simp [hStartEqBool] at hcheck
+        have hStartEq : child.interval.startRank = expectedStart :=
+          of_decide_eq_true hStartEqBool
+        cases hChildCheck : checkChild child
+        · simp [hChildCheck] at hcheck
+        · simp [hChildCheck] at hcheck
+          have hRest :
+              checkNonIdCoverageChildrenWith checkChild child.interval.endRank
+                endRank children = true := hcheck
+          by_cases hrChild : r.val < child.interval.endRank
+          · refine ⟨child, ?_, ?_, hChildCheck⟩
+            · simp
+            · unfold RankInterval.ContainsPairRank
+              omega
+          · rcases ih hRest (by omega) with
+              ⟨found, hmem, hcover, hfoundCheck⟩
+            refine ⟨found, ?_, hcover, hfoundCheck⟩
+            simp [hmem]
+
+theorem checkNonIdCoverageTreeFuel_sound
+    (fuel : Nat) (tree : NonIdCoverageTree)
+    (hcheck : checkNonIdCoverageTreeFuel fuel tree = true)
+    {r : Fin numPairWords}
+    (hcontains : tree.interval.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  induction fuel generalizing tree with
+  | zero =>
+      simp [checkNonIdCoverageTreeFuel] at hcheck
+  | succ fuel ih =>
+      cases tree with
+      | leaf interval leaf =>
+          exact checkNonIdCoverageLeaf_sound hcheck hcontains
+      | branch interval children =>
+          simp only [checkNonIdCoverageTreeFuel, Bool.and_eq_true] at hcheck
+          rcases hcheck with ⟨_hInterval, hChildren⟩
+          rcases
+            checkNonIdCoverageChildrenWith_route hChildren
+              hcontains.1 hcontains.2 with
+            ⟨child, _hmem, hChildContains, hChildCheck⟩
+          exact ih child hChildCheck hChildContains
+
+theorem checkNonIdCoverageTree_sound
+    {tree : NonIdCoverageTree}
+    (hcheck : checkNonIdCoverageTree tree = true)
+    {r : Fin numPairWords}
+    (hcontains : tree.interval.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true :=
+  checkNonIdCoverageTreeFuel_sound coverageTreeFuel tree hcheck hcontains
+
+inductive TranslationCoverageLeaf
+  | raw (cert : TranslationCert)
+  | transported (transport : CanonicalTranslationTransport)
+deriving DecidableEq, Repr
+
+def TranslationCoverageLeaf.cert : TranslationCoverageLeaf -> TranslationCert
+  | TranslationCoverageLeaf.raw cert => cert
+  | TranslationCoverageLeaf.transported transport => transport.raw
+
+noncomputable def checkTranslationCoverageLeafPayload
+    (box : TranslationCaseBox) : TranslationCoverageLeaf -> Bool
+  | TranslationCoverageLeaf.raw cert =>
+      checkTranslationCoveredCase
+        { pairRank := box.startRank, signMask := box.startMask }
+        cert &&
+        checkTranslationCert cert
+  | TranslationCoverageLeaf.transported transport =>
+      checkTranslationCoveredCase
+        { pairRank := box.startRank, signMask := box.startMask }
+        transport.raw &&
+        checkCanonicalTranslationTransport transport
+
+noncomputable def checkTranslationCoverageLeaf
+    (box : TranslationCaseBox) (leaf : TranslationCoverageLeaf) : Bool :=
+  checkTranslationCaseBox box &&
+    (decide (box.endRank = box.startRank + 1) &&
+      (decide (box.endMask = box.startMask + 1) &&
+        checkTranslationCoverageLeafPayload box leaf))
+
+theorem checkTranslationCoverageLeaf_sound
+    {box : TranslationCaseBox} {leaf : TranslationCoverageLeaf}
+    (hcheck : checkTranslationCoverageLeaf box leaf = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : box.Contains r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  have hparts :
+      checkTranslationCaseBox box = true /\
+        box.endRank = box.startRank + 1 /\
+          box.endMask = box.startMask + 1 /\
+            checkTranslationCoverageLeafPayload box leaf = true := by
+    simpa only [checkTranslationCoverageLeaf, Bool.and_eq_true,
+      decide_eq_true_eq] using hcheck
+  rcases hparts with
+    ⟨_hBox, hRankSingleton, hMaskSingleton, hPayload⟩
+  have hr : r.val = box.startRank := by
+    unfold TranslationCaseBox.Contains at hcontains
+    omega
+  have hmask : mask.val = box.startMask := by
+    unfold TranslationCaseBox.Contains at hcontains
+    omega
+  cases leaf with
+  | raw cert =>
+      change
+        (checkTranslationCoveredCase
+          { pairRank := box.startRank, signMask := box.startMask } cert &&
+          checkTranslationCert cert) = true at hPayload
+      cases hCase : checkTranslationCoveredCase
+          { pairRank := box.startRank, signMask := box.startMask } cert
+      · simp [hCase] at hPayload
+      · simp [hCase] at hPayload
+        exact ⟨cert, by simpa [hr, hmask] using hCase, hPayload⟩
+  | transported transport =>
+      change
+        (checkTranslationCoveredCase
+          { pairRank := box.startRank, signMask := box.startMask }
+          transport.raw &&
+          checkCanonicalTranslationTransport transport) = true at hPayload
+      cases hCase : checkTranslationCoveredCase
+          { pairRank := box.startRank, signMask := box.startMask }
+          transport.raw
+      · simp [hCase] at hPayload
+      · simp [hCase] at hPayload
+        have hCert :=
+          canonical_translation_failure_transport transport hPayload
+        exact ⟨transport.raw, by simpa [hr, hmask] using hCase, hCert⟩
+
+inductive TranslationCoverageTree
+  | leaf (box : TranslationCaseBox) (leaf : TranslationCoverageLeaf)
+  | rankBranch (box : TranslationCaseBox)
+      (children : List TranslationCoverageTree)
+  | maskBranch (box : TranslationCaseBox)
+      (children : List TranslationCoverageTree)
+deriving Repr
+
+def TranslationCoverageTree.box : TranslationCoverageTree ->
+    TranslationCaseBox
+  | TranslationCoverageTree.leaf box _ => box
+  | TranslationCoverageTree.rankBranch box _ => box
+  | TranslationCoverageTree.maskBranch box _ => box
+
+def checkTranslationRankChildrenWith
+    (checkChild : TranslationCoverageTree -> Bool)
+    (parent : TranslationCaseBox)
+    (expectedStart endRank : Nat) :
+    List TranslationCoverageTree -> Bool
+  | [] => decide (expectedStart = endRank)
+  | child :: children =>
+      decide (child.box.startRank = expectedStart) &&
+        (decide (child.box.startMask = parent.startMask) &&
+          (decide (child.box.endMask = parent.endMask) &&
+            (checkChild child &&
+              checkTranslationRankChildrenWith checkChild parent
+                child.box.endRank endRank children)))
+
+def checkTranslationMaskChildrenWith
+    (checkChild : TranslationCoverageTree -> Bool)
+    (parent : TranslationCaseBox)
+    (expectedStart endMask : Nat) :
+    List TranslationCoverageTree -> Bool
+  | [] => decide (expectedStart = endMask)
+  | child :: children =>
+      decide (child.box.startMask = expectedStart) &&
+        (decide (child.box.startRank = parent.startRank) &&
+          (decide (child.box.endRank = parent.endRank) &&
+            (checkChild child &&
+              checkTranslationMaskChildrenWith checkChild parent
+                child.box.endMask endMask children)))
+
+noncomputable def checkTranslationCoverageTreeFuel :
+    Nat -> TranslationCoverageTree -> Bool
+  | 0, _ => false
+  | _fuel + 1, TranslationCoverageTree.leaf box leaf =>
+      checkTranslationCoverageLeaf box leaf
+  | fuel + 1, TranslationCoverageTree.rankBranch box children =>
+      checkTranslationCaseBox box &&
+        checkTranslationRankChildrenWith
+          (checkTranslationCoverageTreeFuel fuel)
+          box box.startRank box.endRank children
+  | fuel + 1, TranslationCoverageTree.maskBranch box children =>
+      checkTranslationCaseBox box &&
+        checkTranslationMaskChildrenWith
+          (checkTranslationCoverageTreeFuel fuel)
+          box box.startMask box.endMask children
+
+noncomputable def checkTranslationCoverageTree
+    (tree : TranslationCoverageTree) : Bool :=
+  checkTranslationCoverageTreeFuel coverageTreeFuel tree
+
+theorem checkTranslationRankChildrenWith_route
+    {checkChild : TranslationCoverageTree -> Bool}
+    {children : List TranslationCoverageTree}
+    {parent : TranslationCaseBox}
+    {expectedStart endRank : Nat}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationRankChildrenWith checkChild parent
+        expectedStart endRank children = true)
+    (hstart : expectedStart <= r.val)
+    (hend : r.val < endRank)
+    (hmaskStart : parent.startMask <= mask.val)
+    (hmaskEnd : mask.val < parent.endMask) :
+    exists child : TranslationCoverageTree,
+      child ∈ children /\
+        child.box.Contains r mask /\
+          checkChild child = true := by
+  induction children generalizing expectedStart with
+  | nil =>
+      simp [checkTranslationRankChildrenWith] at hcheck
+      omega
+  | cons child children ih =>
+      have hparts :
+          child.box.startRank = expectedStart /\
+            child.box.startMask = parent.startMask /\
+              child.box.endMask = parent.endMask /\
+                checkChild child = true /\
+                  checkTranslationRankChildrenWith checkChild parent
+                    child.box.endRank endRank children = true := by
+        simpa only [checkTranslationRankChildrenWith, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      rcases hparts with
+        ⟨hStartEq, hMaskStartEq, hMaskEndEq, hChildCheck, hRest⟩
+      by_cases hrChild : r.val < child.box.endRank
+      · refine ⟨child, ?_, ?_, hChildCheck⟩
+        · simp
+        · unfold TranslationCaseBox.Contains
+          omega
+      · rcases ih hRest (by omega) with
+          ⟨found, hmem, hcover, hfoundCheck⟩
+        refine ⟨found, ?_, hcover, hfoundCheck⟩
+        simp [hmem]
+
+theorem checkTranslationMaskChildrenWith_route
+    {checkChild : TranslationCoverageTree -> Bool}
+    {children : List TranslationCoverageTree}
+    {parent : TranslationCaseBox}
+    {expectedStart endMask : Nat}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationMaskChildrenWith checkChild parent
+        expectedStart endMask children = true)
+    (hmaskStart : expectedStart <= mask.val)
+    (hmaskEnd : mask.val < endMask)
+    (hrStart : parent.startRank <= r.val)
+    (hrEnd : r.val < parent.endRank) :
+    exists child : TranslationCoverageTree,
+      child ∈ children /\
+        child.box.Contains r mask /\
+          checkChild child = true := by
+  induction children generalizing expectedStart with
+  | nil =>
+      simp [checkTranslationMaskChildrenWith] at hcheck
+      omega
+  | cons child children ih =>
+      have hparts :
+          child.box.startMask = expectedStart /\
+            child.box.startRank = parent.startRank /\
+              child.box.endRank = parent.endRank /\
+                checkChild child = true /\
+                  checkTranslationMaskChildrenWith checkChild parent
+                    child.box.endMask endMask children = true := by
+        simpa only [checkTranslationMaskChildrenWith, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      rcases hparts with
+        ⟨hStartEq, hRankStartEq, hRankEndEq, hChildCheck, hRest⟩
+      by_cases hmaskChild : mask.val < child.box.endMask
+      · refine ⟨child, ?_, ?_, hChildCheck⟩
+        · simp
+        · unfold TranslationCaseBox.Contains
+          omega
+      · rcases ih hRest (by omega) with
+          ⟨found, hmem, hcover, hfoundCheck⟩
+        refine ⟨found, ?_, hcover, hfoundCheck⟩
+        simp [hmem]
+
+theorem checkTranslationCoverageTreeFuel_sound
+    (fuel : Nat) (tree : TranslationCoverageTree)
+    (hcheck : checkTranslationCoverageTreeFuel fuel tree = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : tree.box.Contains r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  induction fuel generalizing tree with
+  | zero =>
+      simp [checkTranslationCoverageTreeFuel] at hcheck
+  | succ fuel ih =>
+      cases tree with
+      | leaf box leaf =>
+          exact checkTranslationCoverageLeaf_sound hcheck hcontains
+      | rankBranch box children =>
+          simp only [checkTranslationCoverageTreeFuel, Bool.and_eq_true]
+            at hcheck
+          rcases hcheck with ⟨_hBox, hChildren⟩
+          rcases
+            checkTranslationRankChildrenWith_route hChildren
+              hcontains.1 hcontains.2.1 hcontains.2.2.1
+              hcontains.2.2.2 with
+            ⟨child, _hmem, hChildContains, hChildCheck⟩
+          exact ih child hChildCheck hChildContains
+      | maskBranch box children =>
+          simp only [checkTranslationCoverageTreeFuel, Bool.and_eq_true]
+            at hcheck
+          rcases hcheck with ⟨_hBox, hChildren⟩
+          rcases
+            checkTranslationMaskChildrenWith_route hChildren
+              hcontains.2.2.1 hcontains.2.2.2 hcontains.1
+              hcontains.2.1 with
+            ⟨child, _hmem, hChildContains, hChildCheck⟩
+          exact ih child hChildCheck hChildContains
+
+theorem checkTranslationCoverageTree_sound
+    {tree : TranslationCoverageTree}
+    (hcheck : checkTranslationCoverageTree tree = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : tree.box.Contains r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true :=
+  checkTranslationCoverageTreeFuel_sound coverageTreeFuel tree hcheck
+    hcontains
+
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)
     (hcheck : checkTranslationCommon cert = true) :

@@ -1,6 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.Translation.Chunk0000
 import Cuboctahedron.Generated.CanonicalSample
+import Cuboctahedron.Generated.CoverageTreeSample
 
 /-!
 Aggregate import for generated Step 14C/14E real-certificate sample chunks.
@@ -28,5 +29,20 @@ theorem translationChunk_sound :
       Translation.Chunk0000.chunk.coveredCases.toList
       Translation.Chunk0000.chunk.certs.toList :=
   checkGeneratedTranslationCertChunk_sound Translation.Chunk0000.certs_check
+
+noncomputable def allGeneratedCoverageTreeCheck : Bool :=
+  checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&
+    checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&
+      checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&
+        checkTranslationCoverageTree CoverageTreeSample.translationTransportTree
+
+theorem allGeneratedCoverageTreeCheck_true :
+    allGeneratedCoverageTreeCheck = true := by
+  unfold allGeneratedCoverageTreeCheck
+  rw [CoverageTreeSample.nonIdRawTree_check,
+    CoverageTreeSample.nonIdTransportTree_check,
+    CoverageTreeSample.translationRawTree_check,
+    CoverageTreeSample.translationTransportTree_check]
+  rfl
 
 end Cuboctahedron.Generated
