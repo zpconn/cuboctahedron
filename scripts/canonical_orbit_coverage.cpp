@@ -401,6 +401,12 @@ void print_json() {
     cout << "\"actions_distinct\":true,";
     cout << "\"closed_under_composition\":true,";
     cout << "\"canonical_rule\":\"lexicographic_minimum_over_started_symmetry_group\"},";
+    cout << "\"transform_policy\":{";
+    cout << "\"proof_reducing_transforms\":[\"started_symmetry\"],";
+    cout << "\"grouping_only_transforms\":[\"reversal\"],";
+    cout << "\"reversal_proof_transport_enabled\":false,";
+    cout << "\"canonical_rule\":\"lexicographic_minimum_over_started_symmetry_group\",";
+    cout << "\"combined_exact_manifest_step\":\"14E.2A\"},";
     cout << "\"actual_counts\":{";
     cout << "\"pair_words\":" << coverage.pair_words << ",";
     cout << "\"identity_linear_words\":" << coverage.identity_words << ",";

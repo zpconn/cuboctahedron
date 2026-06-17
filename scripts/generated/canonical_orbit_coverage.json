@@ -25,5 +25,16 @@
     "closed_under_composition": true,
     "started_symmetries": 8,
     "xp_pair_fixed": true
+  },
+  "transform_policy": {
+    "canonical_rule": "lexicographic_minimum_over_started_symmetry_group",
+    "combined_exact_manifest_step": "14E.2A",
+    "grouping_only_transforms": [
+      "reversal"
+    ],
+    "proof_reducing_transforms": [
+      "started_symmetry"
+    ],
+    "reversal_proof_transport_enabled": false
   }
 }

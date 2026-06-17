@@ -924,6 +924,21 @@ def check_canonical_orbit_payload(payload):
         group["canonical_rule"] == "lexicographic_minimum_over_started_symmetry_group",
         "canonical representative rule",
     )
+    policy = payload.get("transform_policy")
+    require(isinstance(policy, dict), "canonical orbit transform policy")
+    require(policy.get("proof_reducing_transforms") == ["started_symmetry"],
+            "canonical orbit proof transforms")
+    require(policy.get("grouping_only_transforms") == ["reversal"],
+            "canonical orbit grouping transforms")
+    require(policy.get("reversal_proof_transport_enabled") is False,
+            "canonical orbit reversal policy")
+    require(
+        policy.get("canonical_rule") ==
+        "lexicographic_minimum_over_started_symmetry_group",
+        "canonical orbit policy rule",
+    )
+    require(policy.get("combined_exact_manifest_step") == "14E.2A",
+            "canonical orbit combined manifest step")
     actual = payload["actual_counts"]
     canonical = payload["canonical_counts"]
     require(actual["pair_words"] >= 0, "canonical nonnegative pair words")
@@ -1051,6 +1066,21 @@ def check_canonical_file(payload):
     require(payload.get("mode") == "canonical-symmetry-sample", "canonical mode")
     sym = payload["symmetry"]
     require(sym in STARTED_SYMS, "sample symmetry is started symmetry")
+    policy = payload.get("transform_policy")
+    require(isinstance(policy, dict), "canonical transform policy")
+    require(policy.get("proof_reducing_transforms") == ["started_symmetry"],
+            "proof-reducing transforms")
+    require(policy.get("grouping_only_transforms") == ["reversal"],
+            "grouping-only transforms")
+    require(policy.get("reversal_proof_transport_enabled") is False,
+            "reversal remains grouping-only")
+    require(
+        policy.get("canonical_rule") ==
+        "lexicographic_minimum_over_started_symmetry_group",
+        "canonical symmetry rule",
+    )
+    require(policy.get("combined_exact_manifest_step") == "14E.2A",
+            "combined manifest step")
 
     words_by_rank = {}
     for record in payload["pair_words"]:

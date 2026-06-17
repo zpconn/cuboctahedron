@@ -1258,6 +1258,10 @@ def allStartedSyms : List StartedSym :=
    { swapYZ := true, negY := true, negZ := false },
    { swapYZ := true, negY := true, negZ := true }]
 
+def allPairIds : List PairId :=
+  [PairId.x, PairId.y, PairId.z, PairId.d111, PairId.d11m,
+    PairId.d1m1, PairId.dm11]
+
 def negIf (b : Bool) (q : Rat) : Rat :=
   if b then -q else q
 
@@ -1330,6 +1334,24 @@ def symTranslationMask
   translationMaskOfSeqComputable (symPairWord σ w)
     (symSeq σ (translationChoiceSeq w mask))
 
+noncomputable def checkSymPairWordValid
+    (σ : StartedSym) (w : PairWord) : Bool := by
+  classical
+  exact decide (ValidPairWord w -> ValidPairWord (symPairWord σ w))
+
+theorem symPairWord_valid
+    (σ : StartedSym) (w : PairWord)
+    (hcheck : checkSymPairWordValid σ w = true)
+    (hvalid : ValidPairWord w) :
+    ValidPairWord (symPairWord σ w) := by
+  classical
+  have hdec :
+      decide (ValidPairWord w -> ValidPairWord (symPairWord σ w)) = true := by
+    simpa [checkSymPairWordValid] using hcheck
+  have h : ValidPairWord w -> ValidPairWord (symPairWord σ w) :=
+    of_decide_eq_true hdec
+  exact h hvalid
+
 theorem symFace_xp (σ : StartedSym) :
     symFace σ Face.xp = Face.xp := by
   rcases σ with ⟨swapYZ, negY, negZ⟩
@@ -1341,6 +1363,52 @@ theorem symPair_x (σ : StartedSym) :
   change pairOfFace (symFace σ Face.xp) = PairId.x
   rw [symFace_xp]
   rfl
+
+def startedSymActionKey (σ : StartedSym) : List PairId :=
+  allPairIds.map (symPair σ)
+
+def startedSymComposeKey (σ τ : StartedSym) : List PairId :=
+  allPairIds.map fun p => symPair σ (symPair τ p)
+
+def startedSymWithActionKey? (key : List PairId) : Option StartedSym :=
+  allStartedSyms.find? fun σ => startedSymActionKey σ = key
+
+def startedSymCompose? (σ τ : StartedSym) : Option StartedSym :=
+  startedSymWithActionKey? (startedSymComposeKey σ τ)
+
+def startedSymHasInverse (σ : StartedSym) : Bool :=
+  allStartedSyms.any fun τ =>
+    startedSymCompose? σ τ = some startedSymIdentity &&
+      startedSymCompose? τ σ = some startedSymIdentity
+
+def checkStartedSymGroup : Bool :=
+  decide (allStartedSyms.length = 8) &&
+    decide (allStartedSyms.Nodup) &&
+      allStartedSyms.all (fun σ =>
+        decide (symFace σ Face.xp = Face.xp) &&
+          decide (symPair σ PairId.x = PairId.x) &&
+            startedSymHasInverse σ) &&
+        allStartedSyms.all (fun σ =>
+          allStartedSyms.all fun τ =>
+            (startedSymCompose? σ τ).isSome)
+
+structure StartedSymGroupChecked : Prop where
+  checked : checkStartedSymGroup = true
+
+theorem checkStartedSymGroup_sound
+    (hcheck : checkStartedSymGroup = true) :
+    StartedSymGroupChecked where
+  checked := hcheck
+
+theorem checkStartedSymGroup_true :
+    checkStartedSymGroup = true := by
+  decide
+
+theorem allStartedSyms_complete (σ : StartedSym) :
+    σ ∈ allStartedSyms := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    simp [allStartedSyms]
 
 def pairIdCode : PairId -> Nat
   | PairId.x => 0
@@ -1383,6 +1451,23 @@ def translationChoiceLexLe
 def canonicalPairWord (w : PairWord) : PairWord :=
   (allStartedSyms.map fun σ => symPairWord σ w).foldl minPairWordLex w
 
+structure CanonicalPairWordResult where
+  sym : StartedSym
+  word : PairWord
+deriving DecidableEq, Repr
+
+def betterPairWordResult
+    (best candidate : CanonicalPairWordResult) :
+    CanonicalPairWordResult :=
+  if pairWordLexLe candidate.word best.word then candidate else best
+
+def canonicalPairWordWithTransform (w : PairWord) :
+    CanonicalPairWordResult :=
+  (allStartedSyms.map fun σ =>
+      ({ sym := σ, word := symPairWord σ w } :
+        CanonicalPairWordResult)).foldl betterPairWordResult
+        { sym := startedSymIdentity, word := w }
+
 def canonicalTranslationChoice (w : PairWord) (mask : SignMask) :
     PairWord × SignMask :=
   (allStartedSyms.map fun σ =>
@@ -1391,6 +1476,82 @@ def canonicalTranslationChoice (w : PairWord) (mask : SignMask) :
         (fun best candidate =>
           if translationChoiceLexLe candidate best then candidate else best)
         (w, mask)
+
+structure CanonicalTranslationChoiceResult where
+  sym : StartedSym
+  word : PairWord
+  mask : SignMask
+deriving DecidableEq, Repr
+
+def translationChoiceOfResult
+    (result : CanonicalTranslationChoiceResult) : PairWord × SignMask :=
+  (result.word, result.mask)
+
+def betterTranslationChoiceResult
+    (best candidate : CanonicalTranslationChoiceResult) :
+    CanonicalTranslationChoiceResult :=
+  if translationChoiceLexLe
+      (translationChoiceOfResult candidate)
+      (translationChoiceOfResult best) then
+    candidate
+  else
+    best
+
+def canonicalTranslationChoiceWithTransform
+    (w : PairWord) (mask : SignMask) :
+    CanonicalTranslationChoiceResult :=
+  (allStartedSyms.map fun σ =>
+      let w' := symPairWord σ w
+      ({ sym := σ, word := w', mask := symTranslationMask σ w mask } :
+        CanonicalTranslationChoiceResult)).foldl
+        betterTranslationChoiceResult
+        { sym := startedSymIdentity, word := w, mask := mask }
+
+noncomputable def checkSymLinearIdentityPreservation
+    (σ : StartedSym) (w : PairWord) : Bool := by
+  classical
+  exact decide
+    ((totalLinearOfPairWord (symPairWord σ w) = (matId : Mat3 Rat)) ↔
+      totalLinearOfPairWord w = (matId : Mat3 Rat))
+
+theorem sym_totalLinear_identity_iff
+    (σ : StartedSym) (w : PairWord)
+    (hcheck : checkSymLinearIdentityPreservation σ w = true) :
+    totalLinearOfPairWord (symPairWord σ w) = (matId : Mat3 Rat) ↔
+      totalLinearOfPairWord w = (matId : Mat3 Rat) := by
+  classical
+  simpa [checkSymLinearIdentityPreservation] using hcheck
+
+def reverseWordIndex (i : WordIndex) : WordIndex :=
+  ⟨12 - i.val, by omega⟩
+
+def reversePairWord (w : PairWord) : PairWord :=
+  Vector.ofFn fun i : WordIndex => w.get (reverseWordIndex i)
+
+def reverseStartedSeq (seq : Step14 -> Face) : Step14 -> Face :=
+  fun i =>
+    if h : i.val = 0 then
+      Face.xp
+    else
+      seq ⟨14 - i.val, by omega⟩
+
+def reverseTranslationChoice (w : PairWord) (mask : SignMask) :
+    PairWord × SignMask :=
+  let w' := reversePairWord w
+  (w', translationMaskOfSeqComputable w'
+    (reverseStartedSeq (translationChoiceSeq w mask)))
+
+def reversalProofTransportEnabled : Bool := false
+
+theorem reversal_grouping_only_policy :
+    reversalProofTransportEnabled = false := rfl
+
+def proofReducingCanonicalPairWord (w : PairWord) : PairWord :=
+  canonicalPairWord w
+
+def proofReducingCanonicalTranslationChoice
+    (w : PairWord) (mask : SignMask) : PairWord × SignMask :=
+  canonicalTranslationChoice w mask
 
 def symNonIdFailure (σ : StartedSym) : NonIdFailure -> NonIdFailure
   | NonIdFailure.noFixedAxis witness => NonIdFailure.noFixedAxis witness

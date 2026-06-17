@@ -44,8 +44,40 @@
           "-7/8"
         ]
       ],
+      "lambda": "0",
       "name": "nonIdBadDirection000",
+      "p0": [
+        "0",
+        "0",
+        "0"
+      ],
       "rank": 1,
+      "solve_left_inverse": [
+        [
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
       "word": [
         "x",
         "y",
@@ -105,8 +137,40 @@
           "7/8"
         ]
       ],
+      "lambda": "0",
       "name": "nonIdBadDirectionSym000",
+      "p0": [
+        "0",
+        "0",
+        "0"
+      ],
       "rank": 814,
+      "solve_left_inverse": [
+        [
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
       "word": [
         "x",
         "y",
@@ -208,6 +272,17 @@
     "negY": false,
     "negZ": true,
     "swapYZ": false
+  },
+  "transform_policy": {
+    "canonical_rule": "lexicographic_minimum_over_started_symmetry_group",
+    "combined_exact_manifest_step": "14E.2A",
+    "grouping_only_transforms": [
+      "reversal"
+    ],
+    "proof_reducing_transforms": [
+      "started_symmetry"
+    ],
+    "reversal_proof_transport_enabled": false
   },
   "translation": {
     "canonical": {
