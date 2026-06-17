@@ -16,6 +16,9 @@ An `omnihedral orbit` is a periodic nonsingular billiard trajectory inside the p
 
 # Proof Strategy
 
+<img width="6000" height="3390" alt="image" src="https://github.com/user-attachments/assets/ec9af267-344b-4bcd-9684-f469c6827ad4" />
+
+
 The proof strategy is to turn a geometric existence question into a finite collection of exact algebra checks. Instead of trying to draw every possible billiard path, the repo studies the order in which a hypothetical orbit could hit the 14 faces. Any omnihedral orbit can be cyclically re-indexed so that it starts on a chosen square face, and then the remaining work is to rule out every possible order of the other 13 faces.
 
 For each proposed face order, the billiard reflections are unfolded: rather than making the path bounce inside the cuboctahedron, the faces are reflected into space so the path becomes a straight line. After one full circuit through the 14 faces, the accumulated unfolding is an affine isometry. There are two conceptual cases. If its linear part is not the identity, then any periodic orbit would have to lie on a forced invariant axis, leaving only a small exact check that the resulting candidate actually starts and crosses faces in the required nonsingular way. If the linear part is the identity, the unfolding is a translation, and the possible starting points form a polygonal region cut out by linear inequalities; the itinerary is impossible when those inequalities are infeasible.
