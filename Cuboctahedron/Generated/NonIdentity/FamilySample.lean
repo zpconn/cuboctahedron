@@ -1310,6 +1310,21 @@ def nonIdFamilyBadDirection000 : NonIdCert where
   solve := { leftInverse := { m00 := 1, m01 := 0, m02 := 0, m03 := 0, m10 := 0, m11 := 1, m12 := 0, m13 := 0, m20 := 0, m21 := 0, m22 := 1, m23 := 0, m30 := 0, m31 := 0, m32 := 0, m33 := 1 } }
   failure := NonIdFailure.badDirectionSign ⟨7, by decide⟩
 
+def nonIdFamilyBadDirection000Coverage : CanonicalPairCoverage :=
+  { rawRank := 13, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.dm11, PairId.d1m1], by decide⟩, canonical := { rank := 13, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.dm11, PairId.d1m1], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyBadDirection000Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyBadDirection000Coverage = true := by
+  decide
+
+theorem nonIdFamilyBadDirection000Coverage_canonicalRank :
+    nonIdFamilyBadDirection000Coverage.canonical.rank = 13 := by
+  decide
+
+theorem nonIdFamilyBadDirection000Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyBadDirection000Coverage.rawRank nonIdFamilyBadDirection000 = true := by
+  decide
+
 def nonIdFamilyBadDirection001Seq : Vector Face 14 :=
   ⟨#[Face.xp, Face.xp, Face.yp, Face.yp, Face.zp, Face.zp, Face.tppp, Face.tppp, Face.tppm, Face.tpmp, Face.tmpp, Face.tpmp, Face.tppm, Face.tmpp], by decide⟩
 
@@ -1490,6 +1505,21 @@ def nonIdFamilyBadDirection001 : NonIdCert where
   lambda := 0
   solve := { leftInverse := { m00 := 1, m01 := 0, m02 := 0, m03 := 0, m10 := 0, m11 := 1, m12 := 0, m13 := 0, m20 := 0, m21 := 0, m22 := 1, m23 := 0, m30 := 0, m31 := 0, m32 := 0, m33 := 1 } }
   failure := NonIdFailure.badDirectionSign ⟨9, by decide⟩
+
+def nonIdFamilyBadDirection001Coverage : CanonicalPairCoverage :=
+  { rawRank := 14, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩, canonical := { rank := 14, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyBadDirection001Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyBadDirection001Coverage = true := by
+  decide
+
+theorem nonIdFamilyBadDirection001Coverage_canonicalRank :
+    nonIdFamilyBadDirection001Coverage.canonical.rank = 14 := by
+  decide
+
+theorem nonIdFamilyBadDirection001Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyBadDirection001Coverage.rawRank nonIdFamilyBadDirection001 = true := by
+  decide
 
 def nonIdFamilyBadDirection002Seq : Vector Face 14 :=
   ⟨#[Face.xp, Face.xp, Face.yp, Face.yp, Face.zp, Face.zp, Face.tppp, Face.tppp, Face.tppm, Face.tpmp, Face.tmpp, Face.tpmp, Face.tmpp, Face.tppm], by decide⟩
@@ -1672,6 +1702,21 @@ def nonIdFamilyBadDirection002 : NonIdCert where
   solve := { leftInverse := { m00 := 1, m01 := 0, m02 := 0, m03 := 0, m10 := 0, m11 := 1, m12 := 0, m13 := 0, m20 := 0, m21 := 0, m22 := 1, m23 := 0, m30 := 0, m31 := 0, m32 := 0, m33 := 1 } }
   failure := NonIdFailure.badDirectionSign ⟨8, by decide⟩
 
+def nonIdFamilyBadDirection002Coverage : CanonicalPairCoverage :=
+  { rawRank := 15, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m], by decide⟩, canonical := { rank := 15, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d11m, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyBadDirection002Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyBadDirection002Coverage = true := by
+  decide
+
+theorem nonIdFamilyBadDirection002Coverage_canonicalRank :
+    nonIdFamilyBadDirection002Coverage.canonical.rank = 15 := by
+  decide
+
+theorem nonIdFamilyBadDirection002Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyBadDirection002Coverage.rawRank nonIdFamilyBadDirection002 = true := by
+  decide
+
 def nonIdFamilyBadPairBalance000Seq : Vector Face 14 :=
   ⟨#[Face.xp, Face.xm, Face.ym, Face.yp, Face.zp, Face.zm, Face.tppp, Face.tmmp, Face.tppp, Face.tpmp, Face.tpmm, Face.tppm, Face.tmpm, Face.tmpp], by decide⟩
 
@@ -1852,6 +1897,21 @@ def nonIdFamilyBadPairBalance000 : NonIdCert where
   lambda := 0
   solve := { leftInverse := { m00 := 1, m01 := 0, m02 := 0, m03 := 0, m10 := 0, m11 := 1, m12 := 0, m13 := 0, m20 := 0, m21 := 0, m22 := 1, m23 := 0, m30 := 0, m31 := 0, m32 := 0, m33 := 1 } }
   failure := NonIdFailure.badPairBalance
+
+def nonIdFamilyBadPairBalance000Coverage : CanonicalPairCoverage :=
+  { rawRank := 102, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.dm11], by decide⟩, canonical := { rank := 102, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.dm11], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyBadPairBalance000Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyBadPairBalance000Coverage = true := by
+  decide
+
+theorem nonIdFamilyBadPairBalance000Coverage_canonicalRank :
+    nonIdFamilyBadPairBalance000Coverage.canonical.rank = 102 := by
+  decide
+
+theorem nonIdFamilyBadPairBalance000Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyBadPairBalance000Coverage.rawRank nonIdFamilyBadPairBalance000 = true := by
+  decide
 
 def nonIdFamilyAxisMiss000Seq : Vector Face 14 :=
   ⟨#[Face.xp, Face.xm, Face.ym, Face.yp, Face.zp, Face.zm, Face.tppp, Face.tmmp, Face.tmmm, Face.tpmp, Face.tpmm, Face.tmpm, Face.tppm, Face.tmpp], by decide⟩
@@ -2034,6 +2094,21 @@ def nonIdFamilyAxisMiss000 : NonIdCert where
   solve := { leftInverse := { m00 := 0, m01 := 0, m02 := 0, m03 := 1, m10 := (1351/9840), m11 := (-6137/12300), m12 := (241/49200), m13 := (4/15), m20 := (-1063/2460), m21 := (-197/24600), m22 := (-6163/12300), m23 := (-13/15), m30 := (39/82), m31 := (26/205), m32 := (-169/410), m33 := 0 } }
   failure := NonIdFailure.axisMissesStartInterior
 
+def nonIdFamilyAxisMiss000Coverage : CanonicalPairCoverage :=
+  { rawRank := 104, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩, canonical := { rank := 104, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyAxisMiss000Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyAxisMiss000Coverage = true := by
+  decide
+
+theorem nonIdFamilyAxisMiss000Coverage_canonicalRank :
+    nonIdFamilyAxisMiss000Coverage.canonical.rank = 104 := by
+  decide
+
+theorem nonIdFamilyAxisMiss000Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyAxisMiss000Coverage.rawRank nonIdFamilyAxisMiss000 = true := by
+  decide
+
 def nonIdFamilyAxisMiss001Seq : Vector Face 14 :=
   ⟨#[Face.xp, Face.xm, Face.ym, Face.yp, Face.zp, Face.zm, Face.tppp, Face.tmmp, Face.tmmm, Face.tpmp, Face.tpmm, Face.tmpm, Face.tmpp, Face.tppm], by decide⟩
 
@@ -2215,6 +2290,21 @@ def nonIdFamilyAxisMiss001 : NonIdCert where
   solve := { leftInverse := { m00 := 0, m01 := 0, m02 := 0, m03 := 1, m10 := (-43/520), m11 := (-797/1300), m12 := (-1421/5200), m13 := (2/5), m20 := (-361/520), m21 := (2989/5200), m22 := (-503/1300), m23 := (-6/5), m30 := (6/13), m31 := (12/65), m32 := (-36/65), m33 := 0 } }
   failure := NonIdFailure.axisMissesStartInterior
 
+def nonIdFamilyAxisMiss001Coverage : CanonicalPairCoverage :=
+  { rawRank := 105, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m], by decide⟩, canonical := { rank := 105, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d111, PairId.d1m1, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyAxisMiss001Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyAxisMiss001Coverage = true := by
+  decide
+
+theorem nonIdFamilyAxisMiss001Coverage_canonicalRank :
+    nonIdFamilyAxisMiss001Coverage.canonical.rank = 105 := by
+  decide
+
+theorem nonIdFamilyAxisMiss001Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyAxisMiss001Coverage.rawRank nonIdFamilyAxisMiss001 = true := by
+  decide
+
 def nonIdFamilyBadFirstHit000Seq : Vector Face 14 :=
   ⟨#[Face.xp, Face.xm, Face.ym, Face.yp, Face.zp, Face.zm, Face.tppp, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.tmpm, Face.tmpp, Face.tppm], by decide⟩
 
@@ -2395,6 +2485,21 @@ def nonIdFamilyBadFirstHit000 : NonIdCert where
   lambda := (444/41)
   solve := { leftInverse := { m00 := 0, m01 := 0, m02 := 0, m03 := 1, m10 := (2657/7216), m11 := (-224/451), m12 := (37/7216), m13 := (8/11), m20 := (-1532/2255), m21 := (-173/18040), m22 := (-227/451), m23 := (-15/11), m30 := (33/82), m31 := (12/41), m32 := (-45/82), m33 := 0 } }
   failure := NonIdFailure.badFirstHit { step := ⟨3, by decide⟩ }
+
+def nonIdFamilyBadFirstHit000Coverage : CanonicalPairCoverage :=
+  { rawRank := 159, rawWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m], by decide⟩, canonical := { rank := 159, word := ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d1m1, PairId.dm11, PairId.d11m], by decide⟩ }, rawToCanonicalTransformId := 0, rawToCanonicalTransform := { swapYZ := false, negY := false, negZ := false }, canonicalToRawTransformId := 0, canonicalToRawTransform := { swapYZ := false, negY := false, negZ := false } }
+
+theorem nonIdFamilyBadFirstHit000Coverage_check :
+    checkCanonicalPairCoverage nonIdFamilyBadFirstHit000Coverage = true := by
+  decide
+
+theorem nonIdFamilyBadFirstHit000Coverage_canonicalRank :
+    nonIdFamilyBadFirstHit000Coverage.canonical.rank = 159 := by
+  decide
+
+theorem nonIdFamilyBadFirstHit000Coverage_coveredRank :
+    checkNonIdCoveredRank nonIdFamilyBadFirstHit000Coverage.rawRank nonIdFamilyBadFirstHit000 = true := by
+  decide
 
 theorem nonIdFamilyBadDirection000_validPairWord :
     ValidPairWord wordRank000000013 := by
@@ -3389,7 +3494,7 @@ def sampleBadDirectionFamilyCertInterval : RankInterval where
 def sampleBadDirectionFamilyCert : NonIdFamilyCert where
   name := "sampleBadDirectionFamily"
   failure := NonIdFamilyFailure.badDirectionSign
-  coveredRanks := #[13, 14, 15]
+  coverages := #[nonIdFamilyBadDirection000Coverage, nonIdFamilyBadDirection001Coverage, nonIdFamilyBadDirection002Coverage]
   certs := #[nonIdFamilyBadDirection000, nonIdFamilyBadDirection001, nonIdFamilyBadDirection002]
 
 theorem sampleBadDirectionFamilyCert_check :
@@ -3400,10 +3505,10 @@ theorem sampleBadDirectionFamilyCert_check :
         checkNonIdFamilyEntries
           NonIdFamilyFailure.badDirectionSign
           13 16
-          [13, 14, 15]
+          [nonIdFamilyBadDirection000Coverage, nonIdFamilyBadDirection001Coverage, nonIdFamilyBadDirection002Coverage]
           [nonIdFamilyBadDirection000, nonIdFamilyBadDirection001, nonIdFamilyBadDirection002]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyBadDirection000_coveredRank, nonIdFamilyBadDirection001_coveredRank, nonIdFamilyBadDirection002_coveredRank, nonIdFamilyBadDirection000_check, nonIdFamilyBadDirection001_check, nonIdFamilyBadDirection002_check, nonIdFamilyBadDirection000_familyFailure, nonIdFamilyBadDirection001_familyFailure, nonIdFamilyBadDirection002_familyFailure]
+    nonIdFamilyBadDirection000Coverage_check, nonIdFamilyBadDirection001Coverage_check, nonIdFamilyBadDirection002Coverage_check, nonIdFamilyBadDirection000Coverage_canonicalRank, nonIdFamilyBadDirection001Coverage_canonicalRank, nonIdFamilyBadDirection002Coverage_canonicalRank, nonIdFamilyBadDirection000Coverage_coveredRank, nonIdFamilyBadDirection001Coverage_coveredRank, nonIdFamilyBadDirection002Coverage_coveredRank, nonIdFamilyBadDirection000_coveredRank, nonIdFamilyBadDirection001_coveredRank, nonIdFamilyBadDirection002_coveredRank, nonIdFamilyBadDirection000_check, nonIdFamilyBadDirection001_check, nonIdFamilyBadDirection002_check, nonIdFamilyBadDirection000_familyFailure, nonIdFamilyBadDirection001_familyFailure, nonIdFamilyBadDirection002_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleBadDirectionFamilyCert_leafCheck :
@@ -3439,7 +3544,7 @@ def sampleBadPairBalanceFamilyCertInterval : RankInterval where
 def sampleBadPairBalanceFamilyCert : NonIdFamilyCert where
   name := "sampleBadPairBalanceFamily"
   failure := NonIdFamilyFailure.badPairBalance
-  coveredRanks := #[102]
+  coverages := #[nonIdFamilyBadPairBalance000Coverage]
   certs := #[nonIdFamilyBadPairBalance000]
 
 theorem sampleBadPairBalanceFamilyCert_check :
@@ -3450,10 +3555,10 @@ theorem sampleBadPairBalanceFamilyCert_check :
         checkNonIdFamilyEntries
           NonIdFamilyFailure.badPairBalance
           102 103
-          [102]
+          [nonIdFamilyBadPairBalance000Coverage]
           [nonIdFamilyBadPairBalance000]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyBadPairBalance000_coveredRank, nonIdFamilyBadPairBalance000_check, nonIdFamilyBadPairBalance000_familyFailure]
+    nonIdFamilyBadPairBalance000Coverage_check, nonIdFamilyBadPairBalance000Coverage_canonicalRank, nonIdFamilyBadPairBalance000Coverage_coveredRank, nonIdFamilyBadPairBalance000_coveredRank, nonIdFamilyBadPairBalance000_check, nonIdFamilyBadPairBalance000_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleBadPairBalanceFamilyCert_leafCheck :
@@ -3489,7 +3594,7 @@ def sampleAxisMissFamilyCertInterval : RankInterval where
 def sampleAxisMissFamilyCert : NonIdFamilyCert where
   name := "sampleAxisMissFamily"
   failure := NonIdFamilyFailure.axisMissesStartInterior
-  coveredRanks := #[104, 105]
+  coverages := #[nonIdFamilyAxisMiss000Coverage, nonIdFamilyAxisMiss001Coverage]
   certs := #[nonIdFamilyAxisMiss000, nonIdFamilyAxisMiss001]
 
 theorem sampleAxisMissFamilyCert_check :
@@ -3500,10 +3605,10 @@ theorem sampleAxisMissFamilyCert_check :
         checkNonIdFamilyEntries
           NonIdFamilyFailure.axisMissesStartInterior
           104 106
-          [104, 105]
+          [nonIdFamilyAxisMiss000Coverage, nonIdFamilyAxisMiss001Coverage]
           [nonIdFamilyAxisMiss000, nonIdFamilyAxisMiss001]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyAxisMiss000_coveredRank, nonIdFamilyAxisMiss001_coveredRank, nonIdFamilyAxisMiss000_check, nonIdFamilyAxisMiss001_check, nonIdFamilyAxisMiss000_familyFailure, nonIdFamilyAxisMiss001_familyFailure]
+    nonIdFamilyAxisMiss000Coverage_check, nonIdFamilyAxisMiss001Coverage_check, nonIdFamilyAxisMiss000Coverage_canonicalRank, nonIdFamilyAxisMiss001Coverage_canonicalRank, nonIdFamilyAxisMiss000Coverage_coveredRank, nonIdFamilyAxisMiss001Coverage_coveredRank, nonIdFamilyAxisMiss000_coveredRank, nonIdFamilyAxisMiss001_coveredRank, nonIdFamilyAxisMiss000_check, nonIdFamilyAxisMiss001_check, nonIdFamilyAxisMiss000_familyFailure, nonIdFamilyAxisMiss001_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleAxisMissFamilyCert_leafCheck :
@@ -3539,7 +3644,7 @@ def sampleBadFirstHitFamilyCertInterval : RankInterval where
 def sampleBadFirstHitFamilyCert : NonIdFamilyCert where
   name := "sampleBadFirstHitFamily"
   failure := NonIdFamilyFailure.badFirstHit
-  coveredRanks := #[159]
+  coverages := #[nonIdFamilyBadFirstHit000Coverage]
   certs := #[nonIdFamilyBadFirstHit000]
 
 theorem sampleBadFirstHitFamilyCert_check :
@@ -3550,10 +3655,10 @@ theorem sampleBadFirstHitFamilyCert_check :
         checkNonIdFamilyEntries
           NonIdFamilyFailure.badFirstHit
           159 160
-          [159]
+          [nonIdFamilyBadFirstHit000Coverage]
           [nonIdFamilyBadFirstHit000]) = true
   simp [checkRankInterval, checkNonIdFamilyEntries,
-    nonIdFamilyBadFirstHit000_coveredRank, nonIdFamilyBadFirstHit000_check, nonIdFamilyBadFirstHit000_familyFailure]
+    nonIdFamilyBadFirstHit000Coverage_check, nonIdFamilyBadFirstHit000Coverage_canonicalRank, nonIdFamilyBadFirstHit000Coverage_coveredRank, nonIdFamilyBadFirstHit000_coveredRank, nonIdFamilyBadFirstHit000_check, nonIdFamilyBadFirstHit000_familyFailure]
   norm_num [numPairWords]
 
 theorem sampleBadFirstHitFamilyCert_leafCheck :
@@ -3596,7 +3701,8 @@ theorem sampleFamilyCoverage_sound
     exists cert : NonIdCert,
       checkNonIdCoveredRank r.val cert = true /\
         checkNonIdCert cert = true :=
-  checkNonIdCoverageForest_sound sampleFamilyCoverage_check hcontains
+  checkNonIdCoverageForest_pairRank_sound
+    sampleFamilyCoverage_check hcontains
 
 #check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage
 #check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage_sound

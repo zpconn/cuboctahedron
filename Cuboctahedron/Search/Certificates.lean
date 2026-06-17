@@ -1848,6 +1848,263 @@ theorem checkGeneratedTranslationCertChunk_sound
       chunk.coveredCases.toList chunk.certs.toList := by
   exact checkTranslationCoveredCaseList_sound hcheck
 
+def proofReducingStartedTransformIds : List Nat :=
+  [0, 1, 2, 3, 4, 5, 6, 7]
+
+def startedTransformSym : Nat -> StartedSym
+  | 0 => { swapYZ := false, negY := false, negZ := false }
+  | 1 => { swapYZ := false, negY := false, negZ := true }
+  | 2 => { swapYZ := false, negY := true, negZ := false }
+  | 3 => { swapYZ := false, negY := true, negZ := true }
+  | 4 => { swapYZ := true, negY := false, negZ := false }
+  | 5 => { swapYZ := true, negY := false, negZ := true }
+  | 6 => { swapYZ := true, negY := true, negZ := false }
+  | 7 => { swapYZ := true, negY := true, negZ := true }
+  | _ => startedSymIdentity
+
+def startedTransformSym? : Nat -> Option StartedSym
+  | 0 => some (startedTransformSym 0)
+  | 1 => some (startedTransformSym 1)
+  | 2 => some (startedTransformSym 2)
+  | 3 => some (startedTransformSym 3)
+  | 4 => some (startedTransformSym 4)
+  | 5 => some (startedTransformSym 5)
+  | 6 => some (startedTransformSym 6)
+  | 7 => some (startedTransformSym 7)
+  | _ => none
+
+def startedTransformIdOfSym (σ : StartedSym) : Nat :=
+  if σ = startedTransformSym 0 then 0
+  else if σ = startedTransformSym 1 then 1
+  else if σ = startedTransformSym 2 then 2
+  else if σ = startedTransformSym 3 then 3
+  else if σ = startedTransformSym 4 then 4
+  else if σ = startedTransformSym 5 then 5
+  else if σ = startedTransformSym 6 then 6
+  else if σ = startedTransformSym 7 then 7
+  else 0
+
+def startedSymInverse (σ : StartedSym) : StartedSym :=
+  if σ.swapYZ then
+    { swapYZ := true, negY := σ.negZ, negZ := σ.negY }
+  else
+    σ
+
+def startedTransformValid (id : Nat) : Prop :=
+  id < allStartedSyms.length
+
+theorem startedTransformSym?_idOfSym (σ : StartedSym) :
+    startedTransformSym? (startedTransformIdOfSym σ) = some σ := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    decide
+
+theorem startedTransformIdOfSym_valid (σ : StartedSym) :
+    startedTransformValid (startedTransformIdOfSym σ) := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    simp [startedTransformValid, startedTransformIdOfSym, startedTransformSym,
+      allStartedSyms]
+
+theorem symPair_inverse (σ : StartedSym) (p : PairId) :
+    symPair (startedSymInverse σ) (symPair σ p) = p := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;> cases p <;>
+    decide
+
+theorem symPairWord_inverse (σ : StartedSym) (w : PairWord) :
+    symPairWord (startedSymInverse σ) (symPairWord σ w) = w := by
+  apply vector_ext_from_get
+  intro i
+  unfold symPairWord
+  have hinner :
+      (Vector.ofFn
+        (fun k : WordIndex => symPair σ (w.get k))).get i =
+        symPair σ (w.get i) := by
+    change
+      (Vector.ofFn
+        (fun k : WordIndex => symPair σ (w.get k)))[i.val] =
+        symPair σ (w.get i)
+    exact Vector.getElem_ofFn i.isLt
+  have houter :
+      (Vector.ofFn
+        (fun j : WordIndex =>
+          symPair (startedSymInverse σ)
+            ((Vector.ofFn
+              (fun k : WordIndex => symPair σ (w.get k))).get j))).get i =
+        symPair (startedSymInverse σ)
+          ((Vector.ofFn
+            (fun k : WordIndex => symPair σ (w.get k))).get i) := by
+    change
+      (Vector.ofFn
+        (fun j : WordIndex =>
+          symPair (startedSymInverse σ)
+            ((Vector.ofFn
+              (fun k : WordIndex => symPair σ (w.get k))).get j)))[i.val] =
+        symPair (startedSymInverse σ)
+          ((Vector.ofFn
+            (fun k : WordIndex => symPair σ (w.get k))).get i)
+    exact Vector.getElem_ofFn i.isLt
+  rw [houter, hinner]
+  exact symPair_inverse σ (w.get i)
+
+theorem symTranslationMask_inverse
+    (σ : StartedSym) (w : PairWord) (mask : SignMask) :
+    symTranslationMask (startedSymInverse σ) (symPairWord σ w)
+      (symTranslationMask σ w mask) = mask := by
+  rcases σ with ⟨swapYZ, negY, negZ⟩
+  cases swapYZ <;> cases negY <;> cases negZ <;>
+    simp [symTranslationMask, transformedMaskBit]
+  all_goals
+    fin_cases mask <;> decide
+
+structure CanonicalPairCaseId where
+  rank : Nat
+  word : PairWord
+deriving DecidableEq, Repr
+
+structure CanonicalTranslationCaseId where
+  rank : Nat
+  word : PairWord
+  mask : SignMask
+deriving DecidableEq, Repr
+
+structure CanonicalPairCoverage where
+  rawRank : Nat
+  rawWord : PairWord
+  canonical : CanonicalPairCaseId
+  rawToCanonicalTransformId : Nat
+  rawToCanonicalTransform : StartedSym
+  canonicalToRawTransformId : Nat
+  canonicalToRawTransform : StartedSym
+deriving DecidableEq, Repr
+
+structure CanonicalTranslationCoverage where
+  rawRank : Nat
+  rawWord : PairWord
+  rawMask : SignMask
+  canonical : CanonicalTranslationCaseId
+  rawToCanonicalTransformId : Nat
+  rawToCanonicalTransform : StartedSym
+  canonicalToRawTransformId : Nat
+  canonicalToRawTransform : StartedSym
+deriving DecidableEq, Repr
+
+noncomputable def canonicalPairCoverage (r : Fin numPairWords) :
+    CanonicalPairCoverage :=
+  let rawWord := unrankPairWord r
+  let result := canonicalPairWordWithTransform rawWord
+  let inverse := startedSymInverse result.sym
+  {
+    rawRank := r.val
+    rawWord := rawWord
+    canonical := {
+      rank := pairWordLexRank result.word
+      word := result.word
+    }
+    rawToCanonicalTransformId := startedTransformIdOfSym result.sym
+    rawToCanonicalTransform := result.sym
+    canonicalToRawTransformId := startedTransformIdOfSym inverse
+    canonicalToRawTransform := inverse
+  }
+
+noncomputable def canonicalTranslationCoverage
+    (r : Fin numPairWords) (mask : SignMask) :
+    CanonicalTranslationCoverage :=
+  let rawWord := unrankPairWord r
+  let result := canonicalTranslationChoiceWithTransform rawWord mask
+  let inverse := startedSymInverse result.sym
+  {
+    rawRank := r.val
+    rawWord := rawWord
+    rawMask := mask
+    canonical := {
+      rank := pairWordLexRank result.word
+      word := result.word
+      mask := result.mask
+    }
+    rawToCanonicalTransformId := startedTransformIdOfSym result.sym
+    rawToCanonicalTransform := result.sym
+    canonicalToRawTransformId := startedTransformIdOfSym inverse
+    canonicalToRawTransform := inverse
+  }
+
+def checkValidPairWordBool (w : PairWord) : Bool :=
+  decide (pairCount PairId.x w = 1) &&
+    (decide (pairCount PairId.y w = 2) &&
+      (decide (pairCount PairId.z w = 2) &&
+        (decide (pairCount PairId.d111 w = 2) &&
+          (decide (pairCount PairId.d11m w = 2) &&
+            (decide (pairCount PairId.d1m1 w = 2) &&
+              decide (pairCount PairId.dm11 w = 2))))))
+
+def checkCanonicalPairCoverage
+    (coverage : CanonicalPairCoverage) : Bool :=
+  let result := canonicalPairWordWithTransform coverage.rawWord
+  let inverse := startedSymInverse result.sym
+  decide (coverage.rawRank < numPairWords) &&
+    (checkValidPairWordBool coverage.rawWord &&
+      (decide (pairWordLexRank coverage.rawWord = coverage.rawRank) &&
+        (decide (coverage.canonical.rank = pairWordLexRank result.word) &&
+          (decide (coverage.canonical.word = result.word) &&
+            (decide
+                (coverage.rawToCanonicalTransformId =
+                  startedTransformIdOfSym result.sym) &&
+              (decide (coverage.rawToCanonicalTransform = result.sym) &&
+                (decide
+                    (coverage.canonicalToRawTransformId =
+                      startedTransformIdOfSym inverse) &&
+                  decide
+                    (coverage.canonicalToRawTransform = inverse))))))))
+
+def checkCanonicalTranslationCoverage
+    (coverage : CanonicalTranslationCoverage) : Bool :=
+  let result :=
+    canonicalTranslationChoiceWithTransform coverage.rawWord coverage.rawMask
+  let inverse := startedSymInverse result.sym
+  decide (coverage.rawRank < numPairWords) &&
+    (checkValidPairWordBool coverage.rawWord &&
+      (decide (pairWordLexRank coverage.rawWord = coverage.rawRank) &&
+        (decide (coverage.canonical.rank = pairWordLexRank result.word) &&
+          (decide (coverage.canonical.word = result.word) &&
+            (decide (coverage.canonical.mask = result.mask) &&
+              (decide
+                  (coverage.rawToCanonicalTransformId =
+                    startedTransformIdOfSym result.sym) &&
+                (decide (coverage.rawToCanonicalTransform = result.sym) &&
+                  (decide
+                      (coverage.canonicalToRawTransformId =
+                        startedTransformIdOfSym inverse) &&
+                    decide
+                      (coverage.canonicalToRawTransform = inverse)))))))))
+
+theorem checkCanonicalPairCoverage_sound
+    {coverage : CanonicalPairCoverage}
+    (hcheck : checkCanonicalPairCoverage coverage = true) :
+    checkCanonicalPairCoverage coverage = true :=
+  hcheck
+
+theorem checkCanonicalTranslationCoverage_sound
+    {coverage : CanonicalTranslationCoverage}
+    (hcheck : checkCanonicalTranslationCoverage coverage = true) :
+    checkCanonicalTranslationCoverage coverage = true :=
+  hcheck
+
+theorem canonicalPairCoverage_unique
+    {r : Fin numPairWords} {a b : CanonicalPairCoverage}
+    (ha : a = canonicalPairCoverage r)
+    (hb : b = canonicalPairCoverage r) :
+    a = b := by
+  rw [ha, hb]
+
+theorem canonicalTranslationCoverage_unique
+    {r : Fin numPairWords} {mask : SignMask}
+    {a b : CanonicalTranslationCoverage}
+    (ha : a = canonicalTranslationCoverage r mask)
+    (hb : b = canonicalTranslationCoverage r mask) :
+    a = b := by
+  rw [ha, hb]
+
 structure RankInterval where
   startRank : Nat
   endRank : Nat
@@ -1856,6 +2113,17 @@ deriving DecidableEq, Repr
 def RankInterval.ContainsPairRank
     (interval : RankInterval) (r : Fin numPairWords) : Prop :=
   interval.startRank <= r.val /\ r.val < interval.endRank
+
+def RankInterval.ContainsCanonicalPairCoverage
+    (interval : RankInterval) (coverage : CanonicalPairCoverage) :
+    Prop :=
+  interval.startRank <= coverage.canonical.rank /\
+    coverage.canonical.rank < interval.endRank
+
+def checkRankIntervalContainsCanonicalPairCoverage
+    (interval : RankInterval) (coverage : CanonicalPairCoverage) : Bool :=
+  decide (interval.startRank <= coverage.canonical.rank) &&
+    decide (coverage.canonical.rank < interval.endRank)
 
 def checkRankInterval (interval : RankInterval) : Bool :=
   decide (interval.startRank < interval.endRank) &&
@@ -1873,6 +2141,22 @@ def TranslationCaseBox.Contains
     (mask : SignMask) : Prop :=
   box.startRank <= r.val /\ r.val < box.endRank /\
     box.startMask <= mask.val /\ mask.val < box.endMask
+
+def TranslationCaseBox.ContainsCanonicalTranslationCoverage
+    (box : TranslationCaseBox)
+    (coverage : CanonicalTranslationCoverage) : Prop :=
+  box.startRank <= coverage.canonical.rank /\
+    coverage.canonical.rank < box.endRank /\
+      box.startMask <= coverage.canonical.mask.val /\
+        coverage.canonical.mask.val < box.endMask
+
+def checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+    (box : TranslationCaseBox)
+    (coverage : CanonicalTranslationCoverage) : Bool :=
+  decide (box.startRank <= coverage.canonical.rank) &&
+    (decide (coverage.canonical.rank < box.endRank) &&
+      (decide (box.startMask <= coverage.canonical.mask.val) &&
+        decide (coverage.canonical.mask.val < box.endMask)))
 
 def checkTranslationCaseBox (box : TranslationCaseBox) : Bool :=
   decide (box.startRank < box.endRank) &&
@@ -1904,109 +2188,104 @@ def checkNonIdFamilyFailureMatches
 structure NonIdFamilyCert where
   name : String
   failure : NonIdFamilyFailure
-  coveredRanks : Array Nat
+  coverages : Array CanonicalPairCoverage
   certs : Array NonIdCert
 deriving DecidableEq, Repr
 
 noncomputable def checkNonIdFamilyEntries
     (family : NonIdFamilyFailure) (expectedStart endRank : Nat) :
-    List Nat -> List NonIdCert -> Bool
+    List CanonicalPairCoverage -> List NonIdCert -> Bool
   | [], [] => decide (expectedStart = endRank)
-  | rank :: ranks, cert :: certs =>
-      decide (rank = expectedStart) &&
-        (checkNonIdCoveredRank rank cert &&
-          (checkNonIdCert cert &&
-            (checkNonIdFamilyFailureMatches family cert &&
-              checkNonIdFamilyEntries family (expectedStart + 1)
-                endRank ranks certs)))
+  | coverage :: coverages, cert :: certs =>
+      checkCanonicalPairCoverage coverage &&
+        (decide (coverage.canonical.rank = expectedStart) &&
+          (checkNonIdCoveredRank coverage.rawRank cert &&
+            (checkNonIdCert cert &&
+              (checkNonIdFamilyFailureMatches family cert &&
+                checkNonIdFamilyEntries family (expectedStart + 1)
+                  endRank coverages certs))))
   | _, _ => false
 
 noncomputable def checkNonIdFamilyCert
     (interval : RankInterval) (family : NonIdFamilyCert) : Bool :=
   checkRankInterval interval &&
     checkNonIdFamilyEntries family.failure interval.startRank
-      interval.endRank family.coveredRanks.toList family.certs.toList
+      interval.endRank family.coverages.toList family.certs.toList
 
 theorem checkNonIdFamilyEntries_sound
     {family : NonIdFamilyFailure}
-    {ranks : List Nat} {certs : List NonIdCert}
-    {expectedStart endRank : Nat} {r : Fin numPairWords}
+    {coverages : List CanonicalPairCoverage} {certs : List NonIdCert}
+    {expectedStart endRank : Nat} {coverage : CanonicalPairCoverage}
     (hcheck :
-      checkNonIdFamilyEntries family expectedStart endRank ranks certs =
+      checkNonIdFamilyEntries family expectedStart endRank coverages certs =
         true)
-    (hstart : expectedStart <= r.val)
-    (hend : r.val < endRank) :
+    (hmem : coverage ∈ coverages) :
     exists cert : NonIdCert,
-      checkNonIdCoveredRank r.val cert = true /\
+      checkNonIdCoveredRank coverage.rawRank cert = true /\
         checkNonIdCert cert = true := by
-  induction ranks generalizing expectedStart certs with
+  induction coverages generalizing expectedStart certs with
   | nil =>
-      cases certs with
-      | nil =>
-          simp [checkNonIdFamilyEntries] at hcheck
-          omega
-      | cons cert certs =>
-          simp [checkNonIdFamilyEntries] at hcheck
-  | cons rank ranks ih =>
+      simp at hmem
+  | cons current coverages ih =>
       cases certs with
       | nil =>
           simp [checkNonIdFamilyEntries] at hcheck
       | cons cert certs =>
-          change
-            (decide (rank = expectedStart) &&
-              (checkNonIdCoveredRank rank cert &&
-                (checkNonIdCert cert &&
-                  (checkNonIdFamilyFailureMatches family cert &&
-                    checkNonIdFamilyEntries family (expectedStart + 1)
-                      endRank ranks certs)))) = true at hcheck
-          cases hRankEqBool : decide (rank = expectedStart)
-          · simp [hRankEqBool] at hcheck
-          · simp [hRankEqBool] at hcheck
-            have hRankEq : rank = expectedStart :=
-              of_decide_eq_true hRankEqBool
-            cases hCovered : checkNonIdCoveredRank rank cert
-            · simp [hCovered] at hcheck
-            · simp [hCovered] at hcheck
-              cases hCert : checkNonIdCert cert
-              · simp [hCert] at hcheck
-              · simp [hCert] at hcheck
-                cases hMatches :
-                    checkNonIdFamilyFailureMatches family cert
-                · simp [hMatches] at hcheck
-                · simp [hMatches] at hcheck
-                  by_cases hrCurrent : r.val < expectedStart + 1
-                  · have hr : r.val = expectedStart := by omega
-                    refine ⟨cert, ?_, hCert⟩
-                    simpa [hRankEq, hr] using hCovered
-                  · exact ih hcheck (by omega)
+          have hparts :
+              checkCanonicalPairCoverage current = true /\
+                current.canonical.rank = expectedStart /\
+                  checkNonIdCoveredRank current.rawRank cert = true /\
+                    checkNonIdCert cert = true /\
+                      checkNonIdFamilyFailureMatches family cert = true /\
+                        checkNonIdFamilyEntries family (expectedStart + 1)
+                          endRank coverages certs = true := by
+            simpa only [checkNonIdFamilyEntries, Bool.and_eq_true,
+              decide_eq_true_eq] using hcheck
+          simp at hmem
+          rcases hmem with hEq | hmem
+          · subst coverage
+            exact ⟨cert, hparts.2.2.1, hparts.2.2.2.1⟩
+          · exact ih hparts.2.2.2.2.2 hmem
 
 theorem checkNonIdFamilyCert_sound
     {interval : RankInterval} {family : NonIdFamilyCert}
     (hcheck : checkNonIdFamilyCert interval family = true)
-    {r : Fin numPairWords}
-    (hcontains : interval.ContainsPairRank r) :
+    {coverage : CanonicalPairCoverage}
+    (hmem : coverage ∈ family.coverages.toList) :
     exists cert : NonIdCert,
-      checkNonIdCoveredRank r.val cert = true /\
+      checkNonIdCoveredRank coverage.rawRank cert = true /\
         checkNonIdCert cert = true := by
   simp only [checkNonIdFamilyCert, Bool.and_eq_true] at hcheck
-  exact
-    checkNonIdFamilyEntries_sound hcheck.2 hcontains.1
-      hcontains.2
+  exact checkNonIdFamilyEntries_sound hcheck.2 hmem
 
 inductive NonIdCoverageLeaf
-  | raw (cert : NonIdCert)
-  | transported (transport : CanonicalNonIdTransport)
+  | raw (coverage : CanonicalPairCoverage) (cert : NonIdCert)
+  | transported
+      (coverage : CanonicalPairCoverage)
+      (transport : CanonicalNonIdTransport)
   | family (family : NonIdFamilyCert)
 deriving DecidableEq, Repr
 
+def NonIdCoverageLeaf.ContainsPairCoverage
+    (leaf : NonIdCoverageLeaf) (coverage : CanonicalPairCoverage) :
+    Prop :=
+  match leaf with
+  | NonIdCoverageLeaf.raw stored _ => coverage = stored
+  | NonIdCoverageLeaf.transported stored _ => coverage = stored
+  | NonIdCoverageLeaf.family fam => coverage ∈ fam.coverages.toList
+
 noncomputable def checkNonIdCoverageLeafPayload
     (interval : RankInterval) : NonIdCoverageLeaf -> Bool
-  | NonIdCoverageLeaf.raw cert =>
-      checkNonIdCoveredRank interval.startRank cert &&
-        checkNonIdCert cert
-  | NonIdCoverageLeaf.transported transport =>
-      checkNonIdCoveredRank interval.startRank transport.raw &&
-        checkCanonicalNonIdTransport transport
+  | NonIdCoverageLeaf.raw coverage cert =>
+      checkCanonicalPairCoverage coverage &&
+        (checkRankIntervalContainsCanonicalPairCoverage interval coverage &&
+          (checkNonIdCoveredRank coverage.rawRank cert &&
+            checkNonIdCert cert))
+  | NonIdCoverageLeaf.transported coverage transport =>
+      checkCanonicalPairCoverage coverage &&
+        (checkRankIntervalContainsCanonicalPairCoverage interval coverage &&
+          (checkNonIdCoveredRank coverage.rawRank transport.raw &&
+            checkCanonicalNonIdTransport transport))
   | NonIdCoverageLeaf.family family =>
       checkNonIdFamilyCert interval family
 
@@ -2014,10 +2293,10 @@ noncomputable def checkNonIdCoverageLeaf
     (interval : RankInterval) (leaf : NonIdCoverageLeaf) : Bool :=
   checkRankInterval interval &&
     match leaf with
-    | NonIdCoverageLeaf.raw _ =>
+    | NonIdCoverageLeaf.raw _ _ =>
         decide (interval.endRank = interval.startRank + 1) &&
           checkNonIdCoverageLeafPayload interval leaf
-    | NonIdCoverageLeaf.transported _ =>
+    | NonIdCoverageLeaf.transported _ _ =>
         decide (interval.endRank = interval.startRank + 1) &&
           checkNonIdCoverageLeafPayload interval leaf
     | NonIdCoverageLeaf.family _ =>
@@ -2026,60 +2305,59 @@ noncomputable def checkNonIdCoverageLeaf
 theorem checkNonIdCoverageLeaf_sound
     {interval : RankInterval} {leaf : NonIdCoverageLeaf}
     (hcheck : checkNonIdCoverageLeaf interval leaf = true)
-    {r : Fin numPairWords}
-    (hcontains : interval.ContainsPairRank r) :
+    {coverage : CanonicalPairCoverage}
+    (hcontains : leaf.ContainsPairCoverage coverage) :
     exists cert : NonIdCert,
-      checkNonIdCoveredRank r.val cert = true /\
+      checkNonIdCoveredRank coverage.rawRank cert = true /\
         checkNonIdCert cert = true := by
   cases leaf with
-  | raw cert =>
+  | raw stored cert =>
+      simp [NonIdCoverageLeaf.ContainsPairCoverage] at hcontains
       have hparts :
           checkRankInterval interval = true /\
             interval.endRank = interval.startRank + 1 /\
               checkNonIdCoverageLeafPayload interval
-                (NonIdCoverageLeaf.raw cert) = true := by
+                (NonIdCoverageLeaf.raw stored cert) = true := by
         simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true,
           decide_eq_true_eq] using hcheck
-      rcases hparts with ⟨_hInterval, hSingleton, hPayload⟩
-      have hr : r.val = interval.startRank := by
-        unfold RankInterval.ContainsPairRank at hcontains
-        omega
+      rcases hparts with ⟨_hInterval, _hSingleton, hPayload⟩
+      subst stored
       change
-        (checkNonIdCoveredRank interval.startRank cert &&
-          checkNonIdCert cert) = true at hPayload
-      cases hRank : checkNonIdCoveredRank interval.startRank cert
-      · simp [hRank] at hPayload
-      · simp [hRank] at hPayload
-        exact ⟨cert, by simpa [hr] using hRank, hPayload⟩
-  | transported transport =>
+        (checkCanonicalPairCoverage coverage &&
+          (checkRankIntervalContainsCanonicalPairCoverage interval coverage &&
+            (checkNonIdCoveredRank coverage.rawRank cert &&
+              checkNonIdCert cert))) = true at hPayload
+      simp only [Bool.and_eq_true] at hPayload
+      exact ⟨cert, hPayload.2.2.1, hPayload.2.2.2⟩
+  | transported stored transport =>
+      simp [NonIdCoverageLeaf.ContainsPairCoverage] at hcontains
       have hparts :
           checkRankInterval interval = true /\
             interval.endRank = interval.startRank + 1 /\
               checkNonIdCoverageLeafPayload interval
-                (NonIdCoverageLeaf.transported transport) = true := by
+                (NonIdCoverageLeaf.transported stored transport) = true := by
         simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true,
           decide_eq_true_eq] using hcheck
-      rcases hparts with ⟨_hInterval, hSingleton, hPayload⟩
-      have hr : r.val = interval.startRank := by
-        unfold RankInterval.ContainsPairRank at hcontains
-        omega
+      rcases hparts with ⟨_hInterval, _hSingleton, hPayload⟩
+      subst stored
       change
-        (checkNonIdCoveredRank interval.startRank transport.raw &&
-          checkCanonicalNonIdTransport transport) = true at hPayload
-      cases hRank : checkNonIdCoveredRank interval.startRank transport.raw
-      · simp [hRank] at hPayload
-      · simp [hRank] at hPayload
-        have hCert :=
-          canonical_nonidentity_failure_transport transport hPayload
-        exact ⟨transport.raw, by simpa [hr] using hRank, hCert⟩
+        (checkCanonicalPairCoverage coverage &&
+          (checkRankIntervalContainsCanonicalPairCoverage interval coverage &&
+            (checkNonIdCoveredRank coverage.rawRank transport.raw &&
+              checkCanonicalNonIdTransport transport))) = true at hPayload
+      simp only [Bool.and_eq_true] at hPayload
+      have hCert :=
+        canonical_nonidentity_failure_transport transport hPayload.2.2.2
+      exact ⟨transport.raw, hPayload.2.2.1, hCert⟩
   | family family =>
+      simp [NonIdCoverageLeaf.ContainsPairCoverage] at hcontains
       have hparts :
           checkRankInterval interval = true /\
             checkNonIdCoverageLeafPayload interval
               (NonIdCoverageLeaf.family family) = true := by
         simpa only [checkNonIdCoverageLeaf, Bool.and_eq_true]
           using hcheck
-      exact checkNonIdFamilyCert_sound hparts.2 hcontains
+      exact checkNonIdFamilyCert_sound hparts.2 (by simpa using hcontains)
 
 inductive NonIdCoverageTree
   | leaf (interval : RankInterval) (leaf : NonIdCoverageLeaf)
@@ -2091,6 +2369,27 @@ def NonIdCoverageTree.interval : NonIdCoverageTree -> RankInterval
   | NonIdCoverageTree.branch interval _ => interval
 
 def coverageTreeFuel : Nat := 64
+
+def NonIdCoverageTree.ContainsPairCoverageFuel :
+    Nat -> NonIdCoverageTree -> CanonicalPairCoverage -> Prop
+  | 0, _, _ => False
+  | _fuel + 1, NonIdCoverageTree.leaf interval payload, coverage =>
+      interval.ContainsCanonicalPairCoverage coverage /\
+        payload.ContainsPairCoverage coverage
+  | fuel + 1, NonIdCoverageTree.branch interval children, coverage =>
+      interval.ContainsCanonicalPairCoverage coverage /\
+        exists child : NonIdCoverageTree,
+          child ∈ children /\
+            NonIdCoverageTree.ContainsPairCoverageFuel fuel child coverage
+
+def NonIdCoverageTree.ContainsPairCoverage
+    (tree : NonIdCoverageTree) (coverage : CanonicalPairCoverage) :
+    Prop :=
+  NonIdCoverageTree.ContainsPairCoverageFuel coverageTreeFuel tree coverage
+
+def NonIdCoverageTree.ContainsPairRank
+    (tree : NonIdCoverageTree) (r : Fin numPairWords) : Prop :=
+  tree.ContainsPairCoverage (canonicalPairCoverage r)
 
 def checkNonIdCoverageChildrenWith
     (checkChild : NonIdCoverageTree -> Bool)
@@ -2164,13 +2463,41 @@ theorem checkNonIdCoverageChildrenWith_route
             refine ⟨found, ?_, hcover, hfoundCheck⟩
             simp [hmem]
 
+theorem checkNonIdCoverageChildrenWith_child_checked
+    {checkChild : NonIdCoverageTree -> Bool}
+    {children : List NonIdCoverageTree}
+    {expectedStart endRank : Nat}
+    (hcheck :
+      checkNonIdCoverageChildrenWith checkChild
+        expectedStart endRank children = true)
+    {child : NonIdCoverageTree}
+    (hmem : child ∈ children) :
+    checkChild child = true := by
+  induction children generalizing expectedStart with
+  | nil =>
+      simp at hmem
+  | cons current children ih =>
+      have hparts :
+          current.interval.startRank = expectedStart /\
+            checkChild current = true /\
+              checkNonIdCoverageChildrenWith checkChild
+                current.interval.endRank endRank children = true := by
+        simpa only [checkNonIdCoverageChildrenWith, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      simp at hmem
+      rcases hmem with hEq | hmem
+      · subst child
+        exact hparts.2.1
+      · exact ih hparts.2.2 hmem
+
 theorem checkNonIdCoverageTreeFuel_sound
     (fuel : Nat) (tree : NonIdCoverageTree)
     (hcheck : checkNonIdCoverageTreeFuel fuel tree = true)
-    {r : Fin numPairWords}
-    (hcontains : tree.interval.ContainsPairRank r) :
+    {coverage : CanonicalPairCoverage}
+    (hcontains :
+      NonIdCoverageTree.ContainsPairCoverageFuel fuel tree coverage) :
     exists cert : NonIdCert,
-      checkNonIdCoveredRank r.val cert = true /\
+      checkNonIdCoveredRank coverage.rawRank cert = true /\
         checkNonIdCert cert = true := by
   induction fuel generalizing tree with
   | zero =>
@@ -2178,34 +2505,55 @@ theorem checkNonIdCoverageTreeFuel_sound
   | succ fuel ih =>
       cases tree with
       | leaf interval leaf =>
-          exact checkNonIdCoverageLeaf_sound hcheck hcontains
+          simp [NonIdCoverageTree.ContainsPairCoverageFuel] at hcontains
+          exact checkNonIdCoverageLeaf_sound hcheck hcontains.2
       | branch interval children =>
+          simp [NonIdCoverageTree.ContainsPairCoverageFuel] at hcontains
           simp only [checkNonIdCoverageTreeFuel, Bool.and_eq_true] at hcheck
           rcases hcheck with ⟨_hInterval, hChildren⟩
-          rcases
-            checkNonIdCoverageChildrenWith_route hChildren
-              hcontains.1 hcontains.2 with
-            ⟨child, _hmem, hChildContains, hChildCheck⟩
+          rcases hcontains.2 with
+            ⟨child, hmem, hChildContains⟩
+          have hChildCheck :=
+            checkNonIdCoverageChildrenWith_child_checked hChildren hmem
           exact ih child hChildCheck hChildContains
 
 theorem checkNonIdCoverageTree_sound
     {tree : NonIdCoverageTree}
     (hcheck : checkNonIdCoverageTree tree = true)
-    {r : Fin numPairWords}
-    (hcontains : tree.interval.ContainsPairRank r) :
+    {coverage : CanonicalPairCoverage}
+    (hcontains : tree.ContainsPairCoverage coverage) :
     exists cert : NonIdCert,
-      checkNonIdCoveredRank r.val cert = true /\
+      checkNonIdCoveredRank coverage.rawRank cert = true /\
         checkNonIdCert cert = true :=
   checkNonIdCoverageTreeFuel_sound coverageTreeFuel tree hcheck hcontains
+
+theorem checkNonIdCoverageTree_pairRank_sound
+    {tree : NonIdCoverageTree}
+    (hcheck : checkNonIdCoverageTree tree = true)
+    {r : Fin numPairWords}
+    (hcontains : tree.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  rcases checkNonIdCoverageTree_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  refine ⟨cert, ?_, hcert⟩
+  simpa [NonIdCoverageTree.ContainsPairRank, canonicalPairCoverage]
+    using hcovered
 
 structure NonIdCoverageForest where
   trees : List NonIdCoverageTree
 deriving Repr
 
+def NonIdCoverageForest.ContainsPairCoverage
+    (forest : NonIdCoverageForest)
+    (coverage : CanonicalPairCoverage) : Prop :=
+  exists tree : NonIdCoverageTree,
+    tree ∈ forest.trees /\ tree.ContainsPairCoverage coverage
+
 def NonIdCoverageForest.ContainsPairRank
     (forest : NonIdCoverageForest) (r : Fin numPairWords) : Prop :=
-  exists tree : NonIdCoverageTree,
-    tree ∈ forest.trees /\ tree.interval.ContainsPairRank r
+  forest.ContainsPairCoverage (canonicalPairCoverage r)
 
 noncomputable def checkNonIdCoverageForest
     (forest : NonIdCoverageForest) : Bool :=
@@ -2214,10 +2562,10 @@ noncomputable def checkNonIdCoverageForest
 theorem checkNonIdCoverageForest_sound
     {forest : NonIdCoverageForest}
     (hcheck : checkNonIdCoverageForest forest = true)
-    {r : Fin numPairWords}
-    (hcontains : forest.ContainsPairRank r) :
+    {coverage : CanonicalPairCoverage}
+    (hcontains : forest.ContainsPairCoverage coverage) :
     exists cert : NonIdCert,
-      checkNonIdCoveredRank r.val cert = true /\
+      checkNonIdCoveredRank coverage.rawRank cert = true /\
         checkNonIdCert cert = true := by
   rcases hcontains with ⟨tree, hmem, htreeContains⟩
   have htreeCheck : checkNonIdCoverageTree tree = true := by
@@ -2225,27 +2573,52 @@ theorem checkNonIdCoverageForest_sound
     exact List.all_eq_true.mp hcheck tree hmem
   exact checkNonIdCoverageTree_sound htreeCheck htreeContains
 
+theorem checkNonIdCoverageForest_pairRank_sound
+    {forest : NonIdCoverageForest}
+    (hcheck : checkNonIdCoverageForest forest = true)
+    {r : Fin numPairWords}
+    (hcontains : forest.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  rcases checkNonIdCoverageForest_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  refine ⟨cert, ?_, hcert⟩
+  simpa [NonIdCoverageForest.ContainsPairRank, canonicalPairCoverage]
+    using hcovered
+
 inductive TranslationCoverageLeaf
-  | raw (cert : TranslationCert)
-  | transported (transport : CanonicalTranslationTransport)
+  | raw (coverage : CanonicalTranslationCoverage) (cert : TranslationCert)
+  | transported
+      (coverage : CanonicalTranslationCoverage)
+      (transport : CanonicalTranslationTransport)
 deriving DecidableEq, Repr
 
-def TranslationCoverageLeaf.cert : TranslationCoverageLeaf -> TranslationCert
-  | TranslationCoverageLeaf.raw cert => cert
-  | TranslationCoverageLeaf.transported transport => transport.raw
+def TranslationCoverageLeaf.ContainsTranslationCoverage
+    (leaf : TranslationCoverageLeaf)
+    (coverage : CanonicalTranslationCoverage) : Prop :=
+  match leaf with
+  | TranslationCoverageLeaf.raw stored _ => coverage = stored
+  | TranslationCoverageLeaf.transported stored _ => coverage = stored
 
 noncomputable def checkTranslationCoverageLeafPayload
     (box : TranslationCaseBox) : TranslationCoverageLeaf -> Bool
-  | TranslationCoverageLeaf.raw cert =>
-      checkTranslationCoveredCase
-        { pairRank := box.startRank, signMask := box.startMask }
-        cert &&
-        checkTranslationCert cert
-  | TranslationCoverageLeaf.transported transport =>
-      checkTranslationCoveredCase
-        { pairRank := box.startRank, signMask := box.startMask }
-        transport.raw &&
-        checkCanonicalTranslationTransport transport
+  | TranslationCoverageLeaf.raw coverage cert =>
+      checkCanonicalTranslationCoverage coverage &&
+        (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+          box coverage &&
+          (checkTranslationCoveredCase
+            { pairRank := coverage.rawRank,
+              signMask := coverage.rawMask.val } cert &&
+            checkTranslationCert cert))
+  | TranslationCoverageLeaf.transported coverage transport =>
+      checkCanonicalTranslationCoverage coverage &&
+        (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+          box coverage &&
+          (checkTranslationCoveredCase
+            { pairRank := coverage.rawRank,
+              signMask := coverage.rawMask.val } transport.raw &&
+            checkCanonicalTranslationTransport transport))
 
 noncomputable def checkTranslationCoverageLeaf
     (box : TranslationCaseBox) (leaf : TranslationCoverageLeaf) : Bool :=
@@ -2257,11 +2630,12 @@ noncomputable def checkTranslationCoverageLeaf
 theorem checkTranslationCoverageLeaf_sound
     {box : TranslationCaseBox} {leaf : TranslationCoverageLeaf}
     (hcheck : checkTranslationCoverageLeaf box leaf = true)
-    {r : Fin numPairWords} {mask : SignMask}
-    (hcontains : box.Contains r mask) :
+    {coverage : CanonicalTranslationCoverage}
+    (hcontains : leaf.ContainsTranslationCoverage coverage) :
     exists cert : TranslationCert,
       checkTranslationCoveredCase
-          { pairRank := r.val, signMask := mask.val } cert = true /\
+          { pairRank := coverage.rawRank,
+            signMask := coverage.rawMask.val } cert = true /\
         checkTranslationCert cert = true := by
   have hparts :
       checkTranslationCaseBox box = true /\
@@ -2272,37 +2646,35 @@ theorem checkTranslationCoverageLeaf_sound
       decide_eq_true_eq] using hcheck
   rcases hparts with
     ⟨_hBox, hRankSingleton, hMaskSingleton, hPayload⟩
-  have hr : r.val = box.startRank := by
-    unfold TranslationCaseBox.Contains at hcontains
-    omega
-  have hmask : mask.val = box.startMask := by
-    unfold TranslationCaseBox.Contains at hcontains
-    omega
   cases leaf with
-  | raw cert =>
+  | raw stored cert =>
+      simp [TranslationCoverageLeaf.ContainsTranslationCoverage] at hcontains
+      subst stored
       change
-        (checkTranslationCoveredCase
-          { pairRank := box.startRank, signMask := box.startMask } cert &&
-          checkTranslationCert cert) = true at hPayload
-      cases hCase : checkTranslationCoveredCase
-          { pairRank := box.startRank, signMask := box.startMask } cert
-      · simp [hCase] at hPayload
-      · simp [hCase] at hPayload
-        exact ⟨cert, by simpa [hr, hmask] using hCase, hPayload⟩
-  | transported transport =>
+        (checkCanonicalTranslationCoverage coverage &&
+          (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+            box coverage &&
+            (checkTranslationCoveredCase
+              { pairRank := coverage.rawRank,
+                signMask := coverage.rawMask.val } cert &&
+              checkTranslationCert cert))) = true at hPayload
+      simp only [Bool.and_eq_true] at hPayload
+      exact ⟨cert, hPayload.2.2.1, hPayload.2.2.2⟩
+  | transported stored transport =>
+      simp [TranslationCoverageLeaf.ContainsTranslationCoverage] at hcontains
+      subst stored
       change
-        (checkTranslationCoveredCase
-          { pairRank := box.startRank, signMask := box.startMask }
-          transport.raw &&
-          checkCanonicalTranslationTransport transport) = true at hPayload
-      cases hCase : checkTranslationCoveredCase
-          { pairRank := box.startRank, signMask := box.startMask }
-          transport.raw
-      · simp [hCase] at hPayload
-      · simp [hCase] at hPayload
-        have hCert :=
-          canonical_translation_failure_transport transport hPayload
-        exact ⟨transport.raw, by simpa [hr, hmask] using hCase, hCert⟩
+        (checkCanonicalTranslationCoverage coverage &&
+          (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+            box coverage &&
+            (checkTranslationCoveredCase
+              { pairRank := coverage.rawRank,
+                signMask := coverage.rawMask.val } transport.raw &&
+              checkCanonicalTranslationTransport transport))) = true at hPayload
+      simp only [Bool.and_eq_true] at hPayload
+      have hCert :=
+        canonical_translation_failure_transport transport hPayload.2.2.2
+      exact ⟨transport.raw, hPayload.2.2.1, hCert⟩
 
 inductive TranslationCoverageTree
   | leaf (box : TranslationCaseBox) (leaf : TranslationCoverageLeaf)
@@ -2317,6 +2689,36 @@ def TranslationCoverageTree.box : TranslationCoverageTree ->
   | TranslationCoverageTree.leaf box _ => box
   | TranslationCoverageTree.rankBranch box _ => box
   | TranslationCoverageTree.maskBranch box _ => box
+
+def TranslationCoverageTree.ContainsTranslationCoverageFuel :
+    Nat -> TranslationCoverageTree -> CanonicalTranslationCoverage -> Prop
+  | 0, _, _ => False
+  | _fuel + 1, TranslationCoverageTree.leaf box payload, coverage =>
+      box.ContainsCanonicalTranslationCoverage coverage /\
+        payload.ContainsTranslationCoverage coverage
+  | fuel + 1, TranslationCoverageTree.rankBranch box children, coverage =>
+      box.ContainsCanonicalTranslationCoverage coverage /\
+        exists child : TranslationCoverageTree,
+          child ∈ children /\
+            TranslationCoverageTree.ContainsTranslationCoverageFuel fuel
+              child coverage
+  | fuel + 1, TranslationCoverageTree.maskBranch box children, coverage =>
+      box.ContainsCanonicalTranslationCoverage coverage /\
+        exists child : TranslationCoverageTree,
+          child ∈ children /\
+            TranslationCoverageTree.ContainsTranslationCoverageFuel fuel
+              child coverage
+
+def TranslationCoverageTree.ContainsTranslationCoverage
+    (tree : TranslationCoverageTree)
+    (coverage : CanonicalTranslationCoverage) : Prop :=
+  TranslationCoverageTree.ContainsTranslationCoverageFuel coverageTreeFuel
+    tree coverage
+
+def TranslationCoverageTree.ContainsTranslationChoice
+    (tree : TranslationCoverageTree)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  tree.ContainsTranslationCoverage (canonicalTranslationCoverage r mask)
 
 def checkTranslationRankChildrenWith
     (checkChild : TranslationCoverageTree -> Bool)
@@ -2409,6 +2811,36 @@ theorem checkTranslationRankChildrenWith_route
         refine ⟨found, ?_, hcover, hfoundCheck⟩
         simp [hmem]
 
+theorem checkTranslationRankChildrenWith_child_checked
+    {checkChild : TranslationCoverageTree -> Bool}
+    {children : List TranslationCoverageTree}
+    {parent : TranslationCaseBox}
+    {expectedStart endRank : Nat}
+    (hcheck :
+      checkTranslationRankChildrenWith checkChild parent
+        expectedStart endRank children = true)
+    {child : TranslationCoverageTree}
+    (hmem : child ∈ children) :
+    checkChild child = true := by
+  induction children generalizing expectedStart with
+  | nil =>
+      simp at hmem
+  | cons current children ih =>
+      have hparts :
+          current.box.startRank = expectedStart /\
+            current.box.startMask = parent.startMask /\
+              current.box.endMask = parent.endMask /\
+                checkChild current = true /\
+                  checkTranslationRankChildrenWith checkChild parent
+                    current.box.endRank endRank children = true := by
+        simpa only [checkTranslationRankChildrenWith, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      simp at hmem
+      rcases hmem with hEq | hmem
+      · subst child
+        exact hparts.2.2.2.1
+      · exact ih hparts.2.2.2.2 hmem
+
 theorem checkTranslationMaskChildrenWith_route
     {checkChild : TranslationCoverageTree -> Bool}
     {children : List TranslationCoverageTree}
@@ -2452,14 +2884,47 @@ theorem checkTranslationMaskChildrenWith_route
         refine ⟨found, ?_, hcover, hfoundCheck⟩
         simp [hmem]
 
+theorem checkTranslationMaskChildrenWith_child_checked
+    {checkChild : TranslationCoverageTree -> Bool}
+    {children : List TranslationCoverageTree}
+    {parent : TranslationCaseBox}
+    {expectedStart endMask : Nat}
+    (hcheck :
+      checkTranslationMaskChildrenWith checkChild parent
+        expectedStart endMask children = true)
+    {child : TranslationCoverageTree}
+    (hmem : child ∈ children) :
+    checkChild child = true := by
+  induction children generalizing expectedStart with
+  | nil =>
+      simp at hmem
+  | cons current children ih =>
+      have hparts :
+          current.box.startMask = expectedStart /\
+            current.box.startRank = parent.startRank /\
+              current.box.endRank = parent.endRank /\
+                checkChild current = true /\
+                  checkTranslationMaskChildrenWith checkChild parent
+                    current.box.endMask endMask children = true := by
+        simpa only [checkTranslationMaskChildrenWith, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      simp at hmem
+      rcases hmem with hEq | hmem
+      · subst child
+        exact hparts.2.2.2.1
+      · exact ih hparts.2.2.2.2 hmem
+
 theorem checkTranslationCoverageTreeFuel_sound
     (fuel : Nat) (tree : TranslationCoverageTree)
     (hcheck : checkTranslationCoverageTreeFuel fuel tree = true)
-    {r : Fin numPairWords} {mask : SignMask}
-    (hcontains : tree.box.Contains r mask) :
+    {coverage : CanonicalTranslationCoverage}
+    (hcontains :
+      TranslationCoverageTree.ContainsTranslationCoverageFuel
+        fuel tree coverage) :
     exists cert : TranslationCert,
       checkTranslationCoveredCase
-          { pairRank := r.val, signMask := mask.val } cert = true /\
+          { pairRank := coverage.rawRank,
+            signMask := coverage.rawMask.val } cert = true /\
         checkTranslationCert cert = true := by
   induction fuel generalizing tree with
   | zero =>
@@ -2467,39 +2932,59 @@ theorem checkTranslationCoverageTreeFuel_sound
   | succ fuel ih =>
       cases tree with
       | leaf box leaf =>
-          exact checkTranslationCoverageLeaf_sound hcheck hcontains
+          simp [TranslationCoverageTree.ContainsTranslationCoverageFuel]
+            at hcontains
+          exact checkTranslationCoverageLeaf_sound hcheck hcontains.2
       | rankBranch box children =>
+          simp [TranslationCoverageTree.ContainsTranslationCoverageFuel]
+            at hcontains
           simp only [checkTranslationCoverageTreeFuel, Bool.and_eq_true]
             at hcheck
           rcases hcheck with ⟨_hBox, hChildren⟩
-          rcases
-            checkTranslationRankChildrenWith_route hChildren
-              hcontains.1 hcontains.2.1 hcontains.2.2.1
-              hcontains.2.2.2 with
-            ⟨child, _hmem, hChildContains, hChildCheck⟩
+          rcases hcontains.2 with
+            ⟨child, hmem, hChildContains⟩
+          have hChildCheck :=
+            checkTranslationRankChildrenWith_child_checked hChildren hmem
           exact ih child hChildCheck hChildContains
       | maskBranch box children =>
+          simp [TranslationCoverageTree.ContainsTranslationCoverageFuel]
+            at hcontains
           simp only [checkTranslationCoverageTreeFuel, Bool.and_eq_true]
             at hcheck
           rcases hcheck with ⟨_hBox, hChildren⟩
-          rcases
-            checkTranslationMaskChildrenWith_route hChildren
-              hcontains.2.2.1 hcontains.2.2.2 hcontains.1
-              hcontains.2.1 with
-            ⟨child, _hmem, hChildContains, hChildCheck⟩
+          rcases hcontains.2 with
+            ⟨child, hmem, hChildContains⟩
+          have hChildCheck :=
+            checkTranslationMaskChildrenWith_child_checked hChildren hmem
           exact ih child hChildCheck hChildContains
 
 theorem checkTranslationCoverageTree_sound
     {tree : TranslationCoverageTree}
     (hcheck : checkTranslationCoverageTree tree = true)
-    {r : Fin numPairWords} {mask : SignMask}
-    (hcontains : tree.box.Contains r mask) :
+    {coverage : CanonicalTranslationCoverage}
+    (hcontains : tree.ContainsTranslationCoverage coverage) :
     exists cert : TranslationCert,
       checkTranslationCoveredCase
-          { pairRank := r.val, signMask := mask.val } cert = true /\
+          { pairRank := coverage.rawRank,
+            signMask := coverage.rawMask.val } cert = true /\
         checkTranslationCert cert = true :=
   checkTranslationCoverageTreeFuel_sound coverageTreeFuel tree hcheck
     hcontains
+
+theorem checkTranslationCoverageTree_choice_sound
+    {tree : TranslationCoverageTree}
+    (hcheck : checkTranslationCoverageTree tree = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : tree.ContainsTranslationChoice r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  rcases checkTranslationCoverageTree_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  refine ⟨cert, ?_, hcert⟩
+  simpa [TranslationCoverageTree.ContainsTranslationChoice,
+    canonicalTranslationCoverage] using hcovered
 
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)
@@ -2952,245 +3437,6 @@ def expectedCanonicalPairWordClassCount : Nat := 12162150
 
 def expectedCanonicalTranslationChoiceClassCount : Nat := 19744704
 
-def proofReducingStartedTransformIds : List Nat :=
-  [0, 1, 2, 3, 4, 5, 6, 7]
-
-def startedTransformSym : Nat -> StartedSym
-  | 0 => { swapYZ := false, negY := false, negZ := false }
-  | 1 => { swapYZ := false, negY := false, negZ := true }
-  | 2 => { swapYZ := false, negY := true, negZ := false }
-  | 3 => { swapYZ := false, negY := true, negZ := true }
-  | 4 => { swapYZ := true, negY := false, negZ := false }
-  | 5 => { swapYZ := true, negY := false, negZ := true }
-  | 6 => { swapYZ := true, negY := true, negZ := false }
-  | 7 => { swapYZ := true, negY := true, negZ := true }
-  | _ => startedSymIdentity
-
-def startedTransformSym? : Nat -> Option StartedSym
-  | 0 => some (startedTransformSym 0)
-  | 1 => some (startedTransformSym 1)
-  | 2 => some (startedTransformSym 2)
-  | 3 => some (startedTransformSym 3)
-  | 4 => some (startedTransformSym 4)
-  | 5 => some (startedTransformSym 5)
-  | 6 => some (startedTransformSym 6)
-  | 7 => some (startedTransformSym 7)
-  | _ => none
-
-def startedTransformIdOfSym (σ : StartedSym) : Nat :=
-  if σ = startedTransformSym 0 then 0
-  else if σ = startedTransformSym 1 then 1
-  else if σ = startedTransformSym 2 then 2
-  else if σ = startedTransformSym 3 then 3
-  else if σ = startedTransformSym 4 then 4
-  else if σ = startedTransformSym 5 then 5
-  else if σ = startedTransformSym 6 then 6
-  else if σ = startedTransformSym 7 then 7
-  else 0
-
-def startedSymInverse (σ : StartedSym) : StartedSym :=
-  if σ.swapYZ then
-    { swapYZ := true, negY := σ.negZ, negZ := σ.negY }
-  else
-    σ
-
-def startedTransformValid (id : Nat) : Prop :=
-  id < allStartedSyms.length
-
-theorem startedTransformSym?_idOfSym (σ : StartedSym) :
-    startedTransformSym? (startedTransformIdOfSym σ) = some σ := by
-  rcases σ with ⟨swapYZ, negY, negZ⟩
-  cases swapYZ <;> cases negY <;> cases negZ <;>
-    decide
-
-theorem startedTransformIdOfSym_valid (σ : StartedSym) :
-    startedTransformValid (startedTransformIdOfSym σ) := by
-  rcases σ with ⟨swapYZ, negY, negZ⟩
-  cases swapYZ <;> cases negY <;> cases negZ <;>
-    simp [startedTransformValid, startedTransformIdOfSym, startedTransformSym,
-      allStartedSyms]
-
-theorem symPair_inverse (σ : StartedSym) (p : PairId) :
-    symPair (startedSymInverse σ) (symPair σ p) = p := by
-  rcases σ with ⟨swapYZ, negY, negZ⟩
-  cases swapYZ <;> cases negY <;> cases negZ <;> cases p <;>
-    decide
-
-theorem symPairWord_inverse (σ : StartedSym) (w : PairWord) :
-    symPairWord (startedSymInverse σ) (symPairWord σ w) = w := by
-  apply vector_ext_from_get
-  intro i
-  unfold symPairWord
-  have hinner :
-      (Vector.ofFn
-        (fun k : WordIndex => symPair σ (w.get k))).get i =
-        symPair σ (w.get i) := by
-    change
-      (Vector.ofFn
-        (fun k : WordIndex => symPair σ (w.get k)))[i.val] =
-        symPair σ (w.get i)
-    exact Vector.getElem_ofFn i.isLt
-  have houter :
-      (Vector.ofFn
-        (fun j : WordIndex =>
-          symPair (startedSymInverse σ)
-            ((Vector.ofFn
-              (fun k : WordIndex => symPair σ (w.get k))).get j))).get i =
-        symPair (startedSymInverse σ)
-          ((Vector.ofFn
-            (fun k : WordIndex => symPair σ (w.get k))).get i) := by
-    change
-      (Vector.ofFn
-        (fun j : WordIndex =>
-          symPair (startedSymInverse σ)
-            ((Vector.ofFn
-              (fun k : WordIndex => symPair σ (w.get k))).get j)))[i.val] =
-        symPair (startedSymInverse σ)
-          ((Vector.ofFn
-            (fun k : WordIndex => symPair σ (w.get k))).get i)
-    exact Vector.getElem_ofFn i.isLt
-  rw [houter, hinner]
-  exact symPair_inverse σ (w.get i)
-
-theorem symTranslationMask_inverse
-    (σ : StartedSym) (w : PairWord) (mask : SignMask) :
-    symTranslationMask (startedSymInverse σ) (symPairWord σ w)
-      (symTranslationMask σ w mask) = mask := by
-  rcases σ with ⟨swapYZ, negY, negZ⟩
-  cases swapYZ <;> cases negY <;> cases negZ <;>
-    simp [symTranslationMask, transformedMaskBit]
-  all_goals
-    fin_cases mask <;> decide
-
-structure CanonicalPairCaseId where
-  rank : Nat
-  word : PairWord
-deriving DecidableEq, Repr
-
-structure CanonicalTranslationCaseId where
-  rank : Nat
-  word : PairWord
-  mask : SignMask
-deriving DecidableEq, Repr
-
-structure CanonicalPairCoverage where
-  rawRank : Nat
-  rawWord : PairWord
-  canonical : CanonicalPairCaseId
-  rawToCanonicalTransformId : Nat
-  rawToCanonicalTransform : StartedSym
-  canonicalToRawTransformId : Nat
-  canonicalToRawTransform : StartedSym
-deriving DecidableEq, Repr
-
-structure CanonicalTranslationCoverage where
-  rawRank : Nat
-  rawWord : PairWord
-  rawMask : SignMask
-  canonical : CanonicalTranslationCaseId
-  rawToCanonicalTransformId : Nat
-  rawToCanonicalTransform : StartedSym
-  canonicalToRawTransformId : Nat
-  canonicalToRawTransform : StartedSym
-deriving DecidableEq, Repr
-
-noncomputable def canonicalPairCoverage (r : Fin numPairWords) :
-    CanonicalPairCoverage :=
-  let rawWord := unrankPairWord r
-  let result := canonicalPairWordWithTransform rawWord
-  let inverse := startedSymInverse result.sym
-  {
-    rawRank := r.val
-    rawWord := rawWord
-    canonical := {
-      rank := pairWordLexRank result.word
-      word := result.word
-    }
-    rawToCanonicalTransformId := startedTransformIdOfSym result.sym
-    rawToCanonicalTransform := result.sym
-    canonicalToRawTransformId := startedTransformIdOfSym inverse
-    canonicalToRawTransform := inverse
-  }
-
-noncomputable def canonicalTranslationCoverage
-    (r : Fin numPairWords) (mask : SignMask) :
-    CanonicalTranslationCoverage :=
-  let rawWord := unrankPairWord r
-  let result := canonicalTranslationChoiceWithTransform rawWord mask
-  let inverse := startedSymInverse result.sym
-  {
-    rawRank := r.val
-    rawWord := rawWord
-    rawMask := mask
-    canonical := {
-      rank := pairWordLexRank result.word
-      word := result.word
-      mask := result.mask
-    }
-    rawToCanonicalTransformId := startedTransformIdOfSym result.sym
-    rawToCanonicalTransform := result.sym
-    canonicalToRawTransformId := startedTransformIdOfSym inverse
-    canonicalToRawTransform := inverse
-  }
-
-noncomputable def checkCanonicalPairCoverage
-    (coverage : CanonicalPairCoverage) : Bool := by
-  classical
-  exact
-    if h : coverage.rawRank < numPairWords then
-      decide (coverage = canonicalPairCoverage ⟨coverage.rawRank, h⟩)
-    else
-      false
-
-noncomputable def checkCanonicalTranslationCoverage
-    (coverage : CanonicalTranslationCoverage) : Bool := by
-  classical
-  exact
-    if h : coverage.rawRank < numPairWords then
-      decide
-        (coverage =
-          canonicalTranslationCoverage ⟨coverage.rawRank, h⟩
-            coverage.rawMask)
-    else
-      false
-
-theorem checkCanonicalPairCoverage_sound
-    {coverage : CanonicalPairCoverage}
-    (hcheck : checkCanonicalPairCoverage coverage = true) :
-    exists r : Fin numPairWords, coverage = canonicalPairCoverage r := by
-  unfold checkCanonicalPairCoverage at hcheck
-  by_cases h : coverage.rawRank < numPairWords
-  · simp [h] at hcheck
-    exact ⟨⟨coverage.rawRank, h⟩, hcheck⟩
-  · simp [h] at hcheck
-
-theorem checkCanonicalTranslationCoverage_sound
-    {coverage : CanonicalTranslationCoverage}
-    (hcheck : checkCanonicalTranslationCoverage coverage = true) :
-    exists r : Fin numPairWords,
-      coverage =
-        canonicalTranslationCoverage r coverage.rawMask := by
-  unfold checkCanonicalTranslationCoverage at hcheck
-  by_cases h : coverage.rawRank < numPairWords
-  · simp [h] at hcheck
-    exact ⟨⟨coverage.rawRank, h⟩, hcheck⟩
-  · simp [h] at hcheck
-
-theorem canonicalPairCoverage_unique
-    {r : Fin numPairWords} {a b : CanonicalPairCoverage}
-    (ha : a = canonicalPairCoverage r)
-    (hb : b = canonicalPairCoverage r) :
-    a = b := by
-  rw [ha, hb]
-
-theorem canonicalTranslationCoverage_unique
-    {r : Fin numPairWords} {mask : SignMask}
-    {a b : CanonicalTranslationCoverage}
-    (ha : a = canonicalTranslationCoverage r mask)
-    (hb : b = canonicalTranslationCoverage r mask) :
-    a = b := by
-  rw [ha, hb]
-
 structure CanonicalCoverageManifest where
   rankCoverage : CoverageManifest
   pairWordCount : Nat
@@ -3504,6 +3750,33 @@ theorem CanonicalCoverageManifest.covers_identity_translation_choice
       totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat)) :
     manifest.CoversTranslationChoice r mask :=
   manifest.covers_translation_choice hcheck r mask
+
+theorem checkNonIdCoverageTree_manifest_pairRank_sound
+    (manifest : CanonicalCoverageManifest)
+    (hmanifest : checkCanonicalCoverageManifest manifest = true)
+    {tree : NonIdCoverageTree}
+    (hcheck : checkNonIdCoverageTree tree = true)
+    {r : Fin numPairWords}
+    (hcontains : tree.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  have _hcovered := manifest.covers_pair_rank hmanifest r
+  exact checkNonIdCoverageTree_pairRank_sound hcheck hcontains
+
+theorem checkTranslationCoverageTree_manifest_choice_sound
+    (manifest : CanonicalCoverageManifest)
+    (hmanifest : checkCanonicalCoverageManifest manifest = true)
+    {tree : TranslationCoverageTree}
+    (hcheck : checkTranslationCoverageTree tree = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : tree.ContainsTranslationChoice r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  have _hcovered := manifest.covers_translation_choice hmanifest r mask
+  exact checkTranslationCoverageTree_choice_sound hcheck hcontains
 
 theorem canonicalPairCoverage_exact_once
     {r : Fin numPairWords} {a b : CanonicalPairCoverage}

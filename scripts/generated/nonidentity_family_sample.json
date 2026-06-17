@@ -287,6 +287,146 @@
           ]
         }
       ],
+      "coverages": [
+        {
+          "canonical_rank": 13,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "dm11",
+            "d1m1"
+          ],
+          "raw_rank": 13,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "dm11",
+            "d1m1"
+          ]
+        },
+        {
+          "canonical_rank": 14,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ],
+          "raw_rank": 14,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "canonical_rank": 15,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ],
+          "raw_rank": 15,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
       "coveredRanks": [
         13,
         14,
@@ -296,6 +436,8 @@
       "failure_kind": "badDirectionSign",
       "lean_name": "sampleBadDirectionFamilyCert",
       "name": "sampleBadDirectionFamily",
+      "rawEndRank": 16,
+      "rawStartRank": 13,
       "startRank": 13
     },
     {
@@ -396,6 +538,54 @@
           ]
         }
       ],
+      "coverages": [
+        {
+          "canonical_rank": 102,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "d1m1",
+            "dm11"
+          ],
+          "raw_rank": 102,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "d1m1",
+            "dm11"
+          ]
+        }
+      ],
       "coveredRanks": [
         102
       ],
@@ -403,6 +593,8 @@
       "failure_kind": "badPairBalance",
       "lean_name": "sampleBadPairBalanceFamilyCert",
       "name": "sampleBadPairBalanceFamily",
+      "rawEndRank": 103,
+      "rawStartRank": 102,
       "startRank": 102
     },
     {
@@ -596,6 +788,100 @@
           ]
         }
       ],
+      "coverages": [
+        {
+          "canonical_rank": 104,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ],
+          "raw_rank": 104,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "canonical_rank": 105,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ],
+          "raw_rank": 105,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
       "coveredRanks": [
         104,
         105
@@ -604,6 +890,8 @@
       "failure_kind": "axisMissesStartInterior",
       "lean_name": "sampleAxisMissFamilyCert",
       "name": "sampleAxisMissFamily",
+      "rawEndRank": 106,
+      "rawStartRank": 104,
       "startRank": 104
     },
     {
@@ -705,6 +993,54 @@
           ]
         }
       ],
+      "coverages": [
+        {
+          "canonical_rank": 159,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d111",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ],
+          "raw_rank": 159,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d111",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
       "coveredRanks": [
         159
       ],
@@ -712,6 +1048,8 @@
       "failure_kind": "badFirstHit",
       "lean_name": "sampleBadFirstHitFamilyCert",
       "name": "sampleBadFirstHitFamily",
+      "rawEndRank": 160,
+      "rawStartRank": 159,
       "startRank": 159
     }
   ],

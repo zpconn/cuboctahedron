@@ -736,8 +736,26 @@ STARTED_SYMS = [
 
 
 @lru_cache(maxsize=None)
+def canonical_pair_transform_key(word_tuple):
+    best = STARTED_SYMS[0]
+    best_key = tuple(
+        PAIR_IDS.index(pair_id)
+        for pair_id in sym_word_tuple(started_sym_key(best), word_tuple)
+    )
+    for candidate in STARTED_SYMS:
+        candidate_key = tuple(
+            PAIR_IDS.index(pair_id)
+            for pair_id in sym_word_tuple(started_sym_key(candidate), word_tuple)
+        )
+        if candidate_key <= best_key:
+            best = candidate
+            best_key = candidate_key
+    return started_sym_key(best)
+
+
+@lru_cache(maxsize=None)
 def canonical_word_tuple(word_tuple):
-    return min(sym_word_tuple(started_sym_key(sym), word_tuple) for sym in STARTED_SYMS)
+    return sym_word_tuple(canonical_pair_transform_key(word_tuple), word_tuple)
 
 
 def canonical_word(word):
@@ -745,20 +763,50 @@ def canonical_word(word):
 
 
 @lru_cache(maxsize=None)
-def canonical_translation_choice_cached(word_tuple, mask):
-    candidates = []
-    for sym in STARTED_SYMS:
-        raw_word = sym_word_tuple(started_sym_key(sym), word_tuple)
-        raw_mask = transported_translation_mask_cached(
-            started_sym_key(sym), word_tuple, mask
+def canonical_translation_transform_key(word_tuple, mask):
+    best = STARTED_SYMS[0]
+    best_word = sym_word_tuple(started_sym_key(best), word_tuple)
+    best_key = (
+        tuple(PAIR_IDS.index(pair_id) for pair_id in best_word),
+        transported_translation_mask_cached(started_sym_key(best), word_tuple, mask),
+    )
+    for candidate in STARTED_SYMS:
+        candidate_key_value = started_sym_key(candidate)
+        candidate_word = sym_word_tuple(candidate_key_value, word_tuple)
+        candidate_key = (
+            tuple(PAIR_IDS.index(pair_id) for pair_id in candidate_word),
+            transported_translation_mask_cached(candidate_key_value, word_tuple, mask),
         )
-        candidates.append((raw_word, raw_mask))
-    return min(candidates)
+        if candidate_key <= best_key:
+            best = candidate
+            best_key = candidate_key
+    return started_sym_key(best)
+
+
+@lru_cache(maxsize=None)
+def canonical_translation_choice_cached(word_tuple, mask):
+    sym_key_value = canonical_translation_transform_key(word_tuple, mask)
+    return (
+        sym_word_tuple(sym_key_value, word_tuple),
+        transported_translation_mask_cached(sym_key_value, word_tuple, mask),
+    )
 
 
 def canonical_translation_choice(word, mask):
     raw_word, raw_mask = canonical_translation_choice_cached(tuple(word), mask)
     return list(raw_word), raw_mask
+
+
+def started_sym_id(sym):
+    return STARTED_SYMS.index(sym)
+
+
+def started_sym_inverse(sym):
+    for candidate in STARTED_SYMS:
+        if all(sym_pair(candidate, sym_pair(sym, pair_id)) == pair_id
+               for pair_id in PAIR_IDS):
+            return candidate
+    raise ValueError(f"no inverse for started symmetry {sym}")
 
 
 def sym_action_key(sym):
@@ -1251,6 +1299,74 @@ def check_canonical_file(payload):
     return payload["summary"]
 
 
+def check_pair_coverage_record(record):
+    raw_rank = record["raw_rank"]
+    raw_word = record["raw_word"]
+    require(valid_pair_word(raw_word), f"coverage valid raw word {raw_rank}")
+    require(lex_rank_pair_word(raw_word) == raw_rank,
+            f"coverage raw rank {raw_rank}")
+    transform = started_sym_from_key(canonical_pair_transform_key(tuple(raw_word)))
+    inverse = started_sym_inverse(transform)
+    canonical = canonical_word(raw_word)
+    require(record["canonical_word"] == canonical,
+            f"coverage canonical word {raw_rank}")
+    require(record["canonical_rank"] == lex_rank_pair_word(canonical),
+            f"coverage canonical rank {raw_rank}")
+    require(record["raw_to_canonical_transform_id"] == started_sym_id(transform),
+            f"coverage raw-to-canonical id {raw_rank}")
+    require(record["raw_to_canonical_transform"] == transform,
+            f"coverage raw-to-canonical transform {raw_rank}")
+    require(record["canonical_to_raw_transform_id"] == started_sym_id(inverse),
+            f"coverage canonical-to-raw id {raw_rank}")
+    require(record["canonical_to_raw_transform"] == inverse,
+            f"coverage canonical-to-raw transform {raw_rank}")
+    return record
+
+
+def check_translation_coverage_record(record):
+    raw_rank = record["raw_rank"]
+    raw_word = record["raw_word"]
+    raw_mask = record["raw_mask"]
+    require(valid_pair_word(raw_word),
+            f"translation coverage valid raw word {raw_rank}:{raw_mask}")
+    require(lex_rank_pair_word(raw_word) == raw_rank,
+            f"translation coverage raw rank {raw_rank}:{raw_mask}")
+    require(0 <= raw_mask < 64,
+            f"translation coverage raw mask {raw_rank}:{raw_mask}")
+    transform = started_sym_from_key(
+        canonical_translation_transform_key(tuple(raw_word), raw_mask)
+    )
+    inverse = started_sym_inverse(transform)
+    canonical_word_value, canonical_mask = canonical_translation_choice(
+        raw_word, raw_mask
+    )
+    require(record["canonical_word"] == canonical_word_value,
+            f"translation coverage canonical word {raw_rank}:{raw_mask}")
+    require(record["canonical_mask"] == canonical_mask,
+            f"translation coverage canonical mask {raw_rank}:{raw_mask}")
+    require(
+        record["canonical_rank"] == lex_rank_pair_word(canonical_word_value),
+        f"translation coverage canonical rank {raw_rank}:{raw_mask}",
+    )
+    require(
+        record["raw_to_canonical_transform_id"] == started_sym_id(transform),
+        f"translation coverage raw-to-canonical id {raw_rank}:{raw_mask}",
+    )
+    require(
+        record["raw_to_canonical_transform"] == transform,
+        f"translation coverage raw-to-canonical transform {raw_rank}:{raw_mask}",
+    )
+    require(
+        record["canonical_to_raw_transform_id"] == started_sym_id(inverse),
+        f"translation coverage canonical-to-raw id {raw_rank}:{raw_mask}",
+    )
+    require(
+        record["canonical_to_raw_transform"] == inverse,
+        f"translation coverage canonical-to-raw transform {raw_rank}:{raw_mask}",
+    )
+    return record
+
+
 def check_coverage_tree_file(payload):
     require(payload.get("schema_version") == 1, "coverage tree schema version")
     require(payload.get("mode") == "coverage-tree-sample", "coverage tree mode")
@@ -1262,57 +1378,121 @@ def check_coverage_tree_file(payload):
 
     nonid_trees = payload["nonidentity_trees"]
     require(len(nonid_trees) == 2, "coverage tree nonidentity count")
-    require(nonid_trees[0] == {
-        "name": "nonIdRawTree",
-        "rank": 1,
-        "leaf": "raw",
-        "cert": "SmallSample.nonIdBadDirection000",
-    }, "coverage tree raw nonidentity leaf")
-    require(0 <= nonid_trees[0]["rank"] < EXPECTED_PAIR_WORDS,
-            "coverage tree raw nonidentity rank bounds")
-    require(nonid_trees[1] == {
-        "name": "nonIdTransportTree",
-        "rank": raw_nonid["rank"],
-        "leaf": "transported",
-        "transport": "CanonicalSample.nonidentityTransport",
-        "raw_cert": f"CanonicalSample.{raw_nonid['name']}",
-    }, "coverage tree transported nonidentity leaf")
-    require(0 <= nonid_trees[1]["rank"] < EXPECTED_PAIR_WORDS,
-            "coverage tree transported nonidentity rank bounds")
+    raw_nonid_tree = nonid_trees[0]
+    raw_nonid_coverage = check_pair_coverage_record(raw_nonid_tree["coverage"])
+    require(raw_nonid_tree["name"] == "nonIdRawTree",
+            "coverage tree raw nonidentity name")
+    require(raw_nonid_tree["leaf"] == "raw",
+            "coverage tree raw nonidentity leaf kind")
+    require(raw_nonid_tree["cert"] == "SmallSample.nonIdBadDirection000",
+            "coverage tree raw nonidentity cert")
+    require(raw_nonid_coverage["raw_rank"] == 1,
+            "coverage tree raw nonidentity raw rank")
+    require(raw_nonid_coverage["canonical_rank"] == 1,
+            "coverage tree raw nonidentity canonical rank")
+
+    transported_nonid_tree = nonid_trees[1]
+    transported_nonid_coverage = check_pair_coverage_record(
+        transported_nonid_tree["coverage"]
+    )
+    require(transported_nonid_tree["name"] == "nonIdTransportTree",
+            "coverage tree transported nonidentity name")
+    require(transported_nonid_tree["leaf"] == "transported",
+            "coverage tree transported nonidentity leaf kind")
+    require(
+        transported_nonid_tree["canonical_cert"]
+        == f"SmallSample.{canonical_payload['nonidentity']['canonical']['name']}",
+        "coverage tree transported nonidentity canonical cert",
+    )
+    require(transported_nonid_tree["transport"] == "CanonicalSample.nonidentityTransport",
+            "coverage tree transported nonidentity transport")
+    require(transported_nonid_tree["raw_cert"] == f"CanonicalSample.{raw_nonid['name']}",
+            "coverage tree transported nonidentity raw cert")
+    require(transported_nonid_coverage["raw_rank"] == raw_nonid["rank"],
+            "coverage tree transported nonidentity raw rank")
+    require(
+        transported_nonid_coverage["raw_word"] == raw_nonid["word"],
+        "coverage tree transported nonidentity raw word",
+    )
+    require(
+        transported_nonid_coverage["canonical_rank"]
+        == canonical_payload["nonidentity"]["canonical"]["rank"],
+        "coverage tree transported nonidentity canonical rank",
+    )
 
     translation_trees = payload["translation_trees"]
     require(len(translation_trees) == 2, "coverage tree translation count")
-    require(translation_trees[0] == {
-        "name": "translationRawTree",
-        "rank": 0,
-        "mask": 0,
-        "leaf": "raw",
-        "cert": "SmallSample.translationBadDirection000",
-    }, "coverage tree raw translation leaf")
-    require(0 <= translation_trees[0]["rank"] < EXPECTED_PAIR_WORDS,
-            "coverage tree raw translation rank bounds")
-    require(0 <= translation_trees[0]["mask"] < 64,
-            "coverage tree raw translation mask bounds")
-    require(translation_trees[1] == {
-        "name": "translationTransportTree",
-        "rank": raw_translation["rank"],
-        "mask": raw_translation["mask"],
-        "leaf": "transported",
-        "transport": "CanonicalSample.translationTransport",
-        "raw_cert": f"CanonicalSample.{raw_translation['name']}",
-    }, "coverage tree transported translation leaf")
-    require(0 <= translation_trees[1]["rank"] < EXPECTED_PAIR_WORDS,
-            "coverage tree transported translation rank bounds")
-    require(0 <= translation_trees[1]["mask"] < 64,
-            "coverage tree transported translation mask bounds")
+    raw_translation_tree = translation_trees[0]
+    raw_translation_coverage = check_translation_coverage_record(
+        raw_translation_tree["coverage"]
+    )
+    require(raw_translation_tree["name"] == "translationRawTree",
+            "coverage tree raw translation name")
+    require(raw_translation_tree["leaf"] == "raw",
+            "coverage tree raw translation leaf kind")
+    require(raw_translation_tree["cert"] == "SmallSample.translationBadDirection000",
+            "coverage tree raw translation cert")
+    require(raw_translation_coverage["raw_rank"] == 0,
+            "coverage tree raw translation raw rank")
+    require(raw_translation_coverage["raw_mask"] == 0,
+            "coverage tree raw translation raw mask")
+    require(raw_translation_coverage["canonical_rank"] == 0,
+            "coverage tree raw translation canonical rank")
+    require(raw_translation_coverage["canonical_mask"] == 0,
+            "coverage tree raw translation canonical mask")
+
+    transported_translation_tree = translation_trees[1]
+    transported_translation_coverage = check_translation_coverage_record(
+        transported_translation_tree["coverage"]
+    )
+    require(transported_translation_tree["name"] == "translationTransportTree",
+            "coverage tree transported translation name")
+    require(transported_translation_tree["leaf"] == "transported",
+            "coverage tree transported translation leaf kind")
+    require(
+        transported_translation_tree["canonical_cert"]
+        == f"SmallSample.{canonical_payload['translation']['canonical']['name']}",
+        "coverage tree transported translation canonical cert",
+    )
+    require(transported_translation_tree["transport"] == "CanonicalSample.translationTransport",
+            "coverage tree transported translation transport")
+    require(
+        transported_translation_tree["raw_cert"]
+        == f"CanonicalSample.{raw_translation['name']}",
+        "coverage tree transported translation raw cert",
+    )
+    require(transported_translation_coverage["raw_rank"] == raw_translation["rank"],
+            "coverage tree transported translation raw rank")
+    require(transported_translation_coverage["raw_mask"] == raw_translation["mask"],
+            "coverage tree transported translation raw mask")
+    require(
+        transported_translation_coverage["raw_word"] == raw_translation["word"],
+        "coverage tree transported translation raw word",
+    )
+    require(
+        transported_translation_coverage["canonical_rank"]
+        == canonical_payload["translation"]["canonical"]["rank"],
+        "coverage tree transported translation canonical rank",
+    )
+    require(
+        transported_translation_coverage["canonical_mask"]
+        == canonical_payload["translation"]["canonical"]["mask"],
+        "coverage tree transported translation canonical mask",
+    )
 
     return {
         "nonidentity_trees": len(nonid_trees),
         "translation_trees": len(translation_trees),
         "canonical_pair_words": canonical_summary["canonical_pair_words"],
-        "transported_nonidentity_rank": raw_nonid["rank"],
-        "transported_translation_rank": raw_translation["rank"],
-        "transported_translation_mask": raw_translation["mask"],
+        "transported_nonidentity_rank": transported_nonid_coverage["raw_rank"],
+        "transported_nonidentity_canonical_rank":
+            transported_nonid_coverage["canonical_rank"],
+        "transported_translation_rank": transported_translation_coverage["raw_rank"],
+        "transported_translation_mask": transported_translation_coverage["raw_mask"],
+        "transported_translation_canonical_rank":
+            transported_translation_coverage["canonical_rank"],
+        "transported_translation_canonical_mask":
+            transported_translation_coverage["canonical_mask"],
     }
 
 
@@ -1348,45 +1528,68 @@ def check_nonidentity_family_file(payload):
         words_by_rank[rank] = word
 
     covered_once = {}
+    canonical_covered_once = {}
     family_summaries = []
     for family in payload["families"]:
         start_rank = family["startRank"]
         end_rank = family["endRank"]
         require(0 <= start_rank < end_rank <= EXPECTED_PAIR_WORDS,
                 f"family interval bounds {family['name']}")
-        expected_ranks = list(range(start_rank, end_rank))
-        require(family["coveredRanks"] == expected_ranks,
-                f"family contiguous ranks {family['name']}")
-        require(len(family["certs"]) == len(expected_ranks),
+        expected_canonical_ranks = list(range(start_rank, end_rank))
+        coverages = [
+            check_pair_coverage_record(record) for record in family["coverages"]
+        ]
+        require(
+            [coverage["canonical_rank"] for coverage in coverages]
+            == expected_canonical_ranks,
+            f"family contiguous canonical ranks {family['name']}",
+        )
+        require(
+            family["coveredRanks"] == [coverage["raw_rank"] for coverage in coverages],
+            f"family raw coverage echoes {family['name']}",
+        )
+        require(len(family["certs"]) == len(expected_canonical_ranks),
                 f"family cert count {family['name']}")
-        require(len(family["cert_names"]) == len(expected_ranks),
+        require(len(family["cert_names"]) == len(expected_canonical_ranks),
                 f"family cert name count {family['name']}")
-        for rank, cert_name, cert in zip(
-            expected_ranks, family["cert_names"], family["certs"], strict=True
+        for coverage, cert_name, cert in zip(
+            coverages, family["cert_names"], family["certs"], strict=True
         ):
+            rank = coverage["raw_rank"]
+            canonical_rank = coverage["canonical_rank"]
             require(rank not in covered_once, f"family duplicate coverage rank {rank}")
+            require(
+                canonical_rank not in canonical_covered_once,
+                f"family duplicate canonical coverage rank {canonical_rank}",
+            )
             require(cert["name"] == cert_name, f"family cert name echo {rank}")
             require(cert["rank"] == rank, f"family cert rank echo {rank}")
             require(words_by_rank.get(rank) == cert["word"], f"family word echo {rank}")
+            require(coverage["raw_word"] == cert["word"],
+                    f"family coverage word echo {rank}")
             require(
                 nonid_failure_matches_family(family["failure_kind"], cert),
                 f"family failure kind {rank}",
             )
             check_nonid_cert_record(cert)
             covered_once[rank] = family["name"]
+            canonical_covered_once[canonical_rank] = family["name"]
         family_summaries.append({
             "name": family["name"],
             "start": start_rank,
             "end": end_rank,
-            "covered": len(expected_ranks),
+            "covered": len(expected_canonical_ranks),
         })
 
-    required_ranks = {
+    required_canonical_ranks = {
         rank
         for family in payload["families"]
         for rank in range(family["startRank"], family["endRank"])
     }
-    require(set(covered_once) == required_ranks, "family exact-once coverage")
+    require(
+        set(canonical_covered_once) == required_canonical_ranks,
+        "family exact-once canonical coverage",
+    )
     summary = payload["summary"]
     require(summary["families"] == len(payload["families"]), "family summary count")
     require(summary["covered_ranks"] == len(covered_once), "family summary coverage")

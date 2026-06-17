@@ -712,6 +712,102 @@ def transported_translation_mask(sym: dict, word: list[str], mask: int) -> int:
     return mask_from_word_seq(raw_word, raw_seq)
 
 
+def pair_word_order_key(word: list[str]) -> tuple[int, ...]:
+    return tuple(PAIR_IDS.index(pair_id) for pair_id in word)
+
+
+def translation_choice_order_key(choice: tuple[list[str], int]) -> tuple[tuple[int, ...], int]:
+    word, mask = choice
+    return pair_word_order_key(word), mask
+
+
+def started_sym_id(sym: dict) -> int:
+    return STARTED_SYMS.index(sym)
+
+
+def started_sym_inverse(sym: dict) -> dict:
+    for candidate in STARTED_SYMS:
+        if all(sym_pair(candidate, sym_pair(sym, pair_id)) == pair_id
+               for pair_id in PAIR_IDS):
+            return candidate
+    raise ValueError(f"no inverse for started symmetry {sym}")
+
+
+def canonical_pair_transform(word: list[str]) -> dict:
+    best = STARTED_SYMS[0]
+    best_key = pair_word_order_key(sym_word(best, word))
+    for candidate in STARTED_SYMS:
+        candidate_key = pair_word_order_key(sym_word(candidate, word))
+        if candidate_key <= best_key:
+            best = candidate
+            best_key = candidate_key
+    return best
+
+
+def canonical_translation_transform(word: list[str], mask: int) -> dict:
+    best = STARTED_SYMS[0]
+    best_key = translation_choice_order_key(
+        (sym_word(best, word), transported_translation_mask(best, word, mask))
+    )
+    for candidate in STARTED_SYMS:
+        candidate_key = translation_choice_order_key(
+            (
+                sym_word(candidate, word),
+                transported_translation_mask(candidate, word, mask),
+            )
+        )
+        if candidate_key <= best_key:
+            best = candidate
+            best_key = candidate_key
+    return best
+
+
+def canonical_word(word: list[str]) -> list[str]:
+    return sym_word(canonical_pair_transform(word), word)
+
+
+def canonical_translation_choice(word: list[str], mask: int) -> tuple[list[str], int]:
+    sym = canonical_translation_transform(word, mask)
+    return sym_word(sym, word), transported_translation_mask(sym, word, mask)
+
+
+def canonical_pair_coverage_record(rank: int) -> dict:
+    word = pair_word_at_rank(rank)
+    sym = canonical_pair_transform(word)
+    inverse = started_sym_inverse(sym)
+    canonical = sym_word(sym, word)
+    return {
+        "raw_rank": rank,
+        "raw_word": word,
+        "canonical_rank": lex_rank_pair_word(canonical),
+        "canonical_word": canonical,
+        "raw_to_canonical_transform_id": started_sym_id(sym),
+        "raw_to_canonical_transform": sym,
+        "canonical_to_raw_transform_id": started_sym_id(inverse),
+        "canonical_to_raw_transform": inverse,
+    }
+
+
+def canonical_translation_coverage_record(rank: int, mask: int) -> dict:
+    word = pair_word_at_rank(rank)
+    sym = canonical_translation_transform(word, mask)
+    inverse = started_sym_inverse(sym)
+    canonical_word_value = sym_word(sym, word)
+    canonical_mask = transported_translation_mask(sym, word, mask)
+    return {
+        "raw_rank": rank,
+        "raw_word": word,
+        "raw_mask": mask,
+        "canonical_rank": lex_rank_pair_word(canonical_word_value),
+        "canonical_word": canonical_word_value,
+        "canonical_mask": canonical_mask,
+        "raw_to_canonical_transform_id": started_sym_id(sym),
+        "raw_to_canonical_transform": sym,
+        "canonical_to_raw_transform_id": started_sym_id(inverse),
+        "canonical_to_raw_transform": inverse,
+    }
+
+
 def lean_started_sym(sym: dict) -> str:
     def lean_bool(value: bool) -> str:
         return "true" if value else "false"
@@ -827,6 +923,52 @@ def lean_face(face: str) -> str:
 
 def lean_pair_word_literal(word: list[str]) -> str:
     return "  ⟨#[" + ", ".join(lean_pair_id(pair_id) for pair_id in word) + "], by decide⟩"
+
+
+def lean_pair_word_inline(word: list[str]) -> str:
+    return "⟨#[" + ", ".join(lean_pair_id(pair_id) for pair_id in word) + "], by decide⟩"
+
+
+def lean_sign_mask(mask: int) -> str:
+    return f"⟨{mask}, by decide⟩"
+
+
+def lean_canonical_pair_coverage(record: dict) -> str:
+    return (
+        "{ rawRank := " + str(record["raw_rank"]) +
+        ", rawWord := " + lean_pair_word_inline(record["raw_word"]) +
+        ", canonical := { rank := " + str(record["canonical_rank"]) +
+        ", word := " + lean_pair_word_inline(record["canonical_word"]) + " }" +
+        ", rawToCanonicalTransformId := " +
+        str(record["raw_to_canonical_transform_id"]) +
+        ", rawToCanonicalTransform := " +
+        lean_started_sym(record["raw_to_canonical_transform"]) +
+        ", canonicalToRawTransformId := " +
+        str(record["canonical_to_raw_transform_id"]) +
+        ", canonicalToRawTransform := " +
+        lean_started_sym(record["canonical_to_raw_transform"]) +
+        " }"
+    )
+
+
+def lean_canonical_translation_coverage(record: dict) -> str:
+    return (
+        "{ rawRank := " + str(record["raw_rank"]) +
+        ", rawWord := " + lean_pair_word_inline(record["raw_word"]) +
+        ", rawMask := " + lean_sign_mask(record["raw_mask"]) +
+        ", canonical := { rank := " + str(record["canonical_rank"]) +
+        ", word := " + lean_pair_word_inline(record["canonical_word"]) +
+        ", mask := " + lean_sign_mask(record["canonical_mask"]) + " }" +
+        ", rawToCanonicalTransformId := " +
+        str(record["raw_to_canonical_transform_id"]) +
+        ", rawToCanonicalTransform := " +
+        lean_started_sym(record["raw_to_canonical_transform"]) +
+        ", canonicalToRawTransformId := " +
+        str(record["canonical_to_raw_transform_id"]) +
+        ", canonicalToRawTransform := " +
+        lean_started_sym(record["canonical_to_raw_transform"]) +
+        " }"
+    )
 
 
 def lean_face_vector_literal(seq: list[str]) -> str:
@@ -1950,22 +2092,31 @@ def write_canonical_lean(payload: dict) -> None:
 
 def build_coverage_tree_payload() -> dict:
     canonical = build_canonical_payload()
+    canonical_nonid = canonical["nonidentity"]["canonical"]
     raw_nonid = canonical["nonidentity"]["raw"]
+    canonical_translation = canonical["translation"]["canonical"]
     raw_translation = canonical["translation"]["raw"]
+    nonid_raw_coverage = canonical_pair_coverage_record(1)
+    nonid_transport_coverage = canonical_pair_coverage_record(raw_nonid["rank"])
+    translation_raw_coverage = canonical_translation_coverage_record(0, 0)
+    translation_transport_coverage = canonical_translation_coverage_record(
+        raw_translation["rank"], raw_translation["mask"]
+    )
     return {
         "schema_version": 1,
         "mode": "coverage-tree-sample",
         "nonidentity_trees": [
             {
                 "name": "nonIdRawTree",
-                "rank": 1,
+                "coverage": nonid_raw_coverage,
                 "leaf": "raw",
                 "cert": "SmallSample.nonIdBadDirection000",
             },
             {
                 "name": "nonIdTransportTree",
-                "rank": raw_nonid["rank"],
+                "coverage": nonid_transport_coverage,
                 "leaf": "transported",
+                "canonical_cert": f"SmallSample.{canonical_nonid['name']}",
                 "transport": "CanonicalSample.nonidentityTransport",
                 "raw_cert": f"CanonicalSample.{raw_nonid['name']}",
             },
@@ -1973,16 +2124,15 @@ def build_coverage_tree_payload() -> dict:
         "translation_trees": [
             {
                 "name": "translationRawTree",
-                "rank": 0,
-                "mask": 0,
+                "coverage": translation_raw_coverage,
                 "leaf": "raw",
                 "cert": "SmallSample.translationBadDirection000",
             },
             {
                 "name": "translationTransportTree",
-                "rank": raw_translation["rank"],
-                "mask": raw_translation["mask"],
+                "coverage": translation_transport_coverage,
                 "leaf": "transported",
+                "canonical_cert": f"SmallSample.{canonical_translation['name']}",
                 "transport": "CanonicalSample.translationTransport",
                 "raw_cert": f"CanonicalSample.{raw_translation['name']}",
             },
@@ -1999,10 +2149,10 @@ def write_coverage_tree_json(payload: dict) -> None:
 
 
 def write_coverage_tree_lean(payload: dict) -> None:
-    raw_nonid_rank = payload["nonidentity_trees"][0]["rank"]
-    transported_nonid_rank = payload["nonidentity_trees"][1]["rank"]
-    raw_translation = payload["translation_trees"][0]
-    transported_translation = payload["translation_trees"][1]
+    raw_nonid = payload["nonidentity_trees"][0]["coverage"]
+    transported_nonid = payload["nonidentity_trees"][1]["coverage"]
+    raw_translation = payload["translation_trees"][0]["coverage"]
+    transported_translation = payload["translation_trees"][1]["coverage"]
     lines = [
         "import Cuboctahedron.Generated.CanonicalSample",
         "",
@@ -2030,146 +2180,271 @@ def write_coverage_tree_lean(payload: dict) -> None:
         "  startMask := mask",
         "  endMask := mask + 1",
         "",
+        "def nonIdRawCoverage : CanonicalPairCoverage :=",
+        f"  {lean_canonical_pair_coverage(raw_nonid)}",
+        "",
+        "def nonIdTransportCoverage : CanonicalPairCoverage :=",
+        f"  {lean_canonical_pair_coverage(transported_nonid)}",
+        "",
+        "def translationRawCoverage : CanonicalTranslationCoverage :=",
+        f"  {lean_canonical_translation_coverage(raw_translation)}",
+        "",
+        "def translationTransportCoverage :",
+        "    CanonicalTranslationCoverage :=",
+        f"  {lean_canonical_translation_coverage(transported_translation)}",
+        "",
+        "theorem nonIdRawCoverage_check :",
+        "    checkCanonicalPairCoverage nonIdRawCoverage = true := by",
+        "  decide",
+        "",
+        "theorem nonIdTransportCoverage_check :",
+        "    checkCanonicalPairCoverage nonIdTransportCoverage = true := by",
+        "  decide",
+        "",
+        "theorem translationRawCoverage_check :",
+        "    checkCanonicalTranslationCoverage translationRawCoverage = true := by",
+        "  decide",
+        "",
+        "theorem translationTransportCoverage_check :",
+        "    checkCanonicalTranslationCoverage translationTransportCoverage = true := by",
+        "  decide",
+        "",
         "theorem nonIdRawCoveredRank :",
-        f"    checkNonIdCoveredRank {raw_nonid_rank}",
+        f"    checkNonIdCoveredRank {raw_nonid['raw_rank']}",
         "      Cuboctahedron.Generated.SmallSample.nonIdBadDirection000 = true := by",
         "  decide",
         "",
         "theorem nonIdTransportCoveredRank :",
-        f"    checkNonIdCoveredRank {transported_nonid_rank}",
+        f"    checkNonIdCoveredRank {transported_nonid['raw_rank']}",
         "      Cuboctahedron.Generated.CanonicalSample.nonidentityTransport.raw = true := by",
         "  decide",
         "",
         "def nonIdRawTree : NonIdCoverageTree :=",
-        f"  NonIdCoverageTree.branch (rankInterval {raw_nonid_rank})",
-        f"    [NonIdCoverageTree.leaf (rankInterval {raw_nonid_rank})",
+        f"  NonIdCoverageTree.branch (rankInterval {raw_nonid['canonical_rank']})",
+        f"    [NonIdCoverageTree.leaf (rankInterval {raw_nonid['canonical_rank']})",
         "      (NonIdCoverageLeaf.raw",
+        "        nonIdRawCoverage",
         "        Cuboctahedron.Generated.SmallSample.nonIdBadDirection000)]",
         "",
         "def nonIdTransportTree : NonIdCoverageTree :=",
-        f"  NonIdCoverageTree.branch (rankInterval {transported_nonid_rank})",
-        f"    [NonIdCoverageTree.leaf (rankInterval {transported_nonid_rank})",
+        f"  NonIdCoverageTree.branch (rankInterval {transported_nonid['canonical_rank']})",
+        f"    [NonIdCoverageTree.leaf (rankInterval {transported_nonid['canonical_rank']})",
         "      (NonIdCoverageLeaf.transported",
+        "        nonIdTransportCoverage",
         "        Cuboctahedron.Generated.CanonicalSample.nonidentityTransport)]",
+        "",
+        "theorem nonIdRawLeaf_check :",
+        f"    checkNonIdCoverageLeaf (rankInterval {raw_nonid['canonical_rank']})",
+        "      (NonIdCoverageLeaf.raw",
+        "        nonIdRawCoverage",
+        "        Cuboctahedron.Generated.SmallSample.nonIdBadDirection000) = true := by",
+        "  simp only [checkNonIdCoverageLeaf, checkNonIdCoverageLeafPayload]",
+        "  rw [nonIdRawCoverage_check]",
+        "  simp [rankInterval, checkRankInterval,",
+        "    checkRankIntervalContainsCanonicalPairCoverage,",
+        "    nonIdRawCoverage, nonIdRawCoveredRank,",
+        "    Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check]",
+        "  norm_num [numPairWords]",
+        "",
+        "theorem nonIdTransportLeaf_check :",
+        f"    checkNonIdCoverageLeaf (rankInterval {transported_nonid['canonical_rank']})",
+        "      (NonIdCoverageLeaf.transported",
+        "        nonIdTransportCoverage",
+        "        Cuboctahedron.Generated.CanonicalSample.nonidentityTransport) = true := by",
+        "  simp only [checkNonIdCoverageLeaf, checkNonIdCoverageLeafPayload]",
+        "  rw [nonIdTransportCoverage_check]",
+        "  simp [rankInterval, checkRankInterval,",
+        "    checkRankIntervalContainsCanonicalPairCoverage,",
+        "    nonIdTransportCoverage, nonIdTransportCoveredRank,",
+        "    Cuboctahedron.Generated.CanonicalSample.nonidentity_transport_check]",
+        "  norm_num [numPairWords]",
         "",
         "theorem nonIdRawTree_check :",
         "    checkNonIdCoverageTree nonIdRawTree = true := by",
-        "  unfold checkNonIdCoverageTree checkNonIdCoverageTreeFuel nonIdRawTree",
-        "    coverageTreeFuel rankInterval",
-        "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
-        "    checkNonIdCoverageLeaf,",
-        "    checkNonIdCoverageLeafPayload, checkRankInterval,",
-        "    nonIdRawCoveredRank,",
-        "    Cuboctahedron.Generated.SmallSample.nonIdBadDirection000_check]",
-        "  norm_num [numPairWords, NonIdCoverageTree.interval]",
+        "  unfold checkNonIdCoverageTree nonIdRawTree coverageTreeFuel",
+        "  simp [checkNonIdCoverageTreeFuel,",
+        "    checkNonIdCoverageChildrenWith, nonIdRawLeaf_check,",
+        "    checkRankInterval, NonIdCoverageTree.interval]",
+        "  norm_num [rankInterval, numPairWords]",
         "",
         "theorem nonIdTransportTree_check :",
         "    checkNonIdCoverageTree nonIdTransportTree = true := by",
-        "  unfold checkNonIdCoverageTree checkNonIdCoverageTreeFuel",
-        "    nonIdTransportTree coverageTreeFuel rankInterval",
-        "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
-        "    checkNonIdCoverageLeaf,",
-        "    checkNonIdCoverageLeafPayload, checkRankInterval,",
-        "    nonIdTransportCoveredRank,",
-        "    Cuboctahedron.Generated.CanonicalSample.nonidentity_transport_check]",
-        "  norm_num [numPairWords, NonIdCoverageTree.interval]",
+        "  unfold checkNonIdCoverageTree nonIdTransportTree coverageTreeFuel",
+        "  simp [checkNonIdCoverageTreeFuel,",
+        "    checkNonIdCoverageChildrenWith, nonIdTransportLeaf_check,",
+        "    checkRankInterval, NonIdCoverageTree.interval]",
+        "  norm_num [rankInterval, numPairWords]",
+        "",
+        "theorem nonIdRawTree_containsCoverage :",
+        "    nonIdRawTree.ContainsPairCoverage nonIdRawCoverage := by",
+        "  unfold NonIdCoverageTree.ContainsPairCoverage nonIdRawTree",
+        "  simp [coverageTreeFuel, NonIdCoverageTree.ContainsPairCoverageFuel,",
+        "    NonIdCoverageLeaf.ContainsPairCoverage, rankInterval,",
+        "    RankInterval.ContainsCanonicalPairCoverage, nonIdRawCoverage]",
+        "",
+        "theorem nonIdTransportTree_containsCoverage :",
+        "    nonIdTransportTree.ContainsPairCoverage nonIdTransportCoverage := by",
+        "  unfold NonIdCoverageTree.ContainsPairCoverage nonIdTransportTree",
+        "  simp [coverageTreeFuel, NonIdCoverageTree.ContainsPairCoverageFuel,",
+        "    NonIdCoverageLeaf.ContainsPairCoverage, rankInterval,",
+        "    RankInterval.ContainsCanonicalPairCoverage, nonIdTransportCoverage]",
         "",
         "theorem nonIdRawTree_sound :",
         "    exists cert : NonIdCert,",
-        f"      checkNonIdCoveredRank {raw_nonid_rank} cert = true /\\ checkNonIdCert cert = true :=",
+        "      checkNonIdCoveredRank nonIdRawCoverage.rawRank cert = true /\\",
+        "        checkNonIdCert cert = true :=",
         "  checkNonIdCoverageTree_sound nonIdRawTree_check",
-        f"    (r := ⟨{raw_nonid_rank}, by decide⟩) (by",
-        "      simp [NonIdCoverageTree.interval, RankInterval.ContainsPairRank,",
-        "        nonIdRawTree, rankInterval])",
+        "    nonIdRawTree_containsCoverage",
         "",
         "theorem nonIdTransportTree_sound :",
         "    exists cert : NonIdCert,",
-        f"      checkNonIdCoveredRank {transported_nonid_rank} cert = true /\\ checkNonIdCert cert = true :=",
+        "      checkNonIdCoveredRank nonIdTransportCoverage.rawRank cert = true /\\",
+        "        checkNonIdCert cert = true :=",
         "  checkNonIdCoverageTree_sound nonIdTransportTree_check",
-        f"    (r := ⟨{transported_nonid_rank}, by decide⟩) (by",
-        "      simp [NonIdCoverageTree.interval, RankInterval.ContainsPairRank,",
-        "        nonIdTransportTree, rankInterval])",
+        "    nonIdTransportTree_containsCoverage",
+        "",
+        "theorem nonIdTransportTree_canonical_sound :",
+        "    exists cert : NonIdCert,",
+        "      checkNonIdCoveredRank nonIdTransportCoverage.rawRank cert = true /\\",
+        "        checkNonIdCert cert = true :=",
+        "  checkNonIdCoverageTree_sound nonIdTransportTree_check",
+        "    nonIdTransportTree_containsCoverage",
         "",
         "def translationRawCase : GeneratedTranslationCase where",
-        f"  pairRank := {raw_translation['rank']}",
-        f"  signMask := {raw_translation['mask']}",
+        f"  pairRank := {raw_translation['raw_rank']}",
+        f"  signMask := {raw_translation['raw_mask']}",
         "",
         "def translationTransportCase : GeneratedTranslationCase where",
-        f"  pairRank := {transported_translation['rank']}",
-        f"  signMask := {transported_translation['mask']}",
+        f"  pairRank := {transported_translation['raw_rank']}",
+        f"  signMask := {transported_translation['raw_mask']}",
         "",
         "theorem translationRawCoveredCase :",
-        f"    checkTranslationCoveredCase {{ pairRank := {raw_translation['rank']}, signMask := {raw_translation['mask']} }}",
+        f"    checkTranslationCoveredCase {{ pairRank := {raw_translation['raw_rank']}, signMask := {raw_translation['raw_mask']} }}",
         "      Cuboctahedron.Generated.SmallSample.translationBadDirection000 = true := by",
         "  decide",
         "",
         "theorem translationTransportCoveredCase :",
-        f"    checkTranslationCoveredCase {{ pairRank := {transported_translation['rank']}, signMask := {transported_translation['mask']} }}",
+        f"    checkTranslationCoveredCase {{ pairRank := {transported_translation['raw_rank']}, signMask := {transported_translation['raw_mask']} }}",
         "      Cuboctahedron.Generated.CanonicalSample.translationTransport.raw = true := by",
         "  decide",
         "",
         "def translationRawTree : TranslationCoverageTree :=",
-        f"  TranslationCoverageTree.rankBranch (caseBox {raw_translation['rank']} {raw_translation['mask']})",
-        f"    [TranslationCoverageTree.maskBranch (caseBox {raw_translation['rank']} {raw_translation['mask']})",
-        f"      [TranslationCoverageTree.leaf (caseBox {raw_translation['rank']} {raw_translation['mask']})",
+        f"  TranslationCoverageTree.rankBranch (caseBox {raw_translation['canonical_rank']} {raw_translation['canonical_mask']})",
+        f"    [TranslationCoverageTree.maskBranch (caseBox {raw_translation['canonical_rank']} {raw_translation['canonical_mask']})",
+        f"      [TranslationCoverageTree.leaf (caseBox {raw_translation['canonical_rank']} {raw_translation['canonical_mask']})",
         "        (TranslationCoverageLeaf.raw",
+        "          translationRawCoverage",
         "          Cuboctahedron.Generated.SmallSample.translationBadDirection000)]]",
         "",
         "def translationTransportTree : TranslationCoverageTree :=",
-        f"  TranslationCoverageTree.rankBranch (caseBox {transported_translation['rank']} {transported_translation['mask']})",
-        f"    [TranslationCoverageTree.maskBranch (caseBox {transported_translation['rank']} {transported_translation['mask']})",
-        f"      [TranslationCoverageTree.leaf (caseBox {transported_translation['rank']} {transported_translation['mask']})",
+        f"  TranslationCoverageTree.rankBranch (caseBox {transported_translation['canonical_rank']} {transported_translation['canonical_mask']})",
+        f"    [TranslationCoverageTree.maskBranch (caseBox {transported_translation['canonical_rank']} {transported_translation['canonical_mask']})",
+        f"      [TranslationCoverageTree.leaf (caseBox {transported_translation['canonical_rank']} {transported_translation['canonical_mask']})",
         "        (TranslationCoverageLeaf.transported",
+        "          translationTransportCoverage",
         "          Cuboctahedron.Generated.CanonicalSample.translationTransport)]]",
+        "",
+        "theorem translationRawLeaf_check :",
+        f"    checkTranslationCoverageLeaf (caseBox {raw_translation['canonical_rank']} {raw_translation['canonical_mask']})",
+        "      (TranslationCoverageLeaf.raw",
+        "        translationRawCoverage",
+        "        Cuboctahedron.Generated.SmallSample.translationBadDirection000) = true := by",
+        "  simp only [checkTranslationCoverageLeaf,",
+        "    checkTranslationCoverageLeafPayload]",
+        "  rw [translationRawCoverage_check]",
+        "  simp [caseBox, checkTranslationCaseBox,",
+        "    checkTranslationCaseBoxContainsCanonicalTranslationCoverage,",
+        "    translationRawCoverage, translationRawCoveredCase,",
+        "    Cuboctahedron.Generated.SmallSample.translationBadDirection000_check]",
+        "  norm_num [numPairWords, numSignMasks]",
+        "",
+        "theorem translationTransportLeaf_check :",
+        f"    checkTranslationCoverageLeaf (caseBox {transported_translation['canonical_rank']} {transported_translation['canonical_mask']})",
+        "      (TranslationCoverageLeaf.transported",
+        "        translationTransportCoverage",
+        "        Cuboctahedron.Generated.CanonicalSample.translationTransport) = true := by",
+        "  simp only [checkTranslationCoverageLeaf,",
+        "    checkTranslationCoverageLeafPayload]",
+        "  rw [translationTransportCoverage_check]",
+        "  simp [caseBox, checkTranslationCaseBox,",
+        "    checkTranslationCaseBoxContainsCanonicalTranslationCoverage,",
+        "    translationTransportCoverage, translationTransportCoveredCase,",
+        "    Cuboctahedron.Generated.CanonicalSample.translation_transport_check]",
+        "  norm_num [numPairWords, numSignMasks]",
         "",
         "theorem translationRawTree_check :",
         "    checkTranslationCoverageTree translationRawTree = true := by",
-        "  unfold checkTranslationCoverageTree checkTranslationCoverageTreeFuel",
-        "    translationRawTree coverageTreeFuel caseBox",
+        "  unfold checkTranslationCoverageTree translationRawTree coverageTreeFuel",
         "  simp [checkTranslationCoverageTreeFuel,",
-        "    checkTranslationRankChildrenWith, checkTranslationMaskChildrenWith,",
-        "    checkTranslationCoverageLeaf, checkTranslationCoverageLeafPayload,",
-        "    checkTranslationCaseBox, translationRawCase,",
-        "    translationRawCoveredCase,",
-        "    Cuboctahedron.Generated.SmallSample.translationBadDirection000_check]",
-        "  norm_num [numPairWords, numSignMasks, TranslationCoverageTree.box]",
+        "    checkTranslationRankChildrenWith,",
+        "    checkTranslationMaskChildrenWith, translationRawLeaf_check,",
+        "    checkTranslationCaseBox, TranslationCoverageTree.box]",
+        "  norm_num [caseBox, numPairWords, numSignMasks]",
         "",
         "theorem translationTransportTree_check :",
         "    checkTranslationCoverageTree translationTransportTree = true := by",
-        "  unfold checkTranslationCoverageTree checkTranslationCoverageTreeFuel",
-        "    translationTransportTree coverageTreeFuel caseBox",
+        "  unfold checkTranslationCoverageTree translationTransportTree coverageTreeFuel",
         "  simp [checkTranslationCoverageTreeFuel,",
-        "    checkTranslationRankChildrenWith, checkTranslationMaskChildrenWith,",
-        "    checkTranslationCoverageLeaf, checkTranslationCoverageLeafPayload,",
-        "    checkTranslationCaseBox, translationTransportCase,",
-        "    translationTransportCoveredCase,",
-        "    Cuboctahedron.Generated.CanonicalSample.translation_transport_check]",
-        "  norm_num [numPairWords, numSignMasks, TranslationCoverageTree.box]",
+        "    checkTranslationRankChildrenWith,",
+        "    checkTranslationMaskChildrenWith, translationTransportLeaf_check,",
+        "    checkTranslationCaseBox, TranslationCoverageTree.box]",
+        "  norm_num [caseBox, numPairWords, numSignMasks]",
+        "",
+        "theorem translationRawTree_containsCoverage :",
+        "    translationRawTree.ContainsTranslationCoverage translationRawCoverage := by",
+        "  unfold TranslationCoverageTree.ContainsTranslationCoverage",
+        "    translationRawTree",
+        "  simp [coverageTreeFuel,",
+        "    TranslationCoverageTree.ContainsTranslationCoverageFuel,",
+        "    TranslationCoverageLeaf.ContainsTranslationCoverage, caseBox,",
+        "    TranslationCaseBox.ContainsCanonicalTranslationCoverage,",
+        "    translationRawCoverage]",
+        "",
+        "theorem translationTransportTree_containsCoverage :",
+        "    translationTransportTree.ContainsTranslationCoverage",
+        "      translationTransportCoverage := by",
+        "  unfold TranslationCoverageTree.ContainsTranslationCoverage",
+        "    translationTransportTree",
+        "  simp [coverageTreeFuel,",
+        "    TranslationCoverageTree.ContainsTranslationCoverageFuel,",
+        "    TranslationCoverageLeaf.ContainsTranslationCoverage, caseBox,",
+        "    TranslationCaseBox.ContainsCanonicalTranslationCoverage,",
+        "    translationTransportCoverage]",
         "",
         "theorem translationRawTree_sound :",
         "    exists cert : TranslationCert,",
         "      checkTranslationCoveredCase",
-        f"          {{ pairRank := {raw_translation['rank']}, signMask := {raw_translation['mask']} }} cert = true /\\",
+        "          { pairRank := translationRawCoverage.rawRank,",
+        "            signMask := translationRawCoverage.rawMask.val } cert = true /\\",
         "        checkTranslationCert cert = true :=",
         "  checkTranslationCoverageTree_sound translationRawTree_check",
-        f"    (r := ⟨{raw_translation['rank']}, by decide⟩) (mask := ⟨{raw_translation['mask']}, by decide⟩) (by",
-        "      simp [TranslationCoverageTree.box, TranslationCaseBox.Contains,",
-        "        translationRawTree, caseBox])",
+        "    translationRawTree_containsCoverage",
         "",
         "theorem translationTransportTree_sound :",
         "    exists cert : TranslationCert,",
         "      checkTranslationCoveredCase",
-        f"          {{ pairRank := {transported_translation['rank']}, signMask := {transported_translation['mask']} }} cert = true /\\",
+        "          { pairRank := translationTransportCoverage.rawRank,",
+        "            signMask := translationTransportCoverage.rawMask.val } cert = true /\\",
         "        checkTranslationCert cert = true :=",
         "  checkTranslationCoverageTree_sound translationTransportTree_check",
-        f"    (r := ⟨{transported_translation['rank']}, by decide⟩) (mask := ⟨{transported_translation['mask']}, by decide⟩) (by",
-        "      simp [TranslationCoverageTree.box, TranslationCaseBox.Contains,",
-        "        translationTransportTree, caseBox])",
+        "    translationTransportTree_containsCoverage",
+        "",
+        "theorem translationTransportTree_canonical_sound :",
+        "    exists cert : TranslationCert,",
+        "      checkTranslationCoveredCase",
+        "          { pairRank := translationTransportCoverage.rawRank,",
+        "            signMask := translationTransportCoverage.rawMask.val }",
+        "          cert = true /\\",
+        "        checkTranslationCert cert = true :=",
+        "  checkTranslationCoverageTree_sound translationTransportTree_check",
+        "    translationTransportTree_containsCoverage",
         "",
         "#check checkNonIdCoverageTree_sound",
         "#check checkTranslationCoverageTree_sound",
         "#check nonIdTransportTree_sound",
+        "#check nonIdTransportTree_canonical_sound",
         "#check translationTransportTree_sound",
+        "#check translationTransportTree_canonical_sound",
         "",
         "end Cuboctahedron.Generated.CoverageTreeSample",
         "",
@@ -2216,14 +2491,36 @@ def build_nonidentity_family_payload() -> dict:
                 raise ValueError(
                     f"rank {cert.rank} yielded {cert.failure['kind']}, expected {failure_kind}"
                 )
+        coverage_records = [
+            canonical_pair_coverage_record(cert.rank) for cert in certs
+        ]
+        paired = sorted(
+            zip(coverage_records, certs, strict=True),
+            key=lambda item: item[0]["canonical_rank"],
+        )
+        coverage_records = [coverage for coverage, _cert in paired]
+        certs = [cert for _coverage, cert in paired]
+        canonical_ranks = [
+            coverage["canonical_rank"] for coverage in coverage_records
+        ]
+        if canonical_ranks != list(
+            range(min(canonical_ranks), max(canonical_ranks) + 1)
+        ):
+            raise ValueError(
+                f"family {family_name} canonical ranks are not contiguous: "
+                f"{canonical_ranks}"
+            )
         all_certs.extend(certs)
         families.append({
             "name": family_name,
             "lean_name": lean_name,
             "failure_kind": failure_kind,
-            "startRank": start_rank,
-            "endRank": end_rank,
+            "startRank": min(canonical_ranks),
+            "endRank": max(canonical_ranks) + 1,
+            "rawStartRank": start_rank,
+            "rawEndRank": end_rank,
             "coveredRanks": [cert.rank for cert in certs],
+            "coverages": coverage_records,
             "cert_names": [cert.name for cert in certs],
             "certs": [cert.to_json() for cert in certs],
         })
@@ -2727,8 +3024,31 @@ def write_nonidentity_family_lean(payload: dict) -> None:
         "",
     ]
     append_word_definitions(lines, payload)
+    coverage_by_rank = {
+        coverage["raw_rank"]: coverage
+        for family in families
+        for coverage in family["coverages"]
+    }
     for cert in certs:
         append_nonid_cert(lines, cert)
+        coverage = coverage_by_rank[cert["rank"]]
+        lines.extend([
+            f"def {cert['name']}Coverage : CanonicalPairCoverage :=",
+            f"  {lean_canonical_pair_coverage(coverage)}",
+            "",
+            f"theorem {cert['name']}Coverage_check :",
+            f"    checkCanonicalPairCoverage {cert['name']}Coverage = true := by",
+            "  decide",
+            "",
+            f"theorem {cert['name']}Coverage_canonicalRank :",
+            f"    {cert['name']}Coverage.canonical.rank = {coverage['canonical_rank']} := by",
+            "  decide",
+            "",
+            f"theorem {cert['name']}Coverage_coveredRank :",
+            f"    checkNonIdCoveredRank {cert['name']}Coverage.rawRank {cert['name']} = true := by",
+            "  decide",
+            "",
+        ])
 
     family_check_theorems: list[str] = []
     family_leaf_check_theorems: list[str] = []
@@ -2896,8 +3216,22 @@ def write_nonidentity_family_lean(payload: dict) -> None:
         family_tree_check_theorems.append(tree_check)
         family_certs = family["certs"]
         family_cert_names = ", ".join(cert["name"] for cert in family_certs)
+        family_coverage_names = ", ".join(
+            f"{cert['name']}Coverage" for cert in family_certs
+        )
         covered_ranks = ", ".join(str(rank) for rank in family["coveredRanks"])
-        covered_rank_list = ", ".join(str(rank) for rank in family["coveredRanks"])
+        covered_coverage_list = ", ".join(
+            f"{cert['name']}Coverage" for cert in family_certs
+        )
+        coverage_check_names = [
+            f"{cert['name']}Coverage_check" for cert in family_certs
+        ]
+        coverage_rank_names = [
+            f"{cert['name']}Coverage_canonicalRank" for cert in family_certs
+        ]
+        coverage_covered_names = [
+            f"{cert['name']}Coverage_coveredRank" for cert in family_certs
+        ]
         covered_check_names = [f"{cert['name']}_coveredRank" for cert in family_certs]
         cert_check_names = [f"{cert['name']}_check" for cert in family_certs]
         family_match_names = [f"{cert['name']}_familyFailure" for cert in family_certs]
@@ -2909,7 +3243,7 @@ def write_nonidentity_family_lean(payload: dict) -> None:
             f"def {cert_name} : NonIdFamilyCert where",
             f"  name := \"{family['name']}\"",
             f"  failure := {nonid_family_failure_lean(family['failure_kind'])}",
-            f"  coveredRanks := #[{covered_ranks}]",
+            f"  coverages := #[{family_coverage_names}]",
             f"  certs := #[{family_cert_names}]",
             "",
             f"theorem {family_check} :",
@@ -2921,10 +3255,10 @@ def write_nonidentity_family_lean(payload: dict) -> None:
             "        checkNonIdFamilyEntries",
             f"          {nonid_family_failure_lean(family['failure_kind'])}",
             f"          {family['startRank']} {family['endRank']}",
-            f"          [{covered_rank_list}]",
+            f"          [{covered_coverage_list}]",
             f"          [{family_cert_names}]) = true",
             "  simp [checkRankInterval, checkNonIdFamilyEntries,",
-            f"    {', '.join(covered_check_names + cert_check_names + family_match_names)}]",
+            f"    {', '.join(coverage_check_names + coverage_rank_names + coverage_covered_names + covered_check_names + cert_check_names + family_match_names)}]",
             "  norm_num [numPairWords]",
             "",
             f"theorem {leaf_check} :",
@@ -2971,7 +3305,8 @@ def write_nonidentity_family_lean(payload: dict) -> None:
         "    exists cert : NonIdCert,",
         "      checkNonIdCoveredRank r.val cert = true /\\",
         "        checkNonIdCert cert = true :=",
-        "  checkNonIdCoverageForest_sound sampleFamilyCoverage_check hcontains",
+        "  checkNonIdCoverageForest_pairRank_sound",
+        "    sampleFamilyCoverage_check hcontains",
         "",
         "#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage",
         "#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage_sound",
