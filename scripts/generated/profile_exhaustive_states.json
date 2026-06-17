@@ -36,7 +36,13 @@
     "note": "Compiled exact profiler stores state-family groups and bounded samples; no Lean proof data is emitted.",
     "prefix_tree_leaf_estimate": 2,
     "shared_farkas_groups": 0,
-    "symmetry_classes": "not_formalized_yet",
+    "symmetry_classes": {
+      "max_pair_word_orbit": 8,
+      "max_translation_choice_orbit": 8,
+      "pair_word_classes": 12162150,
+      "source": "scripts/generated/canonical_orbit_coverage.json",
+      "translation_choice_classes": 19744704
+    },
     "translation_state_groups": 1
   },
   "translation_groups": [

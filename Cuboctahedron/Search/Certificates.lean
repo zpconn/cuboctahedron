@@ -1364,6 +1364,16 @@ def pairWordLexLe (w v : PairWord) : Bool :=
 def minPairWordLex (w v : PairWord) : PairWord :=
   if pairWordLexLe w v then w else v
 
+def translationChoiceLexLe
+    (a b : PairWord × SignMask) : Bool :=
+  if pairWordLexLe a.1 b.1 then
+    if pairWordLexLe b.1 a.1 then
+      decide (a.2.val <= b.2.val)
+    else
+      true
+  else
+    false
+
 def canonicalPairWord (w : PairWord) : PairWord :=
   (allStartedSyms.map fun σ => symPairWord σ w).foldl minPairWordLex w
 
@@ -1373,7 +1383,7 @@ def canonicalTranslationChoice (w : PairWord) (mask : SignMask) :
       let w' := symPairWord σ w
       (w', symTranslationMask σ w mask)).foldl
         (fun best candidate =>
-          if pairWordLexLe candidate.1 best.1 then candidate else best)
+          if translationChoiceLexLe candidate best then candidate else best)
         (w, mask)
 
 def symNonIdFailure (σ : StartedSym) : NonIdFailure -> NonIdFailure

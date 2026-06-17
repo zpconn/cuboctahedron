@@ -19,6 +19,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROFILE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "profile_exhaustive_states.json"
+CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_PROFILE_SOURCE_PATH = REPO_ROOT / "scripts" / "profile_exhaustive_states.cpp"
 CPP_PROFILE_BINARY_PATH = Path("/tmp") / "cuboctahedron_profile_exhaustive_states"
 
@@ -857,12 +858,37 @@ def build_profile_payload_cpp(limit: int | None = None) -> dict:
         text=True,
         stdout=subprocess.PIPE,
     )
-    return json.loads(result.stdout)
+    return attach_canonical_orbit_summary(json.loads(result.stdout))
 
 
 def build_profile_payload(limit: int | None = None, progress_interval: int = 1_000_000) -> dict:
     _ = progress_interval
     return build_profile_payload_cpp(limit=limit)
+
+
+def attach_canonical_orbit_summary(payload: dict) -> dict:
+    if not CANONICAL_ORBIT_JSON_PATH.exists():
+        return payload
+    orbit = json.loads(CANONICAL_ORBIT_JSON_PATH.read_text(encoding="utf-8"))
+    if orbit.get("schema_version") != 1 or orbit.get("mode") != "canonical-orbit-coverage":
+        return payload
+    canonical = orbit.get("canonical_counts", {})
+    actual = orbit.get("actual_counts", {})
+    if orbit.get("complete", False):
+        if actual.get("pair_words") != EXPECTED_PAIR_WORDS:
+            return payload
+        if actual.get("identity_linear_words") != EXPECTED_IDENTITY_WORDS:
+            return payload
+        if actual.get("translation_sign_assignments") != EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS:
+            return payload
+    payload.setdefault("size_estimates", {})["symmetry_classes"] = {
+        "pair_word_classes": canonical.get("pair_word_classes"),
+        "translation_choice_classes": canonical.get("translation_choice_classes"),
+        "max_pair_word_orbit": canonical.get("max_pair_word_orbit"),
+        "max_translation_choice_orbit": canonical.get("max_translation_choice_orbit"),
+        "source": str(CANONICAL_ORBIT_JSON_PATH.relative_to(REPO_ROOT)),
+    }
+    return payload
 
 
 def write_profile_payload(payload: dict, output_path: Path = PROFILE_JSON_PATH) -> None:
@@ -888,7 +914,23 @@ def print_profile_summary(payload: dict, *, prefix: str = "profiled exhaustive s
             "compressed nonidentity linear groups: "
             f"{estimates['compressed_nonidentity_linear_groups']:,}"
         )
-    print(f"symmetry classes: {estimates['symmetry_classes']}")
+    symmetry_classes = estimates["symmetry_classes"]
+    if isinstance(symmetry_classes, dict):
+        print(
+            "symmetry pair-word classes: "
+            f"{symmetry_classes['pair_word_classes']:,}"
+        )
+        print(
+            "symmetry translation classes: "
+            f"{symmetry_classes['translation_choice_classes']:,}"
+        )
+        print(
+            "symmetry max orbit sizes: "
+            f"pair={symmetry_classes['max_pair_word_orbit']}, "
+            f"translation={symmetry_classes['max_translation_choice_orbit']}"
+        )
+    else:
+        print(f"symmetry classes: {symmetry_classes}")
     if not payload.get("complete", False):
         print("profile status: partial development run")
 
@@ -1022,4 +1064,6 @@ def check_profile_payload(payload: dict) -> dict:
 
 
 def load_profile_payload(input_path: Path = PROFILE_JSON_PATH) -> dict:
-    return json.loads(input_path.read_text(encoding="utf-8"))
+    return attach_canonical_orbit_summary(
+        json.loads(input_path.read_text(encoding="utf-8"))
+    )

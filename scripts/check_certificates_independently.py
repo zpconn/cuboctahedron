@@ -22,6 +22,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
+CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
+CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
+CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -729,6 +732,115 @@ def check_canonical_orbit_coverage(limit):
     }
 
 
+def ensure_cpp_canonical_orbit_helper():
+    needs_build = (
+        not CPP_CANONICAL_ORBIT_BINARY_PATH.exists()
+        or CPP_CANONICAL_ORBIT_BINARY_PATH.stat().st_mtime
+        < CPP_CANONICAL_ORBIT_SOURCE_PATH.stat().st_mtime
+    )
+    if needs_build:
+        import subprocess
+
+        cmd = [
+            "g++",
+            "-std=c++20",
+            "-O3",
+            "-DNDEBUG",
+            str(CPP_CANONICAL_ORBIT_SOURCE_PATH),
+            "-o",
+            str(CPP_CANONICAL_ORBIT_BINARY_PATH),
+        ]
+        subprocess.run(cmd, cwd=REPO_ROOT, check=True)
+    return CPP_CANONICAL_ORBIT_BINARY_PATH
+
+
+def run_cpp_canonical_orbit_coverage(limit):
+    import subprocess
+
+    binary = ensure_cpp_canonical_orbit_helper()
+    cmd = [str(binary)]
+    if limit is not None:
+        cmd.extend(["--limit", str(limit)])
+    result = subprocess.run(
+        cmd,
+        cwd=REPO_ROOT,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    return json.loads(result.stdout)
+
+
+def check_canonical_orbit_payload(payload):
+    require(payload.get("schema_version") == 1, "canonical orbit schema version")
+    require(payload.get("mode") == "canonical-orbit-coverage", "canonical orbit mode")
+    sanity = payload["expected_sanity_counts"]
+    require(sanity["pair_words"] == EXPECTED_PAIR_WORDS, "canonical expected pair words")
+    require(
+        sanity["identity_linear_words"] == EXPECTED_IDENTITY_WORDS,
+        "canonical expected identity words",
+    )
+    require(
+        sanity["translation_sign_assignments"] == EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+        "canonical expected translation choices",
+    )
+    group = payload["symmetry_group_checks"]
+    require(group["started_symmetries"] == len(STARTED_SYMS), "canonical symmetry count")
+    require(group["xp_pair_fixed"] is True, "canonical symmetries fix x pair")
+    require(group["actions_distinct"] is True, "canonical symmetry actions distinct")
+    require(
+        group["closed_under_composition"] is True,
+        "canonical symmetry actions closed",
+    )
+    require(
+        group["canonical_rule"] == "lexicographic_minimum_over_started_symmetry_group",
+        "canonical representative rule",
+    )
+    actual = payload["actual_counts"]
+    canonical = payload["canonical_counts"]
+    require(actual["pair_words"] >= 0, "canonical nonnegative pair words")
+    require(actual["identity_linear_words"] >= 0, "canonical nonnegative identity words")
+    require(
+        actual["translation_sign_assignments"] >= 0,
+        "canonical nonnegative translation choices",
+    )
+    require(canonical["pair_word_classes"] >= 0, "canonical nonnegative word classes")
+    require(
+        canonical["translation_choice_classes"] >= 0,
+        "canonical nonnegative translation classes",
+    )
+    require(1 <= canonical["max_pair_word_orbit"] <= 8, "canonical word orbit bound")
+    if actual["translation_sign_assignments"] == 0:
+        require(
+            canonical["max_translation_choice_orbit"] == 0,
+            "canonical zero translation orbit bound",
+        )
+    else:
+        require(
+            1 <= canonical["max_translation_choice_orbit"] <= 8,
+            "canonical translation orbit bound",
+        )
+    if payload.get("complete", False):
+        require(actual["pair_words"] == EXPECTED_PAIR_WORDS, "canonical full pair words")
+        require(
+            actual["identity_linear_words"] == EXPECTED_IDENTITY_WORDS,
+            "canonical full identity words",
+        )
+        require(
+            actual["translation_sign_assignments"]
+            == EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            "canonical full translation choices",
+        )
+    return {
+        "pair_words": actual["pair_words"],
+        "identity_words": actual["identity_linear_words"],
+        "translation_cases": actual["translation_sign_assignments"],
+        "canonical_word_classes": canonical["pair_word_classes"],
+        "canonical_translation_classes": canonical["translation_choice_classes"],
+        "complete": payload.get("complete", False),
+    }
+
+
 def check_nonid_cert_record(cert):
     word = cert["word"]
     require(valid_pair_word(word), f"valid nonidentity cert {cert['name']}")
@@ -841,6 +953,7 @@ def main():
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
             "canonical-orbit-coverage",
+            "canonical-orbit-coverage-manifest",
         ],
         help="check mode",
     )
@@ -862,7 +975,7 @@ def main():
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
-            "canonical-orbit-coverage"
+            "canonical-orbit-coverage/canonical-orbit-coverage-manifest"
         )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
@@ -882,7 +995,14 @@ def main():
         print(f"translation transport cases: {summary['translation_transport_cases']}")
         return
     if mode == "canonical-orbit-coverage":
-        summary = check_canonical_orbit_coverage(args.limit)
+        payload = run_cpp_canonical_orbit_coverage(args.limit)
+        summary = check_canonical_orbit_payload(payload)
+        if args.limit is None:
+            CANONICAL_ORBIT_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+            CANONICAL_ORBIT_JSON_PATH.write_text(
+                json.dumps(payload, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
         prefix = (
             "independent canonical orbit coverage check passed"
             if summary["complete"]
@@ -895,6 +1015,19 @@ def main():
         print(f"canonical word classes seen: {summary['canonical_word_classes']:,}")
         print(
             "canonical translation classes seen: "
+            f"{summary['canonical_translation_classes']:,}"
+        )
+        return
+    if mode == "canonical-orbit-coverage-manifest":
+        payload = json.loads(CANONICAL_ORBIT_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_canonical_orbit_payload(payload)
+        print("independent canonical orbit coverage manifest check passed")
+        print(f"pair-words checked: {summary['pair_words']:,}")
+        print(f"identity words checked: {summary['identity_words']:,}")
+        print(f"translation choices checked: {summary['translation_cases']:,}")
+        print(f"canonical word classes: {summary['canonical_word_classes']:,}")
+        print(
+            "canonical translation classes: "
             f"{summary['canonical_translation_classes']:,}"
         )
         return

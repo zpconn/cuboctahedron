@@ -1093,7 +1093,10 @@ Requirements:
   - a checked translation failure for a canonical `(rank, mask)` yields a
     checked failure for every transported raw `(rank, mask)`.
 - The independent checker must verify that canonicalization is deterministic
-  and every raw case maps to exactly one canonical representative.
+  and every raw case maps to exactly one canonical representative. The full
+  canonical-orbit manifest records the started-symmetry group checks used for
+  this: the eight actions fix the `x` pair, are distinct, are closed under
+  composition, and use the lexicographic minimum as the canonical rule.
 
 Done when:
 
@@ -1106,9 +1109,11 @@ work for representative generated canonical cases,
 
 ```bash
 python3 scripts/check_certificates_independently.py --mode canonical-orbit-coverage --limit 10000
+python3 scripts/check_certificates_independently.py --mode canonical-orbit-coverage-manifest
 ```
 
-passes as the development smoke test, and `lake build` passes.
+passes as the development smoke test plus full-run manifest check, and
+`lake build` passes.
 
 ## Step 14E.3: Prefix-State Coverage Trees
 
