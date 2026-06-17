@@ -1987,6 +1987,33 @@ theorem checkNonIdCoverageTree_sound
         checkNonIdCert cert = true :=
   checkNonIdCoverageTreeFuel_sound coverageTreeFuel tree hcheck hcontains
 
+structure NonIdCoverageForest where
+  trees : List NonIdCoverageTree
+deriving Repr
+
+def NonIdCoverageForest.ContainsPairRank
+    (forest : NonIdCoverageForest) (r : Fin numPairWords) : Prop :=
+  exists tree : NonIdCoverageTree,
+    tree ∈ forest.trees /\ tree.interval.ContainsPairRank r
+
+noncomputable def checkNonIdCoverageForest
+    (forest : NonIdCoverageForest) : Bool :=
+  forest.trees.all checkNonIdCoverageTree
+
+theorem checkNonIdCoverageForest_sound
+    {forest : NonIdCoverageForest}
+    (hcheck : checkNonIdCoverageForest forest = true)
+    {r : Fin numPairWords}
+    (hcontains : forest.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  rcases hcontains with ⟨tree, hmem, htreeContains⟩
+  have htreeCheck : checkNonIdCoverageTree tree = true := by
+    unfold checkNonIdCoverageForest at hcheck
+    exact List.all_eq_true.mp hcheck tree hmem
+  exact checkNonIdCoverageTree_sound htreeCheck htreeContains
+
 inductive TranslationCoverageLeaf
   | raw (cert : TranslationCert)
   | transported (transport : CanonicalTranslationTransport)

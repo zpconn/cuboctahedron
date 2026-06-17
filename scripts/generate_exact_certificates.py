@@ -795,6 +795,11 @@ def lean_mat4_id() -> str:
     return "mat4Id"
 
 
+def lean_aff(a: Aff) -> str:
+    matrix, offset = a
+    return "{ M := " + lean_mat3(matrix) + ", b := " + lean_vec(offset) + " }"
+
+
 def lean_pair_id(pair_id: str) -> str:
     return f"PairId.{pair_id}"
 
@@ -1624,7 +1629,7 @@ def write_all_generated() -> None:
         "noncomputable def allGeneratedCoverageTreeCheck : Bool :=",
         "  checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&",
         "    checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&",
-        "      checkNonIdCoverageTree NonIdentity.sampleFamilyCoverage &&",
+        "      checkNonIdCoverageForest NonIdentity.sampleFamilyCoverage &&",
         "        checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&",
         "          checkTranslationCoverageTree CoverageTreeSample.translationTransportTree",
         "",
@@ -2119,23 +2124,461 @@ def write_nonidentity_family_json(payload: dict) -> None:
     )
 
 
+MAT3_FIELD_POSITIONS = [
+    ("m00", 0, 0), ("m01", 0, 1), ("m02", 0, 2),
+    ("m10", 1, 0), ("m11", 1, 1), ("m12", 1, 2),
+    ("m20", 2, 0), ("m21", 2, 1), ("m22", 2, 2),
+]
+
+
+def matrix_nonidentity_field(matrix: Mat) -> str:
+    ident = mat_id()
+    for field, row, col in MAT3_FIELD_POSITIONS:
+        if matrix[row][col] != ident[row][col]:
+            return field
+    raise ValueError("matrix is identity")
+
+
+def word_get_simp_names(word_def: str) -> list[str]:
+    return [f"{word_def}_get{index:02d}_num" for index in range(13)]
+
+
+def seq_get_simp_names(seq_def: str) -> list[str]:
+    return [f"{seq_def}_get{index:02d}_num" for index in range(14)]
+
+
+def append_valid_pair_word_theorem(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    theorem = f"{name}_validPairWord"
+    word = word_name(cert["rank"])
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    ValidPairWord {word} := by",
+        f"  unfold {word} ValidPairWord pairCount",
+        "  decide",
+        "",
+    ])
+    return theorem
+
+
+def append_total_linear_theorem(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    theorem = f"{name}_totalLinear"
+    word = word_name(cert["rank"])
+    matrix = total_linear(cert["word"])
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    totalLinearOfPairWord {word} = {lean_mat3(matrix)} := by",
+        "  rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+        "  simp [pairLinearProductRight, pairLinearSuffixNat, reflM,",
+        "    canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
+def append_nonidentity_theorem(lines: list[str], cert: dict, total_linear_theorem: str) -> str:
+    name = cert["name"]
+    theorem = f"{name}_nonIdentity"
+    word = word_name(cert["rank"])
+    matrix = total_linear(cert["word"])
+    field = matrix_nonidentity_field(matrix)
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    totalLinearOfPairWord {word} ≠ (matId : Mat3 Rat) := by",
+        f"  rw [{total_linear_theorem}]",
+        "  intro h",
+        f"  have hfield := congrArg Mat3.{field} h",
+        f"  norm_num [matId] at hfield",
+        "",
+    ])
+    return theorem
+
+
+def append_kernel_check_theorem(lines: list[str], cert: dict, total_linear_theorem: str) -> str:
+    name = cert["name"]
+    theorem = f"{name}_kernelCheck"
+    word = word_name(cert["rank"])
+    axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
+    kernel = tuple(tuple(Fraction(x) for x in row) for row in cert["kernel_cross_factor"])  # type: ignore[assignment]
+    lines.extend([
+        f"theorem {theorem} :",
+        "    checkKernelLineWitness",
+        f"      (totalLinearOfPairWord {word})",
+        f"      {lean_vec(axis)}",
+        f"      {{ crossFactor := {lean_mat3(kernel)} }} = true := by",
+        f"  rw [{total_linear_theorem}]",
+        "  norm_num [checkKernelLineWitness, checkVec3NonzeroQ, fixedPart,",
+        "    crossLeftMatrix, matSub, matId, matMul, matVec]",
+        "",
+    ])
+    return theorem
+
+
+def append_no_fixed_check_theorem(lines: list[str], cert: dict, total_linear_theorem: str) -> str:
+    name = cert["name"]
+    theorem = f"{name}_noFixedCheck"
+    word = word_name(cert["rank"])
+    witness = tuple(tuple(Fraction(x) for x in row) for row in cert["failure"]["left_inverse"])  # type: ignore[assignment]
+    lines.extend([
+        f"theorem {theorem} :",
+        "    checkNoFixedVectorWitness",
+        f"      (totalLinearOfPairWord {word})",
+        f"      {{ leftInverse := {lean_mat3(witness)} }} = true := by",
+        f"  rw [{total_linear_theorem}]",
+        "  norm_num [checkNoFixedVectorWitness, fixedPart, matSub, matId, matMul]",
+        "",
+    ])
+    return theorem
+
+
+def append_final_axis_dot_theorem(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    theorem = f"{name}_finalAxisDot"
+    word = word_name(cert["rank"])
+    axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
+    value = final_axis_dot(cert["word"], axis)
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    finalAxisDotQ {word} {lean_vec(axis)} = {lean_rat(value)} := by",
+        "  simp [finalAxisDotQ, pairPrefixLinearNat,",
+        f"    {', '.join(word_get_simp_names(word))},",
+        "    canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,",
+        "    scalarMat, outer, matVec]",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
+def append_axis_forces_theorem(lines: list[str], cert: dict, final_dot_theorem: str) -> str:
+    name = cert["name"]
+    theorem = f"{name}_axisForces"
+    word = word_name(cert["rank"])
+    forced = seq_name(name)
+    word_simp = ", ".join(word_get_simp_names(word))
+    seq_simp = ", ".join(seq_get_simp_names(forced))
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    AxisForcesForcedSeq {name}.word {name}.axis",
+        f"      (faceVectorSeq {name}.forcedSeq) := by",
+        "  constructor",
+        f"  · unfold StartsXp {name} {forced} faceVectorSeq",
+        "    decide",
+        "  constructor",
+        "  · intro i",
+        f"    fin_cases i <;> unfold {name} {forced} faceVectorSeq <;> decide",
+        "  constructor",
+        f"  · change 0 < finalAxisDotQ {word} {lean_vec(tuple(Fraction(x) for x in cert['axis']))}",
+        f"    rw [{final_dot_theorem}]",
+        "    norm_num",
+        "  · intro i f hf hpos",
+        "    fin_cases i <;> cases f <;>",
+        f"      simp [{name}, {forced}, faceVectorSeq, afterStart,",
+        f"        {word_simp}, {seq_simp},",
+        "        pairPrefixLinearNat, pairOfFace, canonicalNormalQ, normalQ,",
+        "        matId, matMul, reflM, dot, matSub, scalarMat, outer, matVec]",
+        "        at hf hpos ⊢ <;>",
+        "      first | contradiction | linarith | rfl",
+        "",
+    ])
+    return theorem
+
+
+def duplicate_face_indices(seq: list[str]) -> tuple[int, int]:
+    seen: dict[str, int] = {}
+    for index, face in enumerate(seq):
+        if face in seen:
+            return seen[face], index
+        seen[face] = index
+    raise ValueError("sequence has no duplicate face")
+
+
+def append_not_omni_theorem(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    theorem = f"{name}_notOmni"
+    i, j = duplicate_face_indices(cert["forced_seq"])
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    ¬ IsOmniSeq (faceVectorSeq {name}.forcedSeq) := by",
+        "  intro h",
+        "  have hEq :",
+        f"      faceVectorSeq {name}.forcedSeq ({i} : Step14) =",
+        f"        faceVectorSeq {name}.forcedSeq ({j} : Step14) := by",
+        "    decide",
+        "  have hIdx := h.1 hEq",
+        f"  exact (by decide : ({i} : Step14) ≠ ({j} : Step14)) hIdx",
+        "",
+    ])
+    return theorem
+
+
+def append_path_prefix_aff_theorems(lines: list[str], cert: dict) -> list[str]:
+    name = cert["name"]
+    forced = seq_name(name)
+    seq_simp = ", ".join(seq_get_simp_names(forced))
+    prefixes = path_prefix_affs(cert["forced_seq"])
+    theorem_names: list[str] = []
+    for index, prefix in enumerate(prefixes):
+        theorem = f"{name}_pathPrefix{index:02d}"
+        theorem_names.append(theorem)
+        if index == 0:
+            lines.extend([
+                f"theorem {theorem} :",
+                f"    pathPrefixAffNat (faceVectorSeq {forced}) {index} = {lean_aff(prefix)} := by",
+                f"  simp [{forced}, faceVectorSeq, pathPrefixAffNat, affId, matId]",
+                "",
+            ])
+        else:
+            prev = theorem_names[index - 1]
+            lines.extend([
+                f"theorem {theorem} :",
+                f"    pathPrefixAffNat (faceVectorSeq {forced}) {index} = {lean_aff(prefix)} := by",
+                f"  simp [pathPrefixAffNat, {prev}, faceVectorSeq,",
+                f"    {seq_simp}, faceReflectionQ, reflM, reflD, normalQ, offsetQ,",
+                "    affCompose, affId, matSub, matId, scalarMat, outer, dot, matMul,",
+                "    matVec, vecAdd, scalarMul]",
+                "  norm_num",
+                "",
+            ])
+    return theorem_names
+
+
+def append_total_aff_theorem(lines: list[str], cert: dict, path_prefix_theorems: list[str]) -> str:
+    name = cert["name"]
+    theorem = f"{name}_totalAff"
+    forced = seq_name(name)
+    affine = total_aff(cert["forced_seq"])
+    seq_simp = ", ".join(seq_get_simp_names(forced))
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    totalAff (faceVectorSeq {name}.forcedSeq) = {lean_aff(affine)} := by",
+        "  rw [totalAff_eq_finalPath]",
+        f"  change affCompose (pathPrefixAffNat (faceVectorSeq {forced}) 13)",
+        f"      (faceReflectionQ (faceVectorSeq {forced} 0)) = {lean_aff(affine)}",
+        f"  rw [{path_prefix_theorems[13]}]",
+        f"  simp [faceVectorSeq, {seq_simp},",
+        "    faceReflectionQ, reflM, reflD, normalQ, offsetQ, affCompose,",
+        "    matSub, matId, scalarMat, outer, dot, matMul, matVec, vecAdd,",
+        "    scalarMul]",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
+def append_axis_solve_check_theorem(lines: list[str], cert: dict, total_aff_theorem: str) -> str:
+    name = cert["name"]
+    theorem = f"{name}_axisSolveCheck"
+    lines.extend([
+        f"theorem {theorem} :",
+        "    checkAffineAxisSolveWitness",
+        f"      (totalAff (faceVectorSeq {name}.forcedSeq))",
+        f"      {name}.axis {name}.p0 {name}.lambda {name}.solve = true := by",
+        f"  rw [{total_aff_theorem}]",
+        f"  norm_num [{name}, checkAffineAxisSolveWitness, axisSolveMatrix,",
+        "    axisSolveVector, axisSolveRhs, mat4Mul, mat4Vec, mat4Id, matId, matSub]",
+        "",
+    ])
+    return theorem
+
+
+def append_forced_seq_matches_theorem(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    theorem = f"{name}_forcedSeqMatches"
+    forced = seq_name(name)
+    word = word_name(cert["rank"])
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    checkForcedSeqMatchesWord {name} = true := by",
+        "  classical",
+        "  unfold checkForcedSeqMatchesWord",
+        "  apply decide_eq_true",
+        "  constructor",
+        f"  · unfold StartsXp {name} faceVectorSeq",
+        "    decide",
+        "  · intro i",
+        f"    fin_cases i <;> simp [{name}, faceVectorSeq, afterStart,",
+        f"      {', '.join(word_get_simp_names(word))},",
+        f"      {', '.join(seq_get_simp_names(forced))}, pairOfFace]",
+        "",
+    ])
+    return theorem
+
+
+def append_common_check_theorem(
+    lines: list[str],
+    cert: dict,
+    valid_theorem: str,
+    nonid_theorem: str,
+    kernel_theorem: str,
+    forced_seq_theorem: str,
+    axis_solve_theorem: str,
+) -> str:
+    name = cert["name"]
+    theorem = f"{name}_commonCheck"
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    checkNonIdCommon {name} = true := by",
+        f"  have hValid : ValidPairWord {name}.word := by",
+        f"    simpa [{name}] using {valid_theorem}",
+        f"  have hNonId : totalLinearOfPairWord {name}.word ≠ (matId : Mat3 Rat) := by",
+        f"    simpa [{name}] using {nonid_theorem}",
+        f"  have hKernel :",
+        f"      checkKernelLineWitness (totalLinearOfPairWord {name}.word)",
+        f"        {name}.axis {name}.kernel = true := by",
+        f"    simpa [{name}] using {kernel_theorem}",
+        "  unfold checkNonIdCommon",
+        f"  simp [hValid, hNonId, hKernel, {forced_seq_theorem}, {axis_solve_theorem}]",
+        "",
+    ])
+    return theorem
+
+
+def append_not_xp_start_interior_theorem(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    theorem = f"{name}_notXpStartInterior"
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    ¬ XpStartInteriorQ {name}.p0 := by",
+        f"  unfold XpStartInteriorQ {name}",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
+def append_candidate_w_theorem(lines: list[str], cert: dict, total_aff_theorem: str) -> str:
+    name = cert["name"]
+    theorem = f"{name}_candidateW"
+    w = candidate_w(cert["forced_seq"], tuple(Fraction(x) for x in cert["p0"]))  # type: ignore[arg-type]
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    candidateWQ (faceVectorSeq {name}.forcedSeq) {name}.p0 = {lean_vec(w)} := by",
+        f"  unfold candidateWQ",
+        f"  rw [{total_aff_theorem}]",
+        f"  norm_num [{name}, affApply, matVec, vecSub, vecAdd]",
+        "",
+    ])
+    return theorem
+
+
+def append_candidate_time_theorem(
+    lines: list[str],
+    cert: dict,
+    impact: int,
+    candidate_w_theorem: str,
+    path_prefix_theorems: list[str],
+) -> str:
+    name = cert["name"]
+    theorem = f"{name}_candidateTime{impact:02d}"
+    p0 = tuple(Fraction(x) for x in cert["p0"])  # type: ignore[assignment]
+    w = candidate_w(cert["forced_seq"], p0)
+    value = candidate_impact_time(cert["forced_seq"], path_prefix_affs(cert["forced_seq"]), p0, w, impact)
+    forced = seq_name(name)
+    seq_simp = ", ".join(seq_get_simp_names(forced))
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    candidateImpactTimeQ (faceVectorSeq {name}.forcedSeq) {name}.p0",
+        f"      (candidateWQ (faceVectorSeq {name}.forcedSeq) {name}.p0)",
+        f"      ({impact} : Impact15) = {lean_rat(value)} := by",
+        f"  rw [{candidate_w_theorem}]",
+        "  simp [candidateImpactTimeQ, candidateImpactDenomQ,",
+        "    impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ,",
+        "    copiedOffsetQ, preImpactCopyAff, pathPrefixAff,",
+        "    impactFace, wordImpact, afterStart, nextImpact, lastImpact,",
+        f"    {name}, faceVectorSeq, {seq_simp},",
+        f"    {', '.join(path_prefix_theorems)},",
+        "    normalQ, offsetQ, matVec, dot, vecAdd]",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
+def append_candidate_ordering_theorem(
+    lines: list[str],
+    cert: dict,
+    candidate_w_theorem: str,
+    path_prefix_theorems: list[str],
+) -> str:
+    name = cert["name"]
+    step = cert["failure"]["step"]
+    theorem = f"{name}_candidateOrderingFails"
+    current = append_candidate_time_theorem(
+        lines, cert, step, candidate_w_theorem, path_prefix_theorems
+    )
+    nxt = append_candidate_time_theorem(
+        lines, cert, step + 1, candidate_w_theorem, path_prefix_theorems
+    )
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    CandidateOrderingFails (faceVectorSeq {name}.forcedSeq) {name}.p0",
+        f"      (candidateWQ (faceVectorSeq {name}.forcedSeq) {name}.p0)",
+        f"      {{ step := ⟨{step}, by decide⟩ }} := by",
+        "  unfold CandidateOrderingFails",
+        f"  change candidateImpactTimeQ (faceVectorSeq {name}.forcedSeq) {name}.p0",
+        f"      (candidateWQ (faceVectorSeq {name}.forcedSeq) {name}.p0)",
+        f"      ({step + 1} : Impact15) <=",
+        f"    candidateImpactTimeQ (faceVectorSeq {name}.forcedSeq) {name}.p0",
+        f"      (candidateWQ (faceVectorSeq {name}.forcedSeq) {name}.p0)",
+        f"      ({step} : Impact15)",
+        f"  rw [{nxt}, {current}]",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
+def append_candidate_hit_interior_theorem(
+    lines: list[str],
+    cert: dict,
+    candidate_w_theorem: str,
+    path_prefix_theorems: list[str],
+) -> str:
+    name = cert["name"]
+    failure = cert["failure"]
+    impact = failure["impact"]
+    bad_face = failure["badFace"]
+    theorem = f"{name}_candidateHitInteriorFails"
+    time_theorem = append_candidate_time_theorem(
+        lines, cert, impact, candidate_w_theorem, path_prefix_theorems
+    )
+    forced = seq_name(name)
+    seq_simp = ", ".join(seq_get_simp_names(forced))
+    lines.extend([
+        f"theorem {theorem} :",
+        f"    CandidateHitInteriorFails (faceVectorSeq {name}.forcedSeq) {name}.p0",
+        f"      (candidateWQ (faceVectorSeq {name}.forcedSeq) {name}.p0)",
+        f"      {{ impact := ⟨{impact}, by decide⟩, badFace := {lean_face(bad_face)} }} := by",
+        "  unfold CandidateHitInteriorFails",
+        "  constructor",
+        "  · decide",
+        f"  rw [{time_theorem}, {candidate_w_theorem}]",
+        "  simp [candidateLinePointQ, copiedNormalQ, copiedOffsetQ,",
+        "    preImpactCopyAff, pathPrefixAff, impactFace, lastImpact,",
+        f"    {name}, faceVectorSeq, {seq_simp},",
+        f"    {', '.join(path_prefix_theorems)},",
+        "    normalQ, offsetQ, matVec, dot, vecAdd, scalarMul]",
+        "  norm_num",
+        "",
+    ])
+    return theorem
+
+
 def write_nonidentity_family_lean(payload: dict) -> None:
-    family = payload["families"][0]
-    certs = family["certs"]
-    covered_check_names = [f"{cert['name']}_coveredRank" for cert in certs]
-    cert_check_names = [f"{cert['name']}_check" for cert in certs]
-    family_match_names = [f"{cert['name']}_familyFailure" for cert in certs]
-    cert_names = ", ".join(f"{cert['name']}" for cert in certs)
-    covered_ranks = ", ".join(str(rank) for rank in family["coveredRanks"])
-    covered_rank_list = ", ".join(str(rank) for rank in family["coveredRanks"])
+    families = payload["families"]
+    certs = [cert for family in families for cert in family["certs"]]
     lines: list[str] = [
         "import Cuboctahedron.Search.Certificates",
         "",
         "/-!",
         "Generated representative non-identity family coverage sample for Step 14E.4.",
         "",
-        "This file exercises one family leaf covering a nontrivial contiguous",
-        "rank interval. It is representative data, not the exhaustive search tree.",
+        "This file exercises a sparse forest of family leaves.  Each leaf covers",
+        "a contiguous rank interval whose certificates all share the same exact",
+        "failure kind. It is representative data, not the exhaustive search tree.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated.NonIdentity",
@@ -2150,121 +2593,249 @@ def write_nonidentity_family_lean(payload: dict) -> None:
     append_word_definitions(lines, payload)
     for cert in certs:
         append_nonid_cert(lines, cert)
+
+    family_check_theorems: list[str] = []
+    family_leaf_check_theorems: list[str] = []
+    family_tree_check_theorems: list[str] = []
+
     for cert in certs:
-        matrix = total_linear(cert["word"])
-        matrix_name = f"{cert['name']}_totalLinear"
-        axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
-        kernel = tuple(tuple(Fraction(x) for x in row) for row in cert["kernel_cross_factor"])  # type: ignore[assignment]
+        name = cert["name"]
         failure = cert["failure"]
-        if failure["kind"] != "badDirectionSign":
+        valid_theorem = append_valid_pair_word_theorem(lines, cert)
+        total_linear_theorem = append_total_linear_theorem(lines, cert)
+        nonid_theorem = append_nonidentity_theorem(lines, cert, total_linear_theorem)
+        kernel_theorem = append_kernel_check_theorem(lines, cert, total_linear_theorem)
+
+        if failure["kind"] == "noFixedAxis":
+            no_fixed_theorem = append_no_fixed_check_theorem(
+                lines, cert, total_linear_theorem
+            )
+            witness = tuple(tuple(Fraction(x) for x in row) for row in failure["left_inverse"])  # type: ignore[assignment]
+            lines.extend([
+                f"theorem {name}_check :",
+                f"    checkNonIdCert {name} = true := by",
+                f"  apply checkNonIdCert_noFixedAxis {name}",
+                f"    {{ leftInverse := {lean_mat3(witness)} }}",
+                "  · rfl",
+                f"  · simpa [{name}] using {valid_theorem}",
+                f"  · simpa [{name}] using {nonid_theorem}",
+                f"  · simpa [{name}] using {no_fixed_theorem}",
+                "",
+            ])
+        elif failure["kind"] == "badDirectionSign":
+            idx = failure["index"]
+            lines.extend([
+                f"theorem {name}_check :",
+                f"    checkNonIdCert {name} = true := by",
+                f"  apply checkNonIdCert_badDirectionSign {name} ⟨{idx}, by decide⟩",
+                "  · rfl",
+                f"  · simpa [{name}] using {valid_theorem}",
+                f"  · simpa [{name}] using {nonid_theorem}",
+                f"  · simpa [{name}] using {kernel_theorem}",
+                "  · intro f hf",
+                f"    cases f <;> simp [{name}, pairOfFace, pairPrefixLinearNat,",
+                "      canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,",
+                "      scalarMat, outer, matVec] at hf ⊢ <;> norm_num at hf ⊢",
+                "",
+            ])
+        elif failure["kind"] == "badPairBalance":
+            final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+            axis_forces_theorem = append_axis_forces_theorem(lines, cert, final_dot_theorem)
+            not_omni_theorem = append_not_omni_theorem(lines, cert)
+            lines.extend([
+                f"theorem {name}_check :",
+                f"    checkNonIdCert {name} = true := by",
+                f"  apply checkNonIdCert_badPairBalance_forced {name}",
+                "  · rfl",
+                f"  · simpa [{name}] using {valid_theorem}",
+                f"  · simpa [{name}] using {nonid_theorem}",
+                f"  · simpa [{name}] using {kernel_theorem}",
+                f"  · simpa [{name}] using {axis_forces_theorem}",
+                f"  · simpa [{name}] using {not_omni_theorem}",
+                "",
+            ])
+        elif failure["kind"] == "axisMissesStartInterior":
+            final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+            axis_forces_theorem = append_axis_forces_theorem(lines, cert, final_dot_theorem)
+            path_prefix_theorems = append_path_prefix_aff_theorems(lines, cert)
+            total_aff_theorem = append_total_aff_theorem(lines, cert, path_prefix_theorems)
+            axis_solve_theorem = append_axis_solve_check_theorem(lines, cert, total_aff_theorem)
+            forced_seq_theorem = append_forced_seq_matches_theorem(lines, cert)
+            common_theorem = append_common_check_theorem(
+                lines, cert, valid_theorem, nonid_theorem, kernel_theorem,
+                forced_seq_theorem, axis_solve_theorem,
+            )
+            not_interior_theorem = append_not_xp_start_interior_theorem(lines, cert)
+            lines.extend([
+                f"theorem {name}_check :",
+                f"    checkNonIdCert {name} = true := by",
+                f"  apply checkNonIdCert_axisMissesStartInterior {name}",
+                "  · rfl",
+                f"  · simpa using {common_theorem}",
+                f"  · simpa [{name}] using {axis_forces_theorem}",
+                f"  · simpa [{name}] using {not_interior_theorem}",
+                "",
+            ])
+        elif failure["kind"] == "badFirstHit":
+            final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+            axis_forces_theorem = append_axis_forces_theorem(lines, cert, final_dot_theorem)
+            path_prefix_theorems = append_path_prefix_aff_theorems(lines, cert)
+            total_aff_theorem = append_total_aff_theorem(lines, cert, path_prefix_theorems)
+            axis_solve_theorem = append_axis_solve_check_theorem(lines, cert, total_aff_theorem)
+            forced_seq_theorem = append_forced_seq_matches_theorem(lines, cert)
+            common_theorem = append_common_check_theorem(
+                lines, cert, valid_theorem, nonid_theorem, kernel_theorem,
+                forced_seq_theorem, axis_solve_theorem,
+            )
+            candidate_w_theorem = append_candidate_w_theorem(lines, cert, total_aff_theorem)
+            ordering_theorem = append_candidate_ordering_theorem(
+                lines, cert, candidate_w_theorem, path_prefix_theorems
+            )
+            step = failure["step"]
+            lines.extend([
+                f"theorem {name}_check :",
+                f"    checkNonIdCert {name} = true := by",
+                f"  apply checkNonIdCert_badFirstHit {name} {{ step := ⟨{step}, by decide⟩ }}",
+                "  · rfl",
+                f"  · simpa using {common_theorem}",
+                f"  · simpa [{name}] using {axis_forces_theorem}",
+                f"  · simpa [{name}] using {ordering_theorem}",
+                "",
+            ])
+        elif failure["kind"] == "badHitInterior":
+            final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+            axis_forces_theorem = append_axis_forces_theorem(lines, cert, final_dot_theorem)
+            path_prefix_theorems = append_path_prefix_aff_theorems(lines, cert)
+            total_aff_theorem = append_total_aff_theorem(lines, cert, path_prefix_theorems)
+            axis_solve_theorem = append_axis_solve_check_theorem(lines, cert, total_aff_theorem)
+            forced_seq_theorem = append_forced_seq_matches_theorem(lines, cert)
+            common_theorem = append_common_check_theorem(
+                lines, cert, valid_theorem, nonid_theorem, kernel_theorem,
+                forced_seq_theorem, axis_solve_theorem,
+            )
+            candidate_w_theorem = append_candidate_w_theorem(lines, cert, total_aff_theorem)
+            interior_theorem = append_candidate_hit_interior_theorem(
+                lines, cert, candidate_w_theorem, path_prefix_theorems
+            )
+            impact = failure["impact"]
+            bad_face = failure["badFace"]
+            lines.extend([
+                f"theorem {name}_check :",
+                f"    checkNonIdCert {name} = true := by",
+                f"  apply checkNonIdCert_badHitInterior {name}",
+                f"    {{ impact := ⟨{impact}, by decide⟩, badFace := {lean_face(bad_face)} }}",
+                "  · rfl",
+                f"  · simpa using {common_theorem}",
+                f"  · simpa [{name}] using {axis_forces_theorem}",
+                f"  · simpa [{name}] using {interior_theorem}",
+                "",
+            ])
+        else:
             raise ValueError(f"unsupported family proof template: {failure['kind']}")
-        idx = failure["index"]
-        word = word_name(cert["rank"])
+
         lines.extend([
-            f"theorem {matrix_name} :",
-            f"    totalLinearOfPairWord {word} = {lean_mat3(matrix)} := by",
-            "  rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
-            "  simp [pairLinearProductRight, pairLinearSuffixNat, reflM,",
-            "    canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
-            "  norm_num",
-            "",
-            f"theorem {cert['name']}_kernelCheck :",
-            "    checkKernelLineWitness",
-            f"      (totalLinearOfPairWord {word})",
-            f"      {lean_vec(axis)}",
-            f"      {{ crossFactor := {lean_mat3(kernel)} }} = true := by",
-            f"  rw [{matrix_name}]",
-            "  norm_num [checkKernelLineWitness, checkVec3NonzeroQ, fixedPart,",
-            "    crossLeftMatrix, matSub, matId, matMul, matVec]",
-            "",
-            f"theorem {cert['name']}_check :",
-            f"    checkNonIdCert {cert['name']} = true := by",
-            f"  apply checkNonIdCert_badDirectionSign {cert['name']} ⟨{idx}, by decide⟩",
-            "  · rfl",
-            f"  · unfold {cert['name']} {word} ValidPairWord pairCount",
-            "    decide",
-            f"  · change totalLinearOfPairWord {word} ≠ matId",
-            f"    rw [{matrix_name}]",
-            "    intro h",
-            "    have hm00 := congrArg Mat3.m00 h",
-            "    norm_num [matId] at hm00",
-            f"  · simpa [{cert['name']}] using {cert['name']}_kernelCheck",
-            "  · intro f hf",
-            f"    cases f <;> simp [{cert['name']}, pairOfFace, pairPrefixLinearNat,",
-            "      canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,",
-            "      scalarMat, outer, matVec] at hf ⊢ <;> norm_num at hf ⊢",
-            "",
-        ])
-    for cert in certs:
-        lines.extend([
-            f"theorem {cert['name']}_coveredRank :",
-            f"    checkNonIdCoveredRank {cert['rank']} {cert['name']} = true := by",
+            f"theorem {name}_coveredRank :",
+            f"    checkNonIdCoveredRank {cert['rank']} {name} = true := by",
             "  decide",
             "",
-            f"theorem {cert['name']}_familyFailure :",
+            f"theorem {name}_familyFailure :",
             "    checkNonIdFamilyFailureMatches",
-            f"      {nonid_family_failure_lean(family['failure_kind'])}",
-            f"      {cert['name']} = true := by",
+            f"      {nonid_family_failure_lean(failure['kind'])}",
+            f"      {name} = true := by",
             "  rfl",
             "",
         ])
+
+    for family in families:
+        family_prefix = family["lean_name"]
+        interval_name = f"{family_prefix}Interval"
+        cert_name = family_prefix
+        leaf_name = f"{family_prefix}Leaf"
+        tree_name = f"{family_prefix}Tree"
+        family_check = f"{family_prefix}_check"
+        leaf_check = f"{family_prefix}_leafCheck"
+        tree_check = f"{family_prefix}_treeCheck"
+        family_check_theorems.append(family_check)
+        family_leaf_check_theorems.append(leaf_check)
+        family_tree_check_theorems.append(tree_check)
+        family_certs = family["certs"]
+        family_cert_names = ", ".join(cert["name"] for cert in family_certs)
+        covered_ranks = ", ".join(str(rank) for rank in family["coveredRanks"])
+        covered_rank_list = ", ".join(str(rank) for rank in family["coveredRanks"])
+        covered_check_names = [f"{cert['name']}_coveredRank" for cert in family_certs]
+        cert_check_names = [f"{cert['name']}_check" for cert in family_certs]
+        family_match_names = [f"{cert['name']}_familyFailure" for cert in family_certs]
+        lines.extend([
+            f"def {interval_name} : RankInterval where",
+            f"  startRank := {family['startRank']}",
+            f"  endRank := {family['endRank']}",
+            "",
+            f"def {cert_name} : NonIdFamilyCert where",
+            f"  name := \"{family['name']}\"",
+            f"  failure := {nonid_family_failure_lean(family['failure_kind'])}",
+            f"  coveredRanks := #[{covered_ranks}]",
+            f"  certs := #[{family_cert_names}]",
+            "",
+            f"theorem {family_check} :",
+            f"    checkNonIdFamilyCert {interval_name} {cert_name} = true := by",
+            f"  unfold checkNonIdFamilyCert {interval_name} {cert_name}",
+            "  change",
+            "      (checkRankInterval { startRank := " + str(family["startRank"]) +
+              ", endRank := " + str(family["endRank"]) + " } &&",
+            "        checkNonIdFamilyEntries",
+            f"          {nonid_family_failure_lean(family['failure_kind'])}",
+            f"          {family['startRank']} {family['endRank']}",
+            f"          [{covered_rank_list}]",
+            f"          [{family_cert_names}]) = true",
+            "  simp [checkRankInterval, checkNonIdFamilyEntries,",
+            f"    {', '.join(covered_check_names + cert_check_names + family_match_names)}]",
+            "  norm_num [numPairWords]",
+            "",
+            f"theorem {leaf_check} :",
+            f"    checkNonIdCoverageLeaf {interval_name}",
+            f"      (NonIdCoverageLeaf.family {cert_name}) = true := by",
+            "  unfold checkNonIdCoverageLeaf checkNonIdCoverageLeafPayload",
+            "  change",
+            f"      (checkRankInterval {interval_name} &&",
+            f"        checkNonIdFamilyCert {interval_name} {cert_name}) = true",
+            f"  rw [{family_check}]",
+            f"  simp [{interval_name}, checkRankInterval]",
+            "  norm_num [numPairWords]",
+            "",
+            f"def {leaf_name} : NonIdCoverageTree :=",
+            f"  NonIdCoverageTree.leaf {interval_name}",
+            f"    (NonIdCoverageLeaf.family {cert_name})",
+            "",
+            f"def {tree_name} : NonIdCoverageTree :=",
+            f"  NonIdCoverageTree.branch {interval_name} [{leaf_name}]",
+            "",
+            f"theorem {tree_check} :",
+            f"    checkNonIdCoverageTree {tree_name} = true := by",
+            f"  unfold checkNonIdCoverageTree {tree_name} {leaf_name} coverageTreeFuel",
+            "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
+            f"    {leaf_check}, checkRankInterval,",
+            "    NonIdCoverageTree.interval]",
+            f"  norm_num [numPairWords, {interval_name}]",
+            "",
+        ])
+
+    forest_trees = ", ".join(f"{family['lean_name']}Tree" for family in families)
     lines.extend([
-        "def sampleFamilyInterval : RankInterval where",
-        f"  startRank := {family['startRank']}",
-        f"  endRank := {family['endRank']}",
-        "",
-        "def sampleFamilyCert : NonIdFamilyCert where",
-        f"  name := \"{family['name']}\"",
-        f"  failure := {nonid_family_failure_lean(family['failure_kind'])}",
-        f"  coveredRanks := #[{covered_ranks}]",
-        f"  certs := #[{cert_names}]",
-        "",
-        "theorem sampleFamilyCert_check :",
-        "    checkNonIdFamilyCert sampleFamilyInterval sampleFamilyCert = true := by",
-        "  unfold checkNonIdFamilyCert sampleFamilyInterval sampleFamilyCert",
-        "  change",
-        "      (checkRankInterval { startRank := " + str(family["startRank"]) +
-          ", endRank := " + str(family["endRank"]) + " } &&",
-        "        checkNonIdFamilyEntries",
-        f"          {nonid_family_failure_lean(family['failure_kind'])}",
-        f"          {family['startRank']} {family['endRank']}",
-        f"          [{covered_rank_list}]",
-        f"          [{cert_names}]) = true",
-        "  simp [checkRankInterval, checkNonIdFamilyEntries,",
-        f"    {', '.join(covered_check_names + cert_check_names + family_match_names)}]",
-        "  norm_num [numPairWords]",
-        "",
-        "theorem sampleFamilyLeaf_check :",
-        "    checkNonIdCoverageLeaf sampleFamilyInterval",
-        "      (NonIdCoverageLeaf.family sampleFamilyCert) = true := by",
-        "  unfold checkNonIdCoverageLeaf checkNonIdCoverageLeafPayload",
-        "  change",
-        "      (checkRankInterval sampleFamilyInterval &&",
-        "        checkNonIdFamilyCert sampleFamilyInterval sampleFamilyCert) = true",
-        "  rw [sampleFamilyCert_check]",
-        "  simp [sampleFamilyInterval, checkRankInterval]",
-        "  norm_num [numPairWords]",
-        "",
-        "def sampleFamilyCoverage : NonIdCoverageTree :=",
-        "  NonIdCoverageTree.branch sampleFamilyInterval",
-        "    [NonIdCoverageTree.leaf sampleFamilyInterval",
-        "      (NonIdCoverageLeaf.family sampleFamilyCert)]",
+        "def sampleFamilyCoverage : NonIdCoverageForest where",
+        f"  trees := [{forest_trees}]",
         "",
         "theorem sampleFamilyCoverage_check :",
-        "    checkNonIdCoverageTree sampleFamilyCoverage = true := by",
-        "  unfold checkNonIdCoverageTree sampleFamilyCoverage coverageTreeFuel",
-        "  simp [checkNonIdCoverageTreeFuel, checkNonIdCoverageChildrenWith,",
-        "    sampleFamilyLeaf_check, checkRankInterval,",
-        "    NonIdCoverageTree.interval]",
-        "  norm_num [numPairWords, sampleFamilyInterval]",
+        "    checkNonIdCoverageForest sampleFamilyCoverage = true := by",
+        "  unfold checkNonIdCoverageForest sampleFamilyCoverage",
+        f"  simp [{', '.join(family_tree_check_theorems)}]",
         "",
         "theorem sampleFamilyCoverage_sound",
         "    {r : Fin numPairWords}",
-        "    (hcontains : sampleFamilyCoverage.interval.ContainsPairRank r) :",
+        "    (hcontains : sampleFamilyCoverage.ContainsPairRank r) :",
         "    exists cert : NonIdCert,",
         "      checkNonIdCoveredRank r.val cert = true /\\",
         "        checkNonIdCert cert = true :=",
-        "  checkNonIdCoverageTree_sound sampleFamilyCoverage_check hcontains",
+        "  checkNonIdCoverageForest_sound sampleFamilyCoverage_check hcontains",
         "",
         "#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage",
         "#check Cuboctahedron.Generated.NonIdentity.sampleFamilyCoverage_sound",

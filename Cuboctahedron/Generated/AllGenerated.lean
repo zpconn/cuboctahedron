@@ -34,7 +34,7 @@ theorem translationChunk_sound :
 noncomputable def allGeneratedCoverageTreeCheck : Bool :=
   checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&
     checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&
-      checkNonIdCoverageTree NonIdentity.sampleFamilyCoverage &&
+      checkNonIdCoverageForest NonIdentity.sampleFamilyCoverage &&
         checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&
           checkTranslationCoverageTree CoverageTreeSample.translationTransportTree
 
