@@ -122,6 +122,29 @@ FACE_ORDER = [
     "tppp",
 ]
 
+STARTED_SYMS = [
+    {"swap_yz": False, "neg_y": False, "neg_z": False},
+    {"swap_yz": False, "neg_y": False, "neg_z": True},
+    {"swap_yz": False, "neg_y": True, "neg_z": False},
+    {"swap_yz": False, "neg_y": True, "neg_z": True},
+    {"swap_yz": True, "neg_y": False, "neg_z": False},
+    {"swap_yz": True, "neg_y": False, "neg_z": True},
+    {"swap_yz": True, "neg_y": True, "neg_z": False},
+    {"swap_yz": True, "neg_y": True, "neg_z": True},
+]
+
+PAIR_NORMAL_LOOKUP = {
+    tuple(normal): (pair_id, True) for pair_id, normal in NORMALS.items()
+} | {
+    tuple(-entry for entry in normal): (pair_id, False)
+    for pair_id, normal in NORMALS.items()
+}
+FACE_TO_PAIR_SIGN = {
+    face: (pair_id, True) for pair_id, face in FACE_PLUS.items()
+} | {
+    face: (pair_id, False) for pair_id, face in FACE_MINUS.items()
+}
+
 Vec = tuple[Fraction, Fraction, Fraction]
 Mat = tuple[tuple[Fraction, Fraction, Fraction], ...]
 Aff = tuple[Mat, Vec]
@@ -353,6 +376,99 @@ def sign_assignment(word: list[str], mask: int) -> list[int]:
     return signs
 
 
+def sym_vec(sym: dict[str, bool], value: tuple[int, int, int]) -> tuple[int, int, int]:
+    x, y, z = value
+    if sym["swap_yz"]:
+        y, z = z, y
+    if sym["neg_y"]:
+        y = -y
+    if sym["neg_z"]:
+        z = -z
+    return x, y, z
+
+
+def sym_pair_sign(sym: dict[str, bool], pair_id: str, positive: bool) -> tuple[str, bool]:
+    normal = NORMALS[pair_id]
+    signed = normal if positive else tuple(-entry for entry in normal)
+    return PAIR_NORMAL_LOOKUP[sym_vec(sym, signed)]  # type: ignore[arg-type]
+
+
+def sym_pair(sym: dict[str, bool], pair_id: str) -> str:
+    return sym_pair_sign(sym, pair_id, True)[0]
+
+
+def sym_word(sym: dict[str, bool], word: list[str]) -> list[str]:
+    return [sym_pair(sym, pair_id) for pair_id in word]
+
+
+def transported_mask(sym: dict[str, bool], word: list[str], mask: int) -> tuple[list[str], int]:
+    signs = sign_assignment(word, mask)
+    raw_word = sym_word(sym, word)
+    raw_seen = {pair_id: 0 for pair_id in PAIR_IDS}
+    out = 0
+    for index, pair_id in enumerate(word):
+        raw_pair, raw_positive = sym_pair_sign(sym, pair_id, signs[index] > 0)
+        if raw_pair != raw_word[index]:
+            raise ValueError("symmetry word/sign mismatch")
+        if raw_pair != "x" and raw_seen[raw_pair] == 0 and raw_positive:
+            out |= 1 << (PAIR_IDS.index(raw_pair) - 1)
+        raw_seen[raw_pair] += 1
+    return raw_word, out
+
+
+def reverse_word(word: list[str]) -> list[str]:
+    return list(reversed(word))
+
+
+def reverse_translation_choice(word: list[str], mask: int) -> tuple[list[str], int]:
+    signs = list(reversed(sign_assignment(word, mask)))
+    raw_word = reverse_word(word)
+    raw_seen = {pair_id: 0 for pair_id in PAIR_IDS}
+    out = 0
+    for pair_id, sign in zip(raw_word, signs):
+        if pair_id == "x":
+            if sign != -1:
+                raise ValueError("reversed started translation has positive x face")
+        elif raw_seen[pair_id] == 0 and sign > 0:
+            out |= 1 << (PAIR_IDS.index(pair_id) - 1)
+        raw_seen[pair_id] += 1
+    return raw_word, out
+
+
+def canonical_word_started_symmetry(word: list[str]) -> list[str]:
+    return min(sym_word(sym, word) for sym in STARTED_SYMS)
+
+
+def canonical_word_reversal(word: list[str]) -> list[str]:
+    return min(word, reverse_word(word))
+
+
+def canonical_word_combined(word: list[str], *, with_symmetry: bool, with_reversal: bool) -> list[str]:
+    bases = [word]
+    if with_reversal:
+        bases.append(reverse_word(word))
+    syms = STARTED_SYMS if with_symmetry else [STARTED_SYMS[0]]
+    return min(sym_word(sym, base) for base in bases for sym in syms)
+
+
+def canonical_translation_started_symmetry(word: list[str], mask: int) -> tuple[list[str], int]:
+    return min(transported_mask(sym, word, mask) for sym in STARTED_SYMS)
+
+
+def canonical_translation_reversal(word: list[str], mask: int) -> tuple[list[str], int]:
+    return min((word, mask), reverse_translation_choice(word, mask))
+
+
+def canonical_translation_combined(
+    word: list[str], mask: int, *, with_symmetry: bool, with_reversal: bool
+) -> tuple[list[str], int]:
+    bases = [(word, mask)]
+    if with_reversal:
+        bases.append(reverse_translation_choice(word, mask))
+    syms = STARTED_SYMS if with_symmetry else [STARTED_SYMS[0]]
+    return min(transported_mask(sym, base_word, base_mask) for base_word, base_mask in bases for sym in syms)
+
+
 def translation_vector(word: list[str], mask: int, pref: list[Mat] | None = None) -> tuple[Vec, list[str]]:
     signs = sign_assignment(word, mask)
     prefixes = pref if pref is not None else prefix_matrices(word)
@@ -519,6 +635,25 @@ def strict_key(value: StrictLin2) -> str:
     return vec_key(value)
 
 
+def normalize_strict_constraint(value: StrictLin2) -> StrictLin2:
+    denominators = [entry.denominator for entry in value]
+    lcm = 1
+    for denominator in denominators:
+        lcm = math.lcm(lcm, denominator)
+    integers = [entry.numerator * (lcm // entry.denominator) for entry in value]
+    content = 0
+    for entry in integers:
+        content = math.gcd(content, abs(entry))
+    if content == 0:
+        content = 1
+    return tuple(Fraction(entry // content) for entry in integers)  # type: ignore[return-value]
+
+
+def normalized_constraints_key(constraints: list[StrictLin2]) -> str:
+    normalized = sorted({strict_key(normalize_strict_constraint(constraint)) for constraint in constraints})
+    return "|".join(normalized)
+
+
 def constraints_key(constraints: list[StrictLin2]) -> str:
     return "|".join(strict_key(constraint) for constraint in constraints)
 
@@ -623,7 +758,16 @@ class GroupStore:
 
 
 class ProfileBuilder:
-    def __init__(self, *, sample_limit: int = 32, progress_interval: int = 1_000_000) -> None:
+    def __init__(
+        self,
+        *,
+        sample_limit: int = 32,
+        progress_interval: int = 1_000_000,
+        with_symmetry: bool = False,
+        with_reversal: bool = False,
+    ) -> None:
+        self.with_symmetry = with_symmetry
+        self.with_reversal = with_reversal
         self.sample_limit = sample_limit
         self.progress_interval = progress_interval
         self.pair_words = 0
@@ -635,6 +779,18 @@ class ProfileBuilder:
         self.samples: list[dict] = []
         self.axis_cache: dict[str, tuple[str, Vec | None]] = {}
         self.constraint_cache: dict[tuple[str, str], str] = {}
+        self.symmetry_pair_classes: set[tuple[str, ...]] = set()
+        self.reversal_pair_classes: set[tuple[str, ...]] = set()
+        self.combined_pair_classes: set[tuple[str, ...]] = set()
+        self.symmetry_translation_classes: set[tuple[tuple[str, ...], int]] = set()
+        self.reversal_translation_classes: set[tuple[tuple[str, ...], int]] = set()
+        self.combined_translation_classes: set[tuple[tuple[str, ...], int]] = set()
+        self.max_symmetry_pair_orbit = 0
+        self.max_reversal_pair_orbit = 0
+        self.max_combined_pair_orbit = 0
+        self.max_symmetry_translation_orbit = 0
+        self.max_reversal_translation_orbit = 0
+        self.max_combined_translation_orbit = 0
 
     def add_sample(self, sample: dict) -> None:
         if len(self.samples) < self.sample_limit:
@@ -720,6 +876,8 @@ class ProfileBuilder:
 
     def classify_translation_mask(self, rank: int, word: list[str], pref: list[Mat], mask: int) -> None:
         self.translation_sign_assignments += 1
+        if self.with_symmetry or self.with_reversal:
+            self.record_translation_canonical_stats(word, mask)
         b, seq = translation_vector(word, mask, pref)
         prefixes = path_prefix_affs(seq)
         pattern = denom_pattern_key(seq, b, prefixes)
@@ -740,7 +898,7 @@ class ProfileBuilder:
             return
         constraint_cache_key = (seq_key(seq), vec_key(b))
         if constraint_cache_key not in self.constraint_cache:
-            self.constraint_cache[constraint_cache_key] = constraints_key(translation_constraints(seq, b))
+            self.constraint_cache[constraint_cache_key] = normalized_constraints_key(translation_constraints(seq, b))
         details = {
             **base,
             "failure": "needsFarkas",
@@ -765,11 +923,64 @@ class ProfileBuilder:
                 "word": word,
                 "lexRank": lex_rank_pair_word(word),
             })
+        if self.with_symmetry or self.with_reversal:
+            self.record_pair_word_canonical_stats(word)
         matrix = mat_mul(pref[-1], RPAIR["x"])
         if matrix == IDENTITY:
             self.classify_identity(rank, word, pref)
         else:
             self.classify_nonidentity(rank, word, pref, matrix)
+
+    def record_pair_word_canonical_stats(self, word: list[str]) -> None:
+        if self.with_symmetry:
+            orbit = {tuple(sym_word(sym, word)) for sym in STARTED_SYMS}
+            self.symmetry_pair_classes.add(tuple(canonical_word_started_symmetry(word)))
+            self.max_symmetry_pair_orbit = max(self.max_symmetry_pair_orbit, len(orbit))
+        if self.with_reversal:
+            orbit = {tuple(word), tuple(reverse_word(word))}
+            self.reversal_pair_classes.add(tuple(canonical_word_reversal(word)))
+            self.max_reversal_pair_orbit = max(self.max_reversal_pair_orbit, len(orbit))
+        if self.with_symmetry or self.with_reversal:
+            bases = [word]
+            if self.with_reversal:
+                bases.append(reverse_word(word))
+            syms = STARTED_SYMS if self.with_symmetry else [STARTED_SYMS[0]]
+            orbit = {tuple(sym_word(sym, base)) for base in bases for sym in syms}
+            self.combined_pair_classes.add(tuple(canonical_word_combined(
+                word, with_symmetry=self.with_symmetry, with_reversal=self.with_reversal)))
+            self.max_combined_pair_orbit = max(self.max_combined_pair_orbit, len(orbit))
+
+    def record_translation_canonical_stats(self, word: list[str], mask: int) -> None:
+        if self.with_symmetry:
+            orbit = {
+                (tuple(raw_word), raw_mask)
+                for sym in STARTED_SYMS
+                for raw_word, raw_mask in [transported_mask(sym, word, mask)]
+            }
+            canon_word, canon_mask = canonical_translation_started_symmetry(word, mask)
+            self.symmetry_translation_classes.add((tuple(canon_word), canon_mask))
+            self.max_symmetry_translation_orbit = max(self.max_symmetry_translation_orbit, len(orbit))
+        if self.with_reversal:
+            reversed_choice = reverse_translation_choice(word, mask)
+            orbit = {(tuple(word), mask), (tuple(reversed_choice[0]), reversed_choice[1])}
+            canon_word, canon_mask = canonical_translation_reversal(word, mask)
+            self.reversal_translation_classes.add((tuple(canon_word), canon_mask))
+            self.max_reversal_translation_orbit = max(self.max_reversal_translation_orbit, len(orbit))
+        if self.with_symmetry or self.with_reversal:
+            bases = [(word, mask)]
+            if self.with_reversal:
+                bases.append(reverse_translation_choice(word, mask))
+            syms = STARTED_SYMS if self.with_symmetry else [STARTED_SYMS[0]]
+            orbit = {
+                (tuple(raw_word), raw_mask)
+                for base_word, base_mask in bases
+                for sym in syms
+                for raw_word, raw_mask in [transported_mask(sym, base_word, base_mask)]
+            }
+            canon_word, canon_mask = canonical_translation_combined(
+                word, mask, with_symmetry=self.with_symmetry, with_reversal=self.with_reversal)
+            self.combined_translation_classes.add((tuple(canon_word), canon_mask))
+            self.max_combined_translation_orbit = max(self.max_combined_translation_orbit, len(orbit))
 
     def size_estimates(self) -> dict:
         flat_nonidentity = self.nonidentity_words
@@ -790,6 +1001,37 @@ class ProfileBuilder:
             "translation_state_groups": translation_group_count,
             "shared_farkas_groups": shared_farkas_groups,
             "symmetry_classes": "not_formalized_yet",
+            "reversal_classes": "not_requested" if not self.with_reversal else {
+                "pair_word_classes": len(self.reversal_pair_classes),
+                "translation_choice_classes": len(self.reversal_translation_classes),
+                "max_pair_word_orbit": self.max_reversal_pair_orbit,
+                "max_translation_choice_orbit": self.max_reversal_translation_orbit,
+                "proof_transport_enabled": False,
+            },
+            "combined_symmetry_reversal_classes": (
+                "not_requested"
+                if not (self.with_symmetry or self.with_reversal)
+                else {
+                    "pair_word_classes": len(self.combined_pair_classes),
+                    "translation_choice_classes": len(self.combined_translation_classes),
+                    "max_pair_word_orbit": self.max_combined_pair_orbit,
+                    "max_translation_choice_orbit": self.max_combined_translation_orbit,
+                    "reversal_proof_transport_enabled": False,
+                }
+            ),
+            "canonical_cert_estimate": (
+                len(self.combined_pair_classes) + len(self.combined_translation_classes)
+                if self.with_symmetry or self.with_reversal
+                else nonidentity_group_count + translation_group_count
+            ),
+            "estimated_lean_bytes": (
+                512 * (
+                    len(self.combined_pair_classes) + len(self.combined_translation_classes)
+                    if self.with_symmetry or self.with_reversal
+                    else nonidentity_group_count + translation_group_count
+                )
+            ),
+            "budget_status": "report_only",
             "note": "Profiler-only estimate; no Lean proof data is emitted.",
         }
 
@@ -797,6 +1039,11 @@ class ProfileBuilder:
         return {
             "schema_version": 1,
             "mode": "profile-exhaustive-states",
+            "options": {
+                "with_symmetry": self.with_symmetry,
+                "with_reversal": self.with_reversal,
+                "reversal_proof_transport_enabled": False,
+            },
             "complete": complete,
             "profile_limit": limit,
             "expected_sanity_counts": {
@@ -817,8 +1064,18 @@ class ProfileBuilder:
         }
 
 
-def build_profile_payload_python(limit: int | None = None, progress_interval: int = 1_000_000) -> dict:
-    builder = ProfileBuilder(progress_interval=progress_interval)
+def build_profile_payload_python(
+    limit: int | None = None,
+    progress_interval: int = 1_000_000,
+    *,
+    with_symmetry: bool = False,
+    with_reversal: bool = False,
+) -> dict:
+    builder = ProfileBuilder(
+        progress_interval=progress_interval,
+        with_symmetry=with_symmetry,
+        with_reversal=with_reversal,
+    )
     for rank, word, pref in enumerate_pair_word_states(limit):
         builder.visit_word(rank, word, pref)
     complete = limit is None
@@ -846,11 +1103,20 @@ def ensure_cpp_profile_helper() -> Path:
     return CPP_PROFILE_BINARY_PATH
 
 
-def build_profile_payload_cpp(limit: int | None = None) -> dict:
+def build_profile_payload_cpp(
+    limit: int | None = None,
+    *,
+    with_symmetry: bool = False,
+    with_reversal: bool = False,
+) -> dict:
     binary = ensure_cpp_profile_helper()
     cmd = [str(binary)]
     if limit is not None:
         cmd.extend(["--limit", str(limit)])
+    if with_symmetry:
+        cmd.append("--with-symmetry")
+    if with_reversal:
+        cmd.append("--with-reversal")
     result = subprocess.run(
         cmd,
         cwd=REPO_ROOT,
@@ -861,13 +1127,26 @@ def build_profile_payload_cpp(limit: int | None = None) -> dict:
     return attach_canonical_orbit_summary(json.loads(result.stdout))
 
 
-def build_profile_payload(limit: int | None = None, progress_interval: int = 1_000_000) -> dict:
+def build_profile_payload(
+    limit: int | None = None,
+    progress_interval: int = 1_000_000,
+    *,
+    with_symmetry: bool = False,
+    with_reversal: bool = False,
+) -> dict:
     _ = progress_interval
-    return build_profile_payload_cpp(limit=limit)
+    return build_profile_payload_cpp(
+        limit=limit,
+        with_symmetry=with_symmetry,
+        with_reversal=with_reversal,
+    )
 
 
 def attach_canonical_orbit_summary(payload: dict) -> dict:
     if not CANONICAL_ORBIT_JSON_PATH.exists():
+        return payload
+    existing = payload.setdefault("size_estimates", {}).get("symmetry_classes")
+    if isinstance(existing, dict) and existing.get("source") == "scripts/profile_exhaustive_states.cpp":
         return payload
     orbit = json.loads(CANONICAL_ORBIT_JSON_PATH.read_text(encoding="utf-8"))
     if orbit.get("schema_version") != 1 or orbit.get("mode") != "canonical-orbit-coverage":
@@ -909,6 +1188,10 @@ def print_profile_summary(payload: dict, *, prefix: str = "profiled exhaustive s
     print(f"flat cert estimate: {estimates['flat_total_certs']:,}")
     print(f"prefix-tree leaf estimate: {estimates['prefix_tree_leaf_estimate']:,}")
     print(f"shared Farkas groups: {estimates['shared_farkas_groups']:,}")
+    if "canonical_cert_estimate" in estimates:
+        print(f"canonical cert estimate: {estimates['canonical_cert_estimate']:,}")
+    if "estimated_lean_bytes" in estimates:
+        print(f"estimated Lean bytes: {estimates['estimated_lean_bytes']:,}")
     if "compressed_nonidentity_linear_groups" in estimates:
         print(
             "compressed nonidentity linear groups: "
@@ -931,6 +1214,42 @@ def print_profile_summary(payload: dict, *, prefix: str = "profiled exhaustive s
         )
     else:
         print(f"symmetry classes: {symmetry_classes}")
+    reversal_classes = estimates.get("reversal_classes", "not_requested")
+    if isinstance(reversal_classes, dict):
+        print(
+            "reversal pair-word classes: "
+            f"{reversal_classes['pair_word_classes']:,}"
+        )
+        print(
+            "reversal translation classes: "
+            f"{reversal_classes['translation_choice_classes']:,}"
+        )
+        print(
+            "reversal max orbit sizes: "
+            f"pair={reversal_classes['max_pair_word_orbit']}, "
+            f"translation={reversal_classes['max_translation_choice_orbit']}"
+        )
+    else:
+        print(f"reversal classes: {reversal_classes}")
+    combined_classes = estimates.get("combined_symmetry_reversal_classes", "not_requested")
+    if isinstance(combined_classes, dict):
+        if combined_classes.get("exact") is False and combined_classes.get("status"):
+            print(f"combined symmetry/reversal status: {combined_classes['status']}")
+        print(
+            "combined symmetry/reversal pair-word classes: "
+            f"{combined_classes['pair_word_classes']:,}"
+        )
+        print(
+            "combined symmetry/reversal translation classes: "
+            f"{combined_classes['translation_choice_classes']:,}"
+        )
+        print(
+            "combined symmetry/reversal max orbit sizes: "
+            f"pair={combined_classes['max_pair_word_orbit']}, "
+            f"translation={combined_classes['max_translation_choice_orbit']}"
+        )
+    else:
+        print(f"combined symmetry/reversal classes: {combined_classes}")
     if not payload.get("complete", False):
         print("profile status: partial development run")
 
@@ -970,6 +1289,15 @@ def recompute_translation_failure(rank: int, word: list[str], mask: int) -> str:
 def check_profile_payload(payload: dict) -> dict:
     require(payload.get("schema_version") == 1, "schema version")
     require(payload.get("mode") == "profile-exhaustive-states", "mode")
+    options = payload.get("options", {})
+    require(isinstance(options, dict), "options object")
+    with_symmetry = bool(options.get("with_symmetry", False))
+    with_reversal = bool(options.get("with_reversal", False))
+    if with_reversal:
+        require(
+            options.get("reversal_proof_transport_enabled") is False,
+            "Step 14E.1 reversal is grouping-only",
+        )
     sanity = payload["expected_sanity_counts"]
     require(sanity["pair_words"] == EXPECTED_PAIR_WORDS, "expected pair words")
     require(sanity["identity_linear_words"] == EXPECTED_IDENTITY_WORDS, "expected identity words")
@@ -1001,6 +1329,31 @@ def check_profile_payload(payload: dict) -> dict:
     translation_sum = sum(group["count"] for group in payload["translation_groups"])
     require(nonidentity_sum == counts["nonidentity_words"], "nonidentity group count sum")
     require(translation_sum == counts["translation_sign_assignments"], "translation group count sum")
+    estimates = payload["size_estimates"]
+    if with_symmetry:
+        symmetry = estimates.get("symmetry_classes")
+        require(isinstance(symmetry, dict), "symmetry class summary")
+        require(symmetry["pair_word_classes"] >= 0, "symmetry pair classes nonnegative")
+        require(symmetry["translation_choice_classes"] >= 0, "symmetry translation classes nonnegative")
+        require(0 <= symmetry["max_pair_word_orbit"] <= 8, "symmetry pair orbit bound")
+        require(0 <= symmetry["max_translation_choice_orbit"] <= 8, "symmetry translation orbit bound")
+    if with_reversal:
+        reversal = estimates.get("reversal_classes")
+        require(isinstance(reversal, dict), "reversal class summary")
+        require(reversal["proof_transport_enabled"] is False, "reversal transport disabled in profile")
+        require(reversal["pair_word_classes"] >= 0, "reversal pair classes nonnegative")
+        require(reversal["translation_choice_classes"] >= 0, "reversal translation classes nonnegative")
+        require(0 <= reversal["max_pair_word_orbit"] <= 2, "reversal pair orbit bound")
+        require(0 <= reversal["max_translation_choice_orbit"] <= 2, "reversal translation orbit bound")
+    if with_symmetry or with_reversal:
+        combined = estimates.get("combined_symmetry_reversal_classes")
+        require(isinstance(combined, dict), "combined class summary")
+        require(combined["pair_word_classes"] >= 0, "combined pair classes nonnegative")
+        require(combined["translation_choice_classes"] >= 0, "combined translation classes nonnegative")
+        require(0 <= combined["max_pair_word_orbit"] <= 16, "combined pair orbit bound")
+        require(0 <= combined["max_translation_choice_orbit"] <= 16, "combined translation orbit bound")
+        require(estimates.get("canonical_cert_estimate", -1) >= 0, "canonical cert estimate")
+        require(estimates.get("estimated_lean_bytes", -1) >= 0, "Lean byte estimate")
 
     compact_backend = str(payload.get("backend", "")).startswith("compiled-exact-cpp")
 

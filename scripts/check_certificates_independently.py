@@ -1280,6 +1280,16 @@ def main():
         default=exact_profile.PROFILE_JSON_PATH,
         help="input path for profile-exhaustive-states JSON",
     )
+    parser.add_argument(
+        "--with-symmetry",
+        action="store_true",
+        help="require started-symmetry summaries in profile-exhaustive-states",
+    )
+    parser.add_argument(
+        "--with-reversal",
+        action="store_true",
+        help="require grouping-only reversal summaries in profile-exhaustive-states",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -1291,6 +1301,11 @@ def main():
         )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
+        options = payload.get("options", {})
+        if args.with_symmetry:
+            require(options.get("with_symmetry") is True, "profile was not generated with --with-symmetry")
+        if args.with_reversal:
+            require(options.get("with_reversal") is True, "profile was not generated with --with-reversal")
         counts = exact_profile.check_profile_payload(payload)
         exact_profile.print_profile_summary(payload, prefix="independent profile check passed")
         if payload.get("complete", False):

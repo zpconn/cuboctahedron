@@ -2899,6 +2899,16 @@ def main() -> None:
         default=exact_profile.PROFILE_JSON_PATH,
         help="output path for profile-exhaustive-states JSON",
     )
+    parser.add_argument(
+        "--with-symmetry",
+        action="store_true",
+        help="include started-symmetry canonical counts in profile-exhaustive-states",
+    )
+    parser.add_argument(
+        "--with-reversal",
+        action="store_true",
+        help="include grouping-only reversal canonical counts in profile-exhaustive-states",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -2910,7 +2920,11 @@ def main() -> None:
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
             parser.error("--profile-limit must be nonnegative")
-        payload = exact_profile.build_profile_payload(limit=args.profile_limit)
+        payload = exact_profile.build_profile_payload(
+            limit=args.profile_limit,
+            with_symmetry=args.with_symmetry,
+            with_reversal=args.with_reversal,
+        )
         exact_profile.write_profile_payload(payload, args.profile_output)
         exact_profile.print_profile_summary(payload)
         print(f"json: {args.profile_output}")

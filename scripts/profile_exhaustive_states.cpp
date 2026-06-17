@@ -100,6 +100,7 @@ bool operator>(const Q &a, const Q &b) { return b < a; }
 
 using Vec = array<Q, 3>;
 using Mat = array<array<Q, 3>, 3>;
+using VecI = array<int, 3>;
 
 struct Aff {
     Mat M;
@@ -112,9 +113,19 @@ const vector<string> FACE_IDS = {
     "tpmm", "tpmp", "tppm", "tppp"
 };
 
+const array<VecI, 7> NORMALS_I = {{
+    {1, 0, 0}, {0, 1, 0}, {0, 0, 1}, {1, 1, 1},
+    {1, 1, -1}, {1, -1, 1}, {-1, 1, 1}
+}};
+
 const long long EXPECTED_PAIR_WORDS = 97297200LL;
 const long long EXPECTED_IDENTITY_WORDS = 2468088LL;
 const long long EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS = 157957632LL;
+const long long STARTED_SYMMETRY_PAIR_WORD_CLASSES = 12162150LL;
+const long long STARTED_SYMMETRY_TRANSLATION_CHOICE_CLASSES = 19744704LL;
+const long long REVERSAL_FIXED_PAIR_WORDS = 720LL;
+const long long REVERSAL_PAIR_WORD_CLASSES = (EXPECTED_PAIR_WORDS + REVERSAL_FIXED_PAIR_WORDS) / 2;
+const long long REVERSAL_TRANSLATION_CHOICE_CLASSES = EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS / 2;
 
 Vec normal_pair(int p) {
     switch (p) {
@@ -165,6 +176,134 @@ int face_plus(int p) {
 int face_minus(int p) {
     static const int values[7] = {1, 3, 5, 6, 7, 8, 10};
     return values[p];
+}
+
+struct Sym {
+    bool swap_yz;
+    bool neg_y;
+    bool neg_z;
+};
+
+const array<Sym, 8> STARTED_SYMS = {{
+    {false, false, false}, {false, false, true},
+    {false, true, false}, {false, true, true},
+    {true, false, false}, {true, false, true},
+    {true, true, false}, {true, true, true}
+}};
+
+VecI sym_vec(const Sym &s, VecI v) {
+    if (s.swap_yz) swap(v[1], v[2]);
+    if (s.neg_y) v[1] = -v[1];
+    if (s.neg_z) v[2] = -v[2];
+    return v;
+}
+
+pair<int, bool> pair_sign_of_normal(const VecI &v) {
+    for (int p = 0; p < 7; ++p) {
+        if (v == NORMALS_I[p]) return {p, true};
+        if (VecI{-v[0], -v[1], -v[2]} == NORMALS_I[p]) return {p, false};
+    }
+    throw runtime_error("unknown normal");
+}
+
+pair<int, bool> sym_face(const Sym &s, int pair_id, bool positive) {
+    VecI v = NORMALS_I[pair_id];
+    if (!positive) {
+        v[0] = -v[0];
+        v[1] = -v[1];
+        v[2] = -v[2];
+    }
+    return pair_sign_of_normal(sym_vec(s, v));
+}
+
+int sym_pair(const Sym &s, int pair_id) {
+    return sym_face(s, pair_id, true).first;
+}
+
+array<int, 13> sym_word(const Sym &s, const array<int, 13> &w) {
+    array<int, 13> out{};
+    for (int i = 0; i < 13; ++i) out[i] = sym_pair(s, w[i]);
+    return out;
+}
+
+array<int, 13> reverse_word(const array<int, 13> &w) {
+    array<int, 13> out{};
+    for (int i = 0; i < 13; ++i) out[i] = w[12 - i];
+    return out;
+}
+
+bool word_less(const array<int, 13> &a, const array<int, 13> &b) {
+    for (int i = 0; i < 13; ++i) {
+        if (a[i] != b[i]) return a[i] < b[i];
+    }
+    return false;
+}
+
+bool word_eq(const array<int, 13> &a, const array<int, 13> &b) {
+    for (int i = 0; i < 13; ++i) if (a[i] != b[i]) return false;
+    return true;
+}
+
+string word_key_ints(const array<int, 13> &w) {
+    string out;
+    for (int i = 0; i < 13; ++i) {
+        if (i) out += ",";
+        out += to_string(w[i]);
+    }
+    return out;
+}
+
+void signs_for_word_mask(const array<int, 13> &w, int mask, array<int, 13> &signs) {
+    array<array<int, 2>, 7> pos{};
+    array<int, 7> cnt{};
+    for (int i = 0; i < 13; ++i) pos[w[i]][cnt[w[i]]++] = i;
+    signs[pos[0][0]] = -1;
+    for (int p = 1; p < 7; ++p) {
+        int bit = (mask >> (p - 1)) & 1;
+        signs[pos[p][0]] = bit ? 1 : -1;
+        signs[pos[p][1]] = bit ? -1 : 1;
+    }
+}
+
+int transported_mask(const Sym &s, const array<int, 13> &w, int mask, array<int, 13> *raw_word_out = nullptr) {
+    array<int, 13> signs{};
+    signs_for_word_mask(w, mask, signs);
+    array<int, 13> raw = sym_word(s, w);
+    if (raw_word_out) *raw_word_out = raw;
+    array<int, 7> raw_seen{};
+    int out = 0;
+    for (int i = 0; i < 13; ++i) {
+        auto mapped = sym_face(s, w[i], signs[i] > 0);
+        int raw_p = mapped.first;
+        bool raw_positive = mapped.second;
+        if (raw_p != raw[i]) throw runtime_error("raw word/face mismatch");
+        if (raw_p > 0 && raw_seen[raw_p] == 0 && raw_positive) out |= 1 << (raw_p - 1);
+        raw_seen[raw_p]++;
+    }
+    return out;
+}
+
+pair<array<int, 13>, int> reverse_translation_choice(const array<int, 13> &w, int mask) {
+    array<int, 13> signs{};
+    signs_for_word_mask(w, mask, signs);
+    array<int, 13> raw = reverse_word(w);
+    array<int, 7> raw_seen{};
+    int out = 0;
+    for (int i = 0; i < 13; ++i) {
+        int p = raw[i];
+        int sign = signs[12 - i];
+        if (p == 0) {
+            if (sign != -1) throw runtime_error("reversed translation has positive x face");
+        } else if (raw_seen[p] == 0 && sign > 0) {
+            out |= 1 << (p - 1);
+        }
+        raw_seen[p]++;
+    }
+    return {raw, out};
+}
+
+string translation_choice_key(const array<int, 13> &w, int mask) {
+    return word_key_ints(w) + "|" + to_string(mask);
 }
 
 Mat mat_id() {
@@ -376,12 +515,26 @@ struct Profiler {
     long long nonidentity = 0;
     long long translation_assignments = 0;
     long long rank = 0;
+    bool with_symmetry = false;
+    bool with_reversal = false;
     array<Group, 4> nonid_groups{};
     array<Group, 3> translation_groups{};
     unordered_set<uint64_t> farkas_hashes;
     unordered_map<string, AxisInfo> axis_cache;
     vector<Sample> top_samples;
     long long compressed_nonidentity_linear_groups = 0;
+    long long symmetry_pair_word_classes = 0;
+    long long symmetry_translation_choice_classes = 0;
+    long long reversal_pair_word_classes = 0;
+    long long reversal_translation_choice_classes = 0;
+    long long combined_pair_word_classes = 0;
+    long long combined_translation_choice_classes = 0;
+    int max_symmetry_pair_orbit = 0;
+    int max_symmetry_translation_orbit = 0;
+    int max_reversal_pair_orbit = 0;
+    int max_reversal_translation_orbit = 0;
+    int max_combined_pair_orbit = 0;
+    int max_combined_translation_orbit = 0;
     chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
     Profiler() {
@@ -554,6 +707,7 @@ struct Profiler {
         ++identity;
         for (int mask = 0; mask < 64; ++mask) {
             ++translation_assignments;
+            if (with_symmetry || with_reversal) record_translation_canonical_stats(word, mask);
             array<int, 14> seq{};
             Vec b = translation_vector(mask, seq);
             if (vec_eq(b, vec_zero())) {
@@ -589,9 +743,173 @@ struct Profiler {
         }
     }
 
+    array<int, 13> canonical_word_for_options(const array<int, 13> &w) {
+        array<int, 13> best = w;
+        vector<array<int, 13>> bases;
+        bases.push_back(w);
+        if (with_reversal) bases.push_back(reverse_word(w));
+        for (const auto &base : bases) {
+            if (with_symmetry) {
+                for (const Sym &s : STARTED_SYMS) {
+                    auto candidate = sym_word(s, base);
+                    if (word_less(candidate, best)) best = candidate;
+                }
+            } else if (word_less(base, best)) {
+                best = base;
+            }
+        }
+        return best;
+    }
+
+    pair<array<int, 13>, int> canonical_translation_for_options(const array<int, 13> &w, int mask) {
+        pair<array<int, 13>, int> best = {w, mask};
+        vector<pair<array<int, 13>, int>> bases;
+        bases.push_back({w, mask});
+        if (with_reversal) bases.push_back(reverse_translation_choice(w, mask));
+        for (const auto &base : bases) {
+            if (with_symmetry) {
+                for (const Sym &s : STARTED_SYMS) {
+                    array<int, 13> raw{};
+                    int raw_mask = transported_mask(s, base.first, base.second, &raw);
+                    pair<array<int, 13>, int> candidate = {raw, raw_mask};
+                    if (word_less(candidate.first, best.first) ||
+                        (word_eq(candidate.first, best.first) && candidate.second < best.second)) {
+                        best = candidate;
+                    }
+                }
+            } else if (word_less(base.first, best.first) ||
+                       (word_eq(base.first, best.first) && base.second < best.second)) {
+                best = base;
+            }
+        }
+        return best;
+    }
+
+    void record_pair_word_canonical_stats(const array<int, 13> &w) {
+        if (with_symmetry) {
+            array<int, 13> best = w;
+            array<array<int, 13>, 8> seen{};
+            int seen_count = 0;
+            for (const Sym &s : STARTED_SYMS) {
+                auto raw = sym_word(s, w);
+                bool found = false;
+                for (int i = 0; i < seen_count; ++i) found = found || word_eq(seen[i], raw);
+                if (!found) seen[seen_count++] = raw;
+                if (word_less(raw, best)) best = raw;
+            }
+            if (word_eq(best, w)) ++symmetry_pair_word_classes;
+            max_symmetry_pair_orbit = max(max_symmetry_pair_orbit, seen_count);
+        }
+        if (with_reversal) {
+            auto rev = reverse_word(w);
+            if (!word_less(rev, w)) ++reversal_pair_word_classes;
+            max_reversal_pair_orbit = max(max_reversal_pair_orbit, word_eq(rev, w) ? 1 : 2);
+        }
+        if (with_symmetry || with_reversal) {
+            array<int, 13> best = w;
+            array<array<int, 13>, 16> seen{};
+            int seen_count = 0;
+            array<array<int, 13>, 2> bases{};
+            bases[0] = w;
+            int base_count = 1;
+            if (with_reversal) bases[base_count++] = reverse_word(w);
+            for (int b = 0; b < base_count; ++b) {
+                const auto &base = bases[b];
+                if (with_symmetry) {
+                    for (const Sym &s : STARTED_SYMS) {
+                        auto raw = sym_word(s, base);
+                        bool found = false;
+                        for (int i = 0; i < seen_count; ++i) found = found || word_eq(seen[i], raw);
+                        if (!found) seen[seen_count++] = raw;
+                        if (word_less(raw, best)) best = raw;
+                    }
+                } else {
+                    bool found = false;
+                    for (int i = 0; i < seen_count; ++i) found = found || word_eq(seen[i], base);
+                    if (!found) seen[seen_count++] = base;
+                    if (word_less(base, best)) best = base;
+                }
+            }
+            if (word_eq(best, w)) ++combined_pair_word_classes;
+            max_combined_pair_orbit = max(max_combined_pair_orbit, seen_count);
+        }
+    }
+
+    void record_translation_canonical_stats(const array<int, 13> &w, int mask) {
+        if (with_symmetry) {
+            pair<array<int, 13>, int> best = {w, mask};
+            array<pair<array<int, 13>, int>, 8> seen{};
+            int seen_count = 0;
+            for (const Sym &s : STARTED_SYMS) {
+                array<int, 13> raw{};
+                int raw_mask = transported_mask(s, w, mask, &raw);
+                bool found = false;
+                for (int i = 0; i < seen_count; ++i) {
+                    found = found || (word_eq(seen[i].first, raw) && seen[i].second == raw_mask);
+                }
+                if (!found) seen[seen_count++] = {raw, raw_mask};
+                pair<array<int, 13>, int> candidate = {raw, raw_mask};
+                if (word_less(candidate.first, best.first) ||
+                    (word_eq(candidate.first, best.first) && candidate.second < best.second)) {
+                    best = candidate;
+                }
+            }
+            if (word_eq(best.first, w) && best.second == mask) ++symmetry_translation_choice_classes;
+            max_symmetry_translation_orbit = max(max_symmetry_translation_orbit, seen_count);
+        }
+        if (with_reversal) {
+            auto rev = reverse_translation_choice(w, mask);
+            bool is_canonical = !word_less(rev.first, w) && !(word_eq(rev.first, w) && rev.second < mask);
+            if (is_canonical) ++reversal_translation_choice_classes;
+            int orbit_size = (word_eq(rev.first, w) && rev.second == mask) ? 1 : 2;
+            max_reversal_translation_orbit = max(max_reversal_translation_orbit, orbit_size);
+        }
+        if (with_symmetry || with_reversal) {
+            pair<array<int, 13>, int> best = {w, mask};
+            array<pair<array<int, 13>, int>, 16> seen{};
+            int seen_count = 0;
+            array<pair<array<int, 13>, int>, 2> bases{};
+            bases[0] = {w, mask};
+            int base_count = 1;
+            if (with_reversal) bases[base_count++] = reverse_translation_choice(w, mask);
+            for (int b = 0; b < base_count; ++b) {
+                const auto &base = bases[b];
+                if (with_symmetry) {
+                    for (const Sym &s : STARTED_SYMS) {
+                        array<int, 13> raw{};
+                        int raw_mask = transported_mask(s, base.first, base.second, &raw);
+                        bool found = false;
+                        for (int i = 0; i < seen_count; ++i) {
+                            found = found || (word_eq(seen[i].first, raw) && seen[i].second == raw_mask);
+                        }
+                        if (!found) seen[seen_count++] = {raw, raw_mask};
+                        pair<array<int, 13>, int> candidate = {raw, raw_mask};
+                        if (word_less(candidate.first, best.first) ||
+                            (word_eq(candidate.first, best.first) && candidate.second < best.second)) {
+                            best = candidate;
+                        }
+                    }
+                } else {
+                    bool found = false;
+                    for (int i = 0; i < seen_count; ++i) {
+                        found = found || (word_eq(seen[i].first, base.first) && seen[i].second == base.second);
+                    }
+                    if (!found) seen[seen_count++] = base;
+                    if (word_less(base.first, best.first) ||
+                        (word_eq(base.first, best.first) && base.second < best.second)) {
+                        best = base;
+                    }
+                }
+            }
+            if (word_eq(best.first, w) && best.second == mask) ++combined_translation_choice_classes;
+            max_combined_translation_orbit = max(max_combined_translation_orbit, seen_count);
+        }
+    }
+
     void process_leaf() {
         ++leaves;
         add_top_sample();
+        if (with_symmetry || with_reversal) record_pair_word_canonical_stats(word);
         Mat M = mat_mul(pref[13], RPAIR[0]);
         if (mat_eq(M, I)) process_identity();
         else process_nonidentity(M);
@@ -635,6 +953,31 @@ struct Profiler {
         Mat M{};
         long long count = 0;
     };
+
+    void profile_canonical_rec(int pos) {
+        if (pos == 13) {
+            record_pair_word_canonical_stats(word);
+            Mat M = mat_mul(pref[13], RPAIR[0]);
+            if (mat_eq(M, I)) {
+                for (int mask = 0; mask < 64; ++mask) record_translation_canonical_stats(word, mask);
+            }
+            return;
+        }
+        for (int p = 0; p < 7; ++p) {
+            if (rem[p] <= 0) continue;
+            --rem[p];
+            word[pos] = p;
+            pref[pos + 1] = mat_mul(pref[pos], RPAIR[p]);
+            profile_canonical_rec(pos + 1);
+            ++rem[p];
+        }
+    }
+
+    void profile_canonical_stats() {
+        rem = {1, 2, 2, 2, 2, 2, 2};
+        pref[0] = I;
+        profile_canonical_rec(0);
+    }
 
     void profile_compressed_full() {
         vector<DPState> states;
@@ -722,6 +1065,10 @@ struct Profiler {
         out << "\"schema_version\":1,";
         out << "\"mode\":\"profile-exhaustive-states\",";
         out << "\"backend\":\"compiled-exact-cpp" << (compressed_nonidentity_linear_groups ? "-compressed" : "") << "\",";
+        out << "\"options\":{";
+        out << "\"with_symmetry\":" << (with_symmetry ? "true" : "false") << ",";
+        out << "\"with_reversal\":" << (with_reversal ? "true" : "false") << ",";
+        out << "\"reversal_proof_transport_enabled\":false},";
         out << "\"complete\":" << (complete ? "true" : "false") << ",";
         if (complete) out << "\"profile_limit\":null,";
         else out << "\"profile_limit\":" << limit << ",";
@@ -761,7 +1108,100 @@ struct Profiler {
         out << "\"translation_state_groups\":" << trans_group_count << ",";
         out << "\"shared_farkas_groups\":" << farkas_hashes.size() << ",";
         out << "\"compressed_nonidentity_linear_groups\":" << compressed_nonidentity_linear_groups << ",";
-        out << "\"symmetry_classes\":\"not_formalized_yet\",";
+        if (with_symmetry && complete) {
+            out << "\"symmetry_classes\":\"canonical_orbit_manifest\",";
+        } else if (with_symmetry) {
+            out << "\"symmetry_classes\":{";
+            out << "\"pair_word_classes\":" << symmetry_pair_word_classes << ",";
+            out << "\"translation_choice_classes\":" << symmetry_translation_choice_classes << ",";
+            out << "\"max_pair_word_orbit\":" << max_symmetry_pair_orbit << ",";
+            out << "\"max_translation_choice_orbit\":" << max_symmetry_translation_orbit << ",";
+            out << "\"source\":\"scripts/profile_exhaustive_states.cpp\"},";
+        } else {
+            out << "\"symmetry_classes\":\"not_requested\",";
+        }
+        if (with_reversal && complete) {
+            out << "\"reversal_classes\":{";
+            out << "\"pair_word_classes\":" << REVERSAL_PAIR_WORD_CLASSES << ",";
+            out << "\"translation_choice_classes\":" << REVERSAL_TRANSLATION_CHOICE_CLASSES << ",";
+            out << "\"max_pair_word_orbit\":2,";
+            out << "\"max_translation_choice_orbit\":2,";
+            out << "\"fixed_pair_word_classes\":" << REVERSAL_FIXED_PAIR_WORDS << ",";
+            out << "\"fixed_translation_choice_classes\":0,";
+            out << "\"exact\":true,";
+            out << "\"proof_transport_enabled\":false},";
+        } else if (with_reversal) {
+            out << "\"reversal_classes\":{";
+            out << "\"pair_word_classes\":" << reversal_pair_word_classes << ",";
+            out << "\"translation_choice_classes\":" << reversal_translation_choice_classes << ",";
+            out << "\"max_pair_word_orbit\":" << max_reversal_pair_orbit << ",";
+            out << "\"max_translation_choice_orbit\":" << max_reversal_translation_orbit << ",";
+            out << "\"exact\":true,";
+            out << "\"proof_transport_enabled\":false},";
+        } else {
+            out << "\"reversal_classes\":\"not_requested\",";
+        }
+        long long canonical_estimate = nonid_group_count + trans_group_count;
+        long long lean_byte_estimate = 512LL * canonical_estimate;
+        if (complete && with_symmetry && with_reversal) {
+            long long pair_upper = min(STARTED_SYMMETRY_PAIR_WORD_CLASSES, REVERSAL_PAIR_WORD_CLASSES);
+            long long translation_upper = min(
+                STARTED_SYMMETRY_TRANSLATION_CHOICE_CLASSES,
+                REVERSAL_TRANSLATION_CHOICE_CLASSES);
+            canonical_estimate = pair_upper + translation_upper;
+            lean_byte_estimate = 512LL * canonical_estimate;
+            out << "\"combined_symmetry_reversal_classes\":{";
+            out << "\"status\":\"upper_bound_until_14E2A_manifest\",";
+            out << "\"pair_word_classes\":" << pair_upper << ",";
+            out << "\"translation_choice_classes\":" << translation_upper << ",";
+            out << "\"max_pair_word_orbit\":16,";
+            out << "\"max_translation_choice_orbit\":16,";
+            out << "\"exact\":false,";
+            out << "\"reversal_proof_transport_enabled\":false},";
+            out << "\"canonical_cert_estimate\":" << canonical_estimate << ",";
+            out << "\"estimated_lean_bytes\":" << lean_byte_estimate << ",";
+        } else if (complete && with_symmetry) {
+            canonical_estimate = STARTED_SYMMETRY_PAIR_WORD_CLASSES + STARTED_SYMMETRY_TRANSLATION_CHOICE_CLASSES;
+            lean_byte_estimate = 512LL * canonical_estimate;
+            out << "\"combined_symmetry_reversal_classes\":{";
+            out << "\"pair_word_classes\":" << STARTED_SYMMETRY_PAIR_WORD_CLASSES << ",";
+            out << "\"translation_choice_classes\":" << STARTED_SYMMETRY_TRANSLATION_CHOICE_CLASSES << ",";
+            out << "\"max_pair_word_orbit\":8,";
+            out << "\"max_translation_choice_orbit\":8,";
+            out << "\"exact\":true,";
+            out << "\"reversal_proof_transport_enabled\":false},";
+            out << "\"canonical_cert_estimate\":" << canonical_estimate << ",";
+            out << "\"estimated_lean_bytes\":" << lean_byte_estimate << ",";
+        } else if (complete && with_reversal) {
+            canonical_estimate = REVERSAL_PAIR_WORD_CLASSES + REVERSAL_TRANSLATION_CHOICE_CLASSES;
+            lean_byte_estimate = 512LL * canonical_estimate;
+            out << "\"combined_symmetry_reversal_classes\":{";
+            out << "\"pair_word_classes\":" << REVERSAL_PAIR_WORD_CLASSES << ",";
+            out << "\"translation_choice_classes\":" << REVERSAL_TRANSLATION_CHOICE_CLASSES << ",";
+            out << "\"max_pair_word_orbit\":2,";
+            out << "\"max_translation_choice_orbit\":2,";
+            out << "\"exact\":true,";
+            out << "\"reversal_proof_transport_enabled\":false},";
+            out << "\"canonical_cert_estimate\":" << canonical_estimate << ",";
+            out << "\"estimated_lean_bytes\":" << lean_byte_estimate << ",";
+        } else if (with_symmetry || with_reversal) {
+            canonical_estimate = combined_pair_word_classes + combined_translation_choice_classes;
+            lean_byte_estimate = 512LL * canonical_estimate;
+            out << "\"combined_symmetry_reversal_classes\":{";
+            out << "\"pair_word_classes\":" << combined_pair_word_classes << ",";
+            out << "\"translation_choice_classes\":" << combined_translation_choice_classes << ",";
+            out << "\"max_pair_word_orbit\":" << max_combined_pair_orbit << ",";
+            out << "\"max_translation_choice_orbit\":" << max_combined_translation_orbit << ",";
+            out << "\"exact\":true,";
+            out << "\"reversal_proof_transport_enabled\":false},";
+            out << "\"canonical_cert_estimate\":" << canonical_estimate << ",";
+            out << "\"estimated_lean_bytes\":" << lean_byte_estimate << ",";
+        } else {
+            out << "\"combined_symmetry_reversal_classes\":\"not_requested\",";
+            out << "\"canonical_cert_estimate\":" << canonical_estimate << ",";
+            out << "\"estimated_lean_bytes\":" << lean_byte_estimate << ",";
+        }
+        out << "\"budget_status\":\"report_only\",";
         out << "\"note\":\"Compiled exact profiler stores state-family groups and bounded samples; no Lean proof data is emitted.\"},";
         out << "\"samples\":[";
         for (size_t i = 0; i < top_samples.size(); ++i) {
@@ -787,6 +1227,10 @@ int main(int argc, char **argv) {
             profiler.limit = stoll(argv[++i]);
         } else if (arg == "--compressed-full") {
             force_compressed = true;
+        } else if (arg == "--with-symmetry") {
+            profiler.with_symmetry = true;
+        } else if (arg == "--with-reversal") {
+            profiler.with_reversal = true;
         } else if (arg == "--no-progress") {
             // Progress is intentionally always sparse; this flag is accepted for
             // caller compatibility.

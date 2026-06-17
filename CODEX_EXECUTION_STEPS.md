@@ -1062,8 +1062,10 @@ Requirements:
   sign-mask counts.
 - Report started-symmetry orbit counts under the eight symmetries preserving
   `Face.xp`.
-- Report itinerary-reversal orbit counts and combined
-  started-symmetry/reversal canonical counts.
+- Report itinerary-reversal orbit counts. Report combined
+  started-symmetry/reversal canonical counts exactly for bounded runs; for the
+  full compiled profile, report an explicit upper bound until Step 14E.2A
+  computes the exact combined manifest.
 - For nonidentity words, group by exact rational state: prefix counts, linear
   product, fixed-axis data, forced-sign data, affine-axis data, and first exact
   failure category.
