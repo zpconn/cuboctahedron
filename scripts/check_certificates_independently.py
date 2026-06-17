@@ -22,6 +22,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
+CANONICAL_COVERAGE_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "canonical_coverage_manifest.json"
+)
 COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_sample.json"
 NONIDENTITY_FAMILY_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_family_sample.json"
@@ -984,6 +987,110 @@ def check_canonical_orbit_payload(payload):
     }
 
 
+def check_canonical_coverage_manifest(payload):
+    require(payload.get("schema_version") == 1, "canonical coverage schema version")
+    require(
+        payload.get("mode") == "canonical-coverage-manifest",
+        "canonical coverage mode",
+    )
+    require(
+        payload.get("coverage_kind") ==
+        "functional-started-symmetry-canonicalization",
+        "canonical coverage kind",
+    )
+
+    canonical_orbit = json.loads(CANONICAL_ORBIT_JSON_PATH.read_text(encoding="utf-8"))
+    orbit_summary = check_canonical_orbit_payload(canonical_orbit)
+
+    policy = payload.get("transform_policy")
+    require(isinstance(policy, dict), "canonical coverage transform policy")
+    require(policy == canonical_orbit["transform_policy"],
+            "canonical coverage policy matches orbit summary")
+    require(policy.get("proof_reducing_transforms") == ["started_symmetry"],
+            "canonical coverage proof transforms")
+    require(policy.get("grouping_only_transforms") == ["reversal"],
+            "canonical coverage grouping transforms")
+    require(policy.get("reversal_proof_transport_enabled") is False,
+            "canonical coverage reversal disabled")
+
+    raw = payload["raw_counts"]
+    canonical = payload["canonical_counts"]
+    require(raw["pair_words"] == EXPECTED_PAIR_WORDS, "canonical raw pair words")
+    require(raw["identity_linear_words"] == EXPECTED_IDENTITY_WORDS,
+            "canonical raw identity words")
+    require(
+        raw["translation_sign_assignments"] ==
+        EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+        "canonical raw translation choices",
+    )
+    require(raw["pair_words"] == orbit_summary["pair_words"],
+            "canonical raw pair words match orbit")
+    require(raw["identity_linear_words"] == orbit_summary["identity_words"],
+            "canonical raw identity words match orbit")
+    require(raw["translation_sign_assignments"] == orbit_summary["translation_cases"],
+            "canonical raw translation choices match orbit")
+    require(canonical["pair_word_classes"] == orbit_summary["canonical_word_classes"],
+            "canonical pair classes match orbit")
+    require(
+        canonical["translation_choice_classes"] ==
+        orbit_summary["canonical_translation_classes"],
+        "canonical translation classes match orbit",
+    )
+    require(canonical["max_pair_word_orbit"] == 8, "canonical pair orbit max")
+    require(canonical["max_translation_choice_orbit"] == 8,
+            "canonical translation orbit max")
+
+    transform_ids = payload["transform_ids"]
+    require(len(transform_ids) == len(STARTED_SYMS), "canonical transform id count")
+    for expected_id, record in enumerate(transform_ids):
+        require(record["id"] == expected_id, f"canonical transform id {expected_id}")
+        require(record["sym"] == STARTED_SYMS[expected_id],
+                f"canonical transform sym {expected_id}")
+
+    rank_coverage = payload["rank_coverage"]
+    expected_chunk_count = math.ceil(EXPECTED_PAIR_WORDS / COVERAGE_CHUNK_SIZE)
+    require(rank_coverage["coverageKind"] == "contiguous-rank-intervals",
+            "canonical rank coverage kind")
+    require(rank_coverage["pairWordCount"] == EXPECTED_PAIR_WORDS,
+            "canonical rank coverage pair count")
+    require(rank_coverage["signMaskCount"] == 64,
+            "canonical rank coverage sign masks")
+    require(rank_coverage["chunkSize"] == COVERAGE_CHUNK_SIZE,
+            "canonical rank coverage chunk size")
+    require(rank_coverage["chunkCount"] == expected_chunk_count,
+            "canonical rank coverage chunk count")
+    require(rank_coverage["firstChunk"] == {
+        "startRank": 0,
+        "endRank": COVERAGE_CHUNK_SIZE,
+        "expectedItems": COVERAGE_CHUNK_SIZE,
+    }, "canonical rank coverage first chunk")
+    last_start = (expected_chunk_count - 1) * COVERAGE_CHUNK_SIZE
+    require(rank_coverage["lastChunk"] == {
+        "startRank": last_start,
+        "endRank": EXPECTED_PAIR_WORDS,
+        "expectedItems": EXPECTED_PAIR_WORDS - last_start,
+    }, "canonical rank coverage last chunk")
+
+    smoke = check_canonical_orbit_coverage(10_000)
+    require(smoke["pair_words"] == 10_000, "canonical coverage smoke pair words")
+    require(smoke["canonical_word_classes"] <= canonical["pair_word_classes"],
+            "canonical coverage smoke pair classes")
+    require(
+        smoke["canonical_translation_classes"] <=
+        canonical["translation_choice_classes"],
+        "canonical coverage smoke translation classes",
+    )
+
+    return {
+        **orbit_summary,
+        "pair_compression_ratio":
+            raw["pair_words"] / canonical["pair_word_classes"],
+        "translation_compression_ratio":
+            raw["translation_sign_assignments"] /
+            canonical["translation_choice_classes"],
+    }
+
+
 def check_nonid_cert_record(cert):
     word = cert["word"]
     require(valid_pair_word(word), f"valid nonidentity cert {cert['name']}")
@@ -1293,6 +1400,7 @@ def main():
             "canonical-symmetry-sample",
             "coverage-tree-sample",
             "nonidentity-family-sample",
+            "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
         ],
@@ -1332,7 +1440,8 @@ def main():
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "coverage-tree-sample/nonidentity-family-sample/"
-            "canonical-orbit-coverage/canonical-orbit-coverage-manifest"
+            "canonical-coverage-manifest/canonical-orbit-coverage/"
+            "canonical-orbit-coverage-manifest"
         )
     if mode == "profile-exhaustive-states":
         payload = exact_profile.load_profile_payload(args.profile_input)
@@ -1422,6 +1531,27 @@ def main():
         print(
             "canonical translation classes: "
             f"{summary['canonical_translation_classes']:,}"
+        )
+        return
+    if mode == "canonical-coverage-manifest":
+        payload = json.loads(CANONICAL_COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_canonical_coverage_manifest(payload)
+        print("independent canonical coverage manifest check passed")
+        print(f"pair-words covered: {summary['pair_words']:,}")
+        print(f"identity words covered: {summary['identity_words']:,}")
+        print(f"translation choices covered: {summary['translation_cases']:,}")
+        print(f"canonical pair ids: {summary['canonical_word_classes']:,}")
+        print(
+            "canonical translation ids: "
+            f"{summary['canonical_translation_classes']:,}"
+        )
+        print(
+            "pair compression ratio: "
+            f"{summary['pair_compression_ratio']:.2f}x"
+        )
+        print(
+            "translation compression ratio: "
+            f"{summary['translation_compression_ratio']:.2f}x"
         )
         return
     if mode == "coverage-manifest":

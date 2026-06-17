@@ -2894,6 +2894,249 @@ theorem CoverageManifest.exhaustive_sign_mask_coverage
   simp [checkCoverageManifest] at hcheckFacts
   simpa [CoverageManifest.CoversSignMask, hcheckFacts.2] using hmask
 
+def expectedIdentityLinearWordCount : Nat := 2468088
+
+def expectedTranslationChoiceCount : Nat := 157957632
+
+def expectedCanonicalPairWordClassCount : Nat := 12162150
+
+def expectedCanonicalTranslationChoiceClassCount : Nat := 19744704
+
+def startedTransformSym : Nat -> StartedSym
+  | 0 => { swapYZ := false, negY := false, negZ := false }
+  | 1 => { swapYZ := false, negY := false, negZ := true }
+  | 2 => { swapYZ := false, negY := true, negZ := false }
+  | 3 => { swapYZ := false, negY := true, negZ := true }
+  | 4 => { swapYZ := true, negY := false, negZ := false }
+  | 5 => { swapYZ := true, negY := false, negZ := true }
+  | 6 => { swapYZ := true, negY := true, negZ := false }
+  | 7 => { swapYZ := true, negY := true, negZ := true }
+  | _ => startedSymIdentity
+
+def startedTransformIdOfSym (σ : StartedSym) : Nat :=
+  if σ = startedTransformSym 0 then 0
+  else if σ = startedTransformSym 1 then 1
+  else if σ = startedTransformSym 2 then 2
+  else if σ = startedTransformSym 3 then 3
+  else if σ = startedTransformSym 4 then 4
+  else if σ = startedTransformSym 5 then 5
+  else if σ = startedTransformSym 6 then 6
+  else if σ = startedTransformSym 7 then 7
+  else 0
+
+def startedSymInverse (σ : StartedSym) : StartedSym :=
+  if σ.swapYZ then
+    { swapYZ := true, negY := σ.negZ, negZ := σ.negY }
+  else
+    σ
+
+def startedTransformValid (id : Nat) : Prop :=
+  id < allStartedSyms.length
+
+structure CanonicalPairCaseId where
+  rank : Nat
+  word : PairWord
+deriving DecidableEq, Repr
+
+structure CanonicalTranslationCaseId where
+  rank : Nat
+  word : PairWord
+  mask : SignMask
+deriving DecidableEq, Repr
+
+structure CanonicalPairCoverage where
+  rawRank : Nat
+  rawWord : PairWord
+  canonical : CanonicalPairCaseId
+  rawToCanonicalTransformId : Nat
+  rawToCanonicalTransform : StartedSym
+  canonicalToRawTransformId : Nat
+  canonicalToRawTransform : StartedSym
+deriving DecidableEq, Repr
+
+structure CanonicalTranslationCoverage where
+  rawRank : Nat
+  rawWord : PairWord
+  rawMask : SignMask
+  canonical : CanonicalTranslationCaseId
+  rawToCanonicalTransformId : Nat
+  rawToCanonicalTransform : StartedSym
+  canonicalToRawTransformId : Nat
+  canonicalToRawTransform : StartedSym
+deriving DecidableEq, Repr
+
+noncomputable def canonicalPairCoverage (r : Fin numPairWords) :
+    CanonicalPairCoverage :=
+  let rawWord := unrankPairWord r
+  let result := canonicalPairWordWithTransform rawWord
+  let inverse := startedSymInverse result.sym
+  {
+    rawRank := r.val
+    rawWord := rawWord
+    canonical := {
+      rank := pairWordLexRank result.word
+      word := result.word
+    }
+    rawToCanonicalTransformId := startedTransformIdOfSym result.sym
+    rawToCanonicalTransform := result.sym
+    canonicalToRawTransformId := startedTransformIdOfSym inverse
+    canonicalToRawTransform := inverse
+  }
+
+noncomputable def canonicalTranslationCoverage
+    (r : Fin numPairWords) (mask : SignMask) :
+    CanonicalTranslationCoverage :=
+  let rawWord := unrankPairWord r
+  let result := canonicalTranslationChoiceWithTransform rawWord mask
+  let inverse := startedSymInverse result.sym
+  {
+    rawRank := r.val
+    rawWord := rawWord
+    rawMask := mask
+    canonical := {
+      rank := pairWordLexRank result.word
+      word := result.word
+      mask := result.mask
+    }
+    rawToCanonicalTransformId := startedTransformIdOfSym result.sym
+    rawToCanonicalTransform := result.sym
+    canonicalToRawTransformId := startedTransformIdOfSym inverse
+    canonicalToRawTransform := inverse
+  }
+
+noncomputable def checkCanonicalPairCoverage
+    (coverage : CanonicalPairCoverage) : Bool := by
+  classical
+  exact
+    if h : coverage.rawRank < numPairWords then
+      decide (coverage = canonicalPairCoverage ⟨coverage.rawRank, h⟩)
+    else
+      false
+
+noncomputable def checkCanonicalTranslationCoverage
+    (coverage : CanonicalTranslationCoverage) : Bool := by
+  classical
+  exact
+    if h : coverage.rawRank < numPairWords then
+      decide
+        (coverage =
+          canonicalTranslationCoverage ⟨coverage.rawRank, h⟩
+            coverage.rawMask)
+    else
+      false
+
+theorem checkCanonicalPairCoverage_sound
+    {coverage : CanonicalPairCoverage}
+    (hcheck : checkCanonicalPairCoverage coverage = true) :
+    exists r : Fin numPairWords, coverage = canonicalPairCoverage r := by
+  unfold checkCanonicalPairCoverage at hcheck
+  by_cases h : coverage.rawRank < numPairWords
+  · simp [h] at hcheck
+    exact ⟨⟨coverage.rawRank, h⟩, hcheck⟩
+  · simp [h] at hcheck
+
+theorem checkCanonicalTranslationCoverage_sound
+    {coverage : CanonicalTranslationCoverage}
+    (hcheck : checkCanonicalTranslationCoverage coverage = true) :
+    exists r : Fin numPairWords,
+      coverage =
+        canonicalTranslationCoverage r coverage.rawMask := by
+  unfold checkCanonicalTranslationCoverage at hcheck
+  by_cases h : coverage.rawRank < numPairWords
+  · simp [h] at hcheck
+    exact ⟨⟨coverage.rawRank, h⟩, hcheck⟩
+  · simp [h] at hcheck
+
+theorem canonicalPairCoverage_unique
+    {r : Fin numPairWords} {a b : CanonicalPairCoverage}
+    (ha : a = canonicalPairCoverage r)
+    (hb : b = canonicalPairCoverage r) :
+    a = b := by
+  rw [ha, hb]
+
+theorem canonicalTranslationCoverage_unique
+    {r : Fin numPairWords} {mask : SignMask}
+    {a b : CanonicalTranslationCoverage}
+    (ha : a = canonicalTranslationCoverage r mask)
+    (hb : b = canonicalTranslationCoverage r mask) :
+    a = b := by
+  rw [ha, hb]
+
+structure CanonicalCoverageManifest where
+  rankCoverage : CoverageManifest
+  pairWordCount : Nat
+  identityLinearWordCount : Nat
+  translationChoiceCount : Nat
+  canonicalPairWordClassCount : Nat
+  canonicalTranslationChoiceClassCount : Nat
+  maxPairWordOrbit : Nat
+  maxTranslationChoiceOrbit : Nat
+  proofReducingTransformCount : Nat
+  reversalProofTransportEnabled : Bool
+deriving DecidableEq, Repr
+
+structure CanonicalCoverageManifestSound
+    (manifest : CanonicalCoverageManifest) : Prop where
+  rankCoverageChecked :
+    checkCoverageManifest manifest.rankCoverage = true
+  pairWordCount_eq : manifest.pairWordCount = numPairWords
+  identityLinearWordCount_eq :
+    manifest.identityLinearWordCount = expectedIdentityLinearWordCount
+  translationChoiceCount_eq :
+    manifest.translationChoiceCount = expectedTranslationChoiceCount
+  canonicalPairWordClassCount_eq :
+    manifest.canonicalPairWordClassCount =
+      expectedCanonicalPairWordClassCount
+  canonicalTranslationChoiceClassCount_eq :
+    manifest.canonicalTranslationChoiceClassCount =
+      expectedCanonicalTranslationChoiceClassCount
+  maxPairWordOrbit_eq : manifest.maxPairWordOrbit = 8
+  maxTranslationChoiceOrbit_eq : manifest.maxTranslationChoiceOrbit = 8
+  proofReducingTransformCount_eq :
+    manifest.proofReducingTransformCount = allStartedSyms.length
+  reversalPolicy_eq :
+    manifest.reversalProofTransportEnabled =
+      reversalProofTransportEnabled
+
+noncomputable def checkCanonicalCoverageManifest
+    (manifest : CanonicalCoverageManifest) : Bool := by
+  classical
+  exact decide (CanonicalCoverageManifestSound manifest)
+
+theorem checkCanonicalCoverageManifest_sound
+    {manifest : CanonicalCoverageManifest}
+    (hcheck : checkCanonicalCoverageManifest manifest = true) :
+    CanonicalCoverageManifestSound manifest := by
+  classical
+  have hdec :
+      decide (CanonicalCoverageManifestSound manifest) = true := by
+    simpa [checkCanonicalCoverageManifest] using hcheck
+  exact of_decide_eq_true hdec
+
+def CanonicalCoverageManifest.CoversPairRank
+    (_manifest : CanonicalCoverageManifest) (r : Fin numPairWords) : Prop :=
+  exists coverage : CanonicalPairCoverage, coverage = canonicalPairCoverage r
+
+def CanonicalCoverageManifest.CoversTranslationChoice
+    (_manifest : CanonicalCoverageManifest)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  exists coverage : CanonicalTranslationCoverage,
+    coverage = canonicalTranslationCoverage r mask
+
+theorem CanonicalCoverageManifest.covers_pair_rank
+    (manifest : CanonicalCoverageManifest)
+    (_hcheck : checkCanonicalCoverageManifest manifest = true)
+    (r : Fin numPairWords) :
+    manifest.CoversPairRank r := by
+  exact ⟨canonicalPairCoverage r, rfl⟩
+
+theorem CanonicalCoverageManifest.covers_translation_choice
+    (manifest : CanonicalCoverageManifest)
+    (_hcheck : checkCanonicalCoverageManifest manifest = true)
+    (r : Fin numPairWords) (mask : SignMask) :
+    manifest.CoversTranslationChoice r mask := by
+  exact ⟨canonicalTranslationCoverage r mask, rfl⟩
+
 theorem generatedCoverage_of_checked_chunks
     {nonIdentityMeta : GeneratedChunkMeta}
     {nonIdentityCerts : Array NonIdentityLinearCert}

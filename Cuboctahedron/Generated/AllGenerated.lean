@@ -2,6 +2,7 @@ import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.NonIdentity.FamilySample
 import Cuboctahedron.Generated.Translation.Chunk0000
 import Cuboctahedron.Generated.CanonicalSample
+import Cuboctahedron.Generated.CanonicalCoverageManifest
 import Cuboctahedron.Generated.CoverageTreeSample
 
 /-!

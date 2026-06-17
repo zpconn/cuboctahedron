@@ -22,12 +22,19 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "scripts" / "generated" / "small_sample.json"
 COVERAGE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_manifest.json"
 CANONICAL_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_symmetry_sample.json"
+CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
+CANONICAL_COVERAGE_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "canonical_coverage_manifest.json"
+)
 COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_sample.json"
 NONIDENTITY_FAMILY_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_family_sample.json"
 )
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
+CANONICAL_COVERAGE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalCoverageManifest.lean"
+)
 COVERAGE_TREE_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageTreeSample.lean"
 NONIDENTITY_FAMILY_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilySample.lean"
@@ -56,6 +63,16 @@ PAIR_COUNTS = {
     "d1m1": 2,
     "dm11": 2,
 }
+STARTED_SYMS = [
+    {"swapYZ": False, "negY": False, "negZ": False},
+    {"swapYZ": False, "negY": False, "negZ": True},
+    {"swapYZ": False, "negY": True, "negZ": False},
+    {"swapYZ": False, "negY": True, "negZ": True},
+    {"swapYZ": True, "negY": False, "negZ": False},
+    {"swapYZ": True, "negY": False, "negZ": True},
+    {"swapYZ": True, "negY": True, "negZ": False},
+    {"swapYZ": True, "negY": True, "negZ": True},
+]
 NORMALS = {
     "x": (1, 0, 0),
     "y": (0, 1, 0),
@@ -1555,6 +1572,48 @@ def build_coverage_payload() -> dict:
     }
 
 
+def build_canonical_coverage_payload() -> dict:
+    if not CANONICAL_ORBIT_JSON_PATH.exists():
+        raise SystemExit(
+            "missing canonical orbit coverage JSON; run the canonical orbit "
+            "coverage helper before generating Step 14E.2A"
+        )
+    canonical_orbit = json.loads(CANONICAL_ORBIT_JSON_PATH.read_text(encoding="utf-8"))
+    actual = canonical_orbit["actual_counts"]
+    canonical = canonical_orbit["canonical_counts"]
+    coverage = build_coverage_payload()
+    return {
+        "schema_version": 1,
+        "mode": "canonical-coverage-manifest",
+        "coverage_kind": "functional-started-symmetry-canonicalization",
+        "transform_policy": canonical_orbit["transform_policy"],
+        "raw_counts": {
+            "pair_words": actual["pair_words"],
+            "identity_linear_words": actual["identity_linear_words"],
+            "translation_sign_assignments": actual["translation_sign_assignments"],
+        },
+        "canonical_counts": {
+            "pair_word_classes": canonical["pair_word_classes"],
+            "translation_choice_classes": canonical["translation_choice_classes"],
+            "max_pair_word_orbit": canonical["max_pair_word_orbit"],
+            "max_translation_choice_orbit": canonical["max_translation_choice_orbit"],
+        },
+        "transform_ids": [
+            {"id": index, "sym": sym}
+            for index, sym in enumerate(STARTED_SYMS)
+        ],
+        "rank_coverage": {
+            "coverageKind": coverage["coverageKind"],
+            "pairWordCount": coverage["pairWordCount"],
+            "signMaskCount": coverage["signMaskCount"],
+            "chunkSize": coverage["chunkSize"],
+            "chunkCount": len(coverage["chunks"]),
+            "firstChunk": coverage["chunks"][0],
+            "lastChunk": coverage["chunks"][-1],
+        },
+    }
+
+
 def write_coverage_manifest(payload: dict) -> None:
     coverage = payload["coverage"] if "coverage" in payload else payload
     lines = [
@@ -1598,12 +1657,74 @@ def write_coverage_manifest(payload: dict) -> None:
     COVERAGE_MANIFEST_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def write_canonical_coverage_manifest(payload: dict) -> None:
+    raw = payload["raw_counts"]
+    canonical = payload["canonical_counts"]
+    lines = [
+        "import Cuboctahedron.Generated.CoverageManifest",
+        "",
+        "/-!",
+        "Generated Step 14E.2A canonical coverage manifest.",
+        "",
+        "The manifest is functional: Lean computes the raw-to-canonical mapping",
+        "from the started-symmetry canonicalization definitions instead of",
+        "storing one row per raw case.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated",
+        "",
+        "def canonicalCoverageManifest : Cuboctahedron.CanonicalCoverageManifest where",
+        "  rankCoverage := Cuboctahedron.Generated.CoverageManifest.generatedCoverageManifest",
+        f"  pairWordCount := {raw['pair_words']}",
+        f"  identityLinearWordCount := {raw['identity_linear_words']}",
+        f"  translationChoiceCount := {raw['translation_sign_assignments']}",
+        f"  canonicalPairWordClassCount := {canonical['pair_word_classes']}",
+        f"  canonicalTranslationChoiceClassCount := {canonical['translation_choice_classes']}",
+        f"  maxPairWordOrbit := {canonical['max_pair_word_orbit']}",
+        f"  maxTranslationChoiceOrbit := {canonical['max_translation_choice_orbit']}",
+        "  proofReducingTransformCount := 8",
+        "  reversalProofTransportEnabled := false",
+        "",
+        "theorem canonicalCoverageManifest_sound :",
+        "    Cuboctahedron.CanonicalCoverageManifestSound",
+        "      canonicalCoverageManifest where",
+        "  rankCoverageChecked :=",
+        "    Cuboctahedron.Generated.CoverageManifest.generatedCoverageManifest_check",
+        "  pairWordCount_eq := rfl",
+        "  identityLinearWordCount_eq := rfl",
+        "  translationChoiceCount_eq := rfl",
+        "  canonicalPairWordClassCount_eq := rfl",
+        "  canonicalTranslationChoiceClassCount_eq := rfl",
+        "  maxPairWordOrbit_eq := rfl",
+        "  maxTranslationChoiceOrbit_eq := rfl",
+        "  proofReducingTransformCount_eq := rfl",
+        "  reversalPolicy_eq := rfl",
+        "",
+        "theorem canonicalCoverageManifest_check :",
+        "    Cuboctahedron.checkCanonicalCoverageManifest",
+        "      canonicalCoverageManifest = true := by",
+        "  classical",
+        "  unfold Cuboctahedron.checkCanonicalCoverageManifest",
+        "  exact decide_eq_true canonicalCoverageManifest_sound",
+        "",
+        "#check Cuboctahedron.checkCanonicalCoverageManifest_sound",
+        "#check canonicalCoverageManifest",
+        "#check canonicalCoverageManifest_sound",
+        "",
+        "end Cuboctahedron.Generated",
+        "",
+    ]
+    CANONICAL_COVERAGE_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CANONICAL_COVERAGE_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_all_generated() -> None:
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.NonIdentity.FamilySample",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.CanonicalSample",
+        "import Cuboctahedron.Generated.CanonicalCoverageManifest",
         "import Cuboctahedron.Generated.CoverageTreeSample",
         "",
         "/-!",
@@ -2884,6 +3005,14 @@ def write_coverage_json(payload: dict) -> None:
     )
 
 
+def write_canonical_coverage_json(payload: dict) -> None:
+    CANONICAL_COVERAGE_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CANONICAL_COVERAGE_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
@@ -2894,6 +3023,7 @@ def main() -> None:
             "coverage-manifest",
             "profile-exhaustive-states",
             "canonical-symmetry-sample",
+            "canonical-coverage-manifest",
             "coverage-tree-sample",
             "nonidentity-family-sample",
         ],
@@ -2931,7 +3061,8 @@ def main() -> None:
         parser.error(
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
-            "coverage-tree-sample/nonidentity-family-sample"
+            "canonical-coverage-manifest/coverage-tree-sample/"
+            "nonidentity-family-sample"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -2954,6 +3085,15 @@ def main() -> None:
         print("generated canonical symmetry sample")
         print(f"json: {CANONICAL_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {CANONICAL_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "canonical-coverage-manifest":
+        payload = build_canonical_coverage_payload()
+        write_canonical_coverage_json(payload)
+        write_canonical_coverage_manifest(payload)
+        write_all_generated()
+        print("generated canonical coverage manifest")
+        print(f"json: {CANONICAL_COVERAGE_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {CANONICAL_COVERAGE_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "coverage-tree-sample":
         payload = build_coverage_tree_payload()
