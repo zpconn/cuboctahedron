@@ -117,6 +117,8 @@ FACE_OFFSETS = {
 Vec = tuple[Fraction, Fraction, Fraction]
 Mat = tuple[tuple[Fraction, Fraction, Fraction], ...]
 Aff = tuple[Mat, Vec]
+Vec4 = tuple[Fraction, Fraction, Fraction, Fraction]
+Mat4 = tuple[tuple[Fraction, Fraction, Fraction, Fraction], ...]
 
 
 def require(condition, message):
@@ -139,6 +141,10 @@ def vector_from_json(value) -> Vec:
 
 def matrix_from_json(value) -> Mat:
     return tuple(tuple(parse_rat(entry) for entry in row) for row in value)
+
+
+def matrix4_from_json(value) -> Mat4:
+    return tuple(tuple(parse_rat(entry) for entry in row) for row in value)  # type: ignore[return-value]
 
 
 def identity_matrix() -> Mat:
@@ -166,6 +172,10 @@ def mat_vec(a: Mat, v: Vec) -> Vec:
 
 def vec_add(a: Vec, b: Vec) -> Vec:
     return (a[0] + b[0], a[1] + b[1], a[2] + b[2])
+
+
+def vec_sub(a: Vec, b: Vec) -> Vec:
+    return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
 
 
 def vec_scale(c: Fraction, v: Vec) -> Vec:
@@ -202,6 +212,11 @@ def aff_compose(a: Aff, b: Aff) -> Aff:
     am, av = a
     bm, bv = b
     return mat_mul(am, bm), vec_add(mat_vec(am, bv), av)
+
+
+def aff_apply(a: Aff, p: Vec) -> Vec:
+    am, av = a
+    return vec_add(mat_vec(am, p), av)
 
 
 RPAIR = {pair_id: reflection_matrix(vec(normal)) for pair_id, normal in NORMALS.items()}
@@ -257,11 +272,59 @@ def path_prefix_matrices(seq):
     return pref
 
 
+def path_prefix_affs(seq):
+    pref = [aff_id()]
+    for index in range(1, 14):
+        pref.append(aff_compose(pref[-1], face_reflection(seq[index])))
+    return pref
+
+
 def total_aff(seq):
     result = aff_id()
     for index in list(range(1, 14)) + [0]:
         result = aff_compose(result, face_reflection(seq[index]))
     return result
+
+
+def mat4_identity() -> Mat4:
+    return tuple(
+        tuple(Fraction(1) if i == j else Fraction(0) for j in range(4))
+        for i in range(4)
+    )  # type: ignore[return-value]
+
+
+def mat4_mul(a: Mat4, b: Mat4) -> Mat4:
+    return tuple(
+        tuple(sum(a[i][k] * b[k][j] for k in range(4)) for j in range(4))
+        for i in range(4)
+    )  # type: ignore[return-value]
+
+
+def mat4_vec(a: Mat4, v: Vec4) -> Vec4:
+    return tuple(sum(a[i][k] * v[k] for k in range(4)) for i in range(4))  # type: ignore[return-value]
+
+
+def axis_solve_matrix(a: Aff, axis: Vec) -> Mat4:
+    matrix, _offset = a
+    ident = identity_matrix()
+    return (
+        (matrix[0][0] - ident[0][0], matrix[0][1] - ident[0][1],
+         matrix[0][2] - ident[0][2], -axis[0]),
+        (matrix[1][0] - ident[1][0], matrix[1][1] - ident[1][1],
+         matrix[1][2] - ident[1][2], -axis[1]),
+        (matrix[2][0] - ident[2][0], matrix[2][1] - ident[2][1],
+         matrix[2][2] - ident[2][2], -axis[2]),
+        (Fraction(1), Fraction(0), Fraction(0), Fraction(0)),
+    )
+
+
+def axis_solve_rhs(a: Aff) -> Vec4:
+    _matrix, offset = a
+    return (-offset[0], -offset[1], -offset[2], Fraction(1))
+
+
+def axis_solve_vector(p0: Vec, lam: Fraction) -> Vec4:
+    return (p0[0], p0[1], p0[2], lam)
 
 
 def sign_assignment(word, mask):
@@ -365,6 +428,85 @@ def impact_denom(seq, b, impact):
         prefix_index = 13
     prefix = path_prefix_matrices(seq)[prefix_index]
     return dot(mat_vec(prefix, normal(face)), b)
+
+
+def impact_face(seq, impact):
+    return seq[impact] if impact < 14 else seq[0]
+
+
+def pre_impact_aff(prefixes, impact):
+    prefix_index = max(impact - 1, 0)
+    if prefix_index > 13:
+        prefix_index = 13
+    return prefixes[prefix_index]
+
+
+def copied_normal_offset(seq, prefixes, impact, face):
+    matrix, offset = pre_impact_aff(prefixes, impact)
+    copied = mat_vec(matrix, normal(face))
+    return copied, FACE_OFFSETS[face] + dot(copied, offset)
+
+
+def impact_plane_normal_offset(seq, prefixes, impact):
+    return copied_normal_offset(seq, prefixes, impact, impact_face(seq, impact))
+
+
+def xp_start_interior(p):
+    x, y, z = p
+    return (
+        x == 1
+        and y + z < 1
+        and y - z < 1
+        and -y + z < 1
+        and -y - z < 1
+    )
+
+
+def candidate_w(seq, p0):
+    return vec_sub(aff_apply(total_aff(seq), p0), p0)
+
+
+def candidate_line_point(p0, w, t):
+    return vec_add(p0, vec_scale(t, w))
+
+
+def candidate_impact_time(seq, prefixes, p0, w, impact):
+    if impact == 0:
+        return Fraction(0)
+    if impact == 14:
+        return Fraction(1)
+    normal_value, offset = impact_plane_normal_offset(seq, prefixes, impact)
+    denom = dot(normal_value, w)
+    require(denom != 0, f"candidate denominator impact {impact}")
+    return (offset - dot(normal_value, p0)) / denom
+
+
+def candidate_ordering_fails(seq, p0, w, step):
+    prefixes = path_prefix_affs(seq)
+    return (
+        candidate_impact_time(seq, prefixes, p0, w, step + 1)
+        <= candidate_impact_time(seq, prefixes, p0, w, step)
+    )
+
+
+def candidate_hit_interior_fails(seq, p0, w, impact, bad_face):
+    prefixes = path_prefix_affs(seq)
+    hit = impact_face(seq, impact)
+    if bad_face == hit:
+        return False
+    t = candidate_impact_time(seq, prefixes, p0, w, impact)
+    point = candidate_line_point(p0, w, t)
+    copied, offset = copied_normal_offset(seq, prefixes, impact, bad_face)
+    return offset <= dot(copied, point)
+
+
+def check_affine_axis_solve(seq, axis, p0, lam, left_inverse):
+    affine = total_aff(seq)
+    matrix = axis_solve_matrix(affine, axis)
+    return (
+        mat4_mul(left_inverse, matrix) == mat4_identity()
+        and mat4_vec(matrix, axis_solve_vector(p0, lam)) == axis_solve_rhs(affine)
+    )
 
 
 def positive_sign_of_face(face):
@@ -511,25 +653,7 @@ def check_payload(payload):
         rank = cert["rank"]
         word = cert["word"]
         require(word == words_by_rank[rank], f"nonidentity word echo {rank}")
-        require(total_linear(word) != identity_matrix(), f"nonidentity matrix {rank}")
-        axis = vector_from_json(cert["axis"])
-        cross_factor = matrix_from_json(cert["kernel_cross_factor"])
-        require(check_kernel_line_witness(word, axis, cross_factor), f"kernel line {cert['name']}")
-        failure = cert["failure"]
-        if failure["kind"] == "badDirectionSign":
-            index = failure["index"]
-            require(0 <= index < 13, f"bad direction index {cert['name']}")
-            pref = prefix_matrices(word)
-            require(
-                dot(mat_vec(pref[index], vec(NORMALS[word[index]])), axis) == 0,
-                f"bad direction zero {cert['name']}",
-            )
-        elif failure["kind"] == "badPairBalance":
-            seq = cert["forced_seq"]
-            require(axis_forces_sequence(word, axis, seq), f"forced sequence {cert['name']}")
-            require(len(set(seq)) != 14, f"non-omni forced sequence {cert['name']}")
-        else:
-            raise SystemExit(f"check failed: unsupported nonidentity failure {failure['kind']}")
+        check_nonid_cert_record(cert)
 
     for cert in payload["translation_certs"]:
         rank = cert["rank"]
@@ -851,18 +975,53 @@ def check_nonid_cert_record(cert):
     require(total_linear(word) != identity_matrix(), f"nonidentity matrix {cert['name']}")
     axis = vector_from_json(cert["axis"])
     cross_factor = matrix_from_json(cert["kernel_cross_factor"])
-    require(check_kernel_line_witness(word, axis, cross_factor), f"kernel {cert['name']}")
     failure = cert["failure"]
     if failure["kind"] == "badDirectionSign":
+        require(check_kernel_line_witness(word, axis, cross_factor), f"kernel {cert['name']}")
         index = failure["index"]
         require(0 <= index < 13, f"bad direction index {cert['name']}")
         pref = prefix_matrices(word)
         require(dot(mat_vec(pref[index], vec(NORMALS[word[index]])), axis) == 0,
                 f"bad direction zero {cert['name']}")
     elif failure["kind"] == "badPairBalance":
+        require(check_kernel_line_witness(word, axis, cross_factor), f"kernel {cert['name']}")
         seq = cert["forced_seq"]
         require(axis_forces_sequence(word, axis, seq), f"forced sequence {cert['name']}")
         require(len(set(seq)) != 14, f"bad pair balance {cert['name']}")
+    elif failure["kind"] == "noFixedAxis":
+        left_inverse = matrix_from_json(failure["left_inverse"])
+        require(mat_mul(left_inverse, fixed_part(total_linear(word))) == identity_matrix(),
+                f"no fixed axis left inverse {cert['name']}")
+    elif failure["kind"] in {
+        "axisMissesStartInterior",
+        "badFirstHit",
+        "badHitInterior",
+    }:
+        require(check_kernel_line_witness(word, axis, cross_factor), f"kernel {cert['name']}")
+        seq = cert["forced_seq"]
+        p0 = vector_from_json(cert["p0"])
+        lam = parse_rat(cert["lambda"])
+        solve = matrix4_from_json(cert["solve_left_inverse"])
+        require(axis_forces_sequence(word, axis, seq), f"forced sequence {cert['name']}")
+        require(check_affine_axis_solve(seq, axis, p0, lam, solve),
+                f"axis solve {cert['name']}")
+        if failure["kind"] == "axisMissesStartInterior":
+            require(not xp_start_interior(p0), f"axis miss start interior {cert['name']}")
+        else:
+            require(xp_start_interior(p0), f"candidate start interior {cert['name']}")
+            w = candidate_w(seq, p0)
+            if failure["kind"] == "badFirstHit":
+                step = failure["step"]
+                require(0 <= step < 14, f"bad first-hit step {cert['name']}")
+                require(candidate_ordering_fails(seq, p0, w, step),
+                        f"bad first-hit ordering {cert['name']}")
+            else:
+                impact = failure["impact"]
+                bad_face = failure["badFace"]
+                require(0 <= impact < 15, f"bad hit impact {cert['name']}")
+                require(bad_face in FACE_NORMALS, f"bad hit face {cert['name']}")
+                require(candidate_hit_interior_fails(seq, p0, w, impact, bad_face),
+                        f"bad hit interior {cert['name']}")
     else:
         raise SystemExit(f"check failed: unsupported nonidentity failure {failure['kind']}")
 

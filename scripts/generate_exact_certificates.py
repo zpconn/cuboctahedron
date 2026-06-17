@@ -144,6 +144,8 @@ FACE_ORDER = [
 Vec = tuple[Fraction, Fraction, Fraction]
 Mat = tuple[tuple[Fraction, Fraction, Fraction], ...]
 Aff = tuple[Mat, Vec]
+Vec4 = tuple[Fraction, Fraction, Fraction, Fraction]
+Mat4 = tuple[tuple[Fraction, Fraction, Fraction, Fraction], ...]
 
 
 def q(value: int | Fraction) -> Fraction:
@@ -222,6 +224,11 @@ def aff_compose(a: Aff, b: Aff) -> Aff:
     return mat_mul(am, bm), vec_add(mat_vec(am, bv), av)
 
 
+def aff_apply(a: Aff, p: Vec) -> Vec:
+    am, av = a
+    return vec_add(mat_vec(am, p), av)
+
+
 RPAIR = {pair_id: reflection_matrix(vec(normal)) for pair_id, normal in NORMALS.items()}
 DCAN = {pair_id: reflection_delta(pair_id) for pair_id in PAIR_IDS}
 
@@ -247,11 +254,50 @@ def path_prefix_matrices(seq: list[str]) -> list[Mat]:
     return pref
 
 
+def path_prefix_affs(seq: list[str]) -> list[Aff]:
+    pref = [aff_id()]
+    for index in range(1, 14):
+        pref.append(aff_compose(pref[-1], face_reflection(seq[index])))
+    return pref
+
+
 def total_aff(seq: list[str]) -> Aff:
     result = aff_id()
     for index in list(range(1, 14)) + [0]:
         result = aff_compose(result, face_reflection(seq[index]))
     return result
+
+
+def axis_solve_matrix(a: Aff, axis: Vec) -> Mat4:
+    matrix, _offset = a
+    ident = mat_id()
+    return (
+        (matrix[0][0] - ident[0][0], matrix[0][1] - ident[0][1],
+         matrix[0][2] - ident[0][2], -axis[0]),
+        (matrix[1][0] - ident[1][0], matrix[1][1] - ident[1][1],
+         matrix[1][2] - ident[1][2], -axis[1]),
+        (matrix[2][0] - ident[2][0], matrix[2][1] - ident[2][1],
+         matrix[2][2] - ident[2][2], -axis[2]),
+        (Fraction(1), Fraction(0), Fraction(0), Fraction(0)),
+    )
+
+
+def axis_solve_rhs(a: Aff) -> Vec4:
+    _matrix, offset = a
+    return (-offset[0], -offset[1], -offset[2], Fraction(1))
+
+
+def axis_solve_vector(p0: Vec, lam: Fraction) -> Vec4:
+    return (p0[0], p0[1], p0[2], lam)
+
+
+def solve_axis_intersection(a: Aff, axis: Vec) -> tuple[Vec, Fraction, Mat4]:
+    solve_matrix = axis_solve_matrix(a, axis)
+    inverse = mat4_inverse(solve_matrix)
+    solution = mat4_vec(inverse, axis_solve_rhs(a))
+    if mat4_vec(solve_matrix, solution) != axis_solve_rhs(a):
+        raise ValueError("axis solve vector failed self-check")
+    return (solution[0], solution[1], solution[2]), solution[3], inverse
 
 
 def is_identity(m: Mat) -> bool:
@@ -274,6 +320,59 @@ def cross_left(axis: Vec) -> Mat:
 
 def transpose(m: Mat) -> Mat:
     return tuple(tuple(m[j][i] for j in range(3)) for i in range(3))
+
+
+def invert_square(rows: list[list[Fraction]]) -> list[list[Fraction]]:
+    n = len(rows)
+    aug = [list(row) + [Fraction(1) if i == j else Fraction(0) for j in range(n)]
+           for i, row in enumerate(rows)]
+    for col in range(n):
+        pivot = next((row for row in range(col, n) if aug[row][col] != 0), None)
+        if pivot is None:
+            raise ValueError("singular matrix")
+        aug[col], aug[pivot] = aug[pivot], aug[col]
+        div = aug[col][col]
+        aug[col] = [value / div for value in aug[col]]
+        for row in range(n):
+            if row == col or aug[row][col] == 0:
+                continue
+            factor = aug[row][col]
+            aug[row] = [aug[row][j] - factor * aug[col][j] for j in range(2 * n)]
+    return [row[n:] for row in aug]
+
+
+def mat3_inverse(m: Mat) -> Mat:
+    inv = invert_square([list(row) for row in m])
+    result: Mat = tuple(tuple(row) for row in inv)  # type: ignore[assignment]
+    if mat_mul(result, m) != mat_id():
+        raise ValueError("mat3 inverse witness failed self-check")
+    return result
+
+
+def mat4_id() -> Mat4:
+    return tuple(
+        tuple(Fraction(1) if i == j else Fraction(0) for j in range(4))
+        for i in range(4)
+    )  # type: ignore[return-value]
+
+
+def mat4_mul(a: Mat4, b: Mat4) -> Mat4:
+    return tuple(
+        tuple(sum(a[i][k] * b[k][j] for k in range(4)) for j in range(4))
+        for i in range(4)
+    )  # type: ignore[return-value]
+
+
+def mat4_vec(a: Mat4, v: Vec4) -> Vec4:
+    return tuple(sum(a[i][k] * v[k] for k in range(4)) for i in range(4))  # type: ignore[return-value]
+
+
+def mat4_inverse(m: Mat4) -> Mat4:
+    inv = invert_square([list(row) for row in m])
+    result: Mat4 = tuple(tuple(row) for row in inv)  # type: ignore[assignment]
+    if mat4_mul(result, m) != mat4_id():
+        raise ValueError("mat4 inverse witness failed self-check")
+    return result
 
 
 def solve_linear_system(a: Mat, b: Vec) -> Vec:
@@ -347,6 +446,13 @@ def one_dimensional_fixed_axis(m: Mat) -> Vec:
     for row, col in enumerate(pivot_cols):
         axis[col] = -rows[row][free]
     return tuple(axis)  # type: ignore[return-value]
+
+
+def oriented_fixed_axis(word: list[str], matrix: Mat) -> Vec:
+    axis = one_dimensional_fixed_axis(matrix)
+    if final_axis_dot(word, axis) < 0:
+        axis = tuple(-value for value in axis)  # type: ignore[assignment]
+    return axis
 
 
 def enumerate_pair_words(limit: int) -> list[list[str]]:
@@ -450,6 +556,88 @@ def impact_denom(seq: list[str], b: Vec, impact: int) -> Fraction:
     return dot(normal, b)
 
 
+def impact_face(seq: list[str], impact: int) -> str:
+    return seq[impact] if impact < 14 else seq[0]
+
+
+def pre_impact_aff(prefixes: list[Aff], impact: int) -> Aff:
+    prefix_index = max(impact - 1, 0)
+    if prefix_index > 13:
+        prefix_index = 13
+    return prefixes[prefix_index]
+
+
+def copied_normal_offset(
+    seq: list[str], prefixes: list[Aff], impact: int, face: str
+) -> tuple[Vec, Fraction]:
+    matrix, offset = pre_impact_aff(prefixes, impact)
+    copied = mat_vec(matrix, vec(FACE_NORMALS[face]))
+    return copied, FACE_OFFSETS[face] + dot(copied, offset)
+
+
+def impact_plane_normal_offset(
+    seq: list[str], prefixes: list[Aff], impact: int
+) -> tuple[Vec, Fraction]:
+    return copied_normal_offset(seq, prefixes, impact, impact_face(seq, impact))
+
+
+def xp_start_interior(p: Vec) -> bool:
+    x, y, z = p
+    return (
+        x == 1
+        and y + z < 1
+        and y - z < 1
+        and -y + z < 1
+        and -y - z < 1
+    )
+
+
+def candidate_w(seq: list[str], p0: Vec) -> Vec:
+    return vec_sub(aff_apply(total_aff(seq), p0), p0)
+
+
+def candidate_line_point(p0: Vec, w: Vec, t: Fraction) -> Vec:
+    return vec_add(p0, vec_scale(t, w))
+
+
+def candidate_impact_time(
+    seq: list[str], prefixes: list[Aff], p0: Vec, w: Vec, impact: int
+) -> Fraction:
+    if impact == 0:
+        return Fraction(0)
+    if impact == 14:
+        return Fraction(1)
+    normal_value, offset = impact_plane_normal_offset(seq, prefixes, impact)
+    denom = dot(normal_value, w)
+    if denom == 0:
+        raise ZeroDivisionError("candidate impact denominator is zero")
+    return (offset - dot(normal_value, p0)) / denom
+
+
+def first_bad_candidate_ordering(seq: list[str], p0: Vec, w: Vec) -> int | None:
+    prefixes = path_prefix_affs(seq)
+    times = [candidate_impact_time(seq, prefixes, p0, w, impact) for impact in range(15)]
+    for step in range(14):
+        if times[step + 1] <= times[step]:
+            return step
+    return None
+
+
+def first_bad_candidate_interior(seq: list[str], p0: Vec, w: Vec) -> tuple[int, str] | None:
+    prefixes = path_prefix_affs(seq)
+    for impact in range(15):
+        hit = impact_face(seq, impact)
+        t = candidate_impact_time(seq, prefixes, p0, w, impact)
+        point = candidate_line_point(p0, w, t)
+        for face in FACE_ORDER:
+            if face == hit:
+                continue
+            copied, offset = copied_normal_offset(seq, prefixes, impact, face)
+            if offset <= dot(copied, point):
+                return impact, face
+    return None
+
+
 def pair_of_face(face: str) -> str:
     for pair_id in PAIR_IDS:
         if FACE_PLUS[pair_id] == face or FACE_MINUS[pair_id] == face:
@@ -541,6 +729,14 @@ def first_axis_zero_index(word: list[str], axis: Vec) -> int:
     raise ValueError("no zero axis dot found")
 
 
+def first_axis_zero_index_or_none(word: list[str], axis: Vec) -> int | None:
+    pref = prefix_matrices(word)
+    for index, pair_id in enumerate(word):
+        if dot(mat_vec(pref[index], vec(NORMALS[pair_id])), axis) == 0:
+            return index
+    return None
+
+
 def first_bad_translation_impact(seq: list[str], b: Vec) -> int:
     for impact in range(1, 14):
         if impact_denom(seq, b, impact) <= 0:
@@ -562,6 +758,10 @@ def mat_to_json(m: Mat) -> list[list[str]]:
     return [[rat_to_json(x) for x in row] for row in m]
 
 
+def mat4_to_json(m: Mat4) -> list[list[str]]:
+    return [[rat_to_json(x) for x in row] for row in m]
+
+
 def lean_rat(x: Fraction) -> str:
     if x.denominator == 1:
         return str(x.numerator)
@@ -577,6 +777,16 @@ def lean_mat3(m: Mat) -> str:
         ("m00", m[0][0]), ("m01", m[0][1]), ("m02", m[0][2]),
         ("m10", m[1][0]), ("m11", m[1][1]), ("m12", m[1][2]),
         ("m20", m[2][0]), ("m21", m[2][1]), ("m22", m[2][2]),
+    ]
+    return "{ " + ", ".join(f"{name} := {lean_rat(value)}" for name, value in fields) + " }"
+
+
+def lean_mat4(m: Mat4) -> str:
+    fields = [
+        ("m00", m[0][0]), ("m01", m[0][1]), ("m02", m[0][2]), ("m03", m[0][3]),
+        ("m10", m[1][0]), ("m11", m[1][1]), ("m12", m[1][2]), ("m13", m[1][3]),
+        ("m20", m[2][0]), ("m21", m[2][1]), ("m22", m[2][2]), ("m23", m[2][3]),
+        ("m30", m[3][0]), ("m31", m[3][1]), ("m32", m[3][2]), ("m33", m[3][3]),
     ]
     return "{ " + ", ".join(f"{name} := {lean_rat(value)}" for name, value in fields) + " }"
 
@@ -618,6 +828,9 @@ class NonIdCertPayload:
     kernel_cross_factor: Mat
     forced_seq: list[str]
     failure: dict
+    p0: Vec = (Fraction(0), Fraction(0), Fraction(0))
+    lam: Fraction = Fraction(0)
+    solve_left_inverse: Mat4 = mat4_id()
 
     def to_json(self) -> dict:
         return {
@@ -627,6 +840,9 @@ class NonIdCertPayload:
             "axis": vec_to_json(self.axis),
             "kernel_cross_factor": mat_to_json(self.kernel_cross_factor),
             "forced_seq": self.forced_seq,
+            "p0": vec_to_json(self.p0),
+            "lambda": rat_to_json(self.lam),
+            "solve_left_inverse": mat4_to_json(self.solve_left_inverse),
             "failure": self.failure,
         }
 
@@ -689,6 +905,107 @@ def build_nonid_bad_pair_balance(rank: int) -> NonIdCertPayload:
         forced_seq=forced_seq,
         failure={"kind": "badPairBalance"},
     )
+
+
+def build_nonid_no_fixed_axis(rank: int) -> NonIdCertPayload:
+    word = pair_word_at_rank(rank)
+    matrix = total_linear(word)
+    witness = mat3_inverse(fixed_part(matrix))
+    return NonIdCertPayload(
+        name="nonIdNoFixedAxis000",
+        rank=rank,
+        word=word,
+        axis=vec((0, 0, 0)),
+        kernel_cross_factor=mat_id(),
+        forced_seq=["xp"] + [FACE_PLUS[pair_id] for pair_id in word],
+        failure={"kind": "noFixedAxis", "left_inverse": mat_to_json(witness)},
+    )
+
+
+def build_nonid_axis_or_candidate_failure(rank: int, name: str) -> NonIdCertPayload:
+    word = pair_word_at_rank(rank)
+    matrix = total_linear(word)
+    axis = oriented_fixed_axis(word, matrix)
+    if final_axis_dot(word, axis) <= 0:
+        raise ValueError("axis orientation failed")
+    if any(
+        dot(mat_vec(prefix_matrices(word)[index], vec(NORMALS[pair_id])), axis) == 0
+        for index, pair_id in enumerate(word)
+    ):
+        raise ValueError("axis does not force all signs")
+    forced_seq = forced_sequence_from_axis(word, axis)
+    if len(set(forced_seq)) != 14:
+        raise ValueError("forced sequence is not omnihedral")
+    affine = total_aff(forced_seq)
+    p0, lam, solve_left_inverse = solve_axis_intersection(affine, axis)
+    if not xp_start_interior(p0):
+        failure = {"kind": "axisMissesStartInterior"}
+    else:
+        w = candidate_w(forced_seq, p0)
+        bad_step = first_bad_candidate_ordering(forced_seq, p0, w)
+        if bad_step is not None:
+            failure = {"kind": "badFirstHit", "step": bad_step}
+        else:
+            bad_interior = first_bad_candidate_interior(forced_seq, p0, w)
+            if bad_interior is None:
+                raise ValueError("candidate did not yield a supported failure")
+            impact, bad_face = bad_interior
+            failure = {"kind": "badHitInterior", "impact": impact, "badFace": bad_face}
+    return NonIdCertPayload(
+        name=name,
+        rank=rank,
+        word=word,
+        axis=axis,
+        kernel_cross_factor=kernel_line_cross_factor(matrix, axis),
+        forced_seq=forced_seq,
+        p0=p0,
+        lam=lam,
+        solve_left_inverse=solve_left_inverse,
+        failure=failure,
+    )
+
+
+def build_nonid_cert_for_rank(rank: int, name: str) -> NonIdCertPayload:
+    word = pair_word_at_rank(rank)
+    matrix = total_linear(word)
+    try:
+        axis = oriented_fixed_axis(word, matrix)
+    except ValueError:
+        cert = build_nonid_no_fixed_axis(rank)
+        return NonIdCertPayload(
+            name=name,
+            rank=cert.rank,
+            word=cert.word,
+            axis=cert.axis,
+            kernel_cross_factor=cert.kernel_cross_factor,
+            forced_seq=cert.forced_seq,
+            failure=cert.failure,
+        )
+    if final_axis_dot(word, axis) <= 0:
+        raise ValueError("unsupported final-axis sign failure")
+    zero_index = first_axis_zero_index_or_none(word, axis)
+    if zero_index is not None:
+        return NonIdCertPayload(
+            name=name,
+            rank=rank,
+            word=word,
+            axis=axis,
+            kernel_cross_factor=kernel_line_cross_factor(matrix, axis),
+            forced_seq=["xp"] + [FACE_PLUS[pair_id] for pair_id in word],
+            failure={"kind": "badDirectionSign", "index": zero_index},
+        )
+    forced_seq = forced_sequence_from_axis(word, axis)
+    if len(set(forced_seq)) != 14:
+        return NonIdCertPayload(
+            name=name,
+            rank=rank,
+            word=word,
+            axis=axis,
+            kernel_cross_factor=kernel_line_cross_factor(matrix, axis),
+            forced_seq=forced_seq,
+            failure={"kind": "badPairBalance"},
+        )
+    return build_nonid_axis_or_candidate_failure(rank, name)
 
 
 def build_translation_bad_direction(rank: int, mask: int) -> TranslationCertPayload:
@@ -881,6 +1198,12 @@ def append_nonid_cert(lines: list[str], cert: dict) -> None:
     forced = seq_name(name)
     axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
     kernel = tuple(tuple(Fraction(x) for x in row) for row in cert["kernel_cross_factor"])  # type: ignore[assignment]
+    p0 = tuple(Fraction(x) for x in cert.get("p0", ["0", "0", "0"]))  # type: ignore[assignment]
+    lam = Fraction(cert.get("lambda", "0"))
+    solve = tuple(
+        tuple(Fraction(x) for x in row)
+        for row in cert.get("solve_left_inverse", mat4_to_json(mat4_id()))
+    )  # type: ignore[assignment]
     lines.append(f"def {forced} : Vector Face 14 :=")
     lines.append(lean_face_vector_literal(cert["forced_seq"]))
     lines.append("")
@@ -890,14 +1213,30 @@ def append_nonid_cert(lines: list[str], cert: dict) -> None:
     lines.append(f"  axis := {lean_vec(axis)}")
     lines.append(f"  kernel := {{ crossFactor := {lean_mat3(kernel)} }}")
     lines.append(f"  forcedSeq := {forced}")
-    lines.append("  p0 := { x := 0, y := 0, z := 0 }")
-    lines.append("  lambda := 0")
-    lines.append(f"  solve := {{ leftInverse := {lean_mat4_id()} }}")
+    lines.append(f"  p0 := {lean_vec(p0)}")
+    lines.append(f"  lambda := {lean_rat(lam)}")
+    lines.append(f"  solve := {{ leftInverse := {lean_mat4(solve)} }}")
     failure = cert["failure"]
     if failure["kind"] == "badDirectionSign":
         lines.append(f"  failure := NonIdFailure.badDirectionSign ⟨{failure['index']}, by decide⟩")
     elif failure["kind"] == "badPairBalance":
         lines.append("  failure := NonIdFailure.badPairBalance")
+    elif failure["kind"] == "noFixedAxis":
+        witness = tuple(tuple(Fraction(x) for x in row) for row in failure["left_inverse"])  # type: ignore[assignment]
+        lines.append(f"  failure := NonIdFailure.noFixedAxis {{ leftInverse := {lean_mat3(witness)} }}")
+    elif failure["kind"] == "axisMissesStartInterior":
+        lines.append("  failure := NonIdFailure.axisMissesStartInterior")
+    elif failure["kind"] == "badFirstHit":
+        lines.append(
+            "  failure := NonIdFailure.badFirstHit "
+            f"{{ step := ⟨{failure['step']}, by decide⟩ }}"
+        )
+    elif failure["kind"] == "badHitInterior":
+        lines.append(
+            "  failure := NonIdFailure.badHitInterior "
+            f"{{ impact := ⟨{failure['impact']}, by decide⟩, "
+            f"badFace := {lean_face(failure['badFace'])} }}"
+        )
     else:
         raise ValueError(f"unsupported nonidentity failure: {failure['kind']}")
     lines.append("")
@@ -1715,23 +2054,39 @@ def nonid_family_failure_lean(kind: str) -> str:
 
 
 def build_nonidentity_family_payload() -> dict:
-    start_rank = 6
-    end_rank = 9
-    certs: list[NonIdCertPayload] = []
-    for offset, rank in enumerate(range(start_rank, end_rank)):
-        cert = build_nonid_bad_direction(rank)
-        certs.append(
-            NonIdCertPayload(
-                name=f"nonIdFamilyBadDirection{offset:03d}",
-                rank=cert.rank,
-                word=cert.word,
-                axis=cert.axis,
-                kernel_cross_factor=cert.kernel_cross_factor,
-                forced_seq=cert.forced_seq,
-                failure=cert.failure,
-            )
-        )
-    records = {cert.rank: cert.word for cert in certs}
+    specs = [
+        ("sampleBadDirectionFamily", "sampleBadDirectionFamilyCert",
+         "badDirectionSign", 13, 16, "nonIdFamilyBadDirection"),
+        ("sampleBadPairBalanceFamily", "sampleBadPairBalanceFamilyCert",
+         "badPairBalance", 102, 103, "nonIdFamilyBadPairBalance"),
+        ("sampleAxisMissFamily", "sampleAxisMissFamilyCert",
+         "axisMissesStartInterior", 104, 106, "nonIdFamilyAxisMiss"),
+        ("sampleBadFirstHitFamily", "sampleBadFirstHitFamilyCert",
+         "badFirstHit", 159, 160, "nonIdFamilyBadFirstHit"),
+    ]
+    families = []
+    all_certs: list[NonIdCertPayload] = []
+    for family_name, lean_name, failure_kind, start_rank, end_rank, prefix in specs:
+        certs: list[NonIdCertPayload] = []
+        for offset, rank in enumerate(range(start_rank, end_rank)):
+            certs.append(build_nonid_cert_for_rank(rank, f"{prefix}{offset:03d}"))
+        for cert in certs:
+            if cert.failure["kind"] != failure_kind:
+                raise ValueError(
+                    f"rank {cert.rank} yielded {cert.failure['kind']}, expected {failure_kind}"
+                )
+        all_certs.extend(certs)
+        families.append({
+            "name": family_name,
+            "lean_name": lean_name,
+            "failure_kind": failure_kind,
+            "startRank": start_rank,
+            "endRank": end_rank,
+            "coveredRanks": [cert.rank for cert in certs],
+            "cert_names": [cert.name for cert in certs],
+            "certs": [cert.to_json() for cert in certs],
+        })
+    records = {cert.rank: cert.word for cert in all_certs}
     return {
         "schema_version": 1,
         "mode": "nonidentity-family-sample",
@@ -1739,23 +2094,19 @@ def build_nonidentity_family_payload() -> dict:
             {"rank": rank, "word": records[rank]}
             for rank in sorted(records)
         ],
-        "families": [
-            {
-                "name": "sampleBadDirectionFamily",
-                "lean_name": "sampleFamilyCert",
-                "tree_name": "sampleFamilyCoverage",
-                "failure_kind": "badDirectionSign",
-                "startRank": start_rank,
-                "endRank": end_rank,
-                "coveredRanks": [cert.rank for cert in certs],
-                "cert_names": [cert.name for cert in certs],
-                "certs": [cert.to_json() for cert in certs],
-            }
-        ],
+        "families": families,
         "summary": {
-            "families": 1,
-            "covered_ranks": len(certs),
-            "coverage_kind": "contiguous-family-leaf",
+            "families": len(families),
+            "covered_ranks": len(all_certs),
+            "coverage_kind": "mixed-contiguous-family-leaves",
+            "supported_failure_kinds": [
+                "noFixedAxis",
+                "badDirectionSign",
+                "badPairBalance",
+                "axisMissesStartInterior",
+                "badFirstHit",
+                "badHitInterior",
+            ],
         },
     }
 
