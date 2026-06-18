@@ -39,6 +39,9 @@ TRANSLATION_FAMILY_JSON_PATH = (
 EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "exhaustive_real_certs_summary.json"
 )
+COMPRESSION_AUDIT_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
+)
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 CANONICAL_COVERAGE_LEAN_PATH = (
@@ -4212,6 +4215,7 @@ def write_canonical_coverage_json(payload: dict) -> None:
     )
 
 
+MIB = 1024 ** 2
 GIB = 1024 ** 3
 
 
@@ -4379,6 +4383,183 @@ def write_exhaustive_real_certs_summary(payload: dict) -> None:
     )
 
 
+def family_sample_summary(payload: dict, covered_key: str) -> dict:
+    families = payload["families"]
+    summary = payload["summary"]
+    accounting = payload["failure_kind_accounting"]
+    return {
+        "artifact_mode": payload["mode"],
+        "family_count": len(families),
+        covered_key: int(summary[covered_key]),
+        "present_failure_kinds": sorted(summary["present_failure_kinds"]),
+        "absent_failure_kinds": sorted(
+            record["failure_kind"] for record in accounting["absent"]
+        ),
+        "distinct_normalized_state_ids": len({
+            family["normalizedStateId"] for family in families
+        }),
+        "is_sample_only": True,
+    }
+
+
+def translation_sample_sharing_summary(payload: dict) -> dict:
+    constraint_systems: set[str] = set()
+    farkas_shapes: set[str] = set()
+    for family in payload["families"]:
+        state_key = family.get("normalizedStateKey", {})
+        shared_items = state_key.get("sharedFarkas")
+        if not shared_items:
+            continue
+        if isinstance(shared_items, dict):
+            shared_items = [shared_items]
+        for shared in shared_items:
+            system = shared.get("normalizedConstraintSystem")
+            if system is not None:
+                constraint_systems.add(json.dumps(system, sort_keys=True))
+            terms = shared.get("normalizedFarkasTerms")
+            if terms is not None:
+                farkas_shapes.add(json.dumps(terms, sort_keys=True))
+    return {
+        "sample_normalized_constraint_systems": len(constraint_systems),
+        "sample_normalized_farkas_shapes": len(farkas_shapes),
+        "full_constraint_histogram_available": False,
+        "full_farkas_shape_histogram_available": False,
+    }
+
+
+def threshold_record(name: str, limit_bytes: int, estimated_bytes: int) -> dict:
+    return {
+        "name": name,
+        "limit_bytes": limit_bytes,
+        "fits": estimated_bytes <= limit_bytes,
+    }
+
+
+def build_compression_audit_payload() -> dict:
+    profile = exact_profile.load_profile_payload(exact_profile.PROFILE_JSON_PATH)
+    counts = exact_profile.check_profile_payload(profile)
+    canonical = load_json_artifact(CANONICAL_COVERAGE_JSON_PATH, "canonical-coverage-manifest")
+    load_json_artifact(COVERAGE_JSON_PATH, "coverage-manifest")
+    coverage_tree = load_json_artifact(COVERAGE_TREE_JSON_PATH, "coverage-tree-sample")
+    nonidentity_family = load_json_artifact(
+        NONIDENTITY_FAMILY_JSON_PATH, "nonidentity-family-sample"
+    )
+    translation_family = load_json_artifact(
+        TRANSLATION_FAMILY_JSON_PATH, "translation-family-sample"
+    )
+    exhaustive = load_json_artifact(EXHAUSTIVE_REAL_CERTS_JSON_PATH, "exhaustive-real-certs")
+
+    estimates = profile["size_estimates"]
+    exact_summary = estimates.get("exact_state_group_summary", {})
+    nonid_exact = exact_summary.get("nonidentity", {})
+    translation_exact = exact_summary.get("translation", {})
+    current_estimated_bytes = int(exhaustive["estimate"]["estimated_lean_bytes"])
+    canonical_cert_estimate = int(exhaustive["estimate"]["canonical_cert_estimate"])
+    thresholds = [
+        threshold_record("1GiB", GIB, current_estimated_bytes),
+        threshold_record("500MiB", 500 * MIB, current_estimated_bytes),
+        threshold_record("100MiB", 100 * MIB, current_estimated_bytes),
+    ]
+
+    nonid_hist_available = int(nonid_exact.get("pathSensitiveUnbucketed", 0)) == 0
+    translation_hist_available = int(translation_exact.get("pathSensitiveUnbucketed", 0)) == 0
+    shared_farkas_groups = int(estimates.get("shared_farkas_groups", 0))
+    sample_nonid = family_sample_summary(nonidentity_family, "covered_ranks")
+    sample_translation = family_sample_summary(translation_family, "covered_cases")
+    translation_sharing = translation_sample_sharing_summary(translation_family)
+
+    full_histograms_available = (
+        nonid_hist_available
+        and translation_hist_available
+        and translation_sharing["full_constraint_histogram_available"]
+        and translation_sharing["full_farkas_shape_histogram_available"]
+    )
+    ready_for_14e7 = full_histograms_available and thresholds[0]["fits"]
+    if ready_for_14e7:
+        status = "ready_for_14E7"
+        recommendation = "proceed_to_concrete_exhaustive_coverage_witness"
+    elif not full_histograms_available:
+        status = "blocked_needs_full_compression_histograms"
+        recommendation = (
+            "add_full_aggregate_compression_profiler_for_nonidentity_failure_families_"
+            "and_translation_constraint_farkas_shapes"
+        )
+    else:
+        status = "blocked_exceeds_size_budget"
+        recommendation = "add_deeper_prefix_or_family_compression_before_14E7"
+
+    return {
+        "schema_version": 1,
+        "mode": "compression-audit",
+        "complete": True,
+        "proof_complete": False,
+        "actual_counts": {
+            "pair_words": counts["pair_words"],
+            "identity_linear_words": counts["identity_linear_words"],
+            "nonidentity_words": counts["nonidentity_words"],
+            "translation_sign_assignments": counts["translation_sign_assignments"],
+        },
+        "prerequisites": {
+            "profile": path_status(exact_profile.PROFILE_JSON_PATH),
+            "coverage_manifest": path_status(COVERAGE_JSON_PATH),
+            "canonical_coverage_manifest": path_status(CANONICAL_COVERAGE_JSON_PATH),
+            "coverage_tree_sample": path_status(COVERAGE_TREE_JSON_PATH),
+            "nonidentity_family_sample": path_status(NONIDENTITY_FAMILY_JSON_PATH),
+            "translation_family_sample": path_status(TRANSLATION_FAMILY_JSON_PATH),
+            "exhaustive_real_certs_summary": path_status(EXHAUSTIVE_REAL_CERTS_JSON_PATH),
+        },
+        "canonical_counts": canonical["canonical_counts"],
+        "nonidentity": {
+            "raw_cases": counts["nonidentity_words"],
+            "compressed_linear_groups": int(
+                estimates.get("compressed_nonidentity_linear_groups", 0)
+            ),
+            "full_failure_family_histogram_available": nonid_hist_available,
+            "path_sensitive_unbucketed": int(
+                nonid_exact.get("pathSensitiveUnbucketed", 0)
+            ),
+            "sample_family_summary": sample_nonid,
+        },
+        "translation": {
+            "raw_cases": counts["translation_sign_assignments"],
+            "shared_farkas_groups": shared_farkas_groups,
+            "full_constraint_histogram_available": translation_hist_available,
+            "path_sensitive_unbucketed": int(
+                translation_exact.get("pathSensitiveUnbucketed", 0)
+            ),
+            "sample_family_summary": sample_translation,
+            "sample_sharing": translation_sharing,
+        },
+        "prefix_tree": {
+            "sample_nonidentity_nodes": len(coverage_tree["nonidentity_trees"]),
+            "sample_translation_nodes": len(coverage_tree["translation_trees"]),
+            "full_leaf_estimate": int(estimates["prefix_tree_leaf_estimate"]),
+            "full_reduction_proven": int(estimates["prefix_tree_leaf_estimate"])
+            < canonical_cert_estimate,
+        },
+        "size_ladder": {
+            "flat_total_certs": int(estimates["flat_total_certs"]),
+            "canonical_cert_estimate": canonical_cert_estimate,
+            "current_estimated_lean_bytes": current_estimated_bytes,
+            "current_estimated_lean_gib": current_estimated_bytes / GIB,
+            "thresholds": thresholds,
+        },
+        "decision": {
+            "status": status,
+            "ready_for_14E7": ready_for_14e7,
+            "recommendation": recommendation,
+        },
+    }
+
+
+def write_compression_audit_json(payload: dict, output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
@@ -4394,6 +4575,7 @@ def main() -> None:
             "nonidentity-family-sample",
             "translation-family-sample",
             "exhaustive-real-certs",
+            "compression-audit",
         ],
         help="generation mode",
     )
@@ -4436,6 +4618,12 @@ def main() -> None:
         help="output path for exhaustive-real-certs gated summary JSON",
     )
     parser.add_argument(
+        "--compression-audit-output",
+        type=Path,
+        default=COMPRESSION_AUDIT_JSON_PATH,
+        help="output path for compression-audit JSON",
+    )
+    parser.add_argument(
         "--generated-data-budget-gib",
         type=float,
         default=8.0,
@@ -4465,7 +4653,7 @@ def main() -> None:
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "canonical-coverage-manifest/coverage-tree-sample/"
             "nonidentity-family-sample/translation-family-sample/"
-            "exhaustive-real-certs"
+            "exhaustive-real-certs/compression-audit"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -4505,6 +4693,21 @@ def main() -> None:
         )
         print(f"free space: {payload['budget']['free_gib']:.2f} GiB")
         print(f"json: {args.exhaustive_summary_output}")
+        return
+    if mode == "compression-audit":
+        payload = build_compression_audit_payload()
+        write_compression_audit_json(payload, args.compression_audit_output)
+        print("generated compression feasibility audit")
+        print(f"status: {payload['decision']['status']}")
+        print(
+            "estimated Lean source: "
+            f"{payload['size_ladder']['current_estimated_lean_gib']:.2f} GiB"
+        )
+        for threshold in payload["size_ladder"]["thresholds"]:
+            verdict = "fits" if threshold["fits"] else "does not fit"
+            print(f"{threshold['name']}: {verdict}")
+        print(f"recommendation: {payload['decision']['recommendation']}")
+        print(f"json: {args.compression_audit_output}")
         return
     if mode == "canonical-symmetry-sample":
         payload = build_canonical_payload()

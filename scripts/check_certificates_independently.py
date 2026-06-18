@@ -36,6 +36,9 @@ TRANSLATION_FAMILY_JSON_PATH = (
 EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "exhaustive_real_certs_summary.json"
 )
+COMPRESSION_AUDIT_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -44,6 +47,8 @@ EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
 EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS = 157_957_632
 COVERAGE_CHUNK_SIZE = 100_000
+MIB = 1024 ** 2
+GIB = 1024 ** 3
 
 PAIR_IDS = ["x", "y", "z", "d111", "d11m", "d1m1", "dm11"]
 PAIR_COUNTS = {
@@ -2224,6 +2229,257 @@ def check_exhaustive_real_certs_summary(payload):
     }
 
 
+def distinct_family_state_ids(payload):
+    return len({family["normalizedStateId"] for family in payload["families"]})
+
+
+def translation_sample_sharing_counts(payload):
+    constraint_systems = set()
+    farkas_shapes = set()
+    for family in payload["families"]:
+        shared_items = family.get("normalizedStateKey", {}).get("sharedFarkas")
+        if not shared_items:
+            continue
+        if isinstance(shared_items, dict):
+            shared_items = [shared_items]
+        for shared in shared_items:
+            if "normalizedConstraintSystem" in shared:
+                constraint_systems.add(canonical_json(shared["normalizedConstraintSystem"]))
+            if "normalizedFarkasTerms" in shared:
+                farkas_shapes.add(canonical_json(shared["normalizedFarkasTerms"]))
+    return {
+        "sample_normalized_constraint_systems": len(constraint_systems),
+        "sample_normalized_farkas_shapes": len(farkas_shapes),
+        "full_constraint_histogram_available": False,
+        "full_farkas_shape_histogram_available": False,
+    }
+
+
+def check_thresholds(thresholds, estimated_bytes):
+    expected = [
+        {"name": "1GiB", "limit_bytes": GIB},
+        {"name": "500MiB", "limit_bytes": 500 * MIB},
+        {"name": "100MiB", "limit_bytes": 100 * MIB},
+    ]
+    require(len(thresholds) == len(expected), "compression threshold count")
+    for actual, base in zip(thresholds, expected, strict=True):
+        require(actual["name"] == base["name"], f"compression threshold name {base['name']}")
+        require(
+            actual["limit_bytes"] == base["limit_bytes"],
+            f"compression threshold limit {base['name']}",
+        )
+        require(
+            actual["fits"] is (estimated_bytes <= base["limit_bytes"]),
+            f"compression threshold fit {base['name']}",
+        )
+
+
+def check_compression_audit(payload):
+    require(payload.get("schema_version") == 1, "compression audit schema version")
+    require(payload.get("mode") == "compression-audit", "compression audit mode")
+    require(payload.get("complete") is True, "compression audit complete")
+    require(payload.get("proof_complete") is False, "compression audit not proof complete")
+
+    profile = exact_profile.load_profile_payload(exact_profile.PROFILE_JSON_PATH)
+    counts = exact_profile.check_profile_payload(profile)
+    exact_summary = profile["size_estimates"].get("exact_state_group_summary", {})
+    profile_estimates = profile["size_estimates"]
+    nonid_exact = exact_summary.get("nonidentity", {})
+    translation_exact = exact_summary.get("translation", {})
+
+    coverage_payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
+    check_coverage_file(coverage_payload)
+    canonical_payload = json.loads(CANONICAL_COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
+    check_canonical_coverage_manifest(canonical_payload)
+    coverage_tree_payload = json.loads(COVERAGE_TREE_JSON_PATH.read_text(encoding="utf-8"))
+    coverage_tree_summary = check_coverage_tree_file(coverage_tree_payload)
+    nonidentity_family_payload = json.loads(NONIDENTITY_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
+    nonidentity_summary = check_nonidentity_family_file(nonidentity_family_payload)
+    translation_family_payload = json.loads(TRANSLATION_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
+    translation_summary = check_translation_family_file(translation_family_payload)
+    exhaustive_payload = json.loads(EXHAUSTIVE_REAL_CERTS_JSON_PATH.read_text(encoding="utf-8"))
+    check_exhaustive_real_certs_summary(exhaustive_payload)
+
+    require(payload["actual_counts"] == {
+        "pair_words": counts["pair_words"],
+        "identity_linear_words": counts["identity_linear_words"],
+        "nonidentity_words": counts["nonidentity_words"],
+        "translation_sign_assignments": counts["translation_sign_assignments"],
+    }, "compression audit actual counts")
+    require(
+        payload["canonical_counts"] == canonical_payload["canonical_counts"],
+        "compression audit canonical counts",
+    )
+
+    prerequisite_keys = {
+        "profile",
+        "coverage_manifest",
+        "canonical_coverage_manifest",
+        "coverage_tree_sample",
+        "nonidentity_family_sample",
+        "translation_family_sample",
+        "exhaustive_real_certs_summary",
+    }
+    require(set(payload["prerequisites"]) == prerequisite_keys,
+            "compression audit prerequisite keys")
+    for key, status in payload["prerequisites"].items():
+        require(status["exists"] is True, f"compression audit prerequisite exists {key}")
+        require(status["bytes"] > 0, f"compression audit prerequisite bytes {key}")
+
+    nonidentity = payload["nonidentity"]
+    require(nonidentity["raw_cases"] == counts["nonidentity_words"],
+            "compression audit nonidentity raw cases")
+    require(
+        nonidentity["compressed_linear_groups"]
+        == int(profile_estimates.get("compressed_nonidentity_linear_groups", 0)),
+        "compression audit nonidentity linear groups",
+    )
+    expected_nonid_unbucketed = int(nonid_exact.get("pathSensitiveUnbucketed", 0))
+    require(
+        nonidentity["path_sensitive_unbucketed"] == expected_nonid_unbucketed,
+        "compression audit nonidentity unbucketed",
+    )
+    require(
+        nonidentity["full_failure_family_histogram_available"]
+        is (expected_nonid_unbucketed == 0),
+        "compression audit nonidentity histogram availability",
+    )
+    sample_nonid = nonidentity["sample_family_summary"]
+    require(sample_nonid["family_count"] == nonidentity_summary["families"],
+            "compression audit nonidentity sample families")
+    require(sample_nonid["covered_ranks"] == nonidentity_summary["covered_ranks"],
+            "compression audit nonidentity sample covered ranks")
+    require(sample_nonid["present_failure_kinds"] == nonidentity_summary["present_failure_kinds"],
+            "compression audit nonidentity present kinds")
+    require(sample_nonid["absent_failure_kinds"] == nonidentity_summary["absent_failure_kinds"],
+            "compression audit nonidentity absent kinds")
+    require(
+        sample_nonid["distinct_normalized_state_ids"]
+        == distinct_family_state_ids(nonidentity_family_payload),
+        "compression audit nonidentity state ids",
+    )
+    require(sample_nonid["is_sample_only"] is True,
+            "compression audit nonidentity sample marker")
+
+    translation = payload["translation"]
+    require(translation["raw_cases"] == counts["translation_sign_assignments"],
+            "compression audit translation raw cases")
+    require(
+        translation["shared_farkas_groups"]
+        == int(profile_estimates.get("shared_farkas_groups", 0)),
+        "compression audit shared Farkas groups",
+    )
+    expected_translation_unbucketed = int(translation_exact.get("pathSensitiveUnbucketed", 0))
+    require(
+        translation["path_sensitive_unbucketed"] == expected_translation_unbucketed,
+        "compression audit translation unbucketed",
+    )
+    require(
+        translation["full_constraint_histogram_available"]
+        is (expected_translation_unbucketed == 0),
+        "compression audit translation histogram availability",
+    )
+    sample_translation = translation["sample_family_summary"]
+    require(sample_translation["family_count"] == translation_summary["families"],
+            "compression audit translation sample families")
+    require(sample_translation["covered_cases"] == translation_summary["covered_cases"],
+            "compression audit translation sample covered cases")
+    require(
+        sample_translation["present_failure_kinds"]
+        == translation_summary["present_failure_kinds"],
+        "compression audit translation present kinds",
+    )
+    require(
+        sample_translation["absent_failure_kinds"]
+        == translation_summary["absent_failure_kinds"],
+        "compression audit translation absent kinds",
+    )
+    require(
+        sample_translation["distinct_normalized_state_ids"]
+        == distinct_family_state_ids(translation_family_payload),
+        "compression audit translation state ids",
+    )
+    require(sample_translation["is_sample_only"] is True,
+            "compression audit translation sample marker")
+    require(
+        translation["sample_sharing"]
+        == translation_sample_sharing_counts(translation_family_payload),
+        "compression audit translation sample sharing",
+    )
+
+    prefix_tree = payload["prefix_tree"]
+    require(prefix_tree["sample_nonidentity_nodes"] == coverage_tree_summary["nonidentity_trees"],
+            "compression audit sample nonidentity tree nodes")
+    require(prefix_tree["sample_translation_nodes"] == coverage_tree_summary["translation_trees"],
+            "compression audit sample translation tree nodes")
+    require(prefix_tree["full_leaf_estimate"] == profile_estimates["prefix_tree_leaf_estimate"],
+            "compression audit prefix leaf estimate")
+
+    size_ladder = payload["size_ladder"]
+    estimated_bytes = exhaustive_payload["estimate"]["estimated_lean_bytes"]
+    canonical_estimate = exhaustive_payload["estimate"]["canonical_cert_estimate"]
+    require(size_ladder["flat_total_certs"] == profile_estimates["flat_total_certs"],
+            "compression audit flat cert count")
+    require(size_ladder["canonical_cert_estimate"] == canonical_estimate,
+            "compression audit canonical cert estimate")
+    require(size_ladder["current_estimated_lean_bytes"] == estimated_bytes,
+            "compression audit estimated Lean bytes")
+    require(abs(size_ladder["current_estimated_lean_gib"] - estimated_bytes / GIB) < 1e-12,
+            "compression audit estimated Lean GiB")
+    require(
+        prefix_tree["full_reduction_proven"]
+        is (profile_estimates["prefix_tree_leaf_estimate"] < canonical_estimate),
+        "compression audit prefix reduction proven",
+    )
+    check_thresholds(size_ladder["thresholds"], estimated_bytes)
+
+    full_histograms_available = (
+        nonidentity["full_failure_family_histogram_available"]
+        and translation["full_constraint_histogram_available"]
+        and translation["sample_sharing"]["full_constraint_histogram_available"]
+        and translation["sample_sharing"]["full_farkas_shape_histogram_available"]
+    )
+    fits_1gib = size_ladder["thresholds"][0]["fits"]
+    decision = payload["decision"]
+    require(decision["ready_for_14E7"] is (full_histograms_available and fits_1gib),
+            "compression audit ready decision")
+    if decision["ready_for_14E7"]:
+        require(decision["status"] == "ready_for_14E7",
+                "compression audit ready status")
+        require(
+            decision["recommendation"] == "proceed_to_concrete_exhaustive_coverage_witness",
+            "compression audit ready recommendation",
+        )
+    elif not full_histograms_available:
+        require(
+            decision["status"] == "blocked_needs_full_compression_histograms",
+            "compression audit histogram-blocked status",
+        )
+        require(
+            decision["recommendation"]
+            == "add_full_aggregate_compression_profiler_for_nonidentity_failure_families_"
+               "and_translation_constraint_farkas_shapes",
+            "compression audit histogram-blocked recommendation",
+        )
+    else:
+        require(decision["status"] == "blocked_exceeds_size_budget",
+                "compression audit budget-blocked status")
+        require(
+            decision["recommendation"] == "add_deeper_prefix_or_family_compression_before_14E7",
+            "compression audit budget-blocked recommendation",
+        )
+
+    return {
+        "status": decision["status"],
+        "ready_for_14E7": decision["ready_for_14E7"],
+        "estimated_lean_bytes": estimated_bytes,
+        "fits_1GiB": fits_1gib,
+        "fits_500MiB": size_ladder["thresholds"][1]["fits"],
+        "fits_100MiB": size_ladder["thresholds"][2]["fits"],
+        "recommendation": decision["recommendation"],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -2238,6 +2494,7 @@ def main():
             "nonidentity-family-sample",
             "translation-family-sample",
             "exhaustive-real-certs",
+            "compression-audit",
             "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
@@ -2255,6 +2512,12 @@ def main():
         type=Path,
         default=exact_profile.PROFILE_JSON_PATH,
         help="input path for profile-exhaustive-states JSON",
+    )
+    parser.add_argument(
+        "--compression-audit-input",
+        type=Path,
+        default=COMPRESSION_AUDIT_JSON_PATH,
+        help="input path for compression-audit JSON",
     )
     parser.add_argument(
         "--with-symmetry",
@@ -2279,7 +2542,7 @@ def main():
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "coverage-tree-sample/nonidentity-family-sample/"
             "translation-family-sample/"
-            "exhaustive-real-certs/"
+            "exhaustive-real-certs/compression-audit/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
         )
@@ -2356,6 +2619,18 @@ def main():
         print(f"status: {summary['status']}")
         print(f"canonical cert estimate: {summary['canonical_cert_estimate']:,}")
         print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
+        return
+    if mode == "compression-audit":
+        payload = json.loads(args.compression_audit_input.read_text(encoding="utf-8"))
+        summary = check_compression_audit(payload)
+        print("independent compression audit check passed")
+        print(f"status: {summary['status']}")
+        print(f"ready for 14E.7: {summary['ready_for_14E7']}")
+        print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
+        print(f"fits under 1GiB: {summary['fits_1GiB']}")
+        print(f"fits under 500MiB: {summary['fits_500MiB']}")
+        print(f"fits under 100MiB: {summary['fits_100MiB']}")
+        print(f"recommendation: {summary['recommendation']}")
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

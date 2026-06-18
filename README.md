@@ -39,6 +39,15 @@ The generated-data strategy is now deliberately canonical-first. Pair-words avoi
 
 The next exhaustive phase also treats time reversal, exact-state grouping, prefix pruning, and shared witnesses as mandatory compression layers rather than optional cleanup. Reversal is introduced by reconstructing the exact started face sequence, reversing the itinerary, and re-extracting the pair word or translation mask, so mask transforms are not guessed bit operations. Non-identity cases are grouped by exact rational linear state, forced-axis/sign data, affine-axis data, and normalized failure kind. Translation cases are grouped by normalized strict constraint systems and shared sparse Farkas certificates. Flat one-certificate-per-case output is reserved for diagnostics only; the final generated Lean data should be compact canonical coverage plus Lean-checked transport, family, and shared-witness soundness.
 
+The current compression feasibility audit is intentionally a gate, not proof data. Run it with:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compression-audit
+python3 scripts/check_certificates_independently.py --mode compression-audit
+```
+
+The checked audit currently reports that the existing compressed strategy would still generate about `16,336,309,248` bytes, or `15.21 GiB`, of Lean source. That does not fit under the 1 GiB, 500 MiB, or 100 MiB targets, so Step 14E.7 is blocked until a full aggregate compression profiler records exact non-identity failure-family histograms and exact translation constraint/Farkas-shape sharing.
+
 The final proof will therefore not be just "Lean replayed a giant list." The giant list supplies finite obstructions, but other essential components are structural: the billiard-to-unfolding reduction, the pair-word counting and rank coverage, the linear identity/non-identity case split, the rational reflection algebra, the Farkas infeasibility theorem, and the certificate soundness theorems connecting every checked obstruction back to the original geometric claim.
 
 # Background
