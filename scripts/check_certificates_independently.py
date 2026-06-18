@@ -8,6 +8,7 @@ before Lean checks the emitted certificates.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import math
@@ -44,6 +45,12 @@ PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH = exact_profile.PREFIX_PARAMETRIC_JSON_P
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
+COMPACT_CERT_SAMPLE_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compact_cert_sample.json"
+)
+COMPACT_CERT_PILOT_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compact_cert_pilot.json"
+)
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -2979,6 +2986,226 @@ def check_prefix_parametric_compression(payload):
     }
 
 
+def encode_uvarint(value: int) -> bytes:
+    if value < 0:
+        raise ValueError("varint cannot encode negative values")
+    out = bytearray()
+    while value >= 0x80:
+        out.append((value & 0x7F) | 0x80)
+        value >>= 7
+    out.append(value)
+    return bytes(out)
+
+
+def read_uvarint(data: bytes, offset: int) -> tuple[int, int]:
+    value = 0
+    shift = 0
+    for _ in range(10):
+        if offset >= len(data):
+            raise ValueError("malformed varint")
+        byte = data[offset]
+        offset += 1
+        value += (byte & 0x7F) << shift
+        if byte < 0x80:
+            return value, offset
+        shift += 7
+    raise ValueError("malformed varint")
+
+
+def build_compact_blob(
+    *,
+    pilot_limit: int,
+    nonidentity_ranks: list[int],
+    translation_cases: list[dict],
+    kind: int = 1,
+) -> bytes:
+    sections: list[tuple[int, bytes]] = []
+    sections.append((1, encode_uvarint(pilot_limit)))
+    nonid = bytearray(encode_uvarint(len(nonidentity_ranks)))
+    for rank in nonidentity_ranks:
+        nonid.extend(encode_uvarint(rank))
+    sections.append((2, bytes(nonid)))
+    translation = bytearray(encode_uvarint(len(translation_cases)))
+    for case in translation_cases:
+        translation.extend(encode_uvarint(int(case["pair_rank"])))
+        translation.extend(encode_uvarint(int(case["sign_mask"])))
+    sections.append((3, bytes(translation)))
+    blob = bytearray(b"COCB")
+    blob.append(1)
+    blob.append(kind)
+    blob.extend(encode_uvarint(len(sections)))
+    for section_id, payload in sections:
+        blob.extend(encode_uvarint(section_id))
+        blob.extend(encode_uvarint(len(payload)))
+    for _section_id, payload in sections:
+        blob.extend(payload)
+    return bytes(blob)
+
+
+def decode_compact_blob_text(text: str) -> dict:
+    data = base64.b64decode(text, validate=True)
+    if len(data) < 7 or data[:4] != b"COCB":
+        raise ValueError("bad magic")
+    if data[4] != 1:
+        raise ValueError("bad version")
+    if data[5] not in {1, 2}:
+        raise ValueError("bad bundle kind")
+    kind = "pilot" if data[5] == 1 else "full"
+    section_count, offset = read_uvarint(data, 6)
+    headers: list[tuple[int, int]] = []
+    seen: set[int] = set()
+    for _ in range(section_count):
+        section_id, offset = read_uvarint(data, offset)
+        length, offset = read_uvarint(data, offset)
+        if section_id in seen:
+            raise ValueError("duplicate section")
+        seen.add(section_id)
+        headers.append((section_id, length))
+    sections: dict[int, bytes] = {}
+    for section_id, length in headers:
+        end = offset + length
+        if end > len(data):
+            raise ValueError("truncated section")
+        sections[section_id] = data[offset:end]
+        offset = end
+    if offset != len(data):
+        raise ValueError("trailing input")
+    for required in (1, 2, 3):
+        if required not in sections:
+            raise ValueError("missing section")
+
+    pilot_limit, meta_offset = read_uvarint(sections[1], 0)
+    if meta_offset != len(sections[1]):
+        raise ValueError("metadata trailing input")
+
+    nonidentity_count, nonid_offset = read_uvarint(sections[2], 0)
+    nonidentity_ranks = []
+    for _ in range(nonidentity_count):
+        rank, nonid_offset = read_uvarint(sections[2], nonid_offset)
+        nonidentity_ranks.append(rank)
+    if nonid_offset != len(sections[2]):
+        raise ValueError("nonidentity trailing input")
+
+    translation_count, trans_offset = read_uvarint(sections[3], 0)
+    translation_cases = []
+    for _ in range(translation_count):
+        rank, trans_offset = read_uvarint(sections[3], trans_offset)
+        mask, trans_offset = read_uvarint(sections[3], trans_offset)
+        translation_cases.append({"pair_rank": rank, "sign_mask": mask})
+    if trans_offset != len(sections[3]):
+        raise ValueError("translation trailing input")
+
+    if pilot_limit != len(nonidentity_ranks) + len(translation_cases):
+        raise ValueError("pilot count mismatch")
+    return {
+        "kind": kind,
+        "pilot_limit": pilot_limit,
+        "nonidentity_ranks": nonidentity_ranks,
+        "translation_cases": translation_cases,
+        "raw_bytes": len(data),
+        "sha256": hashlib.sha256(data).hexdigest(),
+    }
+
+
+def require_decode_fails(name: str, blob: bytes) -> None:
+    text = base64.b64encode(blob).decode("ascii")
+    try:
+        decode_compact_blob_text(text)
+    except Exception:
+        return
+    raise SystemExit(f"compact malformed test unexpectedly decoded: {name}")
+
+
+def check_compact_malformed_tests() -> int:
+    good = build_compact_blob(
+        pilot_limit=2,
+        nonidentity_ranks=[1],
+        translation_cases=[{"pair_rank": 0, "sign_mask": 0}],
+    )
+    bad_magic = bytearray(good)
+    bad_magic[0] = 0
+    require_decode_fails("bad magic", bytes(bad_magic))
+    bad_version = bytearray(good)
+    bad_version[4] = 2
+    require_decode_fails("bad version", bytes(bad_version))
+    bad_kind = bytearray(good)
+    bad_kind[5] = 99
+    require_decode_fails("bad kind", bytes(bad_kind))
+    require_decode_fails("truncated section", good[:-1])
+    duplicate = bytearray(b"COCB")
+    duplicate.extend([1, 1])
+    duplicate.extend(encode_uvarint(2))
+    duplicate.extend(encode_uvarint(1))
+    duplicate.extend(encode_uvarint(1))
+    duplicate.extend(encode_uvarint(1))
+    duplicate.extend(encode_uvarint(1))
+    duplicate.extend(encode_uvarint(0))
+    duplicate.extend(encode_uvarint(0))
+    require_decode_fails("duplicate section", bytes(duplicate))
+    return 5
+
+
+def check_compact_cert_payload(payload: dict, expected_mode: str) -> dict:
+    require(payload.get("schema_version") == 1, "compact schema version")
+    require(payload.get("mode") == expected_mode, "compact mode")
+    require(payload.get("complete") is True, "compact complete")
+    require(payload.get("proof_complete") is False, "compact not proof complete")
+    require(payload.get("bundle_kind") == "pilot", "compact pilot bundle")
+    blob_info = payload["blob"]
+    require(blob_info["encoding"] == "base64", "compact encoding")
+    blob_path = REPO_ROOT / blob_info["path"]
+    text = blob_path.read_text(encoding="ascii")
+    decoded = decode_compact_blob_text(text)
+    require(decoded["kind"] == "pilot", "decoded compact kind")
+    require(decoded["pilot_limit"] == payload["pilot_limit"],
+            "decoded compact limit")
+    require(decoded["raw_bytes"] == blob_info["raw_bytes"],
+            "decoded raw bytes")
+    require(decoded["sha256"] == blob_info["sha256"],
+            "decoded sha256")
+    counts = payload["coverage_counts"]
+    require(counts["nonidentity_terminals"] == len(decoded["nonidentity_ranks"]),
+            "compact nonidentity count")
+    require(counts["translation_terminals"] == len(decoded["translation_cases"]),
+            "compact translation count")
+    require(counts["total_terminals"] == decoded["pilot_limit"],
+            "compact total count")
+    require(
+        payload["pilot_slice"]["first_nonidentity_ranks"]
+        == decoded["nonidentity_ranks"][:10],
+        "compact nonidentity slice",
+    )
+    require(
+        payload["pilot_slice"]["first_translation_cases"]
+        == decoded["translation_cases"][:10],
+        "compact translation slice",
+    )
+    backend = payload["backend_evaluation"]
+    require(backend["uses_native_decide"] is False,
+            "compact backend no native_decide")
+    require(backend["compact_source_plus_blob_bytes"] > 0,
+            "compact bytes positive")
+    if expected_mode == "compact-cert-pilot":
+        require(
+            backend["selected_backend"] == "generated_lean_fallback",
+            "pilot fallback backend",
+        )
+        require(
+            "compact_pilot_does_not_semantically_reconstruct_every_terminal_certificate"
+            in backend["failure_reasons"],
+            "pilot semantic fallback reason",
+        )
+    malformed = check_compact_malformed_tests()
+    return {
+        "pilot_limit": decoded["pilot_limit"],
+        "nonidentity_terminals": len(decoded["nonidentity_ranks"]),
+        "translation_terminals": len(decoded["translation_cases"]),
+        "blob_bytes": blob_info["bytes"],
+        "selected_backend": backend["selected_backend"],
+        "malformed_tests": malformed,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -2996,6 +3223,8 @@ def main():
             "compression-audit",
             "aggregate-compression-profile",
             "prefix-parametric-compression",
+            "compact-cert-sample",
+            "compact-cert-pilot",
             "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
@@ -3058,6 +3287,7 @@ def main():
             "exhaustive-real-certs/compression-audit/"
             "aggregate-compression-profile/"
             "prefix-parametric-compression/"
+            "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
         )
@@ -3179,6 +3409,27 @@ def main():
             f"{summary['nonidentity_residual_singletons']:,}"
         )
         print(f"translation shared Farkas: {summary['translation_shared_farkas']:,}")
+        return
+    if mode == "compact-cert-sample":
+        payload = json.loads(COMPACT_CERT_SAMPLE_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_compact_cert_payload(payload, "compact-cert-sample")
+        print("independent compact certificate sample check passed")
+        print(f"terminals: {summary['pilot_limit']:,}")
+        print(f"blob bytes: {summary['blob_bytes']:,}")
+        print(f"malformed tests: {summary['malformed_tests']}")
+        return
+    if mode == "compact-cert-pilot":
+        payload = json.loads(COMPACT_CERT_PILOT_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_compact_cert_payload(payload, "compact-cert-pilot")
+        if args.limit is not None:
+            require(summary["pilot_limit"] == args.limit,
+                    "compact pilot limit matches --limit")
+        print("independent compact certificate pilot check passed")
+        print(f"terminals: {summary['pilot_limit']:,}")
+        print(f"nonidentity terminals: {summary['nonidentity_terminals']:,}")
+        print(f"translation terminals: {summary['translation_terminals']:,}")
+        print(f"selected backend: {summary['selected_backend']}")
+        print(f"malformed tests: {summary['malformed_tests']}")
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

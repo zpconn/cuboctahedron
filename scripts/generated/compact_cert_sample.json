@@ -1,0 +1,44 @@
+{
+  "backend_evaluation": {
+    "compact_source_plus_blob_bytes": 4124,
+    "failure_reasons": [
+      "sample_mode_is_not_a_backend_selection"
+    ],
+    "generated_lean_equivalent_bytes": 1024,
+    "selected_backend": "sample_only",
+    "size_ratio": 0.24830261881668284,
+    "trusted_lean_check": true,
+    "uses_native_decide": false
+  },
+  "blob": {
+    "bytes": 28,
+    "encoding": "base64",
+    "magic": "COCB",
+    "path": "certs/compact_cert_sample.b64",
+    "raw_bytes": 19,
+    "schema_version": 1,
+    "sha256": "3b1200fe393016d988aabc23eb67489abd7880dd48e693923ca6e3c872469b13"
+  },
+  "bundle_kind": "pilot",
+  "complete": true,
+  "coverage_counts": {
+    "nonidentity_terminals": 1,
+    "total_terminals": 2,
+    "translation_terminals": 1
+  },
+  "mode": "compact-cert-sample",
+  "pilot_limit": 2,
+  "pilot_slice": {
+    "first_nonidentity_ranks": [
+      1
+    ],
+    "first_translation_cases": [
+      {
+        "pair_rank": 0,
+        "sign_mask": 0
+      }
+    ]
+  },
+  "proof_complete": false,
+  "schema_version": 1
+}

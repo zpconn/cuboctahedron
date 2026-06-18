@@ -8,6 +8,7 @@ emits data that Lean and the independent checker verify.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import itertools
 import json
@@ -64,6 +65,16 @@ TRANSLATION_CHUNK_PATH = (
 )
 COVERAGE_MANIFEST_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageManifest.lean"
 ALL_GENERATED_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "AllGenerated.lean"
+COMPACT_PILOT_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CompactPilot.lean"
+CERTS_DIR = REPO_ROOT / "certs"
+COMPACT_CERT_SAMPLE_BLOB_PATH = CERTS_DIR / "compact_cert_sample.b64"
+COMPACT_CERT_PILOT_BLOB_PATH = CERTS_DIR / "compact_cert_pilot.b64"
+COMPACT_CERT_SAMPLE_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compact_cert_sample.json"
+)
+COMPACT_CERT_PILOT_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compact_cert_pilot.json"
+)
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -4810,6 +4821,236 @@ def write_compression_audit_json(payload: dict, output: Path) -> None:
     )
 
 
+def encode_uvarint(value: int) -> bytes:
+    if value < 0:
+        raise ValueError("varint cannot encode negative values")
+    out = bytearray()
+    while value >= 0x80:
+        out.append((value & 0x7F) | 0x80)
+        value >>= 7
+    out.append(value)
+    return bytes(out)
+
+
+def compact_section_table_blob(
+    *,
+    pilot_limit: int,
+    nonidentity_ranks: list[int],
+    translation_cases: list[dict],
+    bundle_kind: int = 1,
+) -> bytes:
+    sections: list[tuple[int, bytes]] = []
+    sections.append((1, encode_uvarint(pilot_limit)))
+    nonid_payload = bytearray(encode_uvarint(len(nonidentity_ranks)))
+    for rank in nonidentity_ranks:
+        nonid_payload.extend(encode_uvarint(rank))
+    sections.append((2, bytes(nonid_payload)))
+    translation_payload = bytearray(encode_uvarint(len(translation_cases)))
+    for case in translation_cases:
+        translation_payload.extend(encode_uvarint(int(case["pair_rank"])))
+        translation_payload.extend(encode_uvarint(int(case["sign_mask"])))
+    sections.append((3, bytes(translation_payload)))
+
+    header = bytearray(b"COCB")
+    header.append(1)
+    header.append(bundle_kind)
+    header.extend(encode_uvarint(len(sections)))
+    for section_id, payload in sections:
+        header.extend(encode_uvarint(section_id))
+        header.extend(encode_uvarint(len(payload)))
+    for _section_id, payload in sections:
+        header.extend(payload)
+    return bytes(header)
+
+
+def compact_blob_text(blob: bytes) -> str:
+    return base64.b64encode(blob).decode("ascii")
+
+
+def compact_blob_sha256(blob: bytes) -> str:
+    return hashlib.sha256(blob).hexdigest()
+
+
+def compact_sample_cases() -> tuple[list[int], list[dict]]:
+    return [1], [{"pair_rank": 0, "sign_mask": 0}]
+
+
+def compact_pilot_cases(limit: int) -> tuple[list[int], list[dict]]:
+    nonidentity_ranks: list[int] = []
+    translation_cases: list[dict] = []
+    terminal_count = 0
+    rank = 0
+    identity = mat_id()
+    while terminal_count < limit:
+        word = pair_word_at_rank(rank)
+        if total_linear(word) == identity:
+            for mask in range(64):
+                if terminal_count >= limit:
+                    break
+                translation_cases.append({"pair_rank": rank, "sign_mask": mask})
+                terminal_count += 1
+        else:
+            nonidentity_ranks.append(rank)
+            terminal_count += 1
+        rank += 1
+    return nonidentity_ranks, translation_cases
+
+
+def write_compact_pilot_lean(blob_path: Path) -> None:
+    relative_parts = ['".."', '".."', '"certs"', f'"{blob_path.name}"']
+    include_path = "/".join(relative_parts)
+    COMPACT_PILOT_LEAN_PATH.write_text(
+        "import Cuboctahedron.Generated.NonIdentity.Chunk0000\n"
+        "import Cuboctahedron.Generated.Translation.Chunk0000\n"
+        "import Cuboctahedron.Search.CertificateChecker\n\n"
+        "/-!\n"
+        "Generated compact certificate pilot wrapper for Step 14E.6D.\n"
+        "This wrapper includes and decodes the tiny sample blob, then checks a\n"
+        "semantic sample bundle built from existing generated sample chunks.  The\n"
+        "100k compact pilot is independently decoded and benchmarked by the\n"
+        "external checker; it is not an exhaustive coverage witness.\n"
+        "-/\n\n"
+        "namespace Cuboctahedron.Generated\n\n"
+        f"def compactPilotBlob : String := include_str {include_path}\n\n"
+        "def compactPilotDecoded : Except DecodeError CertBundle :=\n"
+        "  decodeCertBlob compactPilotBlob\n\n"
+        "noncomputable def compactPilotBundle : CertBundle :=\n"
+        "  { kind := BundleKind.pilot\n"
+        "    schemaVersion := 1\n"
+        "    pilotLimit := 2\n"
+        "    nonidentityRanks := #[1]\n"
+        "    translationCases := #[{ pairRank := 0, signMask := 0 }]\n"
+        "    sampleNonidentityRanks := #[1]\n"
+        "    sampleTranslationCases := #[{ pairRank := 0, signMask := 0 }]\n"
+        "    sampleNonidentityCerts := NonIdentity.Chunk0000.certs\n"
+        "    sampleTranslationCerts := Translation.Chunk0000.certs }\n\n"
+        "noncomputable def compactPilotCheck : Bool :=\n"
+        "  checkPilotCertBundle compactPilotBundle\n\n"
+        "theorem compactPilotCheck_true : compactPilotCheck = true := by\n"
+        "  have hNonId :\n"
+        "      checkNonIdCoveredRankList [1]\n"
+        "        NonIdentity.Chunk0000.certs.toList = true := by\n"
+        "    simp [NonIdentity.Chunk0000.certs, NonIdentity.Chunk0000.chunk,\n"
+        "      SmallSample.nonIdCerts, checkNonIdCoveredRankList,\n"
+        "      NonIdentity.Chunk0000.nonIdBadDirection000_coveredRank,\n"
+        "      SmallSample.nonIdBadDirection000_check]\n"
+        "  have hTranslation :\n"
+        "      checkTranslationCoveredCaseList\n"
+        "        [{ pairRank := 0, signMask := 0 }]\n"
+        "        Translation.Chunk0000.certs.toList = true := by\n"
+        "    have hCovered :\n"
+        "        checkTranslationCoveredCase { pairRank := 0, signMask := 0 }\n"
+        "          SmallSample.translationBadDirection000 = true := by\n"
+        "      simpa [Translation.Chunk0000.coveredCase000] using\n"
+        "        Translation.Chunk0000.translationBadDirection000_coveredCase\n"
+        "    simp [Translation.Chunk0000.certs, Translation.Chunk0000.chunk,\n"
+        "      SmallSample.translationCerts, checkTranslationCoveredCaseList,\n"
+        "      hCovered,\n"
+        "      SmallSample.translationBadDirection000_check]\n"
+        "  simp [compactPilotCheck, checkPilotCertBundle, compactPilotBundle,\n"
+        "    hNonId, hTranslation]\n\n"
+        "def compactPilotCoverage : PilotGeneratedCoverage compactPilotBundle :=\n"
+        "  checkPilotCertBundle_sound compactPilotCheck_true\n",
+        encoding="utf-8",
+    )
+
+
+def compact_payload(
+    *,
+    mode: str,
+    limit: int,
+    blob_path: Path,
+    nonidentity_ranks: list[int],
+    translation_cases: list[dict],
+) -> dict:
+    blob = compact_section_table_blob(
+        pilot_limit=len(nonidentity_ranks) + len(translation_cases),
+        nonidentity_ranks=nonidentity_ranks,
+        translation_cases=translation_cases,
+    )
+    blob_text = compact_blob_text(blob)
+    blob_path.parent.mkdir(parents=True, exist_ok=True)
+    blob_path.write_text(blob_text, encoding="ascii")
+    generated_lean_equivalent_bytes = max(1, limit) * 512
+    compact_total_bytes = len(blob_text) + 4096
+    size_ratio = generated_lean_equivalent_bytes / compact_total_bytes
+    selected_backend = "generated_lean_fallback"
+    failure_reasons = [
+        "compact_pilot_does_not_semantically_reconstruct_every_terminal_certificate",
+        "full_bundle_checker_not_enabled_until_step_14E7",
+    ]
+    if mode == "compact-cert-sample":
+        selected_backend = "sample_only"
+        failure_reasons = ["sample_mode_is_not_a_backend_selection"]
+    return {
+        "schema_version": 1,
+        "mode": mode,
+        "complete": True,
+        "proof_complete": False,
+        "bundle_kind": "pilot",
+        "pilot_limit": len(nonidentity_ranks) + len(translation_cases),
+        "coverage_counts": {
+            "nonidentity_terminals": len(nonidentity_ranks),
+            "translation_terminals": len(translation_cases),
+            "total_terminals": len(nonidentity_ranks) + len(translation_cases),
+        },
+        "blob": {
+            "path": str(blob_path.relative_to(REPO_ROOT)),
+            "bytes": len(blob_text),
+            "raw_bytes": len(blob),
+            "sha256": compact_blob_sha256(blob),
+            "encoding": "base64",
+            "magic": "COCB",
+            "schema_version": 1,
+        },
+        "pilot_slice": {
+            "first_nonidentity_ranks": nonidentity_ranks[:10],
+            "first_translation_cases": translation_cases[:10],
+        },
+        "backend_evaluation": {
+            "generated_lean_equivalent_bytes": generated_lean_equivalent_bytes,
+            "compact_source_plus_blob_bytes": compact_total_bytes,
+            "size_ratio": size_ratio,
+            "trusted_lean_check": mode == "compact-cert-sample",
+            "uses_native_decide": False,
+            "selected_backend": selected_backend,
+            "failure_reasons": failure_reasons,
+        },
+    }
+
+
+def build_compact_cert_sample_payload() -> dict:
+    nonidentity_ranks, translation_cases = compact_sample_cases()
+    payload = compact_payload(
+        mode="compact-cert-sample",
+        limit=len(nonidentity_ranks) + len(translation_cases),
+        blob_path=COMPACT_CERT_SAMPLE_BLOB_PATH,
+        nonidentity_ranks=nonidentity_ranks,
+        translation_cases=translation_cases,
+    )
+    write_compact_pilot_lean(COMPACT_CERT_SAMPLE_BLOB_PATH)
+    return payload
+
+
+def build_compact_cert_pilot_payload(limit: int) -> dict:
+    if limit < 0:
+        raise ValueError("--limit must be nonnegative")
+    nonidentity_ranks, translation_cases = compact_pilot_cases(limit)
+    return compact_payload(
+        mode="compact-cert-pilot",
+        limit=limit,
+        blob_path=COMPACT_CERT_PILOT_BLOB_PATH,
+        nonidentity_ranks=nonidentity_ranks,
+        translation_cases=translation_cases,
+    )
+
+
+def write_compact_json(payload: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
@@ -4828,6 +5069,8 @@ def main() -> None:
             "compression-audit",
             "aggregate-compression-profile",
             "prefix-parametric-compression",
+            "compact-cert-sample",
+            "compact-cert-pilot",
         ],
         help="generation mode",
     )
@@ -4835,6 +5078,12 @@ def main() -> None:
         "--profile-limit",
         type=int,
         help="development-only limit for profile-exhaustive-states",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=100_000,
+        help="case limit for compact-cert-pilot",
     )
     parser.add_argument(
         "--profile-output",
@@ -4918,7 +5167,8 @@ def main() -> None:
             "canonical-coverage-manifest/coverage-tree-sample/"
             "nonidentity-family-sample/translation-family-sample/"
             "exhaustive-real-certs/compression-audit/"
-            "aggregate-compression-profile/prefix-parametric-compression"
+            "aggregate-compression-profile/prefix-parametric-compression/"
+            "compact-cert-sample/compact-cert-pilot"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -5008,6 +5258,28 @@ def main() -> None:
         print(f"decision: {payload['decision']['status']}")
         print(f"recommendation: {payload['decision']['recommendation']}")
         print(f"json: {args.prefix_parametric_output}")
+        return
+    if mode == "compact-cert-sample":
+        payload = build_compact_cert_sample_payload()
+        write_compact_json(payload, COMPACT_CERT_SAMPLE_JSON_PATH)
+        print("generated compact certificate sample")
+        print(f"terminals: {payload['coverage_counts']['total_terminals']:,}")
+        print(f"blob bytes: {payload['blob']['bytes']:,}")
+        print(f"json: {COMPACT_CERT_SAMPLE_JSON_PATH}")
+        return
+    if mode == "compact-cert-pilot":
+        if args.limit < 0:
+            parser.error("--limit must be nonnegative")
+        payload = build_compact_cert_pilot_payload(args.limit)
+        write_compact_json(payload, COMPACT_CERT_PILOT_JSON_PATH)
+        print("generated compact certificate pilot")
+        print(f"terminals: {payload['coverage_counts']['total_terminals']:,}")
+        print(f"blob bytes: {payload['blob']['bytes']:,}")
+        print(
+            "selected backend: "
+            f"{payload['backend_evaluation']['selected_backend']}"
+        )
+        print(f"json: {COMPACT_CERT_PILOT_JSON_PATH}")
         return
     if mode == "canonical-symmetry-sample":
         payload = build_canonical_payload()
