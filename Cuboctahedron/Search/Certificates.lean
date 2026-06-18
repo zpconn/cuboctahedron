@@ -629,6 +629,20 @@ theorem checkNonIdCoveredRank_sound
     simpa [hrank] using hcheck
   · simp [hrank] at hcheck
 
+theorem checkNonIdCoveredRank_word
+    {r : Fin numPairWords} {cert : NonIdCert}
+    (hcheck : checkNonIdCoveredRank r.val cert = true) :
+    cert.word = unrankPairWord r := by
+  rcases checkNonIdCoveredRank_sound hcheck with ⟨hrank, hlex⟩
+  have hfin : (⟨r.val, hrank⟩ : Fin numPairWords) = r := by
+    apply Fin.ext
+    rfl
+  have hlexR : pairWordLexRank? cert.word = some r := by
+    simpa [hfin] using hlex
+  have hrankR : rankPairWord? cert.word = some r := by
+    simpa [← pairWordLexRank?_eq_rankPairWord? cert.word] using hlexR
+  exact (rankPairWord?_eq_some_iff_unrank cert.word r).mp hrankR
+
 theorem checkNonIdCoveredRankList_sound
     {ranks : List Nat} {certs : List NonIdCert}
     (hcheck : checkNonIdCoveredRankList ranks certs = true) :
@@ -1887,6 +1901,27 @@ theorem checkTranslationCoveredCase_sound
       exact hparts
     · simp [hrank, hmask] at hcheck
   · simp [hrank] at hcheck
+
+theorem checkTranslationCoveredCase_word_mask
+    {r : Fin numPairWords} {mask : SignMask} {cert : TranslationCert}
+    (hcheck :
+      checkTranslationCoveredCase
+        { pairRank := r.val, signMask := mask.val } cert = true) :
+    cert.word = unrankPairWord r /\ cert.signMask = mask := by
+  rcases checkTranslationCoveredCase_sound hcheck with
+    ⟨hrank, hmask, hlex, hmaskEq⟩
+  have hfin : (⟨r.val, hrank⟩ : Fin numPairWords) = r := by
+    apply Fin.ext
+    rfl
+  have hmaskFin : (⟨mask.val, hmask⟩ : SignMask) = mask := by
+    apply Fin.ext
+    rfl
+  have hlexR : pairWordLexRank? cert.word = some r := by
+    simpa [hfin] using hlex
+  have hrankR : rankPairWord? cert.word = some r := by
+    simpa [← pairWordLexRank?_eq_rankPairWord? cert.word] using hlexR
+  exact ⟨(rankPairWord?_eq_some_iff_unrank cert.word r).mp hrankR,
+    by simpa [hmaskFin] using hmaskEq⟩
 
 theorem checkTranslationCoveredCaseList_sound
     {coveredCases : List GeneratedTranslationCase}

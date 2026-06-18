@@ -2240,11 +2240,6 @@ def check_exhaustive_real_certs_summary(payload):
             emission["refusal_reasons"],
             "fallback emitter missing reason",
         )
-        require(
-            "lex_rank_public_unrank_bridge_not_implemented" in
-            emission["refusal_reasons"],
-            "lex rank bridge missing reason",
-        )
     if emission["status"] == "refused_budget_exceeded":
         require(
             estimate["estimated_lean_bytes"] >

@@ -205,25 +205,289 @@ theorem pairCountsDecrement_total
     List.all_eq_true.mp hpAll p hpMem
   exact (of_decide_eq_true hp) hpos
 
-def pairWordLexRankAux
-    (w : PairWord) (pos : Nat) : Nat -> PairCounts -> Nat
-  | 0, _ => 0
-  | fuel + 1, counts =>
-      if h : pos < 13 then
-        let current := w.get ⟨pos, h⟩
-        let smallerCount :=
-          ((pairIdsInLexOrder.filter fun p =>
-              decide (pairIdLexCode p < pairIdLexCode current /\
-                0 < counts.get p)).map fun p =>
-                pairWordLexBlockCount (counts.decrement p)).sum
-        smallerCount +
-          pairWordLexRankAux w (pos + 1) fuel
-            (counts.decrement current)
+theorem pairCountsDecrement_mem
+    {counts : PairCounts}
+    (hmem : counts ∈ pairCountsCandidateList)
+    {p : PairId}
+    (hpos : 0 < counts.get p) :
+    counts.decrement p ∈ pairCountsCandidateList := by
+  cases counts with
+  | mk x y z d111 d11m d1m1 dm11 =>
+      cases p <;>
+        simp [pairCountsCandidateList, PairCounts.get,
+          PairCounts.decrement] at hmem hpos ⊢ <;>
+        omega
+
+structure LexSelection where
+  pair : PairId
+  offset : Nat
+  rest : Nat
+  block : Nat
+deriving DecidableEq, Repr
+
+def pairWordLexBlockOffsetFrom
+    (target : PairId) : List (PairId × Nat) -> Nat
+  | [] => 0
+  | (p, block) :: blocks =>
+      if p = target then 0
+      else block + pairWordLexBlockOffsetFrom target blocks
+
+def pairWordLexSmallerCount (counts : PairCounts) (p : PairId) : Nat :=
+  pairWordLexBlockOffsetFrom p (pairWordLexFirstStepBlocks counts)
+
+def selectBlockFrom
+    (offset : Nat) : List (PairId × Nat) -> Nat -> Option LexSelection
+  | [], _ => none
+  | (p, block) :: blocks, rank =>
+      if _h : rank < block then
+        some { pair := p, offset := offset, rest := rank, block := block }
       else
-        0
+        selectBlockFrom (offset + block) blocks (rank - block)
+
+def pairWordLexSelect (counts : PairCounts) (rank : Nat) :
+    Option LexSelection :=
+  selectBlockFrom 0 (pairWordLexFirstStepBlocks counts) rank
+
+lemma selectBlockFrom_some_of_lt_sum
+    {blocks : List (PairId × Nat)} {offset rank : Nat}
+    (h : rank < (blocks.map Prod.snd).sum) :
+    exists sel, selectBlockFrom offset blocks rank = some sel := by
+  induction blocks generalizing offset rank with
+  | nil =>
+      simp at h
+  | cons head tail ih =>
+      rcases head with ⟨p, block⟩
+      simp [selectBlockFrom] at h ⊢
+      by_cases hrank : rank < block
+      · let sel : LexSelection := { pair := p, offset := offset, rest := rank, block := block }
+        refine ⟨sel, ?_⟩
+        simp [hrank, sel]
+      · have htail : rank - block < (tail.map Prod.snd).sum := by
+          omega
+        rcases ih (offset := offset + block) htail with ⟨sel, hsel⟩
+        exact ⟨sel, by simp [hrank, hsel]⟩
+
+lemma selectBlockFrom_sound
+    {blocks : List (PairId × Nat)} {offset rank : Nat}
+    {sel : LexSelection}
+    (hsel : selectBlockFrom offset blocks rank = some sel) :
+    offset + rank = sel.offset + sel.rest ∧
+      sel.rest < sel.block ∧ (sel.pair, sel.block) ∈ blocks := by
+  induction blocks generalizing offset rank with
+  | nil =>
+      simp [selectBlockFrom] at hsel
+  | cons head tail ih =>
+      rcases head with ⟨p, block⟩
+      simp [selectBlockFrom] at hsel ⊢
+      by_cases hrank : rank < block
+      · simp [hrank] at hsel
+        subst sel
+        simp [hrank]
+      · simp [hrank] at hsel
+        have hs := ih hsel
+        constructor
+        · omega
+        · exact ⟨hs.2.1, Or.inr hs.2.2⟩
+
+lemma selectBlockFrom_offset_eq
+    {blocks : List (PairId × Nat)} {offset rank : Nat}
+    {sel : LexSelection}
+    (hnodup : (blocks.map Prod.fst).Nodup)
+    (hsel : selectBlockFrom offset blocks rank = some sel) :
+    sel.offset = offset + pairWordLexBlockOffsetFrom sel.pair blocks := by
+  induction blocks generalizing offset rank with
+  | nil =>
+      simp [selectBlockFrom] at hsel
+  | cons head tail ih =>
+      rcases head with ⟨p, block⟩
+      have hparts :
+          p ∉ tail.map Prod.fst ∧ (tail.map Prod.fst).Nodup := by
+        simpa using hnodup
+      have hnotMem : p ∉ tail.map Prod.fst := hparts.1
+      have hnodupTail : (tail.map Prod.fst).Nodup := hparts.2
+      simp [selectBlockFrom] at hsel
+      by_cases hrank : rank < block
+      · simp [hrank] at hsel
+        subst sel
+        simp [pairWordLexBlockOffsetFrom]
+      · simp [hrank] at hsel
+        have hrec := ih hnodupTail hsel
+        have hs := selectBlockFrom_sound hsel
+        have hmemTail : sel.pair ∈ tail.map Prod.fst :=
+          List.mem_map_of_mem hs.2.2
+        have hpne : p ≠ sel.pair := by
+          intro hp
+          exact hnotMem (by simpa [hp] using hmemTail)
+        simp [pairWordLexBlockOffsetFrom, hpne]
+        omega
+
+theorem pairWordLexFirstStepBlocks_nodup (counts : PairCounts) :
+    ((pairWordLexFirstStepBlocks counts).map Prod.fst).Nodup := by
+  rw [show (pairWordLexFirstStepBlocks counts).map Prod.fst =
+      pairIdsInLexOrder.filter fun p => decide (0 < counts.get p) by
+    simp [pairWordLexFirstStepBlocks, Function.comp_def]]
+  apply List.Nodup.filter
+  simp [pairIdsInLexOrder]
+
+theorem pairWordLexFirstStepBlocks_mem
+    {counts : PairCounts} {p : PairId} {block : Nat}
+    (hmem : (p, block) ∈ pairWordLexFirstStepBlocks counts) :
+    0 < counts.get p ∧
+      block = pairWordLexBlockCount (counts.decrement p) := by
+  simp [pairWordLexFirstStepBlocks] at hmem
+  exact ⟨hmem.1.2, hmem.2.symm⟩
+
+def vectorSingleton (p : PairId) : Vector PairId 1 :=
+  Vector.ofFn fun _ => p
+
+def vectorCons {n : Nat}
+    (p : PairId) (xs : Vector PairId n) : Vector PairId (n + 1) :=
+  Vector.cast (by omega) (vectorSingleton p ++ xs)
+
+def vectorTail {n : Nat}
+    (xs : Vector PairId (n + 1)) : Vector PairId n :=
+  Vector.ofFn fun i : Fin n => xs[i.val + 1]
+
+@[simp] theorem vectorCons_zero
+    {n : Nat} (p : PairId) (xs : Vector PairId n) :
+    (vectorCons p xs)[0] = p := by
+  unfold vectorCons vectorSingleton
+  rw [Vector.getElem_cast]
+  rw [Vector.getElem_append_left (hi := by omega)]
+  simp
+
+@[simp] theorem vectorCons_succ
+    {n : Nat} (p : PairId) (xs : Vector PairId n) (i : Fin n) :
+    (vectorCons p xs)[i.val + 1] = xs[i.val] := by
+  unfold vectorCons vectorSingleton
+  rw [Vector.getElem_cast]
+  rw [Vector.getElem_append_right]
+  · simp
+  · omega
+
+theorem vectorTail_vectorCons
+    {n : Nat} (p : PairId) (xs : Vector PairId n) :
+    vectorTail (vectorCons p xs) = xs := by
+  apply Vector.ext
+  intro i hi
+  unfold vectorTail
+  simp only [Vector.getElem_ofFn]
+  exact vectorCons_succ p xs ⟨i, hi⟩
+
+theorem vectorCons_head_tail
+    {n : Nat} (xs : Vector PairId (n + 1)) :
+    vectorCons xs[0] (vectorTail xs) = xs := by
+  apply Vector.ext
+  intro i hi
+  cases i with
+  | zero =>
+      simp [vectorTail]
+  | succ j =>
+      have hj : j < n := by omega
+      simpa [vectorTail] using
+        (show (vectorCons xs[0] (vectorTail xs))[j + 1] =
+            (vectorTail xs)[j] from
+          vectorCons_succ xs[0] (vectorTail xs) ⟨j, hj⟩)
+
+@[simp] theorem vectorSingleton_count (p q : PairId) :
+    (vectorSingleton p).count q = if p == q then 1 else 0 := by
+  unfold vectorSingleton
+  cases p <;> cases q <;> decide
+
+@[simp] theorem vectorCons_count
+    {n : Nat} (p q : PairId) (xs : Vector PairId n) :
+    (vectorCons p xs).count q =
+      (if p == q then 1 else 0) + xs.count q := by
+  unfold vectorCons
+  simp [Vector.count_append]
+
+set_option maxRecDepth 10000 in
+theorem vector_count_eq_card_get
+    {n : Nat} (v : Vector PairId n) (p : PairId) :
+    v.count p = Fintype.card { i : Fin n // v[i] = p } := by
+  induction n with
+  | zero =>
+      cases v with
+      | mk arr h =>
+          have harr : arr = #[] := Array.eq_empty_of_size_eq_zero h
+          subst arr
+          rw [Fintype.card_subtype]
+          simp [Vector.count]
+  | succ n ih =>
+      rw [← vectorCons_head_tail v]
+      rw [vectorCons_count]
+      rw [Fintype.card_subtype]
+      rw [Fin.card_filter_univ_succ']
+      simp [vectorCons_succ]
+      have htail :
+          (vectorTail v).count p =
+            (Finset.univ.filter
+              (fun x : Fin n => (vectorTail v)[x] = p)).card := by
+        simpa [Fintype.card_subtype] using ih (vectorTail v)
+      rw [htail]
+      by_cases h : v[0] = p <;> simp [h]
+
+theorem pairCount_eq_vector_count (w : PairWord) (p : PairId) :
+    pairCount p w = w.count p := by
+  unfold pairCount
+  rw [vector_count_eq_card_get]
+  rfl
+
+@[simp] theorem vectorEmpty_count (p : PairId) :
+    (Vector.ofFn fun i : Fin 0 => nomatch i).count p = 0 := by
+  rw [vector_count_eq_card_get]
+  simp
+
+def PairCounts.MatchesVector
+    {n : Nat} (counts : PairCounts) (w : Vector PairId n) : Prop :=
+  w.count PairId.x = counts.x ∧
+    w.count PairId.y = counts.y ∧
+      w.count PairId.z = counts.z ∧
+        w.count PairId.d111 = counts.d111 ∧
+          w.count PairId.d11m = counts.d11m ∧
+            w.count PairId.d1m1 = counts.d1m1 ∧
+              w.count PairId.dm11 = counts.dm11
+
+theorem PairCounts.matchesVector_cons
+    {n : Nat} {counts : PairCounts} {p : PairId}
+    {xs : Vector PairId n}
+    (hpos : 0 < counts.get p)
+    (hmatch : (counts.decrement p).MatchesVector xs) :
+    counts.MatchesVector (vectorCons p xs) := by
+  cases counts with
+  | mk x y z d111 d11m d1m1 dm11 =>
+      cases p <;>
+        simp [PairCounts.MatchesVector, PairCounts.get,
+          PairCounts.decrement] at hpos hmatch ⊢ <;>
+        omega
+
+theorem PairCounts.matchesVector_valid
+    {w : PairWord}
+    (hmatch : PairCounts.initial.MatchesVector w) :
+    ValidPairWord w := by
+  rw [ValidPairWord]
+  rw [pairCount_eq_vector_count, pairCount_eq_vector_count,
+    pairCount_eq_vector_count, pairCount_eq_vector_count,
+    pairCount_eq_vector_count, pairCount_eq_vector_count,
+    pairCount_eq_vector_count]
+  simpa [PairCounts.MatchesVector, PairCounts.initial] using hmatch
+
+def pairWordLexRankVectorAux :
+    {n : Nat} -> Vector PairId n -> PairCounts -> Nat
+  | 0, _w, _counts => 0
+  | n + 1, w, counts =>
+      let current := w[0]
+      pairWordLexSmallerCount counts current +
+        pairWordLexRankVectorAux (vectorTail w)
+          (counts.decrement current)
+
+def pairWordLexRankAux
+    (w : PairWord) (_pos : Nat) (_fuel : Nat) (counts : PairCounts) :
+    Nat :=
+  pairWordLexRankVectorAux w counts
 
 def pairWordLexRank (w : PairWord) : Nat :=
-  pairWordLexRankAux w 0 13 PairCounts.initial
+  pairWordLexRankVectorAux w PairCounts.initial
 
 def pairWordLexRank? (w : PairWord) : Option (Fin numPairWords) :=
   if ValidPairWord w then
@@ -1329,59 +1593,240 @@ theorem validPairWord_card :
     Fintype.card ValidPairWordSubtype = numPairWords := by
   simpa [numPairWords] using validPairWord_card_literal
 
+def pairWordLexUnrankVectorAux :
+    (fuel : Nat) -> PairCounts -> Nat -> Vector PairId fuel
+  | 0, _counts, _rank =>
+      Vector.ofFn fun i : Fin 0 => nomatch i
+  | fuel + 1, counts, rank =>
+      match pairWordLexSelect counts rank with
+      | some sel =>
+          vectorCons sel.pair
+            (pairWordLexUnrankVectorAux fuel
+              (counts.decrement sel.pair) sel.rest)
+      | none =>
+          vectorCons PairId.x
+            (pairWordLexUnrankVectorAux fuel counts 0)
+
+theorem pairWordLexUnrankVectorAux_sound :
+    ∀ (fuel : Nat) (counts : PairCounts) (rank : Nat),
+      counts ∈ pairCountsCandidateList ->
+      counts.total = fuel ->
+      rank < pairWordLexBlockCount counts ->
+        counts.MatchesVector
+          (pairWordLexUnrankVectorAux fuel counts rank) ∧
+        pairWordLexRankVectorAux
+          (pairWordLexUnrankVectorAux fuel counts rank) counts = rank := by
+  intro fuel
+  induction fuel with
+  | zero =>
+      intro counts rank hmem htotal hrank
+      constructor
+      · cases counts with
+        | mk x y z d111 d11m d1m1 dm11 =>
+            simp [PairCounts.total] at htotal
+            have hx : x = 0 := by omega
+            have hy : y = 0 := by omega
+            have hz : z = 0 := by omega
+            have hd111 : d111 = 0 := by omega
+            have hd11m : d11m = 0 := by omega
+            have hd1m1 : d1m1 = 0 := by omega
+            have hdm11 : dm11 = 0 := by omega
+            subst x
+            subst y
+            subst z
+            subst d111
+            subst d11m
+            subst d1m1
+            subst dm11
+            simp [PairCounts.MatchesVector, pairWordLexUnrankVectorAux]
+      · cases counts with
+        | mk x y z d111 d11m d1m1 dm11 =>
+            simp [PairCounts.total] at htotal
+            have hx : x = 0 := by omega
+            have hy : y = 0 := by omega
+            have hz : z = 0 := by omega
+            have hd111 : d111 = 0 := by omega
+            have hd11m : d11m = 0 := by omega
+            have hd1m1 : d1m1 = 0 := by omega
+            have hdm11 : dm11 = 0 := by omega
+            subst x
+            subst y
+            subst z
+            subst d111
+            subst d11m
+            subst d1m1
+            subst dm11
+            norm_num [pairWordLexBlockCount, PairCounts.total,
+              pairWordLexUnrankVectorAux, pairWordLexRankVectorAux]
+              at hrank ⊢
+            omega
+  | succ fuel ih =>
+      intro counts rank hmem htotal hrank
+      have htotalPos : 0 < counts.total := by omega
+      have hblocks :
+          pairWordLexFirstStepBlockTotal counts =
+            pairWordLexBlockCount counts :=
+        pairCountsFirstStepRecurrence_of_mem hmem htotalPos
+      have hrankBlocks :
+          rank < ((pairWordLexFirstStepBlocks counts).map Prod.snd).sum := by
+        have hfirst : rank < pairWordLexFirstStepBlockTotal counts := by
+          simpa [hblocks] using hrank
+        simpa [pairWordLexFirstStepBlockTotal] using hfirst
+      rcases selectBlockFrom_some_of_lt_sum
+          (offset := 0) hrankBlocks with ⟨sel, hsel⟩
+      have hsound := selectBlockFrom_sound hsel
+      have hoffset := selectBlockFrom_offset_eq
+        (pairWordLexFirstStepBlocks_nodup counts) hsel
+      have hmemBlock := hsound.2.2
+      have hblockData :=
+        pairWordLexFirstStepBlocks_mem hmemBlock
+      have hpos : 0 < counts.get sel.pair := hblockData.1
+      have hblockEq :
+          sel.block =
+            pairWordLexBlockCount (counts.decrement sel.pair) :=
+        hblockData.2
+      have hmemDec :
+          counts.decrement sel.pair ∈ pairCountsCandidateList :=
+        pairCountsDecrement_mem hmem hpos
+      have htotalDec :
+          (counts.decrement sel.pair).total = fuel := by
+        have hdec := pairCountsDecrement_total hmem hpos
+        omega
+      have hrest :
+          sel.rest <
+            pairWordLexBlockCount (counts.decrement sel.pair) := by
+        simpa [hblockEq] using hsound.2.1
+      have hih := ih (counts.decrement sel.pair) sel.rest
+        hmemDec htotalDec hrest
+      have hselect :
+          pairWordLexSelect counts rank = some sel := by
+        simpa [pairWordLexSelect] using hsel
+      constructor
+      · simp [pairWordLexUnrankVectorAux, hselect]
+        exact PairCounts.matchesVector_cons hpos hih.1
+      · have hsmall :
+            pairWordLexSmallerCount counts sel.pair = sel.offset := by
+          unfold pairWordLexSmallerCount
+          simpa using hoffset.symm
+        have hrankEq : rank = sel.offset + sel.rest := by
+          simpa using hsound.1
+        calc
+          pairWordLexRankVectorAux
+              (pairWordLexUnrankVectorAux (fuel + 1) counts rank)
+              counts
+              =
+              pairWordLexSmallerCount counts sel.pair + sel.rest := by
+                simp [pairWordLexUnrankVectorAux, hselect,
+                  pairWordLexRankVectorAux, vectorTail_vectorCons, hih.2]
+          _ = sel.offset + sel.rest := by
+                rw [hsmall]
+          _ = rank := hrankEq.symm
+
+def pairWordLexUnrank (r : Fin numPairWords) : PairWord :=
+  pairWordLexUnrankVectorAux 13 PairCounts.initial r.val
+
+theorem pairWordLexUnrank_sound (r : Fin numPairWords) :
+    PairCounts.initial.MatchesVector (pairWordLexUnrank r) ∧
+      pairWordLexRank (pairWordLexUnrank r) = r.val := by
+  have hmem : PairCounts.initial ∈ pairCountsCandidateList := by
+    simp [pairCountsCandidateList, PairCounts.initial]
+  have htotal : PairCounts.initial.total = 13 := by
+    norm_num [PairCounts.total, PairCounts.initial]
+  have hblock : pairWordLexBlockCount PairCounts.initial = numPairWords := by
+    norm_num [pairWordLexBlockCount, PairCounts.total,
+      PairCounts.initial, numPairWords]
+  have hrank : r.val < pairWordLexBlockCount PairCounts.initial := by
+    simpa [hblock] using r.isLt
+  simpa [pairWordLexUnrank, pairWordLexRank] using
+    pairWordLexUnrankVectorAux_sound 13 PairCounts.initial r.val
+      hmem htotal hrank
+
 noncomputable def validPairWordEquivFin :
     ValidPairWordSubtype ≃ Fin numPairWords :=
   Fintype.equivFinOfCardEq validPairWord_card
 
-noncomputable def unrankPairWord (r : Fin numPairWords) : PairWord :=
-  ((validPairWordEquivFin).symm r).1
+def unrankPairWord (r : Fin numPairWords) : PairWord :=
+  pairWordLexUnrank r
 
-noncomputable def rankPairWord? (w : PairWord) : Option (Fin numPairWords) :=
-  if h : ValidPairWord w then some (validPairWordEquivFin ⟨w, h⟩) else none
+def rankPairWord? (w : PairWord) : Option (Fin numPairWords) :=
+  pairWordLexRank? w
+
+theorem pairWordLexRank?_eq_rankPairWord? (w : PairWord) :
+    pairWordLexRank? w = rankPairWord? w := rfl
 
 theorem unrankPairWord_valid (r : Fin numPairWords) :
     ValidPairWord (unrankPairWord r) := by
-  unfold unrankPairWord
-  exact ((validPairWordEquivFin).symm r).2
+  exact PairCounts.matchesVector_valid (pairWordLexUnrank_sound r).1
 
 theorem rank_unrank_pairword (r : Fin numPairWords) :
     rankPairWord? (unrankPairWord r) = some r := by
-  unfold rankPairWord? unrankPairWord
-  rw [dif_pos]
-  · rw [Equiv.apply_symm_apply]
-  · exact ((validPairWordEquivFin).symm r).2
+  have hsound := pairWordLexUnrank_sound r
+  unfold rankPairWord? pairWordLexRank?
+  rw [if_pos (unrankPairWord_valid r)]
+  unfold unrankPairWord
+  change
+    (if h : pairWordLexRank (pairWordLexUnrank r) < numPairWords then
+        some ⟨pairWordLexRank (pairWordLexUnrank r), h⟩
+      else
+        none) = some r
+  rw [hsound.2]
+  simp
+
+def unrankValidPairWord (r : Fin numPairWords) :
+    ValidPairWordSubtype :=
+  ⟨unrankPairWord r, unrankPairWord_valid r⟩
+
+theorem unrankValidPairWord_injective :
+    Function.Injective unrankValidPairWord := by
+  intro a b h
+  have hword : unrankPairWord a = unrankPairWord b :=
+    congrArg Subtype.val h
+  have hrank :
+      (some a : Option (Fin numPairWords)) = some b := by
+    rw [← rank_unrank_pairword a, ← rank_unrank_pairword b, hword]
+  simpa using hrank
 
 theorem unrank_rank_pairword
     (w : PairWord) (h : ValidPairWord w) :
     exists r : Fin numPairWords, unrankPairWord r = w := by
-  refine ⟨validPairWordEquivFin ⟨w, h⟩, ?_⟩
-  unfold unrankPairWord
-  exact congrArg Subtype.val
-    (Equiv.symm_apply_apply validPairWordEquivFin ⟨w, h⟩)
+  let f : Fin numPairWords -> Fin numPairWords :=
+    fun r => validPairWordEquivFin (unrankValidPairWord r)
+  have hfInj : Function.Injective f := by
+    intro a b hab
+    apply unrankValidPairWord_injective
+    exact validPairWordEquivFin.injective hab
+  have hfSurj : Function.Surjective f :=
+    (Finite.injective_iff_surjective).mp hfInj
+  rcases hfSurj (validPairWordEquivFin ⟨w, h⟩) with ⟨r, hr⟩
+  refine ⟨r, ?_⟩
+  have hsub :
+      unrankValidPairWord r = (⟨w, h⟩ : ValidPairWordSubtype) := by
+    apply validPairWordEquivFin.injective
+    exact hr
+  exact congrArg Subtype.val hsub
 
 theorem rankPairWord?_some_of_valid
     {w : PairWord} (h : ValidPairWord w) :
     exists r : Fin numPairWords, rankPairWord? w = some r := by
-  refine ⟨validPairWordEquivFin ⟨w, h⟩, ?_⟩
-  simp [rankPairWord?, h]
+  rcases unrank_rank_pairword w h with ⟨r, hr⟩
+  refine ⟨r, ?_⟩
+  rw [← hr]
+  exact rank_unrank_pairword r
 
 theorem rankPairWord?_eq_some_iff_unrank
     (w : PairWord) (r : Fin numPairWords) :
     rankPairWord? w = some r <-> w = unrankPairWord r := by
   constructor
   · intro h
-    unfold rankPairWord? at h
     by_cases hvalid : ValidPairWord w
-    · simp [hvalid] at h
-      unfold unrankPairWord
-      have hsub :
-          (⟨w, hvalid⟩ : ValidPairWordSubtype) =
-            (validPairWordEquivFin).symm r := by
-        apply validPairWordEquivFin.injective
-        rw [Equiv.apply_symm_apply]
-        exact h
-      exact congrArg Subtype.val hsub
-    · simp [hvalid] at h
+    · rcases unrank_rank_pairword w hvalid with ⟨s, hs⟩
+      have hsRank : rankPairWord? w = some s := by
+        rw [← hs]
+        exact rank_unrank_pairword s
+      rw [hsRank] at h
+      injection h with hsr
+      rw [← hs, hsr]
+    · simp [rankPairWord?, pairWordLexRank?, hvalid] at h
   · intro h
     rw [h]
     exact rank_unrank_pairword r
@@ -1389,7 +1834,7 @@ theorem rankPairWord?_eq_some_iff_unrank
 theorem rankPairWord?_none_of_invalid
     {w : PairWord} (h : ¬ ValidPairWord w) :
     rankPairWord? w = none := by
-  simp [rankPairWord?, h]
+  simp [rankPairWord?, pairWordLexRank?, h]
 
 abbrev SignMask := Fin 64
 

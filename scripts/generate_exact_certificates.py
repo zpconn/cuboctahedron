@@ -4364,7 +4364,6 @@ def build_exhaustive_real_certs_summary(
         emission_status = "ready_but_full_emitter_not_implemented"
         refusal_reasons.extend([
             "generated_lean_fallback_emitter_not_implemented",
-            "lex_rank_public_unrank_bridge_not_implemented",
         ])
 
     return {
