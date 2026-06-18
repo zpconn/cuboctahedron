@@ -1032,8 +1032,8 @@ canonical-first:
   witnesses wherever exact normalization proves they are identical.
 
 Flat per-case chunks may be generated only for diagnostics behind an explicit
-`--allow-flat-exhaustive` flag. Complete Steps 14E.1 through 14E.7 before
-starting Step 15.
+`--allow-flat-exhaustive` flag. Complete Steps 14E.1 through 14E.6A and then
+14E.7 before starting Step 15.
 
 ## Step 14E.1: Exhaustive Case-State Profiler
 
@@ -1414,6 +1414,71 @@ lake build
 ```
 
 pass on the compressed generated data.
+
+## Step 14E.6A: Compression Feasibility Audit
+
+Goal: decide whether exhaustive real certificate generation can be made
+GitHub- and CI-friendly by replacing one-certificate-per-canonical-case output
+with reusable proof families.
+
+Do this before Step 14E.7. If Step 14E.6 still estimates generated Lean data
+above the configured repository-size budget, Step 14E.7 must not proceed until
+this audit identifies a smaller representation and updates Step 14E.6 to emit
+that representation.
+
+Update:
+
+```text
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/
+CODEX_EXECUTION_STEPS.md
+README.md
+```
+
+Add generator/checker modes:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compression-audit
+python3 scripts/check_certificates_independently.py --mode compression-audit
+```
+
+Requirements:
+
+- Use exact rational arithmetic only.
+- Consume the Step 14E.1 profile, Step 14E.2/14E.2A canonical coverage
+  manifests, Step 14E.3 prefix-tree summaries, Step 14E.4 nonidentity family
+  summaries, Step 14E.5 translation family summaries, and the Step 14E.6 gated
+  size estimate.
+- Report how many canonical cases are killed by each nonidentity failure
+  family.
+- Report how many translation cases share each normalized constraint system.
+- Report how many translation cases share each normalized sparse Farkas
+  certificate shape.
+- Report how many prefix-tree nodes can replace leaf certificates, split by
+  nonidentity and translation coverage.
+- Estimate generated Lean source size after each compression layer:
+  canonical representatives, prefix trees, nonidentity families, shared
+  translation constraints, shared Farkas witnesses, and the final expected
+  `ExhaustiveGeneratedCoverage` witness.
+- Print explicit thresholds for whether the audited design is expected to fit
+  under 1 GiB, 500 MiB, and 100 MiB of generated Lean source.
+- If the audit cannot plausibly fit under the configured budget, recommend the
+  next required compression layer instead of allowing exhaustive emission.
+- Do not emit trusted Lean completeness theorems. This is a decision gate and
+  sizing proof-of-concept only.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compression-audit
+python3 scripts/check_certificates_independently.py --mode compression-audit
+lake build
+```
+
+pass and the audit summary clearly answers whether the current compressed
+certificate strategy can plausibly fit below 1 GiB, 500 MiB, or 100 MiB before
+Step 14E.7 begins.
 
 ## Step 14E.7: Concrete Exhaustive Coverage Witness
 
