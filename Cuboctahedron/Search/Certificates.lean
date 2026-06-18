@@ -2708,6 +2708,96 @@ theorem checkNonIdCoverageForest_pairRank_sound
   simpa [NonIdCoverageForest.ContainsPairRank, canonicalPairCoverage]
     using hcovered
 
+def checkNonIdParametricFailureMatches
+    (family : NonIdFamilyFailure) (cert : NonIdCert) : Bool :=
+  checkNonIdFamilyFailureMatches family cert
+
+structure NonIdParametricFamily where
+  name : String
+  failure : NonIdFamilyFailure
+  interval : RankInterval
+  certForRank : Nat -> NonIdCert
+  certForRank_sound :
+    forall r : Fin numPairWords,
+      interval.ContainsPairRank r ->
+        checkNonIdCoveredRank r.val (certForRank r.val) = true /\
+          checkNonIdCert (certForRank r.val) = true /\
+            checkNonIdParametricFailureMatches failure
+              (certForRank r.val) = true
+
+noncomputable def checkNonIdParametricFamily
+    (family : NonIdParametricFamily) : Bool :=
+  checkRankInterval family.interval
+
+def NonIdParametricFamily.ContainsPairRank
+    (family : NonIdParametricFamily) (r : Fin numPairWords) : Prop :=
+  family.interval.ContainsPairRank r
+
+noncomputable def checkNonIdParametricFamilyAt
+    (family : NonIdParametricFamily) (r : Fin numPairWords) : Bool := by
+  classical
+  exact decide (family.ContainsPairRank r) &&
+    (checkNonIdCoveredRank r.val (family.certForRank r.val) &&
+      (checkNonIdCert (family.certForRank r.val) &&
+        checkNonIdParametricFailureMatches family.failure
+          (family.certForRank r.val)))
+
+theorem checkNonIdParametricFamily_sound
+    {family : NonIdParametricFamily}
+    (_hcheck : checkNonIdParametricFamily family = true)
+    {r : Fin numPairWords}
+    (hcontains : family.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  rcases family.certForRank_sound r hcontains with
+    ⟨hcovered, hcert, _hfailure⟩
+  exact ⟨family.certForRank r.val, hcovered, hcert⟩
+
+theorem checkNonIdParametricFamilyAt_sound
+    {family : NonIdParametricFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdParametricFamilyAt family r = true) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  classical
+  have hparts :
+      family.ContainsPairRank r /\
+        checkNonIdCoveredRank r.val (family.certForRank r.val) = true /\
+          checkNonIdCert (family.certForRank r.val) = true /\
+            checkNonIdParametricFailureMatches family.failure
+              (family.certForRank r.val) = true := by
+    simpa only [checkNonIdParametricFamilyAt, Bool.and_eq_true,
+      decide_eq_true_eq] using hcheck
+  exact ⟨family.certForRank r.val, hparts.2.1, hparts.2.2.1⟩
+
+structure NonIdParametricCoverage where
+  families : List NonIdParametricFamily
+
+def NonIdParametricCoverage.ContainsPairRank
+    (coverage : NonIdParametricCoverage) (r : Fin numPairWords) :
+    Prop :=
+  exists family : NonIdParametricFamily,
+    family ∈ coverage.families /\ family.ContainsPairRank r
+
+noncomputable def checkNonIdParametricCoverage
+    (coverage : NonIdParametricCoverage) : Bool :=
+  coverage.families.all checkNonIdParametricFamily
+
+theorem checkNonIdParametricCoverage_pairRank_sound
+    {coverage : NonIdParametricCoverage}
+    (hcheck : checkNonIdParametricCoverage coverage = true)
+    {r : Fin numPairWords}
+    (hcontains : coverage.ContainsPairRank r) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  rcases hcontains with ⟨family, hmem, hfamilyContains⟩
+  have hfamilyCheck : checkNonIdParametricFamily family = true := by
+    unfold checkNonIdParametricCoverage at hcheck
+    exact List.all_eq_true.mp hcheck family hmem
+  exact checkNonIdParametricFamily_sound hfamilyCheck hfamilyContains
+
 inductive TranslationFamilyFailure
   | badTranslationVector
   | badDirectionSign
@@ -3291,6 +3381,111 @@ theorem checkTranslationCoverageForest_choice_sound
   refine ⟨cert, ?_, hcert⟩
   simpa [TranslationCoverageForest.ContainsTranslationChoice,
     canonicalTranslationCoverage] using hcovered
+
+def checkTranslationParametricFailureMatches
+    (family : TranslationFamilyFailure) (cert : TranslationCert) :
+    Bool :=
+  checkTranslationFamilyFailureMatches family cert
+
+structure TranslationParametricFamily where
+  name : String
+  failure : TranslationFamilyFailure
+  box : TranslationCaseBox
+  certForCase : Nat -> Nat -> TranslationCert
+  certForCase_sound :
+    forall (r : Fin numPairWords) (mask : SignMask),
+      box.Contains r mask ->
+        checkTranslationCoveredCase
+            { pairRank := r.val, signMask := mask.val }
+            (certForCase r.val mask.val) = true /\
+          checkTranslationCert (certForCase r.val mask.val) = true /\
+            checkTranslationParametricFailureMatches failure
+              (certForCase r.val mask.val) = true
+
+noncomputable def checkTranslationParametricFamily
+    (family : TranslationParametricFamily) : Bool :=
+  checkTranslationCaseBox family.box
+
+def TranslationParametricFamily.ContainsTranslationChoice
+    (family : TranslationParametricFamily)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  family.box.Contains r mask
+
+noncomputable def checkTranslationParametricFamilyAt
+    (family : TranslationParametricFamily)
+    (r : Fin numPairWords) (mask : SignMask) : Bool := by
+  classical
+  exact decide (family.ContainsTranslationChoice r mask) &&
+    (checkTranslationCoveredCase
+        { pairRank := r.val, signMask := mask.val }
+        (family.certForCase r.val mask.val) &&
+      (checkTranslationCert (family.certForCase r.val mask.val) &&
+        checkTranslationParametricFailureMatches family.failure
+          (family.certForCase r.val mask.val)))
+
+theorem checkTranslationParametricFamily_sound
+    {family : TranslationParametricFamily}
+    (_hcheck : checkTranslationParametricFamily family = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : family.ContainsTranslationChoice r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  rcases family.certForCase_sound r mask hcontains with
+    ⟨hcovered, hcert, _hfailure⟩
+  exact ⟨family.certForCase r.val mask.val, hcovered, hcert⟩
+
+theorem checkTranslationParametricFamilyAt_sound
+    {family : TranslationParametricFamily}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck : checkTranslationParametricFamilyAt family r mask = true) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  classical
+  have hparts :
+      family.ContainsTranslationChoice r mask /\
+        checkTranslationCoveredCase
+            { pairRank := r.val, signMask := mask.val }
+            (family.certForCase r.val mask.val) = true /\
+          checkTranslationCert (family.certForCase r.val mask.val) = true /\
+            checkTranslationParametricFailureMatches family.failure
+              (family.certForCase r.val mask.val) = true := by
+    simpa only [checkTranslationParametricFamilyAt, Bool.and_eq_true,
+      decide_eq_true_eq] using hcheck
+  exact ⟨family.certForCase r.val mask.val, hparts.2.1,
+    hparts.2.2.1⟩
+
+structure TranslationParametricCoverage where
+  families : List TranslationParametricFamily
+
+def TranslationParametricCoverage.ContainsTranslationChoice
+    (coverage : TranslationParametricCoverage)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  exists family : TranslationParametricFamily,
+    family ∈ coverage.families /\
+      family.ContainsTranslationChoice r mask
+
+noncomputable def checkTranslationParametricCoverage
+    (coverage : TranslationParametricCoverage) : Bool :=
+  coverage.families.all checkTranslationParametricFamily
+
+theorem checkTranslationParametricCoverage_choice_sound
+    {coverage : TranslationParametricCoverage}
+    (hcheck : checkTranslationParametricCoverage coverage = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : coverage.ContainsTranslationChoice r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  rcases hcontains with ⟨family, hmem, hfamilyContains⟩
+  have hfamilyCheck : checkTranslationParametricFamily family = true := by
+    unfold checkTranslationParametricCoverage at hcheck
+    exact List.all_eq_true.mp hcheck family hmem
+  exact checkTranslationParametricFamily_sound hfamilyCheck hfamilyContains
 
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)

@@ -1937,6 +1937,24 @@ grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 passes with the exhaustive summary still gated, unless Step 14E.7B has already
 emitted the actual full witness.
 
+Implemented artifacts:
+
+- `NonIdParametricFamily`, `TranslationParametricFamily`, their executable
+  checkers, and soundness theorems live in `Cuboctahedron/Search/Certificates.lean`.
+- Representative generated witnesses live in
+  `Cuboctahedron/Generated/NonIdentity/ParametricSample.lean` and
+  `Cuboctahedron/Generated/Translation/ParametricSample.lean`.
+- The generator/checker mode is:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode parametric-family-checkers
+python3 scripts/check_certificates_independently.py --mode parametric-family-checkers
+```
+
+This completes the checker layer and representative family evidence for
+Step 14E.7B0. It deliberately does not mark exhaustive coverage complete;
+Step 14E.7B must still emit or otherwise provide the full witness.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by

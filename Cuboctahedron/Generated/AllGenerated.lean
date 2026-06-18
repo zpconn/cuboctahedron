@@ -1,6 +1,8 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.NonIdentity.FamilySample
+import Cuboctahedron.Generated.NonIdentity.ParametricSample
 import Cuboctahedron.Generated.Translation.Chunk0000
+import Cuboctahedron.Generated.Translation.ParametricSample
 import Cuboctahedron.Generated.CanonicalSample
 import Cuboctahedron.Generated.CanonicalCoverageManifest
 import Cuboctahedron.Generated.CompactPilot
@@ -19,6 +21,17 @@ noncomputable def allGeneratedCheck : Bool :=
 theorem allGeneratedCheck_true : allGeneratedCheck = true := by
   unfold allGeneratedCheck
   rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]
+  rfl
+
+noncomputable def allGeneratedParametricCheck : Bool :=
+  NonIdentity.checkParametricSamples &&
+    Translation.checkParametricSamples
+
+theorem allGeneratedParametricCheck_true :
+    allGeneratedParametricCheck = true := by
+  unfold allGeneratedParametricCheck
+  rw [NonIdentity.checkParametricSamples_true,
+    Translation.checkParametricSamples_true]
   rfl
 
 theorem nonidentityChunk_sound :

@@ -1,0 +1,205 @@
+{
+  "checker_layer_complete": true,
+  "complete": true,
+  "exhaustive_coverage_complete": false,
+  "generated_lean": {
+    "all_generated": {
+      "bytes": 2657,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/AllGenerated.lean"
+    },
+    "nonidentity": {
+      "bytes": 5747,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/ParametricSample.lean"
+    },
+    "translation": {
+      "bytes": 19838,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/Translation/ParametricSample.lean"
+    }
+  },
+  "mode": "parametric-family-checkers",
+  "nonidentity": {
+    "families": [
+      {
+        "failure": "badDirectionSign",
+        "name": "sampleBadDirectionParametricFamily",
+        "rank_interval": [
+          13,
+          16
+        ],
+        "sample_ranks": [
+          13,
+          14,
+          15
+        ]
+      },
+      {
+        "failure": "badPairBalance",
+        "name": "sampleBadPairBalanceParametricFamily",
+        "rank_interval": [
+          102,
+          103
+        ],
+        "sample_ranks": [
+          102
+        ]
+      }
+    ],
+    "profile_failures": [
+      {
+        "certificate_kind": "prefix_axis_sign_obstruction",
+        "estimated_certificates": 1,
+        "failure": "badDirectionSign",
+        "name": "nonidentity_bad_direction_sign_prefix_family",
+        "raw_cases": 67632840
+      },
+      {
+        "certificate_kind": "prefix_forced_pair_balance_obstruction",
+        "estimated_certificates": 1,
+        "failure": "badPairBalance",
+        "name": "nonidentity_bad_pair_balance_prefix_family",
+        "raw_cases": 25157616
+      }
+    ]
+  },
+  "notes": [
+    "Generated samples prove the parametric checker API and representative family witnesses.",
+    "This artifact does not claim complete exhaustive Lean coverage."
+  ],
+  "prefix_parametric_ready": true,
+  "required_api": [
+    "checkNonIdParametricFamily",
+    "checkNonIdParametricFamily_sound",
+    "checkTranslationParametricFamily",
+    "checkTranslationParametricFamily_sound"
+  ],
+  "schema_version": 1,
+  "source": "scripts/generated/prefix_parametric_compression.json",
+  "translation": {
+    "families": [
+      {
+        "case_box": {
+          "mask": [
+            1,
+            3
+          ],
+          "rank": [
+            0,
+            1
+          ]
+        },
+        "failure": "farkas",
+        "name": "sampleFarkasParametricFamily",
+        "sample_cases": [
+          {
+            "mask": 1,
+            "rank": 0
+          },
+          {
+            "mask": 2,
+            "rank": 0
+          }
+        ]
+      },
+      {
+        "case_box": {
+          "mask": [
+            4,
+            6
+          ],
+          "rank": [
+            0,
+            1
+          ]
+        },
+        "failure": "badDirectionSign",
+        "name": "sampleBadDirectionParametricFamily",
+        "sample_cases": [
+          {
+            "mask": 4,
+            "rank": 0
+          },
+          {
+            "mask": 5,
+            "rank": 0
+          }
+        ]
+      },
+      {
+        "case_box": {
+          "mask": [
+            37,
+            38
+          ],
+          "rank": [
+            12510049,
+            12510050
+          ]
+        },
+        "failure": "badTranslationVector",
+        "name": "sampleBadVectorParametricFamily",
+        "sample_cases": [
+          {
+            "mask": 37,
+            "rank": 12510049
+          }
+        ],
+        "sample_seq": [
+          "xp",
+          "yp",
+          "tppp",
+          "xm",
+          "zm",
+          "tmmm",
+          "tmpm",
+          "tpmp",
+          "zp",
+          "tmpp",
+          "ym",
+          "tmmp",
+          "tpmm",
+          "tppm"
+        ],
+        "sample_translation_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "sample_word": [
+          "y",
+          "d111",
+          "x",
+          "z",
+          "d111",
+          "d1m1",
+          "d1m1",
+          "z",
+          "dm11",
+          "y",
+          "d11m",
+          "dm11",
+          "d11m"
+        ]
+      }
+    ],
+    "profile_failures": [
+      {
+        "certificate_kind": "prefix_denominator_sign_obstruction",
+        "estimated_certificates": 1,
+        "failure": "badDirectionSign",
+        "name": "translation_bad_direction_sign_prefix_family",
+        "raw_cases": 151662200
+      },
+      {
+        "certificate_kind": "prefix_zero_translation_vector_obstruction",
+        "estimated_certificates": 1,
+        "failure": "badTranslationVector",
+        "name": "translation_bad_vector_prefix_family",
+        "raw_cases": 70272
+      }
+    ],
+    "shared_farkas_shapes": 20298
+  }
+}

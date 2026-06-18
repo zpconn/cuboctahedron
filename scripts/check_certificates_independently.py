@@ -42,6 +42,9 @@ COMPRESSION_AUDIT_JSON_PATH = (
 )
 AGGREGATE_COMPRESSION_PROFILE_JSON_PATH = exact_profile.AGGREGATE_PROFILE_JSON_PATH
 PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH = exact_profile.PREFIX_PARAMETRIC_JSON_PATH
+PARAMETRIC_FAMILY_CHECKERS_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "parametric_family_checkers.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -50,6 +53,12 @@ COMPACT_CERT_SAMPLE_JSON_PATH = (
 )
 COMPACT_CERT_PILOT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_cert_pilot.json"
+)
+NONIDENTITY_PARAMETRIC_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "ParametricSample.lean"
+)
+TRANSLATION_PARAMETRIC_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "ParametricSample.lean"
 )
 
 EXPECTED_PAIR_WORDS = 97_297_200
@@ -3015,6 +3024,136 @@ def check_prefix_parametric_compression(payload):
     }
 
 
+def check_parametric_family_checkers(payload):
+    require(payload.get("schema_version") == 1,
+            "parametric checker schema version")
+    require(payload.get("mode") == "parametric-family-checkers",
+            "parametric checker mode")
+    require(payload.get("complete") is True,
+            "parametric checker complete")
+    require(payload.get("checker_layer_complete") is True,
+            "parametric checker layer complete")
+    require(payload.get("exhaustive_coverage_complete") is False,
+            "parametric checker representative caveat")
+    require(
+        payload.get("source")
+        == str(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)),
+        "parametric checker source",
+    )
+    prefix_payload = json.loads(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+    )
+    prefix_summary = check_prefix_parametric_compression(prefix_payload)
+    require(payload.get("prefix_parametric_ready") is prefix_summary["ready_for_14E7"],
+            "parametric checker ready echo")
+
+    required_api = set(payload["required_api"])
+    require(
+        required_api
+        == {
+            "checkNonIdParametricFamily",
+            "checkNonIdParametricFamily_sound",
+            "checkTranslationParametricFamily",
+            "checkTranslationParametricFamily_sound",
+        },
+        "parametric checker required API set",
+    )
+
+    lean_paths = {
+        "nonidentity": NONIDENTITY_PARAMETRIC_LEAN_PATH,
+        "translation": TRANSLATION_PARAMETRIC_LEAN_PATH,
+    }
+    for key, path in lean_paths.items():
+        require(path.exists(), f"parametric Lean file exists {key}")
+        text = path.read_text(encoding="utf-8")
+        for symbol in required_api:
+            if key == "nonidentity" and "Translation" in symbol:
+                continue
+            if key == "translation" and "NonId" in symbol:
+                continue
+            require(symbol in text, f"parametric Lean API marker {key} {symbol}")
+        require("sampleParametricCoverage_sound" in text,
+                f"parametric coverage sound marker {key}")
+        require("native_decide" not in text,
+                f"parametric Lean avoids native_decide {key}")
+
+    nonid_families = payload["nonidentity"]["families"]
+    require(
+        {family["failure"] for family in nonid_families}
+        == {"badDirectionSign", "badPairBalance"},
+        "parametric nonidentity representative failures",
+    )
+    for family in nonid_families:
+        start, end = family["rank_interval"]
+        require(start < end <= EXPECTED_PAIR_WORDS,
+                f"parametric nonidentity interval {family['name']}")
+        require(all(start <= rank < end for rank in family["sample_ranks"]),
+                f"parametric nonidentity samples in interval {family['name']}")
+
+    profile_nonid_failures = {
+        family["failure"]
+        for family in payload["nonidentity"]["profile_failures"]
+    }
+    require({"badDirectionSign", "badPairBalance"} <= profile_nonid_failures,
+            "parametric nonidentity profile failures covered")
+
+    translation_families = payload["translation"]["families"]
+    require(
+        {family["failure"] for family in translation_families}
+        == {"farkas", "badDirectionSign", "badTranslationVector"},
+        "parametric translation representative failures",
+    )
+    for family in translation_families:
+        rank_start, rank_end = family["case_box"]["rank"]
+        mask_start, mask_end = family["case_box"]["mask"]
+        require(rank_start < rank_end <= EXPECTED_PAIR_WORDS,
+                f"parametric translation rank box {family['name']}")
+        require(mask_start < mask_end <= 64,
+                f"parametric translation mask box {family['name']}")
+        for case in family["sample_cases"]:
+            require(rank_start <= case["rank"] < rank_end,
+                    f"parametric translation sample rank {family['name']}")
+            require(mask_start <= case["mask"] < mask_end,
+                    f"parametric translation sample mask {family['name']}")
+        if family["failure"] == "badTranslationVector":
+            require(len(family["sample_cases"]) == 1,
+                    "parametric bad-vector singleton sample")
+            case = family["sample_cases"][0]
+            word = family["sample_word"]
+            seq = family["sample_seq"]
+            require(valid_pair_word(word), "parametric bad-vector valid word")
+            require(lex_rank_pair_word(word) == case["rank"],
+                    "parametric bad-vector rank")
+            b, computed_seq = translation_vector(word, case["mask"])
+            require(computed_seq == seq, "parametric bad-vector sequence")
+            require(b == vec((0, 0, 0)), "parametric bad-vector exact zero")
+            require(vector_from_json(family["sample_translation_vector"]) == b,
+                    "parametric bad-vector echoed vector")
+
+    profile_translation_failures = {
+        family["failure"]
+        for family in payload["translation"]["profile_failures"]
+    }
+    require({"badDirectionSign", "badTranslationVector"} <= profile_translation_failures,
+            "parametric translation profile failures covered")
+    require(payload["translation"]["shared_farkas_shapes"] > 0,
+            "parametric translation shared Farkas available")
+    return {
+        "nonidentity_families": len(nonid_families),
+        "translation_families": len(translation_families),
+        "bad_vector_rank": next(
+            family["sample_cases"][0]["rank"]
+            for family in translation_families
+            if family["failure"] == "badTranslationVector"
+        ),
+        "bad_vector_mask": next(
+            family["sample_cases"][0]["mask"]
+            for family in translation_families
+            if family["failure"] == "badTranslationVector"
+        ),
+    }
+
+
 def encode_uvarint(value: int) -> bytes:
     if value < 0:
         raise ValueError("varint cannot encode negative values")
@@ -3252,6 +3391,7 @@ def main():
             "compression-audit",
             "aggregate-compression-profile",
             "prefix-parametric-compression",
+            "parametric-family-checkers",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -3316,6 +3456,7 @@ def main():
             "exhaustive-real-certs/compression-audit/"
             "aggregate-compression-profile/"
             "prefix-parametric-compression/"
+            "parametric-family-checkers/"
             "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
@@ -3438,6 +3579,19 @@ def main():
             f"{summary['nonidentity_residual_singletons']:,}"
         )
         print(f"translation shared Farkas: {summary['translation_shared_farkas']:,}")
+        return
+    if mode == "parametric-family-checkers":
+        payload = json.loads(
+            PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_parametric_family_checkers(payload)
+        print("independent parametric family checker check passed")
+        print(f"nonidentity families: {summary['nonidentity_families']}")
+        print(f"translation families: {summary['translation_families']}")
+        print(
+            "bad-vector sample: "
+            f"{summary['bad_vector_rank']}/{summary['bad_vector_mask']}"
+        )
         return
     if mode == "compact-cert-sample":
         payload = json.loads(COMPACT_CERT_SAMPLE_JSON_PATH.read_text(encoding="utf-8"))

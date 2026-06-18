@@ -45,6 +45,9 @@ COMPRESSION_AUDIT_JSON_PATH = (
 )
 AGGREGATE_COMPRESSION_PROFILE_JSON_PATH = exact_profile.AGGREGATE_PROFILE_JSON_PATH
 PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH = exact_profile.PREFIX_PARAMETRIC_JSON_PATH
+PARAMETRIC_FAMILY_CHECKERS_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "parametric_family_checkers.json"
+)
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 CANONICAL_COVERAGE_LEAN_PATH = (
@@ -56,6 +59,12 @@ NONIDENTITY_FAMILY_LEAN_PATH = (
 )
 TRANSLATION_FAMILY_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilySample.lean"
+)
+NONIDENTITY_PARAMETRIC_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "ParametricSample.lean"
+)
+TRANSLATION_PARAMETRIC_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "ParametricSample.lean"
 )
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
@@ -2196,7 +2205,9 @@ def write_all_generated() -> None:
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.NonIdentity.FamilySample",
+        "import Cuboctahedron.Generated.NonIdentity.ParametricSample",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
+        "import Cuboctahedron.Generated.Translation.ParametricSample",
         "import Cuboctahedron.Generated.CanonicalSample",
         "import Cuboctahedron.Generated.CanonicalCoverageManifest",
         "import Cuboctahedron.Generated.CompactPilot",
@@ -2215,6 +2226,17 @@ def write_all_generated() -> None:
         "theorem allGeneratedCheck_true : allGeneratedCheck = true := by",
         "  unfold allGeneratedCheck",
         "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
+        "  rfl",
+        "",
+        "noncomputable def allGeneratedParametricCheck : Bool :=",
+        "  NonIdentity.checkParametricSamples &&",
+        "    Translation.checkParametricSamples",
+        "",
+        "theorem allGeneratedParametricCheck_true :",
+        "    allGeneratedParametricCheck = true := by",
+        "  unfold allGeneratedParametricCheck",
+        "  rw [NonIdentity.checkParametricSamples_true,",
+        "    Translation.checkParametricSamples_true]",
         "  rfl",
         "",
         "theorem nonidentityChunk_sound :",
@@ -4654,6 +4676,486 @@ def write_prefix_parametric_compression_json(payload: dict, output: Path) -> Non
     )
 
 
+def write_nonidentity_parametric_lean() -> None:
+    lines = [
+        "import Cuboctahedron.Generated.NonIdentity.FamilySample",
+        "",
+        "/-!",
+        "Generated representative parametric non-identity family sample for Step 14E.7B0.",
+        "",
+        "The parametric layer covers rank intervals by a checked certificate-producing",
+        "function. This module exercises the high-volume non-identity families selected",
+        "by the prefix/parametric compression profile; it is representative, not",
+        "exhaustive.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity",
+        "",
+        "set_option maxHeartbeats 1200000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "",
+        "def sampleBadDirectionParametricInterval : RankInterval where",
+        "  startRank := 13",
+        "  endRank := 16",
+        "",
+        "def sampleBadDirectionParametricCertForRank : Nat -> NonIdCert",
+        "  | 13 => nonIdFamilyBadDirection000",
+        "  | 14 => nonIdFamilyBadDirection001",
+        "  | 15 => nonIdFamilyBadDirection002",
+        "  | _ => nonIdFamilyBadDirection000",
+        "",
+        "def sampleBadDirectionParametricFamily : NonIdParametricFamily where",
+        "  name := \"sampleBadDirectionParametricFamily\"",
+        "  failure := NonIdFamilyFailure.badDirectionSign",
+        "  interval := sampleBadDirectionParametricInterval",
+        "  certForRank := sampleBadDirectionParametricCertForRank",
+        "  certForRank_sound := by",
+        "    intro r hcontains",
+        "    rcases r with ⟨rank, hrank⟩",
+        "    simp [RankInterval.ContainsPairRank, sampleBadDirectionParametricInterval] at hcontains",
+        "    have hRank : rank = 13 ∨ rank = 14 ∨ rank = 15 := by omega",
+        "    rcases hRank with rfl | rfl | rfl",
+        "    · simpa [sampleBadDirectionParametricCertForRank,",
+        "        checkNonIdParametricFailureMatches] using",
+        "        And.intro nonIdFamilyBadDirection000_coveredRank",
+        "          (And.intro nonIdFamilyBadDirection000_check",
+        "            nonIdFamilyBadDirection000_familyFailure)",
+        "    · simpa [sampleBadDirectionParametricCertForRank,",
+        "        checkNonIdParametricFailureMatches] using",
+        "        And.intro nonIdFamilyBadDirection001_coveredRank",
+        "          (And.intro nonIdFamilyBadDirection001_check",
+        "            nonIdFamilyBadDirection001_familyFailure)",
+        "    · simpa [sampleBadDirectionParametricCertForRank,",
+        "        checkNonIdParametricFailureMatches] using",
+        "        And.intro nonIdFamilyBadDirection002_coveredRank",
+        "          (And.intro nonIdFamilyBadDirection002_check",
+        "            nonIdFamilyBadDirection002_familyFailure)",
+        "",
+        "theorem sampleBadDirectionParametricFamily_check :",
+        "    checkNonIdParametricFamily sampleBadDirectionParametricFamily = true := by",
+        "  norm_num [checkNonIdParametricFamily, sampleBadDirectionParametricFamily,",
+        "    sampleBadDirectionParametricInterval, checkRankInterval, numPairWords]",
+        "",
+        "theorem sampleBadDirectionParametricFamily_sound",
+        "    {r : Fin numPairWords}",
+        "    (hcontains : sampleBadDirectionParametricFamily.ContainsPairRank r) :",
+        "    exists cert : NonIdCert,",
+        "      checkNonIdCoveredRank r.val cert = true /\\",
+        "        checkNonIdCert cert = true :=",
+        "  checkNonIdParametricFamily_sound",
+        "    sampleBadDirectionParametricFamily_check hcontains",
+        "",
+        "def sampleBadPairBalanceParametricInterval : RankInterval where",
+        "  startRank := 102",
+        "  endRank := 103",
+        "",
+        "def sampleBadPairBalanceParametricCertForRank : Nat -> NonIdCert",
+        "  | 102 => nonIdFamilyBadPairBalance000",
+        "  | _ => nonIdFamilyBadPairBalance000",
+        "",
+        "def sampleBadPairBalanceParametricFamily : NonIdParametricFamily where",
+        "  name := \"sampleBadPairBalanceParametricFamily\"",
+        "  failure := NonIdFamilyFailure.badPairBalance",
+        "  interval := sampleBadPairBalanceParametricInterval",
+        "  certForRank := sampleBadPairBalanceParametricCertForRank",
+        "  certForRank_sound := by",
+        "    intro r hcontains",
+        "    rcases r with ⟨rank, hrank⟩",
+        "    simp [RankInterval.ContainsPairRank, sampleBadPairBalanceParametricInterval] at hcontains",
+        "    have hRank : rank = 102 := by omega",
+        "    subst rank",
+        "    simpa [sampleBadPairBalanceParametricCertForRank,",
+        "      checkNonIdParametricFailureMatches] using",
+        "      And.intro nonIdFamilyBadPairBalance000_coveredRank",
+        "        (And.intro nonIdFamilyBadPairBalance000_check",
+        "          nonIdFamilyBadPairBalance000_familyFailure)",
+        "",
+        "theorem sampleBadPairBalanceParametricFamily_check :",
+        "    checkNonIdParametricFamily sampleBadPairBalanceParametricFamily = true := by",
+        "  norm_num [checkNonIdParametricFamily, sampleBadPairBalanceParametricFamily,",
+        "    sampleBadPairBalanceParametricInterval, checkRankInterval, numPairWords]",
+        "",
+        "theorem sampleBadPairBalanceParametricFamily_sound",
+        "    {r : Fin numPairWords}",
+        "    (hcontains : sampleBadPairBalanceParametricFamily.ContainsPairRank r) :",
+        "    exists cert : NonIdCert,",
+        "      checkNonIdCoveredRank r.val cert = true /\\",
+        "        checkNonIdCert cert = true :=",
+        "  checkNonIdParametricFamily_sound",
+        "    sampleBadPairBalanceParametricFamily_check hcontains",
+        "",
+        "def sampleParametricCoverage : NonIdParametricCoverage where",
+        "  families :=",
+        "    [sampleBadDirectionParametricFamily,",
+        "      sampleBadPairBalanceParametricFamily]",
+        "",
+        "theorem sampleParametricCoverage_check :",
+        "    checkNonIdParametricCoverage sampleParametricCoverage = true := by",
+        "  unfold checkNonIdParametricCoverage sampleParametricCoverage",
+        "  simp [sampleBadDirectionParametricFamily_check,",
+        "    sampleBadPairBalanceParametricFamily_check]",
+        "",
+        "theorem sampleParametricCoverage_sound",
+        "    {r : Fin numPairWords}",
+        "    (hcontains : sampleParametricCoverage.ContainsPairRank r) :",
+        "    exists cert : NonIdCert,",
+        "      checkNonIdCoveredRank r.val cert = true /\\",
+        "        checkNonIdCert cert = true :=",
+        "  checkNonIdParametricCoverage_pairRank_sound",
+        "    sampleParametricCoverage_check hcontains",
+        "",
+        "noncomputable def checkParametricSamples : Bool :=",
+        "  checkNonIdParametricCoverage sampleParametricCoverage",
+        "",
+        "theorem checkParametricSamples_true :",
+        "    checkParametricSamples = true := by",
+        "  unfold checkParametricSamples",
+        "  exact sampleParametricCoverage_check",
+        "",
+        "#check checkNonIdParametricFamily",
+        "#check checkNonIdParametricFamily_sound",
+        "#check Cuboctahedron.Generated.NonIdentity.sampleParametricCoverage_sound",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity",
+        "",
+    ]
+    NONIDENTITY_PARAMETRIC_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_PARAMETRIC_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_translation_parametric_lean(bad_vector_cert: TranslationCertPayload) -> None:
+    cert = bad_vector_cert.to_json()
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.Translation.FamilySample",
+        "",
+        "/-!",
+        "Generated representative parametric translation family sample for Step 14E.7B0.",
+        "",
+        "This module exercises parametric translation families for bad direction signs,",
+        "zero translation vectors, and shared Farkas/source-Farkas infeasibility.",
+        "It is representative, not exhaustive.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation",
+        "",
+        "set_option maxHeartbeats 2400000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unnecessarySeqFocus false",
+        "",
+    ]
+    append_word_definitions(lines, {
+        "pair_words": [
+            {"rank": bad_vector_cert.rank, "word": bad_vector_cert.word}
+        ]
+    })
+    append_translation_cert(lines, cert)
+    append_translation_check_theorem(lines, cert)
+    lines.extend([
+        f"theorem {bad_vector_cert.name}_coveredCase :",
+        "    checkTranslationCoveredCase",
+        f"      {{ pairRank := {bad_vector_cert.rank}, signMask := {bad_vector_cert.mask} }}",
+        f"      {bad_vector_cert.name} = true := by",
+        "  decide",
+        "",
+        f"theorem {bad_vector_cert.name}_parametricFailure :",
+        "    checkTranslationParametricFailureMatches",
+        "      TranslationFamilyFailure.badTranslationVector",
+        f"      {bad_vector_cert.name} = true := by",
+        "  rfl",
+        "",
+        "theorem translationFamilyFarkas000_parametricCoveredCase :",
+        "    checkTranslationCoveredCase { pairRank := 0, signMask := 1 }",
+        "      translationFamilyFarkas000 = true := by",
+        "  decide",
+        "",
+        "theorem translationFamilyFarkas001_parametricCoveredCase :",
+        "    checkTranslationCoveredCase { pairRank := 0, signMask := 2 }",
+        "      translationFamilyFarkas001 = true := by",
+        "  decide",
+        "",
+        "theorem translationFamilyBadDirection000_parametricCoveredCase :",
+        "    checkTranslationCoveredCase { pairRank := 0, signMask := 4 }",
+        "      translationFamilyBadDirection000 = true := by",
+        "  decide",
+        "",
+        "theorem translationFamilyBadDirection001_parametricCoveredCase :",
+        "    checkTranslationCoveredCase { pairRank := 0, signMask := 5 }",
+        "      translationFamilyBadDirection001 = true := by",
+        "  decide",
+        "",
+        "def sampleFarkasParametricBox : TranslationCaseBox where",
+        "  startRank := 0",
+        "  endRank := 1",
+        "  startMask := 1",
+        "  endMask := 3",
+        "",
+        "def sampleFarkasParametricCertForCase : Nat -> Nat -> TranslationCert",
+        "  | 0, 1 => translationFamilyFarkas000",
+        "  | 0, 2 => translationFamilyFarkas001",
+        "  | _, _ => translationFamilyFarkas000",
+        "",
+        "def sampleFarkasParametricFamily : TranslationParametricFamily where",
+        "  name := \"sampleFarkasParametricFamily\"",
+        "  failure := TranslationFamilyFailure.farkas",
+        "  box := sampleFarkasParametricBox",
+        "  certForCase := sampleFarkasParametricCertForCase",
+        "  certForCase_sound := by",
+        "    intro r mask hcontains",
+        "    rcases r with ⟨rank, hrank⟩",
+        "    rcases mask with ⟨maskVal, hmaskLt⟩",
+        "    simp [TranslationCaseBox.Contains, sampleFarkasParametricBox] at hcontains",
+        "    have hRank : rank = 0 := by omega",
+        "    have hMask : maskVal = 1 ∨ maskVal = 2 := by omega",
+        "    subst rank",
+        "    rcases hMask with rfl | rfl",
+        "    · simpa [sampleFarkasParametricCertForCase,",
+        "        checkTranslationParametricFailureMatches] using",
+        "        And.intro translationFamilyFarkas000_parametricCoveredCase",
+        "          (And.intro translationFamilyFarkas000_check",
+        "            translationFamilyFarkas000_familyFailure)",
+        "    · simpa [sampleFarkasParametricCertForCase,",
+        "        checkTranslationParametricFailureMatches] using",
+        "        And.intro translationFamilyFarkas001_parametricCoveredCase",
+        "          (And.intro translationFamilyFarkas001_check",
+        "            translationFamilyFarkas001_familyFailure)",
+        "",
+        "theorem sampleFarkasParametricFamily_check :",
+        "    checkTranslationParametricFamily sampleFarkasParametricFamily = true := by",
+        "  norm_num [checkTranslationParametricFamily, sampleFarkasParametricFamily,",
+        "    sampleFarkasParametricBox, checkTranslationCaseBox,",
+        "    numPairWords, numSignMasks]",
+        "",
+        "def sampleBadDirectionParametricBox : TranslationCaseBox where",
+        "  startRank := 0",
+        "  endRank := 1",
+        "  startMask := 4",
+        "  endMask := 6",
+        "",
+        "def sampleBadDirectionParametricCertForCase : Nat -> Nat -> TranslationCert",
+        "  | 0, 4 => translationFamilyBadDirection000",
+        "  | 0, 5 => translationFamilyBadDirection001",
+        "  | _, _ => translationFamilyBadDirection000",
+        "",
+        "def sampleBadDirectionParametricFamily : TranslationParametricFamily where",
+        "  name := \"sampleBadDirectionParametricFamily\"",
+        "  failure := TranslationFamilyFailure.badDirectionSign",
+        "  box := sampleBadDirectionParametricBox",
+        "  certForCase := sampleBadDirectionParametricCertForCase",
+        "  certForCase_sound := by",
+        "    intro r mask hcontains",
+        "    rcases r with ⟨rank, hrank⟩",
+        "    rcases mask with ⟨maskVal, hmaskLt⟩",
+        "    simp [TranslationCaseBox.Contains, sampleBadDirectionParametricBox] at hcontains",
+        "    have hRank : rank = 0 := by omega",
+        "    have hMask : maskVal = 4 ∨ maskVal = 5 := by omega",
+        "    subst rank",
+        "    rcases hMask with rfl | rfl",
+        "    · simpa [sampleBadDirectionParametricCertForCase,",
+        "        checkTranslationParametricFailureMatches] using",
+        "        And.intro translationFamilyBadDirection000_parametricCoveredCase",
+        "          (And.intro translationFamilyBadDirection000_check",
+        "            translationFamilyBadDirection000_familyFailure)",
+        "    · simpa [sampleBadDirectionParametricCertForCase,",
+        "        checkTranslationParametricFailureMatches] using",
+        "        And.intro translationFamilyBadDirection001_parametricCoveredCase",
+        "          (And.intro translationFamilyBadDirection001_check",
+        "            translationFamilyBadDirection001_familyFailure)",
+        "",
+        "theorem sampleBadDirectionParametricFamily_check :",
+        "    checkTranslationParametricFamily sampleBadDirectionParametricFamily = true := by",
+        "  norm_num [checkTranslationParametricFamily, sampleBadDirectionParametricFamily,",
+        "    sampleBadDirectionParametricBox, checkTranslationCaseBox,",
+        "    numPairWords, numSignMasks]",
+        "",
+        "def sampleBadVectorParametricBox : TranslationCaseBox where",
+        f"  startRank := {bad_vector_cert.rank}",
+        f"  endRank := {bad_vector_cert.rank + 1}",
+        f"  startMask := {bad_vector_cert.mask}",
+        f"  endMask := {bad_vector_cert.mask + 1}",
+        "",
+        "def sampleBadVectorParametricCertForCase : Nat -> Nat -> TranslationCert",
+        f"  | {bad_vector_cert.rank}, {bad_vector_cert.mask} => {bad_vector_cert.name}",
+        f"  | _, _ => {bad_vector_cert.name}",
+        "",
+        "def sampleBadVectorParametricFamily : TranslationParametricFamily where",
+        "  name := \"sampleBadVectorParametricFamily\"",
+        "  failure := TranslationFamilyFailure.badTranslationVector",
+        "  box := sampleBadVectorParametricBox",
+        "  certForCase := sampleBadVectorParametricCertForCase",
+        "  certForCase_sound := by",
+        "    intro r mask hcontains",
+        "    rcases r with ⟨rank, hrank⟩",
+        "    rcases mask with ⟨maskVal, hmaskLt⟩",
+        "    simp [TranslationCaseBox.Contains, sampleBadVectorParametricBox] at hcontains",
+        f"    have hRank : rank = {bad_vector_cert.rank} := by omega",
+        f"    have hMask : maskVal = {bad_vector_cert.mask} := by omega",
+        "    subst rank",
+        "    subst maskVal",
+        "    simpa [sampleBadVectorParametricCertForCase,",
+        "      checkTranslationParametricFailureMatches] using",
+        f"      And.intro {bad_vector_cert.name}_coveredCase",
+        f"        (And.intro {bad_vector_cert.name}_check",
+        f"          {bad_vector_cert.name}_parametricFailure)",
+        "",
+        "theorem sampleBadVectorParametricFamily_check :",
+        "    checkTranslationParametricFamily sampleBadVectorParametricFamily = true := by",
+        "  norm_num [checkTranslationParametricFamily, sampleBadVectorParametricFamily,",
+        "    sampleBadVectorParametricBox, checkTranslationCaseBox,",
+        "    numPairWords, numSignMasks]",
+        "",
+        "def sampleParametricCoverage : TranslationParametricCoverage where",
+        "  families :=",
+        "    [sampleFarkasParametricFamily,",
+        "      sampleBadDirectionParametricFamily,",
+        "      sampleBadVectorParametricFamily]",
+        "",
+        "theorem sampleParametricCoverage_check :",
+        "    checkTranslationParametricCoverage sampleParametricCoverage = true := by",
+        "  unfold checkTranslationParametricCoverage sampleParametricCoverage",
+        "  simp [sampleFarkasParametricFamily_check,",
+        "    sampleBadDirectionParametricFamily_check,",
+        "    sampleBadVectorParametricFamily_check]",
+        "",
+        "theorem sampleParametricCoverage_sound",
+        "    {r : Fin numPairWords} {mask : SignMask}",
+        "    (hcontains : sampleParametricCoverage.ContainsTranslationChoice r mask) :",
+        "    exists cert : TranslationCert,",
+        "      checkTranslationCoveredCase",
+        "          { pairRank := r.val, signMask := mask.val } cert = true /\\",
+        "        checkTranslationCert cert = true :=",
+        "  checkTranslationParametricCoverage_choice_sound",
+        "    sampleParametricCoverage_check hcontains",
+        "",
+        "noncomputable def checkParametricSamples : Bool :=",
+        "  checkTranslationParametricCoverage sampleParametricCoverage",
+        "",
+        "theorem checkParametricSamples_true :",
+        "    checkParametricSamples = true := by",
+        "  unfold checkParametricSamples",
+        "  exact sampleParametricCoverage_check",
+        "",
+        "#check checkTranslationParametricFamily",
+        "#check checkTranslationParametricFamily_sound",
+        "#check Cuboctahedron.Generated.Translation.sampleParametricCoverage_sound",
+        "",
+        "end Cuboctahedron.Generated.Translation",
+        "",
+    ])
+    TRANSLATION_PARAMETRIC_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_PARAMETRIC_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def build_parametric_family_checkers_payload() -> dict:
+    prefix = load_json_artifact(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+        "prefix-parametric-compression",
+    )
+    bad_vector_rank = 12_510_049
+    bad_vector_mask = 37
+    bad_vector_cert = build_translation_family_cert(
+        bad_vector_rank,
+        bad_vector_mask,
+        "translationParametricBadVector000",
+        "badTranslationVector",
+    )
+    if bad_vector_cert.b != vec((0, 0, 0)):
+        raise ValueError("selected badTranslationVector sample is not zero")
+    write_nonidentity_parametric_lean()
+    write_translation_parametric_lean(bad_vector_cert)
+    write_all_generated()
+    payload = {
+        "schema_version": 1,
+        "mode": "parametric-family-checkers",
+        "complete": True,
+        "checker_layer_complete": True,
+        "exhaustive_coverage_complete": False,
+        "source": str(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)),
+        "prefix_parametric_ready": prefix.get("decision", {}).get("ready_for_14E7") is True,
+        "required_api": [
+            "checkNonIdParametricFamily",
+            "checkNonIdParametricFamily_sound",
+            "checkTranslationParametricFamily",
+            "checkTranslationParametricFamily_sound",
+        ],
+        "generated_lean": {
+            "nonidentity": path_status(NONIDENTITY_PARAMETRIC_LEAN_PATH),
+            "translation": path_status(TRANSLATION_PARAMETRIC_LEAN_PATH),
+            "all_generated": path_status(ALL_GENERATED_PATH),
+        },
+        "nonidentity": {
+            "families": [
+                {
+                    "name": "sampleBadDirectionParametricFamily",
+                    "failure": "badDirectionSign",
+                    "rank_interval": [13, 16],
+                    "sample_ranks": [13, 14, 15],
+                },
+                {
+                    "name": "sampleBadPairBalanceParametricFamily",
+                    "failure": "badPairBalance",
+                    "rank_interval": [102, 103],
+                    "sample_ranks": [102],
+                },
+            ],
+            "profile_failures": prefix["nonidentity"]["parametric_families"],
+        },
+        "translation": {
+            "families": [
+                {
+                    "name": "sampleFarkasParametricFamily",
+                    "failure": "farkas",
+                    "case_box": {"rank": [0, 1], "mask": [1, 3]},
+                    "sample_cases": [
+                        {"rank": 0, "mask": 1},
+                        {"rank": 0, "mask": 2},
+                    ],
+                },
+                {
+                    "name": "sampleBadDirectionParametricFamily",
+                    "failure": "badDirectionSign",
+                    "case_box": {"rank": [0, 1], "mask": [4, 6]},
+                    "sample_cases": [
+                        {"rank": 0, "mask": 4},
+                        {"rank": 0, "mask": 5},
+                    ],
+                },
+                {
+                    "name": "sampleBadVectorParametricFamily",
+                    "failure": "badTranslationVector",
+                    "case_box": {
+                        "rank": [bad_vector_rank, bad_vector_rank + 1],
+                        "mask": [bad_vector_mask, bad_vector_mask + 1],
+                    },
+                    "sample_cases": [
+                        {"rank": bad_vector_rank, "mask": bad_vector_mask}
+                    ],
+                    "sample_word": bad_vector_cert.word,
+                    "sample_seq": bad_vector_cert.seq,
+                    "sample_translation_vector": vec_to_json(bad_vector_cert.b),
+                },
+            ],
+            "profile_failures": prefix["translation"]["parametric_families"],
+            "shared_farkas_shapes": prefix["translation"]["shared_farkas_shapes"],
+        },
+        "notes": [
+            "Generated samples prove the parametric checker API and representative family witnesses.",
+            "This artifact does not claim complete exhaustive Lean coverage.",
+        ],
+    }
+    return payload
+
+
+def write_parametric_family_checkers_json(payload: dict) -> None:
+    PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def build_compression_audit_payload() -> dict:
     profile = exact_profile.load_profile_payload(exact_profile.PROFILE_JSON_PATH)
     counts = exact_profile.check_profile_payload(profile)
@@ -5123,6 +5625,7 @@ def main() -> None:
             "compression-audit",
             "aggregate-compression-profile",
             "prefix-parametric-compression",
+            "parametric-family-checkers",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -5222,6 +5725,7 @@ def main() -> None:
             "nonidentity-family-sample/translation-family-sample/"
             "exhaustive-real-certs/compression-audit/"
             "aggregate-compression-profile/prefix-parametric-compression/"
+            "parametric-family-checkers/"
             "compact-cert-sample/compact-cert-pilot"
         )
     if mode == "profile-exhaustive-states":
@@ -5312,6 +5816,22 @@ def main() -> None:
         print(f"decision: {payload['decision']['status']}")
         print(f"recommendation: {payload['decision']['recommendation']}")
         print(f"json: {args.prefix_parametric_output}")
+        return
+    if mode == "parametric-family-checkers":
+        payload = build_parametric_family_checkers_payload()
+        write_parametric_family_checkers_json(payload)
+        print("generated parametric family checker witnesses")
+        print(
+            "nonidentity families: "
+            f"{len(payload['nonidentity']['families'])}"
+        )
+        print(
+            "translation families: "
+            f"{len(payload['translation']['families'])}"
+        )
+        print(f"json: {PARAMETRIC_FAMILY_CHECKERS_JSON_PATH}")
+        print(f"lean: {NONIDENTITY_PARAMETRIC_LEAN_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {TRANSLATION_PARAMETRIC_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "compact-cert-sample":
         payload = build_compact_cert_sample_payload()
