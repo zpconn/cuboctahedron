@@ -7,11 +7,10 @@ import Cuboctahedron.Search.PairWords
 /-!
 Finite enumeration interfaces for pair-words and sign masks.
 
-The generated coverage object targets this exact finite API.  Pair-word ranks
-are induced by Lean's finite equivalence for the subtype of valid words.  The
-equivalence is intentionally noncomputable; it proves exhaustive coverage over
-exactly 97,297,200 valid words without assigning mathematical meaning to a
-particular external lexicographic order.
+The generated coverage object targets this exact finite API.  The certificate
+pipeline uses a deterministic lexicographic rank over the seven pair IDs; the
+ranker is defined here so generated coverage facts and the public enumeration
+API can be bridged in one place.
 -/
 
 namespace Cuboctahedron
@@ -20,6 +19,8 @@ set_option linter.unusedSimpArgs false
 set_option linter.unnecessarySimpa false
 
 def expectedNumPairWords : Nat := 97297200
+
+def numPairWords : Nat := 97297200
 
 theorem expectedNumPairWords_formula :
     expectedNumPairWords =
@@ -54,6 +55,185 @@ instance validPairWordDecidablePred :
   infer_instance
 
 abbrev ValidPairWordSubtype := { w : PairWord // ValidPairWord w }
+
+def pairIdsInLexOrder : List PairId :=
+  [PairId.x, PairId.y, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1,
+    PairId.dm11]
+
+def pairIdLexCode : PairId -> Nat
+  | PairId.x => 0
+  | PairId.y => 1
+  | PairId.z => 2
+  | PairId.d111 => 3
+  | PairId.d11m => 4
+  | PairId.d1m1 => 5
+  | PairId.dm11 => 6
+
+structure PairCounts where
+  x : Nat
+  y : Nat
+  z : Nat
+  d111 : Nat
+  d11m : Nat
+  d1m1 : Nat
+  dm11 : Nat
+deriving DecidableEq, Repr
+
+def PairCounts.initial : PairCounts where
+  x := 1
+  y := 2
+  z := 2
+  d111 := 2
+  d11m := 2
+  d1m1 := 2
+  dm11 := 2
+
+def PairCounts.get (counts : PairCounts) : PairId -> Nat
+  | PairId.x => counts.x
+  | PairId.y => counts.y
+  | PairId.z => counts.z
+  | PairId.d111 => counts.d111
+  | PairId.d11m => counts.d11m
+  | PairId.d1m1 => counts.d1m1
+  | PairId.dm11 => counts.dm11
+
+def PairCounts.decrement (counts : PairCounts) : PairId -> PairCounts
+  | PairId.x => { counts with x := counts.x - 1 }
+  | PairId.y => { counts with y := counts.y - 1 }
+  | PairId.z => { counts with z := counts.z - 1 }
+  | PairId.d111 => { counts with d111 := counts.d111 - 1 }
+  | PairId.d11m => { counts with d11m := counts.d11m - 1 }
+  | PairId.d1m1 => { counts with d1m1 := counts.d1m1 - 1 }
+  | PairId.dm11 => { counts with dm11 := counts.dm11 - 1 }
+
+def PairCounts.total (counts : PairCounts) : Nat :=
+  counts.x + counts.y + counts.z + counts.d111 + counts.d11m +
+    counts.d1m1 + counts.dm11
+
+def pairCountsCandidateList : List PairCounts :=
+  (List.range 2).flatMap fun x =>
+  (List.range 3).flatMap fun y =>
+  (List.range 3).flatMap fun z =>
+  (List.range 3).flatMap fun d111 =>
+  (List.range 3).flatMap fun d11m =>
+  (List.range 3).flatMap fun d1m1 =>
+  (List.range 3).map fun dm11 =>
+    { x := x, y := y, z := z, d111 := d111, d11m := d11m,
+      d1m1 := d1m1, dm11 := dm11 }
+
+def pairWordLexBlockCount (counts : PairCounts) : Nat :=
+  Nat.factorial counts.total /
+    (Nat.factorial counts.x * Nat.factorial counts.y *
+      Nat.factorial counts.z * Nat.factorial counts.d111 *
+        Nat.factorial counts.d11m * Nat.factorial counts.d1m1 *
+          Nat.factorial counts.dm11)
+
+def pairWordLexFirstStepBlocks (counts : PairCounts) : List (PairId × Nat) :=
+  (pairIdsInLexOrder.filter fun p => decide (0 < counts.get p)).map fun p =>
+    (p, pairWordLexBlockCount (counts.decrement p))
+
+def pairWordLexFirstStepBlockTotal (counts : PairCounts) : Nat :=
+  (pairWordLexFirstStepBlocks counts).map Prod.snd |>.sum
+
+def pairCountsFirstStepRecurrenceOK (counts : PairCounts) : Prop :=
+  0 < counts.total ->
+    pairWordLexFirstStepBlockTotal counts = pairWordLexBlockCount counts
+
+instance pairCountsFirstStepRecurrenceOKDecidable (counts : PairCounts) :
+    Decidable (pairCountsFirstStepRecurrenceOK counts) := by
+  unfold pairCountsFirstStepRecurrenceOK
+  infer_instance
+
+def checkPairCountsFirstStepRecurrence : Bool :=
+  pairCountsCandidateList.all fun counts =>
+    decide (pairCountsFirstStepRecurrenceOK counts)
+
+set_option maxRecDepth 100000 in
+theorem checkPairCountsFirstStepRecurrence_eq_true :
+    checkPairCountsFirstStepRecurrence = true := by
+  decide
+
+theorem pairCountsFirstStepRecurrence_of_mem
+    {counts : PairCounts}
+    (hmem : counts ∈ pairCountsCandidateList)
+    (hpos : 0 < counts.total) :
+    pairWordLexFirstStepBlockTotal counts = pairWordLexBlockCount counts := by
+  have hall :
+      ∀ counts ∈ pairCountsCandidateList,
+        decide (pairCountsFirstStepRecurrenceOK counts) = true := by
+    simpa [checkPairCountsFirstStepRecurrence, List.all_eq_true]
+      using checkPairCountsFirstStepRecurrence_eq_true
+  exact (of_decide_eq_true (hall counts hmem)) hpos
+
+def pairCountsDecrementTotalOK (counts : PairCounts) (p : PairId) : Prop :=
+  0 < counts.get p ->
+    (counts.decrement p).total + 1 = counts.total
+
+instance pairCountsDecrementTotalOKDecidable
+    (counts : PairCounts) (p : PairId) :
+    Decidable (pairCountsDecrementTotalOK counts p) := by
+  unfold pairCountsDecrementTotalOK
+  infer_instance
+
+def checkPairCountsDecrementTotal : Bool :=
+  pairCountsCandidateList.all fun counts =>
+    pairIdsInLexOrder.all fun p =>
+      decide (pairCountsDecrementTotalOK counts p)
+
+set_option maxRecDepth 100000 in
+theorem checkPairCountsDecrementTotal_eq_true :
+    checkPairCountsDecrementTotal = true := by
+  decide
+
+theorem pairCountsDecrement_total
+    {counts : PairCounts}
+    (hmem : counts ∈ pairCountsCandidateList)
+    {p : PairId}
+    (hpos : 0 < counts.get p) :
+    (counts.decrement p).total + 1 = counts.total := by
+  have hall :
+      ∀ counts ∈ pairCountsCandidateList,
+        (pairIdsInLexOrder.all fun p =>
+          decide (pairCountsDecrementTotalOK counts p)) = true := by
+    simpa [checkPairCountsDecrementTotal, List.all_eq_true]
+      using checkPairCountsDecrementTotal_eq_true
+  have hpAll := hall counts hmem
+  have hpMem : p ∈ pairIdsInLexOrder := by
+    cases p <;> simp [pairIdsInLexOrder]
+  have hp :
+      decide (pairCountsDecrementTotalOK counts p) = true :=
+    List.all_eq_true.mp hpAll p hpMem
+  exact (of_decide_eq_true hp) hpos
+
+def pairWordLexRankAux
+    (w : PairWord) (pos : Nat) : Nat -> PairCounts -> Nat
+  | 0, _ => 0
+  | fuel + 1, counts =>
+      if h : pos < 13 then
+        let current := w.get ⟨pos, h⟩
+        let smallerCount :=
+          ((pairIdsInLexOrder.filter fun p =>
+              decide (pairIdLexCode p < pairIdLexCode current /\
+                0 < counts.get p)).map fun p =>
+                pairWordLexBlockCount (counts.decrement p)).sum
+        smallerCount +
+          pairWordLexRankAux w (pos + 1) fuel
+            (counts.decrement current)
+      else
+        0
+
+def pairWordLexRank (w : PairWord) : Nat :=
+  pairWordLexRankAux w 0 13 PairCounts.initial
+
+def pairWordLexRank? (w : PairWord) : Option (Fin numPairWords) :=
+  if ValidPairWord w then
+    let rank := pairWordLexRank w
+    if h : rank < numPairWords then
+      some ⟨rank, h⟩
+    else
+      none
+  else
+    none
 
 abbrev PairPositionSet := Finset (Fin 13)
 
@@ -1133,8 +1313,6 @@ noncomputable def pairWordChoiceEquivValid :
   Equiv.ofBijective validPairWordOfChoice
     ⟨validPairWordOfChoice_injective,
       validPairWordOfChoice_surjective⟩
-
-def numPairWords : Nat := 97297200
 
 theorem validPairWord_card_literal :
     Fintype.card ValidPairWordSubtype = 97297200 := by
