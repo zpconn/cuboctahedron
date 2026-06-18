@@ -40,6 +40,7 @@ COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
 AGGREGATE_COMPRESSION_PROFILE_JSON_PATH = exact_profile.AGGREGATE_PROFILE_JSON_PATH
+PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH = exact_profile.PREFIX_PARAMETRIC_JSON_PATH
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -2309,6 +2310,15 @@ def check_compression_audit(payload):
             check_aggregate_compression_profile(aggregate_payload)
         else:
             aggregate_payload = None
+    prefix_parametric_payload = None
+    if PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists():
+        prefix_parametric_payload = json.loads(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+        )
+        if prefix_parametric_payload.get("complete") is True:
+            check_prefix_parametric_compression(prefix_parametric_payload)
+        else:
+            prefix_parametric_payload = None
 
     require(payload["actual_counts"] == {
         "pair_words": counts["pair_words"],
@@ -2330,6 +2340,7 @@ def check_compression_audit(payload):
         "translation_family_sample",
         "exhaustive_real_certs_summary",
         "aggregate_compression_profile",
+        "prefix_parametric_compression",
     }
     require(set(payload["prerequisites"]) == prerequisite_keys,
             "compression audit prerequisite keys")
@@ -2337,6 +2348,9 @@ def check_compression_audit(payload):
         if key == "aggregate_compression_profile" and aggregate_payload is None:
             require(status["exists"] is False or status["bytes"] == 0,
                     "compression audit absent aggregate prerequisite")
+        elif key == "prefix_parametric_compression" and prefix_parametric_payload is None:
+            require(status["exists"] is False or status["bytes"] == 0,
+                    "compression audit absent prefix-parametric prerequisite")
         else:
             require(status["exists"] is True, f"compression audit prerequisite exists {key}")
             require(status["bytes"] > 0, f"compression audit prerequisite bytes {key}")
@@ -2456,7 +2470,10 @@ def check_compression_audit(payload):
             "compression audit prefix leaf estimate")
 
     size_ladder = payload["size_ladder"]
-    if aggregate_payload is None:
+    if prefix_parametric_payload is not None:
+        estimated_bytes = prefix_parametric_payload["size_ladder"]["estimated_lean_bytes"]
+        canonical_estimate = prefix_parametric_payload["size_ladder"]["final_cert_estimate"]
+    elif aggregate_payload is None:
         estimated_bytes = exhaustive_payload["estimate"]["estimated_lean_bytes"]
         canonical_estimate = exhaustive_payload["estimate"]["canonical_cert_estimate"]
     else:
@@ -2475,6 +2492,42 @@ def check_compression_audit(payload):
         is (profile_estimates["prefix_tree_leaf_estimate"] < canonical_estimate),
         "compression audit prefix reduction proven",
     )
+    prefix_parametric = payload["prefix_parametric"]
+    if prefix_parametric_payload is None:
+        require(prefix_parametric == {"available": False},
+                "compression audit absent prefix-parametric summary")
+    else:
+        require(prefix_parametric["available"] is True,
+                "compression audit prefix-parametric available")
+        require(
+            prefix_parametric["source"]
+            == str(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)),
+            "compression audit prefix-parametric source",
+        )
+        require(
+            prefix_parametric["final_cert_estimate"]
+            == prefix_parametric_payload["size_ladder"]["final_cert_estimate"],
+            "compression audit prefix-parametric final estimate",
+        )
+        require(
+            prefix_parametric["estimated_lean_bytes"]
+            == prefix_parametric_payload["size_ladder"]["estimated_lean_bytes"],
+            "compression audit prefix-parametric bytes",
+        )
+        require(
+            prefix_parametric["nonidentity_residual_singletons"]
+            == prefix_parametric_payload["size_ladder"][
+                "nonidentity_residual_singleton_estimate"
+            ],
+            "compression audit prefix-parametric nonidentity residual",
+        )
+        require(
+            prefix_parametric["translation_shared_farkas"]
+            == prefix_parametric_payload["size_ladder"][
+                "translation_shared_farkas_estimate"
+            ],
+            "compression audit prefix-parametric translation Farkas",
+        )
     check_thresholds(size_ladder["thresholds"], estimated_bytes)
 
     full_histograms_available = (
@@ -2485,7 +2538,25 @@ def check_compression_audit(payload):
     )
     fits_1gib = size_ladder["thresholds"][0]["fits"]
     decision = payload["decision"]
-    if aggregate_payload is not None:
+    if prefix_parametric_payload is not None:
+        require(decision["status"] == prefix_parametric_payload["decision"]["status"],
+                "compression audit prefix-parametric status")
+        require(
+            decision["ready_for_14E7"]
+            is prefix_parametric_payload["decision"]["ready_for_14E7"],
+            "compression audit prefix-parametric ready decision",
+        )
+        require(
+            decision["recommendation"]
+            == prefix_parametric_payload["decision"]["recommendation"],
+            "compression audit prefix-parametric recommendation",
+        )
+        require(
+            decision["source"]
+            == str(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)),
+            "compression audit prefix-parametric source",
+        )
+    elif aggregate_payload is not None:
         require(decision["status"] == aggregate_payload["decision"]["status"],
                 "compression audit aggregate status")
         require(
@@ -2719,6 +2790,195 @@ def check_aggregate_compression_profile(payload):
     }
 
 
+def check_prefix_parametric_compression(payload):
+    require(payload.get("schema_version") == 1, "prefix-parametric schema version")
+    require(payload.get("mode") == "prefix-parametric-compression",
+            "prefix-parametric mode")
+    require(payload.get("complete") is True, "prefix-parametric complete")
+    require(payload.get("proof_complete") is False,
+            "prefix-parametric not proof complete")
+    require(
+        payload.get("source")
+        == str(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.relative_to(REPO_ROOT)),
+        "prefix-parametric aggregate source",
+    )
+
+    aggregate_payload = json.loads(
+        AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.read_text(encoding="utf-8")
+    )
+    aggregate_summary = check_aggregate_compression_profile(aggregate_payload)
+    require(aggregate_summary["complete"] is True,
+            "prefix-parametric aggregate complete")
+    require(payload["actual_counts"] == aggregate_payload["actual_counts"],
+            "prefix-parametric actual counts")
+    require(payload["canonical_counts"] == aggregate_payload["canonical_counts"],
+            "prefix-parametric canonical counts")
+    require(payload["aggregate_decision"] == aggregate_payload["decision"],
+            "prefix-parametric aggregate decision echo")
+
+    nonidentity = payload["nonidentity"]
+    aggregate_nonid = aggregate_payload["nonidentity"]
+    nonid_failures = nonidentity["failure_counts"]
+    require(nonid_failures == aggregate_nonid["failure_counts"],
+            "prefix-parametric nonidentity failure echo")
+    require(
+        sum(nonid_failures.values())
+        == payload["actual_counts"]["nonidentity_words"],
+        "prefix-parametric nonidentity failure sum",
+    )
+    nonid_families = nonidentity["parametric_families"]
+    expected_nonid_family_failures = {
+        failure for failure in ("badDirectionSign", "badPairBalance", "noFixedAxis")
+        if nonid_failures.get(failure, 0) > 0
+    }
+    require(
+        {family["failure"] for family in nonid_families}
+        == expected_nonid_family_failures,
+        "prefix-parametric nonidentity family failures",
+    )
+    for family in nonid_families:
+        require(family["raw_cases"] == nonid_failures[family["failure"]],
+                f"prefix-parametric nonidentity family raw {family['name']}")
+        require(family["estimated_certificates"] == 1,
+                f"prefix-parametric nonidentity family estimate {family['name']}")
+        require(family["certificate_kind"].startswith("prefix_"),
+                f"prefix-parametric nonidentity family kind {family['name']}")
+    require(nonidentity["residual_singleton_failure"] == "needsAxisSolveOrSimulation",
+            "prefix-parametric nonidentity residual kind")
+    require(
+        nonidentity["residual_singleton_cases"]
+        == nonid_failures.get("needsAxisSolveOrSimulation", 0),
+        "prefix-parametric nonidentity residual cases",
+    )
+    require(
+        nonidentity["raw_cases_covered"]
+        == sum(family["raw_cases"] for family in nonid_families)
+        + nonidentity["residual_singleton_cases"],
+        "prefix-parametric nonidentity covered partition",
+    )
+
+    translation = payload["translation"]
+    aggregate_translation = aggregate_payload["translation"]
+    translation_failures = translation["failure_counts"]
+    require(translation_failures == aggregate_translation["failure_counts"],
+            "prefix-parametric translation failure echo")
+    require(
+        sum(translation_failures.values())
+        == payload["actual_counts"]["translation_sign_assignments"],
+        "prefix-parametric translation failure sum",
+    )
+    translation_families = translation["parametric_families"]
+    expected_translation_family_failures = {
+        failure for failure in ("badDirectionSign", "badTranslationVector")
+        if translation_failures.get(failure, 0) > 0
+    }
+    require(
+        {family["failure"] for family in translation_families}
+        == expected_translation_family_failures,
+        "prefix-parametric translation family failures",
+    )
+    for family in translation_families:
+        require(family["raw_cases"] == translation_failures[family["failure"]],
+                f"prefix-parametric translation family raw {family['name']}")
+        require(family["estimated_certificates"] == 1,
+                f"prefix-parametric translation family estimate {family['name']}")
+        require(family["certificate_kind"].startswith("prefix_"),
+                f"prefix-parametric translation family kind {family['name']}")
+    require(translation["shared_farkas_cases"] == translation_failures.get("needsFarkas", 0),
+            "prefix-parametric shared Farkas cases")
+    require(
+        translation["shared_farkas_shapes"]
+        == aggregate_translation["farkas_shape_histogram"]["distinct"],
+        "prefix-parametric shared Farkas shapes",
+    )
+    require(
+        translation["unresolved_farkas_cases"]
+        == aggregate_translation["unresolved_farkas_cases"],
+        "prefix-parametric unresolved Farkas cases",
+    )
+    require(
+        translation["raw_cases_covered"]
+        == sum(family["raw_cases"] for family in translation_families)
+        + translation["shared_farkas_cases"],
+        "prefix-parametric translation covered partition",
+    )
+
+    size = payload["size_ladder"]
+    nonid_family_estimate = sum(
+        family["estimated_certificates"] for family in nonid_families
+    )
+    translation_family_estimate = sum(
+        family["estimated_certificates"] for family in translation_families
+    )
+    final_estimate = (
+        nonid_family_estimate
+        + nonidentity["residual_singleton_cases"]
+        + translation_family_estimate
+        + translation["shared_farkas_shapes"]
+    )
+    require(size["bytes_per_certificate_proxy"] == 512,
+            "prefix-parametric byte proxy")
+    require(size["flat_total_certs"] == aggregate_payload["size_ladder"]["flat_total_certs"],
+            "prefix-parametric flat total")
+    require(
+        size["aggregate_final_cert_estimate"]
+        == aggregate_payload["size_ladder"]["final_cert_estimate"],
+        "prefix-parametric aggregate estimate",
+    )
+    require(size["nonidentity_parametric_family_estimate"] == nonid_family_estimate,
+            "prefix-parametric nonidentity estimate")
+    require(
+        size["nonidentity_residual_singleton_estimate"]
+        == nonidentity["residual_singleton_cases"],
+        "prefix-parametric nonidentity residual estimate",
+    )
+    require(size["translation_parametric_family_estimate"] == translation_family_estimate,
+            "prefix-parametric translation estimate")
+    require(size["translation_shared_farkas_estimate"] == translation["shared_farkas_shapes"],
+            "prefix-parametric Farkas estimate")
+    require(size["final_cert_estimate"] == final_estimate,
+            "prefix-parametric final estimate")
+    estimated_bytes = final_estimate * size["bytes_per_certificate_proxy"]
+    require(size["estimated_lean_bytes"] == estimated_bytes,
+            "prefix-parametric byte estimate")
+    require(abs(size["estimated_lean_gib"] - estimated_bytes / GIB) < 1e-12,
+            "prefix-parametric GiB estimate")
+    check_thresholds(size["thresholds"], estimated_bytes)
+
+    decision = payload["decision"]
+    ready = translation["unresolved_farkas_cases"] == 0 and size["thresholds"][0]["fits"]
+    require(decision["ready_for_14E7"] is ready,
+            "prefix-parametric ready decision")
+    if ready:
+        require(decision["status"] == "ready_for_14E7",
+                "prefix-parametric ready status")
+        require(
+            decision["recommendation"]
+            == "proceed_to_concrete_exhaustive_coverage_witness_with_parametric_families",
+            "prefix-parametric ready recommendation",
+        )
+    else:
+        require(decision["status"] == "blocked_exceeds_budget",
+                "prefix-parametric blocked status")
+        require(
+            decision["recommendation"]
+            == "add_deeper_prefix_or_parametric_family_compression_before_14E7",
+            "prefix-parametric blocked recommendation",
+        )
+
+    return {
+        "status": decision["status"],
+        "ready_for_14E7": decision["ready_for_14E7"],
+        "final_cert_estimate": final_estimate,
+        "estimated_lean_bytes": estimated_bytes,
+        "fits_1GiB": size["thresholds"][0]["fits"],
+        "fits_500MiB": size["thresholds"][1]["fits"],
+        "fits_100MiB": size["thresholds"][2]["fits"],
+        "nonidentity_residual_singletons": nonidentity["residual_singleton_cases"],
+        "translation_shared_farkas": translation["shared_farkas_shapes"],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -2735,6 +2995,7 @@ def main():
             "exhaustive-real-certs",
             "compression-audit",
             "aggregate-compression-profile",
+            "prefix-parametric-compression",
             "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
@@ -2766,6 +3027,12 @@ def main():
         help="input path for aggregate-compression-profile JSON",
     )
     parser.add_argument(
+        "--prefix-parametric-input",
+        type=Path,
+        default=PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+        help="input path for prefix-parametric-compression JSON",
+    )
+    parser.add_argument(
         "--with-symmetry",
         action="store_true",
         help="require started-symmetry summaries in profile-exhaustive-states",
@@ -2790,6 +3057,7 @@ def main():
             "translation-family-sample/"
             "exhaustive-real-certs/compression-audit/"
             "aggregate-compression-profile/"
+            "prefix-parametric-compression/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
         )
@@ -2894,6 +3162,23 @@ def main():
         print(f"translation constraint systems: {summary['constraint_systems']:,}")
         print(f"translation Farkas shapes: {summary['farkas_shapes']:,}")
         print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
+        return
+    if mode == "prefix-parametric-compression":
+        payload = json.loads(args.prefix_parametric_input.read_text(encoding="utf-8"))
+        summary = check_prefix_parametric_compression(payload)
+        print("independent prefix/parametric compression check passed")
+        print(f"status: {summary['status']}")
+        print(f"ready for 14E.7: {summary['ready_for_14E7']}")
+        print(f"final cert estimate: {summary['final_cert_estimate']:,}")
+        print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
+        print(f"fits under 1GiB: {summary['fits_1GiB']}")
+        print(f"fits under 500MiB: {summary['fits_500MiB']}")
+        print(f"fits under 100MiB: {summary['fits_100MiB']}")
+        print(
+            "nonidentity residual singletons: "
+            f"{summary['nonidentity_residual_singletons']:,}"
+        )
+        print(f"translation shared Farkas: {summary['translation_shared_farkas']:,}")
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

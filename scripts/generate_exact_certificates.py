@@ -43,6 +43,7 @@ COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
 AGGREGATE_COMPRESSION_PROFILE_JSON_PATH = exact_profile.AGGREGATE_PROFILE_JSON_PATH
+PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH = exact_profile.PREFIX_PARAMETRIC_JSON_PATH
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 CANONICAL_COVERAGE_LEAN_PATH = (
@@ -4436,6 +4437,158 @@ def threshold_record(name: str, limit_bytes: int, estimated_bytes: int) -> dict:
     }
 
 
+def build_prefix_parametric_compression_payload() -> dict:
+    aggregate = load_json_artifact(
+        AGGREGATE_COMPRESSION_PROFILE_JSON_PATH,
+        "aggregate-compression-profile",
+    )
+    if not aggregate.get("complete", False):
+        raise SystemExit(
+            "prefix-parametric compression requires a complete aggregate profile"
+        )
+
+    nonid_failures = aggregate["nonidentity"]["failure_counts"]
+    translation_failures = aggregate["translation"]["failure_counts"]
+    nonid_parametric_specs = [
+        {
+            "name": "nonidentity_bad_direction_sign_prefix_family",
+            "failure": "badDirectionSign",
+            "raw_cases": int(nonid_failures.get("badDirectionSign", 0)),
+            "estimated_certificates": 1,
+            "certificate_kind": "prefix_axis_sign_obstruction",
+        },
+        {
+            "name": "nonidentity_bad_pair_balance_prefix_family",
+            "failure": "badPairBalance",
+            "raw_cases": int(nonid_failures.get("badPairBalance", 0)),
+            "estimated_certificates": 1,
+            "certificate_kind": "prefix_forced_pair_balance_obstruction",
+        },
+    ]
+    if int(nonid_failures.get("noFixedAxis", 0)) > 0:
+        nonid_parametric_specs.append({
+            "name": "nonidentity_no_fixed_axis_prefix_family",
+            "failure": "noFixedAxis",
+            "raw_cases": int(nonid_failures["noFixedAxis"]),
+            "estimated_certificates": 1,
+            "certificate_kind": "prefix_linear_no_fixed_axis_obstruction",
+        })
+    nonid_residual_cases = int(nonid_failures.get("needsAxisSolveOrSimulation", 0))
+
+    translation_parametric_specs = [
+        {
+            "name": "translation_bad_direction_sign_prefix_family",
+            "failure": "badDirectionSign",
+            "raw_cases": int(translation_failures.get("badDirectionSign", 0)),
+            "estimated_certificates": 1,
+            "certificate_kind": "prefix_denominator_sign_obstruction",
+        },
+        {
+            "name": "translation_bad_vector_prefix_family",
+            "failure": "badTranslationVector",
+            "raw_cases": int(translation_failures.get("badTranslationVector", 0)),
+            "estimated_certificates": 1,
+            "certificate_kind": "prefix_zero_translation_vector_obstruction",
+        },
+    ]
+    translation_farkas_cases = int(translation_failures.get("needsFarkas", 0))
+    translation_farkas_shapes = int(
+        aggregate["translation"]["farkas_shape_histogram"]["distinct"]
+    )
+    unresolved_farkas_cases = int(aggregate["translation"]["unresolved_farkas_cases"])
+
+    nonid_parametric_estimate = sum(
+        int(family["estimated_certificates"]) for family in nonid_parametric_specs
+    )
+    translation_parametric_estimate = sum(
+        int(family["estimated_certificates"]) for family in translation_parametric_specs
+    )
+    final_cert_estimate = (
+        nonid_parametric_estimate
+        + nonid_residual_cases
+        + translation_parametric_estimate
+        + translation_farkas_shapes
+    )
+    estimated_lean_bytes = final_cert_estimate * 512
+    thresholds = [
+        threshold_record("1GiB", GIB, estimated_lean_bytes),
+        threshold_record("500MiB", 500 * MIB, estimated_lean_bytes),
+        threshold_record("100MiB", 100 * MIB, estimated_lean_bytes),
+    ]
+    ready = unresolved_farkas_cases == 0 and thresholds[0]["fits"]
+    status = "ready_for_14E7" if ready else "blocked_exceeds_budget"
+    recommendation = (
+        "proceed_to_concrete_exhaustive_coverage_witness_with_parametric_families"
+        if ready
+        else "add_deeper_prefix_or_parametric_family_compression_before_14E7"
+    )
+
+    return {
+        "schema_version": 1,
+        "mode": "prefix-parametric-compression",
+        "complete": True,
+        "proof_complete": False,
+        "source": str(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.relative_to(REPO_ROOT)),
+        "strategy": {
+            "name": "early_failure_prefix_parametric_v1",
+            "description": (
+                "Parametrically cover high-volume early sign and balance "
+                "failures; keep nonidentity axis/simulation residuals at "
+                "singleton scale and reuse shared translation Farkas shapes."
+            ),
+            "hard_budget_bytes": GIB,
+        },
+        "actual_counts": aggregate["actual_counts"],
+        "canonical_counts": aggregate["canonical_counts"],
+        "aggregate_decision": aggregate["decision"],
+        "nonidentity": {
+            "failure_counts": nonid_failures,
+            "parametric_families": nonid_parametric_specs,
+            "residual_singleton_failure": "needsAxisSolveOrSimulation",
+            "residual_singleton_cases": nonid_residual_cases,
+            "raw_cases_covered": int(aggregate["actual_counts"]["nonidentity_words"]),
+        },
+        "translation": {
+            "failure_counts": translation_failures,
+            "parametric_families": translation_parametric_specs,
+            "shared_farkas_cases": translation_farkas_cases,
+            "shared_farkas_shapes": translation_farkas_shapes,
+            "unresolved_farkas_cases": unresolved_farkas_cases,
+            "raw_cases_covered": int(
+                aggregate["actual_counts"]["translation_sign_assignments"]
+            ),
+        },
+        "size_ladder": {
+            "flat_total_certs": int(aggregate["size_ladder"]["flat_total_certs"]),
+            "aggregate_final_cert_estimate": int(
+                aggregate["size_ladder"]["final_cert_estimate"]
+            ),
+            "nonidentity_parametric_family_estimate": nonid_parametric_estimate,
+            "nonidentity_residual_singleton_estimate": nonid_residual_cases,
+            "translation_parametric_family_estimate": translation_parametric_estimate,
+            "translation_shared_farkas_estimate": translation_farkas_shapes,
+            "final_cert_estimate": final_cert_estimate,
+            "estimated_lean_bytes": estimated_lean_bytes,
+            "estimated_lean_gib": estimated_lean_bytes / GIB,
+            "bytes_per_certificate_proxy": 512,
+            "thresholds": thresholds,
+        },
+        "decision": {
+            "status": status,
+            "ready_for_14E7": ready,
+            "recommendation": recommendation,
+        },
+    }
+
+
+def write_prefix_parametric_compression_json(payload: dict, output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def build_compression_audit_payload() -> dict:
     profile = exact_profile.load_profile_payload(exact_profile.PROFILE_JSON_PATH)
     counts = exact_profile.check_profile_payload(profile)
@@ -4457,12 +4610,27 @@ def build_compression_audit_payload() -> dict:
         )
         if not aggregate.get("complete", False):
             aggregate = None
+    prefix_parametric = None
+    if PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists():
+        prefix_parametric = load_json_artifact(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+            "prefix-parametric-compression",
+        )
+        if not prefix_parametric.get("complete", False):
+            prefix_parametric = None
 
     estimates = profile["size_estimates"]
     exact_summary = estimates.get("exact_state_group_summary", {})
     nonid_exact = exact_summary.get("nonidentity", {})
     translation_exact = exact_summary.get("translation", {})
-    if aggregate is not None:
+    if prefix_parametric is not None:
+        current_estimated_bytes = int(
+            prefix_parametric["size_ladder"]["estimated_lean_bytes"]
+        )
+        canonical_cert_estimate = int(
+            prefix_parametric["size_ladder"]["final_cert_estimate"]
+        )
+    elif aggregate is not None:
         current_estimated_bytes = int(aggregate["size_ladder"]["estimated_lean_bytes"])
         canonical_cert_estimate = int(
             aggregate["size_ladder"]["canonical_representative_estimate"]
@@ -4503,7 +4671,11 @@ def build_compression_audit_payload() -> dict:
         and translation_sharing["full_constraint_histogram_available"]
         and translation_sharing["full_farkas_shape_histogram_available"]
     )
-    if aggregate is not None:
+    if prefix_parametric is not None:
+        status = prefix_parametric["decision"]["status"]
+        ready_for_14e7 = bool(prefix_parametric["decision"]["ready_for_14E7"])
+        recommendation = prefix_parametric["decision"]["recommendation"]
+    elif aggregate is not None:
         status = aggregate["decision"]["status"]
         ready_for_14e7 = bool(aggregate["decision"]["ready_for_14E7"])
         recommendation = aggregate["decision"]["recommendation"]
@@ -4543,6 +4715,9 @@ def build_compression_audit_payload() -> dict:
             "translation_family_sample": path_status(TRANSLATION_FAMILY_JSON_PATH),
             "exhaustive_real_certs_summary": path_status(EXHAUSTIVE_REAL_CERTS_JSON_PATH),
             "aggregate_compression_profile": path_status(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH),
+            "prefix_parametric_compression": path_status(
+                PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH
+            ),
         },
         "canonical_counts": canonical["canonical_counts"],
         "nonidentity": {
@@ -4578,6 +4753,32 @@ def build_compression_audit_payload() -> dict:
             "full_reduction_proven": int(estimates["prefix_tree_leaf_estimate"])
             < canonical_cert_estimate,
         },
+        "prefix_parametric": (
+            {
+                "available": True,
+                "source": str(
+                    PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)
+                ),
+                "final_cert_estimate": int(
+                    prefix_parametric["size_ladder"]["final_cert_estimate"]
+                ),
+                "estimated_lean_bytes": int(
+                    prefix_parametric["size_ladder"]["estimated_lean_bytes"]
+                ),
+                "nonidentity_residual_singletons": int(
+                    prefix_parametric["size_ladder"][
+                        "nonidentity_residual_singleton_estimate"
+                    ]
+                ),
+                "translation_shared_farkas": int(
+                    prefix_parametric["size_ladder"][
+                        "translation_shared_farkas_estimate"
+                    ]
+                ),
+            }
+            if prefix_parametric is not None
+            else {"available": False}
+        ),
         "size_ladder": {
             "flat_total_certs": int(estimates["flat_total_certs"]),
             "canonical_cert_estimate": canonical_cert_estimate,
@@ -4590,6 +4791,9 @@ def build_compression_audit_payload() -> dict:
             "ready_for_14E7": ready_for_14e7,
             "recommendation": recommendation,
             "source": (
+                str(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT))
+                if prefix_parametric is not None
+                else
                 str(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.relative_to(REPO_ROOT))
                 if aggregate is not None
                 else "compression-audit-local"
@@ -4623,6 +4827,7 @@ def main() -> None:
             "exhaustive-real-certs",
             "compression-audit",
             "aggregate-compression-profile",
+            "prefix-parametric-compression",
         ],
         help="generation mode",
     )
@@ -4677,6 +4882,12 @@ def main() -> None:
         help="output path for aggregate-compression-profile JSON",
     )
     parser.add_argument(
+        "--prefix-parametric-output",
+        type=Path,
+        default=PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+        help="output path for prefix-parametric-compression JSON",
+    )
+    parser.add_argument(
         "--generated-data-budget-gib",
         type=float,
         default=8.0,
@@ -4707,7 +4918,7 @@ def main() -> None:
             "canonical-coverage-manifest/coverage-tree-sample/"
             "nonidentity-family-sample/translation-family-sample/"
             "exhaustive-real-certs/compression-audit/"
-            "aggregate-compression-profile"
+            "aggregate-compression-profile/prefix-parametric-compression"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -4775,6 +4986,28 @@ def main() -> None:
         )
         exact_profile.print_aggregate_compression_summary(payload)
         print(f"json: {args.aggregate_profile_output}")
+        return
+    if mode == "prefix-parametric-compression":
+        payload = build_prefix_parametric_compression_payload()
+        write_prefix_parametric_compression_json(
+            payload,
+            args.prefix_parametric_output,
+        )
+        print("generated prefix/parametric compression plan")
+        print(
+            "final certificate estimate: "
+            f"{payload['size_ladder']['final_cert_estimate']:,}"
+        )
+        print(
+            "estimated Lean source: "
+            f"{payload['size_ladder']['estimated_lean_gib']:.2f} GiB"
+        )
+        for threshold in payload["size_ladder"]["thresholds"]:
+            verdict = "fits" if threshold["fits"] else "does not fit"
+            print(f"{threshold['name']}: {verdict}")
+        print(f"decision: {payload['decision']['status']}")
+        print(f"recommendation: {payload['decision']['recommendation']}")
+        print(f"json: {args.prefix_parametric_output}")
         return
     if mode == "canonical-symmetry-sample":
         payload = build_canonical_payload()

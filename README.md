@@ -44,11 +44,15 @@ The current compression feasibility audit is intentionally a gate, not proof dat
 ```bash
 python3 scripts/generate_exact_certificates.py --mode aggregate-compression-profile
 python3 scripts/check_certificates_independently.py --mode aggregate-compression-profile
+python3 scripts/generate_exact_certificates.py --mode prefix-parametric-compression
+python3 scripts/check_certificates_independently.py --mode prefix-parametric-compression
 python3 scripts/generate_exact_certificates.py --mode compression-audit
 python3 scripts/check_certificates_independently.py --mode compression-audit
 ```
 
-The full aggregate compression profiler has now run over all `97,297,200` pair-words and all `157,957,632` translation sign assignments. It found `42,409,280` nonidentity family shapes, `3,095,090` normalized translation constraint systems, `20,298` normalized Farkas witness shapes, and `0` unresolved Farkas cases. After symmetry, reversal, exact-state grouping, shared constraints, and shared Farkas witnesses, the checked audit still estimates `8,170,113,024` bytes, or about `7.61 GiB`, of generated Lean source. That does not fit under the 1 GiB, 500 MiB, or 100 MiB targets, so Step 14E.7 is blocked until Step 14E.6C adds prefix or parametric family certificates that compress the remaining high-volume families.
+The full aggregate compression profiler has now run over all `97,297,200` pair-words and all `157,957,632` translation sign assignments. It found `42,409,280` nonidentity family shapes, `3,095,090` normalized translation constraint systems, `20,298` normalized Farkas witness shapes, and `0` unresolved Farkas cases. After symmetry, reversal, exact-state grouping, shared constraints, and shared Farkas witnesses, the audit estimated `8,170,113,024` bytes, or about `7.61 GiB`, of generated Lean source.
+
+Step 14E.6C adds a prefix/parametric compression gate for the high-volume early sign and balance failures. The checked audit now estimates `2,058,958` final certificate representatives, or `1,054,186,496` bytes (`0.98 GiB`) of generated Lean source. That fits under the hard 1 GiB budget, though not under the stricter 500 MiB or 100 MiB targets. This is still planning data rather than proof data: Step 14E.7 must emit the corresponding Lean-checked parametric family coverage before the final theorem can use it.
 
 The final proof will therefore not be just "Lean replayed a giant list." The giant list supplies finite obstructions, but other essential components are structural: the billiard-to-unfolding reduction, the pair-word counting and rank coverage, the linear identity/non-identity case split, the rational reflection algebra, the Farkas infeasibility theorem, and the certificate soundness theorems connecting every checked obstruction back to the original geometric claim.
 

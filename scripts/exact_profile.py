@@ -22,6 +22,9 @@ PROFILE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "profile_exhaustive_st
 AGGREGATE_PROFILE_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "aggregate_compression_profile.json"
 )
+PREFIX_PARAMETRIC_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "prefix_parametric_compression.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_PROFILE_SOURCE_PATH = REPO_ROOT / "scripts" / "profile_exhaustive_states.cpp"
 CPP_PROFILE_BINARY_PATH = Path("/tmp") / "cuboctahedron_profile_exhaustive_states"

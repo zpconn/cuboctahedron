@@ -1600,9 +1600,29 @@ Requirements:
 - Do not proceed to Step 14E.7 while the audit status is
   `blocked_exceeds_budget` or `blocked_needs_deeper_compression`.
 
+Current completed compression-gate result:
+
+```text
+parametric nonidentity families: 2
+nonidentity residual singleton estimate: 2,038,656
+parametric translation families: 2
+shared translation Farkas estimate: 20,298
+final certificate estimate: 2,058,958
+estimated Lean source: 1,054,186,496 bytes
+estimated Lean source: 0.98 GiB
+decision: ready_for_14E7
+```
+
+This is a sizing and planning gate, not the final Lean proof data. Step 14E.7
+must emit Lean-checked parametric family coverage corresponding to the
+`prefix_parametric_compression.json` strategy before Step 15 can assemble the
+final exhaustive theorem.
+
 Done when:
 
 ```bash
+python3 scripts/generate_exact_certificates.py --mode prefix-parametric-compression
+python3 scripts/check_certificates_independently.py --mode prefix-parametric-compression
 python3 scripts/generate_exact_certificates.py --mode compression-audit
 python3 scripts/check_certificates_independently.py --mode compression-audit
 lake build

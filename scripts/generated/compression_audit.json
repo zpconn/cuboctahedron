@@ -13,10 +13,10 @@
   },
   "complete": true,
   "decision": {
-    "ready_for_14E7": false,
-    "recommendation": "add_prefix_or_parametric_family_certificates_before_14E7",
-    "source": "scripts/generated/aggregate_compression_profile.json",
-    "status": "blocked_exceeds_budget"
+    "ready_for_14E7": true,
+    "recommendation": "proceed_to_concrete_exhaustive_coverage_witness_with_parametric_families",
+    "source": "scripts/generated/prefix_parametric_compression.json",
+    "status": "ready_for_14E7"
   },
   "mode": "compression-audit",
   "nonidentity": {
@@ -42,6 +42,14 @@
         "badPairBalance"
       ]
     }
+  },
+  "prefix_parametric": {
+    "available": true,
+    "estimated_lean_bytes": 1054186496,
+    "final_cert_estimate": 2058958,
+    "nonidentity_residual_singletons": 2038656,
+    "source": "scripts/generated/prefix_parametric_compression.json",
+    "translation_shared_farkas": 20298
   },
   "prefix_tree": {
     "full_leaf_estimate": 252786744,
@@ -80,6 +88,11 @@
       "exists": true,
       "path": "scripts/generated/nonidentity_family_sample.json"
     },
+    "prefix_parametric_compression": {
+      "bytes": 3693,
+      "exists": true,
+      "path": "scripts/generated/prefix_parametric_compression.json"
+    },
     "profile": {
       "bytes": 3322,
       "exists": true,
@@ -94,13 +107,13 @@
   "proof_complete": false,
   "schema_version": 1,
   "size_ladder": {
-    "canonical_cert_estimate": 15957252,
-    "current_estimated_lean_bytes": 8170113024,
-    "current_estimated_lean_gib": 7.609010696411133,
+    "canonical_cert_estimate": 2058958,
+    "current_estimated_lean_bytes": 1054186496,
+    "current_estimated_lean_gib": 0.9817876815795898,
     "flat_total_certs": 252786744,
     "thresholds": [
       {
-        "fits": false,
+        "fits": true,
         "limit_bytes": 1073741824,
         "name": "1GiB"
       },
