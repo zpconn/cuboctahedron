@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import math
 from dataclasses import dataclass
@@ -31,6 +32,9 @@ COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_s
 NONIDENTITY_FAMILY_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_family_sample.json"
 )
+TRANSLATION_FAMILY_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "translation_family_sample.json"
+)
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 CANONICAL_COVERAGE_LEAN_PATH = (
@@ -39,6 +43,9 @@ CANONICAL_COVERAGE_LEAN_PATH = (
 COVERAGE_TREE_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageTreeSample.lean"
 NONIDENTITY_FAMILY_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilySample.lean"
+)
+TRANSLATION_FAMILY_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilySample.lean"
 )
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
@@ -559,6 +566,203 @@ def translation_vector(word: list[str], mask: int) -> tuple[Vec, list[str]]:
     return b, seq
 
 
+Lin2Q = tuple[Fraction, Fraction, Fraction]
+StrictLin2Q = tuple[Fraction, Fraction, Fraction]
+
+
+def lin2_const(qvalue: Fraction) -> Lin2Q:
+    return (qvalue, Fraction(0), Fraction(0))
+
+
+def lin2_y() -> Lin2Q:
+    return (Fraction(0), Fraction(1), Fraction(0))
+
+
+def lin2_z() -> Lin2Q:
+    return (Fraction(0), Fraction(0), Fraction(1))
+
+
+def lin2_add(lhs: Lin2Q, rhs: Lin2Q) -> Lin2Q:
+    return (lhs[0] + rhs[0], lhs[1] + rhs[1], lhs[2] + rhs[2])
+
+
+def lin2_scale(scale: Fraction, value: Lin2Q) -> Lin2Q:
+    return (scale * value[0], scale * value[1], scale * value[2])
+
+
+def lin2_dot_vec3(n: Vec, p: tuple[Lin2Q, Lin2Q, Lin2Q]) -> Lin2Q:
+    return lin2_add(
+        lin2_add(lin2_scale(n[0], p[0]), lin2_scale(n[1], p[1])),
+        lin2_scale(n[2], p[2]),
+    )
+
+
+def strict_lt_constraint(lhs: Lin2Q, rhs: Lin2Q) -> StrictLin2Q:
+    return (lhs[1] - rhs[1], lhs[2] - rhs[2], rhs[0] - lhs[0])
+
+
+def translation_impact_time_lin(seq: list[str], b: Vec, impact: int) -> Lin2Q:
+    if impact == 0:
+        return lin2_const(Fraction(0))
+    if impact == 14:
+        return lin2_const(Fraction(1))
+    prefixes = path_prefix_affs(seq)
+    normal_value, offset = impact_plane_normal_offset(seq, prefixes, impact)
+    den = dot(normal_value, b)
+    if den == 0:
+        raise ZeroDivisionError("translation impact denominator is zero")
+    return (
+        (offset - normal_value[0]) / den,
+        -normal_value[1] / den,
+        -normal_value[2] / den,
+    )
+
+
+def translation_line_point_lin(b: Vec, t: Lin2Q) -> tuple[Lin2Q, Lin2Q, Lin2Q]:
+    return (
+        lin2_add(lin2_const(Fraction(1)), lin2_scale(b[0], t)),
+        lin2_add(lin2_y(), lin2_scale(b[1], t)),
+        lin2_add(lin2_z(), lin2_scale(b[2], t)),
+    )
+
+
+def translation_constraints_py(seq: list[str], b: Vec) -> list[StrictLin2Q]:
+    constraints: list[StrictLin2Q] = [
+        (Fraction(1), Fraction(1), Fraction(1)),
+        (Fraction(1), Fraction(-1), Fraction(1)),
+        (Fraction(-1), Fraction(1), Fraction(1)),
+        (Fraction(-1), Fraction(-1), Fraction(1)),
+    ]
+    impact_times = [translation_impact_time_lin(seq, b, impact) for impact in range(15)]
+    for step in range(14):
+        constraints.append(strict_lt_constraint(impact_times[step], impact_times[step + 1]))
+    prefixes = path_prefix_affs(seq)
+    for impact in range(1, 15):
+        hit = impact_face(seq, impact)
+        point = translation_line_point_lin(b, impact_times[impact])
+        for face in FACE_ORDER:
+            if face == hit:
+                continue
+            copied, offset = copied_normal_offset(seq, prefixes, impact, face)
+            constraints.append(
+                strict_lt_constraint(
+                    lin2_dot_vec3(copied, point),
+                    lin2_const(offset),
+                )
+            )
+    return constraints
+
+
+def translation_constraint_sources_py(seq: list[str]) -> list[dict]:
+    sources: list[dict] = [
+        {"kind": "xpStart", "index": 0},
+        {"kind": "xpStart", "index": 1},
+        {"kind": "xpStart", "index": 2},
+        {"kind": "xpStart", "index": 3},
+    ]
+    for step in range(14):
+        sources.append({"kind": "ordering", "step": step})
+    for impact in range(1, 15):
+        hit = impact_face(seq, impact)
+        for face in FACE_ORDER:
+            if face != hit:
+                sources.append({"kind": "interior", "impact": impact, "face": face})
+    return sources
+
+
+def weighted_sum_constraints(
+    constraints: list[StrictLin2Q], terms: list[tuple[int, Fraction]]
+) -> StrictLin2Q:
+    a = b = c = Fraction(0)
+    for index, multiplier in terms:
+        line = constraints[index]
+        a += multiplier * line[0]
+        b += multiplier * line[1]
+        c += multiplier * line[2]
+    return a, b, c
+
+
+def check_farkas_py(
+    constraints: list[StrictLin2Q], terms: list[tuple[int, Fraction]]
+) -> bool:
+    if not terms or not any(multiplier > 0 for _index, multiplier in terms):
+        return False
+    if any(index < 0 or index >= len(constraints) or multiplier < 0
+           for index, multiplier in terms):
+        return False
+    total = weighted_sum_constraints(constraints, terms)
+    return total[0] == 0 and total[1] == 0 and total[2] <= 0
+
+
+def normalize_farkas_terms(terms: list[tuple[int, Fraction]]) -> list[tuple[int, Fraction]]:
+    combined: dict[int, Fraction] = {}
+    for index, multiplier in terms:
+        combined[index] = combined.get(index, Fraction(0)) + multiplier
+    normalized = [
+        (index, multiplier)
+        for index, multiplier in sorted(combined.items())
+        if multiplier != 0
+    ]
+    if not normalized:
+        return []
+    denominators_lcm = 1
+    for _index, multiplier in normalized:
+        denominators_lcm = math.lcm(denominators_lcm, multiplier.denominator)
+    integer_values = [
+        abs(multiplier.numerator * (denominators_lcm // multiplier.denominator))
+        for _index, multiplier in normalized
+    ]
+    content = 0
+    for value in integer_values:
+        content = math.gcd(content, value)
+    if content == 0:
+        return normalized
+    content_q = Fraction(content, denominators_lcm)
+    return [(index, multiplier / content_q) for index, multiplier in normalized]
+
+
+def find_sparse_farkas(
+    constraints: list[StrictLin2Q],
+) -> list[tuple[int, Fraction]]:
+    for i, j in itertools.combinations(range(len(constraints)), 2):
+        a1, b1, _c1 = constraints[i]
+        a2, b2, _c2 = constraints[j]
+        if a1 * b2 - b1 * a2 != 0:
+            continue
+        if a2 != 0:
+            first = Fraction(1)
+            second = -a1 / a2
+        elif b2 != 0:
+            first = Fraction(1)
+            second = -b1 / b2
+        else:
+            continue
+        terms = [(i, first), (j, second)]
+        if first > 0 and second > 0 and check_farkas_py(constraints, terms):
+            return normalize_farkas_terms(terms)
+    for i, j, k in itertools.combinations(range(len(constraints)), 3):
+        a1, b1, _c1 = constraints[i]
+        a2, b2, _c2 = constraints[j]
+        a3, b3, _c3 = constraints[k]
+        values = [
+            b2 * a3 - a2 * b3,
+            a1 * b3 - b1 * a3,
+            b1 * a2 - a1 * b2,
+        ]
+        if all(value == 0 for value in values):
+            continue
+        if all(value >= 0 for value in values) or all(value <= 0 for value in values):
+            if all(value <= 0 for value in values):
+                values = [-value for value in values]
+            terms = [
+                term for term in [(i, values[0]), (j, values[1]), (k, values[2])]
+                if term[1] != 0
+            ]
+            if check_farkas_py(constraints, terms):
+                return normalize_farkas_terms(terms)
+    raise ValueError("no sparse Farkas certificate found")
+
+
 def impact_denom(seq: list[str], b: Vec, impact: int) -> Fraction:
     if impact == 0:
         face = seq[0]
@@ -932,6 +1136,37 @@ def lean_pair_word_inline(word: list[str]) -> str:
 
 def lean_sign_mask(mask: int) -> str:
     return f"⟨{mask}, by decide⟩"
+
+
+def lean_farkas_cert(terms: list[dict]) -> str:
+    lean_terms = ", ".join(
+        f"({term['index']}, {lean_rat(Fraction(term['multiplier']))})"
+        for term in terms
+    )
+    return "{ terms := [" + lean_terms + "] }"
+
+
+def lean_translation_constraint_source(source: dict) -> str:
+    if source["kind"] == "xpStart":
+        return f"TranslationConstraintSource.xpStart ⟨{source['index']}, by decide⟩"
+    if source["kind"] == "ordering":
+        return f"TranslationConstraintSource.ordering ⟨{source['step']}, by decide⟩"
+    if source["kind"] == "interior":
+        return (
+            "TranslationConstraintSource.interior "
+            f"⟨{source['impact']}, by decide⟩ {lean_face(source['face'])}"
+        )
+    raise ValueError(f"unsupported translation constraint source: {source['kind']}")
+
+
+def lean_source_farkas_cert(terms: list[dict]) -> str:
+    lean_terms = ", ".join(
+        "{ source := "
+        + lean_translation_constraint_source(term["source"])
+        + f", multiplier := {lean_rat(Fraction(term['multiplier']))} }}"
+        for term in terms
+    )
+    return "{ terms := [" + lean_terms + "] }"
 
 
 def lean_canonical_pair_coverage(record: dict) -> str:
@@ -1432,6 +1667,14 @@ def append_translation_cert(lines: list[str], cert: dict) -> None:
         lines.append(f"  failure := TranslationFailure.badDirectionSign ⟨{failure['impact']}, by decide⟩")
     elif failure["kind"] == "badTranslationVector":
         lines.append("  failure := TranslationFailure.badTranslationVector")
+    elif failure["kind"] == "farkas":
+        if "sourceTerms" in failure:
+            lines.append(
+                "  failure := TranslationFailure.sourceFarkas "
+                f"{lean_source_farkas_cert(failure['sourceTerms'])}"
+            )
+        else:
+            lines.append(f"  failure := TranslationFailure.farkas {lean_farkas_cert(failure['terms'])}")
     else:
         raise ValueError(f"unsupported translation failure: {failure['kind']}")
     lines.append("")
@@ -1478,13 +1721,53 @@ def append_nonid_check_theorem(lines: list[str], cert: dict) -> None:
 def translation_check_body_lines(cert: dict, indent: str = "  ") -> list[str]:
     name = cert["name"]
     failure = cert["failure"]
-    if failure["kind"] != "badDirectionSign":
-        raise ValueError(f"unsupported translation proof template: {failure['kind']}")
-    impact = failure["impact"]
     word = word_name(cert["rank"])
-    return [
-        f"{indent}apply checkTranslationCert_badDirectionSign {name} ⟨{impact}, by decide⟩",
-        f"{indent}· rfl",
+    denom_simp = [
+        f"{indent}· simp [",
+        f"{indent}    {name}, TranslationCert.seqFun, faceVectorSeq, impactDenom,",
+        f"{indent}    impactPlaneNormalQ, copiedNormalQ, preImpactNormalQ,",
+        f"{indent}    preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,",
+        f"{indent}    faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId,",
+        f"{indent}    affId, affCompose, scalarMat, outer, dot, matMul, matVec,",
+        f"{indent}    vecAdd, scalarMul, lastImpact] <;> norm_num",
+    ]
+    farkas_simp = [
+        f"{indent}· simp [",
+        f"{indent}    {name}, TranslationCert.seqFun, faceVectorSeq, checkFarkas,",
+        f"{indent}    checkFarkasTerm, checkFarkasPositive, weightedSum, termLinear,",
+        f"{indent}    constraintAt, translationConstraints, xpStartConstraints,",
+        f"{indent}    orderingConstraints, orderingConstraint, interiorConstraints,",
+        f"{indent}    impactInteriorConstraints, impactInteriorConstraint,",
+        f"{indent}    nonStartImpacts, allFacesList, nextImpact, impactTimeLin,",
+        f"{indent}    translationLinePointLin, linDotVec3, Lin2.ltConstraint,",
+        f"{indent}    Lin2.add, Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z,",
+        f"{indent}    StrictLin2.zero, StrictLin2.add, StrictLin2.scale,",
+        f"{indent}    impactDenom, impactPlaneNormalQ, impactPlaneOffsetQ,",
+        f"{indent}    copiedNormalQ, copiedOffsetQ, preImpactCopyAff, pathPrefixAff,",
+        f"{indent}    pathPrefixAffNat, impactFace, faceReflectionQ, reflM, reflD,",
+        f"{indent}    normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,",
+        f"{indent}    outer, dot, matMul, matVec, vecAdd, scalarMul, lastImpact] <;> norm_num",
+    ]
+    source_farkas_simp = [
+        f"{indent}· simp [",
+        f"{indent}    {name}, TranslationCert.seqFun, faceVectorSeq, checkSourceFarkas,",
+        f"{indent}    checkSourceFarkasTerm, checkTranslationConstraintSource,",
+        f"{indent}    SourceFarkasCert.sourceConstraints, SourceFarkasCert.toFarkasCert,",
+        f"{indent}    SourceFarkasCert.indexedTerms, SourceFarkasCert.indexedTermsAux,",
+        f"{indent}    checkFarkas, checkFarkasTerm, checkFarkasPositive,",
+        f"{indent}    weightedSum, termLinear, constraintAt,",
+        f"{indent}    translationConstraintSourceLine, xpStartConstraintAt,",
+        f"{indent}    orderingConstraint, impactInteriorConstraint, impactTimeLin,",
+        f"{indent}    translationLinePointLin, linDotVec3, Lin2.ltConstraint,",
+        f"{indent}    Lin2.add, Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z,",
+        f"{indent}    StrictLin2.zero, StrictLin2.add, StrictLin2.scale,",
+        f"{indent}    impactDenom, impactPlaneNormalQ, impactPlaneOffsetQ,",
+        f"{indent}    copiedNormalQ, copiedOffsetQ, preImpactCopyAff, pathPrefixAff,",
+        f"{indent}    pathPrefixAffNat, impactFace, faceReflectionQ, reflM, reflD,",
+        f"{indent}    normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,",
+        f"{indent}    outer, dot, matMul, matVec, vecAdd, scalarMul, lastImpact] <;> norm_num",
+    ]
+    common = [
         f"{indent}· unfold {name} {word} ValidPairWord pairCount",
         f"{indent}  decide",
         f"{indent}· rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
@@ -1499,15 +1782,39 @@ def translation_check_body_lines(cert: dict, indent: str = "  ") -> list[str]:
         f"{indent}    totalOrder, composeFaceList, affCompose, faceReflectionQ, reflM,",
         f"{indent}    reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,",
         f"{indent}    dot, matMul, matVec, vecAdd, scalarMul]",
-        f"{indent}· decide",
-        f"{indent}· decide",
-        f"{indent}· norm_num [",
-        f"{indent}    {name}, TranslationCert.seqFun, faceVectorSeq, impactDenom,",
-        f"{indent}    impactPlaneNormalQ, copiedNormalQ, preImpactNormalQ,",
-        f"{indent}    preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,",
-        f"{indent}    faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId,",
-        f"{indent}    affId, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul]",
     ]
+    if failure["kind"] == "badDirectionSign":
+        impact = failure["impact"]
+        return [
+            f"{indent}apply checkTranslationCert_badDirectionSign {name} ⟨{impact}, by decide⟩",
+            f"{indent}· rfl",
+            *common,
+            f"{indent}· decide",
+            f"{indent}· decide",
+            *denom_simp,
+        ]
+    if failure["kind"] == "badTranslationVector":
+        return [
+            f"{indent}apply checkTranslationCert_badTranslationVector {name}",
+            f"{indent}· rfl",
+            *common,
+            f"{indent}· decide",
+        ]
+    if failure["kind"] == "farkas":
+        if "sourceTerms" in failure:
+            return [
+                f"{indent}apply checkTranslationCert_sourceFarkas {name} {lean_source_farkas_cert(failure['sourceTerms'])}",
+                f"{indent}· rfl",
+                *common,
+                *source_farkas_simp,
+            ]
+        return [
+            f"{indent}apply checkTranslationCert_farkas {name} {lean_farkas_cert(failure['terms'])}",
+            f"{indent}· rfl",
+            *common,
+            *farkas_simp,
+        ]
+    raise ValueError(f"unsupported translation proof template: {failure['kind']}")
 
 
 def append_translation_check_theorem(lines: list[str], cert: dict) -> None:
@@ -3436,6 +3743,437 @@ def write_nonidentity_family_lean(payload: dict) -> None:
     NONIDENTITY_FAMILY_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+TRANSLATION_FAMILY_FAILURE_KINDS = [
+    "badTranslationVector",
+    "badDirectionSign",
+    "farkas",
+]
+
+
+def translation_family_failure_lean(kind: str) -> str:
+    if kind == "badTranslationVector":
+        return "TranslationFamilyFailure.badTranslationVector"
+    if kind == "badDirectionSign":
+        return "TranslationFamilyFailure.badDirectionSign"
+    if kind == "farkas":
+        return "TranslationFamilyFailure.farkas"
+    raise ValueError(f"unsupported translation family failure: {kind}")
+
+
+def farkas_terms_to_json(terms: list[tuple[int, Fraction]]) -> list[dict]:
+    return [
+        {"index": index, "multiplier": rat_to_json(multiplier)}
+        for index, multiplier in terms
+    ]
+
+
+def strict_line_to_json(line: StrictLin2Q) -> list[str]:
+    return [rat_to_json(line[0]), rat_to_json(line[1]), rat_to_json(line[2])]
+
+
+def normalize_strict_line(line: StrictLin2Q) -> StrictLin2Q:
+    den = 1
+    for value in line:
+        den = math.lcm(den, value.denominator)
+    ints = [value.numerator * (den // value.denominator) for value in line]
+    content = 0
+    for value in ints:
+        content = math.gcd(content, abs(value))
+    if content == 0:
+        return line
+    return tuple(Fraction(value, content) for value in ints)  # type: ignore[return-value]
+
+
+def normalized_constraint_system(constraints: list[StrictLin2Q]) -> dict:
+    normalized_lines = [normalize_strict_line(line) for line in constraints]
+    sorted_unique = sorted(set(normalized_lines))
+    index_by_line = {line: index for index, line in enumerate(sorted_unique)}
+    original_to_normalized = [index_by_line[line] for line in normalized_lines]
+    normalized_to_originals = [
+        [index for index, mapped in enumerate(original_to_normalized) if mapped == normalized_index]
+        for normalized_index in range(len(sorted_unique))
+    ]
+    return {
+        "constraints": [strict_line_to_json(line) for line in sorted_unique],
+        "originalToNormalized": original_to_normalized,
+        "normalizedToOriginals": normalized_to_originals,
+    }
+
+
+def normalized_farkas_terms_for_system(
+    terms: list[tuple[int, Fraction]], system: dict
+) -> list[dict]:
+    original_to_normalized = system["originalToNormalized"]
+    mapped = [
+        (original_to_normalized[index], multiplier)
+        for index, multiplier in terms
+    ]
+    return farkas_terms_to_json(normalize_farkas_terms(mapped))
+
+
+def translation_cert_state_key(cert: TranslationCertPayload | dict) -> dict:
+    payload = cert.to_json() if isinstance(cert, TranslationCertPayload) else cert
+    return {
+        "word": payload["word"],
+        "mask": payload["mask"],
+        "seq": payload["seq"],
+        "b": payload["b"],
+        "failure": payload["failure"],
+    }
+
+
+def build_translation_family_cert(
+    rank: int, mask: int, name: str, failure_kind: str
+) -> TranslationCertPayload:
+    word = pair_word_at_rank(rank)
+    b, seq = translation_vector(word, mask)
+    if failure_kind == "badDirectionSign":
+        failure = {"kind": "badDirectionSign", "impact": first_bad_translation_impact(seq, b)}
+    elif failure_kind == "badTranslationVector":
+        if b != vec((0, 0, 0)):
+            raise ValueError(f"translation case {rank}/{mask} is not zero-vector")
+        failure = {"kind": "badTranslationVector"}
+    elif failure_kind == "farkas":
+        constraints = translation_constraints_py(seq, b)
+        terms = find_sparse_farkas(constraints)
+        sources = translation_constraint_sources_py(seq)
+        source_terms = [
+            {
+                "source": sources[index],
+                "multiplier": rat_to_json(multiplier),
+            }
+            for index, multiplier in terms
+        ]
+        failure = {
+            "kind": "farkas",
+            "terms": farkas_terms_to_json(terms),
+            "sourceTerms": source_terms,
+        }
+    else:
+        raise ValueError(f"unsupported translation family failure: {failure_kind}")
+    return TranslationCertPayload(
+        name=name,
+        rank=rank,
+        mask=mask,
+        word=word,
+        seq=seq,
+        b=b,
+        failure=failure,
+    )
+
+
+def build_translation_family_payload() -> dict:
+    specs = [
+        {
+            "name": "sampleTranslationFarkasFamily",
+            "lean_name": "sampleTranslationFarkasFamilyCert",
+            "failure_kind": "farkas",
+            "prefix": "translationFamilyFarkas",
+            "cases": [(0, 1), (0, 2)],
+        },
+        {
+            "name": "sampleTranslationBadDirectionFamily",
+            "lean_name": "sampleTranslationBadDirectionFamilyCert",
+            "failure_kind": "badDirectionSign",
+            "prefix": "translationFamilyBadDirection",
+            "cases": [(0, 4), (0, 5)],
+        },
+    ]
+    families = []
+    all_certs: list[TranslationCertPayload] = []
+    for spec in specs:
+        certs = [
+            build_translation_family_cert(rank, mask, f"{spec['prefix']}{offset:03d}", spec["failure_kind"])
+            for offset, (rank, mask) in enumerate(spec["cases"])
+        ]
+        coverages = [
+            canonical_translation_coverage_record(cert.rank, cert.mask)
+            for cert in certs
+        ]
+        paired = sorted(
+            zip(coverages, certs, strict=True),
+            key=lambda item: (
+                item[0]["canonical_rank"],
+                item[0]["canonical_mask"],
+                item[0]["raw_rank"],
+                item[0]["raw_mask"],
+            ),
+        )
+        coverages = [coverage for coverage, _cert in paired]
+        certs = [cert for _coverage, cert in paired]
+        member_state_keys = [translation_cert_state_key(cert) for cert in certs]
+        member_state_ids = [
+            normalized_state_id("translation-member", key)
+            for key in member_state_keys
+        ]
+        family_state_key: dict = {
+            "failure_kind": spec["failure_kind"],
+            "coverages": [
+                {
+                    "raw_rank": coverage["raw_rank"],
+                    "raw_mask": coverage["raw_mask"],
+                    "canonical_rank": coverage["canonical_rank"],
+                    "canonical_mask": coverage["canonical_mask"],
+                }
+                for coverage in coverages
+            ],
+            "member_state_ids": member_state_ids,
+            "member_state_keys": member_state_keys,
+        }
+        if spec["failure_kind"] == "farkas":
+            shared = []
+            for cert in certs:
+                constraints = translation_constraints_py(cert.seq, cert.b)
+                system = normalized_constraint_system(constraints)
+                terms = [
+                    (term["index"], Fraction(term["multiplier"]))
+                    for term in cert.failure["terms"]
+                ]
+                shared.append({
+                    "case": {"rank": cert.rank, "mask": cert.mask},
+                    "normalizedConstraintSystem": system,
+                    "normalizedFarkasTerms": normalized_farkas_terms_for_system(terms, system),
+                    "originalFarkasTerms": cert.failure["terms"],
+                })
+            family_state_key["sharedFarkas"] = shared
+        family_state_id = normalized_state_id("translation-family", family_state_key)
+        all_certs.extend(certs)
+        families.append({
+            "name": spec["name"],
+            "lean_name": spec["lean_name"],
+            "failure_kind": spec["failure_kind"],
+            "normalizedStateId": family_state_id,
+            "normalizedStateKey": family_state_key,
+            "memberStateIds": member_state_ids,
+            "memberStateKeys": member_state_keys,
+            "coverages": coverages,
+            "coveredCases": [
+                {"pair_rank": cert.rank, "sign_mask": cert.mask}
+                for cert in certs
+            ],
+            "cert_names": [cert.name for cert in certs],
+            "certs": [cert.to_json() for cert in certs],
+        })
+    records = {cert.rank: cert.word for cert in all_certs}
+    present = sorted({family["failure_kind"] for family in families})
+    absent = [{
+        "failure_kind": "badTranslationVector",
+        "status": "not-present-in-this-representative-sample",
+        "reason": (
+            "The checker and Lean family layer support zero translation vectors; "
+            "the bounded sample uses nonzero identity-linear translation cases."
+        ),
+    }]
+    return {
+        "schema_version": 1,
+        "mode": "translation-family-sample",
+        "pair_words": [
+            {"rank": rank, "word": records[rank]}
+            for rank in sorted(records)
+        ],
+        "families": families,
+        "failure_kind_accounting": {
+            "present": present,
+            "absent": absent,
+            "accounted_for": sorted(set(present) | {record["failure_kind"] for record in absent}),
+        },
+        "summary": {
+            "families": len(families),
+            "covered_cases": len(all_certs),
+            "coverage_kind": "translation-family-leaves",
+            "supported_failure_kinds": TRANSLATION_FAMILY_FAILURE_KINDS,
+            "present_failure_kinds": present,
+        },
+    }
+
+
+def write_translation_family_json(payload: dict) -> None:
+    TRANSLATION_FAMILY_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_FAMILY_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_translation_family_lean(payload: dict) -> None:
+    families = payload["families"]
+    certs = [cert for family in families for cert in family["certs"]]
+    lines: list[str] = [
+        "import Cuboctahedron.Search.Certificates",
+        "",
+        "/-!",
+        "Generated representative translation family coverage sample for Step 14E.5.",
+        "",
+        "This file exercises grouped translation leaves, including a shared",
+        "sparse Farkas family. It is representative data, not exhaustive.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation",
+        "",
+        "set_option maxHeartbeats 2400000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unnecessarySeqFocus false",
+        "",
+        "def caseBoxRange (startRank endRank startMask endMask : Nat) :",
+        "    TranslationCaseBox where",
+        "  startRank := startRank",
+        "  endRank := endRank",
+        "  startMask := startMask",
+        "  endMask := endMask",
+        "",
+    ]
+    append_word_definitions(lines, payload)
+    coverage_by_case = {
+        (coverage["raw_rank"], coverage["raw_mask"]): coverage
+        for family in families
+        for coverage in family["coverages"]
+    }
+    for cert in certs:
+        append_translation_cert(lines, cert)
+        append_translation_check_theorem(lines, cert)
+        coverage = coverage_by_case[(cert["rank"], cert["mask"])]
+        lines.extend([
+            f"def {cert['name']}Coverage : CanonicalTranslationCoverage :=",
+            f"  {lean_canonical_translation_coverage(coverage)}",
+            "",
+            f"theorem {cert['name']}Coverage_check :",
+            f"    checkCanonicalTranslationCoverage {cert['name']}Coverage = true := by",
+            "  decide",
+            "",
+            f"theorem {cert['name']}Coverage_coveredCase :",
+            f"    checkTranslationCoveredCase",
+            f"      {{ pairRank := {cert['name']}Coverage.rawRank,",
+            f"        signMask := {cert['name']}Coverage.rawMask.val }}",
+            f"      {cert['name']} = true := by",
+            "  decide",
+            "",
+            f"theorem {cert['name']}_familyFailure :",
+            "    checkTranslationFamilyFailureMatches",
+            f"      {translation_family_failure_lean(cert['failure']['kind'])}",
+            f"      {cert['name']} = true := by",
+            "  rfl",
+            "",
+        ])
+    family_tree_checks: list[str] = []
+    for family in families:
+        cert_names = ", ".join(cert["name"] for cert in family["certs"])
+        coverage_names = ", ".join(f"{cert['name']}Coverage" for cert in family["certs"])
+        box_start_rank = min(c["canonical_rank"] for c in family["coverages"])
+        box_end_rank = max(c["canonical_rank"] for c in family["coverages"]) + 1
+        box_start_mask = min(c["canonical_mask"] for c in family["coverages"])
+        box_end_mask = max(c["canonical_mask"] for c in family["coverages"]) + 1
+        box_name = f"{family['lean_name']}Box"
+        box_valid_name = f"{family['lean_name']}_boxCheck"
+        family_name = family["lean_name"]
+        leaf_name = f"{family_name}Leaf"
+        tree_name = f"{family_name}Tree"
+        check_name = f"{family_name}_check"
+        leaf_check_name = f"{family_name}_leafCheck"
+        tree_check_name = f"{family_name}_treeCheck"
+        family_tree_checks.append(tree_check_name)
+        coverage_checks = [f"{cert['name']}Coverage_check" for cert in family["certs"]]
+        covered_checks = [f"{cert['name']}Coverage_coveredCase" for cert in family["certs"]]
+        cert_checks = [f"{cert['name']}_check" for cert in family["certs"]]
+        failure_checks = [f"{cert['name']}_familyFailure" for cert in family["certs"]]
+        box_checks = [
+            f"{cert['name']}_{family_name}_boxCheck"
+            for cert in family["certs"]
+        ]
+        lines.extend([
+            f"def {box_name} : TranslationCaseBox :=",
+            f"  caseBoxRange {box_start_rank} {box_end_rank} {box_start_mask} {box_end_mask}",
+            "",
+            f"theorem {box_valid_name} :",
+            f"    checkTranslationCaseBox {box_name} = true := by",
+            f"  norm_num [checkTranslationCaseBox, {box_name}, caseBoxRange,",
+            "    numPairWords, numSignMasks]",
+            "",
+        ])
+        for cert, box_check_name in zip(family["certs"], box_checks, strict=True):
+            lines.extend([
+                f"theorem {box_check_name} :",
+                "    checkTranslationCaseBoxContainsCanonicalTranslationCoverage",
+                f"      {box_name} {cert['name']}Coverage = true := by",
+                "  simp [checkTranslationCaseBoxContainsCanonicalTranslationCoverage,",
+                f"    {box_name}, caseBoxRange, {cert['name']}Coverage]",
+                "",
+            ])
+        lines.extend([
+            f"def {family_name} : TranslationFamilyCert where",
+            f"  name := {lean_string(family['name'])}",
+            f"  failure := {translation_family_failure_lean(family['failure_kind'])}",
+            f"  normalizedStateId := {lean_string(family['normalizedStateId'])}",
+            f"  coverages := #[{coverage_names}]",
+            f"  certs := #[{cert_names}]",
+            "",
+            f"theorem {check_name} :",
+            f"    checkTranslationFamilyCert {box_name} {family_name} = true := by",
+            f"  unfold checkTranslationFamilyCert {family_name}",
+            "  change",
+            f"      (checkTranslationCaseBox {box_name} &&",
+            "        checkTranslationFamilyEntries",
+            f"          {box_name}",
+            f"          {translation_family_failure_lean(family['failure_kind'])}",
+            f"          [{coverage_names}]",
+            f"          [{cert_names}]) = true",
+            "  simp [checkTranslationFamilyEntries,",
+            f"    {', '.join([box_valid_name] + coverage_checks + box_checks + covered_checks + cert_checks + failure_checks)}]",
+            "",
+            f"theorem {leaf_check_name} :",
+            f"    checkTranslationCoverageLeaf {box_name}",
+            f"      (TranslationCoverageLeaf.family {family_name}) = true := by",
+            "  unfold checkTranslationCoverageLeaf checkTranslationCoverageLeafPayload",
+            "  change",
+            f"      (checkTranslationCaseBox {box_name} &&",
+            f"        checkTranslationFamilyCert {box_name} {family_name}) = true",
+            f"  rw [{check_name}, {box_valid_name}]",
+            "  rfl",
+            "",
+            f"def {leaf_name} : TranslationCoverageTree :=",
+            f"  TranslationCoverageTree.leaf {box_name}",
+            f"    (TranslationCoverageLeaf.family {family_name})",
+            "",
+            f"def {tree_name} : TranslationCoverageTree :=",
+            f"  {leaf_name}",
+            "",
+            f"theorem {tree_check_name} :",
+            f"    checkTranslationCoverageTree {tree_name} = true := by",
+            f"  unfold checkTranslationCoverageTree {tree_name} {leaf_name} coverageTreeFuel",
+            f"  simpa [checkTranslationCoverageTreeFuel] using {leaf_check_name}",
+            "",
+        ])
+    forest_trees = ", ".join(f"{family['lean_name']}Tree" for family in families)
+    lines.extend([
+        "def sampleFamilyCoverage : TranslationCoverageForest where",
+        f"  trees := [{forest_trees}]",
+        "",
+        "theorem sampleFamilyCoverage_check :",
+        "    checkTranslationCoverageForest sampleFamilyCoverage = true := by",
+        "  unfold checkTranslationCoverageForest sampleFamilyCoverage",
+        f"  simp [{', '.join(family_tree_checks)}]",
+        "",
+        "theorem sampleFamilyCoverage_sound",
+        "    {r : Fin numPairWords} {mask : SignMask}",
+        "    (hcontains : sampleFamilyCoverage.ContainsTranslationChoice r mask) :",
+        "    exists cert : TranslationCert,",
+        "      checkTranslationCoveredCase",
+        "          { pairRank := r.val, signMask := mask.val } cert = true /\\",
+        "        checkTranslationCert cert = true :=",
+        "  checkTranslationCoverageForest_choice_sound",
+        "    sampleFamilyCoverage_check hcontains",
+        "",
+        "#check Cuboctahedron.Generated.Translation.sampleFamilyCoverage",
+        "#check Cuboctahedron.Generated.Translation.sampleFamilyCoverage_sound",
+        "",
+        "end Cuboctahedron.Generated.Translation",
+        "",
+    ])
+    TRANSLATION_FAMILY_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_FAMILY_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_json(payload: dict) -> None:
     JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     JSON_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -3483,6 +4221,7 @@ def main() -> None:
             "canonical-coverage-manifest",
             "coverage-tree-sample",
             "nonidentity-family-sample",
+            "translation-family-sample",
         ],
         help="generation mode",
     )
@@ -3519,7 +4258,7 @@ def main() -> None:
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "canonical-coverage-manifest/coverage-tree-sample/"
-            "nonidentity-family-sample"
+            "nonidentity-family-sample/translation-family-sample"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -3569,6 +4308,14 @@ def main() -> None:
         print("generated representative nonidentity family sample")
         print(f"json: {NONIDENTITY_FAMILY_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {NONIDENTITY_FAMILY_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "translation-family-sample":
+        payload = build_translation_family_payload()
+        write_translation_family_json(payload)
+        write_translation_family_lean(payload)
+        print("generated representative translation family sample")
+        print(f"json: {TRANSLATION_FAMILY_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {TRANSLATION_FAMILY_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "coverage-manifest":
         payload = build_coverage_payload()

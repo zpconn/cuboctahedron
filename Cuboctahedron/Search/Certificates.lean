@@ -1197,10 +1197,152 @@ theorem translation_mask_exists_of_omni_seq
       _ = translationChoiceSeq w mask i := by
             simp [translationChoiceSeq, hi0, wi, hpair, hsign]
 
+inductive TranslationConstraintSource
+  | xpStart (i : Fin 4)
+  | ordering (i : Step14)
+  | interior (i : Impact15) (g : Face)
+deriving DecidableEq, Repr
+
+def xpStartConstraintAt : Fin 4 -> StrictLin2
+  | ⟨0, _⟩ => { a := 1, b := 1, c := 1 }
+  | ⟨1, _⟩ => { a := 1, b := -1, c := 1 }
+  | ⟨2, _⟩ => { a := -1, b := 1, c := 1 }
+  | ⟨3, _⟩ => { a := -1, b := -1, c := 1 }
+
+def translationConstraintSourceLine
+    (seq : Step14 -> Face) (b : Vec3 Rat) :
+    TranslationConstraintSource -> StrictLin2
+  | TranslationConstraintSource.xpStart i => xpStartConstraintAt i
+  | TranslationConstraintSource.ordering i => orderingConstraint seq b i
+  | TranslationConstraintSource.interior i g =>
+      impactInteriorConstraint seq b i g
+
+def checkTranslationConstraintSource
+    (seq : Step14 -> Face) : TranslationConstraintSource -> Bool
+  | TranslationConstraintSource.xpStart _ => true
+  | TranslationConstraintSource.ordering _ => true
+  | TranslationConstraintSource.interior i g =>
+      decide (i ≠ (0 : Impact15)) && decide (g ≠ impactFace seq i)
+
+theorem face_mem_allFacesList (g : Face) : g ∈ allFacesList := by
+  fin_cases g <;> simp [allFacesList]
+
+theorem xpStartConstraintAt_mem
+    (i : Fin 4) : xpStartConstraintAt i ∈ xpStartConstraints := by
+  fin_cases i <;> simp [xpStartConstraintAt, xpStartConstraints]
+
+theorem translationConstraintSourceLine_mem
+    {seq : Step14 -> Face} {b : Vec3 Rat}
+    {source : TranslationConstraintSource}
+    (hcheck : checkTranslationConstraintSource seq source = true) :
+    translationConstraintSourceLine seq b source ∈
+      translationConstraints seq b := by
+  cases source with
+  | xpStart i =>
+      have hmem := xpStartConstraintAt_mem i
+      simp [translationConstraints, translationConstraintSourceLine, hmem]
+  | ordering i =>
+      have hOrdering :
+          orderingConstraint seq b i ∈ orderingConstraints seq b := by
+        unfold orderingConstraints
+        exact List.mem_map.mpr ⟨i, List.mem_finRange i, rfl⟩
+      simp [translationConstraints, translationConstraintSourceLine, hOrdering]
+  | interior i g =>
+      simp only [checkTranslationConstraintSource, Bool.and_eq_true,
+        decide_eq_true_eq] at hcheck
+      rcases hcheck with ⟨hi0, hgNe⟩
+      have hiMem : i ∈ nonStartImpacts := by
+        simp [nonStartImpacts, hi0]
+      have hgMem :
+          g ∈ allFacesList.filter fun face : Face =>
+            decide (face ≠ impactFace seq i) := by
+        exact List.mem_filter.mpr
+          ⟨face_mem_allFacesList g, by simp [hgNe]⟩
+      have hInteriorAt :
+          impactInteriorConstraint seq b i g ∈
+            impactInteriorConstraints seq b i := by
+        unfold impactInteriorConstraints
+        exact List.mem_map.mpr ⟨g, hgMem, rfl⟩
+      have hInterior :
+          impactInteriorConstraint seq b i g ∈
+            interiorConstraints seq b := by
+        unfold interiorConstraints
+        exact List.mem_flatMap.mpr ⟨i, hiMem, hInteriorAt⟩
+      simp [translationConstraints, translationConstraintSourceLine,
+        hInterior]
+
+structure SourceFarkasTerm where
+  source : TranslationConstraintSource
+  multiplier : Rat
+deriving DecidableEq, Repr
+
+structure SourceFarkasCert where
+  terms : List SourceFarkasTerm
+deriving DecidableEq, Repr
+
+namespace SourceFarkasCert
+
+def sourceConstraints
+    (seq : Step14 -> Face) (b : Vec3 Rat)
+    (cert : SourceFarkasCert) : List StrictLin2 :=
+  cert.terms.map fun term =>
+    translationConstraintSourceLine seq b term.source
+
+def indexedTermsAux : Nat -> List SourceFarkasTerm -> List (Nat × Rat)
+  | _, [] => []
+  | n, term :: terms =>
+      (n, term.multiplier) :: indexedTermsAux (n + 1) terms
+
+def indexedTerms (cert : SourceFarkasCert) : List (Nat × Rat) :=
+  indexedTermsAux 0 cert.terms
+
+def toFarkasCert (cert : SourceFarkasCert) : FarkasCert where
+  terms := indexedTerms cert
+
+end SourceFarkasCert
+
+def checkSourceFarkasTerm
+    (seq : Step14 -> Face) (term : SourceFarkasTerm) : Bool :=
+  checkTranslationConstraintSource seq term.source &&
+    decide (0 <= term.multiplier)
+
+noncomputable def checkSourceFarkas
+    (seq : Step14 -> Face) (b : Vec3 Rat)
+    (cert : SourceFarkasCert) : Bool :=
+  cert.terms.all (checkSourceFarkasTerm seq) &&
+    checkFarkas (SourceFarkasCert.sourceConstraints seq b cert)
+      cert.toFarkasCert
+
+theorem checkSourceFarkas_sound
+    {seq : Step14 -> Face} {b : Vec3 Rat} {cert : SourceFarkasCert}
+    (hcheck : checkSourceFarkas seq b cert = true) :
+    ¬ exists y z : Real,
+      forall L, L ∈ translationConstraints seq b -> L.Holds y z := by
+  intro hbad
+  rcases hbad with ⟨y, z, hAll⟩
+  unfold checkSourceFarkas at hcheck
+  simp only [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hTerms, hFarkas⟩
+  have hSourceHolds :
+      forall L,
+        L ∈ SourceFarkasCert.sourceConstraints seq b cert ->
+          L.Holds y z := by
+    intro L hmem
+    rcases List.mem_map.mp hmem with ⟨term, htermMem, rfl⟩
+    have hTermCheck :
+        checkSourceFarkasTerm seq term = true :=
+      List.all_eq_true.mp hTerms term htermMem
+    simp only [checkSourceFarkasTerm, Bool.and_eq_true,
+      decide_eq_true_eq] at hTermCheck
+    exact hAll _
+      (translationConstraintSourceLine_mem (b := b) hTermCheck.1)
+  exact checkFarkas_sound hFarkas ⟨y, z, hSourceHolds⟩
+
 inductive TranslationFailure
   | badTranslationVector
   | badDirectionSign (i : Impact15)
   | farkas (cert : FarkasCert)
+  | sourceFarkas (cert : SourceFarkasCert)
 deriving DecidableEq, Repr
 
 structure TranslationCert where
@@ -1233,6 +1375,9 @@ noncomputable def checkTranslationCert (cert : TranslationCert) : Bool :=
   | TranslationFailure.farkas fcert =>
       checkTranslationCommon cert &&
         checkFarkas (translationConstraints cert.seqFun cert.b) fcert
+  | TranslationFailure.sourceFarkas scert =>
+      checkTranslationCommon cert &&
+        checkSourceFarkas cert.seqFun cert.b scert
 
 noncomputable def checkTranslationCerts (certs : Array TranslationCert) : Bool :=
   certs.toList.all checkTranslationCert
@@ -1618,6 +1763,7 @@ def symTranslationFailure (_σ : StartedSym) :
   | TranslationFailure.badTranslationVector => TranslationFailure.badTranslationVector
   | TranslationFailure.badDirectionSign i => TranslationFailure.badDirectionSign i
   | TranslationFailure.farkas cert => TranslationFailure.farkas cert
+  | TranslationFailure.sourceFarkas cert => TranslationFailure.sourceFarkas cert
 
 def transportNonIdCertShape (σ : StartedSym) (cert : NonIdCert) :
     NonIdCert where
@@ -1756,6 +1902,18 @@ theorem checkTranslationCert_farkas
     (hFarkas :
       checkFarkas (translationConstraints cert.seqFun cert.b) fcert =
         true) :
+    checkTranslationCert cert = true := by
+  rw [checkTranslationCert, hFailure]
+  simp [checkTranslationCommon, hValid, hLinear, hMatches, hB, hFarkas]
+
+theorem checkTranslationCert_sourceFarkas
+    (cert : TranslationCert) (scert : SourceFarkasCert)
+    (hFailure : cert.failure = TranslationFailure.sourceFarkas scert)
+    (hValid : ValidPairWord cert.word)
+    (hLinear : totalLinearOfPairWord cert.word = (matId : Mat3 Rat))
+    (hMatches : TranslationSeqMatches cert.word cert.signMask cert.seq)
+    (hB : (totalAff cert.seqFun).b = cert.b)
+    (hFarkas : checkSourceFarkas cert.seqFun cert.b scert = true) :
     checkTranslationCert cert = true := by
   rw [checkTranslationCert, hFailure]
   simp [checkTranslationCommon, hValid, hLinear, hMatches, hB, hFarkas]
@@ -2606,11 +2764,112 @@ theorem checkNonIdCoverageForest_pairRank_sound
   simpa [NonIdCoverageForest.ContainsPairRank, canonicalPairCoverage]
     using hcovered
 
+inductive TranslationFamilyFailure
+  | badTranslationVector
+  | badDirectionSign
+  | farkas
+deriving DecidableEq, Repr
+
+def checkTranslationFamilyFailureMatches
+    (family : TranslationFamilyFailure) (cert : TranslationCert) : Bool :=
+  match family, cert.failure with
+  | TranslationFamilyFailure.badTranslationVector,
+      TranslationFailure.badTranslationVector => true
+  | TranslationFamilyFailure.badDirectionSign,
+      TranslationFailure.badDirectionSign _ => true
+  | TranslationFamilyFailure.farkas, TranslationFailure.farkas _ => true
+  | TranslationFamilyFailure.farkas, TranslationFailure.sourceFarkas _ => true
+  | _, _ => false
+
+structure TranslationFamilyCert where
+  name : String
+  failure : TranslationFamilyFailure
+  normalizedStateId : String
+  coverages : Array CanonicalTranslationCoverage
+  certs : Array TranslationCert
+deriving DecidableEq, Repr
+
+noncomputable def checkTranslationFamilyEntries
+    (box : TranslationCaseBox) (family : TranslationFamilyFailure) :
+    List CanonicalTranslationCoverage -> List TranslationCert -> Bool
+  | [], [] => true
+  | coverage :: coverages, cert :: certs =>
+      checkCanonicalTranslationCoverage coverage &&
+        (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+          box coverage &&
+          (checkTranslationCoveredCase
+            { pairRank := coverage.rawRank,
+              signMask := coverage.rawMask.val } cert &&
+            (checkTranslationCert cert &&
+              (checkTranslationFamilyFailureMatches family cert &&
+                checkTranslationFamilyEntries box family coverages certs))))
+  | _, _ => false
+
+noncomputable def checkTranslationFamilyCert
+    (box : TranslationCaseBox) (family : TranslationFamilyCert) : Bool :=
+  checkTranslationCaseBox box &&
+    checkTranslationFamilyEntries box family.failure
+      family.coverages.toList family.certs.toList
+
+theorem checkTranslationFamilyEntries_sound
+    {box : TranslationCaseBox} {family : TranslationFamilyFailure}
+    {coverages : List CanonicalTranslationCoverage}
+    {certs : List TranslationCert}
+    {coverage : CanonicalTranslationCoverage}
+    (hcheck :
+      checkTranslationFamilyEntries box family coverages certs = true)
+    (hmem : coverage ∈ coverages) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := coverage.rawRank,
+            signMask := coverage.rawMask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  induction coverages generalizing certs with
+  | nil =>
+      simp at hmem
+  | cons current coverages ih =>
+      cases certs with
+      | nil =>
+          simp [checkTranslationFamilyEntries] at hcheck
+      | cons cert certs =>
+          have hparts :
+              checkCanonicalTranslationCoverage current = true /\
+                checkTranslationCaseBoxContainsCanonicalTranslationCoverage
+                  box current = true /\
+                  checkTranslationCoveredCase
+                    { pairRank := current.rawRank,
+                      signMask := current.rawMask.val } cert = true /\
+                    checkTranslationCert cert = true /\
+                      checkTranslationFamilyFailureMatches family cert = true /\
+                        checkTranslationFamilyEntries box family coverages
+                          certs = true := by
+            simpa only [checkTranslationFamilyEntries, Bool.and_eq_true]
+              using hcheck
+          simp at hmem
+          rcases hmem with hEq | hmem
+          · subst coverage
+            exact ⟨cert, hparts.2.2.1, hparts.2.2.2.1⟩
+          · exact ih hparts.2.2.2.2.2 hmem
+
+theorem checkTranslationFamilyCert_sound
+    {box : TranslationCaseBox} {family : TranslationFamilyCert}
+    (hcheck : checkTranslationFamilyCert box family = true)
+    {coverage : CanonicalTranslationCoverage}
+    (hmem : coverage ∈ family.coverages.toList) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := coverage.rawRank,
+            signMask := coverage.rawMask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  simp only [checkTranslationFamilyCert, Bool.and_eq_true] at hcheck
+  exact checkTranslationFamilyEntries_sound hcheck.2 hmem
+
 inductive TranslationCoverageLeaf
   | raw (coverage : CanonicalTranslationCoverage) (cert : TranslationCert)
   | transported
       (coverage : CanonicalTranslationCoverage)
       (transport : CanonicalTranslationTransport)
+  | family (family : TranslationFamilyCert)
 deriving DecidableEq, Repr
 
 def TranslationCoverageLeaf.ContainsTranslationCoverage
@@ -2619,6 +2878,7 @@ def TranslationCoverageLeaf.ContainsTranslationCoverage
   match leaf with
   | TranslationCoverageLeaf.raw stored _ => coverage = stored
   | TranslationCoverageLeaf.transported stored _ => coverage = stored
+  | TranslationCoverageLeaf.family fam => coverage ∈ fam.coverages.toList
 
 noncomputable def checkTranslationCoverageLeafPayload
     (box : TranslationCaseBox) : TranslationCoverageLeaf -> Bool
@@ -2638,13 +2898,23 @@ noncomputable def checkTranslationCoverageLeafPayload
             { pairRank := coverage.rawRank,
               signMask := coverage.rawMask.val } transport.raw &&
             checkCanonicalTranslationTransport transport))
+  | TranslationCoverageLeaf.family family =>
+      checkTranslationFamilyCert box family
 
 noncomputable def checkTranslationCoverageLeaf
     (box : TranslationCaseBox) (leaf : TranslationCoverageLeaf) : Bool :=
   checkTranslationCaseBox box &&
-    (decide (box.endRank = box.startRank + 1) &&
-      (decide (box.endMask = box.startMask + 1) &&
-        checkTranslationCoverageLeafPayload box leaf))
+    match leaf with
+    | TranslationCoverageLeaf.raw _ _ =>
+        decide (box.endRank = box.startRank + 1) &&
+          (decide (box.endMask = box.startMask + 1) &&
+            checkTranslationCoverageLeafPayload box leaf)
+    | TranslationCoverageLeaf.transported _ _ =>
+        decide (box.endRank = box.startRank + 1) &&
+          (decide (box.endMask = box.startMask + 1) &&
+            checkTranslationCoverageLeafPayload box leaf)
+    | TranslationCoverageLeaf.family _ =>
+        checkTranslationCoverageLeafPayload box leaf
 
 theorem checkTranslationCoverageLeaf_sound
     {box : TranslationCaseBox} {leaf : TranslationCoverageLeaf}
@@ -2656,44 +2926,67 @@ theorem checkTranslationCoverageLeaf_sound
           { pairRank := coverage.rawRank,
             signMask := coverage.rawMask.val } cert = true /\
         checkTranslationCert cert = true := by
-  have hparts :
-      checkTranslationCaseBox box = true /\
-        box.endRank = box.startRank + 1 /\
-          box.endMask = box.startMask + 1 /\
-            checkTranslationCoverageLeafPayload box leaf = true := by
-    simpa only [checkTranslationCoverageLeaf, Bool.and_eq_true,
-      decide_eq_true_eq] using hcheck
-  rcases hparts with
-    ⟨_hBox, hRankSingleton, hMaskSingleton, hPayload⟩
   cases leaf with
   | raw stored cert =>
-      simp [TranslationCoverageLeaf.ContainsTranslationCoverage] at hcontains
-      subst stored
+      have hparts :
+          checkTranslationCaseBox box = true /\
+            box.endRank = box.startRank + 1 /\
+              box.endMask = box.startMask + 1 /\
+                checkTranslationCoverageLeafPayload box
+                  (TranslationCoverageLeaf.raw stored cert) = true := by
+        simpa only [checkTranslationCoverageLeaf, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      rcases hparts with
+        ⟨_hBox, _hRankSingleton, _hMaskSingleton, hPayload⟩
+      have hEq : coverage = stored := by
+        simpa [TranslationCoverageLeaf.ContainsTranslationCoverage] using hcontains
+      subst coverage
       change
-        (checkCanonicalTranslationCoverage coverage &&
+        (checkCanonicalTranslationCoverage stored &&
           (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
-            box coverage &&
+            box stored &&
             (checkTranslationCoveredCase
-              { pairRank := coverage.rawRank,
-                signMask := coverage.rawMask.val } cert &&
+              { pairRank := stored.rawRank,
+                signMask := stored.rawMask.val } cert &&
               checkTranslationCert cert))) = true at hPayload
       simp only [Bool.and_eq_true] at hPayload
       exact ⟨cert, hPayload.2.2.1, hPayload.2.2.2⟩
   | transported stored transport =>
-      simp [TranslationCoverageLeaf.ContainsTranslationCoverage] at hcontains
-      subst stored
+      have hparts :
+          checkTranslationCaseBox box = true /\
+            box.endRank = box.startRank + 1 /\
+              box.endMask = box.startMask + 1 /\
+                checkTranslationCoverageLeafPayload box
+                  (TranslationCoverageLeaf.transported stored transport) =
+                    true := by
+        simpa only [checkTranslationCoverageLeaf, Bool.and_eq_true,
+          decide_eq_true_eq] using hcheck
+      rcases hparts with
+        ⟨_hBox, _hRankSingleton, _hMaskSingleton, hPayload⟩
+      have hEq : coverage = stored := by
+        simpa [TranslationCoverageLeaf.ContainsTranslationCoverage] using hcontains
+      subst coverage
       change
-        (checkCanonicalTranslationCoverage coverage &&
+        (checkCanonicalTranslationCoverage stored &&
           (checkTranslationCaseBoxContainsCanonicalTranslationCoverage
-            box coverage &&
+            box stored &&
             (checkTranslationCoveredCase
-              { pairRank := coverage.rawRank,
-                signMask := coverage.rawMask.val } transport.raw &&
+              { pairRank := stored.rawRank,
+                signMask := stored.rawMask.val } transport.raw &&
               checkCanonicalTranslationTransport transport))) = true at hPayload
       simp only [Bool.and_eq_true] at hPayload
       have hCert :=
         canonical_translation_failure_transport transport hPayload.2.2.2
       exact ⟨transport.raw, hPayload.2.2.1, hCert⟩
+  | family family =>
+      have hparts :
+          checkTranslationCaseBox box = true /\
+            checkTranslationCoverageLeafPayload box
+              (TranslationCoverageLeaf.family family) = true := by
+        simpa only [checkTranslationCoverageLeaf, Bool.and_eq_true]
+          using hcheck
+      simp [TranslationCoverageLeaf.ContainsTranslationCoverage] at hcontains
+      exact checkTranslationFamilyCert_sound hparts.2 (by simpa using hcontains)
 
 inductive TranslationCoverageTree
   | leaf (box : TranslationCaseBox) (leaf : TranslationCoverageLeaf)
@@ -3005,6 +3298,56 @@ theorem checkTranslationCoverageTree_choice_sound
   simpa [TranslationCoverageTree.ContainsTranslationChoice,
     canonicalTranslationCoverage] using hcovered
 
+structure TranslationCoverageForest where
+  trees : List TranslationCoverageTree
+deriving Repr
+
+def TranslationCoverageForest.ContainsTranslationCoverage
+    (forest : TranslationCoverageForest)
+    (coverage : CanonicalTranslationCoverage) : Prop :=
+  exists tree : TranslationCoverageTree,
+    tree ∈ forest.trees /\ tree.ContainsTranslationCoverage coverage
+
+def TranslationCoverageForest.ContainsTranslationChoice
+    (forest : TranslationCoverageForest)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  forest.ContainsTranslationCoverage (canonicalTranslationCoverage r mask)
+
+noncomputable def checkTranslationCoverageForest
+    (forest : TranslationCoverageForest) : Bool :=
+  forest.trees.all checkTranslationCoverageTree
+
+theorem checkTranslationCoverageForest_sound
+    {forest : TranslationCoverageForest}
+    (hcheck : checkTranslationCoverageForest forest = true)
+    {coverage : CanonicalTranslationCoverage}
+    (hcontains : forest.ContainsTranslationCoverage coverage) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := coverage.rawRank,
+            signMask := coverage.rawMask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  rcases hcontains with ⟨tree, hmem, htreeContains⟩
+  have htreeCheck : checkTranslationCoverageTree tree = true := by
+    unfold checkTranslationCoverageForest at hcheck
+    exact List.all_eq_true.mp hcheck tree hmem
+  exact checkTranslationCoverageTree_sound htreeCheck htreeContains
+
+theorem checkTranslationCoverageForest_choice_sound
+    {forest : TranslationCoverageForest}
+    (hcheck : checkTranslationCoverageForest forest = true)
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcontains : forest.ContainsTranslationChoice r mask) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  rcases checkTranslationCoverageForest_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  refine ⟨cert, ?_, hcert⟩
+  simpa [TranslationCoverageForest.ContainsTranslationChoice,
+    canonicalTranslationCoverage] using hcovered
+
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)
     (hcheck : checkTranslationCommon cert = true) :
@@ -3111,6 +3454,21 @@ theorem checkTranslationCert_sound
               L.Holds y z := by
         simpa [hseq] using hConstraints
       exact checkFarkas_sound hFarkas hConstraintsCert
+  | sourceFarkas scert =>
+      simp [checkTranslationCert, hfailure] at hcheck
+      rcases hcheck with ⟨hCommon, hFarkas⟩
+      have hseq : seq = cert.seqFun :=
+        seq_eq_translation_cert_seq hRealize hCommon
+      have hTrans :=
+        translation_unfolded_feasible_of_cert hRealize hCommon hFeasible
+      have hConstraints :=
+        translation_feasible_implies_constraints hTrans
+      have hConstraintsCert :
+          exists y z : Real,
+            forall L, L ∈ translationConstraints cert.seqFun cert.b ->
+              L.Holds y z := by
+        simpa [hseq] using hConstraints
+      exact checkSourceFarkas_sound hFarkas hConstraintsCert
 
 structure TranslationChoiceCert where
   rank : Nat

@@ -30,6 +30,9 @@ COVERAGE_TREE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "coverage_tree_s
 NONIDENTITY_FAMILY_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_family_sample.json"
 )
+TRANSLATION_FAMILY_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "translation_family_sample.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -101,6 +104,22 @@ FACE_NORMALS = {
     "tppm": (1, 1, -1),
     "tppp": (1, 1, 1),
 }
+FACE_ORDER = [
+    "xp",
+    "xm",
+    "yp",
+    "ym",
+    "zp",
+    "zm",
+    "tmmm",
+    "tmmp",
+    "tmpm",
+    "tmpp",
+    "tpmm",
+    "tpmp",
+    "tppm",
+    "tppp",
+]
 FACE_OFFSETS = {
     "xp": Fraction(1),
     "xm": Fraction(1),
@@ -356,6 +375,186 @@ def translation_vector(word, mask):
         seq.append(FACE_PLUS[pair_id] if signs[index] > 0 else FACE_MINUS[pair_id])
     b = vec_add(bpref[-1], mat_vec(pref[-1], DCAN["x"]))
     return b, seq
+
+
+def lin2_const(value):
+    return (value, Fraction(0), Fraction(0))
+
+
+def lin2_y():
+    return (Fraction(0), Fraction(1), Fraction(0))
+
+
+def lin2_z():
+    return (Fraction(0), Fraction(0), Fraction(1))
+
+
+def lin2_add(lhs, rhs):
+    return (lhs[0] + rhs[0], lhs[1] + rhs[1], lhs[2] + rhs[2])
+
+
+def lin2_scale(scale, value):
+    return (scale * value[0], scale * value[1], scale * value[2])
+
+
+def lin2_dot_vec3(n, p):
+    return lin2_add(
+        lin2_add(lin2_scale(n[0], p[0]), lin2_scale(n[1], p[1])),
+        lin2_scale(n[2], p[2]),
+    )
+
+
+def strict_lt_constraint(lhs, rhs):
+    return (lhs[1] - rhs[1], lhs[2] - rhs[2], rhs[0] - lhs[0])
+
+
+def translation_impact_time_lin(seq, b, impact):
+    if impact == 0:
+        return lin2_const(Fraction(0))
+    if impact == 14:
+        return lin2_const(Fraction(1))
+    prefixes = path_prefix_affs(seq)
+    normal_value, offset = impact_plane_normal_offset(seq, prefixes, impact)
+    den = dot(normal_value, b)
+    require(den != 0, f"translation impact denominator nonzero {impact}")
+    return (
+        (offset - normal_value[0]) / den,
+        -normal_value[1] / den,
+        -normal_value[2] / den,
+    )
+
+
+def translation_line_point_lin(b, t):
+    return (
+        lin2_add(lin2_const(Fraction(1)), lin2_scale(b[0], t)),
+        lin2_add(lin2_y(), lin2_scale(b[1], t)),
+        lin2_add(lin2_z(), lin2_scale(b[2], t)),
+    )
+
+
+def translation_constraints_py(seq, b):
+    constraints = [
+        (Fraction(1), Fraction(1), Fraction(1)),
+        (Fraction(1), Fraction(-1), Fraction(1)),
+        (Fraction(-1), Fraction(1), Fraction(1)),
+        (Fraction(-1), Fraction(-1), Fraction(1)),
+    ]
+    impact_times = [translation_impact_time_lin(seq, b, impact) for impact in range(15)]
+    for step in range(14):
+        constraints.append(strict_lt_constraint(impact_times[step], impact_times[step + 1]))
+    prefixes = path_prefix_affs(seq)
+    for impact in range(1, 15):
+        hit = impact_face(seq, impact)
+        point = translation_line_point_lin(b, impact_times[impact])
+        for face in FACE_ORDER:
+            if face == hit:
+                continue
+            copied, offset = copied_normal_offset(seq, prefixes, impact, face)
+            constraints.append(
+                strict_lt_constraint(lin2_dot_vec3(copied, point), lin2_const(offset))
+            )
+    return constraints
+
+
+def weighted_sum_constraints(constraints, terms):
+    a = b = c = Fraction(0)
+    for index, multiplier in terms:
+        line = constraints[index]
+        a += multiplier * line[0]
+        b += multiplier * line[1]
+        c += multiplier * line[2]
+    return a, b, c
+
+
+def normalize_farkas_terms(terms):
+    combined = {}
+    for index, multiplier in terms:
+        combined[index] = combined.get(index, Fraction(0)) + multiplier
+    normalized = [
+        (index, multiplier)
+        for index, multiplier in sorted(combined.items())
+        if multiplier != 0
+    ]
+    if not normalized:
+        return []
+    denominators_lcm = 1
+    for _index, multiplier in normalized:
+        denominators_lcm = math.lcm(denominators_lcm, multiplier.denominator)
+    content = 0
+    for _index, multiplier in normalized:
+        value = abs(multiplier.numerator * (denominators_lcm // multiplier.denominator))
+        content = math.gcd(content, value)
+    if content == 0:
+        return normalized
+    content_q = Fraction(content, denominators_lcm)
+    return [(index, multiplier / content_q) for index, multiplier in normalized]
+
+
+def parse_farkas_terms(terms):
+    return normalize_farkas_terms([
+        (term["index"], parse_rat(term["multiplier"]))
+        for term in terms
+    ])
+
+
+def check_farkas_py(constraints, terms):
+    if not terms or not any(multiplier > 0 for _index, multiplier in terms):
+        return False
+    if any(index < 0 or index >= len(constraints) or multiplier < 0
+           for index, multiplier in terms):
+        return False
+    total = weighted_sum_constraints(constraints, terms)
+    return total[0] == 0 and total[1] == 0 and total[2] <= 0
+
+
+def rat_to_json(value):
+    if value.denominator == 1:
+        return str(value.numerator)
+    return f"{value.numerator}/{value.denominator}"
+
+
+def strict_line_to_json(line):
+    return [rat_to_json(line[0]), rat_to_json(line[1]), rat_to_json(line[2])]
+
+
+def normalize_strict_line(line):
+    den = 1
+    for value in line:
+        den = math.lcm(den, value.denominator)
+    ints = [value.numerator * (den // value.denominator) for value in line]
+    content = 0
+    for value in ints:
+        content = math.gcd(content, abs(value))
+    if content == 0:
+        return line
+    return tuple(Fraction(value, content) for value in ints)
+
+
+def normalized_constraint_system(constraints):
+    normalized_lines = [normalize_strict_line(line) for line in constraints]
+    sorted_unique = sorted(set(normalized_lines))
+    index_by_line = {line: index for index, line in enumerate(sorted_unique)}
+    original_to_normalized = [index_by_line[line] for line in normalized_lines]
+    normalized_to_originals = [
+        [index for index, mapped in enumerate(original_to_normalized) if mapped == normalized_index]
+        for normalized_index in range(len(sorted_unique))
+    ]
+    return {
+        "constraints": [strict_line_to_json(line) for line in sorted_unique],
+        "originalToNormalized": original_to_normalized,
+        "normalizedToOriginals": normalized_to_originals,
+    }
+
+
+def normalized_farkas_terms_for_system(terms, system):
+    mapped = [
+        (system["originalToNormalized"][index], multiplier)
+        for index, multiplier in terms
+    ]
+    return [
+        {"index": index, "multiplier": rat_to_json(multiplier)}
+        for index, multiplier in normalize_farkas_terms(mapped)
+    ]
 
 
 def fixed_part(m):
@@ -677,6 +876,12 @@ def check_payload(payload):
             require(impact_denom(seq, b, impact) <= 0, f"bad translation denominator {rank}/{mask}")
         elif failure["kind"] == "badTranslationVector":
             require(b == vec((0, 0, 0)), f"zero translation vector {rank}/{mask}")
+        elif failure["kind"] == "farkas":
+            terms = parse_farkas_terms(failure["terms"])
+            require(
+                check_farkas_py(translation_constraints_py(seq, b), terms),
+                f"translation Farkas {rank}/{mask}",
+            )
         else:
             raise SystemExit(f"check failed: unsupported translation failure {failure['kind']}")
 
@@ -1222,6 +1427,12 @@ def check_translation_cert_record(cert):
         require(impact_denom(seq, b, impact) <= 0, f"bad direction denominator {cert['name']}")
     elif failure["kind"] == "badTranslationVector":
         require(b == vec((0, 0, 0)), f"bad translation vector {cert['name']}")
+    elif failure["kind"] == "farkas":
+        terms = parse_farkas_terms(failure["terms"])
+        require(
+            check_farkas_py(translation_constraints_py(seq, b), terms),
+            f"translation Farkas certificate {cert['name']}",
+        )
     else:
         raise SystemExit(f"check failed: unsupported translation failure {failure['kind']}")
 
@@ -1546,6 +1757,34 @@ def nonid_cert_state_key(cert):
     }
 
 
+TRANSLATION_FAMILY_FAILURE_KINDS = {
+    "badTranslationVector",
+    "badDirectionSign",
+    "farkas",
+}
+
+
+def translation_failure_matches_family(family_kind, cert):
+    failure_kind = cert["failure"]["kind"]
+    if family_kind == "badTranslationVector":
+        return failure_kind == "badTranslationVector"
+    if family_kind == "badDirectionSign":
+        return failure_kind == "badDirectionSign"
+    if family_kind == "farkas":
+        return failure_kind == "farkas"
+    return False
+
+
+def translation_cert_state_key(cert):
+    return {
+        "word": cert["word"],
+        "mask": cert["mask"],
+        "seq": cert["seq"],
+        "b": cert["b"],
+        "failure": cert["failure"],
+    }
+
+
 def check_nonidentity_family_file(payload):
     require(payload.get("schema_version") == 2, "nonidentity family schema version")
     require(payload.get("mode") == "nonidentity-family-sample", "nonidentity family mode")
@@ -1717,6 +1956,168 @@ def check_nonidentity_family_file(payload):
     }
 
 
+def check_translation_family_file(payload):
+    require(payload.get("schema_version") == 1, "translation family schema version")
+    require(payload.get("mode") == "translation-family-sample", "translation family mode")
+
+    words_by_rank = {}
+    for record in payload["pair_words"]:
+        rank = record["rank"]
+        word = record["word"]
+        require(0 <= rank < EXPECTED_PAIR_WORDS, f"translation family rank bounds {rank}")
+        require(valid_pair_word(word), f"translation family valid word {rank}")
+        require(lex_rank_pair_word(word) == rank, f"translation family lex rank {rank}")
+        require(rank not in words_by_rank, f"translation family duplicate word rank {rank}")
+        words_by_rank[rank] = word
+
+    covered_once = {}
+    canonical_leaf_once = {}
+    present_failure_kinds = set()
+    multi_member_family_seen = False
+    shared_farkas_seen = False
+    family_summaries = []
+
+    for family in payload["families"]:
+        family_kind = family["failure_kind"]
+        require(
+            family_kind in TRANSLATION_FAMILY_FAILURE_KINDS,
+            f"translation family supported failure {family['name']}",
+        )
+        present_failure_kinds.add(family_kind)
+        coverages = [
+            check_translation_coverage_record(record)
+            for record in family["coverages"]
+        ]
+        certs = family["certs"]
+        require(len(certs) == len(coverages), f"translation family cert count {family['name']}")
+        require(len(family["cert_names"]) == len(certs),
+                f"translation family cert-name count {family['name']}")
+        if len(certs) > 1:
+            multi_member_family_seen = True
+
+        expected_member_keys = [translation_cert_state_key(cert) for cert in certs]
+        expected_member_ids = [
+            normalized_state_id("translation-member", key)
+            for key in expected_member_keys
+        ]
+        require(
+            family["memberStateKeys"] == expected_member_keys,
+            f"translation family member state keys {family['name']}",
+        )
+        require(
+            family["memberStateIds"] == expected_member_ids,
+            f"translation family member state ids {family['name']}",
+        )
+
+        expected_state_key = {
+            "failure_kind": family_kind,
+            "coverages": [
+                {
+                    "raw_rank": coverage["raw_rank"],
+                    "raw_mask": coverage["raw_mask"],
+                    "canonical_rank": coverage["canonical_rank"],
+                    "canonical_mask": coverage["canonical_mask"],
+                }
+                for coverage in coverages
+            ],
+            "member_state_ids": expected_member_ids,
+            "member_state_keys": expected_member_keys,
+        }
+
+        if family_kind == "farkas":
+            shared_farkas = []
+            for cert in certs:
+                b, seq = translation_vector(cert["word"], cert["mask"])
+                constraints = translation_constraints_py(seq, b)
+                system = normalized_constraint_system(constraints)
+                terms = parse_farkas_terms(cert["failure"]["terms"])
+                require(check_farkas_py(constraints, terms),
+                        f"translation family Farkas check {cert['name']}")
+                shared_farkas.append({
+                    "case": {"rank": cert["rank"], "mask": cert["mask"]},
+                    "normalizedConstraintSystem": system,
+                    "normalizedFarkasTerms": normalized_farkas_terms_for_system(terms, system),
+                    "originalFarkasTerms": cert["failure"]["terms"],
+                })
+            require(family["normalizedStateKey"]["sharedFarkas"] == shared_farkas,
+                    f"translation family shared Farkas {family['name']}")
+            expected_state_key["sharedFarkas"] = shared_farkas
+            if len(shared_farkas) > 1:
+                shared_farkas_seen = True
+
+        require(
+            family["normalizedStateKey"] == expected_state_key,
+            f"translation family normalized state key {family['name']}",
+        )
+        require(
+            family["normalizedStateId"]
+            == normalized_state_id("translation-family", expected_state_key),
+            f"translation family normalized state id {family['name']}",
+        )
+
+        for coverage, cert_name, cert in zip(coverages, family["cert_names"], certs, strict=True):
+            raw_case = (coverage["raw_rank"], coverage["raw_mask"])
+            canonical_case = (coverage["canonical_rank"], coverage["canonical_mask"])
+            require(raw_case not in covered_once,
+                    f"translation family duplicate raw case {raw_case}")
+            require(cert["name"] == cert_name,
+                    f"translation family cert name echo {raw_case}")
+            require(cert["rank"] == coverage["raw_rank"],
+                    f"translation family cert rank echo {raw_case}")
+            require(cert["mask"] == coverage["raw_mask"],
+                    f"translation family cert mask echo {raw_case}")
+            require(words_by_rank.get(cert["rank"]) == cert["word"],
+                    f"translation family word echo {raw_case}")
+            require(coverage["raw_word"] == cert["word"],
+                    f"translation family coverage word echo {raw_case}")
+            require(translation_failure_matches_family(family_kind, cert),
+                    f"translation family failure kind {raw_case}")
+            check_translation_cert_record(cert)
+            covered_once[raw_case] = family["name"]
+            canonical_leaf_once.setdefault(canonical_case, set()).add(family["name"])
+
+        family_summaries.append({
+            "name": family["name"],
+            "failure": family_kind,
+            "covered": len(certs),
+        })
+
+    require(multi_member_family_seen, "translation family nontrivial leaf")
+    require(shared_farkas_seen, "translation family shared Farkas group")
+    for canonical_case, leaves in canonical_leaf_once.items():
+        require(len(leaves) == 1, f"translation canonical case leaf count {canonical_case}")
+
+    summary = payload["summary"]
+    require(summary["families"] == len(payload["families"]), "translation family summary count")
+    require(summary["covered_cases"] == len(covered_once), "translation family summary coverage")
+    require(
+        set(summary["supported_failure_kinds"]) == TRANSLATION_FAMILY_FAILURE_KINDS,
+        "translation family supported summary",
+    )
+    require(
+        set(summary["present_failure_kinds"]) == present_failure_kinds,
+        "translation family present summary",
+    )
+    accounting = payload["failure_kind_accounting"]
+    absent_failure_kinds = {record["failure_kind"] for record in accounting["absent"]}
+    require(set(accounting["present"]) == present_failure_kinds,
+            "translation family accounting present")
+    require(absent_failure_kinds <= TRANSLATION_FAMILY_FAILURE_KINDS,
+            "translation family accounting absent supported")
+    require(set(accounting["accounted_for"]) == TRANSLATION_FAMILY_FAILURE_KINDS,
+            "translation family accounting all kinds")
+    require(present_failure_kinds | absent_failure_kinds == TRANSLATION_FAMILY_FAILURE_KINDS,
+            "translation family present-or-absent coverage")
+
+    return {
+        "families": len(payload["families"]),
+        "covered_cases": len(covered_once),
+        "present_failure_kinds": sorted(present_failure_kinds),
+        "absent_failure_kinds": sorted(absent_failure_kinds),
+        "intervals": family_summaries,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -1729,6 +2130,7 @@ def main():
             "canonical-symmetry-sample",
             "coverage-tree-sample",
             "nonidentity-family-sample",
+            "translation-family-sample",
             "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
@@ -1769,6 +2171,7 @@ def main():
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "coverage-tree-sample/nonidentity-family-sample/"
+            "translation-family-sample/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
         )
@@ -1823,6 +2226,19 @@ def main():
             print(
                 "family interval: "
                 f"{interval['name']} [{interval['start']}, {interval['end']})"
+            )
+        return
+    if mode == "translation-family-sample":
+        payload = json.loads(TRANSLATION_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_translation_family_file(payload)
+        print("independent translation family sample check passed")
+        print(f"families: {summary['families']}")
+        print(f"covered cases: {summary['covered_cases']}")
+        for interval in summary["intervals"]:
+            print(
+                "translation family: "
+                f"{interval['name']} {interval['failure']} "
+                f"covered {interval['covered']}"
             )
         return
     if mode == "canonical-orbit-coverage":
