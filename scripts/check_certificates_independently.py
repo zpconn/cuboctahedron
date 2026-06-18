@@ -2140,6 +2140,10 @@ def check_exhaustive_real_certs_summary(payload):
     require(payload.get("mode") == "exhaustive-real-certs", "exhaustive mode")
     require(payload.get("summary_kind") == "gated-estimate", "exhaustive summary kind")
     require(payload.get("complete") is False, "gated summary must not claim completeness")
+    require(
+        payload.get("selected_backend") == "generated_lean_fallback",
+        "exhaustive selected backend",
+    )
 
     profile = exact_profile.load_profile_payload(exact_profile.PROFILE_JSON_PATH)
     counts = exact_profile.check_profile_payload(profile)
@@ -2174,16 +2178,32 @@ def check_exhaustive_real_certs_summary(payload):
         estimate["flat_total_certs"] == profile_estimates["flat_total_certs"],
         "exhaustive flat total estimate",
     )
-    require(
-        estimate["canonical_cert_estimate"] ==
-        profile_estimates["canonical_cert_estimate"],
-        "exhaustive canonical cert estimate",
-    )
-    require(
-        estimate["estimated_lean_bytes"] ==
-        profile_estimates["estimated_lean_bytes"],
-        "exhaustive Lean byte estimate",
-    )
+    if estimate.get("prefix_parametric_available"):
+        prefix_payload = json.loads(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+        )
+        check_prefix_parametric_compression(prefix_payload)
+        require(
+            estimate["canonical_cert_estimate"] ==
+            prefix_payload["size_ladder"]["final_cert_estimate"],
+            "exhaustive prefix-parametric cert estimate",
+        )
+        require(
+            estimate["estimated_lean_bytes"] ==
+            prefix_payload["size_ladder"]["estimated_lean_bytes"],
+            "exhaustive prefix-parametric Lean byte estimate",
+        )
+    else:
+        require(
+            estimate["canonical_cert_estimate"] ==
+            profile_estimates["canonical_cert_estimate"],
+            "exhaustive canonical cert estimate",
+        )
+        require(
+            estimate["estimated_lean_bytes"] ==
+            profile_estimates["estimated_lean_bytes"],
+            "exhaustive Lean byte estimate",
+        )
     require(estimate["estimated_lean_bytes"] > 0, "positive Lean byte estimate")
 
     budget = payload["budget"]
@@ -2201,16 +2221,30 @@ def check_exhaustive_real_certs_summary(payload):
 
     emission = payload["full_emission"]
     require(emission["performed"] is False, "full emission must be gated")
-    require(emission["large_emission_ready"] is False, "large emission not ready")
     require(
         emission["status"] in {
             "refused_budget_exceeded",
             "refused_prerequisite_or_space_check",
             "ready_but_approval_required",
             "approved_but_full_emitter_not_implemented",
+            "ready_but_full_emitter_not_implemented",
         },
         "known exhaustive emission status",
     )
+    if emission["status"] != "ready_but_full_emitter_not_implemented":
+        require(emission["large_emission_ready"] is False, "large emission not ready")
+    if emission["status"] == "ready_but_full_emitter_not_implemented":
+        require(emission["large_emission_ready"] is True, "large emission ready flag")
+        require(
+            "generated_lean_fallback_emitter_not_implemented" in
+            emission["refusal_reasons"],
+            "fallback emitter missing reason",
+        )
+        require(
+            "lex_rank_public_unrank_bridge_not_implemented" in
+            emission["refusal_reasons"],
+            "lex rank bridge missing reason",
+        )
     if emission["status"] == "refused_budget_exceeded":
         require(
             estimate["estimated_lean_bytes"] >

@@ -4293,14 +4293,49 @@ def build_exhaustive_real_certs_summary(
     load_json_artifact(COVERAGE_TREE_JSON_PATH, "coverage-tree-sample")
     load_json_artifact(NONIDENTITY_FAMILY_JSON_PATH, "nonidentity-family-sample")
     load_json_artifact(TRANSLATION_FAMILY_JSON_PATH, "translation-family-sample")
+    prefix_parametric = None
+    if PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists():
+        prefix_parametric = load_json_artifact(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+            "prefix-parametric-compression",
+        )
+        if not prefix_parametric.get("complete", False):
+            prefix_parametric = None
+    compact_pilot = None
+    if COMPACT_CERT_PILOT_JSON_PATH.exists():
+        compact_pilot = load_json_artifact(
+            COMPACT_CERT_PILOT_JSON_PATH,
+            "compact-cert-pilot",
+        )
+        if not compact_pilot.get("complete", False):
+            compact_pilot = None
 
     estimates = profile["size_estimates"]
-    estimated_lean_bytes = int(estimates["estimated_lean_bytes"])
-    canonical_cert_estimate = int(estimates["canonical_cert_estimate"])
+    if prefix_parametric is not None:
+        estimated_lean_bytes = int(
+            prefix_parametric["size_ladder"]["estimated_lean_bytes"]
+        )
+        canonical_cert_estimate = int(
+            prefix_parametric["size_ladder"]["final_cert_estimate"]
+        )
+        estimate_source = str(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)
+        )
+    else:
+        estimated_lean_bytes = int(estimates["estimated_lean_bytes"])
+        canonical_cert_estimate = int(estimates["canonical_cert_estimate"])
+        estimate_source = str(profile_input.relative_to(REPO_ROOT))
     flat_total_certs = int(estimates["flat_total_certs"])
     budget_bytes = int(generated_data_budget_gib * GIB)
     required_free_bytes = int(required_free_gib * GIB)
     disk = shutil.disk_usage(REPO_ROOT)
+    selected_backend = (
+        compact_pilot.get("backend_evaluation", {}).get(
+            "selected_backend", "generated_lean_fallback"
+        )
+        if compact_pilot is not None
+        else "generated_lean_fallback"
+    )
 
     refusal_reasons: list[str] = []
     if missing_profile_options:
@@ -4316,6 +4351,8 @@ def build_exhaustive_real_certs_summary(
         refusal_reasons.append("estimated_lean_bytes_exceeds_budget")
     if disk.free < required_free_bytes:
         refusal_reasons.append("free_space_below_required_floor")
+    if selected_backend != "generated_lean_fallback":
+        refusal_reasons.append(f"selected_backend_is_{selected_backend}")
 
     if refusal_reasons:
         emission_status = (
@@ -4323,18 +4360,19 @@ def build_exhaustive_real_certs_summary(
             if "estimated_lean_bytes_exceeds_budget" in refusal_reasons
             else "refused_prerequisite_or_space_check"
         )
-    elif approve_large_exhaustive:
-        emission_status = "approved_but_full_emitter_not_implemented"
-        refusal_reasons.append("large_emission_writer_not_implemented")
     else:
-        emission_status = "ready_but_approval_required"
-        refusal_reasons.append("large_emission_requires_explicit_approval")
+        emission_status = "ready_but_full_emitter_not_implemented"
+        refusal_reasons.extend([
+            "generated_lean_fallback_emitter_not_implemented",
+            "lex_rank_public_unrank_bridge_not_implemented",
+        ])
 
     return {
         "schema_version": 1,
         "mode": "exhaustive-real-certs",
         "complete": False,
         "summary_kind": "gated-estimate",
+        "selected_backend": selected_backend,
         "actual_counts": {
             "pair_words": counts["pair_words"],
             "identity_linear_words": counts["identity_linear_words"],
@@ -4348,8 +4386,15 @@ def build_exhaustive_real_certs_summary(
             "options": profile_options,
             "required_options": required_profile_options,
         },
-        "prerequisites": artifacts,
+        "prerequisites": {
+            **artifacts,
+            "prefix_parametric_compression": path_status(
+                PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH
+            ),
+            "compact_cert_pilot": path_status(COMPACT_CERT_PILOT_JSON_PATH),
+        },
         "estimate": {
+            "source": estimate_source,
             "flat_total_certs": flat_total_certs,
             "flat_nonidentity_certs": int(estimates["flat_nonidentity_certs"]),
             "flat_translation_certs": int(estimates["flat_translation_certs"]),
@@ -4358,6 +4403,7 @@ def build_exhaustive_real_certs_summary(
             "estimated_lean_gib": estimated_lean_bytes / GIB,
             "profile_estimate_note": estimates.get("note", ""),
             "shared_farkas_groups": int(estimates.get("shared_farkas_groups", 0)),
+            "prefix_parametric_available": prefix_parametric is not None,
         },
         "budget": {
             "generated_data_budget_gib": generated_data_budget_gib,
@@ -4378,7 +4424,7 @@ def build_exhaustive_real_certs_summary(
             "status": emission_status,
             "refusal_reasons": refusal_reasons,
             "approval_flag": "--approve-large-exhaustive",
-            "large_emission_ready": False,
+            "large_emission_ready": emission_status.startswith("ready_"),
         },
         "expected_full_generation_paths": [
             "Cuboctahedron/Generated/NonIdentity/",

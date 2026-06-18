@@ -1765,10 +1765,193 @@ all pass, and `scripts/generated/compact_cert_pilot.json` records either
 `selected_backend = "compact_blob"` or a concrete trusted-checking failure that
 justifies `selected_backend = "generated_lean_fallback"`.
 
+## Step 14E.7A: Deterministic Pair-Word Rank/Unrank Bridge
+
+Goal: make Lean's public pair-word ranking agree with the deterministic
+lexicographic rank used by generated certificate data.
+
+This step is required before the generated Lean fallback can prove the public
+`ExhaustiveGeneratedCoverage` API. Existing generated certificate checks use
+`pairWordLexRank?`; the public API in Step 14E.7 is stated in terms of
+`unrankPairWord`. These must be the same enumeration.
+
+Update:
+
+```text
+Cuboctahedron/Search/Enumeration.lean
+Cuboctahedron/Search/Certificates.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+```
+
+Requirements:
+
+- Promote the deterministic lexicographic pair-word ranking to the authoritative
+  public enumeration.
+- Use the fixed pair order:
+
+```lean
+[PairId.x, PairId.y, PairId.z, PairId.d111, PairId.d11m, PairId.d1m1,
+  PairId.dm11]
+```
+
+  and the valid multiplicities `[1,2,2,2,2,2,2]`.
+- Define the public APIs so generated ranks and Lean ranks coincide:
+
+```lean
+def rankPairWord? : PairWord -> Option (Fin numPairWords)
+def unrankPairWord : Fin numPairWords -> PairWord
+```
+
+- Prove:
+
+```lean
+theorem unrankPairWord_valid :
+  forall r : Fin numPairWords, ValidPairWord (unrankPairWord r)
+
+theorem rank_unrank_pairword :
+  forall r : Fin numPairWords, rankPairWord? (unrankPairWord r) = some r
+
+theorem unrank_rank_pairword :
+  forall w : PairWord,
+    ValidPairWord w -> exists r : Fin numPairWords, unrankPairWord r = w
+
+theorem rankPairWord?_eq_some_iff_unrank :
+  forall (w : PairWord) (r : Fin numPairWords),
+    rankPairWord? w = some r <-> w = unrankPairWord r
+```
+
+- Remove duplicate or conflicting rankers. If `pairWordLexRank?` remains for
+  backwards compatibility, make it an alias or prove:
+
+```lean
+theorem pairWordLexRank?_eq_rankPairWord? :
+  forall w : PairWord, pairWordLexRank? w = rankPairWord? w
+```
+
+- Add coverage-to-word bridge lemmas used by Step 14E.7B:
+
+```lean
+theorem checkNonIdCoveredRank_word
+  {r : Fin numPairWords} {cert : NonIdCert} :
+  checkNonIdCoveredRank r.val cert = true ->
+    cert.word = unrankPairWord r
+
+theorem checkTranslationCoveredCase_word_mask
+  {r : Fin numPairWords} {mask : SignMask} {cert : TranslationCert} :
+  checkTranslationCoveredCase
+      { pairRank := r.val, signMask := mask.val } cert = true ->
+    cert.word = unrankPairWord r /\ cert.signMask = mask
+```
+
+- The proof may use combinatorial counts and recursive unranking, but it must
+  not use generated certificate data, C++ counts as assumptions, `native_decide`,
+  `axiom`, `sorry`, or `admit`.
+
+Done when:
+
+```lean
+#check rank_unrank_pairword
+#check unrank_rank_pairword
+#check rankPairWord?_eq_some_iff_unrank
+#check checkNonIdCoveredRank_word
+#check checkTranslationCoveredCase_word_mask
+```
+
+work, and:
+
+```bash
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes.
+
+## Step 14E.7B: Generated Lean Fallback Emitter
+
+Goal: emit the concrete generated Lean fallback evidence selected by
+Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
+
+This step is the large-data generation step. Do not start it until Step 14E.7A
+is complete, because every emitted rank must prove facts about the public
+`unrankPairWord`.
+
+Update:
+
+```text
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+Cuboctahedron/Generated/AllGenerated.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- `scripts/generate_exact_certificates.py --mode exhaustive-real-certs` must
+  emit actual Lean fallback evidence when:
+  - `scripts/generated/compact_cert_pilot.json` selects
+    `generated_lean_fallback`;
+  - `scripts/generated/prefix_parametric_compression.json` has
+    `ready_for_14E7 = true`;
+  - the estimated generated source fits the configured hard budget;
+  - free disk space is above the configured floor.
+- Keep the existing refusal behavior for stale prerequisites, budget failures,
+  missing disk space, or a non-fallback backend selection.
+- Emit the fallback evidence using exactly this strategy:
+  - nonidentity prefix family for `badDirectionSign`;
+  - nonidentity prefix family for `badPairBalance`;
+  - singleton nonidentity residual certificates for axis/simulation cases;
+  - translation prefix family for `badDirectionSign`;
+  - translation prefix family for `badTranslationVector`;
+  - shared Farkas translation families for all normalized Farkas shapes.
+- Every emitted leaf/family must ultimately return a checked `NonIdCert` or
+  `TranslationCert` through existing sound checkers or newly proved family
+  checkers whose soundness returns those same checked certificate types.
+- Generated files must be chunked. Use deterministic chunk names and stable
+  ordering so interrupted builds can resume by regenerating the same files.
+- `scripts/generated/exhaustive_real_certs_summary.json` must change from a
+  gated estimate to a completed generated fallback manifest:
+
+```json
+{
+  "mode": "exhaustive-real-certs",
+  "complete": true,
+  "summary_kind": "generated-lean-fallback",
+  "selected_backend": "generated_lean_fallback"
+}
+```
+
+- `scripts/check_certificates_independently.py --mode exhaustive-real-certs`
+  must validate the completed manifest, emitted chunk counts, coverage counts,
+  selected backend, and generated paths.
+- Do not emit sample-only chunks as completeness evidence.
+- Do not use `native_decide`, `axiom`, `sorry`, `admit`, `unsafe`, or C++
+  floating-point output in generated Lean.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes, and the generated manifest records `complete = true`.
+
 ## Step 14E.7: Concrete Exhaustive Coverage Witness
 
-Goal: expose the concrete Lean witness consumed by Step 15 using the evidence
-backend selected by Step 14E.6D.
+Goal: expose the concrete Lean witness consumed by Step 15 using the completed
+evidence backend selected by Step 14E.6D.
+
+Prerequisites:
+
+- Step 14E.7A is complete.
+- Step 14E.7B is complete if Step 14E.6D selected `generated_lean_fallback`.
+- The compact semantic checker is complete if Step 14E.6D selected
+  `compact_blob`.
 
 Update:
 
@@ -1815,7 +1998,8 @@ def exhaustiveGeneratedCoverage : ExhaustiveGeneratedCoverage := ...
     reduction/chunked reflection, never `native_decide`.
 
 - If Step 14E.6D selected `generated_lean_fallback`, the generated Lean witness
-  must be assembled from:
+  must be the completed fallback evidence emitted by Step 14E.7B and assembled
+  from:
   - the canonical coverage manifest from Step 14E.2A;
   - canonical nonidentity and translation coverage trees from Step 14E.3;
   - nonidentity family soundness from Step 14E.4;
