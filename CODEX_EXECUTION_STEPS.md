@@ -23,11 +23,14 @@ Follow these rules for every step.
 
 1. Keep `RAW_PLAN.md` and `PROOF_SKETCH.md` as source notes. Do not edit them unless asked.
 2. Put trusted Lean code under `Cuboctahedron/`.
-3. Put generated certificate data under `Cuboctahedron/Generated/`.
+3. Put generated Lean wrappers under `Cuboctahedron/Generated/`; put compact
+   certificate blobs under `certs/`.
 4. Put external untrusted generators and checkers under `scripts/`.
 5. Do not use `Float`, `Double`, epsilon thresholds, tolerances, or approximate geometry in Lean proof code.
 6. Do not use `sorry`, `admit`, custom `axiom`, or `unsafe`.
-7. `native_decide` is allowed only in clearly marked prototype files that are not imported by the final theorem.
+7. Do not use `native_decide` in any tracked Lean file under `Cuboctahedron/`.
+   If an exploratory prototype needs it, keep that prototype outside the final
+   import tree and outside the standard validation grep path.
 8. Every generated certificate must have a Lean checker and a Lean soundness theorem.
 9. Do not weaken the final theorem to only an unfolded or computational statement.
 10. Run the validation commands at the end of every milestone.
@@ -682,6 +685,7 @@ scripts/generate_exact_certificates.py
 scripts/check_certificates_independently.py
 scripts/README.md
 scripts/old_float_verifiers/
+certs/
 ```
 
 Generator requirements:
@@ -689,7 +693,9 @@ Generator requirements:
 - use `fractions.Fraction` or another exact rational backend;
 - do not use epsilon logic;
 - do not use C++ output as a proof;
-- emit Lean literals or a simple intermediate format that is converted to Lean literals.
+- support two evidence backends:
+  - generated Lean literals for samples, debugging, and fallback;
+  - compact certificate blobs for the exhaustive endgame.
 
 Generator tasks:
 
@@ -697,11 +703,13 @@ Generator tasks:
 2. Compute exact linear products.
 3. For `M != I`, generate non-identity certificates.
 4. For `M = I`, enumerate 64 sign masks and generate translation/Farkas certificates.
-5. Split output into small chunks.
+5. Split generated Lean output into small chunks.
+6. Emit compact certificate sections with enough data for Lean to reconstruct
+   the same checked `NonIdCert` and `TranslationCert` obligations.
 
 Independent checker tasks:
 
-1. Parse generated output.
+1. Parse generated Lean samples and compact blob output.
 2. Re-run exact checks.
 3. Print sanity counts:
    - pair words: `97,297,200`
@@ -719,9 +727,11 @@ lake build
 
 passes for a small generated sample.
 
-## Step 13: Generated Data Integration
+## Step 13: Generated Data Integration Samples
 
-Goal: import generated certificate chunks through Lean checkers.
+Goal: import representative generated certificate chunks through Lean checkers.
+These chunks are the sample/debug backend and remain the fallback if the compact
+certificate pilot fails; they are not the preferred exhaustive endgame.
 
 Create:
 
@@ -743,6 +753,9 @@ Avoid massive `by decide` proofs. Prefer:
 - proof-by-reflection with local `rfl` where possible;
 - sparse rational witnesses;
 - prefix-tree compression if chunked per-case data is too large.
+
+Do not use `native_decide` for chunk checks. Generated samples must demonstrate
+the same trusted checking style required for the final backend.
 
 Done when:
 
@@ -1366,7 +1379,8 @@ work for nontrivial translation groups, and `lake build` passes.
 
 ## Step 14E.6: Exhaustive Real Certificate Generator Mode
 
-Goal: generate compressed exhaustive real certificate data.
+Goal: generate compressed exhaustive real certificate data for the selected
+evidence backend.
 
 Update:
 
@@ -1376,6 +1390,7 @@ scripts/check_certificates_independently.py
 Cuboctahedron/Generated/NonIdentity/
 Cuboctahedron/Generated/Translation/
 Cuboctahedron/Generated/AllGenerated.lean
+certs/
 ```
 
 Add generator mode:
@@ -1397,13 +1412,16 @@ Requirements:
 - Generate compressed translation coverage for every identity rank and every
   legal `SignMask`.
 - Emit JSON summaries including raw case counts, compressed leaf counts,
-  generated Lean sizes, and independent checker counts.
+  generated Lean sizes, compact blob sizes, and independent checker counts.
 - Reject the run if any raw case is uncovered, multiply covered, or covered
   only by a classifier instead of a real failure certificate.
 - Reject the run if the generator would fall back to flat per-case data without
   the explicit `--allow-flat-exhaustive` diagnostic flag.
 - Do not use C++ counts as proof data. They may be printed only as sanity
   checks.
+- Do not treat `native_decide` as an available proof backend. Any certificate
+  check proof that needs it must be rejected and the run must fall back to a
+  trusted kernel-checked representation.
 
 Done when:
 
@@ -1413,7 +1431,7 @@ python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
 lake build
 ```
 
-pass on the compressed generated data.
+pass on the compressed evidence data selected by Step 14E.6D.
 
 ## Step 14E.6A: Compression Feasibility Audit
 
@@ -1559,12 +1577,14 @@ pass and `scripts/generated/aggregate_compression_profile.json` is complete.
 ## Step 14E.6C: Prefix and Parametric Family Compression
 
 Goal: reduce the complete Step 14E.6B estimate below the generated-data budget
-before emitting the concrete exhaustive Lean coverage witness.
+and decide whether the compact-certificate pilot is required before emitting the
+concrete exhaustive coverage witness.
 
 Step 14E.6B proves that symmetry, reversal, exact-state grouping, shared
 translation constraints, and shared sparse Farkas witnesses are not enough by
 themselves: the best current estimate is still about 7.61 GiB of generated Lean
-source. Step 14E.6C must add a stronger compression layer before Step 14E.7.
+source. Step 14E.6C must add a stronger compression layer before the compact
+pilot and final coverage witness.
 
 Update:
 
@@ -1575,6 +1595,7 @@ scripts/generate_exact_certificates.py
 scripts/check_certificates_independently.py
 Cuboctahedron/Search/
 Cuboctahedron/Generated/
+certs/
 README.md
 CODEX_EXECUTION_STEPS.md
 ```
@@ -1597,7 +1618,9 @@ Requirements:
   `ready_for_14E7 = true` only when the final estimate fits under the configured
   budget, with 1 GiB as the hard upper bound and 500 MiB/100 MiB reported as
   stricter targets.
-- Do not proceed to Step 14E.7 while the audit status is
+- Treat `ready_for_14E7 = true` as permission to run Step 14E.6D, not as
+  permission to skip the compact-certificate pilot.
+- Do not proceed to Step 14E.6D while the audit status is
   `blocked_exceeds_budget` or `blocked_needs_deeper_compression`.
 
 Current completed compression-gate result:
@@ -1613,10 +1636,10 @@ estimated Lean source: 0.98 GiB
 decision: ready_for_14E7
 ```
 
-This is a sizing and planning gate, not the final Lean proof data. Step 14E.7
-must emit Lean-checked parametric family coverage corresponding to the
-`prefix_parametric_compression.json` strategy before Step 15 can assemble the
-final exhaustive theorem.
+This is a sizing and planning gate, not the final Lean proof data. Because the
+current estimate is only barely below 1 GiB, Step 14E.6D must benchmark a
+compact checked certificate representation before Step 14E.7 chooses the final
+evidence backend.
 
 Done when:
 
@@ -1628,12 +1651,124 @@ python3 scripts/check_certificates_independently.py --mode compression-audit
 lake build
 ```
 
-pass with `ready_for_14E7 = true` and a final generated Lean estimate below the
-configured repository-size budget.
+pass with `ready_for_14E7 = true` and a final generated Lean fallback estimate
+below the configured repository-size budget.
+
+## Step 14E.6D: Compact Certificate Import Pilot
+
+Goal: determine whether exhaustive evidence should be stored as compact checked
+certificate data instead of near-1 GiB generated Lean source.
+
+This step is mandatory after Step 14E.6C because the generated Lean fallback is
+large enough to be operationally fragile. The compact path may become the final
+Step 14E.7 backend only if Lean checks it without `native_decide`.
+
+Update:
+
+```text
+Cuboctahedron/Search/CertificateFormat.lean
+Cuboctahedron/Search/CertificateDecode.lean
+Cuboctahedron/Search/CertificateChecker.lean
+Cuboctahedron/Generated/
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+certs/
+scripts/generated/
+```
+
+Add generator/checker modes:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compact-cert-sample
+python3 scripts/check_certificates_independently.py --mode compact-cert-sample
+python3 scripts/generate_exact_certificates.py --mode compact-cert-pilot --limit 100000
+python3 scripts/check_certificates_independently.py --mode compact-cert-pilot --limit 100000
+```
+
+Requirements:
+
+- Use Base64 text for the v1 blob so decoding is simple and auditable in Lean.
+  Use Base85 only if Base64 fails the pilot gate and the Base85 decoder is also
+  proved sound.
+- Define a compact binary schema with:
+  - magic bytes and schema version;
+  - a section table with byte lengths;
+  - unsigned varints and signed zig-zag varints;
+  - rational values as signed numerator plus positive denominator;
+  - dictionaries for repeated pair words, face sequences, axes, affine solves,
+    normalized constraint systems, Farkas witnesses, family ids, and coverage
+    tree nodes.
+- Add Lean APIs with these shapes:
+
+```lean
+def decodeCertBlob : String -> Except DecodeError CertBundle
+def checkCertBundle : CertBundle -> Bool
+
+theorem checkCertBundle_sound :
+  checkCertBundle bundle = true -> ExhaustiveGeneratedCoverage
+```
+
+- The decoder checker must reject malformed input: bad magic/version, section
+  length mismatch, integer overflow relative to declared bounds, invalid face or
+  pair ids, nonpositive rational denominators, dangling dictionary references,
+  duplicate coverage, and missing coverage.
+- `checkCertBundle` must reconstruct or reference the existing checked
+  obligations. It may not introduce a parallel unproved notion of failure.
+  Every terminal obstruction must ultimately call the existing `checkNonIdCert`,
+  `checkTranslationCert`, or a proved family/shared-witness checker whose
+  soundness returns those checked certificates.
+- The final proof of each pilot `checkCertBundle = true` theorem must use only
+  trusted Lean kernel checking (`rfl`, `simp`, `norm_num`, ordinary `decide`, or
+  small chunked reflection lemmas). Do not use `native_decide`.
+- Compare the compact blob backend with the generated Lean backend on the same
+  deterministic pilot slice. Record:
+  - `.lean` source bytes;
+  - blob bytes;
+  - `.olean` bytes;
+  - `lake build` wall time;
+  - peak memory when available;
+  - checker theorem style used.
+- Accept the compact backend for Step 14E.7 only if:
+  - the pilot builds without `native_decide`;
+  - the axiom audit introduces no new trust dependency;
+  - compact source plus blob size is at least 4x smaller than generated Lean
+    source for the same pilot slice;
+  - build time and memory are not materially worse than generated Lean;
+  - the independent checker validates the same slice and reports identical
+    coverage counts.
+- If the compact proof of `checkCertBundle = true` cannot be made trusted, record
+  the failure reason and use the generated Lean fallback from Step 14E.6C. Do
+  not accept a compact path proved by `native_decide`.
+
+Done when:
+
+```lean
+#check decodeCertBlob
+#check checkCertBundle
+#check checkCertBundle_sound
+#check Cuboctahedron.Generated.compactPilotCoverage
+```
+
+work for the pilot, and:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compact-cert-sample
+python3 scripts/check_certificates_independently.py --mode compact-cert-sample
+python3 scripts/generate_exact_certificates.py --mode compact-cert-pilot --limit 100000
+python3 scripts/check_certificates_independently.py --mode compact-cert-pilot --limit 100000
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+lean Cuboctahedron/PrintAxioms.lean
+```
+
+all pass, and `scripts/generated/compact_cert_pilot.json` records either
+`selected_backend = "compact_blob"` or a concrete trusted-checking failure that
+justifies `selected_backend = "generated_lean_fallback"`.
 
 ## Step 14E.7: Concrete Exhaustive Coverage Witness
 
-Goal: expose the concrete Lean witness consumed by Step 15.
+Goal: expose the concrete Lean witness consumed by Step 15 using the evidence
+backend selected by Step 14E.6D.
 
 Update:
 
@@ -1641,11 +1776,12 @@ Update:
 Cuboctahedron/Generated/NonIdentity/
 Cuboctahedron/Generated/Translation/
 Cuboctahedron/Generated/AllGenerated.lean
+certs/
 ```
 
 Requirements:
 
-- The generated Lean layer must prove:
+- The selected evidence backend must prove:
 
 ```lean
 theorem Cuboctahedron.Generated.NonIdentity.complete :
@@ -1670,7 +1806,16 @@ theorem Cuboctahedron.Generated.Translation.complete :
 def exhaustiveGeneratedCoverage : ExhaustiveGeneratedCoverage := ...
 ```
 
-- The witness must be assembled from:
+- If Step 14E.6D selected `compact_blob`, the final generated Lean wrapper must:
+  - include the final blob with `include_str`;
+  - decode it with `decodeCertBlob`;
+  - check it with `checkCertBundle`;
+  - derive `exhaustiveGeneratedCoverage` from `checkCertBundle_sound`;
+  - prove the required Boolean check using only trusted kernel-checked
+    reduction/chunked reflection, never `native_decide`.
+
+- If Step 14E.6D selected `generated_lean_fallback`, the generated Lean witness
+  must be assembled from:
   - the canonical coverage manifest from Step 14E.2A;
   - canonical nonidentity and translation coverage trees from Step 14E.3;
   - nonidentity family soundness from Step 14E.4;
@@ -1678,8 +1823,14 @@ def exhaustiveGeneratedCoverage : ExhaustiveGeneratedCoverage := ...
   - transport soundness for started symmetries and any proved reversal
     transforms.
 
+- In either backend, the public theorem names and
+  `Generated.exhaustiveGeneratedCoverage` interface must be identical so Step 15
+  does not depend on the representation of the exhaustive evidence.
+
 - Do not use `axiom`, `sorry`, `admit`, `native_decide`, `unsafe`, C++ counts,
   or sample-only chunks to prove completeness.
+- Do not choose the compact backend unless `scripts/generated/compact_cert_pilot.json`
+  selected it and recorded passing size/build/trust checks.
 
 Done when:
 
@@ -1694,8 +1845,10 @@ work, and:
 ```bash
 python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
 python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode compact-cert-pilot --limit 100000
 lake build
 grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+lean Cuboctahedron/PrintAxioms.lean
 ```
 
 all pass.
@@ -1711,6 +1864,8 @@ Prerequisites:
 - Step 14C has generated checked `NonIdCert` and `TranslationCert` data.
 - Step 14D exposes exhaustive coverage returning those checked failure
   certificates.
+- Step 14E.6D has selected either the compact blob backend or the generated
+  Lean fallback with recorded trusted-checking benchmark data.
 - Step 14E.7 has produced a concrete, Lean-checked
   `Generated.exhaustiveGeneratedCoverage` witness.
 
@@ -1882,7 +2037,10 @@ Use these rules if the project gets too large or slow.
    - unfolded feasible implies finite case;
    - finite cases are all impossible.
 6. If a generated certificate fails, debug with the independent checker first, then minimize to a single Lean certificate.
-7. If a proof needs `native_decide`, isolate it in a prototype file that is not imported by `MainTheorem.lean`, then replace it before final audit.
+7. If a proof seems to need `native_decide`, treat that as a failed trusted
+   checking strategy. Move the experiment outside `Cuboctahedron/`, record the
+   blocker, and replace it with kernel-checked reductions, smaller reflection
+   lemmas, or the generated Lean fallback before continuing.
 
 ## Suggested Commit Order
 
