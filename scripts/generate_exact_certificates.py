@@ -12,6 +12,7 @@ import hashlib
 import itertools
 import json
 import math
+import shutil
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -34,6 +35,9 @@ NONIDENTITY_FAMILY_JSON_PATH = (
 )
 TRANSLATION_FAMILY_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "translation_family_sample.json"
+)
+EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "exhaustive_real_certs_summary.json"
 )
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
@@ -4208,6 +4212,173 @@ def write_canonical_coverage_json(payload: dict) -> None:
     )
 
 
+GIB = 1024 ** 3
+
+
+def path_status(path: Path) -> dict:
+    exists = path.exists()
+    try:
+        display_path = str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        display_path = str(path)
+    return {
+        "path": display_path,
+        "exists": exists,
+        "bytes": path.stat().st_size if exists else 0,
+    }
+
+
+def load_json_artifact(path: Path, expected_mode: str) -> dict:
+    if not path.exists():
+        raise FileNotFoundError(f"required artifact missing: {path.relative_to(REPO_ROOT)}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("mode") != expected_mode:
+        raise ValueError(
+            f"{path.relative_to(REPO_ROOT)} has mode {payload.get('mode')!r}, "
+            f"expected {expected_mode!r}"
+        )
+    return payload
+
+
+def build_exhaustive_real_certs_summary(
+    *,
+    profile_input: Path,
+    generated_data_budget_gib: float,
+    required_free_gib: float,
+    approve_large_exhaustive: bool,
+    allow_flat_exhaustive: bool,
+) -> dict:
+    profile = exact_profile.load_profile_payload(profile_input)
+    counts = exact_profile.check_profile_payload(profile)
+    profile_options = profile.get("options", {})
+    required_profile_options = {
+        "with_symmetry": True,
+        "with_reversal": True,
+        "exact_state_groups": True,
+    }
+    missing_profile_options = [
+        key
+        for key, expected in required_profile_options.items()
+        if profile_options.get(key) is not expected
+    ]
+
+    artifacts = {
+        "profile": path_status(profile_input),
+        "coverage_manifest": path_status(COVERAGE_JSON_PATH),
+        "canonical_coverage_manifest": path_status(CANONICAL_COVERAGE_JSON_PATH),
+        "coverage_tree_sample": path_status(COVERAGE_TREE_JSON_PATH),
+        "nonidentity_family_sample": path_status(NONIDENTITY_FAMILY_JSON_PATH),
+        "translation_family_sample": path_status(TRANSLATION_FAMILY_JSON_PATH),
+    }
+
+    load_json_artifact(COVERAGE_JSON_PATH, "coverage-manifest")
+    load_json_artifact(CANONICAL_COVERAGE_JSON_PATH, "canonical-coverage-manifest")
+    load_json_artifact(COVERAGE_TREE_JSON_PATH, "coverage-tree-sample")
+    load_json_artifact(NONIDENTITY_FAMILY_JSON_PATH, "nonidentity-family-sample")
+    load_json_artifact(TRANSLATION_FAMILY_JSON_PATH, "translation-family-sample")
+
+    estimates = profile["size_estimates"]
+    estimated_lean_bytes = int(estimates["estimated_lean_bytes"])
+    canonical_cert_estimate = int(estimates["canonical_cert_estimate"])
+    flat_total_certs = int(estimates["flat_total_certs"])
+    budget_bytes = int(generated_data_budget_gib * GIB)
+    required_free_bytes = int(required_free_gib * GIB)
+    disk = shutil.disk_usage(REPO_ROOT)
+
+    refusal_reasons: list[str] = []
+    if missing_profile_options:
+        refusal_reasons.append(
+            "profile_missing_required_options:"
+            + ",".join(sorted(missing_profile_options))
+        )
+    if flat_total_certs > canonical_cert_estimate and not allow_flat_exhaustive:
+        flat_status = "disabled_without_allow_flat_exhaustive"
+    else:
+        flat_status = "diagnostic_allowed_but_not_used"
+    if estimated_lean_bytes > budget_bytes and not approve_large_exhaustive:
+        refusal_reasons.append("estimated_lean_bytes_exceeds_budget")
+    if disk.free < required_free_bytes:
+        refusal_reasons.append("free_space_below_required_floor")
+
+    if refusal_reasons:
+        emission_status = (
+            "refused_budget_exceeded"
+            if "estimated_lean_bytes_exceeds_budget" in refusal_reasons
+            else "refused_prerequisite_or_space_check"
+        )
+    elif approve_large_exhaustive:
+        emission_status = "approved_but_full_emitter_not_implemented"
+        refusal_reasons.append("large_emission_writer_not_implemented")
+    else:
+        emission_status = "ready_but_approval_required"
+        refusal_reasons.append("large_emission_requires_explicit_approval")
+
+    return {
+        "schema_version": 1,
+        "mode": "exhaustive-real-certs",
+        "complete": False,
+        "summary_kind": "gated-estimate",
+        "actual_counts": {
+            "pair_words": counts["pair_words"],
+            "identity_linear_words": counts["identity_linear_words"],
+            "nonidentity_words": counts["nonidentity_words"],
+            "translation_sign_assignments": counts["translation_sign_assignments"],
+        },
+        "profile": {
+            "path": path_status(profile_input)["path"],
+            "complete": profile.get("complete", False),
+            "backend": profile.get("backend"),
+            "options": profile_options,
+            "required_options": required_profile_options,
+        },
+        "prerequisites": artifacts,
+        "estimate": {
+            "flat_total_certs": flat_total_certs,
+            "flat_nonidentity_certs": int(estimates["flat_nonidentity_certs"]),
+            "flat_translation_certs": int(estimates["flat_translation_certs"]),
+            "canonical_cert_estimate": canonical_cert_estimate,
+            "estimated_lean_bytes": estimated_lean_bytes,
+            "estimated_lean_gib": estimated_lean_bytes / GIB,
+            "profile_estimate_note": estimates.get("note", ""),
+            "shared_farkas_groups": int(estimates.get("shared_farkas_groups", 0)),
+        },
+        "budget": {
+            "generated_data_budget_gib": generated_data_budget_gib,
+            "generated_data_budget_bytes": budget_bytes,
+            "required_free_gib": required_free_gib,
+            "required_free_bytes": required_free_bytes,
+            "free_bytes": disk.free,
+            "free_gib": disk.free / GIB,
+        },
+        "flat_fallback": {
+            "allowed": allow_flat_exhaustive,
+            "status": flat_status,
+            "used": False,
+        },
+        "full_emission": {
+            "requested": approve_large_exhaustive,
+            "performed": False,
+            "status": emission_status,
+            "refusal_reasons": refusal_reasons,
+            "approval_flag": "--approve-large-exhaustive",
+            "large_emission_ready": False,
+        },
+        "expected_full_generation_paths": [
+            "Cuboctahedron/Generated/NonIdentity/",
+            "Cuboctahedron/Generated/Translation/",
+            "Cuboctahedron/Generated/AllGenerated.lean",
+        ],
+    }
+
+
+def write_exhaustive_real_certs_summary(payload: dict) -> None:
+    EXHAUSTIVE_REAL_CERTS_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    EXHAUSTIVE_REAL_CERTS_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="generate deterministic Step 14C sample")
@@ -4222,6 +4393,7 @@ def main() -> None:
             "coverage-tree-sample",
             "nonidentity-family-sample",
             "translation-family-sample",
+            "exhaustive-real-certs",
         ],
         help="generation mode",
     )
@@ -4235,6 +4407,12 @@ def main() -> None:
         type=Path,
         default=exact_profile.PROFILE_JSON_PATH,
         help="output path for profile-exhaustive-states JSON",
+    )
+    parser.add_argument(
+        "--profile-input",
+        type=Path,
+        default=exact_profile.PROFILE_JSON_PATH,
+        help="input path for exhaustive-real-certs profile JSON",
     )
     parser.add_argument(
         "--with-symmetry",
@@ -4251,6 +4429,34 @@ def main() -> None:
         action="store_true",
         help="compute exact full-state group summaries in profile-exhaustive-states",
     )
+    parser.add_argument(
+        "--exhaustive-summary-output",
+        type=Path,
+        default=EXHAUSTIVE_REAL_CERTS_JSON_PATH,
+        help="output path for exhaustive-real-certs gated summary JSON",
+    )
+    parser.add_argument(
+        "--generated-data-budget-gib",
+        type=float,
+        default=8.0,
+        help="maximum generated Lean source estimate allowed before refusing emission",
+    )
+    parser.add_argument(
+        "--required-free-gib",
+        type=float,
+        default=100.0,
+        help="minimum free space required before large exhaustive emission",
+    )
+    parser.add_argument(
+        "--approve-large-exhaustive",
+        action="store_true",
+        help="explicitly approve large exhaustive emission if size gates pass",
+    )
+    parser.add_argument(
+        "--allow-flat-exhaustive",
+        action="store_true",
+        help="diagnostic-only flag allowing flat exhaustive fallback reporting",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -4258,7 +4464,8 @@ def main() -> None:
             "use --small-sample or --mode coverage-manifest/"
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "canonical-coverage-manifest/coverage-tree-sample/"
-            "nonidentity-family-sample/translation-family-sample"
+            "nonidentity-family-sample/translation-family-sample/"
+            "exhaustive-real-certs"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -4272,6 +4479,32 @@ def main() -> None:
         exact_profile.write_profile_payload(payload, args.profile_output)
         exact_profile.print_profile_summary(payload)
         print(f"json: {args.profile_output}")
+        return
+    if mode == "exhaustive-real-certs":
+        if args.generated_data_budget_gib < 0:
+            parser.error("--generated-data-budget-gib must be nonnegative")
+        if args.required_free_gib < 0:
+            parser.error("--required-free-gib must be nonnegative")
+        payload = build_exhaustive_real_certs_summary(
+            profile_input=args.profile_input,
+            generated_data_budget_gib=args.generated_data_budget_gib,
+            required_free_gib=args.required_free_gib,
+            approve_large_exhaustive=args.approve_large_exhaustive,
+            allow_flat_exhaustive=args.allow_flat_exhaustive,
+        )
+        args.exhaustive_summary_output.parent.mkdir(parents=True, exist_ok=True)
+        args.exhaustive_summary_output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        print("checked exhaustive real-certificate generation gate")
+        print(f"status: {payload['full_emission']['status']}")
+        print(
+            "estimated Lean source: "
+            f"{payload['estimate']['estimated_lean_gib']:.2f} GiB"
+        )
+        print(f"free space: {payload['budget']['free_gib']:.2f} GiB")
+        print(f"json: {args.exhaustive_summary_output}")
         return
     if mode == "canonical-symmetry-sample":
         payload = build_canonical_payload()

@@ -33,6 +33,9 @@ NONIDENTITY_FAMILY_JSON_PATH = (
 TRANSLATION_FAMILY_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "translation_family_sample.json"
 )
+EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "exhaustive_real_certs_summary.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -2118,6 +2121,109 @@ def check_translation_family_file(payload):
     }
 
 
+def check_exhaustive_real_certs_summary(payload):
+    require(payload.get("schema_version") == 1, "exhaustive schema version")
+    require(payload.get("mode") == "exhaustive-real-certs", "exhaustive mode")
+    require(payload.get("summary_kind") == "gated-estimate", "exhaustive summary kind")
+    require(payload.get("complete") is False, "gated summary must not claim completeness")
+
+    profile = exact_profile.load_profile_payload(exact_profile.PROFILE_JSON_PATH)
+    counts = exact_profile.check_profile_payload(profile)
+    require(profile.get("complete") is True, "exhaustive profile complete")
+    options = profile.get("options", {})
+    require(options.get("with_symmetry") is True, "exhaustive profile symmetry")
+    require(options.get("with_reversal") is True, "exhaustive profile reversal")
+    require(options.get("exact_state_groups") is True, "exhaustive profile exact groups")
+
+    coverage_payload = json.loads(COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
+    check_coverage_file(coverage_payload)
+    canonical_payload = json.loads(CANONICAL_COVERAGE_JSON_PATH.read_text(encoding="utf-8"))
+    check_canonical_coverage_manifest(canonical_payload)
+    coverage_tree_payload = json.loads(COVERAGE_TREE_JSON_PATH.read_text(encoding="utf-8"))
+    check_coverage_tree_file(coverage_tree_payload)
+    nonidentity_family_payload = json.loads(NONIDENTITY_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
+    nonidentity_summary = check_nonidentity_family_file(nonidentity_family_payload)
+    translation_family_payload = json.loads(TRANSLATION_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
+    translation_summary = check_translation_family_file(translation_family_payload)
+
+    actual = payload["actual_counts"]
+    require(actual == {
+        "pair_words": counts["pair_words"],
+        "identity_linear_words": counts["identity_linear_words"],
+        "nonidentity_words": counts["nonidentity_words"],
+        "translation_sign_assignments": counts["translation_sign_assignments"],
+    }, "exhaustive actual counts")
+
+    estimate = payload["estimate"]
+    profile_estimates = profile["size_estimates"]
+    require(
+        estimate["flat_total_certs"] == profile_estimates["flat_total_certs"],
+        "exhaustive flat total estimate",
+    )
+    require(
+        estimate["canonical_cert_estimate"] ==
+        profile_estimates["canonical_cert_estimate"],
+        "exhaustive canonical cert estimate",
+    )
+    require(
+        estimate["estimated_lean_bytes"] ==
+        profile_estimates["estimated_lean_bytes"],
+        "exhaustive Lean byte estimate",
+    )
+    require(estimate["estimated_lean_bytes"] > 0, "positive Lean byte estimate")
+
+    budget = payload["budget"]
+    require(budget["generated_data_budget_bytes"] >= 0, "exhaustive budget nonnegative")
+    require(budget["required_free_bytes"] >= 0, "exhaustive required free nonnegative")
+    require(budget["free_bytes"] >= 0, "exhaustive free bytes nonnegative")
+
+    flat = payload["flat_fallback"]
+    require(flat["used"] is False, "flat fallback not used")
+    if not flat["allowed"]:
+        require(
+            flat["status"] == "disabled_without_allow_flat_exhaustive",
+            "flat fallback disabled status",
+        )
+
+    emission = payload["full_emission"]
+    require(emission["performed"] is False, "full emission must be gated")
+    require(emission["large_emission_ready"] is False, "large emission not ready")
+    require(
+        emission["status"] in {
+            "refused_budget_exceeded",
+            "refused_prerequisite_or_space_check",
+            "ready_but_approval_required",
+            "approved_but_full_emitter_not_implemented",
+        },
+        "known exhaustive emission status",
+    )
+    if emission["status"] == "refused_budget_exceeded":
+        require(
+            estimate["estimated_lean_bytes"] >
+            budget["generated_data_budget_bytes"],
+            "budget exceeded status matches estimate",
+        )
+        require(
+            "estimated_lean_bytes_exceeds_budget" in emission["refusal_reasons"],
+            "budget refusal reason",
+        )
+    require(
+        "Cuboctahedron/Generated/NonIdentity/" in payload["expected_full_generation_paths"],
+        "expected nonidentity generation path",
+    )
+    require(
+        "Cuboctahedron/Generated/Translation/" in payload["expected_full_generation_paths"],
+        "expected translation generation path",
+    )
+    return {
+        "status": emission["status"],
+        "estimated_lean_bytes": estimate["estimated_lean_bytes"],
+        "canonical_cert_estimate": estimate["canonical_cert_estimate"],
+        "nonidentity_family_count": nonidentity_summary["families"],
+        "translation_family_count": translation_summary["families"],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -2131,6 +2237,7 @@ def main():
             "coverage-tree-sample",
             "nonidentity-family-sample",
             "translation-family-sample",
+            "exhaustive-real-certs",
             "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
@@ -2172,6 +2279,7 @@ def main():
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "coverage-tree-sample/nonidentity-family-sample/"
             "translation-family-sample/"
+            "exhaustive-real-certs/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
         )
@@ -2240,6 +2348,14 @@ def main():
                 f"{interval['name']} {interval['failure']} "
                 f"covered {interval['covered']}"
             )
+        return
+    if mode == "exhaustive-real-certs":
+        payload = json.loads(EXHAUSTIVE_REAL_CERTS_JSON_PATH.read_text(encoding="utf-8"))
+        summary = check_exhaustive_real_certs_summary(payload)
+        print("independent exhaustive real-certs gate check passed")
+        print(f"status: {summary['status']}")
+        print(f"canonical cert estimate: {summary['canonical_cert_estimate']:,}")
+        print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

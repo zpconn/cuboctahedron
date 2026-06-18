@@ -1,0 +1,98 @@
+{
+  "actual_counts": {
+    "identity_linear_words": 2468088,
+    "nonidentity_words": 94829112,
+    "pair_words": 97297200,
+    "translation_sign_assignments": 157957632
+  },
+  "budget": {
+    "free_bytes": 867412799488,
+    "free_gib": 807.841121673584,
+    "generated_data_budget_bytes": 8589934592,
+    "generated_data_budget_gib": 8.0,
+    "required_free_bytes": 107374182400,
+    "required_free_gib": 100.0
+  },
+  "complete": false,
+  "estimate": {
+    "canonical_cert_estimate": 31906854,
+    "estimated_lean_bytes": 16336309248,
+    "estimated_lean_gib": 15.214373588562012,
+    "flat_nonidentity_certs": 94829112,
+    "flat_total_certs": 252786744,
+    "flat_translation_certs": 157957632,
+    "profile_estimate_note": "Compiled exact profiler stores state-family groups and bounded samples; no Lean proof data is emitted.",
+    "shared_farkas_groups": 0
+  },
+  "expected_full_generation_paths": [
+    "Cuboctahedron/Generated/NonIdentity/",
+    "Cuboctahedron/Generated/Translation/",
+    "Cuboctahedron/Generated/AllGenerated.lean"
+  ],
+  "flat_fallback": {
+    "allowed": false,
+    "status": "disabled_without_allow_flat_exhaustive",
+    "used": false
+  },
+  "full_emission": {
+    "approval_flag": "--approve-large-exhaustive",
+    "large_emission_ready": false,
+    "performed": false,
+    "refusal_reasons": [
+      "estimated_lean_bytes_exceeds_budget"
+    ],
+    "requested": false,
+    "status": "refused_budget_exceeded"
+  },
+  "mode": "exhaustive-real-certs",
+  "prerequisites": {
+    "canonical_coverage_manifest": {
+      "bytes": 2236,
+      "exists": true,
+      "path": "scripts/generated/canonical_coverage_manifest.json"
+    },
+    "coverage_manifest": {
+      "bytes": 106062,
+      "exists": true,
+      "path": "scripts/generated/coverage_manifest.json"
+    },
+    "coverage_tree_sample": {
+      "bytes": 4713,
+      "exists": true,
+      "path": "scripts/generated/coverage_tree_sample.json"
+    },
+    "nonidentity_family_sample": {
+      "bytes": 54039,
+      "exists": true,
+      "path": "scripts/generated/nonidentity_family_sample.json"
+    },
+    "profile": {
+      "bytes": 3322,
+      "exists": true,
+      "path": "scripts/generated/profile_exhaustive_states.json"
+    },
+    "translation_family_sample": {
+      "bytes": 83233,
+      "exists": true,
+      "path": "scripts/generated/translation_family_sample.json"
+    }
+  },
+  "profile": {
+    "backend": "compiled-exact-cpp-compressed",
+    "complete": true,
+    "options": {
+      "exact_state_groups": true,
+      "reversal_proof_transport_enabled": false,
+      "with_reversal": true,
+      "with_symmetry": true
+    },
+    "path": "scripts/generated/profile_exhaustive_states.json",
+    "required_options": {
+      "exact_state_groups": true,
+      "with_reversal": true,
+      "with_symmetry": true
+    }
+  },
+  "schema_version": 1,
+  "summary_kind": "gated-estimate"
+}
