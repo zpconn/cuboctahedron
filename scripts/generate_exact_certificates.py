@@ -2199,6 +2199,7 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.CanonicalSample",
         "import Cuboctahedron.Generated.CanonicalCoverageManifest",
+        "import Cuboctahedron.Generated.CompactPilot",
         "import Cuboctahedron.Generated.CoverageTreeSample",
         "",
         "/-!",
@@ -4353,20 +4354,24 @@ def build_exhaustive_real_certs_summary(
         refusal_reasons.append("free_space_below_required_floor")
     if selected_backend != "generated_lean_fallback":
         refusal_reasons.append(f"selected_backend_is_{selected_backend}")
+    if (
+        prefix_parametric is None
+        or prefix_parametric.get("decision", {}).get("ready_for_14E7") is not True
+    ):
+        refusal_reasons.append("prefix_parametric_not_ready_for_14E7")
+    if not refusal_reasons:
+        refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
 
     if refusal_reasons:
         emission_status = (
             "refused_budget_exceeded"
             if "estimated_lean_bytes_exceeds_budget" in refusal_reasons
+            else "ready_but_full_emitter_not_implemented"
+            if refusal_reasons == ["generated_lean_fallback_emitter_not_implemented"]
             else "refused_prerequisite_or_space_check"
         )
-    else:
-        emission_status = "ready_but_full_emitter_not_implemented"
-        refusal_reasons.extend([
-            "generated_lean_fallback_emitter_not_implemented",
-        ])
 
-    return {
+    payload = {
         "schema_version": 1,
         "mode": "exhaustive-real-certs",
         "complete": False,
@@ -4423,7 +4428,9 @@ def build_exhaustive_real_certs_summary(
             "status": emission_status,
             "refusal_reasons": refusal_reasons,
             "approval_flag": "--approve-large-exhaustive",
-            "large_emission_ready": emission_status.startswith("ready_"),
+            "large_emission_ready": (
+                refusal_reasons == ["generated_lean_fallback_emitter_not_implemented"]
+            ),
         },
         "expected_full_generation_paths": [
             "Cuboctahedron/Generated/NonIdentity/",
@@ -4431,6 +4438,8 @@ def build_exhaustive_real_certs_summary(
             "Cuboctahedron/Generated/AllGenerated.lean",
         ],
     }
+    write_all_generated()
+    return payload
 
 
 def write_exhaustive_real_certs_summary(payload: dict) -> None:

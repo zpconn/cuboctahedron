@@ -1867,14 +1867,85 @@ grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 
 passes.
 
+## Step 14E.7B0: Formal Parametric Family Checkers
+
+Goal: turn the Step 14E.6C prefix-parametric compression plan from profiling
+data into Lean-checkable family evidence that Step 14E.7B can emit.
+
+Step 14E.6C records that high-volume early failures can be represented by a
+small number of prefix or parametric families, but that JSON profile is not
+proof data. Before the generated Lean fallback can honestly mark
+`complete = true`, Lean must have checker APIs and soundness theorems for those
+families. A manifest that records only counts or selected backend is not enough.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Add real Lean certificate/checker types for the Step 14E.6C compressed
+  families:
+  - nonidentity bad direction sign prefix families;
+  - nonidentity bad pair balance prefix families;
+  - translation bad direction denominator-sign families;
+  - translation zero-vector families;
+  - shared Farkas translation families.
+- Each family checker must prove, for any covered raw rank or translation case,
+  an obstruction strong enough for the existing finite proof pipeline. Prefer
+  returning a checked `NonIdCert` or `TranslationCert`; if a family theorem
+  avoids constructing each singleton certificate, its soundness must still have
+  equivalent strength and be integrated into `ExhaustiveGeneratedCoverage`.
+- Do not treat Step 14E.6C counts, profile JSON, C++ outputs, or generated
+  manifests as proof assumptions.
+- Extend the generator so it emits representative non-sample family objects for
+  these checker types, not just family counts.
+- Extend the independent checker so it recomputes family coverage exactly and
+  rejects any completed exhaustive summary whose evidence is only a manifest.
+- Keep `scripts/generated/exhaustive_real_certs_summary.json` at
+  `complete = false` until Step 14E.7B emits actual evidence. If prerequisites
+  are otherwise ready, the status should remain
+  `ready_but_full_emitter_not_implemented`.
+- Do not use `native_decide`, `axiom`, `sorry`, `admit`, `unsafe`, Float, or
+  numerical tolerances in Lean proof code.
+
+Done when:
+
+```lean
+#check checkNonIdParametricFamily
+#check checkNonIdParametricFamily_sound
+#check checkTranslationParametricFamily
+#check checkTranslationParametricFamily_sound
+```
+
+or equivalently named APIs work for non-sample generated family evidence, and:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes with the exhaustive summary still gated, unless Step 14E.7B has already
+emitted the actual full witness.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
 Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
 This step is the large-data generation step. Do not start it until Step 14E.7A
-is complete, because every emitted rank must prove facts about the public
-`unrankPairWord`.
+and Step 14E.7B0 are complete, because every emitted rank must prove facts
+about the public `unrankPairWord` and every compressed family must have a
+Lean-checked soundness theorem.
 
 Update:
 
@@ -1949,6 +2020,8 @@ evidence backend selected by Step 14E.6D.
 Prerequisites:
 
 - Step 14E.7A is complete.
+- Step 14E.7B0 is complete if Step 14E.6D selected
+  `generated_lean_fallback`.
 - Step 14E.7B is complete if Step 14E.6D selected `generated_lean_fallback`.
 - The compact semantic checker is complete if Step 14E.6D selected
   `compact_blob`.
