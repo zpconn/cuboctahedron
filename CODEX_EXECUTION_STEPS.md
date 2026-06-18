@@ -1032,7 +1032,7 @@ canonical-first:
   witnesses wherever exact normalization proves they are identical.
 
 Flat per-case chunks may be generated only for diagnostics behind an explicit
-`--allow-flat-exhaustive` flag. Complete Steps 14E.1 through 14E.6A and then
+`--allow-flat-exhaustive` flag. Complete Steps 14E.1 through 14E.6C and then
 14E.7 before starting Step 15.
 
 ## Step 14E.1: Exhaustive Case-State Profiler
@@ -1479,6 +1479,137 @@ lake build
 pass and the audit summary clearly answers whether the current compressed
 certificate strategy can plausibly fit below 1 GiB, 500 MiB, or 100 MiB before
 Step 14E.7 begins.
+
+## Step 14E.6B: Full Aggregate Compression Profiler
+
+Goal: run the complete exact aggregate profiler over all pair-words and all
+translation masks, so Step 14E.6A can stop relying on partial histograms or
+formula-only estimates.
+
+Update:
+
+```text
+scripts/profile_exhaustive_states.cpp
+scripts/exact_profile.py
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/aggregate_compression_profile.json
+scripts/generated/compression_audit.json
+README.md
+CODEX_EXECUTION_STEPS.md
+```
+
+Add generator/checker modes:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode aggregate-compression-profile
+python3 scripts/check_certificates_independently.py --mode aggregate-compression-profile
+python3 scripts/generate_exact_certificates.py --mode compression-audit
+python3 scripts/check_certificates_independently.py --mode compression-audit
+```
+
+Requirements:
+
+- Use exact rational arithmetic for all profile computations.
+- Run the aggregate profiler over all `97,297,200` valid pair-words and all
+  `157,957,632` translation sign assignments.
+- Keep aggregate mode compact: do not retain raw per-case string sets when a
+  bounded exact histogram or shape hash is sufficient for profiling.
+- Record exact raw counts, canonical symmetry/reversal class counts,
+  nonidentity failure-shape histograms, bad translation-shape histograms,
+  normalized translation constraint-system histograms, normalized sparse
+  Farkas-shape histograms, unresolved Farkas counts, and size-threshold
+  decisions.
+- Feed the complete aggregate profile into the Step 14E.6A compression audit.
+- If the aggregate result is still above the configured size budget, mark Step
+  14E.7 blocked and add the next required intermediate compression step instead
+  of proceeding to generated Lean coverage.
+- This step is profiling and planning data only. It must not emit trusted Lean
+  completeness theorems.
+
+Current completed full-profile result:
+
+```text
+pair-words: 97,297,200
+identity linear words: 2,468,088
+nonidentity words: 94,829,112
+translation sign assignments: 157,957,632
+nonidentity family shapes: 42,409,280
+bad translation shapes: 151,732,472
+translation constraint systems: 3,095,090
+translation Farkas shapes: 20,298
+unresolved Farkas cases: 0
+final certificate estimate: 15,957,252
+estimated Lean source: 8,170,113,024 bytes
+decision: blocked_exceeds_budget
+```
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode aggregate-compression-profile
+python3 scripts/check_certificates_independently.py --mode aggregate-compression-profile
+python3 scripts/generate_exact_certificates.py --mode compression-audit
+python3 scripts/check_certificates_independently.py --mode compression-audit
+lake build
+```
+
+pass and `scripts/generated/aggregate_compression_profile.json` is complete.
+
+## Step 14E.6C: Prefix and Parametric Family Compression
+
+Goal: reduce the complete Step 14E.6B estimate below the generated-data budget
+before emitting the concrete exhaustive Lean coverage witness.
+
+Step 14E.6B proves that symmetry, reversal, exact-state grouping, shared
+translation constraints, and shared sparse Farkas witnesses are not enough by
+themselves: the best current estimate is still about 7.61 GiB of generated Lean
+source. Step 14E.6C must add a stronger compression layer before Step 14E.7.
+
+Update:
+
+```text
+scripts/profile_exhaustive_states.cpp
+scripts/exact_profile.py
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+Cuboctahedron/Search/
+Cuboctahedron/Generated/
+README.md
+CODEX_EXECUTION_STEPS.md
+```
+
+Requirements:
+
+- Analyze the complete aggregate profile and identify high-volume families that
+  can be proved by prefix certificates or parametric certificates instead of by
+  one certificate per canonical representative.
+- Prefer certificates that cover whole subtrees of the valid pair-word search:
+  prefix multiplicity states, linear-prefix states, forced-axis sign patterns,
+  pair-balance obstructions, translation denominator-sign obstructions, and
+  normalized constraint families.
+- Add exact Lean checker definitions for the new prefix/parametric certificate
+  kinds before generating large data.
+- Extend the independent checker to recompute each compressed family from exact
+  data and to prove that every covered raw rank or canonical rank is covered
+  exactly once.
+- Update the compression audit to include the new family layer and require
+  `ready_for_14E7 = true` only when the final estimate fits under the configured
+  budget, with 1 GiB as the hard upper bound and 500 MiB/100 MiB reported as
+  stricter targets.
+- Do not proceed to Step 14E.7 while the audit status is
+  `blocked_exceeds_budget` or `blocked_needs_deeper_compression`.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compression-audit
+python3 scripts/check_certificates_independently.py --mode compression-audit
+lake build
+```
+
+pass with `ready_for_14E7 = true` and a final generated Lean estimate below the
+configured repository-size budget.
 
 ## Step 14E.7: Concrete Exhaustive Coverage Witness
 

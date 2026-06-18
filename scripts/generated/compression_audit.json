@@ -14,14 +14,16 @@
   "complete": true,
   "decision": {
     "ready_for_14E7": false,
-    "recommendation": "add_full_aggregate_compression_profiler_for_nonidentity_failure_families_and_translation_constraint_farkas_shapes",
-    "status": "blocked_needs_full_compression_histograms"
+    "recommendation": "add_prefix_or_parametric_family_certificates_before_14E7",
+    "source": "scripts/generated/aggregate_compression_profile.json",
+    "status": "blocked_exceeds_budget"
   },
   "mode": "compression-audit",
   "nonidentity": {
+    "aggregate_shape_count": 42409280,
     "compressed_linear_groups": 9840,
-    "full_failure_family_histogram_available": false,
-    "path_sensitive_unbucketed": 94829112,
+    "full_failure_family_histogram_available": true,
+    "path_sensitive_unbucketed": 0,
     "raw_cases": 94829112,
     "sample_family_summary": {
       "absent_failure_kinds": [
@@ -48,6 +50,11 @@
     "sample_translation_nodes": 2
   },
   "prerequisites": {
+    "aggregate_compression_profile": {
+      "bytes": 24079,
+      "exists": true,
+      "path": "scripts/generated/aggregate_compression_profile.json"
+    },
     "canonical_coverage_manifest": {
       "bytes": 2236,
       "exists": true,
@@ -87,9 +94,9 @@
   "proof_complete": false,
   "schema_version": 1,
   "size_ladder": {
-    "canonical_cert_estimate": 31906854,
-    "current_estimated_lean_bytes": 16336309248,
-    "current_estimated_lean_gib": 15.214373588562012,
+    "canonical_cert_estimate": 15957252,
+    "current_estimated_lean_bytes": 8170113024,
+    "current_estimated_lean_gib": 7.609010696411133,
     "flat_total_certs": 252786744,
     "thresholds": [
       {
@@ -110,8 +117,8 @@
     ]
   },
   "translation": {
-    "full_constraint_histogram_available": false,
-    "path_sensitive_unbucketed": 157957632,
+    "full_constraint_histogram_available": true,
+    "path_sensitive_unbucketed": 0,
     "raw_cases": 157957632,
     "sample_family_summary": {
       "absent_failure_kinds": [
@@ -128,11 +135,11 @@
       ]
     },
     "sample_sharing": {
-      "full_constraint_histogram_available": false,
-      "full_farkas_shape_histogram_available": false,
-      "sample_normalized_constraint_systems": 2,
-      "sample_normalized_farkas_shapes": 2
+      "full_constraint_histogram_available": true,
+      "full_farkas_shape_histogram_available": true,
+      "sample_normalized_constraint_systems": 3095090,
+      "sample_normalized_farkas_shapes": 20298
     },
-    "shared_farkas_groups": 0
+    "shared_farkas_groups": 20298
   }
 }

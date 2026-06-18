@@ -39,6 +39,7 @@ EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
+AGGREGATE_COMPRESSION_PROFILE_JSON_PATH = exact_profile.AGGREGATE_PROFILE_JSON_PATH
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_CANONICAL_ORBIT_SOURCE_PATH = REPO_ROOT / "scripts" / "canonical_orbit_coverage.cpp"
 CPP_CANONICAL_ORBIT_BINARY_PATH = Path("/tmp") / "cuboctahedron_canonical_orbit_coverage"
@@ -2299,6 +2300,15 @@ def check_compression_audit(payload):
     translation_summary = check_translation_family_file(translation_family_payload)
     exhaustive_payload = json.loads(EXHAUSTIVE_REAL_CERTS_JSON_PATH.read_text(encoding="utf-8"))
     check_exhaustive_real_certs_summary(exhaustive_payload)
+    aggregate_payload = None
+    if AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.exists():
+        aggregate_payload = json.loads(
+            AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.read_text(encoding="utf-8")
+        )
+        if aggregate_payload.get("complete") is True:
+            check_aggregate_compression_profile(aggregate_payload)
+        else:
+            aggregate_payload = None
 
     require(payload["actual_counts"] == {
         "pair_words": counts["pair_words"],
@@ -2319,12 +2329,17 @@ def check_compression_audit(payload):
         "nonidentity_family_sample",
         "translation_family_sample",
         "exhaustive_real_certs_summary",
+        "aggregate_compression_profile",
     }
     require(set(payload["prerequisites"]) == prerequisite_keys,
             "compression audit prerequisite keys")
     for key, status in payload["prerequisites"].items():
-        require(status["exists"] is True, f"compression audit prerequisite exists {key}")
-        require(status["bytes"] > 0, f"compression audit prerequisite bytes {key}")
+        if key == "aggregate_compression_profile" and aggregate_payload is None:
+            require(status["exists"] is False or status["bytes"] == 0,
+                    "compression audit absent aggregate prerequisite")
+        else:
+            require(status["exists"] is True, f"compression audit prerequisite exists {key}")
+            require(status["bytes"] > 0, f"compression audit prerequisite bytes {key}")
 
     nonidentity = payload["nonidentity"]
     require(nonidentity["raw_cases"] == counts["nonidentity_words"],
@@ -2334,15 +2349,27 @@ def check_compression_audit(payload):
         == int(profile_estimates.get("compressed_nonidentity_linear_groups", 0)),
         "compression audit nonidentity linear groups",
     )
-    expected_nonid_unbucketed = int(nonid_exact.get("pathSensitiveUnbucketed", 0))
+    expected_nonid_unbucketed = (
+        0 if aggregate_payload is not None
+        else int(nonid_exact.get("pathSensitiveUnbucketed", 0))
+    )
     require(
         nonidentity["path_sensitive_unbucketed"] == expected_nonid_unbucketed,
         "compression audit nonidentity unbucketed",
     )
     require(
         nonidentity["full_failure_family_histogram_available"]
-        is (expected_nonid_unbucketed == 0),
+        is (aggregate_payload is not None or expected_nonid_unbucketed == 0),
         "compression audit nonidentity histogram availability",
+    )
+    expected_aggregate_shapes = (
+        aggregate_payload["nonidentity"]["shape_histogram"]["distinct"]
+        if aggregate_payload is not None
+        else 0
+    )
+    require(
+        nonidentity["aggregate_shape_count"] == expected_aggregate_shapes,
+        "compression audit aggregate nonidentity shapes",
     )
     sample_nonid = nonidentity["sample_family_summary"]
     require(sample_nonid["family_count"] == nonidentity_summary["families"],
@@ -2364,19 +2391,24 @@ def check_compression_audit(payload):
     translation = payload["translation"]
     require(translation["raw_cases"] == counts["translation_sign_assignments"],
             "compression audit translation raw cases")
-    require(
-        translation["shared_farkas_groups"]
-        == int(profile_estimates.get("shared_farkas_groups", 0)),
-        "compression audit shared Farkas groups",
+    expected_shared_farkas = (
+        aggregate_payload["translation"]["farkas_shape_histogram"]["distinct"]
+        if aggregate_payload is not None
+        else int(profile_estimates.get("shared_farkas_groups", 0))
     )
-    expected_translation_unbucketed = int(translation_exact.get("pathSensitiveUnbucketed", 0))
+    require(translation["shared_farkas_groups"] == expected_shared_farkas,
+            "compression audit shared Farkas groups")
+    expected_translation_unbucketed = (
+        0 if aggregate_payload is not None
+        else int(translation_exact.get("pathSensitiveUnbucketed", 0))
+    )
     require(
         translation["path_sensitive_unbucketed"] == expected_translation_unbucketed,
         "compression audit translation unbucketed",
     )
     require(
         translation["full_constraint_histogram_available"]
-        is (expected_translation_unbucketed == 0),
+        is (aggregate_payload is not None or expected_translation_unbucketed == 0),
         "compression audit translation histogram availability",
     )
     sample_translation = translation["sample_family_summary"]
@@ -2401,11 +2433,19 @@ def check_compression_audit(payload):
     )
     require(sample_translation["is_sample_only"] is True,
             "compression audit translation sample marker")
-    require(
-        translation["sample_sharing"]
-        == translation_sample_sharing_counts(translation_family_payload),
-        "compression audit translation sample sharing",
-    )
+    if aggregate_payload is None:
+        expected_sharing = translation_sample_sharing_counts(translation_family_payload)
+    else:
+        expected_sharing = {
+            "sample_normalized_constraint_systems":
+                aggregate_payload["translation"]["constraint_system_histogram"]["distinct"],
+            "sample_normalized_farkas_shapes":
+                aggregate_payload["translation"]["farkas_shape_histogram"]["distinct"],
+            "full_constraint_histogram_available": True,
+            "full_farkas_shape_histogram_available": True,
+        }
+    require(translation["sample_sharing"] == expected_sharing,
+            "compression audit translation sample sharing")
 
     prefix_tree = payload["prefix_tree"]
     require(prefix_tree["sample_nonidentity_nodes"] == coverage_tree_summary["nonidentity_trees"],
@@ -2416,8 +2456,12 @@ def check_compression_audit(payload):
             "compression audit prefix leaf estimate")
 
     size_ladder = payload["size_ladder"]
-    estimated_bytes = exhaustive_payload["estimate"]["estimated_lean_bytes"]
-    canonical_estimate = exhaustive_payload["estimate"]["canonical_cert_estimate"]
+    if aggregate_payload is None:
+        estimated_bytes = exhaustive_payload["estimate"]["estimated_lean_bytes"]
+        canonical_estimate = exhaustive_payload["estimate"]["canonical_cert_estimate"]
+    else:
+        estimated_bytes = aggregate_payload["size_ladder"]["estimated_lean_bytes"]
+        canonical_estimate = aggregate_payload["size_ladder"]["canonical_representative_estimate"]
     require(size_ladder["flat_total_certs"] == profile_estimates["flat_total_certs"],
             "compression audit flat cert count")
     require(size_ladder["canonical_cert_estimate"] == canonical_estimate,
@@ -2441,9 +2485,23 @@ def check_compression_audit(payload):
     )
     fits_1gib = size_ladder["thresholds"][0]["fits"]
     decision = payload["decision"]
-    require(decision["ready_for_14E7"] is (full_histograms_available and fits_1gib),
-            "compression audit ready decision")
-    if decision["ready_for_14E7"]:
+    if aggregate_payload is not None:
+        require(decision["status"] == aggregate_payload["decision"]["status"],
+                "compression audit aggregate status")
+        require(
+            decision["ready_for_14E7"] is aggregate_payload["decision"]["ready_for_14E7"],
+            "compression audit aggregate ready decision",
+        )
+        require(
+            decision["recommendation"] == aggregate_payload["decision"]["recommendation"],
+            "compression audit aggregate recommendation",
+        )
+        require(
+            decision["source"] == str(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.relative_to(REPO_ROOT)),
+            "compression audit aggregate source",
+        )
+    elif decision["ready_for_14E7"]:
+        require(full_histograms_available and fits_1gib, "compression audit ready decision")
         require(decision["status"] == "ready_for_14E7",
                 "compression audit ready status")
         require(
@@ -2462,6 +2520,7 @@ def check_compression_audit(payload):
             "compression audit histogram-blocked recommendation",
         )
     else:
+        require(not fits_1gib, "compression audit budget blocked condition")
         require(decision["status"] == "blocked_exceeds_size_budget",
                 "compression audit budget-blocked status")
         require(
@@ -2480,6 +2539,186 @@ def check_compression_audit(payload):
     }
 
 
+def check_group_samples(groups, *, case_name):
+    for group in groups:
+        details = group["details"]
+        require(details["case"] == case_name, f"{case_name} group case")
+        require(details["failure"] == group["key"].split("failure=", 1)[1],
+                f"{case_name} group key/failure")
+        for sample in group["samples"]:
+            rank = sample["rank"]
+            word = sample["word"]
+            require(valid_pair_word(word), f"{case_name} sample valid word")
+            require(lex_rank_pair_word(word) == rank, f"{case_name} sample rank")
+            if case_name == "nonidentity":
+                require(
+                    exact_profile.recompute_nonidentity_failure(rank, word)
+                    == details["failure"],
+                    f"aggregate nonidentity sample failure {rank}",
+                )
+            else:
+                mask = sample["mask"]
+                require(0 <= mask < 64, f"aggregate translation sample mask {rank}/{mask}")
+                require(
+                    exact_profile.recompute_translation_failure(rank, word, mask)
+                    == details["failure"],
+                    f"aggregate translation sample failure {rank}/{mask}",
+                )
+
+
+def check_aggregate_compression_profile(payload):
+    require(payload.get("schema_version") == 1, "aggregate schema version")
+    require(payload.get("mode") == "aggregate-compression-profile", "aggregate mode")
+    require(payload.get("backend") == "compiled-exact-cpp-aggregate", "aggregate backend")
+    require(isinstance(payload.get("complete"), bool), "aggregate complete flag")
+    options = payload["options"]
+    require(options.get("with_symmetry") is True, "aggregate symmetry option")
+    require(options.get("with_reversal") is True, "aggregate reversal option")
+    require(options.get("reversal_proof_transport_enabled") is False,
+            "aggregate reversal grouping-only")
+
+    counts = payload["actual_counts"]
+    require(counts["pair_words"] >= 0, "aggregate nonnegative pair words")
+    require(counts["identity_linear_words"] >= 0, "aggregate nonnegative identity words")
+    require(counts["nonidentity_words"] >= 0, "aggregate nonnegative nonidentity words")
+    require(
+        counts["identity_linear_words"] + counts["nonidentity_words"]
+        == counts["pair_words"],
+        "aggregate identity/nonidentity partition",
+    )
+    require(
+        counts["translation_sign_assignments"] == counts["identity_linear_words"] * 64,
+        "aggregate translation assignment count",
+    )
+    if payload["complete"]:
+        require(counts["pair_words"] == EXPECTED_PAIR_WORDS, "aggregate complete pair words")
+        require(counts["identity_linear_words"] == EXPECTED_IDENTITY_WORDS,
+                "aggregate complete identity words")
+        require(
+            counts["translation_sign_assignments"] == EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            "aggregate complete translation assignments",
+        )
+
+    canonical = payload["canonical_counts"]
+    require(canonical["pair_word_classes"] >= 0, "aggregate canonical pair count")
+    require(canonical["translation_choice_classes"] >= 0,
+            "aggregate canonical translation count")
+    require(0 <= canonical["max_pair_word_orbit"] <= 16,
+            "aggregate canonical pair orbit bound")
+    require(0 <= canonical["max_translation_choice_orbit"] <= 16,
+            "aggregate canonical translation orbit bound")
+
+    nonidentity = payload["nonidentity"]
+    nonid_failure_counts = nonidentity["failure_counts"]
+    require(sum(nonid_failure_counts.values()) == counts["nonidentity_words"],
+            "aggregate nonidentity failure sum")
+    require(nonidentity["shape_histogram"]["total_cases"] == counts["nonidentity_words"],
+            "aggregate nonidentity shape total")
+    require(nonidentity["shape_histogram"]["distinct"] >= 0,
+            "aggregate nonidentity shape distinct")
+
+    translation = payload["translation"]
+    translation_failure_counts = translation["failure_counts"]
+    require(sum(translation_failure_counts.values()) == counts["translation_sign_assignments"],
+            "aggregate translation failure sum")
+    needs_farkas = translation_failure_counts.get("needsFarkas", 0)
+    require(translation["constraint_cases"] == needs_farkas,
+            "aggregate constraint cases")
+    require(translation["constraint_system_histogram"]["total_cases"] == needs_farkas,
+            "aggregate constraint histogram total")
+    require(
+        translation["farkas_shape_histogram"]["total_cases"]
+        + translation["unresolved_farkas_cases"] == needs_farkas,
+        "aggregate Farkas/resolved partition",
+    )
+    require(
+        translation["unresolved_constraint_systems"]["total_cases"]
+        == translation["unresolved_farkas_cases"],
+        "aggregate unresolved system total",
+    )
+    require(0 <= translation["bad_translation_shape_count"] <=
+            translation_failure_counts.get("badTranslationVector", 0) +
+            translation_failure_counts.get("badDirectionSign", 0),
+            "aggregate bad translation shape count")
+    bad_translation_histogram = translation.get("bad_translation_shape_histogram")
+    if bad_translation_histogram is not None:
+        require(
+            bad_translation_histogram["distinct"] == translation["bad_translation_shape_count"],
+            "aggregate bad translation histogram distinct",
+        )
+        require(
+            bad_translation_histogram["total_cases"]
+            == translation_failure_counts.get("badTranslationVector", 0)
+            + translation_failure_counts.get("badDirectionSign", 0),
+            "aggregate bad translation histogram total",
+        )
+
+    size = payload["size_ladder"]
+    flat_total = counts["nonidentity_words"] + counts["translation_sign_assignments"]
+    canonical_estimate = canonical["pair_word_classes"] + canonical["translation_choice_classes"]
+    constraint_estimate = (
+        nonidentity["shape_histogram"]["distinct"]
+        + translation["bad_translation_shape_count"]
+        + translation["constraint_system_histogram"]["distinct"]
+    )
+    farkas_estimate = constraint_estimate + translation["farkas_shape_histogram"]["distinct"]
+    final_estimate = min(canonical_estimate, farkas_estimate)
+    require(size["flat_total_certs"] == flat_total, "aggregate flat total")
+    require(size["canonical_representative_estimate"] == canonical_estimate,
+            "aggregate canonical estimate")
+    require(size["constraint_family_estimate"] == constraint_estimate,
+            "aggregate constraint estimate")
+    require(size["farkas_family_estimate"] == farkas_estimate,
+            "aggregate Farkas estimate")
+    require(size["final_cert_estimate"] == final_estimate, "aggregate final estimate")
+    require(size["bytes_per_certificate_proxy"] == 512, "aggregate byte proxy")
+    estimated_bytes = final_estimate * size["bytes_per_certificate_proxy"]
+    require(size["estimated_lean_bytes"] == estimated_bytes, "aggregate byte estimate")
+    check_thresholds(size["thresholds"], estimated_bytes)
+
+    check_group_samples(payload["nonidentity_groups"], case_name="nonidentity")
+    check_group_samples(payload["translation_groups"], case_name="translation")
+
+    unresolved = translation["unresolved_farkas_cases"] != 0
+    fits_1gib = size["thresholds"][0]["fits"]
+    decision = payload["decision"]
+    require(decision["ready_for_14E7"] is ((not unresolved) and fits_1gib),
+            "aggregate ready decision")
+    if unresolved:
+        require(decision["status"] == "blocked_needs_deeper_compression",
+                "aggregate unresolved status")
+        require(
+            decision["recommendation"]
+            == "extend_sparse_farkas_or_add_exact_lp_dual_certificate_search",
+            "aggregate unresolved recommendation",
+        )
+    elif not fits_1gib:
+        require(decision["status"] == "blocked_exceeds_budget",
+                "aggregate budget status")
+        require(
+            decision["recommendation"]
+            == "add_prefix_or_parametric_family_certificates_before_14E7",
+            "aggregate budget recommendation",
+        )
+    else:
+        require(decision["status"] == "ready_for_14E7", "aggregate ready status")
+        require(
+            decision["recommendation"]
+            == "update_exhaustive_real_cert_generator_to_emit_family_witnesses",
+            "aggregate ready recommendation",
+        )
+
+    return {
+        "complete": payload["complete"],
+        "status": decision["status"],
+        "ready_for_14E7": decision["ready_for_14E7"],
+        "nonidentity_shapes": nonidentity["shape_histogram"]["distinct"],
+        "constraint_systems": translation["constraint_system_histogram"]["distinct"],
+        "farkas_shapes": translation["farkas_shape_histogram"]["distinct"],
+        "estimated_lean_bytes": estimated_bytes,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -2495,6 +2734,7 @@ def main():
             "translation-family-sample",
             "exhaustive-real-certs",
             "compression-audit",
+            "aggregate-compression-profile",
             "canonical-coverage-manifest",
             "canonical-orbit-coverage",
             "canonical-orbit-coverage-manifest",
@@ -2520,6 +2760,12 @@ def main():
         help="input path for compression-audit JSON",
     )
     parser.add_argument(
+        "--aggregate-profile-input",
+        type=Path,
+        default=AGGREGATE_COMPRESSION_PROFILE_JSON_PATH,
+        help="input path for aggregate-compression-profile JSON",
+    )
+    parser.add_argument(
         "--with-symmetry",
         action="store_true",
         help="require started-symmetry summaries in profile-exhaustive-states",
@@ -2543,6 +2789,7 @@ def main():
             "coverage-tree-sample/nonidentity-family-sample/"
             "translation-family-sample/"
             "exhaustive-real-certs/compression-audit/"
+            "aggregate-compression-profile/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
         )
@@ -2631,6 +2878,22 @@ def main():
         print(f"fits under 500MiB: {summary['fits_500MiB']}")
         print(f"fits under 100MiB: {summary['fits_100MiB']}")
         print(f"recommendation: {summary['recommendation']}")
+        return
+    if mode == "aggregate-compression-profile":
+        payload = json.loads(args.aggregate_profile_input.read_text(encoding="utf-8"))
+        summary = check_aggregate_compression_profile(payload)
+        prefix = (
+            "independent aggregate compression profile check passed"
+            if summary["complete"]
+            else "independent bounded aggregate compression profile check passed"
+        )
+        print(prefix)
+        print(f"status: {summary['status']}")
+        print(f"ready for 14E.7: {summary['ready_for_14E7']}")
+        print(f"nonidentity shapes: {summary['nonidentity_shapes']:,}")
+        print(f"translation constraint systems: {summary['constraint_systems']:,}")
+        print(f"translation Farkas shapes: {summary['farkas_shapes']:,}")
+        print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
         return
     if mode == "canonical-orbit-coverage":
         payload = run_cpp_canonical_orbit_coverage(args.limit)

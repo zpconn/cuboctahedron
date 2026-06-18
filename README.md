@@ -42,11 +42,13 @@ The next exhaustive phase also treats time reversal, exact-state grouping, prefi
 The current compression feasibility audit is intentionally a gate, not proof data. Run it with:
 
 ```bash
+python3 scripts/generate_exact_certificates.py --mode aggregate-compression-profile
+python3 scripts/check_certificates_independently.py --mode aggregate-compression-profile
 python3 scripts/generate_exact_certificates.py --mode compression-audit
 python3 scripts/check_certificates_independently.py --mode compression-audit
 ```
 
-The checked audit currently reports that the existing compressed strategy would still generate about `16,336,309,248` bytes, or `15.21 GiB`, of Lean source. That does not fit under the 1 GiB, 500 MiB, or 100 MiB targets, so Step 14E.7 is blocked until a full aggregate compression profiler records exact non-identity failure-family histograms and exact translation constraint/Farkas-shape sharing.
+The full aggregate compression profiler has now run over all `97,297,200` pair-words and all `157,957,632` translation sign assignments. It found `42,409,280` nonidentity family shapes, `3,095,090` normalized translation constraint systems, `20,298` normalized Farkas witness shapes, and `0` unresolved Farkas cases. After symmetry, reversal, exact-state grouping, shared constraints, and shared Farkas witnesses, the checked audit still estimates `8,170,113,024` bytes, or about `7.61 GiB`, of generated Lean source. That does not fit under the 1 GiB, 500 MiB, or 100 MiB targets, so Step 14E.7 is blocked until Step 14E.6C adds prefix or parametric family certificates that compress the remaining high-volume families.
 
 The final proof will therefore not be just "Lean replayed a giant list." The giant list supplies finite obstructions, but other essential components are structural: the billiard-to-unfolding reduction, the pair-word counting and rank coverage, the linear identity/non-identity case split, the rational reflection algebra, the Farkas infeasibility theorem, and the certificate soundness theorems connecting every checked obstruction back to the original geometric claim.
 

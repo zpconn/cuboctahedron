@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <chrono>
@@ -97,10 +98,13 @@ bool operator<(const Q &a, const Q &b) {
 }
 bool operator<=(const Q &a, const Q &b) { return !(b < a); }
 bool operator>(const Q &a, const Q &b) { return b < a; }
+bool operator>=(const Q &a, const Q &b) { return !(a < b); }
 
 using Vec = array<Q, 3>;
 using Mat = array<array<Q, 3>, 3>;
 using VecI = array<int, 3>;
+using Lin2 = array<Q, 3>;
+using StrictLine = array<Q, 3>;
 
 struct Aff {
     Mat M;
@@ -383,8 +387,34 @@ string qstr(const Q &q) {
     return to_string(q.n) + "/" + to_string(q.d);
 }
 
+string json_escape(const string &s) {
+    string out;
+    out.reserve(s.size() + 8);
+    for (char c : s) {
+        if (c == '\\') out += "\\\\";
+        else if (c == '"') out += "\\\"";
+        else if (c == '\n') out += "\\n";
+        else out.push_back(c);
+    }
+    return out;
+}
+
+string hex64(uint64_t value) {
+    static const char *digits = "0123456789abcdef";
+    string out(16, '0');
+    for (int i = 15; i >= 0; --i) {
+        out[i] = digits[value & 0xf];
+        value >>= 4;
+    }
+    return out;
+}
+
 string vec_key(const Vec &v) {
     return qstr(v[0]) + "," + qstr(v[1]) + "," + qstr(v[2]);
+}
+
+string line_key(const StrictLine &line) {
+    return qstr(line[0]) + "," + qstr(line[1]) + "," + qstr(line[2]);
 }
 
 string mat_key(const Mat &m) {
@@ -481,6 +511,175 @@ uint64_t fnv1a(const string &s) {
     return h;
 }
 
+Lin2 lin_const(const Q &c) { return {c, Q(0), Q(0)}; }
+Lin2 lin_y() { return {Q(0), Q(1), Q(0)}; }
+Lin2 lin_z() { return {Q(0), Q(0), Q(1)}; }
+
+Lin2 lin_add(const Lin2 &a, const Lin2 &b) {
+    return {a[0] + b[0], a[1] + b[1], a[2] + b[2]};
+}
+
+Lin2 lin_scale(const Q &c, const Lin2 &v) {
+    return {c * v[0], c * v[1], c * v[2]};
+}
+
+StrictLine lt_constraint(const Lin2 &lhs, const Lin2 &rhs) {
+    return {lhs[1] - rhs[1], lhs[2] - rhs[2], rhs[0] - lhs[0]};
+}
+
+Lin2 lin_dot_vec3(const Vec &n, const array<Lin2, 3> &point) {
+    return lin_add(lin_add(lin_scale(n[0], point[0]), lin_scale(n[1], point[1])),
+                   lin_scale(n[2], point[2]));
+}
+
+array<Lin2, 3> translation_line_point_lin(const Vec &b, const Lin2 &t) {
+    return {
+        lin_add(lin_const(Q(1)), lin_scale(b[0], t)),
+        lin_add(lin_y(), lin_scale(b[1], t)),
+        lin_add(lin_z(), lin_scale(b[2], t)),
+    };
+}
+
+bool line_less(const StrictLine &a, const StrictLine &b) {
+    for (int i = 0; i < 3; ++i) {
+        if (a[i] == b[i]) continue;
+        return a[i] < b[i];
+    }
+    return false;
+}
+
+bool line_eq(const StrictLine &a, const StrictLine &b) {
+    return a[0] == b[0] && a[1] == b[1] && a[2] == b[2];
+}
+
+StrictLine normalize_line(const StrictLine &line) {
+    long long den = 1;
+    for (const Q &q : line) den = std::lcm(den, q.d);
+    array<long long, 3> ints{};
+    long long content = 0;
+    for (int i = 0; i < 3; ++i) {
+        ints[i] = Q::to_ll(static_cast<__int128>(line[i].n) * (den / line[i].d));
+        content = std::gcd(content, ints[i] < 0 ? -ints[i] : ints[i]);
+    }
+    if (content == 0) return line;
+    return {Q(ints[0] / content), Q(ints[1] / content), Q(ints[2] / content)};
+}
+
+StrictLine weighted_sum_constraints(
+    const vector<StrictLine> &constraints,
+    const vector<pair<int, Q>> &terms
+) {
+    StrictLine total{Q(0), Q(0), Q(0)};
+    for (const auto &[index, multiplier] : terms) {
+        for (int i = 0; i < 3; ++i) total[i] = total[i] + multiplier * constraints[index][i];
+    }
+    return total;
+}
+
+bool check_farkas(const vector<StrictLine> &constraints, const vector<pair<int, Q>> &terms) {
+    if (terms.empty()) return false;
+    bool positive = false;
+    for (const auto &[index, multiplier] : terms) {
+        if (index < 0 || index >= static_cast<int>(constraints.size())) return false;
+        if (multiplier < Q(0)) return false;
+        if (multiplier > Q(0)) positive = true;
+    }
+    if (!positive) return false;
+    StrictLine total = weighted_sum_constraints(constraints, terms);
+    return total[0] == Q(0) && total[1] == Q(0) && total[2] <= Q(0);
+}
+
+vector<pair<int, Q>> normalize_farkas_terms(const vector<pair<int, Q>> &terms) {
+    unordered_map<int, Q> combined;
+    for (const auto &[index, multiplier] : terms) {
+        auto it = combined.find(index);
+        if (it == combined.end()) combined.emplace(index, multiplier);
+        else it->second = it->second + multiplier;
+    }
+    vector<pair<int, Q>> normalized;
+    for (const auto &[index, multiplier] : combined) {
+        if (multiplier != Q(0)) normalized.push_back({index, multiplier});
+    }
+    sort(normalized.begin(), normalized.end(),
+         [](const auto &a, const auto &b) { return a.first < b.first; });
+    if (normalized.empty()) return normalized;
+    long long den = 1;
+    for (const auto &[_, multiplier] : normalized) den = std::lcm(den, multiplier.d);
+    long long content = 0;
+    for (const auto &[_, multiplier] : normalized) {
+        long long value = Q::to_ll(static_cast<__int128>(multiplier.n) * (den / multiplier.d));
+        content = std::gcd(content, value < 0 ? -value : value);
+    }
+    if (content == 0) return normalized;
+    Q content_q(content, den);
+    for (auto &[_, multiplier] : normalized) multiplier = multiplier / content_q;
+    return normalized;
+}
+
+string farkas_terms_key(const vector<pair<int, Q>> &terms) {
+    string out;
+    for (size_t i = 0; i < terms.size(); ++i) {
+        if (i) out += "|";
+        out += to_string(terms[i].first) + ":" + qstr(terms[i].second);
+    }
+    return out;
+}
+
+bool find_sparse_farkas(
+    const vector<StrictLine> &constraints,
+    vector<pair<int, Q>> &out
+) {
+    int n = static_cast<int>(constraints.size());
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            Q a1 = constraints[i][0], b1 = constraints[i][1];
+            Q a2 = constraints[j][0], b2 = constraints[j][1];
+            if (a1 * b2 - b1 * a2 != Q(0)) continue;
+            Q first(1), second(0);
+            if (a2 != Q(0)) second = -a1 / a2;
+            else if (b2 != Q(0)) second = -b1 / b2;
+            else continue;
+            vector<pair<int, Q>> terms{{i, first}, {j, second}};
+            if (first > Q(0) && second > Q(0) && check_farkas(constraints, terms)) {
+                out = normalize_farkas_terms(terms);
+                return true;
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            for (int k = j + 1; k < n; ++k) {
+                Q a1 = constraints[i][0], b1 = constraints[i][1];
+                Q a2 = constraints[j][0], b2 = constraints[j][1];
+                Q a3 = constraints[k][0], b3 = constraints[k][1];
+                array<Q, 3> values{
+                    b2 * a3 - a2 * b3,
+                    a1 * b3 - b1 * a3,
+                    b1 * a2 - a1 * b2,
+                };
+                if (values[0] == Q(0) && values[1] == Q(0) && values[2] == Q(0)) continue;
+                bool all_nonnegative = values[0] >= Q(0) && values[1] >= Q(0) && values[2] >= Q(0);
+                bool all_nonpositive = values[0] <= Q(0) && values[1] <= Q(0) && values[2] <= Q(0);
+                if (!all_nonnegative && !all_nonpositive) continue;
+                if (all_nonpositive) {
+                    values[0] = -values[0];
+                    values[1] = -values[1];
+                    values[2] = -values[2];
+                }
+                vector<pair<int, Q>> terms;
+                if (values[0] != Q(0)) terms.push_back({i, values[0]});
+                if (values[1] != Q(0)) terms.push_back({j, values[1]});
+                if (values[2] != Q(0)) terms.push_back({k, values[2]});
+                if (check_farkas(constraints, terms)) {
+                    out = normalize_farkas_terms(terms);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 struct Sample {
     long long rank = 0;
     int mask = -1;
@@ -495,6 +694,13 @@ struct Group {
     long long count = 0;
     vector<Sample> samples;
 };
+
+struct HistEntry {
+    long long count = 0;
+    string preview;
+};
+
+using HistMap = unordered_map<uint64_t, HistEntry>;
 
 struct AxisInfo {
     bool has_axis = false;
@@ -519,11 +725,21 @@ struct Profiler {
     bool with_reversal = false;
     bool exact_state_groups = false;
     bool exact_state_groups_formula = false;
+    bool aggregate_compression_profile = false;
     array<Group, 4> nonid_groups{};
     array<Group, 3> translation_groups{};
     array<unordered_set<string>, 4> nonid_state_keys{};
     array<unordered_set<string>, 3> translation_state_keys{};
     unordered_set<uint64_t> farkas_hashes;
+    HistMap aggregate_nonid_shapes;
+    HistMap aggregate_bad_translation_shapes;
+    HistMap aggregate_constraint_systems;
+    unordered_map<uint64_t, uint64_t> aggregate_constraint_to_farkas;
+    HistMap aggregate_farkas_shapes;
+    HistMap aggregate_unresolved_constraint_systems;
+    long long aggregate_constraint_cases = 0;
+    long long aggregate_farkas_cases = 0;
+    long long aggregate_unresolved_farkas_cases = 0;
     unordered_map<string, AxisInfo> axis_cache;
     vector<Sample> top_samples;
     long long compressed_nonidentity_linear_groups = 0;
@@ -587,6 +803,27 @@ struct Profiler {
         top_samples.push_back(s);
     }
 
+    void bump_hist(HistMap &m, const string &key, long long amount = 1) {
+        uint64_t hash = fnv1a(key);
+        auto it = m.find(hash);
+        if (it == m.end()) {
+            string preview = key.size() > 160 ? key.substr(0, 160) + "..." : key;
+            m.emplace(hash, HistEntry{amount, preview});
+        } else {
+            it->second.count += amount;
+        }
+    }
+
+    void bump_hist_hash(HistMap &m, uint64_t hash, const string &preview = "", long long amount = 1) {
+        auto it = m.find(hash);
+        if (it == m.end()) {
+            string stored = preview.size() > 160 ? preview.substr(0, 160) + "..." : preview;
+            m.emplace(hash, HistEntry{amount, stored});
+        } else {
+            it->second.count += amount;
+        }
+    }
+
     Q final_axis_dot(const Vec &axis) {
         return dot(mat_vec(pref[13], normal_pair(0)), axis);
     }
@@ -641,7 +878,9 @@ struct Profiler {
         }
         if (!it->second.has_axis) {
             ++nonid_groups[0].count;
-            nonid_state_keys[0].insert("failure=noFixedAxis;linear=" + key);
+            string shape_key = "failure=noFixedAxis;linear=" + key;
+            if (aggregate_compression_profile) bump_hist(aggregate_nonid_shapes, shape_key);
+            else nonid_state_keys[0].insert(shape_key);
             add_sample(nonid_groups[0]);
             return;
         }
@@ -653,30 +892,33 @@ struct Profiler {
         }
         if (fdot == Q(0) || first_axis_zero(axis) >= 0) {
             ++nonid_groups[1].count;
-            nonid_state_keys[1].insert(
-                "failure=badDirectionSign;linear=" + key +
+            string shape_key = "failure=badDirectionSign;linear=" + key +
                 ";axis=" + vec_key(axis) +
-                ";forcedSigns=" + sign_pattern_key(axis));
+                ";forcedSigns=" + sign_pattern_key(axis);
+            if (aggregate_compression_profile) bump_hist(aggregate_nonid_shapes, shape_key);
+            else nonid_state_keys[1].insert(shape_key);
             add_sample(nonid_groups[1]);
             return;
         }
         auto seq = forced_seq(axis);
         if (!seq_omni(seq)) {
             ++nonid_groups[2].count;
-            nonid_state_keys[2].insert(
-                "failure=badPairBalance;linear=" + key +
+            string shape_key = "failure=badPairBalance;linear=" + key +
                 ";axis=" + vec_key(axis) +
                 ";forcedSigns=" + sign_pattern_key(axis) +
-                ";forcedSeq=" + seq_json(seq));
+                ";forcedSeq=" + seq_json(seq);
+            if (aggregate_compression_profile) bump_hist(aggregate_nonid_shapes, shape_key);
+            else nonid_state_keys[2].insert(shape_key);
             add_sample(nonid_groups[2], -1, &seq);
             return;
         }
         ++nonid_groups[3].count;
-        nonid_state_keys[3].insert(
-            "failure=needsAxisSolveOrSimulation;linear=" + key +
+        string shape_key = "failure=needsAxisSolveOrSimulation;linear=" + key +
             ";axis=" + vec_key(axis) +
             ";forcedSigns=" + sign_pattern_key(axis) +
-            ";forcedSeq=" + seq_json(seq));
+            ";forcedSeq=" + seq_json(seq);
+        if (aggregate_compression_profile) bump_hist(aggregate_nonid_shapes, shape_key);
+        else nonid_state_keys[3].insert(shape_key);
         add_sample(nonid_groups[3], -1, &seq);
     }
 
@@ -734,6 +976,104 @@ struct Profiler {
         return dot(normal, b);
     }
 
+    Lin2 impact_time_lin(
+        const array<int, 14> &seq,
+        const Vec &b,
+        const array<Aff, 14> &prefixes,
+        int impact
+    ) {
+        if (impact == 0) return lin_const(Q(0));
+        if (impact == 14) return lin_const(Q(1));
+        auto [normal, offset] = copied_normal_offset(prefixes, impact, impact_face(seq, impact));
+        Q den = dot(normal, b);
+        if (den == Q(0)) throw runtime_error("impact denominator is zero");
+        return {(offset - normal[0]) / den, -normal[1] / den, -normal[2] / den};
+    }
+
+    vector<StrictLine> translation_constraints(const array<int, 14> &seq, const Vec &b) {
+        auto prefixes = path_prefix_affs(seq);
+        vector<StrictLine> constraints;
+        constraints.reserve(200);
+        constraints.push_back({Q(1), Q(1), Q(1)});
+        constraints.push_back({Q(1), Q(-1), Q(1)});
+        constraints.push_back({Q(-1), Q(1), Q(1)});
+        constraints.push_back({Q(-1), Q(-1), Q(1)});
+        array<Lin2, 15> times{};
+        for (int impact = 0; impact <= 14; ++impact) {
+            times[impact] = impact_time_lin(seq, b, prefixes, impact);
+        }
+        for (int i = 0; i < 14; ++i) {
+            constraints.push_back(lt_constraint(times[i], times[i + 1]));
+        }
+        for (int impact = 1; impact <= 14; ++impact) {
+            int hit = impact_face(seq, impact);
+            auto point = translation_line_point_lin(b, times[impact]);
+            for (int face = 0; face < 14; ++face) {
+                if (face == hit) continue;
+                auto [copied, copied_offset] = copied_normal_offset(prefixes, impact, face);
+                constraints.push_back(
+                    lt_constraint(lin_dot_vec3(copied, point), lin_const(copied_offset)));
+            }
+        }
+        return constraints;
+    }
+
+    vector<StrictLine> normalized_constraint_system(const vector<StrictLine> &constraints) {
+        vector<StrictLine> normalized;
+        normalized.reserve(constraints.size());
+        for (const auto &line : constraints) normalized.push_back(normalize_line(line));
+        sort(normalized.begin(), normalized.end(), line_less);
+        vector<StrictLine> unique;
+        for (const auto &line : normalized) {
+            if (unique.empty() || !line_eq(unique.back(), line)) unique.push_back(line);
+        }
+        return unique;
+    }
+
+    string constraint_system_key(const vector<StrictLine> &system) {
+        string out;
+        for (size_t i = 0; i < system.size(); ++i) {
+            if (i) out += "|";
+            out += line_key(system[i]);
+        }
+        return out;
+    }
+
+    uint64_t farkas_shape_for_system(uint64_t system_hash, const vector<StrictLine> &system) {
+        auto cached = aggregate_constraint_to_farkas.find(system_hash);
+        if (cached != aggregate_constraint_to_farkas.end()) {
+            if (cached->second == 0) bump_hist_hash(aggregate_unresolved_constraint_systems, system_hash);
+            return cached->second;
+        }
+        vector<pair<int, Q>> terms;
+        if (!find_sparse_farkas(system, terms)) {
+            aggregate_constraint_to_farkas.emplace(system_hash, 0);
+            bump_hist_hash(aggregate_unresolved_constraint_systems, system_hash, "unresolved");
+            return 0;
+        }
+        string key = farkas_terms_key(terms);
+        uint64_t hash = fnv1a(key);
+        aggregate_constraint_to_farkas.emplace(system_hash, hash);
+        bump_hist_hash(aggregate_farkas_shapes, hash, key, 0);
+        return hash;
+    }
+
+    void record_aggregate_translation_constraints(const array<int, 14> &seq, const Vec &b) {
+        vector<StrictLine> constraints = translation_constraints(seq, b);
+        vector<StrictLine> system = normalized_constraint_system(constraints);
+        string system_key = constraint_system_key(system);
+        uint64_t system_hash = fnv1a(system_key);
+        bump_hist_hash(aggregate_constraint_systems, system_hash, system_key);
+        ++aggregate_constraint_cases;
+        uint64_t farkas_hash = farkas_shape_for_system(system_hash, system);
+        if (farkas_hash == 0) {
+            ++aggregate_unresolved_farkas_cases;
+        } else {
+            bump_hist_hash(aggregate_farkas_shapes, farkas_hash);
+            ++aggregate_farkas_cases;
+        }
+    }
+
     void process_identity() {
         ++identity;
         for (int mask = 0; mask < 64; ++mask) {
@@ -743,9 +1083,10 @@ struct Profiler {
             Vec b = translation_vector(mask, seq);
             if (vec_eq(b, vec_zero())) {
                 ++translation_groups[0].count;
-                translation_state_keys[0].insert(
-                    "failure=badTranslationVector;b=" + vec_key(b) +
-                    ";seq=" + seq_json(seq));
+                string shape_key = "failure=badTranslationVector;b=" + vec_key(b) +
+                    ";seq=" + seq_json(seq);
+                if (aggregate_compression_profile) bump_hist(aggregate_bad_translation_shapes, shape_key);
+                else translation_state_keys[0].insert(shape_key);
                 add_sample(translation_groups[0], mask, &seq);
                 continue;
             }
@@ -767,18 +1108,24 @@ struct Profiler {
             }
             if (bad) {
                 ++translation_groups[1].count;
-                translation_state_keys[1].insert(
-                    "failure=badDirectionSign;b=" + vec_key(b) +
+                string shape_key = "failure=badDirectionSign;b=" + vec_key(b) +
                     ";seq=" + seq_json(seq) +
-                    ";denominatorSigns=" + denom_pattern);
+                    ";denominatorSigns=" + denom_pattern;
+                if (aggregate_compression_profile) bump_hist(aggregate_bad_translation_shapes, shape_key);
+                else translation_state_keys[1].insert(shape_key);
                 add_sample(translation_groups[1], mask, &seq);
                 continue;
             }
             ++translation_groups[2].count;
             add_sample(translation_groups[2], mask, &seq);
             string key = vec_key(b) + "|" + denom_pattern + "|" + seq_json(seq);
-            translation_state_keys[2].insert("failure=needsFarkas;" + key);
-            farkas_hashes.insert(fnv1a(key));
+            if (!aggregate_compression_profile) {
+                translation_state_keys[2].insert("failure=needsFarkas;" + key);
+                farkas_hashes.insert(fnv1a(key));
+            }
+            if (aggregate_compression_profile) {
+                record_aggregate_translation_constraints(seq, b);
+            }
         }
     }
 
@@ -1092,6 +1439,172 @@ struct Profiler {
         return out;
     }
 
+    string histogram_json(const HistMap &hist, int top_n = 12) {
+        long long total = 0;
+        vector<pair<uint64_t, HistEntry>> top;
+        top.reserve(top_n + 1);
+        for (const auto &[hash, entry] : hist) {
+            total += entry.count;
+            if (top_n <= 0) continue;
+            top.push_back({hash, entry});
+            sort(top.begin(), top.end(), [](const auto &a, const auto &b) {
+                if (a.second.count != b.second.count) return a.second.count > b.second.count;
+                return a.first < b.first;
+            });
+            if (static_cast<int>(top.size()) > top_n) top.pop_back();
+        }
+        string out = "{";
+        out += "\"distinct\":" + to_string(hist.size()) + ",";
+        out += "\"total_cases\":" + to_string(total) + ",";
+        out += "\"top\":[";
+        for (int i = 0; i < static_cast<int>(top.size()); ++i) {
+            if (i) out += ",";
+            out += "{\"hash\":\"" + hex64(top[i].first) + "\",";
+            out += "\"count\":" + to_string(top[i].second.count) + ",";
+            out += "\"key_preview\":\"" + json_escape(top[i].second.preview) + "\"}";
+        }
+        out += "]}";
+        return out;
+    }
+
+    string group_count_object_json(const array<Group, 4> &groups) {
+        string out = "{";
+        bool first = true;
+        for (const auto &g : groups) {
+            if (!first) out += ",";
+            first = false;
+            out += "\"" + g.failure + "\":" + to_string(g.count);
+        }
+        out += "}";
+        return out;
+    }
+
+    string translation_group_count_object_json() {
+        string out = "{";
+        bool first = true;
+        for (const auto &g : translation_groups) {
+            if (!first) out += ",";
+            first = false;
+            out += "\"" + g.failure + "\":" + to_string(g.count);
+        }
+        out += "}";
+        return out;
+    }
+
+    string aggregate_payload_json() {
+        bool complete = limit < 0;
+        long long flat_total = nonidentity + translation_assignments;
+        long long canonical_representatives =
+            (with_symmetry || with_reversal)
+                ? combined_pair_word_classes + combined_translation_choice_classes
+                : flat_total;
+        long long bad_translation_shapes =
+            aggregate_compression_profile
+                ? static_cast<long long>(aggregate_bad_translation_shapes.size())
+                : static_cast<long long>(translation_state_keys[0].size() + translation_state_keys[1].size());
+        long long constraint_family_estimate =
+            static_cast<long long>(aggregate_nonid_shapes.size())
+            + bad_translation_shapes
+            + static_cast<long long>(aggregate_constraint_systems.size());
+        long long farkas_family_estimate =
+            static_cast<long long>(aggregate_nonid_shapes.size())
+            + bad_translation_shapes
+            + static_cast<long long>(aggregate_constraint_systems.size())
+            + static_cast<long long>(aggregate_farkas_shapes.size());
+        long long final_estimate = min(canonical_representatives, farkas_family_estimate);
+        long long estimated_lean_bytes = 512LL * final_estimate;
+        bool unresolved = aggregate_unresolved_farkas_cases != 0;
+        bool fits_1gib = estimated_lean_bytes <= 1024LL * 1024LL * 1024LL;
+        string status;
+        string recommendation;
+        if (unresolved) {
+            status = "blocked_needs_deeper_compression";
+            recommendation = "extend_sparse_farkas_or_add_exact_lp_dual_certificate_search";
+        } else if (!fits_1gib) {
+            status = "blocked_exceeds_budget";
+            recommendation = "add_prefix_or_parametric_family_certificates_before_14E7";
+        } else {
+            status = "ready_for_14E7";
+            recommendation = "update_exhaustive_real_cert_generator_to_emit_family_witnesses";
+        }
+
+        ostringstream out;
+        out << "{";
+        out << "\"schema_version\":1,";
+        out << "\"mode\":\"aggregate-compression-profile\",";
+        out << "\"backend\":\"compiled-exact-cpp-aggregate\",";
+        out << "\"complete\":" << (complete ? "true" : "false") << ",";
+        if (complete) out << "\"profile_limit\":null,";
+        else out << "\"profile_limit\":" << limit << ",";
+        out << "\"options\":{";
+        out << "\"with_symmetry\":" << (with_symmetry ? "true" : "false") << ",";
+        out << "\"with_reversal\":" << (with_reversal ? "true" : "false") << ",";
+        out << "\"reversal_proof_transport_enabled\":false},";
+        out << "\"actual_counts\":{";
+        out << "\"pair_words\":" << leaves << ",";
+        out << "\"identity_linear_words\":" << identity << ",";
+        out << "\"nonidentity_words\":" << nonidentity << ",";
+        out << "\"translation_sign_assignments\":" << translation_assignments << "},";
+        out << "\"canonical_counts\":{";
+        out << "\"pair_word_classes\":" << combined_pair_word_classes << ",";
+        out << "\"translation_choice_classes\":" << combined_translation_choice_classes << ",";
+        out << "\"max_pair_word_orbit\":" << max_combined_pair_orbit << ",";
+        out << "\"max_translation_choice_orbit\":" << max_combined_translation_orbit << "},";
+        out << "\"nonidentity\":{";
+        out << "\"failure_counts\":" << group_count_object_json(nonid_groups) << ",";
+        out << "\"shape_histogram\":" << histogram_json(aggregate_nonid_shapes) << "},";
+        out << "\"translation\":{";
+        out << "\"failure_counts\":" << translation_group_count_object_json() << ",";
+        out << "\"bad_translation_shape_count\":" << bad_translation_shapes << ",";
+        out << "\"bad_translation_shape_histogram\":"
+            << histogram_json(aggregate_bad_translation_shapes, 8) << ",";
+        out << "\"constraint_cases\":" << aggregate_constraint_cases << ",";
+        out << "\"constraint_system_histogram\":" << histogram_json(aggregate_constraint_systems) << ",";
+        out << "\"farkas_cases\":" << aggregate_farkas_cases << ",";
+        out << "\"farkas_shape_histogram\":" << histogram_json(aggregate_farkas_shapes) << ",";
+        out << "\"unresolved_farkas_cases\":" << aggregate_unresolved_farkas_cases << ",";
+        out << "\"unresolved_constraint_systems\":"
+            << histogram_json(aggregate_unresolved_constraint_systems, 8) << "},";
+        out << "\"size_ladder\":{";
+        out << "\"flat_total_certs\":" << flat_total << ",";
+        out << "\"canonical_representative_estimate\":" << canonical_representatives << ",";
+        out << "\"constraint_family_estimate\":" << constraint_family_estimate << ",";
+        out << "\"farkas_family_estimate\":" << farkas_family_estimate << ",";
+        out << "\"final_cert_estimate\":" << final_estimate << ",";
+        out << "\"estimated_lean_bytes\":" << estimated_lean_bytes << ",";
+        out << "\"thresholds\":[";
+        out << "{\"name\":\"1GiB\",\"limit_bytes\":" << (1024LL * 1024LL * 1024LL)
+            << ",\"fits\":" << (estimated_lean_bytes <= 1024LL * 1024LL * 1024LL ? "true" : "false") << "},";
+        out << "{\"name\":\"500MiB\",\"limit_bytes\":" << (500LL * 1024LL * 1024LL)
+            << ",\"fits\":" << (estimated_lean_bytes <= 500LL * 1024LL * 1024LL ? "true" : "false") << "},";
+        out << "{\"name\":\"100MiB\",\"limit_bytes\":" << (100LL * 1024LL * 1024LL)
+            << ",\"fits\":" << (estimated_lean_bytes <= 100LL * 1024LL * 1024LL ? "true" : "false") << "}],";
+        out << "\"bytes_per_certificate_proxy\":512},";
+        out << "\"decision\":{";
+        out << "\"status\":\"" << status << "\",";
+        out << "\"ready_for_14E7\":" << (status == "ready_for_14E7" ? "true" : "false") << ",";
+        out << "\"recommendation\":\"" << recommendation << "\"},";
+        out << "\"nonidentity_groups\":[";
+        bool first = true;
+        for (const auto &g : nonid_groups) {
+            if (g.count == 0) continue;
+            if (!first) out << ",";
+            first = false;
+            out << group_json(g, "nonidentity");
+        }
+        out << "],";
+        out << "\"translation_groups\":[";
+        first = true;
+        for (const auto &g : translation_groups) {
+            if (g.count == 0) continue;
+            if (!first) out << ",";
+            first = false;
+            out << group_json(g, "translation");
+        }
+        out << "]}";
+        return out.str();
+    }
+
     string payload_json() {
         bool complete = limit < 0;
         long long flat_total = nonidentity + translation_assignments;
@@ -1290,6 +1803,7 @@ int main(int argc, char **argv) {
     Profiler profiler;
     bool force_compressed = false;
     bool force_exact_state_groups = false;
+    bool aggregate_compression_profile = false;
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
         if (arg == "--limit") {
@@ -1297,6 +1811,8 @@ int main(int argc, char **argv) {
             profiler.limit = stoll(argv[++i]);
         } else if (arg == "--compressed-full") {
             force_compressed = true;
+        } else if (arg == "--aggregate-compression-profile") {
+            aggregate_compression_profile = true;
         } else if (arg == "--exact-state-groups") {
             force_exact_state_groups = true;
         } else if (arg == "--with-symmetry") {
@@ -1309,6 +1825,13 @@ int main(int argc, char **argv) {
         } else {
             throw runtime_error("unknown argument: " + arg);
         }
+    }
+    if (aggregate_compression_profile) {
+        profiler.aggregate_compression_profile = true;
+        profiler.exact_state_groups = true;
+        profiler.rec(0);
+        cout << profiler.aggregate_payload_json() << "\n";
+        return 0;
     }
     if (force_compressed || profiler.limit < 0) {
         profiler.profile_compressed_full();

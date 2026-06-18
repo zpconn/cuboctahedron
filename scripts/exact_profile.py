@@ -19,6 +19,9 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROFILE_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "profile_exhaustive_states.json"
+AGGREGATE_PROFILE_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "aggregate_compression_profile.json"
+)
 CANONICAL_ORBIT_JSON_PATH = REPO_ROOT / "scripts" / "generated" / "canonical_orbit_coverage.json"
 CPP_PROFILE_SOURCE_PATH = REPO_ROOT / "scripts" / "profile_exhaustive_states.cpp"
 CPP_PROFILE_BINARY_PATH = Path("/tmp") / "cuboctahedron_profile_exhaustive_states"
@@ -1147,6 +1150,26 @@ def build_profile_payload(
     )
 
 
+def build_aggregate_compression_profile_payload(limit: int | None = None) -> dict:
+    binary = ensure_cpp_profile_helper()
+    cmd = [
+        str(binary),
+        "--aggregate-compression-profile",
+        "--with-symmetry",
+        "--with-reversal",
+    ]
+    if limit is not None:
+        cmd.extend(["--limit", str(limit)])
+    result = subprocess.run(
+        cmd,
+        cwd=REPO_ROOT,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    return json.loads(result.stdout)
+
+
 def attach_canonical_orbit_summary(payload: dict) -> dict:
     if not CANONICAL_ORBIT_JSON_PATH.exists():
         return payload
@@ -1178,6 +1201,47 @@ def attach_canonical_orbit_summary(payload: dict) -> dict:
 def write_profile_payload(payload: dict, output_path: Path = PROFILE_JSON_PATH) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def write_aggregate_compression_profile_payload(
+    payload: dict,
+    output_path: Path = AGGREGATE_PROFILE_JSON_PATH,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def print_aggregate_compression_summary(
+    payload: dict,
+    *,
+    prefix: str = "aggregate compression profile",
+) -> None:
+    counts = payload["actual_counts"]
+    size = payload["size_ladder"]
+    decision = payload["decision"]
+    print(prefix)
+    print(f"pair-words: {counts['pair_words']:,}")
+    print(f"identity linear words: {counts['identity_linear_words']:,}")
+    print(f"nonidentity words: {counts['nonidentity_words']:,}")
+    print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+    print(
+        "nonidentity family shapes: "
+        f"{payload['nonidentity']['shape_histogram']['distinct']:,}"
+    )
+    print(
+        "translation constraint systems: "
+        f"{payload['translation']['constraint_system_histogram']['distinct']:,}"
+    )
+    print(
+        "translation Farkas shapes: "
+        f"{payload['translation']['farkas_shape_histogram']['distinct']:,}"
+    )
+    print(f"final cert estimate: {size['final_cert_estimate']:,}")
+    print(f"estimated Lean bytes: {size['estimated_lean_bytes']:,}")
+    print(f"decision: {decision['status']}")
+    print(f"recommendation: {decision['recommendation']}")
+    if not payload.get("complete", False):
+        print("aggregate profile status: partial development run")
 
 
 def print_profile_summary(payload: dict, *, prefix: str = "profiled exhaustive states") -> None:

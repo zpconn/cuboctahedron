@@ -42,6 +42,7 @@ EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
+AGGREGATE_COMPRESSION_PROFILE_JSON_PATH = exact_profile.AGGREGATE_PROFILE_JSON_PATH
 LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "SmallSample.lean"
 CANONICAL_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CanonicalSample.lean"
 CANONICAL_COVERAGE_LEAN_PATH = (
@@ -4448,25 +4449,53 @@ def build_compression_audit_payload() -> dict:
         TRANSLATION_FAMILY_JSON_PATH, "translation-family-sample"
     )
     exhaustive = load_json_artifact(EXHAUSTIVE_REAL_CERTS_JSON_PATH, "exhaustive-real-certs")
+    aggregate = None
+    if AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.exists():
+        aggregate = load_json_artifact(
+            AGGREGATE_COMPRESSION_PROFILE_JSON_PATH,
+            "aggregate-compression-profile",
+        )
+        if not aggregate.get("complete", False):
+            aggregate = None
 
     estimates = profile["size_estimates"]
     exact_summary = estimates.get("exact_state_group_summary", {})
     nonid_exact = exact_summary.get("nonidentity", {})
     translation_exact = exact_summary.get("translation", {})
-    current_estimated_bytes = int(exhaustive["estimate"]["estimated_lean_bytes"])
-    canonical_cert_estimate = int(exhaustive["estimate"]["canonical_cert_estimate"])
+    if aggregate is not None:
+        current_estimated_bytes = int(aggregate["size_ladder"]["estimated_lean_bytes"])
+        canonical_cert_estimate = int(
+            aggregate["size_ladder"]["canonical_representative_estimate"]
+        )
+    else:
+        current_estimated_bytes = int(exhaustive["estimate"]["estimated_lean_bytes"])
+        canonical_cert_estimate = int(exhaustive["estimate"]["canonical_cert_estimate"])
     thresholds = [
         threshold_record("1GiB", GIB, current_estimated_bytes),
         threshold_record("500MiB", 500 * MIB, current_estimated_bytes),
         threshold_record("100MiB", 100 * MIB, current_estimated_bytes),
     ]
 
-    nonid_hist_available = int(nonid_exact.get("pathSensitiveUnbucketed", 0)) == 0
-    translation_hist_available = int(translation_exact.get("pathSensitiveUnbucketed", 0)) == 0
-    shared_farkas_groups = int(estimates.get("shared_farkas_groups", 0))
+    nonid_hist_available = aggregate is not None or int(nonid_exact.get("pathSensitiveUnbucketed", 0)) == 0
+    translation_hist_available = aggregate is not None or int(translation_exact.get("pathSensitiveUnbucketed", 0)) == 0
+    shared_farkas_groups = (
+        int(aggregate["translation"]["farkas_shape_histogram"]["distinct"])
+        if aggregate is not None
+        else int(estimates.get("shared_farkas_groups", 0))
+    )
     sample_nonid = family_sample_summary(nonidentity_family, "covered_ranks")
     sample_translation = family_sample_summary(translation_family, "covered_cases")
-    translation_sharing = translation_sample_sharing_summary(translation_family)
+    if aggregate is not None:
+        translation_sharing = {
+            "sample_normalized_constraint_systems":
+                int(aggregate["translation"]["constraint_system_histogram"]["distinct"]),
+            "sample_normalized_farkas_shapes":
+                int(aggregate["translation"]["farkas_shape_histogram"]["distinct"]),
+            "full_constraint_histogram_available": True,
+            "full_farkas_shape_histogram_available": True,
+        }
+    else:
+        translation_sharing = translation_sample_sharing_summary(translation_family)
 
     full_histograms_available = (
         nonid_hist_available
@@ -4474,18 +4503,24 @@ def build_compression_audit_payload() -> dict:
         and translation_sharing["full_constraint_histogram_available"]
         and translation_sharing["full_farkas_shape_histogram_available"]
     )
-    ready_for_14e7 = full_histograms_available and thresholds[0]["fits"]
-    if ready_for_14e7:
+    if aggregate is not None:
+        status = aggregate["decision"]["status"]
+        ready_for_14e7 = bool(aggregate["decision"]["ready_for_14E7"])
+        recommendation = aggregate["decision"]["recommendation"]
+    elif full_histograms_available and thresholds[0]["fits"]:
         status = "ready_for_14E7"
+        ready_for_14e7 = True
         recommendation = "proceed_to_concrete_exhaustive_coverage_witness"
     elif not full_histograms_available:
         status = "blocked_needs_full_compression_histograms"
+        ready_for_14e7 = False
         recommendation = (
             "add_full_aggregate_compression_profiler_for_nonidentity_failure_families_"
             "and_translation_constraint_farkas_shapes"
         )
     else:
         status = "blocked_exceeds_size_budget"
+        ready_for_14e7 = False
         recommendation = "add_deeper_prefix_or_family_compression_before_14E7"
 
     return {
@@ -4507,6 +4542,7 @@ def build_compression_audit_payload() -> dict:
             "nonidentity_family_sample": path_status(NONIDENTITY_FAMILY_JSON_PATH),
             "translation_family_sample": path_status(TRANSLATION_FAMILY_JSON_PATH),
             "exhaustive_real_certs_summary": path_status(EXHAUSTIVE_REAL_CERTS_JSON_PATH),
+            "aggregate_compression_profile": path_status(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH),
         },
         "canonical_counts": canonical["canonical_counts"],
         "nonidentity": {
@@ -4516,7 +4552,12 @@ def build_compression_audit_payload() -> dict:
             ),
             "full_failure_family_histogram_available": nonid_hist_available,
             "path_sensitive_unbucketed": int(
-                nonid_exact.get("pathSensitiveUnbucketed", 0)
+                0 if aggregate is not None else nonid_exact.get("pathSensitiveUnbucketed", 0)
+            ),
+            "aggregate_shape_count": (
+                int(aggregate["nonidentity"]["shape_histogram"]["distinct"])
+                if aggregate is not None
+                else 0
             ),
             "sample_family_summary": sample_nonid,
         },
@@ -4525,7 +4566,7 @@ def build_compression_audit_payload() -> dict:
             "shared_farkas_groups": shared_farkas_groups,
             "full_constraint_histogram_available": translation_hist_available,
             "path_sensitive_unbucketed": int(
-                translation_exact.get("pathSensitiveUnbucketed", 0)
+                0 if aggregate is not None else translation_exact.get("pathSensitiveUnbucketed", 0)
             ),
             "sample_family_summary": sample_translation,
             "sample_sharing": translation_sharing,
@@ -4548,6 +4589,11 @@ def build_compression_audit_payload() -> dict:
             "status": status,
             "ready_for_14E7": ready_for_14e7,
             "recommendation": recommendation,
+            "source": (
+                str(AGGREGATE_COMPRESSION_PROFILE_JSON_PATH.relative_to(REPO_ROOT))
+                if aggregate is not None
+                else "compression-audit-local"
+            ),
         },
     }
 
@@ -4576,6 +4622,7 @@ def main() -> None:
             "translation-family-sample",
             "exhaustive-real-certs",
             "compression-audit",
+            "aggregate-compression-profile",
         ],
         help="generation mode",
     )
@@ -4624,6 +4671,12 @@ def main() -> None:
         help="output path for compression-audit JSON",
     )
     parser.add_argument(
+        "--aggregate-profile-output",
+        type=Path,
+        default=AGGREGATE_COMPRESSION_PROFILE_JSON_PATH,
+        help="output path for aggregate-compression-profile JSON",
+    )
+    parser.add_argument(
         "--generated-data-budget-gib",
         type=float,
         default=8.0,
@@ -4653,7 +4706,8 @@ def main() -> None:
             "profile-exhaustive-states/canonical-symmetry-sample/"
             "canonical-coverage-manifest/coverage-tree-sample/"
             "nonidentity-family-sample/translation-family-sample/"
-            "exhaustive-real-certs/compression-audit"
+            "exhaustive-real-certs/compression-audit/"
+            "aggregate-compression-profile"
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -4708,6 +4762,19 @@ def main() -> None:
             print(f"{threshold['name']}: {verdict}")
         print(f"recommendation: {payload['decision']['recommendation']}")
         print(f"json: {args.compression_audit_output}")
+        return
+    if mode == "aggregate-compression-profile":
+        if args.profile_limit is not None and args.profile_limit < 0:
+            parser.error("--profile-limit must be nonnegative")
+        payload = exact_profile.build_aggregate_compression_profile_payload(
+            limit=args.profile_limit
+        )
+        exact_profile.write_aggregate_compression_profile_payload(
+            payload,
+            args.aggregate_profile_output,
+        )
+        exact_profile.print_aggregate_compression_summary(payload)
+        print(f"json: {args.aggregate_profile_output}")
         return
     if mode == "canonical-symmetry-sample":
         payload = build_canonical_payload()
