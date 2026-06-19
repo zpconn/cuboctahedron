@@ -2,9 +2,73 @@
   "checker_layer_complete": true,
   "complete": true,
   "exhaustive_coverage_complete": false,
+  "family_partition_witnesses": {
+    "classification_samples": {
+      "nonidentity": [
+        {
+          "expected": "badDirectionSign",
+          "rank": 13
+        },
+        {
+          "expected": "badPairBalance",
+          "rank": 102
+        },
+        {
+          "expected": "needsAxisSolveOrSimulation",
+          "rank": 12
+        }
+      ],
+      "translation": [
+        {
+          "expected": "badDirectionSign",
+          "mask": 4,
+          "rank": 0
+        },
+        {
+          "expected": "badTranslationVector",
+          "mask": 37,
+          "rank": 12510049
+        }
+      ]
+    },
+    "complete": true,
+    "coverage_basis": "Lean classifier predicates over unrankPairWord and SignMask derive the public family-cover predicates. Full fallback coverage remains gated until Step 14E.7B emits residual and Farkas evidence.",
+    "exhaustive_partition_complete": true,
+    "generated_lean": {
+      "nonidentity": {
+        "bytes": 1727,
+        "exists": true,
+        "path": "Cuboctahedron/Generated/NonIdentity/FamilyPartition.lean"
+      },
+      "translation": {
+        "bytes": 1867,
+        "exists": true,
+        "path": "Cuboctahedron/Generated/Translation/FamilyPartition.lean"
+      }
+    },
+    "required_api": [
+      "exhaustiveNonIdBadDirectionFamily_partition",
+      "exhaustiveNonIdBadPairBalanceFamily_partition",
+      "exhaustiveTranslationBadDirectionFamily_partition",
+      "exhaustiveTranslationBadVectorFamily_partition"
+    ],
+    "source_counts": {
+      "nonidentity": {
+        "badDirectionSign": 67632840,
+        "badPairBalance": 25157616,
+        "needsAxisSolveOrSimulation": 2038656,
+        "noFixedAxis": 0
+      },
+      "translation": {
+        "badDirectionSign": 151662200,
+        "badTranslationVector": 70272,
+        "needsFarkas": 6225160
+      }
+    }
+  },
   "generated_lean": {
     "all_generated": {
-      "bytes": 2657,
+      "bytes": 3073,
       "exists": true,
       "path": "Cuboctahedron/Generated/AllGenerated.lean"
     },
@@ -13,10 +77,20 @@
       "exists": true,
       "path": "Cuboctahedron/Generated/NonIdentity/ParametricSample.lean"
     },
+    "nonidentity_partition": {
+      "bytes": 1727,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/FamilyPartition.lean"
+    },
     "translation": {
       "bytes": 19941,
       "exists": true,
       "path": "Cuboctahedron/Generated/Translation/ParametricSample.lean"
+    },
+    "translation_partition": {
+      "bytes": 1867,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/Translation/FamilyPartition.lean"
     }
   },
   "mode": "parametric-family-checkers",
@@ -66,7 +140,8 @@
   },
   "notes": [
     "Generated samples prove the parametric checker API and representative family witnesses.",
-    "The exhaustive family semantic theorem names are compiled and exported; full rank/case partitioning remains gated.",
+    "The family partition theorem names are compiled and exported through classifier-backed witness modules.",
+    "The high-volume early-failure partition is complete; full fallback coverage remains gated until Step 14E.7B emits residual/Farkas evidence.",
     "This artifact does not claim complete exhaustive Lean coverage."
   ],
   "prefix_parametric_ready": true,

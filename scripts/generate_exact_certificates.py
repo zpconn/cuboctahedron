@@ -66,6 +66,12 @@ NONIDENTITY_PARAMETRIC_LEAN_PATH = (
 TRANSLATION_PARAMETRIC_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "ParametricSample.lean"
 )
+NONIDENTITY_PARTITION_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilyPartition.lean"
+)
+TRANSLATION_PARTITION_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
+)
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
 )
@@ -534,11 +540,6 @@ def enumerate_pair_words(limit: int) -> list[list[str]]:
     return result
 
 
-def pair_word_at_rank(rank: int) -> list[str]:
-    words = enumerate_pair_words(rank + 1)
-    return words[rank]
-
-
 def valid_pair_word(word: list[str]) -> bool:
     return len(word) == 13 and {pair_id: word.count(pair_id) for pair_id in PAIR_IDS} == PAIR_COUNTS
 
@@ -566,6 +567,37 @@ def lex_rank_pair_word(word: list[str]) -> int:
             rank += multinomial_count(trial)
         remaining[current] -= 1
     return rank
+
+
+def pair_word_at_rank(rank: int) -> list[str]:
+    """Return the lexicographic valid pair-word at `rank`.
+
+    The earlier sample generator enumerated from zero for each lookup, which is
+    fine for tiny examples but unusable for exhaustive fallback emission.  This
+    is the inverse of `lex_rank_pair_word` and runs in O(13 * |PairId|).
+    """
+    if not 0 <= rank < EXPECTED_PAIR_WORDS:
+        raise ValueError(f"pair-word rank out of range: {rank}")
+    remaining = dict(PAIR_COUNTS)
+    word: list[str] = []
+    rest = rank
+    for _pos in range(13):
+        for pair_id in PAIR_IDS:
+            if remaining[pair_id] == 0:
+                continue
+            trial = dict(remaining)
+            trial[pair_id] -= 1
+            block = multinomial_count(trial)
+            if rest < block:
+                word.append(pair_id)
+                remaining = trial
+                break
+            rest -= block
+        else:
+            raise ValueError(f"failed to unrank pair-word rank: {rank}")
+    if rest != 0 or not valid_pair_word(word):
+        raise ValueError(f"invalid unranked pair-word at rank: {rank}")
+    return word
 
 
 def sign_assignment(word: list[str], mask: int) -> list[int]:
@@ -2206,8 +2238,10 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
         "import Cuboctahedron.Generated.NonIdentity.FamilySample",
         "import Cuboctahedron.Generated.NonIdentity.ParametricSample",
+        "import Cuboctahedron.Generated.NonIdentity.FamilyPartition",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.Translation.ParametricSample",
+        "import Cuboctahedron.Generated.Translation.FamilyPartition",
         "import Cuboctahedron.Generated.CanonicalSample",
         "import Cuboctahedron.Generated.CanonicalCoverageManifest",
         "import Cuboctahedron.Generated.CompactPilot",
@@ -2238,6 +2272,13 @@ def write_all_generated() -> None:
         "  rw [NonIdentity.checkParametricSamples_true,",
         "    Translation.checkParametricSamples_true]",
         "  rfl",
+        "",
+        "#check exhaustiveNonIdBadDirectionFamily_partition",
+        "#check exhaustiveNonIdBadPairBalanceFamily_partition",
+        "#check exhaustiveTranslationBadDirectionFamily_partition",
+        "#check exhaustiveTranslationBadVectorFamily_partition",
+        "#check NonIdentity.sampleFamilyPartition",
+        "#check Translation.sampleFamilyPartition",
         "",
         "theorem nonidentityChunk_sound :",
         "    List.Forall₂ NonIdRankCertificateCovered",
@@ -4342,19 +4383,39 @@ def build_exhaustive_real_certs_summary(
         "exhaustiveTranslationBadDirectionFamily_sound",
         "exhaustiveTranslationBadVectorFamily_sound",
     ]
+    required_family_partition_api = [
+        "exhaustiveNonIdBadDirectionFamily_partition",
+        "exhaustiveNonIdBadPairBalanceFamily_partition",
+        "exhaustiveTranslationBadDirectionFamily_partition",
+        "exhaustiveTranslationBadVectorFamily_partition",
+    ]
     parametric_family_checkers = None
     parametric_semantics_ready = False
+    family_partition_ready = False
+    family_partition_exhaustive_complete = False
     if PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.exists():
         parametric_family_checkers = load_json_artifact(
             PARAMETRIC_FAMILY_CHECKERS_JSON_PATH,
             "parametric-family-checkers",
         )
         required_api = set(parametric_family_checkers.get("required_api", []))
+        partition = parametric_family_checkers.get("family_partition_witnesses", {})
+        partition_api = set(partition.get("required_api", []))
         parametric_semantics_ready = (
             parametric_family_checkers.get("complete") is True
             and parametric_family_checkers.get("checker_layer_complete") is True
             and parametric_family_checkers.get("exhaustive_coverage_complete") is False
             and set(required_parametric_semantics_api) <= required_api
+        )
+        generated_partition = partition.get("generated_lean", {})
+        family_partition_ready = (
+            partition.get("complete") is True
+            and set(required_family_partition_api) <= partition_api
+            and generated_partition.get("nonidentity", {}).get("exists") is True
+            and generated_partition.get("translation", {}).get("exists") is True
+        )
+        family_partition_exhaustive_complete = (
+            partition.get("exhaustive_partition_complete") is True
         )
 
     estimates = profile["size_estimates"]
@@ -4407,6 +4468,10 @@ def build_exhaustive_real_certs_summary(
         refusal_reasons.append("prefix_parametric_not_ready_for_14E7")
     if not parametric_semantics_ready:
         refusal_reasons.append("parametric_family_semantics_not_ready")
+    if not family_partition_ready:
+        refusal_reasons.append("family_partition_witness_not_ready")
+    if not family_partition_exhaustive_complete:
+        refusal_reasons.append("family_partition_exhaustive_data_not_emitted")
     if not refusal_reasons:
         refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
 
@@ -4452,6 +4517,16 @@ def build_exhaustive_real_certs_summary(
             "ready": parametric_semantics_ready,
             "required_api": required_parametric_semantics_api,
             "source": path_status(PARAMETRIC_FAMILY_CHECKERS_JSON_PATH),
+        },
+        "family_partition": {
+            "ready": family_partition_ready,
+            "exhaustive_partition_complete": family_partition_exhaustive_complete,
+            "required_api": required_family_partition_api,
+            "source": path_status(PARAMETRIC_FAMILY_CHECKERS_JSON_PATH),
+            "generated_lean": {
+                "nonidentity": path_status(NONIDENTITY_PARTITION_LEAN_PATH),
+                "translation": path_status(TRANSLATION_PARTITION_LEAN_PATH),
+            },
         },
         "estimate": {
             "source": estimate_source,
@@ -5086,11 +5161,140 @@ def write_translation_parametric_lean(bad_vector_cert: TranslationCertPayload) -
     TRANSLATION_PARAMETRIC_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def write_nonidentity_partition_lean() -> None:
+    lines = [
+        "import Cuboctahedron.Generated.NonIdentity.ParametricSample",
+        "",
+        "/-!",
+        "Generated exhaustive compressed-family partition witness for",
+        "Step 14E.7B2A.",
+        "",
+        "This module instantiates the public partition-witness API with exact",
+        "classifier predicates over `unrankPairWord`. The full exhaustive",
+        "fallback remains gated until Step 14E.7B emits residual certificates.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity",
+        "",
+        "noncomputable def exhaustiveFamilyPartition : NonIdFamilyPartition where",
+        "  CoversBadDirection := fun r =>",
+        "    nonIdEarlyFamilyClassOfRank r =",
+        "      NonIdFamilyClass.badDirectionSign",
+        "  CoversBadPairBalance := fun r =>",
+        "    nonIdEarlyFamilyClassOfRank r =",
+        "      NonIdFamilyClass.badPairBalance",
+        "  badDirection_sound := by",
+        "    intro r hclass",
+        "    exact nonIdEarlyFamilyClassOfRank_badDirection_sound hclass",
+        "  badPairBalance_sound := by",
+        "    intro r hclass",
+        "    exact nonIdEarlyFamilyClassOfRank_badPairBalance_sound hclass",
+        "",
+        "noncomputable def sampleFamilyPartition : NonIdFamilyPartition :=",
+        "  exhaustiveFamilyPartition",
+        "",
+        "theorem exhaustiveBadDirectionPartition_sound",
+        "    {r : Fin numPairWords}",
+        "    (hcontains : exhaustiveFamilyPartition.CoversBadDirection r) :",
+        "    NonIdBadDirectionFamilyCovers r :=",
+        "  exhaustiveFamilyPartition.badDirection_sound hcontains",
+        "",
+        "theorem exhaustiveBadPairBalancePartition_sound",
+        "    {r : Fin numPairWords}",
+        "    (hcontains : exhaustiveFamilyPartition.CoversBadPairBalance r) :",
+        "    NonIdBadPairBalanceFamilyCovers r :=",
+        "  exhaustiveFamilyPartition.badPairBalance_sound hcontains",
+        "",
+        "#check exhaustiveNonIdBadDirectionFamily_partition",
+        "#check exhaustiveNonIdBadPairBalanceFamily_partition",
+        "#check exhaustiveBadDirectionPartition_sound",
+        "#check exhaustiveBadPairBalancePartition_sound",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity",
+        "",
+    ]
+    NONIDENTITY_PARTITION_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_PARTITION_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_translation_partition_lean() -> None:
+    lines = [
+        "import Cuboctahedron.Generated.Translation.ParametricSample",
+        "",
+        "/-!",
+        "Generated exhaustive compressed-family partition witness for",
+        "Step 14E.7B2A.",
+        "",
+        "This module instantiates the public partition-witness API with exact",
+        "classifier predicates over `unrankPairWord` and `SignMask`. The full",
+        "exhaustive fallback remains gated until Step 14E.7B emits Farkas",
+        "certificates.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation",
+        "",
+        "noncomputable def exhaustiveFamilyPartition : TranslationFamilyPartition where",
+        "  CoversBadDirection := fun r mask =>",
+        "    translationEarlyFamilyClassOfChoice r mask =",
+        "      TranslationFamilyClass.badDirectionSign",
+        "  CoversBadVector := fun r mask =>",
+        "    translationEarlyFamilyClassOfChoice r mask =",
+        "      TranslationFamilyClass.badTranslationVector",
+        "  badDirection_sound := by",
+        "    intro r mask hclass",
+        "    exact translationEarlyFamilyClassOfChoice_badDirection_sound hclass",
+        "  badVector_sound := by",
+        "    intro r mask hclass",
+        "    exact translationEarlyFamilyClassOfChoice_badVector_sound hclass",
+        "",
+        "noncomputable def sampleFamilyPartition : TranslationFamilyPartition :=",
+        "  exhaustiveFamilyPartition",
+        "",
+        "theorem exhaustiveBadDirectionPartition_sound",
+        "    {r : Fin numPairWords} {mask : SignMask}",
+        "    (hcontains : exhaustiveFamilyPartition.CoversBadDirection r mask) :",
+        "    TranslationBadDirectionFamilyCovers r mask :=",
+        "  exhaustiveFamilyPartition.badDirection_sound hcontains",
+        "",
+        "theorem exhaustiveBadVectorPartition_sound",
+        "    {r : Fin numPairWords} {mask : SignMask}",
+        "    (hcontains : exhaustiveFamilyPartition.CoversBadVector r mask) :",
+        "    TranslationBadVectorFamilyCovers r mask :=",
+        "  exhaustiveFamilyPartition.badVector_sound hcontains",
+        "",
+        "#check exhaustiveTranslationBadDirectionFamily_partition",
+        "#check exhaustiveTranslationBadVectorFamily_partition",
+        "#check exhaustiveBadDirectionPartition_sound",
+        "#check exhaustiveBadVectorPartition_sound",
+        "",
+        "end Cuboctahedron.Generated.Translation",
+        "",
+    ]
+    TRANSLATION_PARTITION_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_PARTITION_LEAN_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
 def build_parametric_family_checkers_payload() -> dict:
     prefix = load_json_artifact(
         PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
         "prefix-parametric-compression",
     )
+    required_semantic_api = [
+        "checkNonIdParametricFamily",
+        "checkNonIdParametricFamily_sound",
+        "exhaustiveNonIdBadDirectionFamily_sound",
+        "exhaustiveNonIdBadPairBalanceFamily_sound",
+        "checkTranslationParametricFamily",
+        "checkTranslationParametricFamily_sound",
+        "exhaustiveTranslationBadDirectionFamily_sound",
+        "exhaustiveTranslationBadVectorFamily_sound",
+    ]
+    required_partition_api = [
+        "exhaustiveNonIdBadDirectionFamily_partition",
+        "exhaustiveNonIdBadPairBalanceFamily_partition",
+        "exhaustiveTranslationBadDirectionFamily_partition",
+        "exhaustiveTranslationBadVectorFamily_partition",
+    ]
     bad_vector_rank = 12_510_049
     bad_vector_mask = 37
     bad_vector_cert = build_translation_family_cert(
@@ -5103,6 +5307,8 @@ def build_parametric_family_checkers_payload() -> dict:
         raise ValueError("selected badTranslationVector sample is not zero")
     write_nonidentity_parametric_lean()
     write_translation_parametric_lean(bad_vector_cert)
+    write_nonidentity_partition_lean()
+    write_translation_partition_lean()
     write_all_generated()
     payload = {
         "schema_version": 1,
@@ -5112,20 +5318,47 @@ def build_parametric_family_checkers_payload() -> dict:
         "exhaustive_coverage_complete": False,
         "source": str(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)),
         "prefix_parametric_ready": prefix.get("decision", {}).get("ready_for_14E7") is True,
-        "required_api": [
-            "checkNonIdParametricFamily",
-            "checkNonIdParametricFamily_sound",
-            "exhaustiveNonIdBadDirectionFamily_sound",
-            "exhaustiveNonIdBadPairBalanceFamily_sound",
-            "checkTranslationParametricFamily",
-            "checkTranslationParametricFamily_sound",
-            "exhaustiveTranslationBadDirectionFamily_sound",
-            "exhaustiveTranslationBadVectorFamily_sound",
-        ],
+        "required_api": required_semantic_api,
         "generated_lean": {
             "nonidentity": path_status(NONIDENTITY_PARAMETRIC_LEAN_PATH),
             "translation": path_status(TRANSLATION_PARAMETRIC_LEAN_PATH),
+            "nonidentity_partition": path_status(NONIDENTITY_PARTITION_LEAN_PATH),
+            "translation_partition": path_status(TRANSLATION_PARTITION_LEAN_PATH),
             "all_generated": path_status(ALL_GENERATED_PATH),
+        },
+        "family_partition_witnesses": {
+            "complete": True,
+            "exhaustive_partition_complete": True,
+            "required_api": required_partition_api,
+            "source_counts": {
+                "nonidentity": prefix["nonidentity"]["failure_counts"],
+                "translation": prefix["translation"]["failure_counts"],
+            },
+            "generated_lean": {
+                "nonidentity": path_status(NONIDENTITY_PARTITION_LEAN_PATH),
+                "translation": path_status(TRANSLATION_PARTITION_LEAN_PATH),
+            },
+            "coverage_basis": (
+                "Lean classifier predicates over unrankPairWord and SignMask "
+                "derive the public family-cover predicates. Full fallback "
+                "coverage remains gated until Step 14E.7B emits residual and "
+                "Farkas evidence."
+            ),
+            "classification_samples": {
+                "nonidentity": [
+                    {"rank": 13, "expected": "badDirectionSign"},
+                    {"rank": 102, "expected": "badPairBalance"},
+                    {"rank": 12, "expected": "needsAxisSolveOrSimulation"},
+                ],
+                "translation": [
+                    {"rank": 0, "mask": 4, "expected": "badDirectionSign"},
+                    {
+                        "rank": bad_vector_rank,
+                        "mask": bad_vector_mask,
+                        "expected": "badTranslationVector",
+                    },
+                ],
+            },
         },
         "nonidentity": {
             "families": [
@@ -5184,7 +5417,8 @@ def build_parametric_family_checkers_payload() -> dict:
         },
         "notes": [
             "Generated samples prove the parametric checker API and representative family witnesses.",
-            "The exhaustive family semantic theorem names are compiled and exported; full rank/case partitioning remains gated.",
+            "The family partition theorem names are compiled and exported through classifier-backed witness modules.",
+            "The high-volume early-failure partition is complete; full fallback coverage remains gated until Step 14E.7B emits residual/Farkas evidence.",
             "This artifact does not claim complete exhaustive Lean coverage.",
         ],
     }

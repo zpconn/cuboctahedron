@@ -2026,15 +2026,172 @@ grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 
 passes with the exhaustive summary still gated.
 
+## Step 14E.7B2: Compressed Family Partition Witness
+
+Goal: prove, in Lean-checkable form, that the high-volume compressed
+parametric families from Step 14E.7B1 cover exactly the raw ranks/cases they
+claim to cover, so Step 14E.7B can emit a completed fallback manifest without
+treating profiler counts or representative samples as proof data.
+
+This is the missing bridge between “each compressed family is sound when a
+rank/case is known to be in it” and “every rank/case assigned to that family
+really is in it.” Do not mark exhaustive coverage complete until this step is
+done.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+Cuboctahedron/Generated/AllGenerated.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/parametric_family_checkers.json
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Add a compact, Lean-checkable partition witness format for the four
+  compressed high-volume families:
+  - nonidentity `badDirectionSign`;
+  - nonidentity `badPairBalance`;
+  - translation `badDirectionSign`;
+  - translation `badTranslationVector`.
+- The partition witness must be rank/mask semantic, not merely count-based.
+  For every covered rank/case it must let Lean derive one of:
+  - `NonIdBadDirectionFamilyCovers r`;
+  - `NonIdBadPairBalanceFamilyCovers r`;
+  - `TranslationBadDirectionFamilyCovers r mask`;
+  - `TranslationBadVectorFamilyCovers r mask`.
+- The witness may be a prefix tree, decision tree, interval tree with exact
+  classifier predicates, or another compact structure, but it must prove
+  coverage by kernel-checked definitions over `unrankPairWord r` and
+  `SignMask`, not by trusting C++/Python counts.
+- Add independent checker validation that rejects any completed exhaustive
+  summary unless:
+  - the family partition witness exists;
+  - its emitted counts match `prefix_parametric_compression.json`;
+  - representative sampled ranks/masks recompute to the same family;
+  - the Lean files expose the partition soundness theorem names.
+- Keep `scripts/generated/exhaustive_real_certs_summary.json` at
+  `complete = false` until this step and Step 14E.7B both have actual emitted
+  evidence.
+- Do not use `native_decide`, `axiom`, `sorry`, `admit`, `unsafe`, Float, or
+  numerical tolerances in Lean proof code.
+
+Done when equivalently named theorems compile:
+
+```lean
+#check exhaustiveNonIdBadDirectionFamily_partition
+#check exhaustiveNonIdBadPairBalanceFamily_partition
+#check exhaustiveTranslationBadDirectionFamily_partition
+#check exhaustiveTranslationBadVectorFamily_partition
+```
+
+and:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode parametric-family-checkers
+python3 scripts/check_certificates_independently.py --mode parametric-family-checkers
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes with the exhaustive summary still gated.
+
+## Step 14E.7B2A: Exhaustive Family Partition Emitter
+
+Goal: emit the actual compact, Lean-checkable partition data promised by
+Step 14E.7B2, so every raw rank/case assigned to a compressed family is covered
+by a kernel-checked witness rather than by profiler counts.
+
+This step is still smaller than the full generated fallback in Step 14E.7B. It
+does not need to emit every residual singleton certificate or every shared
+Farkas certificate. It must only emit the complete partition witnesses for the
+four high-volume compressed families:
+
+- nonidentity `badDirectionSign`;
+- nonidentity `badPairBalance`;
+- translation `badDirectionSign`;
+- translation `badTranslationVector`.
+
+Update:
+
+```text
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/Translation/
+Cuboctahedron/Generated/AllGenerated.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/parametric_family_checkers.json
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Extend the generated partition witness files from Step 14E.7B2 from
+  representative samples to exhaustive partition data.
+- The emitted partition data must be semantic over `unrankPairWord r` and
+  `SignMask`, not just a list of counts. For every partition-covered case Lean
+  must be able to derive the corresponding family-cover predicate:
+  - `NonIdBadDirectionFamilyCovers r`;
+  - `NonIdBadPairBalanceFamilyCovers r`;
+  - `TranslationBadDirectionFamilyCovers r mask`;
+  - `TranslationBadVectorFamilyCovers r mask`.
+- Use compact interval, prefix-tree, decision-tree, or classifier-backed data
+  as needed, but every classifier condition must be checked by Lean definitions
+  using exact arithmetic.
+- The independent checker must reject the artifact unless:
+  - emitted partition counts match `prefix_parametric_compression.json`;
+  - sampled ranks/masks recompute to the same partition family;
+  - the generated Lean files expose the four partition theorem names;
+  - no generated partition file contains `native_decide`, `axiom`, `sorry`,
+    `admit`, or `unsafe`.
+- `scripts/generated/exhaustive_real_certs_summary.json` must still have
+  `complete = false`, but the `family_partition` section must change to:
+
+```json
+{
+  "ready": true,
+  "exhaustive_partition_complete": true
+}
+```
+
+- Once this step is complete, the exhaustive summary should no longer list
+  `family_partition_exhaustive_data_not_emitted` as a refusal reason. It may
+  still refuse full completion because Step 14E.7B has not emitted residual and
+  Farkas fallback evidence yet.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode parametric-family-checkers
+python3 scripts/check_certificates_independently.py --mode parametric-family-checkers
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes, and `scripts/generated/exhaustive_real_certs_summary.json` records
+`family_partition.exhaustive_partition_complete = true` while keeping
+`complete = false`.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
 Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
-This step is the large-data generation step. Do not start it until Step 14E.7A
-Step 14E.7B0, and Step 14E.7B1 are complete, because every emitted rank must
-prove facts about the public `unrankPairWord` and every compressed family must
-have exhaustive Lean-checked soundness, not merely representative samples.
+This step is the large-data generation step. Do not start it until Step 14E.7A,
+Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, and Step 14E.7B2A are complete,
+because every emitted rank must prove facts about the public `unrankPairWord`,
+every compressed family must have exhaustive Lean-checked soundness, and every
+compressed-family partition must be Lean-checkable rather than merely
+count-based.
 
 Update:
 
@@ -2110,6 +2267,12 @@ Prerequisites:
 
 - Step 14E.7A is complete.
 - Step 14E.7B0 is complete if Step 14E.6D selected
+  `generated_lean_fallback`.
+- Step 14E.7B1 is complete if Step 14E.6D selected
+  `generated_lean_fallback`.
+- Step 14E.7B2 is complete if Step 14E.6D selected
+  `generated_lean_fallback`.
+- Step 14E.7B2A is complete if Step 14E.6D selected
   `generated_lean_fallback`.
 - Step 14E.7B is complete if Step 14E.6D selected `generated_lean_fallback`.
 - The compact semantic checker is complete if Step 14E.6D selected

@@ -1,8 +1,10 @@
 import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.NonIdentity.FamilySample
 import Cuboctahedron.Generated.NonIdentity.ParametricSample
+import Cuboctahedron.Generated.NonIdentity.FamilyPartition
 import Cuboctahedron.Generated.Translation.Chunk0000
 import Cuboctahedron.Generated.Translation.ParametricSample
+import Cuboctahedron.Generated.Translation.FamilyPartition
 import Cuboctahedron.Generated.CanonicalSample
 import Cuboctahedron.Generated.CanonicalCoverageManifest
 import Cuboctahedron.Generated.CompactPilot
@@ -33,6 +35,13 @@ theorem allGeneratedParametricCheck_true :
   rw [NonIdentity.checkParametricSamples_true,
     Translation.checkParametricSamples_true]
   rfl
+
+#check exhaustiveNonIdBadDirectionFamily_partition
+#check exhaustiveNonIdBadPairBalanceFamily_partition
+#check exhaustiveTranslationBadDirectionFamily_partition
+#check exhaustiveTranslationBadVectorFamily_partition
+#check NonIdentity.sampleFamilyPartition
+#check Translation.sampleFamilyPartition
 
 theorem nonidentityChunk_sound :
     List.Forall₂ NonIdRankCertificateCovered

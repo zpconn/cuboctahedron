@@ -60,6 +60,12 @@ NONIDENTITY_PARAMETRIC_LEAN_PATH = (
 TRANSLATION_PARAMETRIC_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "ParametricSample.lean"
 )
+NONIDENTITY_PARTITION_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilyPartition.lean"
+)
+TRANSLATION_PARTITION_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
+)
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -298,6 +304,31 @@ def lex_rank_pair_word(word):
             rank += multinomial_count(trial)
         remaining[current] -= 1
     return rank
+
+
+def pair_word_at_rank(rank):
+    if not 0 <= rank < EXPECTED_PAIR_WORDS:
+        raise ValueError(f"pair-word rank out of range: {rank}")
+    remaining = dict(PAIR_COUNTS)
+    word = []
+    rest = rank
+    for _pos in range(13):
+        for pair_id in PAIR_IDS:
+            if remaining[pair_id] == 0:
+                continue
+            trial = dict(remaining)
+            trial[pair_id] -= 1
+            block = multinomial_count(trial)
+            if rest < block:
+                word.append(pair_id)
+                remaining = trial
+                break
+            rest -= block
+        else:
+            raise ValueError(f"failed to unrank pair-word rank: {rank}")
+    require(rest == 0, f"unrank consumed rank {rank}")
+    require(valid_pair_word(word), f"unrank valid word {rank}")
+    return word
 
 
 def total_linear(word):
@@ -2246,6 +2277,39 @@ def check_exhaustive_real_certs_summary(payload):
         "parametric checker semantic API echoed",
     )
 
+    partition = payload["family_partition"]
+    required_partition_api = {
+        "exhaustiveNonIdBadDirectionFamily_partition",
+        "exhaustiveNonIdBadPairBalanceFamily_partition",
+        "exhaustiveTranslationBadDirectionFamily_partition",
+        "exhaustiveTranslationBadVectorFamily_partition",
+    }
+    require(partition["ready"] is True,
+            "exhaustive family partition witness ready")
+    require(partition["exhaustive_partition_complete"] is True,
+            "exhaustive family partition emitted")
+    require(set(partition["required_api"]) == required_partition_api,
+            "exhaustive family partition API")
+    require(
+        partition["source"]["path"]
+        == str(PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.relative_to(REPO_ROOT)),
+        "exhaustive family partition source",
+    )
+    require(partition["source"]["exists"] is True,
+            "exhaustive family partition source exists")
+    require(
+        set(parametric_family_payload["family_partition_witnesses"]["required_api"])
+        == required_partition_api,
+        "parametric checker partition API echoed",
+    )
+    for key, path in {
+        "nonidentity": NONIDENTITY_PARTITION_LEAN_PATH,
+        "translation": TRANSLATION_PARTITION_LEAN_PATH,
+    }.items():
+        require(partition["generated_lean"][key]["exists"] is True,
+                f"exhaustive partition Lean path exists {key}")
+        require(path.exists(), f"exhaustive partition Lean file exists {key}")
+
     budget = payload["budget"]
     require(budget["generated_data_budget_bytes"] >= 0, "exhaustive budget nonnegative")
     require(budget["required_free_bytes"] >= 0, "exhaustive required free nonnegative")
@@ -3078,19 +3142,25 @@ def check_parametric_family_checkers(payload):
     require(payload.get("prefix_parametric_ready") is prefix_summary["ready_for_14E7"],
             "parametric checker ready echo")
 
+    required_semantic_api = {
+        "checkNonIdParametricFamily",
+        "checkNonIdParametricFamily_sound",
+        "exhaustiveNonIdBadDirectionFamily_sound",
+        "exhaustiveNonIdBadPairBalanceFamily_sound",
+        "checkTranslationParametricFamily",
+        "checkTranslationParametricFamily_sound",
+        "exhaustiveTranslationBadDirectionFamily_sound",
+        "exhaustiveTranslationBadVectorFamily_sound",
+    }
+    required_partition_api = {
+        "exhaustiveNonIdBadDirectionFamily_partition",
+        "exhaustiveNonIdBadPairBalanceFamily_partition",
+        "exhaustiveTranslationBadDirectionFamily_partition",
+        "exhaustiveTranslationBadVectorFamily_partition",
+    }
     required_api = set(payload["required_api"])
     require(
-        required_api
-        == {
-            "checkNonIdParametricFamily",
-            "checkNonIdParametricFamily_sound",
-            "exhaustiveNonIdBadDirectionFamily_sound",
-            "exhaustiveNonIdBadPairBalanceFamily_sound",
-            "checkTranslationParametricFamily",
-            "checkTranslationParametricFamily_sound",
-            "exhaustiveTranslationBadDirectionFamily_sound",
-            "exhaustiveTranslationBadVectorFamily_sound",
-        },
+        required_api == required_semantic_api,
         "parametric checker required API set",
     )
 
@@ -3111,6 +3181,64 @@ def check_parametric_family_checkers(payload):
                 f"parametric coverage sound marker {key}")
         require("native_decide" not in text,
                 f"parametric Lean avoids native_decide {key}")
+
+    partition = payload["family_partition_witnesses"]
+    require(partition["complete"] is True,
+            "family partition witness complete flag")
+    require(partition["exhaustive_partition_complete"] is True,
+            "family partition exhaustive data emitted")
+    require(set(partition["required_api"]) == required_partition_api,
+            "family partition required API set")
+    require(
+        partition["source_counts"]["nonidentity"]
+        == prefix_payload["nonidentity"]["failure_counts"],
+        "family partition nonidentity counts match prefix",
+    )
+    require(
+        partition["source_counts"]["translation"]
+        == prefix_payload["translation"]["failure_counts"],
+        "family partition translation counts match prefix",
+    )
+
+    partition_paths = {
+        "nonidentity": NONIDENTITY_PARTITION_LEAN_PATH,
+        "translation": TRANSLATION_PARTITION_LEAN_PATH,
+    }
+    for key, path in partition_paths.items():
+        require(path.exists(), f"family partition Lean file exists {key}")
+        text = path.read_text(encoding="utf-8")
+        for symbol in required_partition_api:
+            if key == "nonidentity" and "Translation" in symbol:
+                continue
+            if key == "translation" and "NonId" in symbol:
+                continue
+            require(symbol in text,
+                    f"family partition Lean API marker {key} {symbol}")
+        require("sampleFamilyPartition" in text,
+                f"family partition sample witness marker {key}")
+        require("exhaustiveFamilyPartition" in text,
+                f"family partition exhaustive witness marker {key}")
+        require("native_decide" not in text,
+                f"family partition Lean avoids native_decide {key}")
+
+    samples = partition["classification_samples"]
+    for sample in samples["nonidentity"]:
+        rank = sample["rank"]
+        word = pair_word_at_rank(rank)
+        require(
+            exact_profile.recompute_nonidentity_failure(rank, word)
+            == sample["expected"],
+            f"family partition nonidentity sample {rank}",
+        )
+    for sample in samples["translation"]:
+        rank = sample["rank"]
+        mask = sample["mask"]
+        word = pair_word_at_rank(rank)
+        require(
+            exact_profile.recompute_translation_failure(rank, word, mask)
+            == sample["expected"],
+            f"family partition translation sample {rank}/{mask}",
+        )
 
     nonid_families = payload["nonidentity"]["families"]
     require(

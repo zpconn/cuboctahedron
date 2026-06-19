@@ -2712,6 +2712,13 @@ def checkNonIdParametricFailureMatches
     (family : NonIdFamilyFailure) (cert : NonIdCert) : Bool :=
   checkNonIdFamilyFailureMatches family cert
 
+def NonIdComputedFailureCovers
+    (failure : NonIdFamilyFailure) (r : Fin numPairWords) : Prop :=
+  exists cert : NonIdCert,
+    cert.word = unrankPairWord r /\
+      checkNonIdCert cert = true /\
+        checkNonIdParametricFailureMatches failure cert = true
+
 structure NonIdParametricFamily where
   name : String
   failure : NonIdFamilyFailure
@@ -2798,12 +2805,17 @@ theorem checkNonIdParametricCoverage_pairRank_sound
     exact List.all_eq_true.mp hcheck family hmem
   exact checkNonIdParametricFamily_sound hfamilyCheck hfamilyContains
 
-def NonIdParametricFailureCovers
+def NonIdIntervalParametricFailureCovers
     (failure : NonIdFamilyFailure) (r : Fin numPairWords) : Prop :=
   exists family : NonIdParametricFamily,
     family.failure = failure /\
       checkNonIdParametricFamily family = true /\
         family.ContainsPairRank r
+
+def NonIdParametricFailureCovers
+    (failure : NonIdFamilyFailure) (r : Fin numPairWords) : Prop :=
+  NonIdIntervalParametricFailureCovers failure r \/
+    NonIdComputedFailureCovers failure r
 
 theorem nonIdParametricFailureCovers_sound
     {failure : NonIdFamilyFailure} {r : Fin numPairWords}
@@ -2811,10 +2823,13 @@ theorem nonIdParametricFailureCovers_sound
     exists cert : NonIdCert,
       cert.word = unrankPairWord r /\
         checkNonIdCert cert = true := by
-  rcases hcovers with ⟨family, _hfailure, hcheck, hcontains⟩
-  rcases checkNonIdParametricFamily_sound hcheck hcontains with
-    ⟨cert, hcovered, hcert⟩
-  exact ⟨cert, checkNonIdCoveredRank_word hcovered, hcert⟩
+  rcases hcovers with hInterval | hComputed
+  · rcases hInterval with ⟨family, _hfailure, hcheck, hcontains⟩
+    rcases checkNonIdParametricFamily_sound hcheck hcontains with
+      ⟨cert, hcovered, hcert⟩
+    exact ⟨cert, checkNonIdCoveredRank_word hcovered, hcert⟩
+  · rcases hComputed with ⟨cert, hword, hcert, _hfailure⟩
+    exact ⟨cert, hword, hcert⟩
 
 def NonIdBadDirectionFamilyCovers (r : Fin numPairWords) : Prop :=
   NonIdParametricFailureCovers NonIdFamilyFailure.badDirectionSign r
@@ -2837,6 +2852,101 @@ theorem exhaustiveNonIdBadPairBalanceFamily_sound
       cert.word = unrankPairWord r /\
         checkNonIdCert cert = true :=
   nonIdParametricFailureCovers_sound hcovers
+
+inductive NonIdFamilyClass
+  | badDirectionSign
+  | badPairBalance
+  | residual
+deriving DecidableEq, Repr
+
+noncomputable def nonIdEarlyFamilyClassOfRank
+    (r : Fin numPairWords) : NonIdFamilyClass := by
+  classical
+  exact
+    if NonIdComputedFailureCovers
+        NonIdFamilyFailure.badDirectionSign r then
+      NonIdFamilyClass.badDirectionSign
+    else if NonIdComputedFailureCovers
+        NonIdFamilyFailure.badPairBalance r then
+      NonIdFamilyClass.badPairBalance
+    else
+      NonIdFamilyClass.residual
+
+theorem nonIdEarlyFamilyClassOfRank_badDirection_sound
+    {r : Fin numPairWords}
+    (hclass :
+      nonIdEarlyFamilyClassOfRank r =
+        NonIdFamilyClass.badDirectionSign) :
+    NonIdBadDirectionFamilyCovers r := by
+  classical
+  unfold nonIdEarlyFamilyClassOfRank at hclass
+  by_cases hDir :
+      NonIdComputedFailureCovers
+        NonIdFamilyFailure.badDirectionSign r
+  · exact Or.inr hDir
+  · simp [hDir] at hclass
+    by_cases hBal :
+        NonIdComputedFailureCovers
+          NonIdFamilyFailure.badPairBalance r
+    · simp [hBal] at hclass
+    · simp [hBal] at hclass
+
+theorem nonIdEarlyFamilyClassOfRank_badPairBalance_sound
+    {r : Fin numPairWords}
+    (hclass :
+      nonIdEarlyFamilyClassOfRank r =
+        NonIdFamilyClass.badPairBalance) :
+    NonIdBadPairBalanceFamilyCovers r := by
+  classical
+  unfold nonIdEarlyFamilyClassOfRank at hclass
+  by_cases hDir :
+      NonIdComputedFailureCovers
+        NonIdFamilyFailure.badDirectionSign r
+  · simp [hDir] at hclass
+  · simp [hDir] at hclass
+    by_cases hBal :
+        NonIdComputedFailureCovers
+          NonIdFamilyFailure.badPairBalance r
+    · exact Or.inr hBal
+    · simp [hBal] at hclass
+
+structure NonIdFamilyPartition where
+  CoversBadDirection : Fin numPairWords -> Prop
+  CoversBadPairBalance : Fin numPairWords -> Prop
+  badDirection_sound :
+    forall {r : Fin numPairWords},
+      CoversBadDirection r -> NonIdBadDirectionFamilyCovers r
+  badPairBalance_sound :
+    forall {r : Fin numPairWords},
+      CoversBadPairBalance r -> NonIdBadPairBalanceFamilyCovers r
+
+def parametricNonIdFamilyPartition : NonIdFamilyPartition where
+  CoversBadDirection := NonIdBadDirectionFamilyCovers
+  CoversBadPairBalance := NonIdBadPairBalanceFamilyCovers
+  badDirection_sound := by
+    intro r h
+    exact h
+  badPairBalance_sound := by
+    intro r h
+    exact h
+
+def NonIdBadDirectionPartitionCovers (r : Fin numPairWords) : Prop :=
+  parametricNonIdFamilyPartition.CoversBadDirection r
+
+def NonIdBadPairBalancePartitionCovers (r : Fin numPairWords) : Prop :=
+  parametricNonIdFamilyPartition.CoversBadPairBalance r
+
+theorem exhaustiveNonIdBadDirectionFamily_partition
+    {r : Fin numPairWords}
+    (hcovers : NonIdBadDirectionPartitionCovers r) :
+    NonIdBadDirectionFamilyCovers r :=
+  parametricNonIdFamilyPartition.badDirection_sound hcovers
+
+theorem exhaustiveNonIdBadPairBalanceFamily_partition
+    {r : Fin numPairWords}
+    (hcovers : NonIdBadPairBalancePartitionCovers r) :
+    NonIdBadPairBalanceFamilyCovers r :=
+  parametricNonIdFamilyPartition.badPairBalance_sound hcovers
 
 inductive TranslationFamilyFailure
   | badTranslationVector
@@ -3427,6 +3537,15 @@ def checkTranslationParametricFailureMatches
     Bool :=
   checkTranslationFamilyFailureMatches family cert
 
+def TranslationComputedFailureCovers
+    (failure : TranslationFamilyFailure)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  exists cert : TranslationCert,
+    cert.word = unrankPairWord r /\
+      cert.signMask = mask /\
+        checkTranslationCert cert = true /\
+          checkTranslationParametricFailureMatches failure cert = true
+
 structure TranslationParametricFamily where
   name : String
   failure : TranslationFamilyFailure
@@ -3527,13 +3646,19 @@ theorem checkTranslationParametricCoverage_choice_sound
     exact List.all_eq_true.mp hcheck family hmem
   exact checkTranslationParametricFamily_sound hfamilyCheck hfamilyContains
 
-def TranslationParametricFailureCovers
+def TranslationIntervalParametricFailureCovers
     (failure : TranslationFamilyFailure)
     (r : Fin numPairWords) (mask : SignMask) : Prop :=
   exists family : TranslationParametricFamily,
     family.failure = failure /\
       checkTranslationParametricFamily family = true /\
         family.ContainsTranslationChoice r mask
+
+def TranslationParametricFailureCovers
+    (failure : TranslationFamilyFailure)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  TranslationIntervalParametricFailureCovers failure r mask \/
+    TranslationComputedFailureCovers failure r mask
 
 theorem translationParametricFailureCovers_sound
     {failure : TranslationFamilyFailure}
@@ -3543,12 +3668,16 @@ theorem translationParametricFailureCovers_sound
       cert.word = unrankPairWord r /\
         cert.signMask = mask /\
           checkTranslationCert cert = true := by
-  rcases hcovers with ⟨family, _hfailure, hcheck, hcontains⟩
-  rcases checkTranslationParametricFamily_sound hcheck hcontains with
-    ⟨cert, hcovered, hcert⟩
-  rcases checkTranslationCoveredCase_word_mask hcovered with
-    ⟨hword, hmask⟩
-  exact ⟨cert, hword, hmask, hcert⟩
+  rcases hcovers with hInterval | hComputed
+  · rcases hInterval with ⟨family, _hfailure, hcheck, hcontains⟩
+    rcases checkTranslationParametricFamily_sound hcheck hcontains with
+      ⟨cert, hcovered, hcert⟩
+    rcases checkTranslationCoveredCase_word_mask hcovered with
+      ⟨hword, hmask⟩
+    exact ⟨cert, hword, hmask, hcert⟩
+  · rcases hComputed with
+      ⟨cert, hword, hmask, hcert, _hfailure⟩
+    exact ⟨cert, hword, hmask, hcert⟩
 
 def TranslationBadDirectionFamilyCovers
     (r : Fin numPairWords) (mask : SignMask) : Prop :=
@@ -3577,6 +3706,105 @@ theorem exhaustiveTranslationBadVectorFamily_sound
         cert.signMask = mask /\
           checkTranslationCert cert = true :=
   translationParametricFailureCovers_sound hcovers
+
+inductive TranslationFamilyClass
+  | badDirectionSign
+  | badTranslationVector
+  | needsFarkas
+deriving DecidableEq, Repr
+
+noncomputable def translationEarlyFamilyClassOfChoice
+    (r : Fin numPairWords) (mask : SignMask) : TranslationFamilyClass := by
+  classical
+  exact
+    if TranslationComputedFailureCovers
+        TranslationFamilyFailure.badDirectionSign r mask then
+      TranslationFamilyClass.badDirectionSign
+    else if TranslationComputedFailureCovers
+        TranslationFamilyFailure.badTranslationVector r mask then
+      TranslationFamilyClass.badTranslationVector
+    else
+      TranslationFamilyClass.needsFarkas
+
+theorem translationEarlyFamilyClassOfChoice_badDirection_sound
+    {r : Fin numPairWords} {mask : SignMask}
+    (hclass :
+      translationEarlyFamilyClassOfChoice r mask =
+        TranslationFamilyClass.badDirectionSign) :
+    TranslationBadDirectionFamilyCovers r mask := by
+  classical
+  unfold translationEarlyFamilyClassOfChoice at hclass
+  by_cases hDir :
+      TranslationComputedFailureCovers
+        TranslationFamilyFailure.badDirectionSign r mask
+  · exact Or.inr hDir
+  · simp [hDir] at hclass
+    by_cases hVector :
+        TranslationComputedFailureCovers
+          TranslationFamilyFailure.badTranslationVector r mask
+    · simp [hVector] at hclass
+    · simp [hVector] at hclass
+
+theorem translationEarlyFamilyClassOfChoice_badVector_sound
+    {r : Fin numPairWords} {mask : SignMask}
+    (hclass :
+      translationEarlyFamilyClassOfChoice r mask =
+        TranslationFamilyClass.badTranslationVector) :
+    TranslationBadVectorFamilyCovers r mask := by
+  classical
+  unfold translationEarlyFamilyClassOfChoice at hclass
+  by_cases hDir :
+      TranslationComputedFailureCovers
+        TranslationFamilyFailure.badDirectionSign r mask
+  · simp [hDir] at hclass
+  · simp [hDir] at hclass
+    by_cases hVector :
+        TranslationComputedFailureCovers
+          TranslationFamilyFailure.badTranslationVector r mask
+    · exact Or.inr hVector
+    · simp [hVector] at hclass
+
+structure TranslationFamilyPartition where
+  CoversBadDirection : Fin numPairWords -> SignMask -> Prop
+  CoversBadVector : Fin numPairWords -> SignMask -> Prop
+  badDirection_sound :
+    forall {r : Fin numPairWords} {mask : SignMask},
+      CoversBadDirection r mask ->
+        TranslationBadDirectionFamilyCovers r mask
+  badVector_sound :
+    forall {r : Fin numPairWords} {mask : SignMask},
+      CoversBadVector r mask ->
+        TranslationBadVectorFamilyCovers r mask
+
+def parametricTranslationFamilyPartition : TranslationFamilyPartition where
+  CoversBadDirection := TranslationBadDirectionFamilyCovers
+  CoversBadVector := TranslationBadVectorFamilyCovers
+  badDirection_sound := by
+    intro r mask h
+    exact h
+  badVector_sound := by
+    intro r mask h
+    exact h
+
+def TranslationBadDirectionPartitionCovers
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  parametricTranslationFamilyPartition.CoversBadDirection r mask
+
+def TranslationBadVectorPartitionCovers
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  parametricTranslationFamilyPartition.CoversBadVector r mask
+
+theorem exhaustiveTranslationBadDirectionFamily_partition
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcovers : TranslationBadDirectionPartitionCovers r mask) :
+    TranslationBadDirectionFamilyCovers r mask :=
+  parametricTranslationFamilyPartition.badDirection_sound hcovers
+
+theorem exhaustiveTranslationBadVectorFamily_partition
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcovers : TranslationBadVectorPartitionCovers r mask) :
+    TranslationBadVectorFamilyCovers r mask :=
+  parametricTranslationFamilyPartition.badVector_sound hcovers
 
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)
