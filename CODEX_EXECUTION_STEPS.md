@@ -1955,15 +1955,86 @@ This completes the checker layer and representative family evidence for
 Step 14E.7B0. It deliberately does not mark exhaustive coverage complete;
 Step 14E.7B must still emit or otherwise provide the full witness.
 
+## Step 14E.7B1: Exhaustive Parametric Family Semantics
+
+Goal: turn the Step 14E.7B0 representative parametric-family checker layer into
+actual exhaustive Lean semantics for every rank/case covered by the high-volume
+compressed families.
+
+This is required before Step 14E.7B can honestly emit the generated Lean
+fallback. `ExhaustiveGeneratedCoverage` requires a checked `NonIdCert` or
+`TranslationCert`, or an equivalently strong obstruction theorem, for every
+covered rank/case. The current prefix-parametric JSON contains counts and
+representative samples only; those are not proof data.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Generated/NonIdentity/ParametricSample.lean
+Cuboctahedron/Generated/Translation/ParametricSample.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/parametric_family_checkers.json
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Add Lean predicates or certificates that characterize the full compressed
+  families, not just sample intervals:
+  - nonidentity `badDirectionSign`;
+  - nonidentity `badPairBalance`;
+  - translation `badDirectionSign`;
+  - translation `badTranslationVector`.
+- For each family, prove a soundness theorem whose conclusion is strong enough
+  to satisfy `ExhaustiveGeneratedCoverage` without emitting one singleton
+  certificate per raw case. Acceptable conclusions are:
+  - `∃ cert, cert.word = unrankPairWord r ∧ checkNonIdCert cert = true`;
+  - `∃ cert, cert.word = unrankPairWord r ∧ cert.signMask = mask ∧
+      checkTranslationCert cert = true`;
+  - or a refactored `ExhaustiveGeneratedCoverage` field with equivalent
+    downstream strength for `generated_nonidentity_complete_of_coverage` and
+    `generated_translation_complete_of_coverage`.
+- The generator may compute exact family witnesses externally, but Lean must
+  check the family predicates and the coverage theorem.
+- The independent checker must reject any `complete = true` exhaustive summary
+  unless these exhaustive family semantics are present and referenced.
+- Keep `scripts/generated/exhaustive_real_certs_summary.json` at
+  `complete = false` until this step and Step 14E.7B both have actual emitted
+  evidence.
+- Do not use `native_decide`, `axiom`, `sorry`, `admit`, `unsafe`, Float, or
+  numerical tolerances in Lean proof code.
+
+Done when:
+
+```lean
+#check exhaustiveNonIdBadDirectionFamily_sound
+#check exhaustiveNonIdBadPairBalanceFamily_sound
+#check exhaustiveTranslationBadDirectionFamily_sound
+#check exhaustiveTranslationBadVectorFamily_sound
+```
+
+or equivalently named theorems compile, and:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode parametric-family-checkers
+python3 scripts/check_certificates_independently.py --mode parametric-family-checkers
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes with the exhaustive summary still gated.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
 Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
 This step is the large-data generation step. Do not start it until Step 14E.7A
-and Step 14E.7B0 are complete, because every emitted rank must prove facts
-about the public `unrankPairWord` and every compressed family must have a
-Lean-checked soundness theorem.
+Step 14E.7B0, and Step 14E.7B1 are complete, because every emitted rank must
+prove facts about the public `unrankPairWord` and every compressed family must
+have exhaustive Lean-checked soundness, not merely representative samples.
 
 Update:
 
