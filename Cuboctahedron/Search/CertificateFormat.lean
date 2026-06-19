@@ -175,4 +175,85 @@ theorem checkCompactNonIdResiduals_sound
   intro cert hmem
   exact checkCompactNonIdResidual_sound cert (hcheck cert hmem)
 
+/-!
+Compact translation Farkas certificates.
+
+These records are the translation analogue of compact residual certificates:
+the blob only stores the ranked pair-word, sign mask, and a source-indexed
+Farkas certificate. Lean reconstructs the ordinary `TranslationCert` from the
+ranking functions and checks it with the existing trusted checker.
+-/
+
+structure CompactTranslationFarkasCert where
+  rank : Fin numPairWords
+  mask : SignMask
+  sourceFarkas : SourceFarkasCert
+deriving DecidableEq, Repr
+
+noncomputable def CompactTranslationFarkasCert.toTranslationCert
+    (cert : CompactTranslationFarkasCert) : TranslationCert where
+  word := unrankPairWord cert.rank
+  signMask := cert.mask
+  seq := Vector.ofFn (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)
+  b := translationVectorOfChoice (unrankPairWord cert.rank) cert.mask
+  failure := TranslationFailure.sourceFarkas cert.sourceFarkas
+
+def CompactTranslationFarkasCovered
+    (cert : CompactTranslationFarkasCert) : Prop :=
+  exists ordinary : TranslationCert,
+    ordinary.word = unrankPairWord cert.rank /\
+      ordinary.signMask = cert.mask /\
+        checkTranslationCert ordinary = true
+
+noncomputable def checkCompactTranslationFarkas
+    (cert : CompactTranslationFarkasCert) : Bool :=
+  (checkTranslationCoveredCase
+      { pairRank := cert.rank.val, signMask := cert.mask.val }
+      cert.toTranslationCert &&
+    decide
+      (translationEarlyFamilyClassOfChoice cert.rank cert.mask =
+        TranslationFamilyClass.needsFarkas)) &&
+    checkTranslationCert cert.toTranslationCert
+
+noncomputable def checkCompactTranslationFarkasCerts
+    (certs : Array CompactTranslationFarkasCert) : Bool :=
+  certs.toList.all checkCompactTranslationFarkas
+
+theorem checkCompactTranslationFarkas_sound
+    (cert : CompactTranslationFarkasCert)
+    (hcheck : checkCompactTranslationFarkas cert = true) :
+    CompactTranslationFarkasCovered cert := by
+  unfold checkCompactTranslationFarkas at hcheck
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hleft, hcert⟩
+  rw [Bool.and_eq_true] at hleft
+  rcases hleft with ⟨hcovered, _hNeedsFarkas⟩
+  have hwordMask :=
+    checkTranslationCoveredCase_word_mask
+      (r := cert.rank) (mask := cert.mask)
+      (cert := cert.toTranslationCert) hcovered
+  exact ⟨cert.toTranslationCert, hwordMask.1, hwordMask.2, hcert⟩
+
+theorem checkCompactTranslationFarkas_no_feasible
+    (cert : CompactTranslationFarkasCert)
+    (hcheck : checkCompactTranslationFarkas cert = true) :
+    ¬ exists seq,
+      SeqRealizesTranslationChoice (unrankPairWord cert.rank) cert.mask seq /\
+        totalLinear seq = (matId : Mat3 Rat) /\
+        UnfoldedFeasible seq := by
+  have hcovered := checkCompactTranslationFarkas_sound cert hcheck
+  rcases hcovered with ⟨ordinary, hword, hmask, hcert⟩
+  intro hbad
+  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
+  exact checkTranslationCert_sound ordinary hcert
+    ⟨seq, by simpa [hword, hmask] using hRealize, hLinear, hFeasible⟩
+
+theorem checkCompactTranslationFarkasCerts_sound
+    {certs : List CompactTranslationFarkasCert}
+    (hcheck : certs.all checkCompactTranslationFarkas = true) :
+    forall cert, cert ∈ certs -> CompactTranslationFarkasCovered cert := by
+  rw [List.all_eq_true] at hcheck
+  intro cert hmem
+  exact checkCompactTranslationFarkas_sound cert (hcheck cert hmem)
+
 end Cuboctahedron

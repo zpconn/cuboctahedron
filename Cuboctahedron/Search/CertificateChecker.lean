@@ -92,4 +92,34 @@ theorem checkPackedResidualCerts_sound
         checkNonIdCoveredRank_word (r := cert.rank) hcovered.1,
         hcovered.2⟩
 
+noncomputable def checkPackedTranslationFarkasCerts (blob : String) : Bool :=
+  match decodePackedTranslationFarkasCerts blob with
+  | .ok certs => checkCompactTranslationFarkasCerts certs
+  | .error _ => false
+
+theorem checkPackedTranslationFarkasCerts_sound
+    (blob : String)
+    (hcheck : checkPackedTranslationFarkasCerts blob = true) :
+    forall cert,
+      cert ∈ (decodedPackedTranslationFarkasCerts blob).toList ->
+        exists ordinary : TranslationCert,
+            ordinary.word = unrankPairWord cert.rank /\
+              ordinary.signMask = cert.mask /\
+                checkTranslationCert ordinary = true := by
+  unfold checkPackedTranslationFarkasCerts at hcheck
+  cases hdecode : decodePackedTranslationFarkasCerts blob with
+  | error err =>
+      simp [hdecode] at hcheck
+  | ok certs =>
+      simp [hdecode] at hcheck
+      have hcheckList :
+          certs.toList.all checkCompactTranslationFarkas = true := by
+        simpa [checkCompactTranslationFarkasCerts] using hcheck
+      intro cert hmem
+      have hmemList : cert ∈ certs.toList := by
+        simpa [decodedPackedTranslationFarkasCerts, hdecode] using hmem
+      exact
+        (checkCompactTranslationFarkasCerts_sound
+          (certs := certs.toList) hcheckList) cert hmemList
+
 end Cuboctahedron

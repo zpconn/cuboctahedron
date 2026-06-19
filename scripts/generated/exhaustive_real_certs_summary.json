@@ -6,8 +6,8 @@
     "translation_sign_assignments": 157957632
   },
   "budget": {
-    "free_bytes": 867316969472,
-    "free_gib": 807.7518730163574,
+    "free_bytes": 867312623616,
+    "free_gib": 807.7478256225586,
     "generated_data_budget_bytes": 8589934592,
     "generated_data_budget_gib": 8.0,
     "required_free_bytes": 107374182400,
@@ -101,14 +101,13 @@
     "large_emission_ready": true,
     "manifest": null,
     "performed": false,
-    "refusal_reasons": [
-      "generated_lean_fallback_emitter_not_implemented"
-    ],
-    "requested": true,
-    "status": "approved_but_full_emitter_not_implemented"
+    "refusal_reasons": [],
+    "requested": false,
+    "status": "ready_but_approval_required"
   },
   "implementation_preflight": {
     "bytes_per_residual_template": 162,
+    "bytes_per_translation_farkas_cert_proxy": 96,
     "compact_residual_projection": null,
     "hard_max_file_bytes": 52428800,
     "hard_total_source_bytes": 1342177280,
@@ -135,8 +134,9 @@
       "wrapper_bytes_per_chunk": 4096
     },
     "projected_residual_source_bytes": 330426112,
-    "projected_total_source_bytes": 330426112,
-    "projected_total_source_gib": 0.30773329734802246,
+    "projected_total_source_bytes": 928041472,
+    "projected_total_source_gib": 0.8643059730529785,
+    "projected_translation_source_bytes": 597615360,
     "projection_model": "packed_residual_certificates",
     "refusal_reasons": [],
     "residual_singleton_cases": 2038656,
@@ -145,6 +145,7 @@
     "size_safe": true,
     "strategy": "generated_lean_fallback",
     "target_chunk_bytes": 8388608,
+    "translation_shared_farkas_cases": 6225160,
     "translation_shared_farkas_shapes": 20298
   },
   "mode": "exhaustive-real-certs",

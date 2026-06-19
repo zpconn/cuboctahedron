@@ -376,6 +376,22 @@ def readImpact15 (bytes : List Nat) :
     else
       .error DecodeError.invalidEnumTag
 
+def readFin4 (bytes : List Nat) :
+    Except DecodeError (Fin 4 × List Nat) :=
+  bindExcept (readVarint bytes) fun (value, bytes) =>
+    if h : value < 4 then
+      .ok (⟨value, h⟩, bytes)
+    else
+      .error DecodeError.invalidEnumTag
+
+def readSignMask (bytes : List Nat) :
+    Except DecodeError (SignMask × List Nat) :=
+  bindExcept (readVarint bytes) fun (value, bytes) =>
+    if h : value < numSignMasks then
+      .ok (⟨value, h⟩, bytes)
+    else
+      .error DecodeError.invalidEnumTag
+
 def readCompactResidualFailure (bytes : List Nat) :
     Except DecodeError (CompactNonIdResidualFailure × List Nat) :=
   bindExcept (readVarint bytes) fun (tag, bytes) =>
@@ -466,6 +482,110 @@ def decodePackedResidualCerts
     (text : String) : Except DecodeError (Array CompactNonIdResidualCert) :=
   bindExcept (decodeBase64 text) parsePackedResidualBytes
 
+def readTranslationConstraintSource (bytes : List Nat) :
+    Except DecodeError (TranslationConstraintSource × List Nat) :=
+  bindExcept (readVarint bytes) fun (tag, bytes) =>
+    match tag with
+    | 0 =>
+        bindExcept (readFin4 bytes) fun (i, bytes) =>
+          .ok (TranslationConstraintSource.xpStart i, bytes)
+    | 1 =>
+        bindExcept (readStep14 bytes) fun (i, bytes) =>
+          .ok (TranslationConstraintSource.ordering i, bytes)
+    | 2 =>
+        bindExcept (readImpact15 bytes) fun (i, bytes) =>
+          bindExcept (readFace bytes) fun (g, bytes) =>
+            .ok (TranslationConstraintSource.interior i g, bytes)
+    | _ => .error DecodeError.invalidEnumTag
+
+def readSourceFarkasTerm (bytes : List Nat) :
+    Except DecodeError (SourceFarkasTerm × List Nat) :=
+  bindExcept (readTranslationConstraintSource bytes) fun (source, bytes) =>
+    bindExcept (readRatValue bytes) fun (multiplier, bytes) =>
+      .ok ({ source := source, multiplier := multiplier }, bytes)
+
+def readSourceFarkasTerms :
+    Nat -> List Nat ->
+      Except DecodeError (List SourceFarkasTerm × List Nat)
+  | 0, bytes => .ok ([], bytes)
+  | n + 1, bytes =>
+      bindExcept (readSourceFarkasTerm bytes) fun (term, bytes) =>
+        bindExcept (readSourceFarkasTerms n bytes) fun (terms, bytes) =>
+          .ok (term :: terms, bytes)
+
+def readSourceFarkasCert (bytes : List Nat) :
+    Except DecodeError (SourceFarkasCert × List Nat) :=
+  bindExcept (readVarint bytes) fun (count, bytes) =>
+    bindExcept (readSourceFarkasTerms count bytes) fun (terms, bytes) =>
+      .ok ({ terms := terms }, bytes)
+
+def readCompactTranslationFarkasCert (bytes : List Nat) :
+    Except DecodeError (CompactTranslationFarkasCert × List Nat) :=
+  bindExcept (readVarint bytes) fun (rank, bytes) =>
+    bindExcept
+      (if h : rank < numPairWords then
+        .ok (⟨rank, h⟩ : Fin numPairWords)
+      else
+        .error DecodeError.rankOutOfBounds)
+      fun rank =>
+        bindExcept (readSignMask bytes) fun (mask, bytes) =>
+          bindExcept (readSourceFarkasCert bytes) fun (sourceFarkas, bytes) =>
+            .ok ({
+              rank := rank
+              mask := mask
+              sourceFarkas := sourceFarkas
+            }, bytes)
+
+def readCompactTranslationFarkasCerts :
+    Nat -> List Nat ->
+      Except DecodeError (List CompactTranslationFarkasCert × List Nat)
+  | 0, bytes => .ok ([], bytes)
+  | n + 1, bytes =>
+      bindExcept (readCompactTranslationFarkasCert bytes)
+        fun (cert, bytes) =>
+          bindExcept (readCompactTranslationFarkasCerts n bytes)
+            fun (certs, bytes) =>
+              .ok (cert :: certs, bytes)
+
+def parseCompactTranslationFarkasCertsSection
+    (bytes : List Nat) :
+    Except DecodeError (Array CompactTranslationFarkasCert) :=
+  bindExcept (readVarint bytes) fun (count, bytes) =>
+    bindExcept (readCompactTranslationFarkasCerts count bytes)
+      fun (certs, rest) =>
+        if rest = [] then .ok certs.toArray else .error DecodeError.trailingInput
+
+def parsePackedTranslationFarkasBytes
+    (bytes : List Nat) :
+    Except DecodeError (Array CompactTranslationFarkasCert) :=
+  match bytes with
+  | 67 :: 79 :: 84 :: 70 :: version :: rest =>
+      if version = 1 then
+        bindExcept (readVarint rest) fun (sectionCount, rest) =>
+          bindExcept (readSectionHeaders sectionCount rest) fun (headers, rest) =>
+            if sectionIdsUnique headers then
+              bindExcept (readSectionPayloads headers rest) fun sections =>
+                bindExcept (lookupSection 1 sections) fun metadataBytes =>
+                  bindExcept (parseNatArraySection metadataBytes) fun metadata =>
+                    bindExcept (lookupSection 2 sections) fun certBytes =>
+                      bindExcept
+                        (parseCompactTranslationFarkasCertsSection certBytes)
+                        fun certs =>
+                          if metadata.size = 2 ∧ metadata[0]! = certs.size then
+                            .ok certs
+                          else
+                            .error DecodeError.countMismatch
+            else
+              .error DecodeError.duplicateSection
+      else
+        .error DecodeError.badVersion
+  | _ => .error DecodeError.badMagic
+
+def decodePackedTranslationFarkasCerts
+    (text : String) :
+    Except DecodeError (Array CompactTranslationFarkasCert) :=
+  bindExcept (decodeBase64 text) parsePackedTranslationFarkasBytes
+
 attribute [reducible]
   base64Char?
   decodeBase64Chars
@@ -494,16 +614,33 @@ attribute [reducible]
   readMat4Rat
   readStep14
   readImpact15
+  readFin4
+  readSignMask
   readCompactResidualFailure
   readCompactResidualCert
   readCompactResidualCerts
   parseCompactResidualCertsSection
   parsePackedResidualBytes
   decodePackedResidualCerts
+  readTranslationConstraintSource
+  readSourceFarkasTerm
+  readSourceFarkasTerms
+  readSourceFarkasCert
+  readCompactTranslationFarkasCert
+  readCompactTranslationFarkasCerts
+  parseCompactTranslationFarkasCertsSection
+  parsePackedTranslationFarkasBytes
+  decodePackedTranslationFarkasCerts
 
 noncomputable def decodedPackedResidualCerts
     (text : String) : Array CompactNonIdResidualCert :=
   match decodePackedResidualCerts text with
+  | .ok certs => certs
+  | .error _ => #[]
+
+noncomputable def decodedPackedTranslationFarkasCerts
+    (text : String) : Array CompactTranslationFarkasCert :=
+  match decodePackedTranslationFarkasCerts text with
   | .ok certs => certs
   | .error _ => #[]
 

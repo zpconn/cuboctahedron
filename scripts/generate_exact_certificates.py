@@ -112,6 +112,8 @@ CERTS_DIR = REPO_ROOT / "certs"
 COMPACT_CERT_SAMPLE_BLOB_PATH = CERTS_DIR / "compact_cert_sample.b64"
 COMPACT_CERT_PILOT_BLOB_PATH = CERTS_DIR / "compact_cert_pilot.b64"
 PACKED_RESIDUAL_PILOT_BLOB_PATH = CERTS_DIR / "packed_residual_pilot.b64"
+FULL_NONIDENTITY_RESIDUAL_BLOB_DIR = CERTS_DIR / "nonidentity_residual"
+FULL_TRANSLATION_FARKAS_BLOB_DIR = CERTS_DIR / "translation_farkas"
 COMPACT_CERT_SAMPLE_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_cert_sample.json"
 )
@@ -2455,6 +2457,12 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.CanonicalCoverageManifest",
         "import Cuboctahedron.Generated.CompactPilot",
         "import Cuboctahedron.Generated.CoverageTreeSample",
+    ]
+    if NONIDENTITY_RESIDUAL_ALL_PATH.exists():
+        lines.append("import Cuboctahedron.Generated.NonIdentity.Residual.All")
+    if TRANSLATION_FARKAS_ALL_PATH.exists():
+        lines.append("import Cuboctahedron.Generated.Translation.Farkas.All")
+    lines.extend([
         "",
         "/-!",
         "Aggregate import for generated Step 14C/14E real-certificate sample chunks.",
@@ -2520,7 +2528,7 @@ def write_all_generated() -> None:
         "",
         "end Cuboctahedron.Generated",
         "",
-    ]
+    ])
     ALL_GENERATED_PATH.parent.mkdir(parents=True, exist_ok=True)
     ALL_GENERATED_PATH.write_text("\n".join(lines), encoding="utf-8")
 
@@ -4599,6 +4607,10 @@ def generated_files_record(paths: Iterable[Path]) -> list[dict]:
     return [generated_file_record(path) for path in paths]
 
 
+def relative_path(path: Path) -> str:
+    return str(path.relative_to(REPO_ROOT))
+
+
 def load_json_artifact(path: Path, expected_mode: str) -> dict:
     if not path.exists():
         raise FileNotFoundError(f"required artifact missing: {path.relative_to(REPO_ROOT)}")
@@ -5107,6 +5119,46 @@ def encode_compact_residual_cert(cert: dict) -> bytes:
     return bytes(out)
 
 
+def encode_translation_constraint_source(source: dict) -> bytes:
+    out = bytearray()
+    kind = source["kind"]
+    if kind == "xpStart":
+        out.extend(encode_uvarint(0))
+        out.extend(encode_uvarint(int(source["index"])))
+    elif kind == "ordering":
+        out.extend(encode_uvarint(1))
+        out.extend(encode_uvarint(int(source["step"])))
+    elif kind == "interior":
+        out.extend(encode_uvarint(2))
+        out.extend(encode_uvarint(int(source["impact"])))
+        out.extend(encode_face_tag(source["face"]))
+    else:
+        raise ValueError(f"unsupported translation source: {kind}")
+    return bytes(out)
+
+
+def encode_source_farkas_term(term: dict) -> bytes:
+    out = bytearray()
+    out.extend(encode_translation_constraint_source(term["source"]))
+    out.extend(encode_rat_value(Fraction(term["multiplier"])))
+    return bytes(out)
+
+
+def encode_source_farkas_cert(source_terms: list[dict]) -> bytes:
+    out = bytearray(encode_uvarint(len(source_terms)))
+    for term in source_terms:
+        out.extend(encode_source_farkas_term(term))
+    return bytes(out)
+
+
+def encode_compact_translation_farkas_cert(cert: dict) -> bytes:
+    out = bytearray()
+    out.extend(encode_uvarint(int(cert["rank"])))
+    out.extend(encode_uvarint(int(cert["mask"])))
+    out.extend(encode_source_farkas_cert(cert["sourceTerms"]))
+    return bytes(out)
+
+
 def packed_residual_blob(*, certs: list[dict], residual_cases: int) -> bytes:
     metadata = bytearray(encode_uvarint(2))
     metadata.extend(encode_uvarint(len(certs)))
@@ -5118,6 +5170,29 @@ def packed_residual_blob(*, certs: list[dict], residual_cases: int) -> bytes:
 
     sections = [(1, bytes(metadata)), (2, bytes(records))]
     header = bytearray(b"CORC")
+    header.append(1)
+    header.extend(encode_uvarint(len(sections)))
+    for section_id, payload in sections:
+        header.extend(encode_uvarint(section_id))
+        header.extend(encode_uvarint(len(payload)))
+    for _section_id, payload in sections:
+        header.extend(payload)
+    return bytes(header)
+
+
+def packed_translation_farkas_blob(
+    *, certs: list[dict], shared_farkas_cases: int
+) -> bytes:
+    metadata = bytearray(encode_uvarint(2))
+    metadata.extend(encode_uvarint(len(certs)))
+    metadata.extend(encode_uvarint(shared_farkas_cases))
+
+    records = bytearray(encode_uvarint(len(certs)))
+    for cert in certs:
+        records.extend(encode_compact_translation_farkas_cert(cert))
+
+    sections = [(1, bytes(metadata)), (2, bytes(records))]
+    header = bytearray(b"COTF")
     header.append(1)
     header.extend(encode_uvarint(len(sections)))
     for section_id, payload in sections:
@@ -5461,6 +5536,483 @@ def write_packed_residual_certificates_json(payload: dict) -> None:
     )
 
 
+def full_nonidentity_residual_blob_path(index: int) -> Path:
+    return FULL_NONIDENTITY_RESIDUAL_BLOB_DIR / f"Chunk{index:04d}.b64"
+
+
+def full_nonidentity_residual_lean_path(index: int) -> Path:
+    return NONIDENTITY_RESIDUAL_DIR / f"Chunk{index:04d}.lean"
+
+
+def full_nonidentity_residual_module_name(index: int) -> str:
+    return (
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        f"Chunk{index:04d}"
+    )
+
+
+def include_path_to_generated_blob(blob_path: Path, lean_file_parent: Path) -> str:
+    relative = blob_path.relative_to(REPO_ROOT)
+    ups = [".."] * len(lean_file_parent.parts)
+    parts = ups + list(relative.parts)
+    return "/".join(f'"{part}"' for part in parts)
+
+
+def include_path_to_certs_blob(blob_path: Path) -> str:
+    return include_path_to_generated_blob(
+        blob_path, NONIDENTITY_RESIDUAL_DIR.relative_to(REPO_ROOT)
+    )
+
+
+def write_full_packed_residual_chunk_lean(
+    *, index: int, blob_path: Path
+) -> Path:
+    lean_path = full_nonidentity_residual_lean_path(index)
+    include_path = include_path_to_certs_blob(blob_path)
+    lines = [
+        "import Cuboctahedron.Search.CertificateChecker",
+        "",
+        "/-!",
+        "Generated packed residual non-identity certificate chunk.",
+        "",
+        "The blob is decoded by Lean and checked by `checkPackedResidualCerts`.",
+        "-/",
+        "",
+        f"namespace Cuboctahedron.Generated.NonIdentity.Residual.Chunk{index:04d}",
+        "",
+        "set_option maxHeartbeats 4000000",
+        "set_option maxRecDepth 100000",
+        "",
+        f"def chunkBlob : String := include_str {include_path}",
+        "",
+        "def decodedChunkCerts : Array CompactNonIdResidualCert :=",
+        "  decodedPackedResidualCerts chunkBlob",
+        "",
+        "theorem chunk_check :",
+        "    checkPackedResidualCerts chunkBlob = true := by",
+        "  unfold checkPackedResidualCerts",
+        "  decide",
+        "",
+        "theorem chunk_sound :",
+        "    forall cert,",
+        "      cert ∈ decodedChunkCerts.toList ->",
+        "        exists ordinary : NonIdCert,",
+        "          ordinary.word = unrankPairWord cert.rank /\\",
+        "            checkNonIdCert ordinary = true :=",
+        "  checkPackedResidualCerts_sound chunkBlob chunk_check",
+        "",
+        f"end Cuboctahedron.Generated.NonIdentity.Residual.Chunk{index:04d}",
+        "",
+    ]
+    lean_path.parent.mkdir(parents=True, exist_ok=True)
+    lean_path.write_text("\n".join(lines), encoding="utf-8")
+    return lean_path
+
+
+def write_full_nonidentity_residual_all_lean(chunks: list[dict]) -> None:
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.NonIdentity.FamilyPartition",
+    ]
+    for chunk in chunks:
+        lines.append(
+            "import " + full_nonidentity_residual_module_name(chunk["index"])
+        )
+    lines.extend([
+        "",
+        "/-!",
+        "Aggregate imports for generated packed residual non-identity chunks.",
+        "",
+        "The per-chunk modules contain the computational blob checks. This",
+        "aggregate keeps Step 14E.7B evidence importable without treating JSON",
+        "manifest counts as proof.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Residual",
+        "",
+        f"def generatedPackedResidualChunkCount : Nat := {len(chunks)}",
+        f"def generatedPackedResidualCertCount : Nat := {sum(int(chunk['cert_count']) for chunk in chunks)}",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Residual",
+        "",
+    ])
+    NONIDENTITY_RESIDUAL_ALL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_RESIDUAL_ALL_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def full_translation_farkas_blob_path(index: int) -> Path:
+    return FULL_TRANSLATION_FARKAS_BLOB_DIR / f"Chunk{index:04d}.b64"
+
+
+def full_translation_farkas_lean_path(index: int) -> Path:
+    return TRANSLATION_FARKAS_DIR / f"Chunk{index:04d}.lean"
+
+
+def full_translation_farkas_module_name(index: int) -> str:
+    return (
+        "Cuboctahedron.Generated.Translation.Farkas."
+        f"Chunk{index:04d}"
+    )
+
+
+def include_path_to_translation_farkas_blob(blob_path: Path) -> str:
+    return include_path_to_generated_blob(
+        blob_path, TRANSLATION_FARKAS_DIR.relative_to(REPO_ROOT)
+    )
+
+
+def write_full_packed_translation_farkas_chunk_lean(
+    *, index: int, blob_path: Path
+) -> Path:
+    lean_path = full_translation_farkas_lean_path(index)
+    include_path = include_path_to_translation_farkas_blob(blob_path)
+    lines = [
+        "import Cuboctahedron.Search.CertificateChecker",
+        "",
+        "/-!",
+        "Generated packed translation Farkas certificate chunk.",
+        "",
+        "The blob is decoded by Lean and checked by",
+        "`checkPackedTranslationFarkasCerts`.",
+        "-/",
+        "",
+        f"namespace Cuboctahedron.Generated.Translation.Farkas.Chunk{index:04d}",
+        "",
+        "set_option maxHeartbeats 4000000",
+        "set_option maxRecDepth 100000",
+        "",
+        f"def chunkBlob : String := include_str {include_path}",
+        "",
+        "def decodedChunkCerts : Array CompactTranslationFarkasCert :=",
+        "  decodedPackedTranslationFarkasCerts chunkBlob",
+        "",
+        "theorem chunk_check :",
+        "    checkPackedTranslationFarkasCerts chunkBlob = true := by",
+        "  unfold checkPackedTranslationFarkasCerts",
+        "  decide",
+        "",
+        "theorem chunk_sound :",
+        "    forall cert,",
+        "      cert ∈ decodedChunkCerts.toList ->",
+        "        exists ordinary : TranslationCert,",
+        "          ordinary.word = unrankPairWord cert.rank /\\",
+        "            ordinary.signMask = cert.mask /\\",
+        "              checkTranslationCert ordinary = true :=",
+        "  checkPackedTranslationFarkasCerts_sound chunkBlob chunk_check",
+        "",
+        f"end Cuboctahedron.Generated.Translation.Farkas.Chunk{index:04d}",
+        "",
+    ]
+    lean_path.parent.mkdir(parents=True, exist_ok=True)
+    lean_path.write_text("\n".join(lines), encoding="utf-8")
+    return lean_path
+
+
+def write_full_translation_farkas_all_lean(chunks: list[dict]) -> None:
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.Translation.FamilyPartition",
+    ]
+    for chunk in chunks:
+        lines.append("import " + full_translation_farkas_module_name(chunk["index"]))
+    lines.extend([
+        "",
+        "/-!",
+        "Aggregate imports for generated packed translation Farkas chunks.",
+        "",
+        "Per-chunk modules decode packed source-Farkas blobs and run the",
+        "ordinary `TranslationCert` checker reconstructed from `(rank, mask)`.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation.Farkas",
+        "",
+        "def translationFarkasBackendImplemented : Bool := true",
+        f"def generatedPackedTranslationFarkasChunkCount : Nat := {len(chunks)}",
+        f"def generatedPackedTranslationFarkasCertCount : Nat := {sum(int(chunk['cert_count']) for chunk in chunks)}",
+        "",
+        "end Cuboctahedron.Generated.Translation.Farkas",
+        "",
+    ])
+    TRANSLATION_FARKAS_ALL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_FARKAS_ALL_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_translation_farkas_all_placeholder() -> None:
+    lines = [
+        "import Cuboctahedron.Generated.Translation.FamilyPartition",
+        "",
+        "/-!",
+        "Placeholder aggregate for full generated translation Farkas families.",
+        "",
+        "Step 14E.7B must replace this with concrete checked family evidence",
+        "before the exhaustive manifest can be marked complete.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation.Farkas",
+        "",
+        "def translationFarkasBackendImplemented : Bool := false",
+        "",
+        "end Cuboctahedron.Generated.Translation.Farkas",
+        "",
+    ]
+    TRANSLATION_FARKAS_ALL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_FARKAS_ALL_PATH.write_text("\n".join(lines), encoding="utf-8")
+
+
+def iter_nonidentity_residual_cert_payloads() -> Iterable[dict]:
+    for rank in range(EXPECTED_PAIR_WORDS):
+        word = pair_word_at_rank(rank)
+        if total_linear(word) == mat_id():
+            continue
+        cert = build_nonid_cert_for_rank(rank, f"residualNonId{rank:09d}")
+        if cert.failure["kind"] in {
+            "axisMissesStartInterior",
+            "badFirstHit",
+            "badHitInterior",
+        }:
+            yield cert.to_json()
+
+
+def translation_needs_farkas(word: list[str], mask: int) -> tuple[Vec, list[str]] | None:
+    b, seq = translation_vector(word, mask)
+    if b == vec((0, 0, 0)):
+        return None
+    try:
+        first_bad_translation_impact(seq, b)
+        return None
+    except ValueError:
+        return b, seq
+
+
+def source_terms_for_translation_farkas(seq: list[str], b: Vec) -> list[dict]:
+    constraints = translation_constraints_py(seq, b)
+    terms = find_sparse_farkas(constraints)
+    sources = translation_constraint_sources_py(seq)
+    return [
+        {
+            "source": sources[index],
+            "multiplier": rat_to_json(multiplier),
+        }
+        for index, multiplier in terms
+    ]
+
+
+def iter_translation_farkas_cert_payloads() -> Iterable[dict]:
+    for rank in range(EXPECTED_PAIR_WORDS):
+        word = pair_word_at_rank(rank)
+        if total_linear(word) != mat_id():
+            continue
+        for mask in range(64):
+            needs = translation_needs_farkas(word, mask)
+            if needs is None:
+                continue
+            b, seq = needs
+            yield {
+                "rank": rank,
+                "mask": mask,
+                "sourceTerms": source_terms_for_translation_farkas(seq, b),
+            }
+
+
+def emit_full_nonidentity_packed_residual_chunks(
+    *, residual_cases: int
+) -> dict:
+    FULL_NONIDENTITY_RESIDUAL_BLOB_DIR.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_RESIDUAL_DIR.mkdir(parents=True, exist_ok=True)
+    chunks: list[dict] = []
+    current: list[dict] = []
+    current_encoded_bytes = 0
+    total_certs = 0
+
+    def flush() -> None:
+        nonlocal current, current_encoded_bytes, total_certs
+        if not current:
+            return
+        index = len(chunks)
+        blob = packed_residual_blob(certs=current, residual_cases=residual_cases)
+        blob_text = compact_blob_text(blob)
+        if len(blob_text.encode("ascii")) > FULL_EMISSION_HARD_MAX_FILE_BYTES:
+            raise RuntimeError("packed residual chunk exceeds hard file limit")
+        blob_path = full_nonidentity_residual_blob_path(index)
+        blob_path.write_text(blob_text, encoding="ascii")
+        lean_path = write_full_packed_residual_chunk_lean(
+            index=index, blob_path=blob_path
+        )
+        first_rank = min(int(cert["rank"]) for cert in current)
+        last_rank = max(int(cert["rank"]) for cert in current)
+        chunk_record = {
+            "index": index,
+            "cert_count": len(current),
+            "first_rank": first_rank,
+            "last_rank": last_rank,
+            "blob": generated_file_record(blob_path),
+            "lean": generated_file_record(lean_path),
+            "raw_bytes": len(blob),
+            "encoding": "base64",
+            "magic": "CORC",
+        }
+        chunks.append(chunk_record)
+        total_certs += len(current)
+        current = []
+        current_encoded_bytes = 0
+
+    for cert in iter_nonidentity_residual_cert_payloads():
+        cert_bytes = encode_compact_residual_cert(cert)
+        projected = current_encoded_bytes + len(cert_bytes)
+        if current and projected * 4 // 3 >= FULL_EMISSION_TARGET_CHUNK_BYTES:
+            flush()
+        current.append(cert)
+        current_encoded_bytes += len(cert_bytes)
+    flush()
+    if total_certs != residual_cases:
+        raise RuntimeError(
+            "nonidentity residual emission count mismatch: "
+            f"{total_certs} != {residual_cases}"
+        )
+    write_full_nonidentity_residual_all_lean(chunks)
+    return {
+        "complete": True,
+        "strategy": "packed_nonid_residual_base64",
+        "chunks": chunks,
+        "chunk_count": len(chunks),
+        "cert_count": total_certs,
+        "aggregate_lean": generated_file_record(NONIDENTITY_RESIDUAL_ALL_PATH),
+        "blob_dir": relative_path(FULL_NONIDENTITY_RESIDUAL_BLOB_DIR),
+    }
+
+
+def emit_full_translation_packed_farkas_chunks(
+    *, shared_farkas_cases: int, shared_farkas_shapes: int
+) -> dict:
+    FULL_TRANSLATION_FARKAS_BLOB_DIR.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_FARKAS_DIR.mkdir(parents=True, exist_ok=True)
+    chunks: list[dict] = []
+    current: list[dict] = []
+    current_encoded_bytes = 0
+    total_certs = 0
+    shape_keys: set[str] = set()
+
+    def flush() -> None:
+        nonlocal current, current_encoded_bytes, total_certs
+        if not current:
+            return
+        index = len(chunks)
+        blob = packed_translation_farkas_blob(
+            certs=current, shared_farkas_cases=shared_farkas_cases
+        )
+        blob_text = compact_blob_text(blob)
+        if len(blob_text.encode("ascii")) > FULL_EMISSION_HARD_MAX_FILE_BYTES:
+            raise RuntimeError("packed translation Farkas chunk exceeds hard file limit")
+        blob_path = full_translation_farkas_blob_path(index)
+        blob_path.write_text(blob_text, encoding="ascii")
+        lean_path = write_full_packed_translation_farkas_chunk_lean(
+            index=index, blob_path=blob_path
+        )
+        first_key = min((int(cert["rank"]), int(cert["mask"])) for cert in current)
+        last_key = max((int(cert["rank"]), int(cert["mask"])) for cert in current)
+        chunk_record = {
+            "index": index,
+            "cert_count": len(current),
+            "first_rank": first_key[0],
+            "first_mask": first_key[1],
+            "last_rank": last_key[0],
+            "last_mask": last_key[1],
+            "blob": generated_file_record(blob_path),
+            "lean": generated_file_record(lean_path),
+            "raw_bytes": len(blob),
+            "encoding": "base64",
+            "magic": "COTF",
+        }
+        chunks.append(chunk_record)
+        total_certs += len(current)
+        current = []
+        current_encoded_bytes = 0
+
+    for cert in iter_translation_farkas_cert_payloads():
+        shape_keys.add(canonical_json(cert["sourceTerms"]))
+        cert_bytes = encode_compact_translation_farkas_cert(cert)
+        projected = current_encoded_bytes + len(cert_bytes)
+        if current and projected * 4 // 3 >= FULL_EMISSION_TARGET_CHUNK_BYTES:
+            flush()
+        current.append(cert)
+        current_encoded_bytes += len(cert_bytes)
+    flush()
+    if total_certs != shared_farkas_cases:
+        raise RuntimeError(
+            "translation Farkas emission count mismatch: "
+            f"{total_certs} != {shared_farkas_cases}"
+        )
+    if len(shape_keys) != shared_farkas_shapes:
+        raise RuntimeError(
+            "translation Farkas shape count mismatch: "
+            f"{len(shape_keys)} != {shared_farkas_shapes}"
+        )
+    write_full_translation_farkas_all_lean(chunks)
+    return {
+        "complete": True,
+        "strategy": "packed_translation_source_farkas_base64",
+        "shared_farkas_shapes": shared_farkas_shapes,
+        "shared_farkas_cases": shared_farkas_cases,
+        "chunks": chunks,
+        "chunk_count": len(chunks),
+        "cert_count": total_certs,
+        "aggregate_lean": generated_file_record(TRANSLATION_FARKAS_ALL_PATH),
+        "blob_dir": relative_path(FULL_TRANSLATION_FARKAS_BLOB_DIR),
+        "encoding": "base64",
+        "magic": "COTF",
+    }
+
+
+def build_full_generated_lean_fallback_manifest(
+    *, packed_residual: dict, prefix_parametric: dict
+) -> tuple[dict | None, list[str]]:
+    refusal_reasons: list[str] = []
+    packed_projection = packed_residual.get("projection", {})
+    if packed_projection.get("size_safe") is not True:
+        refusal_reasons.append("packed_residual_projection_not_size_safe")
+    residual_cases = int(
+        packed_projection.get(
+            "residual_singleton_cases",
+            prefix_parametric["nonidentity"]["residual_singleton_cases"],
+        )
+    )
+    shared_farkas_shapes = int(
+        prefix_parametric["translation"]["shared_farkas_shapes"]
+    )
+    shared_farkas_cases = int(
+        prefix_parametric["translation"]["shared_farkas_cases"]
+    )
+    if refusal_reasons:
+        write_translation_farkas_all_placeholder()
+        return None, refusal_reasons
+
+    translation_manifest = emit_full_translation_packed_farkas_chunks(
+        shared_farkas_cases=shared_farkas_cases,
+        shared_farkas_shapes=shared_farkas_shapes,
+    )
+    nonidentity_manifest = emit_full_nonidentity_packed_residual_chunks(
+        residual_cases=residual_cases
+    )
+    full_generated_imports = [
+        NONIDENTITY_RESIDUAL_ALL_PATH,
+        TRANSLATION_FARKAS_ALL_PATH,
+    ]
+    return {
+        "schema_version": 1,
+        "summary_kind": "generated-lean-fallback",
+        "selected_backend": "generated_lean_fallback",
+        "nonidentity": nonidentity_manifest,
+        "translation": translation_manifest,
+        "generated_lean": {
+            "all_generated": generated_file_record(ALL_GENERATED_PATH),
+            "imports": generated_files_record(full_generated_imports),
+        },
+        "counts": {
+            "nonidentity_residual_singletons": residual_cases,
+            "translation_shared_farkas_shapes": shared_farkas_shapes,
+            "translation_shared_farkas_cases": shared_farkas_cases,
+        },
+    }, []
+
+
 def build_full_emission_size_preflight(
     *,
     residual_templates: dict | None,
@@ -5513,17 +6065,24 @@ def build_full_emission_size_preflight(
             )
 
     translation_shared_farkas_shapes = 0
+    translation_shared_farkas_cases = 0
+    projected_translation_source_bytes = 0
+    bytes_per_translation_farkas_cert_proxy = 96
     if prefix_parametric is not None:
         translation_shared_farkas_shapes = int(
             prefix_parametric["size_ladder"]["translation_shared_farkas_estimate"]
         )
+        translation_shared_farkas_cases = int(
+            prefix_parametric["translation"]["shared_farkas_cases"]
+        )
+        projected_translation_source_bytes = (
+            translation_shared_farkas_cases *
+            bytes_per_translation_farkas_cert_proxy
+        )
 
     projected_total_source_bytes = (
         projected_residual_source_bytes
-        # Translation Farkas chunks are not lower-bounded by the residual
-        # template projection, but keeping the count here makes the omission
-        # explicit in the manifest.
-        + 0 * translation_shared_farkas_shapes
+        + projected_translation_source_bytes
     )
     reasons: list[str] = []
     if projected_total_source_bytes > budget_bytes:
@@ -5554,6 +6113,11 @@ def build_full_emission_size_preflight(
         "bytes_per_residual_template": bytes_per_residual_template,
         "projected_residual_source_bytes": projected_residual_source_bytes,
         "translation_shared_farkas_shapes": translation_shared_farkas_shapes,
+        "translation_shared_farkas_cases": translation_shared_farkas_cases,
+        "bytes_per_translation_farkas_cert_proxy":
+            bytes_per_translation_farkas_cert_proxy,
+        "projected_translation_source_bytes":
+            projected_translation_source_bytes,
         "compact_residual_projection": compact_projection,
         "packed_residual_projection": packed_projection,
         "projected_total_source_bytes": projected_total_source_bytes,
@@ -5823,8 +6387,23 @@ def build_exhaustive_real_certs_summary(
                 else "refused_prerequisite_or_space_check"
             )
     else:
-        refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
-        emission_status = "approved_but_full_emitter_not_implemented"
+        assert packed_residual is not None
+        assert prefix_parametric is not None
+        full_emission_manifest, emission_refusal_reasons = (
+            build_full_generated_lean_fallback_manifest(
+                packed_residual=packed_residual,
+                prefix_parametric=prefix_parametric,
+            )
+        )
+        refusal_reasons.extend(emission_refusal_reasons)
+        if full_emission_manifest is not None:
+            emission_status = "completed_generated_lean_fallback"
+        elif "translation_shared_farkas_emitter_not_implemented" in refusal_reasons:
+            emission_status = (
+                "blocked_translation_shared_farkas_emitter_not_implemented"
+            )
+        else:
+            emission_status = "approved_but_full_emitter_not_implemented"
 
     payload = {
         "schema_version": 1,

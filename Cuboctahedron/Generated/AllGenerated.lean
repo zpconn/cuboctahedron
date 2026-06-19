@@ -12,6 +12,7 @@ import Cuboctahedron.Generated.CanonicalSample
 import Cuboctahedron.Generated.CanonicalCoverageManifest
 import Cuboctahedron.Generated.CompactPilot
 import Cuboctahedron.Generated.CoverageTreeSample
+import Cuboctahedron.Generated.Translation.Farkas.All
 
 /-!
 Aggregate import for generated Step 14C/14E real-certificate sample chunks.

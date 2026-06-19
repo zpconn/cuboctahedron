@@ -81,9 +81,17 @@ NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
 NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "PackedPilot.lean"
 )
+NONIDENTITY_RESIDUAL_ALL_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "All.lean"
+)
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
 )
+TRANSLATION_FARKAS_ALL_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas" / "All.lean"
+)
+FULL_NONIDENTITY_RESIDUAL_BLOB_DIR = REPO_ROOT / "certs" / "nonidentity_residual"
+FULL_TRANSLATION_FARKAS_BLOB_DIR = REPO_ROOT / "certs" / "translation_farkas"
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -554,6 +562,47 @@ def translation_constraints_py(seq, b):
     return constraints
 
 
+def translation_constraint_sources_py(seq):
+    sources = [
+        {"kind": "xpStart", "index": 0},
+        {"kind": "xpStart", "index": 1},
+        {"kind": "xpStart", "index": 2},
+        {"kind": "xpStart", "index": 3},
+    ]
+    for step in range(14):
+        sources.append({"kind": "ordering", "step": step})
+    for impact in range(1, 15):
+        hit = impact_face(seq, impact)
+        for face in FACE_ORDER:
+            if face != hit:
+                sources.append({"kind": "interior", "impact": impact, "face": face})
+    return sources
+
+
+def source_farkas_constraints(seq, b, source_terms):
+    full_constraints = translation_constraints_py(seq, b)
+    full_sources = translation_constraint_sources_py(seq)
+    source_to_constraint = {
+        canonical_json(source): constraint
+        for source, constraint in zip(full_sources, full_constraints)
+    }
+    constraints = []
+    terms = []
+    for index, term in enumerate(source_terms):
+        source_key = canonical_json(term["source"])
+        require(source_key in source_to_constraint,
+                f"source Farkas term source exists {source_key}")
+        multiplier = parse_rat(term["multiplier"])
+        constraints.append(source_to_constraint[source_key])
+        terms.append((index, multiplier))
+    return constraints, terms
+
+
+def check_source_farkas_py(seq, b, source_terms):
+    constraints, terms = source_farkas_constraints(seq, b, source_terms)
+    return check_farkas_py(constraints, terms)
+
+
 def weighted_sum_constraints(constraints, terms):
     a = b = c = Fraction(0)
     for index, multiplier in terms:
@@ -729,6 +778,12 @@ def impact_denom(seq, b, impact):
         prefix_index = 13
     prefix = path_prefix_matrices(seq)[prefix_index]
     return dot(mat_vec(prefix, normal(face)), b)
+
+
+def translation_case_needs_farkas(seq, b):
+    if b == vec((0, 0, 0)):
+        return False
+    return all(impact_denom(seq, b, impact) > 0 for impact in range(1, 14))
 
 
 def impact_face(seq, impact):
@@ -2216,11 +2271,207 @@ def check_translation_family_file(payload):
     }
 
 
+def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
+    require(manifest.get("schema_version") == 1,
+            "full fallback manifest schema")
+    require(manifest.get("summary_kind") == "generated-lean-fallback",
+            "full fallback manifest kind")
+    require(manifest.get("selected_backend") == "generated_lean_fallback",
+            "full fallback selected backend")
+
+    nonid = manifest["nonidentity"]
+    require(nonid["complete"] is True, "full fallback nonidentity complete")
+    require(nonid["strategy"] == "packed_nonid_residual_base64",
+            "full fallback nonidentity strategy")
+    expected_residual = int(
+        prefix_payload["nonidentity"]["residual_singleton_cases"]
+    )
+    require(nonid["cert_count"] == expected_residual,
+            "full fallback nonidentity residual count")
+    require(nonid["chunk_count"] == len(nonid["chunks"]),
+            "full fallback nonidentity chunk count")
+    check_generated_file_record(
+        nonid["aggregate_lean"], NONIDENTITY_RESIDUAL_ALL_LEAN_PATH
+    )
+    check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_ALL_LEAN_PATH)
+
+    total = 0
+    previous_last = -1
+    for expected_index, chunk in enumerate(nonid["chunks"]):
+        require(chunk["index"] == expected_index,
+                f"full fallback chunk index {expected_index}")
+        require(chunk["cert_count"] > 0,
+                f"full fallback chunk nonempty {expected_index}")
+        require(chunk["first_rank"] <= chunk["last_rank"],
+                f"full fallback chunk rank order {expected_index}")
+        require(chunk["first_rank"] > previous_last,
+                f"full fallback chunks sorted {expected_index}")
+        previous_last = chunk["last_rank"]
+        blob_path = REPO_ROOT / chunk["blob"]["path"]
+        lean_path = (
+            REPO_ROOT / "Cuboctahedron" / "Generated" /
+            "NonIdentity" / "Residual" / f"Chunk{expected_index:04d}.lean"
+        )
+        check_generated_file_record(chunk["blob"], blob_path)
+        check_generated_file_record(chunk["lean"], lean_path)
+        require(chunk["blob"]["bytes"] <= 50 * MIB,
+                f"full fallback blob size {expected_index}")
+        check_no_forbidden_lean_tokens(lean_path)
+        text = blob_path.read_text(encoding="ascii")
+        decoded = decode_packed_residual_blob_text(text)
+        require(decoded["sha256"] == chunk["blob"]["sha256"],
+                f"full fallback blob sha {expected_index}")
+        require(decoded["raw_bytes"] == chunk["raw_bytes"],
+                f"full fallback raw bytes {expected_index}")
+        require(len(decoded["certs"]) == chunk["cert_count"],
+                f"full fallback decoded count {expected_index}")
+        ranks = [cert["rank"] for cert in decoded["certs"]]
+        require(min(ranks) == chunk["first_rank"],
+                f"full fallback first rank {expected_index}")
+        require(max(ranks) == chunk["last_rank"],
+                f"full fallback last rank {expected_index}")
+        require(ranks == sorted(ranks),
+                f"full fallback decoded ranks sorted {expected_index}")
+        for cert in decoded["certs"]:
+            named = {**cert, "name": f"fullPackedResidual{cert['rank']:09d}"}
+            check_nonid_cert_record(named)
+            require(
+                named["failure"]["kind"] in {
+                    "axisMissesStartInterior",
+                    "badFirstHit",
+                    "badHitInterior",
+                },
+                f"full fallback residual kind {named['rank']}",
+            )
+        total += len(decoded["certs"])
+    require(total == expected_residual,
+            "full fallback decoded residual total")
+
+    translation = manifest["translation"]
+    require(translation["complete"] is True,
+            "full fallback translation complete")
+    require(
+        translation["strategy"] == "packed_translation_source_farkas_base64",
+        "full fallback translation strategy",
+    )
+    require(
+        translation["shared_farkas_shapes"] ==
+        int(prefix_payload["translation"]["shared_farkas_shapes"]),
+        "full fallback translation shared shapes",
+    )
+    require(
+        translation["shared_farkas_cases"] ==
+        int(prefix_payload["translation"]["shared_farkas_cases"]),
+        "full fallback translation shared cases",
+    )
+    check_generated_file_record(
+        translation["aggregate_lean"], TRANSLATION_FARKAS_ALL_LEAN_PATH
+    )
+    check_no_forbidden_lean_tokens(TRANSLATION_FARKAS_ALL_LEAN_PATH)
+    require(translation["cert_count"] == translation["shared_farkas_cases"],
+            "full fallback translation cert count")
+    require(translation["chunk_count"] == len(translation["chunks"]),
+            "full fallback translation chunk count")
+    require(translation["magic"] == "COTF", "full fallback translation magic")
+    require(translation["encoding"] == "base64",
+            "full fallback translation encoding")
+
+    translation_total = 0
+    seen_cases = set()
+    shape_keys = set()
+    previous_key = (-1, -1)
+    for expected_index, chunk in enumerate(translation["chunks"]):
+        require(chunk["index"] == expected_index,
+                f"full fallback translation chunk index {expected_index}")
+        require(chunk["cert_count"] > 0,
+                f"full fallback translation chunk nonempty {expected_index}")
+        first_key = (chunk["first_rank"], chunk["first_mask"])
+        last_key = (chunk["last_rank"], chunk["last_mask"])
+        require(first_key <= last_key,
+                f"full fallback translation chunk order {expected_index}")
+        require(first_key > previous_key,
+                f"full fallback translation chunks sorted {expected_index}")
+        previous_key = last_key
+        blob_path = REPO_ROOT / chunk["blob"]["path"]
+        lean_path = (
+            REPO_ROOT / "Cuboctahedron" / "Generated" /
+            "Translation" / "Farkas" / f"Chunk{expected_index:04d}.lean"
+        )
+        check_generated_file_record(chunk["blob"], blob_path)
+        check_generated_file_record(chunk["lean"], lean_path)
+        require(chunk["blob"]["bytes"] <= 50 * MIB,
+                f"full fallback translation blob size {expected_index}")
+        require(chunk["encoding"] == "base64",
+                f"full fallback translation chunk encoding {expected_index}")
+        require(chunk["magic"] == "COTF",
+                f"full fallback translation chunk magic {expected_index}")
+        check_no_forbidden_lean_tokens(lean_path)
+        decoded = decode_packed_translation_farkas_blob_text(
+            blob_path.read_text(encoding="ascii")
+        )
+        require(decoded["sha256"] == chunk["blob"]["sha256"],
+                f"full fallback translation blob sha {expected_index}")
+        require(decoded["raw_bytes"] == chunk["raw_bytes"],
+                f"full fallback translation raw bytes {expected_index}")
+        require(
+            decoded["shared_farkas_cases"] == translation["shared_farkas_cases"],
+            f"full fallback translation metadata cases {expected_index}",
+        )
+        require(len(decoded["certs"]) == chunk["cert_count"],
+                f"full fallback translation decoded count {expected_index}")
+        keys = [(cert["rank"], cert["mask"]) for cert in decoded["certs"]]
+        require(min(keys) == first_key,
+                f"full fallback translation first key {expected_index}")
+        require(max(keys) == last_key,
+                f"full fallback translation last key {expected_index}")
+        require(keys == sorted(keys),
+                f"full fallback translation decoded keys sorted {expected_index}")
+        for cert in decoded["certs"]:
+            key = (cert["rank"], cert["mask"])
+            require(key not in seen_cases,
+                    f"full fallback translation duplicate {key}")
+            seen_cases.add(key)
+            word = pair_word_at_rank(cert["rank"])
+            require(total_linear(word) == mat_id(),
+                    f"full fallback translation identity word {key}")
+            b, seq = translation_vector(word, cert["mask"])
+            require(translation_case_needs_farkas(seq, b),
+                    f"full fallback translation needs Farkas {key}")
+            require(
+                check_source_farkas_py(seq, b, cert["sourceTerms"]),
+                f"full fallback translation source Farkas {key}",
+            )
+            shape_keys.add(canonical_json(cert["sourceTerms"]))
+        translation_total += len(decoded["certs"])
+    require(
+        translation_total == translation["shared_farkas_cases"],
+        "full fallback translation decoded total",
+    )
+    require(
+        len(shape_keys) == translation["shared_farkas_shapes"],
+        "full fallback translation distinct source Farkas shapes",
+    )
+    return {
+        "nonidentity_residual_chunks": len(nonid["chunks"]),
+        "nonidentity_residual_certs": total,
+        "translation_shared_farkas_shapes": len(shape_keys),
+        "translation_shared_farkas_certs": translation_total,
+    }
+
+
 def check_exhaustive_real_certs_summary(payload):
     require(payload.get("schema_version") == 1, "exhaustive schema version")
     require(payload.get("mode") == "exhaustive-real-certs", "exhaustive mode")
-    require(payload.get("summary_kind") == "gated-estimate", "exhaustive summary kind")
-    require(payload.get("complete") is False, "gated summary must not claim completeness")
+    summary_kind = payload.get("summary_kind")
+    require(
+        summary_kind in {"gated-estimate", "generated-lean-fallback"},
+        "exhaustive summary kind",
+    )
+    completed_summary = summary_kind == "generated-lean-fallback"
+    require(
+        payload.get("complete") is completed_summary,
+        "exhaustive completeness matches summary kind",
+    )
     require(
         payload.get("selected_backend") == "generated_lean_fallback",
         "exhaustive selected backend",
@@ -2281,6 +2532,7 @@ def check_exhaustive_real_certs_summary(payload):
         estimate["flat_total_certs"] == profile_estimates["flat_total_certs"],
         "exhaustive flat total estimate",
     )
+    prefix_payload = None
     if estimate.get("prefix_parametric_available"):
         prefix_payload = json.loads(
             PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
@@ -2459,74 +2711,105 @@ def check_exhaustive_real_certs_summary(payload):
         )
 
     emission = payload["full_emission"]
-    require(emission["performed"] is False, "full emission must be gated")
-    require(
-        emission["status"] in {
-            "refused_budget_exceeded",
-            "refused_generation_size_preflight",
-            "refused_prerequisite_or_space_check",
-            "blocked_packed_residual_full_blob_lean_check",
+    completed_manifest_summary = None
+    if completed_summary:
+        require(prefix_payload is not None,
+                "completed full emission requires prefix-parametric payload")
+        require(emission["performed"] is True,
+                "full emission performed for completed summary")
+        require(emission["requested"] is True,
+                "completed summary requires approval request")
+        require(
+            emission["status"] == "completed_generated_lean_fallback",
+            "completed full emission status",
+        )
+        require(emission["refusal_reasons"] == [],
+                "completed full emission has no refusal reasons")
+        completed_manifest_summary = check_full_generated_lean_fallback_manifest(
+            emission["manifest"], prefix_payload
+        )
+    else:
+        require(emission["performed"] is False, "full emission must be gated")
+        require(
+            emission["status"] in {
+                "refused_budget_exceeded",
+                "refused_generation_size_preflight",
+                "refused_prerequisite_or_space_check",
+                "blocked_packed_residual_full_blob_lean_check",
+                "blocked_translation_shared_farkas_emitter_not_implemented",
+                "ready_but_approval_required",
+                "approved_but_full_emitter_not_implemented",
+                "ready_but_full_emitter_not_implemented",
+            },
+            "known exhaustive emission status",
+        )
+        ready_statuses = {
             "ready_but_approval_required",
             "approved_but_full_emitter_not_implemented",
             "ready_but_full_emitter_not_implemented",
-        },
-        "known exhaustive emission status",
-    )
-    ready_statuses = {
-        "ready_but_approval_required",
-        "approved_but_full_emitter_not_implemented",
-        "ready_but_full_emitter_not_implemented",
-    }
-    if emission["status"] not in ready_statuses:
-        require(emission["large_emission_ready"] is False, "large emission not ready")
-    else:
-        require(emission["large_emission_ready"] is True, "large emission ready flag")
-    if emission["status"] == "ready_but_approval_required":
-        require(emission["requested"] is False, "approval-required status is unrequested")
-        require(emission["performed"] is False, "approval-required status is not performed")
-        require(emission["refusal_reasons"] == [], "approval-required has no refusal reasons")
-    if emission["status"] == "approved_but_full_emitter_not_implemented":
-        require(emission["requested"] is True, "approved missing-emitter status requested")
-        require(emission["performed"] is False, "approved missing-emitter status not performed")
-        require(
-            "generated_lean_fallback_emitter_not_implemented" in
-            emission["refusal_reasons"],
-            "approved missing-emitter reason",
-        )
-    if emission["status"] == "ready_but_full_emitter_not_implemented":
-        require(
-            "generated_lean_fallback_emitter_not_implemented" in
-            emission["refusal_reasons"],
-            "fallback emitter missing reason",
-        )
-    if emission["status"] == "blocked_packed_residual_full_blob_lean_check":
-        require(emission["requested"] is True,
-                "packed residual blocked status requested")
-        require(emission["performed"] is False,
-                "packed residual blocked status not performed")
-        require(
-            "packed_residual_full_blob_lean_check_not_ready" in
-            emission["refusal_reasons"],
-            "packed residual blocked reason",
-        )
-        require(packed_residual_payload is not None,
-                "packed residual payload exists for blocked status")
-        require(
-            packed_residual_payload["generated_lean"]["packed_pilot"].get(
-                "full_blob_lean_check"
-            ) is False,
-            "packed residual blocked flag",
-        )
-    if emission["status"] == "refused_budget_exceeded":
-        require(
-            estimate["estimated_lean_bytes"] >
-            budget["generated_data_budget_bytes"],
-            "budget exceeded status matches estimate",
-        )
-        require(
-            "estimated_lean_bytes_exceeds_budget" in emission["refusal_reasons"],
-            "budget refusal reason",
-        )
+            "blocked_translation_shared_farkas_emitter_not_implemented",
+        }
+        if emission["status"] not in ready_statuses:
+            require(emission["large_emission_ready"] is False, "large emission not ready")
+        else:
+            require(emission["large_emission_ready"] is True, "large emission ready flag")
+        if emission["status"] == "ready_but_approval_required":
+            require(emission["requested"] is False, "approval-required status is unrequested")
+            require(emission["performed"] is False, "approval-required status is not performed")
+            require(emission["refusal_reasons"] == [], "approval-required has no refusal reasons")
+        if emission["status"] == "approved_but_full_emitter_not_implemented":
+            require(emission["requested"] is True, "approved missing-emitter status requested")
+            require(emission["performed"] is False, "approved missing-emitter status not performed")
+            require(
+                "generated_lean_fallback_emitter_not_implemented" in
+                emission["refusal_reasons"],
+                "approved missing-emitter reason",
+            )
+        if emission["status"] == "ready_but_full_emitter_not_implemented":
+            require(
+                "generated_lean_fallback_emitter_not_implemented" in
+                emission["refusal_reasons"],
+                "fallback emitter missing reason",
+            )
+        if emission["status"] == "blocked_translation_shared_farkas_emitter_not_implemented":
+            require(emission["requested"] is True,
+                    "translation Farkas blocked status requested")
+            require(
+                "translation_shared_farkas_emitter_not_implemented" in
+                emission["refusal_reasons"],
+                "translation Farkas blocked reason",
+            )
+            require(TRANSLATION_FARKAS_ALL_LEAN_PATH.exists(),
+                    "translation Farkas placeholder exists")
+            check_no_forbidden_lean_tokens(TRANSLATION_FARKAS_ALL_LEAN_PATH)
+        if emission["status"] == "blocked_packed_residual_full_blob_lean_check":
+            require(emission["requested"] is True,
+                    "packed residual blocked status requested")
+            require(emission["performed"] is False,
+                    "packed residual blocked status not performed")
+            require(
+                "packed_residual_full_blob_lean_check_not_ready" in
+                emission["refusal_reasons"],
+                "packed residual blocked reason",
+            )
+            require(packed_residual_payload is not None,
+                    "packed residual payload exists for blocked status")
+            require(
+                packed_residual_payload["generated_lean"]["packed_pilot"].get(
+                    "full_blob_lean_check"
+                ) is False,
+                "packed residual blocked flag",
+            )
+        if emission["status"] == "refused_budget_exceeded":
+            require(
+                estimate["estimated_lean_bytes"] >
+                budget["generated_data_budget_bytes"],
+                "budget exceeded status matches estimate",
+            )
+            require(
+                "estimated_lean_bytes_exceeds_budget" in emission["refusal_reasons"],
+                "budget refusal reason",
+            )
     preflight = payload["implementation_preflight"]
     require(preflight["strategy"] == "generated_lean_fallback",
             "implementation preflight strategy")
@@ -2554,6 +2837,18 @@ def check_exhaustive_real_certs_summary(payload):
             "implementation preflight template cert count")
     require(preflight["projected_total_source_bytes"] >= 0,
             "implementation preflight projected bytes")
+    require(preflight["translation_shared_farkas_cases"] >= 0,
+            "implementation preflight translation cases")
+    require(preflight["translation_shared_farkas_shapes"] >= 0,
+            "implementation preflight translation shapes")
+    require(preflight["bytes_per_translation_farkas_cert_proxy"] > 0,
+            "implementation preflight translation bytes per cert")
+    require(
+        preflight["projected_translation_source_bytes"] ==
+        preflight["bytes_per_translation_farkas_cert_proxy"] *
+        preflight["translation_shared_farkas_cases"],
+        "implementation preflight translation projection",
+    )
     if (
         preflight["residual_template_cert_count"] > 0
         or preflight["projection_model"] == "compact_residual_certificates"
@@ -2574,6 +2869,12 @@ def check_exhaustive_real_certs_summary(payload):
                 preflight["residual_singleton_cases"],
                 "implementation preflight residual projection",
             )
+    require(
+        preflight["projected_total_source_bytes"] ==
+        preflight["projected_residual_source_bytes"] +
+        preflight["projected_translation_source_bytes"],
+        "implementation preflight total projection",
+    )
     if emission["status"] == "refused_generation_size_preflight":
         require(preflight["size_safe"] is False,
                 "size preflight refused only when unsafe")
@@ -2605,6 +2906,7 @@ def check_exhaustive_real_certs_summary(payload):
         "canonical_cert_estimate": estimate["canonical_cert_estimate"],
         "nonidentity_family_count": nonidentity_summary["families"],
         "translation_family_count": translation_summary["families"],
+        "completed_manifest": completed_manifest_summary,
     }
 
 
@@ -2868,6 +3170,42 @@ def read_face_tag(data: bytes, offset: int) -> tuple[str, int]:
     return FACE_ORDER[tag], offset
 
 
+def read_source_tag(data: bytes, offset: int) -> tuple[dict, int]:
+    tag, offset = read_uvarint(data, offset)
+    if tag == 0:
+        index, offset = read_uvarint(data, offset)
+        if not 0 <= index < 4:
+            raise ValueError("invalid xpStart source")
+        return {"kind": "xpStart", "index": index}, offset
+    if tag == 1:
+        step, offset = read_uvarint(data, offset)
+        if not 0 <= step < 14:
+            raise ValueError("invalid ordering source")
+        return {"kind": "ordering", "step": step}, offset
+    if tag == 2:
+        impact, offset = read_uvarint(data, offset)
+        if not 0 <= impact < 15:
+            raise ValueError("invalid interior impact")
+        face, offset = read_face_tag(data, offset)
+        return {"kind": "interior", "impact": impact, "face": face}, offset
+    raise ValueError("invalid source tag")
+
+
+def read_source_farkas_term(data: bytes, offset: int) -> tuple[dict, int]:
+    source, offset = read_source_tag(data, offset)
+    multiplier, offset = read_rat(data, offset)
+    return {"source": source, "multiplier": multiplier}, offset
+
+
+def read_source_farkas_cert(data: bytes, offset: int) -> tuple[list[dict], int]:
+    count, offset = read_uvarint(data, offset)
+    terms = []
+    for _ in range(count):
+        term, offset = read_source_farkas_term(data, offset)
+        terms.append(term)
+    return terms, offset
+
+
 def read_rat_vec3(data: bytes, offset: int) -> tuple[list[str], int]:
     values = []
     for _ in range(3):
@@ -2991,6 +3329,82 @@ def decode_packed_residual_blob_text(text: str) -> dict:
     return {
         "record_count": metadata[0],
         "residual_singleton_cases": metadata[1],
+        "certs": certs,
+        "raw_bytes": len(data),
+        "sha256": hashlib.sha256(data).hexdigest(),
+    }
+
+
+def read_packed_translation_farkas_cert(
+    data: bytes, offset: int
+) -> tuple[dict, int]:
+    rank, offset = read_uvarint(data, offset)
+    if not 0 <= rank < EXPECTED_PAIR_WORDS:
+        raise ValueError("rank out of bounds")
+    mask, offset = read_uvarint(data, offset)
+    if not 0 <= mask < 64:
+        raise ValueError("mask out of bounds")
+    source_terms, offset = read_source_farkas_cert(data, offset)
+    return {
+        "rank": rank,
+        "mask": mask,
+        "sourceTerms": source_terms,
+    }, offset
+
+
+def decode_packed_translation_farkas_blob_text(text: str) -> dict:
+    data = base64.b64decode(text, validate=True)
+    if len(data) < 6 or data[:4] != b"COTF":
+        raise ValueError("bad magic")
+    if data[4] != 1:
+        raise ValueError("bad version")
+    section_count, offset = read_uvarint(data, 5)
+    headers: list[tuple[int, int]] = []
+    seen: set[int] = set()
+    for _ in range(section_count):
+        section_id, offset = read_uvarint(data, offset)
+        length, offset = read_uvarint(data, offset)
+        if section_id in seen:
+            raise ValueError("duplicate section")
+        seen.add(section_id)
+        headers.append((section_id, length))
+    sections: dict[int, bytes] = {}
+    for section_id, length in headers:
+        end = offset + length
+        if end > len(data):
+            raise ValueError("truncated section")
+        sections[section_id] = data[offset:end]
+        offset = end
+    if offset != len(data):
+        raise ValueError("trailing input")
+    for required in (1, 2):
+        if required not in sections:
+            raise ValueError("missing section")
+
+    meta_count, meta_offset = read_uvarint(sections[1], 0)
+    metadata = []
+    for _ in range(meta_count):
+        value, meta_offset = read_uvarint(sections[1], meta_offset)
+        metadata.append(value)
+    if meta_offset != len(sections[1]):
+        raise ValueError("metadata trailing input")
+    if len(metadata) != 2:
+        raise ValueError("metadata length")
+
+    cert_count, cert_offset = read_uvarint(sections[2], 0)
+    certs = []
+    for _ in range(cert_count):
+        cert, cert_offset = read_packed_translation_farkas_cert(
+            sections[2], cert_offset
+        )
+        certs.append(cert)
+    if cert_offset != len(sections[2]):
+        raise ValueError("cert trailing input")
+    if metadata[0] != len(certs):
+        raise ValueError("count mismatch")
+    return {
+        "record_count": metadata[0],
+        "shared_farkas_cases": metadata[1],
         "certs": certs,
         "raw_bytes": len(data),
         "sha256": hashlib.sha256(data).hexdigest(),
