@@ -1672,7 +1672,7 @@ def checkSourceFarkasTerm
   checkTranslationConstraintSource seq term.source &&
     decide (0 <= term.multiplier)
 
-noncomputable def checkSourceFarkas
+def checkSourceFarkas
     (seq : Step14 -> Face) (b : Vec3 Rat)
     (cert : SourceFarkasCert) : Bool :=
   cert.terms.all (checkSourceFarkasTerm seq) &&

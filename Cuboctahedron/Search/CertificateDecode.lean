@@ -632,13 +632,13 @@ attribute [reducible]
   parsePackedTranslationFarkasBytes
   decodePackedTranslationFarkasCerts
 
-noncomputable def decodedPackedResidualCerts
+def decodedPackedResidualCerts
     (text : String) : Array CompactNonIdResidualCert :=
   match decodePackedResidualCerts text with
   | .ok certs => certs
   | .error _ => #[]
 
-noncomputable def decodedPackedTranslationFarkasCerts
+def decodedPackedTranslationFarkasCerts
     (text : String) : Array CompactTranslationFarkasCert :=
   match decodePackedTranslationFarkasCerts text with
   | .ok certs => certs

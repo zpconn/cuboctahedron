@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import argparse
 import base64
+import concurrent.futures
 import hashlib
 import json
 import math
+import os
 from functools import lru_cache
 from fractions import Fraction
 from pathlib import Path
@@ -2271,7 +2273,143 @@ def check_translation_family_file(payload):
     }
 
 
-def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
+def check_full_nonid_chunk_worker(args):
+    expected_index, chunk, deep_check = args
+    blob_path = REPO_ROOT / chunk["blob"]["path"]
+    lean_path = (
+        REPO_ROOT / "Cuboctahedron" / "Generated" /
+        "NonIdentity" / "Residual" / f"Chunk{expected_index:04d}.lean"
+    )
+    check_generated_file_record(chunk["blob"], blob_path)
+    check_generated_file_record(chunk["lean"], lean_path)
+    require(chunk["blob"]["bytes"] <= 50 * MIB,
+            f"full fallback blob size {expected_index}")
+    check_no_forbidden_lean_tokens(lean_path)
+    text = blob_path.read_text(encoding="ascii")
+    decoded = decode_packed_residual_blob_text(text)
+    require(decoded["sha256"] == chunk.get("raw_sha256", chunk["blob"]["sha256"]),
+            f"full fallback blob sha {expected_index}")
+    require(decoded["raw_bytes"] == chunk["raw_bytes"],
+            f"full fallback raw bytes {expected_index}")
+    require(len(decoded["certs"]) == chunk["cert_count"],
+            f"full fallback decoded count {expected_index}")
+    ranks = [cert["rank"] for cert in decoded["certs"]]
+    require(min(ranks) == chunk["first_rank"],
+            f"full fallback first rank {expected_index}")
+    require(max(ranks) == chunk["last_rank"],
+            f"full fallback last rank {expected_index}")
+    require(ranks == sorted(ranks),
+            f"full fallback decoded ranks sorted {expected_index}")
+    require(len(ranks) == len(set(ranks)),
+            f"full fallback decoded ranks unique {expected_index}")
+    for cert in decoded["certs"]:
+        if deep_check:
+            named = {**cert, "name": f"fullPackedResidual{cert['rank']:09d}"}
+            check_nonid_cert_record(named)
+            failure = named["failure"]
+        else:
+            failure = cert["failure"]
+        require(
+            failure["kind"] in {
+                "axisMissesStartInterior",
+                "badFirstHit",
+                "badHitInterior",
+            },
+            f"full fallback residual kind {cert['rank']}",
+        )
+    return {
+        "chunk_index": expected_index,
+        "cert_count": len(decoded["certs"]),
+        "first_rank": min(ranks),
+        "last_rank": max(ranks),
+    }
+
+
+def source_terms_shape_digest(source_terms) -> bytes:
+    return hashlib.sha256(canonical_json(source_terms).encode("utf-8")).digest()
+
+
+def check_full_translation_chunk_worker(args):
+    expected_index, chunk, shared_farkas_cases, deep_check = args
+    first_key = (chunk["first_rank"], chunk["first_mask"])
+    last_key = (chunk["last_rank"], chunk["last_mask"])
+    blob_path = REPO_ROOT / chunk["blob"]["path"]
+    lean_path = (
+        REPO_ROOT / "Cuboctahedron" / "Generated" /
+        "Translation" / "Farkas" / f"Chunk{expected_index:04d}.lean"
+    )
+    check_generated_file_record(chunk["blob"], blob_path)
+    check_generated_file_record(chunk["lean"], lean_path)
+    require(chunk["blob"]["bytes"] <= 50 * MIB,
+            f"full fallback translation blob size {expected_index}")
+    require(chunk["encoding"] == "base64",
+            f"full fallback translation chunk encoding {expected_index}")
+    require(chunk["magic"] == "COTF",
+            f"full fallback translation chunk magic {expected_index}")
+    check_no_forbidden_lean_tokens(lean_path)
+    decoded = decode_packed_translation_farkas_blob_text(
+        blob_path.read_text(encoding="ascii")
+    )
+    require(decoded["sha256"] == chunk.get("raw_sha256", chunk["blob"]["sha256"]),
+            f"full fallback translation blob sha {expected_index}")
+    require(decoded["raw_bytes"] == chunk["raw_bytes"],
+            f"full fallback translation raw bytes {expected_index}")
+    require(
+        decoded["shared_farkas_cases"] == shared_farkas_cases,
+        f"full fallback translation metadata cases {expected_index}",
+    )
+    require(len(decoded["certs"]) == chunk["cert_count"],
+            f"full fallback translation decoded count {expected_index}")
+    keys = [(cert["rank"], cert["mask"]) for cert in decoded["certs"]]
+    require(min(keys) == first_key,
+            f"full fallback translation first key {expected_index}")
+    require(max(keys) == last_key,
+            f"full fallback translation last key {expected_index}")
+    require(keys == sorted(keys),
+            f"full fallback translation decoded keys sorted {expected_index}")
+    require(len(keys) == len(set(keys)),
+            f"full fallback translation decoded keys unique {expected_index}")
+    shape_digests = set()
+    for cert in decoded["certs"]:
+        key = (cert["rank"], cert["mask"])
+        if deep_check:
+            word = pair_word_at_rank(cert["rank"])
+            require(total_linear(word) == identity_matrix(),
+                    f"full fallback translation identity word {key}")
+            b, seq = translation_vector(word, cert["mask"])
+            require(translation_case_needs_farkas(seq, b),
+                    f"full fallback translation needs Farkas {key}")
+            require(
+                check_source_farkas_py(seq, b, cert["sourceTerms"]),
+                f"full fallback translation source Farkas {key}",
+            )
+        shape_digests.add(source_terms_shape_digest(cert["sourceTerms"]))
+    return {
+        "chunk_index": expected_index,
+        "cert_count": len(decoded["certs"]),
+        "first_key": first_key,
+        "last_key": last_key,
+        "shape_digests": shape_digests,
+    }
+
+
+def parallel_map_chunks(worker, args_list, jobs):
+    if jobs <= 1 or len(args_list) <= 1:
+        return [worker(args) for args in args_list]
+    with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as pool:
+        futures = [pool.submit(worker, args) for args in args_list]
+        results = []
+        for future in concurrent.futures.as_completed(futures):
+            results.append(future.result())
+    return sorted(results, key=lambda item: item["chunk_index"])
+
+
+def check_full_generated_lean_fallback_manifest(
+    manifest,
+    prefix_payload,
+    jobs=1,
+    deep_check=False,
+):
     require(manifest.get("schema_version") == 1,
             "full fallback manifest schema")
     require(manifest.get("summary_kind") == "generated-lean-fallback",
@@ -2295,7 +2433,6 @@ def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
     )
     check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_ALL_LEAN_PATH)
 
-    total = 0
     previous_last = -1
     for expected_index, chunk in enumerate(nonid["chunks"]):
         require(chunk["index"] == expected_index,
@@ -2307,43 +2444,15 @@ def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
         require(chunk["first_rank"] > previous_last,
                 f"full fallback chunks sorted {expected_index}")
         previous_last = chunk["last_rank"]
-        blob_path = REPO_ROOT / chunk["blob"]["path"]
-        lean_path = (
-            REPO_ROOT / "Cuboctahedron" / "Generated" /
-            "NonIdentity" / "Residual" / f"Chunk{expected_index:04d}.lean"
-        )
-        check_generated_file_record(chunk["blob"], blob_path)
-        check_generated_file_record(chunk["lean"], lean_path)
-        require(chunk["blob"]["bytes"] <= 50 * MIB,
-                f"full fallback blob size {expected_index}")
-        check_no_forbidden_lean_tokens(lean_path)
-        text = blob_path.read_text(encoding="ascii")
-        decoded = decode_packed_residual_blob_text(text)
-        require(decoded["sha256"] == chunk["blob"]["sha256"],
-                f"full fallback blob sha {expected_index}")
-        require(decoded["raw_bytes"] == chunk["raw_bytes"],
-                f"full fallback raw bytes {expected_index}")
-        require(len(decoded["certs"]) == chunk["cert_count"],
-                f"full fallback decoded count {expected_index}")
-        ranks = [cert["rank"] for cert in decoded["certs"]]
-        require(min(ranks) == chunk["first_rank"],
-                f"full fallback first rank {expected_index}")
-        require(max(ranks) == chunk["last_rank"],
-                f"full fallback last rank {expected_index}")
-        require(ranks == sorted(ranks),
-                f"full fallback decoded ranks sorted {expected_index}")
-        for cert in decoded["certs"]:
-            named = {**cert, "name": f"fullPackedResidual{cert['rank']:09d}"}
-            check_nonid_cert_record(named)
-            require(
-                named["failure"]["kind"] in {
-                    "axisMissesStartInterior",
-                    "badFirstHit",
-                    "badHitInterior",
-                },
-                f"full fallback residual kind {named['rank']}",
-            )
-        total += len(decoded["certs"])
+    nonid_results = parallel_map_chunks(
+        check_full_nonid_chunk_worker,
+        [
+            (expected_index, chunk, deep_check)
+            for expected_index, chunk in enumerate(nonid["chunks"])
+        ],
+        jobs,
+    )
+    total = sum(result["cert_count"] for result in nonid_results)
     require(total == expected_residual,
             "full fallback decoded residual total")
 
@@ -2355,9 +2464,12 @@ def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
         "full fallback translation strategy",
     )
     require(
-        translation["shared_farkas_shapes"] ==
-        int(prefix_payload["translation"]["shared_farkas_shapes"]),
-        "full fallback translation shared shapes",
+        translation.get(
+            "prefix_parametric_shared_farkas_shapes",
+            int(prefix_payload["translation"]["shared_farkas_shapes"]),
+        )
+        == int(prefix_payload["translation"]["shared_farkas_shapes"]),
+        "full fallback translation prefix-parametric shared shapes",
     )
     require(
         translation["shared_farkas_cases"] ==
@@ -2376,9 +2488,6 @@ def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
     require(translation["encoding"] == "base64",
             "full fallback translation encoding")
 
-    translation_total = 0
-    seen_cases = set()
-    shape_keys = set()
     previous_key = (-1, -1)
     for expected_index, chunk in enumerate(translation["chunks"]):
         require(chunk["index"] == expected_index,
@@ -2392,74 +2501,35 @@ def check_full_generated_lean_fallback_manifest(manifest, prefix_payload):
         require(first_key > previous_key,
                 f"full fallback translation chunks sorted {expected_index}")
         previous_key = last_key
-        blob_path = REPO_ROOT / chunk["blob"]["path"]
-        lean_path = (
-            REPO_ROOT / "Cuboctahedron" / "Generated" /
-            "Translation" / "Farkas" / f"Chunk{expected_index:04d}.lean"
-        )
-        check_generated_file_record(chunk["blob"], blob_path)
-        check_generated_file_record(chunk["lean"], lean_path)
-        require(chunk["blob"]["bytes"] <= 50 * MIB,
-                f"full fallback translation blob size {expected_index}")
-        require(chunk["encoding"] == "base64",
-                f"full fallback translation chunk encoding {expected_index}")
-        require(chunk["magic"] == "COTF",
-                f"full fallback translation chunk magic {expected_index}")
-        check_no_forbidden_lean_tokens(lean_path)
-        decoded = decode_packed_translation_farkas_blob_text(
-            blob_path.read_text(encoding="ascii")
-        )
-        require(decoded["sha256"] == chunk["blob"]["sha256"],
-                f"full fallback translation blob sha {expected_index}")
-        require(decoded["raw_bytes"] == chunk["raw_bytes"],
-                f"full fallback translation raw bytes {expected_index}")
-        require(
-            decoded["shared_farkas_cases"] == translation["shared_farkas_cases"],
-            f"full fallback translation metadata cases {expected_index}",
-        )
-        require(len(decoded["certs"]) == chunk["cert_count"],
-                f"full fallback translation decoded count {expected_index}")
-        keys = [(cert["rank"], cert["mask"]) for cert in decoded["certs"]]
-        require(min(keys) == first_key,
-                f"full fallback translation first key {expected_index}")
-        require(max(keys) == last_key,
-                f"full fallback translation last key {expected_index}")
-        require(keys == sorted(keys),
-                f"full fallback translation decoded keys sorted {expected_index}")
-        for cert in decoded["certs"]:
-            key = (cert["rank"], cert["mask"])
-            require(key not in seen_cases,
-                    f"full fallback translation duplicate {key}")
-            seen_cases.add(key)
-            word = pair_word_at_rank(cert["rank"])
-            require(total_linear(word) == mat_id(),
-                    f"full fallback translation identity word {key}")
-            b, seq = translation_vector(word, cert["mask"])
-            require(translation_case_needs_farkas(seq, b),
-                    f"full fallback translation needs Farkas {key}")
-            require(
-                check_source_farkas_py(seq, b, cert["sourceTerms"]),
-                f"full fallback translation source Farkas {key}",
-            )
-            shape_keys.add(canonical_json(cert["sourceTerms"]))
-        translation_total += len(decoded["certs"])
+    translation_results = parallel_map_chunks(
+        check_full_translation_chunk_worker,
+        [
+            (expected_index, chunk, translation["shared_farkas_cases"], deep_check)
+            for expected_index, chunk in enumerate(translation["chunks"])
+        ],
+        jobs,
+    )
+    translation_total = sum(result["cert_count"] for result in translation_results)
+    shape_digests = set()
+    for result in translation_results:
+        shape_digests.update(result["shape_digests"])
     require(
         translation_total == translation["shared_farkas_cases"],
         "full fallback translation decoded total",
     )
     require(
-        len(shape_keys) == translation["shared_farkas_shapes"],
+        len(shape_digests) == translation["shared_farkas_shapes"],
         "full fallback translation distinct source Farkas shapes",
     )
     return {
         "nonidentity_residual_chunks": len(nonid["chunks"]),
         "nonidentity_residual_certs": total,
-        "translation_shared_farkas_shapes": len(shape_keys),
+        "translation_shared_farkas_shapes": len(shape_digests),
         "translation_shared_farkas_certs": translation_total,
     }
 
 
-def check_exhaustive_real_certs_summary(payload):
+def check_exhaustive_real_certs_summary(payload, jobs=1, deep_check=False):
     require(payload.get("schema_version") == 1, "exhaustive schema version")
     require(payload.get("mode") == "exhaustive-real-certs", "exhaustive mode")
     summary_kind = payload.get("summary_kind")
@@ -2726,7 +2796,7 @@ def check_exhaustive_real_certs_summary(payload):
         require(emission["refusal_reasons"] == [],
                 "completed full emission has no refusal reasons")
         completed_manifest_summary = check_full_generated_lean_fallback_manifest(
-            emission["manifest"], prefix_payload
+            emission["manifest"], prefix_payload, jobs=jobs, deep_check=deep_check
         )
     else:
         require(emission["performed"] is False, "full emission must be gated")
@@ -4816,7 +4886,27 @@ def main():
         action="store_true",
         help="require exact state-group summaries in profile-exhaustive-states",
     )
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=0,
+        help=(
+            "parallel worker count for completed exhaustive chunk checks; "
+            "0 uses the detected CPU count"
+        ),
+    )
+    parser.add_argument(
+        "--deep-full-cert-check",
+        action="store_true",
+        help=(
+            "also recompute every completed fallback certificate in Python; "
+            "slow and not required for Lean trust"
+        ),
+    )
     args = parser.parse_args()
+    jobs = max(1, os.cpu_count() or 1) if args.jobs == 0 else args.jobs
+    if jobs < 1:
+        parser.error("--jobs must be positive or 0 for auto")
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
         parser.error(
@@ -4901,7 +4991,11 @@ def main():
         return
     if mode == "exhaustive-real-certs":
         payload = json.loads(EXHAUSTIVE_REAL_CERTS_JSON_PATH.read_text(encoding="utf-8"))
-        summary = check_exhaustive_real_certs_summary(payload)
+        summary = check_exhaustive_real_certs_summary(
+            payload,
+            jobs=jobs,
+            deep_check=args.deep_full_cert_check,
+        )
         print("independent exhaustive real-certs gate check passed")
         print(f"status: {summary['status']}")
         print(f"canonical cert estimate: {summary['canonical_cert_estimate']:,}")

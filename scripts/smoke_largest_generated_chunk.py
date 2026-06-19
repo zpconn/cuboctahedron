@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Memory-capped Lean smoke test for the largest generated packed chunk.
+
+This is a guardrail for the generated Lean fallback: before running a full
+`lake build`, elaborate the largest generated chunk by itself with one Lean
+thread and a hard address-space limit.  A passing smoke test does not prove the
+whole project, but it catches the oversized-chunk failure mode that can exhaust
+the machine during Lake's parallel build.
+"""
+
+from __future__ import annotations
+
+import argparse
+import resource
+import subprocess
+import sys
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+NONIDENTITY_BLOB_DIR = REPO_ROOT / "certs" / "nonidentity_residual"
+TRANSLATION_BLOB_DIR = REPO_ROOT / "certs" / "translation_farkas"
+NONIDENTITY_LEAN_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual"
+)
+TRANSLATION_LEAN_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas"
+)
+
+
+def relative(path: Path) -> str:
+    return str(path.relative_to(REPO_ROOT))
+
+
+def generated_blob_candidates() -> list[tuple[int, str, Path, Path]]:
+    candidates: list[tuple[int, str, Path, Path]] = []
+    for blob_path in NONIDENTITY_BLOB_DIR.glob("Chunk*.b64"):
+        lean_path = NONIDENTITY_LEAN_DIR / f"{blob_path.stem}.lean"
+        candidates.append((blob_path.stat().st_size, "nonidentity", blob_path, lean_path))
+    for blob_path in TRANSLATION_BLOB_DIR.glob("Chunk*.b64"):
+        lean_path = TRANSLATION_LEAN_DIR / f"{blob_path.stem}.lean"
+        candidates.append((blob_path.stat().st_size, "translation", blob_path, lean_path))
+    return candidates
+
+
+def set_memory_limit(limit_bytes: int) -> None:
+    resource.setrlimit(resource.RLIMIT_AS, (limit_bytes, limit_bytes))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--memory-limit-gib",
+        type=float,
+        default=8.0,
+        help="address-space limit for the Lean process",
+    )
+    parser.add_argument(
+        "--timeout-seconds",
+        type=int,
+        default=900,
+        help="wall-clock timeout for the single-chunk Lean smoke test",
+    )
+    args = parser.parse_args()
+    if args.memory_limit_gib <= 0:
+        parser.error("--memory-limit-gib must be positive")
+    if args.timeout_seconds <= 0:
+        parser.error("--timeout-seconds must be positive")
+
+    candidates = generated_blob_candidates()
+    if not candidates:
+        raise SystemExit("no generated packed chunk blobs found")
+    size, kind, blob_path, lean_path = max(candidates, key=lambda item: item[0])
+    if not lean_path.exists():
+        raise SystemExit(f"missing Lean wrapper for {relative(blob_path)}")
+
+    limit_bytes = int(args.memory_limit_gib * 1024 ** 3)
+    command = ["lake", "env", "lean", "-j1", str(lean_path.relative_to(REPO_ROOT))]
+    print("largest generated chunk smoke test")
+    print(f"kind: {kind}")
+    print(f"blob: {relative(blob_path)}")
+    print(f"blob bytes: {size}")
+    print(f"lean: {relative(lean_path)}")
+    print(f"memory limit: {args.memory_limit_gib:g} GiB")
+    sys.stdout.flush()
+
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=REPO_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=args.timeout_seconds,
+            preexec_fn=lambda: set_memory_limit(limit_bytes),
+        )
+    except subprocess.TimeoutExpired as exc:
+        print(f"timed out after {args.timeout_seconds} seconds")
+        if exc.stdout:
+            print(exc.stdout)
+        if exc.stderr:
+            print(exc.stderr, file=sys.stderr)
+        return 124
+
+    if completed.stdout:
+        print(completed.stdout)
+    if completed.stderr:
+        print(completed.stderr, file=sys.stderr)
+    usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+    print(f"max rss: {usage.ru_maxrss} KiB")
+    if completed.returncode != 0:
+        print(f"smoke test failed with exit code {completed.returncode}")
+        return completed.returncode
+    print("smoke test passed")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

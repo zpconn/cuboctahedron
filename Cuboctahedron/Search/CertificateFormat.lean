@@ -198,24 +198,26 @@ noncomputable def CompactTranslationFarkasCert.toTranslationCert
   b := translationVectorOfChoice (unrankPairWord cert.rank) cert.mask
   failure := TranslationFailure.sourceFarkas cert.sourceFarkas
 
+def CompactTranslationFarkasCert.seqFun
+    (cert : CompactTranslationFarkasCert) : Step14 -> Face :=
+  translationChoiceSeq (unrankPairWord cert.rank) cert.mask
+
+def CompactTranslationFarkasCert.totalTranslation
+    (cert : CompactTranslationFarkasCert) : Vec3 Rat :=
+  (totalAff cert.seqFun).b
+
 def CompactTranslationFarkasCovered
     (cert : CompactTranslationFarkasCert) : Prop :=
-  exists ordinary : TranslationCert,
-    ordinary.word = unrankPairWord cert.rank /\
-      ordinary.signMask = cert.mask /\
-        checkTranslationCert ordinary = true
+  ¬ exists seq,
+    SeqRealizesTranslationChoice (unrankPairWord cert.rank) cert.mask seq /\
+      totalLinear seq = (matId : Mat3 Rat) /\
+        UnfoldedFeasible seq
 
-noncomputable def checkCompactTranslationFarkas
+def checkCompactTranslationFarkas
     (cert : CompactTranslationFarkasCert) : Bool :=
-  (checkTranslationCoveredCase
-      { pairRank := cert.rank.val, signMask := cert.mask.val }
-      cert.toTranslationCert &&
-    decide
-      (translationEarlyFamilyClassOfChoice cert.rank cert.mask =
-        TranslationFamilyClass.needsFarkas)) &&
-    checkTranslationCert cert.toTranslationCert
+  checkSourceFarkas cert.seqFun cert.totalTranslation cert.sourceFarkas
 
-noncomputable def checkCompactTranslationFarkasCerts
+def checkCompactTranslationFarkasCerts
     (certs : Array CompactTranslationFarkasCert) : Bool :=
   certs.toList.all checkCompactTranslationFarkas
 
@@ -223,16 +225,25 @@ theorem checkCompactTranslationFarkas_sound
     (cert : CompactTranslationFarkasCert)
     (hcheck : checkCompactTranslationFarkas cert = true) :
     CompactTranslationFarkasCovered cert := by
-  unfold checkCompactTranslationFarkas at hcheck
-  rw [Bool.and_eq_true] at hcheck
-  rcases hcheck with ⟨hleft, hcert⟩
-  rw [Bool.and_eq_true] at hleft
-  rcases hleft with ⟨hcovered, _hNeedsFarkas⟩
-  have hwordMask :=
-    checkTranslationCoveredCase_word_mask
-      (r := cert.rank) (mask := cert.mask)
-      (cert := cert.toTranslationCert) hcovered
-  exact ⟨cert.toTranslationCert, hwordMask.1, hwordMask.2, hcert⟩
+  intro hbad
+  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
+  have hseq : seq = cert.seqFun := by
+    funext i
+    exact hRealize.choice_matches i
+  have hTranslation :
+      TranslationUnfoldedFeasible
+        cert.seqFun cert.totalTranslation := by
+    refine
+      { feasible := ?_
+        startsXp := ?_
+        linear_id := ?_
+        translation_vector := rfl }
+    · simpa [hseq] using hFeasible
+    · rw [← hseq]
+      exact hRealize.realizes.startsXp
+    · simpa [← hseq] using hLinear
+  exact checkSourceFarkas_sound hcheck
+    (translation_feasible_implies_constraints hTranslation)
 
 theorem checkCompactTranslationFarkas_no_feasible
     (cert : CompactTranslationFarkasCert)
@@ -241,12 +252,7 @@ theorem checkCompactTranslationFarkas_no_feasible
       SeqRealizesTranslationChoice (unrankPairWord cert.rank) cert.mask seq /\
         totalLinear seq = (matId : Mat3 Rat) /\
         UnfoldedFeasible seq := by
-  have hcovered := checkCompactTranslationFarkas_sound cert hcheck
-  rcases hcovered with ⟨ordinary, hword, hmask, hcert⟩
-  intro hbad
-  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
-  exact checkTranslationCert_sound ordinary hcert
-    ⟨seq, by simpa [hword, hmask] using hRealize, hLinear, hFeasible⟩
+  exact checkCompactTranslationFarkas_sound cert hcheck
 
 theorem checkCompactTranslationFarkasCerts_sound
     {certs : List CompactTranslationFarkasCert}

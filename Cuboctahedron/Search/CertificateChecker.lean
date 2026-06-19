@@ -92,7 +92,7 @@ theorem checkPackedResidualCerts_sound
         checkNonIdCoveredRank_word (r := cert.rank) hcovered.1,
         hcovered.2⟩
 
-noncomputable def checkPackedTranslationFarkasCerts (blob : String) : Bool :=
+def checkPackedTranslationFarkasCerts (blob : String) : Bool :=
   match decodePackedTranslationFarkasCerts blob with
   | .ok certs => checkCompactTranslationFarkasCerts certs
   | .error _ => false
@@ -102,10 +102,10 @@ theorem checkPackedTranslationFarkasCerts_sound
     (hcheck : checkPackedTranslationFarkasCerts blob = true) :
     forall cert,
       cert ∈ (decodedPackedTranslationFarkasCerts blob).toList ->
-        exists ordinary : TranslationCert,
-            ordinary.word = unrankPairWord cert.rank /\
-              ordinary.signMask = cert.mask /\
-                checkTranslationCert ordinary = true := by
+        ¬ exists seq,
+          SeqRealizesTranslationChoice (unrankPairWord cert.rank) cert.mask seq /\
+            totalLinear seq = (matId : Mat3 Rat) /\
+              UnfoldedFeasible seq := by
   unfold checkPackedTranslationFarkasCerts at hcheck
   cases hdecode : decodePackedTranslationFarkasCerts blob with
   | error err =>
@@ -118,7 +118,7 @@ theorem checkPackedTranslationFarkasCerts_sound
       intro cert hmem
       have hmemList : cert ∈ certs.toList := by
         simpa [decodedPackedTranslationFarkasCerts, hdecode] using hmem
-      exact
+      simpa [CompactTranslationFarkasCovered] using
         (checkCompactTranslationFarkasCerts_sound
           (certs := certs.toList) hcheckList) cert hmemList
 

@@ -9,10 +9,12 @@ from __future__ import annotations
 
 import argparse
 import base64
+import concurrent.futures
 import hashlib
 import itertools
 import json
 import math
+import os
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -114,6 +116,8 @@ COMPACT_CERT_PILOT_BLOB_PATH = CERTS_DIR / "compact_cert_pilot.b64"
 PACKED_RESIDUAL_PILOT_BLOB_PATH = CERTS_DIR / "packed_residual_pilot.b64"
 FULL_NONIDENTITY_RESIDUAL_BLOB_DIR = CERTS_DIR / "nonidentity_residual"
 FULL_TRANSLATION_FARKAS_BLOB_DIR = CERTS_DIR / "translation_farkas"
+FULL_NONIDENTITY_RESIDUAL_SHARD_DIR = CERTS_DIR / "nonidentity_residual_shards"
+FULL_TRANSLATION_FARKAS_SHARD_DIR = CERTS_DIR / "translation_farkas_shards"
 COMPACT_CERT_SAMPLE_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_cert_sample.json"
 )
@@ -125,7 +129,8 @@ EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
 EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS = 157_957_632
 COVERAGE_CHUNK_SIZE = 100_000
-FULL_EMISSION_TARGET_CHUNK_BYTES = 8 * 1024 * 1024
+DEFAULT_FULL_EMISSION_TARGET_CHUNK_BYTES = 4 * 1024
+FULL_EMISSION_TARGET_CHUNK_BYTES = DEFAULT_FULL_EMISSION_TARGET_CHUNK_BYTES
 FULL_EMISSION_HARD_MAX_FILE_BYTES = 50 * 1024 * 1024
 FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES = int(1.25 * 1024 * 1024 * 1024)
 RESIDUAL_TEMPLATE_SCAN_LIMIT = 1000
@@ -601,6 +606,77 @@ def lex_rank_pair_word(word: list[str]) -> int:
             rank += multinomial_count(trial)
         remaining[current] -= 1
     return rank
+
+
+def prefix_start_rank(prefix: list[str]) -> int:
+    rank = 0
+    remaining = dict(PAIR_COUNTS)
+    for current in prefix:
+        if current not in remaining or remaining[current] <= 0:
+            raise ValueError(f"invalid pair prefix: {prefix}")
+        current_code = PAIR_IDS.index(current)
+        for smaller in PAIR_IDS[:current_code]:
+            if remaining[smaller] == 0:
+                continue
+            trial = dict(remaining)
+            trial[smaller] -= 1
+            rank += multinomial_count(trial)
+        remaining[current] -= 1
+    return rank
+
+
+def valid_pair_prefixes(depth: int) -> list[list[str]]:
+    if not 0 <= depth <= 13:
+        raise ValueError("--full-emission-prefix-depth must be between 0 and 13")
+    prefixes: list[list[str]] = []
+    current: list[str] = []
+    remaining = dict(PAIR_COUNTS)
+
+    def rec() -> None:
+        if len(current) == depth:
+            prefixes.append(list(current))
+            return
+        for pair_id in PAIR_IDS:
+            if remaining[pair_id] <= 0:
+                continue
+            remaining[pair_id] -= 1
+            current.append(pair_id)
+            rec()
+            current.pop()
+            remaining[pair_id] += 1
+
+    rec()
+    prefixes.sort(key=prefix_start_rank)
+    return prefixes
+
+
+def valid_pair_prefix_count(depth: int) -> int:
+    if not 0 <= depth <= 13:
+        raise ValueError("--full-emission-prefix-depth must be between 0 and 13")
+    total = 0
+    counts = [0] * len(PAIR_IDS)
+
+    def rec(pair_index: int, remaining_depth: int) -> None:
+        nonlocal total
+        if pair_index == len(PAIR_IDS):
+            if remaining_depth == 0:
+                denominator = 1
+                for count in counts:
+                    denominator *= math.factorial(count)
+                total += math.factorial(depth) // denominator
+            return
+        max_count = min(PAIR_COUNTS[PAIR_IDS[pair_index]], remaining_depth)
+        for count in range(max_count + 1):
+            counts[pair_index] = count
+            rec(pair_index + 1, remaining_depth - count)
+        counts[pair_index] = 0
+
+    rec(0, depth)
+    return total
+
+
+def prefix_arg(prefix: list[str]) -> str:
+    return ",".join(str(PAIR_IDS.index(pair_id)) for pair_id in prefix)
 
 
 def pair_word_at_rank(rank: int) -> list[str]:
@@ -5585,7 +5661,7 @@ def write_full_packed_residual_chunk_lean(
         "",
         f"def chunkBlob : String := include_str {include_path}",
         "",
-        "def decodedChunkCerts : Array CompactNonIdResidualCert :=",
+        "noncomputable def decodedChunkCerts : Array CompactNonIdResidualCert :=",
         "  decodedPackedResidualCerts chunkBlob",
         "",
         "theorem chunk_check :",
@@ -5682,7 +5758,7 @@ def write_full_packed_translation_farkas_chunk_lean(
         "",
         f"def chunkBlob : String := include_str {include_path}",
         "",
-        "def decodedChunkCerts : Array CompactTranslationFarkasCert :=",
+        "noncomputable def decodedChunkCerts : Array CompactTranslationFarkasCert :=",
         "  decodedPackedTranslationFarkasCerts chunkBlob",
         "",
         "theorem chunk_check :",
@@ -5693,10 +5769,10 @@ def write_full_packed_translation_farkas_chunk_lean(
         "theorem chunk_sound :",
         "    forall cert,",
         "      cert ∈ decodedChunkCerts.toList ->",
-        "        exists ordinary : TranslationCert,",
-        "          ordinary.word = unrankPairWord cert.rank /\\",
-        "            ordinary.signMask = cert.mask /\\",
-        "              checkTranslationCert ordinary = true :=",
+        "        ¬ exists seq,",
+        "          SeqRealizesTranslationChoice (unrankPairWord cert.rank) cert.mask seq /\\",
+        "            totalLinear seq = (matId : Mat3 Rat) /\\",
+        "              UnfoldedFeasible seq :=",
         "  checkPackedTranslationFarkasCerts_sound chunkBlob chunk_check",
         "",
         f"end Cuboctahedron.Generated.Translation.Farkas.Chunk{index:04d}",
@@ -5961,8 +6037,353 @@ def emit_full_translation_packed_farkas_chunks(
     }
 
 
+def clear_full_generated_chunk_outputs() -> None:
+    for directory in [
+        FULL_NONIDENTITY_RESIDUAL_SHARD_DIR,
+        FULL_TRANSLATION_FARKAS_SHARD_DIR,
+    ]:
+        if directory.exists():
+            shutil.rmtree(directory)
+    for directory in [
+        FULL_NONIDENTITY_RESIDUAL_BLOB_DIR,
+        FULL_TRANSLATION_FARKAS_BLOB_DIR,
+        FULL_NONIDENTITY_RESIDUAL_SHARD_DIR,
+        FULL_TRANSLATION_FARKAS_SHARD_DIR,
+        NONIDENTITY_RESIDUAL_DIR,
+        TRANSLATION_FARKAS_DIR,
+    ]:
+        directory.mkdir(parents=True, exist_ok=True)
+    for path in FULL_NONIDENTITY_RESIDUAL_BLOB_DIR.glob("Chunk*.b64"):
+        path.unlink()
+    for path in FULL_TRANSLATION_FARKAS_BLOB_DIR.glob("Chunk*.b64"):
+        path.unlink()
+    for path in NONIDENTITY_RESIDUAL_DIR.glob("Chunk*.lean"):
+        path.unlink()
+    for path in TRANSLATION_FARKAS_DIR.glob("Chunk*.lean"):
+        path.unlink()
+
+
+def generated_blob_record(blob_path: Path) -> dict:
+    text = blob_path.read_text(encoding="ascii")
+    raw = base64.b64decode(text, validate=True)
+    record = generated_file_record(blob_path)
+    record.update({
+        "raw_sha256": hashlib.sha256(raw).hexdigest(),
+        "raw_bytes": len(raw),
+        "encoding": "base64",
+    })
+    return record
+
+
+def emitted_translation_source_shape_count(
+    *,
+    chunks: list[dict],
+    shared_farkas_cases: int,
+    jobs: int,
+) -> int:
+    import check_certificates_independently as checker
+
+    results = checker.parallel_map_chunks(
+        checker.check_full_translation_chunk_worker,
+        [
+            (index, chunk, shared_farkas_cases, False)
+            for index, chunk in enumerate(chunks)
+        ],
+        jobs,
+    )
+    shape_digests = set()
+    for result in results:
+        shape_digests.update(result["shape_digests"])
+    return len(shape_digests)
+
+
+def run_full_fallback_cpp_emitter(
+    *,
+    helper: Path,
+    nonidentity_dir: Path,
+    translation_dir: Path,
+    residual_cases: int,
+    shared_farkas_cases: int,
+    target_raw_bytes: int,
+    prefix: list[str] | None = None,
+) -> dict:
+    nonidentity_dir.mkdir(parents=True, exist_ok=True)
+    translation_dir.mkdir(parents=True, exist_ok=True)
+    command = [
+        str(helper),
+        "--emit-full-fallback",
+        "--nonidentity-residual-dir",
+        str(nonidentity_dir),
+        "--translation-farkas-dir",
+        str(translation_dir),
+        "--nonidentity-residual-total",
+        str(residual_cases),
+        "--translation-farkas-total",
+        str(shared_farkas_cases),
+        "--chunk-target-raw-bytes",
+        str(target_raw_bytes),
+    ]
+    if prefix is not None:
+        command.extend(["--prefix", prefix_arg(prefix)])
+    completed = subprocess.run(
+        command,
+        cwd=REPO_ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if completed.returncode != 0:
+        detail = completed.stderr[-4000:] if completed.stderr else ""
+        raise RuntimeError(
+            "compiled fallback emitter failed"
+            + (f" for prefix {prefix_arg(prefix)}" if prefix is not None else "")
+            + (f":\n{detail}" if detail else "")
+        )
+    payload = json.loads(completed.stdout)
+    if payload.get("complete") is not True:
+        raise RuntimeError("compiled fallback emitter did not complete")
+    return payload
+
+
+def final_nonidentity_chunks_from_emitter_payloads(payloads: list[dict]) -> list[dict]:
+    raw_chunks: list[tuple[int, int, Path, dict]] = []
+    for payload in payloads:
+        nonid_payload = payload["nonidentity_residual"]
+        source_dir = Path(nonid_payload["output_dir"])
+        for chunk in nonid_payload["chunks"]:
+            index = int(chunk["index"])
+            raw_chunks.append((
+                int(chunk["first_rank"]),
+                int(chunk["last_rank"]),
+                source_dir / f"Chunk{index:04d}.b64",
+                chunk,
+            ))
+    raw_chunks.sort(key=lambda item: (item[0], item[1], str(item[2])))
+
+    chunks: list[dict] = []
+    previous_last = -1
+    for final_index, (first_rank, last_rank, source_path, source_chunk) in enumerate(raw_chunks):
+        if first_rank <= previous_last:
+            raise RuntimeError("nonidentity shard chunks overlap or are unsorted")
+        previous_last = last_rank
+        blob_path = full_nonidentity_residual_blob_path(final_index)
+        if source_path.resolve() != blob_path.resolve():
+            shutil.copyfile(source_path, blob_path)
+        lean_path = write_full_packed_residual_chunk_lean(
+            index=final_index,
+            blob_path=blob_path,
+        )
+        blob_record = generated_blob_record(blob_path)
+        if int(source_chunk["raw_bytes"]) != int(blob_record["raw_bytes"]):
+            raise RuntimeError(f"nonidentity shard raw size mismatch {final_index}")
+        chunks.append({
+            "index": final_index,
+            "cert_count": int(source_chunk["cert_count"]),
+            "first_rank": first_rank,
+            "last_rank": last_rank,
+            "blob": blob_record,
+            "lean": generated_file_record(lean_path),
+            "raw_bytes": int(blob_record["raw_bytes"]),
+            "raw_sha256": blob_record["raw_sha256"],
+            "encoding": "base64",
+            "magic": "CORC",
+        })
+    return chunks
+
+
+def final_translation_chunks_from_emitter_payloads(payloads: list[dict]) -> list[dict]:
+    raw_chunks: list[tuple[int, int, int, int, Path, dict]] = []
+    for payload in payloads:
+        translation_payload = payload["translation_farkas"]
+        source_dir = Path(translation_payload["output_dir"])
+        for chunk in translation_payload["chunks"]:
+            index = int(chunk["index"])
+            raw_chunks.append((
+                int(chunk["first_rank"]),
+                int(chunk["first_mask"]),
+                int(chunk["last_rank"]),
+                int(chunk["last_mask"]),
+                source_dir / f"Chunk{index:04d}.b64",
+                chunk,
+            ))
+    raw_chunks.sort(key=lambda item: (item[0], item[1], item[2], item[3], str(item[4])))
+
+    chunks: list[dict] = []
+    previous_key = (-1, -1)
+    for final_index, (
+        first_rank,
+        first_mask,
+        last_rank,
+        last_mask,
+        source_path,
+        source_chunk,
+    ) in enumerate(raw_chunks):
+        first_key = (first_rank, first_mask)
+        last_key = (last_rank, last_mask)
+        if first_key <= previous_key:
+            raise RuntimeError("translation shard chunks overlap or are unsorted")
+        previous_key = last_key
+        blob_path = full_translation_farkas_blob_path(final_index)
+        if source_path.resolve() != blob_path.resolve():
+            shutil.copyfile(source_path, blob_path)
+        lean_path = write_full_packed_translation_farkas_chunk_lean(
+            index=final_index,
+            blob_path=blob_path,
+        )
+        blob_record = generated_blob_record(blob_path)
+        if int(source_chunk["raw_bytes"]) != int(blob_record["raw_bytes"]):
+            raise RuntimeError(f"translation shard raw size mismatch {final_index}")
+        chunks.append({
+            "index": final_index,
+            "cert_count": int(source_chunk["cert_count"]),
+            "first_rank": first_rank,
+            "first_mask": first_mask,
+            "last_rank": last_rank,
+            "last_mask": last_mask,
+            "blob": blob_record,
+            "lean": generated_file_record(lean_path),
+            "raw_bytes": int(blob_record["raw_bytes"]),
+            "raw_sha256": blob_record["raw_sha256"],
+            "encoding": "base64",
+            "magic": "COTF",
+        })
+    return chunks
+
+
+def emit_full_generated_fallback_chunks_with_cpp(
+    *,
+    residual_cases: int,
+    shared_farkas_cases: int,
+    shared_farkas_shapes: int,
+    jobs: int,
+    prefix_depth: int,
+) -> tuple[dict, dict]:
+    clear_full_generated_chunk_outputs()
+    helper = exact_profile.ensure_cpp_profile_helper()
+    target_raw_bytes = max(1024, (FULL_EMISSION_TARGET_CHUNK_BYTES * 3) // 4)
+    effective_jobs = max(1, jobs)
+    if effective_jobs == 1:
+        payloads = [
+            run_full_fallback_cpp_emitter(
+                helper=helper,
+                nonidentity_dir=FULL_NONIDENTITY_RESIDUAL_BLOB_DIR,
+                translation_dir=FULL_TRANSLATION_FARKAS_BLOB_DIR,
+                residual_cases=residual_cases,
+                shared_farkas_cases=shared_farkas_cases,
+                target_raw_bytes=target_raw_bytes,
+            )
+        ]
+    else:
+        prefixes = valid_pair_prefixes(prefix_depth)
+        if not prefixes:
+            raise RuntimeError("no shard prefixes generated")
+
+        def run_shard(item: tuple[int, list[str]]) -> dict:
+            shard_index, prefix = item
+            nonid_dir = (
+                FULL_NONIDENTITY_RESIDUAL_SHARD_DIR /
+                f"Shard{shard_index:04d}"
+            )
+            translation_dir = (
+                FULL_TRANSLATION_FARKAS_SHARD_DIR /
+                f"Shard{shard_index:04d}"
+            )
+            payload = run_full_fallback_cpp_emitter(
+                helper=helper,
+                nonidentity_dir=nonid_dir,
+                translation_dir=translation_dir,
+                residual_cases=residual_cases,
+                shared_farkas_cases=shared_farkas_cases,
+                target_raw_bytes=target_raw_bytes,
+                prefix=prefix,
+            )
+            payload["shard"] = {
+                "index": shard_index,
+                "prefix": prefix,
+                "prefix_start_rank": prefix_start_rank(prefix),
+            }
+            return payload
+
+        payloads = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=effective_jobs) as pool:
+            futures = [
+                pool.submit(run_shard, (index, prefix))
+                for index, prefix in enumerate(prefixes)
+            ]
+            for future in concurrent.futures.as_completed(futures):
+                payloads.append(future.result())
+        payloads.sort(
+            key=lambda payload: payload.get("shard", {}).get("prefix_start_rank", 0)
+        )
+
+    nonid_chunks = final_nonidentity_chunks_from_emitter_payloads(payloads)
+    nonid_total = sum(int(chunk["cert_count"]) for chunk in nonid_chunks)
+    if nonid_total != residual_cases:
+        raise RuntimeError(
+            "compiled nonidentity residual count mismatch: "
+            f"{nonid_total} != {residual_cases}"
+        )
+    write_full_nonidentity_residual_all_lean(nonid_chunks)
+
+    translation_chunks = final_translation_chunks_from_emitter_payloads(payloads)
+    translation_total = sum(int(chunk["cert_count"]) for chunk in translation_chunks)
+    if translation_total != shared_farkas_cases:
+        raise RuntimeError(
+            "compiled translation Farkas count mismatch: "
+            f"{translation_total} != {shared_farkas_cases}"
+        )
+    write_full_translation_farkas_all_lean(translation_chunks)
+    actual_shared_farkas_shapes = emitted_translation_source_shape_count(
+        chunks=translation_chunks,
+        shared_farkas_cases=shared_farkas_cases,
+        jobs=effective_jobs,
+    )
+
+    shard_count = len(payloads)
+    nonidentity_manifest = {
+        "complete": True,
+        "strategy": "packed_nonid_residual_base64",
+        "chunks": nonid_chunks,
+        "chunk_count": len(nonid_chunks),
+        "cert_count": nonid_total,
+        "aggregate_lean": generated_file_record(NONIDENTITY_RESIDUAL_ALL_PATH),
+        "blob_dir": relative_path(FULL_NONIDENTITY_RESIDUAL_BLOB_DIR),
+        "encoding": "base64",
+        "magic": "CORC",
+        "emitter": {
+            "backend": "compiled-exact-cpp-emitter",
+            "chunk_target_raw_bytes": target_raw_bytes,
+            "jobs": effective_jobs,
+            "prefix_depth": prefix_depth if effective_jobs > 1 else 0,
+            "shard_count": shard_count,
+        },
+    }
+    translation_manifest = {
+        "complete": True,
+        "strategy": "packed_translation_source_farkas_base64",
+        "shared_farkas_shapes": actual_shared_farkas_shapes,
+        "prefix_parametric_shared_farkas_shapes": shared_farkas_shapes,
+        "shared_farkas_cases": shared_farkas_cases,
+        "chunks": translation_chunks,
+        "chunk_count": len(translation_chunks),
+        "cert_count": translation_total,
+        "aggregate_lean": generated_file_record(TRANSLATION_FARKAS_ALL_PATH),
+        "blob_dir": relative_path(FULL_TRANSLATION_FARKAS_BLOB_DIR),
+        "encoding": "base64",
+        "magic": "COTF",
+        "emitter": {
+            "backend": "compiled-exact-cpp-emitter",
+            "chunk_target_raw_bytes": target_raw_bytes,
+            "jobs": effective_jobs,
+            "prefix_depth": prefix_depth if effective_jobs > 1 else 0,
+            "shard_count": shard_count,
+        },
+    }
+    return nonidentity_manifest, translation_manifest
+
+
 def build_full_generated_lean_fallback_manifest(
-    *, packed_residual: dict, prefix_parametric: dict
+    *, packed_residual: dict, prefix_parametric: dict, jobs: int, prefix_depth: int
 ) -> tuple[dict | None, list[str]]:
     refusal_reasons: list[str] = []
     packed_projection = packed_residual.get("projection", {})
@@ -5984,12 +6405,14 @@ def build_full_generated_lean_fallback_manifest(
         write_translation_farkas_all_placeholder()
         return None, refusal_reasons
 
-    translation_manifest = emit_full_translation_packed_farkas_chunks(
-        shared_farkas_cases=shared_farkas_cases,
-        shared_farkas_shapes=shared_farkas_shapes,
-    )
-    nonidentity_manifest = emit_full_nonidentity_packed_residual_chunks(
-        residual_cases=residual_cases
+    nonidentity_manifest, translation_manifest = (
+        emit_full_generated_fallback_chunks_with_cpp(
+            residual_cases=residual_cases,
+            shared_farkas_cases=shared_farkas_cases,
+            shared_farkas_shapes=shared_farkas_shapes,
+            jobs=jobs,
+            prefix_depth=prefix_depth,
+        )
     )
     full_generated_imports = [
         NONIDENTITY_RESIDUAL_ALL_PATH,
@@ -6141,6 +6564,8 @@ def build_exhaustive_real_certs_summary(
     required_free_gib: float,
     approve_large_exhaustive: bool,
     allow_flat_exhaustive: bool,
+    full_emission_jobs: int,
+    full_emission_prefix_depth: int,
 ) -> dict:
     profile = exact_profile.load_profile_payload(profile_input)
     counts = exact_profile.check_profile_payload(profile)
@@ -6393,6 +6818,8 @@ def build_exhaustive_real_certs_summary(
             build_full_generated_lean_fallback_manifest(
                 packed_residual=packed_residual,
                 prefix_parametric=prefix_parametric,
+                jobs=full_emission_jobs,
+                prefix_depth=full_emission_prefix_depth,
             )
         )
         refusal_reasons.extend(emission_refusal_reasons)
@@ -6532,6 +6959,15 @@ def build_exhaustive_real_certs_summary(
             "refusal_reasons": refusal_reasons,
             "approval_flag": "--approve-large-exhaustive",
             "large_emission_ready": ready_for_large_emission,
+            "parallel": {
+                "jobs": full_emission_jobs,
+                "prefix_depth": full_emission_prefix_depth,
+                "prefix_shards": (
+                    valid_pair_prefix_count(full_emission_prefix_depth)
+                    if full_emission_jobs > 1
+                    else 1
+                ),
+            },
             "manifest": full_emission_manifest,
         },
         "expected_full_generation_paths": [
@@ -7962,6 +8398,30 @@ def main() -> None:
         help="explicitly approve large exhaustive emission if size gates pass",
     )
     parser.add_argument(
+        "--full-emission-jobs",
+        type=int,
+        default=0,
+        help=(
+            "parallel worker count for approved exhaustive fallback emission; "
+            "0 uses the detected CPU count"
+        ),
+    )
+    parser.add_argument(
+        "--full-emission-prefix-depth",
+        type=int,
+        default=3,
+        help="valid pair-word prefix depth used to split parallel emission shards",
+    )
+    parser.add_argument(
+        "--full-emission-target-chunk-bytes",
+        type=int,
+        default=DEFAULT_FULL_EMISSION_TARGET_CHUNK_BYTES,
+        help=(
+            "target encoded bytes per generated packed fallback chunk; "
+            "lower values reduce Lean peak memory at the cost of more chunks"
+        ),
+    )
+    parser.add_argument(
         "--allow-flat-exhaustive",
         action="store_true",
         help="diagnostic-only flag allowing flat exhaustive fallback reporting",
@@ -7994,16 +8454,31 @@ def main() -> None:
         print(f"json: {args.profile_output}")
         return
     if mode == "exhaustive-real-certs":
+        global FULL_EMISSION_TARGET_CHUNK_BYTES
         if args.generated_data_budget_gib < 0:
             parser.error("--generated-data-budget-gib must be nonnegative")
         if args.required_free_gib < 0:
             parser.error("--required-free-gib must be nonnegative")
+        if args.full_emission_target_chunk_bytes < 4096:
+            parser.error("--full-emission-target-chunk-bytes must be at least 4096")
+        FULL_EMISSION_TARGET_CHUNK_BYTES = args.full_emission_target_chunk_bytes
+        full_emission_jobs = (
+            max(1, os.cpu_count() or 1)
+            if args.full_emission_jobs == 0
+            else args.full_emission_jobs
+        )
+        if full_emission_jobs < 1:
+            parser.error("--full-emission-jobs must be positive or 0 for auto")
+        if not 0 <= args.full_emission_prefix_depth <= 13:
+            parser.error("--full-emission-prefix-depth must be between 0 and 13")
         payload = build_exhaustive_real_certs_summary(
             profile_input=args.profile_input,
             generated_data_budget_gib=args.generated_data_budget_gib,
             required_free_gib=args.required_free_gib,
             approve_large_exhaustive=args.approve_large_exhaustive,
             allow_flat_exhaustive=args.allow_flat_exhaustive,
+            full_emission_jobs=full_emission_jobs,
+            full_emission_prefix_depth=args.full_emission_prefix_depth,
         )
         args.exhaustive_summary_output.parent.mkdir(parents=True, exist_ok=True)
         args.exhaustive_summary_output.write_text(

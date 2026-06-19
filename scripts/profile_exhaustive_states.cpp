@@ -4,8 +4,10 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <numeric>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -107,6 +109,7 @@ using Mat4 = array<array<Q, 4>, 4>;
 using VecI = array<int, 3>;
 using Lin2 = array<Q, 3>;
 using StrictLine = array<Q, 3>;
+using MatCode = array<long long, 18>;
 
 struct Aff {
     Mat M;
@@ -132,6 +135,38 @@ const long long STARTED_SYMMETRY_TRANSLATION_CHOICE_CLASSES = 19744704LL;
 const long long REVERSAL_FIXED_PAIR_WORDS = 720LL;
 const long long REVERSAL_PAIR_WORD_CLASSES = (EXPECTED_PAIR_WORDS + REVERSAL_FIXED_PAIR_WORDS) / 2;
 const long long REVERSAL_TRANSLATION_CHOICE_CLASSES = EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS / 2;
+
+long long fact_small(int n) {
+    long long out = 1;
+    for (int i = 2; i <= n; ++i) out *= i;
+    return out;
+}
+
+long long completion_count(const array<int, 7> &remaining) {
+    int total = 0;
+    for (int count : remaining) total += count;
+    long long out = fact_small(total);
+    for (int count : remaining) out /= fact_small(count);
+    return out;
+}
+
+vector<int> parse_pair_prefix(const string &text) {
+    vector<int> out;
+    if (text.empty()) return out;
+    size_t start = 0;
+    while (start <= text.size()) {
+        size_t comma = text.find(',', start);
+        string part = text.substr(start, comma == string::npos ? string::npos : comma - start);
+        if (part.empty()) throw runtime_error("empty prefix item");
+        int value = stoi(part);
+        if (value < 0 || value >= 7) throw runtime_error("prefix pair id out of range");
+        out.push_back(value);
+        if (comma == string::npos) break;
+        start = comma + 1;
+    }
+    if (out.size() > 13) throw runtime_error("prefix too long");
+    return out;
+}
 
 Vec normal_pair(int p) {
     switch (p) {
@@ -436,6 +471,32 @@ string mat_key(const Mat &m) {
     return out;
 }
 
+MatCode mat_code(const Mat &m) {
+    MatCode code{};
+    int k = 0;
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            code[k++] = m[i][j].n;
+            code[k++] = m[i][j].d;
+        }
+    }
+    return code;
+}
+
+struct MatCodeHash {
+    size_t operator()(const MatCode &code) const {
+        uint64_t h = 1469598103934665603ULL;
+        for (long long value : code) {
+            uint64_t x = static_cast<uint64_t>(value);
+            for (int i = 0; i < 8; ++i) {
+                h ^= static_cast<unsigned char>((x >> (8 * i)) & 0xff);
+                h *= 1099511628211ULL;
+            }
+        }
+        return static_cast<size_t>(h);
+    }
+};
+
 string word_json(const array<int, 13> &word) {
     string out = "[";
     for (int i = 0; i < 13; ++i) {
@@ -690,6 +751,205 @@ bool find_sparse_farkas(
     return false;
 }
 
+vector<vector<Q>> invert_square_q(vector<vector<Q>> rows) {
+    int n = static_cast<int>(rows.size());
+    vector<vector<Q>> aug(n, vector<Q>(2 * n));
+    for (int i = 0; i < n; ++i) {
+        if (static_cast<int>(rows[i].size()) != n) throw runtime_error("bad square matrix");
+        for (int j = 0; j < n; ++j) aug[i][j] = rows[i][j];
+        for (int j = 0; j < n; ++j) aug[i][n + j] = Q(i == j ? 1 : 0);
+    }
+    for (int col = 0; col < n; ++col) {
+        int pivot = -1;
+        for (int row = col; row < n; ++row) {
+            if (aug[row][col] != Q(0)) {
+                pivot = row;
+                break;
+            }
+        }
+        if (pivot < 0) throw runtime_error("singular matrix inverse");
+        if (pivot != col) swap(aug[pivot], aug[col]);
+        Q div = aug[col][col];
+        for (int c = col; c < 2 * n; ++c) aug[col][c] = aug[col][c] / div;
+        for (int row = 0; row < n; ++row) {
+            if (row == col || aug[row][col] == Q(0)) continue;
+            Q factor = aug[row][col];
+            for (int c = col; c < 2 * n; ++c) {
+                aug[row][c] = aug[row][c] - factor * aug[col][c];
+            }
+        }
+    }
+    vector<vector<Q>> inv(n, vector<Q>(n));
+    for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j) inv[i][j] = aug[i][n + j];
+    return inv;
+}
+
+Mat fixed_part(const Mat &M) {
+    Mat out{};
+    Mat I = mat_id();
+    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = M[i][j] - I[i][j];
+    return out;
+}
+
+Mat transpose(const Mat &M) {
+    Mat out{};
+    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = M[j][i];
+    return out;
+}
+
+Mat cross_left(const Vec &axis) {
+    return {{
+        {Q(0), -axis[2], axis[1]},
+        {axis[2], Q(0), -axis[0]},
+        {-axis[1], axis[0], Q(0)}
+    }};
+}
+
+Mat mat3_inverse(const Mat &M) {
+    vector<vector<Q>> rows(3, vector<Q>(3));
+    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) rows[i][j] = M[i][j];
+    auto inv = invert_square_q(rows);
+    Mat out{};
+    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = inv[i][j];
+    if (!mat_eq(mat_mul(out, M), mat_id())) throw runtime_error("mat3 inverse self-check failed");
+    return out;
+}
+
+Mat4 mat4_id() {
+    Mat4 out{};
+    for (int i = 0; i < 4; ++i) for (int j = 0; j < 4; ++j) out[i][j] = Q(i == j ? 1 : 0);
+    return out;
+}
+
+Mat4 mat4_mul(const Mat4 &A, const Mat4 &B) {
+    Mat4 C{};
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            Q s(0);
+            for (int k = 0; k < 4; ++k) s = s + A[i][k] * B[k][j];
+            C[i][j] = s;
+        }
+    }
+    return C;
+}
+
+Vec4 mat4_vec(const Mat4 &A, const Vec4 &v) {
+    Vec4 out{};
+    for (int i = 0; i < 4; ++i) {
+        Q s(0);
+        for (int k = 0; k < 4; ++k) s = s + A[i][k] * v[k];
+        out[i] = s;
+    }
+    return out;
+}
+
+Mat4 mat4_inverse(const Mat4 &M) {
+    vector<vector<Q>> rows(4, vector<Q>(4));
+    for (int i = 0; i < 4; ++i) for (int j = 0; j < 4; ++j) rows[i][j] = M[i][j];
+    auto inv = invert_square_q(rows);
+    Mat4 out{};
+    for (int i = 0; i < 4; ++i) for (int j = 0; j < 4; ++j) out[i][j] = inv[i][j];
+    if (mat4_mul(out, M) != mat4_id()) throw runtime_error("mat4 inverse self-check failed");
+    return out;
+}
+
+Vec solve_linear_system3(const Mat &A, const Vec &b) {
+    array<array<Q, 4>, 3> rows{};
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) rows[i][j] = A[i][j];
+        rows[i][3] = b[i];
+    }
+    vector<int> pivot_cols;
+    int pivot_row = 0;
+    for (int col = 0; col < 3; ++col) {
+        int found = -1;
+        for (int row = pivot_row; row < 3; ++row) {
+            if (rows[row][col] != Q(0)) {
+                found = row;
+                break;
+            }
+        }
+        if (found < 0) continue;
+        if (found != pivot_row) swap(rows[found], rows[pivot_row]);
+        Q div = rows[pivot_row][col];
+        for (int c = col; c < 4; ++c) rows[pivot_row][c] = rows[pivot_row][c] / div;
+        for (int row = 0; row < 3; ++row) {
+            if (row == pivot_row || rows[row][col] == Q(0)) continue;
+            Q factor = rows[row][col];
+            for (int c = col; c < 4; ++c) rows[row][c] = rows[row][c] - factor * rows[pivot_row][c];
+        }
+        pivot_cols.push_back(col);
+        ++pivot_row;
+    }
+    for (int row = pivot_row; row < 3; ++row) {
+        if (rows[row][0] == Q(0) && rows[row][1] == Q(0) && rows[row][2] == Q(0) && rows[row][3] != Q(0)) {
+            throw runtime_error("inconsistent linear system");
+        }
+    }
+    Vec solution = vec_zero();
+    for (size_t row = 0; row < pivot_cols.size(); ++row) solution[pivot_cols[row]] = rows[row][3];
+    return solution;
+}
+
+Mat kernel_line_cross_factor(const Mat &M, const Vec &axis) {
+    Mat fixed = fixed_part(M);
+    Mat fixed_t = transpose(fixed);
+    Mat target = cross_left(axis);
+    Mat out{};
+    for (int r = 0; r < 3; ++r) out[r] = solve_linear_system3(fixed_t, target[r]);
+    if (!mat_eq(mat_mul(out, fixed), target)) throw runtime_error("kernel factor self-check failed");
+    return out;
+}
+
+void put_uvarint(vector<unsigned char> &out, uint64_t value) {
+    while (value >= 128) {
+        out.push_back(static_cast<unsigned char>((value & 0x7f) | 0x80));
+        value >>= 7;
+    }
+    out.push_back(static_cast<unsigned char>(value));
+}
+
+void put_sint(vector<unsigned char> &out, long long value) {
+    uint64_t encoded;
+    if (value >= 0) encoded = static_cast<uint64_t>(value) * 2ULL;
+    else encoded = static_cast<uint64_t>(-value) * 2ULL - 1ULL;
+    put_uvarint(out, encoded);
+}
+
+void put_rat(vector<unsigned char> &out, const Q &q) {
+    put_sint(out, q.n);
+    put_uvarint(out, static_cast<uint64_t>(q.d));
+}
+
+void put_vec3(vector<unsigned char> &out, const Vec &v) {
+    for (const Q &q : v) put_rat(out, q);
+}
+
+void put_mat3(vector<unsigned char> &out, const Mat &M) {
+    for (const auto &row : M) for (const Q &q : row) put_rat(out, q);
+}
+
+void put_mat4(vector<unsigned char> &out, const Mat4 &M) {
+    for (const auto &row : M) for (const Q &q : row) put_rat(out, q);
+}
+
+string base64_encode(const vector<unsigned char> &data) {
+    static const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    for (size_t i = 0; i < data.size(); i += 3) {
+        uint32_t a = data[i];
+        uint32_t b = i + 1 < data.size() ? data[i + 1] : 0;
+        uint32_t c = i + 2 < data.size() ? data[i + 2] : 0;
+        uint32_t triple = (a << 16) | (b << 8) | c;
+        out.push_back(alphabet[(triple >> 18) & 0x3f]);
+        out.push_back(alphabet[(triple >> 12) & 0x3f]);
+        out.push_back(i + 1 < data.size() ? alphabet[(triple >> 6) & 0x3f] : '=');
+        out.push_back(i + 2 < data.size() ? alphabet[triple & 0x3f] : '=');
+    }
+    return out;
+}
+
 struct Sample {
     long long rank = 0;
     int mask = -1;
@@ -711,6 +971,98 @@ struct HistEntry {
 };
 
 using HistMap = unordered_map<uint64_t, HistEntry>;
+
+struct ChunkInfo {
+    int index = 0;
+    long long cert_count = 0;
+    long long first_rank = 0;
+    int first_mask = -1;
+    long long last_rank = 0;
+    int last_mask = -1;
+    size_t raw_bytes = 0;
+};
+
+struct KeyedPackedChunkEmitter {
+    string magic;
+    string output_dir;
+    long long expected_total = 0;
+    bool check_expected_total = true;
+    size_t target_raw_bytes = 6 * 1024 * 1024;
+    vector<vector<unsigned char>> records;
+    vector<pair<long long, int>> keys;
+    size_t current_record_bytes = 0;
+    long long total_certs = 0;
+    vector<ChunkInfo> chunks;
+
+    string chunk_path(int index) const {
+        ostringstream name;
+        name << output_dir << "/Chunk" << setw(4) << setfill('0') << index << ".b64";
+        return name.str();
+    }
+
+    vector<unsigned char> build_blob() const {
+        vector<unsigned char> metadata;
+        put_uvarint(metadata, 2);
+        put_uvarint(metadata, records.size());
+        put_uvarint(metadata, static_cast<uint64_t>(expected_total));
+
+        vector<unsigned char> cert_payload;
+        put_uvarint(cert_payload, records.size());
+        for (const auto &record : records) cert_payload.insert(cert_payload.end(), record.begin(), record.end());
+
+        vector<pair<uint64_t, vector<unsigned char>>> sections{{1, metadata}, {2, cert_payload}};
+        vector<unsigned char> blob;
+        for (char c : magic) blob.push_back(static_cast<unsigned char>(c));
+        blob.push_back(1);
+        put_uvarint(blob, sections.size());
+        for (const auto &[id, payload] : sections) {
+            put_uvarint(blob, id);
+            put_uvarint(blob, payload.size());
+        }
+        for (const auto &[_, payload] : sections) blob.insert(blob.end(), payload.begin(), payload.end());
+        return blob;
+    }
+
+    void flush() {
+        if (records.empty()) return;
+        int index = static_cast<int>(chunks.size());
+        vector<unsigned char> blob = build_blob();
+        string text = base64_encode(blob);
+        ofstream out(chunk_path(index), ios::binary);
+        if (!out) throw runtime_error("failed to open chunk output: " + chunk_path(index));
+        out << text;
+        out.close();
+        if (!out) throw runtime_error("failed to write chunk output: " + chunk_path(index));
+        chunks.push_back({
+            index,
+            static_cast<long long>(records.size()),
+            keys.front().first,
+            keys.front().second,
+            keys.back().first,
+            keys.back().second,
+            blob.size()
+        });
+        total_certs += static_cast<long long>(records.size());
+        records.clear();
+        keys.clear();
+        current_record_bytes = 0;
+    }
+
+    void add_record(vector<unsigned char> record, long long rank, int mask = -1) {
+        if (!records.empty() && current_record_bytes + record.size() >= target_raw_bytes) flush();
+        current_record_bytes += record.size();
+        records.push_back(std::move(record));
+        keys.push_back({rank, mask});
+    }
+
+    void finish() {
+        flush();
+        if (check_expected_total && total_certs != expected_total) {
+            throw runtime_error("packed emitter count mismatch for " + magic +
+                ": " + to_string(total_certs) + " != " + to_string(expected_total));
+        }
+    }
+};
 
 struct AxisInfo {
     bool has_axis = false;
@@ -736,6 +1088,9 @@ struct Profiler {
     bool exact_state_groups = false;
     bool exact_state_groups_formula = false;
     bool aggregate_compression_profile = false;
+    bool emit_full_fallback = false;
+    KeyedPackedChunkEmitter nonid_residual_emitter;
+    KeyedPackedChunkEmitter translation_farkas_emitter;
     array<Group, 4> nonid_groups{};
     array<Group, 3> translation_groups{};
     array<unordered_set<string>, 4> nonid_state_keys{};
@@ -754,6 +1109,7 @@ struct Profiler {
     array<long long, 4> residual_subtype_counts{};
     array<vector<Sample>, 4> residual_subtype_samples{};
     unordered_map<string, AxisInfo> axis_cache;
+    unordered_map<MatCode, AxisInfo, MatCodeHash> axis_cache_fast;
     vector<Sample> top_samples;
     long long compressed_nonidentity_linear_groups = 0;
     long long symmetry_pair_word_classes = 0;
@@ -793,6 +1149,39 @@ struct Profiler {
         translation_groups[1].failure = "badDirectionSign";
         translation_groups[2].key = "case=translation;failure=needsFarkas";
         translation_groups[2].failure = "needsFarkas";
+    }
+
+    long long prefix_start_rank(const vector<int> &prefix) const {
+        array<int, 7> remaining{1, 2, 2, 2, 2, 2, 2};
+        long long start = 0;
+        for (int pair_id : prefix) {
+            if (pair_id < 0 || pair_id >= 7 || remaining[pair_id] <= 0) {
+                throw runtime_error("invalid pair prefix");
+            }
+            for (int smaller = 0; smaller < pair_id; ++smaller) {
+                if (remaining[smaller] <= 0) continue;
+                --remaining[smaller];
+                start += completion_count(remaining);
+                ++remaining[smaller];
+            }
+            --remaining[pair_id];
+        }
+        return start;
+    }
+
+    void apply_prefix(const vector<int> &prefix) {
+        rem = {1, 2, 2, 2, 2, 2, 2};
+        pref[0] = I;
+        for (size_t i = 0; i < prefix.size(); ++i) {
+            int pair_id = prefix[i];
+            if (pair_id < 0 || pair_id >= 7 || rem[pair_id] <= 0) {
+                throw runtime_error("invalid pair prefix");
+            }
+            --rem[pair_id];
+            word[i] = pair_id;
+            pref[i + 1] = mat_mul(pref[i], RPAIR[pair_id]);
+        }
+        rank = prefix_start_rank(prefix);
     }
 
     void add_sample(Group &g, int mask = -1, const array<int, 14> *seq = nullptr) {
@@ -983,6 +1372,21 @@ struct Profiler {
         return -1;
     }
 
+    pair<int, int> first_bad_candidate_interior_face(const array<int, 14> &seq, const Vec &p0, const Vec &w) {
+        auto prefixes = path_prefix_affs(seq);
+        for (int impact = 0; impact <= 14; ++impact) {
+            int hit = impact_face(seq, impact);
+            Q t = candidate_impact_time(seq, prefixes, p0, w, impact);
+            Vec point = vec_add(p0, vec_scale(t, w));
+            for (int face = 0; face < 14; ++face) {
+                if (face == hit) continue;
+                auto [copied, offset] = copied_normal_offset(prefixes, impact, face);
+                if (offset <= dot(copied, point)) return {impact, face};
+            }
+        }
+        return {-1, -1};
+    }
+
     int residual_subtype_index(const array<int, 14> &seq, const Vec &axis) {
         Aff A = total_aff(seq);
         Mat4 solve_matrix = axis_solve_matrix(A, axis);
@@ -1008,8 +1412,87 @@ struct Profiler {
         }
     }
 
+    vector<unsigned char> compact_nonid_residual_record(const Mat &M, const array<int, 14> &seq, const Vec &axis) {
+        Aff A = total_aff(seq);
+        Mat4 solve_matrix = axis_solve_matrix(A, axis);
+        Mat4 solve_inverse = mat4_inverse(solve_matrix);
+        Vec4 solution = mat4_vec(solve_inverse, axis_solve_rhs(A));
+        if (mat4_vec(solve_matrix, solution) != axis_solve_rhs(A)) {
+            throw runtime_error("axis solution self-check failed");
+        }
+        Vec p0{solution[0], solution[1], solution[2]};
+        Q lambda = solution[3];
+        Mat kernel = kernel_line_cross_factor(M, axis);
+
+        vector<unsigned char> out;
+        put_uvarint(out, static_cast<uint64_t>(rank));
+        for (int p : word) put_uvarint(out, static_cast<uint64_t>(p));
+        put_vec3(out, axis);
+        put_mat3(out, kernel);
+        for (int face : seq) put_uvarint(out, static_cast<uint64_t>(face));
+        put_vec3(out, p0);
+        put_rat(out, lambda);
+        put_mat4(out, solve_inverse);
+
+        if (!xp_start_interior(p0)) {
+            put_uvarint(out, 0);
+        } else {
+            Vec w = vec_sub(aff_apply(A, p0), p0);
+            int bad_step = first_bad_candidate_ordering(seq, p0, w);
+            if (bad_step >= 0) {
+                put_uvarint(out, 1);
+                put_uvarint(out, static_cast<uint64_t>(bad_step));
+            } else {
+                auto [impact, bad_face] = first_bad_candidate_interior_face(seq, p0, w);
+                if (impact < 0) throw runtime_error("residual case has no supported failure");
+                put_uvarint(out, 2);
+                put_uvarint(out, static_cast<uint64_t>(impact));
+                put_uvarint(out, static_cast<uint64_t>(bad_face));
+            }
+        }
+        return out;
+    }
+
+    void emit_nonid_residual_record(const Mat &M, const array<int, 14> &seq, const Vec &axis) {
+        nonid_residual_emitter.add_record(
+            compact_nonid_residual_record(M, seq, axis),
+            rank,
+            -1);
+    }
+
     void process_nonidentity(const Mat &M) {
         ++nonidentity;
+        if (emit_full_fallback) {
+            MatCode code = mat_code(M);
+            auto it = axis_cache_fast.find(code);
+            if (it == axis_cache_fast.end()) {
+                AxisInfo info;
+                info.has_axis = fixed_axis(M, info.axis);
+                it = axis_cache_fast.emplace(code, info).first;
+            }
+            if (!it->second.has_axis) {
+                ++nonid_groups[0].count;
+                return;
+            }
+            Vec axis = it->second.axis;
+            Q fdot = final_axis_dot(axis);
+            if (fdot < Q(0)) {
+                for (int i = 0; i < 3; ++i) axis[i] = -axis[i];
+                fdot = -fdot;
+            }
+            if (fdot == Q(0) || first_axis_zero(axis) >= 0) {
+                ++nonid_groups[1].count;
+                return;
+            }
+            auto seq = forced_seq(axis);
+            if (!seq_omni(seq)) {
+                ++nonid_groups[2].count;
+                return;
+            }
+            ++nonid_groups[3].count;
+            emit_nonid_residual_record(M, seq, axis);
+            return;
+        }
         string key = mat_key(M);
         auto it = axis_cache.find(key);
         if (it == axis_cache.end()) {
@@ -1019,6 +1502,7 @@ struct Profiler {
         }
         if (!it->second.has_axis) {
             ++nonid_groups[0].count;
+            if (emit_full_fallback) return;
             string shape_key = "failure=noFixedAxis;linear=" + key;
             if (aggregate_compression_profile) bump_hist(aggregate_nonid_shapes, shape_key);
             else nonid_state_keys[0].insert(shape_key);
@@ -1033,6 +1517,7 @@ struct Profiler {
         }
         if (fdot == Q(0) || first_axis_zero(axis) >= 0) {
             ++nonid_groups[1].count;
+            if (emit_full_fallback) return;
             string shape_key = "failure=badDirectionSign;linear=" + key +
                 ";axis=" + vec_key(axis) +
                 ";forcedSigns=" + sign_pattern_key(axis);
@@ -1044,6 +1529,7 @@ struct Profiler {
         auto seq = forced_seq(axis);
         if (!seq_omni(seq)) {
             ++nonid_groups[2].count;
+            if (emit_full_fallback) return;
             string shape_key = "failure=badPairBalance;linear=" + key +
                 ";axis=" + vec_key(axis) +
                 ";forcedSigns=" + sign_pattern_key(axis) +
@@ -1054,7 +1540,9 @@ struct Profiler {
             return;
         }
         ++nonid_groups[3].count;
+        if (emit_full_fallback) emit_nonid_residual_record(M, seq, axis);
         if (residual_subtype_profile) record_residual_subtype(seq, axis);
+        if (emit_full_fallback && !residual_subtype_profile) return;
         string shape_key = "failure=needsAxisSolveOrSimulation;linear=" + key +
             ";axis=" + vec_key(axis) +
             ";forcedSigns=" + sign_pattern_key(axis) +
@@ -1160,6 +1648,57 @@ struct Profiler {
         return constraints;
     }
 
+    void put_translation_constraint_source(vector<unsigned char> &out, const array<int, 14> &seq, int index) {
+        if (index < 0) throw runtime_error("negative constraint index");
+        if (index < 4) {
+            put_uvarint(out, 0);
+            put_uvarint(out, static_cast<uint64_t>(index));
+            return;
+        }
+        if (index < 18) {
+            put_uvarint(out, 1);
+            put_uvarint(out, static_cast<uint64_t>(index - 4));
+            return;
+        }
+        int cursor = 18;
+        for (int impact = 1; impact <= 14; ++impact) {
+            int hit = impact_face(seq, impact);
+            for (int face = 0; face < 14; ++face) {
+                if (face == hit) continue;
+                if (cursor == index) {
+                    put_uvarint(out, 2);
+                    put_uvarint(out, static_cast<uint64_t>(impact));
+                    put_uvarint(out, static_cast<uint64_t>(face));
+                    return;
+                }
+                ++cursor;
+            }
+        }
+        throw runtime_error("constraint index out of source range");
+    }
+
+    vector<unsigned char> compact_translation_farkas_record(int mask, const array<int, 14> &seq, const Vec &b) {
+        vector<StrictLine> constraints = translation_constraints(seq, b);
+        vector<pair<int, Q>> terms;
+        if (!find_sparse_farkas(constraints, terms)) throw runtime_error("no sparse Farkas cert for translation case");
+        vector<unsigned char> out;
+        put_uvarint(out, static_cast<uint64_t>(rank));
+        put_uvarint(out, static_cast<uint64_t>(mask));
+        put_uvarint(out, static_cast<uint64_t>(terms.size()));
+        for (const auto &[index, multiplier] : terms) {
+            put_translation_constraint_source(out, seq, index);
+            put_rat(out, multiplier);
+        }
+        return out;
+    }
+
+    void emit_translation_farkas_record(int mask, const array<int, 14> &seq, const Vec &b) {
+        translation_farkas_emitter.add_record(
+            compact_translation_farkas_record(mask, seq, b),
+            rank,
+            mask);
+    }
+
     vector<StrictLine> normalized_constraint_system(const vector<StrictLine> &constraints) {
         vector<StrictLine> normalized;
         normalized.reserve(constraints.size());
@@ -1225,6 +1764,7 @@ struct Profiler {
             Vec b = translation_vector(mask, seq);
             if (vec_eq(b, vec_zero())) {
                 ++translation_groups[0].count;
+                if (emit_full_fallback) continue;
                 string shape_key = "failure=badTranslationVector;b=" + vec_key(b) +
                     ";seq=" + seq_json(seq);
                 if (aggregate_compression_profile) bump_hist(aggregate_bad_translation_shapes, shape_key);
@@ -1250,6 +1790,7 @@ struct Profiler {
             }
             if (bad) {
                 ++translation_groups[1].count;
+                if (emit_full_fallback) continue;
                 string shape_key = "failure=badDirectionSign;b=" + vec_key(b) +
                     ";seq=" + seq_json(seq) +
                     ";denominatorSigns=" + denom_pattern;
@@ -1259,6 +1800,8 @@ struct Profiler {
                 continue;
             }
             ++translation_groups[2].count;
+            if (emit_full_fallback) emit_translation_farkas_record(mask, seq, b);
+            if (emit_full_fallback) continue;
             add_sample(translation_groups[2], mask, &seq);
             string key = vec_key(b) + "|" + denom_pattern + "|" + seq_json(seq);
             if (!aggregate_compression_profile) {
@@ -1436,7 +1979,7 @@ struct Profiler {
 
     void process_leaf() {
         ++leaves;
-        add_top_sample();
+        if (!emit_full_fallback) add_top_sample();
         if (with_symmetry || with_reversal) record_pair_word_canonical_stats(word);
         Mat M = mat_mul(pref[13], RPAIR[0]);
         if (mat_eq(M, I)) process_identity();
@@ -1609,6 +2152,30 @@ struct Profiler {
         return out;
     }
 
+    string chunk_info_json(const ChunkInfo &chunk, bool include_mask) {
+        ostringstream out;
+        out << "{";
+        out << "\"index\":" << chunk.index << ",";
+        out << "\"cert_count\":" << chunk.cert_count << ",";
+        out << "\"first_rank\":" << chunk.first_rank << ",";
+        if (include_mask) out << "\"first_mask\":" << chunk.first_mask << ",";
+        out << "\"last_rank\":" << chunk.last_rank << ",";
+        if (include_mask) out << "\"last_mask\":" << chunk.last_mask << ",";
+        out << "\"raw_bytes\":" << chunk.raw_bytes;
+        out << "}";
+        return out.str();
+    }
+
+    string chunk_infos_json(const vector<ChunkInfo> &chunks, bool include_mask) {
+        string out = "[";
+        for (size_t i = 0; i < chunks.size(); ++i) {
+            if (i) out += ",";
+            out += chunk_info_json(chunks[i], include_mask);
+        }
+        out += "]";
+        return out;
+    }
+
     string residual_subtype_entry_json(int index, const string &kind) {
         string out = "{";
         out += "\"failure_kind\":\"" + kind + "\",";
@@ -1651,6 +2218,45 @@ struct Profiler {
         out << residual_subtype_entry_json(2, "badHitInterior") << ",";
         out << residual_subtype_entry_json(3, "candidatePassed");
         out << "]}";
+        return out.str();
+    }
+
+    string full_fallback_payload_json() {
+        ostringstream out;
+        out << "{";
+        out << "\"schema_version\":1,";
+        out << "\"mode\":\"emit-full-fallback\",";
+        out << "\"backend\":\"compiled-exact-cpp-emitter\",";
+        out << "\"complete\":";
+        out << (limit < 0 ? "true" : "false") << ",";
+        out << "\"profile_limit\":";
+        if (limit < 0) out << "null";
+        else out << limit;
+        out << ",";
+        out << "\"actual_counts\":{";
+        out << "\"pair_words\":" << leaves << ",";
+        out << "\"identity_linear_words\":" << identity << ",";
+        out << "\"nonidentity_words\":" << nonidentity << ",";
+        out << "\"translation_sign_assignments\":" << translation_assignments << ",";
+        out << "\"nonidentity_residual_singletons\":" << nonid_residual_emitter.total_certs << ",";
+        out << "\"translation_farkas_cases\":" << translation_farkas_emitter.total_certs;
+        out << "},";
+        out << "\"nonidentity_residual\":{";
+        out << "\"magic\":\"" << nonid_residual_emitter.magic << "\",";
+        out << "\"output_dir\":\"" << json_escape(nonid_residual_emitter.output_dir) << "\",";
+        out << "\"expected_total\":" << nonid_residual_emitter.expected_total << ",";
+        out << "\"cert_count\":" << nonid_residual_emitter.total_certs << ",";
+        out << "\"chunk_count\":" << nonid_residual_emitter.chunks.size() << ",";
+        out << "\"chunks\":" << chunk_infos_json(nonid_residual_emitter.chunks, false);
+        out << "},";
+        out << "\"translation_farkas\":{";
+        out << "\"magic\":\"" << translation_farkas_emitter.magic << "\",";
+        out << "\"output_dir\":\"" << json_escape(translation_farkas_emitter.output_dir) << "\",";
+        out << "\"expected_total\":" << translation_farkas_emitter.expected_total << ",";
+        out << "\"cert_count\":" << translation_farkas_emitter.total_certs << ",";
+        out << "\"chunk_count\":" << translation_farkas_emitter.chunks.size() << ",";
+        out << "\"chunks\":" << chunk_infos_json(translation_farkas_emitter.chunks, true);
+        out << "}}";
         return out.str();
     }
 
@@ -1992,6 +2598,14 @@ int main(int argc, char **argv) {
     bool force_exact_state_groups = false;
     bool aggregate_compression_profile = false;
     bool residual_nonidentity_subtypes = false;
+    bool emit_full_fallback = false;
+    string nonidentity_residual_dir;
+    string translation_farkas_dir;
+    long long nonidentity_residual_total = -1;
+    long long translation_farkas_total = -1;
+    size_t chunk_target_raw_bytes = 6 * 1024 * 1024;
+    vector<int> emit_prefix;
+    bool has_emit_prefix = false;
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
         if (arg == "--limit") {
@@ -2003,6 +2617,27 @@ int main(int argc, char **argv) {
             aggregate_compression_profile = true;
         } else if (arg == "--residual-nonidentity-subtypes") {
             residual_nonidentity_subtypes = true;
+        } else if (arg == "--emit-full-fallback") {
+            emit_full_fallback = true;
+        } else if (arg == "--nonidentity-residual-dir") {
+            if (i + 1 >= argc) throw runtime_error("--nonidentity-residual-dir requires a value");
+            nonidentity_residual_dir = argv[++i];
+        } else if (arg == "--translation-farkas-dir") {
+            if (i + 1 >= argc) throw runtime_error("--translation-farkas-dir requires a value");
+            translation_farkas_dir = argv[++i];
+        } else if (arg == "--nonidentity-residual-total") {
+            if (i + 1 >= argc) throw runtime_error("--nonidentity-residual-total requires a value");
+            nonidentity_residual_total = stoll(argv[++i]);
+        } else if (arg == "--translation-farkas-total") {
+            if (i + 1 >= argc) throw runtime_error("--translation-farkas-total requires a value");
+            translation_farkas_total = stoll(argv[++i]);
+        } else if (arg == "--chunk-target-raw-bytes") {
+            if (i + 1 >= argc) throw runtime_error("--chunk-target-raw-bytes requires a value");
+            chunk_target_raw_bytes = static_cast<size_t>(stoull(argv[++i]));
+        } else if (arg == "--prefix") {
+            if (i + 1 >= argc) throw runtime_error("--prefix requires a value");
+            emit_prefix = parse_pair_prefix(argv[++i]);
+            has_emit_prefix = true;
         } else if (arg == "--exact-state-groups") {
             force_exact_state_groups = true;
         } else if (arg == "--with-symmetry") {
@@ -2015,6 +2650,38 @@ int main(int argc, char **argv) {
         } else {
             throw runtime_error("unknown argument: " + arg);
         }
+    }
+    if (emit_full_fallback) {
+        if (nonidentity_residual_dir.empty()) {
+            throw runtime_error("--emit-full-fallback requires --nonidentity-residual-dir");
+        }
+        if (translation_farkas_dir.empty()) {
+            throw runtime_error("--emit-full-fallback requires --translation-farkas-dir");
+        }
+        if (nonidentity_residual_total < 0) {
+            throw runtime_error("--emit-full-fallback requires --nonidentity-residual-total");
+        }
+        if (translation_farkas_total < 0) {
+            throw runtime_error("--emit-full-fallback requires --translation-farkas-total");
+        }
+        profiler.emit_full_fallback = true;
+        profiler.exact_state_groups = true;
+        profiler.nonid_residual_emitter.magic = "CORC";
+        profiler.nonid_residual_emitter.output_dir = nonidentity_residual_dir;
+        profiler.nonid_residual_emitter.expected_total = nonidentity_residual_total;
+        profiler.nonid_residual_emitter.check_expected_total = !has_emit_prefix;
+        profiler.nonid_residual_emitter.target_raw_bytes = chunk_target_raw_bytes;
+        profiler.translation_farkas_emitter.magic = "COTF";
+        profiler.translation_farkas_emitter.output_dir = translation_farkas_dir;
+        profiler.translation_farkas_emitter.expected_total = translation_farkas_total;
+        profiler.translation_farkas_emitter.check_expected_total = !has_emit_prefix;
+        profiler.translation_farkas_emitter.target_raw_bytes = chunk_target_raw_bytes;
+        if (has_emit_prefix) profiler.apply_prefix(emit_prefix);
+        profiler.rec(static_cast<int>(emit_prefix.size()));
+        profiler.nonid_residual_emitter.finish();
+        profiler.translation_farkas_emitter.finish();
+        cout << profiler.full_fallback_payload_json() << "\n";
+        return 0;
     }
     if (aggregate_compression_profile) {
         profiler.aggregate_compression_profile = true;

@@ -2518,6 +2518,10 @@ Requirements:
   checkers whose soundness returns those same checked certificate types.
 - Generated files must be chunked. Use deterministic chunk names and stable
   ordering so interrupted builds can resume by regenerating the same files.
+- Use conservative packed chunk sizes by default. Oversized packed blobs can
+  make Lean consume multiple GiB per chunk while reducing `by decide`, so the
+  full generated fallback must pass the memory-capped largest-chunk smoke test
+  before any full `lake build` is attempted.
 - `scripts/generated/exhaustive_real_certs_summary.json` must change from a
   gated estimate to a completed generated fallback manifest:
 
@@ -2542,11 +2546,19 @@ Done when:
 ```bash
 python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs --approve-large-exhaustive
 python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+python3 scripts/smoke_largest_generated_chunk.py --memory-limit-gib 8
 lake build
 grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 ```
 
-passes, and the generated manifest records `complete = true`.
+passes, and the generated manifest records `complete = true`. If the smoke
+test fails, do not run full `lake build`; lower
+`--full-emission-target-chunk-bytes`, regenerate the fallback chunks, and run
+the smoke test again. If a one-certificate packed chunk still fails because
+`by decide` cannot kernel-reduce the packed decoder/checker expression, stop
+splitting and replace the packed blob representation with a kernel-reducible
+literal or predecoded-array representation before attempting another full
+build.
 
 ## Step 14E.7: Concrete Exhaustive Coverage Witness
 
