@@ -21,6 +21,10 @@ inductive DecodeError
   | malformedVarint
   | truncatedSection
   | trailingInput
+  | invalidEnumTag
+  | zeroDenominator
+  | rankOutOfBounds
+  | countMismatch
 deriving DecidableEq, Repr
 
 inductive BundleKind

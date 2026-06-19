@@ -43,6 +43,9 @@ RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH = (
 COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_residual_certificates.json"
 )
+PACKED_RESIDUAL_CERTIFICATES_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "packed_residual_certificates.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -74,6 +77,9 @@ NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH = (
 )
 NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompactPilot.lean"
+)
+NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "PackedPilot.lean"
 )
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
@@ -2254,6 +2260,12 @@ def check_exhaustive_real_certs_summary(payload):
             COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
         )
         check_compact_residual_certificates(compact_residual_payload)
+    packed_residual_payload = None
+    if PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.exists():
+        packed_residual_payload = json.loads(
+            PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+        )
+        check_packed_residual_certificates(packed_residual_payload)
 
     actual = payload["actual_counts"]
     require(actual == {
@@ -2406,6 +2418,33 @@ def check_exhaustive_real_certs_summary(payload):
             "exhaustive compact residual projection echo",
         )
 
+    packed_residuals = payload["packed_residual_certificates"]
+    packed_ready = packed_residual_payload is not None
+    require(packed_residuals["ready"] is packed_ready,
+            "exhaustive packed residual ready flag")
+    require(
+        packed_residuals["source"]["path"] ==
+        relative_path(PACKED_RESIDUAL_CERTIFICATES_JSON_PATH),
+        "exhaustive packed residual source path",
+    )
+    require(
+        packed_residuals["generated_lean"]["packed_pilot"]["path"] ==
+        relative_path(NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH),
+        "exhaustive packed residual Lean path",
+    )
+    if packed_ready:
+        require(packed_residuals["source"]["exists"] is True,
+                "exhaustive packed residual source exists")
+        require(
+            packed_residuals["generated_lean"]["packed_pilot"]["exists"] is True,
+            "exhaustive packed residual Lean exists",
+        )
+        require(
+            packed_residuals["projection"] ==
+            packed_residual_payload["projection"],
+            "exhaustive packed residual projection echo",
+        )
+
     budget = payload["budget"]
     require(budget["generated_data_budget_bytes"] >= 0, "exhaustive budget nonnegative")
     require(budget["required_free_bytes"] >= 0, "exhaustive required free nonnegative")
@@ -2476,6 +2515,7 @@ def check_exhaustive_real_certs_summary(payload):
         preflight["projection_model"] in {
             "residual_proof_templates",
             "compact_residual_certificates",
+            "packed_residual_certificates",
         },
         "implementation preflight projection model",
     )
@@ -2498,15 +2538,23 @@ def check_exhaustive_real_certs_summary(payload):
     if (
         preflight["residual_template_cert_count"] > 0
         or preflight["projection_model"] == "compact_residual_certificates"
+        or preflight["projection_model"] == "packed_residual_certificates"
     ):
         require(preflight["bytes_per_residual_template"] > 0,
                 "implementation preflight residual bytes per cert")
-        require(
-            preflight["projected_residual_source_bytes"] ==
-            preflight["bytes_per_residual_template"] *
-            preflight["residual_singleton_cases"],
-            "implementation preflight residual projection",
-        )
+        if preflight["projection_model"] == "packed_residual_certificates":
+            require(
+                preflight["projected_residual_source_bytes"] ==
+                preflight["packed_residual_projection"]["projected_residual_source_bytes"],
+                "implementation preflight packed residual projection",
+            )
+        else:
+            require(
+                preflight["projected_residual_source_bytes"] ==
+                preflight["bytes_per_residual_template"] *
+                preflight["residual_singleton_cases"],
+                "implementation preflight residual projection",
+            )
     if emission["status"] == "refused_generation_size_preflight":
         require(preflight["size_safe"] is False,
                 "size preflight refused only when unsafe")
@@ -2514,6 +2562,7 @@ def check_exhaustive_real_certs_summary(payload):
             any(
                 reason.startswith("full_emission_projected_template_source")
                 or reason.startswith("full_emission_compact_residual_source")
+                or reason.startswith("full_emission_packed_residual_source")
                 for reason in emission["refusal_reasons"]
             ),
             "size preflight refusal reason propagated",
@@ -2764,6 +2813,331 @@ def check_compact_residual_certificates(payload):
         "projected_residual_source_bytes":
             projection["projected_residual_source_bytes"],
         "size_safe": projection["size_safe"],
+    }
+
+
+def decode_zigzag(value: int) -> int:
+    if value % 2 == 0:
+        return value // 2
+    return -(value // 2) - 1
+
+
+def read_sint(data: bytes, offset: int) -> tuple[int, int]:
+    value, offset = read_uvarint(data, offset)
+    return decode_zigzag(value), offset
+
+
+def read_rat(data: bytes, offset: int) -> tuple[str, int]:
+    num, offset = read_sint(data, offset)
+    den, offset = read_uvarint(data, offset)
+    if den == 0:
+        raise ValueError("zero denominator")
+    return rat_to_json(Fraction(num, den)), offset
+
+
+def read_pair_tag(data: bytes, offset: int) -> tuple[str, int]:
+    tag, offset = read_uvarint(data, offset)
+    if not 0 <= tag < len(PAIR_IDS):
+        raise ValueError("invalid pair tag")
+    return PAIR_IDS[tag], offset
+
+
+def read_face_tag(data: bytes, offset: int) -> tuple[str, int]:
+    tag, offset = read_uvarint(data, offset)
+    if not 0 <= tag < len(FACE_ORDER):
+        raise ValueError("invalid face tag")
+    return FACE_ORDER[tag], offset
+
+
+def read_rat_vec3(data: bytes, offset: int) -> tuple[list[str], int]:
+    values = []
+    for _ in range(3):
+        value, offset = read_rat(data, offset)
+        values.append(value)
+    return values, offset
+
+
+def read_rat_matrix(data: bytes, offset: int, rows: int, cols: int) -> tuple[list[list[str]], int]:
+    matrix = []
+    for _ in range(rows):
+        row = []
+        for _ in range(cols):
+            value, offset = read_rat(data, offset)
+            row.append(value)
+        matrix.append(row)
+    return matrix, offset
+
+
+def read_packed_residual_failure(data: bytes, offset: int) -> tuple[dict, int]:
+    tag, offset = read_uvarint(data, offset)
+    if tag == 0:
+        return {"kind": "axisMissesStartInterior"}, offset
+    if tag == 1:
+        step, offset = read_uvarint(data, offset)
+        if not 0 <= step < 14:
+            raise ValueError("invalid step")
+        return {"kind": "badFirstHit", "step": step}, offset
+    if tag == 2:
+        impact, offset = read_uvarint(data, offset)
+        if not 0 <= impact < 15:
+            raise ValueError("invalid impact")
+        bad_face, offset = read_face_tag(data, offset)
+        return {
+            "kind": "badHitInterior",
+            "impact": impact,
+            "badFace": bad_face,
+        }, offset
+    raise ValueError("invalid failure tag")
+
+
+def read_packed_residual_cert(data: bytes, offset: int) -> tuple[dict, int]:
+    rank, offset = read_uvarint(data, offset)
+    if not 0 <= rank < EXPECTED_PAIR_WORDS:
+        raise ValueError("rank out of bounds")
+    word = []
+    for _ in range(13):
+        pair_id, offset = read_pair_tag(data, offset)
+        word.append(pair_id)
+    axis, offset = read_rat_vec3(data, offset)
+    kernel, offset = read_rat_matrix(data, offset, 3, 3)
+    forced_seq = []
+    for _ in range(14):
+        face, offset = read_face_tag(data, offset)
+        forced_seq.append(face)
+    p0, offset = read_rat_vec3(data, offset)
+    lam, offset = read_rat(data, offset)
+    solve, offset = read_rat_matrix(data, offset, 4, 4)
+    failure, offset = read_packed_residual_failure(data, offset)
+    return {
+        "rank": rank,
+        "word": word,
+        "axis": axis,
+        "kernel_cross_factor": kernel,
+        "forced_seq": forced_seq,
+        "p0": p0,
+        "lambda": lam,
+        "solve_left_inverse": solve,
+        "failure": failure,
+    }, offset
+
+
+def decode_packed_residual_blob_text(text: str) -> dict:
+    data = base64.b64decode(text, validate=True)
+    if len(data) < 6 or data[:4] != b"CORC":
+        raise ValueError("bad magic")
+    if data[4] != 1:
+        raise ValueError("bad version")
+    section_count, offset = read_uvarint(data, 5)
+    headers: list[tuple[int, int]] = []
+    seen: set[int] = set()
+    for _ in range(section_count):
+        section_id, offset = read_uvarint(data, offset)
+        length, offset = read_uvarint(data, offset)
+        if section_id in seen:
+            raise ValueError("duplicate section")
+        seen.add(section_id)
+        headers.append((section_id, length))
+    sections: dict[int, bytes] = {}
+    for section_id, length in headers:
+        end = offset + length
+        if end > len(data):
+            raise ValueError("truncated section")
+        sections[section_id] = data[offset:end]
+        offset = end
+    if offset != len(data):
+        raise ValueError("trailing input")
+    for required in (1, 2):
+        if required not in sections:
+            raise ValueError("missing section")
+
+    meta_count, meta_offset = read_uvarint(sections[1], 0)
+    metadata = []
+    for _ in range(meta_count):
+        value, meta_offset = read_uvarint(sections[1], meta_offset)
+        metadata.append(value)
+    if meta_offset != len(sections[1]):
+        raise ValueError("metadata trailing input")
+    if len(metadata) != 2:
+        raise ValueError("metadata length")
+
+    cert_count, cert_offset = read_uvarint(sections[2], 0)
+    certs = []
+    for _ in range(cert_count):
+        cert, cert_offset = read_packed_residual_cert(sections[2], cert_offset)
+        certs.append(cert)
+    if cert_offset != len(sections[2]):
+        raise ValueError("cert trailing input")
+    if metadata[0] != len(certs):
+        raise ValueError("count mismatch")
+    return {
+        "record_count": metadata[0],
+        "residual_singleton_cases": metadata[1],
+        "certs": certs,
+        "raw_bytes": len(data),
+        "sha256": hashlib.sha256(data).hexdigest(),
+    }
+
+
+def build_bad_packed_residual_blob() -> bytes:
+    # Minimal structurally valid blob with one invalid zero-denominator rational
+    # in the axis field.
+    sections: list[tuple[int, bytes]] = []
+    meta = encode_uvarint(2) + encode_uvarint(1) + encode_uvarint(1)
+    record = bytearray()
+    record.extend(encode_uvarint(1))
+    record.extend(encode_uvarint(0))
+    for _ in range(13):
+        record.extend(encode_uvarint(0))
+    record.extend(encode_uvarint(0))
+    record.extend(encode_uvarint(0))
+    certs = encode_uvarint(1) + bytes(record)
+    sections.append((1, meta))
+    sections.append((2, certs))
+    blob = bytearray(b"CORC")
+    blob.append(1)
+    blob.extend(encode_uvarint(len(sections)))
+    for section_id, payload in sections:
+        blob.extend(encode_uvarint(section_id))
+        blob.extend(encode_uvarint(len(payload)))
+    for _section_id, payload in sections:
+        blob.extend(payload)
+    return bytes(blob)
+
+
+def require_packed_decode_fails(name: str, blob: bytes) -> None:
+    text = base64.b64encode(blob).decode("ascii")
+    try:
+        decode_packed_residual_blob_text(text)
+    except Exception:
+        return
+    raise SystemExit(f"packed residual malformed test unexpectedly decoded: {name}")
+
+
+def check_packed_residual_malformed_tests(good: bytes) -> int:
+    bad_magic = bytearray(good)
+    bad_magic[0] = 0
+    require_packed_decode_fails("bad magic", bytes(bad_magic))
+    bad_version = bytearray(good)
+    bad_version[4] = 2
+    require_packed_decode_fails("bad version", bytes(bad_version))
+    require_packed_decode_fails("truncated", good[:-1])
+    require_packed_decode_fails("trailing", good + b"\x00")
+    duplicate = bytearray(b"CORC")
+    duplicate.append(1)
+    duplicate.extend(encode_uvarint(2))
+    duplicate.extend(encode_uvarint(1))
+    duplicate.extend(encode_uvarint(0))
+    duplicate.extend(encode_uvarint(1))
+    duplicate.extend(encode_uvarint(0))
+    require_packed_decode_fails("duplicate section", bytes(duplicate))
+    require_packed_decode_fails("zero denominator", build_bad_packed_residual_blob())
+    return 6
+
+
+def strip_compact_residual_labels(certs: list[dict]) -> list[dict]:
+    stripped = []
+    for cert in certs:
+        stripped.append({key: value for key, value in cert.items() if key != "name"})
+    return stripped
+
+
+def check_packed_residual_certificates(payload):
+    require(payload.get("schema_version") == 1,
+            "packed residual schema version")
+    require(payload.get("mode") == "packed-residual-certificates",
+            "packed residual mode")
+    require(payload.get("complete") is True,
+            "packed residual complete")
+    require(payload.get("pilot_complete") is True,
+            "packed residual pilot complete")
+    require(payload.get("source_mode") == "compact-residual-certificates",
+            "packed residual source mode")
+
+    compact_payload = json.loads(
+        COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+    )
+    check_compact_residual_certificates(compact_payload)
+    require(payload["certs"] == compact_payload["certs"],
+            "packed residual cert echo")
+    require(
+        payload["residual_singleton_cases"] ==
+        compact_payload["residual_singleton_cases"],
+        "packed residual case count",
+    )
+
+    blob_info = payload["blob"]
+    require(blob_info["encoding"] == "base64", "packed residual encoding")
+    require(blob_info["magic"] == "CORC", "packed residual magic")
+    blob_path = REPO_ROOT / blob_info["path"]
+    text = blob_path.read_text(encoding="ascii")
+    decoded = decode_packed_residual_blob_text(text)
+    require(decoded["raw_bytes"] == blob_info["raw_bytes"],
+            "packed residual raw bytes")
+    require(decoded["sha256"] == blob_info["sha256"],
+            "packed residual sha256")
+    require(decoded["certs"] == strip_compact_residual_labels(payload["certs"]),
+            "packed residual decoded certs")
+    require(
+        decoded["residual_singleton_cases"] ==
+        payload["residual_singleton_cases"],
+        "packed residual decoded cases",
+    )
+    malformed = check_packed_residual_malformed_tests(base64.b64decode(text))
+
+    generated = payload["generated_lean"]["packed_pilot"]
+    check_generated_file_record(generated, NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH)
+    require(generated.get("proof_scope") == "decoder_smoke_blob",
+            "packed residual Lean proof scope")
+    require(generated.get("full_blob_decoded_by_independent_checker") is True,
+            "packed residual independent full blob decode flag")
+    require(generated.get("full_blob_lean_check") is False,
+            "packed residual full blob Lean check flag")
+    check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH)
+    lean_text = NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH.read_text(
+        encoding="utf-8"
+    )
+    require("packedResidualPilotDecoded_checked" in lean_text,
+            "packed residual decoded theorem")
+    require("packedResidualPilot_check" in lean_text,
+            "packed residual check theorem")
+
+    projection = payload["projection"]
+    require(projection["format"] == "packed_nonid_residual_base64",
+            "packed residual projection format")
+    require(projection["pilot_cert_count"] == len(payload["certs"]),
+            "packed residual projection count")
+    require(projection["pilot_blob_text_bytes"] == blob_info["bytes"],
+            "packed residual blob bytes")
+    require(projection["pilot_raw_bytes"] == blob_info["raw_bytes"],
+            "packed residual raw projection bytes")
+    require(
+        projection["projected_blob_text_bytes"] ==
+        projection["bytes_per_packed_cert"] *
+        projection["residual_singleton_cases"],
+        "packed residual projected blob bytes",
+    )
+    expected_total = (
+        projection["projected_blob_text_bytes"] +
+        projection["projected_chunk_count"] *
+        projection["wrapper_bytes_per_chunk"]
+    )
+    require(
+        projection["projected_residual_source_bytes"] == expected_total,
+        "packed residual projected source bytes",
+    )
+    require(
+        projection["compact_literal_projected_residual_source_bytes"] ==
+        compact_payload["projection"]["projected_residual_source_bytes"],
+        "packed residual compact comparison",
+    )
+    require(projection["size_safe"] is (projection["refusal_reasons"] == []),
+            "packed residual size-safe flag")
+    return {
+        "pilot_cert_count": len(payload["certs"]),
+        "projected_residual_source_bytes":
+            projection["projected_residual_source_bytes"],
+        "size_safe": projection["size_safe"],
+        "malformed_tests": malformed,
     }
 
 
@@ -3953,6 +4327,7 @@ def main():
             "parametric-family-checkers",
             "residual-nonidentity-templates",
             "compact-residual-certificates",
+            "packed-residual-certificates",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -4120,6 +4495,20 @@ def main():
             f"{summary['projected_residual_source_bytes']:,}"
         )
         print(f"size safe: {summary['size_safe']}")
+        return
+    if mode == "packed-residual-certificates":
+        payload = json.loads(
+            PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_packed_residual_certificates(payload)
+        print("independent packed residual certificate check passed")
+        print(f"pilot certs: {summary['pilot_cert_count']}")
+        print(
+            "projected residual source bytes: "
+            f"{summary['projected_residual_source_bytes']:,}"
+        )
+        print(f"size safe: {summary['size_safe']}")
+        print(f"malformed tests: {summary['malformed_tests']}")
         return
     if mode == "compression-audit":
         payload = json.loads(args.compression_audit_input.read_text(encoding="utf-8"))

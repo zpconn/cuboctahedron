@@ -47,6 +47,9 @@ RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH = (
 COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_residual_certificates.json"
 )
+PACKED_RESIDUAL_CERTIFICATES_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "packed_residual_certificates.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -82,6 +85,9 @@ NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH = (
 NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompactPilot.lean"
 )
+NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "PackedPilot.lean"
+)
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
 )
@@ -105,6 +111,7 @@ TRANSLATION_FARKAS_ALL_PATH = TRANSLATION_FARKAS_DIR / "All.lean"
 CERTS_DIR = REPO_ROOT / "certs"
 COMPACT_CERT_SAMPLE_BLOB_PATH = CERTS_DIR / "compact_cert_sample.b64"
 COMPACT_CERT_PILOT_BLOB_PATH = CERTS_DIR / "compact_cert_pilot.b64"
+PACKED_RESIDUAL_PILOT_BLOB_PATH = CERTS_DIR / "packed_residual_pilot.b64"
 COMPACT_CERT_SAMPLE_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_cert_sample.json"
 )
@@ -2424,6 +2431,7 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.NonIdentity.FamilyPartition",
         "import Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
         "import Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.PackedPilot",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.Translation.ParametricSample",
         "import Cuboctahedron.Generated.Translation.FamilyPartition",
@@ -4917,10 +4925,289 @@ def write_compact_residual_certificates_json(payload: dict) -> None:
     )
 
 
+def encode_zigzag_int(value: int) -> int:
+    return 2 * value if value >= 0 else -2 * value - 1
+
+
+def encode_signed_int(value: int) -> bytes:
+    return encode_uvarint(encode_zigzag_int(value))
+
+
+def encode_rat_value(value: Fraction) -> bytes:
+    return encode_signed_int(value.numerator) + encode_uvarint(value.denominator)
+
+
+def encode_pair_tag(pair_id: str) -> bytes:
+    return encode_uvarint(PAIR_IDS.index(pair_id))
+
+
+def encode_face_tag(face: str) -> bytes:
+    return encode_uvarint(FACE_ORDER.index(face))
+
+
+def encode_vec3_rat(values: Iterable[Fraction]) -> bytes:
+    out = bytearray()
+    for value in values:
+        out.extend(encode_rat_value(value))
+    return bytes(out)
+
+
+def encode_mat3_rat(values: Iterable[Iterable[Fraction]]) -> bytes:
+    out = bytearray()
+    for row in values:
+        for value in row:
+            out.extend(encode_rat_value(value))
+    return bytes(out)
+
+
+def encode_mat4_rat(values: Iterable[Iterable[Fraction]]) -> bytes:
+    out = bytearray()
+    for row in values:
+        for value in row:
+            out.extend(encode_rat_value(value))
+    return bytes(out)
+
+
+def encode_compact_residual_failure(failure: dict) -> bytes:
+    kind = failure["kind"]
+    out = bytearray()
+    if kind == "axisMissesStartInterior":
+        out.extend(encode_uvarint(0))
+    elif kind == "badFirstHit":
+        out.extend(encode_uvarint(1))
+        out.extend(encode_uvarint(int(failure["step"])))
+    elif kind == "badHitInterior":
+        out.extend(encode_uvarint(2))
+        out.extend(encode_uvarint(int(failure["impact"])))
+        out.extend(encode_face_tag(failure["badFace"]))
+    else:
+        raise ValueError(f"unsupported packed residual failure: {kind}")
+    return bytes(out)
+
+
+def encode_compact_residual_cert(cert: dict) -> bytes:
+    out = bytearray()
+    out.extend(encode_uvarint(int(cert["rank"])))
+    for pair_id in cert["word"]:
+        out.extend(encode_pair_tag(pair_id))
+    out.extend(encode_vec3_rat(Fraction(x) for x in cert["axis"]))
+    out.extend(
+        encode_mat3_rat(
+            tuple(Fraction(x) for x in row)
+            for row in cert["kernel_cross_factor"]
+        )
+    )
+    for face in cert["forced_seq"]:
+        out.extend(encode_face_tag(face))
+    out.extend(encode_vec3_rat(Fraction(x) for x in cert["p0"]))
+    out.extend(encode_rat_value(Fraction(cert["lambda"])))
+    out.extend(
+        encode_mat4_rat(
+            tuple(Fraction(x) for x in row)
+            for row in cert["solve_left_inverse"]
+        )
+    )
+    out.extend(encode_compact_residual_failure(cert["failure"]))
+    return bytes(out)
+
+
+def packed_residual_blob(*, certs: list[dict], residual_cases: int) -> bytes:
+    metadata = bytearray(encode_uvarint(2))
+    metadata.extend(encode_uvarint(len(certs)))
+    metadata.extend(encode_uvarint(residual_cases))
+
+    records = bytearray(encode_uvarint(len(certs)))
+    for cert in certs:
+        records.extend(encode_compact_residual_cert(cert))
+
+    sections = [(1, bytes(metadata)), (2, bytes(records))]
+    header = bytearray(b"CORC")
+    header.append(1)
+    header.extend(encode_uvarint(len(sections)))
+    for section_id, payload in sections:
+        header.extend(encode_uvarint(section_id))
+        header.extend(encode_uvarint(len(payload)))
+    for _section_id, payload in sections:
+        header.extend(payload)
+    return bytes(header)
+
+
+def write_packed_residual_pilot_lean() -> None:
+    relative_parts = ['".."', '".."', '".."', '".."', '"certs"',
+        f'"{PACKED_RESIDUAL_PILOT_BLOB_PATH.name}"']
+    include_path = "/".join(relative_parts)
+    lines = [
+        "import Cuboctahedron.Search.CertificateChecker",
+        "",
+        "/-!",
+        "Generated packed residual non-identity certificate smoke pilot for Step 14E.7B5.",
+        "",
+        "The full packed pilot blob is generated and checked independently by",
+        "`scripts/check_certificates_independently.py`.  This Lean file keeps a tiny",
+        "packed blob on the proof side so the Base64/section-table/certificate-array",
+        "decoder path is kernel-checked without making `lake build` spend minutes",
+        "normalizing generated data.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Residual.PackedPilot",
+        "",
+        f"def packedResidualPilotBlob : String := include_str {include_path}",
+        "",
+        "def packedResidualPilotDecoded :",
+        "    Except DecodeError (Array CompactNonIdResidualCert) :=",
+        "  decodePackedResidualCerts packedResidualPilotBlob",
+        "",
+        "def packedResidualSmokeBlob : String :=",
+        "  \"Q09SQwECAQMCAQIAAAA=\"",
+        "",
+        "def packedResidualSmokeBytes : List Nat :=",
+        "  [67, 79, 82, 67, 1, 2, 1, 3, 2, 1, 2, 0, 0, 0]",
+        "",
+        "theorem packedResidualSmokeBase64_eq :",
+        "    decodeBase64 packedResidualSmokeBlob = .ok packedResidualSmokeBytes := by",
+        "  decide",
+        "",
+        "theorem packedResidualSmokeDecode_eq :",
+        "    decodePackedResidualCerts packedResidualSmokeBlob =",
+        "      .ok (#[] : Array CompactNonIdResidualCert) := by",
+        "  decide",
+        "",
+        "theorem packedResidualPilotDecoded_checked :",
+        "    (match decodePackedResidualCerts packedResidualSmokeBlob with",
+        "      | .ok certs => checkCompactNonIdResiduals certs = true",
+        "      | .error _ => False) := by",
+        "  rw [packedResidualSmokeDecode_eq]",
+        "  rfl",
+        "",
+        "theorem packedResidualPilot_check :",
+        "    checkPackedResidualCerts packedResidualSmokeBlob = true := by",
+        "  unfold checkPackedResidualCerts",
+        "  rw [packedResidualSmokeDecode_eq]",
+        "  rfl",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Residual.PackedPilot",
+        "",
+    ]
+    NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+
+
+def build_packed_residual_certificates_payload() -> dict:
+    compact_residual = load_json_artifact(
+        COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH,
+        "compact-residual-certificates",
+    )
+    certs = compact_residual["certs"]
+    residual_cases = int(compact_residual["residual_singleton_cases"])
+    blob = packed_residual_blob(certs=certs, residual_cases=residual_cases)
+    blob_text = compact_blob_text(blob)
+    PACKED_RESIDUAL_PILOT_BLOB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    PACKED_RESIDUAL_PILOT_BLOB_PATH.write_text(blob_text, encoding="ascii")
+    write_packed_residual_pilot_lean()
+
+    cert_count = len(certs)
+    blob_text_bytes = len(blob_text.encode("ascii"))
+    raw_bytes = len(blob)
+    bytes_per_packed_cert = math.ceil(blob_text_bytes / cert_count)
+    projected_blob_text_bytes = bytes_per_packed_cert * residual_cases
+    projected_chunk_count = max(
+        1,
+        math.ceil(projected_blob_text_bytes / FULL_EMISSION_TARGET_CHUNK_BYTES),
+    )
+    wrapper_bytes_per_chunk = 4096
+    projected_residual_source_bytes = (
+        projected_blob_text_bytes +
+        projected_chunk_count * wrapper_bytes_per_chunk
+    )
+    refusal_reasons: list[str] = []
+    if projected_residual_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        refusal_reasons.append("packed_residual_source_exceeds_hard_total_limit")
+    if FULL_EMISSION_TARGET_CHUNK_BYTES > FULL_EMISSION_HARD_MAX_FILE_BYTES:
+        refusal_reasons.append("chunk_target_exceeds_hard_file_limit")
+
+    compact_projection = compact_residual["projection"]
+    packed_pilot_record = generated_file_record(
+        NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH
+    )
+    packed_pilot_record.update({
+        "proof_scope": "decoder_smoke_blob",
+        "full_blob_decoded_by_independent_checker": True,
+        "full_blob_lean_check": False,
+    })
+    return {
+        "schema_version": 1,
+        "mode": "packed-residual-certificates",
+        "complete": True,
+        "pilot_complete": True,
+        "source_mode": compact_residual["mode"],
+        "source": path_status(COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH),
+        "supported_failure_kinds": compact_residual["supported_failure_kinds"],
+        "present_failure_kinds": compact_residual["present_failure_kinds"],
+        "residual_singleton_cases": residual_cases,
+        "certs": certs,
+        "blob": {
+            "path": str(PACKED_RESIDUAL_PILOT_BLOB_PATH.relative_to(REPO_ROOT)),
+            "bytes": blob_text_bytes,
+            "raw_bytes": raw_bytes,
+            "sha256": compact_blob_sha256(blob),
+            "encoding": "base64",
+            "magic": "CORC",
+            "schema_version": 1,
+        },
+        "generated_lean": {
+            "packed_pilot": packed_pilot_record,
+        },
+        "projection": {
+            "format": "packed_nonid_residual_base64",
+            "pilot_cert_count": cert_count,
+            "pilot_blob_text_bytes": blob_text_bytes,
+            "pilot_raw_bytes": raw_bytes,
+            "bytes_per_packed_cert": bytes_per_packed_cert,
+            "residual_singleton_cases": residual_cases,
+            "projected_blob_text_bytes": projected_blob_text_bytes,
+            "wrapper_bytes_per_chunk": wrapper_bytes_per_chunk,
+            "target_chunk_bytes": FULL_EMISSION_TARGET_CHUNK_BYTES,
+            "projected_chunk_count": projected_chunk_count,
+            "projected_residual_source_bytes": projected_residual_source_bytes,
+            "projected_residual_source_gib": (
+                projected_residual_source_bytes / GIB
+            ),
+            "compact_literal_projected_residual_source_bytes":
+                compact_projection["projected_residual_source_bytes"],
+            "compact_literal_projected_residual_source_gib":
+                compact_projection["projected_residual_source_gib"],
+            "hard_max_file_bytes": FULL_EMISSION_HARD_MAX_FILE_BYTES,
+            "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
+            "size_safe": not refusal_reasons,
+            "refusal_reasons": refusal_reasons,
+            "note": (
+                "Projection stores residual singleton certificates in base64 "
+                "packed blobs decoded by Lean before running the compact "
+                "residual checker."
+            ),
+        },
+    }
+
+
+def write_packed_residual_certificates_json(payload: dict) -> None:
+    PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def build_full_emission_size_preflight(
     *,
     residual_templates: dict | None,
     compact_residual: dict | None,
+    packed_residual: dict | None,
     prefix_parametric: dict | None,
     budget_bytes: int,
 ) -> dict:
@@ -4930,8 +5217,19 @@ def build_full_emission_size_preflight(
     bytes_per_residual_template = 0
     projected_residual_source_bytes = 0
     compact_projection = None
+    packed_projection = None
     projection_model = "residual_proof_templates"
-    if compact_residual is not None and compact_residual.get("complete") is True:
+    if packed_residual is not None and packed_residual.get("complete") is True:
+        projection_model = "packed_residual_certificates"
+        packed_projection = packed_residual.get("projection", {})
+        residual_cases = int(packed_projection.get("residual_singleton_cases", 0))
+        bytes_per_residual_template = int(
+            packed_projection.get("bytes_per_packed_cert", 0)
+        )
+        projected_residual_source_bytes = int(
+            packed_projection.get("projected_residual_source_bytes", 0)
+        )
+    elif compact_residual is not None and compact_residual.get("complete") is True:
         projection_model = "compact_residual_certificates"
         compact_projection = compact_residual.get("projection", {})
         residual_cases = int(compact_projection.get("residual_singleton_cases", 0))
@@ -4971,12 +5269,16 @@ def build_full_emission_size_preflight(
     )
     reasons: list[str] = []
     if projected_total_source_bytes > budget_bytes:
-        if projection_model == "compact_residual_certificates":
+        if projection_model == "packed_residual_certificates":
+            reasons.append("packed_residual_source_exceeds_budget")
+        elif projection_model == "compact_residual_certificates":
             reasons.append("compact_residual_source_exceeds_budget")
         else:
             reasons.append("projected_template_source_exceeds_budget")
     if projected_total_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
-        if projection_model == "compact_residual_certificates":
+        if projection_model == "packed_residual_certificates":
+            reasons.append("packed_residual_source_exceeds_hard_total_limit")
+        elif projection_model == "compact_residual_certificates":
             reasons.append("compact_residual_source_exceeds_hard_total_limit")
         else:
             reasons.append("projected_template_source_exceeds_hard_total_limit")
@@ -4995,6 +5297,7 @@ def build_full_emission_size_preflight(
         "projected_residual_source_bytes": projected_residual_source_bytes,
         "translation_shared_farkas_shapes": translation_shared_farkas_shapes,
         "compact_residual_projection": compact_projection,
+        "packed_residual_projection": packed_projection,
         "projected_total_source_bytes": projected_total_source_bytes,
         "projected_total_source_gib": projected_total_source_bytes / GIB,
         "size_safe": not reasons,
@@ -5044,6 +5347,9 @@ def build_exhaustive_real_certs_summary(
         "compact_residual_certificates": path_status(
             COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
         ),
+        "packed_residual_certificates": path_status(
+            PACKED_RESIDUAL_CERTIFICATES_JSON_PATH
+        ),
     }
 
     load_json_artifact(COVERAGE_JSON_PATH, "coverage-manifest")
@@ -5083,6 +5389,14 @@ def build_exhaustive_real_certs_summary(
         )
         if not compact_residual.get("complete", False):
             compact_residual = None
+    packed_residual = None
+    if PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.exists():
+        packed_residual = load_json_artifact(
+            PACKED_RESIDUAL_CERTIFICATES_JSON_PATH,
+            "packed-residual-certificates",
+        )
+        if not packed_residual.get("complete", False):
+            packed_residual = None
     required_parametric_semantics_api = [
         "checkNonIdParametricFamily",
         "checkNonIdParametricFamily_sound",
@@ -5216,6 +5530,7 @@ def build_exhaustive_real_certs_summary(
     implementation_preflight = build_full_emission_size_preflight(
         residual_templates=residual_templates,
         compact_residual=compact_residual,
+        packed_residual=packed_residual,
         prefix_parametric=prefix_parametric,
         budget_bytes=budget_bytes,
     )
@@ -5276,6 +5591,9 @@ def build_exhaustive_real_certs_summary(
             "compact_residual_certificates": path_status(
                 COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
             ),
+            "packed_residual_certificates": path_status(
+                PACKED_RESIDUAL_CERTIFICATES_JSON_PATH
+            ),
             "residual_nonidentity_templates": path_status(
                 RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH
             ),
@@ -5315,6 +5633,20 @@ def build_exhaustive_real_certs_summary(
             "projection": (
                 compact_residual.get("projection", {})
                 if compact_residual is not None
+                else None
+            ),
+        },
+        "packed_residual_certificates": {
+            "ready": packed_residual is not None,
+            "source": path_status(PACKED_RESIDUAL_CERTIFICATES_JSON_PATH),
+            "generated_lean": {
+                "packed_pilot": path_status(
+                    NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH
+                ),
+            },
+            "projection": (
+                packed_residual.get("projection", {})
+                if packed_residual is not None
                 else None
             ),
         },
@@ -6695,6 +7027,7 @@ def main() -> None:
             "parametric-family-checkers",
             "residual-nonidentity-templates",
             "compact-residual-certificates",
+            "packed-residual-certificates",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -6872,6 +7205,21 @@ def main() -> None:
         print(f"size safe: {projection['size_safe']}")
         print(f"json: {COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "packed-residual-certificates":
+        payload = build_packed_residual_certificates_payload()
+        write_packed_residual_certificates_json(payload)
+        write_all_generated()
+        projection = payload["projection"]
+        print("generated packed residual nonidentity certificate pilot")
+        print(f"pilot certs: {projection['pilot_cert_count']}")
+        print(
+            "projected residual source: "
+            f"{projection['projected_residual_source_gib']:.2f} GiB"
+        )
+        print(f"size safe: {projection['size_safe']}")
+        print(f"json: {PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "compression-audit":
         payload = build_compression_audit_payload()
