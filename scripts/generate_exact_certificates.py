@@ -44,6 +44,9 @@ EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
 RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "residual_nonidentity_templates.json"
 )
+COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compact_residual_certificates.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -75,6 +78,9 @@ NONIDENTITY_PARTITION_LEAN_PATH = (
 )
 NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "ResidualTemplates.lean"
+)
+NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompactPilot.lean"
 )
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
@@ -112,6 +118,7 @@ EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS = 157_957_632
 COVERAGE_CHUNK_SIZE = 100_000
 FULL_EMISSION_TARGET_CHUNK_BYTES = 8 * 1024 * 1024
 FULL_EMISSION_HARD_MAX_FILE_BYTES = 50 * 1024 * 1024
+FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES = int(1.25 * 1024 * 1024 * 1024)
 RESIDUAL_TEMPLATE_SCAN_LIMIT = 1000
 
 PAIR_IDS = ["x", "y", "z", "d111", "d11m", "d1m1", "dm11"]
@@ -2416,6 +2423,7 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.NonIdentity.ParametricSample",
         "import Cuboctahedron.Generated.NonIdentity.FamilyPartition",
         "import Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.Translation.ParametricSample",
         "import Cuboctahedron.Generated.Translation.FamilyPartition",
@@ -4704,6 +4712,303 @@ def write_residual_nonidentity_templates_json(payload: dict) -> None:
     )
 
 
+def lean_compact_residual_failure(failure: dict) -> str:
+    kind = failure["kind"]
+    if kind == "axisMissesStartInterior":
+        return "CompactNonIdResidualFailure.axisMissesStartInterior"
+    if kind == "badFirstHit":
+        return (
+            "CompactNonIdResidualFailure.badFirstHit "
+            f"⟨{failure['step']}, by decide⟩"
+        )
+    if kind == "badHitInterior":
+        return (
+            "CompactNonIdResidualFailure.badHitInterior "
+            f"⟨{failure['impact']}, by decide⟩ "
+            f"{lean_face(failure['badFace'])}"
+        )
+    raise ValueError(f"unsupported compact residual failure: {kind}")
+
+
+def append_compact_residual_cert(lines: list[str], cert: dict) -> str:
+    source_name = cert["name"]
+    name = f"compact{source_name[0].upper()}{source_name[1:]}"
+    axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
+    kernel = tuple(
+        tuple(Fraction(x) for x in row)
+        for row in cert["kernel_cross_factor"]
+    )  # type: ignore[assignment]
+    p0 = tuple(Fraction(x) for x in cert["p0"])  # type: ignore[assignment]
+    lam = Fraction(cert["lambda"])
+    solve = tuple(
+        tuple(Fraction(x) for x in row)
+        for row in cert["solve_left_inverse"]
+    )  # type: ignore[assignment]
+    lines.extend([
+        f"def {name} : CompactNonIdResidualCert where",
+        f"  rank := ⟨{cert['rank']}, by decide⟩",
+        f"  word := {lean_pair_word_literal(cert['word']).strip()}",
+        f"  axis := {lean_vec(axis)}",
+        f"  kernel := {{ crossFactor := {lean_mat3(kernel)} }}",
+        f"  forcedSeq := {lean_face_vector_literal(cert['forced_seq']).strip()}",
+        f"  p0 := {lean_vec(p0)}",
+        f"  lambda := {lean_rat(lam)}",
+        f"  solve := {{ leftInverse := {lean_mat4(solve)} }}",
+        f"  failure := {lean_compact_residual_failure(cert['failure'])}",
+        "",
+    ])
+    return name
+
+
+def write_compact_residual_certificates_lean(payload: dict) -> None:
+    certs = payload["certs"]
+    lines: list[str] = [
+        "import Cuboctahedron.Search.CertificateFormat",
+        "import Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "",
+        "/-!",
+        "Generated compact residual non-identity certificate pilot for Step 14E.7B4.",
+        "",
+        "This module exercises the compact residual certificate record and",
+        "checks reconstruction against the residual proof-template witnesses.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
+        "",
+        "open Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "",
+    ]
+    compact_names = [append_compact_residual_cert(lines, cert) for cert in certs]
+    lines.extend([
+        "def compactResidualPilotCerts : Array CompactNonIdResidualCert :=",
+        f"  #[{', '.join(compact_names)}]",
+        "",
+        "theorem compactResidualPilot_check :",
+        "    checkCompactNonIdResiduals compactResidualPilotCerts = true := by",
+    ])
+    for idx, (name, cert) in enumerate(zip(compact_names, certs, strict=True)):
+        source_name = cert["name"]
+        lines.extend([
+            f"  have h{idx}Eq : {name}.toNonIdCert = {source_name} := by",
+            "    rfl",
+            f"  have h{idx}Rank : checkNonIdCoveredRank {cert['rank']} {name}.toNonIdCert = true := by",
+            "    decide",
+            f"  have h{idx}Check : checkCompactNonIdResidual {name} = true := by",
+            "    unfold checkCompactNonIdResidual",
+            f"    change (checkNonIdCoveredRank {cert['rank']} {name}.toNonIdCert &&",
+            f"        checkNonIdCert {name}.toNonIdCert) = true",
+            f"    rw [h{idx}Rank, h{idx}Eq, {source_name}_check]",
+            "    rfl",
+        ])
+    check_names = ", ".join(f"h{idx}Check" for idx in range(len(compact_names)))
+    lines.extend([
+        "  simp [checkCompactNonIdResiduals, compactResidualPilotCerts,",
+        f"    {check_names}]",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
+        "",
+    ])
+    NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+
+
+def build_compact_residual_certificates_payload() -> dict:
+    residual_templates = load_json_artifact(
+        RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH,
+        "residual-nonidentity-templates",
+    )
+    certs = residual_templates["certs"]
+    if not certs:
+        raise ValueError("residual template payload has no certs")
+    write_compact_residual_certificates_lean({
+        "certs": certs,
+    })
+    compact_lean = NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH.read_text(
+        encoding="utf-8"
+    )
+    compact_lean_bytes = len(compact_lean.encode("utf-8"))
+    compact_cert_count = len(certs)
+    bytes_per_compact_cert = math.ceil(compact_lean_bytes / compact_cert_count)
+    residual_cases = int(residual_templates["residual_singleton_cases"])
+    projected_residual_source_bytes = bytes_per_compact_cert * residual_cases
+    projected_chunk_count = (
+        math.ceil(projected_residual_source_bytes / FULL_EMISSION_TARGET_CHUNK_BYTES)
+        if projected_residual_source_bytes
+        else 0
+    )
+    refusal_reasons: list[str] = []
+    if projected_residual_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        refusal_reasons.append("compact_residual_source_exceeds_hard_total_limit")
+    if FULL_EMISSION_TARGET_CHUNK_BYTES > FULL_EMISSION_HARD_MAX_FILE_BYTES:
+        refusal_reasons.append("chunk_target_exceeds_hard_file_limit")
+
+    compact_records = [
+        {
+            "name": f"compact{cert['name'][0].upper()}{cert['name'][1:]}",
+            "source_cert": cert["name"],
+            "rank": cert["rank"],
+            "failure_kind": cert["failure"]["kind"],
+        }
+        for cert in certs
+    ]
+    return {
+        "schema_version": 1,
+        "mode": "compact-residual-certificates",
+        "complete": True,
+        "pilot_complete": True,
+        "source_mode": residual_templates["mode"],
+        "source": path_status(RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH),
+        "supported_failure_kinds": residual_templates["supported_failure_kinds"],
+        "present_failure_kinds": sorted(
+            {
+                cert["failure"]["kind"]
+                for cert in certs
+            }
+        ),
+        "residual_singleton_cases": residual_cases,
+        "certs": certs,
+        "compact_records": compact_records,
+        "generated_lean": {
+            "compact_pilot": generated_file_record(
+                NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH
+            ),
+        },
+        "projection": {
+            "format": "compact_nonid_residual_lean_literals",
+            "pilot_cert_count": compact_cert_count,
+            "pilot_source_bytes": compact_lean_bytes,
+            "bytes_per_compact_cert": bytes_per_compact_cert,
+            "residual_singleton_cases": residual_cases,
+            "projected_residual_source_bytes": projected_residual_source_bytes,
+            "projected_residual_source_gib": (
+                projected_residual_source_bytes / GIB
+            ),
+            "target_chunk_bytes": FULL_EMISSION_TARGET_CHUNK_BYTES,
+            "projected_chunk_count": projected_chunk_count,
+            "hard_max_file_bytes": FULL_EMISSION_HARD_MAX_FILE_BYTES,
+            "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
+            "size_safe": not refusal_reasons,
+            "refusal_reasons": refusal_reasons,
+            "note": (
+                "Projection uses compact residual record literals plus small "
+                "reconstruction proofs, not the earlier verbose per-certificate "
+                "proof-template emitter."
+            ),
+        },
+    }
+
+
+def write_compact_residual_certificates_json(payload: dict) -> None:
+    COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def build_full_emission_size_preflight(
+    *,
+    residual_templates: dict | None,
+    compact_residual: dict | None,
+    prefix_parametric: dict | None,
+    budget_bytes: int,
+) -> dict:
+    residual_cases = 0
+    template_cert_count = 0
+    template_bytes = 0
+    bytes_per_residual_template = 0
+    projected_residual_source_bytes = 0
+    compact_projection = None
+    projection_model = "residual_proof_templates"
+    if compact_residual is not None and compact_residual.get("complete") is True:
+        projection_model = "compact_residual_certificates"
+        compact_projection = compact_residual.get("projection", {})
+        residual_cases = int(compact_projection.get("residual_singleton_cases", 0))
+        bytes_per_residual_template = int(
+            compact_projection.get("bytes_per_compact_cert", 0)
+        )
+        projected_residual_source_bytes = int(
+            compact_projection.get("projected_residual_source_bytes", 0)
+        )
+    elif residual_templates is not None:
+        residual_cases = int(residual_templates["residual_singleton_cases"])
+        template_cert_count = len(residual_templates.get("certs", []))
+        template_record = residual_templates.get("generated_lean", {}).get(
+            "residual_templates", {}
+        )
+        template_bytes = int(template_record.get("bytes", 0))
+        if template_cert_count > 0:
+            bytes_per_residual_template = math.ceil(
+                template_bytes / template_cert_count
+            )
+            projected_residual_source_bytes = (
+                bytes_per_residual_template * residual_cases
+            )
+
+    translation_shared_farkas_shapes = 0
+    if prefix_parametric is not None:
+        translation_shared_farkas_shapes = int(
+            prefix_parametric["size_ladder"]["translation_shared_farkas_estimate"]
+        )
+
+    projected_total_source_bytes = (
+        projected_residual_source_bytes
+        # Translation Farkas chunks are not lower-bounded by the residual
+        # template projection, but keeping the count here makes the omission
+        # explicit in the manifest.
+        + 0 * translation_shared_farkas_shapes
+    )
+    reasons: list[str] = []
+    if projected_total_source_bytes > budget_bytes:
+        if projection_model == "compact_residual_certificates":
+            reasons.append("compact_residual_source_exceeds_budget")
+        else:
+            reasons.append("projected_template_source_exceeds_budget")
+    if projected_total_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        if projection_model == "compact_residual_certificates":
+            reasons.append("compact_residual_source_exceeds_hard_total_limit")
+        else:
+            reasons.append("projected_template_source_exceeds_hard_total_limit")
+    if FULL_EMISSION_TARGET_CHUNK_BYTES > FULL_EMISSION_HARD_MAX_FILE_BYTES:
+        reasons.append("chunk_target_exceeds_hard_file_limit")
+    return {
+        "strategy": "generated_lean_fallback",
+        "projection_model": projection_model,
+        "target_chunk_bytes": FULL_EMISSION_TARGET_CHUNK_BYTES,
+        "hard_max_file_bytes": FULL_EMISSION_HARD_MAX_FILE_BYTES,
+        "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
+        "residual_template_bytes": template_bytes,
+        "residual_template_cert_count": template_cert_count,
+        "residual_singleton_cases": residual_cases,
+        "bytes_per_residual_template": bytes_per_residual_template,
+        "projected_residual_source_bytes": projected_residual_source_bytes,
+        "translation_shared_farkas_shapes": translation_shared_farkas_shapes,
+        "compact_residual_projection": compact_projection,
+        "projected_total_source_bytes": projected_total_source_bytes,
+        "projected_total_source_gib": projected_total_source_bytes / GIB,
+        "size_safe": not reasons,
+        "refusal_reasons": reasons,
+        "note": (
+            "This is a conservative source-size preflight. It uses the compact "
+            "residual certificate projection when available, otherwise the "
+            "compiled residual proof-template module. It intentionally aborts "
+            "before generating large tracked Lean files when the selected "
+            "model exceeds GitHub/repo budgets."
+        ),
+    }
+
+
 def build_exhaustive_real_certs_summary(
     *,
     profile_input: Path,
@@ -4736,6 +5041,9 @@ def build_exhaustive_real_certs_summary(
         "residual_nonidentity_templates": path_status(
             RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH
         ),
+        "compact_residual_certificates": path_status(
+            COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
+        ),
     }
 
     load_json_artifact(COVERAGE_JSON_PATH, "coverage-manifest")
@@ -4767,6 +5075,14 @@ def build_exhaustive_real_certs_summary(
         )
         if not compact_pilot.get("complete", False):
             compact_pilot = None
+    compact_residual = None
+    if COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.exists():
+        compact_residual = load_json_artifact(
+            COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH,
+            "compact-residual-certificates",
+        )
+        if not compact_residual.get("complete", False):
+            compact_residual = None
     required_parametric_semantics_api = [
         "checkNonIdParametricFamily",
         "checkNonIdParametricFamily_sound",
@@ -4897,16 +5213,30 @@ def build_exhaustive_real_certs_summary(
         refusal_reasons.append("family_partition_exhaustive_data_not_emitted")
     if not residual_templates_ready:
         refusal_reasons.append("residual_nonidentity_templates_not_ready")
+    implementation_preflight = build_full_emission_size_preflight(
+        residual_templates=residual_templates,
+        compact_residual=compact_residual,
+        prefix_parametric=prefix_parametric,
+        budget_bytes=budget_bytes,
+    )
+    preflight_refusal_reasons = [
+        "full_emission_" + reason
+        for reason in implementation_preflight["refusal_reasons"]
+    ]
+    refusal_reasons.extend(preflight_refusal_reasons)
     ready_for_large_emission = not refusal_reasons
     full_emission_manifest: dict | None = None
     if ready_for_large_emission and not approve_large_exhaustive:
         emission_status = "ready_but_approval_required"
     elif refusal_reasons:
-        emission_status = (
-            "refused_budget_exceeded"
-            if "estimated_lean_bytes_exceeds_budget" in refusal_reasons
-            else "refused_prerequisite_or_space_check"
-        )
+        if preflight_refusal_reasons:
+            emission_status = "refused_generation_size_preflight"
+        else:
+            emission_status = (
+                "refused_budget_exceeded"
+                if "estimated_lean_bytes_exceeds_budget" in refusal_reasons
+                else "refused_prerequisite_or_space_check"
+            )
     else:
         refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
         emission_status = "approved_but_full_emitter_not_implemented"
@@ -4943,6 +5273,9 @@ def build_exhaustive_real_certs_summary(
                 PARAMETRIC_FAMILY_CHECKERS_JSON_PATH
             ),
             "compact_cert_pilot": path_status(COMPACT_CERT_PILOT_JSON_PATH),
+            "compact_residual_certificates": path_status(
+                COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
+            ),
             "residual_nonidentity_templates": path_status(
                 RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH
             ),
@@ -4971,6 +5304,21 @@ def build_exhaustive_real_certs_summary(
                 ),
             },
         },
+        "compact_residual_certificates": {
+            "ready": compact_residual is not None,
+            "source": path_status(COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH),
+            "generated_lean": {
+                "compact_pilot": path_status(
+                    NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH
+                ),
+            },
+            "projection": (
+                compact_residual.get("projection", {})
+                if compact_residual is not None
+                else None
+            ),
+        },
+        "implementation_preflight": implementation_preflight,
         "estimate": {
             "source": estimate_source,
             "flat_total_certs": flat_total_certs,
@@ -6346,6 +6694,7 @@ def main() -> None:
             "prefix-parametric-compression",
             "parametric-family-checkers",
             "residual-nonidentity-templates",
+            "compact-residual-certificates",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -6508,6 +6857,21 @@ def main() -> None:
         )
         print(f"json: {RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "compact-residual-certificates":
+        payload = build_compact_residual_certificates_payload()
+        write_compact_residual_certificates_json(payload)
+        write_all_generated()
+        projection = payload["projection"]
+        print("generated compact residual nonidentity certificate pilot")
+        print(f"pilot certs: {projection['pilot_cert_count']}")
+        print(
+            "projected residual source: "
+            f"{projection['projected_residual_source_gib']:.2f} GiB"
+        )
+        print(f"size safe: {projection['size_safe']}")
+        print(f"json: {COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "compression-audit":
         payload = build_compression_audit_payload()

@@ -1,0 +1,249 @@
+{
+  "certs": [
+    {
+      "axis": [
+        "-1",
+        "-3",
+        "1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tppp",
+        "tmmp",
+        "tpmp",
+        "tpmm",
+        "tppm",
+        "tmpm",
+        "tmpp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "29/16",
+          "5",
+          "0"
+        ],
+        [
+          "-1",
+          "-19/16",
+          "0"
+        ],
+        [
+          "-19/16",
+          "23/16",
+          "0"
+        ]
+      ],
+      "lambda": "140/33",
+      "name": "residualAxisMissesStartInteriorTemplate",
+      "p0": [
+        "1",
+        "-445/66",
+        "86/33"
+      ],
+      "rank": 12,
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "259/176",
+          "-103/176",
+          "-25/88",
+          "3"
+        ],
+        [
+          "-103/176",
+          "5/88",
+          "-73/176",
+          "-1"
+        ],
+        [
+          "1/11",
+          "3/11",
+          "-1/11",
+          "0"
+        ]
+      ],
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "dm11"
+      ]
+    },
+    {
+      "axis": [
+        "-11/15",
+        "-8/15",
+        "1"
+      ],
+      "failure": {
+        "kind": "badFirstHit",
+        "step": 3
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmp",
+        "tpmp",
+        "tmmm",
+        "tpmm",
+        "tmpm",
+        "tmpp",
+        "tppm"
+      ],
+      "kernel_cross_factor": [
+        [
+          "337/1800",
+          "289/450",
+          "0"
+        ],
+        [
+          "-173/225",
+          "-367/1800",
+          "0"
+        ],
+        [
+          "-491/1800",
+          "163/450",
+          "0"
+        ]
+      ],
+      "lambda": "444/41",
+      "name": "residualBadFirstHitTemplate",
+      "p0": [
+        "1",
+        "33/41",
+        "-29/410"
+      ],
+      "rank": 159,
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "2657/7216",
+          "-224/451",
+          "37/7216",
+          "8/11"
+        ],
+        [
+          "-1532/2255",
+          "-173/18040",
+          "-227/451",
+          "-15/11"
+        ],
+        [
+          "33/82",
+          "12/41",
+          "-45/82",
+          "0"
+        ]
+      ],
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d1m1",
+        "dm11",
+        "d11m"
+      ]
+    }
+  ],
+  "compact_records": [
+    {
+      "failure_kind": "axisMissesStartInterior",
+      "name": "compactResidualAxisMissesStartInteriorTemplate",
+      "rank": 12,
+      "source_cert": "residualAxisMissesStartInteriorTemplate"
+    },
+    {
+      "failure_kind": "badFirstHit",
+      "name": "compactResidualBadFirstHitTemplate",
+      "rank": 159,
+      "source_cert": "residualBadFirstHitTemplate"
+    }
+  ],
+  "complete": true,
+  "generated_lean": {
+    "compact_pilot": {
+      "bytes": 4412,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/CompactPilot.lean",
+      "sha256": "eded520dc530d00a3558bcfdbd3e232af3ff21a76f88303ca59365a077b07495"
+    }
+  },
+  "mode": "compact-residual-certificates",
+  "pilot_complete": true,
+  "present_failure_kinds": [
+    "axisMissesStartInterior",
+    "badFirstHit"
+  ],
+  "projection": {
+    "bytes_per_compact_cert": 2206,
+    "format": "compact_nonid_residual_lean_literals",
+    "hard_max_file_bytes": 52428800,
+    "hard_total_source_bytes": 1342177280,
+    "note": "Projection uses compact residual record literals plus small reconstruction proofs, not the earlier verbose per-certificate proof-template emitter.",
+    "pilot_cert_count": 2,
+    "pilot_source_bytes": 4412,
+    "projected_chunk_count": 537,
+    "projected_residual_source_bytes": 4497275136,
+    "projected_residual_source_gib": 4.188413858413696,
+    "refusal_reasons": [
+      "compact_residual_source_exceeds_hard_total_limit"
+    ],
+    "residual_singleton_cases": 2038656,
+    "size_safe": false,
+    "target_chunk_bytes": 8388608
+  },
+  "residual_singleton_cases": 2038656,
+  "schema_version": 1,
+  "source": {
+    "bytes": 5572,
+    "exists": true,
+    "path": "scripts/generated/residual_nonidentity_templates.json"
+  },
+  "source_mode": "residual-nonidentity-templates",
+  "supported_failure_kinds": [
+    "axisMissesStartInterior",
+    "badFirstHit",
+    "badHitInterior"
+  ]
+}

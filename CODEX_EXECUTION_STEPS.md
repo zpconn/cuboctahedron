@@ -2263,19 +2263,215 @@ grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 passes, and the residual-template JSON records that all occurring residual
 failure kinds in the representative scan have checked Lean template witnesses.
 
+## Step 14E.7B4: Compact Residual Certificate Format
+
+Goal: replace verbose per-residual proof-script emission with a compact,
+generic Lean-checked residual certificate format before attempting the full
+generated Lean fallback.
+
+This step exists because the current residual proof-template style is too large
+for full singleton emission. The approved Step 14E.7B preflight measured the
+representative residual proof templates at about 40 KB per certificate; applied
+to 2,038,656 residual nonidentity cases, that projects to roughly 76 GiB of
+Lean source. The full emitter must therefore use compact data plus a generic
+Lean checker, not one long proof block per residual certificate.
+
+Update:
+
+```text
+Cuboctahedron/Search/Certificates.lean
+Cuboctahedron/Search/CertificateFormat.lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+Cuboctahedron/Generated/AllGenerated.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/compact_residual_certificates.json
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Add a compact residual certificate type whose data is close to the actual
+  mathematical witness, not a generated proof script. It must include enough
+  exact rational data to reconstruct or check:
+  - the pair-word rank and `unrankPairWord`;
+  - the residual failure kind;
+  - the fixed-axis/kernel witness;
+  - the forced sequence/sign data;
+  - the affine-axis solve witness;
+  - the specific start-interior/order/interior failure witness.
+- Add a Lean checker such as:
+
+```lean
+def checkCompactNonIdResidual (c : CompactNonIdResidualCert) : Bool := ...
+```
+
+- Prove a generic soundness theorem, once:
+
+```lean
+theorem checkCompactNonIdResidual_sound
+  (c : CompactNonIdResidualCert)
+  (hcheck : checkCompactNonIdResidual c = true) :
+  ∃ cert : NonIdCert,
+    cert.word = unrankPairWord c.rank ∧
+    checkNonIdCert cert = true
+```
+
+- Generate a pilot compact residual module containing a deterministic slice of
+  residual cases. The pilot must exercise at least:
+  - `axisMissesStartInterior`;
+  - `badFirstHit`;
+  - `badHitInterior` if the generator can find one within a bounded exact scan;
+    otherwise record it as unobserved in the pilot, not globally absent.
+- The pilot module must check an array/list of compact residual certificates
+  with one aggregate theorem, not one verbose proof theorem per certificate.
+- Add size accounting that reports:
+  - compact bytes per residual certificate;
+  - projected full residual source size;
+  - projected full residual chunk count;
+  - whether the projection fits the 1.25 GiB hard source budget and 50 MiB
+    hard per-file limit.
+- If Lean literals are still too large, add a second storage option using
+  byte-packed or base64-encoded data plus a pure Lean decoder/checker. The
+  decoded data must still be checked by Lean; the external encoding is not
+  trusted.
+- `scripts/generated/exhaustive_real_certs_summary.json` must keep
+  `complete = false`, but its implementation preflight should no longer project
+  residual singleton emission from the verbose proof-template module once the
+  compact residual checker is ready.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode compact-residual-certificates
+python3 scripts/check_certificates_independently.py --mode compact-residual-certificates
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs --approve-large-exhaustive
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes, and the full-emission preflight either becomes size-safe for residuals
+or reports a new compact-data-specific blocker with measured compact sizes.
+
+## Step 14E.7B5: Packed Residual Certificate Backend
+
+Goal: replace large Lean-literal residual singleton data with a packed storage
+format that Lean decodes and checks, so full residual emission can fit GitHub
+and repository source-size budgets.
+
+This step exists because Step 14E.7B4 successfully replaced verbose proof
+scripts with compact residual certificates, but the compact Lean-literal
+projection is still about 4.19 GiB for the residual nonidentity singleton
+cases. That is far smaller than the earlier 76 GiB proof-template projection,
+but still above the 1.25 GiB hard source budget. The next compression layer
+should therefore change storage representation, not proof meaning.
+
+Update:
+
+```text
+Cuboctahedron/Search/CertificateFormat.lean
+Cuboctahedron/Search/CertificateDecode.lean
+Cuboctahedron/Search/CertificateChecker.lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+Cuboctahedron/Generated/AllGenerated.lean
+certs/
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/packed_residual_certificates.json
+scripts/generated/compact_residual_certificates.json
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Add a deterministic packed encoding for `CompactNonIdResidualCert` data.
+  Prefer byte-packed records with base64 or hex text in Lean source only as the
+  transport layer. The external encoding is untrusted.
+- Add a pure Lean decoder for the packed residual format. The decoder must
+  validate:
+  - magic/version/schema;
+  - section lengths and end-of-input;
+  - pair-word rank bounds;
+  - enum tags for pair IDs, faces, and failure constructors;
+  - signed rational numerators/denominators, with positive denominators;
+  - fixed-size matrix/vector lengths;
+  - no trailing or malformed bytes.
+- The decoder output must be ordinary `CompactNonIdResidualCert` values, or an
+  auditable intermediate that is deterministically converted to them.
+- Add a checker such as:
+
+```lean
+def decodePackedResidualCerts : String -> Except DecodeError (Array CompactNonIdResidualCert)
+def checkPackedResidualCerts : String -> Bool := ...
+```
+
+- Prove generic soundness once:
+
+```lean
+theorem checkPackedResidualCerts_sound
+  (blob : String)
+  (hcheck : checkPackedResidualCerts blob = true) :
+  ∀ c ∈ decodedResidualCerts blob,
+    ∃ cert : NonIdCert,
+      cert.word = unrankPairWord c.rank ∧
+      checkNonIdCert cert = true
+```
+
+The exact theorem shape may differ, but downstream generated coverage must get
+the same trusted result: each decoded residual case is covered by a checked
+`NonIdCert` whose word is the public `unrankPairWord` of its rank.
+- Generate a pilot packed residual artifact covering the same residual failure
+  kinds as Step 14E.7B4:
+  - `axisMissesStartInterior`;
+  - `badFirstHit`;
+  - `badHitInterior` if observed in the bounded scan, otherwise explicitly
+    record it as unobserved in the pilot.
+- Add malformed-input tests in Lean or the independent checker for bad magic,
+  bad version, truncation, trailing bytes, invalid tags, and invalid rational
+  denominators.
+- Add size accounting comparing:
+  - verbose residual proof-template projection;
+  - compact Lean-literal residual projection;
+  - packed residual source/blob projection.
+- `scripts/generated/exhaustive_real_certs_summary.json` must use the packed
+  residual projection once the packed checker is ready. It must keep
+  `complete = false` until Step 14E.7B actually emits the full fallback data.
+- If the packed projection is still above the hard budget, record a
+  packed-data-specific blocker and do not start Step 14E.7B.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode packed-residual-certificates
+python3 scripts/check_certificates_independently.py --mode packed-residual-certificates
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs --approve-large-exhaustive
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes, and the full-emission preflight either becomes size-safe for residuals
+using the packed backend or reports a new packed-data-specific blocker with
+measured packed sizes.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
 Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
 This step is the large-data generation step. Do not start it until Step 14E.7A,
-Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, Step 14E.7B2A, and Step 14E.7B3
+Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, Step 14E.7B2A, Step 14E.7B3, and
+Step 14E.7B4, and Step 14E.7B5
 are complete,
 because every emitted rank must prove facts about the public `unrankPairWord`,
 every compressed family must have exhaustive Lean-checked soundness, and every
 compressed-family partition must be Lean-checkable rather than merely
 count-based. Step 14E.7B3 is required because residual nonidentity certificate
 checks need explicit generated proof templates rather than plain `decide`.
+Step 14E.7B4 is required because those templates are too large to emit once per
+residual singleton case. Step 14E.7B5 is required because the compact
+Lean-literal residual format is still projected above the hard source budget.
 
 Update:
 
@@ -2301,6 +2497,10 @@ Requirements:
     `ready_for_14E7 = true`;
   - `scripts/generated/residual_nonidentity_templates.json` proves the
     residual nonidentity templates are ready;
+  - `scripts/generated/compact_residual_certificates.json` proves the compact
+    residual checker is ready;
+  - `scripts/generated/packed_residual_certificates.json` proves the packed
+    residual checker is ready and size-safe;
   - the estimated generated source fits the configured hard budget;
   - free disk space is above the configured floor.
 - Keep the existing refusal behavior for stale prerequisites, budget failures,
@@ -2308,7 +2508,8 @@ Requirements:
 - Emit the fallback evidence using exactly this strategy:
   - nonidentity prefix family for `badDirectionSign`;
   - nonidentity prefix family for `badPairBalance`;
-  - singleton nonidentity residual certificates for axis/simulation cases;
+  - packed singleton nonidentity residual certificates for axis/simulation
+    cases, decoded by Lean and checked by the generic compact residual checker;
   - translation prefix family for `badDirectionSign`;
   - translation prefix family for `badTranslationVector`;
   - shared Farkas translation families for all normalized Farkas shapes.

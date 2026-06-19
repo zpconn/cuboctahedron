@@ -40,6 +40,9 @@ EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
 RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "residual_nonidentity_templates.json"
 )
+COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "compact_residual_certificates.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -68,6 +71,9 @@ NONIDENTITY_PARTITION_LEAN_PATH = (
 )
 NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "ResidualTemplates.lean"
+)
+NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompactPilot.lean"
 )
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
@@ -2242,6 +2248,12 @@ def check_exhaustive_real_certs_summary(payload):
             RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.read_text(encoding="utf-8")
         )
         check_residual_nonidentity_templates(residual_template_payload)
+    compact_residual_payload = None
+    if COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.exists():
+        compact_residual_payload = json.loads(
+            COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+        )
+        check_compact_residual_certificates(compact_residual_payload)
 
     actual = payload["actual_counts"]
     require(actual == {
@@ -2367,6 +2379,33 @@ def check_exhaustive_real_certs_summary(payload):
             "exhaustive residual template Lean exists",
         )
 
+    compact_residuals = payload["compact_residual_certificates"]
+    compact_ready = compact_residual_payload is not None
+    require(compact_residuals["ready"] is compact_ready,
+            "exhaustive compact residual ready flag")
+    require(
+        compact_residuals["source"]["path"] ==
+        relative_path(COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH),
+        "exhaustive compact residual source path",
+    )
+    require(
+        compact_residuals["generated_lean"]["compact_pilot"]["path"] ==
+        relative_path(NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH),
+        "exhaustive compact residual Lean path",
+    )
+    if compact_ready:
+        require(compact_residuals["source"]["exists"] is True,
+                "exhaustive compact residual source exists")
+        require(
+            compact_residuals["generated_lean"]["compact_pilot"]["exists"] is True,
+            "exhaustive compact residual Lean exists",
+        )
+        require(
+            compact_residuals["projection"] ==
+            compact_residual_payload["projection"],
+            "exhaustive compact residual projection echo",
+        )
+
     budget = payload["budget"]
     require(budget["generated_data_budget_bytes"] >= 0, "exhaustive budget nonnegative")
     require(budget["required_free_bytes"] >= 0, "exhaustive required free nonnegative")
@@ -2385,6 +2424,7 @@ def check_exhaustive_real_certs_summary(payload):
     require(
         emission["status"] in {
             "refused_budget_exceeded",
+            "refused_generation_size_preflight",
             "refused_prerequisite_or_space_check",
             "ready_but_approval_required",
             "approved_but_full_emitter_not_implemented",
@@ -2428,6 +2468,60 @@ def check_exhaustive_real_certs_summary(payload):
         require(
             "estimated_lean_bytes_exceeds_budget" in emission["refusal_reasons"],
             "budget refusal reason",
+        )
+    preflight = payload["implementation_preflight"]
+    require(preflight["strategy"] == "generated_lean_fallback",
+            "implementation preflight strategy")
+    require(
+        preflight["projection_model"] in {
+            "residual_proof_templates",
+            "compact_residual_certificates",
+        },
+        "implementation preflight projection model",
+    )
+    require(preflight["target_chunk_bytes"] > 0,
+            "implementation preflight chunk target")
+    require(
+        preflight["target_chunk_bytes"] <= preflight["hard_max_file_bytes"],
+        "implementation preflight chunk target below file limit",
+    )
+    require(preflight["hard_max_file_bytes"] == 50 * MIB,
+            "implementation preflight GitHub warning file limit")
+    require(preflight["hard_total_source_bytes"] == int(1.25 * GIB),
+            "implementation preflight hard source limit")
+    require(preflight["residual_singleton_cases"] >= 0,
+            "implementation preflight residual count")
+    require(preflight["residual_template_cert_count"] >= 0,
+            "implementation preflight template cert count")
+    require(preflight["projected_total_source_bytes"] >= 0,
+            "implementation preflight projected bytes")
+    if (
+        preflight["residual_template_cert_count"] > 0
+        or preflight["projection_model"] == "compact_residual_certificates"
+    ):
+        require(preflight["bytes_per_residual_template"] > 0,
+                "implementation preflight residual bytes per cert")
+        require(
+            preflight["projected_residual_source_bytes"] ==
+            preflight["bytes_per_residual_template"] *
+            preflight["residual_singleton_cases"],
+            "implementation preflight residual projection",
+        )
+    if emission["status"] == "refused_generation_size_preflight":
+        require(preflight["size_safe"] is False,
+                "size preflight refused only when unsafe")
+        require(
+            any(
+                reason.startswith("full_emission_projected_template_source")
+                or reason.startswith("full_emission_compact_residual_source")
+                for reason in emission["refusal_reasons"]
+            ),
+            "size preflight refusal reason propagated",
+        )
+    else:
+        require(
+            preflight["size_safe"] is (not preflight["refusal_reasons"]),
+            "implementation preflight size-safe flag",
         )
     require(
         "Cuboctahedron/Generated/NonIdentity/" in payload["expected_full_generation_paths"],
@@ -2557,6 +2651,119 @@ def check_residual_nonidentity_templates(payload):
         "present_kinds": [
             record["failure_kind"] for record in subtypes if record["present"]
         ],
+    }
+
+
+def check_compact_residual_certificates(payload):
+    require(payload.get("schema_version") == 1,
+            "compact residual schema version")
+    require(payload.get("mode") == "compact-residual-certificates",
+            "compact residual mode")
+    require(payload.get("complete") is True,
+            "compact residual complete")
+    require(payload.get("pilot_complete") is True,
+            "compact residual pilot complete")
+    require(payload.get("source_mode") == "residual-nonidentity-templates",
+            "compact residual source mode")
+
+    residual_payload = json.loads(
+        RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.read_text(encoding="utf-8")
+    )
+    residual_summary = check_residual_nonidentity_templates(residual_payload)
+    require(
+        payload["residual_singleton_cases"] ==
+        residual_payload["residual_singleton_cases"],
+        "compact residual case count",
+    )
+    require(payload["source"]["path"] == relative_path(RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH),
+            "compact residual source path")
+    require(payload["source"]["exists"] is True,
+            "compact residual source exists")
+    require(
+        set(payload["supported_failure_kinds"]) ==
+        set(residual_payload["supported_failure_kinds"]),
+        "compact residual supported kinds",
+    )
+    expected_present = {
+        cert["failure"]["kind"]
+        for cert in residual_payload["certs"]
+    }
+    require(set(payload["present_failure_kinds"]) == expected_present,
+            "compact residual present kinds")
+
+    certs = {cert["name"]: cert for cert in residual_payload["certs"]}
+    payload_certs = {cert["name"]: cert for cert in payload["certs"]}
+    require(payload_certs == certs, "compact residual cert echo")
+    records = payload["compact_records"]
+    require(len(records) == len(certs), "compact residual record count")
+    record_names = {record["name"] for record in records}
+    require(len(record_names) == len(records), "compact residual unique records")
+    for record in records:
+        source = record["source_cert"]
+        require(source in certs, f"compact residual source cert {source}")
+        cert = certs[source]
+        require(record["rank"] == cert["rank"],
+                f"compact residual rank {source}")
+        require(record["failure_kind"] == cert["failure"]["kind"],
+                f"compact residual failure {source}")
+        check_nonid_cert_record(cert)
+
+    generated = payload["generated_lean"]["compact_pilot"]
+    check_generated_file_record(generated, NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH)
+    check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH)
+    lean_text = NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH.read_text(
+        encoding="utf-8"
+    )
+    require("compactResidualPilot_check" in lean_text,
+            "compact residual aggregate theorem")
+    require("CompactNonIdResidualCert" in lean_text,
+            "compact residual Lean record use")
+    for record in records:
+        require(f"def {record['name']}" in lean_text,
+                f"compact residual Lean def {record['name']}")
+        require(f"checkCompactNonIdResidual {record['name']} = true" in lean_text,
+                f"compact residual aggregate local check {record['name']}")
+    require("_check :" not in "\n".join(
+        line for line in lean_text.splitlines()
+        if line.startswith("theorem compactResidual")
+        and line != "theorem compactResidualPilot_check :"
+    ), "compact residual avoids per-cert check theorems")
+
+    projection = payload["projection"]
+    require(projection["format"] == "compact_nonid_residual_lean_literals",
+            "compact residual projection format")
+    require(projection["pilot_cert_count"] == len(records),
+            "compact residual projection count")
+    require(projection["pilot_source_bytes"] == generated["bytes"],
+            "compact residual projection bytes")
+    require(projection["bytes_per_compact_cert"] >= 1,
+            "compact residual positive bytes per cert")
+    require(
+        projection["projected_residual_source_bytes"] ==
+        projection["bytes_per_compact_cert"] *
+        projection["residual_singleton_cases"],
+        "compact residual projected bytes",
+    )
+    require(
+        projection["residual_singleton_cases"] ==
+        residual_summary["residual_cases"],
+        "compact residual projected cases",
+    )
+    require(projection["target_chunk_bytes"] > 0,
+            "compact residual target chunk")
+    require(projection["hard_max_file_bytes"] > 0,
+            "compact residual hard max file")
+    require(projection["hard_total_source_bytes"] > 0,
+            "compact residual hard total")
+    expected_size_safe = projection["refusal_reasons"] == []
+    require(projection["size_safe"] is expected_size_safe,
+            "compact residual size-safe flag")
+    return {
+        "pilot_cert_count": len(records),
+        "present_kinds": sorted(expected_present),
+        "projected_residual_source_bytes":
+            projection["projected_residual_source_bytes"],
+        "size_safe": projection["size_safe"],
     }
 
 
@@ -3745,6 +3952,7 @@ def main():
             "prefix-parametric-compression",
             "parametric-family-checkers",
             "residual-nonidentity-templates",
+            "compact-residual-certificates",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -3898,6 +4106,20 @@ def main():
         print(f"residual cases: {summary['residual_cases']:,}")
         print(f"template certs: {summary['template_certs']}")
         print(f"present kinds: {', '.join(summary['present_kinds'])}")
+        return
+    if mode == "compact-residual-certificates":
+        payload = json.loads(
+            COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_compact_residual_certificates(payload)
+        print("independent compact residual certificate check passed")
+        print(f"pilot certs: {summary['pilot_cert_count']}")
+        print(f"present kinds: {', '.join(summary['present_kinds'])}")
+        print(
+            "projected residual source bytes: "
+            f"{summary['projected_residual_source_bytes']:,}"
+        )
+        print(f"size safe: {summary['size_safe']}")
         return
     if mode == "compression-audit":
         payload = json.loads(args.compression_audit_input.read_text(encoding="utf-8"))
