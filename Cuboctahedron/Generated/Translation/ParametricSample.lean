@@ -557,6 +557,8 @@ theorem checkParametricSamples_true :
 
 #check checkTranslationParametricFamily
 #check checkTranslationParametricFamily_sound
+#check exhaustiveTranslationBadDirectionFamily_sound
+#check exhaustiveTranslationBadVectorFamily_sound
 #check Cuboctahedron.Generated.Translation.sampleParametricCoverage_sound
 
 end Cuboctahedron.Generated.Translation

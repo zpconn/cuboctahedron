@@ -9,12 +9,12 @@
       "path": "Cuboctahedron/Generated/AllGenerated.lean"
     },
     "nonidentity": {
-      "bytes": 5747,
+      "bytes": 5843,
       "exists": true,
       "path": "Cuboctahedron/Generated/NonIdentity/ParametricSample.lean"
     },
     "translation": {
-      "bytes": 19838,
+      "bytes": 19941,
       "exists": true,
       "path": "Cuboctahedron/Generated/Translation/ParametricSample.lean"
     }
@@ -66,14 +66,19 @@
   },
   "notes": [
     "Generated samples prove the parametric checker API and representative family witnesses.",
+    "The exhaustive family semantic theorem names are compiled and exported; full rank/case partitioning remains gated.",
     "This artifact does not claim complete exhaustive Lean coverage."
   ],
   "prefix_parametric_ready": true,
   "required_api": [
     "checkNonIdParametricFamily",
     "checkNonIdParametricFamily_sound",
+    "exhaustiveNonIdBadDirectionFamily_sound",
+    "exhaustiveNonIdBadPairBalanceFamily_sound",
     "checkTranslationParametricFamily",
-    "checkTranslationParametricFamily_sound"
+    "checkTranslationParametricFamily_sound",
+    "exhaustiveTranslationBadDirectionFamily_sound",
+    "exhaustiveTranslationBadVectorFamily_sound"
   ],
   "schema_version": 1,
   "source": "scripts/generated/prefix_parametric_compression.json",

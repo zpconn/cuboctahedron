@@ -135,6 +135,8 @@ theorem checkParametricSamples_true :
 
 #check checkNonIdParametricFamily
 #check checkNonIdParametricFamily_sound
+#check exhaustiveNonIdBadDirectionFamily_sound
+#check exhaustiveNonIdBadPairBalanceFamily_sound
 #check Cuboctahedron.Generated.NonIdentity.sampleParametricCoverage_sound
 
 end Cuboctahedron.Generated.NonIdentity

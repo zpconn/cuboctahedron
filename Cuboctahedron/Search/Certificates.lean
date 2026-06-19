@@ -2798,6 +2798,46 @@ theorem checkNonIdParametricCoverage_pairRank_sound
     exact List.all_eq_true.mp hcheck family hmem
   exact checkNonIdParametricFamily_sound hfamilyCheck hfamilyContains
 
+def NonIdParametricFailureCovers
+    (failure : NonIdFamilyFailure) (r : Fin numPairWords) : Prop :=
+  exists family : NonIdParametricFamily,
+    family.failure = failure /\
+      checkNonIdParametricFamily family = true /\
+        family.ContainsPairRank r
+
+theorem nonIdParametricFailureCovers_sound
+    {failure : NonIdFamilyFailure} {r : Fin numPairWords}
+    (hcovers : NonIdParametricFailureCovers failure r) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord r /\
+        checkNonIdCert cert = true := by
+  rcases hcovers with ⟨family, _hfailure, hcheck, hcontains⟩
+  rcases checkNonIdParametricFamily_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  exact ⟨cert, checkNonIdCoveredRank_word hcovered, hcert⟩
+
+def NonIdBadDirectionFamilyCovers (r : Fin numPairWords) : Prop :=
+  NonIdParametricFailureCovers NonIdFamilyFailure.badDirectionSign r
+
+def NonIdBadPairBalanceFamilyCovers (r : Fin numPairWords) : Prop :=
+  NonIdParametricFailureCovers NonIdFamilyFailure.badPairBalance r
+
+theorem exhaustiveNonIdBadDirectionFamily_sound
+    {r : Fin numPairWords}
+    (hcovers : NonIdBadDirectionFamilyCovers r) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord r /\
+        checkNonIdCert cert = true :=
+  nonIdParametricFailureCovers_sound hcovers
+
+theorem exhaustiveNonIdBadPairBalanceFamily_sound
+    {r : Fin numPairWords}
+    (hcovers : NonIdBadPairBalanceFamilyCovers r) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord r /\
+        checkNonIdCert cert = true :=
+  nonIdParametricFailureCovers_sound hcovers
+
 inductive TranslationFamilyFailure
   | badTranslationVector
   | badDirectionSign
@@ -3486,6 +3526,57 @@ theorem checkTranslationParametricCoverage_choice_sound
     unfold checkTranslationParametricCoverage at hcheck
     exact List.all_eq_true.mp hcheck family hmem
   exact checkTranslationParametricFamily_sound hfamilyCheck hfamilyContains
+
+def TranslationParametricFailureCovers
+    (failure : TranslationFamilyFailure)
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  exists family : TranslationParametricFamily,
+    family.failure = failure /\
+      checkTranslationParametricFamily family = true /\
+        family.ContainsTranslationChoice r mask
+
+theorem translationParametricFailureCovers_sound
+    {failure : TranslationFamilyFailure}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcovers : TranslationParametricFailureCovers failure r mask) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord r /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true := by
+  rcases hcovers with ⟨family, _hfailure, hcheck, hcontains⟩
+  rcases checkTranslationParametricFamily_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  rcases checkTranslationCoveredCase_word_mask hcovered with
+    ⟨hword, hmask⟩
+  exact ⟨cert, hword, hmask, hcert⟩
+
+def TranslationBadDirectionFamilyCovers
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  TranslationParametricFailureCovers
+    TranslationFamilyFailure.badDirectionSign r mask
+
+def TranslationBadVectorFamilyCovers
+    (r : Fin numPairWords) (mask : SignMask) : Prop :=
+  TranslationParametricFailureCovers
+    TranslationFamilyFailure.badTranslationVector r mask
+
+theorem exhaustiveTranslationBadDirectionFamily_sound
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcovers : TranslationBadDirectionFamilyCovers r mask) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord r /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true :=
+  translationParametricFailureCovers_sound hcovers
+
+theorem exhaustiveTranslationBadVectorFamily_sound
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcovers : TranslationBadVectorFamilyCovers r mask) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord r /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true :=
+  translationParametricFailureCovers_sound hcovers
 
 theorem checkTranslationCommon_valid
     (cert : TranslationCert)

@@ -2172,6 +2172,10 @@ def check_exhaustive_real_certs_summary(payload):
     nonidentity_summary = check_nonidentity_family_file(nonidentity_family_payload)
     translation_family_payload = json.loads(TRANSLATION_FAMILY_JSON_PATH.read_text(encoding="utf-8"))
     translation_summary = check_translation_family_file(translation_family_payload)
+    parametric_family_payload = json.loads(
+        PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.read_text(encoding="utf-8")
+    )
+    check_parametric_family_checkers(parametric_family_payload)
 
     actual = payload["actual_counts"]
     require(actual == {
@@ -2214,6 +2218,33 @@ def check_exhaustive_real_certs_summary(payload):
             "exhaustive Lean byte estimate",
         )
     require(estimate["estimated_lean_bytes"] > 0, "positive Lean byte estimate")
+
+    semantics = payload["parametric_family_semantics"]
+    required_semantic_api = {
+        "checkNonIdParametricFamily",
+        "checkNonIdParametricFamily_sound",
+        "exhaustiveNonIdBadDirectionFamily_sound",
+        "exhaustiveNonIdBadPairBalanceFamily_sound",
+        "checkTranslationParametricFamily",
+        "checkTranslationParametricFamily_sound",
+        "exhaustiveTranslationBadDirectionFamily_sound",
+        "exhaustiveTranslationBadVectorFamily_sound",
+    }
+    require(semantics["ready"] is True,
+            "exhaustive parametric family semantics ready")
+    require(set(semantics["required_api"]) == required_semantic_api,
+            "exhaustive parametric family semantic API")
+    require(
+        semantics["source"]["path"]
+        == str(PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.relative_to(REPO_ROOT)),
+        "exhaustive parametric family semantic source",
+    )
+    require(semantics["source"]["exists"] is True,
+            "exhaustive parametric family semantic source exists")
+    require(
+        set(parametric_family_payload["required_api"]) == required_semantic_api,
+        "parametric checker semantic API echoed",
+    )
 
     budget = payload["budget"]
     require(budget["generated_data_budget_bytes"] >= 0, "exhaustive budget nonnegative")
@@ -3053,8 +3084,12 @@ def check_parametric_family_checkers(payload):
         == {
             "checkNonIdParametricFamily",
             "checkNonIdParametricFamily_sound",
+            "exhaustiveNonIdBadDirectionFamily_sound",
+            "exhaustiveNonIdBadPairBalanceFamily_sound",
             "checkTranslationParametricFamily",
             "checkTranslationParametricFamily_sound",
+            "exhaustiveTranslationBadDirectionFamily_sound",
+            "exhaustiveTranslationBadVectorFamily_sound",
         },
         "parametric checker required API set",
     )

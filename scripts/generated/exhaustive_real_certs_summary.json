@@ -6,8 +6,8 @@
     "translation_sign_assignments": 157957632
   },
   "budget": {
-    "free_bytes": 867371876352,
-    "free_gib": 807.8030090332031,
+    "free_bytes": 867404206080,
+    "free_gib": 807.8331184387207,
     "generated_data_budget_bytes": 8589934592,
     "generated_data_budget_gib": 8.0,
     "required_free_bytes": 107374182400,
@@ -47,6 +47,24 @@
     "status": "ready_but_full_emitter_not_implemented"
   },
   "mode": "exhaustive-real-certs",
+  "parametric_family_semantics": {
+    "ready": true,
+    "required_api": [
+      "checkNonIdParametricFamily",
+      "checkNonIdParametricFamily_sound",
+      "exhaustiveNonIdBadDirectionFamily_sound",
+      "exhaustiveNonIdBadPairBalanceFamily_sound",
+      "checkTranslationParametricFamily",
+      "checkTranslationParametricFamily_sound",
+      "exhaustiveTranslationBadDirectionFamily_sound",
+      "exhaustiveTranslationBadVectorFamily_sound"
+    ],
+    "source": {
+      "bytes": 4965,
+      "exists": true,
+      "path": "scripts/generated/parametric_family_checkers.json"
+    }
+  },
   "prerequisites": {
     "canonical_coverage_manifest": {
       "bytes": 2236,
@@ -72,6 +90,11 @@
       "bytes": 54039,
       "exists": true,
       "path": "scripts/generated/nonidentity_family_sample.json"
+    },
+    "parametric_family_checkers": {
+      "bytes": 4965,
+      "exists": true,
+      "path": "scripts/generated/parametric_family_checkers.json"
     },
     "prefix_parametric_compression": {
       "bytes": 3693,

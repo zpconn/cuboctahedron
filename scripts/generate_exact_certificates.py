@@ -4332,6 +4332,30 @@ def build_exhaustive_real_certs_summary(
         )
         if not compact_pilot.get("complete", False):
             compact_pilot = None
+    required_parametric_semantics_api = [
+        "checkNonIdParametricFamily",
+        "checkNonIdParametricFamily_sound",
+        "exhaustiveNonIdBadDirectionFamily_sound",
+        "exhaustiveNonIdBadPairBalanceFamily_sound",
+        "checkTranslationParametricFamily",
+        "checkTranslationParametricFamily_sound",
+        "exhaustiveTranslationBadDirectionFamily_sound",
+        "exhaustiveTranslationBadVectorFamily_sound",
+    ]
+    parametric_family_checkers = None
+    parametric_semantics_ready = False
+    if PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.exists():
+        parametric_family_checkers = load_json_artifact(
+            PARAMETRIC_FAMILY_CHECKERS_JSON_PATH,
+            "parametric-family-checkers",
+        )
+        required_api = set(parametric_family_checkers.get("required_api", []))
+        parametric_semantics_ready = (
+            parametric_family_checkers.get("complete") is True
+            and parametric_family_checkers.get("checker_layer_complete") is True
+            and parametric_family_checkers.get("exhaustive_coverage_complete") is False
+            and set(required_parametric_semantics_api) <= required_api
+        )
 
     estimates = profile["size_estimates"]
     if prefix_parametric is not None:
@@ -4381,6 +4405,8 @@ def build_exhaustive_real_certs_summary(
         or prefix_parametric.get("decision", {}).get("ready_for_14E7") is not True
     ):
         refusal_reasons.append("prefix_parametric_not_ready_for_14E7")
+    if not parametric_semantics_ready:
+        refusal_reasons.append("parametric_family_semantics_not_ready")
     if not refusal_reasons:
         refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
 
@@ -4417,7 +4443,15 @@ def build_exhaustive_real_certs_summary(
             "prefix_parametric_compression": path_status(
                 PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH
             ),
+            "parametric_family_checkers": path_status(
+                PARAMETRIC_FAMILY_CHECKERS_JSON_PATH
+            ),
             "compact_cert_pilot": path_status(COMPACT_CERT_PILOT_JSON_PATH),
+        },
+        "parametric_family_semantics": {
+            "ready": parametric_semantics_ready,
+            "required_api": required_parametric_semantics_api,
+            "source": path_status(PARAMETRIC_FAMILY_CHECKERS_JSON_PATH),
         },
         "estimate": {
             "source": estimate_source,
@@ -4815,6 +4849,8 @@ def write_nonidentity_parametric_lean() -> None:
         "",
         "#check checkNonIdParametricFamily",
         "#check checkNonIdParametricFamily_sound",
+        "#check exhaustiveNonIdBadDirectionFamily_sound",
+        "#check exhaustiveNonIdBadPairBalanceFamily_sound",
         "#check Cuboctahedron.Generated.NonIdentity.sampleParametricCoverage_sound",
         "",
         "end Cuboctahedron.Generated.NonIdentity",
@@ -5039,6 +5075,8 @@ def write_translation_parametric_lean(bad_vector_cert: TranslationCertPayload) -
         "",
         "#check checkTranslationParametricFamily",
         "#check checkTranslationParametricFamily_sound",
+        "#check exhaustiveTranslationBadDirectionFamily_sound",
+        "#check exhaustiveTranslationBadVectorFamily_sound",
         "#check Cuboctahedron.Generated.Translation.sampleParametricCoverage_sound",
         "",
         "end Cuboctahedron.Generated.Translation",
@@ -5077,8 +5115,12 @@ def build_parametric_family_checkers_payload() -> dict:
         "required_api": [
             "checkNonIdParametricFamily",
             "checkNonIdParametricFamily_sound",
+            "exhaustiveNonIdBadDirectionFamily_sound",
+            "exhaustiveNonIdBadPairBalanceFamily_sound",
             "checkTranslationParametricFamily",
             "checkTranslationParametricFamily_sound",
+            "exhaustiveTranslationBadDirectionFamily_sound",
+            "exhaustiveTranslationBadVectorFamily_sound",
         ],
         "generated_lean": {
             "nonidentity": path_status(NONIDENTITY_PARAMETRIC_LEAN_PATH),
@@ -5142,6 +5184,7 @@ def build_parametric_family_checkers_payload() -> dict:
         },
         "notes": [
             "Generated samples prove the parametric checker API and representative family witnesses.",
+            "The exhaustive family semantic theorem names are compiled and exported; full rank/case partitioning remains gated.",
             "This artifact does not claim complete exhaustive Lean coverage.",
         ],
     }
