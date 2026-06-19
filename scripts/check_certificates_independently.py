@@ -48,6 +48,9 @@ COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH = (
 PACKED_RESIDUAL_CERTIFICATES_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "packed_residual_certificates.json"
 )
+PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "proof_carrying_structured_literals.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -83,6 +86,9 @@ NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
 NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "PackedPilot.lean"
 )
+NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "ProofCarryingSmoke.lean"
+)
 NONIDENTITY_RESIDUAL_ALL_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "All.lean"
 )
@@ -91,6 +97,9 @@ TRANSLATION_PARTITION_LEAN_PATH = (
 )
 TRANSLATION_FARKAS_ALL_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas" / "All.lean"
+)
+TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas" / "ProofCarryingSmoke.lean"
 )
 FULL_NONIDENTITY_RESIDUAL_BLOB_DIR = REPO_ROOT / "certs" / "nonidentity_residual"
 FULL_TRANSLATION_FARKAS_BLOB_DIR = REPO_ROOT / "certs" / "translation_farkas"
@@ -2284,7 +2293,19 @@ def check_full_nonid_chunk_worker(args):
     check_generated_file_record(chunk["lean"], lean_path)
     require(chunk["blob"]["bytes"] <= 50 * MIB,
             f"full fallback blob size {expected_index}")
+    require(chunk.get("lean_backend", "packed_base64") in {
+        "packed_base64",
+        "predecoded_packed_bytes",
+    }, f"full fallback Lean backend {expected_index}")
     check_no_forbidden_lean_tokens(lean_path)
+    lean_text = lean_path.read_text(encoding="utf-8")
+    if chunk.get("lean_backend") == "predecoded_packed_bytes":
+        require("def chunkBytes : List Nat" in lean_text,
+                f"full fallback byte literal {expected_index}")
+        require("checkPackedResidualBytes chunkBytes" in lean_text,
+                f"full fallback byte checker {expected_index}")
+        require("include_str" not in lean_text,
+                f"full fallback avoids include_str {expected_index}")
     text = blob_path.read_text(encoding="ascii")
     decoded = decode_packed_residual_blob_text(text)
     require(decoded["sha256"] == chunk.get("raw_sha256", chunk["blob"]["sha256"]),
@@ -2346,7 +2367,19 @@ def check_full_translation_chunk_worker(args):
             f"full fallback translation chunk encoding {expected_index}")
     require(chunk["magic"] == "COTF",
             f"full fallback translation chunk magic {expected_index}")
+    require(chunk.get("lean_backend", "packed_base64") in {
+        "packed_base64",
+        "predecoded_packed_bytes",
+    }, f"full fallback translation Lean backend {expected_index}")
     check_no_forbidden_lean_tokens(lean_path)
+    lean_text = lean_path.read_text(encoding="utf-8")
+    if chunk.get("lean_backend") == "predecoded_packed_bytes":
+        require("def chunkBytes : List Nat" in lean_text,
+                f"full fallback translation byte literal {expected_index}")
+        require("checkPackedTranslationFarkasBytes chunkBytes" in lean_text,
+                f"full fallback translation byte checker {expected_index}")
+        require("include_str" not in lean_text,
+                f"full fallback translation avoids include_str {expected_index}")
     decoded = decode_packed_translation_farkas_blob_text(
         blob_path.read_text(encoding="ascii")
     )
@@ -2419,8 +2452,16 @@ def check_full_generated_lean_fallback_manifest(
 
     nonid = manifest["nonidentity"]
     require(nonid["complete"] is True, "full fallback nonidentity complete")
-    require(nonid["strategy"] == "packed_nonid_residual_base64",
+    require(nonid["strategy"] in {
+        "packed_nonid_residual_base64",
+        "predecoded_packed_nonid_residual_bytes",
+    },
             "full fallback nonidentity strategy")
+    if nonid["strategy"] == "predecoded_packed_nonid_residual_bytes":
+        require(nonid.get("lean_backend") == "predecoded_packed_bytes",
+                "full fallback nonidentity byte backend")
+        require(nonid.get("staging_encoding") == "base64",
+                "full fallback nonidentity staging encoding")
     expected_residual = int(
         prefix_payload["nonidentity"]["residual_singleton_cases"]
     )
@@ -2460,9 +2501,17 @@ def check_full_generated_lean_fallback_manifest(
     require(translation["complete"] is True,
             "full fallback translation complete")
     require(
-        translation["strategy"] == "packed_translation_source_farkas_base64",
+        translation["strategy"] in {
+            "packed_translation_source_farkas_base64",
+            "predecoded_packed_translation_farkas_bytes",
+        },
         "full fallback translation strategy",
     )
+    if translation["strategy"] == "predecoded_packed_translation_farkas_bytes":
+        require(translation.get("lean_backend") == "predecoded_packed_bytes",
+                "full fallback translation byte backend")
+        require(translation.get("staging_encoding") == "base64",
+                "full fallback translation staging encoding")
     require(
         translation.get(
             "prefix_parametric_shared_farkas_shapes",
@@ -4812,6 +4861,149 @@ def check_compact_cert_payload(payload: dict, expected_mode: str) -> dict:
     }
 
 
+def require_text(path: Path, needles: Iterable[str]) -> str:
+    text = path.read_text(encoding="utf-8")
+    for needle in needles:
+        require(needle in text, f"{needle} in {path}")
+    return text
+
+
+def require_text_absent(path: Path, needles: Iterable[str]) -> None:
+    text = path.read_text(encoding="utf-8")
+    for needle in needles:
+        require(needle not in text, f"{needle} absent from {path}")
+
+
+def check_proof_carrying_structured_literals(payload: dict) -> dict:
+    require(payload.get("schema_version") == 1,
+            "proof-carrying schema version")
+    require(payload.get("mode") == "proof-carrying-structured-literals",
+            "proof-carrying mode")
+    require(payload.get("complete") is True, "proof-carrying complete")
+    require(payload.get("smoke_complete") is True,
+            "proof-carrying smoke complete")
+    require(payload.get("full_backend_complete") is False,
+            "proof-carrying full backend not complete")
+    require(payload.get("selected_backend") == "proof_carrying_structured_literals",
+            "proof-carrying selected backend")
+
+    nonid = payload["nonidentity"]
+    translation = payload["translation"]
+    check_generated_file_record(
+        nonid["generated_lean"],
+        NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH,
+    )
+    check_generated_file_record(
+        translation["generated_lean"],
+        TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH,
+    )
+    for path in [
+        NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH,
+        TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH,
+    ]:
+        check_no_forbidden_lean_tokens(path)
+        require_text_absent(
+            path,
+            [
+                "include_str",
+                "decodePacked",
+                "checkPackedResidualCerts",
+                "checkPackedTranslationFarkasCerts",
+            ],
+        )
+
+    nonid_name = nonid["smoke_cert"]["name"]
+    nonid_rank = int(nonid["smoke_cert"]["rank"])
+    require(0 <= nonid_rank < EXPECTED_PAIR_WORDS,
+            "proof-carrying nonidentity rank")
+    require_text(
+        NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH,
+        [
+            "CheckedNonIdRank",
+            f"def {nonid_name}",
+            nonid["check_theorem"],
+            nonid["covered_theorem"],
+            f"{nonid_name}_word_eq",
+            nonid["evidence_def"],
+            f"{nonid_name}_exists",
+            f"{nonid_name}_no_feasible",
+            "checkNonIdCert",
+        ],
+    )
+
+    translation_name = translation["smoke_cert"]["name"]
+    translation_rank = int(translation["smoke_cert"]["rank"])
+    translation_mask = int(translation["smoke_cert"]["mask"])
+    require(0 <= translation_rank < EXPECTED_PAIR_WORDS,
+            "proof-carrying translation rank")
+    require(0 <= translation_mask < 64, "proof-carrying translation mask")
+    require(translation["smoke_cert"]["source_term_count"] > 0,
+            "proof-carrying source terms")
+    require_text(
+        TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH,
+        [
+            "CheckedTranslationCase",
+            f"def {translation_name}",
+            translation["check_theorem"],
+            translation["covered_theorem"],
+            f"{translation_name}_word_eq",
+            f"{translation_name}_mask_eq",
+            translation["evidence_def"],
+            f"{translation_name}_exists",
+            f"{translation_name}_no_feasible",
+            "checkTranslationCert",
+            "TranslationFailure.sourceFarkas",
+        ],
+    )
+
+    projection = payload["projection"]
+    require(projection["format"] == "proof_carrying_structured_literals",
+            "proof-carrying projection format")
+    expected_nonid = (
+        int(projection["nonidentity_smoke_source_bytes"]) *
+        int(projection["residual_singleton_cases"])
+    )
+    expected_translation = (
+        int(projection["translation_smoke_source_bytes"]) *
+        int(projection["translation_shared_farkas_cases"])
+    )
+    expected_total = expected_nonid + expected_translation
+    require(
+        projection["projected_nonidentity_source_bytes"] == expected_nonid,
+        "proof-carrying nonidentity projection",
+    )
+    require(
+        projection["projected_translation_source_bytes"] ==
+            expected_translation,
+        "proof-carrying translation projection",
+    )
+    require(
+        projection["projected_total_source_bytes"] == expected_total,
+        "proof-carrying total projection",
+    )
+    require(
+        projection["size_safe"] ==
+            (expected_total <= int(projection["hard_total_source_bytes"])),
+        "proof-carrying size flag",
+    )
+    if projection["size_safe"]:
+        require(not projection["refusal_reasons"],
+                "proof-carrying no refusal when safe")
+    else:
+        require(
+            "proof_carrying_projection_exceeds_hard_total_limit"
+            in projection["refusal_reasons"],
+            "proof-carrying refusal reason",
+        )
+    return {
+        "nonidentity_rank": nonid_rank,
+        "translation_rank": translation_rank,
+        "translation_mask": translation_mask,
+        "projected_total_source_bytes": expected_total,
+        "size_safe": projection["size_safe"],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -4833,6 +5025,7 @@ def main():
             "residual-nonidentity-templates",
             "compact-residual-certificates",
             "packed-residual-certificates",
+            "proof-carrying-structured-literals",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -4919,6 +5112,7 @@ def main():
             "prefix-parametric-compression/"
             "parametric-family-checkers/"
             "residual-nonidentity-templates/"
+            "proof-carrying-structured-literals/"
             "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
@@ -5038,6 +5232,25 @@ def main():
         )
         print(f"size safe: {summary['size_safe']}")
         print(f"malformed tests: {summary['malformed_tests']}")
+        return
+    if mode == "proof-carrying-structured-literals":
+        payload = json.loads(
+            PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.read_text(
+                encoding="utf-8"
+            )
+        )
+        summary = check_proof_carrying_structured_literals(payload)
+        print("independent proof-carrying structured-literal check passed")
+        print(f"nonidentity rank: {summary['nonidentity_rank']}")
+        print(
+            "translation case: "
+            f"{summary['translation_rank']}/{summary['translation_mask']}"
+        )
+        print(
+            "projected source bytes: "
+            f"{summary['projected_total_source_bytes']:,}"
+        )
+        print(f"size safe: {summary['size_safe']}")
         return
     if mode == "compression-audit":
         payload = json.loads(args.compression_audit_input.read_text(encoding="utf-8"))

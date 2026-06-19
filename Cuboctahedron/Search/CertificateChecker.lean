@@ -65,6 +65,17 @@ def checkPackedResidualCerts (blob : String) : Bool :=
   | .ok certs => checkCompactNonIdResiduals certs
   | .error _ => false
 
+def decodedPackedResidualBytes (bytes : List Nat) :
+    Array CompactNonIdResidualCert :=
+  match parsePackedResidualBytes bytes with
+  | .ok certs => certs
+  | .error _ => #[]
+
+def checkPackedResidualBytes (bytes : List Nat) : Bool :=
+  match parsePackedResidualBytes bytes with
+  | .ok certs => checkCompactNonIdResiduals certs
+  | .error _ => false
+
 theorem checkPackedResidualCerts_sound
     (blob : String)
     (hcheck : checkPackedResidualCerts blob = true) :
@@ -92,8 +103,46 @@ theorem checkPackedResidualCerts_sound
         checkNonIdCoveredRank_word (r := cert.rank) hcovered.1,
         hcovered.2⟩
 
+theorem checkPackedResidualBytes_sound
+    (bytes : List Nat)
+    (hcheck : checkPackedResidualBytes bytes = true) :
+    forall cert,
+      cert ∈ (decodedPackedResidualBytes bytes).toList ->
+        exists ordinary : NonIdCert,
+            ordinary.word = unrankPairWord cert.rank /\
+            checkNonIdCert ordinary = true := by
+  unfold checkPackedResidualBytes at hcheck
+  cases hdecode : parsePackedResidualBytes bytes with
+  | error err =>
+      simp [hdecode] at hcheck
+  | ok certs =>
+      simp [hdecode] at hcheck
+      have hcheckList : certs.toList.all checkCompactNonIdResidual = true := by
+        simpa [checkCompactNonIdResiduals] using hcheck
+      intro cert hmem
+      have hmemList : cert ∈ certs.toList := by
+        simpa [decodedPackedResidualBytes, hdecode] using hmem
+      have hcovered :
+          CompactNonIdResidualCovered cert :=
+        (checkCompactNonIdResiduals_sound
+          (certs := certs.toList) hcheckList) cert hmemList
+      exact ⟨cert.toNonIdCert,
+        checkNonIdCoveredRank_word (r := cert.rank) hcovered.1,
+        hcovered.2⟩
+
 def checkPackedTranslationFarkasCerts (blob : String) : Bool :=
   match decodePackedTranslationFarkasCerts blob with
+  | .ok certs => checkCompactTranslationFarkasCerts certs
+  | .error _ => false
+
+def decodedPackedTranslationFarkasBytes (bytes : List Nat) :
+    Array CompactTranslationFarkasCert :=
+  match parsePackedTranslationFarkasBytes bytes with
+  | .ok certs => certs
+  | .error _ => #[]
+
+def checkPackedTranslationFarkasBytes (bytes : List Nat) : Bool :=
+  match parsePackedTranslationFarkasBytes bytes with
   | .ok certs => checkCompactTranslationFarkasCerts certs
   | .error _ => false
 
@@ -118,6 +167,31 @@ theorem checkPackedTranslationFarkasCerts_sound
       intro cert hmem
       have hmemList : cert ∈ certs.toList := by
         simpa [decodedPackedTranslationFarkasCerts, hdecode] using hmem
+      simpa [CompactTranslationFarkasCovered] using
+        (checkCompactTranslationFarkasCerts_sound
+          (certs := certs.toList) hcheckList) cert hmemList
+
+theorem checkPackedTranslationFarkasBytes_sound
+    (bytes : List Nat)
+    (hcheck : checkPackedTranslationFarkasBytes bytes = true) :
+    forall cert,
+      cert ∈ (decodedPackedTranslationFarkasBytes bytes).toList ->
+        ¬ exists seq,
+          SeqRealizesTranslationChoice (unrankPairWord cert.rank) cert.mask seq /\
+            totalLinear seq = (matId : Mat3 Rat) /\
+              UnfoldedFeasible seq := by
+  unfold checkPackedTranslationFarkasBytes at hcheck
+  cases hdecode : parsePackedTranslationFarkasBytes bytes with
+  | error err =>
+      simp [hdecode] at hcheck
+  | ok certs =>
+      simp [hdecode] at hcheck
+      have hcheckList :
+          certs.toList.all checkCompactTranslationFarkas = true := by
+        simpa [checkCompactTranslationFarkasCerts] using hcheck
+      intro cert hmem
+      have hmemList : cert ∈ certs.toList := by
+        simpa [decodedPackedTranslationFarkasBytes, hdecode] using hmem
       simpa [CompactTranslationFarkasCovered] using
         (checkCompactTranslationFarkasCerts_sound
           (certs := certs.toList) hcheckList) cert hmemList

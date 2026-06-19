@@ -52,6 +52,9 @@ COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH = (
 PACKED_RESIDUAL_CERTIFICATES_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "packed_residual_certificates.json"
 )
+PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "proof_carrying_structured_literals.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -90,8 +93,14 @@ NONIDENTITY_RESIDUAL_COMPACT_PILOT_LEAN_PATH = (
 NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "PackedPilot.lean"
 )
+NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "ProofCarryingSmoke.lean"
+)
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
+)
+TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas" / "ProofCarryingSmoke.lean"
 )
 NONIDENTITY_CHUNK_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Chunk0000.lean"
@@ -2538,6 +2547,14 @@ def write_all_generated() -> None:
         lines.append("import Cuboctahedron.Generated.NonIdentity.Residual.All")
     if TRANSLATION_FARKAS_ALL_PATH.exists():
         lines.append("import Cuboctahedron.Generated.Translation.Farkas.All")
+    if NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH.exists():
+        lines.append(
+            "import Cuboctahedron.Generated.NonIdentity.Residual.ProofCarryingSmoke"
+        )
+    if TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.exists():
+        lines.append(
+            "import Cuboctahedron.Generated.Translation.Farkas.ProofCarryingSmoke"
+        )
     lines.extend([
         "",
         "/-!",
@@ -3877,6 +3894,7 @@ def write_nonidentity_family_lean(payload: dict) -> None:
         "set_option linter.unusedSimpArgs false",
         "set_option linter.unusedTactic false",
         "set_option linter.unreachableTactic false",
+        "set_option linter.unnecessarySeqFocus false",
         "",
     ]
     append_word_definitions(lines, payload)
@@ -5736,6 +5754,22 @@ def include_path_to_translation_farkas_blob(blob_path: Path) -> str:
     )
 
 
+def lean_nat_list_literal_bytes(data: bytes, *, per_line: int = 24) -> list[str]:
+    if not data:
+        return ["  []"]
+    lines = ["  ["]
+    for start in range(0, len(data), per_line):
+        chunk = data[start:start + per_line]
+        suffix = "," if start + per_line < len(data) else ""
+        lines.append("    " + ", ".join(str(byte) for byte in chunk) + suffix)
+    lines.append("  ]")
+    return lines
+
+
+def packed_blob_raw_bytes(blob_path: Path) -> bytes:
+    return base64.b64decode(blob_path.read_text(encoding="ascii"), validate=True)
+
+
 def write_full_packed_translation_farkas_chunk_lean(
     *, index: int, blob_path: Path
 ) -> Path:
@@ -5886,6 +5920,332 @@ def iter_translation_farkas_cert_payloads() -> Iterable[dict]:
                 "mask": mask,
                 "sourceTerms": source_terms_for_translation_farkas(seq, b),
             }
+
+
+def first_packed_nonidentity_residual_cert() -> dict:
+    """Return one already-generated packed residual cert, or compute one."""
+    path = full_nonidentity_residual_blob_path(0)
+    if path.exists():
+        import check_certificates_independently as checker
+
+        decoded = checker.decode_packed_residual_blob_text(
+            path.read_text(encoding="ascii")
+        )
+        if decoded["certs"]:
+            cert = dict(decoded["certs"][0])
+            cert["name"] = "proofCarryingNonIdResidual000"
+            return cert
+    cert = next(iter_nonidentity_residual_cert_payloads())
+    cert = dict(cert)
+    cert["name"] = "proofCarryingNonIdResidual000"
+    return cert
+
+
+def first_packed_translation_farkas_cert() -> dict:
+    """Return one already-generated packed translation cert, or compute one."""
+    path = full_translation_farkas_blob_path(0)
+    compact: dict | None = None
+    if path.exists():
+        import check_certificates_independently as checker
+
+        decoded = checker.decode_packed_translation_farkas_blob_text(
+            path.read_text(encoding="ascii")
+        )
+        if decoded["certs"]:
+            compact = min(
+                decoded["certs"],
+                key=lambda cert: len(cert.get("sourceTerms", [])),
+            )
+    if compact is None:
+        compact = next(iter_translation_farkas_cert_payloads())
+    rank = int(compact["rank"])
+    mask = int(compact["mask"])
+    word = pair_word_at_rank(rank)
+    b, seq = translation_vector(word, mask)
+    return {
+        "name": "proofCarryingTranslationFarkas000",
+        "rank": rank,
+        "word": word,
+        "mask": mask,
+        "seq": seq,
+        "b": vec_to_json(b),
+        "failure": {
+            "kind": "farkas",
+            "sourceTerms": compact["sourceTerms"],
+        },
+    }
+
+
+def write_proof_carrying_nonidentity_smoke_lean(cert: dict) -> Path:
+    rank = int(cert["rank"])
+    name = cert["name"]
+    covered = f"{name}_coveredRank"
+    word_eq = f"{name}_word_eq"
+    evidence = f"{name}Evidence"
+    check_name = f"{name}_check"
+    exists_name = f"{name}_exists"
+    no_feasible_name = f"{name}_no_feasible"
+    lines: list[str] = [
+        "import Cuboctahedron.Search.CertificateFormat",
+        "",
+        "/-!",
+        "Generated proof-carrying residual non-identity smoke certificate.",
+        "",
+        "This module exercises the structured-literal backend shape without",
+        "asking Lean to reduce a packed parser or a whole-corpus checker.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Residual.ProofCarryingSmoke",
+        "",
+        "set_option maxHeartbeats 2400000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "",
+    ]
+    append_word_definitions(lines, {
+        "pair_words": [{"rank": rank, "word": cert["word"]}]
+    })
+    append_nonid_cert(lines, cert)
+    append_nonid_check_theorem_full(lines, cert)
+    lines.extend([
+        f"theorem {covered} :",
+        f"    checkNonIdCoveredRank {rank} {name} = true := by",
+        "  decide",
+        "",
+        f"theorem {word_eq} :",
+        f"    {name}.word =",
+        f"      unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
+        "  exact checkNonIdCoveredRank_word",
+        f"    (r := (⟨{rank}, by decide⟩ : Fin numPairWords))",
+        f"    (cert := {name})",
+        f"    {covered}",
+        "",
+        f"def {evidence} : Cuboctahedron.CheckedNonIdRank where",
+        f"  rank := ⟨{rank}, by decide⟩",
+        f"  cert := {name}",
+        f"  word_eq := {word_eq}",
+        f"  check := {check_name}",
+        "",
+        f"theorem {exists_name} :",
+        "    exists ordinary : NonIdCert,",
+        "      ordinary.word =",
+        f"          unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords) /\\",
+        "        checkNonIdCert ordinary = true := by",
+        f"  exact Cuboctahedron.CheckedNonIdRank.exists_cert {evidence}",
+        "",
+        f"theorem {no_feasible_name} :",
+        "    ¬ exists seq,",
+        f"      SeqRealizesPairWord (unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords)) seq /\\",
+        "        StartsXp seq /\\",
+        "        totalLinear seq ≠ (matId : Mat3 Rat) /\\",
+        "        UnfoldedFeasible seq := by",
+        f"  exact Cuboctahedron.CheckedNonIdRank.no_feasible {evidence}",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Residual.ProofCarryingSmoke",
+        "",
+    ])
+    NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+    return NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH
+
+
+def write_proof_carrying_translation_smoke_lean(cert: dict) -> Path:
+    rank = int(cert["rank"])
+    mask = int(cert["mask"])
+    name = cert["name"]
+    covered = f"{name}_coveredCase"
+    word_eq = f"{name}_word_eq"
+    mask_eq = f"{name}_mask_eq"
+    evidence = f"{name}Evidence"
+    check_name = f"{name}_check"
+    exists_name = f"{name}_exists"
+    no_feasible_name = f"{name}_no_feasible"
+    lines: list[str] = [
+        "import Cuboctahedron.Search.CertificateFormat",
+        "",
+        "/-!",
+        "Generated proof-carrying translation source-Farkas smoke certificate.",
+        "",
+        "This module emits an ordinary `TranslationCert` plus small local theorem",
+        "facts that can be assembled without a whole-corpus Boolean reduction.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.Translation.Farkas.ProofCarryingSmoke",
+        "",
+        "set_option maxHeartbeats 2400000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "set_option linter.unnecessarySeqFocus false",
+        "",
+    ]
+    append_word_definitions(lines, {
+        "pair_words": [{"rank": rank, "word": cert["word"]}]
+    })
+    append_translation_cert(lines, cert)
+    append_translation_check_theorem(lines, cert)
+    lines.extend([
+        f"theorem {covered} :",
+        "    checkTranslationCoveredCase",
+        f"      {{ pairRank := {rank}, signMask := {mask} }}",
+        f"      {name} = true := by",
+        "  decide",
+        "",
+        f"theorem {word_eq} :",
+        f"    {name}.word =",
+        f"      unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
+        "  exact (checkTranslationCoveredCase_word_mask",
+        f"    (r := (⟨{rank}, by decide⟩ : Fin numPairWords))",
+        f"    (mask := (⟨{mask}, by decide⟩ : SignMask))",
+        f"    (cert := {name})",
+        f"    {covered}).1",
+        "",
+        f"theorem {mask_eq} :",
+        f"    {name}.signMask = (⟨{mask}, by decide⟩ : SignMask) := by",
+        "  exact (checkTranslationCoveredCase_word_mask",
+        f"    (r := (⟨{rank}, by decide⟩ : Fin numPairWords))",
+        f"    (mask := (⟨{mask}, by decide⟩ : SignMask))",
+        f"    (cert := {name})",
+        f"    {covered}).2",
+        "",
+        f"def {evidence} : Cuboctahedron.CheckedTranslationCase where",
+        f"  rank := ⟨{rank}, by decide⟩",
+        f"  mask := ⟨{mask}, by decide⟩",
+        f"  cert := {name}",
+        f"  word_eq := {word_eq}",
+        f"  mask_eq := {mask_eq}",
+        f"  check := {check_name}",
+        "",
+        f"theorem {exists_name} :",
+        "    exists ordinary : TranslationCert,",
+        "      ordinary.word =",
+        f"          unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords) /\\",
+        f"        ordinary.signMask = (⟨{mask}, by decide⟩ : SignMask) /\\",
+        "          checkTranslationCert ordinary = true := by",
+        f"  exact Cuboctahedron.CheckedTranslationCase.exists_cert {evidence}",
+        "",
+        f"theorem {no_feasible_name} :",
+        "    ¬ exists seq,",
+        f"      SeqRealizesTranslationChoice (unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords))",
+        f"          (⟨{mask}, by decide⟩ : SignMask) seq /\\",
+        "        totalLinear seq = (matId : Mat3 Rat) /\\",
+        "          UnfoldedFeasible seq := by",
+        f"  exact Cuboctahedron.CheckedTranslationCase.no_feasible {evidence}",
+        "",
+        "end Cuboctahedron.Generated.Translation.Farkas.ProofCarryingSmoke",
+        "",
+    ])
+    TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+    return TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH
+
+
+def build_proof_carrying_structured_literals_payload() -> dict:
+    nonid_cert = first_packed_nonidentity_residual_cert()
+    translation_cert = first_packed_translation_farkas_cert()
+    nonid_path = write_proof_carrying_nonidentity_smoke_lean(nonid_cert)
+    translation_path = write_proof_carrying_translation_smoke_lean(
+        translation_cert
+    )
+
+    prefix_parametric = None
+    if PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists():
+        prefix_parametric = load_json_artifact(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+            "prefix-parametric-compression",
+        )
+    residual_cases = 0
+    translation_cases = 0
+    if prefix_parametric is not None:
+        residual_cases = int(
+            prefix_parametric["nonidentity"].get("residual_singleton_cases", 0)
+        )
+        translation_cases = int(
+            prefix_parametric["translation"].get("shared_farkas_cases", 0)
+        )
+    nonid_bytes = nonid_path.stat().st_size
+    translation_bytes = translation_path.stat().st_size
+    projected_nonid = nonid_bytes * residual_cases
+    projected_translation = translation_bytes * translation_cases
+    projected_total = projected_nonid + projected_translation
+    refusal_reasons: list[str] = []
+    if projected_total > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        refusal_reasons.append(
+            "proof_carrying_projection_exceeds_hard_total_limit"
+        )
+    return {
+        "schema_version": 1,
+        "mode": "proof-carrying-structured-literals",
+        "complete": True,
+        "smoke_complete": True,
+        "full_backend_complete": False,
+        "selected_backend": "proof_carrying_structured_literals",
+        "nonidentity": {
+            "smoke_cert": {
+                "name": nonid_cert["name"],
+                "rank": int(nonid_cert["rank"]),
+                "failure_kind": nonid_cert["failure"]["kind"],
+            },
+            "generated_lean": generated_file_record(nonid_path),
+            "check_theorem": f"{nonid_cert['name']}_check",
+            "covered_theorem": f"{nonid_cert['name']}_coveredRank",
+            "evidence_def": f"{nonid_cert['name']}Evidence",
+        },
+        "translation": {
+            "smoke_cert": {
+                "name": translation_cert["name"],
+                "rank": int(translation_cert["rank"]),
+                "mask": int(translation_cert["mask"]),
+                "source_term_count":
+                    len(translation_cert["failure"]["sourceTerms"]),
+                "failure_kind": translation_cert["failure"]["kind"],
+            },
+            "generated_lean": generated_file_record(translation_path),
+            "check_theorem": f"{translation_cert['name']}_check",
+            "covered_theorem": f"{translation_cert['name']}_coveredCase",
+            "evidence_def": f"{translation_cert['name']}Evidence",
+        },
+        "projection": {
+            "format": "proof_carrying_structured_literals",
+            "nonidentity_smoke_source_bytes": nonid_bytes,
+            "translation_smoke_source_bytes": translation_bytes,
+            "residual_singleton_cases": residual_cases,
+            "translation_shared_farkas_cases": translation_cases,
+            "projected_nonidentity_source_bytes": projected_nonid,
+            "projected_translation_source_bytes": projected_translation,
+            "projected_total_source_bytes": projected_total,
+            "projected_total_source_gib": projected_total / GIB,
+            "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
+            "size_safe": not refusal_reasons,
+            "refusal_reasons": refusal_reasons,
+            "note": (
+                "This is a conservative one-certificate smoke projection. "
+                "The full backend must add proof sharing or family grouping "
+                "before this format can replace the current large-data gate."
+            ),
+        },
+    }
+
+
+def write_proof_carrying_structured_literals_json(payload: dict) -> None:
+    PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def emit_full_nonidentity_packed_residual_chunks(
@@ -8313,6 +8673,7 @@ def main() -> None:
             "residual-nonidentity-templates",
             "compact-residual-certificates",
             "packed-residual-certificates",
+            "proof-carrying-structured-literals",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -8438,6 +8799,7 @@ def main() -> None:
             "aggregate-compression-profile/prefix-parametric-compression/"
             "parametric-family-checkers/"
             "residual-nonidentity-templates/"
+            "proof-carrying-structured-literals/"
             "compact-cert-sample/compact-cert-pilot"
         )
     if mode == "profile-exhaustive-states":
@@ -8544,6 +8906,30 @@ def main() -> None:
         print(f"size safe: {projection['size_safe']}")
         print(f"json: {PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.relative_to(REPO_ROOT)}")
         print(f"lean: {NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH.relative_to(REPO_ROOT)}")
+        return
+    if mode == "proof-carrying-structured-literals":
+        payload = build_proof_carrying_structured_literals_payload()
+        write_proof_carrying_structured_literals_json(payload)
+        write_all_generated()
+        projection = payload["projection"]
+        print("generated proof-carrying structured-literal smoke backend")
+        print(
+            "projected proof-carrying source: "
+            f"{projection['projected_total_source_gib']:.2f} GiB"
+        )
+        print(f"size safe: {projection['size_safe']}")
+        print(
+            "json: "
+            f"{PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.relative_to(REPO_ROOT)}"
+        )
+        print(
+            "nonidentity lean: "
+            f"{NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH.relative_to(REPO_ROOT)}"
+        )
+        print(
+            "translation lean: "
+            f"{TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.relative_to(REPO_ROOT)}"
+        )
         return
     if mode == "compression-audit":
         payload = build_compression_audit_payload()

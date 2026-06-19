@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Memory-capped Lean smoke test for the largest generated packed chunk.
+"""Memory-capped Lean smoke test for the largest generated fallback chunk.
 
 This is a guardrail for the generated Lean fallback: before running a full
-`lake build`, elaborate the largest generated chunk by itself with one Lean
-thread and a hard address-space limit.  A passing smoke test does not prove the
-whole project, but it catches the oversized-chunk failure mode that can exhaust
-the machine during Lake's parallel build.
+`lake build`, elaborate the largest generated chunk wrapper by itself with one
+Lean thread and a hard address-space limit. A passing smoke test does not prove
+the whole project, but it catches the oversized-chunk failure mode that can
+exhaust the machine during Lake's parallel build.
 """
 
 from __future__ import annotations
@@ -32,14 +32,40 @@ def relative(path: Path) -> str:
     return str(path.relative_to(REPO_ROOT))
 
 
-def generated_blob_candidates() -> list[tuple[int, str, Path, Path]]:
-    candidates: list[tuple[int, str, Path, Path]] = []
+def chunk_priority_size(blob_path: Path | None, lean_path: Path) -> int:
+    lean_size = lean_path.stat().st_size
+    if blob_path is None:
+        return lean_size
+    if lean_size > 8192:
+        try:
+            if "def chunkBytes : List Nat" in lean_path.read_text(
+                encoding="utf-8", errors="ignore"
+            ):
+                return lean_size
+        except OSError:
+            return lean_size
+    return blob_path.stat().st_size
+
+
+def generated_chunk_candidates() -> list[tuple[int, str, Path | None, Path]]:
+    candidates: list[tuple[int, str, Path | None, Path]] = []
     for blob_path in NONIDENTITY_BLOB_DIR.glob("Chunk*.b64"):
         lean_path = NONIDENTITY_LEAN_DIR / f"{blob_path.stem}.lean"
-        candidates.append((blob_path.stat().st_size, "nonidentity", blob_path, lean_path))
+        if lean_path.exists():
+            candidates.append(
+                (chunk_priority_size(blob_path, lean_path), "nonidentity", blob_path, lean_path)
+            )
     for blob_path in TRANSLATION_BLOB_DIR.glob("Chunk*.b64"):
         lean_path = TRANSLATION_LEAN_DIR / f"{blob_path.stem}.lean"
-        candidates.append((blob_path.stat().st_size, "translation", blob_path, lean_path))
+        if lean_path.exists():
+            candidates.append(
+                (chunk_priority_size(blob_path, lean_path), "translation", blob_path, lean_path)
+            )
+    if not candidates:
+        for lean_path in NONIDENTITY_LEAN_DIR.glob("Chunk*.lean"):
+            candidates.append((lean_path.stat().st_size, "nonidentity", None, lean_path))
+        for lean_path in TRANSLATION_LEAN_DIR.glob("Chunk*.lean"):
+            candidates.append((lean_path.stat().st_size, "translation", None, lean_path))
     return candidates
 
 
@@ -67,20 +93,25 @@ def main() -> int:
     if args.timeout_seconds <= 0:
         parser.error("--timeout-seconds must be positive")
 
-    candidates = generated_blob_candidates()
+    candidates = generated_chunk_candidates()
     if not candidates:
-        raise SystemExit("no generated packed chunk blobs found")
+        raise SystemExit("no generated chunk wrappers found")
     size, kind, blob_path, lean_path = max(candidates, key=lambda item: item[0])
     if not lean_path.exists():
+        if blob_path is None:
+            raise SystemExit("missing Lean wrapper")
         raise SystemExit(f"missing Lean wrapper for {relative(blob_path)}")
 
     limit_bytes = int(args.memory_limit_gib * 1024 ** 3)
     command = ["lake", "env", "lean", "-j1", str(lean_path.relative_to(REPO_ROOT))]
     print("largest generated chunk smoke test")
     print(f"kind: {kind}")
-    print(f"blob: {relative(blob_path)}")
-    print(f"blob bytes: {size}")
+    if blob_path is not None:
+        print(f"staging blob: {relative(blob_path)}")
+        print(f"staging blob bytes: {blob_path.stat().st_size}")
     print(f"lean: {relative(lean_path)}")
+    print(f"lean bytes: {lean_path.stat().st_size}")
+    print(f"selection bytes: {size}")
     print(f"memory limit: {args.memory_limit_gib:g} GiB")
     sys.stdout.flush()
 

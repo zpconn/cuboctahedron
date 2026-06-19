@@ -72,6 +72,67 @@ structure PilotGeneratedCoverage (bundle : CertBundle) : Prop where
       bundle.sampleTranslationCerts.toList
 
 /-!
+Proof-carrying structured evidence for the generated fallback backend.
+
+These records avoid asking Lean to reduce a whole generated checker expression.
+The generator supplies ordinary certificates together with small local proofs
+of the exact checker facts, and the trusted API below exposes the same witness
+shape that Step 14E.7 consumes.
+-/
+
+structure CheckedNonIdRank where
+  rank : Fin numPairWords
+  cert : NonIdCert
+  word_eq : cert.word = unrankPairWord rank
+  check : checkNonIdCert cert = true
+
+theorem CheckedNonIdRank.exists_cert (e : CheckedNonIdRank) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord e.rank /\
+        checkNonIdCert cert = true := by
+  exact ⟨e.cert, e.word_eq, e.check⟩
+
+theorem CheckedNonIdRank.no_feasible (e : CheckedNonIdRank) :
+    ¬ exists seq,
+      SeqRealizesPairWord (unrankPairWord e.rank) seq /\
+        StartsXp seq /\
+        totalLinear seq ≠ (matId : Mat3 Rat) /\
+        UnfoldedFeasible seq := by
+  intro hbad
+  rcases hbad with ⟨seq, hRealize, hStart, hLinear, hFeasible⟩
+  exact checkNonIdCert_sound e.cert e.check
+    ⟨seq, by simpa [e.word_eq] using hRealize, hStart, hLinear, hFeasible⟩
+
+structure CheckedTranslationCase where
+  rank : Fin numPairWords
+  mask : SignMask
+  cert : TranslationCert
+  word_eq : cert.word = unrankPairWord rank
+  mask_eq : cert.signMask = mask
+  check : checkTranslationCert cert = true
+
+theorem CheckedTranslationCase.exists_cert (e : CheckedTranslationCase) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord e.rank /\
+        cert.signMask = e.mask /\
+          checkTranslationCert cert = true := by
+  exact ⟨e.cert, e.word_eq, e.mask_eq, e.check⟩
+
+theorem CheckedTranslationCase.no_feasible (e : CheckedTranslationCase) :
+    ¬ exists seq,
+      SeqRealizesTranslationChoice (unrankPairWord e.rank) e.mask seq /\
+        totalLinear seq = (matId : Mat3 Rat) /\
+          UnfoldedFeasible seq := by
+  intro hbad
+  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
+  exact checkTranslationCert_sound e.cert e.check
+    ⟨seq,
+      by
+        simpa [e.word_eq, e.mask_eq] using hRealize,
+      hLinear,
+      hFeasible⟩
+
+/-!
 Compact residual non-identity certificates.
 
 These records keep the trusted checker boundary at `NonIdCert`: the compact
