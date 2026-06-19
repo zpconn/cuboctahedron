@@ -2708,6 +2708,249 @@ python3 scripts/check_certificates_independently.py --mode proof-carrying-family
 reports `full_backend_complete = true` for the proof-carrying family backend,
 or reports a smaller, quantified blocker.
 
+Implementation status:
+
+- Added the trusted residual-family interface:
+  - `ProofCarryingNonIdResidualFamily`;
+  - `ProofCarryingNonIdResidualFamily.exists_cert`;
+  - `ProofCarryingNonIdResidualFamily.no_feasible`.
+- Added `--mode nonidentity-residual-compression` to the generator and
+  independent checker.
+- Generated:
+  - `Cuboctahedron/Generated/NonIdentity/Residual/CompressionSample.lean`;
+  - `scripts/generated/nonidentity_residual_compression.json`.
+- The residual compression preflight is source-size safe:
+  - previous compact residual projection: `4,845,885,312` bytes;
+  - residual semantic-family pilot projection: `5,664` bytes;
+  - combined proof-carrying family backend projection: `468,981,216` bytes,
+    about `0.44 GiB`.
+- This Step 14E.7B9 status has been superseded by Step 14E.7B11. The
+  proof-carrying family backend is still blocked before full selection, but the
+  exhaustive subtype-census blocker has been cleared. The current remaining
+  residual blocker is:
+  - `nonidentity_residual_family_partition_not_emitted`.
+
+Validated commands:
+
+```bash
+python3 -m py_compile scripts/generate_exact_certificates.py scripts/check_certificates_independently.py
+lake build Cuboctahedron.Search.CertificateFormat
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+lake build Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+## Step 14E.7B10: Exhaustive Nonidentity Residual Family Partition
+
+Goal: turn the Step 14E.7B9 residual compression pilot into an exhaustive
+Lean-checkable partition for all `2,038,656` nonidentity residual ranks.
+
+Requirements:
+
+- Extend the exact profiler/generator to emit an exhaustive residual subtype
+  census, not only the bounded representative scan.
+- Build a generated residual partition witness assigning every residual rank to
+  a `ProofCarryingNonIdResidualFamily`.
+- Prove in Lean that each covered rank obtains a checked `NonIdCert` through
+  `ProofCarryingNonIdResidualFamily.exists_cert`, without per-case compact
+  certificate literals.
+- Keep generated source below the existing hard budget and keep largest chunks
+  within the smoke-test memory limit.
+- Update `scripts/generated/nonidentity_residual_compression.json` so
+  `full_residual_compression_complete = true` only after the exhaustive
+  residual partition is emitted and checked.
+- Regenerate `scripts/generated/proof_carrying_family_backend.json`; it may
+  select the backend only when the residual partition is complete and the
+  combined backend projection remains source-budget safe.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+python3 scripts/smoke_largest_generated_chunk.py --memory-limit-gib 8 --timeout-seconds 900
+```
+
+passes with no residual compression blockers, and the proof-carrying family
+backend reports `full_backend_complete = true`.
+
+Implementation status:
+
+- Added a bounded exact residual partition profile to
+  `--mode nonidentity-residual-compression`.
+- The profile invokes the existing exact residual subtype profiler with
+  `--residual-nonidentity-subtypes --limit 10000 --no-progress`.
+- The generated manifest now records:
+  - `10,000` pair-words checked out of `97,297,200`;
+  - `1,014` sampled residual cases;
+  - sampled residual subtype counts:
+    - `axisMissesStartInterior`: `966`;
+    - `badFirstHit`: `48`;
+    - `badHitInterior`: `0`;
+    - `candidatePassed`: `0`;
+  - projected single-process exhaustive residual profile time: about
+    `4.87` hours on the current machine.
+- Updated the independent checker to validate the profile shape, subtype-count
+  sum, zero sampled `candidatePassed` cases, and blocker propagation.
+- Regenerated `scripts/generated/nonidentity_residual_compression.json` and
+  `scripts/generated/proof_carrying_family_backend.json`.
+- The old generic blocker
+  `nonidentity_residual_exhaustive_subtype_census_incomplete` has been replaced
+  by the narrower measured blocker
+  `nonidentity_residual_exhaustive_subtype_census_requires_long_profile`.
+- The bounded profile has now been superseded by the Step 14E.7B11 full
+  sharded census, below.
+- Step 14E.7B10 is complete for the exhaustive subtype-census prerequisite:
+  all `97,297,200` pair-words have been checked and all `2,038,656`
+  nonidentity residual cases have been classified exactly.
+- Step 14E.7B10 is not complete as a final residual proof partition because
+  the Lean evidence that maps every residual rank to a checked certificate is
+  still not emitted. That remaining proof-emission task is split out as
+  Step 14E.7B12.
+
+Validated commands:
+
+```bash
+python3 -m py_compile scripts/generate_exact_certificates.py scripts/check_certificates_independently.py scripts/smoke_largest_generated_chunk.py
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+lake build Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+## Step 14E.7B11: Exhaustive Residual Partition Runner
+
+Goal: remove the measured Step 14E.7B10 blocker by running or parallelizing the
+full exact residual subtype census.
+
+Requirements:
+
+- Add a full-run path for the residual subtype census that checks all
+  `97,297,200` pair-words.
+- Prefer deterministic sharding over one long single-process run so the work can
+  use available CPU cores and resume after interruption.
+- Merge shard outputs exactly:
+  - subtype counts must sum across all shards;
+  - samples must be deterministic;
+  - the merged rank interval must cover `[0, 97,297,200)`.
+- Update `scripts/generated/nonidentity_residual_compression.json` so
+  `exhaustive_subtype_census_complete = true` after the merged census covers
+  the full rank interval and observes no `candidatePassed` cases.
+- Regenerate `scripts/generated/proof_carrying_family_backend.json`; it must
+  clear the long-profile blocker but keep blocking on residual proof partition
+  emission until Step 14E.7B12 is done.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression --full-residual-partition --residual-partition-jobs 12 --residual-partition-shard-size 1000000
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+passes with `exhaustive_subtype_census_complete = true`, no
+`nonidentity_residual_exhaustive_subtype_census_requires_long_profile` blocker,
+and exactly the remaining `nonidentity_residual_family_partition_not_emitted`
+blocker.
+
+Implementation status:
+
+- Added `--rank-start`/`--rank-end` interval support to
+  `scripts/profile_exhaustive_states.cpp`.
+- Added whole-subtree rank pruning so interval shards do not rewalk skipped
+  rank prefixes.
+- Added `--full-residual-partition`,
+  `--residual-partition-jobs`, and
+  `--residual-partition-shard-size` to
+  `scripts/generate_exact_certificates.py`.
+- Added Python shard execution/merge logic for the exact residual subtype
+  census.
+- Ran the full census with `12` workers and `1,000,000` pair-word shards.
+- The generated manifest records:
+  - pair-words checked: `97,297,200`;
+  - residual cases: `2,038,656`;
+  - shards: `98`;
+  - wall time: about `792.20` seconds;
+  - subtype counts:
+    - `axisMissesStartInterior`: `1,974,752`;
+    - `badFirstHit`: `63,728`;
+    - `badHitInterior`: `176`;
+    - `candidatePassed`: `0`.
+- Regenerated `scripts/generated/nonidentity_residual_compression.json` with
+  `exhaustive_subtype_census_complete = true`.
+- Regenerated `scripts/generated/proof_carrying_family_backend.json`; the only
+  remaining residual blocker is
+  `nonidentity_residual_family_partition_not_emitted`.
+
+Validated commands:
+
+```bash
+python3 -m py_compile scripts/generate_exact_certificates.py scripts/check_certificates_independently.py scripts/smoke_largest_generated_chunk.py
+PYTHONPATH=scripts python3 - <<'PY'
+import generate_exact_certificates as g
+payload = g.build_sharded_residual_nonidentity_subtype_payload(
+    jobs=2, shard_size=50, total_pair_words=100)
+assert payload["actual_counts"]["pair_words"] == 100
+assert payload["residual_singleton_cases"] == 6
+PY
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression --full-residual-partition --residual-partition-jobs 12 --residual-partition-shard-size 1000000
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+lake build Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+## Step 14E.7B12: Residual Proof Partition Emission
+
+Goal: turn the Step 14E.7B11 full residual subtype census into a
+Lean-checkable proof partition that can produce a checked `NonIdCert` for every
+one of the `2,038,656` residual nonidentity ranks.
+
+Requirements:
+
+- Emit proof evidence for residual ranks in a form that satisfies
+  `ProofCarryingNonIdResidualFamily.checkedRank` for every rank covered by the
+  partition.
+- The emitted evidence may use shared proof templates for the three observed
+  residual failure kinds:
+  - `axisMissesStartInterior`;
+  - `badFirstHit`;
+  - `badHitInterior`.
+- It must not merely store subtype counts. For every covered rank, Lean must be
+  able to obtain:
+  - a concrete `NonIdCert`;
+  - `cert.word = unrankPairWord rank`;
+  - `checkNonIdCert cert = true`.
+- Keep the emitted source within the hard source budget. If the proof partition
+  cannot be emitted compactly, record the exact projected size and introduce a
+  smaller compression step before Step 14E.7B.
+- Update `scripts/generated/nonidentity_residual_compression.json` so
+  `full_residual_compression_complete = true` only after the residual proof
+  partition is emitted, independently checked, and focused Lean-built.
+- Regenerate `scripts/generated/proof_carrying_family_backend.json`; it may
+  select the proof-carrying family backend only if this step leaves no residual
+  blockers.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression --emit-residual-proof-partition
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+lake build Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+passes with `full_residual_compression_complete = true`, no residual
+compression blockers, and no broad `AllGenerated`/full `lake build` attempted
+until the memory-capped smoke target has passed.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
@@ -2715,7 +2958,8 @@ Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
 This step is the large-data generation step. Do not start it until Step 14E.7A,
 Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, Step 14E.7B2A, Step 14E.7B3, and
-Step 14E.7B4, Step 14E.7B5, Step 14E.7B6, Step 14E.7B7, Step 14E.7B8, and Step 14E.7B9
+Step 14E.7B4, Step 14E.7B5, Step 14E.7B6, Step 14E.7B7, Step 14E.7B8, Step 14E.7B9,
+Step 14E.7B10, Step 14E.7B11, and Step 14E.7B12
 are complete,
 because every emitted rank must prove facts about the public `unrankPairWord`,
 every compressed family must have exhaustive Lean-checked soundness, and every
@@ -2730,7 +2974,12 @@ trusted-reduction path. Step 14E.7B7 is required to replace large Boolean
 reduction with proof-carrying generated literals. Step 14E.7B8 is required
 because unshared proof-carrying literals are trusted but far too large to emit
 or push. Step 14E.7B9 is required because the first shared-family preflight
-still projects about 4.51 GiB for nonidentity residual data.
+still projects about 4.51 GiB for nonidentity residual data. Step 14E.7B10 is
+required because Step 14E.7B9 reduces the source-size projection but leaves the
+exhaustive residual family partition unproved. Step 14E.7B11 is required
+because Step 14E.7B10 turns the first half of that gap into a full sharded
+census. Step 14E.7B12 is required because a subtype census is not yet a
+Lean-checkable per-rank certificate partition.
 
 Update:
 

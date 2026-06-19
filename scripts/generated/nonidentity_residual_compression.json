@@ -1,0 +1,1863 @@
+{
+  "complete": true,
+  "exhaustive_subtype_census_complete": true,
+  "families": [
+    {
+      "failure_kind": "axisMissesStartInterior",
+      "lean_name": "residualCompressionAxisMissesStartInteriorFamily000000012",
+      "normalizedStateId": "proof-carrying-nonid-residual-family:8d9e8aab3ad02662d46b9ca9",
+      "representative_cert": "residualAxisMissesStartInteriorTemplate",
+      "representative_rank": 12,
+      "stem": "residualCompressionAxisMissesStartInterior000000012"
+    },
+    {
+      "failure_kind": "badFirstHit",
+      "lean_name": "residualCompressionBadFirstHitFamily000000159",
+      "normalizedStateId": "proof-carrying-nonid-residual-family:6a72b1f6d1295f1c3b177129",
+      "representative_cert": "residualBadFirstHitTemplate",
+      "representative_rank": 159,
+      "stem": "residualCompressionBadFirstHit000000159"
+    }
+  ],
+  "full_residual_compression_complete": false,
+  "generated_lean": {
+    "compression_sample": {
+      "bytes": 5664,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/CompressionSample.lean",
+      "sha256": "e7d137fb8aec14f25d1481463f056252d18d208fcd87a9ac7a2ff4b1fc9f8fe0"
+    }
+  },
+  "lean_api": {
+    "family": "ProofCarryingNonIdResidualFamily",
+    "module": "Cuboctahedron.Search.CertificateFormat",
+    "soundness": [
+      "ProofCarryingNonIdResidualFamily.exists_cert",
+      "ProofCarryingNonIdResidualFamily.no_feasible"
+    ]
+  },
+  "mode": "nonidentity-residual-compression",
+  "partition_profile": {
+    "actual_counts": {
+      "identity_linear_words": 2468088,
+      "nonidentity_words": 94829112,
+      "pair_words": 97297200,
+      "translation_sign_assignments": 157957632
+    },
+    "candidate_passed_observed_count": 0,
+    "command": "sharded",
+    "complete": true,
+    "coverage_fraction": 1.0,
+    "elapsed_seconds": 792.204192,
+    "jobs": 12,
+    "mode": "residual-nonidentity-partition-profile",
+    "note": "This bounded exact C++ profile measures the residual subtype partition task. It is not trusted as proof and does not mark the residual family partition complete.",
+    "observed_failure_kinds": [
+      "axisMissesStartInterior",
+      "badFirstHit",
+      "badHitInterior"
+    ],
+    "pair_words_checked": 97297200,
+    "pair_words_total": 97297200,
+    "profile_kind": "sharded_exact_full_census",
+    "profile_limit": null,
+    "projected_exhaustive_hours": 0.22005671999999998,
+    "projected_exhaustive_seconds": 792.2041919999999,
+    "projected_residual_cases_from_sample": 2038656.0,
+    "rank_end": 97297200,
+    "rank_start": 0,
+    "sampled_residual_cases": 2038656,
+    "schema_version": 1,
+    "seconds_per_pair_word": 8.142106782106782e-06,
+    "shard_count": 98,
+    "shard_size": 1000000,
+    "shards": [
+      {
+        "elapsed_seconds": 96.306844,
+        "index": 0,
+        "pair_words": 1000000,
+        "rank_end": 1000000,
+        "rank_start": 0,
+        "residual_cases": 43235,
+        "subtype_counts": {
+          "axisMissesStartInterior": 41639,
+          "badFirstHit": 1596,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 96.54885,
+        "index": 1,
+        "pair_words": 1000000,
+        "rank_end": 2000000,
+        "rank_start": 1000000,
+        "residual_cases": 43328,
+        "subtype_counts": {
+          "axisMissesStartInterior": 41732,
+          "badFirstHit": 1596,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 90.914799,
+        "index": 2,
+        "pair_words": 1000000,
+        "rank_end": 3000000,
+        "rank_start": 2000000,
+        "residual_cases": 37486,
+        "subtype_counts": {
+          "axisMissesStartInterior": 36174,
+          "badFirstHit": 1312,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 93.360555,
+        "index": 3,
+        "pair_words": 1000000,
+        "rank_end": 4000000,
+        "rank_start": 3000000,
+        "residual_cases": 46085,
+        "subtype_counts": {
+          "axisMissesStartInterior": 44708,
+          "badFirstHit": 1377,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 98.340563,
+        "index": 4,
+        "pair_words": 1000000,
+        "rank_end": 5000000,
+        "rank_start": 4000000,
+        "residual_cases": 45829,
+        "subtype_counts": {
+          "axisMissesStartInterior": 44490,
+          "badFirstHit": 1339,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 95.843846,
+        "index": 5,
+        "pair_words": 1000000,
+        "rank_end": 6000000,
+        "rank_start": 5000000,
+        "residual_cases": 42537,
+        "subtype_counts": {
+          "axisMissesStartInterior": 41267,
+          "badFirstHit": 1270,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 88.391821,
+        "index": 6,
+        "pair_words": 1000000,
+        "rank_end": 7000000,
+        "rank_start": 6000000,
+        "residual_cases": 44496,
+        "subtype_counts": {
+          "axisMissesStartInterior": 43180,
+          "badFirstHit": 1316,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 107.831577,
+        "index": 7,
+        "pair_words": 1000000,
+        "rank_end": 8000000,
+        "rank_start": 7000000,
+        "residual_cases": 47824,
+        "subtype_counts": {
+          "axisMissesStartInterior": 46205,
+          "badFirstHit": 1613,
+          "badHitInterior": 6,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 95.67047,
+        "index": 8,
+        "pair_words": 1000000,
+        "rank_end": 9000000,
+        "rank_start": 8000000,
+        "residual_cases": 44114,
+        "subtype_counts": {
+          "axisMissesStartInterior": 42562,
+          "badFirstHit": 1542,
+          "badHitInterior": 10,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 87.138822,
+        "index": 9,
+        "pair_words": 1000000,
+        "rank_end": 10000000,
+        "rank_start": 9000000,
+        "residual_cases": 36971,
+        "subtype_counts": {
+          "axisMissesStartInterior": 36121,
+          "badFirstHit": 850,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 96.278293,
+        "index": 10,
+        "pair_words": 1000000,
+        "rank_end": 11000000,
+        "rank_start": 10000000,
+        "residual_cases": 30039,
+        "subtype_counts": {
+          "axisMissesStartInterior": 28822,
+          "badFirstHit": 1217,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 94.885389,
+        "index": 11,
+        "pair_words": 1000000,
+        "rank_end": 12000000,
+        "rank_start": 11000000,
+        "residual_cases": 15782,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15161,
+          "badFirstHit": 621,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 85.972809,
+        "index": 12,
+        "pair_words": 1000000,
+        "rank_end": 13000000,
+        "rank_start": 12000000,
+        "residual_cases": 12784,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12289,
+          "badFirstHit": 494,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 97.559762,
+        "index": 13,
+        "pair_words": 1000000,
+        "rank_end": 14000000,
+        "rank_start": 13000000,
+        "residual_cases": 15272,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14783,
+          "badFirstHit": 487,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 80.762859,
+        "index": 14,
+        "pair_words": 1000000,
+        "rank_end": 15000000,
+        "rank_start": 14000000,
+        "residual_cases": 17783,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17213,
+          "badFirstHit": 564,
+          "badHitInterior": 6,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 74.780641,
+        "index": 15,
+        "pair_words": 1000000,
+        "rank_end": 16000000,
+        "rank_start": 15000000,
+        "residual_cases": 13323,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12923,
+          "badFirstHit": 397,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 98.098057,
+        "index": 16,
+        "pair_words": 1000000,
+        "rank_end": 17000000,
+        "rank_start": 16000000,
+        "residual_cases": 16415,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15803,
+          "badFirstHit": 611,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 78.387226,
+        "index": 17,
+        "pair_words": 1000000,
+        "rank_end": 18000000,
+        "rank_start": 17000000,
+        "residual_cases": 13641,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13221,
+          "badFirstHit": 415,
+          "badHitInterior": 5,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 78.635117,
+        "index": 18,
+        "pair_words": 1000000,
+        "rank_end": 19000000,
+        "rank_start": 18000000,
+        "residual_cases": 16371,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15884,
+          "badFirstHit": 479,
+          "badHitInterior": 8,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 99.33508,
+        "index": 19,
+        "pair_words": 1000000,
+        "rank_end": 20000000,
+        "rank_start": 19000000,
+        "residual_cases": 16801,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16221,
+          "badFirstHit": 579,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 74.981643,
+        "index": 20,
+        "pair_words": 1000000,
+        "rank_end": 21000000,
+        "rank_start": 20000000,
+        "residual_cases": 12982,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12549,
+          "badFirstHit": 430,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 80.906772,
+        "index": 21,
+        "pair_words": 1000000,
+        "rank_end": 22000000,
+        "rank_start": 21000000,
+        "residual_cases": 17639,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17156,
+          "badFirstHit": 477,
+          "badHitInterior": 6,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 111.404973,
+        "index": 22,
+        "pair_words": 1000000,
+        "rank_end": 23000000,
+        "rank_start": 22000000,
+        "residual_cases": 33905,
+        "subtype_counts": {
+          "axisMissesStartInterior": 32613,
+          "badFirstHit": 1286,
+          "badHitInterior": 6,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 91.43074,
+        "index": 23,
+        "pair_words": 1000000,
+        "rank_end": 24000000,
+        "rank_start": 23000000,
+        "residual_cases": 39159,
+        "subtype_counts": {
+          "axisMissesStartInterior": 37654,
+          "badFirstHit": 1495,
+          "badHitInterior": 10,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 91.69725,
+        "index": 24,
+        "pair_words": 1000000,
+        "rank_end": 25000000,
+        "rank_start": 24000000,
+        "residual_cases": 22315,
+        "subtype_counts": {
+          "axisMissesStartInterior": 21405,
+          "badFirstHit": 910,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 95.747933,
+        "index": 25,
+        "pair_words": 1000000,
+        "rank_end": 26000000,
+        "rank_start": 25000000,
+        "residual_cases": 15611,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14987,
+          "badFirstHit": 624,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 101.02435,
+        "index": 26,
+        "pair_words": 1000000,
+        "rank_end": 27000000,
+        "rank_start": 26000000,
+        "residual_cases": 39458,
+        "subtype_counts": {
+          "axisMissesStartInterior": 38362,
+          "badFirstHit": 1096,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 80.600324,
+        "index": 27,
+        "pair_words": 1000000,
+        "rank_end": 28000000,
+        "rank_start": 27000000,
+        "residual_cases": 23592,
+        "subtype_counts": {
+          "axisMissesStartInterior": 22984,
+          "badFirstHit": 605,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 97.277287,
+        "index": 28,
+        "pair_words": 1000000,
+        "rank_end": 29000000,
+        "rank_start": 28000000,
+        "residual_cases": 14381,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13965,
+          "badFirstHit": 411,
+          "badHitInterior": 5,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 80.252627,
+        "index": 29,
+        "pair_words": 1000000,
+        "rank_end": 30000000,
+        "rank_start": 29000000,
+        "residual_cases": 17121,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16530,
+          "badFirstHit": 590,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 75.377185,
+        "index": 30,
+        "pair_words": 1000000,
+        "rank_end": 31000000,
+        "rank_start": 30000000,
+        "residual_cases": 12945,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12537,
+          "badFirstHit": 402,
+          "badHitInterior": 6,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 99.910754,
+        "index": 31,
+        "pair_words": 1000000,
+        "rank_end": 32000000,
+        "rank_start": 31000000,
+        "residual_cases": 17411,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16879,
+          "badFirstHit": 529,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 77.539579,
+        "index": 32,
+        "pair_words": 1000000,
+        "rank_end": 33000000,
+        "rank_start": 32000000,
+        "residual_cases": 14747,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14214,
+          "badFirstHit": 531,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 76.427284,
+        "index": 33,
+        "pair_words": 1000000,
+        "rank_end": 34000000,
+        "rank_start": 33000000,
+        "residual_cases": 14505,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13986,
+          "badFirstHit": 518,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 100.28064,
+        "index": 34,
+        "pair_words": 1000000,
+        "rank_end": 35000000,
+        "rank_start": 34000000,
+        "residual_cases": 16885,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16379,
+          "badFirstHit": 500,
+          "badHitInterior": 6,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 75.544833,
+        "index": 35,
+        "pair_words": 1000000,
+        "rank_end": 36000000,
+        "rank_start": 35000000,
+        "residual_cases": 12850,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12415,
+          "badFirstHit": 432,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 78.644808,
+        "index": 36,
+        "pair_words": 1000000,
+        "rank_end": 37000000,
+        "rank_start": 36000000,
+        "residual_cases": 17862,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17288,
+          "badFirstHit": 570,
+          "badHitInterior": 4,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 95.84263,
+        "index": 37,
+        "pair_words": 1000000,
+        "rank_end": 38000000,
+        "rank_start": 37000000,
+        "residual_cases": 12530,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12141,
+          "badFirstHit": 387,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 76.473415,
+        "index": 38,
+        "pair_words": 1000000,
+        "rank_end": 39000000,
+        "rank_start": 38000000,
+        "residual_cases": 16265,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15785,
+          "badFirstHit": 479,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 74.652376,
+        "index": 39,
+        "pair_words": 1000000,
+        "rank_end": 40000000,
+        "rank_start": 39000000,
+        "residual_cases": 17332,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16814,
+          "badFirstHit": 516,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 81.854109,
+        "index": 40,
+        "pair_words": 1000000,
+        "rank_end": 41000000,
+        "rank_start": 40000000,
+        "residual_cases": 15534,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15036,
+          "badFirstHit": 498,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 77.229904,
+        "index": 41,
+        "pair_words": 1000000,
+        "rank_end": 42000000,
+        "rank_start": 41000000,
+        "residual_cases": 17062,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16485,
+          "badFirstHit": 574,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 83.299513,
+        "index": 42,
+        "pair_words": 1000000,
+        "rank_end": 43000000,
+        "rank_start": 42000000,
+        "residual_cases": 14990,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14542,
+          "badFirstHit": 447,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 103.85025,
+        "index": 43,
+        "pair_words": 1000000,
+        "rank_end": 44000000,
+        "rank_start": 43000000,
+        "residual_cases": 18129,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17496,
+          "badFirstHit": 632,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 138.700772,
+        "index": 44,
+        "pair_words": 1000000,
+        "rank_end": 45000000,
+        "rank_start": 44000000,
+        "residual_cases": 13020,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12665,
+          "badFirstHit": 355,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 82.470939,
+        "index": 45,
+        "pair_words": 1000000,
+        "rank_end": 46000000,
+        "rank_start": 45000000,
+        "residual_cases": 16087,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15664,
+          "badFirstHit": 423,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 82.879704,
+        "index": 46,
+        "pair_words": 1000000,
+        "rank_end": 47000000,
+        "rank_start": 46000000,
+        "residual_cases": 19436,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18919,
+          "badFirstHit": 516,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 75.800387,
+        "index": 47,
+        "pair_words": 1000000,
+        "rank_end": 48000000,
+        "rank_start": 47000000,
+        "residual_cases": 21034,
+        "subtype_counts": {
+          "axisMissesStartInterior": 20411,
+          "badFirstHit": 623,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 70.527574,
+        "index": 48,
+        "pair_words": 1000000,
+        "rank_end": 49000000,
+        "rank_start": 48000000,
+        "residual_cases": 18252,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17762,
+          "badFirstHit": 490,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 86.987332,
+        "index": 49,
+        "pair_words": 1000000,
+        "rank_end": 50000000,
+        "rank_start": 49000000,
+        "residual_cases": 20276,
+        "subtype_counts": {
+          "axisMissesStartInterior": 19644,
+          "badFirstHit": 631,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 81.619528,
+        "index": 50,
+        "pair_words": 1000000,
+        "rank_end": 51000000,
+        "rank_start": 50000000,
+        "residual_cases": 18558,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17901,
+          "badFirstHit": 649,
+          "badHitInterior": 8,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 58.889615,
+        "index": 51,
+        "pair_words": 1000000,
+        "rank_end": 52000000,
+        "rank_start": 51000000,
+        "residual_cases": 31369,
+        "subtype_counts": {
+          "axisMissesStartInterior": 30472,
+          "badFirstHit": 897,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 88.174336,
+        "index": 52,
+        "pair_words": 1000000,
+        "rank_end": 53000000,
+        "rank_start": 52000000,
+        "residual_cases": 16043,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15615,
+          "badFirstHit": 428,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 75.328863,
+        "index": 53,
+        "pair_words": 1000000,
+        "rank_end": 54000000,
+        "rank_start": 53000000,
+        "residual_cases": 16455,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15991,
+          "badFirstHit": 463,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 74.231353,
+        "index": 54,
+        "pair_words": 1000000,
+        "rank_end": 55000000,
+        "rank_start": 54000000,
+        "residual_cases": 19012,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18395,
+          "badFirstHit": 615,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 76.991376,
+        "index": 55,
+        "pair_words": 1000000,
+        "rank_end": 56000000,
+        "rank_start": 55000000,
+        "residual_cases": 13658,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13206,
+          "badFirstHit": 451,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 82.545014,
+        "index": 56,
+        "pair_words": 1000000,
+        "rank_end": 57000000,
+        "rank_start": 56000000,
+        "residual_cases": 17730,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17168,
+          "badFirstHit": 559,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 81.765047,
+        "index": 57,
+        "pair_words": 1000000,
+        "rank_end": 58000000,
+        "rank_start": 57000000,
+        "residual_cases": 13391,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12983,
+          "badFirstHit": 407,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 74.496074,
+        "index": 58,
+        "pair_words": 1000000,
+        "rank_end": 59000000,
+        "rank_start": 58000000,
+        "residual_cases": 19102,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18508,
+          "badFirstHit": 594,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 97.544162,
+        "index": 59,
+        "pair_words": 1000000,
+        "rank_end": 60000000,
+        "rank_start": 59000000,
+        "residual_cases": 14106,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13761,
+          "badFirstHit": 344,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 60.026058,
+        "index": 60,
+        "pair_words": 1000000,
+        "rank_end": 61000000,
+        "rank_start": 60000000,
+        "residual_cases": 23092,
+        "subtype_counts": {
+          "axisMissesStartInterior": 22379,
+          "badFirstHit": 713,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 146.41412,
+        "index": 61,
+        "pair_words": 1000000,
+        "rank_end": 62000000,
+        "rank_start": 61000000,
+        "residual_cases": 16011,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15482,
+          "badFirstHit": 529,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 105.56484,
+        "index": 62,
+        "pair_words": 1000000,
+        "rank_end": 63000000,
+        "rank_start": 62000000,
+        "residual_cases": 15669,
+        "subtype_counts": {
+          "axisMissesStartInterior": 15268,
+          "badFirstHit": 397,
+          "badHitInterior": 4,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 71.036495,
+        "index": 63,
+        "pair_words": 1000000,
+        "rank_end": 64000000,
+        "rank_start": 63000000,
+        "residual_cases": 24641,
+        "subtype_counts": {
+          "axisMissesStartInterior": 23853,
+          "badFirstHit": 784,
+          "badHitInterior": 4,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 81.555892,
+        "index": 64,
+        "pair_words": 1000000,
+        "rank_end": 65000000,
+        "rank_start": 64000000,
+        "residual_cases": 26379,
+        "subtype_counts": {
+          "axisMissesStartInterior": 25662,
+          "badFirstHit": 717,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 79.969287,
+        "index": 65,
+        "pair_words": 1000000,
+        "rank_end": 66000000,
+        "rank_start": 65000000,
+        "residual_cases": 16885,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16436,
+          "badFirstHit": 449,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 61.546904,
+        "index": 66,
+        "pair_words": 1000000,
+        "rank_end": 67000000,
+        "rank_start": 66000000,
+        "residual_cases": 22433,
+        "subtype_counts": {
+          "axisMissesStartInterior": 21843,
+          "badFirstHit": 590,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 90.418262,
+        "index": 67,
+        "pair_words": 1000000,
+        "rank_end": 68000000,
+        "rank_start": 67000000,
+        "residual_cases": 14226,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13701,
+          "badFirstHit": 524,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 75.659094,
+        "index": 68,
+        "pair_words": 1000000,
+        "rank_end": 69000000,
+        "rank_start": 68000000,
+        "residual_cases": 17157,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16644,
+          "badFirstHit": 511,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 87.768079,
+        "index": 69,
+        "pair_words": 1000000,
+        "rank_end": 70000000,
+        "rank_start": 69000000,
+        "residual_cases": 15180,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14685,
+          "badFirstHit": 494,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 66.283578,
+        "index": 70,
+        "pair_words": 1000000,
+        "rank_end": 71000000,
+        "rank_start": 70000000,
+        "residual_cases": 15401,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14959,
+          "badFirstHit": 441,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 79.981929,
+        "index": 71,
+        "pair_words": 1000000,
+        "rank_end": 72000000,
+        "rank_start": 71000000,
+        "residual_cases": 19963,
+        "subtype_counts": {
+          "axisMissesStartInterior": 19312,
+          "badFirstHit": 648,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 70.101925,
+        "index": 72,
+        "pair_words": 1000000,
+        "rank_end": 73000000,
+        "rank_start": 72000000,
+        "residual_cases": 17156,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16616,
+          "badFirstHit": 539,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 86.294174,
+        "index": 73,
+        "pair_words": 1000000,
+        "rank_end": 74000000,
+        "rank_start": 73000000,
+        "residual_cases": 14081,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13690,
+          "badFirstHit": 391,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 96.34601,
+        "index": 74,
+        "pair_words": 1000000,
+        "rank_end": 75000000,
+        "rank_start": 74000000,
+        "residual_cases": 14006,
+        "subtype_counts": {
+          "axisMissesStartInterior": 13614,
+          "badFirstHit": 391,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 60.006431,
+        "index": 75,
+        "pair_words": 1000000,
+        "rank_end": 76000000,
+        "rank_start": 75000000,
+        "residual_cases": 23426,
+        "subtype_counts": {
+          "axisMissesStartInterior": 22709,
+          "badFirstHit": 717,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 85.354257,
+        "index": 76,
+        "pair_words": 1000000,
+        "rank_end": 77000000,
+        "rank_start": 76000000,
+        "residual_cases": 19054,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18500,
+          "badFirstHit": 550,
+          "badHitInterior": 4,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 79.852368,
+        "index": 77,
+        "pair_words": 1000000,
+        "rank_end": 78000000,
+        "rank_start": 77000000,
+        "residual_cases": 23272,
+        "subtype_counts": {
+          "axisMissesStartInterior": 22576,
+          "badFirstHit": 692,
+          "badHitInterior": 4,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 107.472084,
+        "index": 78,
+        "pair_words": 1000000,
+        "rank_end": 79000000,
+        "rank_start": 78000000,
+        "residual_cases": 27671,
+        "subtype_counts": {
+          "axisMissesStartInterior": 26808,
+          "badFirstHit": 863,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 131.310193,
+        "index": 79,
+        "pair_words": 1000000,
+        "rank_end": 80000000,
+        "rank_start": 79000000,
+        "residual_cases": 12599,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12278,
+          "badFirstHit": 321,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 79.807966,
+        "index": 80,
+        "pair_words": 1000000,
+        "rank_end": 81000000,
+        "rank_start": 80000000,
+        "residual_cases": 16998,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16546,
+          "badFirstHit": 452,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 63.954883,
+        "index": 81,
+        "pair_words": 1000000,
+        "rank_end": 82000000,
+        "rank_start": 81000000,
+        "residual_cases": 22920,
+        "subtype_counts": {
+          "axisMissesStartInterior": 22229,
+          "badFirstHit": 691,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 93.339434,
+        "index": 82,
+        "pair_words": 1000000,
+        "rank_end": 83000000,
+        "rank_start": 82000000,
+        "residual_cases": 12446,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12100,
+          "badFirstHit": 345,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 69.848245,
+        "index": 83,
+        "pair_words": 1000000,
+        "rank_end": 84000000,
+        "rank_start": 83000000,
+        "residual_cases": 19529,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18925,
+          "badFirstHit": 602,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 75.560221,
+        "index": 84,
+        "pair_words": 1000000,
+        "rank_end": 85000000,
+        "rank_start": 84000000,
+        "residual_cases": 17083,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16523,
+          "badFirstHit": 558,
+          "badHitInterior": 2,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 81.885772,
+        "index": 85,
+        "pair_words": 1000000,
+        "rank_end": 86000000,
+        "rank_start": 85000000,
+        "residual_cases": 13294,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12866,
+          "badFirstHit": 428,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 77.212832,
+        "index": 86,
+        "pair_words": 1000000,
+        "rank_end": 87000000,
+        "rank_start": 86000000,
+        "residual_cases": 19171,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18576,
+          "badFirstHit": 592,
+          "badHitInterior": 3,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 71.595859,
+        "index": 87,
+        "pair_words": 1000000,
+        "rank_end": 88000000,
+        "rank_start": 87000000,
+        "residual_cases": 17938,
+        "subtype_counts": {
+          "axisMissesStartInterior": 17351,
+          "badFirstHit": 586,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 86.326573,
+        "index": 88,
+        "pair_words": 1000000,
+        "rank_end": 89000000,
+        "rank_start": 88000000,
+        "residual_cases": 13043,
+        "subtype_counts": {
+          "axisMissesStartInterior": 12737,
+          "badFirstHit": 306,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 90.4022,
+        "index": 89,
+        "pair_words": 1000000,
+        "rank_end": 90000000,
+        "rank_start": 89000000,
+        "residual_cases": 17582,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16948,
+          "badFirstHit": 626,
+          "badHitInterior": 8,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 62.70355,
+        "index": 90,
+        "pair_words": 1000000,
+        "rank_end": 91000000,
+        "rank_start": 90000000,
+        "residual_cases": 31238,
+        "subtype_counts": {
+          "axisMissesStartInterior": 30393,
+          "badFirstHit": 845,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 82.200031,
+        "index": 91,
+        "pair_words": 1000000,
+        "rank_end": 92000000,
+        "rank_start": 91000000,
+        "residual_cases": 19307,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18752,
+          "badFirstHit": 555,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 82.531881,
+        "index": 92,
+        "pair_words": 1000000,
+        "rank_end": 93000000,
+        "rank_start": 92000000,
+        "residual_cases": 19111,
+        "subtype_counts": {
+          "axisMissesStartInterior": 18563,
+          "badFirstHit": 547,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 72.043799,
+        "index": 93,
+        "pair_words": 1000000,
+        "rank_end": 94000000,
+        "rank_start": 93000000,
+        "residual_cases": 20365,
+        "subtype_counts": {
+          "axisMissesStartInterior": 19762,
+          "badFirstHit": 603,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 76.189128,
+        "index": 94,
+        "pair_words": 1000000,
+        "rank_end": 95000000,
+        "rank_start": 94000000,
+        "residual_cases": 17028,
+        "subtype_counts": {
+          "axisMissesStartInterior": 16585,
+          "badFirstHit": 443,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 80.716105,
+        "index": 95,
+        "pair_words": 1000000,
+        "rank_end": 96000000,
+        "rank_start": 95000000,
+        "residual_cases": 21772,
+        "subtype_counts": {
+          "axisMissesStartInterior": 21117,
+          "badFirstHit": 654,
+          "badHitInterior": 1,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 143.851648,
+        "index": 96,
+        "pair_words": 1000000,
+        "rank_end": 97000000,
+        "rank_start": 96000000,
+        "residual_cases": 14936,
+        "subtype_counts": {
+          "axisMissesStartInterior": 14413,
+          "badFirstHit": 523,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      },
+      {
+        "elapsed_seconds": 45.641602,
+        "index": 97,
+        "pair_words": 297200,
+        "rank_end": 97297200,
+        "rank_start": 97000000,
+        "residual_cases": 3738,
+        "subtype_counts": {
+          "axisMissesStartInterior": 3686,
+          "badFirstHit": 52,
+          "badHitInterior": 0,
+          "candidatePassed": 0
+        }
+      }
+    ],
+    "source_mode": "residual-nonidentity-subtypes",
+    "subtype_counts": {
+      "axisMissesStartInterior": 1974752,
+      "badFirstHit": 63728,
+      "badHitInterior": 176,
+      "candidatePassed": 0
+    },
+    "subtypes": [
+      {
+        "count": 1974752,
+        "failure_kind": "axisMissesStartInterior",
+        "present": true,
+        "samples": [
+          {
+            "rank": 12,
+            "seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zp",
+              "zm",
+              "tmmm",
+              "tppp",
+              "tmmp",
+              "tpmp",
+              "tpmm",
+              "tppm",
+              "tmpm",
+              "tmpp"
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d111",
+              "d11m",
+              "d1m1",
+              "dm11",
+              "d11m",
+              "d1m1",
+              "dm11"
+            ]
+          },
+          {
+            "rank": 22,
+            "seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zm",
+              "zp",
+              "tppp",
+              "tmmm",
+              "tppm",
+              "tpmm",
+              "tpmp",
+              "tmmp",
+              "tmpp",
+              "tmpm"
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d111",
+              "d11m",
+              "dm11",
+              "d1m1",
+              "d11m",
+              "dm11",
+              "d1m1"
+            ]
+          },
+          {
+            "rank": 38,
+            "seq": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zm",
+              "zp",
+              "tmmm",
+              "tppp",
+              "tmpm",
+              "tppm",
+              "tpmm",
+              "tpmp",
+              "tmmp",
+              "tmpp"
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d111",
+              "d1m1",
+              "d11m",
+              "dm11",
+              "d1m1",
+              "d11m",
+              "dm11"
+            ]
+          }
+        ]
+      },
+      {
+        "count": 63728,
+        "failure_kind": "badFirstHit",
+        "present": true,
+        "samples": [
+          {
+            "rank": 159,
+            "seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zp",
+              "zm",
+              "tppp",
+              "tmmp",
+              "tpmp",
+              "tmmm",
+              "tpmm",
+              "tmpm",
+              "tmpp",
+              "tppm"
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d11m",
+              "d1m1",
+              "d111",
+              "dm11",
+              "d1m1",
+              "dm11",
+              "d11m"
+            ]
+          },
+          {
+            "rank": 307,
+            "seq": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zm",
+              "zp",
+              "tppp",
+              "tmpm",
+              "tppm",
+              "tmmm",
+              "tpmm",
+              "tmmp",
+              "tmpp",
+              "tpmp"
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d1m1",
+              "d11m",
+              "d111",
+              "dm11",
+              "d11m",
+              "dm11",
+              "d1m1"
+            ]
+          },
+          {
+            "rank": 453,
+            "seq": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zm",
+              "zp",
+              "tppp",
+              "tpmm",
+              "tmmm",
+              "tppm",
+              "tmpm",
+              "tmmp",
+              "tpmp",
+              "tmpp"
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "dm11",
+              "d111",
+              "d11m",
+              "d1m1",
+              "d11m",
+              "d1m1",
+              "dm11"
+            ]
+          }
+        ]
+      },
+      {
+        "count": 176,
+        "failure_kind": "badHitInterior",
+        "present": true,
+        "samples": [
+          {
+            "rank": 7510288,
+            "seq": [
+              "xp",
+              "yp",
+              "xm",
+              "ym",
+              "tppp",
+              "zm",
+              "tpmp",
+              "tmmp",
+              "tmpp",
+              "tmpm",
+              "tppm",
+              "tpmm",
+              "zp",
+              "tmmm"
+            ],
+            "word": [
+              "y",
+              "x",
+              "y",
+              "d111",
+              "z",
+              "d1m1",
+              "d11m",
+              "dm11",
+              "d1m1",
+              "d11m",
+              "dm11",
+              "z",
+              "d111"
+            ]
+          },
+          {
+            "rank": 7534006,
+            "seq": [
+              "xp",
+              "yp",
+              "xm",
+              "ym",
+              "tppm",
+              "zp",
+              "tpmm",
+              "tmmm",
+              "tmpm",
+              "tmpp",
+              "tppp",
+              "tpmp",
+              "zm",
+              "tmmp"
+            ],
+            "word": [
+              "y",
+              "x",
+              "y",
+              "d11m",
+              "z",
+              "dm11",
+              "d111",
+              "d1m1",
+              "dm11",
+              "d111",
+              "d1m1",
+              "z",
+              "d11m"
+            ]
+          },
+          {
+            "rank": 7554134,
+            "seq": [
+              "xp",
+              "ym",
+              "xm",
+              "yp",
+              "tpmp",
+              "zm",
+              "tppp",
+              "tmpp",
+              "tmmp",
+              "tmmm",
+              "tpmm",
+              "tppm",
+              "zp",
+              "tmpm"
+            ],
+            "word": [
+              "y",
+              "x",
+              "y",
+              "d1m1",
+              "z",
+              "d111",
+              "dm11",
+              "d11m",
+              "d111",
+              "dm11",
+              "d11m",
+              "z",
+              "d1m1"
+            ]
+          }
+        ]
+      },
+      {
+        "count": 0,
+        "failure_kind": "candidatePassed",
+        "present": false,
+        "samples": []
+      }
+    ]
+  },
+  "pilot_complete": true,
+  "projection": {
+    "blockers": [
+      "nonidentity_residual_family_partition_not_emitted"
+    ],
+    "bytes_per_family_proxy": 2832,
+    "format": "proof_carrying_nonid_residual_semantic_families",
+    "hard_total_source_bytes": 1342177280,
+    "note": "This preflight replaces per-case residual literals with semantic proof-carrying residual families.  The source projection is small, but the bounded residual partition profile shows the exhaustive residual subtype census and family partition still need to be emitted/proved before the backend can be selected.",
+    "pilot_family_count": 2,
+    "previous_compact_residual_source_bytes": 4845885312,
+    "previous_compact_residual_source_gib": 4.513082385063171,
+    "projected_family_count": 2,
+    "projected_residual_source_bytes": 5664,
+    "projected_residual_source_gib": 5.27501106262207e-06,
+    "residual_singleton_cases": 2038656,
+    "sample_source_bytes": 5664,
+    "size_safe": true
+  },
+  "residual_singleton_cases": 2038656,
+  "schema_version": 1,
+  "source_manifests": {
+    "compact_residual_certificates": {
+      "bytes": 4865,
+      "exists": true,
+      "path": "scripts/generated/compact_residual_certificates.json"
+    },
+    "prefix_parametric_compression": {
+      "bytes": 3693,
+      "exists": true,
+      "path": "scripts/generated/prefix_parametric_compression.json"
+    },
+    "residual_nonidentity_templates": {
+      "bytes": 5572,
+      "exists": true,
+      "path": "scripts/generated/residual_nonidentity_templates.json"
+    }
+  },
+  "subtypes": [
+    {
+      "check_theorem": "residualAxisMissesStartInteriorTemplate_check",
+      "failure_kind": "axisMissesStartInterior",
+      "observed_count": 174,
+      "present": true,
+      "representative_cert": "residualAxisMissesStartInteriorTemplate",
+      "representative_rank": 12,
+      "status": "represented_by_checked_template"
+    },
+    {
+      "check_theorem": "residualBadFirstHitTemplate_check",
+      "failure_kind": "badFirstHit",
+      "observed_count": 11,
+      "present": true,
+      "representative_cert": "residualBadFirstHitTemplate",
+      "representative_rank": 159,
+      "status": "represented_by_checked_template"
+    },
+    {
+      "check_theorem": null,
+      "failure_kind": "badHitInterior",
+      "observed_count": 0,
+      "present": false,
+      "representative_cert": null,
+      "representative_rank": null,
+      "status": "unobserved_in_representative_scan"
+    }
+  ],
+  "supported_failure_kinds": [
+    "axisMissesStartInterior",
+    "badFirstHit",
+    "badHitInterior"
+  ]
+}

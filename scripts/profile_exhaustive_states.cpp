@@ -1078,6 +1078,8 @@ struct Profiler {
     array<int, 7> rem{};
     array<Mat, 14> pref{};
     long long limit = -1;
+    long long rank_start = 0;
+    long long rank_end = -1;
     long long leaves = 0;
     long long identity = 0;
     long long nonidentity = 0;
@@ -1087,6 +1089,7 @@ struct Profiler {
     bool with_reversal = false;
     bool exact_state_groups = false;
     bool exact_state_groups_formula = false;
+    bool suppress_progress = false;
     bool aggregate_compression_profile = false;
     bool emit_full_fallback = false;
     KeyedPackedChunkEmitter nonid_residual_emitter;
@@ -1149,6 +1152,10 @@ struct Profiler {
         translation_groups[1].failure = "badDirectionSign";
         translation_groups[2].key = "case=translation;failure=needsFarkas";
         translation_groups[2].failure = "needsFarkas";
+    }
+
+    bool complete_run() const {
+        return limit < 0 && rank_start == 0 && rank_end < 0;
     }
 
     long long prefix_start_rank(const vector<int> &prefix) const {
@@ -1985,7 +1992,7 @@ struct Profiler {
         if (mat_eq(M, I)) process_identity();
         else process_nonidentity(M);
         ++rank;
-        if (rank % 1000000LL == 0) {
+        if (!suppress_progress && rank % 1000000LL == 0) {
             auto elapsed = chrono::duration<double>(chrono::steady_clock::now() - start).count();
             cerr << "profiled " << rank << " pair words in " << elapsed << "s\n";
         }
@@ -1993,6 +2000,7 @@ struct Profiler {
 
     void rec(int pos) {
         if (limit >= 0 && rank >= limit) return;
+        if (rank_end >= 0 && rank >= rank_end) return;
         if (pos == 13) {
             process_leaf();
             return;
@@ -2000,11 +2008,22 @@ struct Profiler {
         for (int p = 0; p < 7; ++p) {
             if (rem[p] <= 0) continue;
             --rem[p];
+            long long subtree_count = completion_count(rem);
+            if (rank + subtree_count <= rank_start) {
+                rank += subtree_count;
+                ++rem[p];
+                continue;
+            }
+            if (rank_end >= 0 && rank >= rank_end) {
+                ++rem[p];
+                return;
+            }
             word[pos] = p;
             pref[pos + 1] = mat_mul(pref[pos], RPAIR[p]);
             rec(pos + 1);
             ++rem[p];
             if (limit >= 0 && rank >= limit) return;
+            if (rank_end >= 0 && rank >= rank_end) return;
         }
     }
 
@@ -2199,10 +2218,15 @@ struct Profiler {
         out << "\"schema_version\":1,";
         out << "\"mode\":\"residual-nonidentity-subtypes\",";
         out << "\"complete\":";
-        out << (limit < 0 ? "true" : "false") << ",";
+        out << (complete_run() ? "true" : "false") << ",";
         out << "\"profile_limit\":";
         if (limit < 0) out << "null";
         else out << limit;
+        out << ",";
+        out << "\"rank_start\":" << rank_start << ",";
+        out << "\"rank_end\":";
+        if (rank_end < 0) out << "null";
+        else out << rank_end;
         out << ",";
         out << "\"actual_counts\":{";
         out << "\"pair_words\":" << leaves << ",";
@@ -2285,7 +2309,7 @@ struct Profiler {
     }
 
     string aggregate_payload_json() {
-        bool complete = limit < 0;
+        bool complete = complete_run();
         long long flat_total = nonidentity + translation_assignments;
         long long canonical_representatives =
             (with_symmetry || with_reversal)
@@ -2329,6 +2353,11 @@ struct Profiler {
         out << "\"complete\":" << (complete ? "true" : "false") << ",";
         if (complete) out << "\"profile_limit\":null,";
         else out << "\"profile_limit\":" << limit << ",";
+        out << "\"rank_start\":" << rank_start << ",";
+        out << "\"rank_end\":";
+        if (rank_end < 0) out << "null";
+        else out << rank_end;
+        out << ",";
         out << "\"options\":{";
         out << "\"with_symmetry\":" << (with_symmetry ? "true" : "false") << ",";
         out << "\"with_reversal\":" << (with_reversal ? "true" : "false") << ",";
@@ -2399,7 +2428,7 @@ struct Profiler {
     }
 
     string payload_json() {
-        bool complete = limit < 0;
+        bool complete = complete_run();
         long long flat_total = nonidentity + translation_assignments;
         long long nonid_group_count = 0;
         for (const auto &g : nonid_groups) if (g.count > 0) ++nonid_group_count;
@@ -2426,6 +2455,11 @@ struct Profiler {
         out << "\"complete\":" << (complete ? "true" : "false") << ",";
         if (complete) out << "\"profile_limit\":null,";
         else out << "\"profile_limit\":" << limit << ",";
+        out << "\"rank_start\":" << rank_start << ",";
+        out << "\"rank_end\":";
+        if (rank_end < 0) out << "null";
+        else out << rank_end;
+        out << ",";
         out << "\"expected_sanity_counts\":{";
         out << "\"pair_words\":" << EXPECTED_PAIR_WORDS << ",";
         out << "\"identity_linear_words\":" << EXPECTED_IDENTITY_WORDS << ",";
@@ -2611,6 +2645,12 @@ int main(int argc, char **argv) {
         if (arg == "--limit") {
             if (i + 1 >= argc) throw runtime_error("--limit requires a value");
             profiler.limit = stoll(argv[++i]);
+        } else if (arg == "--rank-start") {
+            if (i + 1 >= argc) throw runtime_error("--rank-start requires a value");
+            profiler.rank_start = stoll(argv[++i]);
+        } else if (arg == "--rank-end") {
+            if (i + 1 >= argc) throw runtime_error("--rank-end requires a value");
+            profiler.rank_end = stoll(argv[++i]);
         } else if (arg == "--compressed-full") {
             force_compressed = true;
         } else if (arg == "--aggregate-compression-profile") {
@@ -2645,11 +2685,29 @@ int main(int argc, char **argv) {
         } else if (arg == "--with-reversal") {
             profiler.with_reversal = true;
         } else if (arg == "--no-progress") {
-            // Progress is intentionally always sparse; this flag is accepted for
-            // caller compatibility.
+            profiler.suppress_progress = true;
         } else {
             throw runtime_error("unknown argument: " + arg);
         }
+    }
+    if (profiler.rank_start < 0) throw runtime_error("--rank-start must be nonnegative");
+    if (profiler.rank_start > EXPECTED_PAIR_WORDS) {
+        throw runtime_error("--rank-start exceeds pair-word count");
+    }
+    if (profiler.rank_end >= 0 && profiler.rank_end < profiler.rank_start) {
+        throw runtime_error("--rank-end must be greater than or equal to --rank-start");
+    }
+    if (profiler.rank_end > EXPECTED_PAIR_WORDS) {
+        throw runtime_error("--rank-end exceeds pair-word count");
+    }
+    if (profiler.limit >= 0 && profiler.rank_end >= 0) {
+        throw runtime_error("--limit cannot be combined with --rank-end");
+    }
+    if (profiler.limit >= 0 && profiler.rank_start > profiler.limit) {
+        throw runtime_error("--rank-start cannot exceed --limit");
+    }
+    if (has_emit_prefix && (profiler.rank_start != 0 || profiler.rank_end >= 0)) {
+        throw runtime_error("--prefix cannot be combined with rank intervals");
     }
     if (emit_full_fallback) {
         if (nonidentity_residual_dir.empty()) {

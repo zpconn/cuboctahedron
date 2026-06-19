@@ -54,6 +54,9 @@ PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
 PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "proof_carrying_family_backend.json"
 )
+NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "nonidentity_residual_compression.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -91,6 +94,9 @@ NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
 )
 NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "ProofCarryingSmoke.lean"
+)
+NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompressionSample.lean"
 )
 NONIDENTITY_RESIDUAL_ALL_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "All.lean"
@@ -5008,6 +5014,294 @@ def check_proof_carrying_structured_literals(payload: dict) -> dict:
     }
 
 
+def check_nonidentity_residual_compression(payload: dict) -> dict:
+    require(payload.get("schema_version") == 1,
+            "nonidentity residual compression schema version")
+    require(payload.get("mode") == "nonidentity-residual-compression",
+            "nonidentity residual compression mode")
+    require(payload.get("complete") is True,
+            "nonidentity residual compression complete")
+    require(payload.get("pilot_complete") is True,
+            "nonidentity residual compression pilot complete")
+    full_residual_compression_complete = payload.get(
+        "full_residual_compression_complete"
+    )
+    require(
+        isinstance(full_residual_compression_complete, bool),
+        "nonidentity residual compression full-complete flag",
+    )
+
+    prefix_payload = json.loads(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+    )
+    residual_payload = json.loads(
+        RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.read_text(encoding="utf-8")
+    )
+    compact_payload = json.loads(
+        COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+    )
+    prefix_summary = check_prefix_parametric_compression(prefix_payload)
+    residual_summary = check_residual_nonidentity_templates(residual_payload)
+    compact_summary = check_compact_residual_certificates(compact_payload)
+
+    manifests = payload["source_manifests"]
+    require(
+        manifests["prefix_parametric_compression"]["path"] ==
+            relative_path(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH),
+        "nonidentity residual compression prefix path",
+    )
+    require(
+        manifests["residual_nonidentity_templates"]["path"] ==
+            relative_path(RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH),
+        "nonidentity residual compression template path",
+    )
+    require(
+        manifests["compact_residual_certificates"]["path"] ==
+            relative_path(COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH),
+        "nonidentity residual compression compact path",
+    )
+
+    residual_cases = int(
+        prefix_payload["nonidentity"]["residual_singleton_cases"]
+    )
+    require(payload["residual_singleton_cases"] == residual_cases,
+            "nonidentity residual compression residual count")
+    require(
+        payload["supported_failure_kinds"] ==
+            residual_payload["supported_failure_kinds"],
+        "nonidentity residual compression supported kinds",
+    )
+
+    partition_profile = payload["partition_profile"]
+    require(partition_profile["schema_version"] == 1,
+            "nonidentity residual partition profile schema")
+    require(partition_profile["mode"] ==
+            "residual-nonidentity-partition-profile",
+            "nonidentity residual partition profile mode")
+    require(
+        partition_profile["profile_kind"] in {
+            "bounded_exact_prefix_census",
+            "sharded_exact_full_census",
+        },
+        "nonidentity residual partition profile kind",
+    )
+    require(partition_profile["source_mode"] == "residual-nonidentity-subtypes",
+            "nonidentity residual partition profile source mode")
+    pair_words_checked = int(partition_profile["pair_words_checked"])
+    if partition_profile["complete"] is True:
+        require(partition_profile["profile_limit"] is None,
+                "nonidentity residual partition complete limit")
+    else:
+        profile_limit = int(partition_profile["profile_limit"])
+        require(profile_limit > 0,
+                "nonidentity residual partition profile positive limit")
+    require(0 < pair_words_checked <= EXPECTED_PAIR_WORDS,
+            "nonidentity residual partition pair words checked")
+    require(partition_profile["pair_words_total"] == EXPECTED_PAIR_WORDS,
+            "nonidentity residual partition pair word total")
+    require(int(partition_profile["rank_start"]) == 0,
+            "nonidentity residual partition rank start")
+    if partition_profile["complete"] is True:
+        require(int(partition_profile["rank_end"]) == EXPECTED_PAIR_WORDS,
+                "nonidentity residual partition complete rank end")
+    require(pair_words_checked ==
+            int(partition_profile["actual_counts"]["pair_words"]),
+            "nonidentity residual partition actual pair words")
+    require(
+        partition_profile["complete"] is (pair_words_checked == EXPECTED_PAIR_WORDS),
+        "nonidentity residual partition complete flag",
+    )
+    profile_counts = {
+        str(kind): int(count)
+        for kind, count in partition_profile["subtype_counts"].items()
+    }
+    expected_profile_kinds = set(payload["supported_failure_kinds"]) | {
+        "candidatePassed",
+    }
+    require(set(profile_counts) == expected_profile_kinds,
+            "nonidentity residual partition subtype kind set")
+    sampled_residual_cases = int(partition_profile["sampled_residual_cases"])
+    require(sum(profile_counts.values()) == sampled_residual_cases,
+            "nonidentity residual partition subtype count sum")
+    require(
+        int(partition_profile["candidate_passed_observed_count"]) ==
+            profile_counts["candidatePassed"],
+        "nonidentity residual partition candidate passed count",
+    )
+    require(profile_counts["candidatePassed"] == 0,
+            "nonidentity residual partition sampled candidate passed")
+    observed_failure_kinds = sorted(
+        kind
+        for kind, count in profile_counts.items()
+        if count > 0 and kind != "candidatePassed"
+    )
+    require(
+        partition_profile["observed_failure_kinds"] == observed_failure_kinds,
+        "nonidentity residual partition observed failure kinds",
+    )
+    require(len(partition_profile["subtypes"]) == len(expected_profile_kinds),
+            "nonidentity residual partition raw subtype count")
+    if partition_profile["profile_kind"] == "sharded_exact_full_census":
+        require(partition_profile["complete"] is True,
+                "nonidentity residual sharded profile complete")
+        require(pair_words_checked == EXPECTED_PAIR_WORDS,
+                "nonidentity residual sharded pair-word count")
+        require(int(partition_profile["shard_count"]) > 0,
+                "nonidentity residual sharded shard count")
+        require(int(partition_profile["jobs"]) > 0,
+                "nonidentity residual sharded jobs")
+        shard_pair_words = 0
+        shard_residual_cases = 0
+        for index, shard in enumerate(partition_profile["shards"]):
+            require(int(shard["index"]) == index,
+                    "nonidentity residual sharded index")
+            require(int(shard["rank_end"]) >= int(shard["rank_start"]),
+                    "nonidentity residual sharded interval")
+            require(
+                int(shard["pair_words"]) ==
+                    int(shard["rank_end"]) - int(shard["rank_start"]),
+                "nonidentity residual sharded pair-word interval size",
+            )
+            shard_pair_words += int(shard["pair_words"])
+            shard_residual_cases += int(shard["residual_cases"])
+        require(shard_pair_words == pair_words_checked,
+                "nonidentity residual sharded pair-word sum")
+        require(shard_residual_cases == sampled_residual_cases,
+                "nonidentity residual sharded residual sum")
+    require(float(partition_profile["elapsed_seconds"]) > 0.0,
+            "nonidentity residual partition elapsed time")
+    require(float(partition_profile["projected_exhaustive_seconds"]) > 0.0,
+            "nonidentity residual partition projected time")
+    if partition_profile["complete"] is False:
+        require(
+            "nonidentity_residual_exhaustive_subtype_census_requires_long_profile"
+            in payload["projection"]["blockers"],
+            "nonidentity residual partition long-profile blocker",
+        )
+    require(
+        payload.get("exhaustive_subtype_census_complete") is
+            (
+                partition_profile["complete"] is True
+                and pair_words_checked == EXPECTED_PAIR_WORDS
+                and profile_counts["candidatePassed"] == 0
+            ),
+        "nonidentity residual exhaustive subtype census flag",
+    )
+
+    certs = {cert["name"]: cert for cert in residual_payload["certs"]}
+    families = payload["families"]
+    require(len(families) == len(certs),
+            "nonidentity residual compression family count")
+    seen_names: set[str] = set()
+    seen_ranks: set[int] = set()
+    for family in families:
+        lean_name = family["lean_name"]
+        require(lean_name not in seen_names,
+                f"nonidentity residual compression duplicate family {lean_name}")
+        seen_names.add(lean_name)
+        cert_name = family["representative_cert"]
+        require(cert_name in certs,
+                f"nonidentity residual compression representative {cert_name}")
+        cert = certs[cert_name]
+        rank = int(family["representative_rank"])
+        require(rank == int(cert["rank"]),
+                f"nonidentity residual compression rank {cert_name}")
+        require(rank not in seen_ranks,
+                f"nonidentity residual compression duplicate rank {rank}")
+        seen_ranks.add(rank)
+        require(family["failure_kind"] == cert["failure"]["kind"],
+                f"nonidentity residual compression failure {cert_name}")
+        require(family["normalizedStateId"].startswith(
+            "proof-carrying-nonid-residual-family:"),
+            f"nonidentity residual compression state id {cert_name}")
+        check_nonid_cert_record(cert)
+
+    generated = payload["generated_lean"]["compression_sample"]
+    check_generated_file_record(
+        generated, NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH
+    )
+    check_no_forbidden_lean_tokens(
+        NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH
+    )
+    lean_text = NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.read_text(
+        encoding="utf-8"
+    )
+    for needle in [
+        "ProofCarryingNonIdResidualFamily",
+        "ProofCarryingNonIdResidualFamily.exists_cert",
+        "ProofCarryingNonIdResidualFamily.no_feasible",
+        "residualCompressionSampleFamilies",
+    ]:
+        require(needle in lean_text,
+                f"nonidentity residual compression Lean API {needle}")
+    for family in families:
+        require(f"def {family['lean_name']}" in lean_text,
+                f"nonidentity residual compression Lean family {family['lean_name']}")
+        require(family["representative_cert"] in lean_text,
+                f"nonidentity residual compression Lean cert {family['representative_cert']}")
+
+    projection = payload["projection"]
+    require(projection["format"] ==
+            "proof_carrying_nonid_residual_semantic_families",
+            "nonidentity residual compression projection format")
+    require(projection["pilot_family_count"] == len(families),
+            "nonidentity residual compression projection family count")
+    require(projection["sample_source_bytes"] == generated["bytes"],
+            "nonidentity residual compression sample bytes")
+    expected_projected = (
+        int(projection["bytes_per_family_proxy"]) *
+        int(projection["projected_family_count"])
+    )
+    require(projection["projected_residual_source_bytes"] == expected_projected,
+            "nonidentity residual compression projected bytes")
+    require(projection["residual_singleton_cases"] == residual_cases,
+            "nonidentity residual compression projected residual count")
+    require(
+        projection["previous_compact_residual_source_bytes"] ==
+            compact_summary["projected_residual_source_bytes"],
+        "nonidentity residual compression compact comparison",
+    )
+    expected_size_safe = (
+        expected_projected <= int(projection["hard_total_source_bytes"])
+    )
+    require(projection["size_safe"] is expected_size_safe,
+            "nonidentity residual compression size flag")
+    if full_residual_compression_complete is True:
+        require(not projection["blockers"],
+                "nonidentity residual compression no blockers when complete")
+    else:
+        expected_blockers = ["nonidentity_residual_family_partition_not_emitted"]
+        if payload.get("exhaustive_subtype_census_complete") is not True:
+            expected_blockers.insert(
+                0,
+                "nonidentity_residual_exhaustive_subtype_census_requires_long_profile",
+            )
+        for blocker in expected_blockers:
+            require(blocker in projection["blockers"],
+                    f"nonidentity residual compression blocker {blocker}")
+        if payload.get("exhaustive_subtype_census_complete") is True:
+            require(
+                "nonidentity_residual_exhaustive_subtype_census_requires_long_profile"
+                not in projection["blockers"],
+                "nonidentity residual compression cleared long-profile blocker",
+            )
+    return {
+        "prefix_ready": prefix_summary["ready_for_14E7"],
+        "residual_cases": residual_summary["residual_cases"],
+        "families": len(families),
+        "partition_profile_pair_words": pair_words_checked,
+        "partition_profile_residual_cases": sampled_residual_cases,
+        "partition_profile_projected_hours": float(
+            partition_profile["projected_exhaustive_hours"]
+        ),
+        "projected_residual_source_bytes": expected_projected,
+        "previous_compact_residual_source_bytes":
+            compact_summary["projected_residual_source_bytes"],
+        "size_safe": projection["size_safe"],
+        "blockers": projection["blockers"],
+    }
+
+
 def check_proof_carrying_family_backend(payload: dict) -> dict:
     require(payload.get("schema_version") == 1,
             "proof-carrying family schema version")
@@ -5028,6 +5322,15 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
         PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.read_text(encoding="utf-8")
     )
     smoke_summary = check_proof_carrying_structured_literals(smoke_payload)
+    residual_compression_payload = None
+    residual_compression_summary = None
+    if NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.exists():
+        residual_compression_payload = json.loads(
+            NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+        )
+        residual_compression_summary = check_nonidentity_residual_compression(
+            residual_compression_payload
+        )
 
     source_manifests = payload["source_manifests"]
     require(
@@ -5045,6 +5348,12 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
             relative_path(PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH),
         "proof-carrying family smoke path",
     )
+    if "nonidentity_residual_compression" in source_manifests:
+        require(
+            source_manifests["nonidentity_residual_compression"]["path"] ==
+                relative_path(NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH),
+            "proof-carrying family residual compression path",
+        )
 
     lean_text = (REPO_ROOT / "Cuboctahedron" / "Search" /
                  "CertificateFormat.lean").read_text(encoding="utf-8")
@@ -5052,6 +5361,9 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
         "ProofCarryingNonIdFamily",
         "ProofCarryingNonIdFamily.exists_cert",
         "ProofCarryingNonIdFamily.no_feasible",
+        "ProofCarryingNonIdResidualFamily",
+        "ProofCarryingNonIdResidualFamily.exists_cert",
+        "ProofCarryingNonIdResidualFamily.no_feasible",
         "ProofCarryingTranslationFarkasFamily",
         "ProofCarryingTranslationFarkasFamily.exists_cert",
         "ProofCarryingTranslationFarkasFamily.no_feasible",
@@ -5073,6 +5385,22 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
     bytes_per_residual = int(
         compact_payload["projection"]["bytes_per_compact_cert"]
     )
+    if residual_compression_summary is not None:
+        expected_nonid = int(
+            residual_compression_summary["projected_residual_source_bytes"]
+        )
+        residual_projection_model = (
+            residual_compression_payload["projection"]["format"]
+        )
+        residual_ready = (
+            residual_compression_payload.get("full_residual_compression_complete")
+            is True
+            and not residual_compression_payload["projection"].get("blockers")
+        )
+    else:
+        expected_nonid = residual_cases * bytes_per_residual
+        residual_projection_model = "compact_residual_literal_data_cost"
+        residual_ready = False
     bytes_per_shape = int(
         smoke_payload["projection"]["translation_smoke_source_bytes"]
     )
@@ -5080,7 +5408,6 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
         translation["membership_bytes_per_case_proxy"]
     )
 
-    expected_nonid = residual_cases * bytes_per_residual
     expected_translation = (
         translation_shapes * bytes_per_shape +
         translation_cases * membership_bytes
@@ -5091,6 +5418,10 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
             "proof-carrying family residual cases")
     require(nonid["bytes_per_residual_case"] == bytes_per_residual,
             "proof-carrying family residual bytes")
+    require(nonid["projection_model"] == residual_projection_model,
+            "proof-carrying family residual projection model")
+    require(nonid["residual_compression_ready"] is residual_ready,
+            "proof-carrying family residual compression ready flag")
     require(nonid["projected_source_bytes"] == expected_nonid,
             "proof-carrying family residual projection")
     require(translation["shared_farkas_cases"] == translation_cases,
@@ -5108,23 +5439,33 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
 
     hard_total = int(projection["hard_total_source_bytes"])
     expected_safe = expected_total <= hard_total and expected_nonid <= hard_total
-    require(projection["size_safe"] is expected_safe,
-            "proof-carrying family size flag")
-    require(payload["full_backend_complete"] is False,
-            "proof-carrying family full backend remains gated")
-    if expected_safe:
+    expected_backend_ready = expected_safe and residual_ready
+    require(projection["source_budget_safe"] is expected_safe,
+            "proof-carrying family source budget flag")
+    require(projection["size_safe"] is expected_backend_ready,
+            "proof-carrying family backend-ready flag")
+    require(payload["full_backend_complete"] is expected_backend_ready,
+            "proof-carrying family full backend flag")
+    if expected_backend_ready:
         require(payload["selected_backend"] == "proof_carrying_family_backend",
                 "proof-carrying family selected backend")
+        require(payload["status"] == "ready",
+                "proof-carrying family ready status")
     else:
         require(payload["selected_backend"] is None,
                 "proof-carrying family unselected backend")
-        require(payload["status"] == "blocked_exceeds_budget",
+        require(payload["status"] == "blocked_before_full_backend",
                 "proof-carrying family blocked status")
-        require(
-            "proof_carrying_family_projection_exceeds_hard_total_limit"
-            in projection["refusal_reasons"],
-            "proof-carrying family total refusal",
-        )
+        if not expected_safe:
+            require(
+                "proof_carrying_family_projection_exceeds_hard_total_limit"
+                in projection["refusal_reasons"],
+                "proof-carrying family total refusal",
+            )
+        if not residual_ready and residual_compression_summary is not None:
+            for blocker in residual_compression_summary["blockers"]:
+                require(blocker in projection["refusal_reasons"],
+                        f"proof-carrying family residual blocker {blocker}")
 
     sample = payload["sample_family_keys"]
     require(0 <= int(sample["nonidentity"]["rank"]) < EXPECTED_PAIR_WORDS,
@@ -5140,8 +5481,10 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
         "prefix_ready": prefix_summary["ready_for_14E7"],
         "compact_residual_bytes_per_cert":
             compact_summary["bytes_per_compact_cert"],
+        "residual_compression_ready": residual_ready,
         "smoke_translation_rank": smoke_summary["translation_rank"],
         "projected_total_source_bytes": expected_total,
+        "source_budget_safe": expected_safe,
         "size_safe": projection["size_safe"],
     }
 
@@ -5169,6 +5512,7 @@ def main():
             "packed-residual-certificates",
             "proof-carrying-structured-literals",
             "proof-carrying-family-backend",
+            "nonidentity-residual-compression",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -5257,6 +5601,7 @@ def main():
             "residual-nonidentity-templates/"
             "proof-carrying-structured-literals/"
             "proof-carrying-family-backend/"
+            "nonidentity-residual-compression/"
             "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
@@ -5409,6 +5754,36 @@ def main():
             f"{summary['projected_total_source_bytes']:,}"
         )
         print(f"size safe: {summary['size_safe']}")
+        return
+    if mode == "nonidentity-residual-compression":
+        payload = json.loads(
+            NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_nonidentity_residual_compression(payload)
+        print("independent nonidentity residual compression check passed")
+        print(f"families: {summary['families']}")
+        print(
+            "partition profile pair-words: "
+            f"{summary['partition_profile_pair_words']:,}"
+        )
+        print(
+            "partition profile residual cases: "
+            f"{summary['partition_profile_residual_cases']:,}"
+        )
+        print(
+            "projected exhaustive partition profile time: "
+            f"{summary['partition_profile_projected_hours']:.2f} hours"
+        )
+        print(
+            "projected residual source bytes: "
+            f"{summary['projected_residual_source_bytes']:,}"
+        )
+        print(
+            "previous compact source bytes: "
+            f"{summary['previous_compact_residual_source_bytes']:,}"
+        )
+        print(f"source budget safe: {summary['size_safe']}")
+        print("blockers: " + ", ".join(summary["blockers"]))
         return
     if mode == "compression-audit":
         payload = json.loads(args.compression_audit_input.read_text(encoding="utf-8"))

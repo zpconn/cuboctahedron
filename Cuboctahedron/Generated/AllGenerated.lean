@@ -15,6 +15,7 @@ import Cuboctahedron.Generated.CoverageTreeSample
 import Cuboctahedron.Generated.NonIdentity.Residual.All
 import Cuboctahedron.Generated.Translation.Farkas.All
 import Cuboctahedron.Generated.NonIdentity.Residual.ProofCarryingSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample
 import Cuboctahedron.Generated.Translation.Farkas.ProofCarryingSmoke
 
 /-!

@@ -17,6 +17,7 @@ import math
 import os
 import shutil
 import subprocess
+import time
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -58,6 +59,9 @@ PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
 PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "proof_carrying_family_backend.json"
 )
+NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "nonidentity_residual_compression.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -98,6 +102,9 @@ NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH = (
 )
 NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "ProofCarryingSmoke.lean"
+)
+NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompressionSample.lean"
 )
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
@@ -146,6 +153,8 @@ FULL_EMISSION_TARGET_CHUNK_BYTES = DEFAULT_FULL_EMISSION_TARGET_CHUNK_BYTES
 FULL_EMISSION_HARD_MAX_FILE_BYTES = 50 * 1024 * 1024
 FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES = int(1.25 * 1024 * 1024 * 1024)
 RESIDUAL_TEMPLATE_SCAN_LIMIT = 1000
+RESIDUAL_PARTITION_PROFILE_LIMIT = 10_000
+RESIDUAL_PARTITION_DEFAULT_SHARD_SIZE = 1_000_000
 
 PAIR_IDS = ["x", "y", "z", "d111", "d11m", "d1m1", "dm11"]
 PAIR_COUNTS = {
@@ -2554,6 +2563,10 @@ def write_all_generated() -> None:
         lines.append(
             "import Cuboctahedron.Generated.NonIdentity.Residual.ProofCarryingSmoke"
         )
+    if NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.exists():
+        lines.append(
+            "import Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample"
+        )
     if TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.exists():
         lines.append(
             "import Cuboctahedron.Generated.Translation.Farkas.ProofCarryingSmoke"
@@ -4747,6 +4760,302 @@ def build_residual_nonidentity_subtype_payload(limit: int | None = None) -> dict
     return json.loads(result.stdout)
 
 
+def residual_subtype_count_map(payload: dict) -> dict[str, int]:
+    return {
+        subtype["failure_kind"]: int(subtype["count"])
+        for subtype in payload["subtypes"]
+    }
+
+
+def run_residual_nonidentity_subtype_shard(
+    *, start: int, end: int
+) -> dict:
+    if start < 0 or end < start or end > EXPECTED_PAIR_WORDS:
+        raise ValueError(f"invalid residual subtype shard [{start}, {end})")
+    binary = exact_profile.ensure_cpp_profile_helper()
+    cmd = [
+        str(binary),
+        "--residual-nonidentity-subtypes",
+        "--rank-start",
+        str(start),
+        "--rank-end",
+        str(end),
+        "--no-progress",
+    ]
+    started = time.monotonic()
+    result = subprocess.run(
+        cmd,
+        cwd=REPO_ROOT,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    elapsed_seconds = time.monotonic() - started
+    payload = json.loads(result.stdout)
+    payload["elapsed_seconds"] = round(elapsed_seconds, 6)
+    payload["command"] = [
+        str(Path(cmd[0]).relative_to(REPO_ROOT))
+        if Path(cmd[0]).is_relative_to(REPO_ROOT)
+        else cmd[0],
+        *cmd[1:],
+    ]
+    return payload
+
+
+def merge_residual_nonidentity_subtype_shards(
+    *, shards: list[dict], total_pair_words: int, elapsed_seconds: float,
+    jobs: int, shard_size: int,
+) -> dict:
+    if not shards:
+        raise ValueError("no residual subtype shards to merge")
+    shards = sorted(shards, key=lambda shard: int(shard["rank_start"]))
+    expected_start = 0
+    actual_counts = {
+        "pair_words": 0,
+        "identity_linear_words": 0,
+        "nonidentity_words": 0,
+        "translation_sign_assignments": 0,
+    }
+    subtype_order = [
+        "axisMissesStartInterior",
+        "badFirstHit",
+        "badHitInterior",
+        "candidatePassed",
+    ]
+    subtype_counts = {kind: 0 for kind in subtype_order}
+    subtype_samples: dict[str, list[dict]] = {kind: [] for kind in subtype_order}
+    shard_summaries: list[dict] = []
+    for shard_index, shard in enumerate(shards):
+        start = int(shard["rank_start"])
+        end = int(shard["rank_end"])
+        if start != expected_start:
+            raise ValueError(
+                f"residual shard gap: expected {expected_start}, got {start}"
+            )
+        expected_start = end
+        if shard.get("mode") != "residual-nonidentity-subtypes":
+            raise ValueError("unexpected residual shard mode")
+        if shard.get("complete") is True:
+            raise ValueError("rank interval shard should not be complete")
+        if int(shard["actual_counts"]["pair_words"]) != end - start:
+            raise ValueError("residual shard pair-word count mismatch")
+        for key in actual_counts:
+            actual_counts[key] += int(shard["actual_counts"][key])
+        shard_counts = residual_subtype_count_map(shard)
+        if set(shard_counts) != set(subtype_order):
+            raise ValueError("residual shard subtype set mismatch")
+        for kind in subtype_order:
+            subtype_counts[kind] += shard_counts[kind]
+            if len(subtype_samples[kind]) < 3:
+                for sample in next(
+                    subtype["samples"]
+                    for subtype in shard["subtypes"]
+                    if subtype["failure_kind"] == kind
+                ):
+                    if len(subtype_samples[kind]) >= 3:
+                        break
+                    subtype_samples[kind].append(sample)
+        shard_summaries.append({
+            "index": shard_index,
+            "rank_start": start,
+            "rank_end": end,
+            "pair_words": int(shard["actual_counts"]["pair_words"]),
+            "residual_cases": int(shard["residual_singleton_cases"]),
+            "subtype_counts": shard_counts,
+            "elapsed_seconds": shard["elapsed_seconds"],
+        })
+    complete = expected_start == total_pair_words
+    subtypes = [
+        {
+            "failure_kind": kind,
+            "count": subtype_counts[kind],
+            "present": subtype_counts[kind] > 0,
+            "samples": subtype_samples[kind],
+        }
+        for kind in subtype_order
+    ]
+    total_residual = sum(subtype_counts.values())
+    return {
+        "schema_version": 1,
+        "mode": "residual-nonidentity-subtypes",
+        "complete": complete,
+        "profile_limit": None,
+        "rank_start": 0,
+        "rank_end": total_pair_words,
+        "actual_counts": actual_counts,
+        "residual_singleton_failure": "needsAxisSolveOrSimulation",
+        "residual_singleton_cases": total_residual,
+        "subtypes": subtypes,
+        "shards": shard_summaries,
+        "shard_count": len(shard_summaries),
+        "shard_size": shard_size,
+        "jobs": jobs,
+        "elapsed_seconds": round(elapsed_seconds, 6),
+    }
+
+
+def build_sharded_residual_nonidentity_subtype_payload(
+    *, jobs: int | None = None,
+    shard_size: int | None = None,
+    total_pair_words: int = EXPECTED_PAIR_WORDS,
+) -> dict:
+    if total_pair_words <= 0 or total_pair_words > EXPECTED_PAIR_WORDS:
+        raise ValueError("invalid residual subtype total")
+    effective_jobs = jobs or min(os.cpu_count() or 1, 8)
+    effective_shard_size = shard_size or RESIDUAL_PARTITION_DEFAULT_SHARD_SIZE
+    if effective_jobs <= 0:
+        raise ValueError("residual partition jobs must be positive")
+    if effective_shard_size <= 0:
+        raise ValueError("residual partition shard size must be positive")
+    exact_profile.ensure_cpp_profile_helper()
+    ranges = [
+        (start, min(start + effective_shard_size, total_pair_words))
+        for start in range(0, total_pair_words, effective_shard_size)
+    ]
+    started = time.monotonic()
+    shards: list[dict] = []
+    if effective_jobs == 1:
+        for start, end in ranges:
+            shards.append(run_residual_nonidentity_subtype_shard(
+                start=start, end=end
+            ))
+    else:
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=effective_jobs
+        ) as executor:
+            future_to_range = {
+                executor.submit(
+                    run_residual_nonidentity_subtype_shard,
+                    start=start,
+                    end=end,
+                ): (start, end)
+                for start, end in ranges
+            }
+            for future in concurrent.futures.as_completed(future_to_range):
+                shards.append(future.result())
+    elapsed_seconds = time.monotonic() - started
+    return merge_residual_nonidentity_subtype_shards(
+        shards=shards,
+        total_pair_words=total_pair_words,
+        elapsed_seconds=elapsed_seconds,
+        jobs=effective_jobs,
+        shard_size=effective_shard_size,
+    )
+
+
+def build_residual_nonidentity_partition_profile(
+    *, limit: int | None = None, full: bool = False,
+    jobs: int | None = None, shard_size: int | None = None,
+) -> dict:
+    """Run a bounded exact residual subtype census for partition planning.
+
+    This is deliberately not a proof artifact.  It quantifies the remaining
+    exhaustive-census work so the generated backend manifest can block on a
+    narrow, measured prerequisite instead of an open-ended "compression TBD".
+    """
+    if full:
+        subtype_payload = build_sharded_residual_nonidentity_subtype_payload(
+            jobs=jobs,
+            shard_size=shard_size,
+        )
+        effective_limit = None
+        elapsed_seconds = float(subtype_payload["elapsed_seconds"])
+        profile_kind = "sharded_exact_full_census"
+    else:
+        effective_limit = (
+            RESIDUAL_PARTITION_PROFILE_LIMIT if limit is None else limit
+        )
+        if effective_limit <= 0:
+            raise ValueError("residual partition profile limit must be positive")
+        binary = exact_profile.ensure_cpp_profile_helper()
+        cmd = [
+            str(binary),
+            "--residual-nonidentity-subtypes",
+            "--limit",
+            str(effective_limit),
+            "--no-progress",
+        ]
+        started = time.monotonic()
+        result = subprocess.run(
+            cmd,
+            cwd=REPO_ROOT,
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        elapsed_seconds = time.monotonic() - started
+        subtype_payload = json.loads(result.stdout)
+        profile_kind = "bounded_exact_prefix_census"
+    actual_counts = subtype_payload["actual_counts"]
+    pair_words_checked = int(actual_counts["pair_words"])
+    residual_cases = int(subtype_payload["residual_singleton_cases"])
+    subtype_counts = residual_subtype_count_map(subtype_payload)
+    observed_failure_kinds = sorted(
+        kind
+        for kind, count in subtype_counts.items()
+        if count > 0 and kind != "candidatePassed"
+    )
+    seconds_per_pair_word = (
+        elapsed_seconds / pair_words_checked
+        if pair_words_checked > 0 else 0.0
+    )
+    projected_exhaustive_seconds = (
+        seconds_per_pair_word * EXPECTED_PAIR_WORDS
+    )
+    projected_residual_cases = (
+        residual_cases * EXPECTED_PAIR_WORDS / pair_words_checked
+        if pair_words_checked > 0 else 0.0
+    )
+    return {
+        "schema_version": 1,
+        "mode": "residual-nonidentity-partition-profile",
+        "profile_kind": profile_kind,
+        "source_mode": subtype_payload.get("mode"),
+        "complete": subtype_payload.get("complete") is True,
+        "profile_limit": effective_limit,
+        "rank_start": subtype_payload.get("rank_start", 0),
+        "rank_end": subtype_payload.get("rank_end"),
+        "pair_words_checked": pair_words_checked,
+        "pair_words_total": EXPECTED_PAIR_WORDS,
+        "coverage_fraction": (
+            pair_words_checked / EXPECTED_PAIR_WORDS
+            if pair_words_checked > 0 else 0.0
+        ),
+        "actual_counts": actual_counts,
+        "sampled_residual_cases": residual_cases,
+        "projected_residual_cases_from_sample": projected_residual_cases,
+        "subtype_counts": subtype_counts,
+        "observed_failure_kinds": observed_failure_kinds,
+        "candidate_passed_observed_count": subtype_counts.get(
+            "candidatePassed", 0
+        ),
+        "subtypes": subtype_payload["subtypes"],
+        "shards": subtype_payload.get("shards", []),
+        "shard_count": subtype_payload.get("shard_count", 0),
+        "shard_size": subtype_payload.get("shard_size"),
+        "jobs": subtype_payload.get("jobs"),
+        "elapsed_seconds": round(elapsed_seconds, 6),
+        "seconds_per_pair_word": seconds_per_pair_word,
+        "projected_exhaustive_seconds": projected_exhaustive_seconds,
+        "projected_exhaustive_hours": projected_exhaustive_seconds / 3600,
+        "command": (
+            "sharded"
+            if full
+            else [
+                str(Path(cmd[0]).relative_to(REPO_ROOT))
+                if Path(cmd[0]).is_relative_to(REPO_ROOT)
+                else cmd[0],
+                *cmd[1:],
+            ]
+        ),
+        "note": (
+            "This bounded exact C++ profile measures the residual subtype "
+            "partition task. It is not trusted as proof and does not mark the "
+            "residual family partition complete."
+        ),
+    }
+
+
 def residual_template_cert_for_subtype(record: dict) -> dict | None:
     if not record["present"]:
         return None
@@ -4988,6 +5297,7 @@ def write_compact_residual_certificates_lean(payload: dict) -> None:
         "",
         "set_option maxHeartbeats 1600000",
         "set_option maxRecDepth 10000",
+        "set_option linter.unusedVariables false",
         "set_option linter.unusedSimpArgs false",
         "set_option linter.unusedTactic false",
         "",
@@ -6309,6 +6619,7 @@ def build_proof_carrying_family_backend_payload() -> dict:
             COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH,
             "compact-residual-certificates",
         )
+    residual_compression = load_or_build_nonidentity_residual_compression_payload()
     smoke = load_or_build_proof_carrying_smoke_payload()
 
     reasons: list[str] = []
@@ -6333,14 +6644,39 @@ def build_proof_carrying_family_backend_payload() -> dict:
         int(compact_residual["projection"]["bytes_per_compact_cert"])
         if compact_residual is not None else 0
     )
+    residual_compression_projection = (
+        residual_compression.get("projection", {})
+        if residual_compression is not None else {}
+    )
+    residual_compression_ready = (
+        residual_compression is not None
+        and residual_compression.get("full_residual_compression_complete") is True
+        and not residual_compression_projection.get("blockers")
+    )
+    use_residual_compression_projection = residual_compression is not None
     bytes_per_translation_shape = int(
         smoke["projection"]["translation_smoke_source_bytes"]
     )
     translation_membership_bytes_per_case = 24
 
-    projected_nonidentity_source_bytes = (
-        residual_cases * bytes_per_residual_case
-    )
+    if use_residual_compression_projection:
+        projected_nonidentity_source_bytes = int(
+            residual_compression_projection["projected_residual_source_bytes"]
+        )
+        nonidentity_projection_model = residual_compression_projection["format"]
+        nonidentity_grouping_status = (
+            "semantic_residual_family_projection_ready"
+            if residual_compression_ready
+            else "semantic_residual_family_projection_blocked"
+        )
+    else:
+        projected_nonidentity_source_bytes = (
+            residual_cases * bytes_per_residual_case
+        )
+        nonidentity_projection_model = "compact_residual_literal_data_cost"
+        nonidentity_grouping_status = (
+            "not_size_safe_without_deeper_nonidentity_residual_sharing"
+        )
     projected_translation_source_bytes = (
         translation_shapes * bytes_per_translation_shape +
         translation_cases * translation_membership_bytes_per_case
@@ -6350,6 +6686,13 @@ def build_proof_carrying_family_backend_payload() -> dict:
         projected_translation_source_bytes
     )
 
+    if residual_compression is None:
+        reasons.append("missing_nonidentity_residual_compression")
+    elif not residual_compression_ready:
+        reasons.extend(
+            str(blocker)
+            for blocker in residual_compression_projection.get("blockers", [])
+        )
     if projected_nonidentity_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
         reasons.append(
             "nonidentity_residual_family_projection_exceeds_hard_total_limit"
@@ -6358,23 +6701,30 @@ def build_proof_carrying_family_backend_payload() -> dict:
         reasons.append(
             "proof_carrying_family_projection_exceeds_hard_total_limit"
         )
-    size_safe = not reasons
+    source_budget_safe = (
+        projected_nonidentity_source_bytes <= FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES
+        and projected_total_source_bytes <= FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES
+    )
+    backend_ready = not reasons
 
     return {
         "schema_version": 1,
         "mode": "proof-carrying-family-backend",
         "complete": True,
-        "full_backend_complete": False,
+        "full_backend_complete": backend_ready,
         "selected_backend": (
-            "proof_carrying_family_backend" if size_safe else None
+            "proof_carrying_family_backend" if backend_ready else None
         ),
-        "status": "size_safe_preflight" if size_safe else "blocked_exceeds_budget",
+        "status": "ready" if backend_ready else "blocked_before_full_backend",
         "source_manifests": {
             "prefix_parametric_compression": path_status(
                 PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH
             ),
             "compact_residual_certificates": path_status(
                 COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
+            ),
+            "nonidentity_residual_compression": path_status(
+                NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH
             ),
             "proof_carrying_structured_literals": path_status(
                 PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH
@@ -6395,13 +6745,12 @@ def build_proof_carrying_family_backend_payload() -> dict:
         },
         "nonidentity": {
             "residual_singleton_cases": residual_cases,
-            "projection_model": "compact_residual_literal_data_cost",
+            "projection_model": nonidentity_projection_model,
             "bytes_per_residual_case": bytes_per_residual_case,
             "projected_source_bytes": projected_nonidentity_source_bytes,
             "projected_source_gib": projected_nonidentity_source_bytes / GIB,
-            "family_grouping_status": (
-                "not_size_safe_without_deeper_nonidentity_residual_sharing"
-            ),
+            "family_grouping_status": nonidentity_grouping_status,
+            "residual_compression_ready": residual_compression_ready,
         },
         "translation": {
             "shared_farkas_cases": translation_cases,
@@ -6424,13 +6773,15 @@ def build_proof_carrying_family_backend_payload() -> dict:
             "projected_total_source_gib": projected_total_source_bytes / GIB,
             "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
             "hard_total_source_gib": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES / GIB,
-            "size_safe": size_safe,
+            "source_budget_safe": source_budget_safe,
+            "size_safe": backend_ready,
             "refusal_reasons": reasons,
             "note": (
                 "This Step 14E.7B8 preflight uses shared translation "
-                "source-Farkas shapes, but residual nonidentity data remains "
-                "above the hard source budget without a deeper residual "
-                "compression theorem."
+                "source-Farkas shapes and the Step 14E.7B9 residual "
+                "compression preflight when available.  `source_budget_safe` "
+                "tracks source size only; `size_safe` additionally requires "
+                "the residual compression proof partition to be complete."
             ),
         },
     }
@@ -6444,6 +6795,319 @@ def write_proof_carrying_family_backend_json(payload: dict) -> None:
         json.dumps(payload, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+
+
+def pascal_identifier(text: str) -> str:
+    parts: list[str] = []
+    current = ""
+    for char in text:
+        if char.isalnum():
+            current += char
+        elif current:
+            parts.append(current)
+            current = ""
+    if current:
+        parts.append(current)
+    if not parts:
+        return "Value"
+    return "".join(part[:1].upper() + part[1:] for part in parts)
+
+
+def residual_compression_stem(cert: dict) -> str:
+    kind = cert["failure"]["kind"]
+    rank = int(cert["rank"])
+    return f"residualCompression{pascal_identifier(kind)}{rank:09d}"
+
+
+def residual_compression_family_name(cert: dict) -> str:
+    kind = cert["failure"]["kind"]
+    rank = int(cert["rank"])
+    return f"residualCompression{pascal_identifier(kind)}Family{rank:09d}"
+
+
+def residual_compression_family_state_id(cert: dict) -> str:
+    return normalized_state_id(
+        "proof-carrying-nonid-residual-family",
+        {
+            "failure": cert["failure"]["kind"],
+            "representative_rank": int(cert["rank"]),
+            "representative_state": nonid_cert_state_key(cert),
+        },
+    )
+
+
+def write_nonidentity_residual_compression_sample_lean(payload: dict) -> None:
+    families = payload["families"]
+    lines: list[str] = [
+        "import Cuboctahedron.Search.CertificateFormat",
+        "import Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "",
+        "/-!",
+        "Generated proof-carrying residual compression sample for Step 14E.7B9.",
+        "",
+        "This module exercises the trusted residual-family interface with",
+        "representative residual certificates.  It is a compression preflight,",
+        "not the final exhaustive residual partition.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample",
+        "",
+        "open Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "",
+        "set_option maxHeartbeats 2400000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedVariables false",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "",
+    ]
+    for family in families:
+        cert_name = family["representative_cert"]
+        rank = int(family["representative_rank"])
+        stem = family["stem"]
+        family_name = family["lean_name"]
+        failure = nonid_family_failure_lean(family["failure_kind"])
+        state_id = lean_string(family["normalizedStateId"])
+        lines.extend([
+            f"theorem {stem}_coveredRank :",
+            f"    checkNonIdCoveredRank {rank} {cert_name} = true := by",
+            "  decide",
+            "",
+            f"theorem {stem}_word_eq :",
+            f"    {cert_name}.word =",
+            f"      unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
+            "  exact",
+            "    checkNonIdCoveredRank_word",
+            f"      (r := (⟨{rank}, by decide⟩ : Fin numPairWords))",
+            f"      (cert := {cert_name}) {stem}_coveredRank",
+            "",
+            f"def {stem}CheckedRank",
+            "    (rank : Fin numPairWords)",
+            f"    (hcontains : rank = (⟨{rank}, by decide⟩ : Fin numPairWords)) :",
+            "    CheckedNonIdRank := by",
+            "  subst rank",
+            "  exact",
+            f"    {{ rank := (⟨{rank}, by decide⟩ : Fin numPairWords)",
+            f"      cert := {cert_name}",
+            f"      word_eq := {stem}_word_eq",
+            f"      check := {cert_name}_check }}",
+            "",
+            f"def {family_name} : ProofCarryingNonIdResidualFamily where",
+            f"  name := {lean_string(family_name)}",
+            f"  failure := {failure}",
+            f"  normalizedStateId := {state_id}",
+            "  ContainsRank := fun rank =>",
+            f"    rank = (⟨{rank}, by decide⟩ : Fin numPairWords)",
+            "  checkedRank := by",
+            "    intro rank hcontains",
+            f"    exact {stem}CheckedRank rank hcontains",
+            "  checkedRank_rank := by",
+            "    intro rank hcontains",
+            "    subst rank",
+            "    rfl",
+            "",
+            f"theorem {family_name}_representative_exists :",
+            "    exists cert : NonIdCert,",
+            f"      cert.word = unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords) /\\",
+            "        checkNonIdCert cert = true :=",
+            f"  ProofCarryingNonIdResidualFamily.exists_cert {family_name} (by rfl)",
+            "",
+            f"theorem {family_name}_representative_no_feasible :",
+            "    ¬ exists seq,",
+            f"      SeqRealizesPairWord (unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords)) seq /\\",
+            "        StartsXp seq /\\",
+            "        totalLinear seq ≠ (matId : Mat3 Rat) /\\",
+            "        UnfoldedFeasible seq :=",
+            f"  ProofCarryingNonIdResidualFamily.no_feasible {family_name} (by rfl)",
+            "",
+        ])
+    family_names = ", ".join(family["lean_name"] for family in families)
+    lines.extend([
+        "def residualCompressionSampleFamilies :",
+        "    List ProofCarryingNonIdResidualFamily :=",
+        f"  [{family_names}]",
+        "",
+        "#check ProofCarryingNonIdResidualFamily.exists_cert",
+        "#check ProofCarryingNonIdResidualFamily.no_feasible",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample",
+        "",
+    ])
+    NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+
+
+def build_nonidentity_residual_compression_payload(
+    *, partition_profile_limit: int | None = None,
+    full_residual_partition: bool = False,
+    residual_partition_jobs: int | None = None,
+    residual_partition_shard_size: int | None = None,
+) -> dict:
+    prefix = load_json_artifact(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+        "prefix-parametric-compression",
+    )
+    residual_templates = load_json_artifact(
+        RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH,
+        "residual-nonidentity-templates",
+    )
+    compact_residual = load_json_artifact(
+        COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH,
+        "compact-residual-certificates",
+    )
+    partition_profile = build_residual_nonidentity_partition_profile(
+        limit=partition_profile_limit,
+        full=full_residual_partition,
+        jobs=residual_partition_jobs,
+        shard_size=residual_partition_shard_size,
+    )
+
+    residual_cases = int(prefix["nonidentity"]["residual_singleton_cases"])
+    certs = residual_templates["certs"]
+    if not certs:
+        raise ValueError("residual compression requires template certificates")
+
+    families: list[dict] = []
+    for cert in certs:
+        families.append({
+            "lean_name": residual_compression_family_name(cert),
+            "stem": residual_compression_stem(cert),
+            "failure_kind": cert["failure"]["kind"],
+            "representative_rank": int(cert["rank"]),
+            "representative_cert": cert["name"],
+            "normalizedStateId": residual_compression_family_state_id(cert),
+        })
+
+    exhaustive_subtype_census_complete = (
+        partition_profile["complete"] is True
+        and int(partition_profile["pair_words_checked"]) == EXPECTED_PAIR_WORDS
+        and int(partition_profile["candidate_passed_observed_count"]) == 0
+    )
+    payload: dict = {
+        "schema_version": 1,
+        "mode": "nonidentity-residual-compression",
+        "complete": True,
+        "pilot_complete": True,
+        "exhaustive_subtype_census_complete":
+            exhaustive_subtype_census_complete,
+        "full_residual_compression_complete": False,
+        "source_manifests": {
+            "prefix_parametric_compression": path_status(
+                PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH
+            ),
+            "residual_nonidentity_templates": path_status(
+                RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH
+            ),
+            "compact_residual_certificates": path_status(
+                COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
+            ),
+        },
+        "residual_singleton_cases": residual_cases,
+        "supported_failure_kinds": residual_templates["supported_failure_kinds"],
+        "families": families,
+        "subtypes": residual_templates["subtypes"],
+        "partition_profile": partition_profile,
+        "lean_api": {
+            "module": "Cuboctahedron.Search.CertificateFormat",
+            "family": "ProofCarryingNonIdResidualFamily",
+            "soundness": [
+                "ProofCarryingNonIdResidualFamily.exists_cert",
+                "ProofCarryingNonIdResidualFamily.no_feasible",
+            ],
+        },
+    }
+    write_nonidentity_residual_compression_sample_lean(payload)
+    sample_source_bytes = len(
+        NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.read_text(
+            encoding="utf-8"
+        ).encode("utf-8")
+    )
+    family_count = len(families)
+    projected_family_count = max(
+        family_count,
+        len([
+            subtype for subtype in residual_templates["subtypes"]
+            if subtype["status"] != "unobserved_in_representative_scan"
+        ]),
+    )
+    bytes_per_family = math.ceil(sample_source_bytes / max(1, family_count))
+    projected_residual_source_bytes = bytes_per_family * projected_family_count
+    compact_projection = compact_residual["projection"]
+    blockers = []
+    if not exhaustive_subtype_census_complete:
+        blockers.append(
+            "nonidentity_residual_exhaustive_subtype_census_requires_long_profile"
+        )
+    if int(partition_profile["candidate_passed_observed_count"]) != 0:
+        blockers.append("nonidentity_residual_candidate_passed_observed")
+    blockers.append("nonidentity_residual_family_partition_not_emitted")
+    if projected_residual_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        blockers.append("nonidentity_residual_compressed_projection_exceeds_budget")
+    payload["generated_lean"] = {
+        "compression_sample": generated_file_record(
+            NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH
+        ),
+    }
+    payload["projection"] = {
+        "format": "proof_carrying_nonid_residual_semantic_families",
+        "pilot_family_count": family_count,
+        "projected_family_count": projected_family_count,
+        "sample_source_bytes": sample_source_bytes,
+        "bytes_per_family_proxy": bytes_per_family,
+        "residual_singleton_cases": residual_cases,
+        "projected_residual_source_bytes": projected_residual_source_bytes,
+        "projected_residual_source_gib": projected_residual_source_bytes / GIB,
+        "previous_compact_residual_source_bytes":
+            compact_projection["projected_residual_source_bytes"],
+        "previous_compact_residual_source_gib":
+            compact_projection["projected_residual_source_gib"],
+        "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
+        "size_safe": (
+            projected_residual_source_bytes <= FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES
+        ),
+        "blockers": blockers,
+        "note": (
+            "This preflight replaces per-case residual literals with semantic "
+            "proof-carrying residual families.  The source projection is small, "
+            "but the bounded residual partition profile shows the exhaustive "
+            "residual subtype census and family partition still need to be "
+            "emitted/proved before the backend can be selected."
+        ),
+    }
+    return payload
+
+
+def write_nonidentity_residual_compression_json(payload: dict) -> None:
+    NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def load_or_build_nonidentity_residual_compression_payload() -> dict | None:
+    if NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.exists():
+        payload = load_json_artifact(
+            NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH,
+            "nonidentity-residual-compression",
+        )
+        if payload.get("complete") is True:
+            return payload
+    if (
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists()
+        and RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.exists()
+        and COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.exists()
+    ):
+        payload = build_nonidentity_residual_compression_payload()
+        write_nonidentity_residual_compression_json(payload)
+        return payload
+    return None
 
 
 def emit_full_nonidentity_packed_residual_chunks(
@@ -8873,6 +9537,7 @@ def main() -> None:
             "packed-residual-certificates",
             "proof-carrying-structured-literals",
             "proof-carrying-family-backend",
+            "nonidentity-residual-compression",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -8986,6 +9651,24 @@ def main() -> None:
         action="store_true",
         help="diagnostic-only flag allowing flat exhaustive fallback reporting",
     )
+    parser.add_argument(
+        "--full-residual-partition",
+        action="store_true",
+        help=(
+            "run the full sharded nonidentity residual subtype census for "
+            "nonidentity-residual-compression"
+        ),
+    )
+    parser.add_argument(
+        "--residual-partition-jobs",
+        type=int,
+        help="worker count for --full-residual-partition",
+    )
+    parser.add_argument(
+        "--residual-partition-shard-size",
+        type=int,
+        help="pair-word interval size for --full-residual-partition",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -9000,6 +9683,7 @@ def main() -> None:
             "residual-nonidentity-templates/"
             "proof-carrying-structured-literals/"
             "proof-carrying-family-backend/"
+            "nonidentity-residual-compression/"
             "compact-cert-sample/compact-cert-pilot"
         )
     if mode == "profile-exhaustive-states":
@@ -9147,6 +9831,73 @@ def main() -> None:
         print(
             "json: "
             f"{PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.relative_to(REPO_ROOT)}"
+        )
+        return
+    if mode == "nonidentity-residual-compression":
+        if args.profile_limit is not None and args.profile_limit < 0:
+            parser.error("--profile-limit must be nonnegative")
+        if (
+            args.full_residual_partition
+            and args.profile_limit is not None
+        ):
+            parser.error(
+                "--profile-limit cannot be combined with "
+                "--full-residual-partition"
+            )
+        if (
+            args.residual_partition_jobs is not None
+            and args.residual_partition_jobs <= 0
+        ):
+            parser.error("--residual-partition-jobs must be positive")
+        if (
+            args.residual_partition_shard_size is not None
+            and args.residual_partition_shard_size <= 0
+        ):
+            parser.error("--residual-partition-shard-size must be positive")
+        payload = build_nonidentity_residual_compression_payload(
+            partition_profile_limit=args.profile_limit,
+            full_residual_partition=args.full_residual_partition,
+            residual_partition_jobs=args.residual_partition_jobs,
+            residual_partition_shard_size=args.residual_partition_shard_size,
+        )
+        write_nonidentity_residual_compression_json(payload)
+        write_all_generated()
+        projection = payload["projection"]
+        partition_profile = payload["partition_profile"]
+        print("generated nonidentity residual compression preflight")
+        print(f"families: {projection['pilot_family_count']}")
+        print(
+            "partition profile: "
+            f"{partition_profile['pair_words_checked']:,}/"
+            f"{partition_profile['pair_words_total']:,} pair-words, "
+            f"{partition_profile['sampled_residual_cases']:,} residual cases"
+        )
+        if partition_profile["profile_kind"] == "sharded_exact_full_census":
+            print(
+                "shards: "
+                f"{partition_profile['shard_count']} with "
+                f"{partition_profile['jobs']} workers"
+            )
+        print(
+            "projected exhaustive residual profile time: "
+            f"{partition_profile['projected_exhaustive_hours']:.2f} hours"
+        )
+        print(
+            "projected residual source: "
+            f"{projection['projected_residual_source_gib']:.4f} GiB"
+        )
+        print(f"source budget safe: {projection['size_safe']}")
+        print(
+            "blockers: "
+            + ", ".join(projection["blockers"])
+        )
+        print(
+            "json: "
+            f"{NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)}"
+        )
+        print(
+            "lean: "
+            f"{NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.relative_to(REPO_ROOT)}"
         )
         return
     if mode == "compression-audit":

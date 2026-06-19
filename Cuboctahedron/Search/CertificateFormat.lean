@@ -180,6 +180,58 @@ theorem ProofCarryingNonIdFamily.no_feasible
       hLinear,
       hFeasible⟩
 
+/-!
+Proof-carrying residual non-identity families.
+
+This interface is for Step 14E.7B9.  It lets generated code expose a compressed
+residual obstruction by giving, for each covered rank, a checked rank witness.
+The implementation of that witness may share generated proof bodies across a
+whole family; the trusted theorem below still reduces coverage to the existing
+`CheckedNonIdRank`/`checkNonIdCert_sound` path.
+-/
+
+structure ProofCarryingNonIdResidualFamily where
+  name : String
+  failure : NonIdFamilyFailure
+  normalizedStateId : String
+  ContainsRank : Fin numPairWords -> Prop
+  checkedRank :
+    forall rank : Fin numPairWords, ContainsRank rank -> CheckedNonIdRank
+  checkedRank_rank :
+    forall (rank : Fin numPairWords) (hcontains : ContainsRank rank),
+      (checkedRank rank hcontains).rank = rank
+
+theorem ProofCarryingNonIdResidualFamily.exists_cert
+    (family : ProofCarryingNonIdResidualFamily) {rank : Fin numPairWords}
+    (hcontains : family.ContainsRank rank) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord rank /\
+        checkNonIdCert cert = true := by
+  let e := family.checkedRank rank hcontains
+  have hrank : e.rank = rank := family.checkedRank_rank rank hcontains
+  rcases CheckedNonIdRank.exists_cert e with ⟨cert, hword, hcheck⟩
+  exact ⟨cert, by simpa [hrank] using hword, hcheck⟩
+
+theorem ProofCarryingNonIdResidualFamily.no_feasible
+    (family : ProofCarryingNonIdResidualFamily) {rank : Fin numPairWords}
+    (hcontains : family.ContainsRank rank) :
+    ¬ exists seq,
+      SeqRealizesPairWord (unrankPairWord rank) seq /\
+        StartsXp seq /\
+        totalLinear seq ≠ (matId : Mat3 Rat) /\
+        UnfoldedFeasible seq := by
+  let e := family.checkedRank rank hcontains
+  have hrank : e.rank = rank := family.checkedRank_rank rank hcontains
+  intro hbad
+  apply CheckedNonIdRank.no_feasible e
+  rcases hbad with ⟨seq, hRealize, hStart, hLinear, hFeasible⟩
+  exact
+    ⟨seq,
+      by simpa [hrank] using hRealize,
+      hStart,
+      hLinear,
+      hFeasible⟩
+
 structure ProofCarryingTranslationFarkasFamily where
   name : String
   normalizedStateId : String

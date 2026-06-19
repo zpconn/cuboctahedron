@@ -17,26 +17,27 @@
   "mode": "proof-carrying-family-backend",
   "nonidentity": {
     "bytes_per_residual_case": 2377,
-    "family_grouping_status": "not_size_safe_without_deeper_nonidentity_residual_sharing",
-    "projected_source_bytes": 4845885312,
-    "projected_source_gib": 4.513082385063171,
-    "projection_model": "compact_residual_literal_data_cost",
+    "family_grouping_status": "semantic_residual_family_projection_blocked",
+    "projected_source_bytes": 5664,
+    "projected_source_gib": 5.27501106262207e-06,
+    "projection_model": "proof_carrying_nonid_residual_semantic_families",
+    "residual_compression_ready": false,
     "residual_singleton_cases": 2038656
   },
   "projection": {
     "format": "proof_carrying_family_backend",
     "hard_total_source_bytes": 1342177280,
     "hard_total_source_gib": 1.25,
-    "note": "This Step 14E.7B8 preflight uses shared translation source-Farkas shapes, but residual nonidentity data remains above the hard source budget without a deeper residual compression theorem.",
-    "projected_nonidentity_source_bytes": 4845885312,
-    "projected_total_source_bytes": 5314860864,
-    "projected_total_source_gib": 4.949849903583527,
+    "note": "This Step 14E.7B8 preflight uses shared translation source-Farkas shapes and the Step 14E.7B9 residual compression preflight when available.  `source_budget_safe` tracks source size only; `size_safe` additionally requires the residual compression proof partition to be complete.",
+    "projected_nonidentity_source_bytes": 5664,
+    "projected_total_source_bytes": 468981216,
+    "projected_total_source_gib": 0.43677279353141785,
     "projected_translation_source_bytes": 468975552,
     "refusal_reasons": [
-      "nonidentity_residual_family_projection_exceeds_hard_total_limit",
-      "proof_carrying_family_projection_exceeds_hard_total_limit"
+      "nonidentity_residual_family_partition_not_emitted"
     ],
-    "size_safe": false
+    "size_safe": false,
+    "source_budget_safe": true
   },
   "sample_family_keys": {
     "nonidentity": {
@@ -61,6 +62,11 @@
       "exists": true,
       "path": "scripts/generated/compact_residual_certificates.json"
     },
+    "nonidentity_residual_compression": {
+      "bytes": 49128,
+      "exists": true,
+      "path": "scripts/generated/nonidentity_residual_compression.json"
+    },
     "prefix_parametric_compression": {
       "bytes": 3693,
       "exists": true,
@@ -72,7 +78,7 @@
       "path": "scripts/generated/proof_carrying_structured_literals.json"
     }
   },
-  "status": "blocked_exceeds_budget",
+  "status": "blocked_before_full_backend",
   "translation": {
     "bytes_per_shape_proxy": 15744,
     "membership_bytes_per_case_proxy": 24,
