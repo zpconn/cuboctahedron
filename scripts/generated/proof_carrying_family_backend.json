@@ -1,0 +1,85 @@
+{
+  "complete": true,
+  "full_backend_complete": false,
+  "lean_api": {
+    "module": "Cuboctahedron.Search.CertificateFormat",
+    "nonidentity_family": "ProofCarryingNonIdFamily",
+    "nonidentity_soundness": [
+      "ProofCarryingNonIdFamily.exists_cert",
+      "ProofCarryingNonIdFamily.no_feasible"
+    ],
+    "translation_family": "ProofCarryingTranslationFarkasFamily",
+    "translation_soundness": [
+      "ProofCarryingTranslationFarkasFamily.exists_cert",
+      "ProofCarryingTranslationFarkasFamily.no_feasible"
+    ]
+  },
+  "mode": "proof-carrying-family-backend",
+  "nonidentity": {
+    "bytes_per_residual_case": 2377,
+    "family_grouping_status": "not_size_safe_without_deeper_nonidentity_residual_sharing",
+    "projected_source_bytes": 4845885312,
+    "projected_source_gib": 4.513082385063171,
+    "projection_model": "compact_residual_literal_data_cost",
+    "residual_singleton_cases": 2038656
+  },
+  "projection": {
+    "format": "proof_carrying_family_backend",
+    "hard_total_source_bytes": 1342177280,
+    "hard_total_source_gib": 1.25,
+    "note": "This Step 14E.7B8 preflight uses shared translation source-Farkas shapes, but residual nonidentity data remains above the hard source budget without a deeper residual compression theorem.",
+    "projected_nonidentity_source_bytes": 4845885312,
+    "projected_total_source_bytes": 5314860864,
+    "projected_total_source_gib": 4.949849903583527,
+    "projected_translation_source_bytes": 468975552,
+    "refusal_reasons": [
+      "nonidentity_residual_family_projection_exceeds_hard_total_limit",
+      "proof_carrying_family_projection_exceeds_hard_total_limit"
+    ],
+    "size_safe": false
+  },
+  "sample_family_keys": {
+    "nonidentity": {
+      "failure_kind": "axisMissesStartInterior",
+      "rank": 12,
+      "state_id": "proof-carrying-nonid-family:8887d2d7c8c7ad42bcd838b0",
+      "state_key_digest": "8887d2d7c8c7ad42bcd838b013f2d6cd7c697c9695d706863c26d4f75470fe67"
+    },
+    "translation": {
+      "mask": 8,
+      "rank": 0,
+      "source_term_count": 2,
+      "state_id": "proof-carrying-translation-farkas-family:611a0c4aa4229cc7e73d5517",
+      "state_key_digest": "611a0c4aa4229cc7e73d55175cef812fc84d3d5367fcdceccee51b55f009c8ae"
+    }
+  },
+  "schema_version": 1,
+  "selected_backend": null,
+  "source_manifests": {
+    "compact_residual_certificates": {
+      "bytes": 4865,
+      "exists": true,
+      "path": "scripts/generated/compact_residual_certificates.json"
+    },
+    "prefix_parametric_compression": {
+      "bytes": 3693,
+      "exists": true,
+      "path": "scripts/generated/prefix_parametric_compression.json"
+    },
+    "proof_carrying_structured_literals": {
+      "bytes": 2264,
+      "exists": true,
+      "path": "scripts/generated/proof_carrying_structured_literals.json"
+    }
+  },
+  "status": "blocked_exceeds_budget",
+  "translation": {
+    "bytes_per_shape_proxy": 15744,
+    "membership_bytes_per_case_proxy": 24,
+    "projected_source_bytes": 468975552,
+    "projected_source_gib": 0.4367675185203552,
+    "projection_model": "one_source_farkas_proof_per_shape_plus_membership",
+    "shared_farkas_cases": 6225160,
+    "shared_farkas_shapes": 20298
+  }
+}

@@ -51,6 +51,9 @@ PACKED_RESIDUAL_CERTIFICATES_JSON_PATH = (
 PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "proof_carrying_structured_literals.json"
 )
+PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "proof_carrying_family_backend.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -3250,6 +3253,7 @@ def check_compact_residual_certificates(payload):
     return {
         "pilot_cert_count": len(records),
         "present_kinds": sorted(expected_present),
+        "bytes_per_compact_cert": projection["bytes_per_compact_cert"],
         "projected_residual_source_bytes":
             projection["projected_residual_source_bytes"],
         "size_safe": projection["size_safe"],
@@ -5004,6 +5008,144 @@ def check_proof_carrying_structured_literals(payload: dict) -> dict:
     }
 
 
+def check_proof_carrying_family_backend(payload: dict) -> dict:
+    require(payload.get("schema_version") == 1,
+            "proof-carrying family schema version")
+    require(payload.get("mode") == "proof-carrying-family-backend",
+            "proof-carrying family mode")
+    require(payload.get("complete") is True,
+            "proof-carrying family complete")
+
+    prefix_payload = json.loads(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+    )
+    prefix_summary = check_prefix_parametric_compression(prefix_payload)
+    compact_payload = json.loads(
+        COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.read_text(encoding="utf-8")
+    )
+    compact_summary = check_compact_residual_certificates(compact_payload)
+    smoke_payload = json.loads(
+        PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.read_text(encoding="utf-8")
+    )
+    smoke_summary = check_proof_carrying_structured_literals(smoke_payload)
+
+    source_manifests = payload["source_manifests"]
+    require(
+        source_manifests["prefix_parametric_compression"]["path"] ==
+            relative_path(PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH),
+        "proof-carrying family prefix path",
+    )
+    require(
+        source_manifests["compact_residual_certificates"]["path"] ==
+            relative_path(COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH),
+        "proof-carrying family compact residual path",
+    )
+    require(
+        source_manifests["proof_carrying_structured_literals"]["path"] ==
+            relative_path(PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH),
+        "proof-carrying family smoke path",
+    )
+
+    lean_text = (REPO_ROOT / "Cuboctahedron" / "Search" /
+                 "CertificateFormat.lean").read_text(encoding="utf-8")
+    for needle in [
+        "ProofCarryingNonIdFamily",
+        "ProofCarryingNonIdFamily.exists_cert",
+        "ProofCarryingNonIdFamily.no_feasible",
+        "ProofCarryingTranslationFarkasFamily",
+        "ProofCarryingTranslationFarkasFamily.exists_cert",
+        "ProofCarryingTranslationFarkasFamily.no_feasible",
+    ]:
+        require(needle in lean_text, f"proof-carrying family API {needle}")
+
+    nonid = payload["nonidentity"]
+    translation = payload["translation"]
+    projection = payload["projection"]
+    residual_cases = int(
+        prefix_payload["nonidentity"]["residual_singleton_cases"]
+    )
+    translation_cases = int(
+        prefix_payload["translation"]["shared_farkas_cases"]
+    )
+    translation_shapes = int(
+        prefix_payload["translation"]["shared_farkas_shapes"]
+    )
+    bytes_per_residual = int(
+        compact_payload["projection"]["bytes_per_compact_cert"]
+    )
+    bytes_per_shape = int(
+        smoke_payload["projection"]["translation_smoke_source_bytes"]
+    )
+    membership_bytes = int(
+        translation["membership_bytes_per_case_proxy"]
+    )
+
+    expected_nonid = residual_cases * bytes_per_residual
+    expected_translation = (
+        translation_shapes * bytes_per_shape +
+        translation_cases * membership_bytes
+    )
+    expected_total = expected_nonid + expected_translation
+
+    require(nonid["residual_singleton_cases"] == residual_cases,
+            "proof-carrying family residual cases")
+    require(nonid["bytes_per_residual_case"] == bytes_per_residual,
+            "proof-carrying family residual bytes")
+    require(nonid["projected_source_bytes"] == expected_nonid,
+            "proof-carrying family residual projection")
+    require(translation["shared_farkas_cases"] == translation_cases,
+            "proof-carrying family translation cases")
+    require(translation["shared_farkas_shapes"] == translation_shapes,
+            "proof-carrying family translation shapes")
+    require(translation["bytes_per_shape_proxy"] == bytes_per_shape,
+            "proof-carrying family shape bytes")
+    require(projection["projected_nonidentity_source_bytes"] == expected_nonid,
+            "proof-carrying family nonidentity projection")
+    require(projection["projected_translation_source_bytes"] == expected_translation,
+            "proof-carrying family translation projection")
+    require(projection["projected_total_source_bytes"] == expected_total,
+            "proof-carrying family total projection")
+
+    hard_total = int(projection["hard_total_source_bytes"])
+    expected_safe = expected_total <= hard_total and expected_nonid <= hard_total
+    require(projection["size_safe"] is expected_safe,
+            "proof-carrying family size flag")
+    require(payload["full_backend_complete"] is False,
+            "proof-carrying family full backend remains gated")
+    if expected_safe:
+        require(payload["selected_backend"] == "proof_carrying_family_backend",
+                "proof-carrying family selected backend")
+    else:
+        require(payload["selected_backend"] is None,
+                "proof-carrying family unselected backend")
+        require(payload["status"] == "blocked_exceeds_budget",
+                "proof-carrying family blocked status")
+        require(
+            "proof_carrying_family_projection_exceeds_hard_total_limit"
+            in projection["refusal_reasons"],
+            "proof-carrying family total refusal",
+        )
+
+    sample = payload["sample_family_keys"]
+    require(0 <= int(sample["nonidentity"]["rank"]) < EXPECTED_PAIR_WORDS,
+            "proof-carrying family sample nonidentity rank")
+    require(0 <= int(sample["translation"]["rank"]) < EXPECTED_PAIR_WORDS,
+            "proof-carrying family sample translation rank")
+    require(0 <= int(sample["translation"]["mask"]) < 64,
+            "proof-carrying family sample translation mask")
+    require(sample["translation"]["source_term_count"] > 0,
+            "proof-carrying family sample source terms")
+    return {
+        "status": payload["status"],
+        "prefix_ready": prefix_summary["ready_for_14E7"],
+        "compact_residual_bytes_per_cert":
+            compact_summary["bytes_per_compact_cert"],
+        "smoke_translation_rank": smoke_summary["translation_rank"],
+        "projected_total_source_bytes": expected_total,
+        "size_safe": projection["size_safe"],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -5026,6 +5168,7 @@ def main():
             "compact-residual-certificates",
             "packed-residual-certificates",
             "proof-carrying-structured-literals",
+            "proof-carrying-family-backend",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -5113,6 +5256,7 @@ def main():
             "parametric-family-checkers/"
             "residual-nonidentity-templates/"
             "proof-carrying-structured-literals/"
+            "proof-carrying-family-backend/"
             "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
@@ -5246,6 +5390,20 @@ def main():
             "translation case: "
             f"{summary['translation_rank']}/{summary['translation_mask']}"
         )
+        print(
+            "projected source bytes: "
+            f"{summary['projected_total_source_bytes']:,}"
+        )
+        print(f"size safe: {summary['size_safe']}")
+        return
+    if mode == "proof-carrying-family-backend":
+        payload = json.loads(
+            PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_proof_carrying_family_backend(payload)
+        print("independent proof-carrying family backend check passed")
+        print(f"status: {summary['status']}")
+        print(f"prefix ready: {summary['prefix_ready']}")
         print(
             "projected source bytes: "
             f"{summary['projected_total_source_bytes']:,}"

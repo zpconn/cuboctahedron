@@ -2648,6 +2648,66 @@ lake build Cuboctahedron.Generated.Translation.Farkas.All
 passes with the manifest recording `full_backend_complete = true` and a
 size-safe selected backend.
 
+Implementation status:
+
+- Added the shared proof-carrying family API:
+  - `ProofCarryingNonIdFamily`;
+  - `ProofCarryingTranslationFarkasFamily`.
+- Added `--mode proof-carrying-family-backend` to the generator and independent
+  checker.
+- Generated `scripts/generated/proof_carrying_family_backend.json`.
+- The preflight is blocked, not selected:
+  - `full_backend_complete = false`;
+  - projected total source is about 4.95 GiB;
+  - projected nonidentity residual source is about 4.51 GiB;
+  - projected translation shared-Farkas source is about 0.44 GiB.
+- The blocker is now localized: translation Farkas sharing is plausibly
+  workable, but nonidentity residual certificates still need a deeper
+  compression theorem than compact per-case literals.
+
+Validated commands:
+
+```bash
+python3 -m py_compile scripts/generate_exact_certificates.py scripts/check_certificates_independently.py scripts/smoke_largest_generated_chunk.py
+lake build Cuboctahedron.Search.CertificateFormat
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+## Step 14E.7B9: Nonidentity Residual Compression Theorem
+
+Goal: reduce the nonidentity residual tail below the hard source budget without
+returning to packed parser reduction. Step 14E.7B8 shows that compact per-case
+residual literals alone project to about 4.51 GiB.
+
+Requirements:
+
+- Keep the `CheckedNonIdRank`/`ProofCarryingNonIdFamily` trusted interface.
+- Group residual nonidentity cases by a smaller semantic obstruction than full
+  compact certificate literals.
+- Prove family-level reconstruction/checking lemmas that derive the ordinary
+  `NonIdCert` checker facts from:
+  - rank interval or prefix membership;
+  - a small shared obstruction witness;
+  - generated local rank/unrank facts only where unavoidable.
+- Add a preflight manifest that measures the new residual family count and
+  projected Lean source using actual generated representative families.
+- Refuse full emission unless the total proof-carrying family backend,
+  including translation Farkas sharing, is below the hard source budget and
+  passes the largest-chunk smoke guard.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode nonidentity-residual-compression
+python3 scripts/check_certificates_independently.py --mode nonidentity-residual-compression
+python3 scripts/generate_exact_certificates.py --mode proof-carrying-family-backend
+python3 scripts/check_certificates_independently.py --mode proof-carrying-family-backend
+```
+
+reports `full_backend_complete = true` for the proof-carrying family backend,
+or reports a smaller, quantified blocker.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
@@ -2655,7 +2715,7 @@ Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
 This step is the large-data generation step. Do not start it until Step 14E.7A,
 Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, Step 14E.7B2A, Step 14E.7B3, and
-Step 14E.7B4, Step 14E.7B5, Step 14E.7B6, Step 14E.7B7, and Step 14E.7B8
+Step 14E.7B4, Step 14E.7B5, Step 14E.7B6, Step 14E.7B7, Step 14E.7B8, and Step 14E.7B9
 are complete,
 because every emitted rank must prove facts about the public `unrankPairWord`,
 every compressed family must have exhaustive Lean-checked soundness, and every
@@ -2669,7 +2729,8 @@ Step 14E.7B6 shows that byte-list parsing is also not a viable
 trusted-reduction path. Step 14E.7B7 is required to replace large Boolean
 reduction with proof-carrying generated literals. Step 14E.7B8 is required
 because unshared proof-carrying literals are trusted but far too large to emit
-or push.
+or push. Step 14E.7B9 is required because the first shared-family preflight
+still projects about 4.51 GiB for nonidentity residual data.
 
 Update:
 

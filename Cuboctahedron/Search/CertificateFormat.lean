@@ -133,6 +133,100 @@ theorem CheckedTranslationCase.no_feasible (e : CheckedTranslationCase) :
       hFeasible⟩
 
 /-!
+Shared proof-carrying family wrappers.
+
+These wrappers are intentionally thin: generated modules may share local proof
+bodies however they like, then expose the resulting checked evidence through
+these arrays.  The trusted surface remains the existing per-rank/per-case
+certificate soundness theorems.
+-/
+
+structure ProofCarryingNonIdFamily where
+  name : String
+  failure : NonIdFamilyFailure
+  normalizedStateId : String
+  evidence : Array CheckedNonIdRank
+
+def ProofCarryingNonIdFamily.ContainsRank
+    (family : ProofCarryingNonIdFamily) (rank : Fin numPairWords) : Prop :=
+  exists e : CheckedNonIdRank, e ∈ family.evidence.toList /\ e.rank = rank
+
+theorem ProofCarryingNonIdFamily.exists_cert
+    (family : ProofCarryingNonIdFamily) {rank : Fin numPairWords}
+    (hcontains : family.ContainsRank rank) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord rank /\
+        checkNonIdCert cert = true := by
+  rcases hcontains with ⟨e, _hmem, hrank⟩
+  rcases CheckedNonIdRank.exists_cert e with ⟨cert, hword, hcheck⟩
+  exact ⟨cert, by simpa [hrank] using hword, hcheck⟩
+
+theorem ProofCarryingNonIdFamily.no_feasible
+    (family : ProofCarryingNonIdFamily) {rank : Fin numPairWords}
+    (hcontains : family.ContainsRank rank) :
+    ¬ exists seq,
+      SeqRealizesPairWord (unrankPairWord rank) seq /\
+        StartsXp seq /\
+        totalLinear seq ≠ (matId : Mat3 Rat) /\
+        UnfoldedFeasible seq := by
+  intro hbad
+  rcases hcontains with ⟨e, _hmem, hrank⟩
+  apply CheckedNonIdRank.no_feasible e
+  rcases hbad with ⟨seq, hRealize, hStart, hLinear, hFeasible⟩
+  exact
+    ⟨seq,
+      by simpa [hrank] using hRealize,
+      hStart,
+      hLinear,
+      hFeasible⟩
+
+structure ProofCarryingTranslationFarkasFamily where
+  name : String
+  normalizedStateId : String
+  evidence : Array CheckedTranslationCase
+
+def ProofCarryingTranslationFarkasFamily.ContainsCase
+    (family : ProofCarryingTranslationFarkasFamily)
+    (rank : Fin numPairWords) (mask : SignMask) : Prop :=
+  exists e : CheckedTranslationCase,
+    e ∈ family.evidence.toList /\ e.rank = rank /\ e.mask = mask
+
+theorem ProofCarryingTranslationFarkasFamily.exists_cert
+    (family : ProofCarryingTranslationFarkasFamily)
+    {rank : Fin numPairWords} {mask : SignMask}
+    (hcontains : family.ContainsCase rank mask) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord rank /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true := by
+  rcases hcontains with ⟨e, _hmem, hrank, hmask⟩
+  rcases CheckedTranslationCase.exists_cert e with
+    ⟨cert, hword, hsign, hcheck⟩
+  exact
+    ⟨cert,
+      by simpa [hrank] using hword,
+      by simpa [hmask] using hsign,
+      hcheck⟩
+
+theorem ProofCarryingTranslationFarkasFamily.no_feasible
+    (family : ProofCarryingTranslationFarkasFamily)
+    {rank : Fin numPairWords} {mask : SignMask}
+    (hcontains : family.ContainsCase rank mask) :
+    ¬ exists seq,
+      SeqRealizesTranslationChoice (unrankPairWord rank) mask seq /\
+        totalLinear seq = (matId : Mat3 Rat) /\
+          UnfoldedFeasible seq := by
+  intro hbad
+  rcases hcontains with ⟨e, _hmem, hrank, hmask⟩
+  apply CheckedTranslationCase.no_feasible e
+  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
+  exact
+    ⟨seq,
+      by simpa [hrank, hmask] using hRealize,
+      hLinear,
+      hFeasible⟩
+
+/-!
 Compact residual non-identity certificates.
 
 These records keep the trusted checker boundary at `NonIdCert`: the compact

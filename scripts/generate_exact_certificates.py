@@ -55,6 +55,9 @@ PACKED_RESIDUAL_CERTIFICATES_JSON_PATH = (
 PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "proof_carrying_structured_literals.json"
 )
+PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "proof_carrying_family_backend.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -6248,6 +6251,201 @@ def write_proof_carrying_structured_literals_json(payload: dict) -> None:
     )
 
 
+def load_or_build_proof_carrying_smoke_payload() -> dict:
+    if PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH.exists():
+        payload = load_json_artifact(
+            PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH,
+            "proof-carrying-structured-literals",
+        )
+        if payload.get("smoke_complete") is True:
+            return payload
+    payload = build_proof_carrying_structured_literals_payload()
+    write_proof_carrying_structured_literals_json(payload)
+    return payload
+
+
+def proof_carrying_family_sample_keys() -> dict:
+    nonid_cert = first_packed_nonidentity_residual_cert()
+    translation_cert = first_packed_translation_farkas_cert()
+    return {
+        "nonidentity": {
+            "rank": int(nonid_cert["rank"]),
+            "failure_kind": nonid_cert["failure"]["kind"],
+            "state_id": normalized_state_id(
+                "proof-carrying-nonid-family",
+                nonid_cert_state_key(nonid_cert),
+            ),
+            "state_key_digest": hashlib.sha256(
+                canonical_json(nonid_cert_state_key(nonid_cert)).encode("utf-8")
+            ).hexdigest(),
+        },
+        "translation": {
+            "rank": int(translation_cert["rank"]),
+            "mask": int(translation_cert["mask"]),
+            "source_term_count": len(translation_cert["failure"]["sourceTerms"]),
+            "state_id": normalized_state_id(
+                "proof-carrying-translation-farkas-family",
+                translation_cert_state_key(translation_cert),
+            ),
+            "state_key_digest": hashlib.sha256(
+                canonical_json(translation_cert_state_key(translation_cert)).encode(
+                    "utf-8"
+                )
+            ).hexdigest(),
+        },
+    }
+
+
+def build_proof_carrying_family_backend_payload() -> dict:
+    prefix_parametric = None
+    if PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists():
+        prefix_parametric = load_json_artifact(
+            PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+            "prefix-parametric-compression",
+        )
+    compact_residual = None
+    if COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH.exists():
+        compact_residual = load_json_artifact(
+            COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH,
+            "compact-residual-certificates",
+        )
+    smoke = load_or_build_proof_carrying_smoke_payload()
+
+    reasons: list[str] = []
+    if prefix_parametric is None:
+        reasons.append("missing_prefix_parametric_compression")
+    if compact_residual is None:
+        reasons.append("missing_compact_residual_projection")
+
+    residual_cases = (
+        int(prefix_parametric["nonidentity"]["residual_singleton_cases"])
+        if prefix_parametric is not None else 0
+    )
+    translation_cases = (
+        int(prefix_parametric["translation"]["shared_farkas_cases"])
+        if prefix_parametric is not None else 0
+    )
+    translation_shapes = (
+        int(prefix_parametric["translation"]["shared_farkas_shapes"])
+        if prefix_parametric is not None else 0
+    )
+    bytes_per_residual_case = (
+        int(compact_residual["projection"]["bytes_per_compact_cert"])
+        if compact_residual is not None else 0
+    )
+    bytes_per_translation_shape = int(
+        smoke["projection"]["translation_smoke_source_bytes"]
+    )
+    translation_membership_bytes_per_case = 24
+
+    projected_nonidentity_source_bytes = (
+        residual_cases * bytes_per_residual_case
+    )
+    projected_translation_source_bytes = (
+        translation_shapes * bytes_per_translation_shape +
+        translation_cases * translation_membership_bytes_per_case
+    )
+    projected_total_source_bytes = (
+        projected_nonidentity_source_bytes +
+        projected_translation_source_bytes
+    )
+
+    if projected_nonidentity_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        reasons.append(
+            "nonidentity_residual_family_projection_exceeds_hard_total_limit"
+        )
+    if projected_total_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
+        reasons.append(
+            "proof_carrying_family_projection_exceeds_hard_total_limit"
+        )
+    size_safe = not reasons
+
+    return {
+        "schema_version": 1,
+        "mode": "proof-carrying-family-backend",
+        "complete": True,
+        "full_backend_complete": False,
+        "selected_backend": (
+            "proof_carrying_family_backend" if size_safe else None
+        ),
+        "status": "size_safe_preflight" if size_safe else "blocked_exceeds_budget",
+        "source_manifests": {
+            "prefix_parametric_compression": path_status(
+                PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH
+            ),
+            "compact_residual_certificates": path_status(
+                COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH
+            ),
+            "proof_carrying_structured_literals": path_status(
+                PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH
+            ),
+        },
+        "lean_api": {
+            "module": "Cuboctahedron.Search.CertificateFormat",
+            "nonidentity_family": "ProofCarryingNonIdFamily",
+            "translation_family": "ProofCarryingTranslationFarkasFamily",
+            "nonidentity_soundness": [
+                "ProofCarryingNonIdFamily.exists_cert",
+                "ProofCarryingNonIdFamily.no_feasible",
+            ],
+            "translation_soundness": [
+                "ProofCarryingTranslationFarkasFamily.exists_cert",
+                "ProofCarryingTranslationFarkasFamily.no_feasible",
+            ],
+        },
+        "nonidentity": {
+            "residual_singleton_cases": residual_cases,
+            "projection_model": "compact_residual_literal_data_cost",
+            "bytes_per_residual_case": bytes_per_residual_case,
+            "projected_source_bytes": projected_nonidentity_source_bytes,
+            "projected_source_gib": projected_nonidentity_source_bytes / GIB,
+            "family_grouping_status": (
+                "not_size_safe_without_deeper_nonidentity_residual_sharing"
+            ),
+        },
+        "translation": {
+            "shared_farkas_cases": translation_cases,
+            "shared_farkas_shapes": translation_shapes,
+            "projection_model": "one_source_farkas_proof_per_shape_plus_membership",
+            "bytes_per_shape_proxy": bytes_per_translation_shape,
+            "membership_bytes_per_case_proxy":
+                translation_membership_bytes_per_case,
+            "projected_source_bytes": projected_translation_source_bytes,
+            "projected_source_gib": projected_translation_source_bytes / GIB,
+        },
+        "sample_family_keys": proof_carrying_family_sample_keys(),
+        "projection": {
+            "format": "proof_carrying_family_backend",
+            "projected_nonidentity_source_bytes":
+                projected_nonidentity_source_bytes,
+            "projected_translation_source_bytes":
+                projected_translation_source_bytes,
+            "projected_total_source_bytes": projected_total_source_bytes,
+            "projected_total_source_gib": projected_total_source_bytes / GIB,
+            "hard_total_source_bytes": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES,
+            "hard_total_source_gib": FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES / GIB,
+            "size_safe": size_safe,
+            "refusal_reasons": reasons,
+            "note": (
+                "This Step 14E.7B8 preflight uses shared translation "
+                "source-Farkas shapes, but residual nonidentity data remains "
+                "above the hard source budget without a deeper residual "
+                "compression theorem."
+            ),
+        },
+    }
+
+
+def write_proof_carrying_family_backend_json(payload: dict) -> None:
+    PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def emit_full_nonidentity_packed_residual_chunks(
     *, residual_cases: int
 ) -> dict:
@@ -8674,6 +8872,7 @@ def main() -> None:
             "compact-residual-certificates",
             "packed-residual-certificates",
             "proof-carrying-structured-literals",
+            "proof-carrying-family-backend",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -8800,6 +8999,7 @@ def main() -> None:
             "parametric-family-checkers/"
             "residual-nonidentity-templates/"
             "proof-carrying-structured-literals/"
+            "proof-carrying-family-backend/"
             "compact-cert-sample/compact-cert-pilot"
         )
     if mode == "profile-exhaustive-states":
@@ -8929,6 +9129,24 @@ def main() -> None:
         print(
             "translation lean: "
             f"{TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.relative_to(REPO_ROOT)}"
+        )
+        return
+    if mode == "proof-carrying-family-backend":
+        payload = build_proof_carrying_family_backend_payload()
+        write_proof_carrying_family_backend_json(payload)
+        projection = payload["projection"]
+        print("checked proof-carrying family backend preflight")
+        print(f"status: {payload['status']}")
+        print(
+            "projected proof-carrying family source: "
+            f"{projection['projected_total_source_gib']:.2f} GiB"
+        )
+        print(f"size safe: {projection['size_safe']}")
+        if projection["refusal_reasons"]:
+            print("refusal reasons: " + ", ".join(projection["refusal_reasons"]))
+        print(
+            "json: "
+            f"{PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.relative_to(REPO_ROOT)}"
         )
         return
     if mode == "compression-audit":
