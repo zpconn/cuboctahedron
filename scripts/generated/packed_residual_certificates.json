@@ -198,13 +198,13 @@
   "complete": true,
   "generated_lean": {
     "packed_pilot": {
-      "bytes": 1716,
+      "bytes": 8242,
       "exists": true,
       "full_blob_decoded_by_independent_checker": true,
-      "full_blob_lean_check": false,
+      "full_blob_lean_check": true,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/PackedPilot.lean",
-      "proof_scope": "decoder_smoke_blob",
-      "sha256": "cc8863ee14cc71eff1a36bf46a0e502a0ab46802f882cba8ddfcfb423e5953e1"
+      "proof_scope": "full_packed_pilot_blob",
+      "sha256": "e6d3ad04a6e701fe9495ef61bb0deb5e824554f32eb7598139af8559e1f7c3a3"
     }
   },
   "mode": "packed-residual-certificates",
@@ -215,8 +215,8 @@
   ],
   "projection": {
     "bytes_per_packed_cert": 162,
-    "compact_literal_projected_residual_source_bytes": 4497275136,
-    "compact_literal_projected_residual_source_gib": 4.188413858413696,
+    "compact_literal_projected_residual_source_bytes": 4845885312,
+    "compact_literal_projected_residual_source_gib": 4.513082385063171,
     "format": "packed_nonid_residual_base64",
     "hard_max_file_bytes": 52428800,
     "hard_total_source_bytes": 1342177280,

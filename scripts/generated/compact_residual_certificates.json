@@ -203,10 +203,10 @@
   "complete": true,
   "generated_lean": {
     "compact_pilot": {
-      "bytes": 4412,
+      "bytes": 4754,
       "exists": true,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/CompactPilot.lean",
-      "sha256": "eded520dc530d00a3558bcfdbd3e232af3ff21a76f88303ca59365a077b07495"
+      "sha256": "cca5a29488bc000c59b0a90219b81ea2af926a7504cd5a8edc17e08d9bd5d889"
     }
   },
   "mode": "compact-residual-certificates",
@@ -216,16 +216,16 @@
     "badFirstHit"
   ],
   "projection": {
-    "bytes_per_compact_cert": 2206,
+    "bytes_per_compact_cert": 2377,
     "format": "compact_nonid_residual_lean_literals",
     "hard_max_file_bytes": 52428800,
     "hard_total_source_bytes": 1342177280,
     "note": "Projection uses compact residual record literals plus small reconstruction proofs, not the earlier verbose per-certificate proof-template emitter.",
     "pilot_cert_count": 2,
-    "pilot_source_bytes": 4412,
-    "projected_chunk_count": 537,
-    "projected_residual_source_bytes": 4497275136,
-    "projected_residual_source_gib": 4.188413858413696,
+    "pilot_source_bytes": 4754,
+    "projected_chunk_count": 578,
+    "projected_residual_source_bytes": 4845885312,
+    "projected_residual_source_gib": 4.513082385063171,
     "refusal_reasons": [
       "compact_residual_source_exceeds_hard_total_limit"
     ],

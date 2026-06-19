@@ -59,6 +59,115 @@ def XpStartInteriorQ (p : Vec3 Rat) : Prop :=
     -p.y + p.z < 1 /\
     -p.y - p.z < 1
 
+@[reducible] def checkValidPairWordB (w : PairWord) : Bool :=
+  decide (w.count PairId.x = 1) &&
+    (decide (w.count PairId.y = 2) &&
+      (decide (w.count PairId.z = 2) &&
+        (decide (w.count PairId.d111 = 2) &&
+          (decide (w.count PairId.d11m = 2) &&
+            (decide (w.count PairId.d1m1 = 2) &&
+              decide (w.count PairId.dm11 = 2))))))
+
+theorem checkValidPairWordB_sound
+    {w : PairWord} (hcheck : checkValidPairWordB w = true) :
+    ValidPairWord w := by
+  simpa [checkValidPairWordB, ValidPairWord, pairCount_eq_vector_count]
+    using hcheck
+
+theorem checkValidPairWordB_complete
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    checkValidPairWordB w = true := by
+  simpa [checkValidPairWordB, ValidPairWord, pairCount_eq_vector_count]
+    using hvalid
+
+@[reducible] def checkXpStartInteriorQB (p : Vec3 Rat) : Bool :=
+  decide (p.x = 1) &&
+    (decide (p.y + p.z < 1) &&
+      (decide (p.y - p.z < 1) &&
+        (decide (-p.y + p.z < 1) &&
+          decide (-p.y - p.z < 1))))
+
+theorem checkXpStartInteriorQB_sound
+    {p : Vec3 Rat} (hcheck : checkXpStartInteriorQB p = true) :
+    XpStartInteriorQ p := by
+  simpa [checkXpStartInteriorQB, XpStartInteriorQ] using hcheck
+
+theorem checkXpStartInteriorQB_complete
+    {p : Vec3 Rat} (hinterior : XpStartInteriorQ p) :
+    checkXpStartInteriorQB p = true := by
+  simpa [checkXpStartInteriorQB, XpStartInteriorQ] using hinterior
+
+theorem checkXpStartInteriorQB_false_sound
+    {p : Vec3 Rat} (hcheck : checkXpStartInteriorQB p = false) :
+    ¬ XpStartInteriorQ p := by
+  intro hinterior
+  have htrue := checkXpStartInteriorQB_complete hinterior
+  rw [htrue] at hcheck
+  contradiction
+
+theorem checkXpStartInteriorQB_false_complete
+    {p : Vec3 Rat} (hinterior : ¬ XpStartInteriorQ p) :
+    checkXpStartInteriorQB p = false := by
+  cases hcheck : checkXpStartInteriorQB p
+  · rfl
+  · exact False.elim (hinterior (checkXpStartInteriorQB_sound hcheck))
+
+@[reducible] def checkStartsXpB (seq : Step14 -> Face) : Bool :=
+  decide (seq 0 = Face.xp)
+
+theorem checkStartsXpB_sound
+    {seq : Step14 -> Face} (hcheck : checkStartsXpB seq = true) :
+    StartsXp seq := by
+  simpa [checkStartsXpB, StartsXp] using hcheck
+
+@[reducible] def checkPairWordMatchesSeqB (w : PairWord) (seq : Step14 -> Face) :
+    Bool :=
+  (List.finRange 13).all fun i : WordIndex =>
+    decide (w.get i = pairOfFace (seq (afterStart i)))
+
+theorem checkPairWordMatchesSeqB_sound
+    {w : PairWord} {seq : Step14 -> Face}
+    (hcheck : checkPairWordMatchesSeqB w seq = true) :
+    PairWordMatchesSeq w seq := by
+  intro i
+  have hall := List.all_eq_true.mp hcheck
+  exact of_decide_eq_true (hall i (by simp))
+
+theorem checkPairWordMatchesSeqB_complete
+    {w : PairWord} {seq : Step14 -> Face}
+    (hmatch : PairWordMatchesSeq w seq) :
+    checkPairWordMatchesSeqB w seq = true := by
+  unfold checkPairWordMatchesSeqB
+  rw [List.all_eq_true]
+  intro i _hi
+  exact decide_eq_true (hmatch i)
+
+@[reducible] def checkForcedSeqMatchesWordB (cert : NonIdCert) : Bool :=
+  checkStartsXpB (faceVectorSeq cert.forcedSeq) &&
+    checkPairWordMatchesSeqB cert.word (faceVectorSeq cert.forcedSeq)
+
+theorem checkForcedSeqMatchesWordB_sound
+    {cert : NonIdCert}
+    (hcheck : checkForcedSeqMatchesWordB cert = true) :
+    StartsXp (faceVectorSeq cert.forcedSeq) /\
+      PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq) := by
+  unfold checkForcedSeqMatchesWordB at hcheck
+  rw [Bool.and_eq_true] at hcheck
+  exact ⟨checkStartsXpB_sound hcheck.1,
+    checkPairWordMatchesSeqB_sound hcheck.2⟩
+
+theorem checkForcedSeqMatchesWordB_complete
+    {cert : NonIdCert}
+    (hmatch :
+      StartsXp (faceVectorSeq cert.forcedSeq) /\
+        PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq)) :
+    checkForcedSeqMatchesWordB cert = true := by
+  unfold checkForcedSeqMatchesWordB
+  rw [Bool.and_eq_true]
+  have hStart : faceVectorSeq cert.forcedSeq 0 = Face.xp := hmatch.1
+  exact ⟨by simpa [checkStartsXpB] using decide_eq_true hStart,
+    checkPairWordMatchesSeqB_complete hmatch.2⟩
+
 noncomputable def checkXpStartInteriorQ (p : Vec3 Rat) : Bool := by
   classical
   exact decide (XpStartInteriorQ p)
@@ -415,6 +524,271 @@ def CandidateHitInteriorFails
         (candidateLinePointQ p0 w
           (candidateImpactTimeQ seq p0 w witness.impact))
 
+@[reducible] def checkAxisDotZeroAtWordB
+    (w : PairWord) (axis : Vec3 Rat) (i : WordIndex) : Bool :=
+  allFacesList.all fun f : Face =>
+    if h : pairOfFace f = w.get i then
+      decide (dot (matVec (pairPrefixLinearNat w i.val) (normalQ f)) axis = 0)
+    else
+      true
+
+theorem checkAxisDotZeroAtWordB_sound
+    {w : PairWord} {axis : Vec3 Rat} {i : WordIndex}
+    (hcheck : checkAxisDotZeroAtWordB w axis i = true) :
+    AxisDotZeroAtWord w axis i := by
+  intro f hpair
+  have hall := List.all_eq_true.mp hcheck
+  have hfmem : f ∈ allFacesList := by
+    cases f <;> simp [allFacesList]
+  have hf := hall f hfmem
+  simpa [checkAxisDotZeroAtWordB, hpair] using hf
+
+@[reducible] def checkAxisForcesForcedSeqB (cert : NonIdCert) : Bool :=
+  let seq := faceVectorSeq cert.forcedSeq
+  checkStartsXpB seq &&
+    (checkPairWordMatchesSeqB cert.word seq &&
+      (decide (0 < finalAxisDotQ cert.word cert.axis) &&
+        ((List.finRange 13).all fun i : WordIndex =>
+          allFacesList.all fun f : Face =>
+            if hpair : pairOfFace f = cert.word.get i then
+              if hpos :
+                  0 <
+                    dot
+                      (matVec (pairPrefixLinearNat cert.word i.val)
+                        (normalQ f)) cert.axis then
+                decide (normalQ (seq (afterStart i)) = normalQ f)
+              else
+                true
+            else
+              true)))
+
+theorem checkAxisForcesForcedSeqB_sound
+    {cert : NonIdCert}
+    (hcheck : checkAxisForcesForcedSeqB cert = true) :
+    AxisForcesForcedSeq cert.word cert.axis
+      (faceVectorSeq cert.forcedSeq) := by
+  unfold checkAxisForcesForcedSeqB at hcheck
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hStartB, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hMatchesB, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hFinalB, hForcesB⟩
+  refine ⟨checkStartsXpB_sound hStartB,
+    checkPairWordMatchesSeqB_sound hMatchesB,
+    of_decide_eq_true hFinalB, ?_⟩
+  intro i f hpair hpos
+  have hallI := List.all_eq_true.mp hForcesB
+  have hi := hallI i (by simp)
+  have hallF := List.all_eq_true.mp hi
+  have hfmem : f ∈ allFacesList := by
+    cases f <;> simp [allFacesList]
+  have hf := hallF f hfmem
+  simpa [hpair, hpos] using hf
+
+theorem checkAxisForcesForcedSeqB_complete
+    {cert : NonIdCert}
+    (hforces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq)) :
+    checkAxisForcesForcedSeqB cert = true := by
+  rcases hforces with ⟨hStart, hMatch, hFinal, hForce⟩
+  unfold checkAxisForcesForcedSeqB
+  rw [Bool.and_eq_true]
+  have hStart' : faceVectorSeq cert.forcedSeq 0 = Face.xp := hStart
+  refine ⟨by simpa [checkStartsXpB] using decide_eq_true hStart', ?_⟩
+  rw [Bool.and_eq_true]
+  refine ⟨checkPairWordMatchesSeqB_complete hMatch, ?_⟩
+  rw [Bool.and_eq_true]
+  refine ⟨decide_eq_true hFinal, ?_⟩
+  rw [List.all_eq_true]
+  intro i _hi
+  rw [List.all_eq_true]
+  intro f _hf
+  by_cases hpair : pairOfFace f = cert.word.get i
+  · by_cases hpos :
+        0 <
+          dot
+            (matVec (pairPrefixLinearNat cert.word i.val) (normalQ f))
+            cert.axis
+    · simp [hpair, hpos, hForce i f hpair hpos]
+    · simp [hpair, hpos]
+  · simp [hpair]
+
+@[reducible] def checkCandidateOrderingFailsB
+    (seq : Step14 -> Face) (p0 w : Vec3 Rat)
+    (witness : BadFirstHitWitness) : Bool :=
+  decide
+    (candidateImpactTimeQ seq p0 w (nextImpact witness.step) <=
+      candidateImpactTimeQ seq p0 w witness.step.castSucc)
+
+theorem checkCandidateOrderingFailsB_sound
+    {seq : Step14 -> Face} {p0 w : Vec3 Rat}
+    {witness : BadFirstHitWitness}
+    (hcheck : checkCandidateOrderingFailsB seq p0 w witness = true) :
+    CandidateOrderingFails seq p0 w witness := by
+  simpa [checkCandidateOrderingFailsB, CandidateOrderingFails] using hcheck
+
+theorem checkCandidateOrderingFailsB_complete
+    {seq : Step14 -> Face} {p0 w : Vec3 Rat}
+    {witness : BadFirstHitWitness}
+    (hfails : CandidateOrderingFails seq p0 w witness) :
+    checkCandidateOrderingFailsB seq p0 w witness = true := by
+  unfold checkCandidateOrderingFailsB
+  exact decide_eq_true (by simpa [CandidateOrderingFails] using hfails)
+
+@[reducible] def checkCandidateHitInteriorFailsB
+    (seq : Step14 -> Face) (p0 w : Vec3 Rat)
+    (witness : BadHitInteriorWitness) : Bool :=
+  decide (witness.badFace ≠ impactFace seq witness.impact) &&
+    decide
+      (copiedOffsetQ seq witness.impact witness.badFace <=
+        dot (copiedNormalQ seq witness.impact witness.badFace)
+          (candidateLinePointQ p0 w
+            (candidateImpactTimeQ seq p0 w witness.impact)))
+
+theorem checkCandidateHitInteriorFailsB_sound
+    {seq : Step14 -> Face} {p0 w : Vec3 Rat}
+    {witness : BadHitInteriorWitness}
+    (hcheck : checkCandidateHitInteriorFailsB seq p0 w witness = true) :
+    CandidateHitInteriorFails seq p0 w witness := by
+  simpa [checkCandidateHitInteriorFailsB, CandidateHitInteriorFails]
+    using hcheck
+
+theorem checkCandidateHitInteriorFailsB_complete
+    {seq : Step14 -> Face} {p0 w : Vec3 Rat}
+    {witness : BadHitInteriorWitness}
+    (hfails : CandidateHitInteriorFails seq p0 w witness) :
+    checkCandidateHitInteriorFailsB seq p0 w witness = true := by
+  simpa [checkCandidateHitInteriorFailsB, CandidateHitInteriorFails]
+    using hfails
+
+@[reducible] def checkNonIdCommonB (cert : NonIdCert) : Bool :=
+  checkValidPairWordB cert.word &&
+    (decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)) &&
+      (checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel &&
+        (checkForcedSeqMatchesWordB cert &&
+          checkAffineAxisSolveWitness
+            (totalAff (faceVectorSeq cert.forcedSeq))
+            cert.axis cert.p0 cert.lambda cert.solve)))
+
+theorem checkNonIdCommonB_sound
+    {cert : NonIdCert}
+    (hcheck : checkNonIdCommonB cert = true) :
+    ValidPairWord cert.word /\
+      totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) /\
+        checkKernelLineWitness (totalLinearOfPairWord cert.word)
+          cert.axis cert.kernel = true /\
+          StartsXp (faceVectorSeq cert.forcedSeq) /\
+            PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq) /\
+              checkAffineAxisSolveWitness
+                (totalAff (faceVectorSeq cert.forcedSeq))
+                cert.axis cert.p0 cert.lambda cert.solve = true := by
+  unfold checkNonIdCommonB at hcheck
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hValidB, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hNonIdB, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hKernel, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hMatchesB, hSolve⟩
+  rcases checkForcedSeqMatchesWordB_sound hMatchesB with
+    ⟨hStart, hMatches⟩
+  exact ⟨checkValidPairWordB_sound hValidB, of_decide_eq_true hNonIdB,
+    hKernel, hStart, hMatches, hSolve⟩
+
+theorem checkNonIdCommonB_complete
+    {cert : NonIdCert}
+    (hValid : ValidPairWord cert.word)
+    (hNonId : totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat))
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel = true)
+    (hMatches :
+      StartsXp (faceVectorSeq cert.forcedSeq) /\
+        PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq))
+    (hSolve :
+      checkAffineAxisSolveWitness
+        (totalAff (faceVectorSeq cert.forcedSeq))
+        cert.axis cert.p0 cert.lambda cert.solve = true) :
+    checkNonIdCommonB cert = true := by
+  unfold checkNonIdCommonB
+  rw [Bool.and_eq_true]
+  refine ⟨checkValidPairWordB_complete hValid, ?_⟩
+  rw [Bool.and_eq_true]
+  refine ⟨decide_eq_true hNonId, ?_⟩
+  rw [Bool.and_eq_true]
+  exact ⟨hKernel, by
+    rw [Bool.and_eq_true]
+    exact ⟨checkForcedSeqMatchesWordB_complete hMatches, hSolve⟩⟩
+
+theorem checkNonIdCommon_of_checkNonIdCommonB
+    {cert : NonIdCert}
+    (hcheck : checkNonIdCommonB cert = true) :
+    checkNonIdCommon cert = true := by
+  rcases checkNonIdCommonB_sound hcheck with
+    ⟨hValid, hNonId, hKernel, hStart, hMatches, hSolve⟩
+  simp [checkNonIdCommon, hValid, hNonId, hKernel,
+    checkForcedSeqMatchesWord, hStart, hMatches, hSolve]
+
+@[reducible] def checkNonIdResidualCertB (cert : NonIdCert) : Bool :=
+  match cert.failure with
+  | NonIdFailure.axisMissesStartInterior =>
+      checkNonIdCommonB cert &&
+        (checkAxisForcesForcedSeqB cert &&
+          !checkXpStartInteriorQB cert.p0)
+  | NonIdFailure.badFirstHit witness =>
+      let seq := faceVectorSeq cert.forcedSeq
+      let w := candidateWQ seq cert.p0
+      checkNonIdCommonB cert &&
+        (checkAxisForcesForcedSeqB cert &&
+          checkCandidateOrderingFailsB seq cert.p0 w witness)
+  | NonIdFailure.badHitInterior witness =>
+      let seq := faceVectorSeq cert.forcedSeq
+      let w := candidateWQ seq cert.p0
+      checkNonIdCommonB cert &&
+        (checkAxisForcesForcedSeqB cert &&
+          checkCandidateHitInteriorFailsB seq cert.p0 w witness)
+  | _ => false
+
+theorem checkNonIdResidualCertB_axisMissesStartInterior
+    (cert : NonIdCert)
+    (hFailure : cert.failure = NonIdFailure.axisMissesStartInterior)
+    (hCommon : checkNonIdCommonB cert = true)
+    (hForces : checkAxisForcesForcedSeqB cert = true)
+    (hNotInterior : checkXpStartInteriorQB cert.p0 = false) :
+    checkNonIdResidualCertB cert = true := by
+  rw [checkNonIdResidualCertB, hFailure, hCommon, hForces, hNotInterior]
+  rfl
+
+theorem checkNonIdResidualCertB_badFirstHit
+    (cert : NonIdCert) (witness : BadFirstHitWitness)
+    (hFailure : cert.failure = NonIdFailure.badFirstHit witness)
+    (hCommon : checkNonIdCommonB cert = true)
+    (hForces : checkAxisForcesForcedSeqB cert = true)
+    (hOrdering :
+      checkCandidateOrderingFailsB (faceVectorSeq cert.forcedSeq) cert.p0
+        (candidateWQ (faceVectorSeq cert.forcedSeq) cert.p0)
+        witness = true) :
+    checkNonIdResidualCertB cert = true := by
+  rw [checkNonIdResidualCertB, hFailure, hCommon, hForces]
+  simpa using hOrdering
+
+theorem checkNonIdResidualCertB_badHitInterior
+    (cert : NonIdCert) (witness : BadHitInteriorWitness)
+    (hFailure : cert.failure = NonIdFailure.badHitInterior witness)
+    (hCommon : checkNonIdCommonB cert = true)
+    (hForces : checkAxisForcesForcedSeqB cert = true)
+    (hInterior :
+      checkCandidateHitInteriorFailsB (faceVectorSeq cert.forcedSeq) cert.p0
+        (candidateWQ (faceVectorSeq cert.forcedSeq) cert.p0)
+        witness = true) :
+    checkNonIdResidualCertB cert = true := by
+  rw [checkNonIdResidualCertB, hFailure, hCommon, hForces]
+  simpa using hInterior
+
 noncomputable def checkAxisDotZeroAtWord
     (w : PairWord) (axis : Vec3 Rat) (i : WordIndex) : Bool := by
   classical
@@ -587,6 +961,64 @@ theorem checkNonIdCert_badHitInterior
   simp [checkNonIdBadHitInteriorData, hCommon, checkAxisForcesForcedSeq,
     hForces, hInterior]
 
+theorem checkNonIdResidualCertB_sound
+    {cert : NonIdCert}
+    (hcheck : checkNonIdResidualCertB cert = true) :
+    checkNonIdCert cert = true := by
+  cases hfailure : cert.failure with
+  | noFixedAxis witness =>
+      simp only [checkNonIdResidualCertB, hfailure, Bool.false_eq_true] at hcheck
+  | badDirectionSign i =>
+      simp only [checkNonIdResidualCertB, hfailure, Bool.false_eq_true] at hcheck
+  | badPairBalance =>
+      simp only [checkNonIdResidualCertB, hfailure, Bool.false_eq_true] at hcheck
+  | axisMissesStartInterior =>
+      simp only [checkNonIdResidualCertB, hfailure, Bool.and_eq_true] at hcheck
+      rcases hcheck with ⟨hCommonB, hForcesB, hNotInteriorB⟩
+      have hCommonBool : checkNonIdCommonB cert = true := by
+        simpa [checkNonIdCommonB] using hCommonB
+      have hForcesBool : checkAxisForcesForcedSeqB cert = true := by
+        simpa [checkAxisForcesForcedSeqB] using hForcesB
+      have hInteriorFalse : checkXpStartInteriorQB cert.p0 = false := by
+        cases h : checkXpStartInteriorQB cert.p0 <;>
+          simp [h] at hNotInteriorB ⊢
+      exact checkNonIdCert_axisMissesStartInterior cert hfailure
+        (checkNonIdCommon_of_checkNonIdCommonB hCommonBool)
+        (checkAxisForcesForcedSeqB_sound hForcesBool)
+        (checkXpStartInteriorQB_false_sound hInteriorFalse)
+  | badFirstHit witness =>
+      simp only [checkNonIdResidualCertB, hfailure, Bool.and_eq_true] at hcheck
+      rcases hcheck with ⟨hCommonB, hForcesB, hOrderingB⟩
+      have hCommonBool : checkNonIdCommonB cert = true := by
+        simpa [checkNonIdCommonB] using hCommonB
+      have hForcesBool : checkAxisForcesForcedSeqB cert = true := by
+        simpa [checkAxisForcesForcedSeqB] using hForcesB
+      have hOrderingBool :
+          checkCandidateOrderingFailsB (faceVectorSeq cert.forcedSeq)
+            cert.p0 (candidateWQ (faceVectorSeq cert.forcedSeq) cert.p0)
+            witness = true := by
+        simpa [checkCandidateOrderingFailsB] using hOrderingB
+      exact checkNonIdCert_badFirstHit cert witness hfailure
+        (checkNonIdCommon_of_checkNonIdCommonB hCommonBool)
+        (checkAxisForcesForcedSeqB_sound hForcesBool)
+        (checkCandidateOrderingFailsB_sound hOrderingBool)
+  | badHitInterior witness =>
+      simp only [checkNonIdResidualCertB, hfailure, Bool.and_eq_true] at hcheck
+      rcases hcheck with ⟨hCommonB, hForcesB, hInteriorB⟩
+      have hCommonBool : checkNonIdCommonB cert = true := by
+        simpa [checkNonIdCommonB] using hCommonB
+      have hForcesBool : checkAxisForcesForcedSeqB cert = true := by
+        simpa [checkAxisForcesForcedSeqB] using hForcesB
+      have hInteriorBool :
+          checkCandidateHitInteriorFailsB (faceVectorSeq cert.forcedSeq)
+            cert.p0 (candidateWQ (faceVectorSeq cert.forcedSeq) cert.p0)
+            witness = true := by
+        simpa [checkCandidateHitInteriorFailsB] using hInteriorB
+      exact checkNonIdCert_badHitInterior cert witness hfailure
+        (checkNonIdCommon_of_checkNonIdCommonB hCommonBool)
+        (checkAxisForcesForcedSeqB_sound hForcesBool)
+        (checkCandidateHitInteriorFailsB_sound hInteriorBool)
+
 structure GeneratedNonIdCertChunk where
   name : String
   coveredRanks : Array Nat
@@ -596,7 +1028,9 @@ deriving DecidableEq, Repr
 def checkNonIdCoveredRank (rank : Nat) (cert : NonIdCert) :
     Bool :=
   if h : rank < numPairWords then
-    decide (pairWordLexRank? cert.word = some ⟨rank, h⟩)
+    match pairWordLexRank? cert.word with
+    | some r => r.val == rank
+    | none => false
   else
     false
 
@@ -626,7 +1060,16 @@ theorem checkNonIdCoveredRank_sound
   unfold checkNonIdCoveredRank at hcheck
   by_cases hrank : rank < numPairWords
   · refine ⟨hrank, ?_⟩
-    simpa [hrank] using hcheck
+    cases hlex : pairWordLexRank? cert.word with
+    | none =>
+        simp [hrank, hlex] at hcheck
+    | some r =>
+        simp [hrank, hlex] at hcheck
+        have hval : r.val = rank := by
+          simpa using hcheck
+        have hr : r = (⟨rank, hrank⟩ : Fin numPairWords) := by
+          exact Fin.ext hval
+        simpa [hr]
   · simp [hrank] at hcheck
 
 theorem checkNonIdCoveredRank_word

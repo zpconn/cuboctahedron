@@ -1188,6 +1188,56 @@ theorem residualBadFirstHitTemplate_check :
   · simpa [residualBadFirstHitTemplate] using residualBadFirstHitTemplate_axisForces
   · simpa [residualBadFirstHitTemplate] using residualBadFirstHitTemplate_candidateOrderingFails
 
+theorem residualAxisMissesStartInteriorTemplate_commonCheckB :
+    checkNonIdCommonB residualAxisMissesStartInteriorTemplate = true := by
+  apply checkNonIdCommonB_complete
+  · simpa [residualAxisMissesStartInteriorTemplate] using
+      residualAxisMissesStartInteriorTemplate_validPairWord
+  · simpa [residualAxisMissesStartInteriorTemplate] using
+      residualAxisMissesStartInteriorTemplate_nonIdentity
+  · simpa [residualAxisMissesStartInteriorTemplate] using
+      residualAxisMissesStartInteriorTemplate_kernelCheck
+  · exact checkForcedSeqMatchesWord_sound
+      residualAxisMissesStartInteriorTemplate
+      residualAxisMissesStartInteriorTemplate_forcedSeqMatches
+  · simpa [residualAxisMissesStartInteriorTemplate] using
+      residualAxisMissesStartInteriorTemplate_axisSolveCheck
+
+theorem residualAxisMissesStartInteriorTemplate_residualBCheck :
+    checkNonIdResidualCertB residualAxisMissesStartInteriorTemplate = true := by
+  apply checkNonIdResidualCertB_axisMissesStartInterior
+  · rfl
+  · exact residualAxisMissesStartInteriorTemplate_commonCheckB
+  · exact checkAxisForcesForcedSeqB_complete
+      residualAxisMissesStartInteriorTemplate_axisForces
+  · exact checkXpStartInteriorQB_false_complete
+      residualAxisMissesStartInteriorTemplate_notXpStartInterior
+
+theorem residualBadFirstHitTemplate_commonCheckB :
+    checkNonIdCommonB residualBadFirstHitTemplate = true := by
+  apply checkNonIdCommonB_complete
+  · simpa [residualBadFirstHitTemplate] using
+      residualBadFirstHitTemplate_validPairWord
+  · simpa [residualBadFirstHitTemplate] using
+      residualBadFirstHitTemplate_nonIdentity
+  · simpa [residualBadFirstHitTemplate] using
+      residualBadFirstHitTemplate_kernelCheck
+  · exact checkForcedSeqMatchesWord_sound
+      residualBadFirstHitTemplate
+      residualBadFirstHitTemplate_forcedSeqMatches
+  · simpa [residualBadFirstHitTemplate] using
+      residualBadFirstHitTemplate_axisSolveCheck
+
+theorem residualBadFirstHitTemplate_residualBCheck :
+    checkNonIdResidualCertB residualBadFirstHitTemplate = true := by
+  apply checkNonIdResidualCertB_badFirstHit
+  · rfl
+  · exact residualBadFirstHitTemplate_commonCheckB
+  · exact checkAxisForcesForcedSeqB_complete
+      residualBadFirstHitTemplate_axisForces
+  · exact checkCandidateOrderingFailsB_complete
+      residualBadFirstHitTemplate_candidateOrderingFails
+
 def residualTemplateCerts : Array NonIdCert :=
   #[residualAxisMissesStartInteriorTemplate, residualBadFirstHitTemplate]
 

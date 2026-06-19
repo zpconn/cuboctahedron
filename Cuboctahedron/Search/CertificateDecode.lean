@@ -74,6 +74,14 @@ def decodeBase64Chars : List Char -> Except DecodeError (List Nat)
 def decodeBase64 (text : String) : Except DecodeError (List Nat) :=
   decodeBase64Chars text.toList
 
+@[reducible] def bindExcept
+    (value : Except DecodeError α)
+    (next : α -> Except DecodeError β) :
+    Except DecodeError β :=
+  match value with
+  | .ok value => next value
+  | .error err => .error err
+
 def readVarintFuel
     (fuel shift acc : Nat) (bytes : List Nat) :
     Except DecodeError (Nat × List Nat) :=
@@ -95,18 +103,18 @@ def readVarint (bytes : List Nat) : Except DecodeError (Nat × List Nat) :=
 def takeBytes : Nat -> List Nat -> Except DecodeError (List Nat × List Nat)
   | 0, bytes => .ok ([], bytes)
   | _ + 1, [] => .error DecodeError.truncatedSection
-  | n + 1, b :: bytes => do
-      let (chunk, rest) ← takeBytes n bytes
-      .ok (b :: chunk, rest)
+  | n + 1, b :: bytes =>
+      bindExcept (takeBytes n bytes) fun (chunk, rest) =>
+        .ok (b :: chunk, rest)
 
 def readSectionHeaders :
     Nat -> List Nat -> Except DecodeError (List SectionHeader × List Nat)
   | 0, bytes => .ok ([], bytes)
-  | n + 1, bytes => do
-      let (id, bytes) ← readVarint bytes
-      let (length, bytes) ← readVarint bytes
-      let (headers, bytes) ← readSectionHeaders n bytes
-      .ok ({ id, length } :: headers, bytes)
+  | n + 1, bytes =>
+      bindExcept (readVarint bytes) fun (id, bytes) =>
+        bindExcept (readVarint bytes) fun (length, bytes) =>
+          bindExcept (readSectionHeaders n bytes) fun (headers, bytes) =>
+            .ok ({ id, length } :: headers, bytes)
 
 def sectionIdsUnique : List SectionHeader -> Bool
   | [] => true
@@ -118,32 +126,32 @@ def readSectionPayloads :
       Except DecodeError (List (Nat × List Nat))
   | [], [] => .ok []
   | [], _ => .error DecodeError.trailingInput
-  | header :: headers, bytes => do
-      let (payload, bytes) ← takeBytes header.length bytes
-      let rest ← readSectionPayloads headers bytes
-      .ok ((header.id, payload) :: rest)
+  | header :: headers, bytes =>
+      bindExcept (takeBytes header.length bytes) fun (payload, bytes) =>
+        bindExcept (readSectionPayloads headers bytes) fun rest =>
+          .ok ((header.id, payload) :: rest)
 
 def lookupSection (id : Nat) : List (Nat × List Nat) -> Except DecodeError (List Nat)
   | [] => .error DecodeError.missingSection
   | (sectionId, payload) :: rest =>
       if sectionId = id then .ok payload else lookupSection id rest
 
-def parseSingleNatSection (bytes : List Nat) : Except DecodeError Nat := do
-  let (value, rest) ← readVarint bytes
-  if rest = [] then .ok value else .error DecodeError.trailingInput
+def parseSingleNatSection (bytes : List Nat) : Except DecodeError Nat :=
+  bindExcept (readVarint bytes) fun (value, rest) =>
+    if rest = [] then .ok value else .error DecodeError.trailingInput
 
 def readNatValues :
     Nat -> List Nat -> Except DecodeError (List Nat × List Nat)
   | 0, bytes => .ok ([], bytes)
-  | n + 1, bytes => do
-      let (value, bytes) ← readVarint bytes
-      let (values, bytes) ← readNatValues n bytes
-      .ok (value :: values, bytes)
+  | n + 1, bytes =>
+      bindExcept (readVarint bytes) fun (value, bytes) =>
+        bindExcept (readNatValues n bytes) fun (values, bytes) =>
+          .ok (value :: values, bytes)
 
-def parseNatArraySection (bytes : List Nat) : Except DecodeError (Array Nat) := do
-  let (count, bytes) ← readVarint bytes
-  let (values, rest) ← readNatValues count bytes
-  if rest = [] then .ok values.toArray else .error DecodeError.trailingInput
+def parseNatArraySection (bytes : List Nat) : Except DecodeError (Array Nat) :=
+  bindExcept (readVarint bytes) fun (count, bytes) =>
+    bindExcept (readNatValues count bytes) fun (values, rest) =>
+      if rest = [] then .ok values.toArray else .error DecodeError.trailingInput
 
 def readTranslationCases :
     Nat -> List Nat ->
@@ -233,214 +241,265 @@ def decodeZigZag (value : Nat) : Int :=
   else
     Int.negSucc (value / 2)
 
-def readSignedInt (bytes : List Nat) : Except DecodeError (Int × List Nat) := do
-  let (value, rest) ← readVarint bytes
-  .ok (decodeZigZag value, rest)
+def readSignedInt (bytes : List Nat) : Except DecodeError (Int × List Nat) :=
+  bindExcept (readVarint bytes) fun (value, rest) =>
+    .ok (decodeZigZag value, rest)
 
-def readRatValue (bytes : List Nat) : Except DecodeError (Rat × List Nat) := do
-  let (num, bytes) ← readSignedInt bytes
-  let (den, bytes) ← readVarint bytes
-  if h : den = 0 then
-    .error DecodeError.zeroDenominator
-  else
-    .ok (Rat.normalize num den h, bytes)
+def readRatValue (bytes : List Nat) : Except DecodeError (Rat × List Nat) :=
+  bindExcept (readSignedInt bytes) fun (num, bytes) =>
+    bindExcept (readVarint bytes) fun (den, bytes) =>
+      if h : den = 0 then
+        .error DecodeError.zeroDenominator
+      else
+        .ok (Rat.normalize num den h, bytes)
 
 def readPairId (bytes : List Nat) :
-    Except DecodeError (PairId × List Nat) := do
-  let (tag, bytes) ← readVarint bytes
-  let pair ← parsePairIdTag tag
-  .ok (pair, bytes)
+    Except DecodeError (PairId × List Nat) :=
+  bindExcept (readVarint bytes) fun (tag, bytes) =>
+    bindExcept (parsePairIdTag tag) fun pair =>
+      .ok (pair, bytes)
 
 def readFace (bytes : List Nat) :
-    Except DecodeError (Face × List Nat) := do
-  let (tag, bytes) ← readVarint bytes
-  let face ← parseFaceTag tag
-  .ok (face, bytes)
+    Except DecodeError (Face × List Nat) :=
+  bindExcept (readVarint bytes) fun (tag, bytes) =>
+    bindExcept (parseFaceTag tag) fun face =>
+      .ok (face, bytes)
 
 def readPairWord (bytes : List Nat) :
-    Except DecodeError (PairWord × List Nat) := do
-  let (p0, bytes) ← readPairId bytes
-  let (p1, bytes) ← readPairId bytes
-  let (p2, bytes) ← readPairId bytes
-  let (p3, bytes) ← readPairId bytes
-  let (p4, bytes) ← readPairId bytes
-  let (p5, bytes) ← readPairId bytes
-  let (p6, bytes) ← readPairId bytes
-  let (p7, bytes) ← readPairId bytes
-  let (p8, bytes) ← readPairId bytes
-  let (p9, bytes) ← readPairId bytes
-  let (p10, bytes) ← readPairId bytes
-  let (p11, bytes) ← readPairId bytes
-  let (p12, bytes) ← readPairId bytes
-  .ok (⟨#[p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
-    by simp⟩, bytes)
+    Except DecodeError (PairWord × List Nat) :=
+  bindExcept (readPairId bytes) fun (p0, bytes) =>
+    bindExcept (readPairId bytes) fun (p1, bytes) =>
+      bindExcept (readPairId bytes) fun (p2, bytes) =>
+        bindExcept (readPairId bytes) fun (p3, bytes) =>
+          bindExcept (readPairId bytes) fun (p4, bytes) =>
+            bindExcept (readPairId bytes) fun (p5, bytes) =>
+              bindExcept (readPairId bytes) fun (p6, bytes) =>
+                bindExcept (readPairId bytes) fun (p7, bytes) =>
+                  bindExcept (readPairId bytes) fun (p8, bytes) =>
+                    bindExcept (readPairId bytes) fun (p9, bytes) =>
+                      bindExcept (readPairId bytes) fun (p10, bytes) =>
+                        bindExcept (readPairId bytes) fun (p11, bytes) =>
+                          bindExcept (readPairId bytes) fun (p12, bytes) =>
+                            .ok
+                              (⟨#[p0, p1, p2, p3, p4, p5, p6, p7, p8,
+                                  p9, p10, p11, p12], by simp⟩,
+                                bytes)
 
 def readFaceVector14 (bytes : List Nat) :
-    Except DecodeError (Vector Face 14 × List Nat) := do
-  let (f0, bytes) ← readFace bytes
-  let (f1, bytes) ← readFace bytes
-  let (f2, bytes) ← readFace bytes
-  let (f3, bytes) ← readFace bytes
-  let (f4, bytes) ← readFace bytes
-  let (f5, bytes) ← readFace bytes
-  let (f6, bytes) ← readFace bytes
-  let (f7, bytes) ← readFace bytes
-  let (f8, bytes) ← readFace bytes
-  let (f9, bytes) ← readFace bytes
-  let (f10, bytes) ← readFace bytes
-  let (f11, bytes) ← readFace bytes
-  let (f12, bytes) ← readFace bytes
-  let (f13, bytes) ← readFace bytes
-  .ok (⟨#[f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13],
-    by simp⟩, bytes)
+    Except DecodeError (Vector Face 14 × List Nat) :=
+  bindExcept (readFace bytes) fun (f0, bytes) =>
+    bindExcept (readFace bytes) fun (f1, bytes) =>
+      bindExcept (readFace bytes) fun (f2, bytes) =>
+        bindExcept (readFace bytes) fun (f3, bytes) =>
+          bindExcept (readFace bytes) fun (f4, bytes) =>
+            bindExcept (readFace bytes) fun (f5, bytes) =>
+              bindExcept (readFace bytes) fun (f6, bytes) =>
+                bindExcept (readFace bytes) fun (f7, bytes) =>
+                  bindExcept (readFace bytes) fun (f8, bytes) =>
+                    bindExcept (readFace bytes) fun (f9, bytes) =>
+                      bindExcept (readFace bytes) fun (f10, bytes) =>
+                        bindExcept (readFace bytes) fun (f11, bytes) =>
+                          bindExcept (readFace bytes) fun (f12, bytes) =>
+                            bindExcept (readFace bytes) fun (f13, bytes) =>
+                              .ok
+                                (⟨#[f0, f1, f2, f3, f4, f5, f6, f7,
+                                    f8, f9, f10, f11, f12, f13],
+                                  by simp⟩,
+                                  bytes)
 
 def readVec3Rat (bytes : List Nat) :
-    Except DecodeError (Vec3 Rat × List Nat) := do
-  let (x, bytes) ← readRatValue bytes
-  let (y, bytes) ← readRatValue bytes
-  let (z, bytes) ← readRatValue bytes
-  .ok ({ x := x, y := y, z := z }, bytes)
+    Except DecodeError (Vec3 Rat × List Nat) :=
+  bindExcept (readRatValue bytes) fun (x, bytes) =>
+    bindExcept (readRatValue bytes) fun (y, bytes) =>
+      bindExcept (readRatValue bytes) fun (z, bytes) =>
+        .ok ({ x := x, y := y, z := z }, bytes)
 
 def readMat3Rat (bytes : List Nat) :
-    Except DecodeError (Mat3 Rat × List Nat) := do
-  let (m00, bytes) ← readRatValue bytes
-  let (m01, bytes) ← readRatValue bytes
-  let (m02, bytes) ← readRatValue bytes
-  let (m10, bytes) ← readRatValue bytes
-  let (m11, bytes) ← readRatValue bytes
-  let (m12, bytes) ← readRatValue bytes
-  let (m20, bytes) ← readRatValue bytes
-  let (m21, bytes) ← readRatValue bytes
-  let (m22, bytes) ← readRatValue bytes
-  .ok ({
-    m00 := m00, m01 := m01, m02 := m02
-    m10 := m10, m11 := m11, m12 := m12
-    m20 := m20, m21 := m21, m22 := m22
-  }, bytes)
+    Except DecodeError (Mat3 Rat × List Nat) :=
+  bindExcept (readRatValue bytes) fun (m00, bytes) =>
+    bindExcept (readRatValue bytes) fun (m01, bytes) =>
+      bindExcept (readRatValue bytes) fun (m02, bytes) =>
+        bindExcept (readRatValue bytes) fun (m10, bytes) =>
+          bindExcept (readRatValue bytes) fun (m11, bytes) =>
+            bindExcept (readRatValue bytes) fun (m12, bytes) =>
+              bindExcept (readRatValue bytes) fun (m20, bytes) =>
+                bindExcept (readRatValue bytes) fun (m21, bytes) =>
+                  bindExcept (readRatValue bytes) fun (m22, bytes) =>
+                    .ok ({
+                      m00 := m00, m01 := m01, m02 := m02
+                      m10 := m10, m11 := m11, m12 := m12
+                      m20 := m20, m21 := m21, m22 := m22
+                    }, bytes)
 
 def readMat4Rat (bytes : List Nat) :
-    Except DecodeError (Mat4 × List Nat) := do
-  let (m00, bytes) ← readRatValue bytes
-  let (m01, bytes) ← readRatValue bytes
-  let (m02, bytes) ← readRatValue bytes
-  let (m03, bytes) ← readRatValue bytes
-  let (m10, bytes) ← readRatValue bytes
-  let (m11, bytes) ← readRatValue bytes
-  let (m12, bytes) ← readRatValue bytes
-  let (m13, bytes) ← readRatValue bytes
-  let (m20, bytes) ← readRatValue bytes
-  let (m21, bytes) ← readRatValue bytes
-  let (m22, bytes) ← readRatValue bytes
-  let (m23, bytes) ← readRatValue bytes
-  let (m30, bytes) ← readRatValue bytes
-  let (m31, bytes) ← readRatValue bytes
-  let (m32, bytes) ← readRatValue bytes
-  let (m33, bytes) ← readRatValue bytes
-  .ok ({
-    m00 := m00, m01 := m01, m02 := m02, m03 := m03
-    m10 := m10, m11 := m11, m12 := m12, m13 := m13
-    m20 := m20, m21 := m21, m22 := m22, m23 := m23
-    m30 := m30, m31 := m31, m32 := m32, m33 := m33
-  }, bytes)
+    Except DecodeError (Mat4 × List Nat) :=
+  bindExcept (readRatValue bytes) fun (m00, bytes) =>
+    bindExcept (readRatValue bytes) fun (m01, bytes) =>
+      bindExcept (readRatValue bytes) fun (m02, bytes) =>
+        bindExcept (readRatValue bytes) fun (m03, bytes) =>
+          bindExcept (readRatValue bytes) fun (m10, bytes) =>
+            bindExcept (readRatValue bytes) fun (m11, bytes) =>
+              bindExcept (readRatValue bytes) fun (m12, bytes) =>
+                bindExcept (readRatValue bytes) fun (m13, bytes) =>
+                  bindExcept (readRatValue bytes) fun (m20, bytes) =>
+                    bindExcept (readRatValue bytes) fun (m21, bytes) =>
+                      bindExcept (readRatValue bytes) fun (m22, bytes) =>
+                        bindExcept (readRatValue bytes) fun (m23, bytes) =>
+                          bindExcept (readRatValue bytes) fun (m30, bytes) =>
+                            bindExcept (readRatValue bytes) fun (m31, bytes) =>
+                              bindExcept (readRatValue bytes) fun (m32, bytes) =>
+                                bindExcept (readRatValue bytes) fun (m33, bytes) =>
+                                  .ok ({
+                                    m00 := m00, m01 := m01, m02 := m02,
+                                    m03 := m03
+                                    m10 := m10, m11 := m11, m12 := m12,
+                                    m13 := m13
+                                    m20 := m20, m21 := m21, m22 := m22,
+                                    m23 := m23
+                                    m30 := m30, m31 := m31, m32 := m32,
+                                    m33 := m33
+                                  }, bytes)
 
 def readStep14 (bytes : List Nat) :
-    Except DecodeError (Step14 × List Nat) := do
-  let (value, bytes) ← readVarint bytes
-  if h : value < 14 then
-    .ok (⟨value, h⟩, bytes)
-  else
-    .error DecodeError.invalidEnumTag
+    Except DecodeError (Step14 × List Nat) :=
+  bindExcept (readVarint bytes) fun (value, bytes) =>
+    if h : value < 14 then
+      .ok (⟨value, h⟩, bytes)
+    else
+      .error DecodeError.invalidEnumTag
 
 def readImpact15 (bytes : List Nat) :
-    Except DecodeError (Impact15 × List Nat) := do
-  let (value, bytes) ← readVarint bytes
-  if h : value < 15 then
-    .ok (⟨value, h⟩, bytes)
-  else
-    .error DecodeError.invalidEnumTag
+    Except DecodeError (Impact15 × List Nat) :=
+  bindExcept (readVarint bytes) fun (value, bytes) =>
+    if h : value < 15 then
+      .ok (⟨value, h⟩, bytes)
+    else
+      .error DecodeError.invalidEnumTag
 
 def readCompactResidualFailure (bytes : List Nat) :
-    Except DecodeError (CompactNonIdResidualFailure × List Nat) := do
-  let (tag, bytes) ← readVarint bytes
-  match tag with
-  | 0 => .ok (CompactNonIdResidualFailure.axisMissesStartInterior, bytes)
-  | 1 =>
-      let (step, bytes) ← readStep14 bytes
-      .ok (CompactNonIdResidualFailure.badFirstHit step, bytes)
-  | 2 =>
-      let (impact, bytes) ← readImpact15 bytes
-      let (badFace, bytes) ← readFace bytes
-      .ok (CompactNonIdResidualFailure.badHitInterior impact badFace, bytes)
-  | _ => .error DecodeError.invalidEnumTag
+    Except DecodeError (CompactNonIdResidualFailure × List Nat) :=
+  bindExcept (readVarint bytes) fun (tag, bytes) =>
+    match tag with
+    | 0 => .ok (CompactNonIdResidualFailure.axisMissesStartInterior, bytes)
+    | 1 =>
+        bindExcept (readStep14 bytes) fun (step, bytes) =>
+          .ok (CompactNonIdResidualFailure.badFirstHit step, bytes)
+    | 2 =>
+        bindExcept (readImpact15 bytes) fun (impact, bytes) =>
+          bindExcept (readFace bytes) fun (badFace, bytes) =>
+            .ok
+              (CompactNonIdResidualFailure.badHitInterior impact badFace,
+                bytes)
+    | _ => .error DecodeError.invalidEnumTag
 
 def readCompactResidualCert (bytes : List Nat) :
-    Except DecodeError (CompactNonIdResidualCert × List Nat) := do
-  let (rank, bytes) ← readVarint bytes
-  let rank ←
-    if h : rank < numPairWords then
-      .ok (⟨rank, h⟩ : Fin numPairWords)
-    else
-      .error DecodeError.rankOutOfBounds
-  let (word, bytes) ← readPairWord bytes
-  let (axis, bytes) ← readVec3Rat bytes
-  let (kernel, bytes) ← readMat3Rat bytes
-  let (forcedSeq, bytes) ← readFaceVector14 bytes
-  let (p0, bytes) ← readVec3Rat bytes
-  let (lambda, bytes) ← readRatValue bytes
-  let (solve, bytes) ← readMat4Rat bytes
-  let (failure, bytes) ← readCompactResidualFailure bytes
-  .ok ({
-    rank := rank
-    word := word
-    axis := axis
-    kernel := { crossFactor := kernel }
-    forcedSeq := forcedSeq
-    p0 := p0
-    lambda := lambda
-    solve := { leftInverse := solve }
-    failure := failure
-  }, bytes)
+    Except DecodeError (CompactNonIdResidualCert × List Nat) :=
+  bindExcept (readVarint bytes) fun (rank, bytes) =>
+    bindExcept
+      (if h : rank < numPairWords then
+        .ok (⟨rank, h⟩ : Fin numPairWords)
+      else
+        .error DecodeError.rankOutOfBounds)
+      fun rank =>
+        bindExcept (readPairWord bytes) fun (word, bytes) =>
+          bindExcept (readVec3Rat bytes) fun (axis, bytes) =>
+            bindExcept (readMat3Rat bytes) fun (kernel, bytes) =>
+              bindExcept (readFaceVector14 bytes) fun (forcedSeq, bytes) =>
+                bindExcept (readVec3Rat bytes) fun (p0, bytes) =>
+                  bindExcept (readRatValue bytes) fun (lambda, bytes) =>
+                    bindExcept (readMat4Rat bytes) fun (solve, bytes) =>
+                      bindExcept (readCompactResidualFailure bytes)
+                        fun (failure, bytes) =>
+                          .ok ({
+                            rank := rank
+                            word := word
+                            axis := axis
+                            kernel := { crossFactor := kernel }
+                            forcedSeq := forcedSeq
+                            p0 := p0
+                            lambda := lambda
+                            solve := { leftInverse := solve }
+                            failure := failure
+                          }, bytes)
 
 def readCompactResidualCerts :
     Nat -> List Nat ->
       Except DecodeError (List CompactNonIdResidualCert × List Nat)
   | 0, bytes => .ok ([], bytes)
-  | n + 1, bytes => do
-      let (cert, bytes) ← readCompactResidualCert bytes
-      let (certs, bytes) ← readCompactResidualCerts n bytes
-      .ok (cert :: certs, bytes)
+  | n + 1, bytes =>
+      bindExcept (readCompactResidualCert bytes) fun (cert, bytes) =>
+        bindExcept (readCompactResidualCerts n bytes) fun (certs, bytes) =>
+          .ok (cert :: certs, bytes)
 
 def parseCompactResidualCertsSection
-    (bytes : List Nat) : Except DecodeError (Array CompactNonIdResidualCert) := do
-  let (count, bytes) ← readVarint bytes
-  let (certs, rest) ← readCompactResidualCerts count bytes
-  if rest = [] then .ok certs.toArray else .error DecodeError.trailingInput
+    (bytes : List Nat) : Except DecodeError (Array CompactNonIdResidualCert) :=
+  bindExcept (readVarint bytes) fun (count, bytes) =>
+    bindExcept (readCompactResidualCerts count bytes) fun (certs, rest) =>
+      if rest = [] then .ok certs.toArray else .error DecodeError.trailingInput
 
 def parsePackedResidualBytes
     (bytes : List Nat) :
-    Except DecodeError (Array CompactNonIdResidualCert) := do
+    Except DecodeError (Array CompactNonIdResidualCert) :=
   match bytes with
   | 67 :: 79 :: 82 :: 67 :: version :: rest =>
       if version = 1 then
-        let (sectionCount, rest) ← readVarint rest
-        let (headers, rest) ← readSectionHeaders sectionCount rest
-        if sectionIdsUnique headers then
-          let sections ← readSectionPayloads headers rest
-          let metadata ← parseNatArraySection (← lookupSection 1 sections)
-          let certs ← parseCompactResidualCertsSection (← lookupSection 2 sections)
-          if metadata.size = 2 ∧ metadata[0]! = certs.size then
-            .ok certs
-          else
-            .error DecodeError.countMismatch
-        else
-          .error DecodeError.duplicateSection
+        bindExcept (readVarint rest) fun (sectionCount, rest) =>
+          bindExcept (readSectionHeaders sectionCount rest) fun (headers, rest) =>
+            if sectionIdsUnique headers then
+              bindExcept (readSectionPayloads headers rest) fun sections =>
+                bindExcept (lookupSection 1 sections) fun metadataBytes =>
+                  bindExcept (parseNatArraySection metadataBytes) fun metadata =>
+                    bindExcept (lookupSection 2 sections) fun certBytes =>
+                      bindExcept (parseCompactResidualCertsSection certBytes)
+                        fun certs =>
+                          if metadata.size = 2 ∧ metadata[0]! = certs.size then
+                            .ok certs
+                          else
+                            .error DecodeError.countMismatch
+            else
+              .error DecodeError.duplicateSection
       else
         .error DecodeError.badVersion
   | _ => .error DecodeError.badMagic
 
 def decodePackedResidualCerts
-    (text : String) : Except DecodeError (Array CompactNonIdResidualCert) := do
-  parsePackedResidualBytes (← decodeBase64 text)
+    (text : String) : Except DecodeError (Array CompactNonIdResidualCert) :=
+  bindExcept (decodeBase64 text) parsePackedResidualBytes
+
+attribute [reducible]
+  base64Char?
+  decodeBase64Chars
+  decodeBase64
+  readVarintFuel
+  readVarint
+  takeBytes
+  readSectionHeaders
+  sectionIdsUnique
+  readSectionPayloads
+  lookupSection
+  parseSingleNatSection
+  readNatValues
+  parseNatArraySection
+  parsePairIdTag
+  parseFaceTag
+  decodeZigZag
+  readSignedInt
+  readRatValue
+  readPairId
+  readFace
+  readPairWord
+  readFaceVector14
+  readVec3Rat
+  readMat3Rat
+  readMat4Rat
+  readStep14
+  readImpact15
+  readCompactResidualFailure
+  readCompactResidualCert
+  readCompactResidualCerts
+  parseCompactResidualCertsSection
+  parsePackedResidualBytes
+  decodePackedResidualCerts
 
 noncomputable def decodedPackedResidualCerts
     (text : String) : Array CompactNonIdResidualCert :=

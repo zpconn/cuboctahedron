@@ -1304,6 +1304,22 @@ def lean_face_vector_literal(seq: list[str]) -> str:
     return "  ⟨#[" + ", ".join(lean_face(face) for face in seq) + "], by decide⟩"
 
 
+def lean_nat_list_literal(values: list[int], *, indent: str = "  ") -> list[str]:
+    if not values:
+        return [indent + "[]"]
+    chunks = [
+        ", ".join(str(value) for value in values[index:index + 20])
+        for index in range(0, len(values), 20)
+    ]
+    if len(chunks) == 1:
+        return [indent + "[" + chunks[0] + "]"]
+    lines = [indent + "[" + chunks[0] + ","]
+    for chunk in chunks[1:-1]:
+        lines.append(indent + "  " + chunk + ",")
+    lines.append(indent + "  " + chunks[-1] + "]")
+    return lines
+
+
 def word_name(rank: int) -> str:
     return f"wordRank{rank:09d}"
 
@@ -3556,6 +3572,75 @@ def append_common_check_theorem(
     return theorem
 
 
+def append_residual_boolean_check_theorems(lines: list[str], cert: dict) -> str:
+    name = cert["name"]
+    failure = cert["failure"]
+    common_b = f"{name}_commonCheckB"
+    lines.extend([
+        f"theorem {common_b} :",
+        f"    checkNonIdCommonB {name} = true := by",
+        "  apply checkNonIdCommonB_complete",
+        f"  · simpa [{name}] using",
+        f"      {name}_validPairWord",
+        f"  · simpa [{name}] using",
+        f"      {name}_nonIdentity",
+        f"  · simpa [{name}] using",
+        f"      {name}_kernelCheck",
+        f"  · exact checkForcedSeqMatchesWord_sound",
+        f"      {name}",
+        f"      {name}_forcedSeqMatches",
+        f"  · simpa [{name}] using",
+        f"      {name}_axisSolveCheck",
+        "",
+    ])
+
+    theorem = f"{name}_residualBCheck"
+    if failure["kind"] == "axisMissesStartInterior":
+        lines.extend([
+            f"theorem {theorem} :",
+            f"    checkNonIdResidualCertB {name} = true := by",
+            "  apply checkNonIdResidualCertB_axisMissesStartInterior",
+            "  · rfl",
+            f"  · exact {common_b}",
+            "  · exact checkAxisForcesForcedSeqB_complete",
+            f"      {name}_axisForces",
+            "  · exact checkXpStartInteriorQB_false_complete",
+            f"      {name}_notXpStartInterior",
+            "",
+        ])
+    elif failure["kind"] == "badFirstHit":
+        lines.extend([
+            f"theorem {theorem} :",
+            f"    checkNonIdResidualCertB {name} = true := by",
+            "  apply checkNonIdResidualCertB_badFirstHit",
+            "  · rfl",
+            f"  · exact {common_b}",
+            "  · exact checkAxisForcesForcedSeqB_complete",
+            f"      {name}_axisForces",
+            "  · exact checkCandidateOrderingFailsB_complete",
+            f"      {name}_candidateOrderingFails",
+            "",
+        ])
+    elif failure["kind"] == "badHitInterior":
+        lines.extend([
+            f"theorem {theorem} :",
+            f"    checkNonIdResidualCertB {name} = true := by",
+            "  apply checkNonIdResidualCertB_badHitInterior",
+            "  · rfl",
+            f"  · exact {common_b}",
+            "  · exact checkAxisForcesForcedSeqB_complete",
+            f"      {name}_axisForces",
+            "  · exact checkCandidateHitInteriorFailsB_complete",
+            f"      {name}_candidateHitInteriorFails",
+            "",
+        ])
+    else:
+        raise ValueError(
+            f"unsupported residual Boolean proof template: {failure['kind']}"
+        )
+    return theorem
+
+
 def append_not_xp_start_interior_theorem(lines: list[str], cert: dict) -> str:
     name = cert["name"]
     theorem = f"{name}_notXpStartInterior"
@@ -4688,6 +4773,8 @@ def write_residual_nonidentity_templates_lean(payload: dict) -> None:
     for cert in certs:
         append_nonid_cert(lines, cert)
     check_names = [append_nonid_check_theorem_full(lines, cert) for cert in certs]
+    for cert in certs:
+        append_residual_boolean_check_theorems(lines, cert)
     cert_names = ", ".join(cert["name"] for cert in certs)
     lines.extend([
         "def residualTemplateCerts : Array NonIdCert :=",
@@ -4740,7 +4827,7 @@ def lean_compact_residual_failure(failure: dict) -> str:
 
 def append_compact_residual_cert(lines: list[str], cert: dict) -> str:
     source_name = cert["name"]
-    name = f"compact{source_name[0].upper()}{source_name[1:]}"
+    name = compact_residual_name(cert)
     axis = tuple(Fraction(x) for x in cert["axis"])  # type: ignore[assignment]
     kernel = tuple(
         tuple(Fraction(x) for x in row)
@@ -4766,6 +4853,11 @@ def append_compact_residual_cert(lines: list[str], cert: dict) -> str:
         "",
     ])
     return name
+
+
+def compact_residual_name(cert: dict) -> str:
+    source_name = cert["name"]
+    return f"compact{source_name[0].upper()}{source_name[1:]}"
 
 
 def write_compact_residual_certificates_lean(payload: dict) -> None:
@@ -4809,8 +4901,12 @@ def write_compact_residual_certificates_lean(payload: dict) -> None:
             f"  have h{idx}Check : checkCompactNonIdResidual {name} = true := by",
             "    unfold checkCompactNonIdResidual",
             f"    change (checkNonIdCoveredRank {cert['rank']} {name}.toNonIdCert &&",
-            f"        checkNonIdCert {name}.toNonIdCert) = true",
-            f"    rw [h{idx}Rank, h{idx}Eq, {source_name}_check]",
+            f"        checkNonIdResidualCertB {name}.toNonIdCert) = true",
+            f"    have h{idx}Residual :",
+            f"        checkNonIdResidualCertB {name}.toNonIdCert = true := by",
+            f"      rw [h{idx}Eq]",
+            f"      exact {source_name}_residualBCheck",
+            f"    rw [h{idx}Rank, h{idx}Residual]",
             "    rfl",
         ])
     check_names = ", ".join(f"h{idx}Check" for idx in range(len(compact_names)))
@@ -5032,24 +5128,51 @@ def packed_residual_blob(*, certs: list[dict], residual_cases: int) -> bytes:
     return bytes(header)
 
 
-def write_packed_residual_pilot_lean() -> None:
+def write_packed_residual_pilot_lean(
+    *, certs: list[dict], residual_cases: int, blob: bytes
+) -> None:
+    if len(certs) != 2:
+        raise ValueError("packed residual pilot emitter expects two template certs")
+    cert_chunks = [encode_compact_residual_cert(cert) for cert in certs]
+    metadata = bytearray(encode_uvarint(2))
+    metadata.extend(encode_uvarint(len(certs)))
+    metadata.extend(encode_uvarint(residual_cases))
+    cert_payload = bytes(encode_uvarint(len(certs))) + b"".join(cert_chunks)
+    header_tail = (
+        bytes(encode_uvarint(1)) +
+        bytes(encode_uvarint(len(metadata))) +
+        bytes(encode_uvarint(2)) +
+        bytes(encode_uvarint(len(cert_payload)))
+    )
+    expected_blob = b"CORC" + bytes([1]) + bytes(encode_uvarint(2)) + \
+        header_tail + bytes(metadata) + cert_payload
+    if expected_blob != blob:
+        raise ValueError("packed residual proof bytes do not match blob")
+
     relative_parts = ['".."', '".."', '".."', '".."', '"certs"',
         f'"{PACKED_RESIDUAL_PILOT_BLOB_PATH.name}"']
     include_path = "/".join(relative_parts)
+    compact_names = [compact_residual_name(cert) for cert in certs]
+
     lines = [
         "import Cuboctahedron.Search.CertificateChecker",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
         "",
         "/-!",
-        "Generated packed residual non-identity certificate smoke pilot for Step 14E.7B5.",
+        "Generated packed residual non-identity certificate pilot for Step 14E.7B5.",
         "",
-        "The full packed pilot blob is generated and checked independently by",
-        "`scripts/check_certificates_independently.py`.  This Lean file keeps a tiny",
-        "packed blob on the proof side so the Base64/section-table/certificate-array",
-        "decoder path is kernel-checked without making `lake build` spend minutes",
-        "normalizing generated data.",
+        "The smoke blob keeps a tiny decoder sanity check in-tree.  The full pilot",
+        "theorem checks the generated packed blob itself through the same computable",
+        "residual checker used by future packed chunks.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated.NonIdentity.Residual.PackedPilot",
+        "",
+        "open Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
+        "",
+        "set_option maxHeartbeats 2000000",
+        "set_option maxRecDepth 100000",
+        "set_option linter.unusedSimpArgs false",
         "",
         f"def packedResidualPilotBlob : String := include_str {include_path}",
         "",
@@ -5072,18 +5195,151 @@ def write_packed_residual_pilot_lean() -> None:
         "      .ok (#[] : Array CompactNonIdResidualCert) := by",
         "  decide",
         "",
-        "theorem packedResidualPilotDecoded_checked :",
-        "    (match decodePackedResidualCerts packedResidualSmokeBlob with",
-        "      | .ok certs => checkCompactNonIdResiduals certs = true",
-        "      | .error _ => False) := by",
-        "  rw [packedResidualSmokeDecode_eq]",
+        "def packedResidualPilotMetadataBytes : List Nat :=",
+        *lean_nat_list_literal(list(metadata)),
+        "",
+        "def packedResidualPilotHeaderBytes : List Nat :=",
+        *lean_nat_list_literal(list(header_tail)),
+        "",
+        "def packedResidualPilotCert0Bytes : List Nat :=",
+        *lean_nat_list_literal(list(cert_chunks[0])),
+        "",
+        "def packedResidualPilotCert1Bytes : List Nat :=",
+        *lean_nat_list_literal(list(cert_chunks[1])),
+        "",
+        "def packedResidualPilotCertBytes : List Nat :=",
+        "  2 :: (packedResidualPilotCert0Bytes ++",
+        "    packedResidualPilotCert1Bytes)",
+        "",
+        "def packedResidualPilotBytes : List Nat :=",
+        "  [67, 79, 82, 67, 1, 2] ++ packedResidualPilotHeaderBytes ++",
+        "    packedResidualPilotMetadataBytes ++ packedResidualPilotCertBytes",
+        "",
+        "def packedResidualPilotHeaders : List SectionHeader :=",
+        f"  [{{ id := 1, length := {len(metadata)} }},",
+        f"    {{ id := 2, length := {len(cert_payload)} }}]",
+        "",
+        "def packedResidualPilotSections : List (Nat × List Nat) :=",
+        "  [(1, packedResidualPilotMetadataBytes),",
+        "    (2, packedResidualPilotCertBytes)]",
+        "",
+        "theorem packedResidualPilotBase64_eq :",
+        "    decodeBase64 packedResidualPilotBlob = .ok packedResidualPilotBytes := by",
+        "  unfold packedResidualPilotBlob packedResidualPilotBytes",
+        "  unfold packedResidualPilotHeaderBytes packedResidualPilotMetadataBytes",
+        "  unfold packedResidualPilotCertBytes",
+        "  unfold packedResidualPilotCert0Bytes packedResidualPilotCert1Bytes",
+        "  decide",
+        "",
+        "theorem packedResidualPilotCert0_decode :",
+        "    readCompactResidualCert",
+        "      (packedResidualPilotCert0Bytes ++ packedResidualPilotCert1Bytes) =",
+        "      .ok",
+        f"        ({compact_names[0]},",
+        "          packedResidualPilotCert1Bytes) := by",
+        "  unfold packedResidualPilotCert0Bytes packedResidualPilotCert1Bytes",
+        f"  unfold {compact_names[0]}",
+        "  norm_num [numPairWords, readCompactResidualCert,",
+        "    readCompactResidualFailure, readPairWord, readFaceVector14, readVec3Rat,",
+        "    readMat3Rat, readMat4Rat, readRatValue, readSignedInt, readPairId,",
+        "    readFace, readStep14, readImpact15, readVarint, readVarintFuel,",
+        "    bindExcept, parsePairIdTag, parseFaceTag, decodeZigZag]",
+        "  repeat' constructor",
+        "  all_goals",
+        "    apply Rat.ext <;>",
+        "      simp [Rat.normalize_eq, Int.negSucc_eq, Int.sign] <;>",
+        "      norm_num",
+        "",
+        "theorem packedResidualPilotCert1_decode :",
+        "    readCompactResidualCert packedResidualPilotCert1Bytes =",
+        f"      .ok ({compact_names[1]}, []) := by",
+        f"  unfold packedResidualPilotCert1Bytes {compact_names[1]}",
+        "  norm_num [numPairWords, readCompactResidualCert,",
+        "    readCompactResidualFailure, readPairWord, readFaceVector14, readVec3Rat,",
+        "    readMat3Rat, readMat4Rat, readRatValue, readSignedInt, readPairId,",
+        "    readFace, readStep14, readImpact15, readVarint, readVarintFuel,",
+        "    bindExcept, parsePairIdTag, parseFaceTag, decodeZigZag]",
+        "  repeat' constructor",
+        "  all_goals",
+        "    apply Rat.ext <;>",
+        "      simp [Rat.normalize_eq, Int.negSucc_eq, Int.sign] <;>",
+        "      norm_num",
+        "",
+        "theorem packedResidualPilotCerts_read :",
+        "    readCompactResidualCerts 2",
+        "      (packedResidualPilotCert0Bytes ++ packedResidualPilotCert1Bytes) =",
+        "      .ok",
+        f"        ([{compact_names[0]},",
+        f"          {compact_names[1]}], []) := by",
+        "  simp [readCompactResidualCerts, packedResidualPilotCert0_decode,",
+        "    packedResidualPilotCert1_decode, bindExcept]",
+        "",
+        "theorem packedResidualPilotCertSection_decode :",
+        "    parseCompactResidualCertsSection packedResidualPilotCertBytes =",
+        "      .ok compactResidualPilotCerts := by",
+        "  unfold parseCompactResidualCertsSection packedResidualPilotCertBytes",
+        "  unfold compactResidualPilotCerts",
+        "  simp [readVarint, readVarintFuel, bindExcept]",
+        "  rw [packedResidualPilotCerts_read]",
         "  rfl",
         "",
+        "theorem packedResidualPilotHeaders_read :",
+        "    readSectionHeaders 2",
+        "      (packedResidualPilotHeaderBytes ++",
+        "        (packedResidualPilotMetadataBytes ++ packedResidualPilotCertBytes)) =",
+        "      .ok",
+        "        (packedResidualPilotHeaders,",
+        "          packedResidualPilotMetadataBytes ++ packedResidualPilotCertBytes) := by",
+        "  unfold packedResidualPilotHeaders packedResidualPilotHeaderBytes",
+        "  unfold packedResidualPilotMetadataBytes packedResidualPilotCertBytes",
+        "  unfold packedResidualPilotCert0Bytes packedResidualPilotCert1Bytes",
+        "  norm_num [readSectionHeaders, readVarint, readVarintFuel, bindExcept]",
+        "",
+        "theorem packedResidualPilotPayloads_read :",
+        "    readSectionPayloads packedResidualPilotHeaders",
+        "      (packedResidualPilotMetadataBytes ++ packedResidualPilotCertBytes) =",
+        "      .ok packedResidualPilotSections := by",
+        "  unfold packedResidualPilotHeaders packedResidualPilotSections",
+        "  unfold packedResidualPilotMetadataBytes packedResidualPilotCertBytes",
+        "  unfold packedResidualPilotCert0Bytes packedResidualPilotCert1Bytes",
+        "  norm_num [readSectionPayloads, takeBytes, bindExcept]",
+        "",
+        "theorem packedResidualPilotBytes_parse :",
+        "    parsePackedResidualBytes packedResidualPilotBytes =",
+        "      .ok compactResidualPilotCerts := by",
+        "  unfold parsePackedResidualBytes packedResidualPilotBytes",
+        "  simp [readVarint, readVarintFuel, bindExcept]",
+        "  rw [packedResidualPilotHeaders_read]",
+        "  simp [sectionIdsUnique, bindExcept]",
+        "  rw [packedResidualPilotPayloads_read]",
+        "  simp [packedResidualPilotHeaders, packedResidualPilotSections,",
+        "    packedResidualPilotMetadataBytes, lookupSection, parseNatArraySection,",
+        "    readVarint, readVarintFuel, readNatValues, bindExcept,",
+        "    packedResidualPilotCertSection_decode, compactResidualPilotCerts]",
+        "",
+        "theorem packedResidualPilot_decode :",
+        "    decodePackedResidualCerts packedResidualPilotBlob =",
+        "      .ok compactResidualPilotCerts := by",
+        "  unfold decodePackedResidualCerts",
+        "  rw [packedResidualPilotBase64_eq]",
+        "  simp [bindExcept, packedResidualPilotBytes_parse]",
+        "",
+        "def packedResidualPilotDecodedCheck : Bool :=",
+        "  match decodePackedResidualCerts packedResidualPilotBlob with",
+        "  | .ok certs => checkCompactNonIdResiduals certs",
+        "  | .error _ => false",
+        "",
+        "theorem packedResidualPilotDecoded_checked :",
+        "    packedResidualPilotDecodedCheck = true := by",
+        "  unfold packedResidualPilotDecodedCheck",
+        "  rw [packedResidualPilot_decode]",
+        "  exact compactResidualPilot_check",
+        "",
         "theorem packedResidualPilot_check :",
-        "    checkPackedResidualCerts packedResidualSmokeBlob = true := by",
+        "    checkPackedResidualCerts packedResidualPilotBlob = true := by",
         "  unfold checkPackedResidualCerts",
-        "  rw [packedResidualSmokeDecode_eq]",
-        "  rfl",
+        "  rw [packedResidualPilot_decode]",
+        "  exact compactResidualPilot_check",
         "",
         "end Cuboctahedron.Generated.NonIdentity.Residual.PackedPilot",
         "",
@@ -5107,7 +5363,9 @@ def build_packed_residual_certificates_payload() -> dict:
     blob_text = compact_blob_text(blob)
     PACKED_RESIDUAL_PILOT_BLOB_PATH.parent.mkdir(parents=True, exist_ok=True)
     PACKED_RESIDUAL_PILOT_BLOB_PATH.write_text(blob_text, encoding="ascii")
-    write_packed_residual_pilot_lean()
+    write_packed_residual_pilot_lean(
+        certs=certs, residual_cases=residual_cases, blob=blob
+    )
 
     cert_count = len(certs)
     blob_text_bytes = len(blob_text.encode("ascii"))
@@ -5134,9 +5392,9 @@ def build_packed_residual_certificates_payload() -> dict:
         NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH
     )
     packed_pilot_record.update({
-        "proof_scope": "decoder_smoke_blob",
+        "proof_scope": "full_packed_pilot_blob",
         "full_blob_decoded_by_independent_checker": True,
-        "full_blob_lean_check": False,
+        "full_blob_lean_check": True,
     })
     return {
         "schema_version": 1,
@@ -5390,6 +5648,7 @@ def build_exhaustive_real_certs_summary(
         if not compact_residual.get("complete", False):
             compact_residual = None
     packed_residual = None
+    packed_residual_full_lean_check_ready = False
     if PACKED_RESIDUAL_CERTIFICATES_JSON_PATH.exists():
         packed_residual = load_json_artifact(
             PACKED_RESIDUAL_CERTIFICATES_JSON_PATH,
@@ -5397,6 +5656,13 @@ def build_exhaustive_real_certs_summary(
         )
         if not packed_residual.get("complete", False):
             packed_residual = None
+        else:
+            packed_pilot = packed_residual.get("generated_lean", {}).get(
+                "packed_pilot", {}
+            )
+            packed_residual_full_lean_check_ready = (
+                packed_pilot.get("full_blob_lean_check") is True
+            )
     required_parametric_semantics_api = [
         "checkNonIdParametricFamily",
         "checkNonIdParametricFamily_sound",
@@ -5527,6 +5793,8 @@ def build_exhaustive_real_certs_summary(
         refusal_reasons.append("family_partition_exhaustive_data_not_emitted")
     if not residual_templates_ready:
         refusal_reasons.append("residual_nonidentity_templates_not_ready")
+    if not packed_residual_full_lean_check_ready:
+        refusal_reasons.append("packed_residual_full_blob_lean_check_not_ready")
     implementation_preflight = build_full_emission_size_preflight(
         residual_templates=residual_templates,
         compact_residual=compact_residual,
@@ -5546,6 +5814,8 @@ def build_exhaustive_real_certs_summary(
     elif refusal_reasons:
         if preflight_refusal_reasons:
             emission_status = "refused_generation_size_preflight"
+        elif "packed_residual_full_blob_lean_check_not_ready" in refusal_reasons:
+            emission_status = "blocked_packed_residual_full_blob_lean_check"
         else:
             emission_status = (
                 "refused_budget_exceeded"

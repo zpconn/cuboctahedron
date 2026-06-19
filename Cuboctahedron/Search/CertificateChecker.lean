@@ -60,7 +60,7 @@ theorem checkCertBundle_sound
     ExhaustiveGeneratedCoverage := by
   simp [checkCertBundle] at hcheck
 
-noncomputable def checkPackedResidualCerts (blob : String) : Bool :=
+def checkPackedResidualCerts (blob : String) : Bool :=
   match decodePackedResidualCerts blob with
   | .ok certs => checkCompactNonIdResiduals certs
   | .error _ => false
@@ -79,13 +79,15 @@ theorem checkPackedResidualCerts_sound
       simp [hdecode] at hcheck
   | ok certs =>
       simp [hdecode] at hcheck
+      have hcheckList : certs.toList.all checkCompactNonIdResidual = true := by
+        simpa [checkCompactNonIdResiduals] using hcheck
       intro cert hmem
       have hmemList : cert ∈ certs.toList := by
         simpa [decodedPackedResidualCerts, hdecode] using hmem
       have hcovered :
           CompactNonIdResidualCovered cert :=
         (checkCompactNonIdResiduals_sound
-          (certs := certs.toList) hcheck) cert hmemList
+          (certs := certs.toList) hcheckList) cert hmemList
       exact ⟨cert.toNonIdCert,
         checkNonIdCoveredRank_word (r := cert.rank) hcovered.1,
         hcovered.2⟩

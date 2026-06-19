@@ -191,10 +191,10 @@
   "expected_residual_singleton_cases": 2038656,
   "generated_lean": {
     "residual_templates": {
-      "bytes": 80266,
+      "bytes": 82638,
       "exists": true,
       "path": "Cuboctahedron/Generated/NonIdentity/ResidualTemplates.lean",
-      "sha256": "f1fcc2576ac9e17c51c533aba5d09783b507b65478e104571de9d6b64d16fc69"
+      "sha256": "718b198de6b22d44809509daaf0a16b8b0e977b288db58226af2dc87737b74ab"
     }
   },
   "mode": "residual-nonidentity-templates",

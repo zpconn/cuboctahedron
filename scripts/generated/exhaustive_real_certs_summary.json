@@ -6,8 +6,8 @@
     "translation_sign_assignments": 157957632
   },
   "budget": {
-    "free_bytes": 867339685888,
-    "free_gib": 807.7730293273926,
+    "free_bytes": 867316969472,
+    "free_gib": 807.7518730163574,
     "generated_data_budget_bytes": 8589934592,
     "generated_data_budget_gib": 8.0,
     "required_free_bytes": 107374182400,
@@ -16,22 +16,22 @@
   "compact_residual_certificates": {
     "generated_lean": {
       "compact_pilot": {
-        "bytes": 4412,
+        "bytes": 4754,
         "exists": true,
         "path": "Cuboctahedron/Generated/NonIdentity/Residual/CompactPilot.lean"
       }
     },
     "projection": {
-      "bytes_per_compact_cert": 2206,
+      "bytes_per_compact_cert": 2377,
       "format": "compact_nonid_residual_lean_literals",
       "hard_max_file_bytes": 52428800,
       "hard_total_source_bytes": 1342177280,
       "note": "Projection uses compact residual record literals plus small reconstruction proofs, not the earlier verbose per-certificate proof-template emitter.",
       "pilot_cert_count": 2,
-      "pilot_source_bytes": 4412,
-      "projected_chunk_count": 537,
-      "projected_residual_source_bytes": 4497275136,
-      "projected_residual_source_gib": 4.188413858413696,
+      "pilot_source_bytes": 4754,
+      "projected_chunk_count": 578,
+      "projected_residual_source_bytes": 4845885312,
+      "projected_residual_source_gib": 4.513082385063171,
       "refusal_reasons": [
         "compact_residual_source_exceeds_hard_total_limit"
       ],
@@ -115,8 +115,8 @@
     "note": "This is a conservative source-size preflight. It uses the compact residual certificate projection when available, otherwise the compiled residual proof-template module. It intentionally aborts before generating large tracked Lean files when the selected model exceeds GitHub/repo budgets.",
     "packed_residual_projection": {
       "bytes_per_packed_cert": 162,
-      "compact_literal_projected_residual_source_bytes": 4497275136,
-      "compact_literal_projected_residual_source_gib": 4.188413858413696,
+      "compact_literal_projected_residual_source_bytes": 4845885312,
+      "compact_literal_projected_residual_source_gib": 4.513082385063171,
       "format": "packed_nonid_residual_base64",
       "hard_max_file_bytes": 52428800,
       "hard_total_source_bytes": 1342177280,
@@ -151,15 +151,15 @@
   "packed_residual_certificates": {
     "generated_lean": {
       "packed_pilot": {
-        "bytes": 1716,
+        "bytes": 8242,
         "exists": true,
         "path": "Cuboctahedron/Generated/NonIdentity/Residual/PackedPilot.lean"
       }
     },
     "projection": {
       "bytes_per_packed_cert": 162,
-      "compact_literal_projected_residual_source_bytes": 4497275136,
-      "compact_literal_projected_residual_source_gib": 4.188413858413696,
+      "compact_literal_projected_residual_source_bytes": 4845885312,
+      "compact_literal_projected_residual_source_gib": 4.513082385063171,
       "format": "packed_nonid_residual_base64",
       "hard_max_file_bytes": 52428800,
       "hard_total_source_bytes": 1342177280,
@@ -179,7 +179,7 @@
     },
     "ready": true,
     "source": {
-      "bytes": 5011,
+      "bytes": 5014,
       "exists": true,
       "path": "scripts/generated/packed_residual_certificates.json"
     }
@@ -234,7 +234,7 @@
       "path": "scripts/generated/nonidentity_family_sample.json"
     },
     "packed_residual_certificates": {
-      "bytes": 5011,
+      "bytes": 5014,
       "exists": true,
       "path": "scripts/generated/packed_residual_certificates.json"
     },
@@ -283,7 +283,7 @@
   "residual_nonidentity_templates": {
     "generated_lean": {
       "residual_templates": {
-        "bytes": 80266,
+        "bytes": 82638,
         "exists": true,
         "path": "Cuboctahedron/Generated/NonIdentity/ResidualTemplates.lean"
       }

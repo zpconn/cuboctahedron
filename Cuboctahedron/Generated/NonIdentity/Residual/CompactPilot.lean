@@ -51,8 +51,12 @@ theorem compactResidualPilot_check :
   have h0Check : checkCompactNonIdResidual compactResidualAxisMissesStartInteriorTemplate = true := by
     unfold checkCompactNonIdResidual
     change (checkNonIdCoveredRank 12 compactResidualAxisMissesStartInteriorTemplate.toNonIdCert &&
-        checkNonIdCert compactResidualAxisMissesStartInteriorTemplate.toNonIdCert) = true
-    rw [h0Rank, h0Eq, residualAxisMissesStartInteriorTemplate_check]
+        checkNonIdResidualCertB compactResidualAxisMissesStartInteriorTemplate.toNonIdCert) = true
+    have h0Residual :
+        checkNonIdResidualCertB compactResidualAxisMissesStartInteriorTemplate.toNonIdCert = true := by
+      rw [h0Eq]
+      exact residualAxisMissesStartInteriorTemplate_residualBCheck
+    rw [h0Rank, h0Residual]
     rfl
   have h1Eq : compactResidualBadFirstHitTemplate.toNonIdCert = residualBadFirstHitTemplate := by
     rfl
@@ -61,8 +65,12 @@ theorem compactResidualPilot_check :
   have h1Check : checkCompactNonIdResidual compactResidualBadFirstHitTemplate = true := by
     unfold checkCompactNonIdResidual
     change (checkNonIdCoveredRank 159 compactResidualBadFirstHitTemplate.toNonIdCert &&
-        checkNonIdCert compactResidualBadFirstHitTemplate.toNonIdCert) = true
-    rw [h1Rank, h1Eq, residualBadFirstHitTemplate_check]
+        checkNonIdResidualCertB compactResidualBadFirstHitTemplate.toNonIdCert) = true
+    have h1Residual :
+        checkNonIdResidualCertB compactResidualBadFirstHitTemplate.toNonIdCert = true := by
+      rw [h1Eq]
+      exact residualBadFirstHitTemplate_residualBCheck
+    rw [h1Rank, h1Residual]
     rfl
   simp [checkCompactNonIdResiduals, compactResidualPilotCerts,
     h0Check, h1Check]

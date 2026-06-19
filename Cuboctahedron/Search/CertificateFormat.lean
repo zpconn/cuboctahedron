@@ -121,12 +121,12 @@ def CompactNonIdResidualCovered
     (cert : CompactNonIdResidualCert) : Prop :=
   NonIdRankCertificateCovered cert.rank.val cert.toNonIdCert
 
-noncomputable def checkCompactNonIdResidual
+@[reducible] def checkCompactNonIdResidual
     (cert : CompactNonIdResidualCert) : Bool :=
   checkNonIdCoveredRank cert.rank.val cert.toNonIdCert &&
-    checkNonIdCert cert.toNonIdCert
+    checkNonIdResidualCertB cert.toNonIdCert
 
-noncomputable def checkCompactNonIdResiduals
+@[reducible] def checkCompactNonIdResiduals
     (certs : Array CompactNonIdResidualCert) : Bool :=
   certs.toList.all checkCompactNonIdResidual
 
@@ -136,7 +136,8 @@ theorem checkCompactNonIdResidual_sound
     CompactNonIdResidualCovered cert := by
   unfold checkCompactNonIdResidual at hcheck
   unfold CompactNonIdResidualCovered NonIdRankCertificateCovered
-  simpa using hcheck
+  rw [Bool.and_eq_true] at hcheck
+  exact ⟨hcheck.1, checkNonIdResidualCertB_sound hcheck.2⟩
 
 theorem checkCompactNonIdResidual_exists_cert
     (cert : CompactNonIdResidualCert)

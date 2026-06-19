@@ -2465,6 +2465,7 @@ def check_exhaustive_real_certs_summary(payload):
             "refused_budget_exceeded",
             "refused_generation_size_preflight",
             "refused_prerequisite_or_space_check",
+            "blocked_packed_residual_full_blob_lean_check",
             "ready_but_approval_required",
             "approved_but_full_emitter_not_implemented",
             "ready_but_full_emitter_not_implemented",
@@ -2497,6 +2498,24 @@ def check_exhaustive_real_certs_summary(payload):
             "generated_lean_fallback_emitter_not_implemented" in
             emission["refusal_reasons"],
             "fallback emitter missing reason",
+        )
+    if emission["status"] == "blocked_packed_residual_full_blob_lean_check":
+        require(emission["requested"] is True,
+                "packed residual blocked status requested")
+        require(emission["performed"] is False,
+                "packed residual blocked status not performed")
+        require(
+            "packed_residual_full_blob_lean_check_not_ready" in
+            emission["refusal_reasons"],
+            "packed residual blocked reason",
+        )
+        require(packed_residual_payload is not None,
+                "packed residual payload exists for blocked status")
+        require(
+            packed_residual_payload["generated_lean"]["packed_pilot"].get(
+                "full_blob_lean_check"
+            ) is False,
+            "packed residual blocked flag",
         )
     if emission["status"] == "refused_budget_exceeded":
         require(
@@ -3086,11 +3105,11 @@ def check_packed_residual_certificates(payload):
 
     generated = payload["generated_lean"]["packed_pilot"]
     check_generated_file_record(generated, NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH)
-    require(generated.get("proof_scope") == "decoder_smoke_blob",
+    require(generated.get("proof_scope") == "full_packed_pilot_blob",
             "packed residual Lean proof scope")
     require(generated.get("full_blob_decoded_by_independent_checker") is True,
             "packed residual independent full blob decode flag")
-    require(generated.get("full_blob_lean_check") is False,
+    require(generated.get("full_blob_lean_check") is True,
             "packed residual full blob Lean check flag")
     check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH)
     lean_text = NONIDENTITY_RESIDUAL_PACKED_PILOT_LEAN_PATH.read_text(
@@ -3100,6 +3119,8 @@ def check_packed_residual_certificates(payload):
             "packed residual decoded theorem")
     require("packedResidualPilot_check" in lean_text,
             "packed residual check theorem")
+    require("packedResidualPilot_decode" in lean_text,
+            "packed residual full decode theorem")
 
     projection = payload["projection"]
     require(projection["format"] == "packed_nonid_residual_base64",
