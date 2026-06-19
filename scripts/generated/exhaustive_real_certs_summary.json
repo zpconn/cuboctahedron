@@ -6,8 +6,8 @@
     "translation_sign_assignments": 157957632
   },
   "budget": {
-    "free_bytes": 867361026048,
-    "free_gib": 807.7929039001465,
+    "free_bytes": 867358679040,
+    "free_gib": 807.7907180786133,
     "generated_data_budget_bytes": 8589934592,
     "generated_data_budget_gib": 8.0,
     "required_free_bytes": 107374182400,
@@ -66,12 +66,11 @@
   "full_emission": {
     "approval_flag": "--approve-large-exhaustive",
     "large_emission_ready": true,
+    "manifest": null,
     "performed": false,
-    "refusal_reasons": [
-      "generated_lean_fallback_emitter_not_implemented"
-    ],
+    "refusal_reasons": [],
     "requested": false,
-    "status": "ready_but_full_emitter_not_implemented"
+    "status": "ready_but_approval_required"
   },
   "mode": "exhaustive-real-certs",
   "parametric_family_semantics": {
@@ -133,6 +132,11 @@
       "exists": true,
       "path": "scripts/generated/profile_exhaustive_states.json"
     },
+    "residual_nonidentity_templates": {
+      "bytes": 5572,
+      "exists": true,
+      "path": "scripts/generated/residual_nonidentity_templates.json"
+    },
     "translation_family_sample": {
       "bytes": 83233,
       "exists": true,
@@ -153,6 +157,21 @@
       "exact_state_groups": true,
       "with_reversal": true,
       "with_symmetry": true
+    }
+  },
+  "residual_nonidentity_templates": {
+    "generated_lean": {
+      "residual_templates": {
+        "bytes": 80266,
+        "exists": true,
+        "path": "Cuboctahedron/Generated/NonIdentity/ResidualTemplates.lean"
+      }
+    },
+    "ready": true,
+    "source": {
+      "bytes": 5572,
+      "exists": true,
+      "path": "scripts/generated/residual_nonidentity_templates.json"
     }
   },
   "schema_version": 1,

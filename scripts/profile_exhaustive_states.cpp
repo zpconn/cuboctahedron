@@ -102,6 +102,8 @@ bool operator>=(const Q &a, const Q &b) { return !(a < b); }
 
 using Vec = array<Q, 3>;
 using Mat = array<array<Q, 3>, 3>;
+using Vec4 = array<Q, 4>;
+using Mat4 = array<array<Q, 4>, 4>;
 using VecI = array<int, 3>;
 using Lin2 = array<Q, 3>;
 using StrictLine = array<Q, 3>;
@@ -328,6 +330,10 @@ Vec vec_add(const Vec &a, const Vec &b) {
     return {a[0] + b[0], a[1] + b[1], a[2] + b[2]};
 }
 
+Vec vec_sub(const Vec &a, const Vec &b) {
+    return {a[0] - b[0], a[1] - b[1], a[2] - b[2]};
+}
+
 Vec vec_scale(const Q &c, const Vec &v) {
     return {c * v[0], c * v[1], c * v[2]};
 }
@@ -375,6 +381,10 @@ Aff aff_id() {
 
 Aff aff_compose(const Aff &A, const Aff &B) {
     return {mat_mul(A.M, B.M), vec_add(mat_vec(A.M, B.b), A.b)};
+}
+
+Vec aff_apply(const Aff &A, const Vec &p) {
+    return vec_add(mat_vec(A.M, p), A.b);
 }
 
 Aff face_reflection(int face) {
@@ -740,6 +750,9 @@ struct Profiler {
     long long aggregate_constraint_cases = 0;
     long long aggregate_farkas_cases = 0;
     long long aggregate_unresolved_farkas_cases = 0;
+    bool residual_subtype_profile = false;
+    array<long long, 4> residual_subtype_counts{};
+    array<vector<Sample>, 4> residual_subtype_samples{};
     unordered_map<string, AxisInfo> axis_cache;
     vector<Sample> top_samples;
     long long compressed_nonidentity_linear_groups = 0;
@@ -867,6 +880,134 @@ struct Profiler {
         return true;
     }
 
+    Mat4 axis_solve_matrix(const Aff &A, const Vec &axis) {
+        Mat4 m{};
+        for (int r = 0; r < 3; ++r) {
+            for (int c = 0; c < 3; ++c) m[r][c] = A.M[r][c] - I[r][c];
+            m[r][3] = -axis[r];
+        }
+        m[3][0] = Q(1);
+        m[3][1] = Q(0);
+        m[3][2] = Q(0);
+        m[3][3] = Q(0);
+        return m;
+    }
+
+    Vec4 axis_solve_rhs(const Aff &A) {
+        return {-A.b[0], -A.b[1], -A.b[2], Q(1)};
+    }
+
+    Vec4 solve4(Mat4 m, Vec4 rhs) {
+        array<array<Q, 5>, 4> aug{};
+        for (int r = 0; r < 4; ++r) {
+            for (int c = 0; c < 4; ++c) aug[r][c] = m[r][c];
+            aug[r][4] = rhs[r];
+        }
+        for (int col = 0; col < 4; ++col) {
+            int pivot = -1;
+            for (int row = col; row < 4; ++row) {
+                if (aug[row][col] != Q(0)) {
+                    pivot = row;
+                    break;
+                }
+            }
+            if (pivot < 0) throw runtime_error("singular 4x4 axis solve");
+            if (pivot != col) swap(aug[pivot], aug[col]);
+            Q div = aug[col][col];
+            for (int c = col; c < 5; ++c) aug[col][c] = aug[col][c] / div;
+            for (int row = 0; row < 4; ++row) {
+                if (row == col || aug[row][col] == Q(0)) continue;
+                Q factor = aug[row][col];
+                for (int c = col; c < 5; ++c) {
+                    aug[row][c] = aug[row][c] - factor * aug[col][c];
+                }
+            }
+        }
+        return {aug[0][4], aug[1][4], aug[2][4], aug[3][4]};
+    }
+
+    Aff total_aff(const array<int, 14> &seq) {
+        Aff T = aff_id();
+        for (int i = 1; i < 14; ++i) T = aff_compose(T, FACE_REFLECTIONS[seq[i]]);
+        T = aff_compose(T, FACE_REFLECTIONS[seq[0]]);
+        return T;
+    }
+
+    bool xp_start_interior(const Vec &p) {
+        return p[0] == Q(1) &&
+            p[1] + p[2] < Q(1) &&
+            p[1] - p[2] < Q(1) &&
+            -p[1] + p[2] < Q(1) &&
+            -p[1] - p[2] < Q(1);
+    }
+
+    Q candidate_impact_time(
+        const array<int, 14> &seq,
+        const array<Aff, 14> &prefixes,
+        const Vec &p0,
+        const Vec &w,
+        int impact
+    ) {
+        if (impact == 0) return Q(0);
+        if (impact == 14) return Q(1);
+        auto [normal, offset] = copied_normal_offset(prefixes, impact, impact_face(seq, impact));
+        Q denom = dot(normal, w);
+        if (denom == Q(0)) throw runtime_error("candidate impact denominator is zero");
+        return (offset - dot(normal, p0)) / denom;
+    }
+
+    int first_bad_candidate_ordering(const array<int, 14> &seq, const Vec &p0, const Vec &w) {
+        auto prefixes = path_prefix_affs(seq);
+        array<Q, 15> times{};
+        for (int impact = 0; impact <= 14; ++impact) {
+            times[impact] = candidate_impact_time(seq, prefixes, p0, w, impact);
+        }
+        for (int step = 0; step < 14; ++step) {
+            if (times[step + 1] <= times[step]) return step;
+        }
+        return -1;
+    }
+
+    int first_bad_candidate_interior(const array<int, 14> &seq, const Vec &p0, const Vec &w) {
+        auto prefixes = path_prefix_affs(seq);
+        for (int impact = 0; impact <= 14; ++impact) {
+            int hit = impact_face(seq, impact);
+            Q t = candidate_impact_time(seq, prefixes, p0, w, impact);
+            Vec point = vec_add(p0, vec_scale(t, w));
+            for (int face = 0; face < 14; ++face) {
+                if (face == hit) continue;
+                auto [copied, offset] = copied_normal_offset(prefixes, impact, face);
+                if (offset <= dot(copied, point)) return impact;
+            }
+        }
+        return -1;
+    }
+
+    int residual_subtype_index(const array<int, 14> &seq, const Vec &axis) {
+        Aff A = total_aff(seq);
+        Mat4 solve_matrix = axis_solve_matrix(A, axis);
+        Vec4 solution = solve4(solve_matrix, axis_solve_rhs(A));
+        Vec p0 = {solution[0], solution[1], solution[2]};
+        if (!xp_start_interior(p0)) return 0;
+        Vec w = vec_sub(aff_apply(A, p0), p0);
+        if (first_bad_candidate_ordering(seq, p0, w) >= 0) return 1;
+        if (first_bad_candidate_interior(seq, p0, w) >= 0) return 2;
+        return 3;
+    }
+
+    void record_residual_subtype(const array<int, 14> &seq, const Vec &axis) {
+        int idx = residual_subtype_index(seq, axis);
+        ++residual_subtype_counts[idx];
+        if (residual_subtype_samples[idx].size() < 3) {
+            Sample s;
+            s.rank = rank;
+            s.word = word;
+            s.seq = seq;
+            s.has_seq = true;
+            residual_subtype_samples[idx].push_back(s);
+        }
+    }
+
     void process_nonidentity(const Mat &M) {
         ++nonidentity;
         string key = mat_key(M);
@@ -913,6 +1054,7 @@ struct Profiler {
             return;
         }
         ++nonid_groups[3].count;
+        if (residual_subtype_profile) record_residual_subtype(seq, axis);
         string shape_key = "failure=needsAxisSolveOrSimulation;linear=" + key +
             ";axis=" + vec_key(axis) +
             ";forcedSigns=" + sign_pattern_key(axis) +
@@ -1467,6 +1609,51 @@ struct Profiler {
         return out;
     }
 
+    string residual_subtype_entry_json(int index, const string &kind) {
+        string out = "{";
+        out += "\"failure_kind\":\"" + kind + "\",";
+        out += "\"count\":" + to_string(residual_subtype_counts[index]) + ",";
+        out += "\"present\":";
+        out += residual_subtype_counts[index] > 0 ? "true" : "false";
+        out += ",\"samples\":[";
+        for (size_t i = 0; i < residual_subtype_samples[index].size(); ++i) {
+            if (i) out += ",";
+            out += sample_json(residual_subtype_samples[index][i]);
+        }
+        out += "]}";
+        return out;
+    }
+
+    string residual_subtype_payload_json() {
+        long long total_residual = 0;
+        for (long long count : residual_subtype_counts) total_residual += count;
+        ostringstream out;
+        out << "{";
+        out << "\"schema_version\":1,";
+        out << "\"mode\":\"residual-nonidentity-subtypes\",";
+        out << "\"complete\":";
+        out << (limit < 0 ? "true" : "false") << ",";
+        out << "\"profile_limit\":";
+        if (limit < 0) out << "null";
+        else out << limit;
+        out << ",";
+        out << "\"actual_counts\":{";
+        out << "\"pair_words\":" << leaves << ",";
+        out << "\"identity_linear_words\":" << identity << ",";
+        out << "\"nonidentity_words\":" << nonidentity << ",";
+        out << "\"translation_sign_assignments\":" << translation_assignments;
+        out << "},";
+        out << "\"residual_singleton_failure\":\"needsAxisSolveOrSimulation\",";
+        out << "\"residual_singleton_cases\":" << total_residual << ",";
+        out << "\"subtypes\":[";
+        out << residual_subtype_entry_json(0, "axisMissesStartInterior") << ",";
+        out << residual_subtype_entry_json(1, "badFirstHit") << ",";
+        out << residual_subtype_entry_json(2, "badHitInterior") << ",";
+        out << residual_subtype_entry_json(3, "candidatePassed");
+        out << "]}";
+        return out.str();
+    }
+
     string group_count_object_json(const array<Group, 4> &groups) {
         string out = "{";
         bool first = true;
@@ -1804,6 +1991,7 @@ int main(int argc, char **argv) {
     bool force_compressed = false;
     bool force_exact_state_groups = false;
     bool aggregate_compression_profile = false;
+    bool residual_nonidentity_subtypes = false;
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
         if (arg == "--limit") {
@@ -1813,6 +2001,8 @@ int main(int argc, char **argv) {
             force_compressed = true;
         } else if (arg == "--aggregate-compression-profile") {
             aggregate_compression_profile = true;
+        } else if (arg == "--residual-nonidentity-subtypes") {
+            residual_nonidentity_subtypes = true;
         } else if (arg == "--exact-state-groups") {
             force_exact_state_groups = true;
         } else if (arg == "--with-symmetry") {
@@ -1831,6 +2021,13 @@ int main(int argc, char **argv) {
         profiler.exact_state_groups = true;
         profiler.rec(0);
         cout << profiler.aggregate_payload_json() << "\n";
+        return 0;
+    }
+    if (residual_nonidentity_subtypes) {
+        profiler.residual_subtype_profile = true;
+        profiler.exact_state_groups = true;
+        profiler.rec(0);
+        cout << profiler.residual_subtype_payload_json() << "\n";
         return 0;
     }
     if (force_compressed || profiler.limit < 0) {

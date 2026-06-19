@@ -37,6 +37,9 @@ TRANSLATION_FAMILY_JSON_PATH = (
 EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "exhaustive_real_certs_summary.json"
 )
+RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "residual_nonidentity_templates.json"
+)
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
 )
@@ -62,6 +65,9 @@ TRANSLATION_PARAMETRIC_LEAN_PATH = (
 )
 NONIDENTITY_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilyPartition.lean"
+)
+NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "ResidualTemplates.lean"
 )
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
@@ -179,6 +185,29 @@ Mat4 = tuple[tuple[Fraction, Fraction, Fraction, Fraction], ...]
 def require(condition, message):
     if not condition:
         raise SystemExit(f"check failed: {message}")
+
+
+FORBIDDEN_LEAN_TOKENS = ["sorry", "admit", "axiom", "native_decide", "unsafe"]
+
+
+def relative_path(path: Path) -> str:
+    return str(path.relative_to(REPO_ROOT))
+
+
+def check_generated_file_record(record: dict, path: Path) -> None:
+    require(record["path"] == relative_path(path), f"generated path {path}")
+    require(record["exists"] is True, f"generated file exists {path}")
+    require(path.exists(), f"generated path exists {path}")
+    data = path.read_bytes()
+    require(record["bytes"] == len(data), f"generated file bytes {path}")
+    require(record["sha256"] == hashlib.sha256(data).hexdigest(),
+            f"generated file sha256 {path}")
+
+
+def check_no_forbidden_lean_tokens(path: Path) -> None:
+    text = path.read_text(encoding="utf-8")
+    for token in FORBIDDEN_LEAN_TOKENS:
+        require(token not in text, f"forbidden token {token} in {path}")
 
 
 def parse_rat(text: str) -> Fraction:
@@ -2207,6 +2236,12 @@ def check_exhaustive_real_certs_summary(payload):
         PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.read_text(encoding="utf-8")
     )
     check_parametric_family_checkers(parametric_family_payload)
+    residual_template_payload = None
+    if RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.exists():
+        residual_template_payload = json.loads(
+            RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.read_text(encoding="utf-8")
+        )
+        check_residual_nonidentity_templates(residual_template_payload)
 
     actual = payload["actual_counts"]
     require(actual == {
@@ -2310,6 +2345,28 @@ def check_exhaustive_real_certs_summary(payload):
                 f"exhaustive partition Lean path exists {key}")
         require(path.exists(), f"exhaustive partition Lean file exists {key}")
 
+    residual_templates = payload["residual_nonidentity_templates"]
+    residual_ready = residual_template_payload is not None
+    require(residual_templates["ready"] is residual_ready,
+            "exhaustive residual template ready flag")
+    require(
+        residual_templates["source"]["path"]
+        == relative_path(RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH),
+        "exhaustive residual template source path",
+    )
+    require(
+        residual_templates["generated_lean"]["residual_templates"]["path"]
+        == relative_path(NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH),
+        "exhaustive residual template Lean path",
+    )
+    if residual_ready:
+        require(residual_templates["source"]["exists"] is True,
+                "exhaustive residual template source exists")
+        require(
+            residual_templates["generated_lean"]["residual_templates"]["exists"] is True,
+            "exhaustive residual template Lean exists",
+        )
+
     budget = payload["budget"]
     require(budget["generated_data_budget_bytes"] >= 0, "exhaustive budget nonnegative")
     require(budget["required_free_bytes"] >= 0, "exhaustive required free nonnegative")
@@ -2335,10 +2392,28 @@ def check_exhaustive_real_certs_summary(payload):
         },
         "known exhaustive emission status",
     )
-    if emission["status"] != "ready_but_full_emitter_not_implemented":
+    ready_statuses = {
+        "ready_but_approval_required",
+        "approved_but_full_emitter_not_implemented",
+        "ready_but_full_emitter_not_implemented",
+    }
+    if emission["status"] not in ready_statuses:
         require(emission["large_emission_ready"] is False, "large emission not ready")
-    if emission["status"] == "ready_but_full_emitter_not_implemented":
+    else:
         require(emission["large_emission_ready"] is True, "large emission ready flag")
+    if emission["status"] == "ready_but_approval_required":
+        require(emission["requested"] is False, "approval-required status is unrequested")
+        require(emission["performed"] is False, "approval-required status is not performed")
+        require(emission["refusal_reasons"] == [], "approval-required has no refusal reasons")
+    if emission["status"] == "approved_but_full_emitter_not_implemented":
+        require(emission["requested"] is True, "approved missing-emitter status requested")
+        require(emission["performed"] is False, "approved missing-emitter status not performed")
+        require(
+            "generated_lean_fallback_emitter_not_implemented" in
+            emission["refusal_reasons"],
+            "approved missing-emitter reason",
+        )
+    if emission["status"] == "ready_but_full_emitter_not_implemented":
         require(
             "generated_lean_fallback_emitter_not_implemented" in
             emission["refusal_reasons"],
@@ -2368,6 +2443,120 @@ def check_exhaustive_real_certs_summary(payload):
         "canonical_cert_estimate": estimate["canonical_cert_estimate"],
         "nonidentity_family_count": nonidentity_summary["families"],
         "translation_family_count": translation_summary["families"],
+    }
+
+
+def check_residual_nonidentity_templates(payload):
+    require(payload.get("schema_version") == 1,
+            "residual template schema version")
+    require(payload.get("mode") == "residual-nonidentity-templates",
+            "residual template mode")
+    require(payload.get("complete") is True,
+            "residual template artifact complete")
+    require(payload.get("template_contract_complete") is True,
+            "residual template contracts complete")
+    require(payload.get("exhaustive_subtype_census_complete") is False,
+            "residual template census intentionally not exhaustive")
+    require(payload.get("source_mode") == "residual-nonidentity-subtypes",
+            "residual template source mode")
+    prefix_payload = json.loads(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.read_text(encoding="utf-8")
+    )
+    check_prefix_parametric_compression(prefix_payload)
+    expected_residual = int(
+        prefix_payload["nonidentity"]["residual_singleton_cases"]
+    )
+    require(
+        payload["expected_residual_singleton_cases"] == expected_residual,
+        "residual expected count",
+    )
+    require(
+        payload["residual_singleton_cases"] == expected_residual,
+        "residual total count",
+    )
+    require(payload["residual_singleton_failure"] == "needsAxisSolveOrSimulation",
+            "residual singleton failure")
+
+    expected_kinds = {
+        "axisMissesStartInterior",
+        "badFirstHit",
+        "badHitInterior",
+    }
+    require(set(payload["supported_failure_kinds"]) == expected_kinds,
+            "residual supported failure kinds")
+    scan = payload["representative_scan"]
+    limit = int(payload["profile_limit"])
+    require(limit > 0, "residual representative scan positive limit")
+    require(int(scan["limit"]) == limit, "residual representative scan limit")
+    require(int(scan["source_profile_limit"]) == limit,
+            "residual source profile limit")
+    require(scan["source_complete"] is False,
+            "residual source scan is bounded")
+    require(int(scan["observed_residual_cases"]) > 0,
+            "residual representative scan observed cases")
+    require(int(scan["candidate_passed_observed_count"]) == 0,
+            "residual representative scan no passing candidates")
+    required_observed = set(scan["required_observed_failure_kinds"])
+    require(required_observed == {"axisMissesStartInterior", "badFirstHit"},
+            "residual required observed kinds")
+
+    subtypes = payload["subtypes"]
+    require({record["failure_kind"] for record in subtypes} == expected_kinds,
+            "residual subtype kind set")
+    subtype_total = sum(int(record["observed_count"]) for record in subtypes)
+    require(subtype_total == int(scan["observed_residual_cases"]),
+            "residual observed subtype total")
+
+    certs = {cert["name"]: cert for cert in payload["certs"]}
+    lean_text = NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH.read_text(encoding="utf-8")
+    for record in subtypes:
+        count = int(record["observed_count"])
+        present = bool(record["present"])
+        require(present is (count > 0), f"residual present flag {record['failure_kind']}")
+        if not present:
+            require(record["status"] == "unobserved_in_representative_scan",
+                    f"absent residual status {record['failure_kind']}")
+            require(record["representative_rank"] is None,
+                    f"absent residual representative rank {record['failure_kind']}")
+            require(record["representative_cert"] is None,
+                    f"absent residual representative cert {record['failure_kind']}")
+            require(record["check_theorem"] is None,
+                    f"absent residual check theorem {record['failure_kind']}")
+            continue
+        require(record["status"] == "represented_by_checked_template",
+                f"present residual status {record['failure_kind']}")
+        require(record["failure_kind"] in required_observed or record["failure_kind"] == "badHitInterior",
+                f"residual observed failure kind {record['failure_kind']}")
+        cert_name = record["representative_cert"]
+        require(cert_name in certs, f"residual representative cert {cert_name}")
+        cert = certs[cert_name]
+        require(cert["failure"]["kind"] == record["failure_kind"],
+                f"residual representative failure {cert_name}")
+        rank = int(record["representative_rank"])
+        require(cert["rank"] == rank, f"residual representative rank {cert_name}")
+        require(pair_word_at_rank(rank) == cert["word"],
+                f"residual representative unrank {cert_name}")
+        require(lex_rank_pair_word(cert["word"]) == rank,
+                f"residual representative lex rank {cert_name}")
+        check_nonid_cert_record(cert)
+        theorem = record["check_theorem"]
+        require(theorem == f"{cert_name}_check",
+                f"residual representative theorem {cert_name}")
+        require(f"theorem {theorem}" in lean_text,
+                f"residual Lean theorem {theorem}")
+
+    generated = payload["generated_lean"]["residual_templates"]
+    check_generated_file_record(generated, NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH)
+    check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH)
+    require("residualNonIdentityTemplates_check" in lean_text,
+            "residual aggregate Lean theorem")
+    return {
+        "residual_cases": payload["residual_singleton_cases"],
+        "observed_residual_cases": scan["observed_residual_cases"],
+        "template_certs": len(payload["certs"]),
+        "present_kinds": [
+            record["failure_kind"] for record in subtypes if record["present"]
+        ],
     }
 
 
@@ -3555,6 +3744,7 @@ def main():
             "aggregate-compression-profile",
             "prefix-parametric-compression",
             "parametric-family-checkers",
+            "residual-nonidentity-templates",
             "compact-cert-sample",
             "compact-cert-pilot",
             "canonical-coverage-manifest",
@@ -3620,6 +3810,7 @@ def main():
             "aggregate-compression-profile/"
             "prefix-parametric-compression/"
             "parametric-family-checkers/"
+            "residual-nonidentity-templates/"
             "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
             "canonical-orbit-coverage-manifest"
@@ -3697,6 +3888,16 @@ def main():
         print(f"status: {summary['status']}")
         print(f"canonical cert estimate: {summary['canonical_cert_estimate']:,}")
         print(f"estimated Lean bytes: {summary['estimated_lean_bytes']:,}")
+        return
+    if mode == "residual-nonidentity-templates":
+        payload = json.loads(
+            RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_residual_nonidentity_templates(payload)
+        print("independent residual nonidentity template check passed")
+        print(f"residual cases: {summary['residual_cases']:,}")
+        print(f"template certs: {summary['template_certs']}")
+        print(f"present kinds: {', '.join(summary['present_kinds'])}")
         return
     if mode == "compression-audit":
         payload = json.loads(args.compression_audit_input.read_text(encoding="utf-8"))

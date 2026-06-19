@@ -2181,17 +2181,101 @@ passes, and `scripts/generated/exhaustive_real_certs_summary.json` records
 `family_partition.exhaustive_partition_complete = true` while keeping
 `complete = false`.
 
+## Step 14E.7B3: Residual Nonidentity Proof Templates
+
+Goal: prove that the generator can emit Lean-checking certificates for the
+nonidentity residual certificate constructors before the full Step 14E.7B
+large-data emission.
+
+This step exists because the residual closed checks do not discharge by plain
+`decide`. The full emitter must therefore have dedicated, tested proof
+templates for every nonidentity residual failure constructor before it streams
+millions of certificates.
+
+This is a template-readiness step, not the exhaustive residual emitter. The
+default generator run performs a bounded exact representative scan and emits
+ordinary Lean proof templates for the residual constructors it observes. The
+full Step 14E.7B emitter remains responsible for streaming every residual
+singleton case and must handle every residual kind it encounters.
+
+Update:
+
+```text
+Cuboctahedron/Generated/NonIdentity/
+Cuboctahedron/Generated/AllGenerated.lean
+scripts/generate_exact_certificates.py
+scripts/check_certificates_independently.py
+scripts/generated/residual_nonidentity_templates.json
+scripts/generated/exhaustive_real_certs_summary.json
+```
+
+Requirements:
+
+- Add generator proof templates for the nonidentity residual failure kinds that
+  can occur after the high-volume family partition:
+  - `axisMissesStartInterior`;
+  - `badFirstHit`;
+  - `badHitInterior`.
+- Each template must prove `checkNonIdCert cert = true` using existing
+  Lean helper theorems such as:
+  - `checkNonIdCert_axisMissesStartInterior`;
+  - `checkNonIdCert_badFirstHit`;
+  - `checkNonIdCert_badHitInterior`.
+- Template proofs must be ordinary Lean proofs using exact reductions,
+  generated witnesses, `rfl`, `simp`, `norm_num`, `fin_cases`, or similarly
+  kernel-checked tactics. They must not use `native_decide`, `axiom`, `sorry`,
+  `admit`, or `unsafe`.
+- Generate a small representative Lean module containing at least one checked
+  certificate for each residual failure kind observed in the bounded exact
+  representative scan.
+- Record unobserved residual kinds explicitly as
+  `unobserved_in_representative_scan`, not as globally absent. The full emitter
+  must still know how to emit/check them if they are encountered later.
+- The representative module must expose theorem names that the full emitter can
+  reuse as template contracts, for example:
+  - `residualAxisMissesStartInteriorTemplate_check`;
+  - `residualBadFirstHitTemplate_check`;
+  - `residualBadHitInteriorTemplate_check`.
+- The independent checker must validate that:
+  - every residual failure kind observed by the bounded exact representative
+    scan is represented by a generated Lean theorem;
+  - unobserved supported kinds are recorded as unobserved, not proven absent;
+  - generated representative ranks recompute to the claimed failure kind;
+  - the generated Lean file paths exist;
+  - no generated residual-template file contains forbidden tokens.
+- `scripts/generated/exhaustive_real_certs_summary.json` must remain
+  `complete = false`, but the full-emission section should no longer use the
+  residual proof-template gap as an unknown. If the user runs the approved full
+  emitter before Step 14E.7B is implemented, it may still report
+  `approved_but_full_emitter_not_implemented`.
+
+Done when:
+
+```bash
+python3 scripts/generate_exact_certificates.py --mode residual-nonidentity-templates
+python3 scripts/check_certificates_independently.py --mode residual-nonidentity-templates
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
+lake build
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+passes, and the residual-template JSON records that all occurring residual
+failure kinds in the representative scan have checked Lean template witnesses.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by
 Step 14E.6D, using the Step 14E.6C prefix-parametric strategy.
 
 This step is the large-data generation step. Do not start it until Step 14E.7A,
-Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, and Step 14E.7B2A are complete,
+Step 14E.7B0, Step 14E.7B1, Step 14E.7B2, Step 14E.7B2A, and Step 14E.7B3
+are complete,
 because every emitted rank must prove facts about the public `unrankPairWord`,
 every compressed family must have exhaustive Lean-checked soundness, and every
 compressed-family partition must be Lean-checkable rather than merely
-count-based.
+count-based. Step 14E.7B3 is required because residual nonidentity certificate
+checks need explicit generated proof templates rather than plain `decide`.
 
 Update:
 
@@ -2207,11 +2291,16 @@ scripts/generated/exhaustive_real_certs_summary.json
 Requirements:
 
 - `scripts/generate_exact_certificates.py --mode exhaustive-real-certs` must
-  emit actual Lean fallback evidence when:
+  keep the large-data emission gated unless `--approve-large-exhaustive` is
+  passed.
+- `scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+  --approve-large-exhaustive` must emit actual Lean fallback evidence when:
   - `scripts/generated/compact_cert_pilot.json` selects
     `generated_lean_fallback`;
   - `scripts/generated/prefix_parametric_compression.json` has
     `ready_for_14E7 = true`;
+  - `scripts/generated/residual_nonidentity_templates.json` proves the
+    residual nonidentity templates are ready;
   - the estimated generated source fits the configured hard budget;
   - free disk space is above the configured floor.
 - Keep the existing refusal behavior for stale prerequisites, budget failures,
@@ -2250,7 +2339,7 @@ Requirements:
 Done when:
 
 ```bash
-python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs
+python3 scripts/generate_exact_certificates.py --mode exhaustive-real-certs --approve-large-exhaustive
 python3 scripts/check_certificates_independently.py --mode exhaustive-real-certs
 lake build
 grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true

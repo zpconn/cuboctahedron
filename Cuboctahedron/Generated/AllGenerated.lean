@@ -2,6 +2,7 @@ import Cuboctahedron.Generated.NonIdentity.Chunk0000
 import Cuboctahedron.Generated.NonIdentity.FamilySample
 import Cuboctahedron.Generated.NonIdentity.ParametricSample
 import Cuboctahedron.Generated.NonIdentity.FamilyPartition
+import Cuboctahedron.Generated.NonIdentity.ResidualTemplates
 import Cuboctahedron.Generated.Translation.Chunk0000
 import Cuboctahedron.Generated.Translation.ParametricSample
 import Cuboctahedron.Generated.Translation.FamilyPartition

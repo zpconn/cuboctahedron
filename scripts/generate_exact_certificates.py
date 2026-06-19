@@ -14,6 +14,7 @@ import itertools
 import json
 import math
 import shutil
+import subprocess
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -39,6 +40,9 @@ TRANSLATION_FAMILY_JSON_PATH = (
 )
 EXHAUSTIVE_REAL_CERTS_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "exhaustive_real_certs_summary.json"
+)
+RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "residual_nonidentity_templates.json"
 )
 COMPRESSION_AUDIT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compression_audit.json"
@@ -69,6 +73,9 @@ TRANSLATION_PARAMETRIC_LEAN_PATH = (
 NONIDENTITY_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "FamilyPartition.lean"
 )
+NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "ResidualTemplates.lean"
+)
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
 )
@@ -81,6 +88,14 @@ TRANSLATION_CHUNK_PATH = (
 COVERAGE_MANIFEST_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CoverageManifest.lean"
 ALL_GENERATED_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "AllGenerated.lean"
 COMPACT_PILOT_LEAN_PATH = REPO_ROOT / "Cuboctahedron" / "Generated" / "CompactPilot.lean"
+NONIDENTITY_RESIDUAL_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual"
+)
+TRANSLATION_FARKAS_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas"
+)
+NONIDENTITY_RESIDUAL_ALL_PATH = NONIDENTITY_RESIDUAL_DIR / "All.lean"
+TRANSLATION_FARKAS_ALL_PATH = TRANSLATION_FARKAS_DIR / "All.lean"
 CERTS_DIR = REPO_ROOT / "certs"
 COMPACT_CERT_SAMPLE_BLOB_PATH = CERTS_DIR / "compact_cert_sample.b64"
 COMPACT_CERT_PILOT_BLOB_PATH = CERTS_DIR / "compact_cert_pilot.b64"
@@ -95,6 +110,9 @@ EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
 EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS = 157_957_632
 COVERAGE_CHUNK_SIZE = 100_000
+FULL_EMISSION_TARGET_CHUNK_BYTES = 8 * 1024 * 1024
+FULL_EMISSION_HARD_MAX_FILE_BYTES = 50 * 1024 * 1024
+RESIDUAL_TEMPLATE_SCAN_LIMIT = 1000
 
 PAIR_IDS = ["x", "y", "z", "d111", "d11m", "d1m1", "dm11"]
 PAIR_COUNTS = {
@@ -1779,6 +1797,164 @@ def append_nonid_check_theorem(lines: list[str], cert: dict) -> None:
     ])
 
 
+def append_nonid_check_theorem_full(lines: list[str], cert: dict) -> str:
+    """Emit a checked proof for any supported NonIdCert failure kind."""
+    name = cert["name"]
+    failure = cert["failure"]
+    valid_theorem = append_valid_pair_word_theorem(lines, cert)
+    total_linear_theorem = append_total_linear_theorem(lines, cert)
+    nonid_theorem = append_nonidentity_theorem(lines, cert, total_linear_theorem)
+    kernel_theorem = append_kernel_check_theorem(lines, cert, total_linear_theorem)
+
+    if failure["kind"] == "noFixedAxis":
+        no_fixed_theorem = append_no_fixed_check_theorem(
+            lines, cert, total_linear_theorem
+        )
+        witness = tuple(tuple(Fraction(x) for x in row) for row in failure["left_inverse"])  # type: ignore[assignment]
+        lines.extend([
+            f"theorem {name}_check :",
+            f"    checkNonIdCert {name} = true := by",
+            f"  apply checkNonIdCert_noFixedAxis {name}",
+            f"    {{ leftInverse := {lean_mat3(witness)} }}",
+            "  · rfl",
+            f"  · simpa [{name}] using {valid_theorem}",
+            f"  · simpa [{name}] using {nonid_theorem}",
+            f"  · simpa [{name}] using {no_fixed_theorem}",
+            "",
+        ])
+    elif failure["kind"] == "badDirectionSign":
+        idx = failure["index"]
+        lines.extend([
+            f"theorem {name}_check :",
+            f"    checkNonIdCert {name} = true := by",
+            f"  apply checkNonIdCert_badDirectionSign {name} ⟨{idx}, by decide⟩",
+            "  · rfl",
+            f"  · simpa [{name}] using {valid_theorem}",
+            f"  · simpa [{name}] using {nonid_theorem}",
+            f"  · simpa [{name}] using {kernel_theorem}",
+            "  · intro f hf",
+            f"    cases f <;> simp [{name}, pairOfFace, pairPrefixLinearNat,",
+            "      canonicalNormalQ, normalQ, matId, matMul, reflM, dot, matSub,",
+            "      scalarMat, outer, matVec] at hf ⊢ <;> norm_num at hf ⊢",
+            "",
+        ])
+    elif failure["kind"] == "badPairBalance":
+        final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+        axis_forces_theorem = append_axis_forces_theorem(
+            lines, cert, final_dot_theorem
+        )
+        not_omni_theorem = append_not_omni_theorem(lines, cert)
+        lines.extend([
+            f"theorem {name}_check :",
+            f"    checkNonIdCert {name} = true := by",
+            f"  apply checkNonIdCert_badPairBalance_forced {name}",
+            "  · rfl",
+            f"  · simpa [{name}] using {valid_theorem}",
+            f"  · simpa [{name}] using {nonid_theorem}",
+            f"  · simpa [{name}] using {kernel_theorem}",
+            f"  · simpa [{name}] using {axis_forces_theorem}",
+            f"  · simpa [{name}] using {not_omni_theorem}",
+            "",
+        ])
+    elif failure["kind"] == "axisMissesStartInterior":
+        final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+        axis_forces_theorem = append_axis_forces_theorem(
+            lines, cert, final_dot_theorem
+        )
+        path_prefix_theorems = append_path_prefix_aff_theorems(lines, cert)
+        total_aff_theorem = append_total_aff_theorem(
+            lines, cert, path_prefix_theorems
+        )
+        axis_solve_theorem = append_axis_solve_check_theorem(
+            lines, cert, total_aff_theorem
+        )
+        forced_seq_theorem = append_forced_seq_matches_theorem(lines, cert)
+        common_theorem = append_common_check_theorem(
+            lines, cert, valid_theorem, nonid_theorem, kernel_theorem,
+            forced_seq_theorem, axis_solve_theorem,
+        )
+        not_interior_theorem = append_not_xp_start_interior_theorem(lines, cert)
+        lines.extend([
+            f"theorem {name}_check :",
+            f"    checkNonIdCert {name} = true := by",
+            f"  apply checkNonIdCert_axisMissesStartInterior {name}",
+            "  · rfl",
+            f"  · simpa using {common_theorem}",
+            f"  · simpa [{name}] using {axis_forces_theorem}",
+            f"  · simpa [{name}] using {not_interior_theorem}",
+            "",
+        ])
+    elif failure["kind"] == "badFirstHit":
+        final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+        axis_forces_theorem = append_axis_forces_theorem(
+            lines, cert, final_dot_theorem
+        )
+        path_prefix_theorems = append_path_prefix_aff_theorems(lines, cert)
+        total_aff_theorem = append_total_aff_theorem(
+            lines, cert, path_prefix_theorems
+        )
+        axis_solve_theorem = append_axis_solve_check_theorem(
+            lines, cert, total_aff_theorem
+        )
+        forced_seq_theorem = append_forced_seq_matches_theorem(lines, cert)
+        common_theorem = append_common_check_theorem(
+            lines, cert, valid_theorem, nonid_theorem, kernel_theorem,
+            forced_seq_theorem, axis_solve_theorem,
+        )
+        candidate_w_theorem = append_candidate_w_theorem(lines, cert, total_aff_theorem)
+        ordering_theorem = append_candidate_ordering_theorem(
+            lines, cert, candidate_w_theorem, path_prefix_theorems
+        )
+        step = failure["step"]
+        lines.extend([
+            f"theorem {name}_check :",
+            f"    checkNonIdCert {name} = true := by",
+            f"  apply checkNonIdCert_badFirstHit {name} {{ step := ⟨{step}, by decide⟩ }}",
+            "  · rfl",
+            f"  · simpa using {common_theorem}",
+            f"  · simpa [{name}] using {axis_forces_theorem}",
+            f"  · simpa [{name}] using {ordering_theorem}",
+            "",
+        ])
+    elif failure["kind"] == "badHitInterior":
+        final_dot_theorem = append_final_axis_dot_theorem(lines, cert)
+        axis_forces_theorem = append_axis_forces_theorem(
+            lines, cert, final_dot_theorem
+        )
+        path_prefix_theorems = append_path_prefix_aff_theorems(lines, cert)
+        total_aff_theorem = append_total_aff_theorem(
+            lines, cert, path_prefix_theorems
+        )
+        axis_solve_theorem = append_axis_solve_check_theorem(
+            lines, cert, total_aff_theorem
+        )
+        forced_seq_theorem = append_forced_seq_matches_theorem(lines, cert)
+        common_theorem = append_common_check_theorem(
+            lines, cert, valid_theorem, nonid_theorem, kernel_theorem,
+            forced_seq_theorem, axis_solve_theorem,
+        )
+        candidate_w_theorem = append_candidate_w_theorem(lines, cert, total_aff_theorem)
+        interior_theorem = append_candidate_hit_interior_theorem(
+            lines, cert, candidate_w_theorem, path_prefix_theorems
+        )
+        impact = failure["impact"]
+        bad_face = failure["badFace"]
+        lines.extend([
+            f"theorem {name}_check :",
+            f"    checkNonIdCert {name} = true := by",
+            f"  apply checkNonIdCert_badHitInterior {name}",
+            f"    {{ impact := ⟨{impact}, by decide⟩, badFace := {lean_face(bad_face)} }}",
+            "  · rfl",
+            f"  · simpa using {common_theorem}",
+            f"  · simpa [{name}] using {axis_forces_theorem}",
+            f"  · simpa [{name}] using {interior_theorem}",
+            "",
+        ])
+    else:
+        raise ValueError(f"unsupported nonidentity proof template: {failure['kind']}")
+    return f"{name}_check"
+
+
 def translation_check_body_lines(cert: dict, indent: str = "  ") -> list[str]:
     name = cert["name"]
     failure = cert["failure"]
@@ -2239,6 +2415,7 @@ def write_all_generated() -> None:
         "import Cuboctahedron.Generated.NonIdentity.FamilySample",
         "import Cuboctahedron.Generated.NonIdentity.ParametricSample",
         "import Cuboctahedron.Generated.NonIdentity.FamilyPartition",
+        "import Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
         "import Cuboctahedron.Generated.Translation.Chunk0000",
         "import Cuboctahedron.Generated.Translation.ParametricSample",
         "import Cuboctahedron.Generated.Translation.FamilyPartition",
@@ -4309,6 +4486,18 @@ def path_status(path: Path) -> dict:
     }
 
 
+def generated_file_record(path: Path) -> dict:
+    data = path.read_bytes()
+    return {
+        **path_status(path),
+        "sha256": hashlib.sha256(data).hexdigest(),
+    }
+
+
+def generated_files_record(paths: Iterable[Path]) -> list[dict]:
+    return [generated_file_record(path) for path in paths]
+
+
 def load_json_artifact(path: Path, expected_mode: str) -> dict:
     if not path.exists():
         raise FileNotFoundError(f"required artifact missing: {path.relative_to(REPO_ROOT)}")
@@ -4319,6 +4508,200 @@ def load_json_artifact(path: Path, expected_mode: str) -> dict:
             f"expected {expected_mode!r}"
         )
     return payload
+
+
+RESIDUAL_TEMPLATE_NAMES = {
+    "axisMissesStartInterior": "residualAxisMissesStartInteriorTemplate",
+    "badFirstHit": "residualBadFirstHitTemplate",
+    "badHitInterior": "residualBadHitInteriorTemplate",
+}
+
+
+def build_residual_nonidentity_subtype_payload(limit: int | None = None) -> dict:
+    effective_limit = RESIDUAL_TEMPLATE_SCAN_LIMIT if limit is None else limit
+    binary = exact_profile.ensure_cpp_profile_helper()
+    cmd = [
+        str(binary),
+        "--residual-nonidentity-subtypes",
+        "--limit",
+        str(effective_limit),
+        "--no-progress",
+    ]
+    result = subprocess.run(
+        cmd,
+        cwd=REPO_ROOT,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    return json.loads(result.stdout)
+
+
+def residual_template_cert_for_subtype(record: dict) -> dict | None:
+    if not record["present"]:
+        return None
+    kind = record["failure_kind"]
+    samples = record.get("samples", [])
+    if not samples:
+        raise ValueError(f"residual subtype {kind} is present with no sample")
+    name = RESIDUAL_TEMPLATE_NAMES[kind]
+    rank = int(samples[0]["rank"])
+    cert = build_nonid_cert_for_rank(rank, name).to_json()
+    if cert["failure"]["kind"] != kind:
+        raise ValueError(
+            f"residual representative {rank} yielded "
+            f"{cert['failure']['kind']}, expected {kind}"
+        )
+    return cert
+
+
+def build_residual_nonidentity_templates_payload(
+    *, limit: int | None = None
+) -> dict:
+    subtype_payload = build_residual_nonidentity_subtype_payload(limit)
+    effective_limit = RESIDUAL_TEMPLATE_SCAN_LIMIT if limit is None else limit
+    prefix_parametric = load_json_artifact(
+        PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
+        "prefix-parametric-compression",
+    )
+    expected_residual_cases = int(
+        prefix_parametric["nonidentity"]["residual_singleton_cases"]
+    )
+    observed_residual_cases = int(subtype_payload["residual_singleton_cases"])
+    subtype_records: list[dict] = []
+    certs: list[dict] = []
+    candidate_passed_observed_count = 0
+    for subtype in subtype_payload["subtypes"]:
+        kind = subtype["failure_kind"]
+        if kind == "candidatePassed":
+            candidate_passed_observed_count = int(subtype["count"])
+            if candidate_passed_observed_count != 0:
+                raise ValueError("residual candidate passed without failure")
+            continue
+        if kind not in RESIDUAL_TEMPLATE_NAMES:
+            raise ValueError(f"unsupported residual subtype: {kind}")
+        cert = residual_template_cert_for_subtype(subtype)
+        if cert is not None:
+            certs.append(cert)
+        subtype_records.append({
+            "failure_kind": kind,
+            "observed_count": int(subtype["count"]),
+            "present": bool(subtype["present"]),
+            "representative_rank": cert["rank"] if cert is not None else None,
+            "representative_cert": cert["name"] if cert is not None else None,
+            "check_theorem": f"{cert['name']}_check" if cert is not None else None,
+            "status": (
+                "represented_by_checked_template"
+                if cert is not None
+                else "unobserved_in_representative_scan"
+            ),
+        })
+    required_observed_kinds = ["axisMissesStartInterior", "badFirstHit"]
+    subtype_by_kind = {record["failure_kind"]: record for record in subtype_records}
+    missing_required = [
+        kind for kind in required_observed_kinds
+        if not subtype_by_kind.get(kind, {}).get("present", False)
+    ]
+    if missing_required:
+        raise ValueError(
+            "residual template representative scan missed required kinds: "
+            + ", ".join(missing_required)
+        )
+    word_ranks = sorted({cert["rank"] for cert in certs})
+    payload = {
+        "schema_version": 1,
+        "mode": "residual-nonidentity-templates",
+        "complete": True,
+        "template_contract_complete": True,
+        "exhaustive_subtype_census_complete": False,
+        "profile_limit": effective_limit,
+        "source_mode": subtype_payload.get("mode"),
+        "residual_singleton_failure": "needsAxisSolveOrSimulation",
+        "residual_singleton_cases": expected_residual_cases,
+        "expected_residual_singleton_cases": expected_residual_cases,
+        "representative_scan": {
+            "limit": effective_limit,
+            "source_profile_limit": subtype_payload.get("profile_limit"),
+            "source_complete": subtype_payload.get("complete") is True,
+            "observed_residual_cases": observed_residual_cases,
+            "candidate_passed_observed_count": candidate_passed_observed_count,
+            "required_observed_failure_kinds": required_observed_kinds,
+            "note": (
+                "This is a bounded exact representative scan for proof-template "
+                "readiness. It is not an exhaustive residual subtype census."
+            ),
+        },
+        "supported_failure_kinds": sorted(RESIDUAL_TEMPLATE_NAMES),
+        "subtypes": subtype_records,
+        "pair_words": [
+            {"rank": rank, "word": pair_word_at_rank(rank)}
+            for rank in word_ranks
+        ],
+        "certs": certs,
+        "generated_lean": {
+            "residual_templates": path_status(
+                NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH
+            ),
+        },
+    }
+    return payload
+
+
+def write_residual_nonidentity_templates_lean(payload: dict) -> None:
+    certs = payload["certs"]
+    lines: list[str] = [
+        "import Cuboctahedron.Search.Certificates",
+        "",
+        "/-!",
+        "Generated residual non-identity proof-template witnesses for Step 14E.7B3.",
+        "",
+        "These are representative certificates for the residual non-identity",
+        "failure constructors used by the full generated Lean fallback emitter.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "",
+        "set_option maxHeartbeats 1600000",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "",
+    ]
+    append_word_definitions(lines, payload)
+    for cert in certs:
+        append_nonid_cert(lines, cert)
+    check_names = [append_nonid_check_theorem_full(lines, cert) for cert in certs]
+    cert_names = ", ".join(cert["name"] for cert in certs)
+    lines.extend([
+        "def residualTemplateCerts : Array NonIdCert :=",
+        f"  #[{cert_names}]",
+        "",
+        "theorem residualNonIdentityTemplates_check :",
+        "    checkNonIdCerts residualTemplateCerts = true := by",
+        f"  simp [checkNonIdCerts, residualTemplateCerts, {', '.join(check_names)}]",
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
+        "",
+    ])
+    NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+
+
+def write_residual_nonidentity_templates_json(payload: dict) -> None:
+    payload = dict(payload)
+    payload["generated_lean"] = {
+        "residual_templates": generated_file_record(
+            NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH
+        )
+    }
+    RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+    RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def build_exhaustive_real_certs_summary(
@@ -4350,6 +4733,9 @@ def build_exhaustive_real_certs_summary(
         "coverage_tree_sample": path_status(COVERAGE_TREE_JSON_PATH),
         "nonidentity_family_sample": path_status(NONIDENTITY_FAMILY_JSON_PATH),
         "translation_family_sample": path_status(TRANSLATION_FAMILY_JSON_PATH),
+        "residual_nonidentity_templates": path_status(
+            RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH
+        ),
     }
 
     load_json_artifact(COVERAGE_JSON_PATH, "coverage-manifest")
@@ -4357,6 +4743,14 @@ def build_exhaustive_real_certs_summary(
     load_json_artifact(COVERAGE_TREE_JSON_PATH, "coverage-tree-sample")
     load_json_artifact(NONIDENTITY_FAMILY_JSON_PATH, "nonidentity-family-sample")
     load_json_artifact(TRANSLATION_FAMILY_JSON_PATH, "translation-family-sample")
+    residual_templates = None
+    if RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.exists():
+        residual_templates = load_json_artifact(
+            RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH,
+            "residual-nonidentity-templates",
+        )
+        if not residual_templates.get("complete", False):
+            residual_templates = None
     prefix_parametric = None
     if PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH.exists():
         prefix_parametric = load_json_artifact(
@@ -4393,6 +4787,7 @@ def build_exhaustive_real_certs_summary(
     parametric_semantics_ready = False
     family_partition_ready = False
     family_partition_exhaustive_complete = False
+    residual_templates_ready = False
     if PARAMETRIC_FAMILY_CHECKERS_JSON_PATH.exists():
         parametric_family_checkers = load_json_artifact(
             PARAMETRIC_FAMILY_CHECKERS_JSON_PATH,
@@ -4416,6 +4811,34 @@ def build_exhaustive_real_certs_summary(
         )
         family_partition_exhaustive_complete = (
             partition.get("exhaustive_partition_complete") is True
+        )
+    if residual_templates is not None:
+        residual_template_kinds = {
+            record["failure_kind"]: record for record in residual_templates["subtypes"]
+        }
+        representative_scan = residual_templates.get("representative_scan", {})
+        residual_templates_ready = (
+            residual_templates.get("complete") is True
+            and residual_templates.get("template_contract_complete") is True
+            and residual_templates.get("exhaustive_subtype_census_complete") is False
+            and int(residual_templates["residual_singleton_cases"])
+            == int(residual_templates["expected_residual_singleton_cases"])
+            and {
+                "axisMissesStartInterior",
+                "badFirstHit",
+                "badHitInterior",
+            } <= set(residual_template_kinds)
+            and all(
+                residual_template_kinds[kind].get("present") is True
+                for kind in representative_scan.get(
+                    "required_observed_failure_kinds", []
+                )
+            )
+            and int(representative_scan.get("candidate_passed_observed_count", 0)) == 0
+            and all(
+                (not record["present"]) or record["check_theorem"]
+                for record in residual_template_kinds.values()
+            )
         )
 
     estimates = profile["size_estimates"]
@@ -4455,7 +4878,7 @@ def build_exhaustive_real_certs_summary(
         flat_status = "disabled_without_allow_flat_exhaustive"
     else:
         flat_status = "diagnostic_allowed_but_not_used"
-    if estimated_lean_bytes > budget_bytes and not approve_large_exhaustive:
+    if estimated_lean_bytes > budget_bytes:
         refusal_reasons.append("estimated_lean_bytes_exceeds_budget")
     if disk.free < required_free_bytes:
         refusal_reasons.append("free_space_below_required_floor")
@@ -4472,23 +4895,31 @@ def build_exhaustive_real_certs_summary(
         refusal_reasons.append("family_partition_witness_not_ready")
     if not family_partition_exhaustive_complete:
         refusal_reasons.append("family_partition_exhaustive_data_not_emitted")
-    if not refusal_reasons:
-        refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
-
-    if refusal_reasons:
+    if not residual_templates_ready:
+        refusal_reasons.append("residual_nonidentity_templates_not_ready")
+    ready_for_large_emission = not refusal_reasons
+    full_emission_manifest: dict | None = None
+    if ready_for_large_emission and not approve_large_exhaustive:
+        emission_status = "ready_but_approval_required"
+    elif refusal_reasons:
         emission_status = (
             "refused_budget_exceeded"
             if "estimated_lean_bytes_exceeds_budget" in refusal_reasons
-            else "ready_but_full_emitter_not_implemented"
-            if refusal_reasons == ["generated_lean_fallback_emitter_not_implemented"]
             else "refused_prerequisite_or_space_check"
         )
+    else:
+        refusal_reasons.append("generated_lean_fallback_emitter_not_implemented")
+        emission_status = "approved_but_full_emitter_not_implemented"
 
     payload = {
         "schema_version": 1,
         "mode": "exhaustive-real-certs",
-        "complete": False,
-        "summary_kind": "gated-estimate",
+        "complete": full_emission_manifest is not None,
+        "summary_kind": (
+            "generated-lean-fallback"
+            if full_emission_manifest is not None
+            else "gated-estimate"
+        ),
         "selected_backend": selected_backend,
         "actual_counts": {
             "pair_words": counts["pair_words"],
@@ -4512,6 +4943,9 @@ def build_exhaustive_real_certs_summary(
                 PARAMETRIC_FAMILY_CHECKERS_JSON_PATH
             ),
             "compact_cert_pilot": path_status(COMPACT_CERT_PILOT_JSON_PATH),
+            "residual_nonidentity_templates": path_status(
+                RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH
+            ),
         },
         "parametric_family_semantics": {
             "ready": parametric_semantics_ready,
@@ -4526,6 +4960,15 @@ def build_exhaustive_real_certs_summary(
             "generated_lean": {
                 "nonidentity": path_status(NONIDENTITY_PARTITION_LEAN_PATH),
                 "translation": path_status(TRANSLATION_PARTITION_LEAN_PATH),
+            },
+        },
+        "residual_nonidentity_templates": {
+            "ready": residual_templates_ready,
+            "source": path_status(RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH),
+            "generated_lean": {
+                "residual_templates": path_status(
+                    NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH
+                ),
             },
         },
         "estimate": {
@@ -4555,13 +4998,12 @@ def build_exhaustive_real_certs_summary(
         },
         "full_emission": {
             "requested": approve_large_exhaustive,
-            "performed": False,
+            "performed": full_emission_manifest is not None,
             "status": emission_status,
             "refusal_reasons": refusal_reasons,
             "approval_flag": "--approve-large-exhaustive",
-            "large_emission_ready": (
-                refusal_reasons == ["generated_lean_fallback_emitter_not_implemented"]
-            ),
+            "large_emission_ready": ready_for_large_emission,
+            "manifest": full_emission_manifest,
         },
         "expected_full_generation_paths": [
             "Cuboctahedron/Generated/NonIdentity/",
@@ -5903,6 +6345,7 @@ def main() -> None:
             "aggregate-compression-profile",
             "prefix-parametric-compression",
             "parametric-family-checkers",
+            "residual-nonidentity-templates",
             "compact-cert-sample",
             "compact-cert-pilot",
         ],
@@ -6003,6 +6446,7 @@ def main() -> None:
             "exhaustive-real-certs/compression-audit/"
             "aggregate-compression-profile/prefix-parametric-compression/"
             "parametric-family-checkers/"
+            "residual-nonidentity-templates/"
             "compact-cert-sample/compact-cert-pilot"
         )
     if mode == "profile-exhaustive-states":
@@ -6043,6 +6487,27 @@ def main() -> None:
         )
         print(f"free space: {payload['budget']['free_gib']:.2f} GiB")
         print(f"json: {args.exhaustive_summary_output}")
+        return
+    if mode == "residual-nonidentity-templates":
+        if args.profile_limit is not None and args.profile_limit < 0:
+            parser.error("--profile-limit must be nonnegative")
+        payload = build_residual_nonidentity_templates_payload(
+            limit=args.profile_limit
+        )
+        write_residual_nonidentity_templates_lean(payload)
+        write_residual_nonidentity_templates_json(payload)
+        write_all_generated()
+        print("generated residual nonidentity proof templates")
+        print(
+            "residual cases: "
+            f"{payload['residual_singleton_cases']:,}"
+        )
+        print(
+            "template certs: "
+            f"{len(payload['certs'])}"
+        )
+        print(f"json: {RESIDUAL_NONIDENTITY_TEMPLATES_JSON_PATH.relative_to(REPO_ROOT)}")
+        print(f"lean: {NONIDENTITY_RESIDUAL_TEMPLATES_LEAN_PATH.relative_to(REPO_ROOT)}")
         return
     if mode == "compression-audit":
         payload = build_compression_audit_payload()
