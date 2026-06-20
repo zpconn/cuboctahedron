@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.ExhaustiveCoverage
+import Cuboctahedron.Generated.PublicEvidence.BoundedRange
 
 /-!
 Public interval evidence namespace.

@@ -1,5 +1,7 @@
 .lake/
 __pycache__/
+evidence/**/*.olean
+evidence/**/*.ilean
 certs/nonidentity_residual_shards/
 certs/translation_farkas_shards/
 scripts/generated/exhaustive_real_certs_summary.json

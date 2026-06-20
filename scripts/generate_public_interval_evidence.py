@@ -28,6 +28,7 @@ import generate_exact_certificates as exact
 OUTPUT_DIR = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "PublicEvidence"
 )
+BOUNDED_RANGE_PATH = OUTPUT_DIR / "BoundedRange.lean"
 SMOKE_OUTPUT_DIR = REPO_ROOT / "evidence" / "public_interval_smoke"
 SHARDS_OUTPUT_DIR = REPO_ROOT / "evidence" / "public_interval_shards"
 MANIFEST_PATH = (
@@ -52,6 +53,11 @@ def generated_file_record(path: Path) -> dict:
         "exists": True,
         "bytes": len(data),
     }
+
+
+def lean_module_name(path: Path) -> str:
+    rel = path.relative_to(REPO_ROOT).with_suffix("")
+    return ".".join(rel.parts)
 
 
 def write_manifest(payload: dict) -> None:
@@ -112,7 +118,7 @@ def write_all_module() -> Path:
     write_text(
         path,
         "\n".join([
-            "import Cuboctahedron.Generated.ExhaustiveCoverage",
+            "import Cuboctahedron.Generated.PublicEvidence.BoundedRange",
             "",
             "/-!",
             "Public interval evidence namespace.",
@@ -136,6 +142,63 @@ def write_all_module() -> Path:
         ]),
     )
     return path
+
+
+def write_bounded_range_module(
+    *,
+    lo: int = 0,
+    hi: int = 0,
+    root_path: Path | None = None,
+    complete_for_interval: bool = False,
+) -> Path:
+    root_text = (
+        str(root_path.relative_to(REPO_ROOT))
+        if root_path is not None
+        else ""
+    )
+    write_text(
+        BOUNDED_RANGE_PATH,
+        "\n".join([
+            "import Cuboctahedron.Generated.ExhaustiveCoverage",
+            "",
+            "/-!",
+            "Lightweight public marker for the currently emitted bounded",
+            "interval evidence root.",
+            "",
+            "The actual proof-carrying root is emitted outside the default",
+            "Lake package source tree. This module records the exact range and",
+            "provides the small structure that the external root inhabits.",
+            "-/",
+            "",
+            "namespace Cuboctahedron.Generated.PublicEvidence",
+            "",
+            "structure VerifiedBoundedRange (lo hi : Nat) where",
+            "  nonidentityClassifier : Coverage.NonIdComputableClassifier",
+            "  translationClassifier : Coverage.TranslationComputableClassifier",
+            "  nonidentity :",
+            "    Coverage.CoversInterval",
+            "      (NonIdentity.Coverage.ResidualRankCertifiedBy",
+            "        nonidentityClassifier) lo hi",
+            "  translation :",
+            "    Coverage.CoversInterval",
+            "      (Translation.Coverage.FarkasRankCertifiedBy",
+            "        translationClassifier) lo hi",
+            "",
+            f"def currentBoundedStartRank : Nat := {lo}",
+            f"def currentBoundedEndRank : Nat := {hi}",
+            f"def currentBoundedRankCount : Nat := {hi - lo}",
+            f"def currentBoundedCompleteForInterval : Bool := {str(complete_for_interval).lower()}",
+            f"def currentBoundedVerifiedRootPath : String := \"{root_text}\"",
+            "",
+            "theorem currentBoundedRange_nonnegative :",
+            "    currentBoundedStartRank <= currentBoundedEndRank := by",
+            "  norm_num [currentBoundedStartRank, currentBoundedEndRank]",
+            "",
+            "end Cuboctahedron.Generated.PublicEvidence",
+            "",
+        ]),
+    )
+    return BOUNDED_RANGE_PATH
 
 
 def lean_namespace_part(raw: str) -> str:
@@ -199,6 +262,11 @@ def write_nonidentity_leaf(
         "  badDirectionFamilies := []",
         "  badPairBalanceFamilies := []",
         "",
+        f"def {classifier_name}Translation :",
+        "    Cuboctahedron.Generated.Coverage.TranslationComputableClassifier where",
+        "  badDirectionFamilies := []",
+        "  badVectorFamilies := []",
+        "",
     ]
     exact.append_word_definitions(lines, {
         "pair_words": [{"rank": rank, "word": nonid_cert["word"]}],
@@ -223,6 +291,32 @@ def write_nonidentity_leaf(
         "      (Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankCertifiedBy",
         f"        {classifier_name}) {rank} {rank + 1} :=",
         f"  Cuboctahedron.Generated.Coverage.CoversInterval.single {theorem_name}",
+        "",
+        f"theorem nonidentity_interval :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        "      (Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankCertifiedBy",
+        f"        {classifier_name}) {rank} {rank + 1} :=",
+        "  interval",
+        "",
+        "theorem translation_rank_certified :",
+        "    Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
+        f"      {classifier_name}Translation {rank} := by",
+        "  intro hlt _mask _hclass hM",
+        f"  have hrank : (⟨{rank}, hlt⟩ : Fin numPairWords) =",
+        f"      (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
+        "    ext",
+        "    rfl",
+        f"  have hword : {exact.word_name(rank)} = unrankPairWord ⟨{rank}, hlt⟩ := by",
+        "    rw [hrank]",
+        "    decide",
+        f"  exact False.elim ({name}_nonIdentity (by simpa [← hword] using hM))",
+        "",
+        "theorem translation_interval :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        "      (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
+        f"        {classifier_name}Translation) {rank} {rank + 1} :=",
+        "  Cuboctahedron.Generated.Coverage.CoversInterval.single",
+        "    translation_rank_certified",
         "",
         f"end {namespace}",
         "",
@@ -300,6 +394,105 @@ def write_translation_case_leaf(
         "rank": rank,
         "mask": mask,
         "failure": cert["failure"]["kind"],
+        "path": generated_file_record(path),
+    }
+
+
+def write_translation_rank_root(
+    *,
+    path: Path,
+    namespace: str,
+    rank: int,
+    mask_paths: list[Path],
+) -> dict:
+    imports = [f"import {lean_module_name(mask_path)}" for mask_path in mask_paths]
+    lines: list[str] = [
+        *imports,
+        "",
+        "/-!",
+        "Generated translation rank aggregator for a public interval shard.",
+        "",
+        "This file imports exactly the 64 mask leaves for one identity-linear",
+        "rank, proves the all-mask Farkas bridge predicate for that singleton",
+        "rank, and also proves the non-identity branch vacuously.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "set_option maxHeartbeats 4000000",
+        "set_option maxRecDepth 100000",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unreachableTactic false",
+        "set_option linter.unnecessarySeqFocus false",
+        "",
+        "def nonIdentityClassifier :",
+        "    Cuboctahedron.Generated.Coverage.NonIdComputableClassifier where",
+        "  badDirectionFamilies := []",
+        "  badPairBalanceFamilies := []",
+        "",
+        "def translationClassifier :",
+        "    Cuboctahedron.Generated.Coverage.TranslationComputableClassifier where",
+        "  badDirectionFamilies := []",
+        "  badVectorFamilies := []",
+        "",
+    ]
+    word = exact.pair_word_at_rank(rank)
+    exact.append_word_definitions(lines, {
+        "pair_words": [{"rank": rank, "word": word}],
+    })
+    lines.extend([
+        f"theorem wordRank{rank:09d}_totalLinear_identity :",
+        f"    totalLinearOfPairWord {exact.word_name(rank)} = (matId : Mat3 Rat) := by",
+        "  rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+        "  simp [pairLinearProductRight, pairLinearSuffixNat, reflM,",
+        "    canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
+        "  norm_num",
+        "",
+        "theorem nonidentity_rank_certified :",
+        "    Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankCertifiedBy",
+        f"      nonIdentityClassifier {rank} := by",
+        "  intro hlt _hclass hM",
+        f"  have hrank : (⟨{rank}, hlt⟩ : Fin numPairWords) =",
+        f"      (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
+        "    ext",
+        "    rfl",
+        f"  have hword : {exact.word_name(rank)} = unrankPairWord ⟨{rank}, hlt⟩ := by",
+        "    rw [hrank]",
+        "    decide",
+        "  exact False.elim (hM (by",
+        f"    simpa [← hword] using wordRank{rank:09d}_totalLinear_identity))",
+        "",
+        "theorem nonidentity_interval :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        "      (Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankCertifiedBy",
+        f"        nonIdentityClassifier) {rank} {rank + 1} :=",
+        "  Cuboctahedron.Generated.Coverage.CoversInterval.single",
+        "    nonidentity_rank_certified",
+        "",
+        "theorem translation_rank_certified :",
+        "    Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
+        f"      translationClassifier {rank} := by",
+        "  intro hlt mask _hclass _hM",
+        "  fin_cases mask",
+    ])
+    for mask in range(64):
+        lines.append(f"  · exact Mask{mask:02d}.case_certified hlt")
+    lines.extend([
+        "",
+        "theorem translation_interval :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        "      (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
+        f"        translationClassifier) {rank} {rank + 1} :=",
+        "  Cuboctahedron.Generated.Coverage.CoversInterval.single",
+        "    translation_rank_certified",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    write_text(path, "\n".join(lines))
+    return {
+        "rank": rank,
         "path": generated_file_record(path),
     }
 
@@ -618,6 +811,10 @@ def write_interval_shard_readme(
         lines.append(f"lake env lean {path.relative_to(REPO_ROOT)}")
     lines.extend([
         f"lake env lean {index_path.relative_to(REPO_ROOT)}",
+        "",
+        "# Or use the helper to compile external modules serially and then",
+        "# check the composable verified root:",
+        f"python3 scripts/check_public_interval_shard.py {manifest_path.relative_to(REPO_ROOT)} --compile-external --include-rank-roots --include-verified-root",
         "```",
         "",
         "Machine-readable manifest:",
@@ -669,6 +866,115 @@ def write_interval_shard_index(
     return path
 
 
+def balanced_concat_term(items: list[str], *, indent: str = "  ") -> list[str]:
+    if not items:
+        raise ValueError("cannot concatenate an empty interval theorem list")
+    if len(items) == 1:
+        return [indent + items[0]]
+    mid = len(items) // 2
+    left = balanced_concat_term(items[:mid], indent=indent + "  ")
+    right = balanced_concat_term(items[mid:], indent=indent + "  ")
+    return [
+        indent + "(Cuboctahedron.Generated.Coverage.CoversInterval.concat",
+        *left,
+        *right,
+        indent + ")",
+    ]
+
+
+def write_interval_shard_verified_root(
+    *,
+    shard_dir: Path,
+    shard_name: str,
+    lo: int,
+    hi: int,
+    rank_modules: list[dict],
+) -> Path:
+    namespace = interval_shard_namespace(shard_name) + ".VerifiedRoot"
+    imports = [f"import {record['module']}" for record in rank_modules]
+    nonid_theorems: list[str] = []
+    translation_theorems: list[str] = []
+    lines: list[str] = [
+        *imports,
+        "",
+        "/-!",
+        "Generated verified root for one bounded public interval shard.",
+        "",
+        "This file is outside the default Lake package source tree. Checking",
+        "it proves coverage for exactly the interval named below, provided",
+        "the imported external proof modules have been compiled serially.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "def nonIdentityClassifier :",
+        "    Cuboctahedron.Generated.Coverage.NonIdComputableClassifier where",
+        "  badDirectionFamilies := []",
+        "  badPairBalanceFamilies := []",
+        "",
+        "def translationClassifier :",
+        "    Cuboctahedron.Generated.Coverage.TranslationComputableClassifier where",
+        "  badDirectionFamilies := []",
+        "  badVectorFamilies := []",
+        "",
+        f"def startRank : Nat := {lo}",
+        f"def endRank : Nat := {hi}",
+        "",
+    ]
+    for record in rank_modules:
+        rank = int(record["rank"])
+        ns = record["namespace"]
+        nonid_name = f"nonidentity_rank_{rank:09d}"
+        translation_name = f"translation_rank_{rank:09d}"
+        nonid_theorems.append(nonid_name)
+        translation_theorems.append(translation_name)
+        lines.extend([
+            f"theorem {nonid_name} :",
+            "    Cuboctahedron.Generated.Coverage.CoversInterval",
+            "      (Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankCertifiedBy",
+            f"        nonIdentityClassifier) {rank} {rank + 1} := by",
+            "  simpa [nonIdentityClassifier,",
+            f"    {ns}.nonIdentityClassifier] using",
+            f"    {ns}.nonidentity_interval",
+            "",
+            f"theorem {translation_name} :",
+            "    Cuboctahedron.Generated.Coverage.CoversInterval",
+            "      (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
+            f"        translationClassifier) {rank} {rank + 1} := by",
+            "  simpa [translationClassifier,",
+            f"    {ns}.translationClassifier] using",
+            f"    {ns}.translation_interval",
+            "",
+        ])
+    lines.extend([
+        "theorem nonidentity_interval :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        "      (Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankCertifiedBy",
+        f"        nonIdentityClassifier) {lo} {hi} :=",
+        *balanced_concat_term(nonid_theorems),
+        "",
+        "theorem translation_interval :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        "      (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
+        f"        translationClassifier) {lo} {hi} :=",
+        *balanced_concat_term(translation_theorems),
+        "",
+        "theorem coverage :",
+        f"    Cuboctahedron.Generated.PublicEvidence.VerifiedBoundedRange {lo} {hi} := {{",
+        "  nonidentityClassifier := nonIdentityClassifier",
+        "  translationClassifier := translationClassifier",
+        "  nonidentity := nonidentity_interval",
+        "  translation := translation_interval",
+        "}",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    path = shard_dir / "VerifiedRoot.lean"
+    write_text(path, "\n".join(lines))
+    return path
+
+
 def write_interval_shard(
     *,
     lo: int,
@@ -713,10 +1019,13 @@ def write_interval_shard(
 
     nonidentity_records: list[dict] = []
     translation_records: list[dict] = []
+    translation_rank_roots: list[dict] = []
+    rank_modules: list[dict] = []
     leaf_paths: list[Path] = []
     for record in rank_records:
         rank = int(record["rank"])
         if record["identity_linear"]:
+            rank_mask_paths: list[Path] = []
             for mask in translation_masks:
                 path = (
                     shard_dir / "Translation" / f"Rank{rank:09d}" /
@@ -734,6 +1043,27 @@ def write_interval_shard(
                 )
                 translation_records.append(translation_record)
                 leaf_paths.append(path)
+                rank_mask_paths.append(path)
+            if len(translation_masks) == 64:
+                rank_root_path = (
+                    shard_dir / "Translation" / f"Rank{rank:09d}" /
+                    "AllMasks.lean"
+                )
+                rank_root_namespace = f"{namespace}.Translation.Rank{rank:09d}"
+                rank_root_record = write_translation_rank_root(
+                    path=rank_root_path,
+                    namespace=rank_root_namespace,
+                    rank=rank,
+                    mask_paths=rank_mask_paths,
+                )
+                translation_rank_roots.append(rank_root_record)
+                rank_modules.append({
+                    "rank": rank,
+                    "identity_linear": True,
+                    "path": generated_file_record(rank_root_path),
+                    "module": lean_module_name(rank_root_path),
+                    "namespace": rank_root_namespace,
+                })
         else:
             path = shard_dir / "NonIdentity" / f"Rank{rank:09d}.lean"
             leaf_namespace = f"{namespace}.NonIdentity.Rank{rank:09d}"
@@ -746,6 +1076,13 @@ def write_interval_shard(
             )
             nonidentity_records.append(nonidentity_record)
             leaf_paths.append(path)
+            rank_modules.append({
+                "rank": rank,
+                "identity_linear": False,
+                "path": generated_file_record(path),
+                "module": lean_module_name(path),
+                "namespace": leaf_namespace,
+            })
 
     index_path = write_interval_shard_index(
         shard_dir=shard_dir,
@@ -756,6 +1093,15 @@ def write_interval_shard(
         identity_count=sum(1 for record in rank_records if record["identity_linear"]),
         translation_case_count=len(translation_records),
     )
+    verified_root_path = None
+    if len(translation_masks) == 64:
+        verified_root_path = write_interval_shard_verified_root(
+            shard_dir=shard_dir,
+            shard_name=shard_name,
+            lo=lo,
+            hi=hi,
+            rank_modules=rank_modules,
+        )
     manifest_path = shard_dir / "manifest.json"
     readme_path = write_interval_shard_readme(
         shard_dir=shard_dir,
@@ -790,9 +1136,16 @@ def write_interval_shard(
             "shard_dir": str(shard_dir.relative_to(REPO_ROOT)),
             "index": generated_file_record(index_path),
             "readme": generated_file_record(readme_path),
+            "verified_root": (
+                generated_file_record(verified_root_path)
+                if verified_root_path is not None
+                else {"exists": False}
+            ),
         },
         "ranks": rank_records,
+        "rank_modules": rank_modules,
         "nonidentity": nonidentity_records,
+        "translation_rank_roots": translation_rank_roots,
         "translation": translation_records,
     }
     write_text(manifest_path, json.dumps(payload, indent=2, sort_keys=True) + "\n")
@@ -898,12 +1251,14 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    bounded_range_module = write_bounded_range_module()
     all_module = write_all_module()
 
     if args.mode == "preflight":
         payload = preflight_payload()
         payload["generated"] = {
             "all": generated_file_record(all_module),
+            "bounded_range": generated_file_record(bounded_range_module),
         }
         write_manifest(payload)
         print("prepared public interval evidence namespace")
@@ -932,6 +1287,7 @@ def main() -> None:
             "smoke": summary,
             "generated": {
                 "all": generated_file_record(all_module),
+                "bounded_range": generated_file_record(bounded_range_module),
                 "smoke": generated_file_record(smoke_module),
             },
         })
@@ -958,6 +1314,17 @@ def main() -> None:
                 max_heavy_leaves=args.max_heavy_leaves,
                 approve_large_shard=args.approve_large_shard,
             )
+            bounded_range_module = write_bounded_range_module(
+                lo=args.start_rank,
+                hi=args.end_rank,
+                root_path=(
+                    REPO_ROOT / summary["paths"]["verified_root"]["path"]
+                    if summary["paths"]["verified_root"].get("exists")
+                    else None
+                ),
+                complete_for_interval=summary["complete_for_interval"],
+            )
+            all_module = write_all_module()
         except ValueError as err:
             parser.error(str(err))
         payload = preflight_payload()
@@ -967,7 +1334,9 @@ def main() -> None:
             "interval_shard": summary,
             "generated": {
                 "all": generated_file_record(all_module),
+                "bounded_range": generated_file_record(bounded_range_module),
                 "shard_index": generated_file_record(index_path),
+                "verified_root": summary["paths"]["verified_root"],
             },
         })
         write_manifest(payload)

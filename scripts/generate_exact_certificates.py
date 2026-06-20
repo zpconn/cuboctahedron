@@ -1647,8 +1647,6 @@ def build_nonid_cert_for_rank(rank: int, name: str) -> NonIdCertPayload:
             forced_seq=cert.forced_seq,
             failure=cert.failure,
         )
-    if final_axis_dot(word, axis) <= 0:
-        raise ValueError("unsupported final-axis sign failure")
     zero_index = first_axis_zero_index_or_none(word, axis)
     if zero_index is not None:
         return NonIdCertPayload(
@@ -1660,6 +1658,8 @@ def build_nonid_cert_for_rank(rank: int, name: str) -> NonIdCertPayload:
             forced_seq=["xp"] + [FACE_PLUS[pair_id] for pair_id in word],
             failure={"kind": "badDirectionSign", "index": zero_index},
         )
+    if final_axis_dot(word, axis) <= 0:
+        raise ValueError("unsupported final-axis sign failure")
     forced_seq = forced_sequence_from_axis(word, axis)
     if len(set(forced_seq)) != 14:
         return NonIdCertPayload(
