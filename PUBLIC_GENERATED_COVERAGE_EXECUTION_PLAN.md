@@ -671,13 +671,48 @@ precisely and implement it if it is small.
 Do not add theorem stubs with `sorry`. If a bridge is too large for this task,
 stop and report the exact remaining gap, including file names and theorem names.
 
+Before adding concrete theorem aliases, run:
+
+```bash
+python3 scripts/check_phase9_ready.py
+```
+
+This must pass. If it fails, do not create placeholder aliases; finish the
+reported generated coverage prerequisite first. The expected blocker before the
+interval hierarchy is complete is missing residual and translation interval
+shards for `Cuboctahedron.Generated.exhaustiveGeneratedCoverage`.
+
+Once the readiness check passes, add the concrete aliases in:
+
+```text
+Cuboctahedron/Search/GeneratedComplete.lean
+```
+
+using only the existing `_of_coverage` theorems and the concrete generated
+witness:
+
+```lean
+theorem generated_nonidentity_complete :=
+  generated_nonidentity_complete_of_coverage
+    Cuboctahedron.Generated.exhaustiveGeneratedCoverage
+
+theorem generated_translation_complete :=
+  generated_translation_complete_of_coverage
+    Cuboctahedron.Generated.exhaustiveGeneratedCoverage
+
+theorem no_unfolded_omni_starting_xp :=
+  no_unfolded_omni_starting_xp_of_coverage
+    Cuboctahedron.Generated.exhaustiveGeneratedCoverage
+```
+
 Acceptance for Phase 9:
 
 ```bash
-lake build Cuboctahedron.Search.Certificates
+python3 scripts/check_phase9_ready.py
+lake build Cuboctahedron.Search.GeneratedComplete
 ```
 
-or the exact module containing:
+and the exact module must contain:
 
 ```text
 generated_nonidentity_complete

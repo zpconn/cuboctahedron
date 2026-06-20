@@ -76,6 +76,20 @@ the broad build can be requested explicitly:
 python3 scripts/validate_public_coverage_build.py --allow-full-lake-build
 ```
 
+## Phase 9 readiness
+
+Before wiring the public generated coverage API into concrete Step 15 theorem
+aliases, run:
+
+```bash
+python3 scripts/check_phase9_ready.py
+```
+
+This fails until the public coverage hierarchy is complete and
+`Cuboctahedron.Generated.AllGenerated` exports a concrete
+`exhaustiveGeneratedCoverage` value. Do not create placeholder theorem aliases
+while this check is failing.
+
 ## Trust model
 
 - Lean must check every certificate used by the final theorem.
