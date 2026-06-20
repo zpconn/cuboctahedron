@@ -53,6 +53,29 @@ The manifest is trusted only after Lean checks
 It proves the generated coverage chunks are contiguous, nonempty, start at rank
 `0`, end at `numPairWords`, and expose all `64` translation sign masks.
 
+## Public generated coverage validation
+
+Run the Phase 8 memory-safe validation workflow:
+
+```bash
+python3 scripts/validate_public_coverage_build.py
+```
+
+This regenerates and independently checks the public coverage scaffold, runs
+focused Lean builds in safe order, records peak RSS when available, and runs the
+public-only generated coverage smoke test. Logs are written under:
+
+```text
+/tmp/cuboctahedron_public_coverage_validation/
+```
+
+The script does not run full `lake build` by default. After focused checks pass,
+the broad build can be requested explicitly:
+
+```bash
+python3 scripts/validate_public_coverage_build.py --allow-full-lake-build
+```
+
 ## Trust model
 
 - Lean must check every certificate used by the final theorem.

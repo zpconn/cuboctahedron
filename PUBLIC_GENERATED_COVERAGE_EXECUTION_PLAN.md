@@ -600,60 +600,39 @@ Acceptance for Phase 7:
 
 ## Phase 8: Memory-Safe Build and Validation Workflow
 
-Do not begin with full `lake build`.
-
-First build the tiny interval core:
+Use the Phase 8 validator as the canonical workflow:
 
 ```bash
-lake build Cuboctahedron.Generated.Coverage.Interval
+python3 scripts/validate_public_coverage_build.py
 ```
 
-Then build the smallest non-identity generated leaf/chunk:
+The validator runs focused builds in memory-safe order, records per-command
+elapsed time and peak RSS under `/tmp/cuboctahedron_public_coverage_validation`,
+and stops immediately after any failed focused build, timeout, or suspected OOM.
+It does not run a broad `lake build` by default.
+
+If a broad build is needed after focused checks pass, run:
 
 ```bash
-lake build Cuboctahedron.Generated.NonIdentity.Coverage.Chunk000
+python3 scripts/validate_public_coverage_build.py --allow-full-lake-build
 ```
 
-Then build the largest non-identity generated leaf/chunk, if identifiable:
-
-```bash
-lake build Cuboctahedron.Generated.NonIdentity.Coverage.<LargestChunk>
-```
-
-Then:
-
-```bash
-lake build Cuboctahedron.Generated.NonIdentity.Complete
-```
-
-Repeat for translation:
-
-```bash
-lake build Cuboctahedron.Generated.Translation.Coverage.Chunk000
-lake build Cuboctahedron.Generated.Translation.Coverage.<LargestChunk>
-lake build Cuboctahedron.Generated.Translation.Complete
-```
-
-Then:
-
-```bash
-lake build Cuboctahedron.Generated.ExhaustiveCoverage
-```
-
-Use constrained parallelism. Check the installed Lake help to confirm the jobs
-flag for this version (`-J`, `-j`, or equivalent). Start around 4 jobs and only
-increase if peak memory is safe. Do not run a 24-way generated-evidence build
-on a 48-64 GB machine.
+Do not use this flag until the focused workflow passes. Do not run a 24-way
+generated-evidence build on a 48-64 GB machine. In this Lake version, `-J` is
+not a jobs flag; the validator therefore runs focused `lake build` targets
+serially and uses the existing `lake env lean -j1` public-only smoke path.
 
 If `.lake` contains artifacts from failed packed-blob attempts, clean relevant
-targets or run `lake clean` before evaluating the new backend. Do not delete
-tracked source files.
+targets manually or run `lake clean` before evaluating the new backend. Do not
+delete tracked source files.
 
 Acceptance for Phase 8:
 
 - Focused builds pass before any broad build.
 - Peak memory observations are recorded when available.
 - No broad build is attempted after a focused OOM.
+- The public-only smoke check passes without selecting the legacy packed
+  residual/Farkas chunks.
 
 ## Phase 9: Step 15 Integration
 
