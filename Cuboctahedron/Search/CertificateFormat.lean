@@ -279,6 +279,74 @@ theorem ProofCarryingTranslationFarkasFamily.no_feasible
       hFeasible⟩
 
 /-!
+Proof-carrying shared translation Farkas shape families.
+
+The array-based `ProofCarryingTranslationFarkasFamily` is useful for small
+samples, but full translation evidence needs to reuse a normalized Farkas shape
+across many cases.  This interface lets generated code expose only a semantic
+membership predicate plus a checked case witness for each covered `(rank, mask)`.
+-/
+
+structure ProofCarryingTranslationFarkasShapeFamily where
+  name : String
+  normalizedStateId : String
+  ContainsCase : Fin numPairWords -> SignMask -> Prop
+  checkedCase :
+    forall rank : Fin numPairWords, forall mask : SignMask,
+      ContainsCase rank mask -> CheckedTranslationCase
+  checkedCase_rank :
+    forall (rank : Fin numPairWords) (mask : SignMask)
+      (hcontains : ContainsCase rank mask),
+      (checkedCase rank mask hcontains).rank = rank
+  checkedCase_mask :
+    forall (rank : Fin numPairWords) (mask : SignMask)
+      (hcontains : ContainsCase rank mask),
+      (checkedCase rank mask hcontains).mask = mask
+
+theorem ProofCarryingTranslationFarkasShapeFamily.exists_cert
+    (family : ProofCarryingTranslationFarkasShapeFamily)
+    {rank : Fin numPairWords} {mask : SignMask}
+    (hcontains : family.ContainsCase rank mask) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord rank /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true := by
+  let e := family.checkedCase rank mask hcontains
+  have hrank : e.rank = rank :=
+    family.checkedCase_rank rank mask hcontains
+  have hmask : e.mask = mask :=
+    family.checkedCase_mask rank mask hcontains
+  rcases CheckedTranslationCase.exists_cert e with
+    ⟨cert, hword, hsign, hcheck⟩
+  exact
+    ⟨cert,
+      by simpa [hrank] using hword,
+      by simpa [hmask] using hsign,
+      hcheck⟩
+
+theorem ProofCarryingTranslationFarkasShapeFamily.no_feasible
+    (family : ProofCarryingTranslationFarkasShapeFamily)
+    {rank : Fin numPairWords} {mask : SignMask}
+    (hcontains : family.ContainsCase rank mask) :
+    ¬ exists seq,
+      SeqRealizesTranslationChoice (unrankPairWord rank) mask seq /\
+        totalLinear seq = (matId : Mat3 Rat) /\
+          UnfoldedFeasible seq := by
+  let e := family.checkedCase rank mask hcontains
+  have hrank : e.rank = rank :=
+    family.checkedCase_rank rank mask hcontains
+  have hmask : e.mask = mask :=
+    family.checkedCase_mask rank mask hcontains
+  intro hbad
+  apply CheckedTranslationCase.no_feasible e
+  rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
+  exact
+    ⟨seq,
+      by simpa [hrank, hmask] using hRealize,
+      hLinear,
+      hFeasible⟩
+
+/-!
 Compact residual non-identity certificates.
 
 These records keep the trusted checker boundary at `NonIdCert`: the compact

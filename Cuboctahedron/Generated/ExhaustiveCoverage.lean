@@ -1,5 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Complete
+import Cuboctahedron.Generated.NonIdentity.Coverage.All
 import Cuboctahedron.Generated.Translation.Complete
+import Cuboctahedron.Generated.Translation.Coverage.All
 
 /-!
 Conditional public generated coverage assembly.
@@ -15,6 +17,24 @@ namespace Cuboctahedron.Generated
 structure PublicCoverageBridges : Prop where
   nonidentityResidual : NonIdentity.ResidualBridge
   translationFarkas : Translation.FarkasBridge
+
+structure PublicCoverageIntervals : Prop where
+  nonidentityResidual :
+    Coverage.CoversInterval
+      NonIdentity.Coverage.ResidualRankCertified 0 numPairWords
+  translationFarkas :
+    Coverage.CoversInterval
+      Translation.Coverage.FarkasRankCertified 0 numPairWords
+
+def PublicCoverageIntervals.toBridges
+    (intervals : PublicCoverageIntervals) :
+    PublicCoverageBridges where
+  nonidentityResidual :=
+    NonIdentity.Coverage.residualBridge_of_interval
+      intervals.nonidentityResidual
+  translationFarkas :=
+    Translation.Coverage.farkasBridge_of_interval
+      intervals.translationFarkas
 
 def allPairRanksChunk : CoverageChunk where
   startRank := 0
@@ -43,5 +63,10 @@ def exhaustiveGeneratedCoverageOfBridges
     intro r mask hM
     exact Translation.complete_of_farkas_bridge
       bridges.translationFarkas r mask hM
+
+def exhaustiveGeneratedCoverageOfIntervals
+    (intervals : PublicCoverageIntervals) :
+    ExhaustiveGeneratedCoverage :=
+  exhaustiveGeneratedCoverageOfBridges intervals.toBridges
 
 end Cuboctahedron.Generated

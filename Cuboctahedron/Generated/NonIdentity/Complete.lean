@@ -1,16 +1,15 @@
 import Cuboctahedron.Generated.Coverage.Predicates
 import Cuboctahedron.Generated.NonIdentity.FamilyPartition
-import Cuboctahedron.Generated.NonIdentity.Residual.Partition.All
 
 /-!
 Assembly layer for generated non-identity coverage.
 
-The early non-identity families are already exposed through
-`FamilyPartition`.  The residual partition already provides checked
-certificates once `residualPartitionCoversRank r = true` is known.  This module
-assembles those pieces behind a single theorem that is conditional on the one
-remaining generated bridge: residual-class ranks must be shown to be covered by
-the residual partition.
+The early non-identity families are exposed through `FamilyPartition`.  This
+module assembles those pieces behind a single theorem that is conditional on the
+remaining generated bridge: residual-class ranks must provide semantic checked
+certificate witnesses.  The bridge is deliberately not a Boolean packed-data
+checker, so this public layer does not import the old high-memory residual
+partition backend.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity
@@ -19,7 +18,9 @@ abbrev ResidualBridge : Prop :=
   forall {r : Fin numPairWords},
     nonIdEarlyFamilyClassOfRank r = NonIdFamilyClass.residual ->
       totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) ->
-        Residual.Partition.residualPartitionCoversRank r = true
+        exists cert : NonIdCert,
+          cert.word = unrankPairWord r /\
+            checkNonIdCert cert = true
 
 theorem complete_of_residual_bridge
     (residualBridge : ResidualBridge)
@@ -44,10 +45,7 @@ theorem complete_of_residual_bridge
       exact exhaustiveNonIdBadPairBalanceFamily_sound
         (exhaustiveBadPairBalancePartition_sound hcontains)
   | residual =>
-      have hcover :
-          Residual.Partition.residualPartitionCoversRank r = true :=
-        residualBridge hclass hM
-      exact Residual.Partition.residualPartitionCoversRank_sound hcover
+      exact residualBridge hclass hM
 
 theorem complete_no_feasible_of_residual_bridge
     (residualBridge : ResidualBridge)

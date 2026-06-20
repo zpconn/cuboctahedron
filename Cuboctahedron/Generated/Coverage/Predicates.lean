@@ -36,6 +36,21 @@ theorem NonIdentityRankCertified.killed
   exact checkNonIdCert_sound cert hcheck
     ⟨seq, by simpa [hword] using hRealize, hStart, hLinear, hFeasible⟩
 
+def NonIdentityRankCertifiedNat (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    NonIdentityRankCertified ⟨r, hlt⟩
+
+def NonIdentityRankKilledNat (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    NonIdentityRankKilled ⟨r, hlt⟩
+
+theorem NonIdentityRankCertifiedNat.killed
+    {r : Nat}
+    (hcert : NonIdentityRankCertifiedNat r) :
+    NonIdentityRankKilledNat r := by
+  intro hlt
+  exact NonIdentityRankCertified.killed (hcert hlt)
+
 def TranslationCaseCertified (r : Fin numPairWords) (mask : SignMask) : Prop :=
   totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
     exists cert : TranslationCert,
@@ -59,5 +74,20 @@ theorem TranslationCaseCertified.killed
   rcases hbad with ⟨seq, hRealize, hLinear, hFeasible⟩
   exact checkTranslationCert_sound cert hcheck
     ⟨seq, by simpa [hword, hmask] using hRealize, hLinear, hFeasible⟩
+
+def TranslationCaseCertifiedNat (r : Nat) (mask : SignMask) : Prop :=
+  forall hlt : r < numPairWords,
+    TranslationCaseCertified ⟨r, hlt⟩ mask
+
+def TranslationCaseKilledNat (r : Nat) (mask : SignMask) : Prop :=
+  forall hlt : r < numPairWords,
+    TranslationCaseKilled ⟨r, hlt⟩ mask
+
+theorem TranslationCaseCertifiedNat.killed
+    {r : Nat} {mask : SignMask}
+    (hcert : TranslationCaseCertifiedNat r mask) :
+    TranslationCaseKilledNat r mask := by
+  intro hlt
+  exact TranslationCaseCertified.killed (hcert hlt)
 
 end Cuboctahedron.Generated.Coverage

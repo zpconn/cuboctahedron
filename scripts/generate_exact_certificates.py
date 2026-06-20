@@ -59,6 +59,9 @@ PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
 PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "proof_carrying_family_backend.json"
 )
+PUBLIC_COVERAGE_HIERARCHY_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "public_coverage_hierarchy.json"
+)
 NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_residual_compression.json"
 )
@@ -132,6 +135,18 @@ NONIDENTITY_RESIDUAL_DIR = (
 )
 TRANSLATION_FARKAS_DIR = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas"
+)
+NONIDENTITY_PUBLIC_COVERAGE_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Coverage"
+)
+TRANSLATION_PUBLIC_COVERAGE_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Coverage"
+)
+NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH = (
+    NONIDENTITY_PUBLIC_COVERAGE_DIR / "All.lean"
+)
+TRANSLATION_PUBLIC_COVERAGE_ALL_PATH = (
+    TRANSLATION_PUBLIC_COVERAGE_DIR / "All.lean"
 )
 NONIDENTITY_RESIDUAL_ALL_PATH = NONIDENTITY_RESIDUAL_DIR / "All.lean"
 TRANSLATION_FARKAS_ALL_PATH = TRANSLATION_FARKAS_DIR / "All.lean"
@@ -7302,6 +7317,188 @@ def write_proof_carrying_family_backend_json(payload: dict) -> None:
     )
 
 
+PUBLIC_NONIDENTITY_COVERAGE_ALL_SOURCE = """import Cuboctahedron.Generated.Coverage.Interval
+import Cuboctahedron.Generated.NonIdentity.Complete
+
+/-!
+Public target for generated non-identity residual coverage.
+
+Future generated chunk/group modules should prove `CoversInterval
+ResidualRankCertified ... ...` theorems and compose them here.  This file keeps
+the public bridge semantic: it asks for ordinary checked certificate witnesses,
+not for a giant Boolean packed-data reduction.
+-/
+
+namespace Cuboctahedron.Generated.NonIdentity.Coverage
+
+def ResidualRankCertified (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ =
+        NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        exists cert : NonIdCert,
+          cert.word = unrankPairWord ⟨r, hlt⟩ /\\
+            checkNonIdCert cert = true
+
+theorem residualBridge_of_interval
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        ResidualRankCertified 0 numPairWords) :
+    Cuboctahedron.Generated.NonIdentity.ResidualBridge := by
+  intro r hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
+
+end Cuboctahedron.Generated.NonIdentity.Coverage
+"""
+
+
+PUBLIC_TRANSLATION_COVERAGE_ALL_SOURCE = """import Cuboctahedron.Generated.Coverage.Interval
+import Cuboctahedron.Generated.Translation.Complete
+
+/-!
+Public target for generated translation Farkas coverage.
+
+Generated shared-shape Farkas modules should prove interval coverage for
+`FarkasRankCertified`.  The adapter below turns such interval evidence into the
+semantic bridge consumed by `Translation.Complete`, without exporting raw
+certificate tables or invoking packed blob checkers.
+-/
+
+namespace Cuboctahedron.Generated.Translation.Coverage
+
+def FarkasRankCertified (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    forall mask : SignMask,
+      translationEarlyFamilyClassOfChoice ⟨r, hlt⟩ mask =
+          TranslationFamilyClass.needsFarkas ->
+        totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          exists cert : TranslationCert,
+            cert.word = unrankPairWord ⟨r, hlt⟩ /\\
+              cert.signMask = mask /\\
+                checkTranslationCert cert = true
+
+theorem farkasBridge_of_interval
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        FarkasRankCertified 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.FarkasBridge := by
+  intro r mask hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt mask hclass hM
+
+end Cuboctahedron.Generated.Translation.Coverage
+"""
+
+
+def write_public_coverage_target_modules() -> None:
+    NONIDENTITY_PUBLIC_COVERAGE_DIR.mkdir(parents=True, exist_ok=True)
+    TRANSLATION_PUBLIC_COVERAGE_DIR.mkdir(parents=True, exist_ok=True)
+    NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH.write_text(
+        PUBLIC_NONIDENTITY_COVERAGE_ALL_SOURCE,
+        encoding="utf-8",
+    )
+    TRANSLATION_PUBLIC_COVERAGE_ALL_PATH.write_text(
+        PUBLIC_TRANSLATION_COVERAGE_ALL_SOURCE,
+        encoding="utf-8",
+    )
+
+
+def lean_module_file_summary(path: Path) -> dict:
+    record = generated_file_record(path) if path.exists() else path_status(path)
+    if record["exists"]:
+        text = path.read_text(encoding="utf-8")
+        record["imports_packed_backend"] = any(
+            token in text
+            for token in [
+                "include_str",
+                "decodedPacked",
+                "checkPacked",
+                "Generated.Translation.Farkas.All",
+                "Generated.NonIdentity.Residual.Partition.All",
+            ]
+        )
+    else:
+        record["imports_packed_backend"] = False
+    return record
+
+
+def build_public_coverage_hierarchy_payload() -> dict:
+    backend = load_json_artifact(
+        PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH,
+        "proof-carrying-family-backend",
+    )
+    chunk_groups = {
+        "nonidentity_chunks": sorted(
+            relative_path(path)
+            for path in NONIDENTITY_PUBLIC_COVERAGE_DIR.glob("Chunk*.lean")
+        ),
+        "nonidentity_groups": sorted(
+            relative_path(path)
+            for path in NONIDENTITY_PUBLIC_COVERAGE_DIR.glob("Group*.lean")
+        ),
+        "translation_chunks": sorted(
+            relative_path(path)
+            for path in TRANSLATION_PUBLIC_COVERAGE_DIR.glob("Chunk*.lean")
+        ),
+        "translation_groups": sorted(
+            relative_path(path)
+            for path in TRANSLATION_PUBLIC_COVERAGE_DIR.glob("Group*.lean")
+        ),
+    }
+    has_interval_shards = all(chunk_groups.values())
+    return {
+        "schema_version": 1,
+        "mode": "public-coverage-hierarchy",
+        "complete": False,
+        "status": (
+            "awaiting_interval_shards"
+            if backend.get("full_backend_complete") is True
+            else "backend_not_ready"
+        ),
+        "source_backend": {
+            "path": relative_path(PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH),
+            "status": backend.get("status"),
+            "selected_backend": backend.get("selected_backend"),
+            "full_backend_complete": backend.get("full_backend_complete"),
+            "projected_source_bytes":
+                backend.get("projection", {}).get("projected_total_source_bytes"),
+        },
+        "lean_modules": {
+            "nonidentity_all": lean_module_file_summary(
+                NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH
+            ),
+            "translation_all": lean_module_file_summary(
+                TRANSLATION_PUBLIC_COVERAGE_ALL_PATH
+            ),
+            "exhaustive_coverage": lean_module_file_summary(
+                REPO_ROOT / "Cuboctahedron" / "Generated" /
+                "ExhaustiveCoverage.lean"
+            ),
+        },
+        "hierarchy": {
+            **chunk_groups,
+            "has_interval_shards": has_interval_shards,
+            "root_public_api_is_conditional": True,
+            "note": (
+                "The public target modules are memory-safe. Full completion "
+                "requires generated chunk/group interval theorems for residual "
+                "non-identity ranks and translation Farkas ranks."
+            ),
+        },
+    }
+
+
+def write_public_coverage_hierarchy_json(payload: dict) -> None:
+    PUBLIC_COVERAGE_HIERARCHY_JSON_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    PUBLIC_COVERAGE_HIERARCHY_JSON_PATH.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def pascal_identifier(text: str) -> str:
     parts: list[str] = []
     current = ""
@@ -10093,6 +10290,7 @@ def main() -> None:
             "packed-residual-certificates",
             "proof-carrying-structured-literals",
             "proof-carrying-family-backend",
+            "public-coverage-hierarchy",
             "nonidentity-residual-compression",
             "compact-cert-sample",
             "compact-cert-pilot",
@@ -10259,6 +10457,7 @@ def main() -> None:
             "residual-nonidentity-templates/"
             "proof-carrying-structured-literals/"
             "proof-carrying-family-backend/"
+            "public-coverage-hierarchy/"
             "nonidentity-residual-compression/"
             "compact-cert-sample/compact-cert-pilot"
         )
@@ -10407,6 +10606,33 @@ def main() -> None:
         print(
             "json: "
             f"{PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.relative_to(REPO_ROOT)}"
+        )
+        return
+    if mode == "public-coverage-hierarchy":
+        write_public_coverage_target_modules()
+        payload = build_public_coverage_hierarchy_payload()
+        write_public_coverage_hierarchy_json(payload)
+        print("generated public coverage hierarchy scaffold")
+        print(f"status: {payload['status']}")
+        print(
+            "backend: "
+            f"{payload['source_backend']['selected_backend']}"
+        )
+        print(
+            "interval shards present: "
+            f"{payload['hierarchy']['has_interval_shards']}"
+        )
+        print(
+            "json: "
+            f"{PUBLIC_COVERAGE_HIERARCHY_JSON_PATH.relative_to(REPO_ROOT)}"
+        )
+        print(
+            "lean: "
+            f"{NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH.relative_to(REPO_ROOT)}"
+        )
+        print(
+            "lean: "
+            f"{TRANSLATION_PUBLIC_COVERAGE_ALL_PATH.relative_to(REPO_ROOT)}"
         )
         return
     if mode == "nonidentity-residual-compression":

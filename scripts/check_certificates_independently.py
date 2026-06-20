@@ -54,6 +54,9 @@ PROOF_CARRYING_STRUCTURED_LITERALS_JSON_PATH = (
 PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "proof_carrying_family_backend.json"
 )
+PUBLIC_COVERAGE_HIERARCHY_JSON_PATH = (
+    REPO_ROOT / "scripts" / "generated" / "public_coverage_hierarchy.json"
+)
 NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_residual_compression.json"
 )
@@ -115,6 +118,15 @@ TRANSLATION_FARKAS_ALL_LEAN_PATH = (
 )
 TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas" / "ProofCarryingSmoke.lean"
+)
+NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Coverage" / "All.lean"
+)
+TRANSLATION_PUBLIC_COVERAGE_ALL_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Coverage" / "All.lean"
+)
+EXHAUSTIVE_COVERAGE_LEAN_PATH = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "ExhaustiveCoverage.lean"
 )
 FULL_NONIDENTITY_RESIDUAL_BLOB_DIR = REPO_ROOT / "certs" / "nonidentity_residual"
 FULL_TRANSLATION_FARKAS_BLOB_DIR = REPO_ROOT / "certs" / "translation_farkas"
@@ -5537,6 +5549,9 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
         "ProofCarryingTranslationFarkasFamily",
         "ProofCarryingTranslationFarkasFamily.exists_cert",
         "ProofCarryingTranslationFarkasFamily.no_feasible",
+        "ProofCarryingTranslationFarkasShapeFamily",
+        "ProofCarryingTranslationFarkasShapeFamily.exists_cert",
+        "ProofCarryingTranslationFarkasShapeFamily.no_feasible",
     ]:
         require(needle in lean_text, f"proof-carrying family API {needle}")
 
@@ -5659,6 +5674,127 @@ def check_proof_carrying_family_backend(payload: dict) -> dict:
     }
 
 
+def check_public_coverage_hierarchy(payload: dict) -> dict:
+    require(payload.get("schema_version") == 1,
+            "public coverage schema version")
+    require(payload.get("mode") == "public-coverage-hierarchy",
+            "public coverage mode")
+    require(payload.get("complete") is False,
+            "public coverage scaffold is not exhaustive yet")
+
+    backend_payload = json.loads(
+        PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH.read_text(encoding="utf-8")
+    )
+    backend_summary = check_proof_carrying_family_backend(backend_payload)
+    source_backend = payload["source_backend"]
+    require(
+        source_backend["path"] ==
+            relative_path(PROOF_CARRYING_FAMILY_BACKEND_JSON_PATH),
+        "public coverage backend path",
+    )
+    require(
+        source_backend["selected_backend"] ==
+            backend_payload.get("selected_backend"),
+        "public coverage backend selection",
+    )
+    require(
+        source_backend["full_backend_complete"] ==
+            backend_payload.get("full_backend_complete"),
+        "public coverage backend completion flag",
+    )
+
+    module_paths = {
+        "nonidentity_all": NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH,
+        "translation_all": TRANSLATION_PUBLIC_COVERAGE_ALL_PATH,
+        "exhaustive_coverage": EXHAUSTIVE_COVERAGE_LEAN_PATH,
+    }
+    for key, path in module_paths.items():
+        record = payload["lean_modules"][key]
+        check_generated_file_record(record, path)
+        check_no_forbidden_lean_tokens(path)
+        text = path.read_text(encoding="utf-8")
+        for packed_token in [
+            "include_str",
+            "decodedPacked",
+            "checkPacked",
+            "Generated.Translation.Farkas.All",
+            "Generated.NonIdentity.Residual.Partition.All",
+        ]:
+            require(
+                packed_token not in text,
+                f"public coverage packed token {packed_token} in {path}",
+            )
+        require(
+            record["imports_packed_backend"] is False,
+            f"public coverage packed import flag {key}",
+        )
+
+    nonid_text = NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH.read_text(
+        encoding="utf-8"
+    )
+    translation_text = TRANSLATION_PUBLIC_COVERAGE_ALL_PATH.read_text(
+        encoding="utf-8"
+    )
+    exhaustive_text = EXHAUSTIVE_COVERAGE_LEAN_PATH.read_text(
+        encoding="utf-8"
+    )
+    for needle in [
+        "ResidualRankCertified",
+        "residualBridge_of_interval",
+    ]:
+        require(needle in nonid_text, f"nonidentity public API {needle}")
+    for needle in [
+        "FarkasRankCertified",
+        "farkasBridge_of_interval",
+    ]:
+        require(needle in translation_text, f"translation public API {needle}")
+    for needle in [
+        "PublicCoverageIntervals",
+        "PublicCoverageIntervals.toBridges",
+        "exhaustiveGeneratedCoverageOfIntervals",
+    ]:
+        require(needle in exhaustive_text, f"exhaustive public API {needle}")
+
+    hierarchy = payload["hierarchy"]
+    for key in [
+        "nonidentity_chunks",
+        "nonidentity_groups",
+        "translation_chunks",
+        "translation_groups",
+    ]:
+        require(isinstance(hierarchy[key], list), f"public hierarchy {key}")
+    expected_has_shards = all(
+        bool(hierarchy[key])
+        for key in [
+            "nonidentity_chunks",
+            "nonidentity_groups",
+            "translation_chunks",
+            "translation_groups",
+        ]
+    )
+    require(
+        hierarchy["has_interval_shards"] is expected_has_shards,
+        "public hierarchy interval shard flag",
+    )
+    require(
+        hierarchy["root_public_api_is_conditional"] is True,
+        "public hierarchy conditional root flag",
+    )
+    expected_status = (
+        "awaiting_interval_shards"
+        if backend_payload.get("full_backend_complete") is True
+        else "backend_not_ready"
+    )
+    require(payload["status"] == expected_status, "public coverage status")
+    return {
+        "status": payload["status"],
+        "backend_status": backend_summary["status"],
+        "has_interval_shards": hierarchy["has_interval_shards"],
+        "nonidentity_chunks": len(hierarchy["nonidentity_chunks"]),
+        "translation_chunks": len(hierarchy["translation_chunks"]),
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--small-sample", action="store_true", help="check deterministic Step 14C sample")
@@ -5682,6 +5818,7 @@ def main():
             "packed-residual-certificates",
             "proof-carrying-structured-literals",
             "proof-carrying-family-backend",
+            "public-coverage-hierarchy",
             "nonidentity-residual-compression",
             "compact-cert-sample",
             "compact-cert-pilot",
@@ -5771,6 +5908,7 @@ def main():
             "residual-nonidentity-templates/"
             "proof-carrying-structured-literals/"
             "proof-carrying-family-backend/"
+            "public-coverage-hierarchy/"
             "nonidentity-residual-compression/"
             "compact-cert-sample/compact-cert-pilot/"
             "canonical-coverage-manifest/canonical-orbit-coverage/"
@@ -5924,6 +6062,18 @@ def main():
             f"{summary['projected_total_source_bytes']:,}"
         )
         print(f"size safe: {summary['size_safe']}")
+        return
+    if mode == "public-coverage-hierarchy":
+        payload = json.loads(
+            PUBLIC_COVERAGE_HIERARCHY_JSON_PATH.read_text(encoding="utf-8")
+        )
+        summary = check_public_coverage_hierarchy(payload)
+        print("independent public coverage hierarchy check passed")
+        print(f"status: {summary['status']}")
+        print(f"backend status: {summary['backend_status']}")
+        print(f"interval shards present: {summary['has_interval_shards']}")
+        print(f"nonidentity chunks: {summary['nonidentity_chunks']}")
+        print(f"translation chunks: {summary['translation_chunks']}")
         return
     if mode == "nonidentity-residual-compression":
         payload = json.loads(

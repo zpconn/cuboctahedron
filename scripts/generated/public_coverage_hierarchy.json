@@ -1,0 +1,45 @@
+{
+  "complete": false,
+  "hierarchy": {
+    "has_interval_shards": false,
+    "nonidentity_chunks": [],
+    "nonidentity_groups": [],
+    "note": "The public target modules are memory-safe. Full completion requires generated chunk/group interval theorems for residual non-identity ranks and translation Farkas ranks.",
+    "root_public_api_is_conditional": true,
+    "translation_chunks": [],
+    "translation_groups": []
+  },
+  "lean_modules": {
+    "exhaustive_coverage": {
+      "bytes": 2426,
+      "exists": true,
+      "imports_packed_backend": false,
+      "path": "Cuboctahedron/Generated/ExhaustiveCoverage.lean",
+      "sha256": "038233ebe6d3d235a5d2a5b5843930924a896c63462791e310e3c7ef1db82a9b"
+    },
+    "nonidentity_all": {
+      "bytes": 1220,
+      "exists": true,
+      "imports_packed_backend": false,
+      "path": "Cuboctahedron/Generated/NonIdentity/Coverage/All.lean",
+      "sha256": "8589a89acd4cc13b3b5d24192e78ab8301b28da1f69045901897421132ce3a44"
+    },
+    "translation_all": {
+      "bytes": 1340,
+      "exists": true,
+      "imports_packed_backend": false,
+      "path": "Cuboctahedron/Generated/Translation/Coverage/All.lean",
+      "sha256": "67f5880d693a139fac9d8297346ce8818273e579f9f1291d647b5072f82fb10d"
+    }
+  },
+  "mode": "public-coverage-hierarchy",
+  "schema_version": 1,
+  "source_backend": {
+    "full_backend_complete": true,
+    "path": "scripts/generated/proof_carrying_family_backend.json",
+    "projected_source_bytes": 468981216,
+    "selected_backend": "proof_carrying_family_backend",
+    "status": "ready"
+  },
+  "status": "awaiting_interval_shards"
+}

@@ -26,6 +26,12 @@ NONIDENTITY_LEAN_DIR = (
 TRANSLATION_LEAN_DIR = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Farkas"
 )
+NONIDENTITY_COVERAGE_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Coverage"
+)
+TRANSLATION_COVERAGE_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "Coverage"
+)
 
 
 def relative(path: Path) -> str:
@@ -47,7 +53,20 @@ def chunk_priority_size(blob_path: Path | None, lean_path: Path) -> int:
     return blob_path.stat().st_size
 
 
-def generated_chunk_candidates() -> list[tuple[int, str, Path | None, Path]]:
+def public_coverage_candidates() -> list[tuple[int, str, Path | None, Path]]:
+    candidates: list[tuple[int, str, Path | None, Path]] = []
+    for lean_path in NONIDENTITY_COVERAGE_DIR.glob("*.lean"):
+        candidates.append((lean_path.stat().st_size, "nonidentity-coverage", None, lean_path))
+    for lean_path in TRANSLATION_COVERAGE_DIR.glob("*.lean"):
+        candidates.append((lean_path.stat().st_size, "translation-coverage", None, lean_path))
+    return candidates
+
+
+def generated_chunk_candidates(
+    public_coverage_only: bool = False,
+) -> list[tuple[int, str, Path | None, Path]]:
+    if public_coverage_only:
+        return public_coverage_candidates()
     candidates: list[tuple[int, str, Path | None, Path]] = []
     for blob_path in NONIDENTITY_BLOB_DIR.glob("Chunk*.b64"):
         lean_path = NONIDENTITY_LEAN_DIR / f"{blob_path.stem}.lean"
@@ -66,6 +85,7 @@ def generated_chunk_candidates() -> list[tuple[int, str, Path | None, Path]]:
             candidates.append((lean_path.stat().st_size, "nonidentity", None, lean_path))
         for lean_path in TRANSLATION_LEAN_DIR.glob("Chunk*.lean"):
             candidates.append((lean_path.stat().st_size, "translation", None, lean_path))
+    candidates.extend(public_coverage_candidates())
     return candidates
 
 
@@ -87,13 +107,20 @@ def main() -> int:
         default=900,
         help="wall-clock timeout for the single-chunk Lean smoke test",
     )
+    parser.add_argument(
+        "--public-coverage-only",
+        action="store_true",
+        help="smoke only the public generated coverage hierarchy modules",
+    )
     args = parser.parse_args()
     if args.memory_limit_gib <= 0:
         parser.error("--memory-limit-gib must be positive")
     if args.timeout_seconds <= 0:
         parser.error("--timeout-seconds must be positive")
 
-    candidates = generated_chunk_candidates()
+    candidates = generated_chunk_candidates(
+        public_coverage_only=args.public_coverage_only
+    )
     if not candidates:
         raise SystemExit("no generated chunk wrappers found")
     size, kind, blob_path, lean_path = max(candidates, key=lambda item: item[0])
