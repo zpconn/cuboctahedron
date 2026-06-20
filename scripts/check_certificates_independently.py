@@ -101,6 +101,12 @@ NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH = (
 NONIDENTITY_RESIDUAL_ALL_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "All.lean"
 )
+NONIDENTITY_RESIDUAL_PARTITION_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "Partition"
+)
+NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH = (
+    NONIDENTITY_RESIDUAL_PARTITION_DIR / "All.lean"
+)
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
 )
@@ -5014,6 +5020,154 @@ def check_proof_carrying_structured_literals(payload: dict) -> dict:
     }
 
 
+def check_nonidentity_residual_proof_partition(
+    partition: dict,
+    *,
+    residual_cases: int,
+) -> dict:
+    require(partition.get("emitted") is True,
+            "nonidentity residual proof partition emitted")
+    require(
+        partition.get("strategy") == "checked_packed_residual_rank_partition",
+        "nonidentity residual proof partition strategy",
+    )
+    require(int(partition["group_size"]) > 0,
+            "nonidentity residual proof partition group size")
+    require(int(partition["supergroup_size"]) > 0,
+            "nonidentity residual proof partition supergroup size")
+
+    exhaustive_payload = json.loads(
+        EXHAUSTIVE_REAL_CERTS_JSON_PATH.read_text(encoding="utf-8")
+    )
+    require(exhaustive_payload.get("mode") == "exhaustive-real-certs",
+            "nonidentity residual proof partition source mode")
+    nonid = exhaustive_payload["full_emission"]["manifest"]["nonidentity"]
+    chunks = nonid["chunks"]
+    require(partition["source_manifest"]["path"] ==
+            relative_path(EXHAUSTIVE_REAL_CERTS_JSON_PATH),
+            "nonidentity residual proof partition source path")
+    require(partition["chunk_count"] == len(chunks),
+            "nonidentity residual proof partition chunk count")
+    require(partition["cert_count"] == int(nonid["cert_count"]),
+            "nonidentity residual proof partition cert count")
+    require(partition["cert_count"] == residual_cases,
+            "nonidentity residual proof partition residual count")
+
+    check_generated_file_record(
+        partition["all_lean"],
+        NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH,
+    )
+    check_no_forbidden_lean_tokens(NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH)
+    all_text = NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH.read_text(
+        encoding="utf-8"
+    )
+    require_text(
+        NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH,
+        [
+            "residualPartitionCoversRank",
+            "residualPartitionCoversRank_sound",
+            "residualPartitionCheckedRank",
+            "residualPartitionCheckedRank_rank",
+            "residualPartitionCertCount",
+        ],
+    )
+
+    groups = partition["groups"]
+    require(partition["group_count"] == len(groups),
+            "nonidentity residual proof partition group record count")
+    chunk_cursor = 0
+    group_cert_total = 0
+    for expected_index, group in enumerate(groups):
+        require(group["index"] == expected_index,
+                f"nonidentity residual proof partition group index {expected_index}")
+        require(group["chunk_start"] == chunk_cursor,
+                f"nonidentity residual proof partition group start {expected_index}")
+        require(group["chunk_end"] > group["chunk_start"],
+                f"nonidentity residual proof partition group nonempty {expected_index}")
+        require(group["chunk_count"] ==
+                group["chunk_end"] - group["chunk_start"],
+                f"nonidentity residual proof partition group chunk count {expected_index}")
+        group_chunks = chunks[group["chunk_start"]:group["chunk_end"]]
+        require(group["cert_count"] ==
+                sum(int(chunk["cert_count"]) for chunk in group_chunks),
+                f"nonidentity residual proof partition group cert sum {expected_index}")
+        require(group["first_rank"] ==
+                min(int(chunk["first_rank"]) for chunk in group_chunks),
+                f"nonidentity residual proof partition group first rank {expected_index}")
+        require(group["last_rank"] ==
+                max(int(chunk["last_rank"]) for chunk in group_chunks),
+                f"nonidentity residual proof partition group last rank {expected_index}")
+        lean_path = (
+            NONIDENTITY_RESIDUAL_PARTITION_DIR /
+            f"Group{expected_index:04d}.lean"
+        )
+        check_generated_file_record(group["lean"], lean_path)
+        check_no_forbidden_lean_tokens(lean_path)
+        group_text = lean_path.read_text(encoding="utf-8")
+        require("include_str" in group_text,
+                f"nonidentity residual proof partition group includes blobs {expected_index}")
+        require("checkedPackedResidualBlobsCoverRank" in group_text,
+                f"nonidentity residual proof partition group checker {expected_index}")
+        require("groupCheckedRank" in group_text,
+                f"nonidentity residual proof partition group checked rank {expected_index}")
+        chunk_cursor = group["chunk_end"]
+        group_cert_total += int(group["cert_count"])
+    require(chunk_cursor == len(chunks),
+            "nonidentity residual proof partition groups cover chunks")
+    require(group_cert_total == residual_cases,
+            "nonidentity residual proof partition group cert total")
+
+    supergroups = partition["supergroups"]
+    require(partition["supergroup_count"] == len(supergroups),
+            "nonidentity residual proof partition supergroup record count")
+    group_cursor = 0
+    super_cert_total = 0
+    for expected_index, supergroup in enumerate(supergroups):
+        require(supergroup["index"] == expected_index,
+                f"nonidentity residual proof partition supergroup index {expected_index}")
+        require(supergroup["group_start"] == group_cursor,
+                f"nonidentity residual proof partition supergroup start {expected_index}")
+        require(supergroup["group_end"] > supergroup["group_start"],
+                f"nonidentity residual proof partition supergroup nonempty {expected_index}")
+        require(supergroup["group_count"] ==
+                supergroup["group_end"] - supergroup["group_start"],
+                f"nonidentity residual proof partition supergroup count {expected_index}")
+        super_groups = groups[supergroup["group_start"]:supergroup["group_end"]]
+        require(supergroup["chunk_count"] ==
+                sum(int(group["chunk_count"]) for group in super_groups),
+                f"nonidentity residual proof partition supergroup chunks {expected_index}")
+        require(supergroup["cert_count"] ==
+                sum(int(group["cert_count"]) for group in super_groups),
+                f"nonidentity residual proof partition supergroup certs {expected_index}")
+        require(supergroup["first_rank"] ==
+                min(int(group["first_rank"]) for group in super_groups),
+                f"nonidentity residual proof partition supergroup first rank {expected_index}")
+        require(supergroup["last_rank"] ==
+                max(int(group["last_rank"]) for group in super_groups),
+                f"nonidentity residual proof partition supergroup last rank {expected_index}")
+        lean_path = (
+            NONIDENTITY_RESIDUAL_PARTITION_DIR /
+            f"SuperGroup{expected_index:04d}.lean"
+        )
+        check_generated_file_record(supergroup["lean"], lean_path)
+        check_no_forbidden_lean_tokens(lean_path)
+        require(f"SuperGroup{expected_index:04d}.superGroupCoversRank" in all_text,
+                f"nonidentity residual proof partition top imports supergroup {expected_index}")
+        group_cursor = supergroup["group_end"]
+        super_cert_total += int(supergroup["cert_count"])
+    require(group_cursor == len(groups),
+            "nonidentity residual proof partition supergroups cover groups")
+    require(super_cert_total == residual_cases,
+            "nonidentity residual proof partition supergroup cert total")
+
+    return {
+        "groups": len(groups),
+        "supergroups": len(supergroups),
+        "chunks": len(chunks),
+        "certs": residual_cases,
+    }
+
+
 def check_nonidentity_residual_compression(payload: dict) -> dict:
     require(payload.get("schema_version") == 1,
             "nonidentity residual compression schema version")
@@ -5240,6 +5394,21 @@ def check_nonidentity_residual_compression(payload: dict) -> dict:
         require(family["representative_cert"] in lean_text,
                 f"nonidentity residual compression Lean cert {family['representative_cert']}")
 
+    residual_partition_summary = None
+    if full_residual_compression_complete is True:
+        require("residual_proof_partition" in payload,
+                "nonidentity residual compression partition payload")
+        require("residual_proof_partition" in payload["generated_lean"],
+                "nonidentity residual compression partition generated Lean")
+        residual_partition_summary = check_nonidentity_residual_proof_partition(
+            payload["residual_proof_partition"],
+            residual_cases=residual_cases,
+        )
+    else:
+        require("residual_proof_partition" not in payload or
+                payload["residual_proof_partition"].get("emitted") is not True,
+                "nonidentity residual compression partition only for complete payload")
+
     projection = payload["projection"]
     require(projection["format"] ==
             "proof_carrying_nonid_residual_semantic_families",
@@ -5289,6 +5458,7 @@ def check_nonidentity_residual_compression(payload: dict) -> dict:
         "prefix_ready": prefix_summary["ready_for_14E7"],
         "residual_cases": residual_summary["residual_cases"],
         "families": len(families),
+        "residual_proof_partition": residual_partition_summary,
         "partition_profile_pair_words": pair_words_checked,
         "partition_profile_residual_cases": sampled_residual_cases,
         "partition_profile_projected_hours": float(

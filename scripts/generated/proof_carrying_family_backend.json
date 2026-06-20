@@ -1,6 +1,6 @@
 {
   "complete": true,
-  "full_backend_complete": false,
+  "full_backend_complete": true,
   "lean_api": {
     "module": "Cuboctahedron.Search.CertificateFormat",
     "nonidentity_family": "ProofCarryingNonIdFamily",
@@ -17,11 +17,11 @@
   "mode": "proof-carrying-family-backend",
   "nonidentity": {
     "bytes_per_residual_case": 2377,
-    "family_grouping_status": "semantic_residual_family_projection_blocked",
+    "family_grouping_status": "semantic_residual_family_projection_ready",
     "projected_source_bytes": 5664,
     "projected_source_gib": 5.27501106262207e-06,
     "projection_model": "proof_carrying_nonid_residual_semantic_families",
-    "residual_compression_ready": false,
+    "residual_compression_ready": true,
     "residual_singleton_cases": 2038656
   },
   "projection": {
@@ -33,10 +33,8 @@
     "projected_total_source_bytes": 468981216,
     "projected_total_source_gib": 0.43677279353141785,
     "projected_translation_source_bytes": 468975552,
-    "refusal_reasons": [
-      "nonidentity_residual_family_partition_not_emitted"
-    ],
-    "size_safe": false,
+    "refusal_reasons": [],
+    "size_safe": true,
     "source_budget_safe": true
   },
   "sample_family_keys": {
@@ -55,7 +53,7 @@
     }
   },
   "schema_version": 1,
-  "selected_backend": null,
+  "selected_backend": "proof_carrying_family_backend",
   "source_manifests": {
     "compact_residual_certificates": {
       "bytes": 4865,
@@ -63,7 +61,7 @@
       "path": "scripts/generated/compact_residual_certificates.json"
     },
     "nonidentity_residual_compression": {
-      "bytes": 49128,
+      "bytes": 205410,
       "exists": true,
       "path": "scripts/generated/nonidentity_residual_compression.json"
     },
@@ -78,7 +76,7 @@
       "path": "scripts/generated/proof_carrying_structured_literals.json"
     }
   },
-  "status": "blocked_before_full_backend",
+  "status": "ready",
   "translation": {
     "bytes_per_shape_proxy": 15744,
     "membership_bytes_per_case_proxy": 24,

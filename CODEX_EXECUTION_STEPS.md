@@ -2951,6 +2951,20 @@ passes with `full_residual_compression_complete = true`, no residual
 compression blockers, and no broad `AllGenerated`/full `lake build` attempted
 until the memory-capped smoke target has passed.
 
+Implementation status:
+
+- Done. The emitted partition is
+  `Cuboctahedron/Generated/NonIdentity/Residual/Partition/All.lean`.
+- The partition exposes `residualPartitionCoversRank`,
+  `residualPartitionCoversRank_sound`, `residualPartitionCheckedRank`, and
+  `residualPartitionCheckedRank_rank`.
+- `scripts/generated/nonidentity_residual_compression.json` reports
+  `full_residual_compression_complete = true` with no residual blockers.
+- Focused Lean smoke builds have passed for representative groups,
+  representative supergroups, and the top partition module.
+- `scripts/generated/proof_carrying_family_backend.json` now reports
+  `status = "ready"`.
+
 ## Step 14E.7B: Generated Lean Fallback Emitter
 
 Goal: emit the concrete generated Lean fallback evidence selected by

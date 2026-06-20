@@ -106,6 +106,12 @@ NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH = (
 NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "CompressionSample.lean"
 )
+NONIDENTITY_RESIDUAL_PARTITION_DIR = (
+    REPO_ROOT / "Cuboctahedron" / "Generated" / "NonIdentity" / "Residual" / "Partition"
+)
+NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH = (
+    NONIDENTITY_RESIDUAL_PARTITION_DIR / "All.lean"
+)
 TRANSLATION_PARTITION_LEAN_PATH = (
     REPO_ROOT / "Cuboctahedron" / "Generated" / "Translation" / "FamilyPartition.lean"
 )
@@ -6046,6 +6052,505 @@ def write_full_nonidentity_residual_all_lean(chunks: list[dict]) -> None:
     NONIDENTITY_RESIDUAL_ALL_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
+def residual_partition_group_module_name(index: int) -> str:
+    return (
+        "Cuboctahedron.Generated.NonIdentity.Residual.Partition."
+        f"Group{index:04d}"
+    )
+
+
+def residual_partition_supergroup_module_name(index: int) -> str:
+    return (
+        "Cuboctahedron.Generated.NonIdentity.Residual.Partition."
+        f"SuperGroup{index:04d}"
+    )
+
+
+def residual_partition_group_lean_path(index: int) -> Path:
+    return NONIDENTITY_RESIDUAL_PARTITION_DIR / f"Group{index:04d}.lean"
+
+
+def residual_partition_supergroup_lean_path(index: int) -> Path:
+    return NONIDENTITY_RESIDUAL_PARTITION_DIR / f"SuperGroup{index:04d}.lean"
+
+
+def lean_or_expr(terms: list[str]) -> str:
+    if not terms:
+        return "false"
+    expr = terms[-1]
+    for term in reversed(terms[:-1]):
+        expr = f"{term} ||\n    {expr}"
+    return expr
+
+
+def lean_or_soundness(
+    *,
+    theorem_name: str,
+    predicate_name: str,
+    branch_terms: list[str],
+) -> list[str]:
+    lines = [
+        f"theorem {theorem_name}",
+        "    {rank : Fin numPairWords}",
+        f"    (hcover : {predicate_name} rank = true) :",
+        "    exists ordinary : NonIdCert,",
+        "      ordinary.word = unrankPairWord rank /\\",
+        "        checkNonIdCert ordinary = true := by",
+        f"  unfold {predicate_name} at hcover",
+    ]
+    if not branch_terms:
+        lines.append("  simp at hcover")
+        return lines
+    if len(branch_terms) == 1:
+        lines.append(f"  exact {branch_terms[0]} hcover")
+        return lines
+    lines.extend([
+        "  simp only [Bool.or_eq_true] at hcover",
+        "  rcases hcover with " + " | ".join(["hcover"] * len(branch_terms)),
+    ])
+    for term in branch_terms:
+        lines.append(f"  · exact {term} hcover")
+    return lines
+
+
+def lean_or_exists_checked_rank(
+    *,
+    theorem_name: str,
+    predicate_name: str,
+    branch_terms: list[str],
+) -> list[str]:
+    lines = [
+        f"theorem {theorem_name}",
+        "    (rank : Fin numPairWords)",
+        f"    (hcover : {predicate_name} rank = true) :",
+        "    exists checked : CheckedNonIdRank, checked.rank = rank := by",
+        f"  unfold {predicate_name} at hcover",
+    ]
+    if not branch_terms:
+        lines.append("  simp at hcover")
+        return lines
+    if len(branch_terms) == 1:
+        lines.append(f"  exact {branch_terms[0]} rank hcover")
+        return lines
+    lines.extend([
+        "  simp only [Bool.or_eq_true] at hcover",
+        "  rcases hcover with " + " | ".join(["hcover"] * len(branch_terms)),
+    ])
+    for term in branch_terms:
+        lines.append(f"  · exact {term} rank hcover")
+    return lines
+
+
+def lean_if_true_expr(terms: list[str]) -> str:
+    expr = "false"
+    for term in reversed(terms):
+        expr = f"if {term} = true then true else\n    {expr}"
+    return expr
+
+
+def lean_if_soundness(
+    *,
+    theorem_name: str,
+    predicate_name: str,
+    cover_terms: list[str],
+    branch_terms: list[str],
+) -> list[str]:
+    lines = [
+        f"theorem {theorem_name}",
+        "    {rank : Fin numPairWords}",
+        f"    (hcover : {predicate_name} rank = true) :",
+        "    exists ordinary : NonIdCert,",
+        "      ordinary.word = unrankPairWord rank /\\",
+        "        checkNonIdCert ordinary = true := by",
+        f"  unfold {predicate_name} at hcover",
+    ]
+    if not cover_terms:
+        lines.append("  simp at hcover")
+        return lines
+
+    def emit(idx: int, indent: str) -> None:
+        if idx == len(cover_terms):
+            return
+        hname = f"h{idx}"
+        cover_term = cover_terms[idx]
+        branch_term = branch_terms[idx]
+        lines.extend([
+            f"{indent}by_cases {hname} : {cover_term} = true",
+            f"{indent}· exact {branch_term} {hname}",
+            f"{indent}· simp [{hname}] at hcover",
+        ])
+        emit(idx + 1, indent + "  ")
+
+    emit(0, "  ")
+    return lines
+
+
+def lean_if_exists_checked_rank(
+    *,
+    theorem_name: str,
+    predicate_name: str,
+    cover_terms: list[str],
+    branch_terms: list[str],
+) -> list[str]:
+    lines = [
+        f"theorem {theorem_name}",
+        "    (rank : Fin numPairWords)",
+        f"    (hcover : {predicate_name} rank = true) :",
+        "    exists checked : CheckedNonIdRank, checked.rank = rank := by",
+        f"  unfold {predicate_name} at hcover",
+    ]
+    if not cover_terms:
+        lines.append("  simp at hcover")
+        return lines
+
+    def emit(idx: int, indent: str) -> None:
+        if idx == len(cover_terms):
+            return
+        hname = f"h{idx}"
+        cover_term = cover_terms[idx]
+        branch_term = branch_terms[idx]
+        lines.extend([
+            f"{indent}by_cases {hname} : {cover_term} = true",
+            f"{indent}· exact {branch_term} rank {hname}",
+            f"{indent}· simp [{hname}] at hcover",
+        ])
+        emit(idx + 1, indent + "  ")
+
+    emit(0, "  ")
+    return lines
+
+
+def write_residual_partition_group_lean(
+    *, group_index: int, chunks: list[dict]
+) -> Path:
+    path = residual_partition_group_lean_path(group_index)
+    blob_parent = path.parent.relative_to(REPO_ROOT)
+    include_paths = [
+        include_path_to_generated_blob(REPO_ROOT / chunk["blob"]["path"], blob_parent)
+        for chunk in chunks
+    ]
+    cert_count = sum(int(chunk["cert_count"]) for chunk in chunks)
+    first_rank = min(int(chunk["first_rank"]) for chunk in chunks)
+    last_rank = max(int(chunk["last_rank"]) for chunk in chunks)
+    lines = [
+        "import Cuboctahedron.Search.CertificateChecker",
+        "",
+        "/-!",
+        "Generated non-identity residual proof-partition group.",
+        "",
+        "Each blob is decoded and checked by the generic packed-residual",
+        "checker before it can cover a rank.",
+        "-/",
+        "",
+        f"namespace Cuboctahedron.Generated.NonIdentity.Residual.Partition.Group{group_index:04d}",
+        "",
+        "set_option maxHeartbeats 4000000",
+        "set_option maxRecDepth 100000",
+        "",
+        f"def groupIndex : Nat := {group_index}",
+        f"def groupChunkCount : Nat := {len(chunks)}",
+        f"def groupCertCount : Nat := {cert_count}",
+        f"def groupFirstRank : Nat := {first_rank}",
+        f"def groupLastRank : Nat := {last_rank}",
+        "",
+        "def groupBlobs : List String := [",
+    ]
+    for include_path in include_paths:
+        lines.append(f"  include_str {include_path},")
+    lines.extend([
+        "]",
+        "",
+        "def groupCoversRank (rank : Fin numPairWords) : Bool :=",
+        "  checkedPackedResidualBlobsCoverRank groupBlobs rank.val",
+        "",
+        "theorem groupCoversRank_sound",
+        "    {rank : Fin numPairWords}",
+        "    (hcover : groupCoversRank rank = true) :",
+        "    exists ordinary : NonIdCert,",
+        "      ordinary.word = unrankPairWord rank /\\",
+        "        checkNonIdCert ordinary = true :=",
+        "  checkedPackedResidualBlobsCoverRank_sound groupBlobs rank hcover",
+        "",
+        "theorem groupExistsCheckedRank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : groupCoversRank rank = true) :",
+        "    exists checked : CheckedNonIdRank, checked.rank = rank :=",
+        "  checkedPackedResidualBlobsCoverRank_exists_checked groupBlobs rank hcover",
+        "",
+        "noncomputable def groupCheckedRank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : groupCoversRank rank = true) :",
+        "    CheckedNonIdRank :=",
+        "  Classical.choose (groupExistsCheckedRank rank hcover)",
+        "",
+        "theorem groupCheckedRank_rank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : groupCoversRank rank = true) :",
+        "    (groupCheckedRank rank hcover).rank = rank :=",
+        "  Classical.choose_spec (groupExistsCheckedRank rank hcover)",
+        "",
+        f"end Cuboctahedron.Generated.NonIdentity.Residual.Partition.Group{group_index:04d}",
+        "",
+    ])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def write_residual_partition_supergroup_lean(
+    *, super_index: int, group_records: list[dict]
+) -> Path:
+    path = residual_partition_supergroup_lean_path(super_index)
+    lines = [
+        "import Cuboctahedron.Search.CertificateChecker",
+    ]
+    for group in group_records:
+        lines.append("import " + residual_partition_group_module_name(group["index"]))
+    cert_count = sum(int(group["cert_count"]) for group in group_records)
+    chunk_count = sum(int(group["chunk_count"]) for group in group_records)
+    first_rank = min(int(group["first_rank"]) for group in group_records)
+    last_rank = max(int(group["last_rank"]) for group in group_records)
+    terms = [
+        f"Group{group['index']:04d}.groupCoversRank rank"
+        for group in group_records
+    ]
+    soundness_terms = [
+        f"Group{group['index']:04d}.groupCoversRank_sound"
+        for group in group_records
+    ]
+    lines.extend([
+        "",
+        "/-!",
+        "Generated non-identity residual proof-partition supergroup.",
+        "-/",
+        "",
+        f"namespace Cuboctahedron.Generated.NonIdentity.Residual.Partition.SuperGroup{super_index:04d}",
+        "",
+        "set_option maxHeartbeats 4000000",
+        "set_option maxRecDepth 100000",
+        "",
+        f"def superGroupIndex : Nat := {super_index}",
+        f"def superGroupCount : Nat := {len(group_records)}",
+        f"def superGroupChunkCount : Nat := {chunk_count}",
+        f"def superGroupCertCount : Nat := {cert_count}",
+        f"def superGroupFirstRank : Nat := {first_rank}",
+        f"def superGroupLastRank : Nat := {last_rank}",
+        "",
+        "def superGroupCoversRank (rank : Fin numPairWords) : Bool :=",
+        "  " + lean_if_true_expr(terms),
+        "",
+    ])
+    lines.extend(lean_if_soundness(
+        theorem_name="superGroupCoversRank_sound",
+        predicate_name="superGroupCoversRank",
+        cover_terms=terms,
+        branch_terms=soundness_terms,
+    ))
+    checked_terms = [
+        f"Group{group['index']:04d}.groupExistsCheckedRank"
+        for group in group_records
+    ]
+    lines.append("")
+    lines.extend(lean_if_exists_checked_rank(
+        theorem_name="superGroupExistsCheckedRank",
+        predicate_name="superGroupCoversRank",
+        cover_terms=terms,
+        branch_terms=checked_terms,
+    ))
+    lines.extend([
+        "",
+        "noncomputable def superGroupCheckedRank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : superGroupCoversRank rank = true) :",
+        "    CheckedNonIdRank :=",
+        "  Classical.choose (superGroupExistsCheckedRank rank hcover)",
+        "",
+        "theorem superGroupCheckedRank_rank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : superGroupCoversRank rank = true) :",
+        "    (superGroupCheckedRank rank hcover).rank = rank :=",
+        "  Classical.choose_spec (superGroupExistsCheckedRank rank hcover)",
+    ])
+    lines.extend([
+        "",
+        f"end Cuboctahedron.Generated.NonIdentity.Residual.Partition.SuperGroup{super_index:04d}",
+        "",
+    ])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def write_residual_partition_all_lean(
+    *, supergroup_records: list[dict], group_records: list[dict], chunks: list[dict]
+) -> Path:
+    lines = [
+        "import Cuboctahedron.Search.CertificateChecker",
+    ]
+    for supergroup in supergroup_records:
+        lines.append(
+            "import " + residual_partition_supergroup_module_name(supergroup["index"])
+        )
+    terms = [
+        f"SuperGroup{supergroup['index']:04d}.superGroupCoversRank rank"
+        for supergroup in supergroup_records
+    ]
+    soundness_terms = [
+        f"SuperGroup{supergroup['index']:04d}.superGroupCoversRank_sound"
+        for supergroup in supergroup_records
+    ]
+    lines.extend([
+        "",
+        "/-!",
+        "Generated non-identity residual proof partition.",
+        "",
+        "This module exposes a Boolean rank accessor.  A rank covered by the",
+        "accessor is backed by a decoded packed residual blob whose certificates",
+        "are checked by Lean.",
+        "-/",
+        "",
+        "namespace Cuboctahedron.Generated.NonIdentity.Residual.Partition",
+        "",
+        "set_option maxHeartbeats 4000000",
+        "set_option maxRecDepth 100000",
+        "",
+        f"def residualPartitionGroupCount : Nat := {len(group_records)}",
+        f"def residualPartitionSuperGroupCount : Nat := {len(supergroup_records)}",
+        f"def residualPartitionChunkCount : Nat := {len(chunks)}",
+        f"def residualPartitionCertCount : Nat := {sum(int(chunk['cert_count']) for chunk in chunks)}",
+        "",
+        "def residualPartitionCoversRank (rank : Fin numPairWords) : Bool :=",
+        "  " + lean_if_true_expr(terms),
+        "",
+    ])
+    lines.extend(lean_if_soundness(
+        theorem_name="residualPartitionCoversRank_sound",
+        predicate_name="residualPartitionCoversRank",
+        cover_terms=terms,
+        branch_terms=soundness_terms,
+    ))
+    checked_terms = [
+        f"SuperGroup{supergroup['index']:04d}.superGroupExistsCheckedRank"
+        for supergroup in supergroup_records
+    ]
+    lines.append("")
+    lines.extend(lean_if_exists_checked_rank(
+        theorem_name="residualPartitionExistsCheckedRank",
+        predicate_name="residualPartitionCoversRank",
+        cover_terms=terms,
+        branch_terms=checked_terms,
+    ))
+    lines.extend([
+        "",
+        "noncomputable def residualPartitionCheckedRank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : residualPartitionCoversRank rank = true) :",
+        "    CheckedNonIdRank :=",
+        "  Classical.choose (residualPartitionExistsCheckedRank rank hcover)",
+        "",
+        "theorem residualPartitionCheckedRank_rank",
+        "    (rank : Fin numPairWords)",
+        "    (hcover : residualPartitionCoversRank rank = true) :",
+        "    (residualPartitionCheckedRank rank hcover).rank = rank :=",
+        "  Classical.choose_spec",
+        "    (residualPartitionExistsCheckedRank rank hcover)",
+    ])
+    lines.extend([
+        "",
+        "end Cuboctahedron.Generated.NonIdentity.Residual.Partition",
+        "",
+    ])
+    NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH.parent.mkdir(
+        parents=True, exist_ok=True
+    )
+    NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH.write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+    return NONIDENTITY_RESIDUAL_PARTITION_ALL_LEAN_PATH
+
+
+def emit_nonidentity_residual_proof_partition(
+    *, group_size: int, supergroup_size: int
+) -> dict:
+    if group_size <= 0:
+        raise ValueError("residual proof group size must be positive")
+    if supergroup_size <= 0:
+        raise ValueError("residual proof supergroup size must be positive")
+    summary = load_json_artifact(
+        EXHAUSTIVE_REAL_CERTS_JSON_PATH,
+        "exhaustive-real-certs",
+    )
+    manifest = summary["full_emission"]["manifest"]
+    nonid = manifest["nonidentity"]
+    chunks = list(nonid["chunks"])
+    if int(nonid["cert_count"]) != sum(int(chunk["cert_count"]) for chunk in chunks):
+        raise RuntimeError("nonidentity residual chunk count mismatch")
+    if NONIDENTITY_RESIDUAL_PARTITION_DIR.exists():
+        for path in NONIDENTITY_RESIDUAL_PARTITION_DIR.glob("*.lean"):
+            path.unlink()
+    group_records: list[dict] = []
+    for group_index, start in enumerate(range(0, len(chunks), group_size)):
+        group_chunks = chunks[start:start + group_size]
+        lean_path = write_residual_partition_group_lean(
+            group_index=group_index,
+            chunks=group_chunks,
+        )
+        record = {
+            "index": group_index,
+            "chunk_start": start,
+            "chunk_end": start + len(group_chunks),
+            "chunk_count": len(group_chunks),
+            "cert_count": sum(int(chunk["cert_count"]) for chunk in group_chunks),
+            "first_rank": min(int(chunk["first_rank"]) for chunk in group_chunks),
+            "last_rank": max(int(chunk["last_rank"]) for chunk in group_chunks),
+            "lean": generated_file_record(lean_path),
+        }
+        group_records.append(record)
+    supergroup_records: list[dict] = []
+    for super_index, start in enumerate(range(0, len(group_records), supergroup_size)):
+        super_groups = group_records[start:start + supergroup_size]
+        lean_path = write_residual_partition_supergroup_lean(
+            super_index=super_index,
+            group_records=super_groups,
+        )
+        record = {
+            "index": super_index,
+            "group_start": start,
+            "group_end": start + len(super_groups),
+            "group_count": len(super_groups),
+            "chunk_count": sum(int(group["chunk_count"]) for group in super_groups),
+            "cert_count": sum(int(group["cert_count"]) for group in super_groups),
+            "first_rank": min(int(group["first_rank"]) for group in super_groups),
+            "last_rank": max(int(group["last_rank"]) for group in super_groups),
+            "lean": generated_file_record(lean_path),
+        }
+        supergroup_records.append(record)
+    all_path = write_residual_partition_all_lean(
+        supergroup_records=supergroup_records,
+        group_records=group_records,
+        chunks=chunks,
+    )
+    return {
+        "emitted": True,
+        "strategy": "checked_packed_residual_rank_partition",
+        "group_size": group_size,
+        "supergroup_size": supergroup_size,
+        "group_count": len(group_records),
+        "supergroup_count": len(supergroup_records),
+        "chunk_count": len(chunks),
+        "cert_count": int(nonid["cert_count"]),
+        "source_manifest": path_status(EXHAUSTIVE_REAL_CERTS_JSON_PATH),
+        "all_lean": generated_file_record(all_path),
+        "groups": group_records,
+        "supergroups": supergroup_records,
+        "lean_api": {
+            "module": "Cuboctahedron.Generated.NonIdentity.Residual.Partition.All",
+            "covers": "residualPartitionCoversRank",
+            "soundness": "residualPartitionCoversRank_sound",
+        },
+    }
+
+
 def full_translation_farkas_blob_path(index: int) -> Path:
     return FULL_TRANSLATION_FARKAS_BLOB_DIR / f"Chunk{index:04d}.b64"
 
@@ -6946,6 +7451,9 @@ def build_nonidentity_residual_compression_payload(
     full_residual_partition: bool = False,
     residual_partition_jobs: int | None = None,
     residual_partition_shard_size: int | None = None,
+    emit_residual_proof_partition_flag: bool = False,
+    residual_proof_group_size: int = 256,
+    residual_proof_supergroup_size: int = 16,
 ) -> dict:
     prefix = load_json_artifact(
         PREFIX_PARAMETRIC_COMPRESSION_JSON_PATH,
@@ -6959,12 +7467,32 @@ def build_nonidentity_residual_compression_payload(
         COMPACT_RESIDUAL_CERTIFICATES_JSON_PATH,
         "compact-residual-certificates",
     )
-    partition_profile = build_residual_nonidentity_partition_profile(
-        limit=partition_profile_limit,
-        full=full_residual_partition,
-        jobs=residual_partition_jobs,
-        shard_size=residual_partition_shard_size,
-    )
+    partition_profile = None
+    if (
+        emit_residual_proof_partition_flag
+        and not full_residual_partition
+        and partition_profile_limit is None
+        and NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.exists()
+    ):
+        existing_payload = load_json_artifact(
+            NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH,
+            "nonidentity-residual-compression",
+        )
+        existing_profile = existing_payload.get("partition_profile")
+        if (
+            isinstance(existing_profile, dict)
+            and existing_profile.get("complete") is True
+            and int(existing_profile.get("pair_words_checked", 0)) ==
+                EXPECTED_PAIR_WORDS
+        ):
+            partition_profile = existing_profile
+    if partition_profile is None:
+        partition_profile = build_residual_nonidentity_partition_profile(
+            limit=partition_profile_limit,
+            full=full_residual_partition,
+            jobs=residual_partition_jobs,
+            shard_size=residual_partition_shard_size,
+        )
 
     residual_cases = int(prefix["nonidentity"]["residual_singleton_cases"])
     certs = residual_templates["certs"]
@@ -7044,14 +7572,42 @@ def build_nonidentity_residual_compression_payload(
         )
     if int(partition_profile["candidate_passed_observed_count"]) != 0:
         blockers.append("nonidentity_residual_candidate_passed_observed")
-    blockers.append("nonidentity_residual_family_partition_not_emitted")
+    residual_proof_partition = None
+    if emit_residual_proof_partition_flag:
+        if exhaustive_subtype_census_complete:
+            residual_proof_partition = emit_nonidentity_residual_proof_partition(
+                group_size=residual_proof_group_size,
+                supergroup_size=residual_proof_supergroup_size,
+            )
+            if int(residual_proof_partition["cert_count"]) != residual_cases:
+                blockers.append(
+                    "nonidentity_residual_family_partition_count_mismatch"
+                )
+        else:
+            blockers.append(
+                "nonidentity_residual_family_partition_waiting_for_full_census"
+            )
+    else:
+        blockers.append("nonidentity_residual_family_partition_not_emitted")
     if projected_residual_source_bytes > FULL_EMISSION_HARD_TOTAL_SOURCE_BYTES:
         blockers.append("nonidentity_residual_compressed_projection_exceeds_budget")
-    payload["generated_lean"] = {
+    generated_lean = {
         "compression_sample": generated_file_record(
             NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH
         ),
     }
+    if residual_proof_partition is not None:
+        payload["residual_proof_partition"] = residual_proof_partition
+        generated_lean["residual_proof_partition"] = (
+            residual_proof_partition["all_lean"]
+        )
+    payload["generated_lean"] = generated_lean
+    payload["full_residual_compression_complete"] = (
+        exhaustive_subtype_census_complete
+        and residual_proof_partition is not None
+        and int(residual_proof_partition["cert_count"]) == residual_cases
+        and not blockers
+    )
     payload["projection"] = {
         "format": "proof_carrying_nonid_residual_semantic_families",
         "pilot_family_count": family_count,
@@ -9669,6 +10225,26 @@ def main() -> None:
         type=int,
         help="pair-word interval size for --full-residual-partition",
     )
+    parser.add_argument(
+        "--emit-residual-proof-partition",
+        action="store_true",
+        help=(
+            "emit the Lean proof-partition layer over the existing packed "
+            "nonidentity residual fallback blobs"
+        ),
+    )
+    parser.add_argument(
+        "--residual-proof-group-size",
+        type=int,
+        default=256,
+        help="packed residual chunks per generated proof-partition group",
+    )
+    parser.add_argument(
+        "--residual-proof-supergroup-size",
+        type=int,
+        default=16,
+        help="proof-partition groups per generated supergroup",
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -9854,11 +10430,19 @@ def main() -> None:
             and args.residual_partition_shard_size <= 0
         ):
             parser.error("--residual-partition-shard-size must be positive")
+        if args.residual_proof_group_size <= 0:
+            parser.error("--residual-proof-group-size must be positive")
+        if args.residual_proof_supergroup_size <= 0:
+            parser.error("--residual-proof-supergroup-size must be positive")
         payload = build_nonidentity_residual_compression_payload(
             partition_profile_limit=args.profile_limit,
             full_residual_partition=args.full_residual_partition,
             residual_partition_jobs=args.residual_partition_jobs,
             residual_partition_shard_size=args.residual_partition_shard_size,
+            emit_residual_proof_partition_flag=
+                args.emit_residual_proof_partition,
+            residual_proof_group_size=args.residual_proof_group_size,
+            residual_proof_supergroup_size=args.residual_proof_supergroup_size,
         )
         write_nonidentity_residual_compression_json(payload)
         write_all_generated()
@@ -9891,6 +10475,14 @@ def main() -> None:
             "blockers: "
             + ", ".join(projection["blockers"])
         )
+        if "residual_proof_partition" in payload:
+            partition = payload["residual_proof_partition"]
+            print(
+                "residual proof partition: "
+                f"{partition['group_count']} groups, "
+                f"{partition['supergroup_count']} supergroups, "
+                f"{partition['cert_count']:,} certs"
+            )
         print(
             "json: "
             f"{NONIDENTITY_RESIDUAL_COMPRESSION_JSON_PATH.relative_to(REPO_ROOT)}"

@@ -19,13 +19,19 @@
       "stem": "residualCompressionBadFirstHit000000159"
     }
   ],
-  "full_residual_compression_complete": false,
+  "full_residual_compression_complete": true,
   "generated_lean": {
     "compression_sample": {
       "bytes": 5664,
       "exists": true,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/CompressionSample.lean",
       "sha256": "e7d137fb8aec14f25d1481463f056252d18d208fcd87a9ac7a2ff4b1fc9f8fe0"
+    },
+    "residual_proof_partition": {
+      "bytes": 12962,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/All.lean",
+      "sha256": "2e98cfc75b9bf751b8b9be07d6079593f25a7327dabfa7525035eb0cb1ef6f59"
     }
   },
   "lean_api": {
@@ -1790,9 +1796,7 @@
   },
   "pilot_complete": true,
   "projection": {
-    "blockers": [
-      "nonidentity_residual_family_partition_not_emitted"
-    ],
+    "blockers": [],
     "bytes_per_family_proxy": 2832,
     "format": "proof_carrying_nonid_residual_semantic_families",
     "hard_total_source_bytes": 1342177280,
@@ -1806,6 +1810,4961 @@
     "residual_singleton_cases": 2038656,
     "sample_source_bytes": 5664,
     "size_safe": true
+  },
+  "residual_proof_partition": {
+    "all_lean": {
+      "bytes": 12962,
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/All.lean",
+      "sha256": "2e98cfc75b9bf751b8b9be07d6079593f25a7327dabfa7525035eb0cb1ef6f59"
+    },
+    "cert_count": 2038656,
+    "chunk_count": 78558,
+    "emitted": true,
+    "group_count": 307,
+    "group_size": 256,
+    "groups": [
+      {
+        "cert_count": 6772,
+        "chunk_count": 256,
+        "chunk_end": 256,
+        "chunk_start": 0,
+        "first_rank": 12,
+        "index": 0,
+        "last_rank": 75806,
+        "lean": {
+          "bytes": 23948,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0000.lean",
+          "sha256": "8b4116d48190f689d888ffd938a1f189cd79648f584b2fe53bded57d25cc919e"
+        }
+      },
+      {
+        "cert_count": 6713,
+        "chunk_count": 256,
+        "chunk_end": 512,
+        "chunk_start": 256,
+        "first_rank": 75810,
+        "index": 1,
+        "last_rank": 149376,
+        "lean": {
+          "bytes": 23952,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0001.lean",
+          "sha256": "69c84cbd5eab10c54c5815dea7035af79b9ec7019f969464ee302cee65e2e8f0"
+        }
+      },
+      {
+        "cert_count": 6568,
+        "chunk_count": 256,
+        "chunk_end": 768,
+        "chunk_start": 512,
+        "first_rank": 149379,
+        "index": 2,
+        "last_rank": 370293,
+        "lean": {
+          "bytes": 23953,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0002.lean",
+          "sha256": "5b96074706ba7a35f859dd0b17736ecc9bf7a85ce38d8e8db5b1349a65ac3892"
+        }
+      },
+      {
+        "cert_count": 6765,
+        "chunk_count": 256,
+        "chunk_end": 1024,
+        "chunk_start": 768,
+        "first_rank": 370305,
+        "index": 3,
+        "last_rank": 547656,
+        "lean": {
+          "bytes": 23953,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0003.lean",
+          "sha256": "055156bd8d1d847a5bdbaff0dad3230f655d1ca3946fdc7556eba5842c9caa93"
+        }
+      },
+      {
+        "cert_count": 6721,
+        "chunk_count": 256,
+        "chunk_end": 1280,
+        "chunk_start": 1024,
+        "first_rank": 547668,
+        "index": 4,
+        "last_rank": 746195,
+        "lean": {
+          "bytes": 23953,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0004.lean",
+          "sha256": "7b82b9e5124c943a5eefa082b0cde79ce58bd94dadfa5f03e243dd9fd514c000"
+        }
+      },
+      {
+        "cert_count": 6648,
+        "chunk_count": 256,
+        "chunk_end": 1536,
+        "chunk_start": 1280,
+        "first_rank": 746211,
+        "index": 5,
+        "last_rank": 910649,
+        "lean": {
+          "bytes": 23953,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0005.lean",
+          "sha256": "60613ca7d94b5573a63c80a439d542387bc03dbc9bc72d5ada56f68cffc137ab"
+        }
+      },
+      {
+        "cert_count": 6743,
+        "chunk_count": 256,
+        "chunk_end": 1792,
+        "chunk_start": 1536,
+        "first_rank": 910651,
+        "index": 6,
+        "last_rank": 1113113,
+        "lean": {
+          "bytes": 23954,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0006.lean",
+          "sha256": "6af29b792b59f905b7147dcd9a7b294cd64f7d1d12df8f2294f6a08c4675f33a"
+        }
+      },
+      {
+        "cert_count": 6717,
+        "chunk_count": 256,
+        "chunk_end": 2048,
+        "chunk_start": 1792,
+        "first_rank": 1113165,
+        "index": 7,
+        "last_rank": 1261741,
+        "lean": {
+          "bytes": 23955,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0007.lean",
+          "sha256": "de629d0ecc4b39d979b7dac1f0d72ee8c051bd56b1dd7d37cc8229447325d3cb"
+        }
+      },
+      {
+        "cert_count": 6613,
+        "chunk_count": 256,
+        "chunk_end": 2304,
+        "chunk_start": 2048,
+        "first_rank": 1261743,
+        "index": 8,
+        "last_rank": 1440195,
+        "lean": {
+          "bytes": 23955,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0008.lean",
+          "sha256": "c48d3371dd5d04e5e4b2a1062febd13e5173c8d190dff61c53112b7582af9887"
+        }
+      },
+      {
+        "cert_count": 6728,
+        "chunk_count": 256,
+        "chunk_end": 2560,
+        "chunk_start": 2304,
+        "first_rank": 1440211,
+        "index": 9,
+        "last_rank": 1538076,
+        "lean": {
+          "bytes": 23955,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0009.lean",
+          "sha256": "e45868b81b0310d037fd22730abef50e77786e7ff835f12f79722cb225856bca"
+        }
+      },
+      {
+        "cert_count": 6703,
+        "chunk_count": 256,
+        "chunk_end": 2816,
+        "chunk_start": 2560,
+        "first_rank": 1538077,
+        "index": 10,
+        "last_rank": 1655874,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0010.lean",
+          "sha256": "ec566beee2bae29920ba48ad0a51279362441f0d2796e6869c0ba9d1fc05a7d3"
+        }
+      },
+      {
+        "cert_count": 6775,
+        "chunk_count": 256,
+        "chunk_end": 3072,
+        "chunk_start": 2816,
+        "first_rank": 1655880,
+        "index": 11,
+        "last_rank": 1826740,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0011.lean",
+          "sha256": "0ada8aa9e447387dd3a21bc2d220dc01eaffb1ccacddd08c49b56b00f08c32eb"
+        }
+      },
+      {
+        "cert_count": 6749,
+        "chunk_count": 256,
+        "chunk_end": 3328,
+        "chunk_start": 3072,
+        "first_rank": 1826748,
+        "index": 12,
+        "last_rank": 2019431,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0012.lean",
+          "sha256": "74385655eb69e9a313afeb5fd28df01b7382edcd688e6a450f4a6ed4a8ce77ea"
+        }
+      },
+      {
+        "cert_count": 6675,
+        "chunk_count": 256,
+        "chunk_end": 3584,
+        "chunk_start": 3328,
+        "first_rank": 2019438,
+        "index": 13,
+        "last_rank": 2207369,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0013.lean",
+          "sha256": "d4e88fecd608bb2117beca6245c21d2d31f315e64fc001f8eb03301ba4b74069"
+        }
+      },
+      {
+        "cert_count": 6672,
+        "chunk_count": 256,
+        "chunk_end": 3840,
+        "chunk_start": 3584,
+        "first_rank": 2207588,
+        "index": 14,
+        "last_rank": 2389964,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0014.lean",
+          "sha256": "a0a0779e7a426e9254086a8f2a36b88406e723e5b6923801b06bb3ca674c2ce4"
+        }
+      },
+      {
+        "cert_count": 6758,
+        "chunk_count": 256,
+        "chunk_end": 4096,
+        "chunk_start": 3840,
+        "first_rank": 2389991,
+        "index": 15,
+        "last_rank": 2522542,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0015.lean",
+          "sha256": "d83db968645643526fddf0a4eb7c3635e6191d4c287e4075eef0cde08610a76f"
+        }
+      },
+      {
+        "cert_count": 6807,
+        "chunk_count": 256,
+        "chunk_end": 4352,
+        "chunk_start": 4096,
+        "first_rank": 2522558,
+        "index": 16,
+        "last_rank": 2726163,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0016.lean",
+          "sha256": "231e68d66ef16ca0197e00331dc69a0ccc300bc122cc893c7f2704064ae8975c"
+        }
+      },
+      {
+        "cert_count": 6850,
+        "chunk_count": 256,
+        "chunk_end": 4608,
+        "chunk_start": 4352,
+        "first_rank": 2726166,
+        "index": 17,
+        "last_rank": 2904956,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0017.lean",
+          "sha256": "70d4d3969c203b26572c2201c61f4d827a660142615cb76a1260bb1160abda90"
+        }
+      },
+      {
+        "cert_count": 6925,
+        "chunk_count": 256,
+        "chunk_end": 4864,
+        "chunk_start": 4608,
+        "first_rank": 2904972,
+        "index": 18,
+        "last_rank": 3117368,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0018.lean",
+          "sha256": "155b7c1eb5efc17633d5ff60a0ae73215c79bb61a664a6093f892c8617a639e5"
+        }
+      },
+      {
+        "cert_count": 6683,
+        "chunk_count": 256,
+        "chunk_end": 5120,
+        "chunk_start": 4864,
+        "first_rank": 3117370,
+        "index": 19,
+        "last_rank": 3247627,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0019.lean",
+          "sha256": "1f1ccea990b0ff9968591ed0478554396bb90e102593594c9cea3ed1f5b7dbff"
+        }
+      },
+      {
+        "cert_count": 6684,
+        "chunk_count": 256,
+        "chunk_end": 5376,
+        "chunk_start": 5120,
+        "first_rank": 3247642,
+        "index": 20,
+        "last_rank": 3379903,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0020.lean",
+          "sha256": "81a09eac0761859bfecbe6539240458e2bdefda33fb37e4b9cabdc31495ea2f1"
+        }
+      },
+      {
+        "cert_count": 6654,
+        "chunk_count": 256,
+        "chunk_end": 5632,
+        "chunk_start": 5376,
+        "first_rank": 3379906,
+        "index": 21,
+        "last_rank": 3501816,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0021.lean",
+          "sha256": "bcd7b23dad1204751079b1fe08f85cfdd0de6c6245bc33ef96d389ad03b2c20d"
+        }
+      },
+      {
+        "cert_count": 6702,
+        "chunk_count": 256,
+        "chunk_end": 5888,
+        "chunk_start": 5632,
+        "first_rank": 3501818,
+        "index": 22,
+        "last_rank": 3647698,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0022.lean",
+          "sha256": "b9ec2d0cc7a2309594cdfbcad7efeee6a789e7161c40f1d134ea1eef7c7f6bf3"
+        }
+      },
+      {
+        "cert_count": 6775,
+        "chunk_count": 256,
+        "chunk_end": 6144,
+        "chunk_start": 5888,
+        "first_rank": 3647699,
+        "index": 23,
+        "last_rank": 3757681,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0023.lean",
+          "sha256": "5cc7a21e7c898f8ca3cc5e486520a6d2eec5a39b72482814db000aa568d4e82b"
+        }
+      },
+      {
+        "cert_count": 6762,
+        "chunk_count": 256,
+        "chunk_end": 6400,
+        "chunk_start": 6144,
+        "first_rank": 3757711,
+        "index": 24,
+        "last_rank": 3933715,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0024.lean",
+          "sha256": "00aed9e36d31ce1cb30ce7e454adbf0133f7f2f4754ad31f7ecc131e58fa7809"
+        }
+      },
+      {
+        "cert_count": 6857,
+        "chunk_count": 256,
+        "chunk_end": 6656,
+        "chunk_start": 6400,
+        "first_rank": 3933795,
+        "index": 25,
+        "last_rank": 4132419,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0025.lean",
+          "sha256": "71c11804da7459977b281f015f29ad2fb5de1019b4199b45c57d0261fe9dd0d8"
+        }
+      },
+      {
+        "cert_count": 6719,
+        "chunk_count": 256,
+        "chunk_end": 6912,
+        "chunk_start": 6656,
+        "first_rank": 4132439,
+        "index": 26,
+        "last_rank": 4284002,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0026.lean",
+          "sha256": "c01b50f0989e72734338157e74d959f134413ba3594768eba79733000c5947e8"
+        }
+      },
+      {
+        "cert_count": 6711,
+        "chunk_count": 256,
+        "chunk_end": 7168,
+        "chunk_start": 6912,
+        "first_rank": 4284003,
+        "index": 27,
+        "last_rank": 4406840,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0027.lean",
+          "sha256": "d9fd577a1a3f9761a8191c42a2e144cbc82f46bf3ac23c76f57ef36ce2645bd0"
+        }
+      },
+      {
+        "cert_count": 6965,
+        "chunk_count": 256,
+        "chunk_end": 7424,
+        "chunk_start": 7168,
+        "first_rank": 4406844,
+        "index": 28,
+        "last_rank": 4606713,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0028.lean",
+          "sha256": "5d1235376fda9424e81003f03fa16171a720de225a05db842982df3ef15d18d7"
+        }
+      },
+      {
+        "cert_count": 6750,
+        "chunk_count": 256,
+        "chunk_end": 7680,
+        "chunk_start": 7424,
+        "first_rank": 4606714,
+        "index": 29,
+        "last_rank": 4743444,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0029.lean",
+          "sha256": "c9a7a9a277e89e443fe1300197d6755b21cbb240a283e890d65ff4f30e23bf13"
+        }
+      },
+      {
+        "cert_count": 6639,
+        "chunk_count": 256,
+        "chunk_end": 7936,
+        "chunk_start": 7680,
+        "first_rank": 4743450,
+        "index": 30,
+        "last_rank": 4883162,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0030.lean",
+          "sha256": "4af119e726e411e5048878dcda7b3d6a9dc9dc378cbe6785a1ffa3fdb331bff9"
+        }
+      },
+      {
+        "cert_count": 6645,
+        "chunk_count": 256,
+        "chunk_end": 8192,
+        "chunk_start": 7936,
+        "first_rank": 4883170,
+        "index": 31,
+        "last_rank": 4993926,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0031.lean",
+          "sha256": "68443eead90be560cad8d66f91db5da7b1f78b9e5f900691f52676e1039a1322"
+        }
+      },
+      {
+        "cert_count": 6818,
+        "chunk_count": 256,
+        "chunk_end": 8448,
+        "chunk_start": 8192,
+        "first_rank": 4993938,
+        "index": 32,
+        "last_rank": 5175090,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0032.lean",
+          "sha256": "940995775d8f355903afb5ecf2ff5cf5b00605814bdc361259fc90dd31362dee"
+        }
+      },
+      {
+        "cert_count": 6820,
+        "chunk_count": 256,
+        "chunk_end": 8704,
+        "chunk_start": 8448,
+        "first_rank": 5175091,
+        "index": 33,
+        "last_rank": 5314228,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0033.lean",
+          "sha256": "47183c500b8ab32fc70c46ee6bea5579c677b21624eeb9ff1f273ecc4b481229"
+        }
+      },
+      {
+        "cert_count": 6728,
+        "chunk_count": 256,
+        "chunk_end": 8960,
+        "chunk_start": 8704,
+        "first_rank": 5314231,
+        "index": 34,
+        "last_rank": 5499047,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0034.lean",
+          "sha256": "04177d8173e26130252d288a6279afee051971a1c064d954d56d31288da76019"
+        }
+      },
+      {
+        "cert_count": 6698,
+        "chunk_count": 256,
+        "chunk_end": 9216,
+        "chunk_start": 8960,
+        "first_rank": 5499051,
+        "index": 35,
+        "last_rank": 5631182,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0035.lean",
+          "sha256": "8e54ccd15fb0532bebc828b04a41897231abc343764f7b95365e8903b5e08bdc"
+        }
+      },
+      {
+        "cert_count": 6682,
+        "chunk_count": 256,
+        "chunk_end": 9472,
+        "chunk_start": 9216,
+        "first_rank": 5631206,
+        "index": 36,
+        "last_rank": 5779668,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0036.lean",
+          "sha256": "34d1f42c2a20accdcb6420f40e50f0954aec4983f6d2e65e6a52dece0c194a55"
+        }
+      },
+      {
+        "cert_count": 6726,
+        "chunk_count": 256,
+        "chunk_end": 9728,
+        "chunk_start": 9472,
+        "first_rank": 5779670,
+        "index": 37,
+        "last_rank": 5903335,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0037.lean",
+          "sha256": "831efad9ca9d47e8beb0b5f5dbb111239f47b5542c5dd258ec7ba7e4c2f957fe"
+        }
+      },
+      {
+        "cert_count": 6943,
+        "chunk_count": 256,
+        "chunk_end": 9984,
+        "chunk_start": 9728,
+        "first_rank": 5903352,
+        "index": 38,
+        "last_rank": 6102565,
+        "lean": {
+          "bytes": 23956,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0038.lean",
+          "sha256": "6887a12415a755fca5910e47e03ca4a3e34cded4a5143fa4e029063c45b08feb"
+        }
+      },
+      {
+        "cert_count": 6639,
+        "chunk_count": 256,
+        "chunk_end": 10240,
+        "chunk_start": 9984,
+        "first_rank": 6102570,
+        "index": 39,
+        "last_rank": 6212830,
+        "lean": {
+          "bytes": 24196,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0039.lean",
+          "sha256": "9454b0721c425c70eafebb05b849d735d14e79b865115bd6700c5a5a56561dbb"
+        }
+      },
+      {
+        "cert_count": 6868,
+        "chunk_count": 256,
+        "chunk_end": 10496,
+        "chunk_start": 10240,
+        "first_rank": 6212833,
+        "index": 40,
+        "last_rank": 6368639,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0040.lean",
+          "sha256": "b0cf84e3f946c81892ffba5ec2e6068906469b2b2c4fa017a43006a8d9c5b436"
+        }
+      },
+      {
+        "cert_count": 6840,
+        "chunk_count": 256,
+        "chunk_end": 10752,
+        "chunk_start": 10496,
+        "first_rank": 6368644,
+        "index": 41,
+        "last_rank": 6534971,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0041.lean",
+          "sha256": "8c3c387b3c159897b8a7dafe5200d4bb0bbcfeead8b86180cdc60170c19121fb"
+        }
+      },
+      {
+        "cert_count": 6767,
+        "chunk_count": 256,
+        "chunk_end": 11008,
+        "chunk_start": 10752,
+        "first_rank": 6535017,
+        "index": 42,
+        "last_rank": 6733967,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0042.lean",
+          "sha256": "47e2310423cc3b23f6d267320b610e649974b19e4711414b1e410823d15fa354"
+        }
+      },
+      {
+        "cert_count": 6759,
+        "chunk_count": 256,
+        "chunk_end": 11264,
+        "chunk_start": 11008,
+        "first_rank": 6733980,
+        "index": 43,
+        "last_rank": 6873180,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0043.lean",
+          "sha256": "bf3ec7c3a66398bee9059e6200d73ef6a8978729b6e7f7d1b33e720fee2a9719"
+        }
+      },
+      {
+        "cert_count": 6657,
+        "chunk_count": 256,
+        "chunk_end": 11520,
+        "chunk_start": 11264,
+        "first_rank": 6873186,
+        "index": 44,
+        "last_rank": 7008673,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0044.lean",
+          "sha256": "f9be7f8aaf2a970ad3098e7720274ed5197e91bee51f1fd96c5dece11bd13518"
+        }
+      },
+      {
+        "cert_count": 6680,
+        "chunk_count": 256,
+        "chunk_end": 11776,
+        "chunk_start": 11520,
+        "first_rank": 7008685,
+        "index": 45,
+        "last_rank": 7129028,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0045.lean",
+          "sha256": "c2821529b8e4eea73b36ddfdff8b168dd38d592d91a8c470e50cc6b19f19dda1"
+        }
+      },
+      {
+        "cert_count": 6674,
+        "chunk_count": 256,
+        "chunk_end": 12032,
+        "chunk_start": 11776,
+        "first_rank": 7129112,
+        "index": 46,
+        "last_rank": 7266761,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0046.lean",
+          "sha256": "57ce6fbb4638b8a40fe8047977f2477f052fda2d22748fe70b56f7a968cad24c"
+        }
+      },
+      {
+        "cert_count": 6757,
+        "chunk_count": 256,
+        "chunk_end": 12288,
+        "chunk_start": 12032,
+        "first_rank": 7266762,
+        "index": 47,
+        "last_rank": 7416617,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0047.lean",
+          "sha256": "0e87610e31fea4ca5c10f0aa0c6959479ecc8e2b2848765bdb4325bd9ff478f2"
+        }
+      },
+      {
+        "cert_count": 6853,
+        "chunk_count": 256,
+        "chunk_end": 12544,
+        "chunk_start": 12288,
+        "first_rank": 7416636,
+        "index": 48,
+        "last_rank": 7539128,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0048.lean",
+          "sha256": "b1c4c5c1fc91c478ca17f504191e84305d5ddeb10a2b0c306412b6ee45e7c7be"
+        }
+      },
+      {
+        "cert_count": 6679,
+        "chunk_count": 256,
+        "chunk_end": 12800,
+        "chunk_start": 12544,
+        "first_rank": 7539130,
+        "index": 49,
+        "last_rank": 7611713,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0049.lean",
+          "sha256": "0a888e027f7ccf28aa6eba87c1b60b7e8551fc6ab47c0be82d48557710eb91b2"
+        }
+      },
+      {
+        "cert_count": 6570,
+        "chunk_count": 256,
+        "chunk_end": 13056,
+        "chunk_start": 12800,
+        "first_rank": 7611717,
+        "index": 50,
+        "last_rank": 7786577,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0050.lean",
+          "sha256": "7ea521853468778e5acdf7591aafbcaf1815e31427019c9c021d83bde3fdc3cb"
+        }
+      },
+      {
+        "cert_count": 6647,
+        "chunk_count": 256,
+        "chunk_end": 13312,
+        "chunk_start": 13056,
+        "first_rank": 7786586,
+        "index": 51,
+        "last_rank": 7988019,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0051.lean",
+          "sha256": "e4043a9e601ef60bc1be60e7c29d745d500399b6b65bf15eb6fbb486ce63c37b"
+        }
+      },
+      {
+        "cert_count": 6608,
+        "chunk_count": 256,
+        "chunk_end": 13568,
+        "chunk_start": 13312,
+        "first_rank": 7988021,
+        "index": 52,
+        "last_rank": 8165978,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0052.lean",
+          "sha256": "ffc9794925be68a6202c3a3ef40aff37fbd5d40b420f69cc24fe2e64da395f6d"
+        }
+      },
+      {
+        "cert_count": 6655,
+        "chunk_count": 256,
+        "chunk_end": 13824,
+        "chunk_start": 13568,
+        "first_rank": 8165979,
+        "index": 53,
+        "last_rank": 8350892,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0053.lean",
+          "sha256": "90ecc2e470c4bc9068b063f57bcfd671a321568d9ff70dd566bd6b9c8d4a30fd"
+        }
+      },
+      {
+        "cert_count": 6628,
+        "chunk_count": 256,
+        "chunk_end": 14080,
+        "chunk_start": 13824,
+        "first_rank": 8350903,
+        "index": 54,
+        "last_rank": 8532332,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0054.lean",
+          "sha256": "fefa93a6b7dad018d6fc3668b78a8108ec557b5b827b0a32fcf4ce98562c352c"
+        }
+      },
+      {
+        "cert_count": 6667,
+        "chunk_count": 256,
+        "chunk_end": 14336,
+        "chunk_start": 14080,
+        "first_rank": 8532512,
+        "index": 55,
+        "last_rank": 8697120,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0055.lean",
+          "sha256": "c557a981757c69f14a3b2c7af66c59e4e4e9b64f6e3b4a058badad15203882ea"
+        }
+      },
+      {
+        "cert_count": 6708,
+        "chunk_count": 256,
+        "chunk_end": 14592,
+        "chunk_start": 14336,
+        "first_rank": 8697123,
+        "index": 56,
+        "last_rank": 8796511,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0056.lean",
+          "sha256": "fbaf95916c8c920139b33b5dfe07fefcb0fc120f0d1fb5a472c2574c13ec3017"
+        }
+      },
+      {
+        "cert_count": 6666,
+        "chunk_count": 256,
+        "chunk_end": 14848,
+        "chunk_start": 14592,
+        "first_rank": 8796518,
+        "index": 57,
+        "last_rank": 8868798,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0057.lean",
+          "sha256": "da5e0b5e8151e4f80295f35275b92052f8412250108d3fe0217875d7a0160c23"
+        }
+      },
+      {
+        "cert_count": 6566,
+        "chunk_count": 256,
+        "chunk_end": 15104,
+        "chunk_start": 14848,
+        "first_rank": 8868799,
+        "index": 58,
+        "last_rank": 9061449,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0058.lean",
+          "sha256": "feac85fc24dffa5da199bcb322e20317d5a1f11ae67c20be051550c0ca245c25"
+        }
+      },
+      {
+        "cert_count": 6680,
+        "chunk_count": 256,
+        "chunk_end": 15360,
+        "chunk_start": 15104,
+        "first_rank": 9061450,
+        "index": 59,
+        "last_rank": 9260195,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0059.lean",
+          "sha256": "bb2f497a750696d41bf71db9a8a4067b54b6952203d725a825123d5c0a779826"
+        }
+      },
+      {
+        "cert_count": 6632,
+        "chunk_count": 256,
+        "chunk_end": 15616,
+        "chunk_start": 15360,
+        "first_rank": 9260201,
+        "index": 60,
+        "last_rank": 9443711,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0060.lean",
+          "sha256": "ccfe15b0557e7f73a9f0096ed96bc5b2a15fa5f7362aae0fa5c97373488d19a9"
+        }
+      },
+      {
+        "cert_count": 6644,
+        "chunk_count": 256,
+        "chunk_end": 15872,
+        "chunk_start": 15616,
+        "first_rank": 9443744,
+        "index": 61,
+        "last_rank": 9623257,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0061.lean",
+          "sha256": "944789ac1076d61f92298fc63f748735184f9524bff181e5100af7af35d3d976"
+        }
+      },
+      {
+        "cert_count": 6618,
+        "chunk_count": 256,
+        "chunk_end": 16128,
+        "chunk_start": 15872,
+        "first_rank": 9623259,
+        "index": 62,
+        "last_rank": 9797650,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0062.lean",
+          "sha256": "25e4808caa324f961587430943748ed43e926bef65b7eccfafcca217ada9af00"
+        }
+      },
+      {
+        "cert_count": 6717,
+        "chunk_count": 256,
+        "chunk_end": 16384,
+        "chunk_start": 16128,
+        "first_rank": 9797685,
+        "index": 63,
+        "last_rank": 9977117,
+        "lean": {
+          "bytes": 24212,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0063.lean",
+          "sha256": "537578dddc0b1bf8e1b7a0f43288a13c6ece197b7a159026715044fad4542297"
+        }
+      },
+      {
+        "cert_count": 6586,
+        "chunk_count": 256,
+        "chunk_end": 16640,
+        "chunk_start": 16384,
+        "first_rank": 9977178,
+        "index": 64,
+        "last_rank": 10119956,
+        "lean": {
+          "bytes": 24213,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0064.lean",
+          "sha256": "b694ba8d0380883adb4f056bf1d66d102b98358082c8a0088a28757aaf42ec3a"
+        }
+      },
+      {
+        "cert_count": 6591,
+        "chunk_count": 256,
+        "chunk_end": 16896,
+        "chunk_start": 16640,
+        "first_rank": 10120018,
+        "index": 65,
+        "last_rank": 10263291,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0065.lean",
+          "sha256": "e6f88a3bc12da729bc4b32843886b7407545034abc9acd4d25736610cfe576ec"
+        }
+      },
+      {
+        "cert_count": 6561,
+        "chunk_count": 256,
+        "chunk_end": 17152,
+        "chunk_start": 16896,
+        "first_rank": 10263495,
+        "index": 66,
+        "last_rank": 10452256,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0066.lean",
+          "sha256": "233320ed84c57fa153a7fd08f908f708321bf1814e0454023a28f18cb8280047"
+        }
+      },
+      {
+        "cert_count": 6581,
+        "chunk_count": 256,
+        "chunk_end": 17408,
+        "chunk_start": 17152,
+        "first_rank": 10452261,
+        "index": 67,
+        "last_rank": 10636079,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0067.lean",
+          "sha256": "1271501f28aece2b0f6cc6d301f2005da3d14965e76681ad0261365907ada592"
+        }
+      },
+      {
+        "cert_count": 6505,
+        "chunk_count": 256,
+        "chunk_end": 17664,
+        "chunk_start": 17408,
+        "first_rank": 10636091,
+        "index": 68,
+        "last_rank": 11056191,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0068.lean",
+          "sha256": "656e57761a53f1b8e17844661012391161a8018f150094f1c564157e441a1410"
+        }
+      },
+      {
+        "cert_count": 6506,
+        "chunk_count": 256,
+        "chunk_end": 17920,
+        "chunk_start": 17664,
+        "first_rank": 11056573,
+        "index": 69,
+        "last_rank": 11473420,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0069.lean",
+          "sha256": "5ad8932d71402df358d88b260a11ed2dae941512cf9477fd48158bdfa7611eda"
+        }
+      },
+      {
+        "cert_count": 6449,
+        "chunk_count": 256,
+        "chunk_end": 18176,
+        "chunk_start": 17920,
+        "first_rank": 11473421,
+        "index": 70,
+        "last_rank": 11883223,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0070.lean",
+          "sha256": "25aef861bee38b1fc41c9cc441005dc05f30f0d4a2aa3943b9e8c731eb370547"
+        }
+      },
+      {
+        "cert_count": 6511,
+        "chunk_count": 256,
+        "chunk_end": 18432,
+        "chunk_start": 18176,
+        "first_rank": 11883232,
+        "index": 71,
+        "last_rank": 12318353,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0071.lean",
+          "sha256": "1de6f3ba433bb8d104bd0c3e4b6762a93a7101fa50c2fdd2a16e6c6865dacecb"
+        }
+      },
+      {
+        "cert_count": 6392,
+        "chunk_count": 256,
+        "chunk_end": 18688,
+        "chunk_start": 18432,
+        "first_rank": 12318541,
+        "index": 72,
+        "last_rank": 12837094,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0072.lean",
+          "sha256": "f7124907fedd887b919658986c7e27624506c9c3090edce2a4079aa4c4f8afea"
+        }
+      },
+      {
+        "cert_count": 6596,
+        "chunk_count": 256,
+        "chunk_end": 18944,
+        "chunk_start": 18688,
+        "first_rank": 12837126,
+        "index": 73,
+        "last_rank": 13314033,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0073.lean",
+          "sha256": "74a97147d7fff3aef76c152224c17b3a7c865d4f6023f03c1ac8ea43b5a2b00b"
+        }
+      },
+      {
+        "cert_count": 6751,
+        "chunk_count": 256,
+        "chunk_end": 19200,
+        "chunk_start": 18944,
+        "first_rank": 13314039,
+        "index": 74,
+        "last_rank": 13769133,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0074.lean",
+          "sha256": "b854705e43354f0109fcf462097b16f6cd1866e23a7ccab5f512830fa740a5d5"
+        }
+      },
+      {
+        "cert_count": 6595,
+        "chunk_count": 256,
+        "chunk_end": 19456,
+        "chunk_start": 19200,
+        "first_rank": 13769134,
+        "index": 75,
+        "last_rank": 14174541,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0075.lean",
+          "sha256": "c326c957648fa3dca0a8f0f36c6464a1371194ec617d3fb068bdbc277ef4efd4"
+        }
+      },
+      {
+        "cert_count": 6539,
+        "chunk_count": 256,
+        "chunk_end": 19712,
+        "chunk_start": 19456,
+        "first_rank": 14174799,
+        "index": 76,
+        "last_rank": 14513262,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0076.lean",
+          "sha256": "9d288b75497d17bd0bbc4809a42817133983466934cda985790ccd6b405a9cfd"
+        }
+      },
+      {
+        "cert_count": 6593,
+        "chunk_count": 256,
+        "chunk_end": 19968,
+        "chunk_start": 19712,
+        "first_rank": 14521735,
+        "index": 77,
+        "last_rank": 14884652,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0077.lean",
+          "sha256": "cfed851265b7bd5753191479390e88782bf1df437dd604a6b468b79d5a308764"
+        }
+      },
+      {
+        "cert_count": 6373,
+        "chunk_count": 256,
+        "chunk_end": 20224,
+        "chunk_start": 19968,
+        "first_rank": 14884667,
+        "index": 78,
+        "last_rank": 15437374,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0078.lean",
+          "sha256": "b34181709c7383eb309b732907dc9b386b8f4742611d6ab0a38e4664a997bb81"
+        }
+      },
+      {
+        "cert_count": 6594,
+        "chunk_count": 256,
+        "chunk_end": 20480,
+        "chunk_start": 20224,
+        "first_rank": 15437379,
+        "index": 79,
+        "last_rank": 15876674,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0079.lean",
+          "sha256": "5baf24f6aec0bfe24f2711ba2ef98f06c46930fe6ca537992c1535467f13eaac"
+        }
+      },
+      {
+        "cert_count": 6535,
+        "chunk_count": 256,
+        "chunk_end": 20736,
+        "chunk_start": 20480,
+        "first_rank": 15876682,
+        "index": 80,
+        "last_rank": 16286205,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0080.lean",
+          "sha256": "647b1e24bcc7a6c38b9c535fe3cea37f788d0cb04ebbd75ad62a1d7fc8ce39d2"
+        }
+      },
+      {
+        "cert_count": 6829,
+        "chunk_count": 256,
+        "chunk_end": 20992,
+        "chunk_start": 20736,
+        "first_rank": 16286206,
+        "index": 81,
+        "last_rank": 16754071,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0081.lean",
+          "sha256": "133d5e47470a81582d807a09f3186d2dba508e2aab414611e803dd01d4a021fd"
+        }
+      },
+      {
+        "cert_count": 6620,
+        "chunk_count": 256,
+        "chunk_end": 21248,
+        "chunk_start": 20992,
+        "first_rank": 16754076,
+        "index": 82,
+        "last_rank": 17108674,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0082.lean",
+          "sha256": "aacabbbb9cec2ef6f99f8695a4e7eec74fd44abd549c981494c65e676269d8a2"
+        }
+      },
+      {
+        "cert_count": 6554,
+        "chunk_count": 256,
+        "chunk_end": 21504,
+        "chunk_start": 21248,
+        "first_rank": 17108675,
+        "index": 83,
+        "last_rank": 17447977,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0083.lean",
+          "sha256": "9e9c73b7fdac59a9dfc82bf5089c0440efc115baed0985daed959d57a8fef183"
+        }
+      },
+      {
+        "cert_count": 6320,
+        "chunk_count": 256,
+        "chunk_end": 21760,
+        "chunk_start": 21504,
+        "first_rank": 17447983,
+        "index": 84,
+        "last_rank": 18027658,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0084.lean",
+          "sha256": "2f02d939db1aaed145709ccfb1ec5557647e6627b8ea21147078d04e93dabcf2"
+        }
+      },
+      {
+        "cert_count": 6686,
+        "chunk_count": 256,
+        "chunk_end": 22016,
+        "chunk_start": 21760,
+        "first_rank": 18027659,
+        "index": 85,
+        "last_rank": 18470691,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0085.lean",
+          "sha256": "19dea98cbb79a33bb7bc639169b0710b51fff6dfa8692da30a922ab6e7a5478c"
+        }
+      },
+      {
+        "cert_count": 6552,
+        "chunk_count": 256,
+        "chunk_end": 22272,
+        "chunk_start": 22016,
+        "first_rank": 18470710,
+        "index": 86,
+        "last_rank": 18817715,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0086.lean",
+          "sha256": "dc6e685efbe4cac59fb04cdaae301efd1d3f25bf81faa81fafc1f0aa9b12d199"
+        }
+      },
+      {
+        "cert_count": 6634,
+        "chunk_count": 256,
+        "chunk_end": 22528,
+        "chunk_start": 22272,
+        "first_rank": 18817775,
+        "index": 87,
+        "last_rank": 19214397,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0087.lean",
+          "sha256": "37c0e43b0f2b6767de6cfb48881d519dee2ce65e825dbccb63012f8a6b0fdf1d"
+        }
+      },
+      {
+        "cert_count": 6730,
+        "chunk_count": 256,
+        "chunk_end": 22784,
+        "chunk_start": 22528,
+        "first_rank": 19214399,
+        "index": 88,
+        "last_rank": 19637999,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0088.lean",
+          "sha256": "cc21f7ccdd814a4b3177bf89a3b461987b8ebf3c7fa5a53ee04905fb4b62af89"
+        }
+      },
+      {
+        "cert_count": 6545,
+        "chunk_count": 256,
+        "chunk_end": 23040,
+        "chunk_start": 22784,
+        "first_rank": 19638073,
+        "index": 89,
+        "last_rank": 20077359,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0089.lean",
+          "sha256": "8ec179606340ef8ee980bb22e83028ee1375cbcdc29271116898547b472e5889"
+        }
+      },
+      {
+        "cert_count": 6360,
+        "chunk_count": 256,
+        "chunk_end": 23296,
+        "chunk_start": 23040,
+        "first_rank": 20077440,
+        "index": 90,
+        "last_rank": 20578125,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0090.lean",
+          "sha256": "44d1a3f13dc44ce2bf01c56ccba88bb6f47d722eb94c890e75c399cd56e6b823"
+        }
+      },
+      {
+        "cert_count": 6627,
+        "chunk_count": 256,
+        "chunk_end": 23552,
+        "chunk_start": 23296,
+        "first_rank": 20578175,
+        "index": 91,
+        "last_rank": 21063389,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0091.lean",
+          "sha256": "7be5866824968634d207cc7da6debcb6270f7a31bd699e6f390fbccd9c31c5b5"
+        }
+      },
+      {
+        "cert_count": 6612,
+        "chunk_count": 256,
+        "chunk_end": 23808,
+        "chunk_start": 23552,
+        "first_rank": 21063437,
+        "index": 92,
+        "last_rank": 21402629,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0092.lean",
+          "sha256": "3b03889a3ac56a5b3d099bfadbd383f083a72e8cd1fc7359ec0cfa19ed33a832"
+        }
+      },
+      {
+        "cert_count": 6565,
+        "chunk_count": 256,
+        "chunk_end": 24064,
+        "chunk_start": 23808,
+        "first_rank": 21402804,
+        "index": 93,
+        "last_rank": 21766945,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0093.lean",
+          "sha256": "837668ee34086004b9050cfc04a0823c1416521a718534ac3dbcfecb9f2c7bc8"
+        }
+      },
+      {
+        "cert_count": 6492,
+        "chunk_count": 256,
+        "chunk_end": 24320,
+        "chunk_start": 24064,
+        "first_rank": 21766951,
+        "index": 94,
+        "last_rank": 22134221,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0094.lean",
+          "sha256": "b2d24f1ddf5f404a1a411864be407d7de7821a7b384366753d46ae1fa5e92f27"
+        }
+      },
+      {
+        "cert_count": 6813,
+        "chunk_count": 256,
+        "chunk_end": 24576,
+        "chunk_start": 24320,
+        "first_rank": 22134228,
+        "index": 95,
+        "last_rank": 22477957,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0095.lean",
+          "sha256": "eac70a29c9f5c423ffa23b2c96b848e7850dafeccd1b24dc2be5d9cf09bb9a28"
+        }
+      },
+      {
+        "cert_count": 6563,
+        "chunk_count": 256,
+        "chunk_end": 24832,
+        "chunk_start": 24576,
+        "first_rank": 22477963,
+        "index": 96,
+        "last_rank": 22675535,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0096.lean",
+          "sha256": "154d3eb021250a91356cd90c0e8a569d27793660d8fc03c8ced28e6e0cc4a31a"
+        }
+      },
+      {
+        "cert_count": 6697,
+        "chunk_count": 256,
+        "chunk_end": 25088,
+        "chunk_start": 24832,
+        "first_rank": 22675602,
+        "index": 97,
+        "last_rank": 22753708,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0097.lean",
+          "sha256": "8e1b019cecde78f90ad91ca17bb7ef6c5e426389acadb911edc8a6d0f0b7a123"
+        }
+      },
+      {
+        "cert_count": 6697,
+        "chunk_count": 256,
+        "chunk_end": 25344,
+        "chunk_start": 25088,
+        "first_rank": 22753709,
+        "index": 98,
+        "last_rank": 22897093,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0098.lean",
+          "sha256": "e7586de59c9eac09e891f0a8f3bdec131c8d309ca4cc1ac0dd147bb0acdebece"
+        }
+      },
+      {
+        "cert_count": 6669,
+        "chunk_count": 256,
+        "chunk_end": 25600,
+        "chunk_start": 25344,
+        "first_rank": 22897101,
+        "index": 99,
+        "last_rank": 23060242,
+        "lean": {
+          "bytes": 24214,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0099.lean",
+          "sha256": "ecd67c473628aa94dfde0c616c316e4e780812d91b088e907e2c1b915f28cb6c"
+        }
+      },
+      {
+        "cert_count": 6672,
+        "chunk_count": 256,
+        "chunk_end": 25856,
+        "chunk_start": 25600,
+        "first_rank": 23060276,
+        "index": 100,
+        "last_rank": 23240834,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0100.lean",
+          "sha256": "677da13179571941254c1475becf8806df2c35392813d86c0b5a7c95b70cf0b4"
+        }
+      },
+      {
+        "cert_count": 6691,
+        "chunk_count": 256,
+        "chunk_end": 26112,
+        "chunk_start": 25856,
+        "first_rank": 23240948,
+        "index": 101,
+        "last_rank": 23440987,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0101.lean",
+          "sha256": "26f58deaefb9b9b893ba4ce4f046180406f7532243c954c7e0e88aff66b1ddf3"
+        }
+      },
+      {
+        "cert_count": 6642,
+        "chunk_count": 256,
+        "chunk_end": 26368,
+        "chunk_start": 26112,
+        "first_rank": 23440989,
+        "index": 102,
+        "last_rank": 23616331,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0102.lean",
+          "sha256": "076417593e2f6e77aa18194507df3a940f6c261c4050d106b23e216ce0811e45"
+        }
+      },
+      {
+        "cert_count": 6638,
+        "chunk_count": 256,
+        "chunk_end": 26624,
+        "chunk_start": 26368,
+        "first_rank": 23616337,
+        "index": 103,
+        "last_rank": 23737623,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0103.lean",
+          "sha256": "e79b92c68d343070439833776d48e44cc34b6052836e53380efc963bfca2e61c"
+        }
+      },
+      {
+        "cert_count": 6569,
+        "chunk_count": 256,
+        "chunk_end": 26880,
+        "chunk_start": 26624,
+        "first_rank": 23737626,
+        "index": 104,
+        "last_rank": 23935687,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0104.lean",
+          "sha256": "8fca5da6cf6b47534f498180ca6bb890eb0db6d63e534f0f5dfb7fbec293665d"
+        }
+      },
+      {
+        "cert_count": 6591,
+        "chunk_count": 256,
+        "chunk_end": 27136,
+        "chunk_start": 26880,
+        "first_rank": 23935688,
+        "index": 105,
+        "last_rank": 24102268,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0105.lean",
+          "sha256": "2c924cbf9b7d9348d2f8bac23efd42da8c389488366aed55543001c451cc8326"
+        }
+      },
+      {
+        "cert_count": 6578,
+        "chunk_count": 256,
+        "chunk_end": 27392,
+        "chunk_start": 27136,
+        "first_rank": 24102269,
+        "index": 106,
+        "last_rank": 24241043,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0106.lean",
+          "sha256": "9d03f59e8e09d765b771aa42b0f707d31ce8fc9a1568cc2ab9cd554283b72329"
+        }
+      },
+      {
+        "cert_count": 6518,
+        "chunk_count": 256,
+        "chunk_end": 27648,
+        "chunk_start": 27392,
+        "first_rank": 24241058,
+        "index": 107,
+        "last_rank": 24598240,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0107.lean",
+          "sha256": "b3854fda1c7a44602ff8bf9ae58c30b71e997e9241fce282d4a670b071177f3e"
+        }
+      },
+      {
+        "cert_count": 6466,
+        "chunk_count": 256,
+        "chunk_end": 27904,
+        "chunk_start": 27648,
+        "first_rank": 24598257,
+        "index": 108,
+        "last_rank": 25012847,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0108.lean",
+          "sha256": "ee022bd12e8c493b18bddb4087744ae9b74c1b9c7ad55964ba18c34447fe2d57"
+        }
+      },
+      {
+        "cert_count": 6493,
+        "chunk_count": 256,
+        "chunk_end": 28160,
+        "chunk_start": 27904,
+        "first_rank": 25012848,
+        "index": 109,
+        "last_rank": 25426221,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0109.lean",
+          "sha256": "5df59c87353bd7054d7e363f45e9393a626a5de2a6afe01704870ff6908a7117"
+        }
+      },
+      {
+        "cert_count": 6523,
+        "chunk_count": 256,
+        "chunk_end": 28416,
+        "chunk_start": 28160,
+        "first_rank": 25426229,
+        "index": 110,
+        "last_rank": 25836846,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0110.lean",
+          "sha256": "fa85b2f0b5ff3e5c9569965dbd75aced9dcc50df83c02eac2d3e161293da3cb9"
+        }
+      },
+      {
+        "cert_count": 6545,
+        "chunk_count": 256,
+        "chunk_end": 28672,
+        "chunk_start": 28416,
+        "first_rank": 25836848,
+        "index": 111,
+        "last_rank": 26200858,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0111.lean",
+          "sha256": "ba3a14bccca536542f88c6e7c9d5348fc91c0d34c887ada6e084f018a0852ac3"
+        }
+      },
+      {
+        "cert_count": 6704,
+        "chunk_count": 256,
+        "chunk_end": 28928,
+        "chunk_start": 28672,
+        "first_rank": 26200881,
+        "index": 112,
+        "last_rank": 26276893,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0112.lean",
+          "sha256": "91621ef1afe7aef43b288a9eccfd3fb3fd5a1ac933e9c2bb6cc5adc8a9a32938"
+        }
+      },
+      {
+        "cert_count": 6654,
+        "chunk_count": 256,
+        "chunk_end": 29184,
+        "chunk_start": 28928,
+        "first_rank": 26276903,
+        "index": 113,
+        "last_rank": 26351848,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0113.lean",
+          "sha256": "133616dccc7182605a82d5bf4b04d3ae28b0f18c460319b8103da6d73ab7a690"
+        }
+      },
+      {
+        "cert_count": 6528,
+        "chunk_count": 256,
+        "chunk_end": 29440,
+        "chunk_start": 29184,
+        "first_rank": 26351849,
+        "index": 114,
+        "last_rank": 26577412,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0114.lean",
+          "sha256": "f891ec8e0264f510a346a5ad40e091558bae48536cc4d3f5ab12e5fda7d8b976"
+        }
+      },
+      {
+        "cert_count": 6736,
+        "chunk_count": 256,
+        "chunk_end": 29696,
+        "chunk_start": 29440,
+        "first_rank": 26577421,
+        "index": 115,
+        "last_rank": 26755616,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0115.lean",
+          "sha256": "a9205297f0d44fb8b6d3103fcdc0e4edf830414d6c42a3a8391d5afc025a80b1"
+        }
+      },
+      {
+        "cert_count": 6686,
+        "chunk_count": 256,
+        "chunk_end": 29952,
+        "chunk_start": 29696,
+        "first_rank": 26755624,
+        "index": 116,
+        "last_rank": 26942218,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0116.lean",
+          "sha256": "72bc75e88e5b0d7ad7de57fb1d49622bbe06e8336beb2c060ceae61837aa4bc5"
+        }
+      },
+      {
+        "cert_count": 6588,
+        "chunk_count": 256,
+        "chunk_end": 30208,
+        "chunk_start": 29952,
+        "first_rank": 26942219,
+        "index": 117,
+        "last_rank": 27125751,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0117.lean",
+          "sha256": "c4a50891816195c8c18b64389d7a016fd5cbe963fab43a9fc1d3081c386b59a5"
+        }
+      },
+      {
+        "cert_count": 6685,
+        "chunk_count": 256,
+        "chunk_end": 30464,
+        "chunk_start": 30208,
+        "first_rank": 27125771,
+        "index": 118,
+        "last_rank": 27312646,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0118.lean",
+          "sha256": "8c4ea39461f91748dbd3a627d457b08d99ff094eda5dd0fddcd6a350e3bcba35"
+        }
+      },
+      {
+        "cert_count": 6600,
+        "chunk_count": 256,
+        "chunk_end": 30720,
+        "chunk_start": 30464,
+        "first_rank": 27312647,
+        "index": 119,
+        "last_rank": 27590833,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0119.lean",
+          "sha256": "47a23488e898a81a7e3558de14f25bbc4c560ab98d51bf6cadedb067c753bd18"
+        }
+      },
+      {
+        "cert_count": 6626,
+        "chunk_count": 256,
+        "chunk_end": 30976,
+        "chunk_start": 30720,
+        "first_rank": 27590841,
+        "index": 120,
+        "last_rank": 28068998,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0120.lean",
+          "sha256": "ba5f55939d078e0a5a8d1b074239a0fb18e0abec5e317ae1f2a76c8ed79599cb"
+        }
+      },
+      {
+        "cert_count": 6662,
+        "chunk_count": 256,
+        "chunk_end": 31232,
+        "chunk_start": 30976,
+        "first_rank": 28069002,
+        "index": 121,
+        "last_rank": 28596392,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0121.lean",
+          "sha256": "c45ad1c918f3a898a03a0a9e0d1b8b8c2d4031b5ff41ae7e0a785a49f9898e52"
+        }
+      },
+      {
+        "cert_count": 6623,
+        "chunk_count": 256,
+        "chunk_end": 31488,
+        "chunk_start": 31232,
+        "first_rank": 28596393,
+        "index": 122,
+        "last_rank": 28990357,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0122.lean",
+          "sha256": "23c634acd69c762dddb57294ba56662c25963ea597ba599085ac03e330524c40"
+        }
+      },
+      {
+        "cert_count": 6513,
+        "chunk_count": 256,
+        "chunk_end": 31744,
+        "chunk_start": 31488,
+        "first_rank": 28990361,
+        "index": 123,
+        "last_rank": 29347193,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0123.lean",
+          "sha256": "b52230a669ca0cca7d38b190b8cbd4f76519b6bcccedc372578351b0cc4cee5c"
+        }
+      },
+      {
+        "cert_count": 6628,
+        "chunk_count": 256,
+        "chunk_end": 32000,
+        "chunk_start": 31744,
+        "first_rank": 29347194,
+        "index": 124,
+        "last_rank": 29759216,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0124.lean",
+          "sha256": "eac9b504564ad23b9c86f70d01be6e6a73d221dc093b90f937d0fd45aafae656"
+        }
+      },
+      {
+        "cert_count": 6449,
+        "chunk_count": 256,
+        "chunk_end": 32256,
+        "chunk_start": 32000,
+        "first_rank": 29759217,
+        "index": 125,
+        "last_rank": 30211407,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0125.lean",
+          "sha256": "adb14a0f67975a54087831020d0ba27cb84b282f9716c546177af47e33124907"
+        }
+      },
+      {
+        "cert_count": 6624,
+        "chunk_count": 256,
+        "chunk_end": 32512,
+        "chunk_start": 32256,
+        "first_rank": 30211416,
+        "index": 126,
+        "last_rank": 30648256,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0126.lean",
+          "sha256": "45283149618a1c6366d466b0ca993fd55cc51931a23ad7940e644d2786ed3a26"
+        }
+      },
+      {
+        "cert_count": 6507,
+        "chunk_count": 256,
+        "chunk_end": 32768,
+        "chunk_start": 32512,
+        "first_rank": 30648260,
+        "index": 127,
+        "last_rank": 31151004,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0127.lean",
+          "sha256": "23d33538dd1ace6436ef5757a764d83dab19ac34dc8402223e17ed054886f818"
+        }
+      },
+      {
+        "cert_count": 6796,
+        "chunk_count": 256,
+        "chunk_end": 33024,
+        "chunk_start": 32768,
+        "first_rank": 31151006,
+        "index": 128,
+        "last_rank": 31549565,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0128.lean",
+          "sha256": "265f46a242219bf92da8bcf759b3db5b9d035106345e81016c70014bb47e1735"
+        }
+      },
+      {
+        "cert_count": 6628,
+        "chunk_count": 256,
+        "chunk_end": 33280,
+        "chunk_start": 33024,
+        "first_rank": 31549609,
+        "index": 129,
+        "last_rank": 31934194,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0129.lean",
+          "sha256": "c8adac3504906ddbb6b9769cb11848f1e69b6e086cad7f2e2a03fe0b51137f3c"
+        }
+      },
+      {
+        "cert_count": 6500,
+        "chunk_count": 256,
+        "chunk_end": 33536,
+        "chunk_start": 33280,
+        "first_rank": 31934197,
+        "index": 130,
+        "last_rank": 32288650,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0130.lean",
+          "sha256": "4f5b09b835a940393de34225aef8c0d5a5324f154fde576e45976116de859062"
+        }
+      },
+      {
+        "cert_count": 6496,
+        "chunk_count": 256,
+        "chunk_end": 33792,
+        "chunk_start": 33536,
+        "first_rank": 32288651,
+        "index": 131,
+        "last_rank": 32746889,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0131.lean",
+          "sha256": "690b14b5dbf1d0bfba3c47c31bec57a2a8e9e0f08a018eed3cd40b47c7664133"
+        }
+      },
+      {
+        "cert_count": 6514,
+        "chunk_count": 256,
+        "chunk_end": 34048,
+        "chunk_start": 33792,
+        "first_rank": 32746894,
+        "index": 132,
+        "last_rank": 33240946,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0132.lean",
+          "sha256": "68a046c1cd318883b5a977b1db75f13c53af7081ec223dd1b3588d6eacdd890f"
+        }
+      },
+      {
+        "cert_count": 6510,
+        "chunk_count": 256,
+        "chunk_end": 34304,
+        "chunk_start": 34048,
+        "first_rank": 33240947,
+        "index": 133,
+        "last_rank": 33691918,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0133.lean",
+          "sha256": "ebb3326158c7cf8e89e9d7b403d30f9d3932b93f9742a7b39736ba0160d6245e"
+        }
+      },
+      {
+        "cert_count": 6578,
+        "chunk_count": 256,
+        "chunk_end": 34560,
+        "chunk_start": 34304,
+        "first_rank": 33691919,
+        "index": 134,
+        "last_rank": 34079987,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0134.lean",
+          "sha256": "6c421041889e310f385658f066d23a8095c36840199ef6563a419bafa8cfe5b1"
+        }
+      },
+      {
+        "cert_count": 6869,
+        "chunk_count": 256,
+        "chunk_end": 34816,
+        "chunk_start": 34560,
+        "first_rank": 34080046,
+        "index": 135,
+        "last_rank": 34507440,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0135.lean",
+          "sha256": "e83e4c564d47d803ba50e597087018519bb7dd3ffeea6f70f97db6fa02fb789e"
+        }
+      },
+      {
+        "cert_count": 6596,
+        "chunk_count": 256,
+        "chunk_end": 35072,
+        "chunk_start": 34816,
+        "first_rank": 34507442,
+        "index": 136,
+        "last_rank": 34864440,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0136.lean",
+          "sha256": "185a30d98960c016c3f725ada0603a2b3354f9d04e62c8a5900d0a0d028cf6e0"
+        }
+      },
+      {
+        "cert_count": 6459,
+        "chunk_count": 256,
+        "chunk_end": 35328,
+        "chunk_start": 35072,
+        "first_rank": 34864441,
+        "index": 137,
+        "last_rank": 35350214,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0137.lean",
+          "sha256": "6f5a739795e762dff636b0c253e4739c6fcb8546bd788924f7caedc6e77c5e36"
+        }
+      },
+      {
+        "cert_count": 6513,
+        "chunk_count": 256,
+        "chunk_end": 35584,
+        "chunk_start": 35328,
+        "first_rank": 35350305,
+        "index": 138,
+        "last_rank": 35874210,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0138.lean",
+          "sha256": "7e7f7f90cfecd8396d443cd5f3ecbca365d38b5f1fa27d9ffcb5d22bf1b93216"
+        }
+      },
+      {
+        "cert_count": 6632,
+        "chunk_count": 256,
+        "chunk_end": 35840,
+        "chunk_start": 35584,
+        "first_rank": 35874231,
+        "index": 139,
+        "last_rank": 36251945,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0139.lean",
+          "sha256": "a75f33b24304591de6f157a2a8c6707c13bbdc0fc8032480d4cb8e738be6f07c"
+        }
+      },
+      {
+        "cert_count": 6556,
+        "chunk_count": 256,
+        "chunk_end": 36096,
+        "chunk_start": 35840,
+        "first_rank": 36251952,
+        "index": 140,
+        "last_rank": 36632768,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0140.lean",
+          "sha256": "33eaa02b83be81a21fad58c191d671ca795c9b67bc0dd5fe97ee019dc2a690c0"
+        }
+      },
+      {
+        "cert_count": 6586,
+        "chunk_count": 256,
+        "chunk_end": 36352,
+        "chunk_start": 36096,
+        "first_rank": 36633097,
+        "index": 141,
+        "last_rank": 37012963,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0141.lean",
+          "sha256": "7dd71e079f8ef988f4340c3f786ffa4c8767601b265c7bfece1532acc553e16c"
+        }
+      },
+      {
+        "cert_count": 6794,
+        "chunk_count": 256,
+        "chunk_end": 36608,
+        "chunk_start": 36352,
+        "first_rank": 37012976,
+        "index": 142,
+        "last_rank": 37435666,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0142.lean",
+          "sha256": "872e66769b71a34b44eb9ce09c820516db4733f3d2abf4e7d2800f0285b10af0"
+        }
+      },
+      {
+        "cert_count": 6200,
+        "chunk_count": 256,
+        "chunk_end": 36864,
+        "chunk_start": 36608,
+        "first_rank": 37435819,
+        "index": 143,
+        "last_rank": 38047137,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0143.lean",
+          "sha256": "ff517c05d464c37a8972f2ceb4e44c8be9d941cc251a9c84202bc7b6ce03267e"
+        }
+      },
+      {
+        "cert_count": 6116,
+        "chunk_count": 256,
+        "chunk_end": 37120,
+        "chunk_start": 36864,
+        "first_rank": 38047203,
+        "index": 144,
+        "last_rank": 38363856,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0144.lean",
+          "sha256": "6d5972123f1067292c0e0eb6adc10af1f13cacfff2ce39281a7f9e625bfad21c"
+        }
+      },
+      {
+        "cert_count": 6330,
+        "chunk_count": 256,
+        "chunk_end": 37376,
+        "chunk_start": 37120,
+        "first_rank": 38363858,
+        "index": 145,
+        "last_rank": 38918153,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0145.lean",
+          "sha256": "416558f5189f1dd2541ebe9dd6e32027f64d556137b6f080525cda293d275fac"
+        }
+      },
+      {
+        "cert_count": 6876,
+        "chunk_count": 256,
+        "chunk_end": 37632,
+        "chunk_start": 37376,
+        "first_rank": 38918328,
+        "index": 146,
+        "last_rank": 39096483,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0146.lean",
+          "sha256": "811c5185ed20999e08abe2571adbef78c46a17ed4479b614d795700c6f873ae7"
+        }
+      },
+      {
+        "cert_count": 6624,
+        "chunk_count": 256,
+        "chunk_end": 37888,
+        "chunk_start": 37632,
+        "first_rank": 39096485,
+        "index": 147,
+        "last_rank": 39384492,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0147.lean",
+          "sha256": "852e770521a85b73a457d8a3436db8f78e09a8b46a147f75e05849ef680e78bd"
+        }
+      },
+      {
+        "cert_count": 6429,
+        "chunk_count": 256,
+        "chunk_end": 38144,
+        "chunk_start": 37888,
+        "first_rank": 39384494,
+        "index": 148,
+        "last_rank": 39980606,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0148.lean",
+          "sha256": "00ce45b605e086fe7ac3384bd4d662d073c93d3bb455f3888917df3fef5cde91"
+        }
+      },
+      {
+        "cert_count": 6770,
+        "chunk_count": 256,
+        "chunk_end": 38400,
+        "chunk_start": 38144,
+        "first_rank": 39980648,
+        "index": 149,
+        "last_rank": 40316085,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0149.lean",
+          "sha256": "2db163db57eb2167ab33b6c17f2cb67f7d37023077a4412f977cf410b43b24b8"
+        }
+      },
+      {
+        "cert_count": 6839,
+        "chunk_count": 256,
+        "chunk_end": 38656,
+        "chunk_start": 38400,
+        "first_rank": 40316104,
+        "index": 150,
+        "last_rank": 40889266,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0150.lean",
+          "sha256": "6fa820c72bf7cb2bac4603ce544c0108ed2271247f5df106c82fa14011ebcf3a"
+        }
+      },
+      {
+        "cert_count": 6433,
+        "chunk_count": 256,
+        "chunk_end": 38912,
+        "chunk_start": 38656,
+        "first_rank": 40889267,
+        "index": 151,
+        "last_rank": 41279668,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0151.lean",
+          "sha256": "f09cc0ecc1b9f19825a43ca26ef52979af028900dc44d4c2761dcbeb982143bb"
+        }
+      },
+      {
+        "cert_count": 6513,
+        "chunk_count": 256,
+        "chunk_end": 39168,
+        "chunk_start": 38912,
+        "first_rank": 41279669,
+        "index": 152,
+        "last_rank": 41706669,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0152.lean",
+          "sha256": "46c1eb977dc1fe6434531686b478fda71fecebbadc0a3a1b9dd3d5bd81ec2f9d"
+        }
+      },
+      {
+        "cert_count": 6824,
+        "chunk_count": 256,
+        "chunk_end": 39424,
+        "chunk_start": 39168,
+        "first_rank": 41706683,
+        "index": 153,
+        "last_rank": 42006927,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0153.lean",
+          "sha256": "11ef53b747ae253606e403a4bc484e86ebbb35573a046fcfa5619b6c8513a8de"
+        }
+      },
+      {
+        "cert_count": 6649,
+        "chunk_count": 256,
+        "chunk_end": 39680,
+        "chunk_start": 39424,
+        "first_rank": 42006928,
+        "index": 154,
+        "last_rank": 42350313,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0154.lean",
+          "sha256": "f76a91692361a9d401d0bd1e470f36f82592bb76d08441dd78731a2084e1ab3d"
+        }
+      },
+      {
+        "cert_count": 6798,
+        "chunk_count": 256,
+        "chunk_end": 39936,
+        "chunk_start": 39680,
+        "first_rank": 42350332,
+        "index": 155,
+        "last_rank": 42944436,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0155.lean",
+          "sha256": "5c93b1f499e5e6a9947e8231cb0ea0bd467d8358c7b0897da9f38488ebc31972"
+        }
+      },
+      {
+        "cert_count": 6589,
+        "chunk_count": 256,
+        "chunk_end": 40192,
+        "chunk_start": 39936,
+        "first_rank": 42944438,
+        "index": 156,
+        "last_rank": 43275638,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0156.lean",
+          "sha256": "c8b5fcc390b715a680ebbad4160cab3e8238f1f7197dca504e823e886a5aab7a"
+        }
+      },
+      {
+        "cert_count": 6416,
+        "chunk_count": 256,
+        "chunk_end": 40448,
+        "chunk_start": 40192,
+        "first_rank": 43275641,
+        "index": 157,
+        "last_rank": 43633498,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0157.lean",
+          "sha256": "323f17d2434a475a7f4cd5b8231a7d51d10745d367b07a0530ae218716fe458f"
+        }
+      },
+      {
+        "cert_count": 7216,
+        "chunk_count": 256,
+        "chunk_end": 40704,
+        "chunk_start": 40448,
+        "first_rank": 43633499,
+        "index": 158,
+        "last_rank": 44051159,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0158.lean",
+          "sha256": "2a7144912c05fc39ec4be72c17c1e00c3a48e437be39bf845ffa3d213235be8c"
+        }
+      },
+      {
+        "cert_count": 7180,
+        "chunk_count": 256,
+        "chunk_end": 40960,
+        "chunk_start": 40704,
+        "first_rank": 44051164,
+        "index": 159,
+        "last_rank": 44667204,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0159.lean",
+          "sha256": "fd75259242b13f157e0e80445a8f74eabff381ceda3bf18aab7a5c45ab374773"
+        }
+      },
+      {
+        "cert_count": 6993,
+        "chunk_count": 256,
+        "chunk_end": 41216,
+        "chunk_start": 40960,
+        "first_rank": 44667206,
+        "index": 160,
+        "last_rank": 45110539,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0160.lean",
+          "sha256": "611f0fa412ef80812240862878d0d425102f9561459721fbcb2aab4a7fc0243c"
+        }
+      },
+      {
+        "cert_count": 6528,
+        "chunk_count": 256,
+        "chunk_end": 41472,
+        "chunk_start": 41216,
+        "first_rank": 45110556,
+        "index": 161,
+        "last_rank": 45504813,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0161.lean",
+          "sha256": "99a58ac79a0f5e05f82553a5c39a9d6382ace17130b11e063ccee24fda662913"
+        }
+      },
+      {
+        "cert_count": 6691,
+        "chunk_count": 256,
+        "chunk_end": 41728,
+        "chunk_start": 41472,
+        "first_rank": 45505160,
+        "index": 162,
+        "last_rank": 45953161,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0162.lean",
+          "sha256": "fb0bdc9959e02653906ea1121c3383c8176a57bd9ad27107e1c61b13ed6921cc"
+        }
+      },
+      {
+        "cert_count": 6462,
+        "chunk_count": 256,
+        "chunk_end": 41984,
+        "chunk_start": 41728,
+        "first_rank": 45953185,
+        "index": 163,
+        "last_rank": 46266419,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0163.lean",
+          "sha256": "503260c9c37a4ee81f0856dc3702abe6129dd0d91eb8bac361955a880f438481"
+        }
+      },
+      {
+        "cert_count": 6804,
+        "chunk_count": 256,
+        "chunk_end": 42240,
+        "chunk_start": 41984,
+        "first_rank": 46268539,
+        "index": 164,
+        "last_rank": 46686113,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0164.lean",
+          "sha256": "39ce264907823029f389424b7234318dfbfcaafec65f7525f76754b44a1b32ce"
+        }
+      },
+      {
+        "cert_count": 6641,
+        "chunk_count": 256,
+        "chunk_end": 42496,
+        "chunk_start": 42240,
+        "first_rank": 46686147,
+        "index": 165,
+        "last_rank": 46944872,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0165.lean",
+          "sha256": "cf5b82a65b11bec624e58878bb14a1d721fcb27f6b2aa0eb0faa6cf67f49349f"
+        }
+      },
+      {
+        "cert_count": 6576,
+        "chunk_count": 256,
+        "chunk_end": 42752,
+        "chunk_start": 42496,
+        "first_rank": 46944873,
+        "index": 166,
+        "last_rank": 47239485,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0166.lean",
+          "sha256": "2426f70360a8e86728a2ea4d34d1a5b8f67d13e3761763da33dd27ddf7a376c5"
+        }
+      },
+      {
+        "cert_count": 6692,
+        "chunk_count": 256,
+        "chunk_end": 43008,
+        "chunk_start": 42752,
+        "first_rank": 47239545,
+        "index": 167,
+        "last_rank": 47512290,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0167.lean",
+          "sha256": "46db7ed7e0d7c1e0f025c228a98c8932775bd1fc3de7ea26bd26ec7713ffb077"
+        }
+      },
+      {
+        "cert_count": 6754,
+        "chunk_count": 256,
+        "chunk_end": 43264,
+        "chunk_start": 43008,
+        "first_rank": 47512292,
+        "index": 168,
+        "last_rank": 47918655,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0168.lean",
+          "sha256": "b3baae3ffa3ac0a81f750128a2d18c1cec6b2f4fe3af43976b84169dc6f0f350"
+        }
+      },
+      {
+        "cert_count": 6571,
+        "chunk_count": 256,
+        "chunk_end": 43520,
+        "chunk_start": 43264,
+        "first_rank": 47918657,
+        "index": 169,
+        "last_rank": 48256181,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0169.lean",
+          "sha256": "8c5c8c0f82743fc9d846159cf98b2ec914f71e12aa63fd947e9ac20fb6c0f6f3"
+        }
+      },
+      {
+        "cert_count": 6539,
+        "chunk_count": 256,
+        "chunk_end": 43776,
+        "chunk_start": 43520,
+        "first_rank": 48256188,
+        "index": 170,
+        "last_rank": 48720444,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0170.lean",
+          "sha256": "10e32835f86ff135c2c4ccf9bc2b07325426e43c156b82f28d109d286eb15e4d"
+        }
+      },
+      {
+        "cert_count": 6549,
+        "chunk_count": 256,
+        "chunk_end": 44032,
+        "chunk_start": 43776,
+        "first_rank": 48720446,
+        "index": 171,
+        "last_rank": 49004456,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0171.lean",
+          "sha256": "19dee8de9d70c9e1715ba833a90aa4791c05190a6e0f56324db547895ddb5ea4"
+        }
+      },
+      {
+        "cert_count": 6591,
+        "chunk_count": 256,
+        "chunk_end": 44288,
+        "chunk_start": 44032,
+        "first_rank": 49004480,
+        "index": 172,
+        "last_rank": 49354214,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0172.lean",
+          "sha256": "fcaf63bbe46a030c2260bf2b8eec49799e366c6a4e26465b99f5288845ed6ede"
+        }
+      },
+      {
+        "cert_count": 6718,
+        "chunk_count": 256,
+        "chunk_end": 44544,
+        "chunk_start": 44288,
+        "first_rank": 49354217,
+        "index": 173,
+        "last_rank": 49700230,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0173.lean",
+          "sha256": "14ad05f5fe4e7b4f8f76a76c824dca8c83f20dd73aaecc05581c9253795b0e64"
+        }
+      },
+      {
+        "cert_count": 6553,
+        "chunk_count": 256,
+        "chunk_end": 44800,
+        "chunk_start": 44544,
+        "first_rank": 49700231,
+        "index": 174,
+        "last_rank": 49954999,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0174.lean",
+          "sha256": "fe203c2f7a9159c2ed3d91c72f7e80e906a3d09fc8da134f11bf95e18139817f"
+        }
+      },
+      {
+        "cert_count": 6701,
+        "chunk_count": 256,
+        "chunk_end": 45056,
+        "chunk_start": 44800,
+        "first_rank": 49955074,
+        "index": 175,
+        "last_rank": 50264795,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0175.lean",
+          "sha256": "0762ea72457e9b2adbe01d6b6f0fd889d441bb293f24c310d141149db7a75464"
+        }
+      },
+      {
+        "cert_count": 6600,
+        "chunk_count": 256,
+        "chunk_end": 45312,
+        "chunk_start": 45056,
+        "first_rank": 50264805,
+        "index": 176,
+        "last_rank": 50717632,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0176.lean",
+          "sha256": "1f8f0387a2a4865a18972ec6dcb6f54c7926dead8bf5ef7df42ffc0a562b8bef"
+        }
+      },
+      {
+        "cert_count": 6597,
+        "chunk_count": 256,
+        "chunk_end": 45568,
+        "chunk_start": 45312,
+        "first_rank": 50717640,
+        "index": 177,
+        "last_rank": 51084823,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0177.lean",
+          "sha256": "c91204ded20aea935db14f5828e01ac49468a762fa875d5ca9b854986aa56e38"
+        }
+      },
+      {
+        "cert_count": 6488,
+        "chunk_count": 256,
+        "chunk_end": 45824,
+        "chunk_start": 45568,
+        "first_rank": 51084825,
+        "index": 178,
+        "last_rank": 51289699,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0178.lean",
+          "sha256": "b69f3e6e986509334147bfbe9c06731ad6142fdd446f6bc3bf0be70925b30f3c"
+        }
+      },
+      {
+        "cert_count": 6645,
+        "chunk_count": 256,
+        "chunk_end": 46080,
+        "chunk_start": 45824,
+        "first_rank": 51289709,
+        "index": 179,
+        "last_rank": 51508641,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0179.lean",
+          "sha256": "f4b363d3a5aac56df61d1fa82572438186bc4c43b423b5a48535d14700d2c018"
+        }
+      },
+      {
+        "cert_count": 6679,
+        "chunk_count": 256,
+        "chunk_end": 46336,
+        "chunk_start": 46080,
+        "first_rank": 51508662,
+        "index": 180,
+        "last_rank": 51683423,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0180.lean",
+          "sha256": "5374b11689e5880c333d9e2ef8e716490b3c84d060ebf80297982b9d504e968e"
+        }
+      },
+      {
+        "cert_count": 6548,
+        "chunk_count": 256,
+        "chunk_end": 46592,
+        "chunk_start": 46336,
+        "first_rank": 51683431,
+        "index": 181,
+        "last_rank": 51890038,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0181.lean",
+          "sha256": "1f3ad3c1d623fe9e6e1e1eaf950c2464a93032e5ca426b7da35c02f002353743"
+        }
+      },
+      {
+        "cert_count": 6521,
+        "chunk_count": 256,
+        "chunk_end": 46848,
+        "chunk_start": 46592,
+        "first_rank": 51890039,
+        "index": 182,
+        "last_rank": 52071817,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0182.lean",
+          "sha256": "3ca03e0efa76bd10df9c409d91f4a6a7c5285d9f7501e3f766659c64b42db5fc"
+        }
+      },
+      {
+        "cert_count": 6920,
+        "chunk_count": 256,
+        "chunk_end": 47104,
+        "chunk_start": 46848,
+        "first_rank": 52071818,
+        "index": 183,
+        "last_rank": 52409113,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0183.lean",
+          "sha256": "48e429ba6a816ffa4baae3c2e24491758e9055c285fb2d81df6a23c6602a817d"
+        }
+      },
+      {
+        "cert_count": 6221,
+        "chunk_count": 256,
+        "chunk_end": 47360,
+        "chunk_start": 47104,
+        "first_rank": 52409114,
+        "index": 184,
+        "last_rank": 52971344,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0184.lean",
+          "sha256": "e54b35dbb49c39251869cc507d48c3f2bc870a6495a3ded9267f9f49704b0083"
+        }
+      },
+      {
+        "cert_count": 6307,
+        "chunk_count": 256,
+        "chunk_end": 47616,
+        "chunk_start": 47360,
+        "first_rank": 52971362,
+        "index": 185,
+        "last_rank": 53468124,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0185.lean",
+          "sha256": "57244989aa36e0ed747e9cdb4d24ff55d8281b5df48cca39c2e14133db3d4a04"
+        }
+      },
+      {
+        "cert_count": 6133,
+        "chunk_count": 256,
+        "chunk_end": 47872,
+        "chunk_start": 47616,
+        "first_rank": 53468126,
+        "index": 186,
+        "last_rank": 53891183,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0186.lean",
+          "sha256": "0b6fc54af67b9dae3abf6dd5edc85412ac436bf7364cc07ff79192d606e8cd55"
+        }
+      },
+      {
+        "cert_count": 6883,
+        "chunk_count": 256,
+        "chunk_end": 48128,
+        "chunk_start": 47872,
+        "first_rank": 53891213,
+        "index": 187,
+        "last_rank": 54044545,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0187.lean",
+          "sha256": "ee571b0e53d37f12217275a280897714e9043528b5f3f6d8e4e0233bab994b71"
+        }
+      },
+      {
+        "cert_count": 6622,
+        "chunk_count": 256,
+        "chunk_end": 48384,
+        "chunk_start": 48128,
+        "first_rank": 54044546,
+        "index": 188,
+        "last_rank": 54361012,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0188.lean",
+          "sha256": "0b586daa2674db206a4ac0584d6c711979fbb0fd70b5fe3e2b42cd12e3d149b1"
+        }
+      },
+      {
+        "cert_count": 6655,
+        "chunk_count": 256,
+        "chunk_end": 48640,
+        "chunk_start": 48384,
+        "first_rank": 54361477,
+        "index": 189,
+        "last_rank": 54845250,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0189.lean",
+          "sha256": "4375f90af47aaedb7cd8f7ebf03205ca2d8b1ef06c07f33e51bc180c81bdd7ff"
+        }
+      },
+      {
+        "cert_count": 6401,
+        "chunk_count": 256,
+        "chunk_end": 48896,
+        "chunk_start": 48640,
+        "first_rank": 54845252,
+        "index": 190,
+        "last_rank": 55299322,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0190.lean",
+          "sha256": "9e7346a85fb332841c24780863d979e355253967e49a4448f7df2796c443a90c"
+        }
+      },
+      {
+        "cert_count": 6506,
+        "chunk_count": 256,
+        "chunk_end": 49152,
+        "chunk_start": 48896,
+        "first_rank": 55299323,
+        "index": 191,
+        "last_rank": 55659051,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0191.lean",
+          "sha256": "48a586e914b16fb23a2f9f49c3f0f1ed1a37df97c8deb3fb78d34d9610c51730"
+        }
+      },
+      {
+        "cert_count": 6925,
+        "chunk_count": 256,
+        "chunk_end": 49408,
+        "chunk_start": 49152,
+        "first_rank": 55659052,
+        "index": 192,
+        "last_rank": 56240642,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0192.lean",
+          "sha256": "da0259acf0433bef02c2615854c48dc789e6681656c55adf7d1c250ffef1e261"
+        }
+      },
+      {
+        "cert_count": 6586,
+        "chunk_count": 256,
+        "chunk_end": 49664,
+        "chunk_start": 49408,
+        "first_rank": 56240645,
+        "index": 193,
+        "last_rank": 56727777,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0193.lean",
+          "sha256": "9569ffdddb4aea0efae48229654ca40bb33953349c170608f8f34b8a9da5da51"
+        }
+      },
+      {
+        "cert_count": 6747,
+        "chunk_count": 256,
+        "chunk_end": 49920,
+        "chunk_start": 49664,
+        "first_rank": 56727877,
+        "index": 194,
+        "last_rank": 56974409,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0194.lean",
+          "sha256": "3df777e28f1a650511efa7c3838052e8eea944c40794d2d771b344078ac5e5cc"
+        }
+      },
+      {
+        "cert_count": 6970,
+        "chunk_count": 256,
+        "chunk_end": 50176,
+        "chunk_start": 49920,
+        "first_rank": 56974421,
+        "index": 195,
+        "last_rank": 57325200,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0195.lean",
+          "sha256": "f659b47a496541b8f4a172edc1fed48f2449f1d4b01824d59f039f971af8881c"
+        }
+      },
+      {
+        "cert_count": 6487,
+        "chunk_count": 256,
+        "chunk_end": 50432,
+        "chunk_start": 50176,
+        "first_rank": 57325205,
+        "index": 196,
+        "last_rank": 57904936,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0196.lean",
+          "sha256": "067ad6b4b99726e8c684f8b37d9e64f58b5c470ab2fcd4791c3678ebc1a092cb"
+        }
+      },
+      {
+        "cert_count": 6511,
+        "chunk_count": 256,
+        "chunk_end": 50688,
+        "chunk_start": 50432,
+        "first_rank": 57904940,
+        "index": 197,
+        "last_rank": 58291135,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0197.lean",
+          "sha256": "cabb8aea4fe368beaa67d801a7fc7d62f1970720e4e2c6f44ed990a4c7399533"
+        }
+      },
+      {
+        "cert_count": 6572,
+        "chunk_count": 256,
+        "chunk_end": 50944,
+        "chunk_start": 50688,
+        "first_rank": 58291143,
+        "index": 198,
+        "last_rank": 58626239,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0198.lean",
+          "sha256": "e09d2cdd6f297c73cb51485299e3993b598297faa6e78639296401eb39524cd5"
+        }
+      },
+      {
+        "cert_count": 6710,
+        "chunk_count": 256,
+        "chunk_end": 51200,
+        "chunk_start": 50944,
+        "first_rank": 58626321,
+        "index": 199,
+        "last_rank": 58957377,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0199.lean",
+          "sha256": "f14445ee66045f57a4c6df01b9471387af5f04854975f90181a9160d4abf2c98"
+        }
+      },
+      {
+        "cert_count": 6597,
+        "chunk_count": 256,
+        "chunk_end": 51456,
+        "chunk_start": 51200,
+        "first_rank": 58957389,
+        "index": 200,
+        "last_rank": 59464138,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0200.lean",
+          "sha256": "3b645fca0a762378f5c2f19acd5da4b428177ddaf9c5372f3ce933691ab6cbc7"
+        }
+      },
+      {
+        "cert_count": 6680,
+        "chunk_count": 256,
+        "chunk_end": 51712,
+        "chunk_start": 51456,
+        "first_rank": 59464139,
+        "index": 201,
+        "last_rank": 59905332,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0201.lean",
+          "sha256": "8e50501b06b9271d8b8279e02488e3b312cef8ebefbd78f41a8d8af6f5cf1901"
+        }
+      },
+      {
+        "cert_count": 6625,
+        "chunk_count": 256,
+        "chunk_end": 51968,
+        "chunk_start": 51712,
+        "first_rank": 59905334,
+        "index": 202,
+        "last_rank": 60278419,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0202.lean",
+          "sha256": "5431f354c1e5cd964cb97b08ba82b7684c4d5f7ead99681c17f7017db195e968"
+        }
+      },
+      {
+        "cert_count": 6549,
+        "chunk_count": 256,
+        "chunk_end": 52224,
+        "chunk_start": 51968,
+        "first_rank": 60278445,
+        "index": 203,
+        "last_rank": 60530274,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0203.lean",
+          "sha256": "a42cbc53a24e19ed17d4d313ab471994d8be8ca99c7581af7776db489197ff82"
+        }
+      },
+      {
+        "cert_count": 6672,
+        "chunk_count": 256,
+        "chunk_end": 52480,
+        "chunk_start": 52224,
+        "first_rank": 60530276,
+        "index": 204,
+        "last_rank": 60793595,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0204.lean",
+          "sha256": "e24c41d731cc16d719f8f0933d3c32d55784ed9d3309bd6788a657c70336db64"
+        }
+      },
+      {
+        "cert_count": 6560,
+        "chunk_count": 256,
+        "chunk_end": 52736,
+        "chunk_start": 52480,
+        "first_rank": 60793608,
+        "index": 205,
+        "last_rank": 61056883,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0205.lean",
+          "sha256": "0c062a1ab2bba4ae24e05c445321dc13d12751de64376710cdcfc82456c7f1b2"
+        }
+      },
+      {
+        "cert_count": 7156,
+        "chunk_count": 256,
+        "chunk_end": 52992,
+        "chunk_start": 52736,
+        "first_rank": 61056884,
+        "index": 206,
+        "last_rank": 61426471,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0206.lean",
+          "sha256": "e68a5a6be12c0955d0b1884b34ce6551b73684860d51242a7bdeaf29cc5f5c5d"
+        }
+      },
+      {
+        "cert_count": 7111,
+        "chunk_count": 256,
+        "chunk_end": 53248,
+        "chunk_start": 52992,
+        "first_rank": 61426479,
+        "index": 207,
+        "last_rank": 62000853,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0207.lean",
+          "sha256": "c0cc28290826bf0d35a0d8dd9bb59af29584506c6c5e1773e5fb68e4b15e4705"
+        }
+      },
+      {
+        "cert_count": 7090,
+        "chunk_count": 256,
+        "chunk_end": 53504,
+        "chunk_start": 53248,
+        "first_rank": 62001092,
+        "index": 208,
+        "last_rank": 62542506,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0208.lean",
+          "sha256": "1c459ce227c1e38dce428ebf0bd17d66a6f2ae4d28f6c980e7deca0a40f565f2"
+        }
+      },
+      {
+        "cert_count": 6701,
+        "chunk_count": 256,
+        "chunk_end": 53760,
+        "chunk_start": 53504,
+        "first_rank": 62542524,
+        "index": 209,
+        "last_rank": 62895162,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0209.lean",
+          "sha256": "c57e8688e1af5e9533a0452cbece7f8a6755b85987a049f5d5ccd7aea6b1e6a0"
+        }
+      },
+      {
+        "cert_count": 6580,
+        "chunk_count": 256,
+        "chunk_end": 54016,
+        "chunk_start": 53760,
+        "first_rank": 62895165,
+        "index": 210,
+        "last_rank": 63225440,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0210.lean",
+          "sha256": "31f47164c142ff3fa66c8c1fb5e7ac404c33bec70c648b18346d56806325c4f4"
+        }
+      },
+      {
+        "cert_count": 6600,
+        "chunk_count": 256,
+        "chunk_end": 54272,
+        "chunk_start": 54016,
+        "first_rank": 63225453,
+        "index": 211,
+        "last_rank": 63575439,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0211.lean",
+          "sha256": "fa90d1c3291cdcbe293ea1c5986082e1afc9f90b06c98b18466e590bef3dbe4b"
+        }
+      },
+      {
+        "cert_count": 6687,
+        "chunk_count": 256,
+        "chunk_end": 54528,
+        "chunk_start": 54272,
+        "first_rank": 63575447,
+        "index": 212,
+        "last_rank": 63817432,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0212.lean",
+          "sha256": "dd43b75905c1ae1e66a2cdc78b5f7d9525a76a8566810e4285c6d3d5d0880259"
+        }
+      },
+      {
+        "cert_count": 6530,
+        "chunk_count": 256,
+        "chunk_end": 54784,
+        "chunk_start": 54528,
+        "first_rank": 63817433,
+        "index": 213,
+        "last_rank": 63993182,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0213.lean",
+          "sha256": "c80c9a901d95fde94cc72542212492964cd3b276a717d4e33ed9cc27181efd3a"
+        }
+      },
+      {
+        "cert_count": 6493,
+        "chunk_count": 256,
+        "chunk_end": 55040,
+        "chunk_start": 54784,
+        "first_rank": 63993192,
+        "index": 214,
+        "last_rank": 64207421,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0214.lean",
+          "sha256": "b0b6d9a316cc527d22b8aa1968030cad5384eda9bc0c6d3de976954ed3d46f07"
+        }
+      },
+      {
+        "cert_count": 6878,
+        "chunk_count": 256,
+        "chunk_end": 55296,
+        "chunk_start": 55040,
+        "first_rank": 64207492,
+        "index": 215,
+        "last_rank": 64562894,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0215.lean",
+          "sha256": "6d66474750a7c2bf5bb2739d05c339461fcd702250aba4bd4acc571aaa3d2902"
+        }
+      },
+      {
+        "cert_count": 6533,
+        "chunk_count": 256,
+        "chunk_end": 55552,
+        "chunk_start": 55296,
+        "first_rank": 64562901,
+        "index": 216,
+        "last_rank": 64748385,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0216.lean",
+          "sha256": "96d4f263e5fe82b9bd7863e26c43b3706a3b06e6b8f4106c78f305da64a9eda3"
+        }
+      },
+      {
+        "cert_count": 6784,
+        "chunk_count": 256,
+        "chunk_end": 55808,
+        "chunk_start": 55552,
+        "first_rank": 64748386,
+        "index": 217,
+        "last_rank": 65007827,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0217.lean",
+          "sha256": "5098bd7ad86f1d38d02ac3994a4db0cddf0cae5072222e9f46078768eb5878a5"
+        }
+      },
+      {
+        "cert_count": 6721,
+        "chunk_count": 256,
+        "chunk_end": 56064,
+        "chunk_start": 55808,
+        "first_rank": 65007848,
+        "index": 218,
+        "last_rank": 65340185,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0218.lean",
+          "sha256": "98efda5bd4331254ae89dc388e032ebc19262625d67bda0b826bc21bc99e36a7"
+        }
+      },
+      {
+        "cert_count": 6583,
+        "chunk_count": 256,
+        "chunk_end": 56320,
+        "chunk_start": 56064,
+        "first_rank": 65340207,
+        "index": 219,
+        "last_rank": 65717806,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0219.lean",
+          "sha256": "4db618aa316ebd42e2c649dc57d03a9da4556ddc53596dd33567d282f03b879c"
+        }
+      },
+      {
+        "cert_count": 6562,
+        "chunk_count": 256,
+        "chunk_end": 56576,
+        "chunk_start": 56320,
+        "first_rank": 65717807,
+        "index": 220,
+        "last_rank": 66146689,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0220.lean",
+          "sha256": "72e40cc29a61d0a17242ce831b0f4eed9b1840dc3125166e1022099749c37b7b"
+        }
+      },
+      {
+        "cert_count": 6571,
+        "chunk_count": 256,
+        "chunk_end": 56832,
+        "chunk_start": 56576,
+        "first_rank": 66146691,
+        "index": 221,
+        "last_rank": 66406121,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0221.lean",
+          "sha256": "cd92b4bcdfc0956f17bce7a498ae66a2fe06e5f8fed75e20c027e6a9ee63c83c"
+        }
+      },
+      {
+        "cert_count": 6427,
+        "chunk_count": 256,
+        "chunk_end": 57088,
+        "chunk_start": 56832,
+        "first_rank": 66406138,
+        "index": 222,
+        "last_rank": 66752188,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0222.lean",
+          "sha256": "19a0a405752df918fb7f014cf4026ed88f99e3b24e55666b1dfb13d1f2a4bf6f"
+        }
+      },
+      {
+        "cert_count": 6559,
+        "chunk_count": 256,
+        "chunk_end": 57344,
+        "chunk_start": 57088,
+        "first_rank": 66752199,
+        "index": 223,
+        "last_rank": 67013644,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0223.lean",
+          "sha256": "4b83d81e9031711c6f9655d4be0360282f98e0af6b0b4c4e7e605072a3604b85"
+        }
+      },
+      {
+        "cert_count": 6787,
+        "chunk_count": 256,
+        "chunk_end": 57600,
+        "chunk_start": 57344,
+        "first_rank": 67013645,
+        "index": 224,
+        "last_rank": 67384662,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0224.lean",
+          "sha256": "496f443f69f86ca2b6605303f1c2bdd60d2dd2c9844100edf991916ec8b13d83"
+        }
+      },
+      {
+        "cert_count": 6200,
+        "chunk_count": 256,
+        "chunk_end": 57856,
+        "chunk_start": 57600,
+        "first_rank": 67384844,
+        "index": 225,
+        "last_rank": 67950906,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0225.lean",
+          "sha256": "734ee34313eb6ae44d6d4196aa1b989831265ab266b23ae9f7ee22499113ced7"
+        }
+      },
+      {
+        "cert_count": 6338,
+        "chunk_count": 256,
+        "chunk_end": 58112,
+        "chunk_start": 57856,
+        "first_rank": 67951080,
+        "index": 226,
+        "last_rank": 68443221,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0226.lean",
+          "sha256": "dba3a73addb80799c077539ac54936830cdfdd8ce6de0c4ef7c873bf79edda7a"
+        }
+      },
+      {
+        "cert_count": 6145,
+        "chunk_count": 256,
+        "chunk_end": 58368,
+        "chunk_start": 58112,
+        "first_rank": 68443242,
+        "index": 227,
+        "last_rank": 68864094,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0227.lean",
+          "sha256": "152fb9f5a825ceb80d33bedd53b1de7ac14c01df97ca3a9984c8c96036ecce39"
+        }
+      },
+      {
+        "cert_count": 6884,
+        "chunk_count": 256,
+        "chunk_end": 58624,
+        "chunk_start": 58368,
+        "first_rank": 68864099,
+        "index": 228,
+        "last_rank": 69031276,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0228.lean",
+          "sha256": "5b1b42f13e948fab2c99c387546b9cfce6123758fb0bd4e25bab1b48d98925b7"
+        }
+      },
+      {
+        "cert_count": 6691,
+        "chunk_count": 256,
+        "chunk_end": 58880,
+        "chunk_start": 58624,
+        "first_rank": 69031277,
+        "index": 229,
+        "last_rank": 69382784,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0229.lean",
+          "sha256": "fef72475e0f30e6a440dc510929a2a3de45b9e1ae6e4ba8851e524ca6d6349b7"
+        }
+      },
+      {
+        "cert_count": 6998,
+        "chunk_count": 256,
+        "chunk_end": 59136,
+        "chunk_start": 58880,
+        "first_rank": 69382815,
+        "index": 230,
+        "last_rank": 69990071,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0230.lean",
+          "sha256": "9f798c15805ba7a4ad790a4e1aba62c45a29af71fb1ffcb5fc56a5a10d73f4b2"
+        }
+      },
+      {
+        "cert_count": 6488,
+        "chunk_count": 256,
+        "chunk_end": 59392,
+        "chunk_start": 59136,
+        "first_rank": 69990073,
+        "index": 231,
+        "last_rank": 70391096,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0231.lean",
+          "sha256": "4c3f1018807c52fc56f5c5adebe8357df5b547488cc18065e1c13a34e2ae78bc"
+        }
+      },
+      {
+        "cert_count": 6368,
+        "chunk_count": 256,
+        "chunk_end": 59648,
+        "chunk_start": 59392,
+        "first_rank": 70391097,
+        "index": 232,
+        "last_rank": 70890068,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0232.lean",
+          "sha256": "7b524896b824aa037347896272a61c52b822d363ab395f36b49d82d42f352d05"
+        }
+      },
+      {
+        "cert_count": 6538,
+        "chunk_count": 256,
+        "chunk_end": 59904,
+        "chunk_start": 59648,
+        "first_rank": 70890072,
+        "index": 233,
+        "last_rank": 71280132,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0233.lean",
+          "sha256": "86b35dde305f7de2dc6e03e95bd198643a60063a145713972094274e96437a2c"
+        }
+      },
+      {
+        "cert_count": 6614,
+        "chunk_count": 256,
+        "chunk_end": 60160,
+        "chunk_start": 59904,
+        "first_rank": 71280815,
+        "index": 234,
+        "last_rank": 71714372,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0234.lean",
+          "sha256": "68190a643affbd518717f276e00f771cf2e080f51755768ba1154a21c3eb946b"
+        }
+      },
+      {
+        "cert_count": 6725,
+        "chunk_count": 256,
+        "chunk_end": 60416,
+        "chunk_start": 60160,
+        "first_rank": 71714532,
+        "index": 235,
+        "last_rank": 71928908,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0235.lean",
+          "sha256": "3faeba17a089c14b59661212c985e8e2e76b590cd949bc027e6031f5ce558afc"
+        }
+      },
+      {
+        "cert_count": 6677,
+        "chunk_count": 256,
+        "chunk_end": 60672,
+        "chunk_start": 60416,
+        "first_rank": 71928909,
+        "index": 236,
+        "last_rank": 72254663,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0236.lean",
+          "sha256": "176c26f244eda8884e6e001fe4f070ebedae634acc0cbeda5ac9988e6fd8b18c"
+        }
+      },
+      {
+        "cert_count": 6549,
+        "chunk_count": 256,
+        "chunk_end": 60928,
+        "chunk_start": 60672,
+        "first_rank": 72254691,
+        "index": 237,
+        "last_rank": 72573982,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0237.lean",
+          "sha256": "ee0551ba662cc9720fff4f9c683a3beb908bf8d672b68e094dda431f7cd49875"
+        }
+      },
+      {
+        "cert_count": 6464,
+        "chunk_count": 256,
+        "chunk_end": 61184,
+        "chunk_start": 60928,
+        "first_rank": 72573983,
+        "index": 238,
+        "last_rank": 72947999,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0238.lean",
+          "sha256": "197d472120c5cfbd7e10e25535cfd363417d53f2ce3dfb59925cab838db2c0bb"
+        }
+      },
+      {
+        "cert_count": 6856,
+        "chunk_count": 256,
+        "chunk_end": 61440,
+        "chunk_start": 61184,
+        "first_rank": 72948002,
+        "index": 239,
+        "last_rank": 73600347,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0239.lean",
+          "sha256": "34707cfd3618edd63ae5416220d1629b5f975b49390a6f76f794166da5af11c6"
+        }
+      },
+      {
+        "cert_count": 6827,
+        "chunk_count": 256,
+        "chunk_end": 61696,
+        "chunk_start": 61440,
+        "first_rank": 73600349,
+        "index": 240,
+        "last_rank": 73935705,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0240.lean",
+          "sha256": "f3058d5d1e1200a39b1e4d8f8be62f9c4d804478472dd6eb92c92df57726ddca"
+        }
+      },
+      {
+        "cert_count": 6549,
+        "chunk_count": 256,
+        "chunk_end": 61952,
+        "chunk_start": 61696,
+        "first_rank": 73935706,
+        "index": 241,
+        "last_rank": 74347259,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0241.lean",
+          "sha256": "49b4cff3aea062ada5cd735050a1f81d1d922254f6b062687abdd7a113b15c3a"
+        }
+      },
+      {
+        "cert_count": 6738,
+        "chunk_count": 256,
+        "chunk_end": 62208,
+        "chunk_start": 61952,
+        "first_rank": 74347280,
+        "index": 242,
+        "last_rank": 74880086,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0242.lean",
+          "sha256": "eb91030eacbd5aec3927721a01a1511fd8eb6bb4ff966188c78ebe9a1a902b3b"
+        }
+      },
+      {
+        "cert_count": 6601,
+        "chunk_count": 256,
+        "chunk_end": 62464,
+        "chunk_start": 62208,
+        "first_rank": 74880090,
+        "index": 243,
+        "last_rank": 75223434,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0243.lean",
+          "sha256": "1cc856bd8fb521425e9f9abe027055e4e2e2c1482cafaf217a5a25ab0f0e39bf"
+        }
+      },
+      {
+        "cert_count": 6585,
+        "chunk_count": 256,
+        "chunk_end": 62720,
+        "chunk_start": 62464,
+        "first_rank": 75223436,
+        "index": 244,
+        "last_rank": 75486894,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0244.lean",
+          "sha256": "c81ada1962fb1e1c022a9d5e1a7d5913ac9b5a1feb1ca108c5f4fe166712beb1"
+        }
+      },
+      {
+        "cert_count": 6542,
+        "chunk_count": 256,
+        "chunk_end": 62976,
+        "chunk_start": 62720,
+        "first_rank": 75486954,
+        "index": 245,
+        "last_rank": 75773925,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0245.lean",
+          "sha256": "db98f2241f7624a0960675bb0ddcaf2261330b07c1008b5ecd8aece2d6a10222"
+        }
+      },
+      {
+        "cert_count": 6461,
+        "chunk_count": 256,
+        "chunk_end": 63232,
+        "chunk_start": 62976,
+        "first_rank": 75773927,
+        "index": 246,
+        "last_rank": 76031656,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0246.lean",
+          "sha256": "06fc233e86c680f32c96d4d643ae64caeaaba2fdfd3b749b9cd595b3e4fce47c"
+        }
+      },
+      {
+        "cert_count": 6720,
+        "chunk_count": 256,
+        "chunk_end": 63488,
+        "chunk_start": 63232,
+        "first_rank": 76031667,
+        "index": 247,
+        "last_rank": 76387965,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0247.lean",
+          "sha256": "c6811de4c2cb71bd050047fb7f10d66abb3dbabffb9baf1b4382700927bf36f5"
+        }
+      },
+      {
+        "cert_count": 6625,
+        "chunk_count": 256,
+        "chunk_end": 63744,
+        "chunk_start": 63488,
+        "first_rank": 76387966,
+        "index": 248,
+        "last_rank": 76783836,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0248.lean",
+          "sha256": "689ad73b1552c3c5c47932bca655d9a96c0cb93a0527c1b0372d1bb78f42267a"
+        }
+      },
+      {
+        "cert_count": 6669,
+        "chunk_count": 256,
+        "chunk_end": 64000,
+        "chunk_start": 63744,
+        "first_rank": 76783842,
+        "index": 249,
+        "last_rank": 77147851,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0249.lean",
+          "sha256": "9a1fc71811b1e35506fd384fba0c7093506630085bb6f082a96df52a92d66560"
+        }
+      },
+      {
+        "cert_count": 6563,
+        "chunk_count": 256,
+        "chunk_end": 64256,
+        "chunk_start": 64000,
+        "first_rank": 77148008,
+        "index": 250,
+        "last_rank": 77422750,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0250.lean",
+          "sha256": "6b8ad1af5bdf8bcca12f9933cf891d8bf02b4d0b2c3f7b990e80feed0190903c"
+        }
+      },
+      {
+        "cert_count": 6668,
+        "chunk_count": 256,
+        "chunk_end": 64512,
+        "chunk_start": 64256,
+        "first_rank": 77422752,
+        "index": 251,
+        "last_rank": 77595578,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0251.lean",
+          "sha256": "9837ef35e0cbc145c6ecb9d0c5f915c2ebd6dc734a9e99cb28b5b011e501b28d"
+        }
+      },
+      {
+        "cert_count": 6807,
+        "chunk_count": 256,
+        "chunk_end": 64768,
+        "chunk_start": 64512,
+        "first_rank": 77595582,
+        "index": 252,
+        "last_rank": 77944418,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0252.lean",
+          "sha256": "25641c948fc4e9f04fdcada348daa458e45c258708cde8ed6eeb6f748b682da8"
+        }
+      },
+      {
+        "cert_count": 6487,
+        "chunk_count": 256,
+        "chunk_end": 65024,
+        "chunk_start": 64768,
+        "first_rank": 77944420,
+        "index": 253,
+        "last_rank": 78154646,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0253.lean",
+          "sha256": "d266ed9fe650a80f79de40e4a95a2096b2e314406f681d5d238cb65bace7814d"
+        }
+      },
+      {
+        "cert_count": 6609,
+        "chunk_count": 256,
+        "chunk_end": 65280,
+        "chunk_start": 65024,
+        "first_rank": 78155280,
+        "index": 254,
+        "last_rank": 78366009,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0254.lean",
+          "sha256": "31b8b4118eaff4a547b4091cdd116c605f97d10460a6319e04ab1227f1715925"
+        }
+      },
+      {
+        "cert_count": 6563,
+        "chunk_count": 256,
+        "chunk_end": 65536,
+        "chunk_start": 65280,
+        "first_rank": 78366011,
+        "index": 255,
+        "last_rank": 78530556,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0255.lean",
+          "sha256": "0397d5ecc27e2cf91119fe58e5bab1e8295436493d7d00d6fffbe4e1835215ef"
+        }
+      },
+      {
+        "cert_count": 7153,
+        "chunk_count": 256,
+        "chunk_end": 65792,
+        "chunk_start": 65536,
+        "first_rank": 78530557,
+        "index": 256,
+        "last_rank": 78891515,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0256.lean",
+          "sha256": "4f692d0220d7c233e29047f4e215a786f94664153116629bc841f5fa157ac3da"
+        }
+      },
+      {
+        "cert_count": 7139,
+        "chunk_count": 256,
+        "chunk_end": 66048,
+        "chunk_start": 65792,
+        "first_rank": 78891677,
+        "index": 257,
+        "last_rank": 79454669,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0257.lean",
+          "sha256": "bf8f3740a8ce5983d7a9f7a99909868971b1185bba97a66d7440a52168994a9a"
+        }
+      },
+      {
+        "cert_count": 7069,
+        "chunk_count": 256,
+        "chunk_end": 66304,
+        "chunk_start": 66048,
+        "first_rank": 79454738,
+        "index": 258,
+        "last_rank": 79980346,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0258.lean",
+          "sha256": "70b93efa7408d488483a33f1c0bb22ec54d5d8d1c264a366544057fe0720b4fa"
+        }
+      },
+      {
+        "cert_count": 6585,
+        "chunk_count": 256,
+        "chunk_end": 66560,
+        "chunk_start": 66304,
+        "first_rank": 79980388,
+        "index": 259,
+        "last_rank": 80331857,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0259.lean",
+          "sha256": "f4dbd978d86ff169cd8175ff5d0e906f5893740cc52990b195685d1e2bb9c056"
+        }
+      },
+      {
+        "cert_count": 6675,
+        "chunk_count": 256,
+        "chunk_end": 66816,
+        "chunk_start": 66560,
+        "first_rank": 80331862,
+        "index": 260,
+        "last_rank": 80758086,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0260.lean",
+          "sha256": "4231b6bdcc9d05feb7f86e51ab313f3a54230ba45a8d5ba82d1d58e1f3be79dd"
+        }
+      },
+      {
+        "cert_count": 6552,
+        "chunk_count": 256,
+        "chunk_end": 67072,
+        "chunk_start": 66816,
+        "first_rank": 80758104,
+        "index": 261,
+        "last_rank": 81118838,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0261.lean",
+          "sha256": "4fda94fc8429b9e918f8ec3b56e729dbd2b280ac90408baa5e8861f949936307"
+        }
+      },
+      {
+        "cert_count": 6708,
+        "chunk_count": 256,
+        "chunk_end": 67328,
+        "chunk_start": 67072,
+        "first_rank": 81118839,
+        "index": 262,
+        "last_rank": 81375835,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0262.lean",
+          "sha256": "c5ebb31e05524f220a2c9b05f10f4f38798765b92b9b5d066465dc0b8f5e5c80"
+        }
+      },
+      {
+        "cert_count": 6521,
+        "chunk_count": 256,
+        "chunk_end": 67584,
+        "chunk_start": 67328,
+        "first_rank": 81375836,
+        "index": 263,
+        "last_rank": 81698061,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0263.lean",
+          "sha256": "67b9bebfe13b54c53c72df9d586d3f44ddeb7ea0d08ddfe428e801f22a3a2a9d"
+        }
+      },
+      {
+        "cert_count": 6634,
+        "chunk_count": 256,
+        "chunk_end": 67840,
+        "chunk_start": 67584,
+        "first_rank": 81698069,
+        "index": 264,
+        "last_rank": 81970674,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0264.lean",
+          "sha256": "cb15b66fb4bbd6a1ac20dd50d47b07a0bec56e37d7d3028f8fd059cd0090a7c8"
+        }
+      },
+      {
+        "cert_count": 6665,
+        "chunk_count": 256,
+        "chunk_end": 68096,
+        "chunk_start": 67840,
+        "first_rank": 81970677,
+        "index": 265,
+        "last_rank": 82364531,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0265.lean",
+          "sha256": "a144790225e8fd02ca864d8ba6523a17b7eb1d9df039fac3bc141b453b54e1a1"
+        }
+      },
+      {
+        "cert_count": 6352,
+        "chunk_count": 256,
+        "chunk_end": 68352,
+        "chunk_start": 68096,
+        "first_rank": 82364727,
+        "index": 266,
+        "last_rank": 83011966,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0266.lean",
+          "sha256": "e782b02e47fdfe6815b0b338ebf818b01b1e7d3d12ac450a3b435268e21e5d44"
+        }
+      },
+      {
+        "cert_count": 6131,
+        "chunk_count": 256,
+        "chunk_end": 68608,
+        "chunk_start": 68352,
+        "first_rank": 83011978,
+        "index": 267,
+        "last_rank": 83348405,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0267.lean",
+          "sha256": "ef8ad34f3365ea6b10a9b2a2d1a21484a6c49f631d7097df287806b20de49e37"
+        }
+      },
+      {
+        "cert_count": 6165,
+        "chunk_count": 256,
+        "chunk_end": 68864,
+        "chunk_start": 68608,
+        "first_rank": 83348424,
+        "index": 268,
+        "last_rank": 83834117,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0268.lean",
+          "sha256": "0c548bcf6b7c280aed27abed8faa274ab7259e1be17677f130cc0f931dd1210d"
+        }
+      },
+      {
+        "cert_count": 6800,
+        "chunk_count": 256,
+        "chunk_end": 69120,
+        "chunk_start": 68864,
+        "first_rank": 83834128,
+        "index": 269,
+        "last_rank": 83993111,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0269.lean",
+          "sha256": "ea577a598a205d5af115c4c28ac961951d92541118f379be766e33f4c657fc64"
+        }
+      },
+      {
+        "cert_count": 6758,
+        "chunk_count": 256,
+        "chunk_end": 69376,
+        "chunk_start": 69120,
+        "first_rank": 83993119,
+        "index": 270,
+        "last_rank": 84360303,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0270.lean",
+          "sha256": "0cce50c7dcdfc136d136b0670ad0b6ee8d6e4fc74a00334700ede85c76c80aac"
+        }
+      },
+      {
+        "cert_count": 6452,
+        "chunk_count": 256,
+        "chunk_end": 69632,
+        "chunk_start": 69376,
+        "first_rank": 84360401,
+        "index": 271,
+        "last_rank": 84820607,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0271.lean",
+          "sha256": "f30d453d92bd8c39f21448745528ecc1db3c03bf9c21dba108c5e5e022c22671"
+        }
+      },
+      {
+        "cert_count": 6924,
+        "chunk_count": 256,
+        "chunk_end": 69888,
+        "chunk_start": 69632,
+        "first_rank": 84820614,
+        "index": 272,
+        "last_rank": 85245100,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0272.lean",
+          "sha256": "76080d2e88db7bde7989d2f76ada0826e88afa0c0b76137ce7f4929a35f9a039"
+        }
+      },
+      {
+        "cert_count": 6603,
+        "chunk_count": 256,
+        "chunk_end": 70144,
+        "chunk_start": 69888,
+        "first_rank": 85245101,
+        "index": 273,
+        "last_rank": 85694607,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0273.lean",
+          "sha256": "b67eefff615704e175f89bcfc4013c3756076c14147d2b415f5f83407277cd89"
+        }
+      },
+      {
+        "cert_count": 6429,
+        "chunk_count": 256,
+        "chunk_end": 70400,
+        "chunk_start": 70144,
+        "first_rank": 85695320,
+        "index": 274,
+        "last_rank": 86255852,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0274.lean",
+          "sha256": "65141e38539b493360ed14c8f33c55ce04cbb8748e8acb9a68220f29c55b1991"
+        }
+      },
+      {
+        "cert_count": 6574,
+        "chunk_count": 256,
+        "chunk_end": 70656,
+        "chunk_start": 70400,
+        "first_rank": 86256016,
+        "index": 275,
+        "last_rank": 86673335,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0275.lean",
+          "sha256": "4a91a40892d747ec0f9aa2b15789e57c791d9e7561cbc7c53ac4a9df55144da3"
+        }
+      },
+      {
+        "cert_count": 6711,
+        "chunk_count": 256,
+        "chunk_end": 70912,
+        "chunk_start": 70656,
+        "first_rank": 86673396,
+        "index": 276,
+        "last_rank": 86892378,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0276.lean",
+          "sha256": "e4c42dc0855022297cbc808bb25dcf34bb864d76bbf1193d9ba3208247b842bd"
+        }
+      },
+      {
+        "cert_count": 6711,
+        "chunk_count": 256,
+        "chunk_end": 71168,
+        "chunk_start": 70912,
+        "first_rank": 86892380,
+        "index": 277,
+        "last_rank": 87217889,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0277.lean",
+          "sha256": "ea67a86b275aaa12bbefa18c5c4ddcf16736d046d2fb3e69d4318a44565e3be7"
+        }
+      },
+      {
+        "cert_count": 6409,
+        "chunk_count": 256,
+        "chunk_end": 71424,
+        "chunk_start": 71168,
+        "first_rank": 87217895,
+        "index": 278,
+        "last_rank": 87580755,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0278.lean",
+          "sha256": "7b89bb9ee77adf7969f8a2ca84961d626fc25ed5f7a05e567e2847669cde993a"
+        }
+      },
+      {
+        "cert_count": 6616,
+        "chunk_count": 256,
+        "chunk_end": 71680,
+        "chunk_start": 71424,
+        "first_rank": 87580952,
+        "index": 279,
+        "last_rank": 87907728,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0279.lean",
+          "sha256": "4505f437186975150ec128529b321a6231872801939b05b49c6bac6bd57ce62e"
+        }
+      },
+      {
+        "cert_count": 6812,
+        "chunk_count": 256,
+        "chunk_end": 71936,
+        "chunk_start": 71680,
+        "first_rank": 87907729,
+        "index": 280,
+        "last_rank": 88576959,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0280.lean",
+          "sha256": "f3fc33e64fb77555609f7f37b9b2859ce554a569acbc3484f285d2b7539bea5e"
+        }
+      },
+      {
+        "cert_count": 6715,
+        "chunk_count": 256,
+        "chunk_end": 72192,
+        "chunk_start": 71936,
+        "first_rank": 88577252,
+        "index": 281,
+        "last_rank": 88905464,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0281.lean",
+          "sha256": "91bdb5e7df768b6060b3f6e8e0f52463d2ff26d8c961e88de725deba5ef303d5"
+        }
+      },
+      {
+        "cert_count": 6597,
+        "chunk_count": 256,
+        "chunk_end": 72448,
+        "chunk_start": 72192,
+        "first_rank": 88905465,
+        "index": 282,
+        "last_rank": 89357914,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0282.lean",
+          "sha256": "e1e73004b6141bb9363cf3a2969d00a08a1c7f9d06bb572279053dae036a73d1"
+        }
+      },
+      {
+        "cert_count": 6613,
+        "chunk_count": 256,
+        "chunk_end": 72704,
+        "chunk_start": 72448,
+        "first_rank": 89357961,
+        "index": 283,
+        "last_rank": 89713767,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0283.lean",
+          "sha256": "d883cb4f80ae40d14fcc24a7211a9f4c2a894f19d681cc2cd7759b38e0605416"
+        }
+      },
+      {
+        "cert_count": 6885,
+        "chunk_count": 256,
+        "chunk_end": 72960,
+        "chunk_start": 72704,
+        "first_rank": 89713768,
+        "index": 284,
+        "last_rank": 90076307,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0284.lean",
+          "sha256": "ece8bdcdd973470e80e001e30b0cc8d087fd93a1b255144dea7efba35869156d"
+        }
+      },
+      {
+        "cert_count": 6648,
+        "chunk_count": 256,
+        "chunk_end": 73216,
+        "chunk_start": 72960,
+        "first_rank": 90076392,
+        "index": 285,
+        "last_rank": 90255357,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0285.lean",
+          "sha256": "76511113f7ac1c8e175240b996b11fafa8147ce977830a451e4a4663623e4117"
+        }
+      },
+      {
+        "cert_count": 6572,
+        "chunk_count": 256,
+        "chunk_end": 73472,
+        "chunk_start": 73216,
+        "first_rank": 90255450,
+        "index": 286,
+        "last_rank": 90444679,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0286.lean",
+          "sha256": "f09ed6ac011e400dadc9f28dd7a7c360eae59067182336e6f12fae01017a3f3b"
+        }
+      },
+      {
+        "cert_count": 6636,
+        "chunk_count": 256,
+        "chunk_end": 73728,
+        "chunk_start": 73472,
+        "first_rank": 90444711,
+        "index": 287,
+        "last_rank": 90640789,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0287.lean",
+          "sha256": "29228f8dea9e50833e8ca50a5b261e2b0c25c6cd46eac7af0ee9d62abe246cdd"
+        }
+      },
+      {
+        "cert_count": 6583,
+        "chunk_count": 256,
+        "chunk_end": 73984,
+        "chunk_start": 73728,
+        "first_rank": 90640881,
+        "index": 288,
+        "last_rank": 90862390,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0288.lean",
+          "sha256": "6ab4703e6d3218f9830a49b18c6db1039cfaa330bd102971fa46ab60bb948a01"
+        }
+      },
+      {
+        "cert_count": 6488,
+        "chunk_count": 256,
+        "chunk_end": 74240,
+        "chunk_start": 73984,
+        "first_rank": 90862430,
+        "index": 289,
+        "last_rank": 91060803,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0289.lean",
+          "sha256": "b53a320b7828b877c7bfd36d08f6901a841e9f28941968fe4b2f34c0da08c209"
+        }
+      },
+      {
+        "cert_count": 6834,
+        "chunk_count": 256,
+        "chunk_end": 74496,
+        "chunk_start": 74240,
+        "first_rank": 91060805,
+        "index": 290,
+        "last_rank": 91392345,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0290.lean",
+          "sha256": "bd04855e1ad032fc4d6ff634e07448b20c77781b59d3b86ca2da6590c519197f"
+        }
+      },
+      {
+        "cert_count": 6549,
+        "chunk_count": 256,
+        "chunk_end": 74752,
+        "chunk_start": 74496,
+        "first_rank": 91392528,
+        "index": 291,
+        "last_rank": 91807519,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0291.lean",
+          "sha256": "db2ced88ab2cb1685ae082bcc51bcd347ad14a4be85d8001f67730c3bd94cf45"
+        }
+      },
+      {
+        "cert_count": 6541,
+        "chunk_count": 256,
+        "chunk_end": 75008,
+        "chunk_start": 74752,
+        "first_rank": 91807527,
+        "index": 292,
+        "last_rank": 92289809,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0292.lean",
+          "sha256": "396e24e2fe8c51575392aa18789eaa812852c3c79bb0ad1109bf9c794afe1d26"
+        }
+      },
+      {
+        "cert_count": 6578,
+        "chunk_count": 256,
+        "chunk_end": 75264,
+        "chunk_start": 75008,
+        "first_rank": 92290278,
+        "index": 293,
+        "last_rank": 92551905,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0293.lean",
+          "sha256": "18ac3e0c1082c8948ba6c7625694f4a57bf18282b6bdb6204950058ecae7a427"
+        }
+      },
+      {
+        "cert_count": 6805,
+        "chunk_count": 256,
+        "chunk_end": 75520,
+        "chunk_start": 75264,
+        "first_rank": 92551906,
+        "index": 294,
+        "last_rank": 92916559,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0294.lean",
+          "sha256": "f8841b466ed79cbd14797cd3c31215538a69ef4f5839974916fdf47c41193053"
+        }
+      },
+      {
+        "cert_count": 6493,
+        "chunk_count": 256,
+        "chunk_end": 75776,
+        "chunk_start": 75520,
+        "first_rank": 92916562,
+        "index": 295,
+        "last_rank": 93196771,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0295.lean",
+          "sha256": "237c16036a39c33f4519b34eaa7ce977f3a94dd6c62108e521e8e3597809ad8a"
+        }
+      },
+      {
+        "cert_count": 6583,
+        "chunk_count": 256,
+        "chunk_end": 76032,
+        "chunk_start": 75776,
+        "first_rank": 93196783,
+        "index": 296,
+        "last_rank": 93496816,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0296.lean",
+          "sha256": "a9848556f3ac93b1eefe9576fac2aaa386faa5a5f31a52288eb99605fc188738"
+        }
+      },
+      {
+        "cert_count": 6667,
+        "chunk_count": 256,
+        "chunk_end": 76288,
+        "chunk_start": 76032,
+        "first_rank": 93496843,
+        "index": 297,
+        "last_rank": 93839756,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0297.lean",
+          "sha256": "93d5ec7175eac3a6fa0d81e1cdf81f93df2e0bb9d586295494db6bdc49cf0379"
+        }
+      },
+      {
+        "cert_count": 6579,
+        "chunk_count": 256,
+        "chunk_end": 76544,
+        "chunk_start": 76288,
+        "first_rank": 93840200,
+        "index": 298,
+        "last_rank": 94296074,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0298.lean",
+          "sha256": "4c240076ca42c7146acaed344ff03d95ebea9e1bb85998614931b03d52e78ac6"
+        }
+      },
+      {
+        "cert_count": 6629,
+        "chunk_count": 256,
+        "chunk_end": 76800,
+        "chunk_start": 76544,
+        "first_rank": 94296086,
+        "index": 299,
+        "last_rank": 94604003,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0299.lean",
+          "sha256": "0e28c03ebe91c94969927213a9ba1c1f5d742351d1c2fb18084613d30250df29"
+        }
+      },
+      {
+        "cert_count": 6673,
+        "chunk_count": 256,
+        "chunk_end": 77056,
+        "chunk_start": 76800,
+        "first_rank": 94604037,
+        "index": 300,
+        "last_rank": 95007830,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0300.lean",
+          "sha256": "0a4f443c86c4c373ad70cf4d3368606d56a2e30930cf70209c192c2c4dabd8a3"
+        }
+      },
+      {
+        "cert_count": 6523,
+        "chunk_count": 256,
+        "chunk_end": 77312,
+        "chunk_start": 77056,
+        "first_rank": 95007831,
+        "index": 301,
+        "last_rank": 95205520,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0301.lean",
+          "sha256": "a59d24e821575cc9827d08d6b3069eed679e5b47473ae6ceb7b040598368dfaf"
+        }
+      },
+      {
+        "cert_count": 6599,
+        "chunk_count": 256,
+        "chunk_end": 77568,
+        "chunk_start": 77312,
+        "first_rank": 95205521,
+        "index": 302,
+        "last_rank": 95535695,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0302.lean",
+          "sha256": "435776eecd14b0346d0623ebbb1cfdb4613c9d2070e974888547f20cfeedbe6d"
+        }
+      },
+      {
+        "cert_count": 6832,
+        "chunk_count": 256,
+        "chunk_end": 77824,
+        "chunk_start": 77568,
+        "first_rank": 95535701,
+        "index": 303,
+        "last_rank": 95941168,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0303.lean",
+          "sha256": "bc6a266d36f9ed97a97ae9bb7b1e9c52dc0201fb190a3e1fac548520cef47700"
+        }
+      },
+      {
+        "cert_count": 6885,
+        "chunk_count": 256,
+        "chunk_end": 78080,
+        "chunk_start": 77824,
+        "first_rank": 95941169,
+        "index": 304,
+        "last_rank": 96207382,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0304.lean",
+          "sha256": "85ae3a974feae12c5416cc1df4549d9c5517e00b38b9699bb77b01a9ff95ff12"
+        }
+      },
+      {
+        "cert_count": 7129,
+        "chunk_count": 256,
+        "chunk_end": 78336,
+        "chunk_start": 78080,
+        "first_rank": 96207383,
+        "index": 305,
+        "last_rank": 96794461,
+        "lean": {
+          "bytes": 24215,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0305.lean",
+          "sha256": "0579db6a20881452c2bfdf655fa47c57bb77c9d774e5b904e1a28b60b6c1d5d9"
+        }
+      },
+      {
+        "cert_count": 6257,
+        "chunk_count": 222,
+        "chunk_end": 78558,
+        "chunk_start": 78336,
+        "first_rank": 96794469,
+        "index": 306,
+        "last_rank": 97296039,
+        "lean": {
+          "bytes": 21223,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/Group0306.lean",
+          "sha256": "b13332e760532e411907ad657ad4a96f74cdf157c8e39bfee5614c37651aea29"
+        }
+      }
+    ],
+    "lean_api": {
+      "covers": "residualPartitionCoversRank",
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.Partition.All",
+      "soundness": "residualPartitionCoversRank_sound"
+    },
+    "source_manifest": {
+      "bytes": 114399922,
+      "exists": true,
+      "path": "scripts/generated/exhaustive_real_certs_summary.json"
+    },
+    "strategy": "checked_packed_residual_rank_partition",
+    "supergroup_count": 20,
+    "supergroup_size": 16,
+    "supergroups": [
+      {
+        "cert_count": 107320,
+        "chunk_count": 4096,
+        "first_rank": 12,
+        "group_count": 16,
+        "group_end": 16,
+        "group_start": 0,
+        "index": 0,
+        "last_rank": 2522542,
+        "lean": {
+          "bytes": 9252,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0000.lean",
+          "sha256": "186ae06e26bfce577e63c0f5902a243692d3cd82266d6c9e2ad3e39270fbad8f"
+        }
+      },
+      {
+        "cert_count": 108128,
+        "chunk_count": 4096,
+        "first_rank": 2522558,
+        "group_count": 16,
+        "group_end": 32,
+        "group_start": 16,
+        "index": 1,
+        "last_rank": 4993926,
+        "lean": {
+          "bytes": 9257,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0001.lean",
+          "sha256": "743ea7d049abc5c5177cabeda3fd39d06e4efc11bbb3e71e0478446b939adbaf"
+        }
+      },
+      {
+        "cert_count": 108056,
+        "chunk_count": 4096,
+        "first_rank": 4993938,
+        "group_count": 16,
+        "group_end": 48,
+        "group_start": 32,
+        "index": 2,
+        "last_rank": 7416617,
+        "lean": {
+          "bytes": 9257,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0002.lean",
+          "sha256": "4b9d6da301790b2c2767711d2e52e77ee58587cf0bba54a06c690c2762d55a35"
+        }
+      },
+      {
+        "cert_count": 106538,
+        "chunk_count": 4096,
+        "first_rank": 7416636,
+        "group_count": 16,
+        "group_end": 64,
+        "group_start": 48,
+        "index": 3,
+        "last_rank": 9977117,
+        "lean": {
+          "bytes": 9257,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0003.lean",
+          "sha256": "b7311ad8fd506c0c5ec9ac216f13769a13e83c0a13b95a9cb423ae38ccf213f7"
+        }
+      },
+      {
+        "cert_count": 104723,
+        "chunk_count": 4096,
+        "first_rank": 9977178,
+        "group_count": 16,
+        "group_end": 80,
+        "group_start": 64,
+        "index": 4,
+        "last_rank": 15876674,
+        "lean": {
+          "bytes": 9258,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0004.lean",
+          "sha256": "965739aa1d92f4737c4a4f0de5e933e10211fea3dfc9866790259308a68e731b"
+        }
+      },
+      {
+        "cert_count": 105474,
+        "chunk_count": 4096,
+        "first_rank": 15876682,
+        "group_count": 16,
+        "group_end": 96,
+        "group_start": 80,
+        "index": 5,
+        "last_rank": 22477957,
+        "lean": {
+          "bytes": 9259,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0005.lean",
+          "sha256": "dd00d291e57b333e92286439420119e9a827603aae93423bbe7d0052fb2c0cac"
+        }
+      },
+      {
+        "cert_count": 105552,
+        "chunk_count": 4096,
+        "first_rank": 22477963,
+        "group_count": 16,
+        "group_end": 112,
+        "group_start": 96,
+        "index": 6,
+        "last_rank": 26200858,
+        "lean": {
+          "bytes": 9259,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0006.lean",
+          "sha256": "5ba797bcfba6a0409cf0602004025f24d01dc057abdb8bd515367d45d3edb6ce"
+        }
+      },
+      {
+        "cert_count": 105813,
+        "chunk_count": 4096,
+        "first_rank": 26200881,
+        "group_count": 16,
+        "group_end": 128,
+        "group_start": 112,
+        "index": 7,
+        "last_rank": 31151004,
+        "lean": {
+          "bytes": 9259,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0007.lean",
+          "sha256": "3ee8fbe23b5463a2df9b226aeddc92f43dd67e59f1201e5ee0710c6a83505634"
+        }
+      },
+      {
+        "cert_count": 105227,
+        "chunk_count": 4096,
+        "first_rank": 31151006,
+        "group_count": 16,
+        "group_end": 144,
+        "group_start": 128,
+        "index": 8,
+        "last_rank": 38047137,
+        "lean": {
+          "bytes": 9259,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0008.lean",
+          "sha256": "569647cccefec14a5e8eddff5a08fb1a50e12c1d7ce33be529e6c1ced569921f"
+        }
+      },
+      {
+        "cert_count": 106602,
+        "chunk_count": 4096,
+        "first_rank": 38047203,
+        "group_count": 16,
+        "group_end": 160,
+        "group_start": 144,
+        "index": 9,
+        "last_rank": 44667204,
+        "lean": {
+          "bytes": 9259,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0009.lean",
+          "sha256": "3a1209f9c235b9e6c6d107b73d647f8172ced7753b872021e8cc3a9d6b70d437"
+        }
+      },
+      {
+        "cert_count": 106363,
+        "chunk_count": 4096,
+        "first_rank": 44667206,
+        "group_count": 16,
+        "group_end": 176,
+        "group_start": 160,
+        "index": 10,
+        "last_rank": 50264795,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0010.lean",
+          "sha256": "df4e7cf7c1b0ebea8566a8134402cf4fca15016e6c9ad886bbd3d5d014decaed"
+        }
+      },
+      {
+        "cert_count": 104726,
+        "chunk_count": 4096,
+        "first_rank": 50264805,
+        "group_count": 16,
+        "group_end": 192,
+        "group_start": 176,
+        "index": 11,
+        "last_rank": 55659051,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0011.lean",
+          "sha256": "d36264268146723428de32a2581223e48ddf56a2a1f6b7b8b49e7b08e47b2fcc"
+        }
+      },
+      {
+        "cert_count": 107458,
+        "chunk_count": 4096,
+        "first_rank": 55659052,
+        "group_count": 16,
+        "group_end": 208,
+        "group_start": 192,
+        "index": 12,
+        "last_rank": 62000853,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0012.lean",
+          "sha256": "95b1e1ea98844e3171351d90cb1494826673473b3a9d1d32613099a4188efc7c"
+        }
+      },
+      {
+        "cert_count": 106299,
+        "chunk_count": 4096,
+        "first_rank": 62001092,
+        "group_count": 16,
+        "group_end": 224,
+        "group_start": 208,
+        "index": 13,
+        "last_rank": 67013644,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0013.lean",
+          "sha256": "9f960460e4a164217a5c9bb2dcf62e9bedb298175c4db00e6c5fd0de9ef937c6"
+        }
+      },
+      {
+        "cert_count": 105322,
+        "chunk_count": 4096,
+        "first_rank": 67013645,
+        "group_count": 16,
+        "group_end": 240,
+        "group_start": 224,
+        "index": 14,
+        "last_rank": 73600347,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0014.lean",
+          "sha256": "0d168087d3d09b7785b3e8e04191a75563c1255ca8928632628bde914c16750e"
+        }
+      },
+      {
+        "cert_count": 106014,
+        "chunk_count": 4096,
+        "first_rank": 73600349,
+        "group_count": 16,
+        "group_end": 256,
+        "group_start": 240,
+        "index": 15,
+        "last_rank": 78530556,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0015.lean",
+          "sha256": "1ff851e3e7d843158f4325c5574ed7ce8b87bb6657c13d9ef76dcac8b7f4cc81"
+        }
+      },
+      {
+        "cert_count": 106359,
+        "chunk_count": 4096,
+        "first_rank": 78530557,
+        "group_count": 16,
+        "group_end": 272,
+        "group_start": 256,
+        "index": 16,
+        "last_rank": 84820607,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0016.lean",
+          "sha256": "f9d1b70d43854ab4bbafd15b989a2e1bed51bd1aa49d9bd91c0a884036823e3d"
+        }
+      },
+      {
+        "cert_count": 106455,
+        "chunk_count": 4096,
+        "first_rank": 84820614,
+        "group_count": 16,
+        "group_end": 288,
+        "group_start": 272,
+        "index": 17,
+        "last_rank": 90640789,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0017.lean",
+          "sha256": "2498a0293f2e7c107d51f246ef67913ad51c5140f269444cbbdd07fed3653159"
+        }
+      },
+      {
+        "cert_count": 105956,
+        "chunk_count": 4096,
+        "first_rank": 90640881,
+        "group_count": 16,
+        "group_end": 304,
+        "group_start": 288,
+        "index": 18,
+        "last_rank": 95941168,
+        "lean": {
+          "bytes": 9260,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0018.lean",
+          "sha256": "68762afc6a0aee15bc4285b264b0c971a3a55826bdcfefb0519ff615ae36b75f"
+        }
+      },
+      {
+        "cert_count": 20271,
+        "chunk_count": 734,
+        "first_rank": 95941169,
+        "group_count": 3,
+        "group_end": 307,
+        "group_start": 304,
+        "index": 19,
+        "last_rank": 97296039,
+        "lean": {
+          "bytes": 2773,
+          "exists": true,
+          "path": "Cuboctahedron/Generated/NonIdentity/Residual/Partition/SuperGroup0019.lean",
+          "sha256": "24b7e52c137045835a66eadc50df4747eee2da251912c8fdd89c896997c6285f"
+        }
+      }
+    ]
   },
   "residual_singleton_cases": 2038656,
   "schema_version": 1,

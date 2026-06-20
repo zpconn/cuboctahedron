@@ -76,6 +76,23 @@ def checkPackedResidualBytes (bytes : List Nat) : Bool :=
   | .ok certs => checkCompactNonIdResiduals certs
   | .error _ => false
 
+def compactResidualCertHasRank
+    (rank : Nat) (cert : CompactNonIdResidualCert) : Bool :=
+  decide (cert.rank.val = rank)
+
+def hasPackedResidualRank (blob : String) (rank : Nat) : Bool :=
+  match decodePackedResidualCerts blob with
+  | .ok certs => certs.toList.any (compactResidualCertHasRank rank)
+  | .error _ => false
+
+def checkedPackedResidualBlobCoversRank
+    (blob : String) (rank : Nat) : Bool :=
+  checkPackedResidualCerts blob && hasPackedResidualRank blob rank
+
+def checkedPackedResidualBlobsCoverRank
+    (blobs : List String) (rank : Nat) : Bool :=
+  blobs.any (fun blob => checkedPackedResidualBlobCoversRank blob rank)
+
 theorem checkPackedResidualCerts_sound
     (blob : String)
     (hcheck : checkPackedResidualCerts blob = true) :
@@ -102,6 +119,108 @@ theorem checkPackedResidualCerts_sound
       exact ⟨cert.toNonIdCert,
         checkNonIdCoveredRank_word (r := cert.rank) hcovered.1,
         hcovered.2⟩
+
+theorem checkPackedResidualRank_sound
+    (blob : String)
+    (hcheck : checkPackedResidualCerts blob = true)
+    (rank : Fin numPairWords)
+    (hhas : hasPackedResidualRank blob rank.val = true) :
+    exists ordinary : NonIdCert,
+      ordinary.word = unrankPairWord rank /\
+        checkNonIdCert ordinary = true := by
+  unfold hasPackedResidualRank at hhas
+  cases hdecode : decodePackedResidualCerts blob with
+  | error err =>
+      simp [hdecode] at hhas
+  | ok certs =>
+      rw [hdecode] at hhas
+      rcases List.any_eq_true.mp hhas with ⟨cert, hmem, hrankBool⟩
+      have hrankVal : cert.rank.val = rank.val := by
+        have hrankBool' : decide (cert.rank.val = rank.val) = true := by
+          simpa [compactResidualCertHasRank] using hrankBool
+        exact of_decide_eq_true hrankBool'
+      have hrank : cert.rank = rank := Fin.ext hrankVal
+      have hmemDecoded :
+          cert ∈ (decodedPackedResidualCerts blob).toList := by
+        simpa [decodedPackedResidualCerts, hdecode] using hmem
+      rcases checkPackedResidualCerts_sound blob hcheck cert hmemDecoded with
+        ⟨ordinary, hword, hordinary⟩
+      exact ⟨ordinary, by simpa [hrank] using hword, hordinary⟩
+
+theorem checkPackedResidualRank_exists_checked
+    (blob : String)
+    (hcheck : checkPackedResidualCerts blob = true)
+    (rank : Fin numPairWords)
+    (hhas : hasPackedResidualRank blob rank.val = true) :
+    exists checked : CheckedNonIdRank, checked.rank = rank := by
+  rcases checkPackedResidualRank_sound blob hcheck rank hhas with
+    ⟨ordinary, hword, hordinary⟩
+  exact ⟨{
+      rank := rank
+      cert := ordinary
+      word_eq := hword
+      check := hordinary
+    },
+    rfl⟩
+
+noncomputable def checkPackedResidualRank_checked
+    (blob : String)
+    (hcheck : checkPackedResidualCerts blob = true)
+    (rank : Fin numPairWords)
+    (hhas : hasPackedResidualRank blob rank.val = true) :
+    CheckedNonIdRank :=
+  Classical.choose
+    (checkPackedResidualRank_exists_checked blob hcheck rank hhas)
+
+theorem checkPackedResidualRank_checked_rank
+    (blob : String)
+    (hcheck : checkPackedResidualCerts blob = true)
+    (rank : Fin numPairWords)
+    (hhas : hasPackedResidualRank blob rank.val = true) :
+    (checkPackedResidualRank_checked blob hcheck rank hhas).rank = rank :=
+  Classical.choose_spec
+    (checkPackedResidualRank_exists_checked blob hcheck rank hhas)
+
+theorem checkedPackedResidualBlobsCoverRank_sound
+    (blobs : List String)
+    (rank : Fin numPairWords)
+    (hcover : checkedPackedResidualBlobsCoverRank blobs rank.val = true) :
+    exists ordinary : NonIdCert,
+      ordinary.word = unrankPairWord rank /\
+        checkNonIdCert ordinary = true := by
+  unfold checkedPackedResidualBlobsCoverRank
+    checkedPackedResidualBlobCoversRank at hcover
+  simp only [List.any_eq_true, Bool.and_eq_true] at hcover
+  rcases hcover with ⟨blob, _hmem, hcheck, hhas⟩
+  exact checkPackedResidualRank_sound blob hcheck rank hhas
+
+theorem checkedPackedResidualBlobsCoverRank_exists_checked
+    (blobs : List String)
+    (rank : Fin numPairWords)
+    (hcover : checkedPackedResidualBlobsCoverRank blobs rank.val = true) :
+    exists checked : CheckedNonIdRank, checked.rank = rank := by
+  unfold checkedPackedResidualBlobsCoverRank
+    checkedPackedResidualBlobCoversRank at hcover
+  simp only [List.any_eq_true, Bool.and_eq_true] at hcover
+  rcases hcover with ⟨blob, _hmem, hcheck, hhas⟩
+  exact checkPackedResidualRank_exists_checked blob hcheck rank hhas
+
+noncomputable def checkedPackedResidualBlobsCoverRank_checked
+    (blobs : List String)
+    (rank : Fin numPairWords)
+    (hcover : checkedPackedResidualBlobsCoverRank blobs rank.val = true) :
+    CheckedNonIdRank :=
+  Classical.choose
+    (checkedPackedResidualBlobsCoverRank_exists_checked blobs rank hcover)
+
+theorem checkedPackedResidualBlobsCoverRank_checked_rank
+    (blobs : List String)
+    (rank : Fin numPairWords)
+    (hcover : checkedPackedResidualBlobsCoverRank blobs rank.val = true) :
+    (checkedPackedResidualBlobsCoverRank_checked blobs rank hcover).rank =
+      rank :=
+  Classical.choose_spec
+    (checkedPackedResidualBlobsCoverRank_exists_checked blobs rank hcover)
 
 theorem checkPackedResidualBytes_sound
     (bytes : List Nat)
