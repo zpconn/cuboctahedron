@@ -265,6 +265,27 @@ def checkPackedTranslationFarkasBytes (bytes : List Nat) : Bool :=
   | .ok certs => checkCompactTranslationFarkasCerts certs
   | .error _ => false
 
+def compactTranslationFarkasCertHasCase
+    (rank mask : Nat) (cert : CompactTranslationFarkasCert) : Bool :=
+  decide (cert.rank.val = rank) && decide (cert.mask.val = mask)
+
+def hasPackedTranslationFarkasCase
+    (blob : String) (rank mask : Nat) : Bool :=
+  match decodePackedTranslationFarkasCerts blob with
+  | .ok certs =>
+      certs.toList.any (compactTranslationFarkasCertHasCase rank mask)
+  | .error _ => false
+
+def checkedPackedTranslationFarkasBlobCoversCase
+    (blob : String) (rank mask : Nat) : Bool :=
+  checkPackedTranslationFarkasCerts blob &&
+    hasPackedTranslationFarkasCase blob rank mask
+
+def checkedPackedTranslationFarkasBlobsCoverCase
+    (blobs : List String) (rank mask : Nat) : Bool :=
+  blobs.any (fun blob =>
+    checkedPackedTranslationFarkasBlobCoversCase blob rank mask)
+
 theorem checkPackedTranslationFarkasCerts_sound
     (blob : String)
     (hcheck : checkPackedTranslationFarkasCerts blob = true) :
@@ -289,6 +310,99 @@ theorem checkPackedTranslationFarkasCerts_sound
       simpa [CompactTranslationFarkasCovered] using
         (checkCompactTranslationFarkasCerts_sound
           (certs := certs.toList) hcheckList) cert hmemList
+
+theorem checkPackedTranslationFarkasCerts_exists_cert
+    (blob : String)
+    (hcheck : checkPackedTranslationFarkasCerts blob = true)
+    (cert : CompactTranslationFarkasCert)
+    (hmem : cert ∈ (decodedPackedTranslationFarkasCerts blob).toList)
+    (hLinear :
+      totalLinearOfPairWord (unrankPairWord cert.rank) =
+        (matId : Mat3 Rat)) :
+    exists ordinary : TranslationCert,
+      ordinary.word = unrankPairWord cert.rank /\
+        ordinary.signMask = cert.mask /\
+          checkTranslationCert ordinary = true := by
+  unfold checkPackedTranslationFarkasCerts at hcheck
+  cases hdecode : decodePackedTranslationFarkasCerts blob with
+  | error err =>
+      simp [hdecode] at hcheck
+  | ok certs =>
+      simp [hdecode] at hcheck
+      have hcheckList :
+          certs.toList.all checkCompactTranslationFarkas = true := by
+        simpa [checkCompactTranslationFarkasCerts] using hcheck
+      have hmemList : cert ∈ certs.toList := by
+        simpa [decodedPackedTranslationFarkasCerts, hdecode] using hmem
+      have hcertCheck : checkCompactTranslationFarkas cert = true :=
+        List.all_eq_true.mp hcheckList cert hmemList
+      exact checkCompactTranslationFarkas_exists_cert cert hLinear hcertCheck
+
+theorem checkPackedTranslationFarkasCase_exists_cert
+    (blob : String)
+    (hcheck : checkPackedTranslationFarkasCerts blob = true)
+    (rank : Fin numPairWords)
+    (mask : SignMask)
+    (hhas :
+      hasPackedTranslationFarkasCase blob rank.val mask.val = true)
+    (hLinear :
+      totalLinearOfPairWord (unrankPairWord rank) =
+        (matId : Mat3 Rat)) :
+    exists ordinary : TranslationCert,
+      ordinary.word = unrankPairWord rank /\
+        ordinary.signMask = mask /\
+          checkTranslationCert ordinary = true := by
+  unfold hasPackedTranslationFarkasCase at hhas
+  cases hdecode : decodePackedTranslationFarkasCerts blob with
+  | error err =>
+      simp [hdecode] at hhas
+  | ok certs =>
+      rw [hdecode] at hhas
+      rcases List.any_eq_true.mp hhas with ⟨cert, hmem, hcaseBool⟩
+      rw [compactTranslationFarkasCertHasCase, Bool.and_eq_true]
+        at hcaseBool
+      rcases hcaseBool with ⟨hrankBool, hmaskBool⟩
+      have hrankVal : cert.rank.val = rank.val :=
+        of_decide_eq_true hrankBool
+      have hmaskVal : cert.mask.val = mask.val :=
+        of_decide_eq_true hmaskBool
+      have hrank : cert.rank = rank := Fin.ext hrankVal
+      have hmask : cert.mask = mask := Fin.ext hmaskVal
+      have hmemDecoded :
+          cert ∈ (decodedPackedTranslationFarkasCerts blob).toList := by
+        simpa [decodedPackedTranslationFarkasCerts, hdecode] using hmem
+      have hLinearCert :
+          totalLinearOfPairWord (unrankPairWord cert.rank) =
+            (matId : Mat3 Rat) := by
+        simpa [hrank] using hLinear
+      rcases checkPackedTranslationFarkasCerts_exists_cert
+          blob hcheck cert hmemDecoded hLinearCert with
+        ⟨ordinary, hword, hmaskOrd, hordinary⟩
+      exact ⟨ordinary,
+        by simpa [hrank] using hword,
+        by simpa [hmask] using hmaskOrd,
+        hordinary⟩
+
+theorem checkedPackedTranslationFarkasBlobsCoverCase_exists_cert
+    (blobs : List String)
+    (rank : Fin numPairWords)
+    (mask : SignMask)
+    (hcover :
+      checkedPackedTranslationFarkasBlobsCoverCase blobs
+        rank.val mask.val = true)
+    (hLinear :
+      totalLinearOfPairWord (unrankPairWord rank) =
+        (matId : Mat3 Rat)) :
+    exists ordinary : TranslationCert,
+      ordinary.word = unrankPairWord rank /\
+        ordinary.signMask = mask /\
+          checkTranslationCert ordinary = true := by
+  unfold checkedPackedTranslationFarkasBlobsCoverCase
+    checkedPackedTranslationFarkasBlobCoversCase at hcover
+  simp only [List.any_eq_true, Bool.and_eq_true] at hcover
+  rcases hcover with ⟨blob, _hmem, hcheck, hhas⟩
+  exact checkPackedTranslationFarkasCase_exists_cert
+    blob hcheck rank mask hhas hLinear
 
 theorem checkPackedTranslationFarkasBytes_sound
     (bytes : List Nat)

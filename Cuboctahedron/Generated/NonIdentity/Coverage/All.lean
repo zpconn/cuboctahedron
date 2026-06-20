@@ -1,13 +1,15 @@
 import Cuboctahedron.Generated.Coverage.Interval
+import Cuboctahedron.Generated.Coverage.ComputableClassifiers
 import Cuboctahedron.Generated.NonIdentity.Complete
 
 /-!
 Public target for generated non-identity residual coverage.
 
-Future generated chunk/group modules should prove `CoversInterval
-ResidualRankCertified ... ...` theorems and compose them here.  This file keeps
-the public bridge semantic: it asks for ordinary checked certificate witnesses,
-not for a giant Boolean packed-data reduction.
+Generated chunk/group modules should prove `CoversInterval` theorems for either
+legacy residual predicates or a concrete computable classifier.  The preferred
+new path is `ResidualRankCertifiedBy classifier`, because it avoids the old
+Prop-level early-family classifier and can be fed by generated Boolean family
+membership evidence.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Coverage
@@ -27,6 +29,29 @@ theorem residualBridge_of_interval
       Cuboctahedron.Generated.Coverage.CoversInterval
         ResidualRankCertified 0 numPairWords) :
     Cuboctahedron.Generated.NonIdentity.ResidualBridge := by
+  intro r hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
+
+def ResidualRankCertifiedBy
+    (classifier :
+      Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
+    (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    classifier.classOfRank ⟨r, hlt⟩ =
+        NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        exists cert : NonIdCert,
+          cert.word = unrankPairWord ⟨r, hlt⟩ /\
+            checkNonIdCert cert = true
+
+theorem residualBridge_of_interval_by
+    (classifier :
+      Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        (ResidualRankCertifiedBy classifier) 0 numPairWords) :
+    classifier.ResidualBridge := by
   intro r hclass hM
   exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
 

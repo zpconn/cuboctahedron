@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.NonIdentity.ParametricSample
+import Cuboctahedron.Search.Certificates
 
 /-!
 Generated exhaustive compressed-family partition witness for

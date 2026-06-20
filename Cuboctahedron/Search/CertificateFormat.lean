@@ -470,7 +470,8 @@ noncomputable def CompactTranslationFarkasCert.toTranslationCert
   word := unrankPairWord cert.rank
   signMask := cert.mask
   seq := Vector.ofFn (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)
-  b := translationVectorOfChoice (unrankPairWord cert.rank) cert.mask
+  b := (totalAff
+    (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)).b
   failure := TranslationFailure.sourceFarkas cert.sourceFarkas
 
 def CompactTranslationFarkasCert.seqFun
@@ -528,6 +529,54 @@ theorem checkCompactTranslationFarkas_no_feasible
         totalLinear seq = (matId : Mat3 Rat) /\
         UnfoldedFeasible seq := by
   exact checkCompactTranslationFarkas_sound cert hcheck
+
+theorem checkCompactTranslationFarkas_exists_cert
+    (cert : CompactTranslationFarkasCert)
+    (hLinear :
+      totalLinearOfPairWord (unrankPairWord cert.rank) =
+        (matId : Mat3 Rat))
+    (hcheck : checkCompactTranslationFarkas cert = true) :
+    exists ordinary : TranslationCert,
+      ordinary.word = unrankPairWord cert.rank /\
+        ordinary.signMask = cert.mask /\
+          checkTranslationCert ordinary = true := by
+  let ordinary := cert.toTranslationCert
+  refine ⟨ordinary, rfl, rfl, ?_⟩
+  have hSeq :
+      ordinary.seqFun =
+        translationChoiceSeq (unrankPairWord cert.rank) cert.mask := by
+    simpa [ordinary, CompactTranslationFarkasCert.toTranslationCert,
+      TranslationCert.seqFun]
+      using faceVectorSeq_ofFn
+        (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)
+  have hMatches :
+      TranslationSeqMatches ordinary.word ordinary.signMask ordinary.seq := by
+    intro i
+    have h :=
+      congrFun
+        (faceVectorSeq_ofFn
+          (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)) i
+    simpa [ordinary, CompactTranslationFarkasCert.toTranslationCert] using h
+  have hB :
+      (totalAff ordinary.seqFun).b = ordinary.b := by
+    change
+      (totalAff ordinary.seqFun).b =
+        (totalAff
+          (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)).b
+    rw [hSeq]
+  have hSource :
+      checkSourceFarkas ordinary.seqFun ordinary.b cert.sourceFarkas = true := by
+    change
+      checkSourceFarkas ordinary.seqFun
+        (totalAff
+          (translationChoiceSeq (unrankPairWord cert.rank) cert.mask)).b
+        cert.sourceFarkas = true
+    rw [hSeq]
+    simpa [CompactTranslationFarkasCert.totalTranslation,
+      CompactTranslationFarkasCert.seqFun, checkCompactTranslationFarkas]
+      using hcheck
+  exact checkTranslationCert_sourceFarkas ordinary cert.sourceFarkas rfl
+    (unrankPairWord_valid cert.rank) hLinear hMatches hB hSource
 
 theorem checkCompactTranslationFarkasCerts_sound
     {certs : List CompactTranslationFarkasCert}

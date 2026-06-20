@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Coverage.Predicates
+import Cuboctahedron.Generated.Coverage.ComputableClassifiers
 import Cuboctahedron.Generated.NonIdentity.FamilyPartition
 
 /-!
@@ -53,5 +54,24 @@ theorem complete_no_feasible_of_residual_bridge
     Coverage.NonIdentityRankKilled r :=
   Coverage.NonIdentityRankCertified.killed
     (complete_of_residual_bridge residualBridge r)
+
+theorem complete_of_computable_residual_bridge
+    (classifier : Coverage.NonIdComputableClassifier)
+    (residualBridge : classifier.ResidualBridge)
+    (r : Fin numPairWords)
+    (hM : totalLinearOfPairWord (unrankPairWord r) ≠
+      (matId : Mat3 Rat)) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord r /\
+        checkNonIdCert cert = true :=
+  classifier.complete_of_residual_bridge residualBridge r hM
+
+theorem complete_no_feasible_of_computable_residual_bridge
+    (classifier : Coverage.NonIdComputableClassifier)
+    (residualBridge : classifier.ResidualBridge)
+    (r : Fin numPairWords) :
+    Coverage.NonIdentityRankKilled r :=
+  Coverage.NonIdentityRankCertified.killed
+    (complete_of_computable_residual_bridge classifier residualBridge r)
 
 end Cuboctahedron.Generated.NonIdentity

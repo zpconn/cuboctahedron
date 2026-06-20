@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Generate exact small-sample certificate data for the cuboctahedron project.
+"""Legacy exact certificate helpers for the cuboctahedron project.
 
-This script is intentionally untrusted. It uses exact rational arithmetic and
-emits data that Lean and the independent checker verify.
+The old CLI emitter modes in this file are archived with the legacy OOM
+backend and fail closed in `main`.  New generated evidence should use
+`scripts/generate_public_interval_evidence.py`.
+
+Some exact arithmetic constructors and Lean literal printers remain here as a
+temporary helper library for the reset emitter.  They are intentionally
+untrusted: generated data must still be checked by Lean.
 """
 
 from __future__ import annotations
@@ -156,6 +161,12 @@ COMPACT_CERT_PILOT_BLOB_PATH = CERTS_DIR / "compact_cert_pilot.b64"
 PACKED_RESIDUAL_PILOT_BLOB_PATH = CERTS_DIR / "packed_residual_pilot.b64"
 FULL_NONIDENTITY_RESIDUAL_BLOB_DIR = CERTS_DIR / "nonidentity_residual"
 FULL_TRANSLATION_FARKAS_BLOB_DIR = CERTS_DIR / "translation_farkas"
+PUBLIC_NONIDENTITY_INTERVAL_BLOB_DIR = (
+    CERTS_DIR / "public_coverage" / "nonidentity_residual"
+)
+PUBLIC_TRANSLATION_INTERVAL_BLOB_DIR = (
+    CERTS_DIR / "public_coverage" / "translation_farkas"
+)
 FULL_NONIDENTITY_RESIDUAL_SHARD_DIR = CERTS_DIR / "nonidentity_residual_shards"
 FULL_TRANSLATION_FARKAS_SHARD_DIR = CERTS_DIR / "translation_farkas_shards"
 COMPACT_CERT_SAMPLE_JSON_PATH = (
@@ -164,6 +175,32 @@ COMPACT_CERT_SAMPLE_JSON_PATH = (
 COMPACT_CERT_PILOT_JSON_PATH = (
     REPO_ROOT / "scripts" / "generated" / "compact_cert_pilot.json"
 )
+
+# These modes belong to the archived packed/blob generated-data backend.  They
+# are kept in this file only because the new public interval emitter reuses
+# exact helper routines from this script.  They should not be used for active
+# proof evidence: previous attempts with these paths forced Lean to reduce
+# large packed data and caused OOM failures.
+LEGACY_OOM_EMITTER_MODES = {
+    "small-sample",
+    "coverage-manifest",
+    "canonical-symmetry-sample",
+    "canonical-coverage-manifest",
+    "coverage-tree-sample",
+    "nonidentity-family-sample",
+    "translation-family-sample",
+    "exhaustive-real-certs",
+    "residual-nonidentity-templates",
+    "compact-residual-certificates",
+    "packed-residual-certificates",
+    "proof-carrying-structured-literals",
+    "proof-carrying-family-backend",
+    "public-coverage-hierarchy",
+    "public-coverage-interval-shards",
+    "nonidentity-residual-compression",
+    "compact-cert-sample",
+    "compact-cert-pilot",
+}
 
 EXPECTED_PAIR_WORDS = 97_297_200
 EXPECTED_IDENTITY_WORDS = 2_468_088
@@ -2561,104 +2598,32 @@ def write_canonical_coverage_manifest(payload: dict) -> None:
 
 def write_all_generated() -> None:
     lines = [
-        "import Cuboctahedron.Generated.NonIdentity.Chunk0000",
-        "import Cuboctahedron.Generated.NonIdentity.FamilySample",
-        "import Cuboctahedron.Generated.NonIdentity.ParametricSample",
-        "import Cuboctahedron.Generated.NonIdentity.FamilyPartition",
-        "import Cuboctahedron.Generated.NonIdentity.ResidualTemplates",
-        "import Cuboctahedron.Generated.NonIdentity.Residual.CompactPilot",
-        "import Cuboctahedron.Generated.NonIdentity.Residual.PackedPilot",
-        "import Cuboctahedron.Generated.Translation.Chunk0000",
-        "import Cuboctahedron.Generated.Translation.ParametricSample",
-        "import Cuboctahedron.Generated.Translation.FamilyPartition",
-        "import Cuboctahedron.Generated.CanonicalSample",
-        "import Cuboctahedron.Generated.CanonicalCoverageManifest",
-        "import Cuboctahedron.Generated.CompactPilot",
-        "import Cuboctahedron.Generated.CoverageTreeSample",
-    ]
-    if NONIDENTITY_RESIDUAL_ALL_PATH.exists():
-        lines.append("import Cuboctahedron.Generated.NonIdentity.Residual.All")
-    if TRANSLATION_FARKAS_ALL_PATH.exists():
-        lines.append("import Cuboctahedron.Generated.Translation.Farkas.All")
-    if NONIDENTITY_RESIDUAL_PROOF_CARRYING_SMOKE_LEAN_PATH.exists():
-        lines.append(
-            "import Cuboctahedron.Generated.NonIdentity.Residual.ProofCarryingSmoke"
-        )
-    if NONIDENTITY_RESIDUAL_COMPRESSION_SAMPLE_LEAN_PATH.exists():
-        lines.append(
-            "import Cuboctahedron.Generated.NonIdentity.Residual.CompressionSample"
-        )
-    if TRANSLATION_FARKAS_PROOF_CARRYING_SMOKE_LEAN_PATH.exists():
-        lines.append(
-            "import Cuboctahedron.Generated.Translation.Farkas.ProofCarryingSmoke"
-        )
-    lines.extend([
+        "import Cuboctahedron.Generated.Coverage.ComputableClassifiers",
         "",
         "/-!",
-        "Aggregate import for generated Step 14C/14E real-certificate sample chunks.",
+        "Safe generated aggregate import.",
+        "",
+        "This module intentionally does not import the legacy generated-data",
+        "aggregate path.  The old path pulled in packed/compact pilot data,",
+        "generated samples, and residual/Farkas aggregate modules; broad builds",
+        "of that path have caused OOM on the development machine.",
+        "",
+        "The default generated surface is now the small computable-classifier",
+        "bridge.  Future generated public coverage should add memory-safe",
+        "semantic API modules here only after they build independently.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated",
         "",
-        "noncomputable def allGeneratedCheck : Bool :=",
-        "  checkGeneratedNonIdCertChunk NonIdentity.Chunk0000.chunk &&",
-        "    checkGeneratedTranslationCertChunk Translation.Chunk0000.chunk",
+        "def legacyGeneratedAggregateDisabled : True :=",
+        "  trivial",
         "",
-        "theorem allGeneratedCheck_true : allGeneratedCheck = true := by",
-        "  unfold allGeneratedCheck",
-        "  rw [NonIdentity.Chunk0000.certs_check, Translation.Chunk0000.certs_check]",
-        "  rfl",
-        "",
-        "noncomputable def allGeneratedParametricCheck : Bool :=",
-        "  NonIdentity.checkParametricSamples &&",
-        "    Translation.checkParametricSamples",
-        "",
-        "theorem allGeneratedParametricCheck_true :",
-        "    allGeneratedParametricCheck = true := by",
-        "  unfold allGeneratedParametricCheck",
-        "  rw [NonIdentity.checkParametricSamples_true,",
-        "    Translation.checkParametricSamples_true]",
-        "  rfl",
-        "",
-        "#check exhaustiveNonIdBadDirectionFamily_partition",
-        "#check exhaustiveNonIdBadPairBalanceFamily_partition",
-        "#check exhaustiveTranslationBadDirectionFamily_partition",
-        "#check exhaustiveTranslationBadVectorFamily_partition",
-        "#check NonIdentity.sampleFamilyPartition",
-        "#check Translation.sampleFamilyPartition",
-        "",
-        "theorem nonidentityChunk_sound :",
-        "    List.Forall₂ NonIdRankCertificateCovered",
-        "      NonIdentity.Chunk0000.chunk.coveredRanks.toList",
-        "      NonIdentity.Chunk0000.chunk.certs.toList :=",
-        "  checkGeneratedNonIdCertChunk_sound NonIdentity.Chunk0000.certs_check",
-        "",
-        "theorem translationChunk_sound :",
-        "    List.Forall₂ TranslationCaseCertificateCovered",
-        "      Translation.Chunk0000.chunk.coveredCases.toList",
-        "      Translation.Chunk0000.chunk.certs.toList :=",
-        "  checkGeneratedTranslationCertChunk_sound Translation.Chunk0000.certs_check",
-        "",
-        "noncomputable def allGeneratedCoverageTreeCheck : Bool :=",
-        "  checkNonIdCoverageTree CoverageTreeSample.nonIdRawTree &&",
-        "    checkNonIdCoverageTree CoverageTreeSample.nonIdTransportTree &&",
-        "      checkNonIdCoverageForest NonIdentity.sampleFamilyCoverage &&",
-        "        checkTranslationCoverageTree CoverageTreeSample.translationRawTree &&",
-        "          checkTranslationCoverageTree CoverageTreeSample.translationTransportTree",
-        "",
-        "theorem allGeneratedCoverageTreeCheck_true :",
-        "    allGeneratedCoverageTreeCheck = true := by",
-        "  unfold allGeneratedCoverageTreeCheck",
-        "  rw [CoverageTreeSample.nonIdRawTree_check,",
-        "    CoverageTreeSample.nonIdTransportTree_check,",
-        "    NonIdentity.sampleFamilyCoverage_check,",
-        "    CoverageTreeSample.translationRawTree_check,",
-        "    CoverageTreeSample.translationTransportTree_check]",
-        "  rfl",
+        "#check Cuboctahedron.Generated.Coverage.NonIdComputableClassifier",
+        "#check Cuboctahedron.Generated.Coverage.TranslationComputableClassifier",
         "",
         "end Cuboctahedron.Generated",
         "",
-    ])
+    ]
     ALL_GENERATED_PATH.parent.mkdir(parents=True, exist_ok=True)
     ALL_GENERATED_PATH.write_text("\n".join(lines), encoding="utf-8")
 
@@ -7318,15 +7283,17 @@ def write_proof_carrying_family_backend_json(payload: dict) -> None:
 
 
 PUBLIC_NONIDENTITY_COVERAGE_ALL_SOURCE = """import Cuboctahedron.Generated.Coverage.Interval
+import Cuboctahedron.Generated.Coverage.ComputableClassifiers
 import Cuboctahedron.Generated.NonIdentity.Complete
 
 /-!
 Public target for generated non-identity residual coverage.
 
-Future generated chunk/group modules should prove `CoversInterval
-ResidualRankCertified ... ...` theorems and compose them here.  This file keeps
-the public bridge semantic: it asks for ordinary checked certificate witnesses,
-not for a giant Boolean packed-data reduction.
+Generated chunk/group modules should prove `CoversInterval` theorems for either
+legacy residual predicates or a concrete computable classifier.  The preferred
+new path is `ResidualRankCertifiedBy classifier`, because it avoids the old
+Prop-level early-family classifier and can be fed by generated Boolean family
+membership evidence.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Coverage
@@ -7349,20 +7316,44 @@ theorem residualBridge_of_interval
   intro r hclass hM
   exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
 
+def ResidualRankCertifiedBy
+    (classifier :
+      Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
+    (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    classifier.classOfRank ⟨r, hlt⟩ =
+        NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        exists cert : NonIdCert,
+          cert.word = unrankPairWord ⟨r, hlt⟩ /\\
+            checkNonIdCert cert = true
+
+theorem residualBridge_of_interval_by
+    (classifier :
+      Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        (ResidualRankCertifiedBy classifier) 0 numPairWords) :
+    classifier.ResidualBridge := by
+  intro r hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
+
 end Cuboctahedron.Generated.NonIdentity.Coverage
 """
 
 
 PUBLIC_TRANSLATION_COVERAGE_ALL_SOURCE = """import Cuboctahedron.Generated.Coverage.Interval
+import Cuboctahedron.Generated.Coverage.ComputableClassifiers
 import Cuboctahedron.Generated.Translation.Complete
 
 /-!
 Public target for generated translation Farkas coverage.
 
-Generated shared-shape Farkas modules should prove interval coverage for
-`FarkasRankCertified`.  The adapter below turns such interval evidence into the
-semantic bridge consumed by `Translation.Complete`, without exporting raw
-certificate tables or invoking packed blob checkers.
+Generated shared-shape Farkas modules should prove interval coverage for either
+the legacy Farkas predicate or a concrete computable classifier.  The preferred
+new path is `FarkasRankCertifiedBy classifier`, avoiding the old Prop-level
+classifier and packed blob membership reduction.
 -/
 
 namespace Cuboctahedron.Generated.Translation.Coverage
@@ -7384,6 +7375,31 @@ theorem farkasBridge_of_interval
       Cuboctahedron.Generated.Coverage.CoversInterval
         FarkasRankCertified 0 numPairWords) :
     Cuboctahedron.Generated.Translation.FarkasBridge := by
+  intro r mask hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt mask hclass hM
+
+def FarkasRankCertifiedBy
+    (classifier :
+      Cuboctahedron.Generated.Coverage.TranslationComputableClassifier)
+    (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    forall mask : SignMask,
+      classifier.classOfChoice ⟨r, hlt⟩ mask =
+          TranslationFamilyClass.needsFarkas ->
+        totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          exists cert : TranslationCert,
+            cert.word = unrankPairWord ⟨r, hlt⟩ /\\
+              cert.signMask = mask /\\
+                checkTranslationCert cert = true
+
+theorem farkasBridge_of_interval_by
+    (classifier :
+      Cuboctahedron.Generated.Coverage.TranslationComputableClassifier)
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        (FarkasRankCertifiedBy classifier) 0 numPairWords) :
+    classifier.FarkasBridge := by
   intro r mask hclass hM
   exact h r.val (Nat.zero_le r.val) r.isLt r.isLt mask hclass hM
 
@@ -7497,6 +7513,504 @@ def write_public_coverage_hierarchy_json(payload: dict) -> None:
         json.dumps(payload, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+
+
+def public_nonidentity_coverage_chunk_path(index: int) -> Path:
+    return NONIDENTITY_PUBLIC_COVERAGE_DIR / f"Chunk{index:04d}.lean"
+
+
+def public_nonidentity_coverage_group_path(index: int) -> Path:
+    return NONIDENTITY_PUBLIC_COVERAGE_DIR / f"Group{index:04d}.lean"
+
+
+def public_nonidentity_coverage_module(stem: str) -> str:
+    return f"Cuboctahedron.Generated.NonIdentity.Coverage.{stem}"
+
+
+def public_nonidentity_coverage_full_path(*, smoke: bool) -> Path:
+    return NONIDENTITY_PUBLIC_COVERAGE_DIR / (
+        "Smoke.lean" if smoke else "Full.lean"
+    )
+
+
+def public_translation_coverage_chunk_path(index: int) -> Path:
+    return TRANSLATION_PUBLIC_COVERAGE_DIR / f"Chunk{index:04d}.lean"
+
+
+def public_translation_coverage_group_path(index: int) -> Path:
+    return TRANSLATION_PUBLIC_COVERAGE_DIR / f"Group{index:04d}.lean"
+
+
+def public_translation_coverage_module(stem: str) -> str:
+    return f"Cuboctahedron.Generated.Translation.Coverage.{stem}"
+
+
+def public_translation_coverage_full_path(*, smoke: bool) -> Path:
+    return TRANSLATION_PUBLIC_COVERAGE_DIR / (
+        "Smoke.lean" if smoke else "Full.lean"
+    )
+
+
+def clear_public_interval_shards() -> None:
+    for directory in (NONIDENTITY_PUBLIC_COVERAGE_DIR, TRANSLATION_PUBLIC_COVERAGE_DIR):
+        directory.mkdir(parents=True, exist_ok=True)
+        for pattern in ("Chunk*.lean", "Group*.lean", "Full.lean", "Smoke.lean"):
+            for path in directory.glob(pattern):
+                path.unlink()
+    for directory in (
+        PUBLIC_NONIDENTITY_INTERVAL_BLOB_DIR,
+        PUBLIC_TRANSLATION_INTERVAL_BLOB_DIR,
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+        for path in directory.glob("Chunk*.b64"):
+            path.unlink()
+
+
+def packed_blob_metadata() -> tuple[list[dict], list[dict]]:
+    import check_certificates_independently as checker
+
+    residual: list[dict] = []
+    for path in sorted(FULL_NONIDENTITY_RESIDUAL_BLOB_DIR.glob("Chunk*.b64")):
+        index = int(path.stem.removeprefix("Chunk"))
+        decoded = checker.decode_packed_residual_blob_text(
+            path.read_text(encoding="ascii")
+        )
+        certs = decoded["certs"]
+        ranks = [int(cert["rank"]) for cert in certs]
+        residual.append({
+            "index": index,
+            "path": path,
+            "cert_count": len(certs),
+            "first_rank": min(ranks),
+            "last_rank": max(ranks),
+        })
+
+    translation: list[dict] = []
+    for path in sorted(FULL_TRANSLATION_FARKAS_BLOB_DIR.glob("Chunk*.b64")):
+        index = int(path.stem.removeprefix("Chunk"))
+        decoded = checker.decode_packed_translation_farkas_blob_text(
+            path.read_text(encoding="ascii")
+        )
+        certs = decoded["certs"]
+        ranks = [int(cert["rank"]) for cert in certs]
+        masks = [int(cert["mask"]) for cert in certs]
+        translation.append({
+            "index": index,
+            "path": path,
+            "cert_count": len(certs),
+            "first_rank": min(ranks),
+            "last_rank": max(ranks),
+            "first_key": min(int(cert["rank"]) * 64 + int(cert["mask"])
+                             for cert in certs),
+            "last_key": max(int(cert["rank"]) * 64 + int(cert["mask"])
+                            for cert in certs),
+            "min_mask": min(masks),
+            "max_mask": max(masks),
+        })
+    return residual, translation
+
+
+def repartition_interval_blobs(
+    *, shard_size: int, smoke_limit: int | None
+) -> tuple[list[dict], list[dict]]:
+    import check_certificates_independently as checker
+
+    total_hi = smoke_limit or EXPECTED_PAIR_WORDS
+    shard_count = (total_hi + shard_size - 1) // shard_size
+    residual_buckets: list[list[dict]] = [[] for _ in range(shard_count)]
+    translation_buckets: list[list[dict]] = [[] for _ in range(shard_count)]
+
+    for path in sorted(FULL_NONIDENTITY_RESIDUAL_BLOB_DIR.glob("Chunk*.b64")):
+        decoded = checker.decode_packed_residual_blob_text(
+            path.read_text(encoding="ascii")
+        )
+        for cert in decoded["certs"]:
+            rank = int(cert["rank"])
+            if rank >= total_hi:
+                continue
+            residual_buckets[rank // shard_size].append(cert)
+
+    for path in sorted(FULL_TRANSLATION_FARKAS_BLOB_DIR.glob("Chunk*.b64")):
+        decoded = checker.decode_packed_translation_farkas_blob_text(
+            path.read_text(encoding="ascii")
+        )
+        for cert in decoded["certs"]:
+            rank = int(cert["rank"])
+            if rank >= total_hi:
+                continue
+            translation_buckets[rank // shard_size].append(cert)
+
+    residual_records: list[dict] = []
+    for index, certs in enumerate(residual_buckets):
+        certs.sort(key=lambda cert: int(cert["rank"]))
+        lo = index * shard_size
+        hi = min(total_hi, lo + shard_size)
+        blob_path = PUBLIC_NONIDENTITY_INTERVAL_BLOB_DIR / f"Chunk{index:04d}.b64"
+        if certs:
+            blob = packed_residual_blob(
+                certs=certs,
+                residual_cases=len(certs),
+            )
+            blob_path.write_text(compact_blob_text(blob), encoding="ascii")
+            blob_record = generated_file_record(blob_path)
+        else:
+            blob_record = path_status(blob_path)
+        residual_records.append({
+            "index": index,
+            "lo": lo,
+            "hi": hi,
+            "cert_count": len(certs),
+            "blob": blob_record,
+            "blob_path": blob_path if certs else None,
+        })
+
+    translation_records: list[dict] = []
+    for index, certs in enumerate(translation_buckets):
+        certs.sort(key=lambda cert: (int(cert["rank"]), int(cert["mask"])))
+        lo = index * shard_size
+        hi = min(total_hi, lo + shard_size)
+        blob_path = PUBLIC_TRANSLATION_INTERVAL_BLOB_DIR / f"Chunk{index:04d}.b64"
+        if certs:
+            blob = packed_translation_farkas_blob(
+                certs=certs,
+                shared_farkas_cases=len(certs),
+            )
+            blob_path.write_text(compact_blob_text(blob), encoding="ascii")
+            blob_record = generated_file_record(blob_path)
+        else:
+            blob_record = path_status(blob_path)
+        translation_records.append({
+            "index": index,
+            "lo": lo,
+            "hi": hi,
+            "cert_count": len(certs),
+            "blob": blob_record,
+            "blob_path": blob_path if certs else None,
+        })
+
+    return residual_records, translation_records
+
+
+def chunks_overlapping_rank_interval(
+    chunks: list[dict], lo: int, hi: int
+) -> list[dict]:
+    return [
+        chunk for chunk in chunks
+        if int(chunk["first_rank"]) < hi and lo <= int(chunk["last_rank"])
+    ]
+
+
+def lean_blob_list_lines(
+    *, name: str, paths: list[Path], lean_file_parent: Path
+) -> list[str]:
+    if not paths:
+        return [f"private def {name} : List String := []"]
+    lines = [f"private def {name} : List String := ["]
+    for path in paths:
+        include_path = include_path_to_generated_blob(path, lean_file_parent)
+        lines.append(f"  include_str {include_path},")
+    lines.append("]")
+    return lines
+
+
+def balanced_concat_expression(terms: list[str]) -> str:
+    if not terms:
+        raise ValueError("cannot concatenate an empty term list")
+    if len(terms) == 1:
+        return terms[0]
+    mid = len(terms) // 2
+    left = balanced_concat_expression(terms[:mid])
+    right = balanced_concat_expression(terms[mid:])
+    return (
+        "Cuboctahedron.Generated.Coverage.CoversInterval.concat "
+        f"({left}) ({right})"
+    )
+
+
+def write_public_nonidentity_coverage_chunk(
+    *, index: int, lo: int, hi: int, blob_paths: list[Path]
+) -> Path:
+    raise RuntimeError(
+        "legacy packed public non-identity interval shard emitter is disabled; "
+        "use the computable-classifier interval API"
+    )
+
+def write_public_translation_coverage_chunk(
+    *, index: int, lo: int, hi: int, blob_paths: list[Path]
+) -> Path:
+    raise RuntimeError(
+        "legacy packed public translation interval shard emitter is disabled; "
+        "use the computable-classifier interval API"
+    )
+
+def write_public_coverage_group(
+    *,
+    kind: str,
+    index: int,
+    chunk_records: list[dict],
+    predicate: str,
+) -> Path:
+    if not chunk_records:
+        raise ValueError("cannot emit an empty coverage group")
+    if kind == "nonidentity":
+        path = public_nonidentity_coverage_group_path(index)
+        module = public_nonidentity_coverage_module
+        namespace = f"Cuboctahedron.Generated.NonIdentity.Coverage.Group{index:04d}"
+    elif kind == "translation":
+        path = public_translation_coverage_group_path(index)
+        module = public_translation_coverage_module
+        namespace = f"Cuboctahedron.Generated.Translation.Coverage.Group{index:04d}"
+    else:
+        raise ValueError(f"bad coverage kind: {kind}")
+
+    lo = int(chunk_records[0]["lo"])
+    hi = int(chunk_records[-1]["hi"])
+    lines = [
+        f"import {module('All')}",
+    ]
+    for record in chunk_records:
+        lines.append(f"import {module(f'Chunk{record['index']:04d}')}")
+    terms = [f"Chunk{record['index']:04d}.covers" for record in chunk_records]
+    lines.extend([
+        "",
+        f"namespace {namespace}",
+        "",
+        "theorem covers :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        f"      {predicate} {lo} {hi} :=",
+        f"  {balanced_concat_expression(terms)}",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def write_public_coverage_full(
+    *,
+    kind: str,
+    group_records: list[dict],
+    predicate: str,
+    total_hi: int,
+    smoke: bool,
+) -> Path:
+    if not group_records:
+        raise ValueError("cannot emit empty public coverage root")
+    if kind == "nonidentity":
+        path = public_nonidentity_coverage_full_path(smoke=smoke)
+        module = public_nonidentity_coverage_module
+        namespace = "Cuboctahedron.Generated.NonIdentity.Coverage"
+        theorem_name = "residual_all_covers" if not smoke else "residual_smoke_covers"
+    elif kind == "translation":
+        path = public_translation_coverage_full_path(smoke=smoke)
+        module = public_translation_coverage_module
+        namespace = "Cuboctahedron.Generated.Translation.Coverage"
+        theorem_name = "farkas_all_covers" if not smoke else "farkas_smoke_covers"
+    else:
+        raise ValueError(f"bad coverage kind: {kind}")
+    lo = int(group_records[0]["lo"])
+    hi = int(group_records[-1]["hi"])
+    expected_hi = hi if smoke else total_hi
+    if lo != 0 or hi != expected_hi:
+        raise RuntimeError(
+            f"{kind} coverage root is not contiguous: [{lo}, {hi})"
+        )
+    lines = [
+        f"import {module('All')}",
+    ]
+    for record in group_records:
+        lines.append(f"import {module(f'Group{record['index']:04d}')}")
+    terms = [f"Group{record['index']:04d}.covers" for record in group_records]
+    lines.extend([
+        "",
+        f"namespace {namespace}",
+        "",
+        f"theorem {theorem_name} :",
+        "    Cuboctahedron.Generated.Coverage.CoversInterval",
+        f"      {predicate} 0 {expected_hi} :=",
+        f"  {balanced_concat_expression(terms)}",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def emit_public_coverage_interval_shards(
+    *, shard_size: int, group_size: int, smoke_limit: int | None
+) -> dict:
+    if shard_size <= 0:
+        raise ValueError("public coverage shard size must be positive")
+    if group_size <= 0:
+        raise ValueError("public coverage group size must be positive")
+    if smoke_limit is not None and smoke_limit <= 0:
+        raise ValueError("smoke limit must be positive when provided")
+    write_public_coverage_target_modules()
+    total_hi = smoke_limit or EXPECTED_PAIR_WORDS
+    return {
+        "schema_version": 2,
+        "mode": "public-coverage-interval-shards",
+        "complete": False,
+        "status": "legacy_packed_interval_emitter_disabled",
+        "rank_limit": total_hi,
+        "rank_total": EXPECTED_PAIR_WORDS,
+        "shard_size": shard_size,
+        "group_size": group_size,
+        "nonidentity_chunks": [],
+        "nonidentity_groups": [],
+        "translation_chunks": [],
+        "translation_groups": [],
+        "nonidentity_root": path_status(
+            public_nonidentity_coverage_full_path(smoke=smoke_limit is not None)
+        ),
+        "translation_root": path_status(
+            public_translation_coverage_full_path(smoke=smoke_limit is not None)
+        ),
+        "lean_modules": {
+            "nonidentity_all": lean_module_file_summary(
+                NONIDENTITY_PUBLIC_COVERAGE_ALL_PATH
+            ),
+            "translation_all": lean_module_file_summary(
+                TRANSLATION_PUBLIC_COVERAGE_ALL_PATH
+            ),
+        },
+        "disabled_reason": (
+            "The old public interval emitter relied on packed residual/Farkas "
+            "blob membership reduction through MembershipCheckers. That path "
+            "is intentionally disabled because it can recreate stale generated "
+            "modules and force Lean to reduce large checker expressions. Use "
+            "the computable-classifier interval API instead."
+        ),
+    }
+
+    clear_public_interval_shards()
+    residual_interval_blobs, translation_interval_blobs = repartition_interval_blobs(
+        shard_size=shard_size,
+        smoke_limit=smoke_limit,
+    )
+
+    nonid_records: list[dict] = []
+    translation_records: list[dict] = []
+    for index, nonid_blob_record in enumerate(residual_interval_blobs):
+        translation_blob_record = translation_interval_blobs[index]
+        lo = int(nonid_blob_record["lo"])
+        hi = int(nonid_blob_record["hi"])
+        selected_nonid = (
+            [nonid_blob_record["blob_path"]]
+            if nonid_blob_record["blob_path"] is not None
+            else []
+        )
+        selected_translation = (
+            [translation_blob_record["blob_path"]]
+            if translation_blob_record["blob_path"] is not None
+            else []
+        )
+        nonid_path = write_public_nonidentity_coverage_chunk(
+            index=index, lo=lo, hi=hi, blob_paths=selected_nonid
+        )
+        translation_path = write_public_translation_coverage_chunk(
+            index=index, lo=lo, hi=hi, blob_paths=selected_translation
+        )
+        nonid_records.append({
+            "index": index,
+            "lo": lo,
+            "hi": hi,
+            "cert_count": nonid_blob_record["cert_count"],
+            "selected_blob_count": len(selected_nonid),
+            "blob": nonid_blob_record["blob"],
+            "lean": generated_file_record(nonid_path),
+        })
+        translation_records.append({
+            "index": index,
+            "lo": lo,
+            "hi": hi,
+            "cert_count": translation_blob_record["cert_count"],
+            "selected_blob_count": len(selected_translation),
+            "blob": translation_blob_record["blob"],
+            "lean": generated_file_record(translation_path),
+        })
+
+    nonid_group_records: list[dict] = []
+    translation_group_records: list[dict] = []
+    for group_index, start in enumerate(range(0, len(nonid_records), group_size)):
+        group_chunks = nonid_records[start:start + group_size]
+        path = write_public_coverage_group(
+            kind="nonidentity",
+            index=group_index,
+            chunk_records=group_chunks,
+            predicate="ResidualRankCertified",
+        )
+        nonid_group_records.append({
+            "index": group_index,
+            "lo": group_chunks[0]["lo"],
+            "hi": group_chunks[-1]["hi"],
+            "chunk_count": len(group_chunks),
+            "lean": generated_file_record(path),
+        })
+    for group_index, start in enumerate(range(0, len(translation_records), group_size)):
+        group_chunks = translation_records[start:start + group_size]
+        path = write_public_coverage_group(
+            kind="translation",
+            index=group_index,
+            chunk_records=group_chunks,
+            predicate="FarkasRankCertified",
+        )
+        translation_group_records.append({
+            "index": group_index,
+            "lo": group_chunks[0]["lo"],
+            "hi": group_chunks[-1]["hi"],
+            "chunk_count": len(group_chunks),
+            "lean": generated_file_record(path),
+        })
+
+    smoke = smoke_limit is not None
+    nonid_full = write_public_coverage_full(
+        kind="nonidentity",
+        group_records=nonid_group_records,
+        predicate="ResidualRankCertified",
+        total_hi=EXPECTED_PAIR_WORDS,
+        smoke=smoke,
+    )
+    translation_full = write_public_coverage_full(
+        kind="translation",
+        group_records=translation_group_records,
+        predicate="FarkasRankCertified",
+        total_hi=EXPECTED_PAIR_WORDS,
+        smoke=smoke,
+    )
+    return {
+        "schema_version": 1,
+        "mode": "public-coverage-interval-shards",
+        "complete": not smoke,
+        "status": "smoke" if smoke else "complete",
+        "rank_limit": total_hi,
+        "rank_total": EXPECTED_PAIR_WORDS,
+        "shard_size": shard_size,
+        "group_size": group_size,
+        "nonidentity_chunks": nonid_records,
+        "nonidentity_groups": nonid_group_records,
+        "translation_chunks": translation_records,
+        "translation_groups": translation_group_records,
+        "nonidentity_root": generated_file_record(nonid_full),
+        "translation_root": generated_file_record(translation_full),
+        "source_blobs": {
+            "nonidentity_residual": len(list(
+                FULL_NONIDENTITY_RESIDUAL_BLOB_DIR.glob("Chunk*.b64")
+            )),
+            "translation_farkas": len(list(
+                FULL_TRANSLATION_FARKAS_BLOB_DIR.glob("Chunk*.b64")
+            )),
+            "new_nonidentity_interval_blobs": sum(
+                1 for record in nonid_records if record["selected_blob_count"]
+            ),
+            "new_translation_interval_blobs": sum(
+                1 for record in translation_records
+                if record["selected_blob_count"]
+            ),
+        },
+    }
 
 
 def pascal_identifier(text: str) -> str:
@@ -10291,6 +10805,7 @@ def main() -> None:
             "proof-carrying-structured-literals",
             "proof-carrying-family-backend",
             "public-coverage-hierarchy",
+            "public-coverage-interval-shards",
             "nonidentity-residual-compression",
             "compact-cert-sample",
             "compact-cert-pilot",
@@ -10443,6 +10958,26 @@ def main() -> None:
         default=16,
         help="proof-partition groups per generated supergroup",
     )
+    parser.add_argument(
+        "--public-coverage-shard-size",
+        type=int,
+        default=10_000,
+        help="rank interval size for public generated coverage shards",
+    )
+    parser.add_argument(
+        "--public-coverage-group-size",
+        type=int,
+        default=32,
+        help="coverage chunks per public generated coverage group",
+    )
+    parser.add_argument(
+        "--public-coverage-smoke-limit",
+        type=int,
+        help=(
+            "emit only ranks [0, limit) for a memory-safe public coverage "
+            "smoke build"
+        ),
+    )
     args = parser.parse_args()
     mode = args.mode or ("small-sample" if args.small_sample else None)
     if mode is None:
@@ -10458,8 +10993,15 @@ def main() -> None:
             "proof-carrying-structured-literals/"
             "proof-carrying-family-backend/"
             "public-coverage-hierarchy/"
+            "public-coverage-interval-shards/"
             "nonidentity-residual-compression/"
             "compact-cert-sample/compact-cert-pilot"
+        )
+    if mode in LEGACY_OOM_EMITTER_MODES:
+        parser.error(
+            f"--mode {mode} is archived with the legacy OOM backend. "
+            "Use scripts/generate_public_interval_evidence.py for new "
+            "public interval evidence."
         )
     if mode == "profile-exhaustive-states":
         if args.profile_limit is not None and args.profile_limit < 0:
@@ -10633,6 +11175,43 @@ def main() -> None:
         print(
             "lean: "
             f"{TRANSLATION_PUBLIC_COVERAGE_ALL_PATH.relative_to(REPO_ROOT)}"
+        )
+        return
+    if mode == "public-coverage-interval-shards":
+        if args.public_coverage_shard_size <= 0:
+            parser.error("--public-coverage-shard-size must be positive")
+        if args.public_coverage_group_size <= 0:
+            parser.error("--public-coverage-group-size must be positive")
+        if (
+            args.public_coverage_smoke_limit is not None
+            and args.public_coverage_smoke_limit <= 0
+        ):
+            parser.error("--public-coverage-smoke-limit must be positive")
+        payload = emit_public_coverage_interval_shards(
+            shard_size=args.public_coverage_shard_size,
+            group_size=args.public_coverage_group_size,
+            smoke_limit=args.public_coverage_smoke_limit,
+        )
+        write_public_coverage_hierarchy_json(payload)
+        if payload["status"] == "legacy_packed_interval_emitter_disabled":
+            print("public coverage interval shard emission is disabled")
+            print(f"reason: {payload['disabled_reason']}")
+        else:
+            print("generated public coverage interval shards")
+        print(f"status: {payload['status']}")
+        print(f"rank limit: {payload['rank_limit']}")
+        print(f"shard size: {payload['shard_size']}")
+        print(
+            "nonidentity chunks: "
+            f"{len(payload['nonidentity_chunks'])}"
+        )
+        print(
+            "translation chunks: "
+            f"{len(payload['translation_chunks'])}"
+        )
+        print(
+            "json: "
+            f"{PUBLIC_COVERAGE_HIERARCHY_JSON_PATH.relative_to(REPO_ROOT)}"
         )
         return
     if mode == "nonidentity-residual-compression":

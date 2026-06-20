@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Coverage.Predicates
+import Cuboctahedron.Generated.Coverage.ComputableClassifiers
 import Cuboctahedron.Generated.Translation.FamilyPartition
 
 /-!
@@ -55,5 +56,28 @@ theorem complete_no_feasible_of_farkas_bridge
     Coverage.TranslationCaseKilled r mask :=
   Coverage.TranslationCaseCertified.killed
     (complete_of_farkas_bridge farkasBridge r mask)
+
+theorem complete_of_computable_farkas_bridge
+    (classifier : Coverage.TranslationComputableClassifier)
+    (farkasBridge : classifier.FarkasBridge)
+    (r : Fin numPairWords)
+    (mask : SignMask)
+    (hM : totalLinearOfPairWord (unrankPairWord r) =
+      (matId : Mat3 Rat)) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord r /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true :=
+  classifier.complete_of_farkas_bridge farkasBridge r mask hM
+
+theorem complete_no_feasible_of_computable_farkas_bridge
+    (classifier : Coverage.TranslationComputableClassifier)
+    (farkasBridge : classifier.FarkasBridge)
+    (r : Fin numPairWords)
+    (mask : SignMask) :
+    Coverage.TranslationCaseKilled r mask :=
+  Coverage.TranslationCaseCertified.killed
+    (complete_of_computable_farkas_bridge
+      classifier farkasBridge r mask)
 
 end Cuboctahedron.Generated.Translation

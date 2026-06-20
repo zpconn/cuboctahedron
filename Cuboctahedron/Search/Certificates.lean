@@ -2659,6 +2659,25 @@ def RankInterval.ContainsPairRank
     (interval : RankInterval) (r : Fin numPairWords) : Prop :=
   interval.startRank <= r.val /\ r.val < interval.endRank
 
+def checkRankIntervalContainsPairRank
+    (interval : RankInterval) (r : Fin numPairWords) : Bool :=
+  decide (interval.startRank <= r.val) &&
+    decide (r.val < interval.endRank)
+
+theorem checkRankIntervalContainsPairRank_sound
+    {interval : RankInterval} {r : Fin numPairWords}
+    (hcheck : checkRankIntervalContainsPairRank interval r = true) :
+    interval.ContainsPairRank r := by
+  simpa [checkRankIntervalContainsPairRank, RankInterval.ContainsPairRank]
+    using hcheck
+
+theorem checkRankIntervalContainsPairRank_complete
+    {interval : RankInterval} {r : Fin numPairWords}
+    (hcontains : interval.ContainsPairRank r) :
+    checkRankIntervalContainsPairRank interval r = true := by
+  simpa [checkRankIntervalContainsPairRank, RankInterval.ContainsPairRank]
+    using hcontains
+
 def RankInterval.ContainsCanonicalPairCoverage
     (interval : RankInterval) (coverage : CanonicalPairCoverage) :
     Prop :=
@@ -2686,6 +2705,31 @@ def TranslationCaseBox.Contains
     (mask : SignMask) : Prop :=
   box.startRank <= r.val /\ r.val < box.endRank /\
     box.startMask <= mask.val /\ mask.val < box.endMask
+
+def checkTranslationCaseBoxContainsChoice
+    (box : TranslationCaseBox) (r : Fin numPairWords)
+    (mask : SignMask) : Bool :=
+  decide (box.startRank <= r.val) &&
+    (decide (r.val < box.endRank) &&
+      (decide (box.startMask <= mask.val) &&
+        decide (mask.val < box.endMask)))
+
+theorem checkTranslationCaseBoxContainsChoice_sound
+    {box : TranslationCaseBox} {r : Fin numPairWords}
+    {mask : SignMask}
+    (hcheck :
+      checkTranslationCaseBoxContainsChoice box r mask = true) :
+    box.Contains r mask := by
+  simpa [checkTranslationCaseBoxContainsChoice,
+    TranslationCaseBox.Contains] using hcheck
+
+theorem checkTranslationCaseBoxContainsChoice_complete
+    {box : TranslationCaseBox} {r : Fin numPairWords}
+    {mask : SignMask}
+    (hcontains : box.Contains r mask) :
+    checkTranslationCaseBoxContainsChoice box r mask = true := by
+  simpa [checkTranslationCaseBoxContainsChoice,
+    TranslationCaseBox.Contains] using hcontains
 
 def TranslationCaseBox.ContainsCanonicalTranslationCoverage
     (box : TranslationCaseBox)
@@ -3221,6 +3265,71 @@ theorem checkNonIdParametricFamilyAt_sound
       decide_eq_true_eq] using hcheck
   exact ⟨family.certForRank r.val, hparts.2.1, hparts.2.2.1⟩
 
+def checkNonIdParametricFamilyShape
+    (family : NonIdParametricFamily) : Bool :=
+  checkRankInterval family.interval
+
+theorem checkNonIdParametricFamilyShape_sound
+    {family : NonIdParametricFamily}
+    (hcheck : checkNonIdParametricFamilyShape family = true) :
+    checkNonIdParametricFamily family = true := by
+  simpa [checkNonIdParametricFamilyShape, checkNonIdParametricFamily]
+    using hcheck
+
+noncomputable def checkNonIdParametricFamilyAtB
+    (family : NonIdParametricFamily) (r : Fin numPairWords) : Bool :=
+  checkNonIdParametricFamilyShape family &&
+    (checkRankIntervalContainsPairRank family.interval r &&
+      (checkNonIdCoveredRank r.val (family.certForRank r.val) &&
+        (checkNonIdCert (family.certForRank r.val) &&
+          checkNonIdParametricFailureMatches family.failure
+            (family.certForRank r.val))))
+
+theorem checkNonIdParametricFamilyAtB_parts
+    {family : NonIdParametricFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdParametricFamilyAtB family r = true) :
+    checkNonIdParametricFamilyShape family = true /\
+      checkRankIntervalContainsPairRank family.interval r = true /\
+        checkNonIdCoveredRank r.val (family.certForRank r.val) = true /\
+          checkNonIdCert (family.certForRank r.val) = true /\
+            checkNonIdParametricFailureMatches family.failure
+              (family.certForRank r.val) = true := by
+  simpa only [checkNonIdParametricFamilyAtB, Bool.and_eq_true]
+    using hcheck
+
+theorem checkNonIdParametricFamilyAtB_family_check
+    {family : NonIdParametricFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdParametricFamilyAtB family r = true) :
+    checkNonIdParametricFamily family = true :=
+  checkNonIdParametricFamilyShape_sound
+    (checkNonIdParametricFamilyAtB_parts hcheck).1
+
+theorem checkNonIdParametricFamilyAtB_contains
+    {family : NonIdParametricFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdParametricFamilyAtB family r = true) :
+    family.ContainsPairRank r := by
+  exact checkRankIntervalContainsPairRank_sound
+    (checkNonIdParametricFamilyAtB_parts hcheck).2.1
+
+theorem checkNonIdParametricFamilyAtB_sound
+    {family : NonIdParametricFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdParametricFamilyAtB family r = true) :
+    exists cert : NonIdCert,
+      checkNonIdCoveredRank r.val cert = true /\
+        checkNonIdCert cert = true := by
+  let cert := family.certForRank r.val
+  have hparts := checkNonIdParametricFamilyAtB_parts hcheck
+  exact ⟨cert, hparts.2.2.1, hparts.2.2.2.1⟩
+
+noncomputable def checkNonIdParametricFamiliesAtB
+    : List NonIdParametricFamily -> NonIdFamilyFailure ->
+      Fin numPairWords -> Bool
+  | [], _, _ => false
+  | family :: families, failure, r =>
+      (decide (family.failure = failure) &&
+        checkNonIdParametricFamilyAtB family r) ||
+      checkNonIdParametricFamiliesAtB families failure r
+
 structure NonIdParametricCoverage where
   families : List NonIdParametricFamily
 
@@ -3273,6 +3382,56 @@ theorem nonIdParametricFailureCovers_sound
     exact ⟨cert, checkNonIdCoveredRank_word hcovered, hcert⟩
   · rcases hComputed with ⟨cert, hword, hcert, _hfailure⟩
     exact ⟨cert, hword, hcert⟩
+
+theorem checkNonIdParametricFamilyAtB_interval_covers
+    {family : NonIdParametricFamily} {failure : NonIdFamilyFailure}
+    {r : Fin numPairWords}
+    (hfailure : family.failure = failure)
+    (hcheck : checkNonIdParametricFamilyAtB family r = true) :
+    NonIdIntervalParametricFailureCovers failure r := by
+  exact ⟨family, hfailure,
+    checkNonIdParametricFamilyAtB_family_check hcheck,
+    checkNonIdParametricFamilyAtB_contains hcheck⟩
+
+theorem checkNonIdParametricFamiliesAtB_interval_covers
+    {families : List NonIdParametricFamily}
+    {failure : NonIdFamilyFailure} {r : Fin numPairWords}
+    (hcheck :
+      checkNonIdParametricFamiliesAtB families failure r = true) :
+    NonIdIntervalParametricFailureCovers failure r := by
+  induction families with
+  | nil =>
+      simp [checkNonIdParametricFamiliesAtB] at hcheck
+  | cons family families ih =>
+      have hcases :
+          (family.failure = failure /\
+              checkNonIdParametricFamilyAtB family r = true) \/
+            checkNonIdParametricFamiliesAtB families failure r = true := by
+        simpa only [checkNonIdParametricFamiliesAtB, Bool.or_eq_true,
+          Bool.and_eq_true, decide_eq_true_eq] using hcheck
+      rcases hcases with hhead | htail
+      · exact checkNonIdParametricFamilyAtB_interval_covers
+          hhead.1 hhead.2
+      · exact ih htail
+
+theorem checkNonIdParametricFamiliesAtB_covers
+    {families : List NonIdParametricFamily}
+    {failure : NonIdFamilyFailure} {r : Fin numPairWords}
+    (hcheck :
+      checkNonIdParametricFamiliesAtB families failure r = true) :
+    NonIdParametricFailureCovers failure r :=
+  Or.inl (checkNonIdParametricFamiliesAtB_interval_covers hcheck)
+
+theorem checkNonIdParametricFamiliesAtB_exists_cert
+    {families : List NonIdParametricFamily}
+    {failure : NonIdFamilyFailure} {r : Fin numPairWords}
+    (hcheck :
+      checkNonIdParametricFamiliesAtB families failure r = true) :
+    exists cert : NonIdCert,
+      cert.word = unrankPairWord r /\
+        checkNonIdCert cert = true :=
+  nonIdParametricFailureCovers_sound
+    (checkNonIdParametricFamiliesAtB_covers hcheck)
 
 def NonIdBadDirectionFamilyCovers (r : Fin numPairWords) : Prop :=
   NonIdParametricFailureCovers NonIdFamilyFailure.badDirectionSign r
@@ -4060,6 +4219,85 @@ theorem checkTranslationParametricFamilyAt_sound
   exact ⟨family.certForCase r.val mask.val, hparts.2.1,
     hparts.2.2.1⟩
 
+def checkTranslationParametricFamilyShape
+    (family : TranslationParametricFamily) : Bool :=
+  checkTranslationCaseBox family.box
+
+theorem checkTranslationParametricFamilyShape_sound
+    {family : TranslationParametricFamily}
+    (hcheck : checkTranslationParametricFamilyShape family = true) :
+    checkTranslationParametricFamily family = true := by
+  simpa [checkTranslationParametricFamilyShape,
+    checkTranslationParametricFamily] using hcheck
+
+noncomputable def checkTranslationParametricFamilyAtB
+    (family : TranslationParametricFamily)
+    (r : Fin numPairWords) (mask : SignMask) : Bool :=
+  checkTranslationParametricFamilyShape family &&
+    (checkTranslationCaseBoxContainsChoice family.box r mask &&
+      (checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val }
+          (family.certForCase r.val mask.val) &&
+        (checkTranslationCert (family.certForCase r.val mask.val) &&
+          checkTranslationParametricFailureMatches family.failure
+            (family.certForCase r.val mask.val))))
+
+theorem checkTranslationParametricFamilyAtB_parts
+    {family : TranslationParametricFamily}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamilyAtB family r mask = true) :
+    checkTranslationParametricFamilyShape family = true /\
+      checkTranslationCaseBoxContainsChoice family.box r mask = true /\
+        checkTranslationCoveredCase
+            { pairRank := r.val, signMask := mask.val }
+            (family.certForCase r.val mask.val) = true /\
+          checkTranslationCert (family.certForCase r.val mask.val) = true /\
+            checkTranslationParametricFailureMatches family.failure
+              (family.certForCase r.val mask.val) = true := by
+  simpa only [checkTranslationParametricFamilyAtB, Bool.and_eq_true]
+    using hcheck
+
+theorem checkTranslationParametricFamilyAtB_family_check
+    {family : TranslationParametricFamily}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamilyAtB family r mask = true) :
+    checkTranslationParametricFamily family = true :=
+  checkTranslationParametricFamilyShape_sound
+    (checkTranslationParametricFamilyAtB_parts hcheck).1
+
+theorem checkTranslationParametricFamilyAtB_contains
+    {family : TranslationParametricFamily}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamilyAtB family r mask = true) :
+    family.ContainsTranslationChoice r mask := by
+  exact checkTranslationCaseBoxContainsChoice_sound
+    (checkTranslationParametricFamilyAtB_parts hcheck).2.1
+
+theorem checkTranslationParametricFamilyAtB_sound
+    {family : TranslationParametricFamily}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamilyAtB family r mask = true) :
+    exists cert : TranslationCert,
+      checkTranslationCoveredCase
+          { pairRank := r.val, signMask := mask.val } cert = true /\
+        checkTranslationCert cert = true := by
+  let cert := family.certForCase r.val mask.val
+  have hparts := checkTranslationParametricFamilyAtB_parts hcheck
+  exact ⟨cert, hparts.2.2.1, hparts.2.2.2.1⟩
+
+noncomputable def checkTranslationParametricFamiliesAtB
+    : List TranslationParametricFamily -> TranslationFamilyFailure ->
+      Fin numPairWords -> SignMask -> Bool
+  | [], _, _, _ => false
+  | family :: families, failure, r, mask =>
+      (decide (family.failure = failure) &&
+        checkTranslationParametricFamilyAtB family r mask) ||
+      checkTranslationParametricFamiliesAtB families failure r mask
+
 structure TranslationParametricCoverage where
   families : List TranslationParametricFamily
 
@@ -4121,6 +4359,67 @@ theorem translationParametricFailureCovers_sound
   · rcases hComputed with
       ⟨cert, hword, hmask, hcert, _hfailure⟩
     exact ⟨cert, hword, hmask, hcert⟩
+
+theorem checkTranslationParametricFamilyAtB_interval_covers
+    {family : TranslationParametricFamily}
+    {failure : TranslationFamilyFailure}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hfailure : family.failure = failure)
+    (hcheck :
+      checkTranslationParametricFamilyAtB family r mask = true) :
+    TranslationIntervalParametricFailureCovers failure r mask := by
+  exact ⟨family, hfailure,
+    checkTranslationParametricFamilyAtB_family_check hcheck,
+    checkTranslationParametricFamilyAtB_contains hcheck⟩
+
+theorem checkTranslationParametricFamiliesAtB_interval_covers
+    {families : List TranslationParametricFamily}
+    {failure : TranslationFamilyFailure}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamiliesAtB families failure r mask =
+        true) :
+    TranslationIntervalParametricFailureCovers failure r mask := by
+  induction families with
+  | nil =>
+      simp [checkTranslationParametricFamiliesAtB] at hcheck
+  | cons family families ih =>
+      have hcases :
+          (family.failure = failure /\
+              checkTranslationParametricFamilyAtB family r mask = true) \/
+            checkTranslationParametricFamiliesAtB families failure r mask =
+              true := by
+        simpa only [checkTranslationParametricFamiliesAtB, Bool.or_eq_true,
+          Bool.and_eq_true, decide_eq_true_eq] using hcheck
+      rcases hcases with hhead | htail
+      · exact checkTranslationParametricFamilyAtB_interval_covers
+          hhead.1 hhead.2
+      · exact ih htail
+
+theorem checkTranslationParametricFamiliesAtB_covers
+    {families : List TranslationParametricFamily}
+    {failure : TranslationFamilyFailure}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamiliesAtB families failure r mask =
+        true) :
+    TranslationParametricFailureCovers failure r mask :=
+  Or.inl
+    (checkTranslationParametricFamiliesAtB_interval_covers hcheck)
+
+theorem checkTranslationParametricFamiliesAtB_exists_cert
+    {families : List TranslationParametricFamily}
+    {failure : TranslationFamilyFailure}
+    {r : Fin numPairWords} {mask : SignMask}
+    (hcheck :
+      checkTranslationParametricFamiliesAtB families failure r mask =
+        true) :
+    exists cert : TranslationCert,
+      cert.word = unrankPairWord r /\
+        cert.signMask = mask /\
+          checkTranslationCert cert = true :=
+  translationParametricFailureCovers_sound
+    (checkTranslationParametricFamiliesAtB_covers hcheck)
 
 def TranslationBadDirectionFamilyCovers
     (r : Fin numPairWords) (mask : SignMask) : Prop :=

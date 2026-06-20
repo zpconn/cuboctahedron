@@ -3,3 +3,9 @@ __pycache__/
 certs/nonidentity_residual_shards/
 certs/translation_farkas_shards/
 scripts/generated/exhaustive_real_certs_summary.json
+
+# Legacy generated-data archive. The payload is kept locally for forensic
+# comparison, but should not be reintroduced into the Git/GitHub path.
+archive/legacy_oom_backend/**
+!archive/legacy_oom_backend/
+!archive/legacy_oom_backend/README.md
