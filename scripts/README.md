@@ -273,6 +273,31 @@ Lean leaves, maximum prefix-kill width 3, and 15.277% residual fallback ranks.
 Do not emit more Lean roots from this prefix-kill strategy until a new dry-run
 profile falls below the 2,000-leaf hard gate.
 
+## Translation/Farkas compression gate
+
+The translation-only compression dry-run is:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-farkas-tree --limit 5000 --allow-reject \
+  --output scripts/generated/translation_farkas_compression_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-farkas-tree --limit 100000 --allow-reject \
+  --output scripts/generated/translation_farkas_compression_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,5000)` report planned 15,032 heavy Lean
+families and only 2.073 translation cases per heavy family. The `[0,100000)`
+report scanned 356,160 translation sign assignments and exceeded the
+100,000-family tracking cap. Normalized Farkas shapes do reuse, but the
+pre-Farkas `badDirectionSign` cases dominate the family explosion.
+
+Do not emit translation/Farkas Lean roots from the current family keys. The next
+translation compression attempt should first add a coarser exact bad-direction
+family theorem that groups many masks/ranks by denominator/sign obstruction
+patterns.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

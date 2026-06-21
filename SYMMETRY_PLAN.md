@@ -49,18 +49,18 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 
 ## Current Status Dashboard
 
-Last updated after Phase 6B prefix-kill dry-runs rejected the current
-nonidentity prefix templates on `[0,5000)` and `[0,100000)`.
+Last updated after the translation/Farkas compression gate rejected the current
+translation family keys on `[0,5000)` and `[0,100000)`.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
-| Phase 3: compression profiler | Complete as a tool; current prefix-kill gate rejects | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`; current reports show the templates are too weak. |
+| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree` and `--translation-farkas-tree`; both current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
-| Phase 5: translation Farkas sharing | Partially complete | `FarkasShapeTransport.lean` exists; full shared-shape generation/tiling is still pending. |
-| Phase 6: semantic tiling | Phase 6B rejected for current templates | Automatic bounded-window discovery works, but prefix-kill dry-runs still produce width-3 maximum prefix kills and too many heavy leaves. |
+| Phase 5: translation Farkas sharing | Gate added; current family keys reject | `FarkasShapeTransport.lean` exists, and `--translation-farkas-tree` shows Farkas-shape reuse, but bad-direction families still explode. |
+| Phase 6: semantic tiling | Current gates rejected | Automatic bounded-window discovery works, but the current nonidentity prefix templates and translation family keys both produce far too many heavy leaves. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -100,14 +100,31 @@ Completed current-work items:
 - Recorded rejected Phase 6B prefix-kill reports:
   - `scripts/generated/prefix_kill_tree_profile_0_5000.json`
   - `scripts/generated/prefix_kill_tree_profile_0_100000.json`
+- Added the translation/Farkas dry-run gate:
+  `scripts/profile_symmetry_compression.py --translation-farkas-tree`.
+- Recorded rejected translation/Farkas reports:
+  - `scripts/generated/translation_farkas_compression_profile_0_5000.json`
+    scanned 5,000 pair-word ranks, 487 identity-linear words, and 31,168
+    translation masks. It found 2,057 exact normalized Farkas shapes, but
+    still planned 15,032 heavy Lean leaves and only 2.073 cases per heavy
+    leaf.
+  - `scripts/generated/translation_farkas_compression_profile_0_100000.json`
+    scanned 100,000 pair-word ranks, 5,565 identity-linear words, and
+    356,160 translation masks. It found 11,478 exact normalized Farkas
+    shapes with reuse, but the total heavy-family tracker exceeded its
+    100,000-family cap.
 
 Immediate next work:
 
 1. Do not emit more Lean from the current prefix-kill strategy.
-2. Either add a genuinely stronger mathematical nonidentity prefix obstruction
-   or pivot to the translation/Farkas sharing work, because the current
-   nonidentity templates remain effectively case-local.
-3. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
+2. Do not emit Lean from the current translation/Farkas strategy either; the
+   dry-run proves that the current `badDirectionSign` and per-case family
+   keys remain effectively case-local.
+3. Add a genuinely stronger mathematical family obstruction. The most urgent
+   target is translation bad-direction sharing: in `[0,100000)`, 316,450 of
+   356,160 translation sign assignments die before Farkas, and those cases
+   currently dominate the heavy-family explosion.
+4. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
    hierarchical generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
@@ -121,6 +138,36 @@ Interpretation of the Phase 6B rejection:
   compression attempt should either introduce a new large-interval
   nonidentity obstruction or move effort to translation normalized Farkas
   sharing.
+
+Interpretation of the translation/Farkas rejection:
+
+- Normalized Farkas shapes do share across D4 orbits, but not enough by
+  themselves. The `[0,100000)` sample already has 11,478 unique normalized
+  Farkas shapes among 39,710 cases needing Farkas.
+- The larger failure is the pre-Farkas branch: `badDirectionSign` covers
+  316,450 translation sign assignments in `[0,100000)`, but the current
+  family key includes enough exact sequence/vector data that it produces
+  over 100,000 heavy families before the tracker stops counting.
+- The current translation gate should remain a profiler, not an emitter. The
+  next viable attempt needs a coarse, Lean-checkable bad-direction family
+  theorem that groups many masks/ranks by sign/denominator obstruction
+  patterns rather than by complete translated sequence data.
+
+Plain-language takeaway:
+
+- The Farkas sharing idea is real, but it only helps the minority of
+  translation cases that survive long enough to need a Farkas certificate.
+  In the `[0,100000)` sample, that is 39,710 of 356,160 translation sign
+  assignments.
+- Most translation cases fail earlier because one required crossing direction
+  or denominator already has the wrong sign. Those early failures are
+  mathematically simple, but the current profiler treats them with nearly
+  case-specific keys.
+- Therefore the next compression step should not emit more Farkas shapes yet.
+  It should first prove and profile a coarse `badDirectionSign` family
+  checker, for example a theorem saying that every rank/mask in a whole
+  interval has some required crossing denominator nonpositive, so no
+  translation orbit can realize that interval.
 
 ## Phase 0: Inventory Existing Interfaces
 

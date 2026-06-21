@@ -58,6 +58,9 @@ DEFAULT_OUTPUT = REPO_ROOT / "scripts" / "generated" / "symmetry_compression_pro
 DEFAULT_PREFIX_KILL_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "prefix_kill_tree_profile.json"
 )
+DEFAULT_TRANSLATION_FARKAS_OUTPUT = (
+    REPO_ROOT / "scripts" / "generated" / "translation_farkas_compression_profile.json"
+)
 
 
 def stable_digest(text: str) -> str:
@@ -730,6 +733,292 @@ class PrefixKillTreeProfiler:
         }
 
 
+class TranslationFarkasTreeProfiler:
+    """Dry-run profiler for translation/Farkas family sharing.
+
+    This mode intentionally ignores the non-identity branch except for counting
+    and rank coverage.  It asks whether identity-linear translation sign masks
+    collapse to a small number of Lean-visible families once started-face D4
+    transport and normalized Farkas-shape sharing are applied.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
+        self.limit = limit
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.use_d4_transport = use_d4_transport
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words_skipped = 0
+        self.translation_sign_assignments = 0
+        self.translation_failure_counts: Counter[str] = Counter()
+        self.translation_mask_orbit_histogram: Counter[int] = Counter()
+        self.translation_canonical_choices = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.heavy_families = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.bad_vector_families = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.bad_direction_families = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.farkas_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.farkas_shape_reuse_counts: Counter[str] = Counter()
+        self.farkas_shape_reuse_samples: dict[str, dict[str, Any]] = {}
+        self.tiles = TileAccumulator(self.target_hi, sample_limit)
+        self.samples: list[dict[str, Any]] = []
+
+    def canonical_translation_choice(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> tuple[tuple[str, ...], int, int]:
+        if self.use_d4_transport:
+            return canonical_translation_with_symmetry(word, mask)
+        return word, mask, 0
+
+    @lru_cache(maxsize=200_000)
+    def classify_translation_canonical(self, word: tuple[str, ...], mask: int) -> tuple[str, str, str | None]:
+        raw_word = list(word)
+        pref = prefix_matrices(raw_word)
+        b, seq = translation_vector(raw_word, mask, pref)
+        prefixes = path_prefix_affs(seq)
+        b_text = vec_key(b)
+        seq_text = seq_key(seq)
+        denom_pattern = denom_pattern_key(seq, b, prefixes)
+        base = f"trans|b={b_text}|seq={seq_text}|denoms={denom_pattern}"
+        if b == ZERO_VEC:
+            return "badTranslationVector", f"{base}|badTranslationVector", None
+        if any(impact_denom(seq, b, impact, prefixes) <= 0 for impact in range(1, 14)):
+            return "badDirectionSign", f"{base}|badDirectionSign", None
+        shape = normalized_constraints_key(translation_constraints(seq, b))
+        shape_digest = stable_digest(shape)
+        return "needsFarkas", f"{base}|needsFarkas|shape={shape_digest}", shape
+
+    def mask_orbit_size(self, word: tuple[str, ...], mask: int) -> int:
+        if not self.use_d4_transport:
+            return 1
+        return len({
+            (tuple(transported_word), transported_choice)
+            for sym in STARTED_SYMS
+            for transported_word, transported_choice in [transported_mask(sym, list(word), mask)]
+        })
+
+    def record_translation_case(
+        self,
+        *,
+        rank: int,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> str:
+        canonical_word, canonical_mask, mask_sym_id = self.canonical_translation_choice(word, mask)
+        canonical_choice_key = f"{word_key(canonical_word)}#{canonical_mask}"
+        self.translation_canonical_choices.add(canonical_choice_key)
+        self.translation_mask_orbit_histogram[self.mask_orbit_size(word, mask)] += 1
+
+        failure, family_key, shape = self.classify_translation_canonical(
+            canonical_word,
+            canonical_mask,
+        )
+        self.translation_failure_counts[failure] += 1
+        self.translation_sign_assignments += 1
+
+        if shape is None:
+            transported_family_key = f"sym={mask_sym_id}|mask={canonical_mask}|{family_key}"
+            if failure == "badTranslationVector":
+                self.bad_vector_families.add(family_key)
+            elif failure == "badDirectionSign":
+                self.bad_direction_families.add(family_key)
+            else:
+                raise AssertionError(f"unexpected translation failure without shape: {failure}")
+            self.heavy_families.add(family_key)
+            leaf_key = transported_family_key
+        else:
+            shape_digest = stable_digest(shape)
+            self.farkas_shapes.add(shape)
+            self.farkas_shape_reuse_counts[shape_digest] += 1
+            self.farkas_shape_reuse_samples.setdefault(shape_digest, {
+                "shape_digest": shape_digest,
+                "raw_rank": rank,
+                "raw_word": word_key(word),
+                "raw_mask": mask,
+                "canonical_word": word_key(canonical_word),
+                "canonical_mask": canonical_mask,
+                "failure_key_digest": stable_digest(family_key),
+            })
+            self.heavy_families.add(f"farkasShape|{shape_digest}")
+            leaf_key = f"sym={mask_sym_id}|mask={canonical_mask}|farkasShape|{shape_digest}"
+
+        if len(self.samples) < self.sample_limit:
+            self.samples.append({
+                "rank": rank,
+                "mask": mask,
+                "failure": failure,
+                "canonical_word": word_key(canonical_word),
+                "canonical_mask": canonical_mask,
+                "family_key_digest": stable_digest(family_key),
+                "shape_digest": stable_digest(shape) if shape is not None else None,
+            })
+        return leaf_key
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            self.tiles.add(rank, rank + 1, "nonidentitySkipped", "nonidentitySkipped")
+            return
+
+        self.identity_words += 1
+        mask_family_digests: list[str] = []
+        for mask in range(64):
+            leaf_key = self.record_translation_case(rank=rank, word=word, mask=mask)
+            mask_family_digests.append(stable_digest(leaf_key))
+        rank_family_key = (
+            f"translationRank|word={word_key(word)}"
+            f"|maskFamilies={stable_digest('|'.join(sorted(mask_family_digests)))}"
+        )
+        self.tiles.add(rank, rank + 1, "translation", rank_family_key)
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_lo >= self.target_hi:
+                return
+            if len(prefix) == 13:
+                self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                if child_lo < self.target_hi:
+                    rec(child_lo)
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+
+    def farkas_shape_reuse_payload(self) -> dict[str, Any]:
+        total = sum(self.farkas_shape_reuse_counts.values())
+        shared = sorted(
+            (
+                (digest, count)
+                for digest, count in self.farkas_shape_reuse_counts.items()
+                if count > 1
+            ),
+            key=lambda item: (-item[1], item[0]),
+        )
+        sample_shared_shapes: list[dict[str, Any]] = []
+        for digest, count in shared[: self.sample_limit]:
+            sample = dict(self.farkas_shape_reuse_samples.get(digest, {}))
+            sample["shape_digest"] = digest
+            sample["count"] = count
+            sample_shared_shapes.append(sample)
+        return {
+            "needs_farkas_cases": total,
+            "shape_count": len(self.farkas_shape_reuse_counts),
+            "shared_shape_count": len(shared),
+            "max_reuse": max(self.farkas_shape_reuse_counts.values(), default=0),
+            "sample_shared_shapes": sample_shared_shapes,
+        }
+
+    def payload(
+        self,
+        *,
+        elapsed_seconds: float,
+        rejected: bool,
+        reject_reasons: list[str],
+    ) -> dict[str, Any]:
+        heavy_exact = self.heavy_families.exact_count
+        heavy_lower = self.heavy_families.lower_bound
+        assignments = self.translation_sign_assignments
+        exact_ratio = (
+            assignments / heavy_exact
+            if heavy_exact not in {None, 0}
+            else None
+        )
+        lower_ratio = assignments / heavy_lower if heavy_lower > 0 else None
+        return {
+            "schema_version": 1,
+            "mode": "translation-farkas-tree-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None and not rejected,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation",
+                "symmetry": "started-face D4" if self.use_d4_transport else "none",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "case_to_leaf_compression_ratio_min": 8.0,
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+            },
+            "classification": {
+                "translation_failure_counts": dict(sorted(self.translation_failure_counts.items())),
+                "translation_cases_after_symmetry": self.translation_canonical_choices.payload(),
+                "bad_vector_families": self.bad_vector_families.payload(),
+                "bad_direction_families": self.bad_direction_families.payload(),
+                "unique_normalized_farkas_shapes": self.farkas_shapes.payload(),
+                "farkas_shape_reuse": self.farkas_shape_reuse_payload(),
+                "samples": self.samples,
+            },
+            "d4": {
+                "translation_mask_orbit_histogram": dict(sorted(self.translation_mask_orbit_histogram.items())),
+            },
+            "tiling": {
+                **self.tiles.payload(),
+                "sum_hi_minus_lo": self.tiles.covered_width,
+                "planned_lean_heavy_leaves_exact": heavy_exact,
+                "planned_lean_heavy_leaves_lower_bound": heavy_lower,
+                "planned_lean_heavy_leaves": heavy_exact
+                if heavy_exact is not None
+                else f">{heavy_lower - 1}",
+                "heavy_families": self.heavy_families.payload(),
+                "case_to_leaf_compression_ratio_exact": exact_ratio,
+                "case_to_leaf_compression_ratio_lower_bound": lower_ratio,
+            },
+            "decision": {
+                "status": "reject" if rejected else "pass",
+                "reasons": reject_reasons,
+            },
+        }
+
+
 class SymmetryCompressionProfiler:
     def __init__(
         self,
@@ -1077,6 +1366,8 @@ class SymmetryCompressionProfiler:
 def validate_options(args: argparse.Namespace) -> None:
     if not args.dry_run:
         raise SystemExit("Phase 3 only supports --dry-run; Lean emission belongs to a later phase")
+    if args.prefix_kill_tree and args.translation_farkas_tree:
+        raise SystemExit("--prefix-kill-tree and --translation-farkas-tree are mutually exclusive")
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
     if args.max_lean_leaves <= 0:
@@ -1191,6 +1482,75 @@ def prefix_kill_decision_reasons(
     return rejected, reasons
 
 
+def translation_farkas_decision_reasons(
+    profiler: TranslationFarkasTreeProfiler,
+) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+    coverage = profiler.tiles.payload()
+    if coverage["covered_width"] != profiler.target_hi:
+        reasons.append(
+            f"covered width {coverage['covered_width']} does not match target {profiler.target_hi}"
+        )
+    if coverage["has_gaps"]:
+        reasons.append("rank coverage has gaps")
+    if coverage["has_overlaps"]:
+        reasons.append("rank coverage has overlaps")
+    if profiler.identity_words == 0:
+        reasons.append("bounded profile saw no identity-linear translation ranks")
+
+    heavy_exact = profiler.heavy_families.exact_count
+    heavy_lower = profiler.heavy_families.lower_bound
+    if heavy_exact is None:
+        reasons.append(
+            "planned Lean heavy leaves exceeded tracking cap "
+            f"(lower bound {heavy_lower})"
+        )
+    elif heavy_exact > profiler.max_lean_leaves:
+        reasons.append(
+            f"planned Lean heavy leaves {heavy_exact} exceed max {profiler.max_lean_leaves}"
+        )
+    elif heavy_exact > profiler.warn_lean_leaves:
+        reasons.append(
+            f"warning: planned Lean heavy leaves {heavy_exact} exceed warning threshold "
+            f"{profiler.warn_lean_leaves}"
+        )
+
+    reuse = profiler.farkas_shape_reuse_payload()
+    if reuse["needs_farkas_cases"] > 0 and reuse["shared_shape_count"] == 0:
+        reasons.append("no reused normalized Farkas shape observed in bounded sample")
+    if reuse["needs_farkas_cases"] > 0 and reuse["max_reuse"] < 2:
+        reasons.append("normalized Farkas shape sharing is too weak: max reuse is below 2")
+
+    if heavy_exact not in {None, 0}:
+        compression = profiler.translation_sign_assignments / heavy_exact
+        if compression < 8.0:
+            reasons.append(
+                "case-to-heavy-leaf compression ratio "
+                f"{compression:.3f} is below the D4-scale gate 8.000"
+            )
+
+    if profiler.limit is None:
+        if profiler.pair_words_scanned != EXPECTED_PAIR_WORDS:
+            reasons.append(
+                f"pair-word count {profiler.pair_words_scanned} does not match expected "
+                f"{EXPECTED_PAIR_WORDS}"
+            )
+        if profiler.identity_words != EXPECTED_IDENTITY_WORDS:
+            reasons.append(
+                "identity-linear count "
+                f"{profiler.identity_words} does not match expected {EXPECTED_IDENTITY_WORDS}"
+            )
+        if profiler.translation_sign_assignments != EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS:
+            reasons.append(
+                "translation sign-assignment count "
+                f"{profiler.translation_sign_assignments} does not match expected "
+                f"{EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}"
+            )
+
+    rejected = any(not reason.startswith("warning:") for reason in reasons)
+    return rejected, reasons
+
+
 def write_payload(payload: dict[str, Any], output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -1213,6 +1573,36 @@ def print_summary(payload: dict[str, Any]) -> None:
             "residual fallback: "
             f"{templates['residual_fallback_width']:,} ranks "
             f"({templates['residual_fallback_rank_ratio']:.3%})"
+        )
+        print(f"decision: {decision['status']}")
+        for reason in decision["reasons"]:
+            print(f"- {reason}")
+        return
+
+    if payload.get("mode") == "translation-farkas-tree-profile":
+        counts = payload["actual_counts"]
+        tiling = payload["tiling"]
+        classification = payload["classification"]
+        decision = payload["decision"]
+        reuse = classification["farkas_shape_reuse"]
+        print("translation/Farkas tree profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"coalesced semantic tiles: {tiling['coalesced_semantic_tiles']:,}")
+        print(f"planned heavy Lean leaves: {tiling['planned_lean_heavy_leaves']}")
+        print(
+            "case/heavy-leaf compression ratio: "
+            f"{tiling['case_to_leaf_compression_ratio_exact']}"
+        )
+        print(
+            "unique normalized Farkas shapes: "
+            f"{classification['unique_normalized_farkas_shapes']['count']}"
+        )
+        print(
+            "shared normalized Farkas shapes: "
+            f"{reuse['shared_shape_count']} (max reuse {reuse['max_reuse']})"
         )
         print(f"decision: {decision['status']}")
         for reason in decision["reasons"]:
@@ -1256,6 +1646,11 @@ def main() -> None:
         action="store_true",
         help="profile nonidentity prefix-kill tiling before depth-13 leaves",
     )
+    parser.add_argument(
+        "--translation-farkas-tree",
+        action="store_true",
+        help="profile identity-linear translation/Farkas family sharing",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -1273,12 +1668,34 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        output = DEFAULT_PREFIX_KILL_OUTPUT if args.prefix_kill_tree else DEFAULT_OUTPUT
+        if args.translation_farkas_tree:
+            output = DEFAULT_TRANSLATION_FARKAS_OUTPUT
+        elif args.prefix_kill_tree:
+            output = DEFAULT_PREFIX_KILL_OUTPUT
+        else:
+            output = DEFAULT_OUTPUT
 
     import time
 
     start = time.monotonic()
-    if args.prefix_kill_tree:
+    if args.translation_farkas_tree:
+        translation_profiler = TranslationFarkasTreeProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        translation_profiler.traverse()
+        rejected, reasons = translation_farkas_decision_reasons(translation_profiler)
+        payload = translation_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+            rejected=rejected,
+            reject_reasons=reasons,
+        )
+    elif args.prefix_kill_tree:
         prefix_profiler = PrefixKillTreeProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,
