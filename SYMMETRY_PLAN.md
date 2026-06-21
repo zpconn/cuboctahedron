@@ -49,9 +49,8 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 
 ## Current Status Dashboard
 
-Last updated after Phase 6A automatic bounded-window discovery emitted and
-externally checked discovered bad-direction intervals `[2694,2706)` and
-`[2778,2790)`.
+Last updated after the uniform-prefix prototype emitted and externally checked
+uniform bad-direction intervals `[0,3)` and `[3,6)`.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -59,9 +58,9 @@ externally checked discovered bad-direction intervals `[2694,2706)` and
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
 | Phase 3: compression profiler | Complete as a tool; needs refreshed gates | `scripts/profile_symmetry_compression.py` exists, but its gates must be rerun after the new prefix templates are added. |
-| Phase 4: nonidentity family checkers | Partially complete | Generic semantic adapters now cover bad pair balance and bad direction. More true prefix-level templates are needed. |
+| Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, and uniform no-fixed-axis witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Partially complete | `FarkasShapeTransport.lean` exists; full shared-shape generation/tiling is still pending. |
-| Phase 6: semantic tiling | Phase 6A complete; Phase 6B pending | Automatic bounded-window bad-direction prefix discovery works; full compression gate has not been rerun successfully. |
+| Phase 6: semantic tiling | Phase 6A complete; uniform prototype complete; Phase 6B pending | Automatic bounded-window discovery works. Current active manifest uses uniform bad-direction roots; full compression gate has not been rerun successfully. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -72,6 +71,9 @@ Completed current-work items:
 - Added `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean`.
 - Added reusable theorem `nonidentity_killed_of_axis_dot_zero`.
 - Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
+- Added `nonidentity_killed_of_no_fixed_axis`.
+- Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
+- Added `NoFixedAxisPrefixCert` and `NoFixedAxisPrefixCert.sound`.
 - Generalized the forced-sequence bridge in
   `Cuboctahedron/Search/Certificates.lean` via
   `forcedSeq_eq_of_axisForces_data`.
@@ -83,11 +85,20 @@ Completed current-work items:
   - `evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean`
 - Verified all four roots through `scripts/check_family_interval_evidence.py`
   using the external `.olean` cache and a 44 GiB Lean memory cap.
+- Generated and externally checked current active uniform-family roots:
+  - `evidence/prefix_pruning/uniformBadDirection_000000000_000000003/VerifiedRoot.lean`
+  - `evidence/prefix_pruning/uniformBadDirection_000000003_000000006/VerifiedRoot.lean`
+- Verified both uniform roots through `scripts/check_family_interval_evidence.py`
+  using the external `.olean` cache and a 44 GiB Lean memory cap.
+- Recorded the bounded uniform profile at
+  `scripts/generated/prefix_pruning_uniform_profile.json`: 487 uniform
+  bad-direction candidates and 0 uniform no-fixed-axis candidates in
+  `[0,5000)`, with the current width gate capped at 24 ranks.
 
 Immediate next work:
 
-1. Add stronger prefix templates whose witnesses are shared by the whole prefix
-   family, rather than generated completion-by-completion inside the leaf.
+1. Strengthen the uniform prefix search so it finds large intervals, not only
+   width-3 intervals with identity-vacuous branches.
 2. Rerun the compression profiler with the new templates and record:
    planned leaves, tile count, total covered ranks, gaps/overlaps, and largest
    generated root size.
@@ -1295,9 +1306,12 @@ python3 scripts/check_family_interval_evidence.py \
 and the manifest covers a nontrivial bounded range with no gaps, not merely
 isolated hand-picked examples.
 
-Current status: the manifest now includes automatically discovered roots for
-`[2694,2706)` and `[2778,2790)`, but these are selected intervals, not a
-gap-free bounded range. Therefore Phase 8F remains incomplete.
+Current status: the active manifest now includes uniform-family roots for
+`[0,3)` and `[3,6)`. The older automatically discovered completion-local roots
+for `[2694,2706)` and `[2778,2790)` remain useful reference artifacts, but they
+are no longer the active manifest path. The active uniform roots are still
+selected intervals, not a gap-free bounded range. Therefore Phase 8F remains
+incomplete.
 
 ### Phase 8G: Full Compressed Root Emission
 
@@ -1389,7 +1403,9 @@ Acceptance:
 - [x] Generate and externally check a shorter-prefix multi-rank root:
   `[90,96)` via bad direction.
 - [x] Implement Phase 6A automatic prefix interval discovery.
-- [ ] Add stronger uniform prefix templates for nonidentity failures.
+- [x] Add first uniform prefix templates for nonidentity failures.
+- [ ] Strengthen uniform/prefix templates so the profiler finds large
+  intervals, not only width-3 bounded roots.
 - [ ] Rerun Phase 6B compression gate and record whether full coverage falls
   below 2,000 planned heavy leaves/nodes.
 - [ ] Implement/refresh translation normalized Farkas shape sharing and include
@@ -1405,10 +1421,11 @@ Acceptance:
 
 Current next step:
 
-Add stronger uniform prefix templates for nonidentity failures. The immediate
-target is a bad-direction template that can prove an entire prefix interval
-with one shared witness pattern instead of completion-local per-rank axis and
-kernel witnesses.
+Strengthen the uniform/prefix search beyond the first shared-witness
+bad-direction roots. The immediate target is to add templates or transport
+rules that cover large prefix intervals, because the current uniform discovery
+in `[0,5000)` found 487 candidates but the largest selected intervals have
+width 3.
 
 ## Explicit Non-Goals
 

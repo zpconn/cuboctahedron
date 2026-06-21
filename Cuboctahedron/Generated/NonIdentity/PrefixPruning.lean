@@ -95,6 +95,28 @@ theorem nonidentity_killed_of_axis_dot_zero
   have hPos := hForwardAll (wordImpact i) hi0
   linarith
 
+theorem nonidentity_killed_of_no_fixed_axis
+    {r : Fin numPairWords} {witness : NoFixedVectorWitness}
+    (hNoFixed :
+      checkNoFixedVectorWitness
+        (totalLinearOfPairWord (unrankPairWord r)) witness = true) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled r := by
+  intro _hM hbad
+  rcases hbad with ⟨seq, hRealize, _hStart, hLinear, hFeasible⟩
+  have hSeqLinear : totalLinear seq = totalLinearOfPairWord (unrankPairWord r) :=
+    hRealize.linear_eq
+  have hAxisConstraints :=
+    unfolded_feasible_nonidentity_axis_constraints hFeasible hLinear
+  rcases nonidentity_axis_constraints_fixed_direction hAxisConstraints with
+    ⟨data, hNonzero, hFixed⟩
+  have hFixedWord :
+      matVec ((totalLinearOfPairWord (unrankPairWord r)).map fun q => (q : Real))
+          data.w = data.w := by
+    rw [← hSeqLinear]
+    simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+  exact hNonzero
+    (checkNoFixedVectorWitness_real_zero hNoFixed hFixedWord)
+
 structure BadPairBalancePrefixCert (lo hi : Nat) where
   pairPrefix : Cuboctahedron.Generated.Coverage.PairPrefix
   prefix_covers :
@@ -174,5 +196,87 @@ theorem sound {lo hi : Nat}
     hKernel hAxisZero hM hbad
 
 end BadDirectionPrefixCert
+
+structure UniformBadDirectionPrefixCert (lo hi : Nat) where
+  pairPrefix : Cuboctahedron.Generated.Coverage.PairPrefix
+  prefix_covers :
+    Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi
+  axis : Vec3 Rat
+  kernel : KernelLineWitness
+  impact : WordIndex
+  kernel_sound :
+    forall raw : Nat, lo <= raw -> raw < hi -> forall hlt : raw < numPairWords,
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix pairPrefix
+        (unrankPairWord ⟨raw, hlt⟩) ->
+        totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        checkKernelLineWitness
+          (totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩))
+          axis kernel = true
+  axis_zero_sound :
+    forall raw : Nat, lo <= raw -> raw < hi -> forall hlt : raw < numPairWords,
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix pairPrefix
+        (unrankPairWord ⟨raw, hlt⟩) ->
+        totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        AxisDotZeroAtWord (unrankPairWord ⟨raw, hlt⟩) axis impact
+
+namespace UniformBadDirectionPrefixCert
+
+theorem sound {lo hi : Nat}
+    (cert : UniformBadDirectionPrefixCert lo hi) :
+    Cuboctahedron.Generated.Coverage.CoversInterval
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilledNat lo hi := by
+  intro raw hlo hhi hlt
+  let r : Fin numPairWords := ⟨raw, hlt⟩
+  intro hM hbad
+  have hprefix :
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix cert.pairPrefix
+        (unrankPairWord r) :=
+    cert.prefix_covers raw hlo hhi hlt
+  have hKernel :=
+    cert.kernel_sound raw hlo hhi hlt hprefix hM
+  have hAxisZero :=
+    cert.axis_zero_sound raw hlo hhi hlt hprefix hM
+  exact nonidentity_killed_of_axis_dot_zero
+    (r := r) (axis := cert.axis) (kernel := cert.kernel)
+    (i := cert.impact) hKernel hAxisZero hM hbad
+
+end UniformBadDirectionPrefixCert
+
+structure NoFixedAxisPrefixCert (lo hi : Nat) where
+  pairPrefix : Cuboctahedron.Generated.Coverage.PairPrefix
+  prefix_covers :
+    Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi
+  witness : NoFixedVectorWitness
+  no_fixed_sound :
+    forall raw : Nat, lo <= raw -> raw < hi -> forall hlt : raw < numPairWords,
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix pairPrefix
+        (unrankPairWord ⟨raw, hlt⟩) ->
+        totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        checkNoFixedVectorWitness
+          (totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩))
+          witness = true
+
+namespace NoFixedAxisPrefixCert
+
+theorem sound {lo hi : Nat}
+    (cert : NoFixedAxisPrefixCert lo hi) :
+    Cuboctahedron.Generated.Coverage.CoversInterval
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilledNat lo hi := by
+  intro raw hlo hhi hlt
+  let r : Fin numPairWords := ⟨raw, hlt⟩
+  intro hM hbad
+  have hprefix :
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix cert.pairPrefix
+        (unrankPairWord r) :=
+    cert.prefix_covers raw hlo hhi hlt
+  have hNoFixed :=
+    cert.no_fixed_sound raw hlo hhi hlt hprefix hM
+  exact nonidentity_killed_of_no_fixed_axis
+    (r := r) (witness := cert.witness) hNoFixed hM hbad
+
+end NoFixedAxisPrefixCert
 
 end Cuboctahedron.Generated.NonIdentity.PrefixPruning

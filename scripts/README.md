@@ -205,15 +205,28 @@ python3 scripts/generate_prefix_pruning_prototype.py \
   --report scripts/generated/prefix_pruning_window_profile.json
 ```
 
+The current uniform-family mode is:
+
+```bash
+python3 scripts/generate_prefix_pruning_prototype.py \
+  --profile-window 0 5000 \
+  --profile-uniform-families \
+  --report scripts/generated/prefix_pruning_uniform_profile.json
+
+python3 scripts/generate_prefix_pruning_prototype.py \
+  --profile-window 0 5000 \
+  --emit-uniform-families \
+  --max-roots 2 \
+  --report scripts/generated/prefix_pruning_uniform_profile.json
+```
+
 It writes:
 
 ```text
-evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean
-evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean
-evidence/prefix_pruning/DiscoveredBadDirection_000002694_000002706/VerifiedRoot.lean
-evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean
+evidence/prefix_pruning/uniformBadDirection_000000000_000000003/VerifiedRoot.lean
+evidence/prefix_pruning/uniformBadDirection_000000003_000000006/VerifiedRoot.lean
 evidence/prefix_pruning/manifest.json
-scripts/generated/prefix_pruning_window_profile.json
+scripts/generated/prefix_pruning_uniform_profile.json
 ```
 
 Check it externally with the same memory cap used for generated evidence:
@@ -227,17 +240,17 @@ python3 scripts/check_family_interval_evidence.py \
 
 The generated roots use:
 
-- `Cuboctahedron.Generated.NonIdentity.PrefixPruning.BadDirectionPrefixCert`
-  for `[90,96)`, a depth-9 prefix interval covering six ranks;
-- `Cuboctahedron.Generated.NonIdentity.PrefixPruning.BadDirectionPrefixCert`
-  for discovered intervals `[2694,2706)` and `[2778,2790)`, each covering
-  twelve ranks;
-- `Cuboctahedron.Generated.NonIdentity.PrefixPruning.BadPairBalancePrefixCert`
-  for `[102,103)`, a single-rank control sample.
+- `Cuboctahedron.Generated.NonIdentity.PrefixPruning.UniformBadDirectionPrefixCert`
+  for `[0,3)` and `[3,6)`, each with one shared axis/kernel/zero-impact witness
+  for all non-identity ranks in the interval.
 
 These roots prove semantic `CoversInterval` elimination without active local
 rank-certificate literals or singleton rank modules. This is still a
-prototype-scale backend. The current discovered roots use completion-local
+prototype-scale backend. The previous Phase 6A roots under
+`BadDirection090_096`, `BadPairBalance102`, and
+`DiscoveredBadDirection_*` are retained as reference/control artifacts, but the
+active manifest now points at the uniform-family roots. The old discovered
+roots use completion-local
 witnesses, so scaling still requires stronger templates that share witnesses
 across all completions.
 
