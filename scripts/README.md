@@ -357,6 +357,32 @@ as a denominator-sign decision diagram or exact denominator formula family that
 can prove existence of a bad impact without requiring a whole coarse cube to
 share one first bad impact.
 
+## Translation bad-direction common-impact gate
+
+The second non-rectangular bad-direction dry-run still uses pair-word prefix
+blocks and mask-bit cubes, but accepts a family when all cells share any common
+bad impact, not necessarily the same first bad impact:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-common-impact-tree --limit 5000 --allow-reject \
+  --output scripts/generated/translation_baddir_common_impact_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-common-impact-tree --limit 100000 --allow-reject \
+  --output scripts/generated/translation_baddir_common_impact_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,100000)` report found 316,450
+bad-direction cells and an exact no-gap/no-overlap audit, but the common-impact
+families covered only 7,836 of those cells. It accepted 83 families averaging
+94.41 cells each, with maximum prefix width 1,260 and maximum mask-cube size 8,
+but left 308,614 bad-direction cells as fallback.
+
+Do not emit Lean roots from this common-impact prefix/mask-cube strategy. The
+next bad-direction attempt needs a denominator-sign decision diagram or exact
+formula family that can represent irregular subsets inside prefix/mask domains.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

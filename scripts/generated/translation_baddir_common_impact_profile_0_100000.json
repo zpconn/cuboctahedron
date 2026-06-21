@@ -1,0 +1,451 @@
+{
+  "actual_counts": {
+    "identity_linear_words": 5565,
+    "nonidentity_words_skipped": 94435,
+    "pair_words_scanned": 100000,
+    "translation_sign_assignments": 356160
+  },
+  "audit": {
+    "area_matches_bad_direction_cells": true,
+    "audit_disabled_reason": null,
+    "audit_exact": true,
+    "bad_direction_cells": 316450,
+    "covered_plus_fallback_cells": 316450,
+    "extra_cells": 0,
+    "extra_samples": [],
+    "fallback_bad_direction_cells": 308614,
+    "family_cells": 7836,
+    "has_gaps": false,
+    "has_overlaps": false,
+    "missing_cells": 0,
+    "missing_samples": [],
+    "overlap_cells": 0,
+    "overlap_samples": []
+  },
+  "classification": {
+    "bad_direction_by_impact": {
+      "1": 85426,
+      "2": 84876,
+      "3": 84876,
+      "4": 83884,
+      "5": 86647,
+      "6": 86343,
+      "7": 86339,
+      "8": 86277,
+      "9": 86307,
+      "10": 86183,
+      "11": 85540,
+      "12": 85286,
+      "13": 83391
+    },
+    "translation_failure_counts": {
+      "badDirectionSign": 316450,
+      "needsFarkas": 39710
+    }
+  },
+  "complete": false,
+  "decision": {
+    "reasons": [
+      "symbolic bad-direction fallback remains: 308614 cells"
+    ],
+    "status": "reject"
+  },
+  "elapsed_seconds": 290.29636096500326,
+  "expected_counts": {
+    "identity_linear_words": 2468088,
+    "pair_words": 97297200,
+    "translation_sign_assignments": 157957632
+  },
+  "mode": "translation-baddir-common-impact-tree-profile",
+  "options": {
+    "audit_cell_cap": 2000000,
+    "branch": "translation.badDirectionSign",
+    "family_rule": "all cells in a family share at least one nonpositive impact denominator",
+    "max_lean_leaves": 2000,
+    "min_cells_per_family": 64,
+    "progress_interval": 1000000,
+    "symmetry": "common-impact prefix and mask-bit cubes; D4 transport not yet applied",
+    "warn_lean_leaves": 900
+  },
+  "profile_limit": 100000,
+  "schema_version": 1,
+  "symbolic_tree": {
+    "average_cells_per_family": 94.40963855421687,
+    "common_impact_family_counts": {
+      "1": 44,
+      "2": 17,
+      "4": 2,
+      "5": 13,
+      "6": 5,
+      "7": 2
+    },
+    "fallback_bad_direction_cells": 308614,
+    "fallback_samples": [
+      {
+        "bad_direction_cells": 4,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1",
+        "prefix_depth": 10,
+        "rank_hi": 3,
+        "rank_lo": 0,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 2,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1",
+        "prefix_depth": 11,
+        "rank_hi": 5,
+        "rank_lo": 3,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 2,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,dm11",
+        "prefix_depth": 11,
+        "rank_hi": 6,
+        "rank_lo": 5,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 8,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d11m,d11m",
+        "prefix_depth": 9,
+        "rank_hi": 6,
+        "rank_lo": 0,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 12,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d111,d11m,d1m1",
+        "prefix_depth": 9,
+        "rank_hi": 18,
+        "rank_lo": 6,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 12,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d111,d11m,dm11",
+        "prefix_depth": 9,
+        "rank_hi": 30,
+        "rank_lo": 18,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 12,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d111,d1m1,d11m",
+        "prefix_depth": 9,
+        "rank_hi": 42,
+        "rank_lo": 30,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 4,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d1m1,d1m1,d11m",
+        "prefix_depth": 10,
+        "rank_hi": 45,
+        "rank_lo": 42,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 2,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d1m1,d1m1,dm11,d11m",
+        "prefix_depth": 11,
+        "rank_hi": 47,
+        "rank_lo": 45,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 2,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d1m1,d1m1,dm11,dm11",
+        "prefix_depth": 11,
+        "rank_hi": 48,
+        "rank_lo": 47,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 8,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,d1m1,d1m1",
+        "prefix_depth": 9,
+        "rank_hi": 48,
+        "rank_lo": 42,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 12,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d111,d1m1,dm11",
+        "prefix_depth": 9,
+        "rank_hi": 60,
+        "rank_lo": 48,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 1,
+        "mask_count": 1,
+        "prefix": "x,y,y,z,z,d111,d111,dm11,d11m,d11m,dm11",
+        "prefix_depth": 11,
+        "rank_hi": 63,
+        "rank_lo": 62,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 3,
+        "mask_count": 1,
+        "prefix": "x,y,y,z,z,d111,d111,dm11,d11m",
+        "prefix_depth": 9,
+        "rank_hi": 72,
+        "rank_lo": 60,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 6,
+        "mask_count": 2,
+        "prefix": "x,y,y,z,z,d111,d111,dm11,d11m",
+        "prefix_depth": 9,
+        "rank_hi": 72,
+        "rank_lo": 60,
+        "reason": "common-impact family below cell gate"
+      },
+      {
+        "bad_direction_cells": 1,
+        "mask_count": 1,
+        "prefix": "x,y,y,z,z,d111,d111,dm11,d1m1,d1m1,dm11",
+        "prefix_depth": 11,
+        "rank_hi": 81,
+        "rank_lo": 80,
+        "reason": "common-impact family below cell gate"
+      }
+    ],
+    "family_cells": 7836,
+    "max_family_cells": 240,
+    "max_mask_cube_size": 8,
+    "max_prefix_width": 1260,
+    "nodes_by_depth": {
+      "0": 47,
+      "1": 24,
+      "2": 24,
+      "3": 24,
+      "4": 144,
+      "5": 750,
+      "6": 3620,
+      "7": 15058,
+      "8": 36700,
+      "9": 65278,
+      "10": 59786,
+      "11": 56238
+    },
+    "nodes_visited": 237693,
+    "planned_lean_heavy_leaves": 83,
+    "planned_lean_heavy_leaves_exact": 83,
+    "samples": [
+      {
+        "cells": 120,
+        "identity_rank_count": 30,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d111",
+        "prefix_depth": 7,
+        "rank_hi": 90,
+        "rank_lo": 0,
+        "value_bits": 32
+      },
+      {
+        "cells": 72,
+        "identity_rank_count": 18,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d11m",
+        "prefix_depth": 7,
+        "rank_hi": 270,
+        "rank_lo": 90,
+        "value_bits": 32
+      },
+      {
+        "cells": 72,
+        "identity_rank_count": 18,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,d111,d1m1",
+        "prefix_depth": 7,
+        "rank_hi": 450,
+        "rank_lo": 270,
+        "value_bits": 32
+      },
+      {
+        "cells": 72,
+        "identity_rank_count": 18,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,dm11,d11m",
+        "prefix_depth": 7,
+        "rank_hi": 2250,
+        "rank_lo": 2070,
+        "value_bits": 32
+      },
+      {
+        "cells": 72,
+        "identity_rank_count": 18,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,dm11,d1m1",
+        "prefix_depth": 7,
+        "rank_hi": 2430,
+        "rank_lo": 2250,
+        "value_bits": 32
+      },
+      {
+        "cells": 120,
+        "identity_rank_count": 30,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,z,dm11,dm11",
+        "prefix_depth": 7,
+        "rank_hi": 2520,
+        "rank_lo": 2430,
+        "value_bits": 32
+      },
+      {
+        "cells": 80,
+        "identity_rank_count": 10,
+        "impact": 1,
+        "known_bits": 56,
+        "mask_count": 8,
+        "prefix": "x,y,y,z,d111,d111,dm11,dm11",
+        "prefix_depth": 8,
+        "rank_hi": 3780,
+        "rank_lo": 3750,
+        "value_bits": 32
+      },
+      {
+        "cells": 240,
+        "identity_rank_count": 60,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,d111,d11m",
+        "prefix_depth": 6,
+        "rank_hi": 5040,
+        "rank_lo": 3780,
+        "value_bits": 32
+      },
+      {
+        "cells": 92,
+        "identity_rank_count": 23,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,d111,d1m1,d1m1",
+        "prefix_depth": 7,
+        "rank_hi": 5940,
+        "rank_lo": 5760,
+        "value_bits": 32
+      },
+      {
+        "cells": 80,
+        "identity_rank_count": 10,
+        "impact": 1,
+        "known_bits": 56,
+        "mask_count": 8,
+        "prefix": "x,y,y,z,d111,dm11,dm11,d111",
+        "prefix_depth": 8,
+        "rank_hi": 7440,
+        "rank_lo": 7410,
+        "value_bits": 32
+      },
+      {
+        "cells": 72,
+        "identity_rank_count": 18,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,d11m,d111,z",
+        "prefix_depth": 7,
+        "rank_hi": 8370,
+        "rank_lo": 8190,
+        "value_bits": 32
+      },
+      {
+        "cells": 80,
+        "identity_rank_count": 10,
+        "impact": 1,
+        "known_bits": 28,
+        "mask_count": 8,
+        "prefix": "x,y,y,z,d11m,d1m1,d1m1,d11m",
+        "prefix_depth": 8,
+        "rank_hi": 10920,
+        "rank_lo": 10890,
+        "value_bits": 0
+      },
+      {
+        "cells": 80,
+        "identity_rank_count": 10,
+        "impact": 1,
+        "known_bits": 28,
+        "mask_count": 8,
+        "prefix": "x,y,y,z,d11m,dm11,dm11,d11m",
+        "prefix_depth": 8,
+        "rank_hi": 12540,
+        "rank_lo": 12510,
+        "value_bits": 0
+      },
+      {
+        "cells": 80,
+        "identity_rank_count": 10,
+        "impact": 1,
+        "known_bits": 56,
+        "mask_count": 8,
+        "prefix": "x,y,y,z,d1m1,d111,d111,d1m1",
+        "prefix_depth": 8,
+        "rank_hi": 13530,
+        "rank_lo": 13500,
+        "value_bits": 32
+      },
+      {
+        "cells": 80,
+        "identity_rank_count": 10,
+        "impact": 1,
+        "known_bits": 56,
+        "mask_count": 8,
+        "prefix": "x,y,y,z,d1m1,d11m,d11m,d1m1",
+        "prefix_depth": 8,
+        "rank_hi": 15150,
+        "rank_lo": 15120,
+        "value_bits": 32
+      },
+      {
+        "cells": 72,
+        "identity_rank_count": 18,
+        "impact": 1,
+        "known_bits": 60,
+        "mask_count": 4,
+        "prefix": "x,y,y,z,d1m1,dm11,z",
+        "prefix_depth": 7,
+        "rank_hi": 16560,
+        "rank_lo": 16380,
+        "value_bits": 32
+      }
+    ],
+    "split_counts": {
+      "mask": 26742,
+      "rank": 79739
+    },
+    "symbolic_families": 83
+  },
+  "trusted_as_proof": false
+}

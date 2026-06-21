@@ -67,6 +67,9 @@ DEFAULT_TRANSLATION_BADDIR_OUTPUT = (
 DEFAULT_TRANSLATION_BADDIR_FAMILY_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "translation_baddir_family_profile.json"
 )
+DEFAULT_TRANSLATION_BADDIR_COMMON_IMPACT_OUTPUT = (
+    REPO_ROOT / "scripts" / "generated" / "translation_baddir_common_impact_profile.json"
+)
 
 
 def stable_digest(text: str) -> str:
@@ -1891,6 +1894,307 @@ class TranslationBadDirectionFamilyTreeProfiler:
         }
 
 
+@dataclass(frozen=True)
+class TranslationBadDirectionCommonImpactLabel:
+    kind: str
+    bad_mask: int = 0
+
+    def key(self) -> str:
+        return f"{self.kind}:{self.bad_mask}"
+
+
+class TranslationBadDirectionCommonImpactTreeProfiler(
+    TranslationBadDirectionFamilyTreeProfiler
+):
+    """Dry-run profiler for common-impact bad-direction families.
+
+    A symbolic family is accepted when every cell in its prefix/mask domain has
+    a common nonpositive impact denominator.  This relaxes the rejected Phase 6C
+    "same first bad impact" rule while preserving a simple prospective Lean
+    witness: one fixed impact index for the whole family.
+    """
+
+    ALL_IMPACTS_MASK = (1 << 13) - 1
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.common_impact_counts: Counter[int] = Counter()
+
+    @staticmethod
+    def impact_bit(impact: int) -> int:
+        if not (1 <= impact <= 13):
+            raise ValueError(f"impact must be in 1..13, got {impact}")
+        return 1 << (impact - 1)
+
+    @staticmethod
+    def first_impact_from_mask(mask: int) -> int:
+        if mask == 0:
+            raise ValueError("empty impact mask")
+        return (mask & -mask).bit_length()
+
+    def bad_impact_mask(self, seq: list[str], b: tuple) -> int:
+        prefixes = path_prefix_affs(seq)
+        mask = 0
+        for impact in range(1, 14):
+            if impact_denom(seq, b, impact, prefixes) <= 0:
+                mask |= self.impact_bit(impact)
+        return mask
+
+    def classify_translation_case(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+        pref: list,
+    ) -> TranslationBadDirectionCommonImpactLabel:
+        b, seq = translation_vector(list(word), mask, pref)
+        if b == ZERO_VEC:
+            return TranslationBadDirectionCommonImpactLabel("badTranslationVector")
+        bad_mask = self.bad_impact_mask(seq, b)
+        if bad_mask != 0:
+            return TranslationBadDirectionCommonImpactLabel(
+                "badDirectionSign", bad_mask
+            )
+        return TranslationBadDirectionCommonImpactLabel("needsFarkas")
+
+    @staticmethod
+    def impurity_from_counts(
+        counts: Counter[TranslationBadDirectionCommonImpactLabel],
+    ) -> int:
+        total = sum(counts.values())
+        if total == 0:
+            return 0
+        coverage_by_impact: Counter[int] = Counter()
+        for label, count in counts.items():
+            if label.kind != "badDirectionSign":
+                continue
+            for impact in range(1, 14):
+                if label.bad_mask & TranslationBadDirectionCommonImpactTreeProfiler.impact_bit(impact):
+                    coverage_by_impact[impact] += count
+        best = max(coverage_by_impact.values(), default=0)
+        return total - best
+
+    def common_bad_mask(
+        self,
+        counts: Counter[TranslationBadDirectionCommonImpactLabel],
+    ) -> int:
+        if not counts:
+            return 0
+        mask = self.ALL_IMPACTS_MASK
+        for label, count in counts.items():
+            if count <= 0:
+                continue
+            if label.kind != "badDirectionSign":
+                return 0
+            mask &= label.bad_mask
+            if mask == 0:
+                return 0
+        return mask
+
+    def scan_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        self.identity_ranks.append(rank)
+        self.identity_rank_words[rank] = word
+        labels: list[TranslationBadDirectionCommonImpactLabel] = []
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            label = self.classify_translation_case(word, mask, pref)
+            labels.append(label)
+            self.failure_counts[label.kind] += 1
+            if label.kind == "badDirectionSign":
+                for impact in range(1, 14):
+                    if label.bad_mask & self.impact_bit(impact):
+                        self.bad_direction_by_impact[impact] += 1
+                self.record_audit_cell("audit_bad_cells", rank, mask)
+        self.identity_rank_labels[rank] = tuple(labels)
+
+    def record_family(
+        self,
+        *,
+        rank_lo: int,
+        rank_hi: int,
+        prefix: list[str],
+        ranks: list[int],
+        masks: list[int],
+        known_bits: int,
+        value_bits: int,
+        impact: int,
+    ) -> None:
+        self.common_impact_counts[impact] += 1
+        super().record_family(
+            rank_lo=rank_lo,
+            rank_hi=rank_hi,
+            prefix=prefix,
+            ranks=ranks,
+            masks=masks,
+            known_bits=known_bits,
+            value_bits=value_bits,
+            impact=impact,
+        )
+
+    def compress_node(
+        self,
+        *,
+        rank_lo: int,
+        rank_hi: int,
+        prefix: list[str],
+        remaining: dict[str, int],
+        ranks: list[int],
+        known_bits: int,
+        value_bits: int,
+    ) -> None:
+        self.nodes_visited += 1
+        self.nodes_by_depth[len(prefix)] += 1
+        if not ranks:
+            return
+        masks = self.cube_masks(known_bits, value_bits)
+        if not masks:
+            return
+        counts = self.labels_for(ranks, masks)
+        bad_count = sum(
+            count for label, count in counts.items()
+            if label.kind == "badDirectionSign"
+        )
+        if bad_count == 0:
+            return
+
+        common_mask = self.common_bad_mask(counts)
+        cells = sum(counts.values())
+        if common_mask != 0:
+            if cells >= self.min_cells_per_family:
+                self.record_family(
+                    rank_lo=rank_lo,
+                    rank_hi=rank_hi,
+                    prefix=prefix,
+                    ranks=ranks,
+                    masks=masks,
+                    known_bits=known_bits,
+                    value_bits=value_bits,
+                    impact=self.first_impact_from_mask(common_mask),
+                )
+            else:
+                self.record_fallback(
+                    rank_lo=rank_lo,
+                    rank_hi=rank_hi,
+                    prefix=prefix,
+                    ranks=ranks,
+                    masks=masks,
+                    reason="common-impact family below cell gate",
+                )
+            return
+
+        children = (
+            self.child_rank_blocks(
+                rank_lo=rank_lo,
+                prefix=prefix,
+                remaining=remaining,
+                ranks=ranks,
+            )
+            if len(prefix) < 13 else []
+        )
+        rank_impurity = (
+            self.rank_split_impurity(children, masks) if children else None
+        )
+        mask_split = self.best_mask_split(ranks, known_bits, value_bits)
+        mask_impurity = mask_split[1] if mask_split is not None else None
+
+        split_kind: str | None = None
+        if rank_impurity is not None and mask_impurity is not None:
+            if rank_impurity < mask_impurity:
+                split_kind = "rank"
+            elif mask_impurity < rank_impurity:
+                split_kind = "mask"
+            else:
+                split_kind = "rank" if len(ranks) >= len(masks) else "mask"
+        elif rank_impurity is not None:
+            split_kind = "rank"
+        elif mask_impurity is not None:
+            split_kind = "mask"
+
+        if split_kind == "rank":
+            self.split_counts["rank"] += 1
+            for pair_id, child_lo, child_hi, child_ranks in children:
+                next_remaining = dict(remaining)
+                next_remaining[pair_id] -= 1
+                self.compress_node(
+                    rank_lo=child_lo,
+                    rank_hi=child_hi,
+                    prefix=prefix + [pair_id],
+                    remaining=next_remaining,
+                    ranks=child_ranks,
+                    known_bits=known_bits,
+                    value_bits=value_bits,
+                )
+            return
+
+        if split_kind == "mask" and mask_split is not None:
+            self.split_counts["mask"] += 1
+            bit = mask_split[0]
+            bit_mask = 1 << bit
+            self.compress_node(
+                rank_lo=rank_lo,
+                rank_hi=rank_hi,
+                prefix=prefix,
+                remaining=remaining,
+                ranks=ranks,
+                known_bits=known_bits | bit_mask,
+                value_bits=value_bits & ~bit_mask,
+            )
+            self.compress_node(
+                rank_lo=rank_lo,
+                rank_hi=rank_hi,
+                prefix=prefix,
+                remaining=remaining,
+                ranks=ranks,
+                known_bits=known_bits | bit_mask,
+                value_bits=value_bits | bit_mask,
+            )
+            return
+
+        self.record_fallback(
+            rank_lo=rank_lo,
+            rank_hi=rank_hi,
+            prefix=prefix,
+            ranks=ranks,
+            masks=masks,
+            reason="no remaining common-impact split",
+        )
+
+    def payload(
+        self,
+        *,
+        elapsed_seconds: float,
+        rejected: bool,
+        reject_reasons: list[str],
+    ) -> dict[str, Any]:
+        payload = super().payload(
+            elapsed_seconds=elapsed_seconds,
+            rejected=rejected,
+            reject_reasons=reject_reasons,
+        )
+        payload["mode"] = "translation-baddir-common-impact-tree-profile"
+        payload["options"]["symmetry"] = (
+            "common-impact prefix and mask-bit cubes; D4 transport not yet applied"
+        )
+        payload["options"]["family_rule"] = (
+            "all cells in a family share at least one nonpositive impact denominator"
+        )
+        payload["classification"]["bad_direction_by_impact"] = dict(
+            sorted(self.bad_direction_by_impact.items())
+        )
+        payload["symbolic_tree"]["common_impact_family_counts"] = dict(
+            sorted(self.common_impact_counts.items())
+        )
+        return payload
+
+
 class SymmetryCompressionProfiler:
     def __init__(
         self,
@@ -2243,12 +2547,13 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_farkas_tree),
         bool(args.translation_baddir_tree),
         bool(args.translation_baddir_family_tree),
+        bool(args.translation_baddir_common_impact_tree),
     ])
     if mode_count > 1:
         raise SystemExit(
             "--prefix-kill-tree, --translation-farkas-tree, "
-            "--translation-baddir-tree, and --translation-baddir-family-tree "
-            "are mutually exclusive"
+            "--translation-baddir-tree, --translation-baddir-family-tree, "
+            "and --translation-baddir-common-impact-tree are mutually exclusive"
         )
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
@@ -2650,6 +2955,33 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {reason}")
         return
 
+    if payload.get("mode") == "translation-baddir-common-impact-tree-profile":
+        counts = payload["actual_counts"]
+        tree = payload["symbolic_tree"]
+        audit = payload["audit"]
+        decision = payload["decision"]
+        print("translation bad-direction common-impact profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"bad-direction cells: {audit['bad_direction_cells']:,}")
+        print(f"common-impact families: {tree['symbolic_families']:,}")
+        print(f"average cells per family: {tree['average_cells_per_family']}")
+        print(f"max family cells: {tree['max_family_cells']:,}")
+        print(f"max prefix width: {tree['max_prefix_width']:,}")
+        print(f"max mask cube size: {tree['max_mask_cube_size']:,}")
+        print(f"fallback bad-direction cells: {tree['fallback_bad_direction_cells']:,}")
+        print(
+            "audit: "
+            f"gaps={audit['has_gaps']} overlaps={audit['has_overlaps']} "
+            f"exact={audit['audit_exact']}"
+        )
+        print(f"decision: {decision['status']}")
+        for reason in decision["reasons"]:
+            print(f"- {reason}")
+        return
+
     counts = payload["actual_counts"]
     tiling = payload["tiling"]
     decision = payload["decision"]
@@ -2702,6 +3034,11 @@ def main() -> None:
         action="store_true",
         help="profile symbolic prefix/mask-cube families for translation bad-direction cases",
     )
+    parser.add_argument(
+        "--translation-baddir-common-impact-tree",
+        action="store_true",
+        help="profile common-impact prefix/mask-cube families for translation bad-direction cases",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -2719,7 +3056,9 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        if args.translation_baddir_family_tree:
+        if args.translation_baddir_common_impact_tree:
+            output = DEFAULT_TRANSLATION_BADDIR_COMMON_IMPACT_OUTPUT
+        elif args.translation_baddir_family_tree:
             output = DEFAULT_TRANSLATION_BADDIR_FAMILY_OUTPUT
         elif args.translation_baddir_tree:
             output = DEFAULT_TRANSLATION_BADDIR_OUTPUT
@@ -2733,7 +3072,24 @@ def main() -> None:
     import time
 
     start = time.monotonic()
-    if args.translation_baddir_family_tree:
+    if args.translation_baddir_common_impact_tree:
+        common_impact_profiler = TranslationBadDirectionCommonImpactTreeProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+        )
+        common_impact_profiler.traverse()
+        rejected, reasons = translation_baddir_family_decision_reasons(
+            common_impact_profiler
+        )
+        payload = common_impact_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+            rejected=rejected,
+            reject_reasons=reasons,
+        )
+    elif args.translation_baddir_family_tree:
         baddir_family_profiler = TranslationBadDirectionFamilyTreeProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,
