@@ -408,25 +408,10 @@ def pairPrefixLinearNat (w : PairWord) : Nat -> Mat3 Rat
   rw [dif_neg (by decide)]
   congr
 
-def pairLinearSuffixNat (w : PairWord) (start : Nat) : Nat -> Mat3 Rat
-  | 0 => reflM (canonicalNormalQ PairId.x)
-  | fuel + 1 =>
-      if h : start < 13 then
-        matMul (reflM (canonicalNormalQ (w.get ⟨start, h⟩)))
-          (pairLinearSuffixNat w (start + 1) fuel)
-      else
-        reflM (canonicalNormalQ PairId.x)
-
-def pairLinearProductRight (w : PairWord) : Mat3 Rat :=
-  pairLinearSuffixNat w 0 13
-
 theorem totalLinearOfPairWord_eq_pairLinearProductRight
     (w : PairWord) :
     totalLinearOfPairWord w = pairLinearProductRight w := by
-  unfold totalLinearOfPairWord totalLinear totalAff totalOrder
-  unfold pairLinearProductRight pairLinearSuffixNat canonicalSeqOfPairWord
-  simp [pairLinearSuffixNat, composeFaceList, affCompose, faceReflectionQ,
-    normalQ_faceOfPairSign_true, offsetQ, affId, matMul_matId]
+  rfl
 
 noncomputable def checkNonIdCommon (cert : NonIdCert) : Bool := by
   classical
@@ -789,6 +774,14 @@ noncomputable def checkAxisDotZeroAtWord
   classical
   exact decide (AxisDotZeroAtWord w axis i)
 
+theorem checkAxisDotZeroAtWord_of_axis
+    {w : PairWord} {axis : Vec3 Rat} {i : WordIndex}
+    (h : AxisDotZeroAtWord w axis i) :
+    checkAxisDotZeroAtWord w axis i = true := by
+  classical
+  unfold checkAxisDotZeroAtWord
+  exact decide_eq_true h
+
 noncomputable def checkAxisForcesForcedSeq (cert : NonIdCert) : Bool := by
   classical
   exact decide (AxisForcesForcedSeq cert.word cert.axis
@@ -814,7 +807,7 @@ noncomputable def checkNonIdBadDirectionSignFailure
     decide (totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)) &&
       checkKernelLineWitness (totalLinearOfPairWord cert.word)
         cert.axis cert.kernel &&
-        checkAxisDotZeroAtWord cert.word cert.axis i
+        checkAxisDotZeroAtWordB cert.word cert.axis i
 
 noncomputable def checkNonIdAxisMissesStartInteriorData (cert : NonIdCert) : Bool := by
   classical
@@ -868,8 +861,16 @@ theorem checkNonIdCert_badDirectionSign
     (hAxisZero : AxisDotZeroAtWord cert.word cert.axis i) :
     checkNonIdCert cert = true := by
   rw [checkNonIdCert, hFailure]
+  have hAxisCheck :
+      checkAxisDotZeroAtWordB cert.word cert.axis i = true := by
+    unfold checkAxisDotZeroAtWordB
+    apply List.all_eq_true.mpr
+    intro f hfmem
+    by_cases hpair : pairOfFace f = cert.word.get i
+    · simpa [hpair] using hAxisZero f hpair
+    · simp [hpair]
   simp [checkNonIdBadDirectionSignFailure, hValid, hNonId, hKernel,
-    checkAxisDotZeroAtWord, hAxisZero]
+    hAxisCheck]
 
 theorem checkNonIdCert_noFixedAxis
     (cert : NonIdCert) (witness : NoFixedVectorWitness)
@@ -5415,9 +5416,12 @@ theorem checkNonIdCert_sound
           rw [hForcedEq]
           exact hRealize.omni)
   | badDirectionSign i =>
-      simp [checkNonIdCert, hfailure, checkNonIdBadDirectionSignFailure,
-        checkAxisDotZeroAtWord] at hcheck
-      rcases hcheck with ⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, hAxisZero⟩
+      simp only [checkNonIdCert, hfailure, checkNonIdBadDirectionSignFailure,
+        Bool.and_eq_true, decide_eq_true_eq] at hcheck
+      rcases hcheck with ⟨⟨⟨_hValid, hWordNonId⟩, hKernel⟩, hAxisZeroB⟩
+      have hAxisZero :
+          AxisDotZeroAtWord cert.word cert.axis i :=
+        checkAxisDotZeroAtWordB_sound hAxisZeroB
       have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
         hRealize.linear_eq
       have hSeqNonId : totalLinear seq ≠ (matId : Mat3 Rat) := by

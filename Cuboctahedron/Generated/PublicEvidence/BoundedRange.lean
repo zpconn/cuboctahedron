@@ -27,7 +27,8 @@ def currentBoundedStartRank : Nat := 0
 def currentBoundedEndRank : Nat := 8
 def currentBoundedRankCount : Nat := 8
 def currentBoundedCompleteForInterval : Bool := true
-def currentBoundedVerifiedRootPath : String := "evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean"
+def currentBoundedVerifiedRootPath : String :=
+  "evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean"
 
 theorem currentBoundedRange_nonnegative :
     currentBoundedStartRank <= currentBoundedEndRank := by

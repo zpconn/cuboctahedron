@@ -13,8 +13,20 @@ def pairAtStartedIndex (w : PairWord) (i : Step14) : PairId :=
 def canonicalSeqOfPairWord (w : PairWord) : Step14 -> Face :=
   fun i => faceOfPairSign (pairAtStartedIndex w i) true
 
+def pairLinearSuffixNat (w : PairWord) (start : Nat) : Nat -> Mat3 Rat
+  | 0 => reflM (canonicalNormalQ PairId.x)
+  | fuel + 1 =>
+      if h : start < 13 then
+        matMul (reflM (canonicalNormalQ (w.get ⟨start, h⟩)))
+          (pairLinearSuffixNat w (start + 1) fuel)
+      else
+        reflM (canonicalNormalQ PairId.x)
+
+def pairLinearProductRight (w : PairWord) : Mat3 Rat :=
+  pairLinearSuffixNat w 0 13
+
 def totalLinearOfPairWord (w : PairWord) : Mat3 Rat :=
-  totalLinear (canonicalSeqOfPairWord w)
+  pairLinearProductRight w
 
 def IsNonIdentityLinear (w : PairWord) : Prop :=
   totalLinearOfPairWord w ≠ (matId : Mat3 Rat)
@@ -155,15 +167,29 @@ theorem composeFaceList_linear_eq_of_pairwise_pair
       simp [composeFaceList, affCompose]
       rw [faceReflection_linear_eq_of_pairOfFace_eq (h i), ih]
 
+theorem totalLinear_canonicalSeqOfPairWord_eq_pairLinearProductRight
+    (w : PairWord) :
+    totalLinear (canonicalSeqOfPairWord w) = pairLinearProductRight w := by
+  unfold totalLinear totalAff totalOrder
+  unfold pairLinearProductRight pairLinearSuffixNat canonicalSeqOfPairWord
+  simp [pairLinearSuffixNat, composeFaceList, affCompose, faceReflectionQ,
+    normalQ_faceOfPairSign_true, offsetQ, affId, matMul_matId,
+    pairAtStartedIndex, dropStart]
+
 theorem totalLinear_eq_totalLinearOfPairWord
     {seq : Step14 -> Face} {w : PairWord}
     (hStart : StartsXp seq)
     (hMatch : PairWordMatchesSeq w seq) :
     totalLinear seq = totalLinearOfPairWord w := by
-  unfold totalLinearOfPairWord totalLinear totalAff
-  exact composeFaceList_linear_eq_of_pairwise_pair
-    seq (canonicalSeqOfPairWord w) totalOrder
-    (pairOfFace_eq_canonical_of_matches seq w hStart hMatch)
+  unfold totalLinearOfPairWord
+  calc
+    totalLinear seq = totalLinear (canonicalSeqOfPairWord w) := by
+      unfold totalLinear totalAff
+      exact composeFaceList_linear_eq_of_pairwise_pair
+        seq (canonicalSeqOfPairWord w) totalOrder
+        (pairOfFace_eq_canonical_of_matches seq w hStart hMatch)
+    _ = pairLinearProductRight w :=
+      totalLinear_canonicalSeqOfPairWord_eq_pairLinearProductRight w
 
 theorem seq_to_pairword_with_linear
     (seq : Step14 -> Face)

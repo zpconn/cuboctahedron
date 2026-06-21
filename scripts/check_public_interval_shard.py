@@ -22,6 +22,7 @@ import dataclasses
 import hashlib
 import json
 import os
+import resource
 import subprocess
 import sys
 import time
@@ -202,6 +203,7 @@ def run_lean_task(
     lean_path: str | None,
     cache_dir: Path,
     reuse_cache: bool,
+    lean_memory_limit_gib: float,
 ) -> CheckResult:
     path = task.path
     rel = path.relative_to(REPO_ROOT)
@@ -231,10 +233,18 @@ def run_lean_task(
     cmd.append(str(rel))
     if per_task_time:
         cmd = ["/usr/bin/time", "-v", *cmd]
+
+    def limit_address_space() -> None:
+        if lean_memory_limit_gib <= 0:
+            return
+        limit = int(lean_memory_limit_gib * 1024 * 1024 * 1024)
+        resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
+
     proc = subprocess.run(
         cmd,
         cwd=REPO_ROOT,
         env=env,
+        preexec_fn=limit_address_space if lean_memory_limit_gib > 0 else None,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -287,6 +297,7 @@ def run_tasks_bounded(
     lean_path: str | None,
     cache_dir: Path,
     reuse_cache: bool,
+    lean_memory_limit_gib: float,
 ) -> int:
     if not tasks:
         return 0
@@ -332,6 +343,7 @@ def run_tasks_bounded(
                         lean_path=lean_path,
                         cache_dir=cache_dir,
                         reuse_cache=reuse_cache,
+                        lean_memory_limit_gib=lean_memory_limit_gib,
                     )
                     running[future] = task
                     launched = True
@@ -369,6 +381,7 @@ def run_lean(
     lean_path: str | None,
     cache_dir: Path,
     reuse_cache: bool,
+    lean_memory_limit_gib: float,
 ) -> int:
     task = CheckTask(path, "serial", 1.0)
     result = run_lean_task(
@@ -378,6 +391,7 @@ def run_lean(
         lean_path=lean_path,
         cache_dir=cache_dir,
         reuse_cache=reuse_cache,
+        lean_memory_limit_gib=lean_memory_limit_gib,
     )
     print_result(result)
     return result.returncode
@@ -503,6 +517,15 @@ def main() -> int:
         action="store_true",
         help="wrap each Lean invocation in /usr/bin/time -v",
     )
+    parser.add_argument(
+        "--lean-memory-limit-gib",
+        type=float,
+        default=0.0,
+        help=(
+            "optional per-Lean-process virtual-memory limit; use this as a "
+            "crash guard when checking generated evidence on constrained VMs"
+        ),
+    )
     args = parser.parse_args()
 
     manifest_path = args.manifest
@@ -562,6 +585,7 @@ def main() -> int:
                     lean_path=lean_path,
                     cache_dir=cache_dir,
                     reuse_cache=reuse_cache,
+                    lean_memory_limit_gib=args.lean_memory_limit_gib,
                 )
                 if code != 0:
                     print(
@@ -580,6 +604,7 @@ def main() -> int:
                 lean_path=lean_path,
                 cache_dir=cache_dir,
                 reuse_cache=reuse_cache,
+                lean_memory_limit_gib=args.lean_memory_limit_gib,
             )
             if code != 0:
                 return code

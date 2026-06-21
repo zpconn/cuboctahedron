@@ -1,0 +1,33 @@
+{
+  "complete_for_interval": true,
+  "end_rank": 8,
+  "forward_path": "family_interval_evidence",
+  "group_name": "Group000",
+  "group_root": "evidence/symmetry_semantic_shards/Group000/VerifiedRoot.lean",
+  "memory_rule": {
+    "external_olean_cache": "evidence/.external_olean_cache",
+    "legacy_singleton_generation_enabled": false,
+    "public_shard_checker": "scripts/check_public_interval_shard.py",
+    "safe_ram_gib": 45
+  },
+  "mode": "symmetry-semantic-batch",
+  "rank_count": 8,
+  "schema_version": 1,
+  "shard_size": 8,
+  "shards": [
+    {
+      "end_rank": 8,
+      "heavy_leaf_count": 260,
+      "identity_rank_count": 4,
+      "nonidentity_rank_count": 4,
+      "public_manifest": "evidence/public_interval_shards/Shard000000000_000000008/manifest.json",
+      "public_verified_root": "evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean",
+      "shard_name": "Shard000000000_000000008",
+      "start_rank": 0,
+      "symmetry_wrapper_root": "evidence/symmetry_semantic_shards/Shard000000000_000000008/VerifiedRoot.lean",
+      "translation_case_count": 256
+    }
+  ],
+  "start_rank": 0,
+  "trusted_as_proof": false
+}

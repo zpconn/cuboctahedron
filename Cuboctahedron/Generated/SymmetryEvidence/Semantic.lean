@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.PublicEvidence.BoundedRange
+import Cuboctahedron.Generated.SymmetryEvidence.FamilyInterval
 
 /-!
 Semantic bridge for the symmetry evidence architecture.
@@ -22,6 +23,14 @@ structure SemanticBoundedEvidence (lo hi : Nat) where
     Coverage.CoversInterval
       (Translation.Coverage.FarkasRankCertifiedBy
         translationClassifier) lo hi
+
+def SemanticBoundedEvidence.toFamilyIntervalEvidence
+    {lo hi : Nat} (verified : SemanticBoundedEvidence lo hi) :
+    FamilyIntervalEvidence lo hi where
+  nonidentityClassifier := verified.nonidentityClassifier
+  translationClassifier := verified.translationClassifier
+  nonidentity := ⟨verified.nonidentity⟩
+  translation := ⟨verified.translation⟩
 
 namespace SemanticBoundedEvidence
 

@@ -760,6 +760,88 @@ Acceptance:
 lake build Cuboctahedron.Generated.ExhaustiveCoverage
 ```
 
+### Phase 8A status: bounded semantic batch pilot
+
+The archived singleton-backed implementation previously emitted a semantic
+batch for ranks `[0,64)`:
+
+```bash
+python3 scripts/generate_symmetry_semantic_batch.py \
+  --start-rank 0 --end-rank 64 --shard-size 8 --reuse-existing
+```
+
+This creates public interval shards under `evidence/public_interval_shards/`
+and semantic wrapper/group roots under `evidence/symmetry_semantic_shards/`.
+The default in-tree marker still intentionally remains at the already checked
+`[0,8)` root until the larger batch is verified end-to-end.
+
+After the `[8,16)` OOM, the default wrapper only reuses the known checked
+`[0,8)` smoke shard. Reusing or generating any other singleton shard now
+requires the diagnostic-only `--allow-legacy-singleton-leaves` flag.
+
+The safe checker is:
+
+```bash
+python3 scripts/check_symmetry_semantic_batch.py \
+  evidence/symmetry_semantic_shards/manifest.json \
+  --compile-external --jobs 1 --memory-budget-gib 30 \
+  --lean-memory-limit-gib 44 \
+  --report evidence/symmetry_semantic_shards/check_report.json
+```
+
+Observed result: `[0,8)` is cached and checks, but the first new
+non-identity singleton leaf in `[8,16)` still triggers a Lean out-of-memory
+panic under the per-process crash guard:
+
+```text
+evidence/public_interval_shards/Shard000000008_000000016/NonIdentity/Rank000000008.lean
+```
+
+That means Phase 8 has not yet reached the intended family/prefix compression
+shape. The next implementation step is not to push more singleton rank leaves;
+it is to replace the residual non-identity singleton emitter with real
+prefix/family interval leaves whose public theorem exposes only semantic
+`CoversInterval` coverage.
+
+### Phase 8B status: singleton shard backend archived
+
+The singleton public interval shard backend is no longer a path forward.
+It remains available only for tiny diagnostics and smoke tests:
+
+- `scripts/generate_public_interval_evidence.py --mode interval-shard` now
+  requires `--allow-legacy-singleton-leaves`.
+- `scripts/generate_symmetry_semantic_batch.py` refuses to create missing
+  singleton public shards unless `--allow-legacy-singleton-leaves` is passed.
+- Existing verified `[0,8)` artifacts may still be reused as a bounded smoke
+  root, but the in-tree marker must not advance beyond `[0,8)` using this
+  backend.
+
+The replacement target is:
+
+```text
+Cuboctahedron/Generated/SymmetryEvidence/FamilyInterval.lean
+```
+
+Generated family chunks should prove bounded witness intervals:
+
+```lean
+NonIdentityWitnessInterval classifier lo hi
+TranslationWitnessInterval classifier lo hi
+```
+
+and then use the hand-written adapters to obtain bounded semantic elimination:
+
+```lean
+Coverage.CoversInterval Coverage.NonIdentityRankKilledNat lo hi
+Coverage.CoversInterval TranslationRankKilledNat lo hi
+```
+
+This preserves the existing witness-producing trust model while avoiding a
+global bridge and avoiding one `NonIdCert` proof per raw rank in public theorem
+statements. The next generator must emit true family-level witnesses for those
+intervals; it must not call `write_interval_shard` except in explicitly marked
+diagnostic smoke mode.
+
 ## Phase 9: Step 15 Integration
 
 Use `Generated.rank_complete` to prove:

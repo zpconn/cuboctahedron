@@ -5,9 +5,11 @@ This is the replacement for the archived packed/blob generated-data path.  The
 emitted Lean files expose semantic interval theorems over the public coverage
 API; they do not ask Lean to decode large blobs or reduce a global checker.
 
-The full corpus emitter will be grown from this script.  The current smoke mode
-is deliberately small and proof-carrying: it emits ordinary certificate
-literals, local checker theorems, and interval wrappers.
+The current smoke mode is deliberately small and proof-carrying: it emits
+ordinary certificate literals, local checker theorems, and interval wrappers.
+The old `interval-shard` mode emits one heavy certificate leaf per rank/mask and
+has proven too memory-expensive beyond tiny diagnostics, so it is disabled by
+default.  The full corpus path is now the symmetry family-interval emitter.
 """
 
 from __future__ import annotations
@@ -1265,6 +1267,14 @@ def main() -> None:
         action="store_true",
         help="allow an interval shard above --max-heavy-leaves",
     )
+    parser.add_argument(
+        "--allow-legacy-singleton-leaves",
+        action="store_true",
+        help=(
+            "enable the old one-certificate-leaf-per-rank interval shard "
+            "emitter. Diagnostic-only; do not use for full coverage."
+        ),
+    )
     args = parser.parse_args()
 
     bounded_range_module = write_bounded_range_module()
@@ -1317,6 +1327,13 @@ def main() -> None:
         return
 
     if args.mode == "interval-shard":
+        if not args.allow_legacy_singleton_leaves:
+            parser.error(
+                "--mode interval-shard uses the archived singleton-leaf "
+                "backend and is disabled by default. Use smoke mode for tiny "
+                "checks, or pass --allow-legacy-singleton-leaves only for "
+                "diagnostics. Full coverage must use family-interval evidence."
+            )
         try:
             shard_name = args.shard_name or shard_name_for_interval(
                 args.start_rank, args.end_rank
