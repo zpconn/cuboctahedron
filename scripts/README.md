@@ -330,6 +330,33 @@ Do not emit Lean roots from this box-tiling strategy. The next attempt should
 use a non-rectangular symbolic family, such as denominator-sign formulas over
 pair-word prefixes, mask-bit cubes, or canonical denominator-pattern templates.
 
+## Translation bad-direction symbolic-family gate
+
+The first non-rectangular bad-direction dry-run uses pair-word prefix blocks
+and mask-bit cubes:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-family-tree --limit 5000 --allow-reject \
+  --output scripts/generated/translation_baddir_family_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-family-tree --limit 100000 --allow-reject \
+  --output scripts/generated/translation_baddir_family_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,100000)` report found 316,450
+bad-direction cells and an exact no-gap/no-overlap audit, but the symbolic
+families covered only 2,848 of those cells. It accepted 35 families averaging
+81.37 cells each, with maximum prefix width 630 and maximum mask-cube size 8,
+but left 313,602 bad-direction cells as fallback.
+
+Do not emit Lean roots from this symbolic prefix/mask-cube strategy. The next
+translation bad-direction attempt needs a richer symbolic representation, such
+as a denominator-sign decision diagram or exact denominator formula family that
+can prove existence of a bad impact without requiring a whole coarse cube to
+share one first bad impact.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

@@ -49,18 +49,19 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 
 ## Current Status Dashboard
 
-Last updated after the translation bad-direction box-tiling gate rejected the
-current rectangular rank/mask strategy on `[0,5000)` and `[0,100000)`.
+Last updated after the translation bad-direction symbolic prefix/mask-cube
+gate rejected the current non-rectangular family shape on `[0,5000)` and
+`[0,100000)`.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
-| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, and `--translation-baddir-tree`; all current bounded gates are diagnostic-only. |
+| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, `--translation-baddir-tree`, and `--translation-baddir-family-tree`; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; current family keys reject | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real, but the pre-Farkas bad-direction branch still explodes. |
-| Phase 6: semantic tiling | Current gates rejected | Automatic bounded-window discovery works, but current nonidentity prefixes, translation family keys, and raw bad-direction boxes all produce far too many heavy leaves. |
+| Phase 6: semantic tiling | Current gates rejected | Automatic bounded-window discovery works, but current nonidentity prefixes, translation family keys, raw bad-direction boxes, and prefix/mask-cube bad-direction families all fail the compression gate. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -127,6 +128,19 @@ Completed current-work items:
     rank/mask tiles, with max rank width 2 and only 1.539 cases per tile.
     The exact bounded audit found no gaps or overlaps, so the rejection is
     compression failure rather than tiling-bug failure.
+- Added the translation bad-direction symbolic family dry-run gate:
+  `scripts/profile_symmetry_compression.py --translation-baddir-family-tree`.
+- Recorded rejected symbolic prefix/mask-cube bad-direction reports:
+  - `scripts/generated/translation_baddir_family_profile_0_5000.json`
+    found 26,475 bad-direction cells. It accepted 9 symbolic families
+    averaging 75.56 cells each, but left 25,795 bad-direction cells as
+    fallback.
+  - `scripts/generated/translation_baddir_family_profile_0_100000.json`
+    found 316,450 bad-direction cells. It accepted 35 symbolic families
+    averaging 81.37 cells each, with max prefix width 630 and max mask-cube
+    size 8, but left 313,602 bad-direction cells as fallback. The exact
+    bounded audit found no gaps or overlaps, so the rejection is compression
+    incompleteness rather than an audit failure.
 
 Immediate next work:
 
@@ -136,11 +150,14 @@ Immediate next work:
    keys remain effectively case-local.
 3. Do not emit Lean from the current translation bad-direction box strategy;
    exact bounded auditing proves the boxes are correct but far too small.
-4. Add a genuinely stronger mathematical family obstruction. The most urgent
-   target is translation bad-direction sharing by symbolic denominator
-   patterns, prefix-level sign conditions, or another non-rectangular family
-   shape; raw rank/mask rectangles are not enough.
-5. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
+4. Do not emit Lean from the current symbolic prefix/mask-cube
+   bad-direction strategy; it finds a few useful families but leaves almost
+   all bad-direction cells as fallback.
+5. Add a genuinely stronger mathematical family obstruction. The most urgent
+   target is translation bad-direction sharing by denominator-polynomial
+   signs or an actual decision-diagram family; simple prefix/mask cubes are
+   not enough.
+6. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
    hierarchical generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
@@ -182,6 +199,21 @@ Interpretation of the translation bad-direction box rejection:
   failure, such as shared denominator-sign formulas over pair-word prefixes,
   mask-bit cubes, or canonical denominator-pattern templates.
 
+Interpretation of the translation bad-direction symbolic-family rejection:
+
+- Prefix blocks plus mask-bit cubes do find some reusable failures. In
+  `[0,100000)`, 35 families cover 2,848 bad-direction cells with an average
+  of about 81 cells per family.
+- However, that shape is far too incomplete: 313,602 of 316,450
+  bad-direction cells remain fallback. Scaling it would still require a
+  second case-local backend for almost all early translation failures.
+- Therefore the next viable attempt should not simply tune the current cube
+  threshold. It needs a richer symbolic representation of the denominator
+  sign itself, such as a Boolean decision diagram over prefix positions and
+  mask bits, or a generated exact formula family that proves
+  `impactDenom <= 0` without requiring every active cell in a coarse cube to
+  share the same first bad impact.
+
 Plain-language takeaway:
 
 - The Farkas sharing idea is real, but it only helps the minority of
@@ -193,9 +225,9 @@ Plain-language takeaway:
   mathematically simple, but the current profiler treats them with nearly
   case-specific keys.
 - Therefore the next compression step should not emit more Farkas shapes yet.
-  It should first prove and profile a non-rectangular coarse
-  `badDirectionSign` family checker. The plain rectangular version was tried
-  and rejected.
+  It should first prove and profile a richer symbolic `badDirectionSign`
+  family checker. Plain rectangles and simple prefix/mask cubes were both
+  tried and rejected.
 
 ## Phase 0: Inventory Existing Interfaces
 
@@ -1014,6 +1046,20 @@ Acceptance:
 - No Lean evidence roots are emitted from this phase unless the dry-run gate is
   accepted.
 
+Current result: rejected. The exact bounded audit passed, but the family shape
+is too incomplete. In `[0,100000)`, 35 symbolic prefix/mask-cube families
+covered 2,848 bad-direction cells, while 313,602 bad-direction cells remained
+as fallback. Do not emit Lean roots from this Phase 6C family shape.
+
+Next required profiler direction:
+
+- represent denominator-sign failure with a richer symbolic object than a
+  uniform prefix/mask cube;
+- allow the family to prove existence of some bad impact, not necessarily the
+  same first bad impact for every cell;
+- profile a decision-diagram or denominator-formula family before adding any
+  Lean checker.
+
 ## Phase 7: Generated Lean Architecture
 
 Generate:
@@ -1553,9 +1599,10 @@ Acceptance:
 - [x] Implement a direct Lean translation bad-direction witness adapter.
 - [x] Add and run the translation bad-direction box-tiling dry-run gate.
 - [x] Record rejection of raw rank/mask rectangular bad-direction tiling.
-- [ ] Add a genuinely stronger non-rectangular bad-direction family, such as
-  symbolic denominator-sign formulas over prefixes, mask-bit cubes, or
-  canonical denominator-pattern templates.
+- [x] Add and run a symbolic prefix/mask-cube bad-direction dry-run gate.
+- [x] Record rejection of the symbolic prefix/mask-cube bad-direction family.
+- [ ] Add a richer bad-direction family, such as a denominator-sign decision
+  diagram or generated exact denominator formula family.
 - [ ] Add a stronger nonidentity prefix obstruction if the translation
   bad-direction family still does not compress enough.
 - [ ] Implement/refresh translation normalized Farkas shape sharing and include
@@ -1573,14 +1620,16 @@ Acceptance:
 Current next step:
 
 Do not scale the current nonidentity prefix-kill emitter, translation/Farkas
-emitter, or translation bad-direction box emitter. The `[0,100000)`
-nonidentity dry-run still has maximum prefix-kill width 3 and 94,419 planned
-heavy leaves; the translation/Farkas dry-run exceeded the 100,000-family cap;
-and the translation bad-direction box dry-run produced 205,667 tiny boxes.
-The next useful step is a new non-rectangular mathematical bad-direction
-family, followed by Farkas sharing only for the remaining cases that survive
-that early branch. If that fails, return to a stronger nonidentity prefix
-obstruction or a different translation compression source.
+emitter, translation bad-direction box emitter, or symbolic prefix/mask-cube
+bad-direction emitter. The `[0,100000)` nonidentity dry-run still has maximum
+prefix-kill width 3 and 94,419 planned heavy leaves; the translation/Farkas
+dry-run exceeded the 100,000-family cap; the translation bad-direction box
+dry-run produced 205,667 tiny boxes; and the symbolic prefix/mask-cube
+bad-direction dry-run left 313,602 fallback cells. The next useful step is a
+richer denominator-sign decision-diagram or exact formula family, followed by
+Farkas sharing only for the remaining cases that survive that early branch. If
+that fails, return to a stronger nonidentity prefix obstruction or a different
+translation compression source.
 
 ## Explicit Non-Goals
 
