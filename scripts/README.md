@@ -123,6 +123,36 @@ Cuboctahedron/Generated/SymmetryEvidence/FamilyInterval.lean
 Use the explicit singleton override only for tiny smoke or regression checks,
 not for scaling evidence.
 
+## Family interval evidence pilot
+
+The replacement family-interval emitter produces bounded roots whose public
+surface is `FamilyIntervalEvidence lo hi`, not one proof leaf per raw rank. The
+current pilot supports checked non-identity family templates covering:
+
+- `[13,16)` bad direction;
+- `[102,103)` bad pair balance;
+- `[104,106)` axis misses start interior;
+- `[159,160)` bad first hit.
+
+```bash
+python3 scripts/generate_family_interval_evidence.py --list-supported
+
+python3 scripts/generate_family_interval_evidence.py \
+  --dry-run --start-rank 13 --end-rank 16
+
+python3 scripts/generate_family_interval_evidence.py \
+  --emit-all-supported
+
+python3 scripts/check_family_interval_evidence.py \
+  evidence/family_interval_shards/manifest.json \
+  --compile-external --lean-memory-limit-gib 44
+```
+
+Each generated root uses one `NonIdParametricFamily` over a bounded interval and
+the hand-written family soundness lemmas; it does not generate singleton
+`NonIdCert` rank leaves. The generator still fails closed for other nonempty
+intervals until corresponding family/prefix templates exist.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

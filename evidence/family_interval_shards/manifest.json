@@ -1,0 +1,91 @@
+{
+  "forbidden_active_patterns": [
+    "append_nonid_cert",
+    "append_translation_cert",
+    "CheckedNonIdRank",
+    "CheckedTranslationCase",
+    "def nonIdCert",
+    "def translationCert",
+    "/NonIdentity/Rank"
+  ],
+  "mode": "family-interval-evidence-suite",
+  "no_singleton_leaves": true,
+  "paths": {
+    "verified_roots": [
+      {
+        "bytes": 5162,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000013_000000016/VerifiedRoot.lean"
+      },
+      {
+        "bytes": 4308,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000102_000000103/VerifiedRoot.lean"
+      },
+      {
+        "bytes": 4714,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000104_000000106/VerifiedRoot.lean"
+      },
+      {
+        "bytes": 4284,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000159_000000160/VerifiedRoot.lean"
+      }
+    ]
+  },
+  "rank_count": 7,
+  "schema_version": 2,
+  "template_count": 4,
+  "templates": [
+    {
+      "end_rank": 16,
+      "rank_count": 3,
+      "source": "Generated.NonIdentity.FamilySample.sampleBadDirectionFamilyCert",
+      "start_rank": 13,
+      "template": "bad_direction_sample",
+      "verified_root": {
+        "bytes": 5162,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000013_000000016/VerifiedRoot.lean"
+      }
+    },
+    {
+      "end_rank": 103,
+      "rank_count": 1,
+      "source": "Generated.NonIdentity.FamilySample.sampleBadPairBalanceFamilyCert",
+      "start_rank": 102,
+      "template": "bad_pair_balance_sample",
+      "verified_root": {
+        "bytes": 4308,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000102_000000103/VerifiedRoot.lean"
+      }
+    },
+    {
+      "end_rank": 106,
+      "rank_count": 2,
+      "source": "Generated.NonIdentity.FamilySample.sampleAxisMissFamilyCert",
+      "start_rank": 104,
+      "template": "axis_miss_sample",
+      "verified_root": {
+        "bytes": 4714,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000104_000000106/VerifiedRoot.lean"
+      }
+    },
+    {
+      "end_rank": 160,
+      "rank_count": 1,
+      "source": "Generated.NonIdentity.FamilySample.sampleBadFirstHitFamilyCert",
+      "start_rank": 159,
+      "template": "bad_first_hit_sample",
+      "verified_root": {
+        "bytes": 4284,
+        "exists": true,
+        "path": "evidence/family_interval_shards/Shard000000159_000000160/VerifiedRoot.lean"
+      }
+    }
+  ],
+  "trusted_as_final_proof": false
+}

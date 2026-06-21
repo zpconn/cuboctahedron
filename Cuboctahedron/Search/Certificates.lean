@@ -847,6 +847,61 @@ noncomputable def checkNonIdCert (cert : NonIdCert) : Bool :=
   | NonIdFailure.badHitInterior witness =>
       checkNonIdBadHitInteriorData cert witness
 
+theorem checkNonIdCommon_nonIdentity
+    {cert : NonIdCert}
+    (hcheck : checkNonIdCommon cert = true) :
+    totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) := by
+  simp [checkNonIdCommon] at hcheck
+  exact hcheck.1.1.1.2
+
+theorem checkNonIdInvalidPairWordFailure_nonIdentity
+    {cert : NonIdCert}
+    (hcheck : checkNonIdInvalidPairWordFailure cert = true) :
+    totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) := by
+  simp [checkNonIdInvalidPairWordFailure] at hcheck
+  exact hcheck.1
+
+theorem checkNonIdForcedPairBalanceFailure_nonIdentity
+    {cert : NonIdCert}
+    (hcheck : checkNonIdForcedPairBalanceFailure cert = true) :
+    totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) := by
+  simp [checkNonIdForcedPairBalanceFailure] at hcheck
+  exact hcheck.1.1.1.2
+
+theorem checkNonIdCert_nonIdentity
+    {cert : NonIdCert}
+    (hcheck : checkNonIdCert cert = true) :
+    totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat) := by
+  cases hfailure : cert.failure with
+  | noFixedAxis witness =>
+      by_cases hValid : ValidPairWord cert.word
+      · by_cases hNonId :
+            totalLinearOfPairWord cert.word ≠ (matId : Mat3 Rat)
+        · exact hNonId
+        · simp [checkNonIdCert, hfailure, checkNonIdNoFixedAxisFailure,
+            hValid, hNonId] at hcheck
+      · simp [checkNonIdCert, hfailure, checkNonIdNoFixedAxisFailure,
+          hValid] at hcheck
+  | badDirectionSign i =>
+      simp [checkNonIdCert, hfailure, checkNonIdBadDirectionSignFailure]
+        at hcheck
+      exact hcheck.1.1.2
+  | badPairBalance =>
+      simp [checkNonIdCert, hfailure, checkNonIdPairBalanceFailure] at hcheck
+      rcases hcheck with hinvalid | hforced
+      · exact checkNonIdInvalidPairWordFailure_nonIdentity hinvalid
+      · exact checkNonIdForcedPairBalanceFailure_nonIdentity hforced
+  | axisMissesStartInterior =>
+      simp [checkNonIdCert, hfailure, checkNonIdAxisMissesStartInteriorData]
+        at hcheck
+      exact checkNonIdCommon_nonIdentity hcheck.1.1
+  | badFirstHit witness =>
+      simp [checkNonIdCert, hfailure, checkNonIdBadFirstHitData] at hcheck
+      exact checkNonIdCommon_nonIdentity hcheck.1.1
+  | badHitInterior witness =>
+      simp [checkNonIdCert, hfailure, checkNonIdBadHitInteriorData] at hcheck
+      exact checkNonIdCommon_nonIdentity hcheck.1.1
+
 noncomputable def checkNonIdCerts (certs : Array NonIdCert) : Bool :=
   certs.toList.all checkNonIdCert
 

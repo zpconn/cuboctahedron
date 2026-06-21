@@ -143,6 +143,43 @@ theorem checkNonIdResidualFamily_sound
     ⟨cert, hcovered, hcert⟩
   exact ⟨cert, checkNonIdCoveredRank_word hcovered, hcert⟩
 
+theorem checkNonIdParametricFamily_nonIdentity
+    {family : NonIdParametricFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdParametricFamily family = true)
+    (hcontains : family.ContainsPairRank r) :
+    totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) := by
+  rcases checkNonIdParametricFamily_sound hcheck hcontains with
+    ⟨cert, hcovered, hcert⟩
+  have hword := checkNonIdCoveredRank_word hcovered
+  simpa [hword] using checkNonIdCert_nonIdentity hcert
+
+theorem checkNonIdBadDirFamily_nonIdentity
+    {fam : NonIdBadDirFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdBadDirFamily fam = true)
+    (hcontains : fam.ContainsPairRank r) :
+    totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) := by
+  exact checkNonIdParametricFamily_nonIdentity
+    (checkNonIdBadDirFamily_parts hcheck).2
+    (by simpa [NonIdBadDirFamily.ContainsPairRank] using hcontains)
+
+theorem checkNonIdBadBalanceFamily_nonIdentity
+    {fam : NonIdBadBalanceFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdBadBalanceFamily fam = true)
+    (hcontains : fam.ContainsPairRank r) :
+    totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) := by
+  exact checkNonIdParametricFamily_nonIdentity
+    (checkNonIdBadBalanceFamily_parts hcheck).2
+    (by simpa [NonIdBadBalanceFamily.ContainsPairRank] using hcontains)
+
+theorem checkNonIdResidualFamily_nonIdentity
+    {fam : NonIdResidualFamily} {r : Fin numPairWords}
+    (hcheck : checkNonIdResidualFamily fam = true)
+    (hcontains : fam.ContainsPairRank r) :
+    totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 Rat) := by
+  exact checkNonIdParametricFamily_nonIdentity
+    (checkNonIdResidualFamily_parametric hcheck)
+    (by simpa [NonIdResidualFamily.ContainsPairRank] using hcontains)
+
 theorem checkNonIdBadDirFamily_failure_covers
     {fam : NonIdBadDirFamily} {r : Fin numPairWords}
     (hcheck : checkNonIdBadDirFamily fam = true)

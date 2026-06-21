@@ -842,6 +842,55 @@ statements. The next generator must emit true family-level witnesses for those
 intervals; it must not call `write_interval_shard` except in explicitly marked
 diagnostic smoke mode.
 
+### Phase 8C status: family interval template suite
+
+The first replacement emitter is:
+
+```text
+scripts/generate_family_interval_evidence.py
+scripts/check_family_interval_evidence.py
+```
+
+It emits real non-singleton family interval roots for the checked non-identity
+family samples currently available in `FamilySample`:
+
+| Interval | Template | Ranks |
+| --- | --- | ---: |
+| `[13,16)` | bad direction | 3 |
+| `[102,103)` | bad pair balance | 1 |
+| `[104,106)` | axis misses start interior | 2 |
+| `[159,160)` | bad first hit | 1 |
+
+```bash
+python3 scripts/generate_family_interval_evidence.py --list-supported
+
+python3 scripts/generate_family_interval_evidence.py \
+  --emit-all-supported
+
+python3 scripts/check_family_interval_evidence.py \
+  evidence/family_interval_shards/manifest.json \
+  --compile-external --lean-memory-limit-gib 44
+```
+
+Each generated root has public type-level bounds `[lo,hi)` and exports
+`FamilyIntervalEvidence lo hi` plus semantic `nonidentity_killed` and
+`translation_killed` interval theorems. The roots use one private
+`NonIdParametricFamily` per interval, together with the core theorem that a
+checked non-identity parametric family certifies `totalLinear ≠ I` throughout
+its interval. This removes the old per-rank translation-branch proof boilerplate
+and does not emit singleton `NonIdCert` leaves.
+
+The emitter intentionally refuses every other nonempty interval for now:
+
+```text
+no true family-level template is implemented for this nonempty range;
+refusing singleton fallback
+```
+
+That is the desired failure mode until additional prefix/family templates are
+implemented. The suite is still sample-scale: it covers 7 ranks total and is
+not yet full-range coverage.
+
 ## Phase 9: Step 15 Integration
 
 Use `Generated.rank_complete` to prove:

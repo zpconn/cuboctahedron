@@ -1,0 +1,32 @@
+{
+  "decision": {
+    "can_emit": true,
+    "family_count": 1,
+    "kind": "nonidentity_family_template",
+    "no_singleton_leaves": true,
+    "proof_source": "Generated.NonIdentity.FamilySample.sampleBadDirectionFamilyCert",
+    "rank_count": 3,
+    "template": "bad_direction_sample"
+  },
+  "end_rank": 16,
+  "forbidden_active_patterns": [
+    "append_nonid_cert",
+    "append_translation_cert",
+    "CheckedNonIdRank",
+    "CheckedTranslationCase",
+    "def nonIdCert",
+    "def translationCert",
+    "/NonIdentity/Rank"
+  ],
+  "mode": "family-interval-evidence",
+  "no_singleton_leaves": true,
+  "paths": {
+    "verified_root": {
+      "exists": false
+    }
+  },
+  "rank_count": 3,
+  "schema_version": 2,
+  "start_rank": 13,
+  "trusted_as_final_proof": false
+}
