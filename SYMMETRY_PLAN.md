@@ -47,23 +47,86 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 4. `Cuboctahedron.Generated.ExhaustiveCoverage` is built from compressed interval roots.
 5. Step 15 can consume `Generated.rank_complete` without importing raw evidence leaves.
 
+## Revised Strategy Synthesis
+
+The current evidence strongly suggests that rank/mask tiling is the wrong
+coordinate system for the translation bottleneck. Three increasingly strong
+bad-direction tilers have now failed on `[0,100000)`:
+
+- raw contiguous rank/mask rectangles;
+- prefix/mask cubes using a common first bad impact;
+- prefix/mask cubes using any common bad impact.
+
+All three audits were exact on the bounded windows, so these are not tiler
+bugs. They are compression failures. The bad-direction set is dense and
+irregular in rank/mask coordinates because each denominator is a linear
+function of the six translation sign bits; the complement of the feasible
+denominator cone cuts diagonally through the Boolean cube.
+
+The active strategy is therefore no longer to generate proof evidence for
+every bad-direction mask. Instead:
+
+1. Prove a generic Lean theorem that translation feasibility implies
+   `GoodDirection`, meaning all required impact denominators have the correct
+   strict sign.
+2. Generate evidence only for masks that satisfy `GoodDirection`.
+3. Use exact Farkas/survivor-shape certificates to eliminate those survivor
+   cases.
+4. Use denominator signatures, pseudo-Boolean Farkas certificates, and, if
+   needed, a word/state DAG to keep the survivor proof in hundreds or low
+   thousands of Lean-visible nodes.
+
+This is the central pivot from the external model review. Bad-direction is a
+necessary-condition lemma, not a generated certificate family.
+
+### Trust Model For The Revised Path
+
+Python profilers and generators may discover signatures, Farkas witnesses,
+state DAGs, and symmetry representatives, but they are not proof. Lean must
+check:
+
+- the hand-written theorem `translation_feasible -> GoodDirection`;
+- exact rational Farkas certificates for survivor systems;
+- exact signature/shape application lemmas;
+- exact `D4` transport lemmas where symmetry is used;
+- semantic public coverage theorems consumed by Step 15.
+
+Generated root APIs should expose semantic impossibility, such as
+`Translation.complete` and `Generated.rank_complete`, not large certificate
+objects or global arrays.
+
+### Retired Compression Directions
+
+The following are retained as historical evidence and diagnostic harnesses,
+but they are no longer active paths to full coverage:
+
+- raw singleton rank or translation-mask leaves;
+- packed blobs or predecoded byte-list checkers;
+- broad Boolean checker reduction over generated data;
+- raw translation Farkas evidence before bad-direction is semantically
+  refactored;
+- bad-direction rectangle tiling;
+- first-impact prefix/mask cubes;
+- common-impact prefix/mask cubes;
+- any API that requires a generated certificate for every translation mask.
+
 ## Current Status Dashboard
 
-Last updated after the translation bad-direction symbolic prefix/mask-cube
-gate rejected the current non-rectangular family shape on `[0,5000)` and
-`[0,100000)`.
+Last updated after incorporating the external-model review. The new active
+path is the GoodDirection/survivor semantic refactor. Existing bad-direction
+tilers remain documented below only as rejected compression experiments.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
-| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, `--translation-baddir-tree`, and `--translation-baddir-family-tree`; all current bounded gates are diagnostic-only. |
+| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, `--translation-baddir-tree`, `--translation-baddir-family-tree`, and `--translation-baddir-common-impact-tree`; all current bounded bad-direction gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
-| Phase 5: translation Farkas sharing | Gates added; current family keys reject | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real, but the pre-Farkas bad-direction branch still explodes. |
-| Phase 6: semantic tiling | Current gates rejected | Automatic bounded-window discovery works, but current nonidentity prefixes, translation family keys, raw bad-direction boxes, and prefix/mask-cube bad-direction families all fail the compression gate. |
+| Phase 5: translation Farkas sharing | Gates added; waiting on GoodDirection refactor | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, not to the dense bad-direction complement. |
+| Phase 6: semantic translation pivot | Current tiling gates rejected; new GoodDirection plan active | Automatic bounded-window discovery works, but current nonidentity prefixes, translation family keys, raw bad-direction boxes, first-impact cubes, and common-impact cubes all fail the compression gate. Phase 6E starts the semantic refactor. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
-| Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
+| Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
 | Phase 10: final theorem/axioms | Not ready | Wait for Step 15. |
 
@@ -141,24 +204,40 @@ Completed current-work items:
     size 8, but left 313,602 bad-direction cells as fallback. The exact
     bounded audit found no gaps or overlaps, so the rejection is compression
     incompleteness rather than an audit failure.
+- Added the translation bad-direction common-impact dry-run gate:
+  `scripts/profile_symmetry_compression.py --translation-baddir-common-impact-tree`.
+- Recorded rejected common-impact prefix/mask-cube reports:
+  - `scripts/generated/translation_baddir_common_impact_profile_0_5000.json`
+    found 26,475 bad-direction cells. It accepted 18 common-impact families
+    averaging 94.89 cells each, but left 24,767 bad-direction cells as
+    fallback.
+  - `scripts/generated/translation_baddir_common_impact_profile_0_100000.json`
+    found 316,450 bad-direction cells. It accepted 83 common-impact families
+    averaging 94.41 cells each, with max prefix width 1,260 and max mask-cube
+    size 8, but left 308,614 bad-direction cells as fallback. The exact
+    bounded audit found no gaps or overlaps, so the rejection is compression
+    incompleteness rather than an audit failure.
 
 Immediate next work:
 
 1. Do not emit more Lean from the current prefix-kill strategy.
-2. Do not emit Lean from the current translation/Farkas strategy either; the
-   dry-run proves that the current `badDirectionSign` and per-case family
-   keys remain effectively case-local.
-3. Do not emit Lean from the current translation bad-direction box strategy;
-   exact bounded auditing proves the boxes are correct but far too small.
-4. Do not emit Lean from the current symbolic prefix/mask-cube
-   bad-direction strategy; it finds a few useful families but leaves almost
-   all bad-direction cells as fallback.
-5. Add a genuinely stronger mathematical family obstruction. The most urgent
-   target is translation bad-direction sharing by denominator-polynomial
-   signs or an actual decision-diagram family; simple prefix/mask cubes are
-   not enough.
-6. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
-   hierarchical generated coverage roots.
+2. Do not emit Lean from the current translation/Farkas strategy in its old
+   form; it still tries to account for dense bad-direction masks as generated
+   evidence.
+3. Do not emit Lean from the current translation bad-direction box strategy,
+   symbolic prefix/mask-cube strategy, or common-impact prefix/mask-cube
+   strategy. All three are retired.
+4. Implement the semantic `GoodDirection` refactor:
+   - define or identify `GoodDirectionAtRank r mask`;
+   - prove `goodDirection_of_translation_feasible`;
+   - change the intended generated translation theorem to assume
+     `GoodDirectionAtRank r mask` and prove unsatisfiability only for those
+     survivor masks.
+5. Build the survivor/denominator-signature profiler before generating any
+   new Lean evidence.
+6. Only after the survivor profiler, pseudo-Boolean Farkas fallback, or
+   state-DAG fallback falls below the 2,000-leaf hard gate, emit hierarchical
+   generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
 
@@ -182,9 +261,9 @@ Interpretation of the translation/Farkas rejection:
   family key includes enough exact sequence/vector data that it produces
   over 100,000 heavy families before the tracker stops counting.
 - The current translation gate should remain a profiler, not an emitter. The
-  next viable attempt needs a coarse, Lean-checkable bad-direction family
-  theorem that groups many masks/ranks by sign/denominator obstruction
-  patterns rather than by complete translated sequence data.
+  revised path should not generate bad-direction families. It should first
+  prove `TranslationFeasible -> GoodDirection`, then generate evidence only
+  for masks satisfying that necessary condition.
 
 Interpretation of the translation bad-direction box rejection:
 
@@ -194,10 +273,10 @@ Interpretation of the translation bad-direction box rejection:
 - However, raw contiguous rank/mask rectangles do not align with the failure
   structure. In `[0,100000)`, the largest tile spans only two ranks, and the
   average tile covers about 1.54 cells.
-- Therefore the next viable bad-direction compression cannot be plain
-  rectangle tiling. It needs a family shape closer to the arithmetic source of
-  failure, such as shared denominator-sign formulas over pair-word prefixes,
-  mask-bit cubes, or canonical denominator-pattern templates.
+- Therefore direct bad-direction compression by rectangles is retired. The
+  arithmetic source of the failure should now be handled by the generic
+  GoodDirection necessary condition and, only as a fallback, by
+  denominator-cube Farkas certificates inside the survivor profiler.
 
 Interpretation of the translation bad-direction symbolic-family rejection:
 
@@ -207,12 +286,24 @@ Interpretation of the translation bad-direction symbolic-family rejection:
 - However, that shape is far too incomplete: 313,602 of 316,450
   bad-direction cells remain fallback. Scaling it would still require a
   second case-local backend for almost all early translation failures.
-- Therefore the next viable attempt should not simply tune the current cube
-  threshold. It needs a richer symbolic representation of the denominator
-  sign itself, such as a Boolean decision diagram over prefix positions and
-  mask bits, or a generated exact formula family that proves
-  `impactDenom <= 0` without requiring every active cell in a coarse cube to
-  share the same first bad impact.
+- Therefore the next attempt should not tune the current cube threshold. The
+  active path is Phase 6E/6F. If survivor signatures still fragment after that,
+  Phase 6H may use pseudo-Boolean Farkas certificates over denominator forms
+  instead of common-bad-impact cubes.
+
+Interpretation of the translation bad-direction common-impact rejection:
+
+- Allowing a family to use any common bad impact, rather than the same first
+  bad impact, improves the symbolic prefix/mask-cube profile but not enough.
+  In `[0,100000)`, 83 common-impact families cover 7,836 bad-direction cells
+  with an average of about 94 cells per family.
+- The fallback is still overwhelming: 308,614 of 316,450 bad-direction cells
+  remain uncovered by accepted families.
+- Therefore the bottleneck is not merely the "first impact" choice. The
+  prefix/mask-cube domains themselves are too coarse or the acceptance rule is
+  too all-or-nothing. This validates the GoodDirection pivot: stop proving
+  bad masks one family at a time, and generate Farkas evidence only for masks
+  that survive denominator positivity.
 
 Plain-language takeaway:
 
@@ -224,10 +315,194 @@ Plain-language takeaway:
   or denominator already has the wrong sign. Those early failures are
   mathematically simple, but the current profiler treats them with nearly
   case-specific keys.
-- Therefore the next compression step should not emit more Farkas shapes yet.
-  It should first prove and profile a richer symbolic `badDirectionSign`
-  family checker. Plain rectangles and simple prefix/mask cubes were both
-  tried and rejected.
+- Therefore the next compression step should not emit more bad-direction
+  proof evidence. It should first prove the generic GoodDirection necessary
+  condition and then profile only the survivor masks that can actually arise
+  from a hypothetical translation orbit. Plain rectangles, first-impact cubes,
+  and common-impact cubes were all tried and rejected.
+
+## Revised Translation Strategy
+
+The translation branch should be refactored around a semantic necessary
+condition instead of dense mask coverage.
+
+### GoodDirection
+
+For an identity-linear pair word and translation sign mask, define the exact
+impact denominator for each required crossing:
+
+```lean
+def impactDenomAtRank (r : Nat) (mask : SignMask) (i : Fin 14) : ℚ := ...
+
+def GoodDirectionAtRank (r : Nat) (mask : SignMask) : Prop :=
+  ∀ i : Fin 14, 0 < impactDenomAtRank r mask i
+```
+
+The exact indexing and names should reuse existing translation definitions.
+If the project already has an equivalent denominator predicate, use it instead
+of creating a parallel API.
+
+The key hand-written theorem is:
+
+```lean
+theorem goodDirection_of_translation_feasible
+    {r : Nat} {mask : SignMask}
+    (h : TranslationFeasibleAtRank r mask) :
+    GoodDirectionAtRank r mask := ...
+```
+
+This theorem eliminates the need to generate certificates for bad-direction
+masks. In `Translation.complete`, a hypothetical feasible orbit supplies
+`hgood : GoodDirectionAtRank r mask`; generated evidence only needs to kill
+that survivor case.
+
+### Survivor Coverage Target
+
+The generated translation coverage target should become:
+
+```lean
+theorem FarkasGoodCoverage.complete
+    (r : Nat) (mask : SignMask)
+    (hr : r < numPairWords)
+    (hM : totalLinearOfPairWord (unrankPairWord r) = matId)
+    (hgood : GoodDirectionAtRank r mask) :
+    TranslationSystemUnsatAtRank r mask := ...
+```
+
+or the equivalent names already present in the repo.
+
+The public theorem remains semantic:
+
+```lean
+theorem Translation.complete
+    (r : Nat) (hr : r < numPairWords)
+    (hM : totalLinearOfPairWord (unrankPairWord r) = matId) :
+    NoTranslationStartedOrbitAtRank r := by
+  intro hfeas
+  let mask := signMaskOfFeasible hfeas
+  have hgood : GoodDirectionAtRank r mask :=
+    goodDirection_of_translation_feasible hfeas
+  exact FarkasGoodCoverage.complete r mask hr hM hgood hfeas
+```
+
+The exact proof shape may differ, but the dependency direction should not:
+bad-direction is discharged by the generic theorem, not by generated cases.
+
+### Denominator Signatures And Survivor Maps
+
+For each identity-linear pair word, the impact denominators are affine-linear
+forms in six sign bits. The profiler should canonicalize exact integer forms:
+
+```lean
+structure SignLinForm where
+  const : Int
+  coeff : Fin 6 -> Int
+
+structure DenomSignature where
+  forms : Fin 14 -> SignLinForm
+  survivors : UInt64
+```
+
+The survivor bitset records exactly the masks satisfying all denominator
+positivity constraints. Generated evidence should store only survivor masks
+and their normalized Farkas-shape IDs. Bad masks are omitted.
+
+Profiler metrics:
+
+- identity-linear words;
+- total translation masks;
+- bad-direction masks;
+- GoodDirection survivor masks;
+- unique denominator signatures;
+- unique survivor bitsets;
+- unique survivor-to-Farkas-shape maps;
+- unique normalized Farkas shapes;
+- largest signature class;
+- projected Lean leaves if grouped by signature;
+- projected Lean leaves if grouped by survivor-to-shape map.
+
+Validation gate:
+
+- GoodDirection survivor count must match the old “needs Farkas” count, up to
+  any documented convention change.
+- generated bad-direction evidence count must be zero.
+- projected Lean-heavy leaves must be under 2,000 before emission.
+
+### Denominator-Cube / Pseudo-Boolean Farkas Fallback
+
+If raw denominator-signature grouping still produces too many survivor-map
+families, use exact Farkas certificates over sign variables instead of
+common-bad-impact cubes.
+
+For a mask cube with some sign bits fixed and others free, relax free bits to
+real variables in `[-1,1]`. A strict Farkas certificate can prove that no point
+in the relaxed cube satisfies all denominator inequalities. This proves:
+
+```lean
+∀ mask, MaskInCube cube mask -> ¬ GoodDirectionAtRank r mask
+```
+
+without requiring the same denominator to fail for every mask in the cube.
+
+This is stronger than the retired common-impact strategy. It proves
+`∀ mask in cube, ∃ i, denom_i(mask) <= 0` by a single linear certificate.
+
+### Translation Word/State DAG Fallback
+
+If rank intervals and denominator signatures still fragment too much, stop
+using rank space as the primary proof domain for translation. Build a recursive
+state DAG over pair-word completions:
+
+```lean
+structure PrefixState where
+  remaining : PairCounts
+  lin : Mat3 ℚ
+  transConst : Vec3 ℚ
+  transCoeff : Fin 6 -> Vec3 ℚ
+  denomForms : ...
+```
+
+Hash-cons states modulo already-proved symmetries and sign-bit renamings. A
+node theorem proves all completions from that state. This can merge algebraic
+states that rank intervals separate.
+
+The state-DAG route is a fallback after the GoodDirection survivor profiler,
+not a reason to keep optimizing bad-direction rank/mask tilings.
+
+## Optional Nonidentity Geometry Profilers
+
+The external review suggested two potentially useful nonidentity or prefix
+obstructions. Treat both as profiler-gated hypotheses until their mathematical
+assumptions are formalized in Lean.
+
+### D26 Axis Filter
+
+For nonidentity linear parts in the cuboctahedron reflection group, a possible
+invariant-axis filter is to track the 26 directed cube symmetry axes. At a
+prefix, a candidate direction dies when the transformed normal has nonpositive
+dot product with that direction. If all 26 directions die, the prefix is dead
+for all nonidentity completions.
+
+Before using this as proof evidence, Lean needs the exact theorem that every
+nonidentity feasible orbit direction is represented by that finite direction
+set in the project’s formal model. Until then, this is a profiler only.
+
+### Empty-Cone Prefix Farkas
+
+A valid unfolded ray must lie in the cone:
+
+```text
+transformedNormal_i · v > 0
+```
+
+If an exact positive linear combination of active transformed normals equals
+zero, Gordan/Farkas-style reasoning kills the prefix for every possible future
+direction. This can potentially prune both nonidentity and translation
+branches before mask enumeration.
+
+This is promising because it attacks the continuous geometry directly, rather
+than tiling Boolean masks. It still needs a small exact Lean checker and
+soundness theorem before being used as generated evidence.
 
 ## Phase 0: Inventory Existing Interfaces
 
@@ -787,6 +1062,11 @@ thousands of ranks per generated root in a bounded test window.
 
 ## Phase 5: Translation Farkas Shape Sharing
 
+Status: infrastructure exists, but this phase should now be resumed only after
+Phase 6E proves the GoodDirection bridge. The Farkas backend should cover
+GoodDirection survivor cases, not the dense set of all masks plus
+bad-direction certificates.
+
 Create or extend:
 
 ```text
@@ -818,7 +1098,7 @@ theorem shape_unsat_1405 : ShapeUnsat shape_1405 := by
   -- exact rational/integer proof, no native_decide
 ```
 
-Case transport family:
+Case transport family, after the GoodDirection refactor:
 
 ```lean
 private structure TransSourceFarkasFamily where
@@ -835,21 +1115,29 @@ Soundness:
 ```lean
 theorem checkTransSourceFarkasFamily_sound :
   checkTransSourceFarkasFamily fam = true ->
-  CoversInterval TranslationRankKilled fam.intervalLo fam.intervalHi
+  CoversInterval
+    (fun r => ∀ mask,
+      GoodDirectionAtRank r mask ->
+      TranslationSystemUnsatAtRank r mask)
+    fam.intervalLo fam.intervalHi
 ```
 
 Acceptance:
 
 - Dry-run reports unique normalized Farkas shapes.
 - At least one shared shape is used by multiple transported/canonical cases.
+- The generated backend emits no bad-direction certificates.
+- Farkas shape coverage is restricted to masks satisfying `GoodDirection`.
 - One generated mini-shape library builds.
 
 ## Phase 6: Symmetry Canonicalization and Semantic Tiling
 
-Status: partially complete. The generator/profiler scaffolding exists, but the
-current externally checked semantic prefix evidence covers only seven ranks.
-Phase 6 is not complete until the dry-run tiler demonstrates full
-`[0,numPairWords)` coverage below the hard leaf/node gate.
+Status: partially complete and strategically revised. The generator/profiler
+scaffolding exists, but the current externally checked semantic prefix evidence
+covers only seven ranks and all dense bad-direction tilers have been rejected.
+Phase 6 is now centered on GoodDirection survivor coverage. It is not complete
+until the dry-run tiler demonstrates full `[0,numPairWords)` coverage below the
+hard leaf/node gate.
 
 Extend the profiler into a generator, but keep dry-run as the default:
 
@@ -867,7 +1155,8 @@ Algorithm:
    - do not run heavy geometry.
 5. If canonical:
    - try prefix-level nonidentity pruning;
-   - try translation-prefix pruning where applicable;
+   - for translation, do not generate bad-direction certificates; derive
+     GoodDirection from feasibility and handle only survivor masks;
    - if killed, record one semantic tile and do not descend.
 6. At depth 13:
    - classify nonidentity vs identity;
@@ -892,6 +1181,215 @@ python3 scripts/generate_symmetry_evidence.py --dry-run --max-lean-leaves 2000
 ```
 
 prints `status: accepted_for_lean_emission`.
+
+### Phase 6E: GoodDirection Semantic Refactor
+
+New active next phase.
+
+Purpose:
+
+Stop covering bad-direction masks with generated evidence. Instead, prove that
+any feasible translation case must satisfy exact denominator positivity.
+
+Tasks:
+
+1. Inspect existing translation feasibility and denominator definitions.
+2. Add thin adapters only if needed:
+
+   ```lean
+   def impactDenomAtRank (r : Nat) (mask : SignMask) (i : Fin 14) : ℚ := ...
+
+   def GoodDirectionAtRank (r : Nat) (mask : SignMask) : Prop :=
+     ∀ i : Fin 14, 0 < impactDenomAtRank r mask i
+   ```
+
+3. Prove the hand-written theorem:
+
+   ```lean
+   theorem goodDirection_of_translation_feasible
+       {r : Nat} {mask : SignMask}
+       (h : TranslationFeasibleAtRank r mask) :
+       GoodDirectionAtRank r mask := ...
+   ```
+
+4. Refactor the intended translation generated API so the generated theorem
+   assumes `hgood : GoodDirectionAtRank r mask`.
+5. Make `Translation.complete` derive `hgood` from a hypothetical feasible
+   orbit before invoking generated survivor/Farkas coverage.
+
+Acceptance:
+
+- Focused Lean build for the new GoodDirection module passes.
+- No generated data is needed for this phase.
+- No `sorry`, `admit`, custom `axiom`, `unsafe`, or `native_decide`.
+- The old certificate-valued “every mask gets evidence” translation API is no
+  longer the active Step 15 target.
+
+### Phase 6F: Survivor And Denominator-Signature Profiler
+
+Purpose:
+
+Measure the size of the new proof obligation after Phase 6E removes bad masks
+from generated coverage.
+
+Implement:
+
+```text
+scripts/profile_translation_survivors.py
+```
+
+or add an equivalent mode to `scripts/profile_symmetry_compression.py`.
+
+Profiler loop:
+
+1. Traverse a bounded rank range.
+2. Keep only identity-linear pair words.
+3. Compute exact denominator linear forms in the six sign bits.
+4. Enumerate the 64 sign masks externally.
+5. Record only masks satisfying all denominator positivity inequalities.
+6. For each survivor mask, compute the normalized Farkas shape ID.
+7. Canonicalize denominator signatures and survivor-to-shape maps under
+   proven `D4` actions. Reversal and larger symmetries are profiler-only until
+   proof transport exists.
+
+Required reports:
+
+```text
+scripts/generated/translation_survivors_profile_0_100000.json
+scripts/generated/translation_survivors_profile_windows.json
+```
+
+Metrics:
+
+- identity-linear words;
+- total translation masks;
+- bad-direction masks;
+- GoodDirection survivor masks;
+- survivor density;
+- unique denominator signatures;
+- unique survivor bitsets;
+- unique survivor-to-shape maps;
+- unique normalized Farkas shapes;
+- largest signature class;
+- projected Lean-heavy leaves for signature grouping;
+- projected Lean-heavy leaves for survivor-map grouping.
+
+Acceptance:
+
+- GoodDirection survivor masks match the previous Farkas-needed count for the
+  same window, up to documented convention differences.
+- Generated bad-direction evidence count is zero.
+- If projected survivor-map leaves are below 2,000 globally, proceed to
+  Phase 6G.
+- If not, proceed to Phase 6H or 6I before any Lean evidence emission.
+
+### Phase 6G: Denominator Signature / Survivor Shape Coverage
+
+Purpose:
+
+Generate proof-carrying semantic coverage for GoodDirection survivor cases
+only.
+
+Generated shape:
+
+```lean
+theorem survivor_signature_00421_complete
+    {r : Nat} {mask : SignMask}
+    (hr : r < numPairWords)
+    (hSig : RankHasDenomSignature00421 r)
+    (hgood : GoodDirectionAtRank r mask) :
+    TranslationSystemUnsatAtRank r mask := ...
+```
+
+Implementation rules:
+
+- Keep denominator-signature data private inside leaf modules.
+- Keep normalized Farkas shapes private or grouped behind small theorem names.
+- Export only semantic theorems.
+- Do not export global arrays from ranks to signatures or masks to shapes.
+- Group leaves under bounded group/root modules.
+
+Acceptance:
+
+- A small generated mini-shard builds.
+- The root imports group modules, not thousands of leaves.
+- Estimated full global leaf count remains under 2,000.
+
+### Phase 6H: Denominator-Cube / Pseudo-Boolean Farkas Fallback
+
+Use this if Phase 6G still has too many survivor-map/signature families.
+
+For a mask cube, relax unfixed signs to real variables in `[-1,1]`. Provide an
+exact Farkas certificate proving that no point in that cube satisfies all
+denominator positivity constraints. This proves the cube contains no
+GoodDirection mask without requiring one fixed common bad denominator.
+
+Lean checker target:
+
+```lean
+theorem denomCubeCert_sound
+    {cert : DenomCubeCert}
+    (hcert : CheckedDenomCubeCert cert) :
+    ∀ mask : SignMask,
+      MaskInCube cert.cube mask ->
+      ¬ GoodDirectionBySignature cert.signature mask := ...
+```
+
+Acceptance:
+
+- Bounded profiler reports few or no point fallbacks.
+- Total pseudo-Boolean tree leaves plus survivor Farkas leaves remain under
+  2,000.
+- The checker uses exact rational arithmetic and Prop-level witnesses, not
+  huge Boolean reduction.
+
+### Phase 6I: Translation Word/State DAG Fallback
+
+Use this if rank intervals remain too fragmented after Phase 6G/6H.
+
+Profile a recursive DAG over algebraic prefix states:
+
+- remaining pair counts;
+- current linear reflection product;
+- symbolic translation vector coefficients in the six sign bits;
+- accumulated denominator forms or denominator signature;
+- canonicalized `D4` representative.
+
+Generated node theorem:
+
+```lean
+theorem node_01352_complete :
+    StateComplete node_01352 := ...
+```
+
+The rank theorem becomes a small adapter from `unrankPairWord r` into the word
+DAG theorem.
+
+Acceptance:
+
+- DAG leaf count is hundreds or low thousands on full dry-run.
+- Generated theorem graph is hierarchical and acyclic.
+- No global rank-to-node array is introduced.
+
+### Phase 6J: Optional Continuous Prefix Geometry Profilers
+
+These profilers may reduce the nonidentity or shared-prefix burden, but they
+are not prerequisites for the GoodDirection pivot.
+
+1. **D26 nonidentity direction filter.**
+   Profile the 26 directed cube symmetry axes as a finite alive-direction set.
+   Do not emit proof evidence until Lean proves that every feasible
+   nonidentity direction lies in this set.
+2. **Empty-cone Farkas prefix pruning.**
+   Profile exact positive combinations of transformed normals summing to zero.
+   This can kill prefixes before translation masks are considered.
+
+Acceptance:
+
+- Profiler reports bounded-window compression statistics.
+- Any generated Lean checker has a small soundness theorem.
+- These optimizations are only adopted if they reduce the final survivor or
+  prefix proof below the hard leaf gate.
 
 ### Phase 6A: Automatic Prefix Interval Discovery
 
@@ -996,7 +1494,8 @@ Do not proceed to Phase 7 full emission unless this gate is accepted.
 
 ### Phase 6C: Non-Rectangular Translation Bad-Direction Families
 
-New required work after the raw translation bad-direction box-tiling rejection.
+Historical rejected work after the raw translation bad-direction box-tiling
+rejection.
 
 The direct witness adapter now proves that an individual rank/mask/impact with
 a nonpositive impact denominator produces an ordinary checked
@@ -1004,8 +1503,9 @@ a nonpositive impact denominator produces an ordinary checked
 shape. In `[0,100000)`, the largest bad-direction rectangle spans only two
 ranks, and 316,450 bad-direction cells require 205,667 boxes.
 
-Implement a stronger exact family shape that follows the arithmetic source of
-the denominator sign, rather than contiguous rectangles. Candidate shapes:
+This phase attempted stronger exact family shapes that follow the arithmetic
+source of the denominator sign, rather than contiguous rectangles. Candidate
+shapes considered:
 
 - prefix-level denominator-sign formulas that prove a fixed impact denominator
   is nonpositive for all completions of a pair-word prefix;
@@ -1016,7 +1516,7 @@ the denominator sign, rather than contiguous rectangles. Candidate shapes:
 - sparse Boolean decision diagrams over prefix letters and mask bits, exporting
   only semantic `CoversInterval` or `CoversTranslationMaskSet` theorems.
 
-Required profiler changes:
+Profiler commands used:
 
 ```bash
 python3 scripts/profile_symmetry_compression.py \
@@ -1051,14 +1551,53 @@ is too incomplete. In `[0,100000)`, 35 symbolic prefix/mask-cube families
 covered 2,848 bad-direction cells, while 313,602 bad-direction cells remained
 as fallback. Do not emit Lean roots from this Phase 6C family shape.
 
-Next required profiler direction:
+Superseded direction:
 
-- represent denominator-sign failure with a richer symbolic object than a
-  uniform prefix/mask cube;
-- allow the family to prove existence of some bad impact, not necessarily the
-  same first bad impact for every cell;
-- profile a decision-diagram or denominator-formula family before adding any
-  Lean checker.
+- Do not continue this family shape.
+- Use Phase 6E/6F to remove bad-direction masks from generated coverage.
+- Use Phase 6H pseudo-Boolean Farkas only if the survivor path still needs a
+  compact proof of denominator infeasibility over mask cubes.
+
+### Phase 6D: Common-Impact Translation Bad-Direction Families
+
+Historical rejected work after the Phase 6C first-impact prefix/mask-cube
+rejection.
+
+This dry-run relaxes the Phase 6C rule. A symbolic family may use a fixed
+impact index if every rank/mask cell in its prefix/mask domain has that impact
+denominator nonpositive, even when it is not the first bad impact for every
+cell.
+
+Required profiler commands:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-common-impact-tree --limit 5000 --allow-reject \
+  --output scripts/generated/translation_baddir_common_impact_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-common-impact-tree --limit 100000 --allow-reject \
+  --output scripts/generated/translation_baddir_common_impact_profile_0_100000.json
+```
+
+Acceptance:
+
+- exact bounded audit has no gaps or overlaps;
+- zero bad-direction fallback cells;
+- planned common-impact families are at most 2,000;
+- average cells per family is at least 64;
+- no Lean evidence roots are emitted unless the dry-run gate is accepted.
+
+Current result: rejected. The exact bounded audit passed, but the family shape
+is still too incomplete. In `[0,100000)`, 83 common-impact families covered
+7,836 bad-direction cells, while 308,614 bad-direction cells remained as
+fallback. Do not emit Lean roots from this Phase 6D family shape.
+
+Superseded direction:
+
+- Do not continue common-impact mask-cube tiling.
+- Proceed to Phase 6E GoodDirection and Phase 6F survivor profiling.
+- Reconsider decision diagrams only as part of the Phase 6H/6I fallback stack.
 
 ## Phase 7: Generated Lean Architecture
 
@@ -1601,13 +2140,22 @@ Acceptance:
 - [x] Record rejection of raw rank/mask rectangular bad-direction tiling.
 - [x] Add and run a symbolic prefix/mask-cube bad-direction dry-run gate.
 - [x] Record rejection of the symbolic prefix/mask-cube bad-direction family.
-- [ ] Add a richer bad-direction family, such as a denominator-sign decision
-  diagram or generated exact denominator formula family.
-- [ ] Add a stronger nonidentity prefix obstruction if the translation
-  bad-direction family still does not compress enough.
-- [ ] Implement/refresh translation normalized Farkas shape sharing and include
-  it in the compression profiler after the pre-Farkas bad-direction branch is
-  compressed.
+- [x] Add and run a common-impact prefix/mask-cube bad-direction dry-run gate.
+- [x] Record rejection of the common-impact prefix/mask-cube family.
+- [ ] Implement Phase 6E GoodDirection semantic refactor.
+- [ ] Implement Phase 6F survivor/denominator-signature profiler.
+- [ ] If survivor signatures compress enough, implement Phase 6G survivor
+  shape coverage.
+- [ ] If survivor signatures do not compress enough, implement Phase 6H
+  denominator-cube / pseudo-Boolean Farkas fallback.
+- [ ] If rank/signature grouping still fragments, implement Phase 6I
+  translation word/state DAG fallback.
+- [ ] Optionally profile Phase 6J D26 and empty-cone prefix geometry filters,
+  but do not emit proof evidence until their invariants are formalized.
+- [ ] Add a stronger nonidentity prefix obstruction only if the revised
+  translation survivor path still does not meet the hard leaf gate.
+- [ ] Refresh translation normalized Farkas shape sharing after GoodDirection
+  survivor profiling, not before.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
   with memory monitoring.
 - [ ] Generate full compressed evidence only after the dry-run gate passes.
@@ -1621,15 +2169,20 @@ Current next step:
 
 Do not scale the current nonidentity prefix-kill emitter, translation/Farkas
 emitter, translation bad-direction box emitter, or symbolic prefix/mask-cube
-bad-direction emitter. The `[0,100000)` nonidentity dry-run still has maximum
-prefix-kill width 3 and 94,419 planned heavy leaves; the translation/Farkas
-dry-run exceeded the 100,000-family cap; the translation bad-direction box
-dry-run produced 205,667 tiny boxes; and the symbolic prefix/mask-cube
-bad-direction dry-run left 313,602 fallback cells. The next useful step is a
-richer denominator-sign decision-diagram or exact formula family, followed by
-Farkas sharing only for the remaining cases that survive that early branch. If
-that fails, return to a stronger nonidentity prefix obstruction or a different
-translation compression source.
+bad-direction emitter, including the common-impact variant. The `[0,100000)`
+nonidentity dry-run still has maximum prefix-kill width 3 and 94,419 planned
+heavy leaves; the translation/Farkas dry-run exceeded the 100,000-family cap;
+the translation bad-direction box dry-run produced 205,667 tiny boxes; the
+first-impact prefix/mask-cube dry-run left 313,602 fallback cells; and the
+common-impact prefix/mask-cube dry-run left 308,614 fallback cells.
+
+The next useful step is Phase 6E: prove the generic GoodDirection necessary
+condition and refactor the translation coverage target so generated evidence
+is only responsible for masks satisfying `GoodDirection`. After that, Phase 6F
+should profile survivor masks and denominator signatures. Denominator decision
+diagrams, pseudo-Boolean Farkas cubes, and the word/state DAG are fallback
+compression tools after this semantic refactor, not more attempts to tile the
+dense bad-direction set.
 
 ## Explicit Non-Goals
 
@@ -1639,3 +2192,11 @@ translation compression source.
 - Do not emit hundreds of thousands of Lean interval proof nodes.
 - Do not use packed blobs or byte-list decoding as the proof mechanism.
 - Do not rely on Gemini's projected counts without local profiler evidence.
+- Do not continue optimizing bad-direction rectangle/cube tilings.
+- Do not require a common bad impact as the main compression mechanism.
+- Do not generate proof certificates for bad-direction masks after
+  GoodDirection is available.
+- Do not make `Translation.complete` return or require certificate evidence
+  for every sign mask.
+- Do not use the D26 direction filter as proof evidence until Lean has the
+  exact invariant theorem that justifies it.
