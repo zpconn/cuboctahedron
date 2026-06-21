@@ -1,0 +1,2689 @@
+{
+  "failure_kind_accounting": {
+    "absent": [
+      {
+        "failure_kind": "noFixedAxis",
+        "reason": "The total linear part is a product of fourteen reflections, so nonidentity valid words are orientation-preserving three-dimensional orthogonal maps with a fixed axis.",
+        "status": "globally-absent-for-valid-nonidentity-pair-words"
+      },
+      {
+        "failure_kind": "badHitInterior",
+        "reason": "The certificate language and Lean proof template support this failure kind; the bounded representative family sample did not include a rank whose exact candidate reaches this case.",
+        "status": "not-present-in-this-representative-sample"
+      }
+    ],
+    "accounted_for": [
+      "axisMissesStartInterior",
+      "badDirectionSign",
+      "badFirstHit",
+      "badHitInterior",
+      "badPairBalance",
+      "noFixedAxis"
+    ],
+    "present": [
+      "axisMissesStartInterior",
+      "badDirectionSign",
+      "badFirstHit",
+      "badPairBalance"
+    ]
+  },
+  "families": [
+    {
+      "cert_names": [
+        "nonIdFamilyBadDirection000",
+        "nonIdFamilyBadDirection001",
+        "nonIdFamilyBadDirection002"
+      ],
+      "certs": [
+        {
+          "axis": [
+            "-3/2",
+            "-5/2",
+            "-1"
+          ],
+          "failure": {
+            "index": 7,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tppm",
+            "tmpp",
+            "tpmp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-19/16",
+              "-29/8",
+              "0"
+            ],
+            [
+              "13/8",
+              "41/16",
+              "0"
+            ],
+            [
+              "-73/32",
+              "-31/32",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "name": "nonIdFamilyBadDirection000",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "rank": 13,
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "dm11",
+            "d1m1"
+          ]
+        },
+        {
+          "axis": [
+            "-2/5",
+            "-3/5",
+            "1"
+          ],
+          "failure": {
+            "index": 9,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tpmp",
+            "tppm",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "79/200",
+              "17/25",
+              "0"
+            ],
+            [
+              "-29/50",
+              "31/200",
+              "0"
+            ],
+            [
+              "-19/100",
+              "73/200",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "name": "nonIdFamilyBadDirection001",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "rank": 14,
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "axis": [
+            "-1/4",
+            "1/4",
+            "-1"
+          ],
+          "failure": {
+            "index": 8,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tpmp",
+            "tmpp",
+            "tppm"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-5/8",
+              "-17/32",
+              "0"
+            ],
+            [
+              "17/32",
+              "-11/16",
+              "0"
+            ],
+            [
+              "37/128",
+              "-5/128",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "name": "nonIdFamilyBadDirection002",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "rank": 15,
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "coverages": [
+        {
+          "canonical_rank": 13,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "dm11",
+            "d1m1"
+          ],
+          "raw_rank": 13,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "dm11",
+            "d1m1"
+          ]
+        },
+        {
+          "canonical_rank": 14,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ],
+          "raw_rank": 14,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "canonical_rank": 15,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ],
+          "raw_rank": 15,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "coveredRanks": [
+        13,
+        14,
+        15
+      ],
+      "endRank": 16,
+      "failure_kind": "badDirectionSign",
+      "lean_name": "sampleBadDirectionFamilyCert",
+      "memberStateIds": [
+        "nonid-member:37da40f6778198ded8be2d08",
+        "nonid-member:dc0d0f30b1baabaae7c72ddd",
+        "nonid-member:96e0437dca31d6ed7158c267"
+      ],
+      "memberStateKeys": [
+        {
+          "axis": [
+            "-3/2",
+            "-5/2",
+            "-1"
+          ],
+          "failure": {
+            "index": 7,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tppm",
+            "tmpp",
+            "tpmp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-19/16",
+              "-29/8",
+              "0"
+            ],
+            [
+              "13/8",
+              "41/16",
+              "0"
+            ],
+            [
+              "-73/32",
+              "-31/32",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "dm11",
+            "d1m1"
+          ]
+        },
+        {
+          "axis": [
+            "-2/5",
+            "-3/5",
+            "1"
+          ],
+          "failure": {
+            "index": 9,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tpmp",
+            "tppm",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "79/200",
+              "17/25",
+              "0"
+            ],
+            [
+              "-29/50",
+              "31/200",
+              "0"
+            ],
+            [
+              "-19/100",
+              "73/200",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "axis": [
+            "-1/4",
+            "1/4",
+            "-1"
+          ],
+          "failure": {
+            "index": 8,
+            "kind": "badDirectionSign"
+          },
+          "forced_seq": [
+            "xp",
+            "xp",
+            "yp",
+            "yp",
+            "zp",
+            "zp",
+            "tppp",
+            "tppp",
+            "tppm",
+            "tpmp",
+            "tmpp",
+            "tpmp",
+            "tmpp",
+            "tppm"
+          ],
+          "kernel_cross_factor": [
+            [
+              "-5/8",
+              "-17/32",
+              "0"
+            ],
+            [
+              "17/32",
+              "-11/16",
+              "0"
+            ],
+            [
+              "37/128",
+              "-5/128",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "name": "sampleBadDirectionFamily",
+      "normalizedStateId": "nonid-family:04cc05c4d29afa4e14a0300f",
+      "normalizedStateKey": {
+        "canonical_rank_interval": [
+          13,
+          16
+        ],
+        "failure_kind": "badDirectionSign",
+        "member_state_ids": [
+          "nonid-member:37da40f6778198ded8be2d08",
+          "nonid-member:dc0d0f30b1baabaae7c72ddd",
+          "nonid-member:96e0437dca31d6ed7158c267"
+        ],
+        "member_state_keys": [
+          {
+            "axis": [
+              "-3/2",
+              "-5/2",
+              "-1"
+            ],
+            "failure": {
+              "index": 7,
+              "kind": "badDirectionSign"
+            },
+            "forced_seq": [
+              "xp",
+              "xp",
+              "yp",
+              "yp",
+              "zp",
+              "zp",
+              "tppp",
+              "tppp",
+              "tppm",
+              "tpmp",
+              "tmpp",
+              "tppm",
+              "tmpp",
+              "tpmp"
+            ],
+            "kernel_cross_factor": [
+              [
+                "-19/16",
+                "-29/8",
+                "0"
+              ],
+              [
+                "13/8",
+                "41/16",
+                "0"
+              ],
+              [
+                "-73/32",
+                "-31/32",
+                "0"
+              ]
+            ],
+            "lambda": "0",
+            "p0": [
+              "0",
+              "0",
+              "0"
+            ],
+            "solve_left_inverse": [
+              [
+                "1",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "1",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d111",
+              "d11m",
+              "d1m1",
+              "dm11",
+              "d11m",
+              "dm11",
+              "d1m1"
+            ]
+          },
+          {
+            "axis": [
+              "-2/5",
+              "-3/5",
+              "1"
+            ],
+            "failure": {
+              "index": 9,
+              "kind": "badDirectionSign"
+            },
+            "forced_seq": [
+              "xp",
+              "xp",
+              "yp",
+              "yp",
+              "zp",
+              "zp",
+              "tppp",
+              "tppp",
+              "tppm",
+              "tpmp",
+              "tmpp",
+              "tpmp",
+              "tppm",
+              "tmpp"
+            ],
+            "kernel_cross_factor": [
+              [
+                "79/200",
+                "17/25",
+                "0"
+              ],
+              [
+                "-29/50",
+                "31/200",
+                "0"
+              ],
+              [
+                "-19/100",
+                "73/200",
+                "0"
+              ]
+            ],
+            "lambda": "0",
+            "p0": [
+              "0",
+              "0",
+              "0"
+            ],
+            "solve_left_inverse": [
+              [
+                "1",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "1",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d111",
+              "d11m",
+              "d1m1",
+              "dm11",
+              "d1m1",
+              "d11m",
+              "dm11"
+            ]
+          },
+          {
+            "axis": [
+              "-1/4",
+              "1/4",
+              "-1"
+            ],
+            "failure": {
+              "index": 8,
+              "kind": "badDirectionSign"
+            },
+            "forced_seq": [
+              "xp",
+              "xp",
+              "yp",
+              "yp",
+              "zp",
+              "zp",
+              "tppp",
+              "tppp",
+              "tppm",
+              "tpmp",
+              "tmpp",
+              "tpmp",
+              "tmpp",
+              "tppm"
+            ],
+            "kernel_cross_factor": [
+              [
+                "-5/8",
+                "-17/32",
+                "0"
+              ],
+              [
+                "17/32",
+                "-11/16",
+                "0"
+              ],
+              [
+                "37/128",
+                "-5/128",
+                "0"
+              ]
+            ],
+            "lambda": "0",
+            "p0": [
+              "0",
+              "0",
+              "0"
+            ],
+            "solve_left_inverse": [
+              [
+                "1",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "1",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d111",
+              "d11m",
+              "d1m1",
+              "dm11",
+              "d1m1",
+              "dm11",
+              "d11m"
+            ]
+          }
+        ],
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "d1m1",
+          "dm11"
+        ]
+      },
+      "prefix": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "dm11"
+      ],
+      "rawEndRank": 16,
+      "rawStartRank": 13,
+      "startRank": 13
+    },
+    {
+      "cert_names": [
+        "nonIdFamilyBadPairBalance000"
+      ],
+      "certs": [
+        {
+          "axis": [
+            "-9/10",
+            "-13/10",
+            "1"
+          ],
+          "failure": {
+            "kind": "badPairBalance"
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tppp",
+            "tpmp",
+            "tpmm",
+            "tppm",
+            "tmpm",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "79/400",
+              "269/200",
+              "0"
+            ],
+            [
+              "-181/200",
+              "-389/400",
+              "0"
+            ],
+            [
+              "-799/800",
+              "-43/800",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "name": "nonIdFamilyBadPairBalance000",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "rank": 102,
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "d1m1",
+            "dm11"
+          ]
+        }
+      ],
+      "coverages": [
+        {
+          "canonical_rank": 102,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "d1m1",
+            "dm11"
+          ],
+          "raw_rank": 102,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "d1m1",
+            "dm11"
+          ]
+        }
+      ],
+      "coveredRanks": [
+        102
+      ],
+      "endRank": 103,
+      "failure_kind": "badPairBalance",
+      "lean_name": "sampleBadPairBalanceFamilyCert",
+      "memberStateIds": [
+        "nonid-member:963d1ab17e2c58a13c7cd788"
+      ],
+      "memberStateKeys": [
+        {
+          "axis": [
+            "-9/10",
+            "-13/10",
+            "1"
+          ],
+          "failure": {
+            "kind": "badPairBalance"
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tppp",
+            "tpmp",
+            "tpmm",
+            "tppm",
+            "tmpm",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "79/400",
+              "269/200",
+              "0"
+            ],
+            [
+              "-181/200",
+              "-389/400",
+              "0"
+            ],
+            [
+              "-799/800",
+              "-43/800",
+              "0"
+            ]
+          ],
+          "lambda": "0",
+          "p0": [
+            "0",
+            "0",
+            "0"
+          ],
+          "solve_left_inverse": [
+            [
+              "1",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d11m",
+            "d1m1",
+            "dm11"
+          ]
+        }
+      ],
+      "name": "sampleBadPairBalanceFamily",
+      "normalizedStateId": "nonid-family:1ae3dd1e6143009159e50616",
+      "normalizedStateKey": {
+        "canonical_rank_interval": [
+          102,
+          103
+        ],
+        "failure_kind": "badPairBalance",
+        "member_state_ids": [
+          "nonid-member:963d1ab17e2c58a13c7cd788"
+        ],
+        "member_state_keys": [
+          {
+            "axis": [
+              "-9/10",
+              "-13/10",
+              "1"
+            ],
+            "failure": {
+              "kind": "badPairBalance"
+            },
+            "forced_seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zp",
+              "zm",
+              "tppp",
+              "tmmp",
+              "tppp",
+              "tpmp",
+              "tpmm",
+              "tppm",
+              "tmpm",
+              "tmpp"
+            ],
+            "kernel_cross_factor": [
+              [
+                "79/400",
+                "269/200",
+                "0"
+              ],
+              [
+                "-181/200",
+                "-389/400",
+                "0"
+              ],
+              [
+                "-799/800",
+                "-43/800",
+                "0"
+              ]
+            ],
+            "lambda": "0",
+            "p0": [
+              "0",
+              "0",
+              "0"
+            ],
+            "solve_left_inverse": [
+              [
+                "1",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "1",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d11m",
+              "d111",
+              "d1m1",
+              "dm11",
+              "d11m",
+              "d1m1",
+              "dm11"
+            ]
+          }
+        ],
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "d1m1",
+          "dm11",
+          "d11m",
+          "d1m1",
+          "dm11"
+        ]
+      },
+      "prefix": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d111",
+        "d1m1",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "dm11"
+      ],
+      "rawEndRank": 103,
+      "rawStartRank": 102,
+      "startRank": 102
+    },
+    {
+      "cert_names": [
+        "nonIdFamilyAxisMiss000",
+        "nonIdFamilyAxisMiss001"
+      ],
+      "certs": [
+        {
+          "axis": [
+            "-15/13",
+            "-4/13",
+            "1"
+          ],
+          "failure": {
+            "kind": "axisMissesStartInterior"
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tmmm",
+            "tpmp",
+            "tpmm",
+            "tmpm",
+            "tppm",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "227/1352",
+              "185/338",
+              "0"
+            ],
+            [
+              "-197/169",
+              "-253/1352",
+              "0"
+            ],
+            [
+              "-223/1352",
+              "97/169",
+              "0"
+            ]
+          ],
+          "lambda": "1872/205",
+          "name": "nonIdFamilyAxisMiss000",
+          "p0": [
+            "1",
+            "263/6150",
+            "10189/6150"
+          ],
+          "rank": 104,
+          "solve_left_inverse": [
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ],
+            [
+              "1351/9840",
+              "-6137/12300",
+              "241/49200",
+              "4/15"
+            ],
+            [
+              "-1063/2460",
+              "-197/24600",
+              "-6163/12300",
+              "-13/15"
+            ],
+            [
+              "39/82",
+              "26/205",
+              "-169/410",
+              "0"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "axis": [
+            "-5/6",
+            "-1/3",
+            "1"
+          ],
+          "failure": {
+            "kind": "axisMissesStartInterior"
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tmmm",
+            "tpmp",
+            "tpmm",
+            "tmpm",
+            "tmpp",
+            "tppm"
+          ],
+          "kernel_cross_factor": [
+            [
+              "187/288",
+              "5/9",
+              "0"
+            ],
+            [
+              "-61/72",
+              "107/288",
+              "0"
+            ],
+            [
+              "149/576",
+              "169/288",
+              "0"
+            ]
+          ],
+          "lambda": "696/65",
+          "name": "nonIdFamilyAxisMiss001",
+          "p0": [
+            "1",
+            "-141/1300",
+            "2423/1300"
+          ],
+          "rank": 105,
+          "solve_left_inverse": [
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ],
+            [
+              "-43/520",
+              "-797/1300",
+              "-1421/5200",
+              "2/5"
+            ],
+            [
+              "-361/520",
+              "2989/5200",
+              "-503/1300",
+              "-6/5"
+            ],
+            [
+              "6/13",
+              "12/65",
+              "-36/65",
+              "0"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "coverages": [
+        {
+          "canonical_rank": 104,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ],
+          "raw_rank": 104,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "canonical_rank": 105,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ],
+          "raw_rank": 105,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "coveredRanks": [
+        104,
+        105
+      ],
+      "endRank": 106,
+      "failure_kind": "axisMissesStartInterior",
+      "lean_name": "sampleAxisMissFamilyCert",
+      "memberStateIds": [
+        "nonid-member:2cb47e018a2a48c2217ed429",
+        "nonid-member:8b49cd8241e2071824cdffec"
+      ],
+      "memberStateKeys": [
+        {
+          "axis": [
+            "-15/13",
+            "-4/13",
+            "1"
+          ],
+          "failure": {
+            "kind": "axisMissesStartInterior"
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tmmm",
+            "tpmp",
+            "tpmm",
+            "tmpm",
+            "tppm",
+            "tmpp"
+          ],
+          "kernel_cross_factor": [
+            [
+              "227/1352",
+              "185/338",
+              "0"
+            ],
+            [
+              "-197/169",
+              "-253/1352",
+              "0"
+            ],
+            [
+              "-223/1352",
+              "97/169",
+              "0"
+            ]
+          ],
+          "lambda": "1872/205",
+          "p0": [
+            "1",
+            "263/6150",
+            "10189/6150"
+          ],
+          "solve_left_inverse": [
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ],
+            [
+              "1351/9840",
+              "-6137/12300",
+              "241/49200",
+              "4/15"
+            ],
+            [
+              "-1063/2460",
+              "-197/24600",
+              "-6163/12300",
+              "-13/15"
+            ],
+            [
+              "39/82",
+              "26/205",
+              "-169/410",
+              "0"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "d11m",
+            "dm11"
+          ]
+        },
+        {
+          "axis": [
+            "-5/6",
+            "-1/3",
+            "1"
+          ],
+          "failure": {
+            "kind": "axisMissesStartInterior"
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tmmm",
+            "tpmp",
+            "tpmm",
+            "tmpm",
+            "tmpp",
+            "tppm"
+          ],
+          "kernel_cross_factor": [
+            [
+              "187/288",
+              "5/9",
+              "0"
+            ],
+            [
+              "-61/72",
+              "107/288",
+              "0"
+            ],
+            [
+              "149/576",
+              "169/288",
+              "0"
+            ]
+          ],
+          "lambda": "696/65",
+          "p0": [
+            "1",
+            "-141/1300",
+            "2423/1300"
+          ],
+          "solve_left_inverse": [
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ],
+            [
+              "-43/520",
+              "-797/1300",
+              "-1421/5200",
+              "2/5"
+            ],
+            [
+              "-361/520",
+              "2989/5200",
+              "-503/1300",
+              "-6/5"
+            ],
+            [
+              "6/13",
+              "12/65",
+              "-36/65",
+              "0"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d111",
+            "d1m1",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "name": "sampleAxisMissFamily",
+      "normalizedStateId": "nonid-family:9305d54d2cdedac8195dc41c",
+      "normalizedStateKey": {
+        "canonical_rank_interval": [
+          104,
+          106
+        ],
+        "failure_kind": "axisMissesStartInterior",
+        "member_state_ids": [
+          "nonid-member:2cb47e018a2a48c2217ed429",
+          "nonid-member:8b49cd8241e2071824cdffec"
+        ],
+        "member_state_keys": [
+          {
+            "axis": [
+              "-15/13",
+              "-4/13",
+              "1"
+            ],
+            "failure": {
+              "kind": "axisMissesStartInterior"
+            },
+            "forced_seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zp",
+              "zm",
+              "tppp",
+              "tmmp",
+              "tmmm",
+              "tpmp",
+              "tpmm",
+              "tmpm",
+              "tppm",
+              "tmpp"
+            ],
+            "kernel_cross_factor": [
+              [
+                "227/1352",
+                "185/338",
+                "0"
+              ],
+              [
+                "-197/169",
+                "-253/1352",
+                "0"
+              ],
+              [
+                "-223/1352",
+                "97/169",
+                "0"
+              ]
+            ],
+            "lambda": "1872/205",
+            "p0": [
+              "1",
+              "263/6150",
+              "10189/6150"
+            ],
+            "solve_left_inverse": [
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ],
+              [
+                "1351/9840",
+                "-6137/12300",
+                "241/49200",
+                "4/15"
+              ],
+              [
+                "-1063/2460",
+                "-197/24600",
+                "-6163/12300",
+                "-13/15"
+              ],
+              [
+                "39/82",
+                "26/205",
+                "-169/410",
+                "0"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d11m",
+              "d111",
+              "d1m1",
+              "dm11",
+              "d1m1",
+              "d11m",
+              "dm11"
+            ]
+          },
+          {
+            "axis": [
+              "-5/6",
+              "-1/3",
+              "1"
+            ],
+            "failure": {
+              "kind": "axisMissesStartInterior"
+            },
+            "forced_seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zp",
+              "zm",
+              "tppp",
+              "tmmp",
+              "tmmm",
+              "tpmp",
+              "tpmm",
+              "tmpm",
+              "tmpp",
+              "tppm"
+            ],
+            "kernel_cross_factor": [
+              [
+                "187/288",
+                "5/9",
+                "0"
+              ],
+              [
+                "-61/72",
+                "107/288",
+                "0"
+              ],
+              [
+                "149/576",
+                "169/288",
+                "0"
+              ]
+            ],
+            "lambda": "696/65",
+            "p0": [
+              "1",
+              "-141/1300",
+              "2423/1300"
+            ],
+            "solve_left_inverse": [
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ],
+              [
+                "-43/520",
+                "-797/1300",
+                "-1421/5200",
+                "2/5"
+              ],
+              [
+                "-361/520",
+                "2989/5200",
+                "-503/1300",
+                "-6/5"
+              ],
+              [
+                "6/13",
+                "12/65",
+                "-36/65",
+                "0"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d11m",
+              "d111",
+              "d1m1",
+              "dm11",
+              "d1m1",
+              "dm11",
+              "d11m"
+            ]
+          }
+        ],
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "d1m1",
+          "dm11",
+          "d1m1"
+        ]
+      },
+      "prefix": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d111",
+        "d1m1",
+        "dm11",
+        "d1m1"
+      ],
+      "rawEndRank": 106,
+      "rawStartRank": 104,
+      "startRank": 104
+    },
+    {
+      "cert_names": [
+        "nonIdFamilyBadFirstHit000"
+      ],
+      "certs": [
+        {
+          "axis": [
+            "-11/15",
+            "-8/15",
+            "1"
+          ],
+          "failure": {
+            "kind": "badFirstHit",
+            "step": 3
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tpmp",
+            "tmmm",
+            "tpmm",
+            "tmpm",
+            "tmpp",
+            "tppm"
+          ],
+          "kernel_cross_factor": [
+            [
+              "337/1800",
+              "289/450",
+              "0"
+            ],
+            [
+              "-173/225",
+              "-367/1800",
+              "0"
+            ],
+            [
+              "-491/1800",
+              "163/450",
+              "0"
+            ]
+          ],
+          "lambda": "444/41",
+          "name": "nonIdFamilyBadFirstHit000",
+          "p0": [
+            "1",
+            "33/41",
+            "-29/410"
+          ],
+          "rank": 159,
+          "solve_left_inverse": [
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ],
+            [
+              "2657/7216",
+              "-224/451",
+              "37/7216",
+              "8/11"
+            ],
+            [
+              "-1532/2255",
+              "-173/18040",
+              "-227/451",
+              "-15/11"
+            ],
+            [
+              "33/82",
+              "12/41",
+              "-45/82",
+              "0"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d111",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "coverages": [
+        {
+          "canonical_rank": 159,
+          "canonical_to_raw_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "canonical_to_raw_transform_id": 0,
+          "canonical_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d111",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ],
+          "raw_rank": 159,
+          "raw_to_canonical_transform": {
+            "negY": false,
+            "negZ": false,
+            "swapYZ": false
+          },
+          "raw_to_canonical_transform_id": 0,
+          "raw_word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d111",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "coveredRanks": [
+        159
+      ],
+      "endRank": 160,
+      "failure_kind": "badFirstHit",
+      "lean_name": "sampleBadFirstHitFamilyCert",
+      "memberStateIds": [
+        "nonid-member:376f02a7678a11fa3b2d9cc2"
+      ],
+      "memberStateKeys": [
+        {
+          "axis": [
+            "-11/15",
+            "-8/15",
+            "1"
+          ],
+          "failure": {
+            "kind": "badFirstHit",
+            "step": 3
+          },
+          "forced_seq": [
+            "xp",
+            "xm",
+            "ym",
+            "yp",
+            "zp",
+            "zm",
+            "tppp",
+            "tmmp",
+            "tpmp",
+            "tmmm",
+            "tpmm",
+            "tmpm",
+            "tmpp",
+            "tppm"
+          ],
+          "kernel_cross_factor": [
+            [
+              "337/1800",
+              "289/450",
+              "0"
+            ],
+            [
+              "-173/225",
+              "-367/1800",
+              "0"
+            ],
+            [
+              "-491/1800",
+              "163/450",
+              "0"
+            ]
+          ],
+          "lambda": "444/41",
+          "p0": [
+            "1",
+            "33/41",
+            "-29/410"
+          ],
+          "solve_left_inverse": [
+            [
+              "0",
+              "0",
+              "0",
+              "1"
+            ],
+            [
+              "2657/7216",
+              "-224/451",
+              "37/7216",
+              "8/11"
+            ],
+            [
+              "-1532/2255",
+              "-173/18040",
+              "-227/451",
+              "-15/11"
+            ],
+            [
+              "33/82",
+              "12/41",
+              "-45/82",
+              "0"
+            ]
+          ],
+          "word": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d11m",
+            "d1m1",
+            "d111",
+            "dm11",
+            "d1m1",
+            "dm11",
+            "d11m"
+          ]
+        }
+      ],
+      "name": "sampleBadFirstHitFamily",
+      "normalizedStateId": "nonid-family:99937cf855e673090610fb58",
+      "normalizedStateKey": {
+        "canonical_rank_interval": [
+          159,
+          160
+        ],
+        "failure_kind": "badFirstHit",
+        "member_state_ids": [
+          "nonid-member:376f02a7678a11fa3b2d9cc2"
+        ],
+        "member_state_keys": [
+          {
+            "axis": [
+              "-11/15",
+              "-8/15",
+              "1"
+            ],
+            "failure": {
+              "kind": "badFirstHit",
+              "step": 3
+            },
+            "forced_seq": [
+              "xp",
+              "xm",
+              "ym",
+              "yp",
+              "zp",
+              "zm",
+              "tppp",
+              "tmmp",
+              "tpmp",
+              "tmmm",
+              "tpmm",
+              "tmpm",
+              "tmpp",
+              "tppm"
+            ],
+            "kernel_cross_factor": [
+              [
+                "337/1800",
+                "289/450",
+                "0"
+              ],
+              [
+                "-173/225",
+                "-367/1800",
+                "0"
+              ],
+              [
+                "-491/1800",
+                "163/450",
+                "0"
+              ]
+            ],
+            "lambda": "444/41",
+            "p0": [
+              "1",
+              "33/41",
+              "-29/410"
+            ],
+            "solve_left_inverse": [
+              [
+                "0",
+                "0",
+                "0",
+                "1"
+              ],
+              [
+                "2657/7216",
+                "-224/451",
+                "37/7216",
+                "8/11"
+              ],
+              [
+                "-1532/2255",
+                "-173/18040",
+                "-227/451",
+                "-15/11"
+              ],
+              [
+                "33/82",
+                "12/41",
+                "-45/82",
+                "0"
+              ]
+            ],
+            "word": [
+              "x",
+              "y",
+              "y",
+              "z",
+              "z",
+              "d111",
+              "d11m",
+              "d1m1",
+              "d111",
+              "dm11",
+              "d1m1",
+              "dm11",
+              "d11m"
+            ]
+          }
+        ],
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d1m1",
+          "d111",
+          "dm11",
+          "d1m1",
+          "dm11",
+          "d11m"
+        ]
+      },
+      "prefix": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d1m1",
+        "dm11",
+        "d11m"
+      ],
+      "rawEndRank": 160,
+      "rawStartRank": 159,
+      "startRank": 159
+    }
+  ],
+  "mode": "nonidentity-family-sample",
+  "pair_words": [
+    {
+      "rank": 13,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "dm11",
+        "d11m",
+        "dm11",
+        "d1m1"
+      ]
+    },
+    {
+      "rank": 14,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "dm11",
+        "d1m1",
+        "d11m",
+        "dm11"
+      ]
+    },
+    {
+      "rank": 15,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d11m",
+        "d1m1",
+        "dm11",
+        "d1m1",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "rank": 102,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d111",
+        "d1m1",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "dm11"
+      ]
+    },
+    {
+      "rank": 104,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d111",
+        "d1m1",
+        "dm11",
+        "d1m1",
+        "d11m",
+        "dm11"
+      ]
+    },
+    {
+      "rank": 105,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d111",
+        "d1m1",
+        "dm11",
+        "d1m1",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "rank": 159,
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d1m1",
+        "dm11",
+        "d11m"
+      ]
+    }
+  ],
+  "schema_version": 2,
+  "summary": {
+    "coverage_kind": "mixed-contiguous-family-leaves",
+    "covered_ranks": 7,
+    "families": 4,
+    "present_failure_kinds": [
+      "axisMissesStartInterior",
+      "badDirectionSign",
+      "badFirstHit",
+      "badPairBalance"
+    ],
+    "supported_failure_kinds": [
+      "noFixedAxis",
+      "badDirectionSign",
+      "badPairBalance",
+      "axisMissesStartInterior",
+      "badFirstHit",
+      "badHitInterior"
+    ]
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "complete_for_interval": true,
+  "end_rank": 2,
+  "heavy_leaf_count": 1,
+  "identity_rank_count": 0,
+  "kind": "public_interval_shard",
+  "memory_rule": {
+    "check_strategy": "serial_leaf_by_file_path",
+    "do_not_parallel_build_leaf_tree": true,
+    "safe_ram_gib": 45
+  },
+  "nonidentity": [
+    {
+      "failure": "badDirectionSign",
+      "identity_linear": false,
+      "path": {
+        "bytes": 15116,
+        "exists": true,
+        "path": "evidence/public_interval_shards/RootFixSmokeNonId/NonIdentity/Rank000000001.lean"
+      },
+      "rank": 1
+    }
+  ],
+  "nonidentity_rank_count": 1,
+  "paths": {
+    "index": {
+      "bytes": 611,
+      "exists": true,
+      "path": "evidence/public_interval_shards/RootFixSmokeNonId/Index.lean"
+    },
+    "manifest": {
+      "bytes": 2497,
+      "exists": true,
+      "path": "evidence/public_interval_shards/RootFixSmokeNonId/manifest.json"
+    },
+    "readme": {
+      "bytes": 987,
+      "exists": true,
+      "path": "evidence/public_interval_shards/RootFixSmokeNonId/README.md"
+    },
+    "shard_dir": "evidence/public_interval_shards/RootFixSmokeNonId",
+    "verified_root": {
+      "bytes": 2612,
+      "exists": true,
+      "path": "evidence/public_interval_shards/RootFixSmokeNonId/VerifiedRoot.lean"
+    }
+  },
+  "rank_count": 1,
+  "rank_modules": [
+    {
+      "identity_linear": false,
+      "module": "evidence.public_interval_shards.RootFixSmokeNonId.NonIdentity.Rank000000001",
+      "namespace": "Cuboctahedron.Generated.PublicEvidence.IntervalShard.RootFixSmokeNonId.NonIdentity.Rank000000001",
+      "path": {
+        "bytes": 15116,
+        "exists": true,
+        "path": "evidence/public_interval_shards/RootFixSmokeNonId/NonIdentity/Rank000000001.lean"
+      },
+      "rank": 1,
+      "translation_classifier_name": "nonIdentityClassifierTranslation"
+    }
+  ],
+  "ranks": [
+    {
+      "heavy_leaf_count": 1,
+      "identity_linear": false,
+      "rank": 1
+    }
+  ],
+  "schema_version": 1,
+  "shard_name": "RootFixSmokeNonId",
+  "start_rank": 1,
+  "translation": [],
+  "translation_case_count": 0,
+  "translation_masks": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ],
+  "translation_rank_roots": []
+}

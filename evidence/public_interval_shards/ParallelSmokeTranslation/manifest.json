@@ -1,0 +1,93 @@
+{
+  "complete_for_interval": false,
+  "end_rank": 1,
+  "heavy_leaf_count": 3,
+  "identity_rank_count": 1,
+  "kind": "public_interval_shard",
+  "memory_rule": {
+    "check_strategy": "ram_bounded_phase_scheduler",
+    "default_parallel_weights_gib": {
+      "nonidentity": 29,
+      "rank_root": 8,
+      "translation": 12,
+      "verified_root": 8
+    },
+    "do_not_parallel_build_leaf_tree": true,
+    "external_olean_cache": "evidence/.external_olean_cache",
+    "safe_ram_gib": 45
+  },
+  "nonidentity": [],
+  "nonidentity_rank_count": 0,
+  "paths": {
+    "index": {
+      "bytes": 625,
+      "exists": true,
+      "path": "evidence/public_interval_shards/ParallelSmokeTranslation/Index.lean"
+    },
+    "manifest": {
+      "bytes": 2162,
+      "exists": true,
+      "path": "evidence/public_interval_shards/ParallelSmokeTranslation/manifest.json"
+    },
+    "readme": {
+      "bytes": 1660,
+      "exists": true,
+      "path": "evidence/public_interval_shards/ParallelSmokeTranslation/README.md"
+    },
+    "shard_dir": "evidence/public_interval_shards/ParallelSmokeTranslation",
+    "verified_root": {
+      "exists": false
+    }
+  },
+  "rank_count": 1,
+  "rank_modules": [],
+  "ranks": [
+    {
+      "heavy_leaf_count": 3,
+      "identity_linear": true,
+      "rank": 0
+    }
+  ],
+  "schema_version": 1,
+  "shard_name": "ParallelSmokeTranslation",
+  "start_rank": 0,
+  "translation": [
+    {
+      "failure": "badDirectionSign",
+      "mask": 0,
+      "path": {
+        "bytes": 13577,
+        "exists": true,
+        "path": "evidence/public_interval_shards/ParallelSmokeTranslation/Translation/Rank000000000/Mask00.lean"
+      },
+      "rank": 0
+    },
+    {
+      "failure": "badDirectionSign",
+      "mask": 1,
+      "path": {
+        "bytes": 13576,
+        "exists": true,
+        "path": "evidence/public_interval_shards/ParallelSmokeTranslation/Translation/Rank000000000/Mask01.lean"
+      },
+      "rank": 0
+    },
+    {
+      "failure": "badDirectionSign",
+      "mask": 2,
+      "path": {
+        "bytes": 13576,
+        "exists": true,
+        "path": "evidence/public_interval_shards/ParallelSmokeTranslation/Translation/Rank000000000/Mask02.lean"
+      },
+      "rank": 0
+    }
+  ],
+  "translation_case_count": 3,
+  "translation_masks": [
+    0,
+    1,
+    2
+  ],
+  "translation_rank_roots": []
+}
