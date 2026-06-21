@@ -380,8 +380,33 @@ families covered only 7,836 of those cells. It accepted 83 families averaging
 but left 308,614 bad-direction cells as fallback.
 
 Do not emit Lean roots from this common-impact prefix/mask-cube strategy. The
-next bad-direction attempt needs a denominator-sign decision diagram or exact
-formula family that can represent irregular subsets inside prefix/mask domains.
+current path is no longer to generate bad-direction evidence at all; it is to
+derive GoodDirection from feasibility and generate evidence only for survivor
+masks.
+
+## Translation GoodDirection survivor profiler
+
+The survivor profiler measures the Phase 6E/6F refactor. It omits generated
+bad-direction evidence and records only sign masks whose internal impact
+denominators are all strictly positive:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-survivors --limit 5000 \
+  --output scripts/generated/translation_survivors_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-survivors --limit 100000 --progress-interval 10000 \
+  --output scripts/generated/translation_survivors_profile_0_100000.json
+```
+
+Current result: profile-only. The `[0,100000)` report exactly matches the old
+translation split: 356,160 sign assignments, 316,450 denominator-nonpositive
+masks, and 39,710 GoodDirection survivor masks. It emits zero bad-direction
+evidence. Raw survivor-map grouping still produces 5,565 projected heavy
+leaves, above the 2,000 hard gate, so do not emit Lean roots from raw survivor
+maps alone. The next compression step is Phase 6H denominator-cube /
+pseudo-Boolean Farkas or Phase 6I translation word/state DAG.
 
 ## Phase 9 readiness
 

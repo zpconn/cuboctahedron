@@ -112,9 +112,9 @@ but they are no longer active paths to full coverage:
 
 ## Current Status Dashboard
 
-Last updated after incorporating the external-model review. The new active
-path is the GoodDirection/survivor semantic refactor. Existing bad-direction
-tilers remain documented below only as rejected compression experiments.
+Last updated after completing the GoodDirection bridge and bounded survivor
+profiler. Existing bad-direction tilers remain documented below only as
+rejected compression experiments.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -123,8 +123,8 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, `--translation-baddir-tree`, `--translation-baddir-family-tree`, and `--translation-baddir-common-impact-tree`; all current bounded bad-direction gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
-| Phase 5: translation Farkas sharing | Gates added; waiting on GoodDirection refactor | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, not to the dense bad-direction complement. |
-| Phase 6: semantic translation pivot | Current tiling gates rejected; new GoodDirection plan active | Automatic bounded-window discovery works, but current nonidentity prefixes, translation family keys, raw bad-direction boxes, first-impact cubes, and common-impact cubes all fail the compression gate. Phase 6E starts the semantic refactor. |
+| Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence, but raw survivor-map grouping projects 5,565 heavy leaves in `[0,100000)`, above the 2,000-leaf gate. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -217,6 +217,21 @@ Completed current-work items:
     size 8, but left 308,614 bad-direction cells as fallback. The exact
     bounded audit found no gaps or overlaps, so the rejection is compression
     incompleteness rather than an audit failure.
+- Added the GoodDirection semantic bridge:
+  - `Cuboctahedron/Search/TranslationGoodDirection.lean`
+  - `Cuboctahedron/Generated/Coverage/TranslationSurvivors.lean`
+- Added the translation survivor profiler:
+  `scripts/profile_symmetry_compression.py --translation-survivors`.
+- Recorded survivor reports:
+  - `scripts/generated/translation_survivors_profile_0_5000.json`
+    found 4,693 GoodDirection survivor masks, 26,475 denominator-nonpositive
+    masks, zero bad-direction generated evidence, and 487 raw survivor-map
+    leaves.
+  - `scripts/generated/translation_survivors_profile_0_100000.json`
+    found 39,710 GoodDirection survivor masks, 316,450
+    denominator-nonpositive masks, zero bad-direction generated evidence, and
+    5,565 raw survivor-map leaves. This is above the 2,000-leaf hard gate, so
+    raw survivor-map emission is rejected.
 
 Immediate next work:
 
@@ -227,17 +242,12 @@ Immediate next work:
 3. Do not emit Lean from the current translation bad-direction box strategy,
    symbolic prefix/mask-cube strategy, or common-impact prefix/mask-cube
    strategy. All three are retired.
-4. Implement the semantic `GoodDirection` refactor:
-   - define or identify `GoodDirectionAtRank r mask`;
-   - prove `goodDirection_of_translation_feasible`;
-   - change the intended generated translation theorem to assume
-     `GoodDirectionAtRank r mask` and prove unsatisfiability only for those
-     survivor masks.
-5. Build the survivor/denominator-signature profiler before generating any
-   new Lean evidence.
-6. Only after the survivor profiler, pseudo-Boolean Farkas fallback, or
-   state-DAG fallback falls below the 2,000-leaf hard gate, emit hierarchical
-   generated coverage roots.
+4. Do not emit Lean from raw survivor-map grouping; the `[0,100000)` profile
+   already projects 5,565 heavy leaves.
+5. Implement Phase 6H denominator-cube / pseudo-Boolean Farkas, or Phase 6I
+   translation word/state DAG if cube certificates still fragment.
+6. Only after Phase 6H or 6I falls below the 2,000-leaf hard gate, emit
+   hierarchical generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
 
@@ -1184,7 +1194,7 @@ prints `status: accepted_for_lean_emission`.
 
 ### Phase 6E: GoodDirection Semantic Refactor
 
-New active next phase.
+Status: complete for the semantic bridge and public coverage adapter.
 
 Purpose:
 
@@ -1225,20 +1235,33 @@ Acceptance:
 - The old certificate-valued “every mask gets evidence” translation API is no
   longer the active Step 15 target.
 
+Completed implementation:
+
+- Added `Cuboctahedron/Search/TranslationGoodDirection.lean`.
+- Added `Cuboctahedron/Generated/Coverage/TranslationSurvivors.lean`.
+- Defined `GoodDirectionAtRank` over the internal impacts `1..13`.
+- Proved `goodDirection_of_translation_feasible_at_rank` from the existing
+  sequence-level theorem `unfolded_feasible_translation_denominators_positive`.
+- Added `TranslationGoodCaseKilled.killed`, which converts survivor-only
+  translation elimination back into ordinary `TranslationCaseKilled`.
+- Focused builds passed:
+  - `lake build Cuboctahedron.Search.TranslationGoodDirection`
+  - `lake build Cuboctahedron.Generated.Coverage.TranslationSurvivors`
+
 ### Phase 6F: Survivor And Denominator-Signature Profiler
+
+Status: complete for bounded profiling; raw survivor-map grouping rejected.
 
 Purpose:
 
 Measure the size of the new proof obligation after Phase 6E removes bad masks
 from generated coverage.
 
-Implement:
+Implemented as:
 
 ```text
-scripts/profile_translation_survivors.py
+scripts/profile_symmetry_compression.py --translation-survivors
 ```
-
-or add an equivalent mode to `scripts/profile_symmetry_compression.py`.
 
 Profiler loop:
 
@@ -1255,8 +1278,8 @@ Profiler loop:
 Required reports:
 
 ```text
+scripts/generated/translation_survivors_profile_0_5000.json
 scripts/generated/translation_survivors_profile_0_100000.json
-scripts/generated/translation_survivors_profile_windows.json
 ```
 
 Metrics:
@@ -1282,6 +1305,33 @@ Acceptance:
 - If projected survivor-map leaves are below 2,000 globally, proceed to
   Phase 6G.
 - If not, proceed to Phase 6H or 6I before any Lean evidence emission.
+
+Observed bounded results:
+
+- `[0,5000)`:
+  - identity-linear words: 487;
+  - translation sign assignments: 31,168;
+  - GoodDirection survivor masks: 4,693;
+  - denominator-nonpositive masks: 26,475;
+  - bad-direction generated evidence: 0;
+  - unique survivor shape maps: 487;
+  - unique normalized Farkas shapes: 2,057.
+- `[0,100000)`:
+  - identity-linear words: 5,565;
+  - translation sign assignments: 356,160;
+  - GoodDirection survivor masks: 39,710;
+  - denominator-nonpositive masks: 316,450;
+  - bad-direction generated evidence: 0;
+  - unique denominator signatures: 5,565;
+  - unique survivor bitsets: 1,479;
+  - unique survivor shape maps: 5,565;
+  - unique normalized Farkas shapes: 11,478.
+
+Conclusion: the GoodDirection pivot is correct and exactly recovers the old
+Farkas-needed count, but raw survivor-map grouping is still above the
+2,000-heavy-leaf gate. Do not emit Phase 6G roots directly from raw survivor
+maps. Proceed to Phase 6H denominator-cube / pseudo-Boolean Farkas or Phase 6I
+translation word/state DAG.
 
 ### Phase 6G: Denominator Signature / Survivor Shape Coverage
 
@@ -2142,8 +2192,8 @@ Acceptance:
 - [x] Record rejection of the symbolic prefix/mask-cube bad-direction family.
 - [x] Add and run a common-impact prefix/mask-cube bad-direction dry-run gate.
 - [x] Record rejection of the common-impact prefix/mask-cube family.
-- [ ] Implement Phase 6E GoodDirection semantic refactor.
-- [ ] Implement Phase 6F survivor/denominator-signature profiler.
+- [x] Implement Phase 6E GoodDirection semantic refactor.
+- [x] Implement Phase 6F survivor/denominator-signature profiler.
 - [ ] If survivor signatures compress enough, implement Phase 6G survivor
   shape coverage.
 - [ ] If survivor signatures do not compress enough, implement Phase 6H
@@ -2176,13 +2226,11 @@ the translation bad-direction box dry-run produced 205,667 tiny boxes; the
 first-impact prefix/mask-cube dry-run left 313,602 fallback cells; and the
 common-impact prefix/mask-cube dry-run left 308,614 fallback cells.
 
-The next useful step is Phase 6E: prove the generic GoodDirection necessary
-condition and refactor the translation coverage target so generated evidence
-is only responsible for masks satisfying `GoodDirection`. After that, Phase 6F
-should profile survivor masks and denominator signatures. Denominator decision
-diagrams, pseudo-Boolean Farkas cubes, and the word/state DAG are fallback
-compression tools after this semantic refactor, not more attempts to tile the
-dense bad-direction set.
+Phase 6E and Phase 6F are now complete. The GoodDirection survivor split
+matches the old Farkas-needed count, but raw survivor-map grouping still
+projects 5,565 heavy leaves in `[0,100000)`, above the hard gate. The next
+useful step is Phase 6H denominator-cube / pseudo-Boolean Farkas, or Phase 6I
+translation word/state DAG if the cube certificate search still fragments.
 
 ## Explicit Non-Goals
 
