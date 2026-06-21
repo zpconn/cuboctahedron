@@ -254,6 +254,25 @@ roots use completion-local
 witnesses, so scaling still requires stronger templates that share witnesses
 across all completions.
 
+## Prefix-kill compression gate
+
+The Phase 6B nonidentity prefix-kill dry-run is:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --prefix-kill-tree --limit 5000 --allow-reject \
+  --output scripts/generated/prefix_kill_tree_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --prefix-kill-tree --limit 100000 --allow-reject \
+  --output scripts/generated/prefix_kill_tree_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,100000)` report found 94,419 planned heavy
+Lean leaves, maximum prefix-kill width 3, and 15.277% residual fallback ranks.
+Do not emit more Lean roots from this prefix-kill strategy until a new dry-run
+profile falls below the 2,000-leaf hard gate.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

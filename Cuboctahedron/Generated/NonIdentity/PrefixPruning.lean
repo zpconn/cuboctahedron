@@ -159,6 +159,53 @@ theorem sound {lo hi : Nat}
 
 end BadPairBalancePrefixCert
 
+structure UniformBadBalancePrefixCert (lo hi : Nat) where
+  pairPrefix : Cuboctahedron.Generated.Coverage.PairPrefix
+  prefix_covers :
+    Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi
+  axis : Vec3 Rat
+  kernel : KernelLineWitness
+  forcedSeq : Step14 -> Face
+  kernel_sound :
+    forall raw : Nat, lo <= raw -> raw < hi -> forall hlt : raw < numPairWords,
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix pairPrefix
+        (unrankPairWord ⟨raw, hlt⟩) ->
+        totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        checkKernelLineWitness
+          (totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩))
+          axis kernel = true
+  forces_sound :
+    forall raw : Nat, lo <= raw -> raw < hi -> forall hlt : raw < numPairWords,
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix pairPrefix
+        (unrankPairWord ⟨raw, hlt⟩) ->
+        totalLinearOfPairWord (unrankPairWord ⟨raw, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        AxisForcesForcedSeq (unrankPairWord ⟨raw, hlt⟩) axis forcedSeq
+  not_omni : ¬ IsOmniSeq forcedSeq
+
+namespace UniformBadBalancePrefixCert
+
+theorem sound {lo hi : Nat}
+    (cert : UniformBadBalancePrefixCert lo hi) :
+    Cuboctahedron.Generated.Coverage.CoversInterval
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilledNat lo hi := by
+  intro raw hlo hhi hlt
+  let r : Fin numPairWords := ⟨raw, hlt⟩
+  intro hM hbad
+  have hprefix :
+      Cuboctahedron.Generated.Coverage.PairWordHasPrefix cert.pairPrefix
+        (unrankPairWord r) :=
+    cert.prefix_covers raw hlo hhi hlt
+  exact nonidentity_killed_of_axis_forces_not_omni
+    (r := r) (axis := cert.axis) (kernel := cert.kernel)
+    (forcedSeq := cert.forcedSeq)
+    (cert.kernel_sound raw hlo hhi hlt hprefix hM)
+    (cert.forces_sound raw hlo hhi hlt hprefix hM)
+    cert.not_omni hM hbad
+
+end UniformBadBalancePrefixCert
+
 structure BadDirectionPrefixCert (lo hi : Nat) where
   pairPrefix : Cuboctahedron.Generated.Coverage.PairPrefix
   prefix_covers :

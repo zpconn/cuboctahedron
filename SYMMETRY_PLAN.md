@@ -49,18 +49,18 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 
 ## Current Status Dashboard
 
-Last updated after the uniform-prefix prototype emitted and externally checked
-uniform bad-direction intervals `[0,3)` and `[3,6)`.
+Last updated after Phase 6B prefix-kill dry-runs rejected the current
+nonidentity prefix templates on `[0,5000)` and `[0,100000)`.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
-| Phase 3: compression profiler | Complete as a tool; needs refreshed gates | `scripts/profile_symmetry_compression.py` exists, but its gates must be rerun after the new prefix templates are added. |
-| Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, and uniform no-fixed-axis witnesses. Larger true prefix templates are still needed. |
+| Phase 3: compression profiler | Complete as a tool; current prefix-kill gate rejects | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`; current reports show the templates are too weak. |
+| Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Partially complete | `FarkasShapeTransport.lean` exists; full shared-shape generation/tiling is still pending. |
-| Phase 6: semantic tiling | Phase 6A complete; uniform prototype complete; Phase 6B pending | Automatic bounded-window discovery works. Current active manifest uses uniform bad-direction roots; full compression gate has not been rerun successfully. |
+| Phase 6: semantic tiling | Phase 6B rejected for current templates | Automatic bounded-window discovery works, but prefix-kill dry-runs still produce width-3 maximum prefix kills and too many heavy leaves. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -74,6 +74,7 @@ Completed current-work items:
 - Added `nonidentity_killed_of_no_fixed_axis`.
 - Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
 - Added `NoFixedAxisPrefixCert` and `NoFixedAxisPrefixCert.sound`.
+- Added `UniformBadBalancePrefixCert` and `UniformBadBalancePrefixCert.sound`.
 - Generalized the forced-sequence bridge in
   `Cuboctahedron/Search/Certificates.lean` via
   `forcedSeq_eq_of_axisForces_data`.
@@ -94,16 +95,32 @@ Completed current-work items:
   `scripts/generated/prefix_pruning_uniform_profile.json`: 487 uniform
   bad-direction candidates and 0 uniform no-fixed-axis candidates in
   `[0,5000)`, with the current width gate capped at 24 ranks.
+- Added the nonidentity prefix-kill dry-run mode:
+  `scripts/profile_symmetry_compression.py --prefix-kill-tree`.
+- Recorded rejected Phase 6B prefix-kill reports:
+  - `scripts/generated/prefix_kill_tree_profile_0_5000.json`
+  - `scripts/generated/prefix_kill_tree_profile_0_100000.json`
 
 Immediate next work:
 
-1. Strengthen the uniform prefix search so it finds large intervals, not only
-   width-3 intervals with identity-vacuous branches.
-2. Rerun the compression profiler with the new templates and record:
-   planned leaves, tile count, total covered ranks, gaps/overlaps, and largest
-   generated root size.
-3. Only after the profiler falls below the 2,000-leaf hard gate, emit the
+1. Do not emit more Lean from the current prefix-kill strategy.
+2. Either add a genuinely stronger mathematical nonidentity prefix obstruction
+   or pivot to the translation/Farkas sharing work, because the current
+   nonidentity templates remain effectively case-local.
+3. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
    hierarchical generated coverage roots.
+
+Interpretation of the Phase 6B rejection:
+
+- The current nonidentity prefix-kill templates are trustworthy as local proof
+  shapes, but they do not yet provide useful compression.
+- The best observed prefix-kill interval still has width 3, so scaling this
+  path would behave like a case-by-case backend and would likely return to the
+  same generated-data/OOM failure mode.
+- Treat the current prefix-kill emitter as a diagnostic harness only. The next
+  compression attempt should either introduce a new large-interval
+  nonidentity obstruction or move effort to translation normalized Farkas
+  sharing.
 
 ## Phase 0: Inventory Existing Interfaces
 
@@ -1404,10 +1421,10 @@ Acceptance:
   `[90,96)` via bad direction.
 - [x] Implement Phase 6A automatic prefix interval discovery.
 - [x] Add first uniform prefix templates for nonidentity failures.
-- [ ] Strengthen uniform/prefix templates so the profiler finds large
-  intervals, not only width-3 bounded roots.
-- [ ] Rerun Phase 6B compression gate and record whether full coverage falls
-  below 2,000 planned heavy leaves/nodes.
+- [x] Add Phase 6B prefix-kill dry-run gate.
+- [x] Rerun Phase 6B compression gate on bounded windows and record rejection.
+- [ ] Add a stronger nonidentity prefix obstruction or pivot to translation
+  normalized Farkas sharing.
 - [ ] Implement/refresh translation normalized Farkas shape sharing and include
   it in the compression profiler.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -1421,11 +1438,12 @@ Acceptance:
 
 Current next step:
 
-Strengthen the uniform/prefix search beyond the first shared-witness
-bad-direction roots. The immediate target is to add templates or transport
-rules that cover large prefix intervals, because the current uniform discovery
-in `[0,5000)` found 487 candidates but the largest selected intervals have
-width 3.
+Do not scale the current nonidentity prefix-kill emitter. The `[0,100000)`
+dry-run still has maximum prefix-kill width 3 and 94,419 planned heavy leaves.
+The next useful step is either a new mathematical nonidentity prefix
+obstruction that kills large intervals, or a pivot to translation normalized
+Farkas sharing, where the existing evidence suggests reusable shapes may be the
+better compression source.
 
 ## Explicit Non-Goals
 
