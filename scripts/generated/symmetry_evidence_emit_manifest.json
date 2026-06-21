@@ -1,0 +1,143 @@
+{
+  "chunk_size": 512,
+  "lean_root": "Cuboctahedron/Generated/SymmetryEvidence",
+  "limit": 4096,
+  "mode": "symmetry-evidence-lean-pilot",
+  "nonidentity_chunks": [
+    {
+      "hi": 512,
+      "index": 0,
+      "lo": 0,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk000",
+      "theorem": "chunk000_covers"
+    },
+    {
+      "hi": 1024,
+      "index": 1,
+      "lo": 512,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk001",
+      "theorem": "chunk001_covers"
+    },
+    {
+      "hi": 1536,
+      "index": 2,
+      "lo": 1024,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk002",
+      "theorem": "chunk002_covers"
+    },
+    {
+      "hi": 2048,
+      "index": 3,
+      "lo": 1536,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk003",
+      "theorem": "chunk003_covers"
+    },
+    {
+      "hi": 2560,
+      "index": 4,
+      "lo": 2048,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk004",
+      "theorem": "chunk004_covers"
+    },
+    {
+      "hi": 3072,
+      "index": 5,
+      "lo": 2560,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk005",
+      "theorem": "chunk005_covers"
+    },
+    {
+      "hi": 3584,
+      "index": 6,
+      "lo": 3072,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk006",
+      "theorem": "chunk006_covers"
+    },
+    {
+      "hi": 4096,
+      "index": 7,
+      "lo": 3584,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.Chunk007",
+      "theorem": "chunk007_covers"
+    }
+  ],
+  "note": "Generated Lean files are a bounded Phase 7 architecture pilot. They intentionally expose planned coverage predicates, not the final semantic impossibility predicates.",
+  "schema_version": 1,
+  "semantic_bridge": {
+    "bounded_range": [
+      0,
+      8
+    ],
+    "module": "Cuboctahedron.Generated.SymmetryEvidence.Semantic",
+    "public_verified_root_path": "evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean",
+    "symmetry_wrapper_root_path": "evidence/symmetry_semantic_shards/Shard000000000_000000008/VerifiedRoot.lean"
+  },
+  "tiling": {
+    "coalesced_semantic_tiles": 2277,
+    "kind_counts": {
+      "nonidentity": 3646,
+      "translation": 450
+    },
+    "partition_digest": "53cf21e1527f3a0336ff9e1d640161850110dcdffe1fa94882d060199f2c2294",
+    "planned_public_interval_nodes": 2276
+  },
+  "translation_chunks": [
+    {
+      "hi": 512,
+      "index": 0,
+      "lo": 0,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk000",
+      "theorem": "chunk000_covers"
+    },
+    {
+      "hi": 1024,
+      "index": 1,
+      "lo": 512,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk001",
+      "theorem": "chunk001_covers"
+    },
+    {
+      "hi": 1536,
+      "index": 2,
+      "lo": 1024,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk002",
+      "theorem": "chunk002_covers"
+    },
+    {
+      "hi": 2048,
+      "index": 3,
+      "lo": 1536,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk003",
+      "theorem": "chunk003_covers"
+    },
+    {
+      "hi": 2560,
+      "index": 4,
+      "lo": 2048,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk004",
+      "theorem": "chunk004_covers"
+    },
+    {
+      "hi": 3072,
+      "index": 5,
+      "lo": 2560,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk005",
+      "theorem": "chunk005_covers"
+    },
+    {
+      "hi": 3584,
+      "index": 6,
+      "lo": 3072,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk006",
+      "theorem": "chunk006_covers"
+    },
+    {
+      "hi": 4096,
+      "index": 7,
+      "lo": 3584,
+      "module": "Cuboctahedron.Generated.SymmetryEvidence.Translation.Chunk007",
+      "theorem": "chunk007_covers"
+    }
+  ],
+  "trusted_as_proof": false
+}

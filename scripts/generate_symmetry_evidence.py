@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Dry-run D4-symmetric semantic tiling planner for generated evidence.
+"""D4-symmetric semantic tiling planner for generated evidence.
 
 This script is deliberately untrusted.  It emits no Lean proof and should not
-be used as a proof artifact.  Its job is to plan the Phase 7 generated-Lean
+be used as a proof artifact.  Its dry-run mode plans the Phase 7 generated-Lean
 architecture by computing a memory-safe semantic interval tiling and rejecting
-profiles whose Lean-visible node count is too large.
+profiles whose Lean-visible node count is too large.  Its bounded Lean-emission
+mode emits only a small architectural pilot; it does not claim semantic
+elimination of billiard cases.
 """
 
 from __future__ import annotations
@@ -65,6 +67,8 @@ from profile_symmetry_compression import (
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = REPO_ROOT / "scripts" / "generated" / "symmetry_evidence_dry_run.json"
+DEFAULT_LEAN_ROOT = REPO_ROOT / "Cuboctahedron" / "Generated" / "SymmetryEvidence"
+DEFAULT_EMIT_MANIFEST = REPO_ROOT / "scripts" / "generated" / "symmetry_evidence_emit_manifest.json"
 
 
 def stable_json(value: Any) -> str:
@@ -144,6 +148,7 @@ class SemanticTileAccumulator:
     overlaps: list[dict[str, int]] = field(default_factory=list)
     samples: list[dict[str, Any]] = field(default_factory=list)
     kind_counts: Counter[str] = field(default_factory=Counter)
+    closed_tiles: list[dict[str, Any]] = field(default_factory=list)
     _digest: Any = field(default_factory=hashlib.sha256)
     _last: dict[str, Any] | None = None
 
@@ -162,6 +167,15 @@ class SemanticTileAccumulator:
         if self._last is None:
             return
         self._digest_closed_tile(self._last)
+        self.closed_tiles.append(
+            {
+                "lo": self._last["lo"],
+                "hi": self._last["hi"],
+                "kind": self._last["kind"],
+                "semantic_key_digest": self._last["semantic_key_digest"],
+                "transport": self._last.get("transport"),
+            }
+        )
         self._last = None
 
     def add(self, lo: int, hi: int, kind: str, semantic_key: str, sample: dict[str, Any]) -> None:
@@ -249,6 +263,7 @@ class SymmetryEvidencePlanner:
         sample_limit: int,
         progress_interval: int,
         tile_key_mode: str,
+        expand_noncanonical_prefixes: bool = False,
     ) -> None:
         self.limit = limit
         self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
@@ -257,6 +272,7 @@ class SymmetryEvidencePlanner:
         self.sample_limit = sample_limit
         self.progress_interval = progress_interval
         self.tile_key_mode = tile_key_mode
+        self.expand_noncanonical_prefixes = expand_noncanonical_prefixes
         self.tiles = SemanticTileAccumulator(self.target_hi, sample_limit)
         self.prefix_nodes = 0
         self.prefix_nodes_by_depth: Counter[int] = Counter()
@@ -533,7 +549,7 @@ class SymmetryEvidencePlanner:
             self.max_depth = max(self.max_depth, depth)
 
             canonical_prefix, raw_to_canonical_sym = canonical_word_with_symmetry(raw_prefix)
-            if canonical_prefix != raw_prefix:
+            if canonical_prefix != raw_prefix and not self.expand_noncanonical_prefixes:
                 self.noncanonical_prefix_nodes += 1
                 self.add_prefix_transport_tile(
                     rank_lo, clipped_hi, raw_prefix, canonical_prefix, raw_to_canonical_sym
@@ -666,6 +682,7 @@ class SymmetryEvidencePlanner:
             "options": {
                 "symmetry": "started-face D4",
                 "reversal_enabled": False,
+                "expand_noncanonical_prefixes": self.expand_noncanonical_prefixes,
                 "max_lean_leaves": self.max_lean_leaves,
                 "warn_lean_leaves": self.warn_lean_leaves,
                 "progress_interval": self.progress_interval,
@@ -717,6 +734,7 @@ class SymmetryEvidencePlanner:
                 "heavy_families": self.heavy_families.payload(),
             },
             "tiling": tiling,
+            "closed_tiles": self.tiles.closed_tiles,
             "decision": {
                 "status": status,
                 "reasons": reasons,
@@ -725,12 +743,19 @@ class SymmetryEvidencePlanner:
 
 
 def validate_options(args: argparse.Namespace) -> None:
-    if args.emit_lean:
-        raise SystemExit("--emit-lean belongs to Phase 7; Phase 6 is dry-run only")
-    if not args.dry_run:
-        raise SystemExit("Phase 6 only supports --dry-run")
+    if args.dry_run == args.emit_lean:
+        raise SystemExit("choose exactly one of --dry-run or --emit-lean")
+    if args.emit_lean and args.limit is None:
+        raise SystemExit("--emit-lean requires an explicit bounded --limit")
+    if args.emit_lean and args.limit > args.max_emit_limit:
+        raise SystemExit(
+            "--emit-lean refuses to emit more than "
+            f"{args.max_emit_limit} ranks without raising --max-emit-limit"
+        )
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
+    if args.chunk_size <= 0:
+        raise SystemExit("--chunk-size must be positive")
     if args.max_lean_leaves <= 0:
         raise SystemExit("--max-lean-leaves must be positive")
     if args.warn_lean_leaves <= 0:
@@ -769,13 +794,233 @@ def print_summary(payload: dict[str, Any]) -> None:
         print(f"- {reason}")
 
 
+def lean_header(module_title: str) -> str:
+    return (
+        "/-!\n"
+        f"Generated {module_title}.\n\n"
+        "This file is produced by scripts/generate_symmetry_evidence.py in\n"
+        "bounded Phase 7 pilot mode.  It is architectural coverage evidence\n"
+        "only: it does not prove semantic elimination of billiard cases.\n"
+        "-/\n\n"
+    )
+
+
+def balanced_concat_expr(names: list[str]) -> str:
+    if not names:
+        raise ValueError("cannot compose an empty theorem list")
+    if len(names) == 1:
+        return names[0]
+    mid = len(names) // 2
+    left = balanced_concat_expr(names[:mid])
+    right = balanced_concat_expr(names[mid:])
+    return f"(Coverage.CoversInterval.concat {left} {right})"
+
+
+def chunk_ranges(limit: int, chunk_size: int) -> list[tuple[int, int]]:
+    return [(lo, min(lo + chunk_size, limit)) for lo in range(0, limit, chunk_size)]
+
+
+def write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+
+def write_core_module(lean_root: Path) -> None:
+    text = (
+        "import Cuboctahedron.Generated.Coverage.Interval\n\n"
+        + lean_header("symmetry evidence core") +
+        "namespace Cuboctahedron.Generated.SymmetryEvidence\n\n"
+        "def BoundedRankPlanned (limit : Nat) (r : Nat) : Prop :=\n"
+        "  r < limit\n\n"
+        "def NonIdentityPilotCovered (limit : Nat) (r : Nat) : Prop :=\n"
+        "  BoundedRankPlanned limit r\n\n"
+        "def TranslationPilotCovered (limit : Nat) (r : Nat) : Prop :=\n"
+        "  BoundedRankPlanned limit r\n\n"
+        "theorem covers_bounded\n"
+        "    {lo hi limit : Nat} (hhi : hi <= limit) :\n"
+        "    Coverage.CoversInterval (BoundedRankPlanned limit) lo hi := by\n"
+        "  intro r _hlo hhiRank\n"
+        "  exact Nat.lt_of_lt_of_le hhiRank hhi\n\n"
+        "theorem covers_nonidentity_bounded\n"
+        "    {lo hi limit : Nat} (hhi : hi <= limit) :\n"
+        "    Coverage.CoversInterval (NonIdentityPilotCovered limit) lo hi := by\n"
+        "  exact covers_bounded hhi\n\n"
+        "theorem covers_translation_bounded\n"
+        "    {lo hi limit : Nat} (hhi : hi <= limit) :\n"
+        "    Coverage.CoversInterval (TranslationPilotCovered limit) lo hi := by\n"
+        "  exact covers_bounded hhi\n\n"
+        "end Cuboctahedron.Generated.SymmetryEvidence\n"
+    )
+    write_text(lean_root / "Core.lean", text)
+
+
+def write_branch_modules(lean_root: Path, branch: str, limit: int, chunk_size: int) -> list[dict[str, Any]]:
+    branch_dir = lean_root / branch
+    ranges = chunk_ranges(limit, chunk_size)
+    pred = "NonIdentityPilotCovered" if branch == "NonIdentity" else "TranslationPilotCovered"
+    cover = "covers_nonidentity_bounded" if branch == "NonIdentity" else "covers_translation_bounded"
+    branch_infos: list[dict[str, Any]] = []
+    for index, (lo, hi) in enumerate(ranges):
+        stem = f"Chunk{index:03d}"
+        theorem_name = f"chunk{index:03d}_covers"
+        text = (
+            "import Cuboctahedron.Generated.SymmetryEvidence.Core\n\n"
+            + lean_header(f"symmetry evidence {branch} chunk {index:03d}") +
+            f"namespace Cuboctahedron.Generated.SymmetryEvidence.{branch}\n\n"
+            f"theorem {theorem_name} :\n"
+            f"    Coverage.CoversInterval\n"
+            f"      (Cuboctahedron.Generated.SymmetryEvidence.{pred} {limit}) {lo} {hi} := by\n"
+            f"  exact Cuboctahedron.Generated.SymmetryEvidence.{cover} (by decide)\n\n"
+            f"end Cuboctahedron.Generated.SymmetryEvidence.{branch}\n"
+        )
+        write_text(branch_dir / f"{stem}.lean", text)
+        branch_infos.append({
+            "index": index,
+            "lo": lo,
+            "hi": hi,
+            "module": f"Cuboctahedron.Generated.SymmetryEvidence.{branch}.{stem}",
+            "theorem": theorem_name,
+        })
+
+    imports = "\n".join(
+        f"import Cuboctahedron.Generated.SymmetryEvidence.{branch}.Chunk{info['index']:03d}"
+        for info in branch_infos
+    )
+    theorem_refs = [
+        f"Cuboctahedron.Generated.SymmetryEvidence.{branch}.chunk{info['index']:03d}_covers"
+        for info in branch_infos
+    ]
+    all_expr = balanced_concat_expr(theorem_refs)
+    all_text = (
+        f"{imports}\n\n"
+        + lean_header(f"symmetry evidence {branch} aggregate") +
+        f"namespace Cuboctahedron.Generated.SymmetryEvidence.{branch}\n\n"
+        "theorem all_covers :\n"
+        f"    Coverage.CoversInterval\n"
+        f"      (Cuboctahedron.Generated.SymmetryEvidence.{pred} {limit}) 0 {limit} :=\n"
+        f"  {all_expr}\n\n"
+        f"end Cuboctahedron.Generated.SymmetryEvidence.{branch}\n"
+    )
+    write_text(branch_dir / "All.lean", all_text)
+    return branch_infos
+
+
+def write_translation_farkas_shapes(lean_root: Path, payload: dict[str, Any]) -> None:
+    reuse = payload["classification"]["farkas_shape_reuse"]
+    shape_count = int(reuse["shape_count"])
+    shared_shape_count = int(reuse["shared_shape_count"])
+    text = (
+        "import Cuboctahedron.Generated.SymmetryEvidence.Core\n\n"
+        + lean_header("symmetry translation Farkas-shape pilot metadata") +
+        "namespace Cuboctahedron.Generated.SymmetryEvidence.Translation\n\n"
+        f"def pilotFarkasShapeCount : Nat := {shape_count}\n"
+        f"def pilotSharedFarkasShapeCount : Nat := {shared_shape_count}\n\n"
+        f"theorem pilotFarkasShapeCount_eq :\n"
+        f"    pilotFarkasShapeCount = {shape_count} := rfl\n\n"
+        f"theorem pilotSharedFarkasShapeCount_eq :\n"
+        f"    pilotSharedFarkasShapeCount = {shared_shape_count} := rfl\n\n"
+        "end Cuboctahedron.Generated.SymmetryEvidence.Translation\n"
+    )
+    write_text(lean_root / "Translation" / "FarkasShapes.lean", text)
+
+
+def write_root_module(lean_root: Path, limit: int) -> None:
+    text = (
+        "import Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.All\n"
+        "import Cuboctahedron.Generated.SymmetryEvidence.Semantic\n"
+        "import Cuboctahedron.Generated.SymmetryEvidence.Translation.All\n"
+        "import Cuboctahedron.Generated.SymmetryEvidence.Translation.FarkasShapes\n\n"
+        + lean_header("symmetry evidence bounded root") +
+        "namespace Cuboctahedron.Generated.SymmetryEvidence\n\n"
+        "structure BoundedSymmetryEvidence where\n"
+        "  limit : Nat\n"
+        "  nonidentity :\n"
+        "    Coverage.CoversInterval (NonIdentityPilotCovered limit) 0 limit\n"
+        "  translation :\n"
+        "    Coverage.CoversInterval (TranslationPilotCovered limit) 0 limit\n\n"
+        "abbrev SemanticEvidence := SemanticBoundedEvidence\n\n"
+        "theorem nonidentity_complete_interval :\n"
+        f"    Coverage.CoversInterval (NonIdentityPilotCovered {limit}) 0 {limit} :=\n"
+        "  NonIdentity.all_covers\n\n"
+        "theorem translation_complete_interval :\n"
+        f"    Coverage.CoversInterval (TranslationPilotCovered {limit}) 0 {limit} :=\n"
+        "  Translation.all_covers\n\n"
+        "def boundedRoot : BoundedSymmetryEvidence where\n"
+        f"  limit := {limit}\n"
+        "  nonidentity := nonidentity_complete_interval\n"
+        "  translation := translation_complete_interval\n\n"
+        "end Cuboctahedron.Generated.SymmetryEvidence\n"
+    )
+    write_text(lean_root / "Root.lean", text)
+
+
+def emit_lean_architecture(
+    payload: dict[str, Any],
+    *,
+    lean_root: Path,
+    manifest_output: Path,
+    chunk_size: int,
+) -> dict[str, Any]:
+    limit = payload["profile_limit"]
+    if limit is None:
+        raise ValueError("bounded Lean emission requires a finite profile limit")
+    lean_root.mkdir(parents=True, exist_ok=True)
+    write_core_module(lean_root)
+    nonidentity_chunks = write_branch_modules(lean_root, "NonIdentity", limit, chunk_size)
+    write_translation_farkas_shapes(lean_root, payload)
+    translation_chunks = write_branch_modules(lean_root, "Translation", limit, chunk_size)
+    write_root_module(lean_root, limit)
+    manifest = {
+        "schema_version": 1,
+        "mode": "symmetry-evidence-lean-pilot",
+        "trusted_as_proof": False,
+        "limit": limit,
+        "chunk_size": chunk_size,
+        "lean_root": str(lean_root.relative_to(REPO_ROOT)),
+        "nonidentity_chunks": nonidentity_chunks,
+        "translation_chunks": translation_chunks,
+        "tiling": {
+            "coalesced_semantic_tiles": payload["tiling"]["coalesced_semantic_tiles"],
+            "planned_public_interval_nodes": payload["tiling"]["planned_public_interval_nodes"],
+            "partition_digest": payload["tiling"]["partition_digest"],
+            "kind_counts": payload["tiling"]["tile_kind_counts"],
+        },
+        "semantic_bridge": {
+            "module": "Cuboctahedron.Generated.SymmetryEvidence.Semantic",
+            "public_verified_root_path": (
+                "evidence/public_interval_shards/"
+                "Shard000000000_000000008/VerifiedRoot.lean"
+            ),
+            "symmetry_wrapper_root_path": (
+                "evidence/symmetry_semantic_shards/"
+                "Shard000000000_000000008/VerifiedRoot.lean"
+            ),
+            "bounded_range": [0, 8],
+        },
+        "note": (
+            "Generated Lean files are a bounded Phase 7 architecture pilot. "
+            "They intentionally expose planned coverage predicates, not the "
+            "final semantic impossibility predicates."
+        ),
+    }
+    write_payload(manifest, manifest_output)
+    return manifest
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Plan D4-symmetric semantic interval coverage without emitting Lean."
+        description="Plan or emit bounded D4-symmetric semantic interval coverage."
     )
-    parser.add_argument("--dry-run", action="store_true", help="required; Phase 6 emits JSON only")
-    parser.add_argument("--emit-lean", action="store_true", help="rejected in Phase 6; reserved for Phase 7")
+    parser.add_argument("--dry-run", action="store_true", help="emit JSON only")
+    parser.add_argument(
+        "--emit-lean",
+        action="store_true",
+        help="emit bounded Phase 7 architectural Lean modules",
+    )
     parser.add_argument("--limit", type=int, default=None, help="cover only the first N pair-word ranks")
+    parser.add_argument("--chunk-size", type=int, default=512)
+    parser.add_argument("--max-emit-limit", type=int, default=4096)
+    parser.add_argument("--lean-root", type=Path, default=DEFAULT_LEAN_ROOT)
     parser.add_argument("--max-lean-leaves", type=int, default=2000)
     parser.add_argument("--warn-lean-leaves", type=int, default=900)
     parser.add_argument("--max-distinct-tracked", type=int, default=100_000)
@@ -791,6 +1036,7 @@ def main() -> None:
         ),
     )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--emit-manifest", type=Path, default=DEFAULT_EMIT_MANIFEST)
     parser.add_argument(
         "--allow-reject",
         action="store_true",
@@ -808,6 +1054,7 @@ def main() -> None:
         sample_limit=args.sample_limit,
         progress_interval=args.progress_interval,
         tile_key_mode=args.tile_key_mode,
+        expand_noncanonical_prefixes=args.emit_lean,
     )
     planner.traverse()
     payload = planner.payload(elapsed_seconds=time.monotonic() - start)
@@ -815,6 +1062,17 @@ def main() -> None:
     print_summary(payload)
     if payload["decision"]["status"] == "reject" and not args.allow_reject:
         raise SystemExit(1)
+    if args.emit_lean:
+        manifest = emit_lean_architecture(
+            payload,
+            lean_root=args.lean_root,
+            manifest_output=args.emit_manifest,
+            chunk_size=args.chunk_size,
+        )
+        print(
+            "emitted bounded Lean architecture: "
+            f"{manifest['lean_root']} ({len(manifest['nonidentity_chunks'])} chunks/branch)"
+        )
 
 
 if __name__ == "__main__":
