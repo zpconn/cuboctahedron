@@ -49,8 +49,9 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 
 ## Current Status Dashboard
 
-Last updated after the semantic prefix-pruning prototype was extended to cover
-the depth-9 interval `[90,96)`.
+Last updated after Phase 6A automatic bounded-window discovery emitted and
+externally checked discovered bad-direction intervals `[2694,2706)` and
+`[2778,2790)`.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -60,7 +61,7 @@ the depth-9 interval `[90,96)`.
 | Phase 3: compression profiler | Complete as a tool; needs refreshed gates | `scripts/profile_symmetry_compression.py` exists, but its gates must be rerun after the new prefix templates are added. |
 | Phase 4: nonidentity family checkers | Partially complete | Generic semantic adapters now cover bad pair balance and bad direction. More true prefix-level templates are needed. |
 | Phase 5: translation Farkas sharing | Partially complete | `FarkasShapeTransport.lean` exists; full shared-shape generation/tiling is still pending. |
-| Phase 6: semantic tiling | Partially complete | `scripts/generate_symmetry_evidence.py` exists, but current usable evidence is still prototype-scale. |
+| Phase 6: semantic tiling | Phase 6A complete; Phase 6B pending | Automatic bounded-window bad-direction prefix discovery works; full compression gate has not been rerun successfully. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -78,20 +79,19 @@ Completed current-work items:
 - Generated externally checked roots:
   - `evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean`
   - `evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean`
-- Verified both roots through `scripts/check_family_interval_evidence.py`
+  - `evidence/prefix_pruning/DiscoveredBadDirection_000002694_000002706/VerifiedRoot.lean`
+  - `evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean`
+- Verified all four roots through `scripts/check_family_interval_evidence.py`
   using the external `.olean` cache and a 44 GiB Lean memory cap.
 
 Immediate next work:
 
-1. Teach the prefix-pruning emitter to discover all bad-direction prefix
-   intervals in a bounded window instead of using the hand-picked `[90,96)`
-   interval.
-2. Add stronger prefix templates whose witnesses are shared by the whole prefix
+1. Add stronger prefix templates whose witnesses are shared by the whole prefix
    family, rather than generated completion-by-completion inside the leaf.
-3. Rerun the compression profiler with the new templates and record:
+2. Rerun the compression profiler with the new templates and record:
    planned leaves, tile count, total covered ranks, gaps/overlaps, and largest
    generated root size.
-4. Only after the profiler falls below the 2,000-leaf hard gate, emit the
+3. Only after the profiler falls below the 2,000-leaf hard gate, emit the
    hierarchical generated coverage roots.
 
 ## Phase 0: Inventory Existing Interfaces
@@ -760,7 +760,8 @@ prints `status: accepted_for_lean_emission`.
 
 ### Phase 6A: Automatic Prefix Interval Discovery
 
-New required work.
+Status: complete for bounded bad-direction discovery; not a final compression
+gate.
 
 Extend the prefix-pruning emitter/profiler so it can discover candidate
 intervals rather than hard-code `[90,96)` and `[102,103)`.
@@ -792,6 +793,47 @@ python3 scripts/generate_prefix_pruning_prototype.py \
 
 If the current script name or CLI changes, keep this behavior available under
 the replacement script.
+
+Observed completed run:
+
+```bash
+python3 scripts/generate_prefix_pruning_prototype.py \
+  --profile-window 0 5000 \
+  --report scripts/generated/prefix_pruning_window_profile.json
+
+python3 scripts/generate_prefix_pruning_prototype.py \
+  --profile-window 0 5000 \
+  --emit-discovered \
+  --max-roots 2 \
+  --max-root-ranks 24 \
+  --report scripts/generated/prefix_pruning_window_profile.json
+```
+
+Result:
+
+- `candidate_count`: 1,805
+- `largest_candidate_rank_count`: 12
+- `witness_modes`: `["completion-local"]`
+- selected discovered intervals:
+  - `[2694,2706)`, prefix length 9, 12 ranks;
+  - `[2778,2790)`, prefix length 9, 12 ranks.
+- emitted roots:
+  - `evidence/prefix_pruning/DiscoveredBadDirection_000002694_000002706/VerifiedRoot.lean`
+  - `evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean`
+
+External check:
+
+```text
+ok compile evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean 32.0s
+ok compile evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean 24.3s
+ok compile evidence/prefix_pruning/DiscoveredBadDirection_000002694_000002706/VerifiedRoot.lean 48.2s
+ok compile evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean 48.4s
+```
+
+Important caveat: this completes automatic discovery and bounded evidence
+emission, but it does not meet the final compression target. The discovered
+roots still use completion-local witnesses and cover selected intervals rather
+than a no-gap bounded range.
 
 ### Phase 6B: Compression Gate Rerun
 
@@ -1164,7 +1206,7 @@ The prototype emitter is:
 scripts/generate_prefix_pruning_prototype.py
 ```
 
-It emits two bounded roots:
+In control mode, it emits two bounded roots:
 
 ```text
 evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean
@@ -1205,18 +1247,18 @@ ok compile evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean 31.0s
 ok compile evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean 23.4s
 ```
 
-This is still prototype-scale: the largest interval currently contains six
-ranks, so it is far below the final compression target. The important milestone
-is that the proof shape now supports a shorter prefix interval whose exported
-theorem is semantic and whose generated root has no active rank-certificate
-literal. The next implementation step is to make the emitter discover and group
-many such shorter prefix intervals automatically, then add stronger templates
-whose witnesses are shared across all completions rather than supplied
-completion-by-completion inside the bounded leaf.
+This is still prototype-scale. Control mode reaches six ranks, and Phase 6A
+discovery mode now reaches selected twelve-rank intervals. Both remain far
+below the final compression target. The important milestone is that the proof
+shape supports shorter prefix intervals whose exported theorem is semantic and
+whose generated root has no active rank-certificate literal. The next
+implementation step is to add stronger templates whose witnesses are shared
+across all completions rather than supplied completion-by-completion inside the
+bounded leaf.
 
 ### Phase 8F: Scaled Prefix-Pruning Evidence
 
-Status: not started.
+Status: started, not complete.
 
 Goal:
 
@@ -1252,6 +1294,10 @@ python3 scripts/check_family_interval_evidence.py \
 
 and the manifest covers a nontrivial bounded range with no gaps, not merely
 isolated hand-picked examples.
+
+Current status: the manifest now includes automatically discovered roots for
+`[2694,2706)` and `[2778,2790)`, but these are selected intervals, not a
+gap-free bounded range. Therefore Phase 8F remains incomplete.
 
 ### Phase 8G: Full Compressed Root Emission
 
@@ -1342,7 +1388,7 @@ Acceptance:
 - [x] Generate and externally check a tiny semantic prefix-pruning root.
 - [x] Generate and externally check a shorter-prefix multi-rank root:
   `[90,96)` via bad direction.
-- [ ] Implement Phase 6A automatic prefix interval discovery.
+- [x] Implement Phase 6A automatic prefix interval discovery.
 - [ ] Add stronger uniform prefix templates for nonidentity failures.
 - [ ] Rerun Phase 6B compression gate and record whether full coverage falls
   below 2,000 planned heavy leaves/nodes.
@@ -1359,10 +1405,10 @@ Acceptance:
 
 Current next step:
 
-Implement Phase 6A automatic prefix interval discovery, starting with
-bad-direction intervals in a bounded window. The output should be a JSON
-profile plus generated evidence roots for at least one automatically discovered
-multi-rank interval, checked through the external `.olean` cache.
+Add stronger uniform prefix templates for nonidentity failures. The immediate
+target is a bad-direction template that can prove an entire prefix interval
+with one shared witness pattern instead of completion-local per-rank axis and
+kernel witnesses.
 
 ## Explicit Non-Goals
 

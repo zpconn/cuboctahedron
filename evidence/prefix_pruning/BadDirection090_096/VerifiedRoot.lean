@@ -3,9 +3,8 @@ import Cuboctahedron.Generated.NonIdentity.PrefixPruning
 /-!
 Generated semantic prefix-pruning prototype.
 
-This root proves a depth-9 bad-direction prefix interval covering six pair-word
-ranks.  It exports one interval theorem and does not contain per-rank
-rank-certificate literals.
+This root proves a depth-9 bad-direction prefix interval covering six pair-word ranks. It exports one interval theorem and does not contain
+per-rank rank-certificate literals.
 -/
 
 namespace Cuboctahedron.Generated.PrefixPruningPrototype.BadDirection090_096
@@ -200,6 +199,7 @@ theorem rank000000090_totalLinear :
   simp [pairLinearProductRight, pairLinearSuffixNat, reflM,
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
+
 
 def rank000000090_axis : Vec3 Rat :=
   { x := -1, y := -1, z := 0 }
@@ -406,6 +406,7 @@ theorem rank000000091_totalLinear :
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
 
+
 def rank000000091_axis : Vec3 Rat :=
   { x := 0, y := (-7/4), z := 1 }
 
@@ -610,6 +611,7 @@ theorem rank000000092_totalLinear :
   simp [pairLinearProductRight, pairLinearSuffixNat, reflM,
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
+
 
 def rank000000092_axis : Vec3 Rat :=
   { x := -1, y := -1, z := 0 }
@@ -816,6 +818,7 @@ theorem rank000000093_totalLinear :
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
 
+
 def rank000000093_axis : Vec3 Rat :=
   { x := -1, y := -1, z := 0 }
 
@@ -1021,6 +1024,7 @@ theorem rank000000094_totalLinear :
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
 
+
 def rank000000094_axis : Vec3 Rat :=
   { x := (-7/4), y := 0, z := -1 }
 
@@ -1225,6 +1229,7 @@ theorem rank000000095_totalLinear :
   simp [pairLinearProductRight, pairLinearSuffixNat, reflM,
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
+
 
 def rank000000095_axis : Vec3 Rat :=
   { x := -1, y := -1, z := 0 }

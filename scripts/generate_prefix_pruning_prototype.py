@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 from pathlib import Path
+from typing import Any
 
 import generate_exact_certificates as exact
 
@@ -32,6 +34,13 @@ BAD_DIRECTION_PREFIX_IDS = [
     "d111",
     "d11m",
 ]
+
+DEFAULT_PROFILE_REPORT = (
+    REPO_ROOT / "scripts" / "generated" / "prefix_pruning_window_profile.json"
+)
+DEFAULT_MIN_ROOT_RANKS = 2
+DEFAULT_MAX_ROOT_RANKS = 24
+DEFAULT_MAX_ROOTS = 2
 
 PAIR_WORD_IDS_102 = [
     "x",
@@ -238,17 +247,190 @@ def lean_pair_word_literal(word: list[str]) -> str:
     return lean_array([exact.lean_pair_id(pair_id) for pair_id in word])
 
 
+def remaining_after_prefix(prefix: list[str]) -> dict[str, int]:
+    remaining = dict(exact.PAIR_COUNTS)
+    for pair_id in prefix:
+        if pair_id not in remaining or remaining[pair_id] <= 0:
+            raise ValueError(f"invalid pair prefix: {prefix}")
+        remaining[pair_id] -= 1
+    return remaining
+
+
+def prefix_rank_interval(prefix: list[str]) -> tuple[int, int]:
+    lo = exact.prefix_start_rank(prefix)
+    remaining = remaining_after_prefix(prefix)
+    return lo, lo + exact.multinomial_count(remaining)
+
+
+def classify_rank_for_bad_direction(rank: int) -> dict[str, Any]:
+    word = exact.pair_word_at_rank(rank)
+    matrix = exact.total_linear(word)
+    if matrix == exact.mat_id():
+        return {
+            "rank": rank,
+            "word": word,
+            "identity": True,
+            "bad_direction": False,
+        }
+    try:
+        axis = exact.oriented_fixed_axis(word, matrix)
+        zero_index = exact.first_axis_zero_index_or_none(word, axis)
+        if zero_index is None:
+            return {
+                "rank": rank,
+                "word": word,
+                "identity": False,
+                "bad_direction": False,
+                "reason": "no_axis_zero_index",
+            }
+        kernel = exact.kernel_line_cross_factor(matrix, axis)
+    except ValueError as exc:
+        return {
+            "rank": rank,
+            "word": word,
+            "identity": False,
+            "bad_direction": False,
+            "reason": str(exc),
+        }
+    return {
+        "rank": rank,
+        "word": word,
+        "identity": False,
+        "bad_direction": True,
+        "axis": axis,
+        "kernel": kernel,
+        "zero_index": zero_index,
+    }
+
+
+def witness_signature(classification: dict[str, Any]) -> str:
+    if classification["identity"]:
+        return "identity"
+    return json.dumps(
+        {
+            "axis": [exact.rat_to_json(value) for value in classification["axis"]],
+            "kernel": [
+                [exact.rat_to_json(value) for value in row]
+                for row in classification["kernel"]
+            ],
+            "zero_index": classification["zero_index"],
+        },
+        sort_keys=True,
+    )
+
+
+def classify_bad_direction_prefix_interval(
+    prefix: list[str],
+    lo: int,
+    hi: int,
+) -> dict[str, Any] | None:
+    rank_classifications = [
+        classify_rank_for_bad_direction(rank) for rank in range(lo, hi)
+    ]
+    nonidentity = [
+        item for item in rank_classifications if not item["identity"]
+    ]
+    if not nonidentity:
+        return None
+    failed = [
+        item for item in nonidentity if not item.get("bad_direction", False)
+    ]
+    if failed:
+        return None
+    signatures = {
+        witness_signature(item) for item in rank_classifications
+    }
+    witness_mode = "uniform" if len(signatures) == 1 else "completion-local"
+    return {
+        "start_rank": lo,
+        "end_rank": hi,
+        "rank_count": hi - lo,
+        "prefix": list(prefix),
+        "prefix_length": len(prefix),
+        "failure": "badDirectionSign",
+        "witness_mode": witness_mode,
+        "identity_ranks": [
+            item["rank"] for item in rank_classifications if item["identity"]
+        ],
+        "nonidentity_ranks": [
+            item["rank"] for item in nonidentity
+        ],
+        "witness_signature_count": len(signatures),
+    }
+
+
+def discover_bad_direction_intervals(
+    window_lo: int,
+    window_hi: int,
+    *,
+    min_root_ranks: int,
+    max_root_ranks: int,
+) -> list[dict[str, Any]]:
+    if not (0 <= window_lo <= window_hi <= exact.EXPECTED_PAIR_WORDS):
+        raise ValueError(
+            f"invalid discovery window [{window_lo}, {window_hi})"
+        )
+    if min_root_ranks < 1 or max_root_ranks < min_root_ranks:
+        raise ValueError("invalid min/max root rank bounds")
+
+    candidates: list[dict[str, Any]] = []
+    seen_prefixes: set[tuple[str, ...]] = set()
+    for rank in range(window_lo, window_hi):
+        word = exact.pair_word_at_rank(rank)
+        for depth in range(1, 14):
+            prefix = tuple(word[:depth])
+            if prefix in seen_prefixes:
+                continue
+            seen_prefixes.add(prefix)
+            lo, hi = prefix_rank_interval(list(prefix))
+            width = hi - lo
+            if lo < window_lo or hi > window_hi:
+                continue
+            if width < min_root_ranks or width > max_root_ranks:
+                continue
+            candidate = classify_bad_direction_prefix_interval(list(prefix), lo, hi)
+            if candidate is not None:
+                candidates.append(candidate)
+
+    candidates.sort(
+        key=lambda item: (
+            -item["rank_count"],
+            item["start_rank"],
+            item["prefix_length"],
+            item["prefix"],
+        )
+    )
+    return candidates
+
+
+def select_discovered_intervals(
+    candidates: list[dict[str, Any]],
+    *,
+    max_roots: int,
+) -> list[dict[str, Any]]:
+    selected: list[dict[str, Any]] = []
+    occupied: list[tuple[int, int]] = []
+    for candidate in candidates:
+        lo = candidate["start_rank"]
+        hi = candidate["end_rank"]
+        if any(not (hi <= used_lo or used_hi <= lo) for used_lo, used_hi in occupied):
+            continue
+        selected.append(candidate)
+        occupied.append((lo, hi))
+        if len(selected) >= max_roots:
+            break
+    selected.sort(key=lambda item: item["start_rank"])
+    return selected
+
+
 def rank_def_block(rank: int) -> str:
     word = exact.pair_word_at_rank(rank)
     word_name = f"wordRank{rank:09d}"
     rank_name = f"rank{rank:09d}"
     total_name = f"{rank_name}_totalLinear"
     matrix = exact.total_linear(word)
-    axis = exact.oriented_fixed_axis(word, matrix)
-    zero_index = exact.first_axis_zero_index(word, axis)
-    kernel = exact.kernel_line_cross_factor(matrix, axis)
     word_simp = ", ".join(generic_word_get_simp_names(word_name))
-    return f"""
+    common = f"""
 def {rank_name} : Fin numPairWords :=
   ⟨{rank}, by decide⟩
 
@@ -272,6 +454,14 @@ theorem {total_name} :
   simp [pairLinearProductRight, pairLinearSuffixNat, reflM,
     canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]
   norm_num
+"""
+    if matrix == exact.mat_id():
+        return common
+
+    axis = exact.oriented_fixed_axis(word, matrix)
+    zero_index = exact.first_axis_zero_index(word, axis)
+    kernel = exact.kernel_line_cross_factor(matrix, axis)
+    return common + f"""
 
 def {rank_name}_axis : Vec3 Rat :=
   {exact.lean_vec(axis)}
@@ -302,14 +492,22 @@ theorem {rank_name}_axisZero :
 
 def rank_branch(rank: int) -> str:
     rank_name = f"rank{rank:09d}"
-    word_name = f"wordRank{rank:09d}"
-    zero_index = exact.first_axis_zero_index(
-        exact.pair_word_at_rank(rank),
-        exact.oriented_fixed_axis(
-            exact.pair_word_at_rank(rank),
-            exact.total_linear(exact.pair_word_at_rank(rank)),
-        ),
-    )
+    word = exact.pair_word_at_rank(rank)
+    matrix = exact.total_linear(word)
+    if matrix == exact.mat_id():
+        return f"""  · subst raw
+    have hRank :
+        (⟨{rank}, hlt⟩ : Fin numPairWords) = {rank_name} := by
+      ext
+      rfl
+    rw [hRank, {rank_name}_unrank] at hM
+    exfalso
+    apply hM
+    rw [{rank_name}_totalLinear]
+    norm_num [matId]"""
+
+    axis = exact.oriented_fixed_axis(word, matrix)
+    zero_index = exact.first_axis_zero_index(word, axis)
     return f"""  · subst raw
     have hRank :
         (⟨{rank}, hlt⟩ : Fin numPairWords) = {rank_name} := by
@@ -334,24 +532,30 @@ def raw_cases_rcases_pattern(start: int, end: int) -> str:
     return pattern
 
 
-def bad_direction_verified_root() -> str:
-    prefix_entries = lean_list([exact.lean_pair_id(pair_id) for pair_id in BAD_DIRECTION_PREFIX_IDS])
-    ranks = list(range(BAD_DIRECTION_PREFIX_START, BAD_DIRECTION_PREFIX_END))
+def bad_direction_verified_root_for_interval(
+    *,
+    start_rank: int,
+    end_rank: int,
+    prefix: list[str],
+    namespace_name: str,
+    title: str,
+) -> str:
+    prefix_entries = lean_list([exact.lean_pair_id(pair_id) for pair_id in prefix])
+    ranks = list(range(start_rank, end_rank))
     rank_blocks = "\n".join(rank_def_block(rank) for rank in ranks)
     branches = "\n".join(rank_branch(rank) for rank in ranks)
-    branch_pattern = raw_cases_rcases_pattern(BAD_DIRECTION_PREFIX_START, BAD_DIRECTION_PREFIX_END)
-    rank_cases = raw_cases_disjunction(BAD_DIRECTION_PREFIX_START, BAD_DIRECTION_PREFIX_END)
+    branch_pattern = raw_cases_rcases_pattern(start_rank, end_rank)
+    rank_cases = raw_cases_disjunction(start_rank, end_rank)
     return f"""import Cuboctahedron.Generated.NonIdentity.PrefixPruning
 
 /-!
 Generated semantic prefix-pruning prototype.
 
-This root proves a depth-9 bad-direction prefix interval covering six pair-word
-ranks.  It exports one interval theorem and does not contain per-rank
-rank-certificate literals.
+This root proves {title}. It exports one interval theorem and does not contain
+per-rank rank-certificate literals.
 -/
 
-namespace Cuboctahedron.Generated.PrefixPruningPrototype.BadDirection090_096
+namespace Cuboctahedron.Generated.PrefixPruningPrototype.{namespace_name}
 
 set_option maxHeartbeats 2200000
 set_option maxRecDepth 10000
@@ -368,7 +572,7 @@ def badDirectionPairPrefix : Cuboctahedron.Generated.Coverage.PairPrefix where
 
 theorem badDirectionPrefix_covers :
     Cuboctahedron.Generated.Coverage.PrefixRankInterval
-      badDirectionPairPrefix {BAD_DIRECTION_PREFIX_START} {BAD_DIRECTION_PREFIX_END} := by
+      badDirectionPairPrefix {start_rank} {end_rank} := by
   intro raw hlo hhi hlt
   have hRaw : {rank_cases} := by omega
   rcases hRaw with {branch_pattern}
@@ -384,8 +588,8 @@ f'''  · subst raw
 ''' for rank in ranks])}
 
 theorem badDirection_sound
-    (raw : Nat) (hlo : {BAD_DIRECTION_PREFIX_START} <= raw)
-    (hhi : raw < {BAD_DIRECTION_PREFIX_END})
+    (raw : Nat) (hlo : {start_rank} <= raw)
+    (hhi : raw < {end_rank})
     (hlt : raw < numPairWords)
     (_hprefix :
       Cuboctahedron.Generated.Coverage.PairWordHasPrefix badDirectionPairPrefix
@@ -405,7 +609,7 @@ theorem badDirection_sound
 
 def badDirectionEvidence :
     Cuboctahedron.Generated.NonIdentity.PrefixPruning.BadDirectionPrefixCert
-      {BAD_DIRECTION_PREFIX_START} {BAD_DIRECTION_PREFIX_END} where
+      {start_rank} {end_rank} where
   pairPrefix := badDirectionPairPrefix
   prefix_covers := badDirectionPrefix_covers
   direction_sound := badDirection_sound
@@ -413,11 +617,21 @@ def badDirectionEvidence :
 theorem nonidentity_killed :
     Cuboctahedron.Generated.Coverage.CoversInterval
       Cuboctahedron.Generated.Coverage.NonIdentityRankKilledNat
-      {BAD_DIRECTION_PREFIX_START} {BAD_DIRECTION_PREFIX_END} :=
+      {start_rank} {end_rank} :=
   badDirectionEvidence.sound
 
-end Cuboctahedron.Generated.PrefixPruningPrototype.BadDirection090_096
+end Cuboctahedron.Generated.PrefixPruningPrototype.{namespace_name}
 """
+
+
+def bad_direction_verified_root() -> str:
+    return bad_direction_verified_root_for_interval(
+        start_rank=BAD_DIRECTION_PREFIX_START,
+        end_rank=BAD_DIRECTION_PREFIX_END,
+        prefix=BAD_DIRECTION_PREFIX_IDS,
+        namespace_name="BadDirection090_096",
+        title="a depth-9 bad-direction prefix interval covering six pair-word ranks",
+    )
 
 
 def verified_root() -> str:
@@ -620,72 +834,281 @@ end Cuboctahedron.Generated.PrefixPruningPrototype.BadPairBalance102
 """
 
 
-def build_manifest(bad_balance_root: Path, bad_direction_root: Path) -> dict:
+def discovered_namespace(start_rank: int, end_rank: int) -> str:
+    return f"DiscoveredBadDirection{start_rank:09d}_{end_rank:09d}"
+
+
+def discovered_root_path(output_dir: Path, candidate: dict[str, Any]) -> Path:
+    return (
+        output_dir /
+        f"DiscoveredBadDirection_{candidate['start_rank']:09d}_{candidate['end_rank']:09d}" /
+        "VerifiedRoot.lean"
+    )
+
+
+def discovered_verified_root(candidate: dict[str, Any]) -> str:
+    return bad_direction_verified_root_for_interval(
+        start_rank=candidate["start_rank"],
+        end_rank=candidate["end_rank"],
+        prefix=candidate["prefix"],
+        namespace_name=discovered_namespace(
+            candidate["start_rank"], candidate["end_rank"]
+        ),
+        title=(
+            "an automatically discovered bad-direction prefix interval covering "
+            f"{candidate['rank_count']} pair-word ranks"
+        ),
+    )
+
+
+def interval_record(
+    *,
+    start_rank: int,
+    end_rank: int,
+    prefix_length: int,
+    failure: str,
+    kind: str,
+    root: Path,
+    witness_mode: str | None = None,
+    source: str,
+) -> dict[str, Any]:
+    record: dict[str, Any] = {
+        "start_rank": start_rank,
+        "end_rank": end_rank,
+        "rank_count": end_rank - start_rank,
+        "prefix_length": prefix_length,
+        "failure": failure,
+        "kind": kind,
+        "source": source,
+        "verified_root": file_record(root),
+    }
+    if witness_mode is not None:
+        record["witness_mode"] = witness_mode
+    return record
+
+
+def build_manifest(
+    roots: list[dict[str, Any]],
+    *,
+    profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    covered = [
+        {
+            "start_rank": root["start_rank"],
+            "end_rank": root["end_rank"],
+            "rank_count": root["rank_count"],
+            "prefix_length": root["prefix_length"],
+            "failure": root["failure"],
+            "source": root["source"],
+            **({"witness_mode": root["witness_mode"]} if "witness_mode" in root else {}),
+        }
+        for root in roots
+    ]
+    has_multi = any(root["rank_count"] > 1 for root in roots)
+    contains_control = any(root["source"] == "control" for root in roots)
+    discovered = [root for root in roots if root["source"] == "discovered"]
+    profile_summary = None
+    if profile is not None:
+        profile_summary = {
+            "window": profile["window"],
+            "bounds": profile["bounds"],
+            "candidate_count": profile["candidate_count"],
+            "selected_count": profile["selected_count"],
+            "selected_rank_count": profile["selected_rank_count"],
+            "largest_candidate_rank_count": profile["largest_candidate_rank_count"],
+            "witness_modes": profile["witness_modes"],
+        }
     return {
         "schema_version": 1,
         "mode": "semantic-prefix-pruning-prototype",
         "trusted_as_final_proof": False,
-        "rank_count": 7,
-        "covered_intervals": [
-            {
-                "start_rank": BAD_DIRECTION_PREFIX_START,
-                "end_rank": BAD_DIRECTION_PREFIX_END,
-                "rank_count": BAD_DIRECTION_PREFIX_END - BAD_DIRECTION_PREFIX_START,
-                "prefix_length": len(BAD_DIRECTION_PREFIX_IDS),
-                "failure": "badDirectionSign",
-            },
-            {
-                "start_rank": 102,
-                "end_rank": 103,
-                "rank_count": 1,
-                "prefix_length": 13,
-                "failure": "badPairBalance",
-            },
-        ],
+        "rank_count": sum(root["rank_count"] for root in roots),
+        "covered_intervals": covered,
         "contains_local_rank_certificate_literals": False,
         "no_singleton_rank_leaf_modules": True,
-        "contains_single_rank_control_interval": True,
-        "has_multi_rank_prefix_interval": True,
+        "contains_single_rank_control_interval": contains_control,
+        "has_multi_rank_prefix_interval": has_multi,
+        "discovered_root_count": len(discovered),
+        "discovered_rank_count": sum(root["rank_count"] for root in discovered),
         "forbidden_active_patterns": FORBIDDEN_ACTIVE_PATTERNS,
         "paths": {
-            "verified_roots": [
-                {
-                    "start_rank": BAD_DIRECTION_PREFIX_START,
-                    "end_rank": BAD_DIRECTION_PREFIX_END,
-                    "rank_count": BAD_DIRECTION_PREFIX_END - BAD_DIRECTION_PREFIX_START,
-                    "kind": "badDirectionPrefix",
-                    "verified_root": file_record(bad_direction_root),
-                },
-                {
-                    "start_rank": 102,
-                    "end_rank": 103,
-                    "rank_count": 1,
-                    "kind": "badPairBalancePrefix",
-                    "verified_root": file_record(bad_balance_root),
-                }
-            ]
+            "verified_roots": roots,
         },
+        **({"profile_summary": profile_summary} if profile_summary is not None else {}),
+    }
+
+
+def profile_payload(
+    *,
+    window_lo: int,
+    window_hi: int,
+    min_root_ranks: int,
+    max_root_ranks: int,
+    max_roots: int,
+    candidates: list[dict[str, Any]],
+    selected: list[dict[str, Any]],
+    elapsed_seconds: float,
+) -> dict[str, Any]:
+    return {
+        "schema_version": 1,
+        "mode": "prefix-pruning-window-profile",
+        "trusted_as_final_proof": False,
+        "window": {
+            "start_rank": window_lo,
+            "end_rank": window_hi,
+            "rank_count": window_hi - window_lo,
+        },
+        "bounds": {
+            "min_root_ranks": min_root_ranks,
+            "max_root_ranks": max_root_ranks,
+            "max_roots": max_roots,
+        },
+        "candidate_count": len(candidates),
+        "selected_count": len(selected),
+        "selected_rank_count": sum(item["rank_count"] for item in selected),
+        "has_multi_rank_candidate": any(item["rank_count"] > 1 for item in candidates),
+        "largest_candidate_rank_count": max(
+            (item["rank_count"] for item in candidates), default=0
+        ),
+        "witness_modes": sorted({item["witness_mode"] for item in candidates}),
+        "candidates": candidates,
+        "selected": selected,
+        "elapsed_seconds": elapsed_seconds,
+        "next_step": (
+            "Add uniform prefix templates and rerun the full compression gate; "
+            "this bounded profile is not final coverage."
+        ),
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--emit", action="store_true", required=True)
+    parser.add_argument("--emit", action="store_true")
+    parser.add_argument("--emit-discovered", action="store_true")
+    parser.add_argument(
+        "--profile-window",
+        nargs=2,
+        type=int,
+        metavar=("LO", "HI"),
+        help="discover bad-direction prefix intervals in the bounded rank window",
+    )
+    parser.add_argument("--report", type=Path, default=DEFAULT_PROFILE_REPORT)
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
+    parser.add_argument("--max-roots", type=int, default=DEFAULT_MAX_ROOTS)
+    parser.add_argument("--max-root-ranks", type=int, default=DEFAULT_MAX_ROOT_RANKS)
+    parser.add_argument("--min-root-ranks", type=int, default=DEFAULT_MIN_ROOT_RANKS)
     args = parser.parse_args()
 
     output_dir = args.output_dir
     if not output_dir.is_absolute():
         output_dir = REPO_ROOT / output_dir
-    bad_balance_root = output_dir / "BadPairBalance102" / "VerifiedRoot.lean"
-    bad_direction_root = output_dir / "BadDirection090_096" / "VerifiedRoot.lean"
-    write_text(bad_balance_root, verified_root())
-    write_text(bad_direction_root, bad_direction_verified_root())
-    manifest = build_manifest(bad_balance_root, bad_direction_root)
-    write_text(output_dir / "manifest.json", json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-    print(f"wrote {repo_path(bad_balance_root)}")
-    print(f"wrote {repo_path(bad_direction_root)}")
-    print(f"wrote {repo_path(output_dir / 'manifest.json')}")
+    report_path = args.report
+    if not report_path.is_absolute():
+        report_path = REPO_ROOT / report_path
+
+    if args.emit_discovered and args.profile_window is None:
+        parser.error("--emit-discovered requires --profile-window LO HI")
+    if not args.emit and not args.emit_discovered and args.profile_window is None:
+        parser.error("nothing to do: pass --emit, --profile-window, or --emit-discovered")
+
+    candidates: list[dict[str, Any]] = []
+    selected: list[dict[str, Any]] = []
+    profile: dict[str, Any] | None = None
+    if args.profile_window is not None:
+        window_lo, window_hi = args.profile_window
+        started = time.monotonic()
+        candidates = discover_bad_direction_intervals(
+            window_lo,
+            window_hi,
+            min_root_ranks=args.min_root_ranks,
+            max_root_ranks=args.max_root_ranks,
+        )
+        selected = select_discovered_intervals(candidates, max_roots=args.max_roots)
+        profile = profile_payload(
+            window_lo=window_lo,
+            window_hi=window_hi,
+            min_root_ranks=args.min_root_ranks,
+            max_root_ranks=args.max_root_ranks,
+            max_roots=args.max_roots,
+            candidates=candidates,
+            selected=selected,
+            elapsed_seconds=time.monotonic() - started,
+        )
+        write_text(report_path, json.dumps(profile, indent=2, sort_keys=True) + "\n")
+        print(f"wrote {repo_path(report_path)}")
+        print(
+            "discovered "
+            f"{len(candidates)} candidate bad-direction intervals; "
+            f"selected {len(selected)}"
+        )
+
+    roots: list[dict[str, Any]] = []
+    if args.emit or args.emit_discovered:
+        bad_balance_root = output_dir / "BadPairBalance102" / "VerifiedRoot.lean"
+        write_text(bad_balance_root, verified_root())
+        roots.append(
+            interval_record(
+                start_rank=102,
+                end_rank=103,
+                prefix_length=13,
+                failure="badPairBalance",
+                kind="badPairBalancePrefix",
+                root=bad_balance_root,
+                source="control",
+            )
+        )
+        print(f"wrote {repo_path(bad_balance_root)}")
+
+    selected_ranges = {
+        (candidate["start_rank"], candidate["end_rank"])
+        for candidate in selected
+    }
+    if (args.emit or args.emit_discovered) and (
+        (BAD_DIRECTION_PREFIX_START, BAD_DIRECTION_PREFIX_END) not in selected_ranges
+    ):
+        bad_direction_root = output_dir / "BadDirection090_096" / "VerifiedRoot.lean"
+        write_text(bad_direction_root, bad_direction_verified_root())
+        roots.insert(
+            0,
+            interval_record(
+                start_rank=BAD_DIRECTION_PREFIX_START,
+                end_rank=BAD_DIRECTION_PREFIX_END,
+                prefix_length=len(BAD_DIRECTION_PREFIX_IDS),
+                failure="badDirectionSign",
+                kind="badDirectionPrefix",
+                root=bad_direction_root,
+                witness_mode="completion-local",
+                source="control",
+            ),
+        )
+        print(f"wrote {repo_path(bad_direction_root)}")
+
+    if args.emit_discovered:
+        if not selected:
+            raise SystemExit("no discovered intervals selected for emission")
+        for candidate in selected:
+            root = discovered_root_path(output_dir, candidate)
+            write_text(root, discovered_verified_root(candidate))
+            roots.append(
+                interval_record(
+                    start_rank=candidate["start_rank"],
+                    end_rank=candidate["end_rank"],
+                    prefix_length=candidate["prefix_length"],
+                    failure=candidate["failure"],
+                    kind="badDirectionPrefix",
+                    root=root,
+                    witness_mode=candidate["witness_mode"],
+                    source="discovered",
+                )
+            )
+            print(f"wrote {repo_path(root)}")
+
+    if roots:
+        roots.sort(key=lambda item: (item["start_rank"], item["end_rank"], item["source"]))
+        manifest = build_manifest(roots, profile=profile)
+        manifest_path = output_dir / "manifest.json"
+        write_text(manifest_path, json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+        print(f"wrote {repo_path(manifest_path)}")
     return 0
 
 

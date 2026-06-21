@@ -7,16 +7,39 @@
       "failure": "badDirectionSign",
       "prefix_length": 9,
       "rank_count": 6,
-      "start_rank": 90
+      "source": "control",
+      "start_rank": 90,
+      "witness_mode": "completion-local"
     },
     {
       "end_rank": 103,
       "failure": "badPairBalance",
       "prefix_length": 13,
       "rank_count": 1,
+      "source": "control",
       "start_rank": 102
+    },
+    {
+      "end_rank": 2706,
+      "failure": "badDirectionSign",
+      "prefix_length": 9,
+      "rank_count": 12,
+      "source": "discovered",
+      "start_rank": 2694,
+      "witness_mode": "completion-local"
+    },
+    {
+      "end_rank": 2790,
+      "failure": "badDirectionSign",
+      "prefix_length": 9,
+      "rank_count": 12,
+      "source": "discovered",
+      "start_rank": 2778,
+      "witness_mode": "completion-local"
     }
   ],
+  "discovered_rank_count": 24,
+  "discovered_root_count": 2,
   "forbidden_active_patterns": [
     "NonIdCert",
     "certForRank",
@@ -40,29 +63,85 @@
     "verified_roots": [
       {
         "end_rank": 96,
+        "failure": "badDirectionSign",
         "kind": "badDirectionPrefix",
+        "prefix_length": 9,
         "rank_count": 6,
+        "source": "control",
         "start_rank": 90,
         "verified_root": {
-          "bytes": 45580,
+          "bytes": 45585,
           "exists": true,
           "path": "evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean"
-        }
+        },
+        "witness_mode": "completion-local"
       },
       {
         "end_rank": 103,
+        "failure": "badPairBalance",
         "kind": "badPairBalancePrefix",
+        "prefix_length": 13,
         "rank_count": 1,
+        "source": "control",
         "start_rank": 102,
         "verified_root": {
           "bytes": 33221,
           "exists": true,
           "path": "evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean"
         }
+      },
+      {
+        "end_rank": 2706,
+        "failure": "badDirectionSign",
+        "kind": "badDirectionPrefix",
+        "prefix_length": 9,
+        "rank_count": 12,
+        "source": "discovered",
+        "start_rank": 2694,
+        "verified_root": {
+          "bytes": 89004,
+          "exists": true,
+          "path": "evidence/prefix_pruning/DiscoveredBadDirection_000002694_000002706/VerifiedRoot.lean"
+        },
+        "witness_mode": "completion-local"
+      },
+      {
+        "end_rank": 2790,
+        "failure": "badDirectionSign",
+        "kind": "badDirectionPrefix",
+        "prefix_length": 9,
+        "rank_count": 12,
+        "source": "discovered",
+        "start_rank": 2778,
+        "verified_root": {
+          "bytes": 89014,
+          "exists": true,
+          "path": "evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean"
+        },
+        "witness_mode": "completion-local"
       }
     ]
   },
-  "rank_count": 7,
+  "profile_summary": {
+    "bounds": {
+      "max_root_ranks": 24,
+      "max_roots": 2,
+      "min_root_ranks": 2
+    },
+    "candidate_count": 1805,
+    "largest_candidate_rank_count": 12,
+    "selected_count": 2,
+    "selected_rank_count": 24,
+    "window": {
+      "end_rank": 5000,
+      "rank_count": 5000,
+      "start_rank": 0
+    },
+    "witness_modes": [
+      "completion-local"
+    ]
+  },
+  "rank_count": 31,
   "schema_version": 1,
   "trusted_as_final_proof": false
 }
