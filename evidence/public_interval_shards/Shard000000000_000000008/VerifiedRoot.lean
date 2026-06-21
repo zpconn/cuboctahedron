@@ -59,7 +59,7 @@ theorem translation_rank_000000001 :
       (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy
         translationClassifier) 1 2 := by
   simpa [translationClassifier,
-    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000001.translationClassifier] using
+    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000001.nonIdentityClassifierTranslation] using
     Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000001.translation_interval
 
 theorem nonidentity_rank_000000002 :
@@ -107,7 +107,7 @@ theorem translation_rank_000000004 :
       (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy
         translationClassifier) 4 5 := by
   simpa [translationClassifier,
-    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000004.translationClassifier] using
+    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000004.nonIdentityClassifierTranslation] using
     Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000004.translation_interval
 
 theorem nonidentity_rank_000000005 :
@@ -139,7 +139,7 @@ theorem translation_rank_000000006 :
       (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy
         translationClassifier) 6 7 := by
   simpa [translationClassifier,
-    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000006.translationClassifier] using
+    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000006.nonIdentityClassifierTranslation] using
     Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000006.translation_interval
 
 theorem nonidentity_rank_000000007 :
@@ -155,7 +155,7 @@ theorem translation_rank_000000007 :
       (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy
         translationClassifier) 7 8 := by
   simpa [translationClassifier,
-    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000007.translationClassifier] using
+    Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000007.nonIdentityClassifierTranslation] using
     Cuboctahedron.Generated.PublicEvidence.IntervalShard.Shard000000000_000000008.NonIdentity.Rank000000007.translation_interval
 
 theorem nonidentity_interval :
@@ -212,7 +212,7 @@ theorem translation_interval :
     )
   )
 
-theorem coverage :
+def coverage :
     Cuboctahedron.Generated.PublicEvidence.VerifiedBoundedRange 0 8 := {
   nonidentityClassifier := nonIdentityClassifier
   translationClassifier := translationClassifier

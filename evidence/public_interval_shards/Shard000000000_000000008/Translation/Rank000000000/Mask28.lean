@@ -378,7 +378,7 @@ theorem intervalShardTranslation000000000Mask28_check : checkTranslationCert int
       checkFarkas, checkFarkasTerm, checkFarkasPositive,
       weightedSum, termLinear, constraintAt,
       translationConstraintSourceLine, xpStartConstraintAt,
-      orderingConstraint, impactInteriorConstraint, impactTimeLin,
+      orderingConstraint, impactInteriorConstraint, nextImpact, impactTimeLin,
       translationLinePointLin, linDotVec3, Lin2.ltConstraint,
       Lin2.add, Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z,
       StrictLin2.zero, StrictLin2.add, StrictLin2.scale,

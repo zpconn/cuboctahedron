@@ -5,8 +5,15 @@
   "identity_rank_count": 4,
   "kind": "public_interval_shard",
   "memory_rule": {
-    "check_strategy": "serial_leaf_by_file_path",
+    "check_strategy": "ram_bounded_phase_scheduler",
+    "default_parallel_weights_gib": {
+      "nonidentity": 45,
+      "rank_root": 45,
+      "translation": 23,
+      "verified_root": 45
+    },
     "do_not_parallel_build_leaf_tree": true,
+    "external_olean_cache": "evidence/.external_olean_cache",
     "safe_ram_gib": 45
   },
   "nonidentity": [
@@ -59,18 +66,18 @@
       "path": "evidence/public_interval_shards/Shard000000000_000000008/Index.lean"
     },
     "manifest": {
-      "bytes": 76671,
+      "bytes": 77420,
       "exists": true,
       "path": "evidence/public_interval_shards/Shard000000000_000000008/manifest.json"
     },
     "readme": {
-      "bytes": 29225,
+      "bytes": 29645,
       "exists": true,
       "path": "evidence/public_interval_shards/Shard000000000_000000008/README.md"
     },
     "shard_dir": "evidence/public_interval_shards/Shard000000000_000000008",
     "verified_root": {
-      "bytes": 11826,
+      "bytes": 11866,
       "exists": true,
       "path": "evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean"
     }
@@ -86,7 +93,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/AllMasks.lean"
       },
-      "rank": 0
+      "rank": 0,
+      "translation_classifier_name": "translationClassifier"
     },
     {
       "identity_linear": false,
@@ -97,7 +105,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000001.lean"
       },
-      "rank": 1
+      "rank": 1,
+      "translation_classifier_name": "nonIdentityClassifierTranslation"
     },
     {
       "identity_linear": true,
@@ -108,7 +117,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/AllMasks.lean"
       },
-      "rank": 2
+      "rank": 2,
+      "translation_classifier_name": "translationClassifier"
     },
     {
       "identity_linear": true,
@@ -119,7 +129,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/AllMasks.lean"
       },
-      "rank": 3
+      "rank": 3,
+      "translation_classifier_name": "translationClassifier"
     },
     {
       "identity_linear": false,
@@ -130,7 +141,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000004.lean"
       },
-      "rank": 4
+      "rank": 4,
+      "translation_classifier_name": "nonIdentityClassifierTranslation"
     },
     {
       "identity_linear": true,
@@ -141,7 +153,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/AllMasks.lean"
       },
-      "rank": 5
+      "rank": 5,
+      "translation_classifier_name": "translationClassifier"
     },
     {
       "identity_linear": false,
@@ -152,7 +165,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000006.lean"
       },
-      "rank": 6
+      "rank": 6,
+      "translation_classifier_name": "nonIdentityClassifierTranslation"
     },
     {
       "identity_linear": false,
@@ -163,7 +177,8 @@
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000007.lean"
       },
-      "rank": 7
+      "rank": 7,
+      "translation_classifier_name": "nonIdentityClassifierTranslation"
     }
   ],
   "ranks": [
@@ -296,7 +311,7 @@
       "failure": "farkas",
       "mask": 8,
       "path": {
-        "bytes": 14548,
+        "bytes": 14560,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask08.lean"
       },
@@ -306,7 +321,7 @@
       "failure": "farkas",
       "mask": 9,
       "path": {
-        "bytes": 14547,
+        "bytes": 14559,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask09.lean"
       },
@@ -346,7 +361,7 @@
       "failure": "farkas",
       "mask": 13,
       "path": {
-        "bytes": 14541,
+        "bytes": 14553,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask13.lean"
       },
@@ -376,7 +391,7 @@
       "failure": "farkas",
       "mask": 16,
       "path": {
-        "bytes": 14550,
+        "bytes": 14562,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask16.lean"
       },
@@ -396,7 +411,7 @@
       "failure": "farkas",
       "mask": 18,
       "path": {
-        "bytes": 14549,
+        "bytes": 14561,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask18.lean"
       },
@@ -436,7 +451,7 @@
       "failure": "farkas",
       "mask": 22,
       "path": {
-        "bytes": 14555,
+        "bytes": 14567,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask22.lean"
       },
@@ -456,7 +471,7 @@
       "failure": "farkas",
       "mask": 24,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask24.lean"
       },
@@ -496,7 +511,7 @@
       "failure": "farkas",
       "mask": 28,
       "path": {
-        "bytes": 14556,
+        "bytes": 14568,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask28.lean"
       },
@@ -506,7 +521,7 @@
       "failure": "farkas",
       "mask": 29,
       "path": {
-        "bytes": 14529,
+        "bytes": 14541,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask29.lean"
       },
@@ -516,7 +531,7 @@
       "failure": "farkas",
       "mask": 30,
       "path": {
-        "bytes": 14545,
+        "bytes": 14557,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask30.lean"
       },
@@ -526,7 +541,7 @@
       "failure": "farkas",
       "mask": 31,
       "path": {
-        "bytes": 14548,
+        "bytes": 14560,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask31.lean"
       },
@@ -666,7 +681,7 @@
       "failure": "farkas",
       "mask": 45,
       "path": {
-        "bytes": 14533,
+        "bytes": 14545,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask45.lean"
       },
@@ -686,7 +701,7 @@
       "failure": "farkas",
       "mask": 47,
       "path": {
-        "bytes": 14532,
+        "bytes": 14544,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask47.lean"
       },
@@ -756,7 +771,7 @@
       "failure": "farkas",
       "mask": 54,
       "path": {
-        "bytes": 14549,
+        "bytes": 14561,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask54.lean"
       },
@@ -766,7 +781,7 @@
       "failure": "farkas",
       "mask": 55,
       "path": {
-        "bytes": 14548,
+        "bytes": 14560,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask55.lean"
       },
@@ -846,7 +861,7 @@
       "failure": "farkas",
       "mask": 63,
       "path": {
-        "bytes": 14554,
+        "bytes": 14566,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/Mask63.lean"
       },
@@ -936,7 +951,7 @@
       "failure": "farkas",
       "mask": 8,
       "path": {
-        "bytes": 14559,
+        "bytes": 14571,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask08.lean"
       },
@@ -946,7 +961,7 @@
       "failure": "farkas",
       "mask": 9,
       "path": {
-        "bytes": 14558,
+        "bytes": 14570,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask09.lean"
       },
@@ -986,7 +1001,7 @@
       "failure": "farkas",
       "mask": 13,
       "path": {
-        "bytes": 14545,
+        "bytes": 14557,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask13.lean"
       },
@@ -1016,7 +1031,7 @@
       "failure": "farkas",
       "mask": 16,
       "path": {
-        "bytes": 14561,
+        "bytes": 14573,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask16.lean"
       },
@@ -1036,7 +1051,7 @@
       "failure": "farkas",
       "mask": 18,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask18.lean"
       },
@@ -1096,7 +1111,7 @@
       "failure": "farkas",
       "mask": 24,
       "path": {
-        "bytes": 14561,
+        "bytes": 14573,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask24.lean"
       },
@@ -1136,7 +1151,7 @@
       "failure": "farkas",
       "mask": 28,
       "path": {
-        "bytes": 14547,
+        "bytes": 14559,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask28.lean"
       },
@@ -1146,7 +1161,7 @@
       "failure": "farkas",
       "mask": 29,
       "path": {
-        "bytes": 14542,
+        "bytes": 14554,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask29.lean"
       },
@@ -1156,7 +1171,7 @@
       "failure": "farkas",
       "mask": 30,
       "path": {
-        "bytes": 14556,
+        "bytes": 14568,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask30.lean"
       },
@@ -1326,7 +1341,7 @@
       "failure": "farkas",
       "mask": 47,
       "path": {
-        "bytes": 14543,
+        "bytes": 14555,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask47.lean"
       },
@@ -1396,7 +1411,7 @@
       "failure": "farkas",
       "mask": 54,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask54.lean"
       },
@@ -1406,7 +1421,7 @@
       "failure": "farkas",
       "mask": 55,
       "path": {
-        "bytes": 14559,
+        "bytes": 14571,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask55.lean"
       },
@@ -1486,7 +1501,7 @@
       "failure": "farkas",
       "mask": 63,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/Mask63.lean"
       },
@@ -1576,7 +1591,7 @@
       "failure": "farkas",
       "mask": 8,
       "path": {
-        "bytes": 14559,
+        "bytes": 14571,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask08.lean"
       },
@@ -1586,7 +1601,7 @@
       "failure": "farkas",
       "mask": 9,
       "path": {
-        "bytes": 14558,
+        "bytes": 14570,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask09.lean"
       },
@@ -1626,7 +1641,7 @@
       "failure": "farkas",
       "mask": 13,
       "path": {
-        "bytes": 14561,
+        "bytes": 14573,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask13.lean"
       },
@@ -1656,7 +1671,7 @@
       "failure": "farkas",
       "mask": 16,
       "path": {
-        "bytes": 14561,
+        "bytes": 14573,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask16.lean"
       },
@@ -1676,7 +1691,7 @@
       "failure": "farkas",
       "mask": 18,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask18.lean"
       },
@@ -1716,7 +1731,7 @@
       "failure": "farkas",
       "mask": 22,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask22.lean"
       },
@@ -1776,7 +1791,7 @@
       "failure": "farkas",
       "mask": 28,
       "path": {
-        "bytes": 14557,
+        "bytes": 14569,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask28.lean"
       },
@@ -1796,7 +1811,7 @@
       "failure": "farkas",
       "mask": 30,
       "path": {
-        "bytes": 14564,
+        "bytes": 14576,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask30.lean"
       },
@@ -1806,7 +1821,7 @@
       "failure": "farkas",
       "mask": 31,
       "path": {
-        "bytes": 14559,
+        "bytes": 14571,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask31.lean"
       },
@@ -1946,7 +1961,7 @@
       "failure": "farkas",
       "mask": 45,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask45.lean"
       },
@@ -2036,7 +2051,7 @@
       "failure": "farkas",
       "mask": 54,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask54.lean"
       },
@@ -2046,7 +2061,7 @@
       "failure": "farkas",
       "mask": 55,
       "path": {
-        "bytes": 14559,
+        "bytes": 14571,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask55.lean"
       },
@@ -2126,7 +2141,7 @@
       "failure": "farkas",
       "mask": 63,
       "path": {
-        "bytes": 14544,
+        "bytes": 14556,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/Mask63.lean"
       },
@@ -2216,7 +2231,7 @@
       "failure": "farkas",
       "mask": 8,
       "path": {
-        "bytes": 14548,
+        "bytes": 14560,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask08.lean"
       },
@@ -2226,7 +2241,7 @@
       "failure": "farkas",
       "mask": 9,
       "path": {
-        "bytes": 14547,
+        "bytes": 14559,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask09.lean"
       },
@@ -2266,7 +2281,7 @@
       "failure": "farkas",
       "mask": 13,
       "path": {
-        "bytes": 14541,
+        "bytes": 14553,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask13.lean"
       },
@@ -2296,7 +2311,7 @@
       "failure": "farkas",
       "mask": 16,
       "path": {
-        "bytes": 14550,
+        "bytes": 14562,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask16.lean"
       },
@@ -2316,7 +2331,7 @@
       "failure": "farkas",
       "mask": 18,
       "path": {
-        "bytes": 14549,
+        "bytes": 14561,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask18.lean"
       },
@@ -2356,7 +2371,7 @@
       "failure": "farkas",
       "mask": 22,
       "path": {
-        "bytes": 14555,
+        "bytes": 14567,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask22.lean"
       },
@@ -2376,7 +2391,7 @@
       "failure": "farkas",
       "mask": 24,
       "path": {
-        "bytes": 14560,
+        "bytes": 14572,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask24.lean"
       },
@@ -2416,7 +2431,7 @@
       "failure": "farkas",
       "mask": 28,
       "path": {
-        "bytes": 14546,
+        "bytes": 14558,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask28.lean"
       },
@@ -2426,7 +2441,7 @@
       "failure": "farkas",
       "mask": 29,
       "path": {
-        "bytes": 14529,
+        "bytes": 14541,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask29.lean"
       },
@@ -2436,7 +2451,7 @@
       "failure": "farkas",
       "mask": 30,
       "path": {
-        "bytes": 14545,
+        "bytes": 14557,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask30.lean"
       },
@@ -2446,7 +2461,7 @@
       "failure": "farkas",
       "mask": 31,
       "path": {
-        "bytes": 14548,
+        "bytes": 14560,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask31.lean"
       },
@@ -2586,7 +2601,7 @@
       "failure": "farkas",
       "mask": 45,
       "path": {
-        "bytes": 14549,
+        "bytes": 14561,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask45.lean"
       },
@@ -2606,7 +2621,7 @@
       "failure": "farkas",
       "mask": 47,
       "path": {
-        "bytes": 14548,
+        "bytes": 14560,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask47.lean"
       },
@@ -2676,7 +2691,7 @@
       "failure": "farkas",
       "mask": 54,
       "path": {
-        "bytes": 14547,
+        "bytes": 14559,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask54.lean"
       },
@@ -2686,7 +2701,7 @@
       "failure": "farkas",
       "mask": 55,
       "path": {
-        "bytes": 14552,
+        "bytes": 14564,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask55.lean"
       },
@@ -2766,7 +2781,7 @@
       "failure": "farkas",
       "mask": 63,
       "path": {
-        "bytes": 14554,
+        "bytes": 14566,
         "exists": true,
         "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/Mask63.lean"
       },

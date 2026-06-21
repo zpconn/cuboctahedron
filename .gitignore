@@ -1,5 +1,6 @@
 .lake/
 __pycache__/
+evidence/.external_olean_cache/
 evidence/**/*.olean
 evidence/**/*.ilean
 certs/nonidentity_residual_shards/

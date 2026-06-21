@@ -800,10 +800,13 @@ def write_interval_shard_readme(
         "Memory rule:",
         "",
         "- Check heavy leaves serially.",
+        "- Or use the helper's RAM-bounded parallel scheduler.",
         "- Do not run a broad parallel build over this directory.",
         "- The current VM has 47 GB RAM; treat 45 GB as the safe ceiling.",
+        "- External `.olean` files are cached outside this source tree under",
+        "  `evidence/.external_olean_cache/`.",
         "",
-        "Suggested serial check commands:",
+        "Suggested check commands:",
         "",
         "```bash",
     ]
@@ -815,6 +818,9 @@ def write_interval_shard_readme(
         "# Or use the helper to compile external modules serially and then",
         "# check the composable verified root:",
         f"python3 scripts/check_public_interval_shard.py {manifest_path.relative_to(REPO_ROOT)} --compile-external --include-rank-roots --include-verified-root",
+        "",
+        "# Faster, still memory-bounded on this VM:",
+        f"python3 scripts/check_public_interval_shard.py {manifest_path.relative_to(REPO_ROOT)} --compile-external --include-rank-roots --include-verified-root --jobs auto --memory-budget-gib 45 --time",
         "```",
         "",
         "Machine-readable manifest:",
@@ -924,6 +930,7 @@ def write_interval_shard_verified_root(
     for record in rank_modules:
         rank = int(record["rank"])
         ns = record["namespace"]
+        translation_classifier_name = record["translation_classifier_name"]
         nonid_name = f"nonidentity_rank_{rank:09d}"
         translation_name = f"translation_rank_{rank:09d}"
         nonid_theorems.append(nonid_name)
@@ -942,7 +949,7 @@ def write_interval_shard_verified_root(
             "      (Cuboctahedron.Generated.Translation.Coverage.FarkasRankCertifiedBy",
             f"        translationClassifier) {rank} {rank + 1} := by",
             "  simpa [translationClassifier,",
-            f"    {ns}.translationClassifier] using",
+            f"    {ns}.{translation_classifier_name}] using",
             f"    {ns}.translation_interval",
             "",
         ])
@@ -959,7 +966,7 @@ def write_interval_shard_verified_root(
         f"        translationClassifier) {lo} {hi} :=",
         *balanced_concat_term(translation_theorems),
         "",
-        "theorem coverage :",
+        "def coverage :",
         f"    Cuboctahedron.Generated.PublicEvidence.VerifiedBoundedRange {lo} {hi} := {{",
         "  nonidentityClassifier := nonIdentityClassifier",
         "  translationClassifier := translationClassifier",
@@ -1063,6 +1070,7 @@ def write_interval_shard(
                     "path": generated_file_record(rank_root_path),
                     "module": lean_module_name(rank_root_path),
                     "namespace": rank_root_namespace,
+                    "translation_classifier_name": "translationClassifier",
                 })
         else:
             path = shard_dir / "NonIdentity" / f"Rank{rank:09d}.lean"
@@ -1082,6 +1090,7 @@ def write_interval_shard(
                 "path": generated_file_record(path),
                 "module": lean_module_name(path),
                 "namespace": leaf_namespace,
+                "translation_classifier_name": "nonIdentityClassifierTranslation",
             })
 
     index_path = write_interval_shard_index(
@@ -1129,8 +1138,15 @@ def write_interval_shard(
         "translation_case_count": len(translation_records),
         "memory_rule": {
             "safe_ram_gib": 45,
-            "check_strategy": "serial_leaf_by_file_path",
+            "check_strategy": "ram_bounded_phase_scheduler",
             "do_not_parallel_build_leaf_tree": True,
+            "external_olean_cache": "evidence/.external_olean_cache",
+            "default_parallel_weights_gib": {
+                "nonidentity": 45,
+                "translation": 23,
+                "rank_root": 45,
+                "verified_root": 45,
+            },
         },
         "paths": {
             "shard_dir": str(shard_dir.relative_to(REPO_ROOT)),

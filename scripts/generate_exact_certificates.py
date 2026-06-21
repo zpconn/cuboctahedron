@@ -2181,7 +2181,7 @@ def translation_check_body_lines(cert: dict, indent: str = "  ") -> list[str]:
         f"{indent}    checkFarkas, checkFarkasTerm, checkFarkasPositive,",
         f"{indent}    weightedSum, termLinear, constraintAt,",
         f"{indent}    translationConstraintSourceLine, xpStartConstraintAt,",
-        f"{indent}    orderingConstraint, impactInteriorConstraint, impactTimeLin,",
+        f"{indent}    orderingConstraint, impactInteriorConstraint, nextImpact, impactTimeLin,",
         f"{indent}    translationLinePointLin, linDotVec3, Lin2.ltConstraint,",
         f"{indent}    Lin2.add, Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z,",
         f"{indent}    StrictLin2.zero, StrictLin2.add, StrictLin2.scale,",
