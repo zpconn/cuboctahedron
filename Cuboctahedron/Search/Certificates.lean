@@ -469,6 +469,48 @@ def AxisForcesForcedSeq
             0 < dot (matVec (pairPrefixLinearNat w i.val) (normalQ f)) axis ->
               normalQ (forcedSeq (afterStart i)) = normalQ f
 
+@[reducible] def checkAxisForcesForcedSeqDataB
+    (w : PairWord) (axis : Vec3 Rat) (forcedSeq : Step14 -> Face) : Bool :=
+  checkStartsXpB forcedSeq &&
+    (checkPairWordMatchesSeqB w forcedSeq &&
+      (decide (0 < finalAxisDotQ w axis) &&
+        ((List.finRange 13).all fun i : WordIndex =>
+          allFacesList.all fun f : Face =>
+            if _hpair : pairOfFace f = w.get i then
+              if _hpos :
+                  0 <
+                    dot
+                      (matVec (pairPrefixLinearNat w i.val)
+                        (normalQ f)) axis then
+                decide (normalQ (forcedSeq (afterStart i)) = normalQ f)
+              else
+                true
+            else
+              true)))
+
+theorem checkAxisForcesForcedSeqDataB_sound
+    {w : PairWord} {axis : Vec3 Rat} {forcedSeq : Step14 -> Face}
+    (hcheck : checkAxisForcesForcedSeqDataB w axis forcedSeq = true) :
+    AxisForcesForcedSeq w axis forcedSeq := by
+  unfold checkAxisForcesForcedSeqDataB at hcheck
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hStartB, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hMatchesB, hcheck⟩
+  rw [Bool.and_eq_true] at hcheck
+  rcases hcheck with ⟨hFinalB, hForcesB⟩
+  refine ⟨checkStartsXpB_sound hStartB,
+    checkPairWordMatchesSeqB_sound hMatchesB,
+    of_decide_eq_true hFinalB, ?_⟩
+  intro i f hpair hpos
+  have hallI := List.all_eq_true.mp hForcesB
+  have hi := hallI i (by simp)
+  have hallF := List.all_eq_true.mp hi
+  have hfmem : f ∈ allFacesList := by
+    cases f <;> simp [allFacesList]
+  have hf := hallF f hfmem
+  simpa [hpair, hpos] using hf
+
 def candidateWQ (seq : Step14 -> Face) (p0 : Vec3 Rat) : Vec3 Rat :=
   vecSub (affApply (totalAff seq) p0) p0
 
@@ -5201,34 +5243,34 @@ theorem XpStartInteriorQ_of_real
   · exact_mod_cast hDiamond.2.2.1
   · exact_mod_cast hDiamond.2.2.2
 
-theorem forcedSeq_eq_of_axisForces
-    {cert : NonIdCert} {seq : Step14 -> Face}
-    (hRealize : SeqRealizesPairWord cert.word seq)
+theorem forcedSeq_eq_of_axisForces_data
+    {w : PairWord} {axis : Vec3 Rat} {kernel : KernelLineWitness}
+    {forcedSeq seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord w seq)
     (hAxisConstraints : NonIdentityAxisConstraints seq)
     (hKernel :
-      checkKernelLineWitness (totalLinearOfPairWord cert.word)
-        cert.axis cert.kernel = true)
+      checkKernelLineWitness (totalLinearOfPairWord w)
+        axis kernel = true)
     (hForces :
-      AxisForcesForcedSeq cert.word cert.axis
-        (faceVectorSeq cert.forcedSeq)) :
-    faceVectorSeq cert.forcedSeq = seq := by
+      AxisForcesForcedSeq w axis forcedSeq) :
+    forcedSeq = seq := by
   rcases hForces with
     ⟨hForcedStart, _hForcedMatch, hFinalPositive, hForceSigns⟩
-  have hSeqLinear : totalLinear seq = totalLinearOfPairWord cert.word :=
+  have hSeqLinear : totalLinear seq = totalLinearOfPairWord w :=
     hRealize.linear_eq
   rcases hAxisConstraints.line_data with
     ⟨data, _hNonzero, _hStart, _hEnd, hFixed, _hForward, hForwardAll,
       _hImpact, _hPreImpact, _hOpen, _hHit⟩
   have hFixedWord :
-      matVec ((totalLinearOfPairWord cert.word).map fun q => (q : Real))
+      matVec ((totalLinearOfPairWord w).map fun q => (q : Real))
           data.w = data.w := by
     rw [← hSeqLinear]
     simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
   have hCross :
-      cross (vecRatToReal cert.axis) data.w = zeroVec3R :=
+      cross (vecRatToReal axis) data.w = zeroVec3R :=
     checkKernelLineWitness_real_axisLine hKernel hFixedWord
   have hAxisNonzero :
-      vecRatToReal cert.axis ≠ zeroVec3R :=
+      vecRatToReal axis ≠ zeroVec3R :=
     checkKernelLineWitness_axis_nonzero hKernel
   rcases cross_eq_zero_scalar_of_axis_ne_zero hAxisNonzero hCross with
     ⟨lambda, hParallel⟩
@@ -5238,21 +5280,21 @@ theorem forcedSeq_eq_of_axisForces
     simp [lastImpact] at hv
   have hLastForward := hForwardAll lastImpact hLastNeZero
   have hFinalAxisR :
-      0 < ((finalAxisDotQ cert.word cert.axis : Rat) : Real) := by
+      0 < ((finalAxisDotQ w axis : Rat) : Real) := by
     exact_mod_cast hFinalPositive
   have hLastAxis :
       dot (preImpactNormalR seq lastImpact)
-          (vecRatToReal cert.axis) =
-        ((finalAxisDotQ cert.word cert.axis : Rat) : Real) :=
+          (vecRatToReal axis) =
+        ((finalAxisDotQ w axis : Rat) : Real) :=
     dot_preImpactNormalR_axis_eq_finalAxis
-      (seq := seq) (w := cert.word) (axis := cert.axis)
+      (seq := seq) (w := w) (axis := axis)
       hRealize.startsXp hRealize.pair_matches
   have hLambdaPos : 0 < lambda := by
     have hLastDot :
         dot (preImpactNormalR seq lastImpact) data.w =
           lambda *
             dot (preImpactNormalR seq lastImpact)
-              (vecRatToReal cert.axis) := by
+              (vecRatToReal axis) := by
       rw [hParallel]
       simp [scalarMul, dot]
       ring
@@ -5270,18 +5312,18 @@ theorem forcedSeq_eq_of_axisForces
     have hForward := hForwardAll (wordImpact i) hi0
     have hAxisEq :
         dot (preImpactNormalR seq (wordImpact i))
-            (vecRatToReal cert.axis) =
+            (vecRatToReal axis) =
           ((dot
-            (matVec (pairPrefixLinearNat cert.word i.val)
-              (normalQ (seq (afterStart i)))) cert.axis : Rat) : Real) :=
+            (matVec (pairPrefixLinearNat w i.val)
+              (normalQ (seq (afterStart i)))) axis : Rat) : Real) :=
       dot_preImpactNormalR_axis_eq_pairPrefix
-        (seq := seq) (w := cert.word) (axis := cert.axis)
+        (seq := seq) (w := w) (axis := axis)
         hRealize.pair_matches i
     have hDotW :
         dot (preImpactNormalR seq (wordImpact i)) data.w =
           lambda *
             dot (preImpactNormalR seq (wordImpact i))
-              (vecRatToReal cert.axis) := by
+              (vecRatToReal axis) := by
       rw [hParallel]
       simp [scalarMul, dot]
       ring
@@ -5289,21 +5331,37 @@ theorem forcedSeq_eq_of_axisForces
     have hAxisPositiveQ :
         0 <
           dot
-            (matVec (pairPrefixLinearNat cert.word i.val)
-              (normalQ (seq (afterStart i)))) cert.axis := by
+            (matVec (pairPrefixLinearNat w i.val)
+              (normalQ (seq (afterStart i)))) axis := by
       have hAxisPositiveR :
           0 <
             ((dot
-              (matVec (pairPrefixLinearNat cert.word i.val)
-                (normalQ (seq (afterStart i)))) cert.axis : Rat) : Real) := by
+              (matVec (pairPrefixLinearNat w i.val)
+                (normalQ (seq (afterStart i)))) axis : Rat) : Real) := by
         nlinarith
       exact_mod_cast hAxisPositiveR
-    have hPair : pairOfFace (seq (afterStart i)) = cert.word.get i :=
+    have hPair : pairOfFace (seq (afterStart i)) = w.get i :=
       (hRealize.pair_matches i).symm
     have hNormal :=
       hForceSigns i (seq (afterStart i)) hPair hAxisPositiveQ
     rw [← hjEq]
     exact hNormal
+
+theorem forcedSeq_eq_of_axisForces
+    {cert : NonIdCert} {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord cert.word seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq)
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord cert.word)
+        cert.axis cert.kernel = true)
+    (hForces :
+      AxisForcesForcedSeq cert.word cert.axis
+        (faceVectorSeq cert.forcedSeq)) :
+    faceVectorSeq cert.forcedSeq = seq := by
+  exact forcedSeq_eq_of_axisForces_data
+    (w := cert.word) (axis := cert.axis) (kernel := cert.kernel)
+    (forcedSeq := faceVectorSeq cert.forcedSeq)
+    hRealize hAxisConstraints hKernel hForces
 
 theorem nonIdCert_forces_candidate_data
     {cert : NonIdCert} {seq : Step14 -> Face}

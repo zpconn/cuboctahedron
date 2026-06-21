@@ -1,0 +1,68 @@
+{
+  "contains_local_rank_certificate_literals": false,
+  "contains_single_rank_control_interval": true,
+  "covered_intervals": [
+    {
+      "end_rank": 96,
+      "failure": "badDirectionSign",
+      "prefix_length": 9,
+      "rank_count": 6,
+      "start_rank": 90
+    },
+    {
+      "end_rank": 103,
+      "failure": "badPairBalance",
+      "prefix_length": 13,
+      "rank_count": 1,
+      "start_rank": 102
+    }
+  ],
+  "forbidden_active_patterns": [
+    "NonIdCert",
+    "certForRank",
+    "append_nonid_cert",
+    "append_translation_cert",
+    "CheckedNonIdRank",
+    "CheckedTranslationCase",
+    "def nonIdCert",
+    "def translationCert",
+    "/NonIdentity/Rank",
+    "native_decide",
+    "sorry",
+    "admit",
+    "axiom",
+    "unsafe"
+  ],
+  "has_multi_rank_prefix_interval": true,
+  "mode": "semantic-prefix-pruning-prototype",
+  "no_singleton_rank_leaf_modules": true,
+  "paths": {
+    "verified_roots": [
+      {
+        "end_rank": 96,
+        "kind": "badDirectionPrefix",
+        "rank_count": 6,
+        "start_rank": 90,
+        "verified_root": {
+          "bytes": 45580,
+          "exists": true,
+          "path": "evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean"
+        }
+      },
+      {
+        "end_rank": 103,
+        "kind": "badPairBalancePrefix",
+        "rank_count": 1,
+        "start_rank": 102,
+        "verified_root": {
+          "bytes": 33221,
+          "exists": true,
+          "path": "evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean"
+        }
+      }
+    ]
+  },
+  "rank_count": 7,
+  "schema_version": 1,
+  "trusted_as_final_proof": false
+}

@@ -47,6 +47,53 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 4. `Cuboctahedron.Generated.ExhaustiveCoverage` is built from compressed interval roots.
 5. Step 15 can consume `Generated.rank_complete` without importing raw evidence leaves.
 
+## Current Status Dashboard
+
+Last updated after the semantic prefix-pruning prototype was extended to cover
+the depth-9 interval `[90,96)`.
+
+| Phase | Status | Notes |
+| --- | --- | --- |
+| Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
+| Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
+| Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
+| Phase 3: compression profiler | Complete as a tool; needs refreshed gates | `scripts/profile_symmetry_compression.py` exists, but its gates must be rerun after the new prefix templates are added. |
+| Phase 4: nonidentity family checkers | Partially complete | Generic semantic adapters now cover bad pair balance and bad direction. More true prefix-level templates are needed. |
+| Phase 5: translation Farkas sharing | Partially complete | `FarkasShapeTransport.lean` exists; full shared-shape generation/tiling is still pending. |
+| Phase 6: semantic tiling | Partially complete | `scripts/generate_symmetry_evidence.py` exists, but current usable evidence is still prototype-scale. |
+| Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
+| Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
+| Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
+| Phase 10: final theorem/axioms | Not ready | Wait for Step 15. |
+
+Completed current-work items:
+
+- Added `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean`.
+- Added reusable theorem `nonidentity_killed_of_axis_dot_zero`.
+- Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
+- Generalized the forced-sequence bridge in
+  `Cuboctahedron/Search/Certificates.lean` via
+  `forcedSeq_eq_of_axisForces_data`.
+- Added `scripts/generate_prefix_pruning_prototype.py`.
+- Generated externally checked roots:
+  - `evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean`
+  - `evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean`
+- Verified both roots through `scripts/check_family_interval_evidence.py`
+  using the external `.olean` cache and a 44 GiB Lean memory cap.
+
+Immediate next work:
+
+1. Teach the prefix-pruning emitter to discover all bad-direction prefix
+   intervals in a bounded window instead of using the hand-picked `[90,96)`
+   interval.
+2. Add stronger prefix templates whose witnesses are shared by the whole prefix
+   family, rather than generated completion-by-completion inside the leaf.
+3. Rerun the compression profiler with the new templates and record:
+   planned leaves, tile count, total covered ranks, gaps/overlaps, and largest
+   generated root size.
+4. Only after the profiler falls below the 2,000-leaf hard gate, emit the
+   hierarchical generated coverage roots.
+
 ## Phase 0: Inventory Existing Interfaces
 
 Inspect and record the exact existing names for:
@@ -446,6 +493,23 @@ scripts/generated/symmetry_compression_profile.json
 
 ## Phase 4: Nonidentity Family Checkers
 
+Status: partially complete.
+
+Completed pieces:
+
+- `Cuboctahedron/Search/NonIdentityFamilies.lean` exists.
+- `Cuboctahedron/Generated/NonIdentity/Families.lean` exists.
+- `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean` now provides
+  semantic prefix adapters for:
+  - forced-sequence bad pair balance;
+  - bad direction via exact `AxisDotZeroAtWord` contradictions.
+- The bad-direction adapter has been exercised by a depth-9 generated prefix
+  interval covering `[90,96)`.
+
+Remaining work in this phase is not more singleton/residual certificates. The
+remaining work is to make the nonidentity families genuinely prefix-level and
+high compression.
+
 Create or extend:
 
 ```text
@@ -530,6 +594,62 @@ Acceptance:
 - One hand-generated family of each kind checks in Lean.
 - Each exported theorem mentions only `CoversInterval ... lo hi`, not certificate internals.
 
+### 4.4 Current Prefix-Pruning Adapter
+
+Current Lean API:
+
+```lean
+theorem nonidentity_killed_of_axis_forces_not_omni : ...
+theorem nonidentity_killed_of_axis_dot_zero : ...
+
+structure BadPairBalancePrefixCert (lo hi : Nat) where ...
+structure BadDirectionPrefixCert (lo hi : Nat) where ...
+```
+
+Current generated evidence:
+
+| root | interval | prefix length | status |
+| --- | --- | ---: | --- |
+| `BadDirection090_096/VerifiedRoot.lean` | `[90,96)` | 9 | externally checked |
+| `BadPairBalance102/VerifiedRoot.lean` | `[102,103)` | 13 | externally checked control |
+
+The bad-direction root still supplies per-completion witnesses inside the
+bounded leaf. That is acceptable for proving the adapter, but it is not enough
+for the final compression target.
+
+### 4.5 Required Stronger Nonidentity Prefix Templates
+
+Add emitter and Lean support for these templates, in this order:
+
+1. **Uniform bad-direction prefix.**
+   A single prefix-level theorem should prove that every completion has a
+   zero or wrong-sign forced pre-impact dot product, without enumerating all
+   completions in Lean.
+2. **Uniform forced-pair-balance failure.**
+   A prefix-level theorem should prove the forced signs cannot produce one
+   face from each opposite pair for any completion.
+3. **Early no-axis or low-rank fixed-space failure.**
+   If a partial product already forces the final linear part away from a valid
+   one-dimensional fixed axis for every completion, prove that as a prefix
+   family. Do not use trace heuristics unless an exact theorem proves them.
+4. **Axis-start exclusion family.**
+   Group residuals whose fixed axis is exactly separated from the `X+`
+   relative interior by the same rational inequality pattern.
+5. **Bad first-hit/interior family.**
+   Group residuals by the first exact failed hit/interior inequality pattern.
+
+Acceptance for this subphase:
+
+```bash
+python3 scripts/generate_prefix_pruning_prototype.py --emit
+python3 scripts/check_family_interval_evidence.py \
+  evidence/prefix_pruning/manifest.json \
+  --compile-external --lean-memory-limit-gib 44
+```
+
+plus a dry-run report showing at least one template covers hundreds or
+thousands of ranks per generated root in a bounded test window.
+
 ## Phase 5: Translation Farkas Shape Sharing
 
 Create or extend:
@@ -591,6 +711,11 @@ Acceptance:
 
 ## Phase 6: Symmetry Canonicalization and Semantic Tiling
 
+Status: partially complete. The generator/profiler scaffolding exists, but the
+current externally checked semantic prefix evidence covers only seven ranks.
+Phase 6 is not complete until the dry-run tiler demonstrates full
+`[0,numPairWords)` coverage below the hard leaf/node gate.
+
 Extend the profiler into a generator, but keep dry-run as the default:
 
 ```text
@@ -632,6 +757,65 @@ python3 scripts/generate_symmetry_evidence.py --dry-run --max-lean-leaves 2000
 ```
 
 prints `status: accepted_for_lean_emission`.
+
+### Phase 6A: Automatic Prefix Interval Discovery
+
+New required work.
+
+Extend the prefix-pruning emitter/profiler so it can discover candidate
+intervals rather than hard-code `[90,96)` and `[102,103)`.
+
+Required output:
+
+```text
+scripts/generated/prefix_pruning_window_profile.json
+```
+
+The report must include:
+
+- search window;
+- intervals discovered;
+- prefix lengths;
+- failure template;
+- rank counts;
+- whether witnesses are uniform over the prefix or completion-local;
+- largest generated root size estimate;
+- external compile time for a representative root.
+
+Acceptance:
+
+```bash
+python3 scripts/generate_prefix_pruning_prototype.py \
+  --profile-window 0 5000 \
+  --report scripts/generated/prefix_pruning_window_profile.json
+```
+
+If the current script name or CLI changes, keep this behavior available under
+the replacement script.
+
+### Phase 6B: Compression Gate Rerun
+
+New required work.
+
+After adding automatic prefix discovery and stronger templates, rerun:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --max-lean-leaves 2000 \
+  --report scripts/generated/symmetry_compression_profile.json
+```
+
+The report must explicitly say:
+
+- `status: accepted_for_lean_emission` or `status: rejected`;
+- exact number of planned heavy leaves;
+- exact number of public interval nodes;
+- exact total rank coverage;
+- gap/overlap result;
+- largest projected generated Lean file;
+- whether any raw per-rank or per-mask fallback remains.
+
+Do not proceed to Phase 7 full emission unless this gate is accepted.
 
 ## Phase 7: Generated Lean Architecture
 
@@ -937,6 +1121,165 @@ compression step is to add semantic prefix templates whose Lean soundness
 theorems kill large prefix intervals without enumerating every rank in the
 interval.
 
+### Phase 8E status: semantic prefix-pruning prototype
+
+Status: complete as a prototype; not complete as final coverage.
+
+The first certificate-independent nonidentity prefix-pruning adapter is now:
+
+```text
+Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean
+```
+
+It exports:
+
+```lean
+nonidentity_killed_of_axis_forces_not_omni
+nonidentity_killed_of_axis_dot_zero
+BadPairBalancePrefixCert
+BadPairBalancePrefixCert.sound
+BadDirectionPrefixCert
+BadDirectionPrefixCert.sound
+```
+
+The trusted adapters do not require a local `NonIdCert` literal.  Instead, a
+generated leaf supplies:
+
+- a rank interval/prefix coverage theorem;
+- an exact axis and kernel-line witness;
+- exact forced-sequence sign facts;
+- a proof that the forced sequence is not omnihedral.
+
+For bad-direction prefixes, the generated leaf supplies:
+
+- a rank interval/prefix coverage theorem;
+- exact per-completion axis/kernel witnesses for the bounded prefix family;
+- exact `AxisDotZeroAtWord` facts showing a required pre-impact dot product is
+  zero, contradicting the positive forward-crossing condition for any feasible
+  nonidentity unfolded orbit.
+
+The prototype emitter is:
+
+```text
+scripts/generate_prefix_pruning_prototype.py
+```
+
+It emits two bounded roots:
+
+```text
+evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean
+evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean
+```
+
+The roots prove semantic nonidentity elimination for:
+
+| interval | prefix length | failure template | ranks |
+| --- | ---: | --- | ---: |
+| `[90,96)` | 9 | bad direction | 6 |
+| `[102,103)` | 13 | bad pair balance | 1 |
+
+They do this via `BadDirectionPrefixCert.sound` and
+`BadPairBalancePrefixCert.sound`, without `NonIdCert`, `certForRank`,
+`CheckedNonIdRank`, singleton rank modules, `native_decide`, `unsafe`, or
+custom axioms in the generated roots. The `[102,103)` root remains a
+single-rank control sample; `[90,96)` is the first shorter-prefix multi-rank
+semantic interval.
+
+Validation:
+
+```bash
+lake build Cuboctahedron.Generated.NonIdentity.PrefixPruning
+
+python3 scripts/generate_prefix_pruning_prototype.py --emit
+
+python3 scripts/check_family_interval_evidence.py \
+  evidence/prefix_pruning/manifest.json \
+  --compile-external --lean-memory-limit-gib 44 \
+  --report evidence/prefix_pruning/check_report.json
+```
+
+Observed result:
+
+```text
+ok compile evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean 31.0s
+ok compile evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean 23.4s
+```
+
+This is still prototype-scale: the largest interval currently contains six
+ranks, so it is far below the final compression target. The important milestone
+is that the proof shape now supports a shorter prefix interval whose exported
+theorem is semantic and whose generated root has no active rank-certificate
+literal. The next implementation step is to make the emitter discover and group
+many such shorter prefix intervals automatically, then add stronger templates
+whose witnesses are shared across all completions rather than supplied
+completion-by-completion inside the bounded leaf.
+
+### Phase 8F: Scaled Prefix-Pruning Evidence
+
+Status: not started.
+
+Goal:
+
+Replace hand-picked prototype roots with generated bounded-window roots whose
+intervals are discovered by the profiler and whose proofs use semantic prefix
+families.
+
+Required behavior:
+
+- Generate multiple prefix roots from an automatic interval discovery pass.
+- Prefer uniform prefix witnesses.
+- Permit completion-local witnesses only as a temporary bounded-window
+  diagnostic, and clearly label them as not final if used.
+- Keep generated roots in `evidence/prefix_pruning/` or a successor evidence
+  directory outside normal broad imports.
+- Compile roots externally through `scripts/check_family_interval_evidence.py`.
+- Update the manifest with:
+  - total intervals;
+  - total ranks covered;
+  - largest root size;
+  - number of uniform-prefix roots;
+  - number of completion-local roots;
+  - external compile timing.
+
+Acceptance:
+
+```bash
+python3 scripts/check_family_interval_evidence.py \
+  evidence/prefix_pruning/manifest.json \
+  --compile-external --lean-memory-limit-gib 44 \
+  --report evidence/prefix_pruning/check_report.json
+```
+
+and the manifest covers a nontrivial bounded range with no gaps, not merely
+isolated hand-picked examples.
+
+### Phase 8G: Full Compressed Root Emission
+
+Status: blocked on Phases 6B and 8F.
+
+Goal:
+
+Generate the final hierarchical semantic coverage roots after the compression
+gate passes.
+
+Rules:
+
+- Root generated modules import only group/all modules.
+- Heavy evidence roots stay outside broad package imports unless their `.olean`
+  footprint is proven safe.
+- No root may import thousands of leaves directly.
+- No public theorem statement may mention large certificate literals.
+- No raw singleton rank/mask backend may be used as fallback.
+
+Acceptance:
+
+```bash
+lake build Cuboctahedron.Generated.ExhaustiveCoverage
+```
+
+or the actual final generated root module, with memory use below the 45 GiB
+safety budget.
+
 ## Phase 9: Step 15 Integration
 
 Use `Generated.rank_complete` to prove:
@@ -990,20 +1333,36 @@ Acceptance:
 
 ## Work Order
 
-1. Implement Phase 0 inventory.
-2. Implement Phase 1 prefix interval core.
-3. Implement Phase 2 `D4` symmetry core and transport theorem skeletons.
-4. Implement Phase 3 dry-run profiler.
-5. Run profiler and inspect whether compression is plausible.
-6. If projected Lean-heavy leaves exceed 2,000, improve prefix/symmetry/Farkas sharing before generating Lean.
-7. Implement nonidentity families.
-8. Implement translation normalized Farkas shapes.
-9. Generate a tiny symmetry-evidence shard and build it.
-10. Generate a bounded medium shard and build it with memory monitoring.
-11. Generate full compressed evidence only after the dry-run gate passes.
-12. Wire public coverage API.
-13. Finish Step 15.
-14. Finish final theorem and axiom validation.
+- [x] Implement Phase 0 inventory.
+- [x] Implement Phase 1 prefix interval core.
+- [x] Implement Phase 2 `D4` symmetry core and transport theorem skeletons.
+- [x] Implement Phase 3 dry-run/profiler scaffolding.
+- [x] Archive or avoid raw singleton/OOM generated-data paths.
+- [x] Implement first semantic nonidentity family adapters.
+- [x] Generate and externally check a tiny semantic prefix-pruning root.
+- [x] Generate and externally check a shorter-prefix multi-rank root:
+  `[90,96)` via bad direction.
+- [ ] Implement Phase 6A automatic prefix interval discovery.
+- [ ] Add stronger uniform prefix templates for nonidentity failures.
+- [ ] Rerun Phase 6B compression gate and record whether full coverage falls
+  below 2,000 planned heavy leaves/nodes.
+- [ ] Implement/refresh translation normalized Farkas shape sharing and include
+  it in the compression profiler.
+- [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
+  with memory monitoring.
+- [ ] Generate full compressed evidence only after the dry-run gate passes.
+- [ ] Wire public generated coverage API:
+  `NonIdentity.complete`, `Translation.complete`, `Generated.rank_complete`,
+  and `exhaustiveGeneratedCoverage`.
+- [ ] Finish Step 15.
+- [ ] Finish final theorem and axiom validation.
+
+Current next step:
+
+Implement Phase 6A automatic prefix interval discovery, starting with
+bad-direction intervals in a bounded window. The output should be a JSON
+profile plus generated evidence roots for at least one automatically discovered
+multi-rank interval, checked through the external `.olean` cache.
 
 ## Explicit Non-Goals
 
