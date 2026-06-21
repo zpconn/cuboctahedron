@@ -260,6 +260,8 @@ class SymmetryCompressionProfiler:
         self.nonidentity_bad_balance_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
         self.nonidentity_residual_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
         self.farkas_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.farkas_shape_reuse_counts: Counter[str] = Counter()
+        self.farkas_shape_reuse_samples: dict[str, dict[str, Any]] = {}
         self.failure_counts: Counter[str] = Counter()
         self.nonidentity_failure_counts: Counter[str] = Counter()
         self.translation_failure_counts: Counter[str] = Counter()
@@ -399,6 +401,17 @@ class SymmetryCompressionProfiler:
             mask_family_digests.append(stable_digest(transported_family_key))
             if shape is not None:
                 self.farkas_shapes.add(shape)
+                shape_digest = stable_digest(shape)
+                self.farkas_shape_reuse_counts[shape_digest] += 1
+                self.farkas_shape_reuse_samples.setdefault(shape_digest, {
+                    "shape_digest": shape_digest,
+                    "raw_rank": rank,
+                    "raw_word": word_key(word),
+                    "raw_mask": mask,
+                    "canonical_word": word_key(canonical_word),
+                    "canonical_mask": canonical_mask,
+                    "failure_key_digest": stable_digest(family_key),
+                })
         for size in raw_orbit_sizes:
             self.translation_mask_orbit_histogram[size] += 1
         rank_family_key = (
@@ -440,6 +453,30 @@ class SymmetryCompressionProfiler:
                     break
 
         rec(0)
+
+    def farkas_shape_reuse_payload(self) -> dict[str, Any]:
+        total = sum(self.farkas_shape_reuse_counts.values())
+        shared = sorted(
+            (
+                (digest, count)
+                for digest, count in self.farkas_shape_reuse_counts.items()
+                if count > 1
+            ),
+            key=lambda item: (-item[1], item[0]),
+        )
+        sample_shared_shapes: list[dict[str, Any]] = []
+        for digest, count in shared[: self.sample_limit]:
+            sample = dict(self.farkas_shape_reuse_samples.get(digest, {}))
+            sample["shape_digest"] = digest
+            sample["count"] = count
+            sample_shared_shapes.append(sample)
+        return {
+            "needs_farkas_cases": total,
+            "shape_count": len(self.farkas_shape_reuse_counts),
+            "shared_shape_count": len(shared),
+            "max_reuse": max(self.farkas_shape_reuse_counts.values(), default=0),
+            "sample_shared_shapes": sample_shared_shapes,
+        }
 
     def build_payload(self, *, elapsed_seconds: float, rejected: bool, reject_reasons: list[str]) -> dict[str, Any]:
         unique_prefix_payload = {
@@ -511,6 +548,7 @@ class SymmetryCompressionProfiler:
                     else f">{self.nonidentity_family_shapes.lower_bound - 1}",
                 "translation_cases_after_symmetry": self.translation_canonical_choices.payload(),
                 "unique_normalized_farkas_shapes": self.farkas_shapes.payload(),
+                "farkas_shape_reuse": self.farkas_shape_reuse_payload(),
             },
             "tiling": {
                 **self.tiles.payload(),
@@ -555,6 +593,9 @@ def decision_reasons(profiler: SymmetryCompressionProfiler) -> tuple[bool, list[
         reasons.append("rank coverage has gaps")
     if coverage["has_overlaps"]:
         reasons.append("rank coverage has overlaps")
+    reuse = profiler.farkas_shape_reuse_payload()
+    if reuse["needs_farkas_cases"] > 0 and reuse["shared_shape_count"] == 0:
+        reasons.append("no reused normalized Farkas shape observed in bounded sample")
     heavy_exact = profiler.heavy_families.exact_count
     heavy_lower = profiler.heavy_families.lower_bound
     if profiler.limit is None:
@@ -607,6 +648,11 @@ def print_summary(payload: dict[str, Any]) -> None:
     print(f"coalesced semantic tiles: {tiling['coalesced_semantic_tiles']:,}")
     print(f"planned heavy Lean leaves: {tiling['planned_lean_heavy_leaves']}")
     print(f"unique normalized Farkas shapes: {payload['classification']['unique_normalized_farkas_shapes']['count']}")
+    reuse = payload["classification"]["farkas_shape_reuse"]
+    print(
+        "shared normalized Farkas shapes: "
+        f"{reuse['shared_shape_count']} (max reuse {reuse['max_reuse']})"
+    )
     print(f"decision: {decision['status']}")
     for reason in decision["reasons"]:
         print(f"- {reason}")

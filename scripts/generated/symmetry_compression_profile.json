@@ -61,6 +61,174 @@
       "translation.badDirectionSign": 24380,
       "translation.needsFarkas": 4420
     },
+    "farkas_shape_reuse": {
+      "max_reuse": 8,
+      "needs_farkas_cases": 4420,
+      "sample_shared_shapes": [
+        {
+          "canonical_mask": 63,
+          "canonical_word": "x,y,y,z,z,d111,d111,d1m1,d1m1,dm11,dm11,d11m,d11m",
+          "count": 8,
+          "failure_key_digest": "f03cc71cc6cb85a6db70c7867252aac89348e65e83597a4f5ad6a3462d816153",
+          "raw_mask": 63,
+          "raw_rank": 47,
+          "raw_word": "x,y,y,z,z,d111,d111,d1m1,d1m1,dm11,dm11,d11m,d11m",
+          "shape_digest": "3111208682b74614d698d651c08e8490a8e0d9393b41f6031372ab89ded84e29"
+        },
+        {
+          "canonical_mask": 63,
+          "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,dm11,d1m1,d1m1",
+          "count": 8,
+          "failure_key_digest": "a55ee3558e027c16262775f890c4289cab76e1a0d6cb37a5d59cc260db9578b1",
+          "raw_mask": 63,
+          "raw_rank": 5,
+          "raw_word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,dm11,d1m1,d1m1",
+          "shape_digest": "669182bb374038ebe3f1c8999fe6c17890938ea1c506867ffcd87d59d87b24be"
+        },
+        {
+          "canonical_mask": 63,
+          "canonical_word": "x,y,y,z,z,d111,d111,dm11,dm11,d11m,d11m,d1m1,d1m1",
+          "count": 8,
+          "failure_key_digest": "46e4d256b4f62c76e02c4d9eda5d4411eae2f8b59cc763ab1031f3956a96e54f",
+          "raw_mask": 63,
+          "raw_rank": 84,
+          "raw_word": "x,y,y,z,z,d111,d111,dm11,dm11,d11m,d11m,d1m1,d1m1",
+          "shape_digest": "68855002d6380f724eeb4f6014287748f9ed82e75ddc4ae0664ac751f5182b8b"
+        },
+        {
+          "canonical_mask": 63,
+          "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+          "count": 8,
+          "failure_key_digest": "f2198285e90083e85f104b0c9a36c75b7c69c5f47c624444ef0ddd6fc6188d8a",
+          "raw_mask": 63,
+          "raw_rank": 0,
+          "raw_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+          "shape_digest": "b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103"
+        },
+        {
+          "canonical_mask": 63,
+          "canonical_word": "x,y,y,z,z,d111,d111,d1m1,d1m1,d11m,d11m,dm11,dm11",
+          "count": 8,
+          "failure_key_digest": "46551cea3352a42eb9c8ac8ce67a321b5e45e903de33d80325a5d43839cb6f09",
+          "raw_mask": 63,
+          "raw_rank": 42,
+          "raw_word": "x,y,y,z,z,d111,d111,d1m1,d1m1,d11m,d11m,dm11,dm11",
+          "shape_digest": "d3d598ddbddd0a46d3df2bb899d63b0f145434211dc633a93f6607e6f95aa0e9"
+        },
+        {
+          "canonical_mask": 63,
+          "canonical_word": "x,y,y,z,z,d111,d111,dm11,dm11,d1m1,d1m1,d11m,d11m",
+          "count": 8,
+          "failure_key_digest": "7c7da319ac7630c4e65013da7483cd732261b6f1e7080fe922177aa80d47add0",
+          "raw_mask": 63,
+          "raw_rank": 89,
+          "raw_word": "x,y,y,z,z,d111,d111,dm11,dm11,d1m1,d1m1,d11m,d11m",
+          "shape_digest": "d3f91618c46a69cab9ba5c5b1b07e0370df8c3d4904a0d4d4a3cd505d9c5c85d"
+        },
+        {
+          "canonical_mask": 18,
+          "canonical_word": "x,y,y,z,z,d111,dm11,dm11,d1m1,d1m1,d11m,d11m,d111",
+          "count": 4,
+          "failure_key_digest": "5e25c9d00f73cfe36fb6716b309a5fef1244f49fdad79c2d8b584e1f79e636e6",
+          "raw_mask": 18,
+          "raw_rank": 629,
+          "raw_word": "x,y,y,z,z,d111,dm11,dm11,d1m1,d1m1,d11m,d11m,d111",
+          "shape_digest": "002705a571d5eb8dcec1f12389e6380cdd7fc0be155f3b7a92bc23a95f858450"
+        },
+        {
+          "canonical_mask": 0,
+          "canonical_word": "x,y,y,z,z,d111,d111,dm11,d11m,d11m,d1m1,d1m1,dm11",
+          "count": 4,
+          "failure_key_digest": "ecfd03be6a0a1076b17020c3fe98fab8852f5c5bc0231a258a6d71e081c41b49",
+          "raw_mask": 0,
+          "raw_rank": 60,
+          "raw_word": "x,y,y,z,z,d111,d111,dm11,d11m,d11m,d1m1,d1m1,dm11",
+          "shape_digest": "0047efde2206194095bfd72b5188ae440a7c593f254ad69bf90949fb51a6f324"
+        },
+        {
+          "canonical_mask": 24,
+          "canonical_word": "x,y,y,z,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111",
+          "count": 4,
+          "failure_key_digest": "df54254189374d9fcf574b48097729c0fa3bc3381a3e94998e4a66859dff8202",
+          "raw_mask": 24,
+          "raw_rank": 413,
+          "raw_word": "x,y,y,z,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111",
+          "shape_digest": "01fecd38d41f057496ef3a123a55872443b03377a6a7f048d413ccb09cdf1908"
+        },
+        {
+          "canonical_mask": 16,
+          "canonical_word": "x,y,y,z,z,d111,d111,dm11,dm11,d1m1,d1m1,d11m,d11m",
+          "count": 4,
+          "failure_key_digest": "0fd77a40bb44449168ba60d89ccbf58a01c74d508358075c2f81a4a38864c0e7",
+          "raw_mask": 16,
+          "raw_rank": 89,
+          "raw_word": "x,y,y,z,z,d111,d111,dm11,dm11,d1m1,d1m1,d11m,d11m",
+          "shape_digest": "022f2896b34d680bee61011787730abf289961e29e9a9462b65a6d68620b2d6d"
+        },
+        {
+          "canonical_mask": 28,
+          "canonical_word": "x,y,y,z,z,d111,d11m,d1m1,dm11,dm11,d1m1,d11m,d111",
+          "count": 4,
+          "failure_key_digest": "bc744e5c4650c634c8106e39b4b3c93a249fb41ce0bae8fe06532bab3f050b67",
+          "raw_mask": 28,
+          "raw_rank": 209,
+          "raw_word": "x,y,y,z,z,d111,d11m,d1m1,dm11,dm11,d1m1,d11m,d111",
+          "shape_digest": "037acf35f492044f445ca2d1d1e3258c936a994012ec548e2fd4c8f4efd19708"
+        },
+        {
+          "canonical_mask": 47,
+          "canonical_word": "x,y,y,z,z,d111,d11m,d11m,d111,d1m1,d1m1,dm11,dm11",
+          "count": 4,
+          "failure_key_digest": "b7b561a00170403f0375ea26bb3c79475248ff9d365a8016df208f61e790e7d7",
+          "raw_mask": 47,
+          "raw_rank": 120,
+          "raw_word": "x,y,y,z,z,d111,d11m,d11m,d111,d1m1,d1m1,dm11,dm11",
+          "shape_digest": "03a74c590944e58874a7cf9b4f8312fc9744008af408143d850954d7cdd552f2"
+        },
+        {
+          "canonical_mask": 31,
+          "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+          "count": 4,
+          "failure_key_digest": "21c9c551ca3304f0d96f1c51174a1a8a173b67fb8c997a3c32d285672febfce9",
+          "raw_mask": 31,
+          "raw_rank": 0,
+          "raw_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+          "shape_digest": "03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df"
+        },
+        {
+          "canonical_mask": 9,
+          "canonical_word": "x,y,y,z,z,d111,dm11,dm11,d11m,d11m,d1m1,d1m1,d111",
+          "count": 4,
+          "failure_key_digest": "f10f7cbde905d56f1c8e910190571b77b9bb077b2086391cb371eeea21d623b3",
+          "raw_mask": 9,
+          "raw_rank": 611,
+          "raw_word": "x,y,y,z,z,d111,dm11,dm11,d11m,d11m,d1m1,d1m1,d111",
+          "shape_digest": "04183bb7d78348ef147d9d4d0dcfcbdebfc58d8131b29c364bf6c930675d513b"
+        },
+        {
+          "canonical_mask": 55,
+          "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+          "count": 4,
+          "failure_key_digest": "c4b56ab7aca9068425a7532e1d1a59d9cf0212dfb542368113885955c4a00063",
+          "raw_mask": 55,
+          "raw_rank": 0,
+          "raw_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+          "shape_digest": "04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b"
+        },
+        {
+          "canonical_mask": 28,
+          "canonical_word": "x,y,y,z,z,d111,d111,d1m1,d1m1,d11m,dm11,dm11,d11m",
+          "count": 4,
+          "failure_key_digest": "8590c7355fcf4a113e922c79081114c84c31e221847dc7b275b5f046b202538f",
+          "raw_mask": 28,
+          "raw_rank": 44,
+          "raw_word": "x,y,y,z,z,d111,d111,d1m1,d1m1,d11m,dm11,dm11,d11m",
+          "shape_digest": "04b52e1dab7f6bc041c3172ed25d33e85c315e6a070a58a75a8bcd3283d9444f"
+        }
+      ],
+      "shape_count": 1786,
+      "shared_shape_count": 870
+    },
     "identity_linear_words": 450,
     "nonidentity_failure_counts": {
       "badDirectionSign": 2593,
@@ -230,7 +398,7 @@
     "reasons": [],
     "status": "pass"
   },
-  "elapsed_seconds": 23.766038657002355,
+  "elapsed_seconds": 23.76205975799894,
   "expected_counts": {
     "identity_linear_words": 2468088,
     "pair_words": 97297200,
