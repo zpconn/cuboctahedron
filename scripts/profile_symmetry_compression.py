@@ -61,6 +61,9 @@ DEFAULT_PREFIX_KILL_OUTPUT = (
 DEFAULT_TRANSLATION_FARKAS_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "translation_farkas_compression_profile.json"
 )
+DEFAULT_TRANSLATION_BADDIR_OUTPUT = (
+    REPO_ROOT / "scripts" / "generated" / "translation_baddir_compression_profile.json"
+)
 
 
 def stable_digest(text: str) -> str:
@@ -1019,6 +1022,303 @@ class TranslationFarkasTreeProfiler:
         }
 
 
+class TranslationBadDirectionTreeProfiler:
+    """Dry-run profiler for coarse translation bad-direction tiling.
+
+    This mode does not emit Lean.  It tiles raw rank/mask cells that fail
+    because some required translation impact denominator is nonpositive.  The
+    tiling is intentionally rectangular so a future Lean emitter can target
+    `TranslationCaseBox`-shaped evidence rather than one certificate per mask.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        sample_limit: int,
+        progress_interval: int,
+        audit_cell_cap: int = 2_000_000,
+    ) -> None:
+        self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
+        self.limit = limit
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.audit_cell_cap = audit_cell_cap
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words_skipped = 0
+        self.translation_sign_assignments = 0
+        self.failure_counts: Counter[str] = Counter()
+        self.bad_direction_by_impact: Counter[int] = Counter()
+        self.row_patterns = DistinctTracker(100_000, sample_limit)
+        self.open_tiles: dict[tuple[int, int, int], int] = {}
+        self.tiles: list[dict[str, int]] = []
+        self.tile_samples: list[dict[str, int]] = []
+        self.max_rank_width = 0
+        self.max_mask_width = 0
+        self.bad_direction_cells = 0
+        self.audit_bad_cells: set[tuple[int, int]] | None = set()
+        self.audit_disabled_reason: str | None = None
+
+    def first_bad_impact(self, seq: list[str], b: tuple) -> int | None:
+        prefixes = path_prefix_affs(seq)
+        for impact in range(1, 14):
+            if impact_denom(seq, b, impact, prefixes) <= 0:
+                return impact
+        return None
+
+    def classify_translation_case(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+        pref: list,
+    ) -> tuple[str, int | None]:
+        b, seq = translation_vector(list(word), mask, pref)
+        if b == ZERO_VEC:
+            return "badTranslationVector", None
+        bad_impact = self.first_bad_impact(seq, b)
+        if bad_impact is not None:
+            return "badDirectionSign", bad_impact
+        return "needsFarkas", None
+
+    def mask_runs(self, impacts_by_mask: list[int | None]) -> list[tuple[int, int, int]]:
+        runs: list[tuple[int, int, int]] = []
+        start: int | None = None
+        impact: int | None = None
+        for mask, current in enumerate(impacts_by_mask + [None]):
+            if current is not None and start is None:
+                start = mask
+                impact = current
+                continue
+            if current is not None and current == impact:
+                continue
+            if start is not None and impact is not None:
+                runs.append((start, mask, impact))
+            if current is None:
+                start = None
+                impact = None
+            else:
+                start = mask
+                impact = current
+        return runs
+
+    def record_bad_cell_for_audit(self, rank: int, mask: int) -> None:
+        if self.audit_bad_cells is None:
+            return
+        if len(self.audit_bad_cells) >= self.audit_cell_cap:
+            self.audit_disabled_reason = (
+                f"bad-direction audit exceeded cap {self.audit_cell_cap}"
+            )
+            self.audit_bad_cells = None
+            return
+        self.audit_bad_cells.add((rank, mask))
+
+    def finalize_tile(self, key: tuple[int, int, int], end_rank: int) -> None:
+        start_rank = self.open_tiles.pop(key)
+        start_mask, end_mask, impact = key
+        if start_rank >= end_rank:
+            return
+        rank_width = end_rank - start_rank
+        mask_width = end_mask - start_mask
+        self.max_rank_width = max(self.max_rank_width, rank_width)
+        self.max_mask_width = max(self.max_mask_width, mask_width)
+        tile = {
+            "start_rank": start_rank,
+            "end_rank": end_rank,
+            "start_mask": start_mask,
+            "end_mask": end_mask,
+            "impact": impact,
+            "area": rank_width * mask_width,
+        }
+        self.tiles.append(tile)
+        if len(self.tile_samples) < self.sample_limit:
+            self.tile_samples.append(tile)
+
+    def update_open_tiles(
+        self,
+        rank: int,
+        runs: list[tuple[int, int, int]],
+    ) -> None:
+        active = set(runs)
+        for key in list(self.open_tiles):
+            if key not in active:
+                self.finalize_tile(key, rank)
+        for key in runs:
+            self.open_tiles.setdefault(key, rank)
+
+    def close_all_tiles(self, rank: int) -> None:
+        for key in list(self.open_tiles):
+            self.finalize_tile(key, rank)
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            self.close_all_tiles(rank)
+            return
+
+        self.identity_words += 1
+        impacts_by_mask: list[int | None] = []
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            failure, impact = self.classify_translation_case(word, mask, pref)
+            self.failure_counts[failure] += 1
+            if failure == "badDirectionSign":
+                if impact is None:
+                    raise AssertionError("badDirectionSign without impact")
+                impacts_by_mask.append(impact)
+                self.bad_direction_by_impact[impact] += 1
+                self.bad_direction_cells += 1
+                self.record_bad_cell_for_audit(rank, mask)
+            else:
+                impacts_by_mask.append(None)
+
+        runs = self.mask_runs(impacts_by_mask)
+        self.row_patterns.add("|".join(f"{lo}-{hi}@{impact}" for lo, hi, impact in runs))
+        self.update_open_tiles(rank, runs)
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_lo >= self.target_hi:
+                return
+            if len(prefix) == 13:
+                self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                if child_lo < self.target_hi:
+                    rec(child_lo)
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+        self.close_all_tiles(self.target_hi)
+
+    def audit_payload(self) -> dict[str, Any]:
+        tile_area = sum(tile["area"] for tile in self.tiles)
+        payload: dict[str, Any] = {
+            "bad_direction_cells": self.bad_direction_cells,
+            "tile_area": tile_area,
+            "area_matches_bad_direction_cells": tile_area == self.bad_direction_cells,
+            "audit_exact": self.audit_bad_cells is not None,
+            "audit_disabled_reason": self.audit_disabled_reason,
+            "has_gaps": tile_area != self.bad_direction_cells,
+            "has_overlaps": False,
+        }
+        if self.audit_bad_cells is not None:
+            covered: set[tuple[int, int]] = set()
+            overlaps = 0
+            for tile in self.tiles:
+                for rank in range(tile["start_rank"], tile["end_rank"]):
+                    for mask in range(tile["start_mask"], tile["end_mask"]):
+                        cell = (rank, mask)
+                        if cell in covered:
+                            overlaps += 1
+                        covered.add(cell)
+            missing = self.audit_bad_cells - covered
+            extra = covered - self.audit_bad_cells
+            payload.update({
+                "covered_cells": len(covered),
+                "missing_cells": len(missing),
+                "extra_cells": len(extra),
+                "overlap_cells": overlaps,
+                "has_gaps": bool(missing),
+                "has_overlaps": overlaps > 0 or bool(extra),
+                "missing_samples": [
+                    {"rank": rank, "mask": mask}
+                    for rank, mask in sorted(missing)[: self.sample_limit]
+                ],
+                "extra_samples": [
+                    {"rank": rank, "mask": mask}
+                    for rank, mask in sorted(extra)[: self.sample_limit]
+                ],
+            })
+        return payload
+
+    def payload(
+        self,
+        *,
+        elapsed_seconds: float,
+        rejected: bool,
+        reject_reasons: list[str],
+    ) -> dict[str, Any]:
+        tile_count = len(self.tiles)
+        ratio = (
+            self.bad_direction_cells / tile_count
+            if tile_count > 0 else None
+        )
+        return {
+            "schema_version": 1,
+            "mode": "translation-baddir-tree-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None and not rejected,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation.badDirectionSign",
+                "symmetry": "raw rank/mask boxes; D4 transport not applied to boxes",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "cases_per_tile_ratio_min": 64.0,
+                "audit_cell_cap": self.audit_cell_cap,
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+            },
+            "classification": {
+                "translation_failure_counts": dict(sorted(self.failure_counts.items())),
+                "bad_direction_by_impact": dict(sorted(self.bad_direction_by_impact.items())),
+                "row_patterns": self.row_patterns.payload(),
+            },
+            "tiling": {
+                "bad_direction_tiles": tile_count,
+                "planned_lean_heavy_leaves": tile_count,
+                "planned_lean_heavy_leaves_exact": tile_count,
+                "max_rank_width": self.max_rank_width,
+                "max_mask_width": self.max_mask_width,
+                "cases_per_tile_ratio": ratio,
+                "samples": self.tile_samples,
+            },
+            "audit": self.audit_payload(),
+            "decision": {
+                "status": "reject" if rejected else "pass",
+                "reasons": reject_reasons,
+            },
+        }
+
+
 class SymmetryCompressionProfiler:
     def __init__(
         self,
@@ -1366,8 +1666,16 @@ class SymmetryCompressionProfiler:
 def validate_options(args: argparse.Namespace) -> None:
     if not args.dry_run:
         raise SystemExit("Phase 3 only supports --dry-run; Lean emission belongs to a later phase")
-    if args.prefix_kill_tree and args.translation_farkas_tree:
-        raise SystemExit("--prefix-kill-tree and --translation-farkas-tree are mutually exclusive")
+    mode_count = sum([
+        bool(args.prefix_kill_tree),
+        bool(args.translation_farkas_tree),
+        bool(args.translation_baddir_tree),
+    ])
+    if mode_count > 1:
+        raise SystemExit(
+            "--prefix-kill-tree, --translation-farkas-tree, and "
+            "--translation-baddir-tree are mutually exclusive"
+        )
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
     if args.max_lean_leaves <= 0:
@@ -1551,6 +1859,56 @@ def translation_farkas_decision_reasons(
     return rejected, reasons
 
 
+def translation_baddir_decision_reasons(
+    profiler: TranslationBadDirectionTreeProfiler,
+) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+    audit = profiler.audit_payload()
+    tile_count = len(profiler.tiles)
+    if profiler.pair_words_scanned != profiler.target_hi:
+        reasons.append(
+            f"pair words scanned {profiler.pair_words_scanned} does not match target "
+            f"{profiler.target_hi}"
+        )
+    if profiler.identity_words == 0:
+        reasons.append("bounded profile saw no identity-linear translation ranks")
+    if profiler.bad_direction_cells == 0:
+        reasons.append("bounded profile saw no bad-direction translation cells")
+    if audit["has_gaps"]:
+        reasons.append("bad-direction tiling has gaps")
+    if audit["has_overlaps"]:
+        reasons.append("bad-direction tiling has overlaps or extra cells")
+    if tile_count > profiler.max_lean_leaves:
+        reasons.append(
+            f"bad-direction tiles {tile_count} exceed max {profiler.max_lean_leaves}"
+        )
+    elif tile_count > profiler.warn_lean_leaves:
+        reasons.append(
+            f"warning: bad-direction tiles {tile_count} exceed warning threshold "
+            f"{profiler.warn_lean_leaves}"
+        )
+    if tile_count > 0:
+        ratio = profiler.bad_direction_cells / tile_count
+        if ratio < 64.0:
+            reasons.append(
+                f"bad-direction cases per tile {ratio:.3f} is below gate 64.000"
+            )
+    if profiler.limit is None:
+        if profiler.identity_words != EXPECTED_IDENTITY_WORDS:
+            reasons.append(
+                "identity-linear count "
+                f"{profiler.identity_words} does not match expected {EXPECTED_IDENTITY_WORDS}"
+            )
+        if profiler.translation_sign_assignments != EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS:
+            reasons.append(
+                "translation sign-assignment count "
+                f"{profiler.translation_sign_assignments} does not match expected "
+                f"{EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS}"
+            )
+    rejected = any(not reason.startswith("warning:") for reason in reasons)
+    return rejected, reasons
+
+
 def write_payload(payload: dict[str, Any], output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -1609,6 +1967,31 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {reason}")
         return
 
+    if payload.get("mode") == "translation-baddir-tree-profile":
+        counts = payload["actual_counts"]
+        tiling = payload["tiling"]
+        audit = payload["audit"]
+        decision = payload["decision"]
+        print("translation bad-direction tree profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"bad-direction cells: {audit['bad_direction_cells']:,}")
+        print(f"bad-direction tiles: {tiling['bad_direction_tiles']:,}")
+        print(f"max rank width: {tiling['max_rank_width']:,}")
+        print(f"max mask width: {tiling['max_mask_width']:,}")
+        print(f"cases per tile: {tiling['cases_per_tile_ratio']}")
+        print(
+            "audit: "
+            f"gaps={audit['has_gaps']} overlaps={audit['has_overlaps']} "
+            f"exact={audit['audit_exact']}"
+        )
+        print(f"decision: {decision['status']}")
+        for reason in decision["reasons"]:
+            print(f"- {reason}")
+        return
+
     counts = payload["actual_counts"]
     tiling = payload["tiling"]
     decision = payload["decision"]
@@ -1651,6 +2034,11 @@ def main() -> None:
         action="store_true",
         help="profile identity-linear translation/Farkas family sharing",
     )
+    parser.add_argument(
+        "--translation-baddir-tree",
+        action="store_true",
+        help="profile rectangular tiling for translation bad-direction cases",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -1668,7 +2056,9 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        if args.translation_farkas_tree:
+        if args.translation_baddir_tree:
+            output = DEFAULT_TRANSLATION_BADDIR_OUTPUT
+        elif args.translation_farkas_tree:
             output = DEFAULT_TRANSLATION_FARKAS_OUTPUT
         elif args.prefix_kill_tree:
             output = DEFAULT_PREFIX_KILL_OUTPUT
@@ -1678,7 +2068,22 @@ def main() -> None:
     import time
 
     start = time.monotonic()
-    if args.translation_farkas_tree:
+    if args.translation_baddir_tree:
+        baddir_profiler = TranslationBadDirectionTreeProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+        )
+        baddir_profiler.traverse()
+        rejected, reasons = translation_baddir_decision_reasons(baddir_profiler)
+        payload = baddir_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+            rejected=rejected,
+            reject_reasons=reasons,
+        )
+    elif args.translation_farkas_tree:
         translation_profiler = TranslationFarkasTreeProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,

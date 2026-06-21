@@ -49,18 +49,18 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 
 ## Current Status Dashboard
 
-Last updated after the translation/Farkas compression gate rejected the current
-translation family keys on `[0,5000)` and `[0,100000)`.
+Last updated after the translation bad-direction box-tiling gate rejected the
+current rectangular rank/mask strategy on `[0,5000)` and `[0,100000)`.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
-| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree` and `--translation-farkas-tree`; both current bounded gates are diagnostic-only. |
+| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, and `--translation-baddir-tree`; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
-| Phase 5: translation Farkas sharing | Gate added; current family keys reject | `FarkasShapeTransport.lean` exists, and `--translation-farkas-tree` shows Farkas-shape reuse, but bad-direction families still explode. |
-| Phase 6: semantic tiling | Current gates rejected | Automatic bounded-window discovery works, but the current nonidentity prefix templates and translation family keys both produce far too many heavy leaves. |
+| Phase 5: translation Farkas sharing | Gates added; current family keys reject | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real, but the pre-Farkas bad-direction branch still explodes. |
+| Phase 6: semantic tiling | Current gates rejected | Automatic bounded-window discovery works, but current nonidentity prefixes, translation family keys, and raw bad-direction boxes all produce far too many heavy leaves. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on compression | The raw/singleton/OOM paths are archived or avoided; public API should wait for compressed evidence. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -113,6 +113,20 @@ Completed current-work items:
     356,160 translation masks. It found 11,478 exact normalized Farkas
     shapes with reuse, but the total heavy-family tracker exceeded its
     100,000-family cap.
+- Added `Cuboctahedron/Search/TranslationBadDirectionFamilies.lean`, a small
+  trusted wrapper proving that a rank/mask/impact bad-denominator witness
+  produces an ordinary checked `TranslationCert`.
+- Added the translation bad-direction box-tiling dry-run gate:
+  `scripts/profile_symmetry_compression.py --translation-baddir-tree`.
+- Recorded rejected translation bad-direction reports:
+  - `scripts/generated/translation_baddir_compression_profile_0_5000.json`
+    found 26,475 bad-direction cells but required 16,199 rectangular
+    rank/mask tiles, with max rank width 2 and only 1.634 cases per tile.
+  - `scripts/generated/translation_baddir_compression_profile_0_100000.json`
+    found 316,450 bad-direction cells but required 205,667 rectangular
+    rank/mask tiles, with max rank width 2 and only 1.539 cases per tile.
+    The exact bounded audit found no gaps or overlaps, so the rejection is
+    compression failure rather than tiling-bug failure.
 
 Immediate next work:
 
@@ -120,11 +134,13 @@ Immediate next work:
 2. Do not emit Lean from the current translation/Farkas strategy either; the
    dry-run proves that the current `badDirectionSign` and per-case family
    keys remain effectively case-local.
-3. Add a genuinely stronger mathematical family obstruction. The most urgent
-   target is translation bad-direction sharing: in `[0,100000)`, 316,450 of
-   356,160 translation sign assignments die before Farkas, and those cases
-   currently dominate the heavy-family explosion.
-4. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
+3. Do not emit Lean from the current translation bad-direction box strategy;
+   exact bounded auditing proves the boxes are correct but far too small.
+4. Add a genuinely stronger mathematical family obstruction. The most urgent
+   target is translation bad-direction sharing by symbolic denominator
+   patterns, prefix-level sign conditions, or another non-rectangular family
+   shape; raw rank/mask rectangles are not enough.
+5. Only after a new dry-run falls below the 2,000-leaf hard gate, emit
    hierarchical generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
@@ -153,6 +169,19 @@ Interpretation of the translation/Farkas rejection:
   theorem that groups many masks/ranks by sign/denominator obstruction
   patterns rather than by complete translated sequence data.
 
+Interpretation of the translation bad-direction box rejection:
+
+- A direct Lean-checkable bad-direction witness is easy, and the bounded
+  tiler exactly covers the observed bad-direction cells without gaps or
+  overlaps.
+- However, raw contiguous rank/mask rectangles do not align with the failure
+  structure. In `[0,100000)`, the largest tile spans only two ranks, and the
+  average tile covers about 1.54 cells.
+- Therefore the next viable bad-direction compression cannot be plain
+  rectangle tiling. It needs a family shape closer to the arithmetic source of
+  failure, such as shared denominator-sign formulas over pair-word prefixes,
+  mask-bit cubes, or canonical denominator-pattern templates.
+
 Plain-language takeaway:
 
 - The Farkas sharing idea is real, but it only helps the minority of
@@ -164,10 +193,9 @@ Plain-language takeaway:
   mathematically simple, but the current profiler treats them with nearly
   case-specific keys.
 - Therefore the next compression step should not emit more Farkas shapes yet.
-  It should first prove and profile a coarse `badDirectionSign` family
-  checker, for example a theorem saying that every rank/mask in a whole
-  interval has some required crossing denominator nonpositive, so no
-  translation orbit can realize that interval.
+  It should first prove and profile a non-rectangular coarse
+  `badDirectionSign` family checker. The plain rectangular version was tried
+  and rejected.
 
 ## Phase 0: Inventory Existing Interfaces
 
@@ -934,6 +962,58 @@ The report must explicitly say:
 
 Do not proceed to Phase 7 full emission unless this gate is accepted.
 
+### Phase 6C: Non-Rectangular Translation Bad-Direction Families
+
+New required work after the raw translation bad-direction box-tiling rejection.
+
+The direct witness adapter now proves that an individual rank/mask/impact with
+a nonpositive impact denominator produces an ordinary checked
+`TranslationCert`, but rectangular rank/mask tiling is not a viable compression
+shape. In `[0,100000)`, the largest bad-direction rectangle spans only two
+ranks, and 316,450 bad-direction cells require 205,667 boxes.
+
+Implement a stronger exact family shape that follows the arithmetic source of
+the denominator sign, rather than contiguous rectangles. Candidate shapes:
+
+- prefix-level denominator-sign formulas that prove a fixed impact denominator
+  is nonpositive for all completions of a pair-word prefix;
+- mask-bit cubes, where some subset of translation sign bits is fixed and all
+  remaining mask choices share the same bad-denominator obstruction;
+- canonical denominator-pattern templates, transported by the existing `D4`
+  symmetry infrastructure;
+- sparse Boolean decision diagrams over prefix letters and mask bits, exporting
+  only semantic `CoversInterval` or `CoversTranslationMaskSet` theorems.
+
+Required profiler changes:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-family-tree --limit 5000 --allow-reject \
+  --output scripts/generated/translation_baddir_family_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-family-tree --limit 100000 --allow-reject \
+  --output scripts/generated/translation_baddir_family_profile_0_100000.json
+```
+
+The report must include:
+
+- exact bounded audit status;
+- number of bad-direction cells covered;
+- number of symbolic families;
+- average cells per symbolic family;
+- maximum prefix width or mask-cube width, depending on the chosen shape;
+- projected Lean leaf count;
+- whether any per-rank/per-mask fallback remains.
+
+Acceptance:
+
+- The `[0,100000)` report is accepted under the same 2,000-heavy-leaf gate, or
+  it is rejected with enough statistics to justify pivoting away from this
+  family shape.
+- No Lean evidence roots are emitted from this phase unless the dry-run gate is
+  accepted.
+
 ## Phase 7: Generated Lean Architecture
 
 Generate:
@@ -1470,10 +1550,17 @@ Acceptance:
 - [x] Add first uniform prefix templates for nonidentity failures.
 - [x] Add Phase 6B prefix-kill dry-run gate.
 - [x] Rerun Phase 6B compression gate on bounded windows and record rejection.
-- [ ] Add a stronger nonidentity prefix obstruction or pivot to translation
-  normalized Farkas sharing.
+- [x] Implement a direct Lean translation bad-direction witness adapter.
+- [x] Add and run the translation bad-direction box-tiling dry-run gate.
+- [x] Record rejection of raw rank/mask rectangular bad-direction tiling.
+- [ ] Add a genuinely stronger non-rectangular bad-direction family, such as
+  symbolic denominator-sign formulas over prefixes, mask-bit cubes, or
+  canonical denominator-pattern templates.
+- [ ] Add a stronger nonidentity prefix obstruction if the translation
+  bad-direction family still does not compress enough.
 - [ ] Implement/refresh translation normalized Farkas shape sharing and include
-  it in the compression profiler.
+  it in the compression profiler after the pre-Farkas bad-direction branch is
+  compressed.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
   with memory monitoring.
 - [ ] Generate full compressed evidence only after the dry-run gate passes.
@@ -1485,12 +1572,15 @@ Acceptance:
 
 Current next step:
 
-Do not scale the current nonidentity prefix-kill emitter. The `[0,100000)`
-dry-run still has maximum prefix-kill width 3 and 94,419 planned heavy leaves.
-The next useful step is either a new mathematical nonidentity prefix
-obstruction that kills large intervals, or a pivot to translation normalized
-Farkas sharing, where the existing evidence suggests reusable shapes may be the
-better compression source.
+Do not scale the current nonidentity prefix-kill emitter, translation/Farkas
+emitter, or translation bad-direction box emitter. The `[0,100000)`
+nonidentity dry-run still has maximum prefix-kill width 3 and 94,419 planned
+heavy leaves; the translation/Farkas dry-run exceeded the 100,000-family cap;
+and the translation bad-direction box dry-run produced 205,667 tiny boxes.
+The next useful step is a new non-rectangular mathematical bad-direction
+family, followed by Farkas sharing only for the remaining cases that survive
+that early branch. If that fails, return to a stronger nonidentity prefix
+obstruction or a different translation compression source.
 
 ## Explicit Non-Goals
 

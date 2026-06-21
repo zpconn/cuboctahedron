@@ -298,6 +298,38 @@ translation compression attempt should first add a coarser exact bad-direction
 family theorem that groups many masks/ranks by denominator/sign obstruction
 patterns.
 
+## Translation bad-direction box-tiling gate
+
+The first coarse exact bad-direction attempt adds a Lean adapter for ordinary
+`TranslationCert.failure = badDirectionSign` witnesses:
+
+```text
+Cuboctahedron/Search/TranslationBadDirectionFamilies.lean
+```
+
+The profiling mode is:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-tree --limit 5000 --allow-reject \
+  --output scripts/generated/translation_baddir_compression_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-baddir-tree --limit 100000 --allow-reject \
+  --output scripts/generated/translation_baddir_compression_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,100000)` report found 316,450
+bad-direction rank/mask cells and tiled them exactly with no gaps or overlaps,
+but the tiling required 205,667 rectangular rank/mask boxes. The largest box
+spanned only two ranks and the average box covered only 1.539 cells.
+
+This means the direct bad-direction witness is Lean-checkable, but raw
+contiguous rectangles in rank/mask space are not the right compression shape.
+Do not emit Lean roots from this box-tiling strategy. The next attempt should
+use a non-rectangular symbolic family, such as denominator-sign formulas over
+pair-word prefixes, mask-bit cubes, or canonical denominator-pattern templates.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem
