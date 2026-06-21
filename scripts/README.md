@@ -153,6 +153,35 @@ the hand-written family soundness lemmas; it does not generate singleton
 `NonIdCert` rank leaves. The generator still fails closed for other nonempty
 intervals until corresponding family/prefix templates exist.
 
+## Synthesized family interval profiler
+
+`scripts/synthesize_family_interval_templates.py` is a bounded development
+tool for discovering additional interval templates. It scans an exact rank
+range, groups contiguous non-identity ranks with the same failure kind, and can
+emit a capped set of `FamilyIntervalEvidence` roots for those runs:
+
+```bash
+python3 scripts/synthesize_family_interval_templates.py \
+  --dry-run --start-rank 0 --end-rank 5000 \
+  --min-run-length 8 --max-templates 10 --max-ranks-to-emit 0
+
+python3 scripts/synthesize_family_interval_templates.py \
+  --emit-lean --start-rank 0 --end-rank 500 \
+  --min-run-length 4 --max-templates 2 --max-ranks-to-emit 24
+
+python3 scripts/check_family_interval_evidence.py \
+  evidence/synthesized_family_intervals/manifest.json \
+  --compile-external --lean-memory-limit-gib 44 \
+  --report evidence/synthesized_family_intervals/check_report.json
+```
+
+The current measured dry-run over `[0,5000)` found 2,690 runs; the largest
+emittable same-failure run covered 36 ranks. That is useful profiling data, but
+it is not enough compression for the final proof. Treat this emitter as a smoke
+and synthesis harness. The final scalable backend still needs semantic
+prefix-level templates that kill large prefix intervals without local
+per-rank certificate literals.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

@@ -891,6 +891,52 @@ That is the desired failure mode until additional prefix/family templates are
 implemented. The suite is still sample-scale: it covers 7 ranks total and is
 not yet full-range coverage.
 
+### Phase 8D status: synthesized same-failure interval profiler
+
+The next bounded development tool is:
+
+```text
+scripts/synthesize_family_interval_templates.py
+```
+
+It scans an exact rank interval, groups contiguous non-identity ranks whose
+generated certificates have the same failure constructor, and can emit a capped
+set of `FamilyIntervalEvidence lo hi` roots under:
+
+```text
+evidence/synthesized_family_intervals/
+```
+
+The verified smoke run emitted two bad-direction roots:
+
+| Interval | Ranks | External compile time |
+| --- | ---: | ---: |
+| `[422,430)` | 8 | 42.3s |
+| `[468,481)` | 13 | 48.7s |
+
+The checker command was:
+
+```bash
+python3 scripts/check_family_interval_evidence.py \
+  evidence/synthesized_family_intervals/manifest.json \
+  --compile-external --lean-memory-limit-gib 44 \
+  --report evidence/synthesized_family_intervals/check_report.json
+```
+
+A larger dry-run over `[0,5000)` found 2,690 same-failure runs; the largest
+emittable run covered only 36 ranks. This confirms that same-failure grouping
+is useful for smoke tests and profiling, but is still far below the intended
+Gemini-style compression target of hundreds/low-thousands of leaves for the
+full 97,297,200 ranks.
+
+Important distinction: these synthesized roots do not create singleton rank
+leaf modules and do not export certificate literals in their public theorem
+types, but they still contain local per-rank `NonIdCert` literals inside each
+root. They are therefore not the final prefix-pruning backend. The next real
+compression step is to add semantic prefix templates whose Lean soundness
+theorems kill large prefix intervals without enumerating every rank in the
+interval.
+
 ## Phase 9: Step 15 Integration
 
 Use `Generated.rank_complete` to prove:

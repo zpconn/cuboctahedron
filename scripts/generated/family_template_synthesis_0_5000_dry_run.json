@@ -1,0 +1,259 @@
+{
+  "contains_local_rank_certificate_literals": true,
+  "elapsed_seconds": 8.768992632001755,
+  "end_rank": 5000,
+  "forbidden_active_patterns": [
+    "append_nonid_cert",
+    "append_translation_cert",
+    "CheckedNonIdRank",
+    "CheckedTranslationCase",
+    "def nonIdCert",
+    "def translationCert",
+    "/NonIdentity/Rank"
+  ],
+  "mode": "synthesized-family-interval-templates",
+  "no_singleton_leaves": true,
+  "paths": {
+    "verified_roots": []
+  },
+  "rank_count": 5000,
+  "scaling_status": "bounded-smoke-only; not a prefix-pruning backend",
+  "schema_version": 1,
+  "start_rank": 0,
+  "summary": {
+    "emittable_ranks": 4513,
+    "emittable_runs": 2253,
+    "largest_emittable_runs": [
+      {
+        "emittable": true,
+        "end_rank": 2910,
+        "kind": "badDirectionSign",
+        "rank_count": 36,
+        "start_rank": 2874
+      },
+      {
+        "emittable": true,
+        "end_rank": 3454,
+        "kind": "badDirectionSign",
+        "rank_count": 34,
+        "start_rank": 3420
+      },
+      {
+        "emittable": true,
+        "end_rank": 3633,
+        "kind": "badDirectionSign",
+        "rank_count": 33,
+        "start_rank": 3600
+      },
+      {
+        "emittable": true,
+        "end_rank": 3150,
+        "kind": "badDirectionSign",
+        "rank_count": 31,
+        "start_rank": 3119
+      },
+      {
+        "emittable": true,
+        "end_rank": 3327,
+        "kind": "badDirectionSign",
+        "rank_count": 22,
+        "start_rank": 3305
+      },
+      {
+        "emittable": true,
+        "end_rank": 4227,
+        "kind": "badDirectionSign",
+        "rank_count": 22,
+        "start_rank": 4205
+      },
+      {
+        "emittable": true,
+        "end_rank": 2708,
+        "kind": "badDirectionSign",
+        "rank_count": 16,
+        "start_rank": 2692
+      },
+      {
+        "emittable": true,
+        "end_rank": 4468,
+        "kind": "badDirectionSign",
+        "rank_count": 16,
+        "start_rank": 4452
+      },
+      {
+        "emittable": true,
+        "end_rank": 2971,
+        "kind": "badDirectionSign",
+        "rank_count": 14,
+        "start_rank": 2957
+      },
+      {
+        "emittable": true,
+        "end_rank": 481,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 468
+      },
+      {
+        "emittable": true,
+        "end_rank": 1171,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 1158
+      },
+      {
+        "emittable": true,
+        "end_rank": 1362,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 1349
+      },
+      {
+        "emittable": true,
+        "end_rank": 2052,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 2039
+      },
+      {
+        "emittable": true,
+        "end_rank": 2791,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 2778
+      },
+      {
+        "emittable": true,
+        "end_rank": 3384,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 3371
+      },
+      {
+        "emittable": true,
+        "end_rank": 4284,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 4271
+      },
+      {
+        "emittable": true,
+        "end_rank": 102,
+        "kind": "badDirectionSign",
+        "rank_count": 12,
+        "start_rank": 90
+      },
+      {
+        "emittable": true,
+        "end_rank": 291,
+        "kind": "badDirectionSign",
+        "rank_count": 12,
+        "start_rank": 279
+      },
+      {
+        "emittable": true,
+        "end_rank": 672,
+        "kind": "badDirectionSign",
+        "rank_count": 12,
+        "start_rank": 660
+      },
+      {
+        "emittable": true,
+        "end_rank": 981,
+        "kind": "badDirectionSign",
+        "rank_count": 12,
+        "start_rank": 969
+      }
+    ],
+    "rank_counts_by_kind": {
+      "axisMissesStartInterior": 612,
+      "badDirectionSign": 3110,
+      "badFirstHit": 34,
+      "badPairBalance": 757,
+      "identity": 487
+    },
+    "run_counts_by_kind": {
+      "axisMissesStartInterior": 503,
+      "badDirectionSign": 1182,
+      "badFirstHit": 26,
+      "badPairBalance": 542,
+      "identity": 437
+    },
+    "selected_rank_count": 237,
+    "selected_runs": [
+      {
+        "emittable": true,
+        "end_rank": 481,
+        "kind": "badDirectionSign",
+        "rank_count": 13,
+        "start_rank": 468
+      },
+      {
+        "emittable": true,
+        "end_rank": 2708,
+        "kind": "badDirectionSign",
+        "rank_count": 16,
+        "start_rank": 2692
+      },
+      {
+        "emittable": true,
+        "end_rank": 2910,
+        "kind": "badDirectionSign",
+        "rank_count": 36,
+        "start_rank": 2874
+      },
+      {
+        "emittable": true,
+        "end_rank": 2971,
+        "kind": "badDirectionSign",
+        "rank_count": 14,
+        "start_rank": 2957
+      },
+      {
+        "emittable": true,
+        "end_rank": 3150,
+        "kind": "badDirectionSign",
+        "rank_count": 31,
+        "start_rank": 3119
+      },
+      {
+        "emittable": true,
+        "end_rank": 3327,
+        "kind": "badDirectionSign",
+        "rank_count": 22,
+        "start_rank": 3305
+      },
+      {
+        "emittable": true,
+        "end_rank": 3454,
+        "kind": "badDirectionSign",
+        "rank_count": 34,
+        "start_rank": 3420
+      },
+      {
+        "emittable": true,
+        "end_rank": 3633,
+        "kind": "badDirectionSign",
+        "rank_count": 33,
+        "start_rank": 3600
+      },
+      {
+        "emittable": true,
+        "end_rank": 4227,
+        "kind": "badDirectionSign",
+        "rank_count": 22,
+        "start_rank": 4205
+      },
+      {
+        "emittable": true,
+        "end_rank": 4468,
+        "kind": "badDirectionSign",
+        "rank_count": 16,
+        "start_rank": 4452
+      }
+    ],
+    "total_runs": 2690
+  },
+  "template_count": 10,
+  "trusted_as_final_proof": false
+}

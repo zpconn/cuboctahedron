@@ -99,6 +99,8 @@ def run_command(
 
 
 def path_from_record(record: dict[str, Any]) -> Path:
+    if "verified_root" in record:
+        return path_from_record(record["verified_root"])
     raw = record.get("path")
     if not raw:
         raise ValueError("path record does not name a path")
