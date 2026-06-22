@@ -183,7 +183,7 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L is next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. Next path is integer semantic-convex certificates, not another rank-shaped tiler. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0 complete and blocking | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. Phase 6L.0 found legacy rank-compression files that must be retired/reclassified before integer semantic-convex certificates proceed. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -1743,6 +1743,46 @@ Acceptance:
 - The next profiler reports semantic state counts in addition to any rank
   coverage metadata.
 
+Completed implementation:
+
+- Added `scripts/audit_rank_boundary.py`.
+- Generated `scripts/generated/rank_boundary_audit.json`.
+- The strict command intentionally fails until legacy rank-compression files
+  are retired or explicitly reclassified:
+
+  ```bash
+  python3 scripts/audit_rank_boundary.py \
+    --output scripts/generated/rank_boundary_audit.json
+  ```
+
+- Current audit counts:
+  - files scanned: 445;
+  - files with rank-boundary occurrences: 71;
+  - total occurrences: 507;
+  - final adapter files: 7;
+  - historical diagnostic files: 54;
+  - legacy compression files: 10;
+  - unknown files requiring review: 0.
+- Legacy compression files currently blocking Phase 6L.1:
+  - `Cuboctahedron/Generated/NonIdentity/FamiliesSmoke.lean`
+  - `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean`
+  - `Cuboctahedron/Search/Certificates.lean`
+  - `Cuboctahedron/Search/NonIdentityFamilies.lean`
+  - `scripts/generate_exact_certificates.py`
+  - `scripts/generate_family_interval_evidence.py`
+  - `scripts/generate_public_interval_evidence.py`
+  - `scripts/generate_symmetry_evidence.py`
+  - `scripts/generate_symmetry_semantic_batch.py`
+  - `scripts/synthesize_family_interval_templates.py`
+
+Decision:
+
+Do not proceed to Phase 6L.1 until these 10 files are either retired from the
+forward path, moved/renamed into an explicitly historical namespace, or
+reclassified by the audit with a precise rationale. The report confirms the
+desired boundary shape: no unknown rank-facing files remain, but legacy
+rank-compression code is still present.
+
 #### Phase 6L.1: Integer/Homogeneous Arithmetic Core
 
 Purpose: avoid large generated reductions over `Rat`/`ℚ`.
@@ -2647,7 +2687,9 @@ Acceptance:
 - [x] Implement and reject Phase 6J.2 D26 axis audit on five 100k windows.
 - [x] Implement and reject Phase 6K terminal residual shape census on the
   first `[0,100000)` gate.
-- [ ] Implement Phase 6L.0 rank-boundary audit and semantic theorem target.
+- [x] Implement Phase 6L.0 rank-boundary audit and semantic theorem target.
+- [ ] Retire or explicitly reclassify the 10 legacy rank-compression files
+  reported by `scripts/generated/rank_boundary_audit.json`.
 - [ ] Implement Phase 6L.1 integer/homogeneous arithmetic core for generated
   certificate checking.
 - [ ] Implement Phase 6L.2 translation continuous/pseudo-Boolean profiler.
@@ -2688,13 +2730,17 @@ Phase 6K terminal residual shape grouping is rejected as well: the first full
 obstruction keys, 38,073 distinct all-nonidentity obstruction keys, and 11,478
 translation normalized Farkas shapes.
 
-The next useful step is Phase 6L. Do not run another rank-shaped diagnostic
-first. Phase 6L must change the proof domain before terminal certificates:
-integer/homogeneous generated arithmetic, continuous or lifted
-pseudo-Boolean Farkas certificates for translation GoodDirection obligations,
-and stateful cone/Farkas certificates for nonidentity direction constraints.
-Lexicographic rank intervals should reappear only as final enumeration
-adapters once semantic coverage has passed the low-thousands gate.
+The next useful step is to clear the Phase 6L.0 audit blockers. The audit
+found 10 legacy rank-compression files and 0 unknown files. Do not proceed to
+Phase 6L.1 until those 10 files are either retired from the forward path,
+moved/renamed into an explicitly historical namespace, or reclassified by the
+audit with a precise rationale. After that, Phase 6L must change the proof
+domain before terminal certificates: integer/homogeneous generated arithmetic,
+continuous or lifted pseudo-Boolean Farkas certificates for translation
+GoodDirection obligations, and stateful cone/Farkas certificates for
+nonidentity direction constraints. Lexicographic rank intervals should
+reappear only as final enumeration adapters once semantic coverage has passed
+the low-thousands gate.
 
 ## Explicit Non-Goals
 

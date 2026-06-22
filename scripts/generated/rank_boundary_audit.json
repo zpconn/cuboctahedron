@@ -1,0 +1,3428 @@
+{
+  "counts": {
+    "categories": {
+      "final_adapter": 7,
+      "historical_diagnostic": 54,
+      "legacy_compression": 10
+    },
+    "files_scanned": 445,
+    "files_with_rank_boundary_occurrences": 71,
+    "legacy_compression_files": 10,
+    "symbols": {
+      "CoversInterval": 286,
+      "FamilyIntervalEvidence": 23,
+      "NonIdentityWitnessInterval": 14,
+      "PublicComputableCoverageIntervals": 4,
+      "PublicCoverageIntervals": 6,
+      "RankInterval": 154,
+      "TranslationWitnessInterval": 14,
+      "currentBoundedCompleteForInterval": 3,
+      "exhaustiveGeneratedCoverageOfComputableIntervals": 1,
+      "exhaustiveGeneratedCoverageOfIntervals": 2
+    },
+    "total_occurrences": 507,
+    "unknown_requires_review_files": 0
+  },
+  "decision": {
+    "notes": [
+      "Phase 6L.1 should not proceed until legacy_compression entries are retired, archived, or reclassified.",
+      "unknown_requires_review entries must be classified explicitly.",
+      "Ranks remain allowed only as final enumeration adapters."
+    ],
+    "status": "blocked",
+    "strict_pass": false
+  },
+  "entries": [
+    {
+      "category": "final_adapter",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 12,
+          "symbol": "CoversInterval",
+          "text": "def CoversInterval (P : Nat -> Prop) (lo hi : Nat) : Prop :="
+        },
+        {
+          "line": 15,
+          "symbol": "CoversInterval",
+          "text": "theorem CoversInterval.empty"
+        },
+        {
+          "line": 17,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval P a b := by"
+        },
+        {
+          "line": 22,
+          "symbol": "CoversInterval",
+          "text": "theorem CoversInterval.single"
+        },
+        {
+          "line": 25,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval P r (r + 1) := by"
+        },
+        {
+          "line": 31,
+          "symbol": "CoversInterval",
+          "text": "theorem CoversInterval.concat"
+        },
+        {
+          "line": 33,
+          "symbol": "CoversInterval",
+          "text": "(h1 : CoversInterval P a b)"
+        },
+        {
+          "line": 34,
+          "symbol": "CoversInterval",
+          "text": "(h2 : CoversInterval P b c) :"
+        },
+        {
+          "line": 35,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval P a c := by"
+        },
+        {
+          "line": 41,
+          "symbol": "CoversInterval",
+          "text": "theorem CoversInterval.mono"
+        },
+        {
+          "line": 44,
+          "symbol": "CoversInterval",
+          "text": "(h : CoversInterval P a b) :"
+        },
+        {
+          "line": 45,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval Q a b := by"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/Coverage/Interval.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "final_adapter",
+      "occurrence_count": 10,
+      "occurrences": [
+        {
+          "line": 47,
+          "symbol": "RankInterval",
+          "text": "def PrefixRankInterval (pref : PairPrefix) (lo hi : Nat) : Prop :="
+        },
+        {
+          "line": 48,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 57,
+          "symbol": "RankInterval",
+          "text": "namespace PrefixRankInterval"
+        },
+        {
+          "line": 62,
+          "symbol": "RankInterval",
+          "text": "(hprefix : PrefixRankInterval pref lo hi)"
+        },
+        {
+          "line": 66,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval (NatRankPred P) lo hi := by"
+        },
+        {
+          "line": 73,
+          "symbol": "RankInterval",
+          "text": "(hprefix : PrefixRankInterval pref lo hi)"
+        },
+        {
+          "line": 77,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 86,
+          "symbol": "RankInterval",
+          "text": "PrefixRankInterval PairPrefix.empty 0 numPairWords := by"
+        },
+        {
+          "line": 91,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 97,
+          "symbol": "RankInterval",
+          "text": "end PrefixRankInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/Coverage/PrefixInterval.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "final_adapter",
+      "occurrence_count": 8,
+      "occurrences": [
+        {
+          "line": 66,
+          "symbol": "CoversInterval",
+          "text": "(hcover : CoversInterval (NatRankPred P) lo hi) :"
+        },
+        {
+          "line": 67,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval (NatRankPred P) lo' hi' := by"
+        },
+        {
+          "line": 82,
+          "symbol": "CoversInterval",
+          "text": "(hcover : CoversInterval (NatTranslationCasePred P) lo hi) :"
+        },
+        {
+          "line": 83,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval (NatTranslationCasePred P) lo' hi' := by"
+        },
+        {
+          "line": 97,
+          "symbol": "CoversInterval",
+          "text": "(hcover : CoversInterval NonIdentityRankKilledNat lo hi) :"
+        },
+        {
+          "line": 98,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo' hi' := by"
+        },
+        {
+          "line": 120,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 122,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/Coverage/SymmetryTransport.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "final_adapter",
+      "occurrence_count": 14,
+      "occurrences": [
+        {
+          "line": 21,
+          "symbol": "PublicCoverageIntervals",
+          "text": "structure PublicCoverageIntervals : Prop where"
+        },
+        {
+          "line": 23,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 26,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 35,
+          "symbol": "PublicComputableCoverageIntervals",
+          "text": "structure PublicComputableCoverageIntervals where"
+        },
+        {
+          "line": 39,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 43,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 47,
+          "symbol": "PublicCoverageIntervals",
+          "text": "def PublicCoverageIntervals.toBridges"
+        },
+        {
+          "line": 48,
+          "symbol": "PublicCoverageIntervals",
+          "text": "(intervals : PublicCoverageIntervals) :"
+        },
+        {
+          "line": 57,
+          "symbol": "PublicComputableCoverageIntervals",
+          "text": "def PublicComputableCoverageIntervals.toBridges"
+        },
+        {
+          "line": 58,
+          "symbol": "PublicComputableCoverageIntervals",
+          "text": "(intervals : PublicComputableCoverageIntervals) :"
+        },
+        {
+          "line": 115,
+          "symbol": "exhaustiveGeneratedCoverageOfIntervals",
+          "text": "def exhaustiveGeneratedCoverageOfIntervals"
+        },
+        {
+          "line": 116,
+          "symbol": "PublicCoverageIntervals",
+          "text": "(intervals : PublicCoverageIntervals) :"
+        },
+        {
+          "line": 120,
+          "symbol": "exhaustiveGeneratedCoverageOfComputableIntervals",
+          "text": "def exhaustiveGeneratedCoverageOfComputableIntervals"
+        },
+        {
+          "line": 121,
+          "symbol": "PublicComputableCoverageIntervals",
+          "text": "(intervals : PublicComputableCoverageIntervals) :"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/ExhaustiveCoverage.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval",
+        "PublicComputableCoverageIntervals",
+        "PublicCoverageIntervals",
+        "exhaustiveGeneratedCoverageOfComputableIntervals",
+        "exhaustiveGeneratedCoverageOfIntervals"
+      ]
+    },
+    {
+      "category": "final_adapter",
+      "occurrence_count": 3,
+      "occurrences": [
+        {
+          "line": 8,
+          "symbol": "CoversInterval",
+          "text": "Generated chunk/group modules should prove `CoversInterval` theorems for either"
+        },
+        {
+          "line": 29,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 52,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/NonIdentity/Coverage/All.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "final_adapter",
+      "occurrence_count": 16,
+      "occurrences": [
+        {
+          "line": 8,
+          "symbol": "CoversInterval",
+          "text": "`CoversInterval` theorems.  The theorems here convert a checked family plus an"
+        },
+        {
+          "line": 24,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 26,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankCertifiedNat lo hi := by"
+        },
+        {
+          "line": 34,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 36,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankCertifiedNat lo hi := by"
+        },
+        {
+          "line": 44,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 46,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankCertifiedNat lo hi := by"
+        },
+        {
+          "line": 53,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankCertifiedNat lo hi) :"
+        },
+        {
+          "line": 54,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        },
+        {
+          "line": 55,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval.mono"
+        },
+        {
+          "line": 62,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 64,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        },
+        {
+          "line": 72,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 74,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        },
+        {
+          "line": 82,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 84,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        }
+      ],
+      "path": "Cuboctahedron/Generated/NonIdentity/Families.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 15,
+      "occurrences": [
+        {
+          "line": 31,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 38,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat 13 16 :="
+        },
+        {
+          "line": 58,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 65,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat 102 103 :="
+        },
+        {
+          "line": 70,
+          "symbol": "RankInterval",
+          "text": "private def sampleAxisMissParametricInterval : RankInterval where"
+        },
+        {
+          "line": 87,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, sampleAxisMissParametricInterval]"
+        },
+        {
+          "line": 105,
+          "symbol": "RankInterval",
+          "text": "sampleAxisMissParametricInterval, checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 120,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 127,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat 104 106 :="
+        },
+        {
+          "line": 135,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 137,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        },
+        {
+          "line": 143,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 145,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        },
+        {
+          "line": 151,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval"
+        },
+        {
+          "line": 153,
+          "symbol": "CoversInterval",
+          "text": "CoversInterval NonIdentityRankKilledNat lo hi :="
+        }
+      ],
+      "path": "Cuboctahedron/Generated/NonIdentity/FamiliesSmoke.lean",
+      "rationale": "unclassified Lean source uses rank intervals as proof data",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 24,
+      "occurrences": [
+        {
+          "line": 3506,
+          "symbol": "RankInterval",
+          "text": "def sampleBadDirectionFamilyCertInterval : RankInterval where"
+        },
+        {
+          "line": 3522,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval { startRank := 13, endRank := 16 } &&"
+        },
+        {
+          "line": 3529,
+          "symbol": "RankInterval",
+          "text": "simp [checkRankInterval, checkNonIdFamilyEntries,"
+        },
+        {
+          "line": 3538,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval sampleBadDirectionFamilyCertInterval &&"
+        },
+        {
+          "line": 3541,
+          "symbol": "RankInterval",
+          "text": "simp [sampleBadDirectionFamilyCertInterval, checkRankInterval]"
+        },
+        {
+          "line": 3555,
+          "symbol": "RankInterval",
+          "text": "sampleBadDirectionFamilyCert_leafCheck, checkRankInterval,"
+        },
+        {
+          "line": 3564,
+          "symbol": "RankInterval",
+          "text": "def sampleBadPairBalanceFamilyCertInterval : RankInterval where"
+        },
+        {
+          "line": 3580,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval { startRank := 102, endRank := 103 } &&"
+        },
+        {
+          "line": 3587,
+          "symbol": "RankInterval",
+          "text": "simp [checkRankInterval, checkNonIdFamilyEntries,"
+        },
+        {
+          "line": 3596,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval sampleBadPairBalanceFamilyCertInterval &&"
+        },
+        {
+          "line": 3599,
+          "symbol": "RankInterval",
+          "text": "simp [sampleBadPairBalanceFamilyCertInterval, checkRankInterval]"
+        },
+        {
+          "line": 3613,
+          "symbol": "RankInterval",
+          "text": "sampleBadPairBalanceFamilyCert_leafCheck, checkRankInterval,"
+        },
+        {
+          "line": 3627,
+          "symbol": "RankInterval",
+          "text": "def sampleAxisMissFamilyCertInterval : RankInterval where"
+        },
+        {
+          "line": 3643,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval { startRank := 104, endRank := 106 } &&"
+        },
+        {
+          "line": 3650,
+          "symbol": "RankInterval",
+          "text": "simp [checkRankInterval, checkNonIdFamilyEntries,"
+        },
+        {
+          "line": 3659,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval sampleAxisMissFamilyCertInterval &&"
+        },
+        {
+          "line": 3662,
+          "symbol": "RankInterval",
+          "text": "simp [sampleAxisMissFamilyCertInterval, checkRankInterval]"
+        },
+        {
+          "line": 3676,
+          "symbol": "RankInterval",
+          "text": "sampleAxisMissFamilyCert_leafCheck, checkRankInterval,"
+        },
+        {
+          "line": 3685,
+          "symbol": "RankInterval",
+          "text": "def sampleBadFirstHitFamilyCertInterval : RankInterval where"
+        },
+        {
+          "line": 3701,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval { startRank := 159, endRank := 160 } &&"
+        },
+        {
+          "line": 3708,
+          "symbol": "RankInterval",
+          "text": "simp [checkRankInterval, checkNonIdFamilyEntries,"
+        },
+        {
+          "line": 3717,
+          "symbol": "RankInterval",
+          "text": "(checkRankInterval sampleBadFirstHitFamilyCertInterval &&"
+        },
+        {
+          "line": 3720,
+          "symbol": "RankInterval",
+          "text": "simp [sampleBadFirstHitFamilyCertInterval, checkRankInterval]"
+        },
+        {
+          "line": 3734,
+          "symbol": "RankInterval",
+          "text": "sampleBadFirstHitFamilyCert_leafCheck, checkRankInterval,"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/NonIdentity/FamilySample.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 6,
+      "occurrences": [
+        {
+          "line": 18,
+          "symbol": "RankInterval",
+          "text": "def sampleBadDirectionParametricInterval : RankInterval where"
+        },
+        {
+          "line": 36,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, sampleBadDirectionParametricInterval] at hcontains"
+        },
+        {
+          "line": 58,
+          "symbol": "RankInterval",
+          "text": "sampleBadDirectionParametricInterval, checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 69,
+          "symbol": "RankInterval",
+          "text": "def sampleBadPairBalanceParametricInterval : RankInterval where"
+        },
+        {
+          "line": 85,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, sampleBadPairBalanceParametricInterval] at hcontains"
+        },
+        {
+          "line": 97,
+          "symbol": "RankInterval",
+          "text": "sampleBadPairBalanceParametricInterval, checkRankInterval, numPairWords]"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/NonIdentity/ParametricSample.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 212,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi"
+        },
+        {
+          "line": 234,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 254,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi"
+        },
+        {
+          "line": 280,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 301,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi"
+        },
+        {
+          "line": 319,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 339,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi"
+        },
+        {
+          "line": 364,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 386,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi"
+        },
+        {
+          "line": 443,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 476,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval pairPrefix lo hi"
+        },
+        {
+          "line": 492,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean",
+      "rationale": "unclassified Lean source uses rank intervals as proof data",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 3,
+      "occurrences": [
+        {
+          "line": 18,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 22,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 29,
+          "symbol": "currentBoundedCompleteForInterval",
+          "text": "def currentBoundedCompleteForInterval : Bool := true"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/PublicEvidence/BoundedRange.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "currentBoundedCompleteForInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 3,
+      "occurrences": [
+        {
+          "line": 24,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (BoundedRankPlanned limit) lo hi := by"
+        },
+        {
+          "line": 30,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (NonIdentityPilotCovered limit) lo hi := by"
+        },
+        {
+          "line": 35,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (TranslationPilotCovered limit) lo hi := by"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Core.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 26,
+      "occurrences": [
+        {
+          "line": 19,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "structure NonIdentityWitnessInterval"
+        },
+        {
+          "line": 22,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 26,
+          "symbol": "TranslationWitnessInterval",
+          "text": "structure TranslationWitnessInterval"
+        },
+        {
+          "line": 29,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 36,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "namespace NonIdentityWitnessInterval"
+        },
+        {
+          "line": 40,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "(interval : NonIdentityWitnessInterval classifier lo hi) :"
+        },
+        {
+          "line": 41,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 55,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "(interval : NonIdentityWitnessInterval classifier lo hi) :"
+        },
+        {
+          "line": 56,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 58,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.mono"
+        },
+        {
+          "line": 62,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "end NonIdentityWitnessInterval"
+        },
+        {
+          "line": 64,
+          "symbol": "TranslationWitnessInterval",
+          "text": "namespace TranslationWitnessInterval"
+        },
+        {
+          "line": 68,
+          "symbol": "TranslationWitnessInterval",
+          "text": "(interval : TranslationWitnessInterval classifier lo hi) :"
+        },
+        {
+          "line": 69,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 84,
+          "symbol": "TranslationWitnessInterval",
+          "text": "(interval : TranslationWitnessInterval classifier lo hi) :"
+        },
+        {
+          "line": 85,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval TranslationRankKilledNat lo hi := by"
+        },
+        {
+          "line": 90,
+          "symbol": "TranslationWitnessInterval",
+          "text": "end TranslationWitnessInterval"
+        },
+        {
+          "line": 92,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "structure FamilyIntervalEvidence (lo hi : Nat) where"
+        },
+        {
+          "line": 96,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "NonIdentityWitnessInterval nonidentityClassifier lo hi"
+        },
+        {
+          "line": 98,
+          "symbol": "TranslationWitnessInterval",
+          "text": "TranslationWitnessInterval translationClassifier lo hi"
+        },
+        {
+          "line": 100,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "namespace FamilyIntervalEvidence"
+        },
+        {
+          "line": 103,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "{lo hi : Nat} (evidence : FamilyIntervalEvidence lo hi) :"
+        },
+        {
+          "line": 104,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval Cuboctahedron.Generated.Coverage.NonIdentityRankKilledNat lo hi :="
+        },
+        {
+          "line": 108,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "{lo hi : Nat} (evidence : FamilyIntervalEvidence lo hi) :"
+        },
+        {
+          "line": 109,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval TranslationRankKilledNat lo hi :="
+        },
+        {
+          "line": 112,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "end FamilyIntervalEvidence"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/FamilyInterval.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 21,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 23,
+          "symbol": "CoversInterval",
+          "text": "(Coverage.CoversInterval.concat (Coverage.CoversInterval.concat (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk000_covers Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk001_covers) (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk002_covers Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk003_covers)) (Coverage.CoversInterval.concat (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk004_covers Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk005_covers) (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk006_covers Cuboctahedron.Generated.SymmetryEvidence.NonIdentity.chunk007_covers)))"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/All.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk000.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk001.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk002.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk003.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk004.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk005.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk006.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/NonIdentity/Chunk007.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "line": 19,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (NonIdentityPilotCovered limit) 0 limit"
+        },
+        {
+          "line": 21,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (TranslationPilotCovered limit) 0 limit"
+        },
+        {
+          "line": 26,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (NonIdentityPilotCovered 4096) 0 4096 :="
+        },
+        {
+          "line": 30,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval (TranslationPilotCovered 4096) 0 4096 :="
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Root.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 19,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 23,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 27,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "def SemanticBoundedEvidence.toFamilyIntervalEvidence"
+        },
+        {
+          "line": 29,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "FamilyIntervalEvidence lo hi where"
+        },
+        {
+          "line": 68,
+          "symbol": "currentBoundedCompleteForInterval",
+          "text": "Cuboctahedron.Generated.PublicEvidence.currentBoundedCompleteForInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Semantic.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "currentBoundedCompleteForInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 21,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        },
+        {
+          "line": 23,
+          "symbol": "CoversInterval",
+          "text": "(Coverage.CoversInterval.concat (Coverage.CoversInterval.concat (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk000_covers Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk001_covers) (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk002_covers Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk003_covers)) (Coverage.CoversInterval.concat (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk004_covers Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk005_covers) (Coverage.CoversInterval.concat Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk006_covers Cuboctahedron.Generated.SymmetryEvidence.Translation.chunk007_covers)))"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/All.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk000.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk001.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk002.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk003.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk004.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk005.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk006.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "line": 14,
+          "symbol": "CoversInterval",
+          "text": "Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/SymmetryEvidence/Translation/Chunk007.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "final_adapter",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 30,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 55,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "Cuboctahedron/Generated/Translation/Coverage/All.lean",
+      "rationale": "small rank-facing bridge or reusable coverage primitive, not generated heavy evidence",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 43,
+      "occurrences": [
+        {
+          "line": 2348,
+          "symbol": "RankInterval",
+          "text": "structure RankInterval where"
+        },
+        {
+          "line": 2353,
+          "symbol": "RankInterval",
+          "text": "def RankInterval.ContainsPairRank"
+        },
+        {
+          "line": 2354,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) (r : Fin numPairWords) : Prop :="
+        },
+        {
+          "line": 2357,
+          "symbol": "RankInterval",
+          "text": "def checkRankIntervalContainsPairRank"
+        },
+        {
+          "line": 2358,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) (r : Fin numPairWords) : Bool :="
+        },
+        {
+          "line": 2362,
+          "symbol": "RankInterval",
+          "text": "theorem checkRankIntervalContainsPairRank_sound"
+        },
+        {
+          "line": 2363,
+          "symbol": "RankInterval",
+          "text": "{interval : RankInterval} {r : Fin numPairWords}"
+        },
+        {
+          "line": 2364,
+          "symbol": "RankInterval",
+          "text": "(hcheck : checkRankIntervalContainsPairRank interval r = true) :"
+        },
+        {
+          "line": 2366,
+          "symbol": "RankInterval",
+          "text": "simpa [checkRankIntervalContainsPairRank, RankInterval.ContainsPairRank]"
+        },
+        {
+          "line": 2369,
+          "symbol": "RankInterval",
+          "text": "theorem checkRankIntervalContainsPairRank_complete"
+        },
+        {
+          "line": 2370,
+          "symbol": "RankInterval",
+          "text": "{interval : RankInterval} {r : Fin numPairWords}"
+        },
+        {
+          "line": 2372,
+          "symbol": "RankInterval",
+          "text": "checkRankIntervalContainsPairRank interval r = true := by"
+        },
+        {
+          "line": 2373,
+          "symbol": "RankInterval",
+          "text": "simpa [checkRankIntervalContainsPairRank, RankInterval.ContainsPairRank]"
+        },
+        {
+          "line": 2376,
+          "symbol": "RankInterval",
+          "text": "def RankInterval.ContainsCanonicalPairCoverage"
+        },
+        {
+          "line": 2377,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) (coverage : CanonicalPairCoverage) :"
+        },
+        {
+          "line": 2382,
+          "symbol": "RankInterval",
+          "text": "def checkRankIntervalContainsCanonicalPairCoverage"
+        },
+        {
+          "line": 2383,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) (coverage : CanonicalPairCoverage) : Bool :="
+        },
+        {
+          "line": 2387,
+          "symbol": "RankInterval",
+          "text": "def checkRankInterval (interval : RankInterval) : Bool :="
+        },
+        {
+          "line": 2510,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) (family : NonIdFamilyCert) : Bool :="
+        },
+        {
+          "line": 2511,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval interval &&"
+        },
+        {
+          "line": 2554,
+          "symbol": "RankInterval",
+          "text": "{interval : RankInterval} {family : NonIdFamilyCert}"
+        },
+        {
+          "line": 2581,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) : NonIdCoverageLeaf -> Bool"
+        },
+        {
+          "line": 2584,
+          "symbol": "RankInterval",
+          "text": "(checkRankIntervalContainsCanonicalPairCoverage interval coverage &&"
+        },
+        {
+          "line": 2589,
+          "symbol": "RankInterval",
+          "text": "(checkRankIntervalContainsCanonicalPairCoverage interval coverage &&"
+        },
+        {
+          "line": 2596,
+          "symbol": "RankInterval",
+          "text": "(interval : RankInterval) (leaf : NonIdCoverageLeaf) : Bool :="
+        },
+        {
+          "line": 2597,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval interval &&"
+        },
+        {
+          "line": 2609,
+          "symbol": "RankInterval",
+          "text": "{interval : RankInterval} {leaf : NonIdCoverageLeaf}"
+        },
+        {
+          "line": 2620,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval interval = true /\\"
+        },
+        {
+          "line": 2630,
+          "symbol": "RankInterval",
+          "text": "(checkRankIntervalContainsCanonicalPairCoverage interval coverage &&"
+        },
+        {
+          "line": 2638,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval interval = true /\\"
+        },
+        {
+          "line": 2648,
+          "symbol": "RankInterval",
+          "text": "(checkRankIntervalContainsCanonicalPairCoverage interval coverage &&"
+        },
+        {
+          "line": 2658,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval interval = true /\\"
+        },
+        {
+          "line": 2666,
+          "symbol": "RankInterval",
+          "text": "| leaf (interval : RankInterval) (leaf : NonIdCoverageLeaf)"
+        },
+        {
+          "line": 2667,
+          "symbol": "RankInterval",
+          "text": "| branch (interval : RankInterval) (children : List NonIdCoverageTree)"
+        },
+        {
+          "line": 2670,
+          "symbol": "RankInterval",
+          "text": "def NonIdCoverageTree.interval : NonIdCoverageTree -> RankInterval"
+        },
+        {
+          "line": 2714,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval interval &&"
+        },
+        {
+          "line": 2762,
+          "symbol": "RankInterval",
+          "text": "\u00b7 unfold RankInterval.ContainsPairRank"
+        },
+        {
+          "line": 2907,
+          "symbol": "RankInterval",
+          "text": "interval : RankInterval"
+        },
+        {
+          "line": 2919,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval family.interval"
+        },
+        {
+          "line": 2965,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval family.interval"
+        },
+        {
+          "line": 2977,
+          "symbol": "RankInterval",
+          "text": "(checkRankIntervalContainsPairRank family.interval r &&"
+        },
+        {
+          "line": 2987,
+          "symbol": "RankInterval",
+          "text": "checkRankIntervalContainsPairRank family.interval r = true /\\"
+        },
+        {
+          "line": 3006,
+          "symbol": "RankInterval",
+          "text": "exact checkRankIntervalContainsPairRank_sound"
+        }
+      ],
+      "path": "Cuboctahedron/Search/Certificates.lean",
+      "rationale": "unclassified Lean source uses rank intervals as proof data",
+      "symbols": [
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 3,
+      "occurrences": [
+        {
+          "line": 32,
+          "symbol": "RankInterval",
+          "text": "def interval (fam : NonIdBadDirFamily) : RankInterval :="
+        },
+        {
+          "line": 43,
+          "symbol": "RankInterval",
+          "text": "def interval (fam : NonIdBadBalanceFamily) : RankInterval :="
+        },
+        {
+          "line": 54,
+          "symbol": "RankInterval",
+          "text": "def interval (fam : NonIdResidualFamily) : RankInterval :="
+        }
+      ],
+      "path": "Cuboctahedron/Search/NonIdentityFamilies.lean",
+      "rationale": "search/checker API still packages family coverage around RankInterval",
+      "symbols": [
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 9,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "bounded `FamilyIntervalEvidence` value for ranks [13,16) using the checked"
+        },
+        {
+          "line": 25,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 43,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 62,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 69,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 72,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 82,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 91,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 96,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 101,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence 13 16 where"
+        },
+        {
+          "line": 108,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 113,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/family_interval_shards/Shard000000013_000000016/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 9,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "bounded `FamilyIntervalEvidence` value for ranks [102,103) using the checked"
+        },
+        {
+          "line": 25,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 41,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 52,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 59,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 62,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 72,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 81,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 86,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 91,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence 102 103 where"
+        },
+        {
+          "line": 98,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 103,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/family_interval_shards/Shard000000102_000000103/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 9,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "bounded `FamilyIntervalEvidence` value for ranks [104,106) using the checked"
+        },
+        {
+          "line": 25,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 42,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 57,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 64,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 67,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 77,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 86,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 91,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 96,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence 104 106 where"
+        },
+        {
+          "line": 103,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 108,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/family_interval_shards/Shard000000104_000000106/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 9,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "bounded `FamilyIntervalEvidence` value for ranks [159,160) using the checked"
+        },
+        {
+          "line": 25,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 41,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 52,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 59,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 62,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 72,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 81,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 86,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 91,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence 159 160 where"
+        },
+        {
+          "line": 98,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 103,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/family_interval_shards/Shard000000159_000000160/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 1261,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 1403,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/prefix_pruning/BadDirection090_096/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 586,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 687,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/prefix_pruning/BadPairBalance102/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 2497,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 2747,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/prefix_pruning/DiscoveredBadDirection_000002694_000002706/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 2497,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 2747,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/prefix_pruning/DiscoveredBadDirection_000002778_000002790/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 592,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 720,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/prefix_pruning/uniformBadDirection_000000000_000000003/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 592,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 720,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/prefix_pruning/uniformBadDirection_000000003_000000006/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 420,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 423,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single rank_certified"
+        },
+        {
+          "line": 426,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 445,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 448,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/RootFixSmokeNonId/NonIdentity/Rank000000001.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "line": 27,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 35,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 43,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 49,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/public_interval_shards/RootFixSmokeNonId/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 415,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 418,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single rank_certified"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000002/NonIdentity/Rank000000001.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 420,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 423,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single rank_certified"
+        },
+        {
+          "line": 426,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 445,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 448,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000001.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 420,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 423,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single rank_certified"
+        },
+        {
+          "line": 426,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 445,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 448,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000004.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 420,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 423,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single rank_certified"
+        },
+        {
+          "line": 426,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 445,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 448,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000006.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 420,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 423,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single rank_certified"
+        },
+        {
+          "line": 426,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 445,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 448,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/NonIdentity/Rank000000007.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "line": 274,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 277,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        },
+        {
+          "line": 351,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 354,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000000/AllMasks.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "line": 274,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 277,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        },
+        {
+          "line": 351,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 354,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000002/AllMasks.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "line": 274,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 277,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        },
+        {
+          "line": 351,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 354,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000003/AllMasks.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "line": 274,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 277,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        },
+        {
+          "line": 351,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 354,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/Translation/Rank000000005/AllMasks.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 32,
+      "occurrences": [
+        {
+          "line": 34,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 42,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 50,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 58,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 66,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 74,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 82,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 90,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 98,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 106,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 114,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 122,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 130,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 138,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 146,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 154,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 162,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 165,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 166,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 167,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 171,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 176,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 177,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 181,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 189,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 192,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 193,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 194,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 198,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 203,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 204,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        },
+        {
+          "line": 208,
+          "symbol": "CoversInterval",
+          "text": "(Cuboctahedron.Generated.Coverage.CoversInterval.concat"
+        }
+      ],
+      "path": "evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 412,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 415,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.single publicSmokeNonId000000001_rank_certified"
+        }
+      ],
+      "path": "evidence/public_interval_smoke/NonIdentity.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 5,
+      "occurrences": [
+        {
+          "line": 7,
+          "symbol": "CoversInterval",
+          "text": "`CoversInterval.concat` applications. It remains outside the default"
+        },
+        {
+          "line": 27,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 35,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 43,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 49,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/symmetry_semantic_shards/Group000/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 2,
+      "occurrences": [
+        {
+          "line": 25,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 33,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/symmetry_semantic_shards/Shard000000000_000000008/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 11,
+      "occurrences": [
+        {
+          "line": 3150,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 3173,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 3212,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 3219,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 3222,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 3232,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 3241,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 3246,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 3251,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence"
+        },
+        {
+          "line": 3259,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 3265,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/synthesized_family_intervals/Run000000422_000000430_badDirectionSign/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 11,
+      "occurrences": [
+        {
+          "line": 5100,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 5128,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 5187,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 5194,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 5197,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 5207,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 5216,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 5221,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 5226,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence"
+        },
+        {
+          "line": 5234,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 5240,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "evidence/synthesized_family_intervals/Run000000468_000000481_badDirectionSign/VerifiedRoot.lean",
+      "rationale": "bounded smoke/diagnostic evidence retained for reference, not a forward compression path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 3,
+      "occurrences": [
+        {
+          "line": 5752,
+          "symbol": "PublicCoverageIntervals",
+          "text": "\"PublicCoverageIntervals\","
+        },
+        {
+          "line": 5753,
+          "symbol": "PublicCoverageIntervals",
+          "text": "\"PublicCoverageIntervals.toBridges\","
+        },
+        {
+          "line": 5754,
+          "symbol": "exhaustiveGeneratedCoverageOfIntervals",
+          "text": "\"exhaustiveGeneratedCoverageOfIntervals\","
+        }
+      ],
+      "path": "scripts/check_certificates_independently.py",
+      "rationale": "script-side diagnostic/checking utility; not trusted proof evidence",
+      "symbols": [
+        "PublicCoverageIntervals",
+        "exhaustiveGeneratedCoverageOfIntervals"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 29,
+      "occurrences": [
+        {
+          "line": 2877,
+          "symbol": "RankInterval",
+          "text": "\"def rankInterval (rank : Nat) : RankInterval where\","
+        },
+        {
+          "line": 2947,
+          "symbol": "RankInterval",
+          "text": "\"  simp [rankInterval, checkRankInterval,\","
+        },
+        {
+          "line": 2948,
+          "symbol": "RankInterval",
+          "text": "\"    checkRankIntervalContainsCanonicalPairCoverage,\","
+        },
+        {
+          "line": 2960,
+          "symbol": "RankInterval",
+          "text": "\"  simp [rankInterval, checkRankInterval,\","
+        },
+        {
+          "line": 2961,
+          "symbol": "RankInterval",
+          "text": "\"    checkRankIntervalContainsCanonicalPairCoverage,\","
+        },
+        {
+          "line": 2971,
+          "symbol": "RankInterval",
+          "text": "\"    checkRankInterval, NonIdCoverageTree.interval]\","
+        },
+        {
+          "line": 2979,
+          "symbol": "RankInterval",
+          "text": "\"    checkRankInterval, NonIdCoverageTree.interval]\","
+        },
+        {
+          "line": 2987,
+          "symbol": "RankInterval",
+          "text": "\"    RankInterval.ContainsCanonicalPairCoverage, nonIdRawCoverage]\","
+        },
+        {
+          "line": 2994,
+          "symbol": "RankInterval",
+          "text": "\"    RankInterval.ContainsCanonicalPairCoverage, nonIdTransportCoverage]\","
+        },
+        {
+          "line": 4127,
+          "symbol": "RankInterval",
+          "text": "f\"def {interval_name} : RankInterval where\","
+        },
+        {
+          "line": 4143,
+          "symbol": "RankInterval",
+          "text": "\"      (checkRankInterval { startRank := \" + str(family[\"startRank\"]) +"
+        },
+        {
+          "line": 4151,
+          "symbol": "RankInterval",
+          "text": "\"  simp [checkRankInterval, checkNonIdFamilyEntries,\","
+        },
+        {
+          "line": 4160,
+          "symbol": "RankInterval",
+          "text": "f\"      (checkRankInterval {interval_name} &&\","
+        },
+        {
+          "line": 4163,
+          "symbol": "RankInterval",
+          "text": "f\"  simp [{interval_name}, checkRankInterval]\","
+        },
+        {
+          "line": 4177,
+          "symbol": "RankInterval",
+          "text": "f\"    {leaf_check}, checkRankInterval,\","
+        },
+        {
+          "line": 7292,
+          "symbol": "CoversInterval",
+          "text": "Generated chunk/group modules should prove `CoversInterval` theorems for either"
+        },
+        {
+          "line": 7313,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 7336,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 7375,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 7400,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 7725,
+          "symbol": "CoversInterval",
+          "text": "\"Cuboctahedron.Generated.Coverage.CoversInterval.concat \""
+        },
+        {
+          "line": 7779,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 7830,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 9703,
+          "symbol": "RankInterval",
+          "text": "\"def sampleBadDirectionParametricInterval : RankInterval where\","
+        },
+        {
+          "line": 9721,
+          "symbol": "RankInterval",
+          "text": "\"    simp [RankInterval.ContainsPairRank, sampleBadDirectionParametricInterval] at hcontains\","
+        },
+        {
+          "line": 9743,
+          "symbol": "RankInterval",
+          "text": "\"    sampleBadDirectionParametricInterval, checkRankInterval, numPairWords]\","
+        },
+        {
+          "line": 9754,
+          "symbol": "RankInterval",
+          "text": "\"def sampleBadPairBalanceParametricInterval : RankInterval where\","
+        },
+        {
+          "line": 9770,
+          "symbol": "RankInterval",
+          "text": "\"    simp [RankInterval.ContainsPairRank, sampleBadPairBalanceParametricInterval] at hcontains\","
+        },
+        {
+          "line": 9782,
+          "symbol": "RankInterval",
+          "text": "\"    sampleBadPairBalanceParametricInterval, checkRankInterval, numPairWords]\","
+        }
+      ],
+      "path": "scripts/generate_exact_certificates.py",
+      "rationale": "generator still emits rank/interval proof objects and is not the Phase 6L path",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 19,
+      "occurrences": [
+        {
+          "line": 5,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "It emits roots whose public surface is `FamilyIntervalEvidence lo hi`, not"
+        },
+        {
+          "line": 193,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "bounded `FamilyIntervalEvidence` value for ranks [{lo},{hi}) using the checked"
+        },
+        {
+          "line": 209,
+          "symbol": "RankInterval",
+          "text": "private def familyInterval : RankInterval where"
+        },
+        {
+          "line": 224,
+          "symbol": "RankInterval",
+          "text": "simp [RankInterval.ContainsPairRank, familyInterval] at hcontains"
+        },
+        {
+          "line": 230,
+          "symbol": "RankInterval",
+          "text": "checkRankInterval, numPairWords]"
+        },
+        {
+          "line": 237,
+          "symbol": "RankInterval",
+          "text": "RankInterval.ContainsPairRank] using And.intro hlo hhi"
+        },
+        {
+          "line": 240,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 250,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 259,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval"
+        },
+        {
+          "line": 264,
+          "symbol": "TranslationWitnessInterval",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval"
+        },
+        {
+          "line": 269,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence {lo} {hi} where"
+        },
+        {
+          "line": 276,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 281,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 306,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 309,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.empty _ (Nat.le_refl {lo})"
+        },
+        {
+          "line": 312,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 315,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval.empty _ (Nat.le_refl {lo})"
+        },
+        {
+          "line": 318,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence {lo} {hi} where"
+        },
+        {
+          "line": 339,
+          "symbol": "CoversInterval",
+          "text": "\"proof_source\": \"CoversInterval.empty\","
+        }
+      ],
+      "path": "scripts/generate_family_interval_evidence.py",
+      "rationale": "generator still emits rank/interval proof objects and is not the Phase 6L path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    },
+    {
+      "category": "historical_diagnostic",
+      "occurrence_count": 8,
+      "occurrences": [
+        {
+          "line": 824,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 868,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 977,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 1078,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 1298,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 1350,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        },
+        {
+          "line": 1401,
+          "symbol": "RankInterval",
+          "text": "Cuboctahedron.Generated.Coverage.PrefixRankInterval"
+        },
+        {
+          "line": 1434,
+          "symbol": "CoversInterval",
+          "text": "Cuboctahedron.Generated.Coverage.CoversInterval"
+        }
+      ],
+      "path": "scripts/generate_prefix_pruning_prototype.py",
+      "rationale": "script-side diagnostic/checking utility; not trusted proof evidence",
+      "symbols": [
+        "CoversInterval",
+        "RankInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 19,
+      "occurrences": [
+        {
+          "line": 181,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval\","
+        },
+        {
+          "line": 185,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval\","
+        },
+        {
+          "line": 192,
+          "symbol": "currentBoundedCompleteForInterval",
+          "text": "f\"def currentBoundedCompleteForInterval : Bool := {str(complete_for_interval).lower()}\","
+        },
+        {
+          "line": 292,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 295,
+          "symbol": "CoversInterval",
+          "text": "f\"  Cuboctahedron.Generated.Coverage.CoversInterval.single {theorem_name}\","
+        },
+        {
+          "line": 298,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 317,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 320,
+          "symbol": "CoversInterval",
+          "text": "\"  Cuboctahedron.Generated.Coverage.CoversInterval.single\","
+        },
+        {
+          "line": 469,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 472,
+          "symbol": "CoversInterval",
+          "text": "\"  Cuboctahedron.Generated.Coverage.CoversInterval.single\","
+        },
+        {
+          "line": 486,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 489,
+          "symbol": "CoversInterval",
+          "text": "\"  Cuboctahedron.Generated.Coverage.CoversInterval.single\","
+        },
+        {
+          "line": 550,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 553,
+          "symbol": "CoversInterval",
+          "text": "f\"  Cuboctahedron.Generated.Coverage.CoversInterval.single {name}_rank_certified\","
+        },
+        {
+          "line": 886,
+          "symbol": "CoversInterval",
+          "text": "indent + \"(Cuboctahedron.Generated.Coverage.CoversInterval.concat\","
+        },
+        {
+          "line": 942,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 950,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 960,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 966,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        }
+      ],
+      "path": "scripts/generate_public_interval_evidence.py",
+      "rationale": "generator still emits rank/interval proof objects and is not the Phase 6L path",
+      "symbols": [
+        "CoversInterval",
+        "currentBoundedCompleteForInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 10,
+      "occurrences": [
+        {
+          "line": 816,
+          "symbol": "CoversInterval",
+          "text": "return f\"(Coverage.CoversInterval.concat {left} {right})\""
+        },
+        {
+          "line": 841,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval (BoundedRankPlanned limit) lo hi := by\\n\""
+        },
+        {
+          "line": 846,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval (NonIdentityPilotCovered limit) lo hi := by\\n\""
+        },
+        {
+          "line": 850,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval (TranslationPilotCovered limit) lo hi := by\\n\""
+        },
+        {
+          "line": 871,
+          "symbol": "CoversInterval",
+          "text": "f\"    Coverage.CoversInterval\\n\""
+        },
+        {
+          "line": 899,
+          "symbol": "CoversInterval",
+          "text": "f\"    Coverage.CoversInterval\\n\""
+        },
+        {
+          "line": 938,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval (NonIdentityPilotCovered limit) 0 limit\\n\""
+        },
+        {
+          "line": 940,
+          "symbol": "CoversInterval",
+          "text": "\"    Coverage.CoversInterval (TranslationPilotCovered limit) 0 limit\\n\\n\""
+        },
+        {
+          "line": 943,
+          "symbol": "CoversInterval",
+          "text": "f\"    Coverage.CoversInterval (NonIdentityPilotCovered {limit}) 0 {limit} :=\\n\""
+        },
+        {
+          "line": 946,
+          "symbol": "CoversInterval",
+          "text": "f\"    Coverage.CoversInterval (TranslationPilotCovered {limit}) 0 {limit} :=\\n\""
+        }
+      ],
+      "path": "scripts/generate_symmetry_evidence.py",
+      "rationale": "generator still emits rank/interval proof objects and is not the Phase 6L path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 8,
+      "occurrences": [
+        {
+          "line": 123,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 131,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 159,
+          "symbol": "CoversInterval",
+          "text": "indent + \"(Cuboctahedron.Generated.Coverage.CoversInterval.concat\","
+        },
+        {
+          "line": 186,
+          "symbol": "CoversInterval",
+          "text": "\"`CoversInterval.concat` applications. It remains outside the default\","
+        },
+        {
+          "line": 220,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 228,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 238,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 244,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        }
+      ],
+      "path": "scripts/generate_symmetry_semantic_batch.py",
+      "rationale": "generator still emits rank/interval proof objects and is not the Phase 6L path",
+      "symbols": [
+        "CoversInterval"
+      ]
+    },
+    {
+      "category": "legacy_compression",
+      "occurrence_count": 12,
+      "occurrences": [
+        {
+          "line": 7,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "proof-carrying `FamilyIntervalEvidence` roots for a capped subset of those"
+        },
+        {
+          "line": 268,
+          "symbol": "RankInterval",
+          "text": "\"private def familyInterval : RankInterval where\","
+        },
+        {
+          "line": 283,
+          "symbol": "RankInterval",
+          "text": "\"    simp [RankInterval.ContainsPairRank, familyInterval] at hcontains\","
+        },
+        {
+          "line": 289,
+          "symbol": "RankInterval",
+          "text": "\"    checkRankInterval, numPairWords]\","
+        },
+        {
+          "line": 296,
+          "symbol": "RankInterval",
+          "text": "\"    RankInterval.ContainsPairRank] using And.intro hlo hhi\","
+        },
+        {
+          "line": 299,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 309,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 318,
+          "symbol": "NonIdentityWitnessInterval",
+          "text": "\"    Cuboctahedron.Generated.SymmetryEvidence.NonIdentityWitnessInterval\","
+        },
+        {
+          "line": 323,
+          "symbol": "TranslationWitnessInterval",
+          "text": "\"    Cuboctahedron.Generated.SymmetryEvidence.TranslationWitnessInterval\","
+        },
+        {
+          "line": 328,
+          "symbol": "FamilyIntervalEvidence",
+          "text": "\"    Cuboctahedron.Generated.SymmetryEvidence.FamilyIntervalEvidence\","
+        },
+        {
+          "line": 336,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        },
+        {
+          "line": 342,
+          "symbol": "CoversInterval",
+          "text": "\"    Cuboctahedron.Generated.Coverage.CoversInterval\","
+        }
+      ],
+      "path": "scripts/synthesize_family_interval_templates.py",
+      "rationale": "generator still emits rank/interval proof objects and is not the Phase 6L path",
+      "symbols": [
+        "CoversInterval",
+        "FamilyIntervalEvidence",
+        "NonIdentityWitnessInterval",
+        "RankInterval",
+        "TranslationWitnessInterval"
+      ]
+    }
+  ],
+  "mode": "rank-boundary-audit",
+  "scan_roots": [
+    "Cuboctahedron",
+    "scripts",
+    "evidence"
+  ],
+  "schema_version": 1,
+  "symbols": [
+    "CoversInterval",
+    "RankInterval",
+    "FamilyIntervalEvidence",
+    "NonIdentityWitnessInterval",
+    "TranslationWitnessInterval",
+    "PublicCoverageIntervals",
+    "PublicComputableCoverageIntervals",
+    "exhaustiveGeneratedCoverageOfIntervals",
+    "exhaustiveGeneratedCoverageOfComputableIntervals",
+    "currentBoundedCompleteForInterval"
+  ],
+  "trusted_as_proof": false
+}
