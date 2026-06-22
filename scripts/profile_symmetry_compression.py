@@ -25,6 +25,9 @@ from exact_profile import (
     EXPECTED_IDENTITY_WORDS,
     EXPECTED_PAIR_WORDS,
     EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+    FACE_NORMALS,
+    FACE_OFFSETS,
+    FACE_ORDER,
     IDENTITY,
     NORMALS,
     PAIR_COUNTS,
@@ -34,6 +37,7 @@ from exact_profile import (
     ZERO_VEC,
     counts_key,
     denom_pattern_key,
+    dot,
     final_axis_dot,
     first_axis_zero_index,
     fixed_part,
@@ -53,6 +57,10 @@ from exact_profile import (
     sym_word,
     translation_constraints,
     translation_vector,
+    total_aff,
+    vec,
+    vec_add,
+    vec_scale,
     transported_mask,
     vec_key,
 )
@@ -87,6 +95,18 @@ DEFAULT_TRANSLATION_STATE_DAG_OUTPUT = (
 DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_empty_cone_profile.json"
 )
+
+
+def default_terminal_residual_census_output(rank_start: int, limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
+        EXPECTED_PAIR_WORDS, rank_start + limit
+    )
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"terminal_residual_census_{rank_start:09d}_{rank_end:09d}.json"
+    )
 
 
 def default_d26_audit_output(rank_start: int, limit: int | None) -> Path:
@@ -220,6 +240,261 @@ def vec_fraction(values: tuple[int, int, int] | tuple[Fraction, Fraction, Fracti
 
 def vec_scale_fraction(scale: Fraction, v: tuple[Fraction, Fraction, Fraction]):
     return (scale * v[0], scale * v[1], scale * v[2])
+
+
+def vec_sub_fraction(
+    a: tuple[Fraction, Fraction, Fraction],
+    b: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, Fraction, Fraction]:
+    return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
+
+
+def aff_apply_fraction(
+    aff: tuple,
+    point: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, Fraction, Fraction]:
+    matrix, offset = aff
+    return vec_add(mat_vec(matrix, point), offset)
+
+
+def reflect_vec_fraction(
+    direction: tuple[Fraction, Fraction, Fraction],
+    normal: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, Fraction, Fraction]:
+    nn = dot(normal, normal)
+    scale = Fraction(2) * dot(normal, direction) / nn
+    return vec_sub_fraction(direction, vec_scale(scale, normal))
+
+
+def solve_linear_system_4(
+    rows: list[list[Fraction]],
+) -> tuple[Fraction, Fraction, Fraction, Fraction] | None:
+    """Solve a 4x4 augmented system exactly, returning ``None`` if singular."""
+
+    if len(rows) != 4 or any(len(row) != 5 for row in rows):
+        raise ValueError("expected a 4x5 augmented matrix")
+    work = [list(row) for row in rows]
+    for col in range(4):
+        pivot = next((row for row in range(col, 4) if work[row][col] != 0), None)
+        if pivot is None:
+            return None
+        if pivot != col:
+            work[col], work[pivot] = work[pivot], work[col]
+        div = work[col][col]
+        work[col] = [entry / div for entry in work[col]]
+        for row in range(4):
+            if row == col:
+                continue
+            factor = work[row][col]
+            if factor == 0:
+                continue
+            work[row] = [
+                work[row][entry] - factor * work[col][entry]
+                for entry in range(5)
+            ]
+    return tuple(work[row][4] for row in range(4))  # type: ignore[return-value]
+
+
+def first_failed_interior_face(
+    point: tuple[Fraction, Fraction, Fraction],
+    hit_face: str,
+) -> tuple[str, Fraction] | None:
+    for face in FACE_ORDER:
+        if face == hit_face:
+            continue
+        margin = FACE_OFFSETS[face] - dot(vec(FACE_NORMALS[face]), point)
+        if margin <= 0:
+            return face, margin
+    return None
+
+
+def next_exact_hit(
+    point: tuple[Fraction, Fraction, Fraction],
+    direction: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, list[str]]:
+    candidates: list[tuple[Fraction, str]] = []
+    for face in FACE_ORDER:
+        normal = vec(FACE_NORMALS[face])
+        den = dot(normal, direction)
+        if den <= 0:
+            continue
+        time = (FACE_OFFSETS[face] - dot(normal, point)) / den
+        if time > 0:
+            candidates.append((time, face))
+    if not candidates:
+        return Fraction(0), []
+    best = min(time for time, _face in candidates)
+    return best, [face for time, face in candidates if time == best]
+
+
+def terminal_axis_candidate_failure(
+    seq: list[str],
+    axis: tuple[Fraction, Fraction, Fraction],
+) -> tuple[str, dict[str, Any], str]:
+    """Classify the exact terminal candidate forced by a nonidentity axis.
+
+    The return value is ``(failure_name, details, reusable_key)``.  This is a
+    profiler-only diagnostic, not trusted proof evidence.
+    """
+
+    aff = total_aff(seq)
+    matrix, offset = aff
+    rows: list[list[Fraction]] = []
+    for row in range(3):
+        rows.append([
+            matrix[row][col] - (Fraction(1) if row == col else Fraction(0))
+            for col in range(3)
+        ] + [-axis[row], -offset[row]])
+    rows.append([Fraction(1), Fraction(0), Fraction(0), Fraction(0), Fraction(1)])
+    solution = solve_linear_system_4(rows)
+    if solution is None:
+        key = f"axisSolveSingular|seq={seq_key(seq)}|axis={vec_key(axis)}"
+        return "axis_solve_singular", {}, key
+
+    point = (solution[0], solution[1], solution[2])
+    start_bad = first_failed_interior_face(point, "xp")
+    if start_bad is not None:
+        bad_face, margin = start_bad
+        key = (
+            "axisMissesStartInterior"
+            f"|badFace={bad_face}|margin={fraction_key(margin)}"
+            f"|seq={seq_key(seq)}|axis={vec_key(axis)}"
+        )
+        return (
+            "axis_misses_start_interior",
+            {
+                "bad_face": bad_face,
+                "margin": fraction_key(margin),
+                "p0": vec_key(point),
+                "lambda": fraction_key(solution[3]),
+            },
+            key,
+        )
+
+    image = aff_apply_fraction(aff, point)
+    direction = vec_sub_fraction(image, point)
+    if direction == ZERO_VEC:
+        key = f"axisZeroDirection|seq={seq_key(seq)}|axis={vec_key(axis)}"
+        return (
+            "axis_zero_direction",
+            {"p0": vec_key(point), "lambda": fraction_key(solution[3])},
+            key,
+        )
+
+    inward = dot(vec(FACE_NORMALS["xp"]), direction)
+    if inward >= 0:
+        key = (
+            "axisDirectionNotInward"
+            f"|inward={fraction_key(inward)}|seq={seq_key(seq)}|axis={vec_key(axis)}"
+        )
+        return (
+            "axis_direction_not_inward",
+            {
+                "p0": vec_key(point),
+                "w": vec_key(direction),
+                "inward_dot": fraction_key(inward),
+            },
+            key,
+        )
+
+    current_point = point
+    current_direction = direction
+    expected = seq[1:] + [seq[0]]
+    for step, expected_face in enumerate(expected):
+        hit_time, hits = next_exact_hit(current_point, current_direction)
+        if not hits:
+            key = (
+                f"noFutureHit|step={step}|expected={expected_face}"
+                f"|seq={seq_key(seq)}|axis={vec_key(axis)}"
+            )
+            return (
+                "no_future_hit",
+                {
+                    "step": step,
+                    "expected": expected_face,
+                    "p": vec_key(current_point),
+                    "v": vec_key(current_direction),
+                },
+                key,
+            )
+        if len(hits) != 1:
+            key = (
+                f"hitTie|step={step}|expected={expected_face}"
+                f"|actual={','.join(hits)}|seq={seq_key(seq)}|axis={vec_key(axis)}"
+            )
+            return (
+                "hit_tie",
+                {
+                    "step": step,
+                    "expected": expected_face,
+                    "actual": hits,
+                    "time": fraction_key(hit_time),
+                },
+                key,
+            )
+        hit = hits[0]
+        if hit != expected_face:
+            key = (
+                f"firstHitMismatch|step={step}|expected={expected_face}|actual={hit}"
+                f"|seq={seq_key(seq)}|axis={vec_key(axis)}"
+            )
+            return (
+                "first_hit_mismatch",
+                {
+                    "step": step,
+                    "expected": expected_face,
+                    "actual": hit,
+                    "time": fraction_key(hit_time),
+                },
+                key,
+            )
+        current_point = vec_add(current_point, vec_scale(hit_time, current_direction))
+        hit_bad = first_failed_interior_face(current_point, hit)
+        if hit_bad is not None:
+            bad_face, margin = hit_bad
+            key = (
+                f"hitInteriorFailure|step={step}|hit={hit}|badFace={bad_face}"
+                f"|margin={fraction_key(margin)}|seq={seq_key(seq)}|axis={vec_key(axis)}"
+            )
+            return (
+                "hit_interior_failure",
+                {
+                    "step": step,
+                    "hit": hit,
+                    "bad_face": bad_face,
+                    "margin": fraction_key(margin),
+                    "point": vec_key(current_point),
+                },
+                key,
+            )
+        current_direction = reflect_vec_fraction(
+            current_direction,
+            vec(FACE_NORMALS[hit]),
+        )
+
+    if current_point != point or current_direction != direction:
+        key = f"periodicClosureFailure|seq={seq_key(seq)}|axis={vec_key(axis)}"
+        return (
+            "periodic_closure_failure",
+            {
+                "p0": vec_key(point),
+                "p14": vec_key(current_point),
+                "w0": vec_key(direction),
+                "w14": vec_key(current_direction),
+            },
+            key,
+        )
+
+    key = f"simulatesValidOrbit|seq={seq_key(seq)}|axis={vec_key(axis)}"
+    return (
+        "simulates_valid_orbit",
+        {
+            "p0": vec_key(point),
+            "w": vec_key(direction),
+            "lambda": fraction_key(solution[3]),
+        },
+        key,
+    )
 
 
 D26_DIRECTIONS: tuple[tuple[Fraction, Fraction, Fraction], ...] = tuple(
@@ -1611,6 +1886,414 @@ class D26AxisAuditProfiler:
             "decision": {
                 "status": status,
                 "notes": notes,
+            },
+        }
+
+
+class TerminalResidualCensusProfiler:
+    """Range-aware census for terminal residual obstruction shapes.
+
+    This is a diagnostic bridge after the prefix/D26/empty-cone attempts failed
+    to meet the leaf gate.  It asks whether the remaining depth-13 obligations
+    share a small number of exact terminal shapes before we design another Lean
+    family backend.
+    """
+
+    def __init__(
+        self,
+        *,
+        rank_start: int,
+        limit: int | None,
+        sample_limit: int,
+        progress_interval: int,
+        max_distinct_tracked: int,
+        use_d4_transport: bool,
+    ) -> None:
+        self.rank_start = rank_start
+        self.rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
+            EXPECTED_PAIR_WORDS, rank_start + limit
+        )
+        self.limit = None if limit is None else self.rank_end - rank_start
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.use_d4_transport = use_d4_transport
+
+        self.prefix_nodes = 0
+        self.prefix_nodes_by_depth: Counter[int] = Counter()
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words = 0
+
+        self.no_fixed_axis = 0
+        self.final_axis_zero = 0
+        self.forced_zero_denominator = 0
+        self.bad_pair_balance = 0
+        self.forced_balance_survivors = 0
+        self.nonidentity_terminal_counts: Counter[str] = Counter()
+        self.nonidentity_obstruction_shapes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.nonidentity_terminal_candidate_shapes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.nonidentity_sequences = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.nonidentity_axes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.nonidentity_samples: dict[str, list[dict[str, Any]]] = {}
+
+        self.translation_sign_assignments = 0
+        self.good_direction_masks = 0
+        self.denominator_nonpositive_masks = 0
+        self.zero_vector_masks = 0
+        self.survivor_mask_histogram: Counter[int] = Counter()
+        self.denominator_degree_histogram: Counter[int] = Counter()
+        self.denominator_signatures = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.survivor_bitsets = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.survivor_shape_maps = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.farkas_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.farkas_shape_reuse_counts: Counter[str] = Counter()
+        self.translation_samples: list[dict[str, Any]] = []
+        self.shape_cache: dict[tuple[str, str], str] = {}
+
+    def canonical_translation_choice(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> tuple[tuple[str, ...], int, int]:
+        if self.use_d4_transport:
+            return canonical_translation_with_symmetry(word, mask)
+        return word, mask, 0
+
+    @staticmethod
+    def denominator_values_for_choice(
+        word: tuple[str, ...],
+        mask: int,
+        pref: list | None = None,
+    ) -> tuple[tuple[Fraction, ...], tuple[Fraction, Fraction, Fraction], list[str]]:
+        b, seq = translation_vector(list(word), mask, pref)
+        prefixes = path_prefix_affs(seq)
+        denoms = tuple(impact_denom(seq, b, impact, prefixes) for impact in range(1, 14))
+        return denoms, b, seq
+
+    def survivor_shape_digest(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> str:
+        _denoms, b, seq = self.denominator_values_for_choice(word, mask)
+        cache_key = (seq_key(seq), vec_key(b))
+        if cache_key not in self.shape_cache:
+            self.shape_cache[cache_key] = stable_digest(
+                normalized_constraints_key(translation_constraints(seq, b))
+            )
+        return self.shape_cache[cache_key]
+
+    def add_nonidentity_sample(
+        self,
+        failure: str,
+        sample: dict[str, Any],
+    ) -> None:
+        bucket = self.nonidentity_samples.setdefault(failure, [])
+        if len(bucket) < self.sample_limit:
+            bucket.append(sample)
+
+    def classify_nonidentity_leaf(
+        self,
+        rank: int,
+        word: tuple[str, ...],
+        pref: list,
+        matrix,
+    ) -> None:
+        self.nonidentity_words += 1
+        try:
+            axis = one_dimensional_fixed_axis(matrix)
+        except ValueError:
+            self.no_fixed_axis += 1
+            key = f"noFixedAxis|linear={mat_key(matrix)}"
+            self.nonidentity_obstruction_shapes.add(key)
+            self.add_nonidentity_sample(
+                "no_fixed_axis",
+                {"rank": rank, "word": word_key(word), "linear": mat_key(matrix)},
+            )
+            return
+
+        final_dot = final_axis_dot(list(word), axis, pref)
+        if final_dot < 0:
+            axis = (-axis[0], -axis[1], -axis[2])
+            final_dot = -final_dot
+        self.nonidentity_axes.add(normalized_axis_key(axis))
+        if final_dot == 0:
+            self.final_axis_zero += 1
+            key = (
+                f"badDirectionSign|zeroAt=final|linear={mat_key(matrix)}"
+                f"|axis={vec_key(axis)}"
+            )
+            self.nonidentity_obstruction_shapes.add(key)
+            self.add_nonidentity_sample(
+                "final_axis_zero",
+                {"rank": rank, "word": word_key(word), "axis": vec_key(axis)},
+            )
+            return
+
+        zero_index = first_axis_zero_index(list(word), axis, pref)
+        if zero_index is not None:
+            self.forced_zero_denominator += 1
+            key = (
+                f"badDirectionSign|zeroAt={zero_index}|linear={mat_key(matrix)}"
+                f"|axis={vec_key(axis)}"
+            )
+            self.nonidentity_obstruction_shapes.add(key)
+            self.add_nonidentity_sample(
+                "forced_zero_denominator",
+                {
+                    "rank": rank,
+                    "word": word_key(word),
+                    "axis": vec_key(axis),
+                    "zero_at": zero_index,
+                },
+            )
+            return
+
+        forced_seq = forced_sequence_from_axis(list(word), axis, pref)
+        sign_pattern = sign_pattern_key(list(word), axis, pref)
+        self.nonidentity_sequences.add(seq_key(forced_seq))
+        if len(set(forced_seq)) != 14:
+            self.bad_pair_balance += 1
+            key = (
+                f"badPairBalance|forcedSigns={sign_pattern}"
+                f"|forcedSeq={seq_key(forced_seq)}"
+            )
+            self.nonidentity_obstruction_shapes.add(key)
+            self.add_nonidentity_sample(
+                "bad_pair_balance",
+                {
+                    "rank": rank,
+                    "word": word_key(word),
+                    "axis": vec_key(axis),
+                    "forced_seq": forced_seq,
+                    "forced_signs": sign_pattern,
+                },
+            )
+            return
+
+        self.forced_balance_survivors += 1
+        failure, details, key = terminal_axis_candidate_failure(forced_seq, axis)
+        self.nonidentity_terminal_counts[failure] += 1
+        self.nonidentity_obstruction_shapes.add(key)
+        self.nonidentity_terminal_candidate_shapes.add(key)
+        sample = {
+            "rank": rank,
+            "word": word_key(word),
+            "axis": vec_key(axis),
+            "normalized_axis": normalized_axis_key(axis),
+            "forced_seq": forced_seq,
+            "failure": failure,
+        }
+        sample.update(details)
+        self.add_nonidentity_sample(failure, sample)
+
+    def classify_translation_leaf(
+        self,
+        rank: int,
+        word: tuple[str, ...],
+        pref: list,
+    ) -> None:
+        self.identity_words += 1
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_bits = 0
+        survivor_shapes: list[tuple[int, str]] = []
+        survivor_shape_by_mask: dict[int, str] = {}
+        max_degree = 0
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+            if all(denom > 0 for denom in denoms):
+                survivor_bits |= 1 << mask
+                self.good_direction_masks += 1
+                canonical_word, canonical_mask, sym_id = self.canonical_translation_choice(
+                    word,
+                    mask,
+                )
+                shape_digest = self.survivor_shape_digest(
+                    canonical_word,
+                    canonical_mask,
+                )
+                survivor_shapes.append((mask, shape_digest))
+                survivor_shape_by_mask[mask] = shape_digest
+                self.farkas_shapes.add(shape_digest)
+                self.farkas_shape_reuse_counts[shape_digest] += 1
+                if len(self.translation_samples) < self.sample_limit:
+                    self.translation_samples.append({
+                        "rank": rank,
+                        "word": word_key(word),
+                        "mask": mask,
+                        "canonical_word": word_key(canonical_word),
+                        "canonical_mask": canonical_mask,
+                        "sym_id": sym_id,
+                        "shape_digest": shape_digest,
+                    })
+            else:
+                self.denominator_nonpositive_masks += 1
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+
+        for values in impact_values:
+            _key, degree = denominator_polynomial_key(values)
+            max_degree = max(max_degree, degree)
+            self.denominator_degree_histogram[degree] += 1
+        impact_keys: list[str] = []
+        for impact, values in enumerate(impact_values):
+            key, _degree = denominator_polynomial_key(values)
+            impact_keys.append(f"{impact + 1}:{key}")
+        signature_key = "|".join(impact_keys)
+        self.denominator_signatures.add(signature_key)
+        self.survivor_bitsets.add(str(survivor_bits))
+        self.survivor_mask_histogram[len(survivor_shapes)] += 1
+        shape_map_key = "|".join(
+            f"{mask}:{shape_digest}" for mask, shape_digest in survivor_shapes
+        )
+        self.survivor_shape_maps.add(
+            f"sig={stable_digest(signature_key)}|survivors={survivor_bits}|{shape_map_key}"
+        )
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"terminal census scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix == IDENTITY:
+            self.classify_translation_leaf(rank, word, pref)
+        else:
+            self.classify_nonidentity_leaf(rank, word, pref, matrix)
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_hi <= self.rank_start or rank_lo >= self.rank_end:
+                return
+            depth = len(prefix)
+            self.prefix_nodes += 1
+            self.prefix_nodes_by_depth[depth] += 1
+            if len(prefix) == 13:
+                if self.rank_start <= rank_lo < self.rank_end:
+                    self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                child_hi = child_lo + child_width
+                if child_hi > self.rank_start and child_lo < self.rank_end:
+                    prefix.append(pair_id)
+                    pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                    rec(child_lo)
+                    pref.pop()
+                    prefix.pop()
+                remaining[pair_id] += 1
+                child_lo = child_hi
+                if child_lo >= self.rank_end:
+                    break
+
+        rec(0)
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        return {
+            "schema_version": 1,
+            "mode": "terminal-residual-census",
+            "trusted_as_proof": False,
+            "elapsed_seconds": elapsed_seconds,
+            "rank_window": {
+                "start": self.rank_start,
+                "end": self.rank_end,
+                "width": self.rank_end - self.rank_start,
+            },
+            "options": {
+                "symmetry": "started-face D4" if self.use_d4_transport else "none",
+                "good_direction_impacts": "1..13",
+                "nonidentity_terminal_simulation": "exact Fraction first-hit simulation",
+                "emits_bad_direction_evidence": False,
+            },
+            "prefix": {
+                "nodes_visited": self.prefix_nodes,
+                "nodes_by_depth": dict(sorted(self.prefix_nodes_by_depth.items())),
+            },
+            "counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_words": self.identity_words,
+                "nonidentity_words": self.nonidentity_words,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "nonidentity_no_fixed_axis": self.no_fixed_axis,
+                "nonidentity_final_axis_zero": self.final_axis_zero,
+                "nonidentity_forced_zero_denominator": self.forced_zero_denominator,
+                "nonidentity_bad_pair_balance": self.bad_pair_balance,
+                "nonidentity_forced_balance_survivors": self.forced_balance_survivors,
+            },
+            "nonidentity": {
+                "terminal_failure_counts": dict(
+                    sorted(self.nonidentity_terminal_counts.items())
+                ),
+                "distinct_obstruction_shapes": (
+                    self.nonidentity_obstruction_shapes.payload()
+                ),
+                "distinct_terminal_candidate_shapes": (
+                    self.nonidentity_terminal_candidate_shapes.payload()
+                ),
+                "distinct_forced_sequences": self.nonidentity_sequences.payload(),
+                "distinct_axes": self.nonidentity_axes.payload(),
+                "samples": self.nonidentity_samples,
+            },
+            "translation": {
+                "survivor_density": (
+                    self.good_direction_masks / self.translation_sign_assignments
+                    if self.translation_sign_assignments
+                    else None
+                ),
+                "survivor_mask_histogram": dict(
+                    sorted(self.survivor_mask_histogram.items())
+                ),
+                "denominator_degree_histogram": dict(
+                    sorted(self.denominator_degree_histogram.items())
+                ),
+                "unique_denominator_signatures": self.denominator_signatures.payload(),
+                "unique_survivor_bitsets": self.survivor_bitsets.payload(),
+                "unique_survivor_shape_maps": self.survivor_shape_maps.payload(),
+                "unique_normalized_farkas_shapes": self.farkas_shapes.payload(),
+                "farkas_shape_reuse": {
+                    "shape_count": len(self.farkas_shape_reuse_counts),
+                    "shared_shape_count": sum(
+                        1 for count in self.farkas_shape_reuse_counts.values()
+                        if count > 1
+                    ),
+                    "max_reuse": max(
+                        self.farkas_shape_reuse_counts.values(),
+                        default=0,
+                    ),
+                },
+                "samples": self.translation_samples,
+            },
+            "decision": {
+                "status": "profile",
+                "notes": [
+                    "This census is untrusted and emits no Lean evidence.",
+                    "Use it to decide whether terminal residual shapes are shared enough for a new family backend.",
+                ],
             },
         }
 
@@ -4470,6 +5153,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_state_dag),
         bool(args.nonidentity_empty_cone_tree),
         bool(args.nonidentity_d26_audit),
+        bool(args.terminal_residual_census),
     ])
     if mode_count > 1:
         raise SystemExit(
@@ -4478,11 +5162,16 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-baddir-common-impact-tree, and "
             "--translation-survivors, --translation-survivor-mask-tree, "
             "--translation-state-dag, --nonidentity-empty-cone-tree, "
-            "and --nonidentity-d26-audit "
+            "--nonidentity-d26-audit, and --terminal-residual-census "
             "are mutually exclusive"
         )
-    if args.rank_start != 0 and not args.nonidentity_d26_audit:
-        raise SystemExit("--rank-start is currently supported only with --nonidentity-d26-audit")
+    if args.rank_start != 0 and not (
+        args.nonidentity_d26_audit or args.terminal_residual_census
+    ):
+        raise SystemExit(
+            "--rank-start is currently supported only with "
+            "--nonidentity-d26-audit or --terminal-residual-census"
+        )
     if not (0 <= args.rank_start <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--rank-start must be between 0 and {EXPECTED_PAIR_WORDS}")
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
@@ -4857,6 +5546,52 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "terminal-residual-census":
+        window = payload["rank_window"]
+        counts = payload["counts"]
+        nonidentity = payload["nonidentity"]
+        translation = payload["translation"]
+        print("terminal residual census")
+        print(
+            "rank window: "
+            f"[{window['start']:,}, {window['end']:,}) "
+            f"width {window['width']:,}"
+        )
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity words: {counts['identity_words']:,}")
+        print(f"nonidentity words: {counts['nonidentity_words']:,}")
+        print(
+            "nonidentity forced-balance survivors: "
+            f"{counts['nonidentity_forced_balance_survivors']:,}"
+        )
+        print(
+            "nonidentity obstruction shapes: "
+            f"{nonidentity['distinct_obstruction_shapes']['lower_bound']}"
+        )
+        print(
+            "nonidentity terminal candidate shapes: "
+            f"{nonidentity['distinct_terminal_candidate_shapes']['lower_bound']}"
+        )
+        print(
+            "nonidentity terminal failures: "
+            f"{nonidentity['terminal_failure_counts']}"
+        )
+        print(
+            "GoodDirection survivor masks: "
+            f"{counts['good_direction_survivor_masks']:,}"
+        )
+        print(
+            "translation survivor shape maps: "
+            f"{translation['unique_survivor_shape_maps']['lower_bound']}"
+        )
+        print(
+            "translation normalized Farkas shapes: "
+            f"{translation['unique_normalized_farkas_shapes']['lower_bound']}"
+        )
+        for note in payload["decision"]["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "nonidentity-empty-cone-profile":
         prefix = payload["prefix"]
         tiling = payload["tiling"]
@@ -5222,6 +5957,11 @@ def main() -> None:
         action="store_true",
         help="audit whether nonidentity fixed axes are parallel to the 26 cube-symmetry directions",
     )
+    parser.add_argument(
+        "--terminal-residual-census",
+        action="store_true",
+        help="profile exact terminal nonidentity shapes plus translation GoodDirection survivors",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -5260,13 +6000,29 @@ def main() -> None:
             output = DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT
         elif args.nonidentity_d26_audit:
             output = default_d26_audit_output(args.rank_start, args.limit)
+        elif args.terminal_residual_census:
+            output = default_terminal_residual_census_output(args.rank_start, args.limit)
         else:
             output = DEFAULT_OUTPUT
 
     import time
 
     start = time.monotonic()
-    if args.nonidentity_d26_audit:
+    if args.terminal_residual_census:
+        terminal_profiler = TerminalResidualCensusProfiler(
+            rank_start=args.rank_start,
+            limit=args.limit,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            max_distinct_tracked=args.max_distinct_tracked,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        terminal_profiler.traverse()
+        rejected = False
+        payload = terminal_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.nonidentity_d26_audit:
         d26_profiler = D26AxisAuditProfiler(
             rank_start=args.rank_start,
             limit=args.limit,

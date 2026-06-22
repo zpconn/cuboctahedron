@@ -125,7 +125,7 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, and the D26 finite-axis hypothesis all fail bounded gates. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -266,9 +266,10 @@ Immediate next work:
    strategy. All three are retired.
 4. Do not emit Lean from raw survivor-map grouping; the `[0,100000)` profile
    already projects 5,565 heavy leaves.
-5. Implement Phase 6J geometric prefix filters. Phase 6H mask-tree/cube and
-   Phase 6I word/state DAG profiling fragmented and should not be emitted as
-   Lean evidence.
+5. Do not scale Phase 6J geometric prefix filters. Phase 6H mask-tree/cube,
+   Phase 6I word/state DAG profiling, Phase 6J empty-cone/D26 filters, and
+   Phase 6K terminal residual shape grouping fragmented and should not be
+   emitted as Lean evidence.
 6. Only after a later compression gate falls below the 2,000-leaf hard gate,
    emit hierarchical generated coverage roots.
 
@@ -1548,6 +1549,56 @@ GoodDirection survivor, mask-tree, and state-DAG gates all rejected.
    and the D26 audit shows the nonidentity survivor axis space is much larger
    than the cube symmetry axes.
 
+### Phase 6K: Terminal Residual Shape Census
+
+Status: implemented and rejected as a standalone compression direction.
+
+This diagnostic asks whether, after the known necessary gates, the remaining
+depth-13 obligations share a small number of exact terminal obstruction shapes.
+It combines two measurements in a single range-aware profiler:
+
+- nonidentity terminal candidate classification by exact rational affine-axis
+  solve and exact first-hit simulation;
+- translation GoodDirection survivor shape/Farkas reuse, with no generated
+  evidence for denominator-nonpositive masks.
+
+The profiler mode is:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --terminal-residual-census --rank-start 0 --limit 100000 \
+  --progress-interval 20000 \
+  --output scripts/generated/terminal_residual_census_000000000_000100000.json
+```
+
+Smoke/calibration reports were also recorded:
+
+- `scripts/generated/terminal_residual_census_smoke_000000000_000001000.json`
+- `scripts/generated/terminal_residual_census_calibration_000000000_000010000.json`
+
+Current result: rejected on the first full `[0,100000)` gate.
+
+| Metric in `[0,100000)` | Count |
+| --- | ---: |
+| Pair words scanned | 100,000 |
+| Identity words | 5,565 |
+| Nonidentity words | 94,435 |
+| Nonidentity forced-balance survivors | 9,036 |
+| Distinct all nonidentity obstruction keys | 38,073 |
+| Distinct terminal candidate obstruction keys | 9,036 |
+| Axis misses start interior | 8,775 |
+| First-hit mismatch | 251 |
+| Hit tie / edge impact | 10 |
+| GoodDirection survivor masks | 39,710 |
+| Translation survivor shape maps | 5,565 |
+| Translation normalized Farkas shapes | 11,478 |
+
+This is already far above the 2,000-heavy-leaf hard gate, so the remaining
+planned 100k windows were intentionally not run. The result rules out the
+simple idea that terminal exact failures can be grouped by final obstruction
+shape at low-thousands scale. A useful next compression idea must change the
+mathematical proof domain, not merely hash terminal certificates more finely.
+
 Acceptance:
 
 - Profiler reports bounded-window compression statistics.
@@ -2318,6 +2369,8 @@ Acceptance:
 - [x] Implement and reject Phase 6J.1 conservative all-signed empty-cone
   pair-prefix profiling on the `[0,100000)` gate.
 - [x] Implement and reject Phase 6J.2 D26 axis audit on five 100k windows.
+- [x] Implement and reject Phase 6K terminal residual shape census on the
+  first `[0,100000)` gate.
 - [ ] Add a stronger nonidentity prefix obstruction only if the revised
   translation survivor path still does not meet the hard leaf gate.
 - [ ] Refresh translation normalized Farkas shape sharing after GoodDirection
@@ -2351,9 +2404,13 @@ pair-prefix pruning is also rejected as a standalone backend: the
 `[0,100000)` run killed only 222 ranks and left 7,116 planned heavy leaves.
 Phase 6J.2 D26 axis profiling is rejected too: five disjoint 100k windows all
 contain non-D26 forced-balance survivors, with zero D26 survivors at that gate.
-The next useful step must be a different compression idea, most likely a
-stateful signed-prefix continuous certificate or a broader mathematical
-reduction; do not emit generated evidence from the rejected Phase 6J branches.
+Phase 6K terminal residual shape grouping is rejected as well: the first full
+`[0,100000)` census already has 9,036 distinct nonidentity terminal candidate
+obstruction keys, 38,073 distinct all-nonidentity obstruction keys, and 11,478
+translation normalized Farkas shapes. The next useful step must be a different
+compression idea, most likely a new mathematical reduction that changes the
+proof domain before terminal certificates, not another terminal hash/key
+refinement.
 
 ## Explicit Non-Goals
 
@@ -2375,3 +2432,6 @@ reduction; do not emit generated evidence from the rejected Phase 6J branches.
   backend; its `[0,100000)` compression gate is rejected.
 - Do not pursue D26 as the nonidentity survivor invariant; bounded exact audits
   found many non-D26 forced-balance survivors.
+- Do not emit terminal residual obstruction-shape leaves from Phase 6K; the
+  first `[0,100000)` census already exceeds the hard gate by several times
+  even before scaling beyond the first sample window.

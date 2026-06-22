@@ -518,6 +518,29 @@ forced-sign balance gate:
 Do not emit Lean proof evidence from the D26 strategy. The audit is a
 diagnostic counterexample source only.
 
+## Terminal residual census
+
+The Phase 6K census is a diagnostic-only mode for the remaining depth-13
+obligations. It combines:
+
+- exact rational nonidentity affine-axis solving and first-hit simulation;
+- translation GoodDirection survivor/Farkas-shape reuse statistics.
+
+It does not emit Lean evidence and is not trusted as proof.
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --terminal-residual-census --rank-start 0 --limit 100000 \
+  --progress-interval 20000 \
+  --output scripts/generated/terminal_residual_census_000000000_000100000.json
+```
+
+Current result: rejected on the first full `[0,100000)` gate. The report found
+9,036 distinct nonidentity terminal candidate obstruction keys, 38,073
+all-nonidentity obstruction keys, and 11,478 translation normalized Farkas
+shapes, already above the low-thousands generated-leaf budget. Use this mode
+for diagnosis only; do not emit terminal residual leaves from it.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem
