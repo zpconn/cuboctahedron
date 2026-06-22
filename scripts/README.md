@@ -406,7 +406,8 @@ masks, and 39,710 GoodDirection survivor masks. It emits zero bad-direction
 evidence. Raw survivor-map grouping still produces 5,565 projected heavy
 leaves, above the 2,000 hard gate, so do not emit Lean roots from raw survivor
 maps alone. The Phase 6H mask-tree profiler below also rejects, so the next
-compression step is Phase 6I translation word/state DAG.
+compression step proceeds through Phase 6I below and then to Phase 6J if the
+DAG gate rejects.
 
 ## Translation GoodDirection survivor mask-tree profiler
 
@@ -430,8 +431,31 @@ Current result: rejected. The `[0,100000)` report found 39,710
 GoodDirection survivor masks, 39,754 conservative signature-indexed leaf
 obligations, 5,565 signature tree obligations, and only 44 bad-cube leaves.
 This is worse than raw survivor-map grouping for the Lean leaf gate. Do not
-emit Lean roots from this mask-tree strategy; proceed to the Phase 6I
-translation word/state DAG profiler.
+emit Lean roots from this mask-tree strategy; the Phase 6I translation
+word/state DAG profiler below is the next recorded gate.
+
+## Translation word/state DAG profiler
+
+The state-DAG profiler is the Phase 6I gate. It hashes recursive pair-word
+prefix subtrees by remaining pair counts, current linear product, child-node
+digests, and exact identity-terminal GoodDirection/Farkas obligations:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-state-dag --limit 5000 \
+  --output scripts/generated/translation_state_dag_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-state-dag --limit 100000 \
+  --progress-interval 10000 \
+  --output scripts/generated/translation_state_dag_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,100000)` report found 5,565 identity
+terminal obligations, 43,939 unique internal DAG nodes, and 49,504 combined
+planned Lean obligations. It does find reuse, but not enough to meet the
+2,000-leaf gate. Do not emit Lean roots from this state-DAG strategy; proceed
+to Phase 6J geometric prefix filters.
 
 ## Phase 9 readiness
 

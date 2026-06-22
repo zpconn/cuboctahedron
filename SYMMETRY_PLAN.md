@@ -113,19 +113,19 @@ but they are no longer active paths to full coverage:
 ## Current Status Dashboard
 
 Last updated after completing the GoodDirection bridge, bounded survivor
-profiler, and bounded survivor mask-tree profiler. Existing bad-direction and
-mask-tree tilers remain documented below only as rejected compression
-experiments.
+profiler, bounded survivor mask-tree profiler, and bounded translation
+word/state DAG profiler. Existing bad-direction, mask-tree, and word/state DAG
+tilers remain documented below only as rejected compression experiments.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0: inventory | Complete | Existing rank, coverage, classifier, symmetry, and generated APIs are recorded below. |
 | Phase 1: prefix interval core | Complete | `Cuboctahedron/Generated/Coverage/PrefixInterval.lean` exists and is used by generated prefix roots. |
 | Phase 2: started-face symmetry core | Complete for core API; needs wider proof use | `PairWordSymmetry.lean` and `SymmetryTransport.lean` exist. Reversal remains disabled for proof transport. |
-| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, `--translation-baddir-tree`, `--translation-baddir-family-tree`, and `--translation-baddir-common-impact-tree`; all current bounded bad-direction gates are diagnostic-only. |
+| Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H rejected; Phase 6I next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map grouping and mask-tree grouping both exceed the 2,000-leaf gate on `[0,100000)`, so the next path is the translation word/state DAG. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, and word/state DAG grouping all exceed the 2,000-leaf gate on `[0,100000)`, so the next path is geometric prefix filtering. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -225,6 +225,8 @@ Completed current-work items:
   `scripts/profile_symmetry_compression.py --translation-survivors`.
 - Added the translation survivor mask-tree profiler:
   `scripts/profile_symmetry_compression.py --translation-survivor-mask-tree`.
+- Added the translation word/state DAG profiler:
+  `scripts/profile_symmetry_compression.py --translation-state-dag`.
 - Recorded survivor reports:
   - `scripts/generated/translation_survivors_profile_0_5000.json`
     found 4,693 GoodDirection survivor masks, 26,475 denominator-nonpositive
@@ -244,6 +246,14 @@ Completed current-work items:
     signature-indexed leaf obligations, 5,565 signature tree obligations, and
     only 44 bad-cube leaves. This is worse than raw survivor-map grouping for
     the Lean leaf gate, so Phase 6H mask-tree emission is rejected.
+- Recorded word/state DAG reports:
+  - `scripts/generated/translation_state_dag_profile_0_5000.json`
+    found 487 identity terminal obligations, 5,577 unique internal DAG nodes,
+    and 6,064 combined planned Lean obligations.
+  - `scripts/generated/translation_state_dag_profile_0_100000.json`
+    found 5,565 identity terminal obligations, 43,939 unique internal DAG
+    nodes, and 49,504 combined planned Lean obligations. This is above the
+    2,000-leaf hard gate, so Phase 6I emission is rejected.
 
 Immediate next work:
 
@@ -256,10 +266,11 @@ Immediate next work:
    strategy. All three are retired.
 4. Do not emit Lean from raw survivor-map grouping; the `[0,100000)` profile
    already projects 5,565 heavy leaves.
-5. Implement Phase 6I translation word/state DAG. Phase 6H mask-tree/cube
-   profiling fragmented and should not be emitted as Lean evidence.
-6. Only after Phase 6I falls below the 2,000-leaf hard gate, emit
-   hierarchical generated coverage roots.
+5. Implement Phase 6J geometric prefix filters. Phase 6H mask-tree/cube and
+   Phase 6I word/state DAG profiling fragmented and should not be emitted as
+   Lean evidence.
+6. Only after a later compression gate falls below the 2,000-leaf hard gate,
+   emit hierarchical generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
 
@@ -310,7 +321,8 @@ Interpretation of the translation bad-direction symbolic-family rejection:
   second case-local backend for almost all early translation failures.
 - Therefore the next attempt should not tune the current cube threshold. The
   active path moved through Phase 6E/6F and then rejected Phase 6H mask-tree
-  compression. The current path is Phase 6I translation word/state DAG.
+  compression and Phase 6I word/state DAG sharing. The current path is Phase
+  6J geometric prefix filtering.
 
 Interpretation of the translation bad-direction common-impact rejection:
 
@@ -487,8 +499,9 @@ Hash-cons states modulo already-proved symmetries and sign-bit renamings. A
 node theorem proves all completions from that state. This can merge algebraic
 states that rank intervals separate.
 
-The state-DAG route is a fallback after the GoodDirection survivor profiler,
-not a reason to keep optimizing bad-direction rank/mask tilings.
+The state-DAG route was profiled after the GoodDirection survivor profiler and
+rejected on the `[0,100000)` gate. Do not keep optimizing bad-direction
+rank/mask tilings.
 
 ## Optional Nonidentity Geometry Profilers
 
@@ -1316,8 +1329,8 @@ Acceptance:
 - Generated bad-direction evidence count is zero.
 - If projected survivor-map leaves are below 2,000 globally, proceed to
   Phase 6G.
-- If not, profile Phase 6H before any Lean evidence emission. The current
-  bounded Phase 6H result is rejected, so proceed to Phase 6I.
+- If not, profile Phase 6H/6I before any Lean evidence emission. The current
+  bounded Phase 6H and Phase 6I results are rejected, so proceed to Phase 6J.
 
 Observed bounded results:
 
@@ -1343,8 +1356,8 @@ Observed bounded results:
 Conclusion: the GoodDirection pivot is correct and exactly recovers the old
 Farkas-needed count, but raw survivor-map grouping is still above the
 2,000-heavy-leaf gate. Do not emit Phase 6G roots directly from raw survivor
-maps. Phase 6H mask-tree profiling has also been rejected, so proceed to
-Phase 6I translation word/state DAG.
+maps. Phase 6H mask-tree profiling and Phase 6I word/state DAG profiling have
+also been rejected, so proceed to Phase 6J geometric prefix filtering.
 
 ### Phase 6G: Denominator Signature / Survivor Shape Coverage
 
@@ -1421,41 +1434,59 @@ Observed bounded results:
 Conclusion:
 
 This mask-tree/cube route does not meet the 2,000-heavy-leaf gate and is worse
-than raw survivor-map grouping. Do not emit Lean evidence from Phase 6H. Proceed
-to Phase 6I translation word/state DAG.
+than raw survivor-map grouping. Do not emit Lean evidence from Phase 6H. Phase
+6I has also now rejected, so proceed to Phase 6J geometric prefix filtering.
 
 ### Phase 6I: Translation Word/State DAG Fallback
 
-Use this if rank intervals remain too fragmented after Phase 6G/6H.
+Status: rejected for the current recursive word/state DAG profile.
 
-Profile a recursive DAG over algebraic prefix states:
+Implemented as:
+
+```text
+scripts/profile_symmetry_compression.py --translation-state-dag
+```
+
+The profiler hashes recursive prefix subtrees using:
 
 - remaining pair counts;
 - current linear reflection product;
-- symbolic translation vector coefficients in the six sign bits;
-- accumulated denominator forms or denominator signature;
-- canonicalized `D4` representative.
+- deterministic child-node digests;
+- exact identity-terminal GoodDirection survivor/Farkas obligations.
 
-Generated node theorem:
+Reports:
 
-```lean
-theorem node_01352_complete :
-    StateComplete node_01352 := ...
+```text
+scripts/generated/translation_state_dag_profile_0_5000.json
+scripts/generated/translation_state_dag_profile_0_100000.json
 ```
 
-The rank theorem becomes a small adapter from `unrankPairWord r` into the word
-DAG theorem.
+Observed bounded results:
 
-Acceptance:
+- `[0,5000)`:
+  - identity-linear words: 487;
+  - GoodDirection survivor masks: 4,693;
+  - unique identity terminal obligations: 487;
+  - unique internal DAG nodes: 5,577;
+  - combined planned Lean obligations: 6,064.
+- `[0,100000)`:
+  - identity-linear words: 5,565;
+  - GoodDirection survivor masks: 39,710;
+  - unique identity terminal obligations: 5,565;
+  - unique internal DAG nodes: 43,939;
+  - combined planned Lean obligations: 49,504;
+  - reused DAG nodes: 17,006, with max reuse 94,435.
 
-- DAG leaf count is hundreds or low thousands on full dry-run.
-- Generated theorem graph is hierarchical and acyclic.
-- No global rank-to-node array is introduced.
+Conclusion:
 
-### Phase 6J: Optional Continuous Prefix Geometry Profilers
+The state-DAG profile finds reuse, especially for nonidentity-vacuous
+subtrees, but not enough to meet the 2,000-heavy-leaf gate. Do not emit Lean
+evidence from Phase 6I. Proceed to Phase 6J geometric prefix filters.
 
-These profilers may reduce the nonidentity or shared-prefix burden, but they
-are not prerequisites for the GoodDirection pivot.
+### Phase 6J: Continuous Prefix Geometry Profilers
+
+These profilers are now the next active compression attempt after the
+GoodDirection survivor, mask-tree, and state-DAG gates all rejected.
 
 1. **D26 nonidentity direction filter.**
    Profile the 26 directed cube symmetry axes as a finite alive-direction set.
@@ -1637,7 +1668,8 @@ Superseded direction:
 - Do not continue this family shape.
 - Use Phase 6E/6F to remove bad-direction masks from generated coverage.
 - Phase 6H mask-tree profiling was tried after the survivor path and rejected.
-  Proceed to Phase 6I translation word/state DAG.
+  Phase 6I word/state DAG profiling was then tried and rejected. Proceed to
+  Phase 6J geometric prefix filtering.
 
 ### Phase 6D: Common-Impact Translation Bad-Direction Families
 
@@ -2229,9 +2261,10 @@ Acceptance:
 - [x] Reject Phase 6G raw survivor-map emission on the `[0,100000)` gate.
 - [x] Implement and reject Phase 6H survivor mask-tree profiling on the
   `[0,100000)` gate.
-- [ ] Implement Phase 6I translation word/state DAG fallback.
-- [ ] Optionally profile Phase 6J D26 and empty-cone prefix geometry filters,
-  but do not emit proof evidence until their invariants are formalized.
+- [x] Implement and reject Phase 6I translation word/state DAG profiling on
+  the `[0,100000)` gate.
+- [ ] Profile Phase 6J D26 and empty-cone prefix geometry filters, but do not
+  emit proof evidence until their invariants are formalized.
 - [ ] Add a stronger nonidentity prefix obstruction only if the revised
   translation survivor path still does not meet the hard leaf gate.
 - [ ] Refresh translation normalized Farkas shape sharing after GoodDirection
@@ -2256,11 +2289,12 @@ the translation bad-direction box dry-run produced 205,667 tiny boxes; the
 first-impact prefix/mask-cube dry-run left 313,602 fallback cells; and the
 common-impact prefix/mask-cube dry-run left 308,614 fallback cells.
 
-Phase 6E and Phase 6F are complete, and Phase 6H has now been rejected by the
-bounded mask-tree gate. The GoodDirection survivor split matches the old
-Farkas-needed count, but raw survivor-map grouping projects 5,565 heavy leaves
-and mask-tree grouping projects 39,754 conservative leaf obligations in
-`[0,100000)`. The next useful step is Phase 6I translation word/state DAG.
+Phase 6E and Phase 6F are complete, and Phase 6H/6I have now been rejected by
+bounded gates. The GoodDirection survivor split matches the old Farkas-needed
+count, but raw survivor-map grouping projects 5,565 heavy leaves, mask-tree
+grouping projects 39,754 conservative leaf obligations, and state-DAG grouping
+projects 49,504 combined obligations in `[0,100000)`. The next useful step is
+Phase 6J geometric prefix filtering.
 
 ## Explicit Non-Goals
 

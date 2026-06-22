@@ -77,6 +77,9 @@ DEFAULT_TRANSLATION_SURVIVORS_OUTPUT = (
 DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "translation_survivor_mask_tree_profile.json"
 )
+DEFAULT_TRANSLATION_STATE_DAG_OUTPUT = (
+    REPO_ROOT / "scripts" / "generated" / "translation_state_dag_profile.json"
+)
 
 
 MASKS_BY_BIT_VALUE: tuple[tuple[int, int], ...] = tuple(
@@ -1755,6 +1758,381 @@ class TranslationSurvivorMaskTreeProfiler(TranslationSurvivorProfiler):
         }
 
 
+class TranslationStateDagProfiler(TranslationSurvivorProfiler):
+    """Dry-run profiler for Phase 6I translation word/state DAG sharing.
+
+    The profiler is deliberately proof-agnostic.  It builds exact terminal
+    obligations using the same GoodDirection/Farkas classification as Phase 6F,
+    then hashes recursive prefix subtrees by remaining counts, current linear
+    product, and child-node digests.  This measures whether a future generated
+    theorem DAG would have enough sharing to be worth formalizing.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.nodes_visited = 0
+        self.internal_nodes_visited = 0
+        self.terminal_nodes_visited = 0
+        self.nodes_by_depth: Counter[int] = Counter()
+        self.terminal_kinds: Counter[str] = Counter()
+        self.child_count_histogram: Counter[int] = Counter()
+        self.subtree_width_histogram: Counter[int] = Counter()
+        self.dag_nodes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.internal_dag_nodes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.terminal_dag_nodes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.identity_terminal_obligations = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.nonidentity_terminal_obligations = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.node_reuse_counts: Counter[str] = Counter()
+        self.max_depth = 0
+        self.max_child_count = 0
+        self.max_effective_width = 0
+        self.partial_nodes = 0
+
+    def terminal_key_for_leaf(
+        self,
+        rank: int,
+        word: tuple[str, ...],
+        pref: list,
+    ) -> tuple[str, str]:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            self.terminal_kinds["nonidentity"] += 1
+            key = "terminal:nonidentity"
+            self.nonidentity_terminal_obligations.add(key)
+            return "N", key
+
+        self.identity_words += 1
+        self.terminal_kinds["identity"] += 1
+        signature_key, survivor_bits, max_degree, survivor_shapes, survivor_shape_by_mask = (
+            self.denominator_signature_for_word(word, pref)
+        )
+        signature_digest = stable_digest(signature_key)
+        survivor_count = len(survivor_shapes)
+        self.survivor_mask_histogram[survivor_count] += 1
+        self.denominator_signatures.add(signature_key)
+        self.survivor_bitsets.add(str(survivor_bits))
+        shape_map_key = "|".join(
+            f"{mask}:{shape_digest}" for mask, shape_digest in survivor_shapes
+        )
+        obligation_key = (
+            f"sig={signature_digest}|survivors={survivor_bits}|{shape_map_key}"
+        )
+        self.survivor_shape_maps.add(obligation_key)
+        self.identity_terminal_obligations.add(obligation_key)
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            if survivor_bits & (1 << mask):
+                self.good_direction_masks += 1
+                shape_digest = survivor_shape_by_mask[mask]
+                self.farkas_shapes.add(shape_digest)
+                self.farkas_shape_reuse_counts[shape_digest] += 1
+                canonical_word, canonical_mask, sym_id = self.canonical_translation_choice(
+                    word, mask
+                )
+                self.canonical_survivor_cases.add(
+                    f"{word_key(canonical_word)}#{canonical_mask}"
+                )
+                if len(self.samples) < self.sample_limit:
+                    self.samples.append({
+                        "rank": rank,
+                        "word": word_key(word),
+                        "mask": mask,
+                        "canonical_word": word_key(canonical_word),
+                        "canonical_mask": canonical_mask,
+                        "sym_id": sym_id,
+                        "shape_digest": shape_digest,
+                        "denominator_signature_digest": signature_digest,
+                        "terminal_obligation_digest": stable_digest(obligation_key),
+                        "max_denominator_degree": max_degree,
+                    })
+            else:
+                self.denominator_nonpositive_masks += 1
+                denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+                elif all(denom > 0 for denom in denoms):
+                    raise AssertionError("survivor bitset missed a GoodDirection mask")
+
+        key = f"terminal:identity:{stable_digest(obligation_key)}"
+        return "T", key
+
+    def record_node(
+        self,
+        *,
+        key: str,
+        kind: str,
+        depth: int,
+        effective_width: int,
+        child_count: int,
+        partial: bool,
+    ) -> str:
+        digest = stable_digest(key)
+        self.nodes_visited += 1
+        self.nodes_by_depth[depth] += 1
+        self.max_depth = max(self.max_depth, depth)
+        self.max_effective_width = max(self.max_effective_width, effective_width)
+        self.node_reuse_counts[digest] += 1
+        self.dag_nodes.add(key)
+        if kind == "internal":
+            self.internal_nodes_visited += 1
+            self.internal_dag_nodes.add(key)
+            self.child_count_histogram[child_count] += 1
+            self.max_child_count = max(self.max_child_count, child_count)
+        else:
+            self.terminal_nodes_visited += 1
+            self.terminal_dag_nodes.add(key)
+        if partial:
+            self.partial_nodes += 1
+        if effective_width <= 16:
+            self.subtree_width_histogram[effective_width] += 1
+        else:
+            bucket = 1 << (effective_width.bit_length() - 1)
+            self.subtree_width_histogram[bucket] += 1
+        return digest
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> str | None:
+            subtree_width = multinomial_count(remaining)
+            rank_hi = rank_lo + subtree_width
+            if rank_lo >= self.target_hi:
+                return None
+            effective_hi = min(rank_hi, self.target_hi)
+            effective_width = effective_hi - rank_lo
+            partial = effective_width != subtree_width
+            depth = len(prefix)
+
+            if depth == 13:
+                terminal_kind, terminal_key = self.terminal_key_for_leaf(
+                    rank_lo,
+                    tuple(prefix),
+                    list(pref),
+                )
+                key = (
+                    f"leaf:{terminal_kind}:depth={depth}:"
+                    f"width={effective_width}:partial={int(partial)}:{terminal_key}"
+                )
+                return self.record_node(
+                    key=key,
+                    kind="terminal",
+                    depth=depth,
+                    effective_width=effective_width,
+                    child_count=0,
+                    partial=partial,
+                )
+
+            child_lo = rank_lo
+            child_entries: list[tuple[str, str]] = []
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                child_digest = rec(child_lo)
+                if child_digest is not None:
+                    child_entries.append((pair_id, child_digest))
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+            child_key = "|".join(
+                f"{pair_id}:{digest}" for pair_id, digest in child_entries
+            )
+            key = (
+                f"node:depth={depth}:remaining={counts_key(remaining)}:"
+                f"lin={mat_key(pref[-1])}:partial={int(partial)}:"
+                f"children={child_key}"
+            )
+            return self.record_node(
+                key=key,
+                kind="internal",
+                depth=depth,
+                effective_width=effective_width,
+                child_count=len(child_entries),
+                partial=partial,
+            )
+
+        rec(0)
+
+    def reuse_payload(self) -> dict[str, Any]:
+        reused = [count for count in self.node_reuse_counts.values() if count > 1]
+        return {
+            "node_digest_count": len(self.node_reuse_counts),
+            "reused_node_count": len(reused),
+            "max_reuse": max(reused, default=0),
+            "total_reuse_hits": sum(count - 1 for count in reused),
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        identity_exact = self.identity_terminal_obligations.exact_count
+        internal_exact = self.internal_dag_nodes.exact_count
+        if identity_exact is None or internal_exact is None:
+            planned_exact = None
+            planned_lower = max(
+                self.identity_terminal_obligations.lower_bound,
+                self.internal_dag_nodes.lower_bound,
+            )
+            combined_lower = (
+                self.identity_terminal_obligations.lower_bound
+                + self.internal_dag_nodes.lower_bound
+            )
+        else:
+            planned_exact = identity_exact + internal_exact
+            planned_lower = planned_exact
+            combined_lower = planned_exact
+        accepted = planned_exact is not None and planned_exact <= self.max_lean_leaves
+        within_warning = (
+            planned_exact is not None and planned_exact <= self.warn_lean_leaves
+        )
+        return {
+            "schema_version": 1,
+            "mode": "translation-state-dag-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation",
+                "symmetry": (
+                    "started-face D4 for terminal Farkas-shape canonicalization"
+                    if self.use_d4_transport else "none"
+                ),
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "good_direction_impacts": "1..13",
+                "emits_bad_direction_evidence": False,
+                "state_key": [
+                    "remaining pair counts",
+                    "current pair-linear product",
+                    "deterministic child-node digests",
+                ],
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "bad_direction_generated_evidence": 0,
+                "nodes_visited": self.nodes_visited,
+                "internal_nodes_visited": self.internal_nodes_visited,
+                "terminal_nodes_visited": self.terminal_nodes_visited,
+                "partial_nodes": self.partial_nodes,
+            },
+            "survivors": {
+                "survivor_density": (
+                    self.good_direction_masks / self.translation_sign_assignments
+                    if self.translation_sign_assignments
+                    else None
+                ),
+                "survivor_mask_histogram": dict(
+                    sorted(self.survivor_mask_histogram.items())
+                ),
+                "denominator_degree_histogram": dict(
+                    sorted(self.denominator_degree_histogram.items())
+                ),
+                "unique_denominator_signatures": self.denominator_signatures.payload(),
+                "unique_survivor_bitsets": self.survivor_bitsets.payload(),
+                "unique_survivor_shape_maps": self.survivor_shape_maps.payload(),
+                "unique_normalized_farkas_shapes": self.farkas_shapes.payload(),
+                "canonical_survivor_cases": self.canonical_survivor_cases.payload(),
+                "farkas_shape_reuse": {
+                    "shape_count": len(self.farkas_shape_reuse_counts),
+                    "shared_shape_count": sum(
+                        1 for count in self.farkas_shape_reuse_counts.values()
+                        if count > 1
+                    ),
+                    "max_reuse": max(
+                        self.farkas_shape_reuse_counts.values(),
+                        default=0,
+                    ),
+                },
+                "samples": self.samples,
+            },
+            "state_dag": {
+                "unique_dag_nodes": self.dag_nodes.payload(),
+                "unique_internal_nodes": self.internal_dag_nodes.payload(),
+                "unique_terminal_nodes": self.terminal_dag_nodes.payload(),
+                "unique_identity_terminal_obligations": (
+                    self.identity_terminal_obligations.payload()
+                ),
+                "unique_nonidentity_terminal_obligations": (
+                    self.nonidentity_terminal_obligations.payload()
+                ),
+                "terminal_kinds": dict(sorted(self.terminal_kinds.items())),
+                "nodes_by_depth": dict(sorted(self.nodes_by_depth.items())),
+                "child_count_histogram": dict(sorted(self.child_count_histogram.items())),
+                "subtree_width_histogram": dict(
+                    sorted(self.subtree_width_histogram.items())
+                ),
+                "max_depth": self.max_depth,
+                "max_child_count": self.max_child_count,
+                "max_effective_width": self.max_effective_width,
+                "reuse": self.reuse_payload(),
+            },
+            "decision": {
+                "status": "profile",
+                "accepted_for_phase_6i": accepted,
+                "within_warning_gate": within_warning,
+                "planned_lean_heavy_leaves_exact": planned_exact,
+                "planned_lean_heavy_leaves_lower_bound": planned_lower,
+                "planned_identity_terminal_obligations": identity_exact,
+                "planned_internal_dag_nodes": internal_exact,
+                "planned_combined_lower_bound": combined_lower,
+                "notes": [
+                    "This mode profiles recursive word/state DAG sharing.",
+                    "The profile is exact for the bounded window but is not proof evidence.",
+                    "If combined identity-terminal and internal-node obligations remain above the gate, proceed to Phase 6J.",
+                ],
+            },
+        }
+
+
 class TranslationBadDirectionTreeProfiler:
     """Dry-run profiler for coarse translation bad-direction tiling.
 
@@ -3277,14 +3655,15 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_baddir_common_impact_tree),
         bool(args.translation_survivors),
         bool(args.translation_survivor_mask_tree),
+        bool(args.translation_state_dag),
     ])
     if mode_count > 1:
         raise SystemExit(
             "--prefix-kill-tree, --translation-farkas-tree, "
             "--translation-baddir-tree, --translation-baddir-family-tree, "
             "--translation-baddir-common-impact-tree, and "
-            "--translation-survivors, and --translation-survivor-mask-tree "
-            "are mutually exclusive"
+            "--translation-survivors, --translation-survivor-mask-tree, "
+            "and --translation-state-dag are mutually exclusive"
         )
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
@@ -3800,6 +4179,48 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "translation-state-dag-profile":
+        counts = payload["actual_counts"]
+        survivors = payload["survivors"]
+        dag = payload["state_dag"]
+        decision = payload["decision"]
+        print("translation word/state DAG profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}")
+        print(f"bad-direction generated evidence: {counts['bad_direction_generated_evidence']:,}")
+        print(f"nodes visited: {counts['nodes_visited']:,}")
+        print(
+            "unique internal DAG nodes: "
+            f"{dag['unique_internal_nodes']['lower_bound']}"
+        )
+        print(
+            "unique identity terminal obligations: "
+            f"{dag['unique_identity_terminal_obligations']['lower_bound']}"
+        )
+        print(
+            "unique survivor shape maps: "
+            f"{survivors['unique_survivor_shape_maps']['lower_bound']}"
+        )
+        print(
+            "DAG reused nodes: "
+            f"{dag['reuse']['reused_node_count']} "
+            f"(max reuse {dag['reuse']['max_reuse']})"
+        )
+        planned_leaves = (
+            str(decision["planned_lean_heavy_leaves_exact"])
+            if decision["planned_lean_heavy_leaves_exact"] is not None
+            else f">{decision['planned_lean_heavy_leaves_lower_bound'] - 1}"
+        )
+        print(f"planned heavy Lean leaves: {planned_leaves}")
+        print(f"accepted for Phase 6I: {decision['accepted_for_phase_6i']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     counts = payload["actual_counts"]
     tiling = payload["tiling"]
     decision = payload["decision"]
@@ -3867,6 +4288,11 @@ def main() -> None:
         action="store_true",
         help="profile exact mask-tree compression for GoodDirection survivor cases",
     )
+    parser.add_argument(
+        "--translation-state-dag",
+        action="store_true",
+        help="profile recursive word/state DAG sharing for translation coverage",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -3884,7 +4310,9 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        if args.translation_survivor_mask_tree:
+        if args.translation_state_dag:
+            output = DEFAULT_TRANSLATION_STATE_DAG_OUTPUT
+        elif args.translation_survivor_mask_tree:
             output = DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT
         elif args.translation_survivors:
             output = DEFAULT_TRANSLATION_SURVIVORS_OUTPUT
@@ -3904,7 +4332,22 @@ def main() -> None:
     import time
 
     start = time.monotonic()
-    if args.translation_survivor_mask_tree:
+    if args.translation_state_dag:
+        state_dag_profiler = TranslationStateDagProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        state_dag_profiler.traverse()
+        rejected = False
+        payload = state_dag_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.translation_survivor_mask_tree:
         mask_tree_profiler = TranslationSurvivorMaskTreeProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,
