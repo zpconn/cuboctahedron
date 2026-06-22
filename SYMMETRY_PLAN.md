@@ -29,29 +29,65 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
 - Root coverage files must import only small group/root modules, not thousands of leaves.
 - Generated source must be memory-safe under a 45 GiB RAM budget.
 - Broad `lake build` must not import heavy external proof leaves.
+- Ranks are an enumeration/addressing layer only. Do not use lexicographic
+  pair-word rank intervals as the primary compression coordinate for new
+  proof families.
+- Heavy generated computational checkers should use integer-normalized or
+  homogeneous/projective data wherever possible. `Rat`/`ℚ` remains acceptable
+  for small hand-written statements and Real bridge theorems, but it should
+  not be the substrate for large generated kernel reductions.
 
 ## Success Criteria
 
 1. Dry-run compression profiler reports:
-   - full rank coverage of `[0, numPairWords)`;
+   - semantic state/family coverage below the hard leaf gate before any final
+     rank adapter is emitted;
+   - eventual full rank coverage of `[0, numPairWords)` through a small
+     adapter layer;
    - no overlaps and no gaps;
    - total planned Lean-heavy leaves/nodes under 2,000;
    - projected generated source size under an agreed cap;
-   - translation Farkas shape count and family reuse statistics.
+   - translation Farkas or pseudo-Boolean certificate count and family reuse
+     statistics.
 2. Lean core contains audited soundness theorems for:
    - prefix interval coverage;
    - `D4` start-face symmetry transport;
    - nonidentity prefix/residual families;
-   - normalized Farkas shape transport.
-3. Generated files export only semantic interval theorems.
-4. `Cuboctahedron.Generated.ExhaustiveCoverage` is built from compressed interval roots.
-5. Step 15 can consume `Generated.rank_complete` without importing raw evidence leaves.
+   - normalized Farkas shape transport;
+   - integer/homogeneous certificate interpretation;
+   - continuous or lifted pseudo-Boolean Farkas certificates.
+3. Generated files export only semantic theorems; rank intervals appear only
+   in the final enumeration adapter.
+4. `Cuboctahedron.Generated.ExhaustiveCoverage` is built from compressed
+   semantic roots plus a small rank bridge.
+5. Step 15 can consume `Generated.rank_complete` without importing raw
+   evidence leaves.
 
 ## Revised Strategy Synthesis
 
-The current evidence strongly suggests that rank/mask tiling is the wrong
-coordinate system for the translation bottleneck. Three increasingly strong
-bad-direction tilers have now failed on `[0,100000)`:
+The current evidence strongly suggests that the previous generated-evidence
+path was organized around the wrong proof coordinates. Gemini's latest
+assessment names four distinct failure modes, and the repository's bounded
+profiles support most of them:
+
+1. **Coordinate-system fallacy.** Lexicographic pair-word ranks are useful for
+   exhaustive enumeration, but they are a bad compression domain for
+   continuous geometry. Adjacent ranks share a combinatorial prefix, not
+   necessarily a useful geometric failure state.
+2. **Boolean rasterization of continuous constraints.** Translation
+   bad-direction masks are best understood as sign/half-space or more general
+   pseudo-Boolean feasibility failures, not as axis-aligned mask rectangles.
+3. **Data where deduction is needed.** Bad-direction failures should be
+   eliminated by a generic necessary-condition theorem, not by generated
+   certificates for every failing mask.
+4. **Heavy rational computation in generated checkers.** Large generated
+   kernel reductions over `Rat`/`ℚ` risk gcd/proof-term and expression-size
+   blowups. The next checker backend should prefer integer-normalized linear
+   algebra and homogeneous/projective encodings, with rational interpretation
+   proved once in small bridge lemmas.
+
+The first three are no longer just hypotheses. Three increasingly strong
+bad-direction tilers have failed on `[0,100000)`:
 
 - raw contiguous rank/mask rectangles;
 - prefix/mask cubes using a common first bad impact;
@@ -59,22 +95,38 @@ bad-direction tilers have now failed on `[0,100000)`:
 
 All three audits were exact on the bounded windows, so these are not tiler
 bugs. They are compression failures. The bad-direction set is dense and
-irregular in rank/mask coordinates because each denominator is a linear
-function of the six translation sign bits; the complement of the feasible
-denominator cone cuts diagonally through the Boolean cube.
+irregular in rank/mask coordinates because the denominator constraints are
+sign-dependent half-space or pseudo-Boolean feasibility conditions; in the
+current representation they even show degree-2 Walsh terms. Their feasible
+sets cut through the Boolean cube in ways that axis-aligned mask rectangles do
+not capture.
 
 The active strategy is therefore no longer to generate proof evidence for
-every bad-direction mask. Instead:
+every bad-direction mask, and no longer to seek compression primarily in
+contiguous rank intervals. Instead:
 
 1. Prove a generic Lean theorem that translation feasibility implies
    `GoodDirection`, meaning all required impact denominators have the correct
    strict sign.
 2. Generate evidence only for masks that satisfy `GoodDirection`.
-3. Use exact Farkas/survivor-shape certificates to eliminate those survivor
-   cases.
-4. Use denominator signatures, pseudo-Boolean Farkas certificates, and, if
-   needed, a word/state DAG to keep the survivor proof in hundreds or low
-   thousands of Lean-visible nodes.
+3. Replace Boolean/rank tiling with semantic convex-geometric certificates:
+   pseudo-Boolean/Farkas certificates over sign variables for translation, and
+   cone/Farkas certificates over ray directions for nonidentity or shared
+   prefix states.
+4. Use integer-normalized or homogeneous/projective certificate data so Lean
+   checks simple integer equalities/inequalities rather than performing large
+   rational reductions.
+5. Use ranks only as the final address bridge:
+
+   ```lean
+   r : Fin numPairWords
+   pw := unrankPairWord r
+   exact semantic_complete pw ...
+   ```
+
+   The semantic proof should be organized over pair-word states, denominator
+   signatures, cone certificates, and Farkas shapes, not over `[lo, hi)` rank
+   blocks except at the final coverage boundary.
 
 This is the central pivot from the external model review. Bad-direction is a
 necessary-condition lemma, not a generated certificate family.
@@ -86,9 +138,12 @@ state DAGs, and symmetry representatives, but they are not proof. Lean must
 check:
 
 - the hand-written theorem `translation_feasible -> GoodDirection`;
-- exact rational Farkas certificates for survivor systems;
+- exact integer or integer-normalized Farkas certificates for survivor
+  systems, together with small bridge theorems interpreting them over `ℚ`/`ℝ`;
 - exact signature/shape application lemmas;
 - exact `D4` transport lemmas where symmetry is used;
+- exact rank/unrank bridge lemmas connecting semantic word-level coverage back
+  to `Fin numPairWords`;
 - semantic public coverage theorems consumed by Step 15.
 
 Generated root APIs should expose semantic impossibility, such as
@@ -108,6 +163,9 @@ but they are no longer active paths to full coverage:
 - bad-direction rectangle tiling;
 - first-impact prefix/mask cubes;
 - common-impact prefix/mask cubes;
+- terminal residual obstruction-shape leaves;
+- generated proof families whose only compression coordinate is contiguous
+  lexicographic rank;
 - any API that requires a generated certificate for every translation mask.
 
 ## Current Status Dashboard
@@ -125,7 +183,7 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L is next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. Next path is integer semantic-convex certificates, not another rank-shaped tiler. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -425,7 +483,12 @@ bad-direction is discharged by the generic theorem, not by generated cases.
 ### Denominator Signatures And Survivor Maps
 
 For each identity-linear pair word, the impact denominators are affine-linear
-forms in six sign bits. The profiler should canonicalize exact integer forms:
+or low-degree pseudo-Boolean forms in six sign bits, depending on the chosen
+coordinate system and normalization. The old survivor profiler observed
+degree-2 Walsh terms in the current representation, so do not assume linearity
+until the new integer/homogeneous coordinate model re-profiles it.
+
+The profiler should canonicalize exact integer forms whenever possible:
 
 ```lean
 structure SignLinForm where
@@ -440,6 +503,19 @@ structure DenomSignature where
 The survivor bitset records exactly the masks satisfying all denominator
 positivity constraints. Generated evidence should store only survivor masks
 and their normalized Farkas-shape IDs. Bad masks are omitted.
+
+If a denominator system is not linear in the six sign bits, use one of these
+semantic certificate domains instead of falling back to mask leaves:
+
+- a lifted pseudo-Boolean linear system with auxiliary variables for products
+  and exact Boolean consistency constraints;
+- a Sherali-Adams-style integer certificate over Boolean polynomial
+  identities;
+- a state split that restores linearity by carrying the relevant signed prefix
+  state explicitly.
+
+The acceptance gate is semantic compression below 2,000 Lean-visible
+obligations, not the presence of a particular representation.
 
 Profiler metrics:
 
@@ -464,9 +540,13 @@ Validation gate:
 
 ### Denominator-Cube / Pseudo-Boolean Farkas Fallback
 
+Status: the old exact 64-mask tree profile is rejected, but Gemini's stronger
+continuous/pseudo-Boolean certificate idea remains an active next direction
+under Phase 6L.
+
 If raw denominator-signature grouping still produces too many survivor-map
-families, use exact Farkas certificates over sign variables instead of
-common-bad-impact cubes.
+families, use exact Farkas-style certificates over sign variables or a lifted
+pseudo-Boolean system instead of common-bad-impact cubes.
 
 For a mask cube with some sign bits fixed and others free, relax free bits to
 real variables in `[-1,1]`. A strict Farkas certificate can prove that no point
@@ -480,6 +560,12 @@ without requiring the same denominator to fail for every mask in the cube.
 
 This is stronger than the retired common-impact strategy. It proves
 `∀ mask in cube, ∃ i, denom_i(mask) <= 0` by a single linear certificate.
+
+Important local correction: the current profiler found degree-2 Walsh terms in
+the existing denominator representation. Therefore Phase 6L must first
+determine whether homogeneous/projective integer coordinates make the relevant
+constraints linear. If not, it must use a lifted pseudo-Boolean certificate
+instead of assuming ordinary six-variable linear Farkas is sound.
 
 ### Translation Word/State DAG Fallback
 
@@ -503,6 +589,11 @@ states that rank intervals separate.
 The state-DAG route was profiled after the GoodDirection survivor profiler and
 rejected on the `[0,100000)` gate. Do not keep optimizing bad-direction
 rank/mask tilings.
+
+Future DAG work is only worthwhile if the state key changes materially:
+integer/homogeneous translation state, lifted pseudo-Boolean denominator
+state, or cone/Farkas state. Re-running the old rank-shaped state hash is
+explicitly out of scope.
 
 ## Optional Nonidentity Geometry Profilers
 
@@ -1599,12 +1690,197 @@ simple idea that terminal exact failures can be grouped by final obstruction
 shape at low-thousands scale. A useful next compression idea must change the
 mathematical proof domain, not merely hash terminal certificates more finely.
 
+### Phase 6L: Integer Semantic-Convex Certificate Backend
+
+Status: next active strategy.
+
+This phase fully incorporates the latest external assessment: stop trying to
+compress continuous geometry in lexicographic rank space, stop rasterizing
+continuous sign constraints with Boolean rectangles, and stop making large
+generated checkers reduce `Rat` expressions. The goal is to discover a
+semantic certificate domain whose natural objects are convex/geometric states
+and integer witnesses.
+
+#### Phase 6L.0: Rank Boundary Audit
+
+Purpose: make the rank/geometry separation explicit.
+
+Tasks:
+
+1. List every generated/public theorem whose main compression claim is a
+   `CoversInterval ... lo hi` theorem.
+2. Classify each use as either:
+   - final address bridge from `r : Fin numPairWords` to `unrankPairWord r`;
+   - historical diagnostic/root scaffolding;
+   - active compression mechanism.
+3. Retire or mark historical any active compression mechanism that only works
+   by hoping geometric failures are contiguous in lexicographic rank.
+4. Define the intended semantic theorem shape over pair words or states, for
+   example:
+
+   ```lean
+   theorem translation_semantic_complete
+       (w : PairWord) (hw : ValidPairWord w)
+       (hId : totalLinearOfPairWord w = matId)
+       (mask : SignMask)
+       (hgood : GoodDirectionForWord w mask) :
+       TranslationSystemUnsatForWord w mask := ...
+   ```
+
+5. Keep this adapter as the only rank-facing layer:
+
+   ```lean
+   theorem translation_rank_complete
+       (r : Fin numPairWords)
+       (hId : totalLinearOfPairWord (unrankPairWord r) = matId) :
+       NoTranslationStartedOrbitAtRank r := ...
+   ```
+
 Acceptance:
+
+- `SYMMETRY_PLAN.md` and code comments clearly state that rank intervals are
+  final enumeration adapters, not the main compression domain.
+- The next profiler reports semantic state counts in addition to any rank
+  coverage metadata.
+
+#### Phase 6L.1: Integer/Homogeneous Arithmetic Core
+
+Purpose: avoid large generated reductions over `Rat`/`ℚ`.
+
+Tasks:
+
+1. Add a small hand-written integer arithmetic module for generated
+   certificates, separate from the existing geometric `Rat` API:
+
+   ```lean
+   structure IVec3 where
+     x y z : Int
+
+   structure IMat3 where
+     m00 m01 m02 : Int
+     m10 m11 m12 : Int
+     m20 m21 m22 : Int
+
+   structure HVec3 where
+     x y z w : Int
+   ```
+
+2. Represent reflection products and copied normals in homogeneous/projective
+   form whenever denominators would otherwise appear.
+3. Prove small interpretation lemmas from integer/homogeneous data to the
+   existing `Rat`/`Real` semantics.
+4. For generated checkers, require exact integer equalities/inequalities such
+   as zero dot products, nonnegative Farkas weights, and negative constants.
+5. Do not replace the whole trusted geometry layer at once. Use the integer
+   layer only for generated certificate checking and bridge to existing
+   definitions by small lemmas.
+
+Acceptance:
+
+- A tiny sample certificate checks using only integer-normalized data.
+- The generated theorem type does not mention large integer data.
+- Focused Lean build passes without `native_decide`, `unsafe`, `sorry`, or
+  broad generated imports.
+
+#### Phase 6L.2: Translation Continuous/Pseudo-Boolean Profiler
+
+Purpose: replace Boolean mask rasterization with semantic infeasibility
+certificates over sign variables.
+
+Tasks:
+
+1. Recompute translation GoodDirection denominator constraints in the new
+   integer/homogeneous representation.
+2. Determine the actual algebraic degree of those constraints in the sign
+   variables under that representation.
+3. If the constraints are linear, profile strict Farkas certificates over
+   variables `s_i ∈ [-1, 1]`.
+4. If the constraints are not linear, profile a lifted pseudo-Boolean system:
+   introduce product variables, exact Boolean consistency constraints, or
+   Sherali-Adams-style polynomial certificates.
+5. Generate no evidence for bad-direction masks. A certificate either proves
+   `GoodDirection` impossible for a semantic state/cube, or maps a
+   GoodDirection survivor to a normalized Farkas shape.
+
+Profiler outputs:
+
+- number of semantic translation states;
+- algebraic degree histogram under the integer/homogeneous model;
+- continuous Farkas leaves;
+- lifted pseudo-Boolean leaves;
+- survivor Farkas leaves;
+- unresolved/fallback leaves;
+- projected Lean-visible heavy leaves.
+
+Gate:
+
+- Reject if projected Lean-visible leaves exceed 2,000 on `[0,100000)`.
+- Only scale beyond `[0,100000)` if the first gate is comfortably under the
+  hard threshold and no fallback resembles one-case-per-mask.
+
+#### Phase 6L.3: Nonidentity Convex Cone / State Certificates
+
+Purpose: reuse the empty-cone idea in a coordinate/state space where it can
+actually see geometry.
+
+Tasks:
+
+1. Stop applying empty-cone certificates only to unsigned pair-prefix rank
+   intervals.
+2. Carry richer signed-prefix or state information:
+   - transformed active normals;
+   - current reflection product;
+   - feasible direction cone;
+   - remaining face-pair counts;
+   - started-face `D4` canonicalization.
+3. Generate exact integer Farkas/Gordan certificates proving no ray direction
+   can satisfy all active strict inequalities for that semantic state.
+4. Profile state sharing before Lean emission.
+
+Gate:
+
+- Reject if the stateful cone profiler still leaves tens of thousands of
+  terminal residuals in `[0,100000)`.
+- Proceed only if the semantic state count plausibly scales to low thousands.
+
+#### Phase 6L.4: Rank Adapter Only After Semantic Coverage
+
+Purpose: preserve exhaustive coverage without making ranks the compression
+engine.
+
+Tasks:
+
+1. Once semantic translation/nonidentity coverage is below the leaf gate,
+   generate a rank adapter that proves every `unrankPairWord r` maps into one
+   semantic covered state.
+2. The adapter may use interval/rank facts for enumeration bookkeeping, but
+   it must not expose one proof node per raw rank or one proof node per tiny
+   lexicographic interval.
+3. Root theorem shape:
+
+   ```lean
+   theorem Generated.rank_complete
+       (r : Fin numPairWords) :
+       NoStartedUnfoldedOrbitAtRank r := ...
+   ```
+
+Acceptance:
+
+- Root generated coverage imports semantic group/root modules, not heavy
+  leaves.
+- Rank/unrank correctness is used only at this boundary.
+- No generated file contains a global array/list of ranks, masks, or
+  certificates.
+
+Acceptance for Phase 6L:
 
 - Profiler reports bounded-window compression statistics.
 - Any generated Lean checker has a small soundness theorem.
-- These optimizations are only adopted if they reduce the final survivor or
-  prefix proof below the hard leaf gate.
+- Integer/homogeneous certificate checking is used for generated arithmetic
+  whenever possible.
+- Ranks are used only as final coverage adapters.
+- These optimizations are only adopted if they reduce the final survivor,
+  cone, or semantic-state proof below the hard leaf gate.
 
 ### Phase 6A: Automatic Prefix Interval Discovery
 
@@ -2371,10 +2647,13 @@ Acceptance:
 - [x] Implement and reject Phase 6J.2 D26 axis audit on five 100k windows.
 - [x] Implement and reject Phase 6K terminal residual shape census on the
   first `[0,100000)` gate.
-- [ ] Add a stronger nonidentity prefix obstruction only if the revised
-  translation survivor path still does not meet the hard leaf gate.
-- [ ] Refresh translation normalized Farkas shape sharing after GoodDirection
-  survivor profiling, not before.
+- [ ] Implement Phase 6L.0 rank-boundary audit and semantic theorem target.
+- [ ] Implement Phase 6L.1 integer/homogeneous arithmetic core for generated
+  certificate checking.
+- [ ] Implement Phase 6L.2 translation continuous/pseudo-Boolean profiler.
+- [ ] Implement Phase 6L.3 stateful nonidentity cone/Farkas profiler.
+- [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
+  the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
   with memory monitoring.
 - [ ] Generate full compressed evidence only after the dry-run gate passes.
@@ -2407,10 +2686,15 @@ contain non-D26 forced-balance survivors, with zero D26 survivors at that gate.
 Phase 6K terminal residual shape grouping is rejected as well: the first full
 `[0,100000)` census already has 9,036 distinct nonidentity terminal candidate
 obstruction keys, 38,073 distinct all-nonidentity obstruction keys, and 11,478
-translation normalized Farkas shapes. The next useful step must be a different
-compression idea, most likely a new mathematical reduction that changes the
-proof domain before terminal certificates, not another terminal hash/key
-refinement.
+translation normalized Farkas shapes.
+
+The next useful step is Phase 6L. Do not run another rank-shaped diagnostic
+first. Phase 6L must change the proof domain before terminal certificates:
+integer/homogeneous generated arithmetic, continuous or lifted
+pseudo-Boolean Farkas certificates for translation GoodDirection obligations,
+and stateful cone/Farkas certificates for nonidentity direction constraints.
+Lexicographic rank intervals should reappear only as final enumeration
+adapters once semantic coverage has passed the low-thousands gate.
 
 ## Explicit Non-Goals
 
@@ -2435,3 +2719,11 @@ refinement.
 - Do not emit terminal residual obstruction-shape leaves from Phase 6K; the
   first `[0,100000)` census already exceeds the hard gate by several times
   even before scaling beyond the first sample window.
+- Do not start another strategy whose main compression claim is that a
+  geometric failure covers a large contiguous lexicographic rank interval.
+- Do not build new heavy generated checkers over `Rat`/`ℚ` unless an explicit
+  focused benchmark shows the generated reductions stay comfortably within
+  the memory budget.
+- Do not assume translation denominator constraints are linear in the six sign
+  bits without re-profiling them in the new integer/homogeneous coordinate
+  system.
