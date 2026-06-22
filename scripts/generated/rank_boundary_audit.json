@@ -4,7 +4,7 @@
       "final_adapter": 7,
       "historical_diagnostic": 64
     },
-    "files_scanned": 445,
+    "files_scanned": 446,
     "files_with_rank_boundary_occurrences": 71,
     "legacy_compression_files": 0,
     "symbols": {
@@ -25,7 +25,7 @@
   "decision": {
     "notes": [
       "No legacy or unknown rank-boundary entries remain.",
-      "Proceed to Phase 6L.1 integer/homogeneous arithmetic core."
+      "Rank-boundary gate is clear for the next semantic-convex phase."
     ],
     "status": "pass",
     "strict_pass": true

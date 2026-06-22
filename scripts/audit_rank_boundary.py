@@ -214,7 +214,7 @@ def build_report() -> dict:
         status = "pass"
         notes = [
             "No legacy or unknown rank-boundary entries remain.",
-            "Proceed to Phase 6L.1 integer/homogeneous arithmetic core.",
+            "Rank-boundary gate is clear for the next semantic-convex phase.",
         ]
 
     return {

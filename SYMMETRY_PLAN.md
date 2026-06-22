@@ -183,7 +183,7 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A complete | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. The rank-boundary audit now passes, so Phase 6L.1 integer semantic-convex certificates are unblocked. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1 complete | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. The integer/homogeneous generated-certificate core now exists, so Phase 6L.2 translation continuous/pseudo-Boolean profiling is next. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -1756,7 +1756,7 @@ Completed implementation:
   ```
 
 - Current audit counts:
-  - files scanned: 445;
+  - files scanned: 446;
   - files with rank-boundary occurrences: 71;
   - total occurrences: 509;
   - final adapter files: 7;
@@ -1815,6 +1815,31 @@ Acceptance:
 - The generated theorem type does not mention large integer data.
 - Focused Lean build passes without `native_decide`, `unsafe`, `sorry`, or
   broad generated imports.
+
+Completed implementation:
+
+- Added `Cuboctahedron/Generated/Arithmetic/Int3.lean`.
+- Introduced the generated-certificate arithmetic namespace
+  `Cuboctahedron.Generated.Arithmetic`.
+- Added integer aliases and operations:
+  - `IVec3`, `IMat3`, `HVec3`;
+  - `ivecAdd`, `ivecScale`, `ivecDot`, `imatVec`, `imatMul`;
+  - `HVec3.validDen`, `HVec3.toRatVec3`, `HVec3.toRealVec3`.
+- Proved cast/interpretation bridges for integer vector dot products, matrix
+  application/multiplication, homogeneous coordinates, and positive-denominator
+  homogeneous dot inequalities.
+- Added `EmptyCone3Cert`, `EmptyCone3Cert.Checked`,
+  `EmptyCone3Cert.sound`, and the tiny smoke theorem
+  `sampleEmptyCone3Cert_no_ray`.
+- Imported the module from `Cuboctahedron.lean`; the focused target builds in
+  seconds and does not import broad generated evidence.
+
+Decision:
+
+Phase 6L.2 is now unblocked. The next profiler should express translation
+GoodDirection denominator constraints in this integer/homogeneous arithmetic
+layer, then report whether the resulting sign-bit constraints are linear or
+need a lifted pseudo-Boolean certificate system.
 
 #### Phase 6L.2: Translation Continuous/Pseudo-Boolean Profiler
 
@@ -2684,7 +2709,7 @@ Acceptance:
 - [x] Implement Phase 6L.0 rank-boundary audit and semantic theorem target.
 - [x] Retire or explicitly reclassify the 10 legacy rank-compression files
   reported by `scripts/generated/rank_boundary_audit.json`.
-- [ ] Implement Phase 6L.1 integer/homogeneous arithmetic core for generated
+- [x] Implement Phase 6L.1 integer/homogeneous arithmetic core for generated
   certificate checking.
 - [ ] Implement Phase 6L.2 translation continuous/pseudo-Boolean profiler.
 - [ ] Implement Phase 6L.3 stateful nonidentity cone/Farkas profiler.
@@ -2724,15 +2749,14 @@ Phase 6K terminal residual shape grouping is rejected as well: the first full
 obstruction keys, 38,073 distinct all-nonidentity obstruction keys, and 11,478
 translation normalized Farkas shapes.
 
-The next useful step is Phase 6L.1: implement the integer/homogeneous
-arithmetic core for generated certificate checking. The Phase 6L.0 audit now
-passes with zero legacy or unknown rank-boundary files, so Phase 6L must change
-the proof domain before terminal certificates: integer/homogeneous generated
-arithmetic, continuous or lifted pseudo-Boolean Farkas certificates for
-translation GoodDirection obligations, and stateful cone/Farkas certificates
-for nonidentity direction constraints. Lexicographic rank intervals should
-reappear only as final enumeration adapters once semantic coverage has passed
-the low-thousands gate.
+The next useful step is Phase 6L.2: build the translation
+continuous/pseudo-Boolean profiler on top of the new integer/homogeneous
+arithmetic core. The profiler should recompute GoodDirection denominator
+constraints in integer form, report their sign-bit algebraic degree, and decide
+whether the next certificate family can use ordinary continuous Farkas
+certificates or needs a lifted pseudo-Boolean system. Lexicographic rank
+intervals should reappear only as final enumeration adapters once semantic
+coverage has passed the low-thousands gate.
 
 ## Explicit Non-Goals
 

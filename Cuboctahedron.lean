@@ -1,4 +1,5 @@
 import Cuboctahedron.Geometry.UnfoldingFeasible
+import Cuboctahedron.Generated.Arithmetic.Int3
 import Cuboctahedron.Generated.AllGenerated
 import Cuboctahedron.Search.Certificates
 import Cuboctahedron.Search.Enumeration
