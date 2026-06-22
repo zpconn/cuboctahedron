@@ -1,0 +1,590 @@
+{
+  "complete": false,
+  "decision": {
+    "reasons": [
+      "residual fallback rank ratio 1.000 exceeds max 0.100",
+      "no empty-cone prefix kills found",
+      "largest empty-cone prefix kill width is still at most 3"
+    ],
+    "status": "reject"
+  },
+  "elapsed_seconds": 4.098845681990497,
+  "mode": "nonidentity-empty-cone-profile",
+  "options": {
+    "branch": "nonidentity",
+    "empty_cone_support_limit": 4,
+    "legal_signed_prefixes": "omnihedral-compatible signs only",
+    "max_empty_cone_depth": 9,
+    "max_lean_leaves": 2000,
+    "symmetry": "started-face D4",
+    "warn_lean_leaves": 900
+  },
+  "prefix": {
+    "certificate_support_histogram": {},
+    "empty_cone_prefixes": 0,
+    "empty_cone_rank_width": 0,
+    "max_certificates_per_prefix": 0,
+    "max_depth": 9,
+    "max_empty_cone_width": 0,
+    "max_signed_variants": 64,
+    "nodes_by_depth": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 2,
+      "6": 7,
+      "7": 29,
+      "8": 112,
+      "9": 388
+    },
+    "nodes_visited": 543,
+    "signed_variant_histogram": {
+      "4": 1,
+      "8": 12,
+      "16": 141,
+      "32": 318,
+      "64": 61
+    }
+  },
+  "profile_limit": 5000,
+  "schema_version": 1,
+  "templates": {
+    "residual_fallback_leaves": 388,
+    "residual_fallback_rank_ratio": 1.0,
+    "residual_fallback_width": 5000,
+    "samples": [
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "9467a805269b2ca3c2e8de203ad159a1ad759c4911e8eae889e2566918e0e6ed",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,d11m|width=6",
+        "hi": 6,
+        "kind": "residualLeaf",
+        "lo": 0,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "d11m"
+        ],
+        "rank_count": 6,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "7dd7ecdd61f39422f6cc5370040d8c4acbcc35589c37c69961aabd492881b253",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,d1m1|width=12",
+        "hi": 18,
+        "kind": "residualLeaf",
+        "lo": 6,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "d1m1"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "79c4793c99a151ea3cbddec1d3e1385451ef53b726992cd5ccae9cce728d77a2",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,dm11|width=12",
+        "hi": 30,
+        "kind": "residualLeaf",
+        "lo": 18,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "dm11"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "1fc9295291ae3d324c0f910d15aa9eb31fb282958ca7547f48110c978aa689f1",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,d11m|width=12",
+        "hi": 42,
+        "kind": "residualLeaf",
+        "lo": 30,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d1m1",
+          "d11m"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "e4510452ad9b858746e8e95a13e553f644fac473bcc55c2bebc7739aa1ae0518",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,d1m1|width=6",
+        "hi": 48,
+        "kind": "residualLeaf",
+        "lo": 42,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d1m1",
+          "d1m1"
+        ],
+        "rank_count": 6,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "10f3bec3be9e5d2f1189a435e73ee33f0c6605ee3e9384715b1009e473ca4b0b",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,dm11|width=12",
+        "hi": 60,
+        "kind": "residualLeaf",
+        "lo": 48,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d1m1",
+          "dm11"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "8e7356ac69a36b331e7e3dbe263301c86d0e58cc7f258ab7a1adeb3e1c66a7a7",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,d11m|width=12",
+        "hi": 72,
+        "kind": "residualLeaf",
+        "lo": 60,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "dm11",
+          "d11m"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "c3e1177d8dddf52c35401b1caa6fdfd3d679e2a9e3daf6f3e26185b7429df9dc",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,d1m1|width=12",
+        "hi": 84,
+        "kind": "residualLeaf",
+        "lo": 72,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "dm11",
+          "d1m1"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "ab39d5599a176624aaa9fe04972d8a5cf40f748b968a40838fbd564842b0afa7",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,dm11|width=6",
+        "hi": 90,
+        "kind": "residualLeaf",
+        "lo": 84,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "dm11",
+          "dm11"
+        ],
+        "rank_count": 6,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "09a7b5af45f322bc6500ea4542136525643ee96d5182fd4356bbcab3a3545deb",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,d11m|width=6",
+        "hi": 96,
+        "kind": "residualLeaf",
+        "lo": 90,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "d11m"
+        ],
+        "rank_count": 6,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "0b6a7509d02cf00d66da77621ac894c8b773126df7e3c3b284158f91a36bc787",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,d1m1|width=12",
+        "hi": 108,
+        "kind": "residualLeaf",
+        "lo": 96,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "d1m1"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "5d68eda963b9fbebdbffef6f1a25d8b677f764e40ce928d49c5d6d9033bdd643",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,dm11|width=12",
+        "hi": 120,
+        "kind": "residualLeaf",
+        "lo": 108,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "dm11"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "bfdc297eb375df3fdbd6dc7b5e8bc73a1180362460182fae9e763acc953e6030",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,d111|width=6",
+        "hi": 126,
+        "kind": "residualLeaf",
+        "lo": 120,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d11m",
+          "d111"
+        ],
+        "rank_count": 6,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "7e38c9ee33bea7e6c16c3d8fbb933c3284f5cb0a6639944b993a71eb18e04166",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,d1m1|width=12",
+        "hi": 138,
+        "kind": "residualLeaf",
+        "lo": 126,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d11m",
+          "d1m1"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "82c91c2248dbdbfc80fe6e29c675bf4271647ebf11fc05a20e5ffaa4f332322a",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,dm11|width=12",
+        "hi": 150,
+        "kind": "residualLeaf",
+        "lo": 138,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d11m",
+          "dm11"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      },
+      {
+        "certificate_count": 0,
+        "depth": 9,
+        "family_key_digest": "9803f9f8ed4df048a600a80fb669d6755b7294784688de0efd4b43723176aff3",
+        "family_key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d1m1,d111|width=12",
+        "hi": 162,
+        "kind": "residualLeaf",
+        "lo": 150,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d1m1",
+          "d111"
+        ],
+        "rank_count": 12,
+        "signed_variant_count": 0,
+        "source": "depthCap"
+      }
+    ]
+  },
+  "tiling": {
+    "coalesced_semantic_tiles": 388,
+    "covered_width": 5000,
+    "empty_cone_families": {
+      "cap": 100000,
+      "count": 0,
+      "exact": true,
+      "lower_bound": 0,
+      "samples": []
+    },
+    "expected_next": 5000,
+    "gaps": [],
+    "has_gaps": false,
+    "has_overlaps": false,
+    "heavy_families": {
+      "cap": 100000,
+      "count": 388,
+      "exact": true,
+      "lower_bound": 388,
+      "samples": [
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,d11m|width=6",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,d1m1|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,dm11|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,d11m|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,d1m1|width=6",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,dm11|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,d11m|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,d1m1|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,dm11|width=6",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,d11m|width=6",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,d1m1|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,dm11|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,d111|width=6",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,d1m1|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,dm11|width=12",
+        "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d1m1,d111|width=12"
+      ]
+    },
+    "max_tile_width": 24,
+    "overlaps": [],
+    "planned_lean_heavy_leaves": 388,
+    "planned_lean_heavy_leaves_exact": 388,
+    "planned_lean_heavy_leaves_lower_bound": 388,
+    "planned_public_interval_nodes": 387,
+    "samples": [
+      {
+        "hi": 6,
+        "key_digest": "9467a805269b2ca3c2e8de203ad159a1ad759c4911e8eae889e2566918e0e6ed",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,d11m|width=6",
+        "kind": "residualLeaf",
+        "lo": 0
+      },
+      {
+        "hi": 18,
+        "key_digest": "7dd7ecdd61f39422f6cc5370040d8c4acbcc35589c37c69961aabd492881b253",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,d1m1|width=12",
+        "kind": "residualLeaf",
+        "lo": 6
+      },
+      {
+        "hi": 30,
+        "key_digest": "79c4793c99a151ea3cbddec1d3e1385451ef53b726992cd5ccae9cce728d77a2",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d11m,dm11|width=12",
+        "kind": "residualLeaf",
+        "lo": 18
+      },
+      {
+        "hi": 42,
+        "key_digest": "1fc9295291ae3d324c0f910d15aa9eb31fb282958ca7547f48110c978aa689f1",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,d11m|width=12",
+        "kind": "residualLeaf",
+        "lo": 30
+      },
+      {
+        "hi": 48,
+        "key_digest": "e4510452ad9b858746e8e95a13e553f644fac473bcc55c2bebc7739aa1ae0518",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,d1m1|width=6",
+        "kind": "residualLeaf",
+        "lo": 42
+      },
+      {
+        "hi": 60,
+        "key_digest": "10f3bec3be9e5d2f1189a435e73ee33f0c6605ee3e9384715b1009e473ca4b0b",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,d1m1,dm11|width=12",
+        "kind": "residualLeaf",
+        "lo": 48
+      },
+      {
+        "hi": 72,
+        "key_digest": "8e7356ac69a36b331e7e3dbe263301c86d0e58cc7f258ab7a1adeb3e1c66a7a7",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,d11m|width=12",
+        "kind": "residualLeaf",
+        "lo": 60
+      },
+      {
+        "hi": 84,
+        "key_digest": "c3e1177d8dddf52c35401b1caa6fdfd3d679e2a9e3daf6f3e26185b7429df9dc",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,d1m1|width=12",
+        "kind": "residualLeaf",
+        "lo": 72
+      },
+      {
+        "hi": 90,
+        "key_digest": "ab39d5599a176624aaa9fe04972d8a5cf40f748b968a40838fbd564842b0afa7",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d111,dm11,dm11|width=6",
+        "kind": "residualLeaf",
+        "lo": 84
+      },
+      {
+        "hi": 96,
+        "key_digest": "09a7b5af45f322bc6500ea4542136525643ee96d5182fd4356bbcab3a3545deb",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,d11m|width=6",
+        "kind": "residualLeaf",
+        "lo": 90
+      },
+      {
+        "hi": 108,
+        "key_digest": "0b6a7509d02cf00d66da77621ac894c8b773126df7e3c3b284158f91a36bc787",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,d1m1|width=12",
+        "kind": "residualLeaf",
+        "lo": 96
+      },
+      {
+        "hi": 120,
+        "key_digest": "5d68eda963b9fbebdbffef6f1a25d8b677f764e40ce928d49c5d6d9033bdd643",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d111,dm11|width=12",
+        "kind": "residualLeaf",
+        "lo": 108
+      },
+      {
+        "hi": 126,
+        "key_digest": "bfdc297eb375df3fdbd6dc7b5e8bc73a1180362460182fae9e763acc953e6030",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,d111|width=6",
+        "kind": "residualLeaf",
+        "lo": 120
+      },
+      {
+        "hi": 138,
+        "key_digest": "7e38c9ee33bea7e6c16c3d8fbb933c3284f5cb0a6639944b993a71eb18e04166",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,d1m1|width=12",
+        "kind": "residualLeaf",
+        "lo": 126
+      },
+      {
+        "hi": 150,
+        "key_digest": "82c91c2248dbdbfc80fe6e29c675bf4271647ebf11fc05a20e5ffaa4f332322a",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d11m,dm11|width=12",
+        "kind": "residualLeaf",
+        "lo": 138
+      },
+      {
+        "hi": 162,
+        "key_digest": "9803f9f8ed4df048a600a80fb669d6755b7294784688de0efd4b43723176aff3",
+        "key_sample": "residualLeaf|prefix=x,y,y,z,z,d111,d11m,d1m1,d111|width=12",
+        "kind": "residualLeaf",
+        "lo": 150
+      }
+    ],
+    "sum_hi_minus_lo": 5000,
+    "target_hi": 5000
+  },
+  "trusted_as_proof": false
+}

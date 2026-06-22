@@ -125,7 +125,7 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, and word/state DAG grouping all exceed the 2,000-leaf gate on `[0,100000)`, so the next path is geometric prefix filtering. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1 rejected as standalone | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, and conservative all-signed empty-cone pair-prefix pruning all exceed the 2,000-leaf gate on `[0,100000)`. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -1488,13 +1488,42 @@ evidence from Phase 6I. Proceed to Phase 6J geometric prefix filters.
 These profilers are now the next active compression attempt after the
 GoodDirection survivor, mask-tree, and state-DAG gates all rejected.
 
-1. **D26 nonidentity direction filter.**
+1. **Empty-cone Farkas prefix pruning.**
+   Status: implemented and rejected as a standalone pair-prefix filter.
+   The trusted Lean foundation is now present in
+   `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean`:
+   `no_ray_of_empty_cone4` and `EmptyConePrefixCert.sound`.
+   The profiler mode is:
+
+   ```bash
+   python3 scripts/profile_symmetry_compression.py \
+     --dry-run --nonidentity-empty-cone-tree --limit 5000 --allow-reject \
+     --output scripts/generated/nonidentity_empty_cone_profile_0_5000.json
+
+   python3 scripts/profile_symmetry_compression.py \
+     --dry-run --nonidentity-empty-cone-tree --limit 100000 --allow-reject \
+     --progress-interval 10000 \
+     --output scripts/generated/nonidentity_empty_cone_profile_0_100000.json
+   ```
+
+   The profiler is conservative: a pair-prefix is killed only if every
+   omnihedral-compatible signed face-prefix over that pair-prefix has an exact
+   small-support nonnegative dependence among its active unfolded normals.
+
+   Current result: rejected. On `[0,5000)` it found no empty-cone prefix kills.
+   On `[0,100000)` it found 14 empty-cone prefixes covering only 222 ranks,
+   with 7,116 planned heavy leaves and 99.778% residual fallback width. Do not
+   scale this pair-prefix empty-cone strategy as a standalone backend.
+2. **D26 nonidentity direction filter.**
    Profile the 26 directed cube symmetry axes as a finite alive-direction set.
    Do not emit proof evidence until Lean proves that every feasible
    nonidentity direction lies in this set.
-2. **Empty-cone Farkas prefix pruning.**
-   Profile exact positive combinations of transformed normals summing to zero.
-   This can kill prefixes before translation masks are considered.
+3. **Stronger continuous cone certificates.**
+   If D26 profiling also fails, the next continuous-geometric attempt should
+   operate over richer signed-prefix/state information rather than unsigned
+   pair-prefix intervals. The pair-prefix empty-cone profiler shows that the
+   easy cone certificate is sound but far too sparse in raw rank-prefix
+   coordinates.
 
 Acceptance:
 
@@ -2263,8 +2292,10 @@ Acceptance:
   `[0,100000)` gate.
 - [x] Implement and reject Phase 6I translation word/state DAG profiling on
   the `[0,100000)` gate.
-- [ ] Profile Phase 6J D26 and empty-cone prefix geometry filters, but do not
-  emit proof evidence until their invariants are formalized.
+- [x] Implement and reject Phase 6J.1 conservative all-signed empty-cone
+  pair-prefix profiling on the `[0,100000)` gate.
+- [ ] Profile Phase 6J.2 D26 prefix geometry filters, but do not emit proof
+  evidence until the axis-direction invariant is formalized.
 - [ ] Add a stronger nonidentity prefix obstruction only if the revised
   translation survivor path still does not meet the hard leaf gate.
 - [ ] Refresh translation normalized Farkas shape sharing after GoodDirection
@@ -2293,8 +2324,11 @@ Phase 6E and Phase 6F are complete, and Phase 6H/6I have now been rejected by
 bounded gates. The GoodDirection survivor split matches the old Farkas-needed
 count, but raw survivor-map grouping projects 5,565 heavy leaves, mask-tree
 grouping projects 39,754 conservative leaf obligations, and state-DAG grouping
-projects 49,504 combined obligations in `[0,100000)`. The next useful step is
-Phase 6J geometric prefix filtering.
+projects 49,504 combined obligations in `[0,100000)`. Phase 6J.1 empty-cone
+pair-prefix pruning is also rejected as a standalone backend: the
+`[0,100000)` run killed only 222 ranks and left 7,116 planned heavy leaves.
+The next useful step is Phase 6J.2 D26 profiling, with proof evidence blocked
+until the exact finite-axis invariant is formalized.
 
 ## Explicit Non-Goals
 
@@ -2312,3 +2346,5 @@ Phase 6J geometric prefix filtering.
   for every sign mask.
 - Do not use the D26 direction filter as proof evidence until Lean has the
   exact invariant theorem that justifies it.
+- Do not scale the current pair-prefix empty-cone strategy as a standalone
+  backend; its `[0,100000)` compression gate is rejected.

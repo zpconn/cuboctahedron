@@ -457,6 +457,30 @@ planned Lean obligations. It does find reuse, but not enough to meet the
 2,000-leaf gate. Do not emit Lean roots from this state-DAG strategy; proceed
 to Phase 6J geometric prefix filters.
 
+## Nonidentity empty-cone prefix profiler
+
+The Phase 6J.1 profiler tests exact Empty-Cone Farkas pruning on conservative
+all-signed pair prefixes:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-empty-cone-tree --limit 5000 --allow-reject \
+  --output scripts/generated/nonidentity_empty_cone_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-empty-cone-tree --limit 100000 --allow-reject \
+  --progress-interval 10000 \
+  --output scripts/generated/nonidentity_empty_cone_profile_0_100000.json
+```
+
+Current result: rejected as a standalone pair-prefix backend. The trusted Lean
+soundness core builds in
+`Cuboctahedron.Generated.NonIdentity.PrefixPruning`, but the `[0,100000)`
+profile found only 14 empty-cone prefixes covering 222 ranks, with 7,116
+planned heavy leaves and 99.778% residual fallback width. Do not emit Lean
+roots from this pair-prefix empty-cone strategy unless a later stateful/signed
+variant changes the gate result.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

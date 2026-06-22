@@ -11,11 +11,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 from collections import Counter
 from dataclasses import dataclass, field
 from fractions import Fraction
 from functools import lru_cache
+from itertools import combinations, product
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +26,7 @@ from exact_profile import (
     EXPECTED_PAIR_WORDS,
     EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
     IDENTITY,
+    NORMALS,
     PAIR_COUNTS,
     PAIR_IDS,
     RPAIR,
@@ -38,6 +41,7 @@ from exact_profile import (
     impact_denom,
     mat_key,
     mat_mul,
+    mat_vec,
     multinomial_count,
     normalized_constraints_key,
     one_dimensional_fixed_axis,
@@ -79,6 +83,9 @@ DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT = (
 )
 DEFAULT_TRANSLATION_STATE_DAG_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "translation_state_dag_profile.json"
+)
+DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT = (
+    REPO_ROOT / "scripts" / "generated" / "nonidentity_empty_cone_profile.json"
 )
 
 
@@ -158,6 +165,198 @@ def fraction_key(value: Fraction) -> str:
 
 def bit_sign(mask: int, bit: int) -> int:
     return 1 if mask & (1 << bit) else -1
+
+
+def vec_fraction(values: tuple[int, int, int] | tuple[Fraction, Fraction, Fraction]):
+    return tuple(Fraction(value) for value in values)
+
+
+def vec_scale_fraction(scale: Fraction, v: tuple[Fraction, Fraction, Fraction]):
+    return (scale * v[0], scale * v[1], scale * v[2])
+
+
+def weighted_vec_sum(
+    weights: tuple[Fraction, ...],
+    normals: tuple[tuple[Fraction, Fraction, Fraction], ...],
+) -> tuple[Fraction, Fraction, Fraction]:
+    return (
+        sum(w * n[0] for w, n in zip(weights, normals)),
+        sum(w * n[1] for w, n in zip(weights, normals)),
+        sum(w * n[2] for w, n in zip(weights, normals)),
+    )
+
+
+def normalize_weight_vector(weights: tuple[Fraction, ...]) -> tuple[Fraction, ...]:
+    if not weights:
+        return weights
+    denominators = [weight.denominator for weight in weights]
+    lcm = 1
+    for denominator in denominators:
+        lcm = lcm * denominator // math.gcd(lcm, denominator)
+    ints = [weight.numerator * (lcm // weight.denominator) for weight in weights]
+    gcd = 0
+    for value in ints:
+        gcd = math.gcd(gcd, abs(value))
+    if gcd == 0:
+        return weights
+    ints = [value // gcd for value in ints]
+    first_nonzero = next((value for value in ints if value != 0), 1)
+    if first_nonzero < 0:
+        ints = [-value for value in ints]
+    return tuple(Fraction(value) for value in ints)
+
+
+def rref_nullspace(
+    rows_in: list[list[Fraction]],
+    n_cols: int,
+) -> list[tuple[Fraction, ...]]:
+    rows = [list(row) for row in rows_in]
+    pivot_cols: list[int] = []
+    row = 0
+    for col in range(n_cols):
+        pivot = None
+        for candidate in range(row, len(rows)):
+            if rows[candidate][col] != 0:
+                pivot = candidate
+                break
+        if pivot is None:
+            continue
+        rows[row], rows[pivot] = rows[pivot], rows[row]
+        div = rows[row][col]
+        rows[row] = [entry / div for entry in rows[row]]
+        for other in range(len(rows)):
+            if other == row:
+                continue
+            factor = rows[other][col]
+            if factor == 0:
+                continue
+            rows[other] = [
+                rows[other][c] - factor * rows[row][c]
+                for c in range(n_cols)
+            ]
+        pivot_cols.append(col)
+        row += 1
+        if row == len(rows):
+            break
+
+    free_cols = [col for col in range(n_cols) if col not in pivot_cols]
+    basis: list[tuple[Fraction, ...]] = []
+    for free in free_cols:
+        vector = [Fraction(0) for _ in range(n_cols)]
+        vector[free] = Fraction(1)
+        for pivot_row, pivot_col in enumerate(pivot_cols):
+            vector[pivot_col] = -rows[pivot_row][free]
+        basis.append(tuple(vector))
+    return basis
+
+
+def orient_nonnegative(
+    weights: tuple[Fraction, ...],
+) -> tuple[Fraction, ...] | None:
+    if all(weight >= 0 for weight in weights) and any(weight > 0 for weight in weights):
+        return normalize_weight_vector(weights)
+    flipped = tuple(-weight for weight in weights)
+    if all(weight >= 0 for weight in flipped) and any(weight > 0 for weight in flipped):
+        return normalize_weight_vector(flipped)
+    return None
+
+
+@lru_cache(maxsize=None)
+def find_empty_cone_certificate(
+    normals: tuple[tuple[Fraction, Fraction, Fraction], ...],
+) -> dict[str, Any] | None:
+    """Find a small exact nonnegative dependence among active normals.
+
+    This is an untrusted profiler helper.  It only records candidate
+    certificates; Lean soundness is supplied separately by
+    `EmptyConePrefixCert`.
+    """
+
+    max_support = min(4, len(normals))
+    for support_size in range(2, max_support + 1):
+        for support in combinations(range(len(normals)), support_size):
+            selected = tuple(normals[index] for index in support)
+            rows = [
+                [normal[coord] for normal in selected]
+                for coord in range(3)
+            ]
+            basis = rref_nullspace(rows, support_size)
+            candidates: list[tuple[Fraction, ...]] = []
+            if len(basis) == 1:
+                candidates.append(basis[0])
+            elif len(basis) > 1:
+                for coeffs in product(range(-3, 4), repeat=len(basis)):
+                    if all(coeff == 0 for coeff in coeffs):
+                        continue
+                    combo = tuple(
+                        sum(Fraction(coeffs[j]) * basis[j][i] for j in range(len(basis)))
+                        for i in range(support_size)
+                    )
+                    candidates.append(combo)
+            for candidate in candidates:
+                oriented = orient_nonnegative(candidate)
+                if oriented is None:
+                    continue
+                if weighted_vec_sum(oriented, selected) != (0, 0, 0):
+                    continue
+                return {
+                    "support": support,
+                    "weights": oriented,
+                    "normals": selected,
+                }
+    return None
+
+
+def empty_cone_certificate_key(cert: dict[str, Any]) -> str:
+    support = ",".join(str(index) for index in cert["support"])
+    weights = ",".join(fraction_key(weight) for weight in cert["weights"])
+    normals = ";".join(vec_key(normal) for normal in cert["normals"])
+    return f"support={support}|weights={weights}|normals={normals}"
+
+
+@lru_cache(maxsize=None)
+def legal_signed_prefixes(prefix: tuple[str, ...]) -> tuple[tuple[int, ...], ...]:
+    """Enumerate omnihedral-compatible signs for a pair prefix.
+
+    The start face is already x+, so an `x` occurrence in the pair word must be
+    x-.  Each other pair may use each sign at most once.
+    """
+
+    seen: dict[str, set[int]] = {pair_id: set() for pair_id in PAIR_IDS}
+    signs: list[int] = []
+    out: list[tuple[int, ...]] = []
+
+    def rec(index: int) -> None:
+        if index == len(prefix):
+            out.append(tuple(signs))
+            return
+        pair_id = prefix[index]
+        choices = (-1,) if pair_id == "x" else (-1, 1)
+        for sign in choices:
+            if sign in seen[pair_id]:
+                continue
+            seen[pair_id].add(sign)
+            signs.append(sign)
+            rec(index + 1)
+            signs.pop()
+            seen[pair_id].remove(sign)
+
+    rec(0)
+    return tuple(out)
+
+
+def active_normals_for_signed_prefix(
+    prefix: tuple[str, ...],
+    signs: tuple[int, ...],
+    pref: list,
+) -> tuple[tuple[Fraction, Fraction, Fraction], ...]:
+    normals: list[tuple[Fraction, Fraction, Fraction]] = [
+        (Fraction(-1), Fraction(0), Fraction(0))
+    ]
+    for index, (pair_id, sign) in enumerate(zip(prefix, signs)):
+        signed_normal = vec_scale_fraction(Fraction(sign), vec_fraction(NORMALS[pair_id]))
+        normals.append(mat_vec(pref[index], signed_normal))
+    return tuple(normals)
 
 
 def denominator_polynomial_key(values: list[Fraction]) -> tuple[str, int]:
@@ -795,6 +994,287 @@ class PrefixKillTreeProfiler:
                 else f">{heavy_lower - 1}",
                 "heavy_families": self.heavy_families.payload(),
                 "prefix_family_shapes": self.prefix_family_shapes.payload(),
+            },
+            "decision": {
+                "status": "reject" if rejected else "pass",
+                "reasons": reject_reasons,
+            },
+        }
+
+
+@dataclass(frozen=True)
+class EmptyConePrefixCandidate:
+    kind: str
+    family_key: str
+    signed_variant_count: int
+    certificate_count: int
+
+
+class EmptyConePrefixProfiler:
+    """Dry-run profiler for exact empty-cone prefix pruning.
+
+    A pair-prefix is killed only when every omnihedral-compatible signed
+    face-prefix over it has an exact nonnegative dependence among its active
+    unfolded normals.  This keeps the profiler conservative: unsigned
+    pair-prefixes do not pretend to know which opposite face is used.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        max_empty_cone_depth: int,
+        use_d4_transport: bool,
+    ) -> None:
+        self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
+        self.limit = limit
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.max_empty_cone_depth = max_empty_cone_depth
+        self.use_d4_transport = use_d4_transport
+        self.prefix_nodes = 0
+        self.prefix_nodes_by_depth: Counter[int] = Counter()
+        self.max_depth = 0
+        self.empty_cone_prefixes = 0
+        self.empty_cone_rank_width = 0
+        self.max_empty_cone_width = 0
+        self.residual_leaves = 0
+        self.residual_width = 0
+        self.max_signed_variants = 0
+        self.max_certificates_per_prefix = 0
+        self.signed_variant_histogram: Counter[int] = Counter()
+        self.certificate_support_histogram: Counter[int] = Counter()
+        self.heavy_families = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.empty_cone_families = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.tiles = TileAccumulator(self.target_hi, sample_limit)
+        self.samples: list[dict[str, Any]] = []
+
+    def full_family_key(
+        self,
+        prefix: tuple[str, ...],
+        cert_keys: list[str],
+    ) -> str:
+        if self.use_d4_transport:
+            canonical, _sym_id = canonical_prefix_with_symmetry(prefix)
+            prefix_key = f"canonicalPrefix={word_key(canonical)}"
+        else:
+            prefix_key = f"prefix={word_key(prefix)}"
+        digest = stable_digest("\n".join(cert_keys))
+        return f"emptyCone|{prefix_key}|variants={len(cert_keys)}|certDigest={digest}"
+
+    def classify_prefix(
+        self,
+        prefix: tuple[str, ...],
+        pref: list,
+    ) -> EmptyConePrefixCandidate | None:
+        signed_prefixes = legal_signed_prefixes(prefix)
+        if not signed_prefixes:
+            return None
+        self.max_signed_variants = max(self.max_signed_variants, len(signed_prefixes))
+        self.signed_variant_histogram[len(signed_prefixes)] += 1
+        cert_keys: list[str] = []
+        support_sizes: list[int] = []
+        for signs in signed_prefixes:
+            normals = active_normals_for_signed_prefix(prefix, signs, pref)
+            cert = find_empty_cone_certificate(normals)
+            if cert is None:
+                return None
+            cert_keys.append(
+                "signs="
+                + ",".join("+" if sign > 0 else "-" for sign in signs)
+                + "|"
+                + empty_cone_certificate_key(cert)
+            )
+            support_sizes.append(len(cert["support"]))
+        cert_keys.sort()
+        for support_size in support_sizes:
+            self.certificate_support_histogram[support_size] += 1
+        self.max_certificates_per_prefix = max(
+            self.max_certificates_per_prefix, len(cert_keys)
+        )
+        family_key = self.full_family_key(prefix, cert_keys)
+        return EmptyConePrefixCandidate(
+            kind="emptyCone",
+            family_key=family_key,
+            signed_variant_count=len(signed_prefixes),
+            certificate_count=len(cert_keys),
+        )
+
+    def record_tile(
+        self,
+        *,
+        lo: int,
+        hi: int,
+        depth: int,
+        candidate: EmptyConePrefixCandidate,
+        source: str,
+        prefix: tuple[str, ...],
+    ) -> None:
+        self.tiles.add(lo, hi, candidate.kind, candidate.family_key)
+        self.heavy_families.add(candidate.family_key)
+        if candidate.kind == "emptyCone":
+            self.empty_cone_families.add(candidate.family_key)
+            self.empty_cone_prefixes += 1
+            self.empty_cone_rank_width += hi - lo
+            self.max_empty_cone_width = max(self.max_empty_cone_width, hi - lo)
+        else:
+            self.residual_leaves += 1
+            self.residual_width += hi - lo
+        if len(self.samples) < self.sample_limit:
+            self.samples.append({
+                "lo": lo,
+                "hi": hi,
+                "depth": depth,
+                "kind": candidate.kind,
+                "source": source,
+                "rank_count": hi - lo,
+                "prefix": list(prefix),
+                "signed_variant_count": candidate.signed_variant_count,
+                "certificate_count": candidate.certificate_count,
+                "family_key_digest": stable_digest(candidate.family_key),
+                "family_key_sample": candidate.family_key[:240],
+            })
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def record_residual(rank_lo: int, clipped_hi: int, depth: int) -> None:
+            residual = EmptyConePrefixCandidate(
+                kind="residualLeaf",
+                family_key=(
+                    "residualLeaf|prefix="
+                    + word_key(tuple(prefix))
+                    + f"|width={clipped_hi - rank_lo}"
+                ),
+                signed_variant_count=0,
+                certificate_count=0,
+            )
+            self.record_tile(
+                lo=rank_lo,
+                hi=clipped_hi,
+                depth=depth,
+                candidate=residual,
+                source="leaf" if depth == 13 else "depthCap",
+                prefix=tuple(prefix),
+            )
+
+        def rec(rank_lo: int) -> None:
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_lo >= self.target_hi:
+                return
+            clipped_hi = min(rank_hi, self.target_hi)
+            depth = len(prefix)
+            self.prefix_nodes += 1
+            self.prefix_nodes_by_depth[depth] += 1
+            self.max_depth = max(self.max_depth, depth)
+
+            if rank_hi <= self.target_hi and depth > 0:
+                candidate = self.classify_prefix(tuple(prefix), list(pref))
+                if candidate is not None:
+                    self.record_tile(
+                        lo=rank_lo,
+                        hi=rank_hi,
+                        depth=depth,
+                        candidate=candidate,
+                        source="prefix",
+                        prefix=tuple(prefix),
+                    )
+                    return
+
+            if depth >= self.max_empty_cone_depth:
+                record_residual(rank_lo, clipped_hi, depth)
+                return
+
+            if len(prefix) == 13:
+                record_residual(rank_lo, clipped_hi, depth)
+                return
+
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                if child_lo < self.target_hi:
+                    rec(child_lo)
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+
+    def payload(
+        self,
+        *,
+        elapsed_seconds: float,
+        rejected: bool,
+        reject_reasons: list[str],
+    ) -> dict[str, Any]:
+        residual_ratio = (
+            self.residual_width / self.target_hi
+            if self.target_hi > 0 else 0
+        )
+        heavy_exact = self.heavy_families.exact_count
+        heavy_lower = self.heavy_families.lower_bound
+        return {
+            "schema_version": 1,
+            "mode": "nonidentity-empty-cone-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None and not rejected,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "nonidentity",
+                "symmetry": "started-face D4" if self.use_d4_transport else "none",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "empty_cone_support_limit": 4,
+                "max_empty_cone_depth": self.max_empty_cone_depth,
+                "legal_signed_prefixes": "omnihedral-compatible signs only",
+            },
+            "prefix": {
+                "nodes_visited": self.prefix_nodes,
+                "nodes_by_depth": dict(sorted(self.prefix_nodes_by_depth.items())),
+                "max_depth": self.max_depth,
+                "empty_cone_prefixes": self.empty_cone_prefixes,
+                "empty_cone_rank_width": self.empty_cone_rank_width,
+                "max_empty_cone_width": self.max_empty_cone_width,
+                "max_signed_variants": self.max_signed_variants,
+                "max_certificates_per_prefix": self.max_certificates_per_prefix,
+                "signed_variant_histogram": dict(sorted(self.signed_variant_histogram.items())),
+                "certificate_support_histogram": dict(sorted(self.certificate_support_histogram.items())),
+            },
+            "templates": {
+                "residual_fallback_leaves": self.residual_leaves,
+                "residual_fallback_width": self.residual_width,
+                "residual_fallback_rank_ratio": residual_ratio,
+                "samples": self.samples,
+            },
+            "tiling": {
+                **self.tiles.payload(),
+                "sum_hi_minus_lo": self.tiles.covered_width,
+                "planned_lean_heavy_leaves_exact": heavy_exact,
+                "planned_lean_heavy_leaves_lower_bound": heavy_lower,
+                "planned_lean_heavy_leaves": heavy_exact
+                if heavy_exact is not None
+                else f">{heavy_lower - 1}",
+                "heavy_families": self.heavy_families.payload(),
+                "empty_cone_families": self.empty_cone_families.payload(),
             },
             "decision": {
                 "status": "reject" if rejected else "pass",
@@ -3656,6 +4136,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_survivors),
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
+        bool(args.nonidentity_empty_cone_tree),
     ])
     if mode_count > 1:
         raise SystemExit(
@@ -3663,7 +4144,8 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-baddir-tree, --translation-baddir-family-tree, "
             "--translation-baddir-common-impact-tree, and "
             "--translation-survivors, --translation-survivor-mask-tree, "
-            "and --translation-state-dag are mutually exclusive"
+            "--translation-state-dag, and --nonidentity-empty-cone-tree "
+            "are mutually exclusive"
         )
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
@@ -3681,6 +4163,8 @@ def validate_options(args: argparse.Namespace) -> None:
         raise SystemExit("--max-residual-leaf-width must be nonnegative")
     if not (0 <= args.min_residual_depth <= 13):
         raise SystemExit("--min-residual-depth must be between 0 and 13")
+    if not (0 <= args.max_empty_cone_depth <= 13):
+        raise SystemExit("--max-empty-cone-depth must be between 0 and 13")
 
 
 def decision_reasons(profiler: SymmetryCompressionProfiler) -> tuple[bool, list[str]]:
@@ -3774,6 +4258,54 @@ def prefix_kill_decision_reasons(
     if profiler.max_prefix_kill_width <= 3 and profiler.target_hi >= 5000:
         reasons.append(
             "largest prefix kill width is still at most 3; prefix templates are too weak"
+        )
+    rejected = any(not reason.startswith("warning:") for reason in reasons)
+    return rejected, reasons
+
+
+def empty_cone_decision_reasons(
+    profiler: EmptyConePrefixProfiler,
+) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+    coverage = profiler.tiles.payload()
+    if coverage["covered_width"] != profiler.target_hi:
+        reasons.append(
+            f"covered width {coverage['covered_width']} does not match target {profiler.target_hi}"
+        )
+    if coverage["has_gaps"]:
+        reasons.append("rank coverage has gaps")
+    if coverage["has_overlaps"]:
+        reasons.append("rank coverage has overlaps")
+    heavy_exact = profiler.heavy_families.exact_count
+    heavy_lower = profiler.heavy_families.lower_bound
+    if heavy_exact is None:
+        reasons.append(
+            "planned Lean heavy leaves exceeded tracking cap "
+            f"(lower bound {heavy_lower})"
+        )
+    elif heavy_exact > profiler.max_lean_leaves:
+        reasons.append(
+            f"planned Lean heavy leaves {heavy_exact} exceed max {profiler.max_lean_leaves}"
+        )
+    elif heavy_exact > profiler.warn_lean_leaves:
+        reasons.append(
+            f"warning: planned Lean heavy leaves {heavy_exact} exceed warning threshold "
+            f"{profiler.warn_lean_leaves}"
+        )
+    residual_ratio = (
+        profiler.residual_width / profiler.target_hi
+        if profiler.target_hi > 0 else 0
+    )
+    if residual_ratio > 0.10:
+        reasons.append(
+            "residual fallback rank ratio "
+            f"{residual_ratio:.3f} exceeds max 0.100"
+        )
+    if profiler.empty_cone_prefixes == 0 and profiler.target_hi > 0:
+        reasons.append("no empty-cone prefix kills found")
+    if profiler.max_empty_cone_width <= 3 and profiler.target_hi >= 5000:
+        reasons.append(
+            "largest empty-cone prefix kill width is still at most 3"
         )
     rejected = any(not reason.startswith("warning:") for reason in reasons)
     return rejected, reasons
@@ -3961,6 +4493,28 @@ def write_payload(payload: dict[str, Any], output: Path) -> None:
 
 
 def print_summary(payload: dict[str, Any]) -> None:
+    if payload.get("mode") == "nonidentity-empty-cone-profile":
+        prefix = payload["prefix"]
+        tiling = payload["tiling"]
+        templates = payload["templates"]
+        decision = payload["decision"]
+        print("nonidentity empty-cone prefix profile")
+        print(f"nodes visited: {prefix['nodes_visited']:,}")
+        print(f"empty-cone prefixes: {prefix['empty_cone_prefixes']:,}")
+        print(f"empty-cone rank width: {prefix['empty_cone_rank_width']:,}")
+        print(f"coalesced semantic tiles: {tiling['coalesced_semantic_tiles']:,}")
+        print(f"planned heavy Lean leaves: {tiling['planned_lean_heavy_leaves']}")
+        print(f"max empty-cone width: {prefix['max_empty_cone_width']:,}")
+        print(
+            "residual fallback: "
+            f"{templates['residual_fallback_width']:,} ranks "
+            f"({templates['residual_fallback_rank_ratio']:.3%})"
+        )
+        print(f"decision: {decision['status']}")
+        for reason in decision["reasons"]:
+            print(f"- {reason}")
+        return
+
     if payload.get("mode") == "prefix-kill-tree-profile":
         counts = payload["actual_counts"]
         tiling = payload["tiling"]
@@ -4293,9 +4847,15 @@ def main() -> None:
         action="store_true",
         help="profile recursive word/state DAG sharing for translation coverage",
     )
+    parser.add_argument(
+        "--nonidentity-empty-cone-tree",
+        action="store_true",
+        help="profile exact empty-cone Farkas pruning for nonidentity pair prefixes",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
+    parser.add_argument("--max-empty-cone-depth", type=int, default=9)
     parser.add_argument(
         "--no-d4-transport",
         action="store_true",
@@ -4326,13 +4886,33 @@ def main() -> None:
             output = DEFAULT_TRANSLATION_FARKAS_OUTPUT
         elif args.prefix_kill_tree:
             output = DEFAULT_PREFIX_KILL_OUTPUT
+        elif args.nonidentity_empty_cone_tree:
+            output = DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT
         else:
             output = DEFAULT_OUTPUT
 
     import time
 
     start = time.monotonic()
-    if args.translation_state_dag:
+    if args.nonidentity_empty_cone_tree:
+        empty_cone_profiler = EmptyConePrefixProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            max_empty_cone_depth=args.max_empty_cone_depth,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        empty_cone_profiler.traverse()
+        rejected, reasons = empty_cone_decision_reasons(empty_cone_profiler)
+        payload = empty_cone_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+            rejected=rejected,
+            reject_reasons=reasons,
+        )
+    elif args.translation_state_dag:
         state_dag_profiler = TranslationStateDagProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,
