@@ -25,9 +25,11 @@ from exact_profile import (
     EXPECTED_IDENTITY_WORDS,
     EXPECTED_PAIR_WORDS,
     EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+    FACE_MINUS,
     FACE_NORMALS,
     FACE_OFFSETS,
     FACE_ORDER,
+    FACE_PLUS,
     IDENTITY,
     NORMALS,
     PAIR_COUNTS,
@@ -118,6 +120,16 @@ def default_d26_audit_output(rank_start: int, limit: int | None) -> Path:
         / "scripts"
         / "generated"
         / f"nonidentity_d26_audit_{rank_start:09d}_{rank_end:09d}.json"
+    )
+
+
+def default_nonidentity_state_cone_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"nonidentity_state_cone_profile_0_{rank_end:09d}.json"
     )
 
 
@@ -811,6 +823,73 @@ def active_normals_for_signed_prefix(
         signed_normal = vec_scale_fraction(Fraction(sign), vec_fraction(NORMALS[pair_id]))
         normals.append(mat_vec(pref[index], signed_normal))
     return tuple(normals)
+
+
+def sign_used_bit(sign: int) -> int:
+    return 1 if sign < 0 else 2
+
+
+def legal_next_signs(pair_id: str, used_mask: int) -> tuple[int, ...]:
+    if pair_id == "x":
+        return () if used_mask & 1 else (-1,)
+    out: list[int] = []
+    if not (used_mask & 1):
+        out.append(-1)
+    if not (used_mask & 2):
+        out.append(1)
+    return tuple(out)
+
+
+def signed_face_sequence(prefix: tuple[str, ...], signs: tuple[int, ...]) -> list[str]:
+    seq = ["xp"]
+    for pair_id, sign in zip(prefix, signs):
+        seq.append(FACE_PLUS[pair_id] if sign > 0 else FACE_MINUS[pair_id])
+    return seq
+
+
+@lru_cache(maxsize=None)
+def signed_completion_count(
+    remaining_counts: tuple[int, ...],
+    used_sign_masks: tuple[int, ...],
+) -> int:
+    if sum(remaining_counts) == 0:
+        return 1
+    total = 0
+    for pair_index, pair_id in enumerate(PAIR_IDS):
+        if remaining_counts[pair_index] <= 0:
+            continue
+        for sign in legal_next_signs(pair_id, used_sign_masks[pair_index]):
+            next_remaining = list(remaining_counts)
+            next_remaining[pair_index] -= 1
+            next_used = list(used_sign_masks)
+            next_used[pair_index] |= sign_used_bit(sign)
+            total += signed_completion_count(tuple(next_remaining), tuple(next_used))
+    return total
+
+
+def signed_completion_count_from_state(
+    remaining: dict[str, int],
+    used_signs: dict[str, int],
+) -> int:
+    return signed_completion_count(
+        tuple(remaining[pair_id] for pair_id in PAIR_IDS),
+        tuple(used_signs[pair_id] for pair_id in PAIR_IDS),
+    )
+
+
+def orient_axis_for_signed_cone(
+    normals: tuple[tuple[Fraction, Fraction, Fraction], ...],
+    axis: tuple[Fraction, Fraction, Fraction],
+) -> tuple[tuple[Fraction, Fraction, Fraction] | None, str, str]:
+    dots = tuple(dot(normal, axis) for normal in normals)
+    if all(value > 0 for value in dots):
+        return axis, "axis_in_cone", ",".join("+" for _ in dots)
+    if all(value < 0 for value in dots):
+        return (-axis[0], -axis[1], -axis[2]), "axis_in_cone_after_flip", ",".join("-" for _ in dots)
+    signature = ",".join("+" if value > 0 else "-" if value < 0 else "0" for value in dots)
+    if any(value == 0 for value in dots):
+        return None, "axis_on_cone_boundary", signature
+    return None, "axis_not_in_cone", signature
 
 
 def denominator_polynomial_key(values: list[Fraction]) -> tuple[str, int]:
@@ -2034,6 +2113,376 @@ class EmptyConePrefixProfiler:
             "decision": {
                 "status": "reject" if rejected else "pass",
                 "reasons": reject_reasons,
+            },
+        }
+
+
+class NonIdentityStateConeProfiler:
+    """Dry-run profiler for signed-state nonidentity cone pruning.
+
+    Unlike `EmptyConePrefixProfiler`, this tracks the actual signed face prefix
+    instead of requiring every legal signing of an unsigned pair prefix to be
+    killed at once.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        max_state_cone_depth: int,
+        max_state_cone_states: int,
+    ) -> None:
+        self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
+        self.limit = limit
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.max_state_cone_depth = max_state_cone_depth
+        self.max_state_cone_states = max_state_cone_states
+        self.truncated = False
+        self.truncation_reason: str | None = None
+        self.signed_states_visited = 0
+        self.signed_states_by_depth: Counter[int] = Counter()
+        self.empty_cone_states = 0
+        self.empty_cone_signed_completion_width = 0
+        self.max_empty_cone_signed_completion_width = 0
+        self.identity_signed_terminals = 0
+        self.nonidentity_signed_terminals = 0
+        self.no_fixed_axis = 0
+        self.axis_cone_failures = 0
+        self.axis_cone_failure_counts: Counter[str] = Counter()
+        self.terminal_failure_counts: Counter[str] = Counter()
+        self.empty_cone_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.axis_cone_obstruction_shapes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.terminal_obstruction_shapes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.terminal_sequences = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.terminal_axes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.samples: dict[str, list[dict[str, Any]]] = {
+            "empty_cone": [],
+            "axis_cone": [],
+            "terminal": [],
+        }
+
+    def add_sample(self, bucket: str, sample: dict[str, Any]) -> None:
+        if len(self.samples[bucket]) < self.sample_limit:
+            self.samples[bucket].append(sample)
+
+    def empty_cone_key(
+        self,
+        prefix: tuple[str, ...],
+        signs: tuple[int, ...],
+        cert: dict[str, Any],
+    ) -> str:
+        sign_key = ",".join("+" if sign > 0 else "-" for sign in signs)
+        return (
+            f"signedPrefix={word_key(prefix)}|signs={sign_key}|"
+            + empty_cone_certificate_key(cert)
+        )
+
+    def record_empty_cone(
+        self,
+        *,
+        rank_lo: int,
+        rank_hi: int,
+        prefix: tuple[str, ...],
+        signs: tuple[int, ...],
+        remaining: dict[str, int],
+        used_signs: dict[str, int],
+        cert: dict[str, Any],
+    ) -> None:
+        completion_width = signed_completion_count_from_state(remaining, used_signs)
+        self.empty_cone_states += 1
+        self.empty_cone_signed_completion_width += completion_width
+        self.max_empty_cone_signed_completion_width = max(
+            self.max_empty_cone_signed_completion_width,
+            completion_width,
+        )
+        key = self.empty_cone_key(prefix, signs, cert)
+        self.empty_cone_shapes.add(key)
+        self.add_sample("empty_cone", {
+            "rank_lo": rank_lo,
+            "rank_hi": rank_hi,
+            "depth": len(prefix),
+            "prefix": list(prefix),
+            "signs": ["+" if sign > 0 else "-" for sign in signs],
+            "signed_completion_width": completion_width,
+            "certificate": empty_cone_certificate_key(cert),
+        })
+
+    def classify_terminal(
+        self,
+        *,
+        rank: int,
+        prefix: tuple[str, ...],
+        signs: tuple[int, ...],
+        pref: list,
+        active_normals: tuple[tuple[Fraction, Fraction, Fraction], ...],
+    ) -> None:
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        seq = signed_face_sequence(prefix, signs)
+        if matrix == IDENTITY:
+            self.identity_signed_terminals += 1
+            return
+
+        self.nonidentity_signed_terminals += 1
+        try:
+            axis = one_dimensional_fixed_axis(matrix)
+        except ValueError:
+            self.no_fixed_axis += 1
+            key = f"noFixedAxis|linear={mat_key(matrix)}"
+            self.terminal_obstruction_shapes.add(key)
+            self.terminal_failure_counts["no_fixed_axis"] += 1
+            self.add_sample("terminal", {
+                "rank": rank,
+                "word": word_key(prefix),
+                "signs": ["+" if sign > 0 else "-" for sign in signs],
+                "failure": "no_fixed_axis",
+                "linear": mat_key(matrix),
+            })
+            return
+
+        oriented_axis, cone_status, dot_signature = orient_axis_for_signed_cone(
+            active_normals,
+            axis,
+        )
+        if oriented_axis is None:
+            self.axis_cone_failures += 1
+            self.axis_cone_failure_counts[cone_status] += 1
+            key = (
+                f"{cone_status}|linear={mat_key(matrix)}|axis={vec_key(axis)}"
+                f"|dots={dot_signature}"
+            )
+            self.axis_cone_obstruction_shapes.add(key)
+            self.terminal_obstruction_shapes.add(key)
+            self.terminal_failure_counts[cone_status] += 1
+            self.add_sample("axis_cone", {
+                "rank": rank,
+                "word": word_key(prefix),
+                "signs": ["+" if sign > 0 else "-" for sign in signs],
+                "axis": vec_key(axis),
+                "failure": cone_status,
+                "dot_signature": dot_signature,
+            })
+            return
+
+        self.terminal_axes.add(normalized_axis_key(oriented_axis))
+        self.terminal_sequences.add(seq_key(seq))
+        failure, details, key = terminal_axis_candidate_failure(seq, oriented_axis)
+        self.terminal_failure_counts[failure] += 1
+        self.terminal_obstruction_shapes.add(key)
+        sample = {
+            "rank": rank,
+            "word": word_key(prefix),
+            "signs": ["+" if sign > 0 else "-" for sign in signs],
+            "axis": vec_key(oriented_axis),
+            "seq": seq,
+            "failure": failure,
+        }
+        sample.update(details)
+        self.add_sample("terminal", sample)
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        used_signs = {pair_id: 0 for pair_id in PAIR_IDS}
+        prefix: list[str] = []
+        signs: list[int] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            if self.truncated:
+                return
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_lo >= self.target_hi:
+                return
+            depth = len(prefix)
+            if self.signed_states_visited >= self.max_state_cone_states:
+                self.truncated = True
+                self.truncation_reason = (
+                    "signed state cap reached before completing the requested window"
+                )
+                return
+            self.signed_states_visited += 1
+            self.signed_states_by_depth[depth] += 1
+            if (
+                self.progress_interval
+                and self.signed_states_visited % self.progress_interval == 0
+            ):
+                print(
+                    f"visited {self.signed_states_visited:,} signed states",
+                    file=sys.stderr,
+                )
+
+            full_interval_inside_target = rank_hi <= self.target_hi
+            active_normals = active_normals_for_signed_prefix(
+                tuple(prefix),
+                tuple(signs),
+                list(pref),
+            )
+            if (
+                full_interval_inside_target
+                and depth > 0
+                and depth <= self.max_state_cone_depth
+            ):
+                cert = find_empty_cone_certificate(active_normals)
+                if cert is not None:
+                    self.record_empty_cone(
+                        rank_lo=rank_lo,
+                        rank_hi=rank_hi,
+                        prefix=tuple(prefix),
+                        signs=tuple(signs),
+                        remaining=remaining,
+                        used_signs=used_signs,
+                        cert=cert,
+                    )
+                    return
+
+            if depth == 13:
+                if rank_lo < self.target_hi:
+                    self.classify_terminal(
+                        rank=rank_lo,
+                        prefix=tuple(prefix),
+                        signs=tuple(signs),
+                        pref=list(pref),
+                        active_normals=active_normals,
+                    )
+                return
+
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                child_remaining = dict(remaining)
+                child_remaining[pair_id] -= 1
+                child_width = multinomial_count(child_remaining)
+                child_hi = child_lo + child_width
+                if child_lo < self.target_hi:
+                    for sign in legal_next_signs(pair_id, used_signs[pair_id]):
+                        remaining[pair_id] -= 1
+                        used_signs[pair_id] |= sign_used_bit(sign)
+                        prefix.append(pair_id)
+                        signs.append(sign)
+                        pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                        rec(child_lo)
+                        pref.pop()
+                        signs.pop()
+                        prefix.pop()
+                        used_signs[pair_id] &= ~sign_used_bit(sign)
+                        remaining[pair_id] += 1
+                child_lo = child_hi
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        empty_exact = self.empty_cone_shapes.exact_count
+        terminal_exact = self.terminal_obstruction_shapes.exact_count
+        if empty_exact is None or terminal_exact is None:
+            planned_exact = None
+            planned_lower = max(
+                self.empty_cone_shapes.lower_bound,
+                self.terminal_obstruction_shapes.lower_bound,
+            )
+        else:
+            planned_exact = empty_exact + terminal_exact
+            planned_lower = (
+                self.empty_cone_shapes.lower_bound
+                + self.terminal_obstruction_shapes.lower_bound
+            )
+        accepted = (
+            not self.truncated
+            and planned_exact is not None
+            and planned_exact <= self.max_lean_leaves
+        )
+        within_warning = (
+            not self.truncated
+            and planned_exact is not None
+            and planned_exact <= self.warn_lean_leaves
+        )
+        terminal_total = self.identity_signed_terminals + self.nonidentity_signed_terminals
+        terminal_ratio = (
+            self.nonidentity_signed_terminals / terminal_total
+            if terminal_total else 0
+        )
+        return {
+            "schema_version": 1,
+            "mode": "nonidentity-state-cone-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None and not self.truncated,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "nonidentity",
+                "state_model": "signed pair-prefix cone with terminal nonidentity axis check",
+                "empty_cone_support_limit": 4,
+                "max_state_cone_depth": self.max_state_cone_depth,
+                "max_state_cone_states": self.max_state_cone_states,
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "emits_lean_evidence": False,
+            },
+            "truncation": {
+                "truncated": self.truncated,
+                "reason": self.truncation_reason,
+            },
+            "signed_states": {
+                "visited": self.signed_states_visited,
+                "by_depth": dict(sorted(self.signed_states_by_depth.items())),
+                "empty_cone_states": self.empty_cone_states,
+                "empty_cone_signed_completion_width":
+                    self.empty_cone_signed_completion_width,
+                "max_empty_cone_signed_completion_width":
+                    self.max_empty_cone_signed_completion_width,
+                "unique_empty_cone_shapes": self.empty_cone_shapes.payload(),
+            },
+            "terminals": {
+                "identity_signed_terminals": self.identity_signed_terminals,
+                "nonidentity_signed_terminals": self.nonidentity_signed_terminals,
+                "nonidentity_terminal_ratio": terminal_ratio,
+                "no_fixed_axis": self.no_fixed_axis,
+                "axis_cone_failures": self.axis_cone_failures,
+                "axis_cone_failure_counts": dict(
+                    sorted(self.axis_cone_failure_counts.items())
+                ),
+                "terminal_failure_counts": dict(
+                    sorted(self.terminal_failure_counts.items())
+                ),
+                "unique_axis_cone_obstruction_shapes":
+                    self.axis_cone_obstruction_shapes.payload(),
+                "unique_terminal_obstruction_shapes":
+                    self.terminal_obstruction_shapes.payload(),
+                "unique_terminal_sequences": self.terminal_sequences.payload(),
+                "unique_terminal_axes": self.terminal_axes.payload(),
+            },
+            "samples": self.samples,
+            "decision": {
+                "status": "profile",
+                "accepted_for_phase_6l_3a": accepted,
+                "within_warning_gate": within_warning,
+                "planned_lean_heavy_leaves_exact": planned_exact,
+                "planned_lean_heavy_leaves_lower_bound": planned_lower,
+                "terminal_fallback_dominates": (
+                    self.nonidentity_signed_terminals > self.empty_cone_states
+                ),
+                "notes": [
+                    "This mode emits no Lean evidence.",
+                    "It tracks signed states directly instead of unsigned rank-prefixes.",
+                    "Identity-linear signed terminals remain translation-branch work.",
+                    "If terminal obstruction shapes remain above the gate, reject this backend before emission.",
+                ],
             },
         }
 
@@ -3837,9 +4286,15 @@ class TranslationLiftedPbSearchProfiler(TranslationSurvivorProfiler):
             self.bad_cube_certificate_shapes,
             self.survivor_leaf_obligations,
         )
-        accepted = planned_exact is not None and planned_exact <= self.max_lean_leaves
+        accepted = (
+            not self.truncated
+            and planned_exact is not None
+            and planned_exact <= self.max_lean_leaves
+        )
         within_warning = (
-            planned_exact is not None and planned_exact <= self.warn_lean_leaves
+            not self.truncated
+            and planned_exact is not None
+            and planned_exact <= self.warn_lean_leaves
         )
         singleton_ratio = (
             self.total_point_bad_cube_leaves / self.total_bad_cube_leaves
@@ -6223,6 +6678,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_lifted_pb_search),
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
+        bool(args.nonidentity_state_cone_tree),
         bool(args.nonidentity_empty_cone_tree),
         bool(args.nonidentity_d26_audit),
         bool(args.terminal_residual_census),
@@ -6235,7 +6691,8 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-survivors, --translation-pseudoboolean, "
             "--translation-lifted-pb-search, "
             "--translation-survivor-mask-tree, "
-            "--translation-state-dag, --nonidentity-empty-cone-tree, "
+            "--translation-state-dag, --nonidentity-state-cone-tree, "
+            "--nonidentity-empty-cone-tree, "
             "--nonidentity-d26-audit, and --terminal-residual-census "
             "are mutually exclusive"
         )
@@ -6266,6 +6723,10 @@ def validate_options(args: argparse.Namespace) -> None:
         raise SystemExit("--min-residual-depth must be between 0 and 13")
     if not (0 <= args.max_empty_cone_depth <= 13):
         raise SystemExit("--max-empty-cone-depth must be between 0 and 13")
+    if not (0 <= args.max_state_cone_depth <= 13):
+        raise SystemExit("--max-state-cone-depth must be between 0 and 13")
+    if args.max_state_cone_states <= 0:
+        raise SystemExit("--max-state-cone-states must be positive")
     if args.max_linear_fm_constraints <= 0:
         raise SystemExit("--max-linear-fm-constraints must be positive")
 
@@ -6688,6 +7149,50 @@ def print_summary(payload: dict[str, Any]) -> None:
         print(f"decision: {decision['status']}")
         for reason in decision["reasons"]:
             print(f"- {reason}")
+        return
+
+    if payload.get("mode") == "nonidentity-state-cone-profile":
+        states = payload["signed_states"]
+        terminals = payload["terminals"]
+        truncation = payload["truncation"]
+        decision = payload["decision"]
+        print("nonidentity signed-state cone profile")
+        print(f"truncated: {truncation['truncated']}")
+        if truncation["reason"] is not None:
+            print(f"truncation reason: {truncation['reason']}")
+        print(f"signed states visited: {states['visited']:,}")
+        print(f"empty-cone states: {states['empty_cone_states']:,}")
+        print(
+            "empty-cone signed completion width: "
+            f"{states['empty_cone_signed_completion_width']:,}"
+        )
+        print(
+            "unique empty-cone shapes: "
+            f"{states['unique_empty_cone_shapes']['lower_bound']}"
+        )
+        print(
+            "identity signed terminals: "
+            f"{terminals['identity_signed_terminals']:,}"
+        )
+        print(
+            "nonidentity signed terminals: "
+            f"{terminals['nonidentity_signed_terminals']:,}"
+        )
+        print(f"axis-cone failures: {terminals['axis_cone_failures']:,}")
+        print(
+            "unique terminal obstruction shapes: "
+            f"{terminals['unique_terminal_obstruction_shapes']['lower_bound']}"
+        )
+        planned_leaves = (
+            str(decision["planned_lean_heavy_leaves_exact"])
+            if decision["planned_lean_heavy_leaves_exact"] is not None
+            else f">{decision['planned_lean_heavy_leaves_lower_bound'] - 1}"
+        )
+        print(f"planned heavy Lean leaves: {planned_leaves}")
+        print(f"accepted for Phase 6L.3A: {decision['accepted_for_phase_6l_3a']}")
+        print(f"terminal fallback dominates: {decision['terminal_fallback_dominates']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
         return
 
     if payload.get("mode") == "prefix-kill-tree-profile":
@@ -7147,6 +7652,11 @@ def main() -> None:
         help="profile exact empty-cone Farkas pruning for nonidentity pair prefixes",
     )
     parser.add_argument(
+        "--nonidentity-state-cone-tree",
+        action="store_true",
+        help="profile signed-state empty-cone pruning for nonidentity coverage",
+    )
+    parser.add_argument(
         "--nonidentity-d26-audit",
         action="store_true",
         help="audit whether nonidentity fixed axes are parallel to the 26 cube-symmetry directions",
@@ -7160,6 +7670,8 @@ def main() -> None:
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
     parser.add_argument("--max-empty-cone-depth", type=int, default=9)
+    parser.add_argument("--max-state-cone-depth", type=int, default=9)
+    parser.add_argument("--max-state-cone-states", type=int, default=250_000)
     parser.add_argument("--max-linear-fm-constraints", type=int, default=100_000)
     parser.add_argument(
         "--no-d4-transport",
@@ -7195,6 +7707,8 @@ def main() -> None:
             output = DEFAULT_TRANSLATION_FARKAS_OUTPUT
         elif args.prefix_kill_tree:
             output = DEFAULT_PREFIX_KILL_OUTPUT
+        elif args.nonidentity_state_cone_tree:
+            output = default_nonidentity_state_cone_output(args.limit)
         elif args.nonidentity_empty_cone_tree:
             output = DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT
         elif args.nonidentity_d26_audit:
@@ -7251,6 +7765,22 @@ def main() -> None:
             elapsed_seconds=time.monotonic() - start,
             rejected=rejected,
             reject_reasons=reasons,
+        )
+    elif args.nonidentity_state_cone_tree:
+        state_cone_profiler = NonIdentityStateConeProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            max_state_cone_depth=args.max_state_cone_depth,
+            max_state_cone_states=args.max_state_cone_states,
+        )
+        state_cone_profiler.traverse()
+        rejected = False
+        payload = state_cone_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
         )
     elif args.translation_state_dag:
         state_dag_profiler = TranslationStateDagProfiler(
