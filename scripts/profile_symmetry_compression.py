@@ -74,6 +74,18 @@ DEFAULT_TRANSLATION_BADDIR_COMMON_IMPACT_OUTPUT = (
 DEFAULT_TRANSLATION_SURVIVORS_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "translation_survivors_profile.json"
 )
+DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT = (
+    REPO_ROOT / "scripts" / "generated" / "translation_survivor_mask_tree_profile.json"
+)
+
+
+MASKS_BY_BIT_VALUE: tuple[tuple[int, int], ...] = tuple(
+    (
+        sum(1 << mask for mask in range(64) if not (mask & (1 << bit))),
+        sum(1 << mask for mask in range(64) if mask & (1 << bit)),
+    )
+    for bit in range(6)
+)
 
 
 def stable_digest(text: str) -> str:
@@ -1352,7 +1364,392 @@ class TranslationSurvivorProfiler:
                 "planned_lean_heavy_leaves_lower_bound": survivor_maps_lower,
                 "notes": [
                     "This mode measures the GoodDirection survivor obligation.",
-                    "A high survivor-map count means proceed to Phase 6H or 6I before Lean emission.",
+                    "A high survivor-map count means use a later compression phase before Lean emission.",
+                ],
+            },
+        }
+
+
+@dataclass(frozen=True)
+class MaskTreeBuild:
+    key: str
+    leaf_keys: tuple[str, ...]
+    leaf_count: int
+    bad_cube_leaves: int
+    farkas_leaves: int
+    branch_nodes: int
+    point_farkas_leaves: int
+    max_depth: int
+    max_masks_in_bad_cube: int
+    max_survivors_in_farkas_leaf: int
+
+
+class TranslationSurvivorMaskTreeProfiler(TranslationSurvivorProfiler):
+    """Dry-run profiler for Phase 6H GoodDirection mask trees.
+
+    This mode does not emit Lean.  It measures whether the survivor obligation
+    can be represented as small Boolean trees over the six translation mask
+    bits.  Bad leaves contain no GoodDirection masks; Farkas leaves contain only
+    GoodDirection masks that share one normalized Farkas shape after the
+    deterministic splits chosen by the profiler.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.mask_tree_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.proof_tree_obligations = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.leaf_obligations = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.bad_cube_leaf_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.farkas_leaf_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.tree_leaf_histogram: Counter[int] = Counter()
+        self.tree_depth_histogram: Counter[int] = Counter()
+        self.max_survivors_per_farkas_leaf_histogram: Counter[int] = Counter()
+        self.total_tree_leaves = 0
+        self.total_bad_cube_leaves = 0
+        self.total_farkas_leaves = 0
+        self.total_branch_nodes = 0
+        self.total_point_farkas_leaves = 0
+        self.max_tree_depth = 0
+        self.max_tree_leaves = 0
+        self.max_masks_in_bad_cube = 0
+        self.max_survivors_in_farkas_leaf = 0
+
+    @staticmethod
+    def iter_mask_bits(bits: int) -> list[int]:
+        masks: list[int] = []
+        current = bits
+        while current:
+            low = current & -current
+            masks.append(low.bit_length() - 1)
+            current ^= low
+        return masks
+
+    @staticmethod
+    def available_split_bits(cube_bits: int) -> list[int]:
+        bits: list[int] = []
+        for bit, (zero_bits, one_bits) in enumerate(MASKS_BY_BIT_VALUE):
+            if cube_bits & zero_bits and cube_bits & one_bits:
+                bits.append(bit)
+        return bits
+
+    def build_mask_tree(
+        self,
+        *,
+        survivor_bits: int,
+        survivor_shape_by_mask: dict[int, str],
+    ) -> MaskTreeBuild:
+        @lru_cache(maxsize=None)
+        def rec(cube_bits: int) -> MaskTreeBuild:
+            survivor_subset = cube_bits & survivor_bits
+            if survivor_subset == 0:
+                cube_size = cube_bits.bit_count()
+                key = f"B:{cube_bits:016x}"
+                return MaskTreeBuild(
+                    key=key,
+                    leaf_keys=(key,),
+                    leaf_count=1,
+                    bad_cube_leaves=1,
+                    farkas_leaves=0,
+                    branch_nodes=0,
+                    point_farkas_leaves=0,
+                    max_depth=0,
+                    max_masks_in_bad_cube=cube_size,
+                    max_survivors_in_farkas_leaf=0,
+                )
+
+            survivor_masks = self.iter_mask_bits(survivor_subset)
+            shape_set = {survivor_shape_by_mask[mask] for mask in survivor_masks}
+            if len(shape_set) == 1:
+                shape_digest = next(iter(shape_set))
+                survivor_count = len(survivor_masks)
+                cube_size = cube_bits.bit_count()
+                key = (
+                    f"F:{shape_digest}:cube={cube_bits:016x}:"
+                    f"survivors={survivor_subset:016x}"
+                )
+                return MaskTreeBuild(
+                    key=key,
+                    leaf_keys=(key,),
+                    leaf_count=1,
+                    bad_cube_leaves=0,
+                    farkas_leaves=1,
+                    branch_nodes=0,
+                    point_farkas_leaves=1 if cube_size == 1 else 0,
+                    max_depth=0,
+                    max_masks_in_bad_cube=0,
+                    max_survivors_in_farkas_leaf=survivor_count,
+                )
+
+            candidates: list[tuple[tuple[int, int, int, int, str], MaskTreeBuild]] = []
+            for bit in self.available_split_bits(cube_bits):
+                zero_cube = cube_bits & MASKS_BY_BIT_VALUE[bit][0]
+                one_cube = cube_bits & MASKS_BY_BIT_VALUE[bit][1]
+                zero = rec(zero_cube)
+                one = rec(one_cube)
+                leaf_keys = zero.leaf_keys + one.leaf_keys
+                key = f"S{bit}({zero.key},{one.key})"
+                combined = MaskTreeBuild(
+                    key=key,
+                    leaf_keys=leaf_keys,
+                    leaf_count=zero.leaf_count + one.leaf_count,
+                    bad_cube_leaves=zero.bad_cube_leaves + one.bad_cube_leaves,
+                    farkas_leaves=zero.farkas_leaves + one.farkas_leaves,
+                    branch_nodes=zero.branch_nodes + one.branch_nodes + 1,
+                    point_farkas_leaves=(
+                        zero.point_farkas_leaves + one.point_farkas_leaves
+                    ),
+                    max_depth=max(zero.max_depth, one.max_depth) + 1,
+                    max_masks_in_bad_cube=max(
+                        zero.max_masks_in_bad_cube,
+                        one.max_masks_in_bad_cube,
+                    ),
+                    max_survivors_in_farkas_leaf=max(
+                        zero.max_survivors_in_farkas_leaf,
+                        one.max_survivors_in_farkas_leaf,
+                    ),
+                )
+                score = (
+                    combined.leaf_count,
+                    combined.farkas_leaves,
+                    combined.branch_nodes,
+                    combined.max_depth,
+                    combined.key,
+                )
+                candidates.append((score, combined))
+
+            if not candidates:
+                raise AssertionError("mixed survivor shapes without available split bits")
+            candidates.sort(key=lambda item: item[0])
+            return candidates[0][1]
+
+        return rec((1 << 64) - 1)
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        signature_key, survivor_bits, max_degree, survivor_shapes, survivor_shape_by_mask = (
+            self.denominator_signature_for_word(word, pref)
+        )
+        signature_digest = stable_digest(signature_key)
+        survivor_count = len(survivor_shapes)
+        self.survivor_mask_histogram[survivor_count] += 1
+        self.denominator_signatures.add(signature_key)
+        self.survivor_bitsets.add(str(survivor_bits))
+        shape_map_key = "|".join(
+            f"{mask}:{shape_digest}" for mask, shape_digest in survivor_shapes
+        )
+        self.survivor_shape_maps.add(
+            f"sig={signature_digest}|survivors={survivor_bits}|{shape_map_key}"
+        )
+
+        tree = self.build_mask_tree(
+            survivor_bits=survivor_bits,
+            survivor_shape_by_mask=survivor_shape_by_mask,
+        )
+        self.mask_tree_shapes.add(tree.key)
+        self.proof_tree_obligations.add(f"{signature_digest}|{tree.key}")
+        for leaf_key in tree.leaf_keys:
+            self.leaf_obligations.add(f"{signature_digest}|{leaf_key}")
+            if leaf_key.startswith("B:"):
+                self.bad_cube_leaf_shapes.add(leaf_key)
+            else:
+                self.farkas_leaf_shapes.add(leaf_key)
+
+        self.tree_leaf_histogram[tree.leaf_count] += 1
+        self.tree_depth_histogram[tree.max_depth] += 1
+        self.max_survivors_per_farkas_leaf_histogram[
+            tree.max_survivors_in_farkas_leaf
+        ] += 1
+        self.total_tree_leaves += tree.leaf_count
+        self.total_bad_cube_leaves += tree.bad_cube_leaves
+        self.total_farkas_leaves += tree.farkas_leaves
+        self.total_branch_nodes += tree.branch_nodes
+        self.total_point_farkas_leaves += tree.point_farkas_leaves
+        self.max_tree_depth = max(self.max_tree_depth, tree.max_depth)
+        self.max_tree_leaves = max(self.max_tree_leaves, tree.leaf_count)
+        self.max_masks_in_bad_cube = max(
+            self.max_masks_in_bad_cube,
+            tree.max_masks_in_bad_cube,
+        )
+        self.max_survivors_in_farkas_leaf = max(
+            self.max_survivors_in_farkas_leaf,
+            tree.max_survivors_in_farkas_leaf,
+        )
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            if survivor_bits & (1 << mask):
+                self.good_direction_masks += 1
+                shape_digest = survivor_shape_by_mask[mask]
+                self.farkas_shapes.add(shape_digest)
+                self.farkas_shape_reuse_counts[shape_digest] += 1
+                canonical_word, canonical_mask, sym_id = self.canonical_translation_choice(
+                    word, mask
+                )
+                self.canonical_survivor_cases.add(
+                    f"{word_key(canonical_word)}#{canonical_mask}"
+                )
+                if len(self.samples) < self.sample_limit:
+                    self.samples.append({
+                        "rank": rank,
+                        "word": word_key(word),
+                        "mask": mask,
+                        "canonical_word": word_key(canonical_word),
+                        "canonical_mask": canonical_mask,
+                        "sym_id": sym_id,
+                        "shape_digest": shape_digest,
+                        "denominator_signature_digest": signature_digest,
+                        "mask_tree_digest": stable_digest(tree.key),
+                        "mask_tree_leaves": tree.leaf_count,
+                        "max_denominator_degree": max_degree,
+                    })
+            else:
+                self.denominator_nonpositive_masks += 1
+                denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+                elif all(denom > 0 for denom in denoms):
+                    raise AssertionError("survivor bitset missed a GoodDirection mask")
+
+    @staticmethod
+    def planned_leaf_count(*trackers: DistinctTracker) -> tuple[int | None, int]:
+        if any(tracker.exact_count is None for tracker in trackers):
+            return None, max(tracker.lower_bound for tracker in trackers)
+        return max(tracker.exact_count or 0 for tracker in trackers), max(
+            tracker.lower_bound for tracker in trackers
+        )
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        planned_exact, planned_lower = self.planned_leaf_count(
+            self.proof_tree_obligations,
+            self.leaf_obligations,
+        )
+        accepted = planned_exact is not None and planned_exact <= self.max_lean_leaves
+        within_warning = (
+            planned_exact is not None and planned_exact <= self.warn_lean_leaves
+        )
+        return {
+            "schema_version": 1,
+            "mode": "translation-survivor-mask-tree-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation",
+                "symmetry": "started-face D4" if self.use_d4_transport else "none",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "good_direction_impacts": "1..13",
+                "emits_bad_direction_evidence": False,
+                "denominator_model": (
+                    "exact 64-mask truth tables; no linearity assumption"
+                ),
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "bad_direction_generated_evidence": 0,
+            },
+            "survivors": {
+                "survivor_density": (
+                    self.good_direction_masks / self.translation_sign_assignments
+                    if self.translation_sign_assignments
+                    else None
+                ),
+                "survivor_mask_histogram": dict(
+                    sorted(self.survivor_mask_histogram.items())
+                ),
+                "denominator_degree_histogram": dict(
+                    sorted(self.denominator_degree_histogram.items())
+                ),
+                "unique_denominator_signatures": self.denominator_signatures.payload(),
+                "unique_survivor_bitsets": self.survivor_bitsets.payload(),
+                "unique_survivor_shape_maps": self.survivor_shape_maps.payload(),
+                "unique_normalized_farkas_shapes": self.farkas_shapes.payload(),
+                "canonical_survivor_cases": self.canonical_survivor_cases.payload(),
+                "farkas_shape_reuse": {
+                    "shape_count": len(self.farkas_shape_reuse_counts),
+                    "shared_shape_count": sum(
+                        1 for count in self.farkas_shape_reuse_counts.values()
+                        if count > 1
+                    ),
+                    "max_reuse": max(
+                        self.farkas_shape_reuse_counts.values(),
+                        default=0,
+                    ),
+                },
+                "samples": self.samples,
+            },
+            "mask_tree": {
+                "total_tree_leaves": self.total_tree_leaves,
+                "total_bad_cube_leaves": self.total_bad_cube_leaves,
+                "total_farkas_leaves": self.total_farkas_leaves,
+                "total_branch_nodes": self.total_branch_nodes,
+                "total_point_farkas_leaves": self.total_point_farkas_leaves,
+                "max_tree_depth": self.max_tree_depth,
+                "max_tree_leaves": self.max_tree_leaves,
+                "max_masks_in_bad_cube": self.max_masks_in_bad_cube,
+                "max_survivors_in_farkas_leaf": self.max_survivors_in_farkas_leaf,
+                "tree_leaf_histogram": dict(sorted(self.tree_leaf_histogram.items())),
+                "tree_depth_histogram": dict(sorted(self.tree_depth_histogram.items())),
+                "max_survivors_per_farkas_leaf_histogram": dict(
+                    sorted(self.max_survivors_per_farkas_leaf_histogram.items())
+                ),
+                "unique_structural_tree_shapes": self.mask_tree_shapes.payload(),
+                "unique_signature_tree_obligations": (
+                    self.proof_tree_obligations.payload()
+                ),
+                "unique_signature_leaf_obligations": self.leaf_obligations.payload(),
+                "unique_bad_cube_leaf_shapes": self.bad_cube_leaf_shapes.payload(),
+                "unique_farkas_leaf_shapes": self.farkas_leaf_shapes.payload(),
+            },
+            "decision": {
+                "status": "profile",
+                "accepted_for_phase_6h": accepted,
+                "within_warning_gate": within_warning,
+                "planned_lean_heavy_leaves_exact": planned_exact,
+                "planned_lean_heavy_leaves_lower_bound": planned_lower,
+                "notes": [
+                    "This mode profiles mask-tree compression after GoodDirection.",
+                    "It uses exact truth tables because denominator polynomials may be quadratic.",
+                    "If signature-tree or leaf obligations remain above the gate, proceed to Phase 6I.",
                 ],
             },
         }
@@ -2879,13 +3276,15 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_baddir_family_tree),
         bool(args.translation_baddir_common_impact_tree),
         bool(args.translation_survivors),
+        bool(args.translation_survivor_mask_tree),
     ])
     if mode_count > 1:
         raise SystemExit(
             "--prefix-kill-tree, --translation-farkas-tree, "
             "--translation-baddir-tree, --translation-baddir-family-tree, "
             "--translation-baddir-common-impact-tree, and "
-            "--translation-survivors are mutually exclusive"
+            "--translation-survivors, and --translation-survivor-mask-tree "
+            "are mutually exclusive"
         )
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
@@ -3354,6 +3753,53 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "translation-survivor-mask-tree-profile":
+        counts = payload["actual_counts"]
+        survivors = payload["survivors"]
+        tree = payload["mask_tree"]
+        decision = payload["decision"]
+        print("translation GoodDirection survivor mask-tree profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}")
+        print(f"bad-direction generated evidence: {counts['bad_direction_generated_evidence']:,}")
+        print(
+            "unique denominator signatures: "
+            f"{survivors['unique_denominator_signatures']['lower_bound']}"
+        )
+        print(
+            "unique survivor shape maps: "
+            f"{survivors['unique_survivor_shape_maps']['lower_bound']}"
+        )
+        print(f"total mask-tree leaves: {tree['total_tree_leaves']:,}")
+        print(f"total bad-cube leaves: {tree['total_bad_cube_leaves']:,}")
+        print(f"total Farkas leaves: {tree['total_farkas_leaves']:,}")
+        print(
+            "unique structural tree shapes: "
+            f"{tree['unique_structural_tree_shapes']['lower_bound']}"
+        )
+        print(
+            "unique signature tree obligations: "
+            f"{tree['unique_signature_tree_obligations']['lower_bound']}"
+        )
+        print(
+            "unique signature leaf obligations: "
+            f"{tree['unique_signature_leaf_obligations']['lower_bound']}"
+        )
+        planned_leaves = (
+            str(decision["planned_lean_heavy_leaves_exact"])
+            if decision["planned_lean_heavy_leaves_exact"] is not None
+            else f">{decision['planned_lean_heavy_leaves_lower_bound'] - 1}"
+        )
+        print(f"planned heavy Lean leaves: {planned_leaves}")
+        print(f"accepted for Phase 6H: {decision['accepted_for_phase_6h']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     counts = payload["actual_counts"]
     tiling = payload["tiling"]
     decision = payload["decision"]
@@ -3416,6 +3862,11 @@ def main() -> None:
         action="store_true",
         help="profile GoodDirection survivor masks for the translation branch",
     )
+    parser.add_argument(
+        "--translation-survivor-mask-tree",
+        action="store_true",
+        help="profile exact mask-tree compression for GoodDirection survivor cases",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -3433,7 +3884,9 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        if args.translation_survivors:
+        if args.translation_survivor_mask_tree:
+            output = DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT
+        elif args.translation_survivors:
             output = DEFAULT_TRANSLATION_SURVIVORS_OUTPUT
         elif args.translation_baddir_common_impact_tree:
             output = DEFAULT_TRANSLATION_BADDIR_COMMON_IMPACT_OUTPUT
@@ -3451,7 +3904,22 @@ def main() -> None:
     import time
 
     start = time.monotonic()
-    if args.translation_survivors:
+    if args.translation_survivor_mask_tree:
+        mask_tree_profiler = TranslationSurvivorMaskTreeProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        mask_tree_profiler.traverse()
+        rejected = False
+        payload = mask_tree_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.translation_survivors:
         survivor_profiler = TranslationSurvivorProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,

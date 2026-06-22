@@ -405,8 +405,33 @@ translation split: 356,160 sign assignments, 316,450 denominator-nonpositive
 masks, and 39,710 GoodDirection survivor masks. It emits zero bad-direction
 evidence. Raw survivor-map grouping still produces 5,565 projected heavy
 leaves, above the 2,000 hard gate, so do not emit Lean roots from raw survivor
-maps alone. The next compression step is Phase 6H denominator-cube /
-pseudo-Boolean Farkas or Phase 6I translation word/state DAG.
+maps alone. The Phase 6H mask-tree profiler below also rejects, so the next
+compression step is Phase 6I translation word/state DAG.
+
+## Translation GoodDirection survivor mask-tree profiler
+
+The mask-tree profiler is the Phase 6H gate. It keeps the GoodDirection
+semantic refactor, uses exact 64-mask truth tables instead of assuming linear
+denominator forms, and measures whether Boolean mask trees can reduce the
+survivor/Farkas obligations below the Lean leaf gate:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-survivor-mask-tree --limit 5000 \
+  --output scripts/generated/translation_survivor_mask_tree_profile_0_5000.json
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-survivor-mask-tree --limit 100000 \
+  --progress-interval 10000 \
+  --output scripts/generated/translation_survivor_mask_tree_profile_0_100000.json
+```
+
+Current result: rejected. The `[0,100000)` report found 39,710
+GoodDirection survivor masks, 39,754 conservative signature-indexed leaf
+obligations, 5,565 signature tree obligations, and only 44 bad-cube leaves.
+This is worse than raw survivor-map grouping for the Lean leaf gate. Do not
+emit Lean roots from this mask-tree strategy; proceed to the Phase 6I
+translation word/state DAG profiler.
 
 ## Phase 9 readiness
 

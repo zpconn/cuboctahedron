@@ -112,9 +112,10 @@ but they are no longer active paths to full coverage:
 
 ## Current Status Dashboard
 
-Last updated after completing the GoodDirection bridge and bounded survivor
-profiler. Existing bad-direction tilers remain documented below only as
-rejected compression experiments.
+Last updated after completing the GoodDirection bridge, bounded survivor
+profiler, and bounded survivor mask-tree profiler. Existing bad-direction and
+mask-tree tilers remain documented below only as rejected compression
+experiments.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -124,7 +125,7 @@ rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has `--prefix-kill-tree`, `--translation-farkas-tree`, `--translation-baddir-tree`, `--translation-baddir-family-tree`, and `--translation-baddir-common-impact-tree`; all current bounded bad-direction gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence, but raw survivor-map grouping projects 5,565 heavy leaves in `[0,100000)`, above the 2,000-leaf gate. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H rejected; Phase 6I next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map grouping and mask-tree grouping both exceed the 2,000-leaf gate on `[0,100000)`, so the next path is the translation word/state DAG. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -222,6 +223,8 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Coverage/TranslationSurvivors.lean`
 - Added the translation survivor profiler:
   `scripts/profile_symmetry_compression.py --translation-survivors`.
+- Added the translation survivor mask-tree profiler:
+  `scripts/profile_symmetry_compression.py --translation-survivor-mask-tree`.
 - Recorded survivor reports:
   - `scripts/generated/translation_survivors_profile_0_5000.json`
     found 4,693 GoodDirection survivor masks, 26,475 denominator-nonpositive
@@ -232,6 +235,15 @@ Completed current-work items:
     denominator-nonpositive masks, zero bad-direction generated evidence, and
     5,565 raw survivor-map leaves. This is above the 2,000-leaf hard gate, so
     raw survivor-map emission is rejected.
+- Recorded mask-tree reports:
+  - `scripts/generated/translation_survivor_mask_tree_profile_0_5000.json`
+    found 4,693 GoodDirection survivor masks and 4,693 conservative
+    signature-indexed leaf obligations.
+  - `scripts/generated/translation_survivor_mask_tree_profile_0_100000.json`
+    found 39,710 GoodDirection survivor masks, 39,754 conservative
+    signature-indexed leaf obligations, 5,565 signature tree obligations, and
+    only 44 bad-cube leaves. This is worse than raw survivor-map grouping for
+    the Lean leaf gate, so Phase 6H mask-tree emission is rejected.
 
 Immediate next work:
 
@@ -244,9 +256,9 @@ Immediate next work:
    strategy. All three are retired.
 4. Do not emit Lean from raw survivor-map grouping; the `[0,100000)` profile
    already projects 5,565 heavy leaves.
-5. Implement Phase 6H denominator-cube / pseudo-Boolean Farkas, or Phase 6I
-   translation word/state DAG if cube certificates still fragment.
-6. Only after Phase 6H or 6I falls below the 2,000-leaf hard gate, emit
+5. Implement Phase 6I translation word/state DAG. Phase 6H mask-tree/cube
+   profiling fragmented and should not be emitted as Lean evidence.
+6. Only after Phase 6I falls below the 2,000-leaf hard gate, emit
    hierarchical generated coverage roots.
 
 Interpretation of the Phase 6B rejection:
@@ -297,9 +309,8 @@ Interpretation of the translation bad-direction symbolic-family rejection:
   bad-direction cells remain fallback. Scaling it would still require a
   second case-local backend for almost all early translation failures.
 - Therefore the next attempt should not tune the current cube threshold. The
-  active path is Phase 6E/6F. If survivor signatures still fragment after that,
-  Phase 6H may use pseudo-Boolean Farkas certificates over denominator forms
-  instead of common-bad-impact cubes.
+  active path moved through Phase 6E/6F and then rejected Phase 6H mask-tree
+  compression. The current path is Phase 6I translation word/state DAG.
 
 Interpretation of the translation bad-direction common-impact rejection:
 
@@ -1267,7 +1278,8 @@ Profiler loop:
 
 1. Traverse a bounded rank range.
 2. Keep only identity-linear pair words.
-3. Compute exact denominator linear forms in the six sign bits.
+3. Compute exact denominator values over the 64 sign masks and record their
+   Walsh polynomial degree; do not assume these denominator forms are linear.
 4. Enumerate the 64 sign masks externally.
 5. Record only masks satisfying all denominator positivity inequalities.
 6. For each survivor mask, compute the normalized Farkas shape ID.
@@ -1304,7 +1316,8 @@ Acceptance:
 - Generated bad-direction evidence count is zero.
 - If projected survivor-map leaves are below 2,000 globally, proceed to
   Phase 6G.
-- If not, proceed to Phase 6H or 6I before any Lean evidence emission.
+- If not, profile Phase 6H before any Lean evidence emission. The current
+  bounded Phase 6H result is rejected, so proceed to Phase 6I.
 
 Observed bounded results:
 
@@ -1330,8 +1343,8 @@ Observed bounded results:
 Conclusion: the GoodDirection pivot is correct and exactly recovers the old
 Farkas-needed count, but raw survivor-map grouping is still above the
 2,000-heavy-leaf gate. Do not emit Phase 6G roots directly from raw survivor
-maps. Proceed to Phase 6H denominator-cube / pseudo-Boolean Farkas or Phase 6I
-translation word/state DAG.
+maps. Phase 6H mask-tree profiling has also been rejected, so proceed to
+Phase 6I translation word/state DAG.
 
 ### Phase 6G: Denominator Signature / Survivor Shape Coverage
 
@@ -1367,31 +1380,49 @@ Acceptance:
 
 ### Phase 6H: Denominator-Cube / Pseudo-Boolean Farkas Fallback
 
-Use this if Phase 6G still has too many survivor-map/signature families.
+Status: rejected for the current exact mask-tree/cube profile.
 
-For a mask cube, relax unfixed signs to real variables in `[-1,1]`. Provide an
-exact Farkas certificate proving that no point in that cube satisfies all
-denominator positivity constraints. This proves the cube contains no
-GoodDirection mask without requiring one fixed common bad denominator.
+The original pseudo-Boolean idea assumed denominator constraints were affine in
+the six sign bits. The bounded survivor profiler found many degree-2 Walsh
+terms, so the implemented Phase 6H gate used exact 64-mask truth tables instead
+of a linear relaxation assumption.
 
-Lean checker target:
+Implemented as:
 
-```lean
-theorem denomCubeCert_sound
-    {cert : DenomCubeCert}
-    (hcert : CheckedDenomCubeCert cert) :
-    ∀ mask : SignMask,
-      MaskInCube cert.cube mask ->
-      ¬ GoodDirectionBySignature cert.signature mask := ...
+```text
+scripts/profile_symmetry_compression.py --translation-survivor-mask-tree
 ```
 
-Acceptance:
+Reports:
 
-- Bounded profiler reports few or no point fallbacks.
-- Total pseudo-Boolean tree leaves plus survivor Farkas leaves remain under
-  2,000.
-- The checker uses exact rational arithmetic and Prop-level witnesses, not
-  huge Boolean reduction.
+```text
+scripts/generated/translation_survivor_mask_tree_profile_0_5000.json
+scripts/generated/translation_survivor_mask_tree_profile_0_100000.json
+```
+
+Observed bounded results:
+
+- `[0,5000)`:
+  - identity-linear words: 487;
+  - GoodDirection survivor masks: 4,693;
+  - total mask-tree leaves: 4,693;
+  - bad-cube leaves: 0;
+  - signature tree obligations: 487;
+  - signature leaf obligations: 4,693.
+- `[0,100000)`:
+  - identity-linear words: 5,565;
+  - GoodDirection survivor masks: 39,710;
+  - total mask-tree leaves: 39,754;
+  - bad-cube leaves: 44;
+  - Farkas leaves: 39,710;
+  - signature tree obligations: 5,565;
+  - signature leaf obligations: 39,754.
+
+Conclusion:
+
+This mask-tree/cube route does not meet the 2,000-heavy-leaf gate and is worse
+than raw survivor-map grouping. Do not emit Lean evidence from Phase 6H. Proceed
+to Phase 6I translation word/state DAG.
 
 ### Phase 6I: Translation Word/State DAG Fallback
 
@@ -1605,8 +1636,8 @@ Superseded direction:
 
 - Do not continue this family shape.
 - Use Phase 6E/6F to remove bad-direction masks from generated coverage.
-- Use Phase 6H pseudo-Boolean Farkas only if the survivor path still needs a
-  compact proof of denominator infeasibility over mask cubes.
+- Phase 6H mask-tree profiling was tried after the survivor path and rejected.
+  Proceed to Phase 6I translation word/state DAG.
 
 ### Phase 6D: Common-Impact Translation Bad-Direction Families
 
@@ -1647,7 +1678,8 @@ Superseded direction:
 
 - Do not continue common-impact mask-cube tiling.
 - Proceed to Phase 6E GoodDirection and Phase 6F survivor profiling.
-- Reconsider decision diagrams only as part of the Phase 6H/6I fallback stack.
+- Reconsider decision diagrams only if a future Phase 6I state-DAG profiler
+  shows they are useful inside DAG leaves.
 
 ## Phase 7: Generated Lean Architecture
 
@@ -2194,12 +2226,10 @@ Acceptance:
 - [x] Record rejection of the common-impact prefix/mask-cube family.
 - [x] Implement Phase 6E GoodDirection semantic refactor.
 - [x] Implement Phase 6F survivor/denominator-signature profiler.
-- [ ] If survivor signatures compress enough, implement Phase 6G survivor
-  shape coverage.
-- [ ] If survivor signatures do not compress enough, implement Phase 6H
-  denominator-cube / pseudo-Boolean Farkas fallback.
-- [ ] If rank/signature grouping still fragments, implement Phase 6I
-  translation word/state DAG fallback.
+- [x] Reject Phase 6G raw survivor-map emission on the `[0,100000)` gate.
+- [x] Implement and reject Phase 6H survivor mask-tree profiling on the
+  `[0,100000)` gate.
+- [ ] Implement Phase 6I translation word/state DAG fallback.
 - [ ] Optionally profile Phase 6J D26 and empty-cone prefix geometry filters,
   but do not emit proof evidence until their invariants are formalized.
 - [ ] Add a stronger nonidentity prefix obstruction only if the revised
@@ -2226,11 +2256,11 @@ the translation bad-direction box dry-run produced 205,667 tiny boxes; the
 first-impact prefix/mask-cube dry-run left 313,602 fallback cells; and the
 common-impact prefix/mask-cube dry-run left 308,614 fallback cells.
 
-Phase 6E and Phase 6F are now complete. The GoodDirection survivor split
-matches the old Farkas-needed count, but raw survivor-map grouping still
-projects 5,565 heavy leaves in `[0,100000)`, above the hard gate. The next
-useful step is Phase 6H denominator-cube / pseudo-Boolean Farkas, or Phase 6I
-translation word/state DAG if the cube certificate search still fragments.
+Phase 6E and Phase 6F are complete, and Phase 6H has now been rejected by the
+bounded mask-tree gate. The GoodDirection survivor split matches the old
+Farkas-needed count, but raw survivor-map grouping projects 5,565 heavy leaves
+and mask-tree grouping projects 39,754 conservative leaf obligations in
+`[0,100000)`. The next useful step is Phase 6I translation word/state DAG.
 
 ## Explicit Non-Goals
 
