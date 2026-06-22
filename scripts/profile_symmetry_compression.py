@@ -121,6 +121,16 @@ def default_d26_audit_output(rank_start: int, limit: int | None) -> Path:
     )
 
 
+def default_translation_pseudoboolean_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"translation_pseudoboolean_profile_0_{rank_end:09d}.json"
+    )
+
+
 MASKS_BY_BIT_VALUE: tuple[tuple[int, int], ...] = tuple(
     (
         sum(1 << mask for mask in range(64) if not (mask & (1 << bit))),
@@ -743,6 +753,142 @@ def denominator_polynomial_key(values: list[Fraction]) -> tuple[str, int]:
         max_degree = max(max_degree, degree)
         terms.append(f"{subset}:{fraction_key(coeff)}")
     return ";".join(terms), max_degree
+
+
+def denominator_polynomial_coeffs(values: list[Fraction]) -> dict[int, Fraction]:
+    """Return exact Walsh coefficients for the six sign bits."""
+
+    if len(values) != 64:
+        raise ValueError(f"expected 64 mask values, got {len(values)}")
+    coeffs = list(values)
+    step = 1
+    while step < 64:
+        block = step * 2
+        for start in range(0, 64, block):
+            for offset in range(step):
+                lo = coeffs[start + offset]
+                hi = coeffs[start + offset + step]
+                coeffs[start + offset] = lo + hi
+                coeffs[start + offset + step] = hi - lo
+        step = block
+    return {
+        subset: total / 64
+        for subset, total in enumerate(coeffs)
+        if total != 0
+    }
+
+
+def polynomial_degree(coeffs: dict[int, Fraction]) -> int:
+    return max((subset.bit_count() for subset in coeffs), default=0)
+
+
+def integer_normalized_polynomial_coeffs(
+    coeffs: dict[int, Fraction],
+) -> dict[int, int]:
+    """Scale a sign polynomial by a positive rational to primitive integers."""
+
+    if not coeffs:
+        return {}
+    lcm = 1
+    for coeff in coeffs.values():
+        lcm = lcm * coeff.denominator // math.gcd(lcm, coeff.denominator)
+    integers = {subset: coeff.numerator * (lcm // coeff.denominator)
+        for subset, coeff in coeffs.items()}
+    content = 0
+    for value in integers.values():
+        content = math.gcd(content, abs(value))
+    if content == 0:
+        return {}
+    return {subset: value // content for subset, value in integers.items()
+        if value != 0}
+
+
+def integer_polynomial_key(coeffs: dict[int, int]) -> str:
+    if not coeffs:
+        return "0"
+    return ";".join(
+        f"{subset}:{coeffs[subset]}"
+        for subset in sorted(coeffs)
+    )
+
+
+LinearIneq = tuple[Fraction, ...]
+
+
+def linear_ineq_from_coeffs(coeffs: dict[int, Fraction]) -> LinearIneq | None:
+    """Return c + sum a_i s_i >= 0 if the polynomial is linear."""
+
+    if polynomial_degree(coeffs) > 1:
+        return None
+    return tuple(coeffs.get(0, Fraction(0)) if index == 0
+        else coeffs.get(1 << (index - 1), Fraction(0))
+        for index in range(7))
+
+
+def _without_index(values: LinearIneq, index: int) -> LinearIneq:
+    return values[:index] + values[index + 1:]
+
+
+def fourier_motzkin_feasibility(
+    constraints: list[LinearIneq],
+    *,
+    max_constraints: int,
+) -> str:
+    """Exact feasibility for non-strict linear inequalities, with a safety cap.
+
+    Each constraint has shape ``c + a_0 s_0 + ... + a_n s_n >= 0``.
+    The result is ``infeasible``, ``feasible``, or ``unknown`` if the exact
+    elimination would exceed ``max_constraints``.
+    """
+
+    if not constraints:
+        return "feasible"
+    variable_count = len(constraints[0]) - 1
+    current = list(constraints)
+    for _variable in range(variable_count):
+        zeros: list[LinearIneq] = []
+        lowers: list[LinearIneq] = []
+        uppers: list[LinearIneq] = []
+        for constraint in current:
+            coeff = constraint[1]
+            rest = _without_index(constraint, 1)
+            if coeff > 0:
+                lowers.append(rest + (coeff,))
+            elif coeff < 0:
+                uppers.append(rest + (coeff,))
+            else:
+                zeros.append(rest)
+        projected_count = len(zeros) + len(lowers) * len(uppers)
+        if projected_count > max_constraints:
+            return "unknown"
+        next_constraints: list[LinearIneq] = list(zeros)
+        for lower in lowers:
+            lower_coeff = lower[-1]
+            lower_rest = lower[:-1]
+            for upper in uppers:
+                upper_coeff = upper[-1]
+                upper_rest = upper[:-1]
+                # (-upper_coeff) * lower + lower_coeff * upper cancels x.
+                next_constraints.append(tuple(
+                    (-upper_coeff) * lower_rest[i] + lower_coeff * upper_rest[i]
+                    for i in range(len(lower_rest))
+                ))
+        current = next_constraints
+    if any(constraint[0] < 0 for constraint in current):
+        return "infeasible"
+    return "feasible"
+
+
+def sign_cube_bound_constraints() -> list[LinearIneq]:
+    constraints: list[LinearIneq] = []
+    for bit in range(6):
+        upper = [Fraction(1)] + [Fraction(0)] * 6
+        upper[bit + 1] = Fraction(-1)
+        lower = [Fraction(1)] + [Fraction(0)] * 6
+        lower[bit + 1] = Fraction(1)
+        constraints.append(tuple(upper))
+        constraints.append(tuple(lower))
+    return constraints
 
 
 @dataclass
@@ -2880,6 +3026,327 @@ class MaskTreeBuild:
     max_depth: int
     max_masks_in_bad_cube: int
     max_survivors_in_farkas_leaf: int
+
+
+class TranslationPseudoBooleanProfiler:
+    """Phase 6L.2 dry-run profiler for translation GoodDirection constraints.
+
+    This mode recomputes the 13 internal impact denominators as exact
+    sign-polynomials in the six translation mask bits.  It does not emit Lean
+    and does not generate bad-direction evidence.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        max_linear_fm_constraints: int,
+    ) -> None:
+        self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
+        self.limit = limit
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.max_linear_fm_constraints = max_linear_fm_constraints
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words_skipped = 0
+        self.translation_sign_assignments = 0
+        self.good_direction_masks = 0
+        self.denominator_nonpositive_masks = 0
+        self.zero_vector_masks = 0
+        self.denominator_degree_histogram: Counter[int] = Counter()
+        self.max_degree_word_histogram: Counter[int] = Counter()
+        self.survivor_mask_histogram: Counter[int] = Counter()
+        self.monomial_count_histogram: Counter[int] = Counter()
+        self.quadratic_variable_histogram: Counter[int] = Counter()
+        self.integer_denominator_signatures = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.linear_signatures = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.lifted_signatures = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.linear_states = 0
+        self.linear_relaxation_infeasible = 0
+        self.linear_relaxation_feasible = 0
+        self.linear_relaxation_unknown = 0
+        self.lifted_states = 0
+        self.higher_degree_states = 0
+        self.max_lifted_variables = 0
+        self.max_quadratic_variables = 0
+        self.max_mccormick_constraints = 0
+        self.samples: list[dict[str, Any]] = []
+
+    @staticmethod
+    def denominator_values_for_choice(
+        word: tuple[str, ...],
+        mask: int,
+        pref: list | None = None,
+    ) -> tuple[tuple[Fraction, ...], tuple, list[str]]:
+        return TranslationSurvivorProfiler.denominator_values_for_choice(
+            word, mask, pref
+        )
+
+    def analyze_word(
+        self,
+        word: tuple[str, ...],
+        pref: list,
+    ) -> dict[str, Any]:
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_count = 0
+        survivor_bits = 0
+        zero_vector_count = 0
+        for mask in range(64):
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+            if all(denom > 0 for denom in denoms):
+                survivor_count += 1
+                survivor_bits |= 1 << mask
+            elif b == ZERO_VEC:
+                zero_vector_count += 1
+
+        impact_keys: list[str] = []
+        linear_constraints: list[LinearIneq] = []
+        max_degree = 0
+        monomial_support: set[int] = set()
+        quadratic_support: set[int] = set()
+        degree_histogram: Counter[int] = Counter()
+        all_linear = True
+
+        for values in impact_values:
+            coeffs = denominator_polynomial_coeffs(values)
+            integer_coeffs = integer_normalized_polynomial_coeffs(coeffs)
+            degree = polynomial_degree(integer_coeffs)
+            max_degree = max(max_degree, degree)
+            degree_histogram[degree] += 1
+            self.denominator_degree_histogram[degree] += 1
+            monomial_support.update(subset for subset in integer_coeffs if subset != 0)
+            quadratic_support.update(
+                subset for subset in integer_coeffs if subset.bit_count() == 2
+            )
+            impact_keys.append(integer_polynomial_key(integer_coeffs))
+            linear = linear_ineq_from_coeffs(coeffs)
+            if linear is None:
+                all_linear = False
+            else:
+                linear_constraints.append(linear)
+
+        signature_key = "|".join(
+            f"{impact + 1}:{key}" for impact, key in enumerate(impact_keys)
+        )
+        linear_result = None
+        if all_linear:
+            constraints = linear_constraints + sign_cube_bound_constraints()
+            linear_result = fourier_motzkin_feasibility(
+                constraints,
+                max_constraints=self.max_linear_fm_constraints,
+            )
+        return {
+            "signature_key": signature_key,
+            "signature_digest": stable_digest(signature_key),
+            "max_degree": max_degree,
+            "degree_histogram": dict(sorted(degree_histogram.items())),
+            "survivor_count": survivor_count,
+            "survivor_bits": survivor_bits,
+            "zero_vector_count": zero_vector_count,
+            "monomial_count": len(monomial_support),
+            "linear_variable_count": sum(
+                1 for subset in monomial_support if subset.bit_count() == 1
+            ),
+            "quadratic_variable_count": len(quadratic_support),
+            "mccormick_constraint_count": 4 * len(quadratic_support),
+            "all_linear": all_linear,
+            "linear_relaxation": linear_result,
+        }
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        self.translation_sign_assignments += 64
+        analysis = self.analyze_word(word, pref)
+        self.good_direction_masks += analysis["survivor_count"]
+        self.denominator_nonpositive_masks += 64 - analysis["survivor_count"]
+        self.zero_vector_masks += analysis["zero_vector_count"]
+        self.max_degree_word_histogram[analysis["max_degree"]] += 1
+        self.survivor_mask_histogram[analysis["survivor_count"]] += 1
+        self.monomial_count_histogram[analysis["monomial_count"]] += 1
+        self.quadratic_variable_histogram[analysis["quadratic_variable_count"]] += 1
+        self.integer_denominator_signatures.add(analysis["signature_key"])
+
+        if analysis["all_linear"]:
+            self.linear_states += 1
+            self.linear_signatures.add(analysis["signature_key"])
+            if analysis["linear_relaxation"] == "infeasible":
+                self.linear_relaxation_infeasible += 1
+                if analysis["survivor_count"] != 0:
+                    raise AssertionError(
+                        "linear relaxation infeasible but Boolean survivor exists"
+                    )
+            elif analysis["linear_relaxation"] == "feasible":
+                self.linear_relaxation_feasible += 1
+            else:
+                self.linear_relaxation_unknown += 1
+        else:
+            self.lifted_states += 1
+            if analysis["max_degree"] > 2:
+                self.higher_degree_states += 1
+            self.lifted_signatures.add(analysis["signature_key"])
+            self.max_lifted_variables = max(
+                self.max_lifted_variables,
+                analysis["linear_variable_count"] + analysis["quadratic_variable_count"],
+            )
+            self.max_quadratic_variables = max(
+                self.max_quadratic_variables,
+                analysis["quadratic_variable_count"],
+            )
+            self.max_mccormick_constraints = max(
+                self.max_mccormick_constraints,
+                analysis["mccormick_constraint_count"],
+            )
+
+        if len(self.samples) < self.sample_limit:
+            self.samples.append({
+                "rank": rank,
+                "word": word_key(word),
+                "signature_digest": analysis["signature_digest"],
+                "max_degree": analysis["max_degree"],
+                "degree_histogram": analysis["degree_histogram"],
+                "survivor_count": analysis["survivor_count"],
+                "monomial_count": analysis["monomial_count"],
+                "linear_variable_count": analysis["linear_variable_count"],
+                "quadratic_variable_count": analysis["quadratic_variable_count"],
+                "mccormick_constraint_count": analysis["mccormick_constraint_count"],
+                "linear_relaxation": analysis["linear_relaxation"],
+            })
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            if rank_lo >= self.target_hi:
+                return
+            if len(prefix) == 13:
+                self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                if child_lo < self.target_hi:
+                    rec(child_lo)
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        all_linear = self.lifted_states == 0 and self.higher_degree_states == 0
+        return {
+            "schema_version": 1,
+            "mode": "translation-pseudoboolean-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation.GoodDirection",
+                "symmetry": "none for sign-polynomial signatures",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "max_linear_fm_constraints": self.max_linear_fm_constraints,
+                "emits_bad_direction_evidence": False,
+                "emits_lean_evidence": False,
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "bad_direction_generated_evidence": 0,
+            },
+            "sign_polynomials": {
+                "denominator_degree_histogram": dict(
+                    sorted(self.denominator_degree_histogram.items())
+                ),
+                "max_degree_word_histogram": dict(
+                    sorted(self.max_degree_word_histogram.items())
+                ),
+                "survivor_mask_histogram": dict(
+                    sorted(self.survivor_mask_histogram.items())
+                ),
+                "monomial_count_histogram": dict(
+                    sorted(self.monomial_count_histogram.items())
+                ),
+                "unique_integer_denominator_signatures":
+                    self.integer_denominator_signatures.payload(),
+                "samples": self.samples,
+            },
+            "continuous_linear_relaxation": {
+                "linear_states": self.linear_states,
+                "unique_linear_signatures": self.linear_signatures.payload(),
+                "relaxation_infeasible": self.linear_relaxation_infeasible,
+                "relaxation_feasible": self.linear_relaxation_feasible,
+                "relaxation_unknown": self.linear_relaxation_unknown,
+            },
+            "lifted_pseudoboolean": {
+                "states_requiring_lift": self.lifted_states,
+                "states_with_degree_above_two": self.higher_degree_states,
+                "unique_lifted_signatures": self.lifted_signatures.payload(),
+                "quadratic_variable_histogram": dict(
+                    sorted(self.quadratic_variable_histogram.items())
+                ),
+                "max_lifted_variables": self.max_lifted_variables,
+                "max_quadratic_variables": self.max_quadratic_variables,
+                "max_mccormick_constraints": self.max_mccormick_constraints,
+                "denominator_constraints_per_state": 13,
+                "cube_bound_constraints_per_state": 12,
+            },
+            "decision": {
+                "status": "profile",
+                "ordinary_linear_farkas_viable": all_linear,
+                "requires_lifted_pseudoboolean": self.lifted_states > 0,
+                "recommended_next_phase": (
+                    "translation-linear-farkas-search"
+                    if all_linear else
+                    "translation-lifted-pseudoboolean-search"
+                ),
+                "notes": [
+                    "This mode emits no Lean evidence.",
+                    "Bad-direction masks remain discharged only by the generic GoodDirection premise.",
+                    "A nonzero lifted state count means ordinary linear Farkas over six sign variables is insufficient.",
+                ],
+            },
+        }
 
 
 class TranslationSurvivorMaskTreeProfiler(TranslationSurvivorProfiler):
@@ -5149,6 +5616,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_baddir_family_tree),
         bool(args.translation_baddir_common_impact_tree),
         bool(args.translation_survivors),
+        bool(args.translation_pseudoboolean),
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
         bool(args.nonidentity_empty_cone_tree),
@@ -5160,7 +5628,8 @@ def validate_options(args: argparse.Namespace) -> None:
             "--prefix-kill-tree, --translation-farkas-tree, "
             "--translation-baddir-tree, --translation-baddir-family-tree, "
             "--translation-baddir-common-impact-tree, and "
-            "--translation-survivors, --translation-survivor-mask-tree, "
+            "--translation-survivors, --translation-pseudoboolean, "
+            "--translation-survivor-mask-tree, "
             "--translation-state-dag, --nonidentity-empty-cone-tree, "
             "--nonidentity-d26-audit, and --terminal-residual-census "
             "are mutually exclusive"
@@ -5192,6 +5661,8 @@ def validate_options(args: argparse.Namespace) -> None:
         raise SystemExit("--min-residual-depth must be between 0 and 13")
     if not (0 <= args.max_empty_cone_depth <= 13):
         raise SystemExit("--max-empty-cone-depth must be between 0 and 13")
+    if args.max_linear_fm_constraints <= 0:
+        raise SystemExit("--max-linear-fm-constraints must be positive")
 
 
 def decision_reasons(profiler: SymmetryCompressionProfiler) -> tuple[bool, list[str]]:
@@ -5785,6 +6256,58 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "translation-pseudoboolean-profile":
+        counts = payload["actual_counts"]
+        polynomials = payload["sign_polynomials"]
+        linear = payload["continuous_linear_relaxation"]
+        lifted = payload["lifted_pseudoboolean"]
+        decision = payload["decision"]
+        print("translation pseudo-Boolean GoodDirection profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}")
+        print(f"bad-direction generated evidence: {counts['bad_direction_generated_evidence']:,}")
+        print(
+            "denominator degree histogram: "
+            f"{polynomials['denominator_degree_histogram']}"
+        )
+        print(
+            "max degree per identity word: "
+            f"{polynomials['max_degree_word_histogram']}"
+        )
+        print(
+            "unique integer denominator signatures: "
+            f"{polynomials['unique_integer_denominator_signatures']['lower_bound']}"
+        )
+        print(
+            "ordinary linear states: "
+            f"{linear['linear_states']:,} "
+            f"(infeasible {linear['relaxation_infeasible']:,}, "
+            f"feasible {linear['relaxation_feasible']:,}, "
+            f"unknown {linear['relaxation_unknown']:,})"
+        )
+        print(
+            "lifted pseudo-Boolean states: "
+            f"{lifted['states_requiring_lift']:,}"
+        )
+        print(
+            "max lifted variables: "
+            f"{lifted['max_lifted_variables']} "
+            f"(quadratic {lifted['max_quadratic_variables']}, "
+            f"McCormick constraints {lifted['max_mccormick_constraints']})"
+        )
+        print(
+            "states with degree above two: "
+            f"{lifted['states_with_degree_above_two']:,}"
+        )
+        print(f"recommended next phase: {decision['recommended_next_phase']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "translation-survivor-mask-tree-profile":
         counts = payload["actual_counts"]
         survivors = payload["survivors"]
@@ -5938,6 +6461,11 @@ def main() -> None:
         help="profile GoodDirection survivor masks for the translation branch",
     )
     parser.add_argument(
+        "--translation-pseudoboolean",
+        action="store_true",
+        help="profile integer sign-polynomial and lifted pseudo-Boolean GoodDirection constraints",
+    )
+    parser.add_argument(
         "--translation-survivor-mask-tree",
         action="store_true",
         help="profile exact mask-tree compression for GoodDirection survivor cases",
@@ -5966,6 +6494,7 @@ def main() -> None:
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
     parser.add_argument("--max-empty-cone-depth", type=int, default=9)
+    parser.add_argument("--max-linear-fm-constraints", type=int, default=100_000)
     parser.add_argument(
         "--no-d4-transport",
         action="store_true",
@@ -5984,6 +6513,8 @@ def main() -> None:
             output = DEFAULT_TRANSLATION_STATE_DAG_OUTPUT
         elif args.translation_survivor_mask_tree:
             output = DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT
+        elif args.translation_pseudoboolean:
+            output = default_translation_pseudoboolean_output(args.limit)
         elif args.translation_survivors:
             output = DEFAULT_TRANSLATION_SURVIVORS_OUTPUT
         elif args.translation_baddir_common_impact_tree:
@@ -6081,6 +6612,21 @@ def main() -> None:
         mask_tree_profiler.traverse()
         rejected = False
         payload = mask_tree_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.translation_pseudoboolean:
+        pseudoboolean_profiler = TranslationPseudoBooleanProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            max_linear_fm_constraints=args.max_linear_fm_constraints,
+        )
+        pseudoboolean_profiler.traverse()
+        rejected = False
+        payload = pseudoboolean_profiler.payload(
             elapsed_seconds=time.monotonic() - start,
         )
     elif args.translation_survivors:
