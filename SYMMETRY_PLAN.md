@@ -125,7 +125,7 @@ tilers remain documented below only as rejected compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1 rejected as standalone | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, and conservative all-signed empty-cone pair-prefix pruning all exceed the 2,000-leaf gate on `[0,100000)`. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, and the D26 finite-axis hypothesis all fail bounded gates. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -1515,15 +1515,38 @@ GoodDirection survivor, mask-tree, and state-DAG gates all rejected.
    with 7,116 planned heavy leaves and 99.778% residual fallback width. Do not
    scale this pair-prefix empty-cone strategy as a standalone backend.
 2. **D26 nonidentity direction filter.**
-   Profile the 26 directed cube symmetry axes as a finite alive-direction set.
-   Do not emit proof evidence until Lean proves that every feasible
-   nonidentity direction lies in this set.
+   Status: implemented and rejected as stated. The profiler mode is:
+
+   ```bash
+   python3 scripts/profile_symmetry_compression.py \
+     --dry-run --nonidentity-d26-audit --rank-start 0 --limit 100000
+   ```
+
+   The audit checks exact fixed axes against the 26 directed cube-symmetry
+   directions, then asks whether any non-D26 axis survives the existing
+   necessary gates: final-axis dot nonzero, no forced zero denominator, and
+   forced sign balance.
+
+   Current result: rejected. All five sampled 100k windows contain non-D26
+   forced-balance survivors:
+
+   | Window | Forced-balance survivors | D26 | Non-D26 |
+   | ---: | ---: | ---: | ---: |
+   | `[0,100000)` | 9,036 | 0 | 9,036 |
+   | `[10000000,10100000)` | 4,143 | 0 | 4,143 |
+   | `[30000000,30100000)` | 961 | 0 | 961 |
+   | `[60000000,60100000)` | 1,471 | 0 | 1,471 |
+   | `[90000000,90100000)` | 2,251 | 0 | 2,251 |
+
+   Do not use D26 as proof evidence. The bounded audit directly falsifies the
+   hypothesis that all plausible nonidentity survivors have D26-parallel axes.
 3. **Stronger continuous cone certificates.**
-   If D26 profiling also fails, the next continuous-geometric attempt should
-   operate over richer signed-prefix/state information rather than unsigned
-   pair-prefix intervals. The pair-prefix empty-cone profiler shows that the
-   easy cone certificate is sound but far too sparse in raw rank-prefix
-   coordinates.
+   This is now the next possible geometric direction, but it must operate over
+   richer signed-prefix/state information rather than unsigned pair-prefix
+   intervals or D26 axes. The pair-prefix empty-cone profiler shows that the
+   easy cone certificate is sound but sparse in raw rank-prefix coordinates,
+   and the D26 audit shows the nonidentity survivor axis space is much larger
+   than the cube symmetry axes.
 
 Acceptance:
 
@@ -2294,8 +2317,7 @@ Acceptance:
   the `[0,100000)` gate.
 - [x] Implement and reject Phase 6J.1 conservative all-signed empty-cone
   pair-prefix profiling on the `[0,100000)` gate.
-- [ ] Profile Phase 6J.2 D26 prefix geometry filters, but do not emit proof
-  evidence until the axis-direction invariant is formalized.
+- [x] Implement and reject Phase 6J.2 D26 axis audit on five 100k windows.
 - [ ] Add a stronger nonidentity prefix obstruction only if the revised
   translation survivor path still does not meet the hard leaf gate.
 - [ ] Refresh translation normalized Farkas shape sharing after GoodDirection
@@ -2327,8 +2349,11 @@ grouping projects 39,754 conservative leaf obligations, and state-DAG grouping
 projects 49,504 combined obligations in `[0,100000)`. Phase 6J.1 empty-cone
 pair-prefix pruning is also rejected as a standalone backend: the
 `[0,100000)` run killed only 222 ranks and left 7,116 planned heavy leaves.
-The next useful step is Phase 6J.2 D26 profiling, with proof evidence blocked
-until the exact finite-axis invariant is formalized.
+Phase 6J.2 D26 axis profiling is rejected too: five disjoint 100k windows all
+contain non-D26 forced-balance survivors, with zero D26 survivors at that gate.
+The next useful step must be a different compression idea, most likely a
+stateful signed-prefix continuous certificate or a broader mathematical
+reduction; do not emit generated evidence from the rejected Phase 6J branches.
 
 ## Explicit Non-Goals
 
@@ -2348,3 +2373,5 @@ until the exact finite-axis invariant is formalized.
   exact invariant theorem that justifies it.
 - Do not scale the current pair-prefix empty-cone strategy as a standalone
   backend; its `[0,100000)` compression gate is rejected.
+- Do not pursue D26 as the nonidentity survivor invariant; bounded exact audits
+  found many non-D26 forced-balance survivors.

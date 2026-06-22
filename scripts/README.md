@@ -481,6 +481,43 @@ planned heavy leaves and 99.778% residual fallback width. Do not emit Lean
 roots from this pair-prefix empty-cone strategy unless a later stateful/signed
 variant changes the gate result.
 
+## Nonidentity D26 axis audit
+
+The Phase 6J.2 audit tests, but does not trust, the hypothesis that plausible
+non-identity survivors have axes parallel to one of the 26 directed cube
+symmetry directions:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-d26-audit --rank-start 0 --limit 100000
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-d26-audit --rank-start 10000000 --limit 100000
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-d26-audit --rank-start 30000000 --limit 100000
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-d26-audit --rank-start 60000000 --limit 100000
+
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --nonidentity-d26-audit --rank-start 90000000 --limit 100000
+```
+
+Current result: rejected. Each sampled window has non-D26 axes surviving the
+forced-sign balance gate:
+
+| Window | Forced-balance survivors | D26 | Non-D26 |
+| ---: | ---: | ---: | ---: |
+| `[0,100000)` | 9,036 | 0 | 9,036 |
+| `[10000000,10100000)` | 4,143 | 0 | 4,143 |
+| `[30000000,30100000)` | 961 | 0 | 961 |
+| `[60000000,60100000)` | 1,471 | 0 | 1,471 |
+| `[90000000,90100000)` | 2,251 | 0 | 2,251 |
+
+Do not emit Lean proof evidence from the D26 strategy. The audit is a
+diagnostic counterexample source only.
+
 ## Phase 9 readiness
 
 Before wiring the public generated coverage API into concrete Step 15 theorem

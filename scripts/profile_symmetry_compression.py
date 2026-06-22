@@ -89,6 +89,18 @@ DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT = (
 )
 
 
+def default_d26_audit_output(rank_start: int, limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
+        EXPECTED_PAIR_WORDS, rank_start + limit
+    )
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"nonidentity_d26_audit_{rank_start:09d}_{rank_end:09d}.json"
+    )
+
+
 MASKS_BY_BIT_VALUE: tuple[tuple[int, int], ...] = tuple(
     (
         sum(1 << mask for mask in range(64) if not (mask & (1 << bit))),
@@ -167,12 +179,79 @@ def bit_sign(mask: int, bit: int) -> int:
     return 1 if mask & (1 << bit) else -1
 
 
+def vec_cross_fraction(
+    a: tuple[Fraction, Fraction, Fraction],
+    b: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, Fraction, Fraction]:
+    return (
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0],
+    )
+
+
+def normalize_projective_vec(
+    v: tuple[Fraction, Fraction, Fraction],
+) -> tuple[int, int, int]:
+    denominators = [entry.denominator for entry in v]
+    lcm = 1
+    for denominator in denominators:
+        lcm = lcm * denominator // math.gcd(lcm, denominator)
+    ints = [entry.numerator * (lcm // entry.denominator) for entry in v]
+    gcd = 0
+    for value in ints:
+        gcd = math.gcd(gcd, abs(value))
+    if gcd == 0:
+        return (0, 0, 0)
+    ints = [value // gcd for value in ints]
+    first_nonzero = next((value for value in ints if value != 0), 1)
+    if first_nonzero < 0:
+        ints = [-value for value in ints]
+    return tuple(ints)  # type: ignore[return-value]
+
+
+def normalized_axis_key(axis: tuple[Fraction, Fraction, Fraction]) -> str:
+    return ",".join(str(value) for value in normalize_projective_vec(axis))
+
+
 def vec_fraction(values: tuple[int, int, int] | tuple[Fraction, Fraction, Fraction]):
     return tuple(Fraction(value) for value in values)
 
 
 def vec_scale_fraction(scale: Fraction, v: tuple[Fraction, Fraction, Fraction]):
     return (scale * v[0], scale * v[1], scale * v[2])
+
+
+D26_DIRECTIONS: tuple[tuple[Fraction, Fraction, Fraction], ...] = tuple(
+    vec_fraction(direction)
+    for direction in (
+        (1, 0, 0), (-1, 0, 0),
+        (0, 1, 0), (0, -1, 0),
+        (0, 0, 1), (0, 0, -1),
+        *[
+            (sx, sy, sz)
+            for sx in (-1, 1)
+            for sy in (-1, 1)
+            for sz in (-1, 1)
+        ],
+        *[
+            direction
+            for zero_index in range(3)
+            for signs in product((-1, 1), repeat=2)
+            for direction in [tuple(
+                0 if index == zero_index else signs[index if index < zero_index else index - 1]
+                for index in range(3)
+            )]
+        ],
+    )
+)
+
+
+def axis_is_parallel_to_d26(axis: tuple[Fraction, Fraction, Fraction]) -> bool:
+    return any(
+        vec_cross_fraction(axis, direction) == (0, 0, 0)
+        for direction in D26_DIRECTIONS
+    )
 
 
 def weighted_vec_sum(
@@ -1279,6 +1358,259 @@ class EmptyConePrefixProfiler:
             "decision": {
                 "status": "reject" if rejected else "pass",
                 "reasons": reject_reasons,
+            },
+        }
+
+
+class D26AxisAuditProfiler:
+    """Exact audit for the speculative D26 non-identity axis invariant."""
+
+    def __init__(
+        self,
+        *,
+        rank_start: int,
+        limit: int | None,
+        sample_limit: int,
+        progress_interval: int,
+        max_distinct_tracked: int,
+    ) -> None:
+        self.rank_start = rank_start
+        self.rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
+            EXPECTED_PAIR_WORDS, rank_start + limit
+        )
+        self.limit = None if limit is None else self.rank_end - rank_start
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.prefix_nodes = 0
+        self.prefix_nodes_by_depth: Counter[int] = Counter()
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words = 0
+        self.no_fixed_axis = 0
+        self.fixed_axis = 0
+        self.final_axis_zero = 0
+        self.forced_zero_denominator = 0
+        self.bad_pair_balance = 0
+        self.forced_balance_survivors = 0
+        self.d26_stage_counts: dict[str, Counter[str]] = {
+            "fixed_axis": Counter(),
+            "final_nonzero": Counter(),
+            "no_forced_zero": Counter(),
+            "forced_balance": Counter(),
+        }
+        self.distinct_axes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.distinct_non_d26_axes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.distinct_survivor_axes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.non_d26_samples: dict[str, list[dict[str, Any]]] = {
+            "fixed_axis": [],
+            "final_nonzero": [],
+            "no_forced_zero": [],
+            "forced_balance": [],
+        }
+        self.d26_direction_keys = sorted(
+            {normalized_axis_key(direction) for direction in D26_DIRECTIONS}
+        )
+
+    def record_stage(
+        self,
+        stage: str,
+        *,
+        is_d26: bool,
+        rank: int,
+        word: tuple[str, ...],
+        axis: tuple[Fraction, Fraction, Fraction],
+        extra: dict[str, Any] | None = None,
+    ) -> None:
+        label = "d26" if is_d26 else "non_d26"
+        self.d26_stage_counts[stage][label] += 1
+        axis_key = normalized_axis_key(axis)
+        self.distinct_axes.add(axis_key)
+        if stage == "forced_balance":
+            self.distinct_survivor_axes.add(axis_key)
+        if not is_d26:
+            self.distinct_non_d26_axes.add(axis_key)
+            samples = self.non_d26_samples[stage]
+            if len(samples) < self.sample_limit:
+                payload = {
+                    "rank": rank,
+                    "word": list(word),
+                    "axis": vec_key(axis),
+                    "normalized_axis": axis_key,
+                }
+                if extra is not None:
+                    payload.update(extra)
+                samples.append(payload)
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"D26 audit scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix == IDENTITY:
+            self.identity_words += 1
+            return
+        self.nonidentity_words += 1
+        try:
+            axis = one_dimensional_fixed_axis(matrix)
+        except ValueError:
+            self.no_fixed_axis += 1
+            return
+        self.fixed_axis += 1
+        is_d26 = axis_is_parallel_to_d26(axis)
+        self.record_stage(
+            "fixed_axis",
+            is_d26=is_d26,
+            rank=rank,
+            word=word,
+            axis=axis,
+        )
+
+        final_dot = final_axis_dot(list(word), axis, pref)
+        if final_dot < 0:
+            axis = (-axis[0], -axis[1], -axis[2])
+            final_dot = -final_dot
+        if final_dot == 0:
+            self.final_axis_zero += 1
+            return
+        is_d26 = axis_is_parallel_to_d26(axis)
+        self.record_stage(
+            "final_nonzero",
+            is_d26=is_d26,
+            rank=rank,
+            word=word,
+            axis=axis,
+            extra={"final_axis_dot": fraction_key(final_dot)},
+        )
+
+        zero_index = first_axis_zero_index(list(word), axis, pref)
+        if zero_index is not None:
+            self.forced_zero_denominator += 1
+            return
+        self.record_stage(
+            "no_forced_zero",
+            is_d26=is_d26,
+            rank=rank,
+            word=word,
+            axis=axis,
+        )
+
+        forced_seq = forced_sequence_from_axis(list(word), axis, pref)
+        if len(set(forced_seq)) != 14:
+            self.bad_pair_balance += 1
+            return
+        self.forced_balance_survivors += 1
+        self.record_stage(
+            "forced_balance",
+            is_d26=is_d26,
+            rank=rank,
+            word=word,
+            axis=axis,
+            extra={"forced_seq": forced_seq},
+        )
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_hi <= self.rank_start or rank_lo >= self.rank_end:
+                return
+            depth = len(prefix)
+            self.prefix_nodes += 1
+            self.prefix_nodes_by_depth[depth] += 1
+            if len(prefix) == 13:
+                if self.rank_start <= rank_lo < self.rank_end:
+                    self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                child_hi = child_lo + child_width
+                if child_hi > self.rank_start and child_lo < self.rank_end:
+                    prefix.append(pair_id)
+                    pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                    rec(child_lo)
+                    pref.pop()
+                    prefix.pop()
+                remaining[pair_id] += 1
+                child_lo = child_hi
+                if child_lo >= self.rank_end:
+                    break
+
+        rec(0)
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        non_d26_forced_balance = self.d26_stage_counts["forced_balance"]["non_d26"]
+        if non_d26_forced_balance > 0:
+            status = "reject"
+            notes = [
+                "non-D26 axes survive the forced-sign balance gate in this window",
+                "do not promote D26 to proof evidence as stated",
+            ]
+        elif self.forced_balance_survivors == 0:
+            status = "inconclusive"
+            notes = [
+                "no forced-balance survivors in this window",
+                "sample cannot support or refute the D26 survivor invariant",
+            ]
+        else:
+            status = "promising"
+            notes = [
+                "all forced-balance survivors in this window are D26-parallel",
+                "formal proof work is still required before using D26 as evidence",
+            ]
+        return {
+            "schema_version": 1,
+            "mode": "nonidentity-d26-audit",
+            "trusted_as_proof": False,
+            "elapsed_seconds": elapsed_seconds,
+            "rank_window": {
+                "start": self.rank_start,
+                "end": self.rank_end,
+                "width": self.rank_end - self.rank_start,
+            },
+            "options": {
+                "d26_direction_count": len(D26_DIRECTIONS),
+                "d26_projective_direction_count": len(self.d26_direction_keys),
+                "d26_projective_directions": self.d26_direction_keys,
+            },
+            "prefix": {
+                "nodes_visited": self.prefix_nodes,
+                "nodes_by_depth": dict(sorted(self.prefix_nodes_by_depth.items())),
+            },
+            "counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_words": self.identity_words,
+                "nonidentity_words": self.nonidentity_words,
+                "no_fixed_axis": self.no_fixed_axis,
+                "fixed_axis": self.fixed_axis,
+                "final_axis_zero": self.final_axis_zero,
+                "forced_zero_denominator": self.forced_zero_denominator,
+                "bad_pair_balance": self.bad_pair_balance,
+                "forced_balance_survivors": self.forced_balance_survivors,
+            },
+            "d26_stage_counts": {
+                stage: dict(counter)
+                for stage, counter in self.d26_stage_counts.items()
+            },
+            "axis_families": {
+                "distinct_axes": self.distinct_axes.payload(),
+                "distinct_non_d26_axes": self.distinct_non_d26_axes.payload(),
+                "distinct_forced_balance_axes": self.distinct_survivor_axes.payload(),
+            },
+            "non_d26_samples": self.non_d26_samples,
+            "decision": {
+                "status": status,
+                "notes": notes,
             },
         }
 
@@ -4137,6 +4469,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
         bool(args.nonidentity_empty_cone_tree),
+        bool(args.nonidentity_d26_audit),
     ])
     if mode_count > 1:
         raise SystemExit(
@@ -4144,9 +4477,14 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-baddir-tree, --translation-baddir-family-tree, "
             "--translation-baddir-common-impact-tree, and "
             "--translation-survivors, --translation-survivor-mask-tree, "
-            "--translation-state-dag, and --nonidentity-empty-cone-tree "
+            "--translation-state-dag, --nonidentity-empty-cone-tree, "
+            "and --nonidentity-d26-audit "
             "are mutually exclusive"
         )
+    if args.rank_start != 0 and not args.nonidentity_d26_audit:
+        raise SystemExit("--rank-start is currently supported only with --nonidentity-d26-audit")
+    if not (0 <= args.rank_start <= EXPECTED_PAIR_WORDS):
+        raise SystemExit(f"--rank-start must be between 0 and {EXPECTED_PAIR_WORDS}")
     if args.limit is not None and not (0 <= args.limit <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--limit must be between 0 and {EXPECTED_PAIR_WORDS}")
     if args.max_lean_leaves <= 0:
@@ -4493,6 +4831,32 @@ def write_payload(payload: dict[str, Any], output: Path) -> None:
 
 
 def print_summary(payload: dict[str, Any]) -> None:
+    if payload.get("mode") == "nonidentity-d26-audit":
+        window = payload["rank_window"]
+        counts = payload["counts"]
+        stages = payload["d26_stage_counts"]
+        decision = payload["decision"]
+        print("nonidentity D26 axis audit")
+        print(
+            "rank window: "
+            f"[{window['start']:,}, {window['end']:,}) "
+            f"width {window['width']:,}"
+        )
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"nonidentity words: {counts['nonidentity_words']:,}")
+        print(f"identity words: {counts['identity_words']:,}")
+        print(f"fixed-axis words: {counts['fixed_axis']:,}")
+        print(
+            "forced-balance survivors: "
+            f"{counts['forced_balance_survivors']:,} "
+            f"(D26 {stages['forced_balance'].get('d26', 0):,}, "
+            f"non-D26 {stages['forced_balance'].get('non_d26', 0):,})"
+        )
+        print(f"decision: {decision['status']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "nonidentity-empty-cone-profile":
         prefix = payload["prefix"]
         tiling = payload["tiling"]
@@ -4801,6 +5165,7 @@ def main() -> None:
     )
     parser.add_argument("--dry-run", action="store_true", help="required; Phase 3 emits profile JSON only")
     parser.add_argument("--limit", type=int, default=None, help="profile only the first N pair-word ranks")
+    parser.add_argument("--rank-start", type=int, default=0, help="starting rank for range-aware audit modes")
     parser.add_argument("--max-lean-leaves", type=int, default=2000)
     parser.add_argument("--warn-lean-leaves", type=int, default=900)
     parser.add_argument("--max-distinct-tracked", type=int, default=100_000)
@@ -4852,6 +5217,11 @@ def main() -> None:
         action="store_true",
         help="profile exact empty-cone Farkas pruning for nonidentity pair prefixes",
     )
+    parser.add_argument(
+        "--nonidentity-d26-audit",
+        action="store_true",
+        help="audit whether nonidentity fixed axes are parallel to the 26 cube-symmetry directions",
+    )
     parser.add_argument("--max-prefix-probe-ranks", type=int, default=4096)
     parser.add_argument("--max-residual-leaf-width", type=int, default=128)
     parser.add_argument("--min-residual-depth", type=int, default=13)
@@ -4888,13 +5258,28 @@ def main() -> None:
             output = DEFAULT_PREFIX_KILL_OUTPUT
         elif args.nonidentity_empty_cone_tree:
             output = DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT
+        elif args.nonidentity_d26_audit:
+            output = default_d26_audit_output(args.rank_start, args.limit)
         else:
             output = DEFAULT_OUTPUT
 
     import time
 
     start = time.monotonic()
-    if args.nonidentity_empty_cone_tree:
+    if args.nonidentity_d26_audit:
+        d26_profiler = D26AxisAuditProfiler(
+            rank_start=args.rank_start,
+            limit=args.limit,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            max_distinct_tracked=args.max_distinct_tracked,
+        )
+        d26_profiler.traverse()
+        rejected = False
+        payload = d26_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.nonidentity_empty_cone_tree:
         empty_cone_profiler = EmptyConePrefixProfiler(
             limit=args.limit,
             max_lean_leaves=args.max_lean_leaves,
