@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Emit bounded family-interval evidence shards.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this rank-interval family emitter belongs to
+the rejected compatibility path. It is retained for diagnostics and historical
+reproduction only, not as the Phase 6L generated-evidence backend.
+
 This is the replacement target for the archived singleton interval-shard path.
 It emits roots whose public surface is `FamilyIntervalEvidence lo hi`, not
 per-rank `NonIdCert` singleton leaves.

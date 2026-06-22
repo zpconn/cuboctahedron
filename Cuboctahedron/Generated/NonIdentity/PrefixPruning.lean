@@ -5,6 +5,11 @@ import Cuboctahedron.Search.Certificates
 /-!
 Semantic prefix-level non-identity pruning.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: the rank-prefix coverage wrappers in this
+module are retained as historical Phase 6J scaffolding. The small empty-cone
+linear-algebra lemmas remain useful, but this file is not the forward Phase 6L
+compression backend.
+
 This module is the first non-singleton, non-certificate-literal target for the
 symmetry/prefix backend.  A generated leaf can prove that every rank in a small
 interval has a fixed pair prefix, then supply exact axis/forced-sequence

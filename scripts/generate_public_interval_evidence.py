@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Emit memory-safe public interval evidence modules.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this public interval emitter is now a
+historical/smoke backend. Phase 6L should not scale it; ranks are allowed only
+as final enumeration adapters after semantic coverage is proved.
+
 This is the replacement for the archived packed/blob generated-data path.  The
 emitted Lean files expose semantic interval theorems over the public coverage
 API; they do not ask Lean to decode large blobs or reduce a global checker.

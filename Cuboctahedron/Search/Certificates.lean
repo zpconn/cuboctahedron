@@ -2350,6 +2350,12 @@ structure RankInterval where
   endRank : Nat
 deriving DecidableEq, Repr
 
+/- PHASE_6L_HISTORICAL_RANK_BOUNDARY:
+   RankInterval and the parametric coverage APIs below are compatibility
+   surfaces for rejected generated-evidence attempts. New Phase 6L proof
+   compression should use semantic pair-word/state predicates and introduce
+   ranks only at the final enumeration adapter. -/
+
 def RankInterval.ContainsPairRank
     (interval : RankInterval) (r : Fin numPairWords) : Prop :=
   interval.startRank <= r.val /\ r.val < interval.endRank

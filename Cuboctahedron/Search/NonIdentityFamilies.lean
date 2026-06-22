@@ -3,6 +3,11 @@ import Cuboctahedron.Search.Certificates
 /-!
 Typed wrappers for non-identity certificate families.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: these wrappers expose the older
+RankInterval-based parametric-family API. They remain for compatibility and
+diagnostics, but they are not the forward Phase 6L semantic-convex certificate
+path.
+
 The older `NonIdParametricFamily` API already contains the key trusted bridge:
 for every rank in its interval it can produce an ordinary `NonIdCert` checked by
 `checkNonIdCert`.  This module gives the high-volume non-identity failure

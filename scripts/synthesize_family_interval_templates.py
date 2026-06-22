@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Synthesize bounded non-identity family interval templates.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this synthesis tool groups ranks into old
+family-interval templates. It is retained only as an untrusted diagnostic for
+why that path failed, not as a forward generated-evidence backend.
+
 This is a development/profiling tool for moving beyond the hand-written sample
 family templates.  It scans a rank interval with exact arithmetic, groups
 contiguous non-identity ranks that share the same failure kind, and can emit

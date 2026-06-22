@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """D4-symmetric semantic tiling planner for generated evidence.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this script plans rank-interval tilings from
+the rejected symmetry backend. It is retained as an untrusted diagnostic only;
+Phase 6L must use semantic convex/state certificates instead.
+
 This script is deliberately untrusted.  It emits no Lean proof and should not
 be used as a proof artifact.  Its dry-run mode plans the Phase 7 generated-Lean
 architecture by computing a memory-safe semantic interval tiling and rejecting

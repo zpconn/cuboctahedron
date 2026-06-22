@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Emit bounded semantic symmetry evidence batches.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this orchestration layer wraps the old
+rank-interval public shard emitters. It is retained for historical smoke
+ranges only and is not a forward Phase 6L backend.
+
 This is a thin orchestration layer over the public interval shard emitter.  It
 does not invent a new certificate format: public shards still contain the
 proof-carrying exact certificates, and the symmetry layer only wraps their

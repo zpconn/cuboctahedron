@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Legacy exact certificate helpers for the cuboctahedron project.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this script contains archived rank-interval
+emitter paths and helper routines. It is retained only as an untrusted
+historical/helper library, not as a forward generated-evidence backend.
+
 The old CLI emitter modes in this file are archived with the legacy OOM
 backend and fail closed in `main`.  New generated evidence should use
 `scripts/generate_public_interval_evidence.py`.

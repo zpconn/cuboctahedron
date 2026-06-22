@@ -4,6 +4,10 @@ import Cuboctahedron.Generated.NonIdentity.ParametricSample
 /-!
 Smoke checks for the non-identity family coverage API.
 
+PHASE_6L_HISTORICAL_RANK_BOUNDARY: this file is retained as a bounded smoke
+test for the rejected rank-interval family API. It is not part of the forward
+Phase 6L semantic-convex certificate path.
+
 These examples intentionally do not contain generated data.  They show the
 small theorem shape generated leaves should export once Phase 4 family evidence
 is emitted.

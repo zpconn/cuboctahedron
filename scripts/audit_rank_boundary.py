@@ -41,6 +41,8 @@ SCAN_ROOTS = (
 
 SCAN_SUFFIXES = {".lean", ".py"}
 
+HISTORICAL_MARKER = "PHASE_6L_HISTORICAL_RANK_BOUNDARY"
+
 LEGACY_GENERATORS = {
     "scripts/generate_exact_certificates.py",
     "scripts/generate_family_interval_evidence.py",
@@ -131,6 +133,13 @@ def find_occurrences(path: Path) -> list[Occurrence]:
 def classify(path: Path, occurrences: list[Occurrence]) -> tuple[str, str]:
     rel = repo_path(path)
     text_symbols = {occ.symbol for occ in occurrences}
+    text = path.read_text(encoding="utf-8")
+
+    if HISTORICAL_MARKER in text:
+        return (
+            "historical_diagnostic",
+            "explicit Phase 6L historical rank-boundary marker; retained for compatibility or diagnostics only",
+        )
 
     if rel in LEGACY_GENERATORS:
         return (
