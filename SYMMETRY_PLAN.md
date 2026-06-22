@@ -174,10 +174,12 @@ Last updated after completing the GoodDirection bridge, bounded survivor
 profiler, bounded survivor mask-tree profiler, bounded translation word/state
 DAG profiler, rank-boundary audit, integer arithmetic core, Phase 6L.2A
 translation pseudo-Boolean denominator profiler, Phase 6L.2B lifted
-pseudo-Boolean search profiler, and Phase 6L.3A signed-state cone profiler.
+pseudo-Boolean search profiler, Phase 6L.3A signed-state cone profiler, and
+Phase 6M coarse terminal-obstruction algebra profiler.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
-residual, lifted-PB, and signed-state cone tilers remain documented below only
-as rejected or diagnostic compression experiments.
+residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
+remain documented below only as rejected or diagnostic compression
+experiments.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -187,7 +189,7 @@ as rejected or diagnostic compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, and signed-state cone profiling all fail bounded gates. The next step should be a materially different semantic model, not another rank/mask/state tiler variant. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, and coarse terminal-algebra grouping all fail bounded gates. The next step should be a materially different semantic model or smaller theorem target, not another rank/mask/state/terminal-shape tiler variant. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -2070,6 +2072,84 @@ Decision:
   obstruction families or switch to a smaller target theorem layer that can be
   proved before attempting full generated coverage again.
 
+#### Phase 6M: Coarse Terminal-Obstruction Algebra Profiler
+
+Purpose: test whether the Phase 6K/6L.3A terminal explosion was mostly caused
+by over-specific keys containing full sequences, axes, and ranks.
+
+Tasks:
+
+1. Keep the exact nonidentity forced-axis and terminal simulation logic.
+2. Add a profiler-only terminal classifier whose counted keys do not contain
+   rank, full word, full sequence, or raw axis data.
+3. Group terminal failures by theorem family plus small exact witness shapes:
+   - start-face separating margin;
+   - first-hit mismatch comparison;
+   - hit-interior margin;
+   - hit tie/no-hit/closure failure shape.
+4. Group preterminal nonidentity filters by similarly smaller witness shapes
+   where possible, especially transformed-normal/axis orthogonality for
+   forced-zero denominators.
+5. Emit no Lean evidence. Use the profiler only to decide whether this theorem
+   family layer is worth formalizing.
+
+Gate:
+
+- Reject if projected Lean-heavy leaves exceed 2,000 on `[0,100000)`.
+- Reject if any single obstruction family exceeds 2,000 unique shapes.
+- Reject if counted keys contain `rank=`, `word=`, `seq=`, or `axis=`.
+
+Phase 6M implementation results:
+
+- Added `scripts/profile_symmetry_compression.py
+  --nonidentity-terminal-algebra`.
+- The mode emits no Lean evidence.
+- The counted keys exclude rank, full pair word, full forced sequence, and raw
+  axis data.
+- A 1k smoke profile passed the gate:
+  - pair words scanned: 1,000;
+  - identity words: 138;
+  - nonidentity words: 862;
+  - forced-balance survivors: 185;
+  - terminal failures:
+    `axis_misses_start_interior = 174`,
+    `first_hit_mismatch = 11`;
+  - unique coarse obstruction shapes: 340;
+  - accepted for Phase 6M: true.
+- The `[0,100000)` bounded profile is
+  `scripts/generated/nonidentity_terminal_algebra_profile_000000000_000100000.json`:
+  - pair words scanned: 100,000;
+  - identity words: 5,565;
+  - nonidentity words: 94,435;
+  - forced-balance survivors: 9,036;
+  - terminal failures:
+    `axis_misses_start_interior = 8,775`,
+    `first_hit_mismatch = 251`,
+    `hit_tie = 10`;
+  - unique coarse obstruction shapes: 6,282;
+  - max shape reuse: 1,492;
+  - family counts:
+    `axis_misses_start_interior = 1,593`,
+    `bad_pair_balance = 106`,
+    `final_axis_zero = 120`,
+    `first_hit_mismatch = 67`,
+    `forced_zero_denominator = 4,393`,
+    `hit_tie = 3`;
+  - forbidden rank/word/sequence/axis markers in counted keys: none;
+  - accepted for Phase 6M: false.
+
+Decision:
+
+- Phase 6M is rejected.
+- Coarse terminal algebra removes much of the over-specific sequence/axis
+  noise from Phase 6K, but it still exceeds the 2,000-leaf gate.
+- The dominant obstruction is now preterminal `forced_zero_denominator`, not
+  the terminal first-hit simulation itself.
+- Do not emit Lean evidence from this profile.
+- The next useful nonidentity step must target `forced_zero_denominator` with
+  a generic theorem or state invariant, or else switch to a smaller formally
+  useful theorem target before trying full generated coverage again.
+
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
 Purpose: preserve exhaustive coverage without making ranks the compression
@@ -2884,6 +2964,8 @@ Acceptance:
   search on the `[0,100000)` gate.
 - [x] Implement and reject Phase 6L.3A stateful nonidentity cone/Farkas
   profiler on the bounded gate.
+- [x] Implement and reject Phase 6M coarse terminal-obstruction algebra
+  profiler on the `[0,100000)` gate.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -2928,6 +3010,15 @@ theorem layer, not another variant of rank/mask/state tiling. Lexicographic
 rank intervals should reappear only as final enumeration adapters once
 semantic coverage has passed the low-thousands gate.
 
+Phase 6M tested that coarser terminal-obstruction idea. It improved the
+nonidentity shape count substantially but still rejected the bounded gate:
+`[0,100000)` has 6,282 projected heavy leaves, and
+`forced_zero_denominator` alone contributes 4,393 unique witness shapes. The
+next useful step is therefore not another terminal-first-hit shape tiler. It
+should either prove a generic theorem/invariant eliminating forced-zero
+denominator cases in bulk, or deliberately downshift to a smaller formal target
+that can be completed and validated before full generated coverage is retried.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -2951,6 +3042,9 @@ semantic coverage has passed the low-thousands gate.
 - Do not emit terminal residual obstruction-shape leaves from Phase 6K; the
   first `[0,100000)` census already exceeds the hard gate by several times
   even before scaling beyond the first sample window.
+- Do not emit coarse terminal-obstruction algebra leaves from Phase 6M; the
+  bounded gate still produces 6,282 projected leaves, dominated by
+  `forced_zero_denominator`.
 - Do not start another strategy whose main compression claim is that a
   geometric failure covers a large contiguous lexicographic rank interval.
 - Do not build new heavy generated checkers over `Rat`/`ℚ` unless an explicit
