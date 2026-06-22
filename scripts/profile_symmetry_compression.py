@@ -17,7 +17,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from fractions import Fraction
 from functools import lru_cache
-from itertools import combinations, product
+from itertools import combinations, permutations, product
 from pathlib import Path
 from typing import Any
 
@@ -131,6 +131,16 @@ def default_translation_pseudoboolean_output(limit: int | None) -> Path:
     )
 
 
+def default_translation_lifted_pb_search_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"translation_lifted_pb_search_profile_0_{rank_end:09d}.json"
+    )
+
+
 MASKS_BY_BIT_VALUE: tuple[tuple[int, int], ...] = tuple(
     (
         sum(1 << mask for mask in range(64) if not (mask & (1 << bit))),
@@ -138,6 +148,86 @@ MASKS_BY_BIT_VALUE: tuple[tuple[int, int], ...] = tuple(
     )
     for bit in range(6)
 )
+ALL_MASK_BITS = (1 << 64) - 1
+QUADRATIC_MONOMIALS: tuple[int, ...] = (0,) + tuple(1 << i for i in range(6)) + tuple(
+    (1 << i) | (1 << j) for i in range(6) for j in range(i + 1, 6)
+)
+
+
+@dataclass(frozen=True)
+class SignedVariableTransform:
+    """A signed permutation of six sign variables.
+
+    The convention is old variable ``s_i = sign_i * t_{perm[i]}``.
+    ``new_mask_from_old`` maps a mask in old variables to the corresponding
+    mask in transformed variables.
+    """
+
+    perm: tuple[int, ...]
+    sign_bits: int
+    new_mask_from_old: bytes
+
+
+@dataclass(frozen=True)
+class MaskCube:
+    fixed_mask: int
+    fixed_bits: int
+    mask_bits: int
+    size: int
+    key: str
+
+
+@lru_cache(maxsize=1)
+def signed_variable_transforms() -> tuple[SignedVariableTransform, ...]:
+    transforms: list[SignedVariableTransform] = []
+    for perm in permutations(range(6)):
+        for sign_bits in range(64):
+            mapping: list[int] = []
+            for old_mask in range(64):
+                new_mask = 0
+                for old_var in range(6):
+                    sign = 1 if sign_bits & (1 << old_var) else -1
+                    new_sign = sign * bit_sign(old_mask, old_var)
+                    if new_sign > 0:
+                        new_mask |= 1 << perm[old_var]
+                mapping.append(new_mask)
+            transforms.append(
+                SignedVariableTransform(
+                    perm=tuple(perm),
+                    sign_bits=sign_bits,
+                    new_mask_from_old=bytes(mapping),
+                )
+            )
+    return tuple(transforms)
+
+
+@lru_cache(maxsize=1)
+def all_mask_cubes() -> tuple[MaskCube, ...]:
+    cubes: list[MaskCube] = []
+    for fixed_mask in range(64):
+        sub = fixed_mask
+        fixed_bits = sub
+        while True:
+            mask_bits = 0
+            for mask in range(64):
+                if mask & fixed_mask == fixed_bits:
+                    mask_bits |= 1 << mask
+            size = mask_bits.bit_count()
+            cubes.append(
+                MaskCube(
+                    fixed_mask=fixed_mask,
+                    fixed_bits=fixed_bits,
+                    mask_bits=mask_bits,
+                    size=size,
+                    key=f"fixed={fixed_mask:02x}:bits={fixed_bits:02x}",
+                )
+            )
+            if sub == 0:
+                break
+            sub = (sub - 1) & fixed_mask
+            fixed_bits = sub
+    cubes.sort(key=lambda cube: (-cube.size, cube.fixed_mask.bit_count(), cube.key))
+    return tuple(cubes)
 
 
 def stable_digest(text: str) -> str:
@@ -810,6 +900,171 @@ def integer_polynomial_key(coeffs: dict[int, int]) -> str:
         f"{subset}:{coeffs[subset]}"
         for subset in sorted(coeffs)
     )
+
+
+QuadraticRow = tuple[tuple[int, int], ...]
+
+
+def quadratic_row_from_coeffs(coeffs: dict[int, int]) -> QuadraticRow:
+    return tuple((subset, coeffs[subset]) for subset in sorted(coeffs))
+
+
+def quadratic_row_key(row: QuadraticRow) -> str:
+    if not row:
+        return "0"
+    return ";".join(f"{subset}:{coeff}" for subset, coeff in row)
+
+
+def quadratic_problem_key(rows: tuple[QuadraticRow, ...]) -> str:
+    return "|".join(quadratic_row_key(row) for row in rows)
+
+
+def signed_subset_image(
+    subset: int,
+    transform: SignedVariableTransform,
+) -> tuple[int, int]:
+    image = 0
+    sign = 1
+    for old_var in range(6):
+        if subset & (1 << old_var):
+            image |= 1 << transform.perm[old_var]
+            if not (transform.sign_bits & (1 << old_var)):
+                sign = -sign
+    return image, sign
+
+
+def transform_quadratic_row(
+    row: QuadraticRow,
+    transform: SignedVariableTransform,
+) -> QuadraticRow:
+    out: dict[int, int] = {}
+    for subset, coeff in row:
+        image, sign = signed_subset_image(subset, transform)
+        out[image] = out.get(image, 0) + sign * coeff
+    return tuple((subset, coeff) for subset, coeff in sorted(out.items()) if coeff != 0)
+
+
+def transform_quadratic_problem(
+    rows: tuple[QuadraticRow, ...],
+    transform: SignedVariableTransform,
+) -> tuple[QuadraticRow, ...]:
+    return tuple(sorted(transform_quadratic_row(row, transform) for row in rows))
+
+
+def eval_quadratic_row(row: QuadraticRow, mask: int) -> int:
+    total = 0
+    for subset, coeff in row:
+        sign = 1
+        for bit in range(6):
+            if subset & (1 << bit):
+                sign *= bit_sign(mask, bit)
+        total += coeff * sign
+    return total
+
+
+def transform_mask_bits(mask_bits: int, transform: SignedVariableTransform) -> int:
+    out = 0
+    current = mask_bits
+    while current:
+        low = current & -current
+        old_mask = low.bit_length() - 1
+        out |= 1 << transform.new_mask_from_old[old_mask]
+        current ^= low
+    return out
+
+
+@lru_cache(maxsize=20_000)
+def canonical_survivor_bits_and_transforms(
+    survivor_bits: int,
+) -> tuple[int, tuple[int, ...]]:
+    best_bits: int | None = None
+    best_transform_indices: list[int] = []
+    for index, transform in enumerate(signed_variable_transforms()):
+        transformed = transform_mask_bits(survivor_bits, transform)
+        if best_bits is None or transformed < best_bits:
+            best_bits = transformed
+            best_transform_indices = [index]
+        elif transformed == best_bits:
+            best_transform_indices.append(index)
+    if best_bits is None:
+        raise RuntimeError("no signed variable transforms")
+    return best_bits, tuple(best_transform_indices)
+
+
+@lru_cache(maxsize=20_000)
+def canonical_lifted_problem_cached(
+    rows: tuple[QuadraticRow, ...],
+    survivor_bits: int,
+) -> tuple[str, int, int, int]:
+    canonical_bits, transform_indices = canonical_survivor_bits_and_transforms(
+        survivor_bits
+    )
+    transforms = signed_variable_transforms()
+    best_key: str | None = None
+    best_index = transform_indices[0]
+    for index in transform_indices:
+        transformed_rows = transform_quadratic_problem(rows, transforms[index])
+        key = quadratic_problem_key(transformed_rows)
+        if best_key is None or key < best_key:
+            best_key = key
+            best_index = index
+    if best_key is None:
+        raise RuntimeError("no canonical lifted problem")
+    return best_key, canonical_bits, best_index, len(transform_indices)
+
+
+def canonical_lifted_problem(
+    rows: tuple[QuadraticRow, ...],
+    survivor_bits: int,
+) -> tuple[tuple[QuadraticRow, ...], str, int, SignedVariableTransform, int]:
+    key, canonical_bits, transform_index, tie_count = canonical_lifted_problem_cached(
+        rows,
+        survivor_bits,
+    )
+    transform = signed_variable_transforms()[transform_index]
+    canonical_rows = transform_quadratic_problem(rows, transform)
+    return canonical_rows, key, canonical_bits, transform, tie_count
+
+
+def first_failed_denominator(rows: tuple[QuadraticRow, ...], mask: int) -> int:
+    for index, row in enumerate(rows):
+        if eval_quadratic_row(row, mask) <= 0:
+            return index + 1
+    raise AssertionError("mask has no failed denominator")
+
+
+def greedy_bad_cube_cover(
+    *,
+    canonical_rows: tuple[QuadraticRow, ...],
+    survivor_bits: int,
+) -> tuple[list[dict[str, Any]], int, int]:
+    remaining = ALL_MASK_BITS ^ survivor_bits
+    leaves: list[dict[str, Any]] = []
+    point_fallbacks = 0
+    max_cube_size = 0
+    for cube in all_mask_cubes():
+        if cube.mask_bits and cube.mask_bits & remaining == cube.mask_bits:
+            failure_key = ",".join(
+                f"{mask}:{first_failed_denominator(canonical_rows, mask)}"
+                for mask in TranslationSurvivorMaskTreeProfiler.iter_mask_bits(
+                    cube.mask_bits
+                )
+            )
+            leaves.append({
+                "cube_key": cube.key,
+                "mask_bits": cube.mask_bits,
+                "size": cube.size,
+                "failure_key": failure_key,
+            })
+            if cube.size == 1:
+                point_fallbacks += 1
+            max_cube_size = max(max_cube_size, cube.size)
+            remaining &= ~cube.mask_bits
+            if remaining == 0:
+                break
+    if remaining != 0:
+        raise AssertionError("greedy cube cover did not cover all bad masks")
+    return leaves, point_fallbacks, max_cube_size
 
 
 LinearIneq = tuple[Fraction, ...]
@@ -3349,6 +3604,354 @@ class TranslationPseudoBooleanProfiler:
         }
 
 
+class TranslationLiftedPbSearchProfiler(TranslationSurvivorProfiler):
+    """Phase 6L.2B dry-run search for lifted pseudo-Boolean compression.
+
+    This remains a profiler only.  It measures whether quadratic denominator
+    systems, bad-mask cubes, and survivor Farkas leaves share enough structure
+    to justify a later Lean checker/emitter.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.canonical_lifted_problems = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.canonical_survivor_bitsets = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.bad_cube_certificate_shapes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.survivor_farkas_shapes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.survivor_leaf_obligations = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.lifted_leaf_obligations = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.bad_cube_leaf_histogram: Counter[int] = Counter()
+        self.survivor_farkas_leaf_histogram: Counter[int] = Counter()
+        self.canonical_transform_tie_histogram: Counter[int] = Counter()
+        self.total_bad_cube_leaves = 0
+        self.total_survivor_farkas_leaves = 0
+        self.total_point_bad_cube_leaves = 0
+        self.max_bad_cube_size = 0
+        self.max_bad_cube_leaves_for_problem = 0
+        self.max_survivor_farkas_leaves_for_problem = 0
+
+    def analyze_word_quadratic(
+        self,
+        word: tuple[str, ...],
+        pref: list,
+    ) -> tuple[tuple[QuadraticRow, ...], int, dict[int, str], int, int]:
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_bits = 0
+        survivor_shape_by_mask: dict[int, str] = {}
+        zero_vector_count = 0
+        max_degree = 0
+
+        for mask in range(64):
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+            if all(denom > 0 for denom in denoms):
+                survivor_bits |= 1 << mask
+                canonical_word, canonical_mask, _sym_id = self.canonical_translation_choice(
+                    word,
+                    mask,
+                )
+                _shape, shape_digest = self.survivor_case_shape(
+                    canonical_word,
+                    canonical_mask,
+                )
+                survivor_shape_by_mask[mask] = shape_digest
+            elif b == ZERO_VEC:
+                zero_vector_count += 1
+
+        rows: list[QuadraticRow] = []
+        for values in impact_values:
+            coeffs = denominator_polynomial_coeffs(values)
+            integer_coeffs = integer_normalized_polynomial_coeffs(coeffs)
+            max_degree = max(max_degree, polynomial_degree(integer_coeffs))
+            rows.append(quadratic_row_from_coeffs(integer_coeffs))
+        return tuple(rows), survivor_bits, survivor_shape_by_mask, zero_vector_count, max_degree
+
+    @staticmethod
+    def planned_leaf_count(*trackers: DistinctTracker) -> tuple[int | None, int]:
+        if any(tracker.exact_count is None for tracker in trackers):
+            return None, max(tracker.lower_bound for tracker in trackers)
+        return sum(tracker.exact_count or 0 for tracker in trackers), sum(
+            tracker.lower_bound for tracker in trackers
+        )
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(f"profiled {self.pair_words_scanned:,} pair words", file=sys.stderr)
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        self.translation_sign_assignments += 64
+        rows, survivor_bits, survivor_shape_by_mask, zero_count, max_degree = (
+            self.analyze_word_quadratic(word, pref)
+        )
+        self.good_direction_masks += survivor_bits.bit_count()
+        self.denominator_nonpositive_masks += 64 - survivor_bits.bit_count()
+        self.zero_vector_masks += zero_count
+        self.survivor_mask_histogram[survivor_bits.bit_count()] += 1
+
+        canonical_rows, canonical_problem_key, canonical_bits, transform, tie_count = (
+            canonical_lifted_problem(rows, survivor_bits)
+        )
+        canonical_problem_digest = stable_digest(canonical_problem_key)
+        self.canonical_lifted_problems.add(canonical_problem_key)
+        self.canonical_survivor_bitsets.add(f"{canonical_bits:016x}")
+        self.canonical_transform_tie_histogram[tie_count] += 1
+
+        bad_cubes, point_fallbacks, max_cube_size = greedy_bad_cube_cover(
+            canonical_rows=canonical_rows,
+            survivor_bits=canonical_bits,
+        )
+        self.total_bad_cube_leaves += len(bad_cubes)
+        self.total_point_bad_cube_leaves += point_fallbacks
+        self.max_bad_cube_size = max(self.max_bad_cube_size, max_cube_size)
+        self.max_bad_cube_leaves_for_problem = max(
+            self.max_bad_cube_leaves_for_problem,
+            len(bad_cubes),
+        )
+        self.bad_cube_leaf_histogram[len(bad_cubes)] += 1
+
+        for bad_cube in bad_cubes:
+            bad_key = (
+                f"problem={canonical_problem_digest}|cube={bad_cube['cube_key']}|"
+                f"fail={bad_cube['failure_key']}"
+            )
+            self.bad_cube_certificate_shapes.add(bad_key)
+            self.lifted_leaf_obligations.add(bad_key)
+
+        canonical_shape_by_mask: dict[int, str] = {}
+        for raw_mask, shape_digest in survivor_shape_by_mask.items():
+            canonical_mask = transform.new_mask_from_old[raw_mask]
+            canonical_shape_by_mask[canonical_mask] = shape_digest
+            self.farkas_shapes.add(shape_digest)
+            self.farkas_shape_reuse_counts[shape_digest] += 1
+            self.survivor_farkas_shapes.add(shape_digest)
+
+        unique_shapes_for_problem = set(canonical_shape_by_mask.values())
+        self.total_survivor_farkas_leaves += len(unique_shapes_for_problem)
+        self.max_survivor_farkas_leaves_for_problem = max(
+            self.max_survivor_farkas_leaves_for_problem,
+            len(unique_shapes_for_problem),
+        )
+        self.survivor_farkas_leaf_histogram[len(unique_shapes_for_problem)] += 1
+        for shape_digest in unique_shapes_for_problem:
+            leaf_key = f"problem={canonical_problem_digest}|shape={shape_digest}"
+            self.survivor_leaf_obligations.add(leaf_key)
+            self.lifted_leaf_obligations.add(leaf_key)
+
+        shape_map_key = "|".join(
+            f"{mask}:{canonical_shape_by_mask[mask]}"
+            for mask in sorted(canonical_shape_by_mask)
+        )
+        self.survivor_shape_maps.add(
+            f"problem={canonical_problem_digest}|{shape_map_key}"
+        )
+
+        if len(self.samples) < self.sample_limit:
+            self.samples.append({
+                "rank": rank,
+                "word": word_key(word),
+                "canonical_problem_digest": canonical_problem_digest,
+                "survivor_count": survivor_bits.bit_count(),
+                "canonical_survivor_bits": f"{canonical_bits:016x}",
+                "max_denominator_degree": max_degree,
+                "bad_cube_leaves": len(bad_cubes),
+                "survivor_farkas_leaves": len(unique_shapes_for_problem),
+                "point_bad_cube_leaves": point_fallbacks,
+                "max_bad_cube_size": max_cube_size,
+                "canonical_transform_ties": tie_count,
+            })
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            if rank_lo >= self.target_hi:
+                return
+            if len(prefix) == 13:
+                self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                if child_lo < self.target_hi:
+                    rec(child_lo)
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        planned_exact, planned_lower = self.planned_leaf_count(
+            self.bad_cube_certificate_shapes,
+            self.survivor_leaf_obligations,
+        )
+        accepted = planned_exact is not None and planned_exact <= self.max_lean_leaves
+        within_warning = (
+            planned_exact is not None and planned_exact <= self.warn_lean_leaves
+        )
+        singleton_ratio = (
+            self.total_point_bad_cube_leaves / self.total_bad_cube_leaves
+            if self.total_bad_cube_leaves
+            else 0
+        )
+        return {
+            "schema_version": 1,
+            "mode": "translation-lifted-pb-search-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation.GoodDirection",
+                "symmetry": (
+                    "started-face D4 for Farkas shapes; signed S6 x C2^6 "
+                    "for quadratic denominator problems"
+                ),
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "emits_bad_direction_evidence": False,
+                "emits_lean_evidence": False,
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "bad_direction_generated_evidence": 0,
+            },
+            "canonicalization": {
+                "unique_canonical_lifted_problems":
+                    self.canonical_lifted_problems.payload(),
+                "unique_canonical_survivor_bitsets":
+                    self.canonical_survivor_bitsets.payload(),
+                "canonical_transform_tie_histogram": dict(
+                    sorted(self.canonical_transform_tie_histogram.items())
+                ),
+            },
+            "lifted_pb": {
+                "total_bad_cube_leaves": self.total_bad_cube_leaves,
+                "total_point_bad_cube_leaves": self.total_point_bad_cube_leaves,
+                "point_bad_cube_ratio": singleton_ratio,
+                "max_bad_cube_size": self.max_bad_cube_size,
+                "max_bad_cube_leaves_for_problem":
+                    self.max_bad_cube_leaves_for_problem,
+                "bad_cube_leaf_histogram": dict(
+                    sorted(self.bad_cube_leaf_histogram.items())
+                ),
+                "unique_bad_cube_certificate_shapes":
+                    self.bad_cube_certificate_shapes.payload(),
+            },
+            "survivors": {
+                "survivor_density": (
+                    self.good_direction_masks / self.translation_sign_assignments
+                    if self.translation_sign_assignments else None
+                ),
+                "survivor_mask_histogram": dict(
+                    sorted(self.survivor_mask_histogram.items())
+                ),
+                "total_survivor_farkas_leaves":
+                    self.total_survivor_farkas_leaves,
+                "max_survivor_farkas_leaves_for_problem":
+                    self.max_survivor_farkas_leaves_for_problem,
+                "survivor_farkas_leaf_histogram": dict(
+                    sorted(self.survivor_farkas_leaf_histogram.items())
+                ),
+                "unique_survivor_farkas_shapes":
+                    self.survivor_farkas_shapes.payload(),
+                "unique_survivor_leaf_obligations":
+                    self.survivor_leaf_obligations.payload(),
+                "unique_survivor_shape_maps": self.survivor_shape_maps.payload(),
+                "farkas_shape_reuse": {
+                    "shape_count": len(self.farkas_shape_reuse_counts),
+                    "shared_shape_count": sum(
+                        1 for count in self.farkas_shape_reuse_counts.values()
+                        if count > 1
+                    ),
+                    "max_reuse": max(
+                        self.farkas_shape_reuse_counts.values(),
+                        default=0,
+                    ),
+                },
+                "samples": self.samples,
+            },
+            "decision": {
+                "status": "profile",
+                "accepted_for_phase_6l_2b": accepted,
+                "within_warning_gate": within_warning,
+                "planned_lean_heavy_leaves_exact": planned_exact,
+                "planned_lean_heavy_leaves_lower_bound": planned_lower,
+                "singleton_fallback_dominates": singleton_ratio > 0.5,
+                "notes": [
+                    "This mode emits no Lean evidence.",
+                    "Bad-direction masks remain discharged only by the generic GoodDirection premise.",
+                    "Bad cubes are exact mask-cube profiles, not Lean certificates yet.",
+                    "If the planned leaf count exceeds the hard gate, reject this backend before emission.",
+                ],
+            },
+        }
+
+
 class TranslationSurvivorMaskTreeProfiler(TranslationSurvivorProfiler):
     """Dry-run profiler for Phase 6H GoodDirection mask trees.
 
@@ -5617,6 +6220,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_baddir_common_impact_tree),
         bool(args.translation_survivors),
         bool(args.translation_pseudoboolean),
+        bool(args.translation_lifted_pb_search),
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
         bool(args.nonidentity_empty_cone_tree),
@@ -5629,6 +6233,7 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-baddir-tree, --translation-baddir-family-tree, "
             "--translation-baddir-common-impact-tree, and "
             "--translation-survivors, --translation-pseudoboolean, "
+            "--translation-lifted-pb-search, "
             "--translation-survivor-mask-tree, "
             "--translation-state-dag, --nonidentity-empty-cone-tree, "
             "--nonidentity-d26-audit, and --terminal-residual-census "
@@ -6308,6 +6913,62 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "translation-lifted-pb-search-profile":
+        counts = payload["actual_counts"]
+        canonical = payload["canonicalization"]
+        lifted = payload["lifted_pb"]
+        survivors = payload["survivors"]
+        decision = payload["decision"]
+        print("translation lifted pseudo-Boolean search profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}")
+        print(f"bad-direction generated evidence: {counts['bad_direction_generated_evidence']:,}")
+        print(
+            "canonical lifted problems: "
+            f"{canonical['unique_canonical_lifted_problems']['lower_bound']}"
+        )
+        print(
+            "canonical survivor bitsets: "
+            f"{canonical['unique_canonical_survivor_bitsets']['lower_bound']}"
+        )
+        print(f"total bad-cube leaves: {lifted['total_bad_cube_leaves']:,}")
+        print(
+            "unique bad-cube certificate shapes: "
+            f"{lifted['unique_bad_cube_certificate_shapes']['lower_bound']}"
+        )
+        print(
+            "point bad-cube fallback ratio: "
+            f"{lifted['point_bad_cube_ratio']:.3f}"
+        )
+        print(f"max bad-cube size: {lifted['max_bad_cube_size']:,}")
+        print(
+            "total survivor Farkas leaves: "
+            f"{survivors['total_survivor_farkas_leaves']:,}"
+        )
+        print(
+            "unique survivor Farkas shapes: "
+            f"{survivors['unique_survivor_farkas_shapes']['lower_bound']}"
+        )
+        print(
+            "unique survivor leaf obligations: "
+            f"{survivors['unique_survivor_leaf_obligations']['lower_bound']}"
+        )
+        planned_leaves = (
+            str(decision["planned_lean_heavy_leaves_exact"])
+            if decision["planned_lean_heavy_leaves_exact"] is not None
+            else f">{decision['planned_lean_heavy_leaves_lower_bound'] - 1}"
+        )
+        print(f"planned heavy Lean leaves: {planned_leaves}")
+        print(f"accepted for Phase 6L.2B: {decision['accepted_for_phase_6l_2b']}")
+        print(f"singleton fallback dominates: {decision['singleton_fallback_dominates']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "translation-survivor-mask-tree-profile":
         counts = payload["actual_counts"]
         survivors = payload["survivors"]
@@ -6466,6 +7127,11 @@ def main() -> None:
         help="profile integer sign-polynomial and lifted pseudo-Boolean GoodDirection constraints",
     )
     parser.add_argument(
+        "--translation-lifted-pb-search",
+        action="store_true",
+        help="profile lifted pseudo-Boolean compression for translation GoodDirection constraints",
+    )
+    parser.add_argument(
         "--translation-survivor-mask-tree",
         action="store_true",
         help="profile exact mask-tree compression for GoodDirection survivor cases",
@@ -6513,6 +7179,8 @@ def main() -> None:
             output = DEFAULT_TRANSLATION_STATE_DAG_OUTPUT
         elif args.translation_survivor_mask_tree:
             output = DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT
+        elif args.translation_lifted_pb_search:
+            output = default_translation_lifted_pb_search_output(args.limit)
         elif args.translation_pseudoboolean:
             output = default_translation_pseudoboolean_output(args.limit)
         elif args.translation_survivors:
@@ -6612,6 +7280,21 @@ def main() -> None:
         mask_tree_profiler.traverse()
         rejected = False
         payload = mask_tree_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.translation_lifted_pb_search:
+        lifted_pb_profiler = TranslationLiftedPbSearchProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        lifted_pb_profiler.traverse()
+        rejected = False
+        payload = lifted_pb_profiler.payload(
             elapsed_seconds=time.monotonic() - start,
         )
     elif args.translation_pseudoboolean:

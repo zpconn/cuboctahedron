@@ -172,10 +172,11 @@ but they are no longer active paths to full coverage:
 
 Last updated after completing the GoodDirection bridge, bounded survivor
 profiler, bounded survivor mask-tree profiler, bounded translation word/state
-DAG profiler, rank-boundary audit, integer arithmetic core, and Phase 6L.2A
-translation pseudo-Boolean denominator profiler. Existing bad-direction,
-mask-tree, word/state DAG, D26, empty-cone, and terminal residual tilers remain
-documented below only as rejected or diagnostic compression experiments.
+DAG profiler, rank-boundary audit, integer arithmetic core, Phase 6L.2A
+translation pseudo-Boolean denominator profiler, and Phase 6L.2B lifted
+pseudo-Boolean search profiler. Existing bad-direction, mask-tree, word/state
+DAG, D26, empty-cone, terminal residual, and lifted-PB tilers remain documented
+below only as rejected or diagnostic compression experiments.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -185,7 +186,7 @@ documented below only as rejected or diagnostic compression experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, and terminal residual shape grouping all fail bounded gates. Phase 6L.2A shows every sampled identity word has quadratic denominator sign-polynomials, so ordinary six-variable linear Farkas is not viable; the next step is lifted pseudo-Boolean certificate search. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, and the lifted-PB cube/Farkas profile all fail bounded gates. The next step is Phase 6L.3 stateful nonidentity cone/Farkas profiling. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -1947,6 +1948,55 @@ Gate:
 - Only after the gate passes should a Lean checker and generated evidence
   emitter be added.
 
+Phase 6L.2B implementation results:
+
+- Added `scripts/profile_symmetry_compression.py --translation-lifted-pb-search`.
+- The mode emits no Lean evidence and no bad-direction certificates.
+- It canonicalizes quadratic denominator problems under signed permutations of
+  the six sign variables, greedily covers non-GoodDirection masks by exact
+  mask cubes, and counts true GoodDirection survivor obligations by normalized
+  Farkas shape.
+- `scripts/generated/translation_lifted_pb_search_profile_0_000005000.json`:
+  - pair words scanned: 5,000;
+  - identity-linear words: 487;
+  - GoodDirection survivor masks: 4,693;
+  - canonical lifted problems: 67;
+  - canonical survivor bitsets: 55;
+  - unique bad-cube certificate shapes: 630;
+  - unique survivor Farkas shapes: 2,057;
+  - unique survivor leaf obligations: 2,065;
+  - planned heavy Lean leaves: 2,695;
+  - accepted for Phase 6L.2B: false.
+- `scripts/generated/translation_lifted_pb_search_profile_0_000100000.json`:
+  - pair words scanned: 100,000;
+  - identity-linear words: 5,565;
+  - translation sign assignments: 356,160;
+  - GoodDirection survivor masks: 39,710;
+  - denominator-nonpositive masks: 316,450;
+  - bad-direction generated evidence: 0;
+  - canonical lifted problems: 346;
+  - canonical survivor bitsets: 209;
+  - total bad-cube leaves: 51,967;
+  - unique bad-cube certificate shapes: 2,950;
+  - point bad-cube fallback ratio: 0.253;
+  - max bad-cube size: 64;
+  - total survivor Farkas leaves: 39,710;
+  - unique survivor Farkas shapes: 11,478;
+  - unique survivor leaf obligations: 11,496;
+  - planned heavy Lean leaves: 14,446;
+  - accepted for Phase 6L.2B: false.
+
+Decision:
+
+- Phase 6L.2B is rejected by both the 5k and 100k gates.
+- The bad-cube side compresses somewhat, and singleton fallback does not
+  dominate, but survivor Farkas obligations still exceed the 2,000-leaf hard
+  gate by a wide margin.
+- Do not emit Lean evidence from the current lifted-PB cube/Farkas profile.
+- The next active step is Phase 6L.3: stateful nonidentity cone/Farkas
+  profiling, or a materially different semantic state model that can merge the
+  survivor Farkas obligations before returning to translation evidence.
+
 #### Phase 6L.3: Nonidentity Convex Cone / State Certificates
 
 Purpose: reuse the empty-cone idea in a coordinate/state space where it can
@@ -2782,7 +2832,8 @@ Acceptance:
 - [x] Implement Phase 6L.1 integer/homogeneous arithmetic core for generated
   certificate checking.
 - [x] Implement Phase 6L.2A translation continuous/pseudo-Boolean profiler.
-- [ ] Implement Phase 6L.2B lifted pseudo-Boolean certificate search.
+- [x] Implement and reject Phase 6L.2B lifted pseudo-Boolean certificate
+  search on the `[0,100000)` gate.
 - [ ] Implement Phase 6L.3 stateful nonidentity cone/Farkas profiler.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
@@ -2820,12 +2871,12 @@ Phase 6K terminal residual shape grouping is rejected as well: the first full
 obstruction keys, 38,073 distinct all-nonidentity obstruction keys, and 11,478
 translation normalized Farkas shapes.
 
-The next useful step is Phase 6L.2B: build an exact lifted pseudo-Boolean
-certificate search over the degree-2 translation denominator forms measured by
-Phase 6L.2A. Ordinary six-variable linear Farkas is now rejected on the
-`[0,100000)` benchmark. Lexicographic rank intervals should reappear only as
-final enumeration adapters once semantic coverage has passed the
-low-thousands gate.
+The next useful step is Phase 6L.3: build a stateful nonidentity cone/Farkas
+profiler. Phase 6L.2B confirms that quadratic bad-mask cubes are not the main
+remaining translation bottleneck; the survivor Farkas obligations still project
+14,446 heavy leaves on `[0,100000)`. Lexicographic rank intervals should
+reappear only as final enumeration adapters once semantic coverage has passed
+the low-thousands gate.
 
 ## Explicit Non-Goals
 
