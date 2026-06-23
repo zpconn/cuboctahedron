@@ -195,7 +195,9 @@ portfolio that projects every sampled window below the 2,000-leaf gate:
 `nonidentity.zeroRemainingCounts`. This is not proof evidence, but it is the
 first accepted compression gate since the failed rank/mask tiling attempts.
 The next phase must audit those template families for sound Lean theorem
-schemas before any generated evidence is emitted.
+schemas before any generated evidence is emitted. Phase 6U has now started by
+factoring the nonidentity zero-normal schema into a tiny public prototype; the
+cross-family template is still not accepted as a single proof family.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -205,7 +207,7 @@ schemas before any generated evidence is emitted.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, and single-candidate obstruction-atlas promotion all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6T found a small diagnostic template portfolio; Phase 6U must now turn that into sound theorem schemas or reject it before evidence emission. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U in progress | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, and single-candidate obstruction-atlas promotion all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6T found a small diagnostic template portfolio. Phase 6U has accepted the nonidentity zero-normal theorem schema and must still split or reject `cross.pairNormal` before evidence emission. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -215,6 +217,10 @@ Completed current-work items:
 
 - Added `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean`.
 - Added reusable theorem `nonidentity_killed_of_axis_dot_zero`.
+- Added `Cuboctahedron/Generated/NonIdentity/TemplateSoundness.lean`.
+- Exposed Phase 6U theorem schema `zeroNormal_sound`.
+- Classified `zeroAxis` and `zeroRemainingCounts` as grouping keys that must
+  refine to zero-normal witnesses.
 - Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
 - Added `nonidentity_killed_of_no_fixed_axis`.
 - Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
@@ -2839,6 +2845,53 @@ Gate:
   it groups many leaves.
 - No generated evidence emission resumes until Phase 6U passes.
 
+Current audit result:
+
+| Phase 6T family | Phase 6U classification | Proof path |
+| --- | --- | --- |
+| `nonidentity.zeroNormal` | Proof-usable | Implemented wrapper theorem `Cuboctahedron.Generated.NonIdentity.TemplateSoundness.zeroNormal_sound`, which reuses the checked nonidentity axis-line proof and `AxisDotZeroAtWord` contradiction. |
+| `nonidentity.zeroAxis` | Grouping key only | Implemented `zeroAxis_refines_to_zeroNormal`; the axis label is trusted only after a generated leaf supplies a concrete impact and `AxisDotZeroAtWord` witness. |
+| `nonidentity.zeroRemainingCounts` | Grouping key only | Implemented `zeroRemainingCounts_refines_to_zeroNormal`; remaining-count labels must dispatch to concrete zero-normal witnesses for every covered completion. |
+| `cross.pairNormal` | Split required | Not accepted as a standalone theorem. The nonidentity part may reduce to `zeroNormal_sound`; the translation part must transport to existing `TranslationGoodCaseKilled`/Farkas evidence and cannot be inferred from pair-normal support alone. |
+
+Implemented prototype module:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.TemplateSoundness.zeroNormal_sound
+Cuboctahedron.Generated.NonIdentity.TemplateSoundness.zeroAxis_refines_to_zeroNormal
+Cuboctahedron.Generated.NonIdentity.TemplateSoundness.zeroRemainingCounts_refines_to_zeroNormal
+```
+
+Current proof viability assessment:
+
+- The project is more on track than it was during the failed raw-rank,
+  packed-blob, singleton-shard, and dense bad-direction attempts, because a
+  high-coverage diagnostic family has now been reduced to an actual Lean
+  theorem schema instead of generated case data.
+- This is not yet a functioning full proof. The final generated coverage API,
+  Step 15 theorem, and final billiard theorem still require a proof-usable
+  coverage backend for both branches.
+- The decisive remaining Phase 6U risk is the translation/cross-family side:
+  `cross.pairNormal` must split into sound subfamilies, and its translation
+  half must connect to real `TranslationGoodCaseKilled`/Farkas evidence. Shared
+  pair/reflected-normal support alone is not a theorem.
+- If the split `cross.pairNormal` portfolio remains below the low-thousands
+  leaf target on the five sample windows, the current route is plausibly
+  viable for generated coverage and Step 15. If it expands again, the project
+  still needs a stronger translation survivor/Farkas compression idea.
+
+Remaining Phase 6U work:
+
+1. Define the translation-side replacement for `cross.pairNormal` as either a
+   Farkas-shape transport theorem or reject it as diagnostic-only.
+2. Add a bounded generator dry-run that emits only concrete zero-normal witness
+   obligations for the `zeroAxis` and `zeroRemainingCounts` groupings, with no
+   standalone trust in those labels.
+3. Re-run the Phase 6T portfolio count after splitting `cross.pairNormal` into
+   proof-usable subfamilies.
+4. Accept Phase 6U only if the split portfolio remains below the 2,000-leaf
+   gate on the five sample windows.
+
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
 Purpose: preserve exhaustive coverage without making ranks the compression
@@ -3759,10 +3812,12 @@ idea; the current bounded profiles have rejected the existing approaches.
 Phase 6T is complete and accepted as a diagnostic compression gate. The
 selected template-family portfolio projects all five sampled windows below the
 2,000-leaf target, but these templates are not yet trusted theorem schemas.
-Phase 6U is the active direction: audit `cross.pairNormal`,
-`nonidentity.zeroAxis`, `nonidentity.zeroNormal`, and
-`nonidentity.zeroRemainingCounts` for proof-usable Lean statements before any
-new generated-evidence design is attempted.
+Phase 6U is the active direction. The nonidentity zero-normal schema is now a
+small Lean theorem prototype, and `zeroAxis`/`zeroRemainingCounts` are
+classified as grouping keys that must refine to zero-normal witnesses. The
+remaining blocker is `cross.pairNormal`: split it into proof-usable
+nonidentity and translation subfamilies before any new generated-evidence
+design is attempted.
 
 ## Explicit Non-Goals
 
