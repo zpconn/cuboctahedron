@@ -120,6 +120,28 @@ family-interval witnesses consumed by:
 Cuboctahedron/Generated/SymmetryEvidence/FamilyInterval.lean
 ```
 
+## Obstruction atlas diagnostic
+
+After Phase 6Q/6R, the conditional theorem bridge is complete and the remaining
+problem is generated coverage.  The obstruction atlas is a diagnostic reset for
+finding new global theorem candidates before any new evidence emitter is
+attempted:
+
+```bash
+python3 scripts/profile_obstruction_atlas.py \
+  --start-rank 0 --end-rank 100000 \
+  --from-portfolio-json scripts/generated/combined_residual_portfolio_profile_000000000_000100000.json
+```
+
+This writes:
+
+- `scripts/generated/obstruction_atlas_000000000_000100000.json`
+- `scripts/generated/obstruction_atlas_000000000_000100000.md`
+
+The atlas is not proof and emits no Lean evidence.  It ranks residual families
+and theorem candidates, currently pointing at `translation.farkas_survivor` as
+the largest shape burden in the first `[0,100000)` window.
+
 Use the explicit singleton override only for tiny smoke or regression checks,
 not for scaling evidence.
 
