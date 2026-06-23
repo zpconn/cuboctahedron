@@ -188,10 +188,14 @@ Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
 experiments.
-Phase 6S has started the obstruction-atlas reset: the first `[0,100000)`
-atlas is generated and points at `translation.farkas_survivor` as the largest
-shape burden, with the top three theorem-candidate families covering 88.6% of
-shaped residual cases.
+Phase 6S completed the obstruction-atlas reset across five disjoint 100k-rank
+windows. It is rejected as a single-candidate gate: every window has high
+top-three concentration, but the dominant shape burden is not stable across
+rank space. The aggregate largest shape burden remains
+`translation.farkas_survivor`, while `nonidentity.forced_zero_denominator`
+dominates case counts in every sampled window and dominates shape burden in
+the later windows. The next phase must synthesize these two blockers rather
+than promote one window-local winner into a generated-evidence emitter.
 
 | Phase | Status | Notes |
 | --- | --- | --- |
@@ -201,7 +205,7 @@ shaped residual cases.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S partial | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, and survivor-bitset theorem piloting all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6S is now mining theorem candidates before any new generated-evidence emitter is attempted. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, and single-candidate obstruction-atlas promotion all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6T must look for a cross-family theorem or atlas-stable synthesis before any new generated-evidence emitter is attempted. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -2670,18 +2674,91 @@ python3 scripts/profile_obstruction_atlas.py \
   --from-portfolio-json scripts/generated/combined_residual_portfolio_profile_000000000_000100000.json
 ```
 
-Remaining Phase 6S work:
+Cross-window result:
 
-1. Run the atlas on the four additional disjoint windows:
-   - `[10000000,10100000)`;
-   - `[30000000,30100000)`;
-   - `[60000000,60100000)`;
-   - `[90000000,90100000)`.
-2. Compare dominant families across all five windows.
-3. If the same top theorem candidates remain dominant, create a Lean theorem
-   phase for the best candidate.
-4. If the atlas does not stabilize across windows, record Phase 6S as
-   rejected and pause generated coverage again.
+- Added `scripts/compare_obstruction_atlases.py`.
+- Generated additional atlas windows:
+  - `scripts/generated/obstruction_atlas_010000000_010100000.json`
+  - `scripts/generated/obstruction_atlas_030000000_030100000.json`
+  - `scripts/generated/obstruction_atlas_060000000_060100000.json`
+  - `scripts/generated/obstruction_atlas_090000000_090100000.json`
+- Generated:
+  - `scripts/generated/obstruction_atlas_cross_window_summary.json`
+  - `scripts/generated/obstruction_atlas_cross_window_summary.md`
+- Summary decision: `phase6s_rejected`.
+- All five windows have top-three case share at least `0.800`.
+- The top-three case-family set is not stable across windows.
+- Aggregate largest shape burden: `translation.farkas_survivor`.
+- `nonidentity.forced_zero_denominator` is the largest case family in every
+  sampled window and becomes the largest shape burden in the later windows.
+
+Cross-window table:
+
+| Window | Top-three case share | Largest case family | Largest shape burden |
+| --- | ---: | --- | --- |
+| `[0,100000)` | `0.886` | `nonidentity.forced_zero_denominator` | `translation.farkas_survivor` |
+| `[10000000,10100000)` | `0.896` | `nonidentity.forced_zero_denominator` | `translation.farkas_survivor` |
+| `[30000000,30100000)` | `0.990` | `nonidentity.forced_zero_denominator` | `nonidentity.forced_zero_denominator` |
+| `[60000000,60100000)` | `0.977` | `nonidentity.forced_zero_denominator` | `nonidentity.forced_zero_denominator` |
+| `[90000000,90100000)` | `0.969` | `nonidentity.forced_zero_denominator` | `nonidentity.forced_zero_denominator` |
+
+Interpretation:
+
+- Phase 6S succeeds as a diagnostic but fails as an approval gate for a single
+  generated-evidence backend.
+- A one-family theorem phase would be rank-window brittle: early samples point
+  at translation survivor Farkas shapes, while later samples point at
+  nonidentity forced-zero denominators.
+- The next phase must compare or synthesize the two blockers at the semantic
+  feature level. Do not emit atlas leaves or promote one sampled winner into
+  Lean evidence.
+
+#### Phase 6T: Cross-Family Obstruction Synthesis
+
+Purpose: use the Phase 6S atlas rejection constructively. The goal is to find
+one or two semantic theorem templates that simultaneously reduce the unstable
+top burdens:
+
+- `translation.farkas_survivor`
+- `nonidentity.forced_zero_denominator`
+
+Phase 6T is still diagnostic-first and emits no Lean evidence until the bounded
+gate passes.
+
+Tasks:
+
+1. Add a cross-family profiler that records shared semantic features for the
+   two dominant families across the same five 100k windows.
+2. Use integer or homogeneous arithmetic in the profiler output format where
+   possible, so any later Lean checker does not inherit avoidable `Rat`
+   reduction pressure.
+3. For `translation.farkas_survivor`, group survivors by source Farkas
+   skeleton, denominator signature, survivor bitset, and normalized inequality
+   support.
+4. For `nonidentity.forced_zero_denominator`, group failures by the zero
+   denominator's unfolded normal, prefix/reflection state, pair-count state, and
+   exact sign/balance context.
+5. Measure whether the same semantic state object can explain both branches,
+   especially cases where translation survivor denominators and nonidentity
+   zero-denominator normals share the same reflected normal support.
+6. Report:
+   - per-window and aggregate group counts;
+   - top shared states by case coverage;
+   - top shared states by shape burden;
+   - residual burden after applying the best `k` shared templates;
+   - whether the projected theorem count is below the 2,000 gate.
+7. If the gate passes, create a Lean theorem phase for the winning semantic
+   templates.
+8. If the gate fails, update the plan with the exact remaining obstruction and
+   pause generated coverage again.
+
+Gate:
+
+- The combined cross-family residual after proposed templates must be below
+  `2,000` projected Lean theorem leaves on every sampled window.
+- The same top-level template set must be stable across all five windows.
+- No generated proof path may depend on lexicographic rank intervals as the
+  compression coordinate.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -3509,7 +3586,9 @@ Acceptance:
 - [x] Implement Phase 6R conditional full billiard theorem target.
 - [x] Implement Phase 6S obstruction-atlas profiler and first `[0,100000)`
   atlas.
-- [ ] Run Phase 6S obstruction atlas on four additional disjoint 100k windows.
+- [x] Run and reject Phase 6S obstruction atlas on four additional disjoint
+  100k windows.
+- [ ] Implement Phase 6T cross-family obstruction synthesis profiler.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -3597,11 +3676,13 @@ Full generated evidence remains open. Do not resume full generated coverage
 work in this architecture without a genuinely new mathematical compression
 idea; the current bounded profiles have rejected the existing approaches.
 
-Phase 6S is the active diagnostic reset. The first obstruction atlas for
-`[0,100000)` recommends `translation.farkas_survivor` as the dominant next
-theorem-candidate family, but this must be checked on the four additional
-sample windows before committing to a new Lean theorem phase or any generated
-evidence design.
+Phase 6S is complete and rejected as a single-candidate promotion gate. The
+five-window obstruction atlas shows strong concentration inside each window,
+but the dominant shape burden flips from `translation.farkas_survivor` in the
+early windows to `nonidentity.forced_zero_denominator` in later windows. Phase
+6T is therefore the active diagnostic direction: look for cross-family
+semantic templates that reduce both blockers together, and do not commit to any
+new Lean generated-evidence design until that gate passes.
 
 ## Explicit Non-Goals
 

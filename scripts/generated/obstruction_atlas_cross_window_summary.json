@@ -1,0 +1,2731 @@
+{
+  "aggregate_by_filter": [
+    {
+      "case_count_sum": 62114,
+      "filter": "translation.farkas_survivor",
+      "shape_count_sum": 21461,
+      "windows_as_largest_case": 0,
+      "windows_as_largest_shape": 2,
+      "windows_as_top3_case": 2,
+      "windows_as_top3_shape": 4
+    },
+    {
+      "case_count_sum": 300837,
+      "filter": "nonidentity.forced_zero_denominator",
+      "shape_count_sum": 16657,
+      "windows_as_largest_case": 5,
+      "windows_as_largest_shape": 3,
+      "windows_as_top3_case": 5,
+      "windows_as_top3_shape": 5
+    },
+    {
+      "case_count_sum": 130818,
+      "filter": "nonidentity.bad_pair_balance",
+      "shape_count_sum": 1493,
+      "windows_as_largest_case": 0,
+      "windows_as_largest_shape": 0,
+      "windows_as_top3_case": 5,
+      "windows_as_top3_shape": 1
+    },
+    {
+      "case_count_sum": 22777,
+      "filter": "nonidentity.final_axis_zero",
+      "shape_count_sum": 99,
+      "windows_as_largest_case": 0,
+      "windows_as_largest_shape": 0,
+      "windows_as_top3_case": 3,
+      "windows_as_top3_shape": 0
+    },
+    {
+      "case_count_sum": 0,
+      "filter": "nonidentity.terminal_algebra.axis_misses_start_interior",
+      "shape_count_sum": 0,
+      "windows_as_largest_case": 0,
+      "windows_as_largest_shape": 0,
+      "windows_as_top3_case": 0,
+      "windows_as_top3_shape": 5
+    }
+  ],
+  "decision": {
+    "accepted_for_phase_6t": false,
+    "all_top3_case_share_ok": true,
+    "notes": [
+      "all windows have top-three case share >= 0.800",
+      "the top-three case-family set is not stable across windows",
+      "aggregate largest shape burden is translation.farkas_survivor"
+    ],
+    "recommended_next_phase": null,
+    "stable_top3_case_set": false,
+    "status": "phase6s_rejected"
+  },
+  "emits_lean_evidence": false,
+  "largest_case_family_votes": {
+    "nonidentity.forced_zero_denominator": 5
+  },
+  "largest_shape_family_votes": {
+    "nonidentity.forced_zero_denominator": 3,
+    "translation.farkas_survivor": 2
+  },
+  "min_top3_case_share": 0.8,
+  "mode": "obstruction-atlas-cross-window-summary",
+  "schema_version": 1,
+  "trusted_as_proof": false,
+  "window_count": 5,
+  "windows": [
+    {
+      "dominant_residuals_by_case_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 54794,
+          "case_share_of_shaped_residual": 0.40846844832084683,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-1,1,0",
+              "rank": 1,
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11",
+              "zero_at": 3
+            },
+            {
+              "axis": "-1,1,0",
+              "rank": 4,
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1",
+              "zero_at": 3
+            },
+            {
+              "axis": "-1,6,1",
+              "rank": 7,
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,d1m1,dm11",
+              "zero_at": 8
+            },
+            {
+              "axis": "-1,0,1",
+              "rank": 10,
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d1m1,dm11,d11m,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-3/2,-5/2,-1",
+              "rank": 13,
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,d11m,dm11,d1m1",
+              "zero_at": 7
+            }
+          ],
+          "shape_count": 4393,
+          "shape_key_samples": [
+            "zeroAt=3|pair=z|normalClass=0,0,1|axisClass=1,-1,0",
+            "zeroAt=8|pair=d1m1|normalClass=5,1,-1|axisClass=1,-6,-1",
+            "zeroAt=1|pair=y|normalClass=0,1,0|axisClass=1,0,-1",
+            "zeroAt=7|pair=d11m|normalClass=1,-1,1|axisClass=3,5,2",
+            "zeroAt=9|pair=dm11|normalClass=7,-13,-5|axisClass=2,3,-5"
+          ],
+          "shape_share_of_total": 0.24735360360360362,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "shared source-Farkas skeleton or stronger survivor-system theorem",
+          "case_count": 39710,
+          "case_share_of_shaped_residual": 0.2960229602296023,
+          "exact_shape_count": true,
+          "filter": "translation.farkas_survivor",
+          "kind": "translation",
+          "next_lean_theorem": "prove a reusable transport theorem from a compact survivor signature/source-term skeleton to TranslationCaseKilled",
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0,
+              "shape_digest": "7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 9,
+              "rank": 0,
+              "shape_digest": "e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 13,
+              "rank": 0,
+              "shape_digest": "b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 16,
+              "rank": 0,
+              "shape_digest": "69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 18,
+              "rank": 0,
+              "shape_digest": "1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            }
+          ],
+          "shape_count": 11478,
+          "shape_key_samples": [
+            "shape=7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3",
+            "shape=e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8",
+            "shape=b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379",
+            "shape=69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb",
+            "shape=1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6"
+          ],
+          "shape_share_of_total": 0.6462837837837838,
+          "why": "dominant translation residual after GoodDirection; proof burden comes from many normalized Farkas survivor shapes"
+        },
+        {
+          "candidate": "forced-sign balance invariant",
+          "case_count": 24364,
+          "case_share_of_shaped_residual": 0.18162436169816243,
+          "exact_shape_count": true,
+          "filter": "nonidentity.bad_pair_balance",
+          "kind": "nonidentity",
+          "next_lean_theorem": "generalize the existing bad-balance checker to semantic classes larger than one forced sequence",
+          "samples": [
+            {
+              "axis": "-9/10,-13/10,1",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "ym",
+                "yp",
+                "zp",
+                "zm",
+                "tppp",
+                "tmmp",
+                "tppp",
+                "tpmp",
+                "tpmm",
+                "tppm",
+                "tmpm",
+                "tmpp"
+              ],
+              "rank": 102,
+              "word": "x,y,y,z,z,d111,d11m,d111,d1m1,dm11,d11m,d1m1,dm11"
+            },
+            {
+              "axis": "-13/10,-9/10,-1",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "ym",
+                "yp",
+                "zm",
+                "zp",
+                "tmmm",
+                "tppm",
+                "tmmm",
+                "tpmm",
+                "tpmp",
+                "tmmp",
+                "tmpp",
+                "tmpm"
+              ],
+              "rank": 112,
+              "word": "x,y,y,z,z,d111,d11m,d111,dm11,d1m1,d11m,dm11,d1m1"
+            },
+            {
+              "axis": "-9/10,13/10,-1",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "yp",
+                "ym",
+                "zm",
+                "zp",
+                "tppp",
+                "tppm",
+                "tmpm",
+                "tmmm",
+                "tmmp",
+                "tmpp",
+                "tpmp",
+                "tmpp"
+              ],
+              "rank": 151,
+              "word": "x,y,y,z,z,d111,d11m,d1m1,d111,d11m,dm11,d1m1,dm11"
+            },
+            {
+              "axis": "-5,18,1",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "yp",
+                "ym",
+                "zp",
+                "zm",
+                "tppp",
+                "tppm",
+                "tmpm",
+                "tmmm",
+                "tpmm",
+                "tmmp",
+                "tpmm",
+                "tpmp"
+              ],
+              "rank": 157,
+              "word": "x,y,y,z,z,d111,d11m,d1m1,d111,dm11,d11m,dm11,d1m1"
+            },
+            {
+              "axis": "-18,-5,-1",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "ym",
+                "yp",
+                "zm",
+                "zp",
+                "tppp",
+                "tppm",
+                "tpmp",
+                "tppm",
+                "tpmm",
+                "tmmm",
+                "tmpm",
+                "tmpp"
+              ],
+              "rank": 168,
+              "word": "x,y,y,z,z,d111,d11m,d1m1,d11m,dm11,d111,d1m1,dm11"
+            }
+          ],
+          "shape_count": 106,
+          "shape_key_samples": [
+            "badPairBalance|duplicates=tpmm|missing=tmmm|multiplicities=1,1,1,1,1,1,0,1,1,1,1,1,1,2",
+            "badPairBalance|duplicates=tmmm|missing=tpmm|multiplicities=1,1,1,1,1,1,2,1,1,1,1,1,1,0",
+            "badPairBalance|duplicates=tmmm|missing=tpmm|multiplicities=1,1,1,1,1,1,1,1,1,2,0,1,1,1",
+            "badPairBalance|duplicates=tpmm|missing=tmmm|multiplicities=1,1,1,1,1,1,1,1,1,0,2,1,1,1",
+            "badPairBalance|duplicates=tpmm|missing=tmmm|multiplicities=1,1,1,1,1,1,1,0,1,1,1,1,2,1"
+          ],
+          "shape_share_of_total": 0.005968468468468468,
+          "why": "many ranks die because the axis-forced signs cannot realize all faces once"
+        }
+      ],
+      "dominant_residuals_by_shape_count": [
+        {
+          "candidate": "shared source-Farkas skeleton or stronger survivor-system theorem",
+          "case_count": 39710,
+          "case_share_of_shaped_residual": 0.2960229602296023,
+          "exact_shape_count": true,
+          "filter": "translation.farkas_survivor",
+          "kind": "translation",
+          "next_lean_theorem": "prove a reusable transport theorem from a compact survivor signature/source-term skeleton to TranslationCaseKilled",
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0,
+              "shape_digest": "7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 9,
+              "rank": 0,
+              "shape_digest": "e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 13,
+              "rank": 0,
+              "shape_digest": "b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 16,
+              "rank": 0,
+              "shape_digest": "69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            },
+            {
+              "mask": 18,
+              "rank": 0,
+              "shape_digest": "1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6",
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+            }
+          ],
+          "shape_count": 11478,
+          "shape_key_samples": [
+            "shape=7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3",
+            "shape=e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8",
+            "shape=b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379",
+            "shape=69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb",
+            "shape=1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6"
+          ],
+          "shape_share_of_total": 0.6462837837837838,
+          "why": "dominant translation residual after GoodDirection; proof burden comes from many normalized Farkas survivor shapes"
+        },
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 54794,
+          "case_share_of_shaped_residual": 0.40846844832084683,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-1,1,0",
+              "rank": 1,
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11",
+              "zero_at": 3
+            },
+            {
+              "axis": "-1,1,0",
+              "rank": 4,
+              "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1",
+              "zero_at": 3
+            },
+            {
+              "axis": "-1,6,1",
+              "rank": 7,
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,d1m1,dm11",
+              "zero_at": 8
+            },
+            {
+              "axis": "-1,0,1",
+              "rank": 10,
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d1m1,dm11,d11m,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-3/2,-5/2,-1",
+              "rank": 13,
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,d11m,dm11,d1m1",
+              "zero_at": 7
+            }
+          ],
+          "shape_count": 4393,
+          "shape_key_samples": [
+            "zeroAt=3|pair=z|normalClass=0,0,1|axisClass=1,-1,0",
+            "zeroAt=8|pair=d1m1|normalClass=5,1,-1|axisClass=1,-6,-1",
+            "zeroAt=1|pair=y|normalClass=0,1,0|axisClass=1,0,-1",
+            "zeroAt=7|pair=d11m|normalClass=1,-1,1|axisClass=3,5,2",
+            "zeroAt=9|pair=dm11|normalClass=7,-13,-5|axisClass=2,3,-5"
+          ],
+          "shape_share_of_total": 0.24735360360360362,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "start-face separating inequality family",
+          "case_count": 8775,
+          "case_share_of_shaped_residual": 0.06541429050654143,
+          "exact_shape_count": true,
+          "filter": "nonidentity.terminal_algebra.axis_misses_start_interior",
+          "kind": "nonidentity",
+          "next_lean_theorem": "transport a separating strict inequality across canonical axis/start-face classes",
+          "samples": [
+            {
+              "axis": "-1,-3,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "ym",
+                "yp",
+                "zp",
+                "zm",
+                "tmmm",
+                "tppp",
+                "tmmp",
+                "tpmp",
+                "tpmm",
+                "tppm",
+                "tmpm",
+                "tmpp"
+              ],
+              "margin": "-379/66",
+              "p0": "1,-445/66,86/33",
+              "rank": 12,
+              "solve_shape": "5b2775f9c627f1c4",
+              "word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,d11m,d1m1,dm11"
+            },
+            {
+              "axis": "-3,-1,-1",
+              "bad_face": "tppm",
+              "canonical_bad_face": "tpmm",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "ym",
+                "yp",
+                "zm",
+                "zp",
+                "tppp",
+                "tmmm",
+                "tppm",
+                "tpmm",
+                "tpmp",
+                "tmmp",
+                "tmpp",
+                "tmpm"
+              ],
+              "margin": "-20/33",
+              "p0": "1,181/198,-137/198",
+              "rank": 22,
+              "solve_shape": "6b3f8a48e63b909a",
+              "word": "x,y,y,z,z,d111,d111,d11m,dm11,d1m1,d11m,dm11,d1m1"
+            },
+            {
+              "axis": "-1/3,1/3,-1",
+              "bad_face": "yp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "yp",
+                "ym",
+                "zm",
+                "zp",
+                "tmmm",
+                "tppp",
+                "tmpm",
+                "tppm",
+                "tpmm",
+                "tpmp",
+                "tmmp",
+                "tmpp"
+              ],
+              "margin": "-53/33",
+              "p0": "1,86/33,-445/66",
+              "rank": 38,
+              "solve_shape": "679b0d782cd42c0b",
+              "word": "x,y,y,z,z,d111,d111,d1m1,d11m,dm11,d1m1,d11m,dm11"
+            },
+            {
+              "axis": "-3,-1,-1",
+              "bad_face": "tpmp",
+              "canonical_bad_face": "tpmm",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "ym",
+                "yp",
+                "zm",
+                "zp",
+                "tppp",
+                "tmmm",
+                "tpmp",
+                "tpmm",
+                "tppm",
+                "tmpm",
+                "tmpp",
+                "tmmp"
+              ],
+              "margin": "-20/33",
+              "p0": "1,-137/198,181/198",
+              "rank": 51,
+              "solve_shape": "693f339bb1d8668d",
+              "word": "x,y,y,z,z,d111,d111,d1m1,dm11,d11m,d1m1,dm11,d11m"
+            },
+            {
+              "axis": "-1/3,1/3,-1",
+              "bad_face": "zm",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "xm",
+                "yp",
+                "ym",
+                "zm",
+                "zp",
+                "tmmm",
+                "tppp",
+                "tpmm",
+                "tppm",
+                "tmpm",
+                "tmpp",
+                "tmmp",
+                "tpmp"
+              ],
+              "margin": "-61/66",
+              "p0": "1,-20/33,-127/66",
+              "rank": 67,
+              "solve_shape": "a794d3b7fe1b744b",
+              "word": "x,y,y,z,z,d111,d111,dm11,d11m,d1m1,dm11,d11m,d1m1"
+            }
+          ],
+          "shape_count": 1593,
+          "shape_key_samples": [
+            "axisMissesStartInterior|badFace=yp|margin=neg:-379/66",
+            "axisMissesStartInterior|badFace=tpmm|margin=neg:-20/33",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-53/33",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-61/66",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-4039/6150"
+          ],
+          "shape_share_of_total": 0.08969594594594595,
+          "why": "candidate axis data misses the strict interior of the start face"
+        }
+      ],
+      "largest_case_family": "nonidentity.forced_zero_denominator",
+      "largest_shape_family": "translation.farkas_survivor",
+      "path": "scripts/generated/obstruction_atlas_000000000_000100000.json",
+      "rank_window": {
+        "end": 100000,
+        "start": 0,
+        "width": 100000
+      },
+      "shaped_residual_cases": 134145,
+      "shaped_residual_families": 17760,
+      "top3_case_filter_set": [
+        "nonidentity.bad_pair_balance",
+        "nonidentity.forced_zero_denominator",
+        "translation.farkas_survivor"
+      ],
+      "top3_case_filters": [
+        "nonidentity.forced_zero_denominator",
+        "translation.farkas_survivor",
+        "nonidentity.bad_pair_balance"
+      ],
+      "top3_case_share": 0.8861157702486115,
+      "top3_shape_filters": [
+        "translation.farkas_survivor",
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.terminal_algebra.axis_misses_start_interior"
+      ],
+      "top3_shape_share": 0.9833333333333333
+    },
+    {
+      "dominant_residuals_by_case_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 57652,
+          "case_share_of_shaped_residual": 0.48395816194617464,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-8,-1,0",
+              "rank": 10000002,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,d11m,d1m1,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-7/8,-7/8,-1",
+              "rank": 10000003,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,d11m,dm11,d1m1",
+              "zero_at": 6
+            },
+            {
+              "axis": "-2/7,-17/7,-1",
+              "rank": 10000006,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,dm11,d11m,d1m1",
+              "zero_at": 8
+            },
+            {
+              "axis": "-3/5,-8/5,-1",
+              "rank": 10000007,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,dm11,d1m1,d11m",
+              "zero_at": 8
+            },
+            {
+              "axis": "-1,1,0",
+              "rank": 10000008,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d111,d1m1,dm11",
+              "zero_at": 1
+            }
+          ],
+          "shape_count": 6414,
+          "shape_key_samples": [
+            "zeroAt=1|pair=z|normalClass=0,0,1|axisClass=8,1,0",
+            "zeroAt=6|pair=z|normalClass=4,4,-7|axisClass=7,7,8",
+            "zeroAt=8|pair=d11m|normalClass=29,11,-35|axisClass=2,17,7",
+            "zeroAt=8|pair=d11m|normalClass=29,11,-35|axisClass=3,8,5",
+            "zeroAt=1|pair=z|normalClass=0,0,1|axisClass=1,-1,0"
+          ],
+          "shape_share_of_total": 0.3596097779771249,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "forced-sign balance invariant",
+          "case_count": 26682,
+          "case_share_of_shaped_residual": 0.22398133069187248,
+          "exact_shape_count": true,
+          "filter": "nonidentity.bad_pair_balance",
+          "kind": "nonidentity",
+          "next_lean_theorem": "generalize the existing bad-balance checker to semantic classes larger than one forced sequence",
+          "samples": [
+            {
+              "axis": "-15/2,-11/2,-1",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zp",
+                "tmmm",
+                "tppm",
+                "tmmm",
+                "tmpm",
+                "tmpp",
+                "tmmp"
+              ],
+              "rank": 10000005,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,d1m1,dm11,d11m"
+            },
+            {
+              "axis": "-17/6,5/6,1",
+              "forced_seq": [
+                "xp",
+                "yp",
+                "zp",
+                "xm",
+                "ym",
+                "tpmm",
+                "tmpm",
+                "zp",
+                "tppp",
+                "tppm",
+                "tmpm",
+                "tmmm",
+                "tmmp",
+                "tmpp"
+              ],
+              "rank": 10000014,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d1m1,d111,d11m,dm11"
+            },
+            {
+              "axis": "-2/11,-15/11,-1",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zm",
+                "tmmm",
+                "tmmp",
+                "tmpm",
+                "tmmp",
+                "tmpp",
+                "tppp"
+              ],
+              "rank": 10000017,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d1m1,d11m,dm11,d111"
+            },
+            {
+              "axis": "-1,7/5,1",
+              "forced_seq": [
+                "xp",
+                "yp",
+                "zp",
+                "xm",
+                "ym",
+                "tpmm",
+                "tmpm",
+                "zp",
+                "tppp",
+                "tppm",
+                "tpmm",
+                "tmmm",
+                "tmmp",
+                "tmpm"
+              ],
+              "rank": 10000020,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,dm11,d111,d11m,d1m1"
+            },
+            {
+              "axis": "-6/5,17/5,1",
+              "forced_seq": [
+                "xp",
+                "yp",
+                "zp",
+                "xm",
+                "ym",
+                "tmpp",
+                "tmpm",
+                "zm",
+                "tppp",
+                "tppm",
+                "tpmm",
+                "tmmm",
+                "tmpm",
+                "tmmp"
+              ],
+              "rank": 10000021,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,dm11,d111,d1m1,d11m"
+            }
+          ],
+          "shape_count": 313,
+          "shape_key_samples": [
+            "badPairBalance|duplicates=tmmm|missing=tpmm|multiplicities=1,1,1,1,1,1,2,1,1,1,1,1,1,0",
+            "badPairBalance|duplicates=yp,tmmm|missing=yp,tpmm|multiplicities=1,1,1,1,2,0,1,1,2,1,1,0,1,1",
+            "badPairBalance|duplicates=yp,tmmm|missing=yp,tpmm|multiplicities=1,1,1,1,0,2,1,2,1,1,1,1,0,1",
+            "badPairBalance|duplicates=yp,tmmm,tpmp|missing=yp,tmmm,tpmp|multiplicities=1,1,1,1,2,0,1,1,2,0,2,0,1,1",
+            "badPairBalance|duplicates=tmmm|missing=tpmm|multiplicities=1,1,1,1,1,1,1,1,2,1,1,0,1,1"
+          ],
+          "shape_share_of_total": 0.017548777752859384,
+          "why": "many ranks die because the axis-forced signs cannot realize all faces once"
+        },
+        {
+          "candidate": "shared source-Farkas skeleton or stronger survivor-system theorem",
+          "case_count": 22404,
+          "case_share_of_shaped_residual": 0.18806977486023202,
+          "exact_shape_count": true,
+          "filter": "translation.farkas_survivor",
+          "kind": "translation",
+          "next_lean_theorem": "prove a reusable transport theorem from a compact survivor signature/source-term skeleton to TranslationCaseKilled",
+          "samples": [
+            {
+              "mask": 24,
+              "rank": 10000001,
+              "shape_digest": "df1e04bc88ad2f6576d6023ab81b0cac459b9db98b088d386479fa6cb2987cc4",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d111,dm11,d1m1,d11m,d11m"
+            },
+            {
+              "mask": 28,
+              "rank": 10000001,
+              "shape_digest": "9facbc8d8414331fd45c6b6668dc06bf1eb37e6be2a65ca1feccf0b35bcc2dc6",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d111,dm11,d1m1,d11m,d11m"
+            },
+            {
+              "mask": 29,
+              "rank": 10000009,
+              "shape_digest": "bfcc2c169666196107a90e21cf90f5c967d6e896c2f475ecf8625b67e5b66969",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d111,dm11,d1m1"
+            },
+            {
+              "mask": 47,
+              "rank": 10000009,
+              "shape_digest": "d199e75e197bef697727a3477d70b7f36e0842bcba8e80c522a5ca3cc145bf59",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d111,dm11,d1m1"
+            },
+            {
+              "mask": 29,
+              "rank": 10000051,
+              "shape_digest": "76ff6c35dbdbc5ff7581ecf268678451649a24d7b7769b6bfcaccd6b6f354cce",
+              "word": "y,z,x,y,dm11,d1m1,z,d11m,d111,d111,d11m,dm11,d1m1"
+            }
+          ],
+          "shape_count": 9983,
+          "shape_key_samples": [
+            "shape=df1e04bc88ad2f6576d6023ab81b0cac459b9db98b088d386479fa6cb2987cc4",
+            "shape=9facbc8d8414331fd45c6b6668dc06bf1eb37e6be2a65ca1feccf0b35bcc2dc6",
+            "shape=bfcc2c169666196107a90e21cf90f5c967d6e896c2f475ecf8625b67e5b66969",
+            "shape=d199e75e197bef697727a3477d70b7f36e0842bcba8e80c522a5ca3cc145bf59",
+            "shape=76ff6c35dbdbc5ff7581ecf268678451649a24d7b7769b6bfcaccd6b6f354cce"
+          ],
+          "shape_share_of_total": 0.5597106974657995,
+          "why": "dominant translation residual after GoodDirection; proof burden comes from many normalized Farkas survivor shapes"
+        }
+      ],
+      "dominant_residuals_by_shape_count": [
+        {
+          "candidate": "shared source-Farkas skeleton or stronger survivor-system theorem",
+          "case_count": 22404,
+          "case_share_of_shaped_residual": 0.18806977486023202,
+          "exact_shape_count": true,
+          "filter": "translation.farkas_survivor",
+          "kind": "translation",
+          "next_lean_theorem": "prove a reusable transport theorem from a compact survivor signature/source-term skeleton to TranslationCaseKilled",
+          "samples": [
+            {
+              "mask": 24,
+              "rank": 10000001,
+              "shape_digest": "df1e04bc88ad2f6576d6023ab81b0cac459b9db98b088d386479fa6cb2987cc4",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d111,dm11,d1m1,d11m,d11m"
+            },
+            {
+              "mask": 28,
+              "rank": 10000001,
+              "shape_digest": "9facbc8d8414331fd45c6b6668dc06bf1eb37e6be2a65ca1feccf0b35bcc2dc6",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d111,dm11,d1m1,d11m,d11m"
+            },
+            {
+              "mask": 29,
+              "rank": 10000009,
+              "shape_digest": "bfcc2c169666196107a90e21cf90f5c967d6e896c2f475ecf8625b67e5b66969",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d111,dm11,d1m1"
+            },
+            {
+              "mask": 47,
+              "rank": 10000009,
+              "shape_digest": "d199e75e197bef697727a3477d70b7f36e0842bcba8e80c522a5ca3cc145bf59",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d111,dm11,d1m1"
+            },
+            {
+              "mask": 29,
+              "rank": 10000051,
+              "shape_digest": "76ff6c35dbdbc5ff7581ecf268678451649a24d7b7769b6bfcaccd6b6f354cce",
+              "word": "y,z,x,y,dm11,d1m1,z,d11m,d111,d111,d11m,dm11,d1m1"
+            }
+          ],
+          "shape_count": 9983,
+          "shape_key_samples": [
+            "shape=df1e04bc88ad2f6576d6023ab81b0cac459b9db98b088d386479fa6cb2987cc4",
+            "shape=9facbc8d8414331fd45c6b6668dc06bf1eb37e6be2a65ca1feccf0b35bcc2dc6",
+            "shape=bfcc2c169666196107a90e21cf90f5c967d6e896c2f475ecf8625b67e5b66969",
+            "shape=d199e75e197bef697727a3477d70b7f36e0842bcba8e80c522a5ca3cc145bf59",
+            "shape=76ff6c35dbdbc5ff7581ecf268678451649a24d7b7769b6bfcaccd6b6f354cce"
+          ],
+          "shape_share_of_total": 0.5597106974657995,
+          "why": "dominant translation residual after GoodDirection; proof burden comes from many normalized Farkas survivor shapes"
+        },
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 57652,
+          "case_share_of_shaped_residual": 0.48395816194617464,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-8,-1,0",
+              "rank": 10000002,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,d11m,d1m1,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-7/8,-7/8,-1",
+              "rank": 10000003,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,d11m,dm11,d1m1",
+              "zero_at": 6
+            },
+            {
+              "axis": "-2/7,-17/7,-1",
+              "rank": 10000006,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,dm11,d11m,d1m1",
+              "zero_at": 8
+            },
+            {
+              "axis": "-3/5,-8/5,-1",
+              "rank": 10000007,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,dm11,d1m1,d11m",
+              "zero_at": 8
+            },
+            {
+              "axis": "-1,1,0",
+              "rank": 10000008,
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d111,d1m1,dm11",
+              "zero_at": 1
+            }
+          ],
+          "shape_count": 6414,
+          "shape_key_samples": [
+            "zeroAt=1|pair=z|normalClass=0,0,1|axisClass=8,1,0",
+            "zeroAt=6|pair=z|normalClass=4,4,-7|axisClass=7,7,8",
+            "zeroAt=8|pair=d11m|normalClass=29,11,-35|axisClass=2,17,7",
+            "zeroAt=8|pair=d11m|normalClass=29,11,-35|axisClass=3,8,5",
+            "zeroAt=1|pair=z|normalClass=0,0,1|axisClass=1,-1,0"
+          ],
+          "shape_share_of_total": 0.3596097779771249,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "start-face separating inequality family",
+          "case_count": 3952,
+          "case_share_of_shaped_residual": 0.03317495760791095,
+          "exact_shape_count": true,
+          "filter": "nonidentity.terminal_algebra.axis_misses_start_interior",
+          "kind": "nonidentity",
+          "next_lean_theorem": "transport a separating strict inequality across canonical axis/start-face classes",
+          "samples": [
+            {
+              "axis": "-20/3,-1/3,-1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zp",
+                "tppp",
+                "tppm",
+                "tmmm",
+                "tmpm",
+                "tmmp",
+                "tmpp"
+              ],
+              "margin": "-3409/2050",
+              "p0": "1,-5459/2050,124/1025",
+              "rank": 10000004,
+              "solve_shape": "d05b588c4d725176",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d111,d1m1,d11m,dm11"
+            },
+            {
+              "axis": "-1,-3,-1",
+              "bad_face": "yp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zp",
+                "tmmm",
+                "tppm",
+                "tmmp",
+                "tmpm",
+                "tmpp",
+                "tppp"
+              ],
+              "margin": "-185/22",
+              "p0": "1,207/22,127/22",
+              "rank": 10000011,
+              "solve_shape": "c93e4f8f1bd2b20b",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d11m,d1m1,dm11,d111"
+            },
+            {
+              "axis": "-12,-1,-1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zp",
+                "tppp",
+                "tppm",
+                "tmpm",
+                "tmmm",
+                "tmpp",
+                "tmmp"
+              ],
+              "margin": "-2423/1752",
+              "p0": "1,-4175/1752,5197/1752",
+              "rank": 10000015,
+              "solve_shape": "be83553fe8c5dd61",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d1m1,d111,dm11,d11m"
+            },
+            {
+              "axis": "-7/4,-9/4,-1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zp",
+                "tmmm",
+                "tppm",
+                "tmpm",
+                "tmpp",
+                "tmmp",
+                "tppp"
+              ],
+              "margin": "-181/146",
+              "p0": "1,-327/146,389/146",
+              "rank": 10000019,
+              "solve_shape": "65918fd44bbe845d",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d11m,d1m1,dm11,d11m,d111"
+            },
+            {
+              "axis": "-1,-3,-1",
+              "bad_face": "yp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "ym",
+                "zm",
+                "xm",
+                "yp",
+                "tpmm",
+                "tpmp",
+                "zp",
+                "tmmm",
+                "tmpm",
+                "tmmp",
+                "tppm",
+                "tmpp",
+                "tppp"
+              ],
+              "margin": "-53/22",
+              "p0": "1,75/22,-5/22",
+              "rank": 10000032,
+              "solve_shape": "2379b4e610a2719a",
+              "word": "y,z,x,y,dm11,d1m1,z,d111,d1m1,d11m,d11m,dm11,d111"
+            }
+          ],
+          "shape_count": 901,
+          "shape_key_samples": [
+            "axisMissesStartInterior|badFace=yp|margin=neg:-3409/2050",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-185/22",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-2423/1752",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-181/146",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-53/22"
+          ],
+          "shape_share_of_total": 0.050515810719892355,
+          "why": "candidate axis data misses the strict interior of the start face"
+        }
+      ],
+      "largest_case_family": "nonidentity.forced_zero_denominator",
+      "largest_shape_family": "translation.farkas_survivor",
+      "path": "scripts/generated/obstruction_atlas_010000000_010100000.json",
+      "rank_window": {
+        "end": 10100000,
+        "start": 10000000,
+        "width": 100000
+      },
+      "shaped_residual_cases": 119126,
+      "shaped_residual_families": 17836,
+      "top3_case_filter_set": [
+        "nonidentity.bad_pair_balance",
+        "nonidentity.forced_zero_denominator",
+        "translation.farkas_survivor"
+      ],
+      "top3_case_filters": [
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.bad_pair_balance",
+        "translation.farkas_survivor"
+      ],
+      "top3_case_share": 0.8960092674982791,
+      "top3_shape_filters": [
+        "translation.farkas_survivor",
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.terminal_algebra.axis_misses_start_interior"
+      ],
+      "top3_shape_share": 0.9698362861628168
+    },
+    {
+      "dominant_residuals_by_case_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 62683,
+          "case_share_of_shaped_residual": 0.6391528672811811,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-13/6,5/3,-1",
+              "rank": 30000006,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,y,d11m,d1m1",
+              "zero_at": 3
+            },
+            {
+              "axis": "-7/27,-20/27,-1",
+              "rank": 30000008,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,y,d1m1",
+              "zero_at": 6
+            },
+            {
+              "axis": "-3,-2,-1",
+              "rank": 30000009,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,d1m1,y",
+              "zero_at": 4
+            },
+            {
+              "axis": "-5/14,-11/14,-1",
+              "rank": 30000011,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d1m1,d11m,y",
+              "zero_at": 6
+            },
+            {
+              "axis": "-1,1,0",
+              "rank": 30000012,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,y,d111,d1m1",
+              "zero_at": 0
+            }
+          ],
+          "shape_count": 4058,
+          "shape_key_samples": [
+            "zeroAt=3|pair=z|normalClass=2,2,-1|axisClass=13,-10,6",
+            "zeroAt=6|pair=d111|normalClass=17,-37,23|axisClass=7,20,27",
+            "zeroAt=4|pair=d1m1|normalClass=1,1,-5|axisClass=3,2,1",
+            "zeroAt=6|pair=d111|normalClass=17,-37,23|axisClass=5,11,14",
+            "zeroAt=0|pair=z|normalClass=0,0,1|axisClass=1,-1,0"
+          ],
+          "shape_share_of_total": 0.7719231500856002,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "forced-sign balance invariant",
+          "case_count": 23857,
+          "case_share_of_shaped_residual": 0.24326005383799656,
+          "exact_shape_count": true,
+          "filter": "nonidentity.bad_pair_balance",
+          "kind": "nonidentity",
+          "next_lean_theorem": "generalize the existing bad-balance checker to semantic classes larger than one forced sequence",
+          "samples": [
+            {
+              "axis": "-19/3,-20/3,1",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tmmp",
+                "xp",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "tmmm",
+                "tpmm",
+                "yp",
+                "ym",
+                "tppp",
+                "tmmp",
+                "tmpm"
+              ],
+              "rank": 30000000,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d111,d11m,d1m1"
+            },
+            {
+              "axis": "-25/7,6/7,1",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tmmp",
+                "xm",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "tppp",
+                "tpmm",
+                "yp",
+                "ym",
+                "tppp",
+                "tmpm",
+                "tmmp"
+              ],
+              "rank": 30000001,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d111,d1m1,d11m"
+            },
+            {
+              "axis": "-1/15,22/15,1",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tppm",
+                "xm",
+                "zp",
+                "tpmp",
+                "tpmm",
+                "tppp",
+                "tmpp",
+                "yp",
+                "ym",
+                "tppm",
+                "tmmm",
+                "tpmp"
+              ],
+              "rank": 30000002,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d11m,d111,d1m1"
+            },
+            {
+              "axis": "-3/35,-2/7,-1",
+              "forced_seq": [
+                "xp",
+                "zm",
+                "tmmp",
+                "xp",
+                "zp",
+                "tmpm",
+                "tmpp",
+                "tppp",
+                "tpmm",
+                "ym",
+                "yp",
+                "tmmp",
+                "tmpm",
+                "tppp"
+              ],
+              "rank": 30000003,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d11m,d1m1,d111"
+            },
+            {
+              "axis": "-29/13,18/13,-1",
+              "forced_seq": [
+                "xp",
+                "zm",
+                "tmmp",
+                "xm",
+                "zm",
+                "tmpm",
+                "tmpp",
+                "tppp",
+                "tpmm",
+                "yp",
+                "ym",
+                "tmpm",
+                "tppp",
+                "tmmp"
+              ],
+              "rank": 30000004,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d1m1,d111,d11m"
+            }
+          ],
+          "shape_count": 412,
+          "shape_key_samples": [
+            "badPairBalance|duplicates=xp,tmmm|missing=xm,tpmm|multiplicities=2,0,1,1,1,1,1,2,1,1,1,1,0,1",
+            "badPairBalance|duplicates=tmmm,tpmp|missing=tmmm,tpmp|multiplicities=1,1,1,1,1,1,0,2,1,1,1,1,0,2",
+            "badPairBalance|duplicates=yp,tppm,tpmp|missing=yp,tmmm,tmpp|multiplicities=1,1,1,1,2,0,1,0,0,1,1,2,2,1",
+            "badPairBalance|duplicates=xp,tmmm,tmpp,tpmp|missing=xm,tmmm,tpmp,tppm|multiplicities=2,0,1,1,1,1,0,2,2,1,1,0,0,2",
+            "badPairBalance|duplicates=yp,tmmm,tmpp,tpmp|missing=yp,tmmm,tppm,tpmp|multiplicities=1,1,1,1,0,2,0,2,2,1,1,0,0,2"
+          ],
+          "shape_share_of_total": 0.07837169488301313,
+          "why": "many ranks die because the axis-forced signs cannot realize all faces once"
+        },
+        {
+          "candidate": "global lemma for nonidentity.final_axis_zero",
+          "case_count": 10571,
+          "case_share_of_shaped_residual": 0.10778815564075374,
+          "exact_shape_count": true,
+          "filter": "nonidentity.final_axis_zero",
+          "kind": "nonidentity",
+          "next_lean_theorem": "inspect atlas samples and formulate a semantic obstruction theorem",
+          "samples": [
+            {
+              "axis": "0,4/17,1",
+              "rank": 30000019,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,y,d11m,d111"
+            },
+            {
+              "axis": "0,4/17,1",
+              "rank": 30000031,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,d11m,y,d1m1,y"
+            },
+            {
+              "axis": "0,-19/7,1",
+              "rank": 30000088,
+              "word": "z,d11m,x,z,d1m1,dm11,d11m,y,d111,d1m1,dm11,y,d111"
+            },
+            {
+              "axis": "0,-19/7,1",
+              "rank": 30000196,
+              "word": "z,d11m,x,z,d1m1,dm11,d11m,d1m1,d111,y,dm11,y,d111"
+            },
+            {
+              "axis": "0,1/2,1",
+              "rank": 30000257,
+              "word": "z,d11m,x,z,d1m1,dm11,d1m1,y,d111,y,dm11,d11m,d111"
+            }
+          ],
+          "shape_count": 73,
+          "shape_key_samples": [
+            "zeroAt=final|normalClass=3199,-5576,1312|axisClass=0,4,17",
+            "zeroAt=final|normalClass=6559,-56,-152|axisClass=0,19,-7",
+            "zeroAt=final|normalClass=79,16,-8|axisClass=0,1,2",
+            "zeroAt=final|normalClass=1759,3136,5488|axisClass=0,7,-4",
+            "zeroAt=final|normalClass=79,-8,16|axisClass=0,2,1"
+          ],
+          "shape_share_of_total": 0.013886246908883394,
+          "why": "residual family appears in the exact portfolio profile"
+        }
+      ],
+      "dominant_residuals_by_shape_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 62683,
+          "case_share_of_shaped_residual": 0.6391528672811811,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-13/6,5/3,-1",
+              "rank": 30000006,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,y,d11m,d1m1",
+              "zero_at": 3
+            },
+            {
+              "axis": "-7/27,-20/27,-1",
+              "rank": 30000008,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,y,d1m1",
+              "zero_at": 6
+            },
+            {
+              "axis": "-3,-2,-1",
+              "rank": 30000009,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,d1m1,y",
+              "zero_at": 4
+            },
+            {
+              "axis": "-5/14,-11/14,-1",
+              "rank": 30000011,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d1m1,d11m,y",
+              "zero_at": 6
+            },
+            {
+              "axis": "-1,1,0",
+              "rank": 30000012,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,y,d111,d1m1",
+              "zero_at": 0
+            }
+          ],
+          "shape_count": 4058,
+          "shape_key_samples": [
+            "zeroAt=3|pair=z|normalClass=2,2,-1|axisClass=13,-10,6",
+            "zeroAt=6|pair=d111|normalClass=17,-37,23|axisClass=7,20,27",
+            "zeroAt=4|pair=d1m1|normalClass=1,1,-5|axisClass=3,2,1",
+            "zeroAt=6|pair=d111|normalClass=17,-37,23|axisClass=5,11,14",
+            "zeroAt=0|pair=z|normalClass=0,0,1|axisClass=1,-1,0"
+          ],
+          "shape_share_of_total": 0.7719231500856002,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "start-face separating inequality family",
+          "case_count": 922,
+          "case_share_of_shaped_residual": 0.009401256219920058,
+          "exact_shape_count": true,
+          "filter": "nonidentity.terminal_algebra.axis_misses_start_interior",
+          "kind": "nonidentity",
+          "next_lean_theorem": "transport a separating strict inequality across canonical axis/start-face classes",
+          "samples": [
+            {
+              "axis": "-9/10,13/10,-1",
+              "bad_face": "yp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "zm",
+                "tmmp",
+                "xm",
+                "zp",
+                "tmpm",
+                "tpmm",
+                "tppm",
+                "yp",
+                "tpmp",
+                "tppp",
+                "tmpp",
+                "ym",
+                "tmmm"
+              ],
+              "margin": "-493/315",
+              "p0": "1,808/315,-6331/3150",
+              "rank": 30000103,
+              "solve_shape": "c2a628dd37fbadcd",
+              "word": "z,d11m,x,z,d1m1,dm11,d11m,y,d1m1,d111,dm11,y,d111"
+            },
+            {
+              "axis": "-3/5,1/5,1",
+              "bad_face": "zp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tppm",
+                "xm",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "tmpm",
+                "ym",
+                "tppp",
+                "tpmm",
+                "tmmp",
+                "yp",
+                "tmmm"
+              ],
+              "margin": "-28/5",
+              "p0": "1,0,33/5",
+              "rank": 30000274,
+              "solve_shape": "73042b8af876152b",
+              "word": "z,d11m,x,z,d1m1,dm11,d1m1,y,d111,dm11,d11m,y,d111"
+            },
+            {
+              "axis": "-11/15,1/3,1",
+              "bad_face": "zp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tppm",
+                "xm",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "tmpm",
+                "tppp",
+                "tpmm",
+                "tmmp",
+                "yp",
+                "tmmm",
+                "ym"
+              ],
+              "margin": "-17502/4081",
+              "p0": "1,2402/4081,21583/4081",
+              "rank": 30000358,
+              "solve_shape": "18c9e2347257979d",
+              "word": "z,d11m,x,z,d1m1,dm11,d1m1,d111,dm11,d11m,y,d111,y"
+            },
+            {
+              "axis": "-4/17,35/17,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tppm",
+                "xm",
+                "tppp",
+                "ym",
+                "yp",
+                "zm",
+                "tpmp",
+                "tmmp",
+                "tmmm",
+                "tmpp",
+                "tmpm",
+                "tpmm"
+              ],
+              "margin": "-359/60",
+              "p0": "1,-419/60,-589/204",
+              "rank": 30005713,
+              "solve_shape": "75721b8bacb7e388",
+              "word": "z,d11m,x,d111,y,y,z,d1m1,d11m,d111,dm11,d1m1,dm11"
+            },
+            {
+              "axis": "-20/13,31/13,1",
+              "bad_face": "yp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tppm",
+                "xm",
+                "tppp",
+                "ym",
+                "yp",
+                "zm",
+                "tpmp",
+                "tmmp",
+                "tmpp",
+                "tmmm",
+                "tmpm",
+                "tpmm"
+              ],
+              "margin": "-3797/1020",
+              "p0": "1,4817/1020,1891/1020",
+              "rank": 30005718,
+              "solve_shape": "05990b5509166375",
+              "word": "z,d11m,x,d111,y,y,z,d1m1,d11m,dm11,d111,d1m1,dm11"
+            }
+          ],
+          "shape_count": 689,
+          "shape_key_samples": [
+            "axisMissesStartInterior|badFace=yp|margin=neg:-493/315",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-28/5",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-17502/4081",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-359/60",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-3797/1020"
+          ],
+          "shape_share_of_total": 0.13106334411261175,
+          "why": "candidate axis data misses the strict interior of the start face"
+        },
+        {
+          "candidate": "forced-sign balance invariant",
+          "case_count": 23857,
+          "case_share_of_shaped_residual": 0.24326005383799656,
+          "exact_shape_count": true,
+          "filter": "nonidentity.bad_pair_balance",
+          "kind": "nonidentity",
+          "next_lean_theorem": "generalize the existing bad-balance checker to semantic classes larger than one forced sequence",
+          "samples": [
+            {
+              "axis": "-19/3,-20/3,1",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tmmp",
+                "xp",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "tmmm",
+                "tpmm",
+                "yp",
+                "ym",
+                "tppp",
+                "tmmp",
+                "tmpm"
+              ],
+              "rank": 30000000,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d111,d11m,d1m1"
+            },
+            {
+              "axis": "-25/7,6/7,1",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tmmp",
+                "xm",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "tppp",
+                "tpmm",
+                "yp",
+                "ym",
+                "tppp",
+                "tmpm",
+                "tmmp"
+              ],
+              "rank": 30000001,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d111,d1m1,d11m"
+            },
+            {
+              "axis": "-1/15,22/15,1",
+              "forced_seq": [
+                "xp",
+                "zp",
+                "tppm",
+                "xm",
+                "zp",
+                "tpmp",
+                "tpmm",
+                "tppp",
+                "tmpp",
+                "yp",
+                "ym",
+                "tppm",
+                "tmmm",
+                "tpmp"
+              ],
+              "rank": 30000002,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d11m,d111,d1m1"
+            },
+            {
+              "axis": "-3/35,-2/7,-1",
+              "forced_seq": [
+                "xp",
+                "zm",
+                "tmmp",
+                "xp",
+                "zp",
+                "tmpm",
+                "tmpp",
+                "tppp",
+                "tpmm",
+                "ym",
+                "yp",
+                "tmmp",
+                "tmpm",
+                "tppp"
+              ],
+              "rank": 30000003,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d11m,d1m1,d111"
+            },
+            {
+              "axis": "-29/13,18/13,-1",
+              "forced_seq": [
+                "xp",
+                "zm",
+                "tmmp",
+                "xm",
+                "zm",
+                "tmpm",
+                "tmpp",
+                "tppp",
+                "tpmm",
+                "yp",
+                "ym",
+                "tmpm",
+                "tppp",
+                "tmmp"
+              ],
+              "rank": 30000004,
+              "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,y,d1m1,d111,d11m"
+            }
+          ],
+          "shape_count": 412,
+          "shape_key_samples": [
+            "badPairBalance|duplicates=xp,tmmm|missing=xm,tpmm|multiplicities=2,0,1,1,1,1,1,2,1,1,1,1,0,1",
+            "badPairBalance|duplicates=tmmm,tpmp|missing=tmmm,tpmp|multiplicities=1,1,1,1,1,1,0,2,1,1,1,1,0,2",
+            "badPairBalance|duplicates=yp,tppm,tpmp|missing=yp,tmmm,tmpp|multiplicities=1,1,1,1,2,0,1,0,0,1,1,2,2,1",
+            "badPairBalance|duplicates=xp,tmmm,tmpp,tpmp|missing=xm,tmmm,tpmp,tppm|multiplicities=2,0,1,1,1,1,0,2,2,1,1,0,0,2",
+            "badPairBalance|duplicates=yp,tmmm,tmpp,tpmp|missing=yp,tmmm,tppm,tpmp|multiplicities=1,1,1,1,0,2,0,2,2,1,1,0,0,2"
+          ],
+          "shape_share_of_total": 0.07837169488301313,
+          "why": "many ranks die because the axis-forced signs cannot realize all faces once"
+        }
+      ],
+      "largest_case_family": "nonidentity.forced_zero_denominator",
+      "largest_shape_family": "nonidentity.forced_zero_denominator",
+      "path": "scripts/generated/obstruction_atlas_030000000_030100000.json",
+      "rank_window": {
+        "end": 30100000,
+        "start": 30000000,
+        "width": 100000
+      },
+      "shaped_residual_cases": 98072,
+      "shaped_residual_families": 5257,
+      "top3_case_filter_set": [
+        "nonidentity.bad_pair_balance",
+        "nonidentity.final_axis_zero",
+        "nonidentity.forced_zero_denominator"
+      ],
+      "top3_case_filters": [
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.bad_pair_balance",
+        "nonidentity.final_axis_zero"
+      ],
+      "top3_case_share": 0.9902010767599315,
+      "top3_shape_filters": [
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.terminal_algebra.axis_misses_start_interior",
+        "nonidentity.bad_pair_balance"
+      ],
+      "top3_shape_share": 0.9813581890812251
+    },
+    {
+      "dominant_residuals_by_case_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 73573,
+          "case_share_of_shaped_residual": 0.7403423327329262,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-8/9,-1/9,-1",
+              "rank": 60000006,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,z,d1m1,dm11",
+              "zero_at": 0
+            },
+            {
+              "axis": "-5/11,4/11,1",
+              "rank": 60000007,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,z,dm11,d1m1",
+              "zero_at": 2
+            },
+            {
+              "axis": "-13/2,3/2,1",
+              "rank": 60000008,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,d1m1,z,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-5/11,4/11,1",
+              "rank": 60000009,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,d1m1,dm11,z",
+              "zero_at": 2
+            },
+            {
+              "axis": "-13/2,3/2,1",
+              "rank": 60000010,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,dm11,z,d1m1",
+              "zero_at": 1
+            }
+          ],
+          "shape_count": 888,
+          "shape_key_samples": [
+            "zeroAt=0|pair=d11m|normalClass=1,1,-1|axisClass=8,1,9",
+            "zeroAt=2|pair=d11m|normalClass=11,11,1|axisClass=5,-4,-11",
+            "zeroAt=1|pair=d111|normalClass=1,1,5|axisClass=13,-3,-2",
+            "zeroAt=0|pair=d11m|normalClass=1,1,-1|axisClass=1,-10,-9",
+            "zeroAt=11|pair=y|normalClass=506,-1303,-1682|axisClass=11,-28,25"
+          ],
+          "shape_share_of_total": 0.34246047049749323,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "forced-sign balance invariant",
+          "case_count": 19573,
+          "case_share_of_shaped_residual": 0.19695704237398995,
+          "exact_shape_count": true,
+          "filter": "nonidentity.bad_pair_balance",
+          "kind": "nonidentity",
+          "next_lean_theorem": "generalize the existing bad-balance checker to semantic classes larger than one forced sequence",
+          "samples": [
+            {
+              "axis": "-22/15,1/15,1",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tppp",
+                "tpmp",
+                "ym",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "ym",
+                "zm",
+                "tmpp"
+              ],
+              "rank": 60000000,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,d1m1,dm11,y,z,dm11"
+            },
+            {
+              "axis": "-23/19,10/19,-1",
+              "forced_seq": [
+                "xp",
+                "tppm",
+                "tmmm",
+                "tppm",
+                "xm",
+                "tppp",
+                "tmpm",
+                "ym",
+                "zm",
+                "tmpm",
+                "tmpp",
+                "ym",
+                "tpmm",
+                "zp"
+              ],
+              "rank": 60000001,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,d1m1,dm11,y,dm11,z"
+            },
+            {
+              "axis": "-22/15,1/15,1",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tppp",
+                "tpmp",
+                "ym",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "zm",
+                "ym",
+                "tmpp"
+              ],
+              "rank": 60000002,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,d1m1,dm11,z,y,dm11"
+            },
+            {
+              "axis": "-27/26,5/26,1",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tppp",
+                "tpmp",
+                "ym",
+                "zm",
+                "tpmp",
+                "tmpp",
+                "zm",
+                "tmpp",
+                "ym"
+              ],
+              "rank": 60000003,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,d1m1,dm11,z,dm11,y"
+            },
+            {
+              "axis": "-3/5,1/5,-1",
+              "forced_seq": [
+                "xp",
+                "tppm",
+                "tmmm",
+                "tppm",
+                "xm",
+                "tppp",
+                "tmpm",
+                "ym",
+                "zp",
+                "tmpm",
+                "tmpp",
+                "tpmm",
+                "ym",
+                "zp"
+              ],
+              "rank": 60000004,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,d1m1,dm11,dm11,y,z"
+            }
+          ],
+          "shape_count": 266,
+          "shape_key_samples": [
+            "badPairBalance|duplicates=yp,zp,tmmm,tppm,tpmm|missing=yp,zp,tmmm,tmpm,tpmm|multiplicities=1,1,0,2,0,2,0,1,0,2,0,2,1,2",
+            "badPairBalance|duplicates=yp,tmmm,tpmm|missing=yp,tmmm,tpmm|multiplicities=1,1,0,2,1,1,1,0,2,1,1,0,2,1",
+            "badPairBalance|duplicates=yp,zp,tmmm,tpmm|missing=yp,zp,tmmm,tpmm|multiplicities=1,1,0,2,2,0,1,0,2,1,1,0,2,1",
+            "badPairBalance|duplicates=yp,tmmm,tpmp|missing=yp,tmmm,tpmp|multiplicities=1,1,0,2,1,1,1,0,1,2,0,1,2,1",
+            "badPairBalance|duplicates=yp,zp,tmmm,tppm|missing=yp,zp,tmpm,tpmm|multiplicities=1,1,0,2,0,2,1,1,0,2,0,2,1,1"
+          ],
+          "shape_share_of_total": 0.10258387967605091,
+          "why": "many ranks die because the axis-forced signs cannot realize all faces once"
+        },
+        {
+          "candidate": "global lemma for nonidentity.final_axis_zero",
+          "case_count": 3963,
+          "case_share_of_shaped_residual": 0.039878442698008595,
+          "exact_shape_count": true,
+          "filter": "nonidentity.final_axis_zero",
+          "kind": "nonidentity",
+          "next_lean_theorem": "inspect atlas samples and formulate a semantic obstruction theorem",
+          "samples": [
+            {
+              "axis": "0,19/7,1",
+              "rank": 60000633,
+              "word": "d11m,d111,d11m,x,d111,dm11,y,z,d1m1,z,d1m1,dm11,y"
+            },
+            {
+              "axis": "0,19/7,1",
+              "rank": 60000646,
+              "word": "d11m,d111,d11m,x,d111,dm11,y,z,d1m1,dm11,d1m1,y,z"
+            },
+            {
+              "axis": "0,19/7,1",
+              "rank": 60000647,
+              "word": "d11m,d111,d11m,x,d111,dm11,y,z,d1m1,dm11,d1m1,z,y"
+            },
+            {
+              "axis": "0,19/7,1",
+              "rank": 60000745,
+              "word": "d11m,d111,d11m,x,d111,dm11,y,dm11,d1m1,z,d1m1,y,z"
+            },
+            {
+              "axis": "0,19/7,1",
+              "rank": 60000746,
+              "word": "d11m,d111,d11m,x,d111,dm11,y,dm11,d1m1,z,d1m1,z,y"
+            }
+          ],
+          "shape_count": 13,
+          "shape_key_samples": [
+            "zeroAt=final|normalClass=6559,-56,152|axisClass=0,19,7",
+            "zeroAt=final|normalClass=7,-4,-4|axisClass=0,1,-1",
+            "zeroAt=final|normalClass=7,4,4|axisClass=0,1,-1",
+            "zeroAt=final|normalClass=7,4,-4|axisClass=0,1,1",
+            "zeroAt=final|normalClass=7,-4,4|axisClass=0,1,1"
+          ],
+          "shape_share_of_total": 0.005013497878904744,
+          "why": "residual family appears in the exact portfolio profile"
+        }
+      ],
+      "dominant_residuals_by_shape_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 73573,
+          "case_share_of_shaped_residual": 0.7403423327329262,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-8/9,-1/9,-1",
+              "rank": 60000006,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,z,d1m1,dm11",
+              "zero_at": 0
+            },
+            {
+              "axis": "-5/11,4/11,1",
+              "rank": 60000007,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,z,dm11,d1m1",
+              "zero_at": 2
+            },
+            {
+              "axis": "-13/2,3/2,1",
+              "rank": 60000008,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,d1m1,z,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-5/11,4/11,1",
+              "rank": 60000009,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,d1m1,dm11,z",
+              "zero_at": 2
+            },
+            {
+              "axis": "-13/2,3/2,1",
+              "rank": 60000010,
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,z,dm11,y,dm11,z,d1m1",
+              "zero_at": 1
+            }
+          ],
+          "shape_count": 888,
+          "shape_key_samples": [
+            "zeroAt=0|pair=d11m|normalClass=1,1,-1|axisClass=8,1,9",
+            "zeroAt=2|pair=d11m|normalClass=11,11,1|axisClass=5,-4,-11",
+            "zeroAt=1|pair=d111|normalClass=1,1,5|axisClass=13,-3,-2",
+            "zeroAt=0|pair=d11m|normalClass=1,1,-1|axisClass=1,-10,-9",
+            "zeroAt=11|pair=y|normalClass=506,-1303,-1682|axisClass=11,-28,25"
+          ],
+          "shape_share_of_total": 0.34246047049749323,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "shared source-Farkas skeleton or stronger survivor-system theorem",
+          "case_count": 797,
+          "case_share_of_shaped_residual": 0.00801996437807541,
+          "exact_shape_count": true,
+          "filter": "translation.farkas_survivor",
+          "kind": "translation",
+          "next_lean_theorem": "prove a reusable transport theorem from a compact survivor signature/source-term skeleton to TranslationCaseKilled",
+          "samples": [
+            {
+              "mask": 11,
+              "rank": 60017164,
+              "shape_digest": "f474d4f039c03de1ef9e56dabcf808a188751cf0aa0f54e2adb659589783ba0f",
+              "word": "d11m,d111,d11m,y,y,z,z,d111,x,dm11,d1m1,dm11,d1m1"
+            },
+            {
+              "mask": 18,
+              "rank": 60017164,
+              "shape_digest": "54b1cb41f15cf71719486bddb425405639e67b1c7ad0483e38dba6b2f1f95715",
+              "word": "d11m,d111,d11m,y,y,z,z,d111,x,dm11,d1m1,dm11,d1m1"
+            },
+            {
+              "mask": 19,
+              "rank": 60017164,
+              "shape_digest": "7970fb8b7b6bd9231fc318ed2fc47812ca202b06a3d0cbf20f205d662885c64e",
+              "word": "d11m,d111,d11m,y,y,z,z,d111,x,dm11,d1m1,dm11,d1m1"
+            },
+            {
+              "mask": 18,
+              "rank": 60017251,
+              "shape_digest": "bca99431c5f3cffc005c2f14420417d7eaac8eca34c0b5be52385005eb793974",
+              "word": "d11m,d111,d11m,y,y,z,z,dm11,x,d111,d1m1,dm11,d1m1"
+            },
+            {
+              "mask": 54,
+              "rank": 60017251,
+              "shape_digest": "b5dc9781718b355bb6d0992a7cf2e3273d8c42531d5846a9f31ef5f17cbe00b0",
+              "word": "d11m,d111,d11m,y,y,z,z,dm11,x,d111,d1m1,dm11,d1m1"
+            }
+          ],
+          "shape_count": 797,
+          "shape_key_samples": [
+            "shape=f474d4f039c03de1ef9e56dabcf808a188751cf0aa0f54e2adb659589783ba0f",
+            "shape=54b1cb41f15cf71719486bddb425405639e67b1c7ad0483e38dba6b2f1f95715",
+            "shape=7970fb8b7b6bd9231fc318ed2fc47812ca202b06a3d0cbf20f205d662885c64e",
+            "shape=bca99431c5f3cffc005c2f14420417d7eaac8eca34c0b5be52385005eb793974",
+            "shape=b5dc9781718b355bb6d0992a7cf2e3273d8c42531d5846a9f31ef5f17cbe00b0"
+          ],
+          "shape_share_of_total": 0.30736598534516,
+          "why": "dominant translation residual after GoodDirection; proof burden comes from many normalized Farkas survivor shapes"
+        },
+        {
+          "candidate": "start-face separating inequality family",
+          "case_count": 1444,
+          "case_share_of_shaped_residual": 0.01453052517182044,
+          "exact_shape_count": true,
+          "filter": "nonidentity.terminal_algebra.axis_misses_start_interior",
+          "kind": "nonidentity",
+          "next_lean_theorem": "transport a separating strict inequality across canonical axis/start-face classes",
+          "samples": [
+            {
+              "axis": "-1/18,-35/18,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tmmm",
+                "tpmp",
+                "yp",
+                "tpmm",
+                "ym",
+                "zp",
+                "zm",
+                "tmpm",
+                "tmpp"
+              ],
+              "margin": "-44021/775",
+              "p0": "1,-44796/775,5106/155",
+              "rank": 60000060,
+              "solve_shape": "c2c29e0c078c2dd7",
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,dm11,y,z,z,d1m1,dm11"
+            },
+            {
+              "axis": "-1/18,-35/18,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tmmm",
+                "tpmp",
+                "yp",
+                "tpmm",
+                "ym",
+                "zp",
+                "tmpp",
+                "tmpm",
+                "zm"
+              ],
+              "margin": "-20589/775",
+              "p0": "1,-21364/775,2404/155",
+              "rank": 60000065,
+              "solve_shape": "7c38802d9a025138",
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,dm11,y,z,dm11,d1m1,z"
+            },
+            {
+              "axis": "-1/18,-35/18,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tmmm",
+                "tpmp",
+                "yp",
+                "tpmm",
+                "ym",
+                "tmpm",
+                "zp",
+                "zm",
+                "tmpp"
+              ],
+              "margin": "-44159/775",
+              "p0": "1,-44934/775,4794/155",
+              "rank": 60000066,
+              "solve_shape": "d2c4f3284a214972",
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,dm11,y,d1m1,z,z,dm11"
+            },
+            {
+              "axis": "-1/18,-35/18,1",
+              "bad_face": "yp",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tmmm",
+                "tpmp",
+                "yp",
+                "tpmm",
+                "ym",
+                "tmpm",
+                "tmpp",
+                "zp",
+                "zm"
+              ],
+              "margin": "-1293/775",
+              "p0": "1,2068/775,-298/155",
+              "rank": 60000068,
+              "solve_shape": "035e2fe44c857933",
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,dm11,y,d1m1,dm11,z,z"
+            },
+            {
+              "axis": "-1/18,-35/18,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmmp",
+                "tppp",
+                "tppm",
+                "xm",
+                "tmmm",
+                "tpmp",
+                "yp",
+                "tpmm",
+                "zp",
+                "ym",
+                "zm",
+                "tmpm",
+                "tmpp"
+              ],
+              "margin": "-44021/775",
+              "p0": "1,-44796/775,5106/155",
+              "rank": 60000072,
+              "solve_shape": "c2c29e0c078c2dd7",
+              "word": "d11m,d111,d11m,x,d111,d1m1,y,dm11,z,y,z,d1m1,dm11"
+            }
+          ],
+          "shape_count": 617,
+          "shape_key_samples": [
+            "axisMissesStartInterior|badFace=yp|margin=neg:-44021/775",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-20589/775",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-44159/775",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-1293/775",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-34709/775"
+          ],
+          "shape_share_of_total": 0.23794832240647898,
+          "why": "candidate axis data misses the strict interior of the start face"
+        }
+      ],
+      "largest_case_family": "nonidentity.forced_zero_denominator",
+      "largest_shape_family": "nonidentity.forced_zero_denominator",
+      "path": "scripts/generated/obstruction_atlas_060000000_060100000.json",
+      "rank_window": {
+        "end": 60100000,
+        "start": 60000000,
+        "width": 100000
+      },
+      "shaped_residual_cases": 99377,
+      "shaped_residual_families": 2593,
+      "top3_case_filter_set": [
+        "nonidentity.bad_pair_balance",
+        "nonidentity.final_axis_zero",
+        "nonidentity.forced_zero_denominator"
+      ],
+      "top3_case_filters": [
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.bad_pair_balance",
+        "nonidentity.final_axis_zero"
+      ],
+      "top3_case_share": 0.9771778178049246,
+      "top3_shape_filters": [
+        "nonidentity.forced_zero_denominator",
+        "translation.farkas_survivor",
+        "nonidentity.terminal_algebra.axis_misses_start_interior"
+      ],
+      "top3_shape_share": 0.8877747782491323
+    },
+    {
+      "dominant_residuals_by_case_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 52135,
+          "case_share_of_shaped_residual": 0.5224733176329107,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-4/3,5/3,-1",
+              "rank": 90000006,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,d1m1,dm11,d11m",
+              "zero_at": 7
+            },
+            {
+              "axis": "-4/3,5/3,-1",
+              "rank": 90000009,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,dm11,d11m,d1m1,d1m1",
+              "zero_at": 7
+            },
+            {
+              "axis": "-4/3,5/3,-1",
+              "rank": 90000011,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,dm11,d1m1,d1m1,d11m",
+              "zero_at": 7
+            },
+            {
+              "axis": "-1/4,1/4,1",
+              "rank": 90000012,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d11m,y,d1m1,d1m1,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-1/4,1/4,1",
+              "rank": 90000014,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d11m,y,dm11,d1m1,d1m1",
+              "zero_at": 1
+            }
+          ],
+          "shape_count": 904,
+          "shape_key_samples": [
+            "zeroAt=7|pair=x|normalClass=55,56,20|axisClass=4,-5,3",
+            "zeroAt=1|pair=d111|normalClass=5,1,1|axisClass=1,-1,-4",
+            "zeroAt=0|pair=dm11|normalClass=1,-1,-1|axisClass=6,1,5",
+            "zeroAt=0|pair=dm11|normalClass=1,-1,-1|axisClass=3,-1,4",
+            "zeroAt=0|pair=dm11|normalClass=1,-1,-1|axisClass=3,1,2"
+          ],
+          "shape_share_of_total": 0.31108052305574674,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "forced-sign balance invariant",
+          "case_count": 36342,
+          "case_share_of_shaped_residual": 0.36420303652853636,
+          "exact_shape_count": true,
+          "filter": "nonidentity.bad_pair_balance",
+          "kind": "nonidentity",
+          "next_lean_theorem": "generalize the existing bad-balance checker to semantic classes larger than one forced sequence",
+          "samples": [
+            {
+              "axis": "-32/13,21/13,1",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "xp",
+                "yp",
+                "tmmp",
+                "tpmp",
+                "tpmm",
+                "tmpm"
+              ],
+              "rank": 90000001,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d11m,d1m1,dm11,d1m1"
+            },
+            {
+              "axis": "-30/23,1/23,1",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "xp",
+                "yp",
+                "tpmp",
+                "tmmp",
+                "tmpm",
+                "tmpp"
+              ],
+              "rank": 90000003,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,d11m,d1m1,dm11"
+            },
+            {
+              "axis": "-8,-3/5,1",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tmmm",
+                "zm",
+                "xp",
+                "yp",
+                "tpmp",
+                "tmmp",
+                "tmpp",
+                "tmpm"
+              ],
+              "rank": 90000004,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,d11m,dm11,d1m1"
+            },
+            {
+              "axis": "-34/19,-9/19,-1",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "yp",
+                "zp",
+                "tmmm",
+                "zm",
+                "xp",
+                "yp",
+                "tmpm",
+                "tmpp",
+                "tmmp",
+                "tmpm"
+              ],
+              "rank": 90000007,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,dm11,d11m,d1m1"
+            },
+            {
+              "axis": "-22/27,11/27,-1",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "yp",
+                "zp",
+                "tmmm",
+                "zp",
+                "xp",
+                "yp",
+                "tpmp",
+                "tpmm",
+                "tmpm",
+                "tmmp"
+              ],
+              "rank": 90000008,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,dm11,d1m1,d11m"
+            }
+          ],
+          "shape_count": 396,
+          "shape_key_samples": [
+            "badPairBalance|duplicates=xp|missing=xm|multiplicities=2,0,1,1,1,1,1,1,1,1,1,1,1,1",
+            "badPairBalance|duplicates=xp,tmmm|missing=xm,tpmm|multiplicities=2,0,1,1,1,1,1,1,1,2,0,1,1,1",
+            "badPairBalance|duplicates=xp,tmmm,tmpp|missing=xm,tpmm,tppp|multiplicities=2,0,1,1,1,1,2,1,1,2,0,1,1,0",
+            "badPairBalance|duplicates=xp,yp,tmmm,tmpm,tmpp|missing=xm,yp,tppm,tppp,tpmp|multiplicities=2,0,2,0,1,1,2,1,2,2,0,0,1,0",
+            "badPairBalance|duplicates=xp,yp,zp,tmmm|missing=xm,yp,zp,tpmm|multiplicities=2,0,2,0,2,0,2,1,1,1,1,1,1,0"
+          ],
+          "shape_share_of_total": 0.13626978664831382,
+          "why": "many ranks die because the axis-forced signs cannot realize all faces once"
+        },
+        {
+          "candidate": "global lemma for nonidentity.final_axis_zero",
+          "case_count": 8243,
+          "case_share_of_shaped_residual": 0.08260760635366036,
+          "exact_shape_count": true,
+          "filter": "nonidentity.final_axis_zero",
+          "kind": "nonidentity",
+          "next_lean_theorem": "inspect atlas samples and formulate a semantic obstruction theorem",
+          "samples": [
+            {
+              "axis": "0,-1,1",
+              "rank": 90000031,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d1m1,d11m,y,dm11,d1m1"
+            },
+            {
+              "axis": "0,-1,1",
+              "rank": 90000042,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d1m1,dm11,y,d11m,d1m1"
+            },
+            {
+              "axis": "0,11/7,1",
+              "rank": 90000047,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d1m1,dm11,d1m1,d11m,y"
+            },
+            {
+              "axis": "0,-1,1",
+              "rank": 90000101,
+              "word": "dm11,d111,d11m,y,z,d111,z,y,d1m1,d1m1,dm11,d11m,x"
+            },
+            {
+              "axis": "0,-1,1",
+              "rank": 90000111,
+              "word": "dm11,d111,d11m,y,z,d111,z,y,dm11,d11m,x,d1m1,d1m1"
+            }
+          ],
+          "shape_count": 13,
+          "shape_key_samples": [
+            "zeroAt=final|normalClass=7,-4,-4|axisClass=0,1,-1",
+            "zeroAt=final|normalClass=631,-196,308|axisClass=0,11,7",
+            "zeroAt=final|normalClass=511,-6160,-2200|axisClass=0,5,-14",
+            "zeroAt=final|normalClass=17,-56,-56|axisClass=0,1,-1",
+            "zeroAt=final|normalClass=1759,6272,-784|axisClass=0,1,8"
+          ],
+          "shape_share_of_total": 0.004473503097040606,
+          "why": "residual family appears in the exact portfolio profile"
+        }
+      ],
+      "dominant_residuals_by_shape_count": [
+        {
+          "candidate": "uniform forced-zero denominator obstruction",
+          "case_count": 52135,
+          "case_share_of_shaped_residual": 0.5224733176329107,
+          "exact_shape_count": true,
+          "filter": "nonidentity.forced_zero_denominator",
+          "kind": "nonidentity",
+          "next_lean_theorem": "prove that a transformed normal orthogonal to the forced axis contradicts NonIdentityAxisConstraints for all matching states",
+          "samples": [
+            {
+              "axis": "-4/3,5/3,-1",
+              "rank": 90000006,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,d1m1,dm11,d11m",
+              "zero_at": 7
+            },
+            {
+              "axis": "-4/3,5/3,-1",
+              "rank": 90000009,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,dm11,d11m,d1m1,d1m1",
+              "zero_at": 7
+            },
+            {
+              "axis": "-4/3,5/3,-1",
+              "rank": 90000011,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,dm11,d1m1,d1m1,d11m",
+              "zero_at": 7
+            },
+            {
+              "axis": "-1/4,1/4,1",
+              "rank": 90000012,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d11m,y,d1m1,d1m1,dm11",
+              "zero_at": 1
+            },
+            {
+              "axis": "-1/4,1/4,1",
+              "rank": 90000014,
+              "word": "dm11,d111,d11m,y,z,d111,z,x,d11m,y,dm11,d1m1,d1m1",
+              "zero_at": 1
+            }
+          ],
+          "shape_count": 904,
+          "shape_key_samples": [
+            "zeroAt=7|pair=x|normalClass=55,56,20|axisClass=4,-5,3",
+            "zeroAt=1|pair=d111|normalClass=5,1,1|axisClass=1,-1,-4",
+            "zeroAt=0|pair=dm11|normalClass=1,-1,-1|axisClass=6,1,5",
+            "zeroAt=0|pair=dm11|normalClass=1,-1,-1|axisClass=3,-1,4",
+            "zeroAt=0|pair=dm11|normalClass=1,-1,-1|axisClass=3,1,2"
+          ],
+          "shape_share_of_total": 0.31108052305574674,
+          "why": "dominant nonidentity residual; a feasible nonidentity orbit requires every forced denominator to be strictly nonzero with the correct sign"
+        },
+        {
+          "candidate": "shared source-Farkas skeleton or stronger survivor-system theorem",
+          "case_count": 814,
+          "case_share_of_shaped_residual": 0.008157538708222679,
+          "exact_shape_count": true,
+          "filter": "translation.farkas_survivor",
+          "kind": "translation",
+          "next_lean_theorem": "prove a reusable transport theorem from a compact survivor signature/source-term skeleton to TranslationCaseKilled",
+          "samples": [
+            {
+              "mask": 11,
+              "rank": 90001983,
+              "shape_digest": "d64225d6ab40feba131f7057aa3da5e19d4d52c153b2a719c996b7c390a439c2",
+              "word": "dm11,d111,d11m,y,z,d11m,x,d1m1,y,z,d1m1,dm11,d111"
+            },
+            {
+              "mask": 19,
+              "rank": 90001983,
+              "shape_digest": "6e767930521f645c879b8f49f1bc2a3e89d17bd14a5c3cc46c02f970a41287f5",
+              "word": "dm11,d111,d11m,y,z,d11m,x,d1m1,y,z,d1m1,dm11,d111"
+            },
+            {
+              "mask": 11,
+              "rank": 90002007,
+              "shape_digest": "acbe9ba46992f565c111770bec938c94347ffd7968d23ec3d41641236f796f59",
+              "word": "dm11,d111,d11m,y,z,d11m,x,d1m1,z,y,d1m1,dm11,d111"
+            },
+            {
+              "mask": 19,
+              "rank": 90002007,
+              "shape_digest": "f6caf6cdeb1d68ca80e3b3541ae14381de439af2d6bcf348d648bc51459e4fe5",
+              "word": "dm11,d111,d11m,y,z,d11m,x,d1m1,z,y,d1m1,dm11,d111"
+            },
+            {
+              "mask": 19,
+              "rank": 90004683,
+              "shape_digest": "3927c71f58edc0683b9059587da17c115a05dff63aeb942fb9070afb6aeafe72",
+              "word": "dm11,d111,d11m,y,z,d1m1,x,d11m,y,z,d1m1,dm11,d111"
+            }
+          ],
+          "shape_count": 814,
+          "shape_key_samples": [
+            "shape=d64225d6ab40feba131f7057aa3da5e19d4d52c153b2a719c996b7c390a439c2",
+            "shape=6e767930521f645c879b8f49f1bc2a3e89d17bd14a5c3cc46c02f970a41287f5",
+            "shape=acbe9ba46992f565c111770bec938c94347ffd7968d23ec3d41641236f796f59",
+            "shape=f6caf6cdeb1d68ca80e3b3541ae14381de439af2d6bcf348d648bc51459e4fe5",
+            "shape=3927c71f58edc0683b9059587da17c115a05dff63aeb942fb9070afb6aeafe72"
+          ],
+          "shape_share_of_total": 0.28011011699931176,
+          "why": "dominant translation residual after GoodDirection; proof burden comes from many normalized Farkas survivor shapes"
+        },
+        {
+          "candidate": "start-face separating inequality family",
+          "case_count": 2200,
+          "case_share_of_shaped_residual": 0.022047401914115347,
+          "exact_shape_count": true,
+          "filter": "nonidentity.terminal_algebra.axis_misses_start_interior",
+          "kind": "nonidentity",
+          "next_lean_theorem": "transport a separating strict inequality across canonical axis/start-face classes",
+          "samples": [
+            {
+              "axis": "-6/5,7/5,1",
+              "bad_face": "zm",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "xm",
+                "yp",
+                "tmmp",
+                "tpmp",
+                "tmpm",
+                "tpmm"
+              ],
+              "margin": "-53/22",
+              "p0": "1,-3/22,-75/22",
+              "rank": 90000000,
+              "solve_shape": "22a2afbe8e91aaec",
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d11m,d1m1,d1m1,dm11"
+            },
+            {
+              "axis": "-6/5,7/5,1",
+              "bad_face": "zm",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "xm",
+                "yp",
+                "tmmp",
+                "tpmm",
+                "tpmp",
+                "tmpm"
+              ],
+              "margin": "-1/990",
+              "p0": "1,173/198,-991/990",
+              "rank": 90000002,
+              "solve_shape": "7121aa534b43a5a8",
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d11m,dm11,d1m1,d1m1"
+            },
+            {
+              "axis": "-6/5,7/5,1",
+              "bad_face": "ym",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "xm",
+                "yp",
+                "tpmp",
+                "tmpm",
+                "tmmp",
+                "tpmm"
+              ],
+              "margin": "-91/66",
+              "p0": "1,-157/66,-1321/330",
+              "rank": 90000005,
+              "solve_shape": "f6e4c50cd12557b5",
+              "word": "dm11,d111,d11m,y,z,d111,z,x,y,d1m1,d1m1,d11m,dm11"
+            },
+            {
+              "axis": "-6/5,7/5,1",
+              "bad_face": "zm",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "yp",
+                "xm",
+                "tmmp",
+                "tpmp",
+                "tmpm",
+                "tpmm"
+              ],
+              "margin": "-53/22",
+              "p0": "1,-3/22,-75/22",
+              "rank": 90000060,
+              "solve_shape": "22a2afbe8e91aaec",
+              "word": "dm11,d111,d11m,y,z,d111,z,y,x,d11m,d1m1,d1m1,dm11"
+            },
+            {
+              "axis": "-6/5,7/5,1",
+              "bad_face": "zm",
+              "canonical_bad_face": "yp",
+              "failure": "axis_misses_start_interior",
+              "forced_seq": [
+                "xp",
+                "tmpp",
+                "tmmm",
+                "tppm",
+                "ym",
+                "zp",
+                "tppp",
+                "zm",
+                "yp",
+                "xm",
+                "tmmp",
+                "tpmm",
+                "tpmp",
+                "tmpm"
+              ],
+              "margin": "-1/990",
+              "p0": "1,173/198,-991/990",
+              "rank": 90000062,
+              "solve_shape": "7121aa534b43a5a8",
+              "word": "dm11,d111,d11m,y,z,d111,z,y,x,d11m,dm11,d1m1,d1m1"
+            }
+          ],
+          "shape_count": 761,
+          "shape_key_samples": [
+            "axisMissesStartInterior|badFace=yp|margin=neg:-53/22",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-1/990",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-91/66",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-167/66",
+            "axisMissesStartInterior|badFace=yp|margin=neg:-15457/26144"
+          ],
+          "shape_share_of_total": 0.26187198898830005,
+          "why": "candidate axis data misses the strict interior of the start face"
+        }
+      ],
+      "largest_case_family": "nonidentity.forced_zero_denominator",
+      "largest_shape_family": "nonidentity.forced_zero_denominator",
+      "path": "scripts/generated/obstruction_atlas_090000000_090100000.json",
+      "rank_window": {
+        "end": 90100000,
+        "start": 90000000,
+        "width": 100000
+      },
+      "shaped_residual_cases": 99785,
+      "shaped_residual_families": 2906,
+      "top3_case_filter_set": [
+        "nonidentity.bad_pair_balance",
+        "nonidentity.final_axis_zero",
+        "nonidentity.forced_zero_denominator"
+      ],
+      "top3_case_filters": [
+        "nonidentity.forced_zero_denominator",
+        "nonidentity.bad_pair_balance",
+        "nonidentity.final_axis_zero"
+      ],
+      "top3_case_share": 0.9692839605151075,
+      "top3_shape_filters": [
+        "nonidentity.forced_zero_denominator",
+        "translation.farkas_survivor",
+        "nonidentity.terminal_algebra.axis_misses_start_interior"
+      ],
+      "top3_shape_share": 0.8530626290433586
+    }
+  ]
+}
