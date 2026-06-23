@@ -1,0 +1,4640 @@
+{
+  "counts": {
+    "identity_words": 1928,
+    "nonidentity_forced_zero_cases": 62683,
+    "nonidentity_words": 98072,
+    "pair_words_scanned": 100000,
+    "translation_denominator_nonpositive_masks": 123392,
+    "translation_survivor_cases": 0
+  },
+  "decision": {
+    "max_k": 500,
+    "passes_at_max_k": true,
+    "remaining_leaves_at_max_k": 0,
+    "status": "phase6t_window_passes"
+  },
+  "elapsed_seconds": 110.24660232200404,
+  "emits_lean_evidence": false,
+  "k_values": [
+    10,
+    25,
+    50,
+    100,
+    250,
+    500
+  ],
+  "max_lean_leaves": 2000,
+  "mode": "cross-family-obstruction-profile",
+  "projection": {
+    "by_k": {
+      "10": {
+        "covered_leaves": 1082,
+        "passes_gate": false,
+        "remaining_leaves": 2976,
+        "selected_templates": 10
+      },
+      "100": {
+        "covered_leaves": 3531,
+        "passes_gate": true,
+        "remaining_leaves": 527,
+        "selected_templates": 100
+      },
+      "25": {
+        "covered_leaves": 1976,
+        "passes_gate": false,
+        "remaining_leaves": 2082,
+        "selected_templates": 25
+      },
+      "250": {
+        "covered_leaves": 4058,
+        "passes_gate": true,
+        "remaining_leaves": 0,
+        "selected_templates": 223
+      },
+      "50": {
+        "covered_leaves": 2706,
+        "passes_gate": true,
+        "remaining_leaves": 1352,
+        "selected_templates": 50
+      },
+      "500": {
+        "covered_leaves": 4058,
+        "passes_gate": true,
+        "remaining_leaves": 0,
+        "selected_templates": 223
+      }
+    },
+    "initial_leaves": 4058,
+    "nonidentity_leaves": 4058,
+    "selected_prefix": [
+      {
+        "new_leaf_coverage": 144,
+        "rank": 1,
+        "remaining_leaves": 3914,
+        "template": "nonidentity.zeroNormal|normal=1,-1,-1",
+        "template_leaf_count": 144,
+        "total_case_count": 1454
+      },
+      {
+        "new_leaf_coverage": 130,
+        "rank": 2,
+        "remaining_leaves": 3784,
+        "template": "nonidentity.zeroNormal|normal=1,-1,1",
+        "template_leaf_count": 130,
+        "total_case_count": 1737
+      },
+      {
+        "new_leaf_coverage": 129,
+        "rank": 3,
+        "remaining_leaves": 3655,
+        "template": "nonidentity.zeroNormal|normal=5,-1,-1",
+        "template_leaf_count": 129,
+        "total_case_count": 5165
+      },
+      {
+        "new_leaf_coverage": 117,
+        "rank": 4,
+        "remaining_leaves": 3538,
+        "template": "nonidentity.zeroNormal|normal=1,1,-1",
+        "template_leaf_count": 117,
+        "total_case_count": 1112
+      },
+      {
+        "new_leaf_coverage": 106,
+        "rank": 5,
+        "remaining_leaves": 3432,
+        "template": "nonidentity.zeroNormal|normal=1,-5,1",
+        "template_leaf_count": 106,
+        "total_case_count": 5653
+      },
+      {
+        "new_leaf_coverage": 97,
+        "rank": 6,
+        "remaining_leaves": 3335,
+        "template": "nonidentity.zeroNormal|normal=11,-1,11",
+        "template_leaf_count": 97,
+        "total_case_count": 1664
+      },
+      {
+        "new_leaf_coverage": 94,
+        "rank": 7,
+        "remaining_leaves": 3241,
+        "template": "nonidentity.zeroNormal|normal=13,7,-5",
+        "template_leaf_count": 94,
+        "total_case_count": 1166
+      },
+      {
+        "new_leaf_coverage": 94,
+        "rank": 8,
+        "remaining_leaves": 3147,
+        "template": "nonidentity.zeroNormal|normal=5,-7,-13",
+        "template_leaf_count": 94,
+        "total_case_count": 1389
+      },
+      {
+        "new_leaf_coverage": 90,
+        "rank": 9,
+        "remaining_leaves": 3057,
+        "template": "nonidentity.zeroNormal|normal=1,1,-5",
+        "template_leaf_count": 90,
+        "total_case_count": 1033
+      },
+      {
+        "new_leaf_coverage": 81,
+        "rank": 10,
+        "remaining_leaves": 2976,
+        "template": "cross.pairNormal|pair=d11m|normal=1,1,1",
+        "template_leaf_count": 81,
+        "total_case_count": 12959
+      },
+      {
+        "new_leaf_coverage": 81,
+        "rank": 11,
+        "remaining_leaves": 2895,
+        "template": "nonidentity.zeroNormal|normal=1,-11,-11",
+        "template_leaf_count": 81,
+        "total_case_count": 730
+      },
+      {
+        "new_leaf_coverage": 77,
+        "rank": 12,
+        "remaining_leaves": 2818,
+        "template": "nonidentity.zeroNormal|normal=1,-1,-5",
+        "template_leaf_count": 77,
+        "total_case_count": 701
+      },
+      {
+        "new_leaf_coverage": 75,
+        "rank": 13,
+        "remaining_leaves": 2743,
+        "template": "nonidentity.zeroNormal|normal=5,1,-1",
+        "template_leaf_count": 75,
+        "total_case_count": 730
+      },
+      {
+        "new_leaf_coverage": 73,
+        "rank": 14,
+        "remaining_leaves": 2670,
+        "template": "nonidentity.zeroNormal|normal=7,13,-5",
+        "template_leaf_count": 73,
+        "total_case_count": 724
+      },
+      {
+        "new_leaf_coverage": 70,
+        "rank": 15,
+        "remaining_leaves": 2600,
+        "template": "nonidentity.zeroNormal|normal=1,5,1",
+        "template_leaf_count": 70,
+        "total_case_count": 864
+      },
+      {
+        "new_leaf_coverage": 62,
+        "rank": 16,
+        "remaining_leaves": 2538,
+        "template": "nonidentity.zeroNormal|normal=1,-1,5",
+        "template_leaf_count": 62,
+        "total_case_count": 490
+      },
+      {
+        "new_leaf_coverage": 62,
+        "rank": 17,
+        "remaining_leaves": 2476,
+        "template": "nonidentity.zeroNormal|normal=1,1,5",
+        "template_leaf_count": 62,
+        "total_case_count": 506
+      },
+      {
+        "new_leaf_coverage": 62,
+        "rank": 18,
+        "remaining_leaves": 2414,
+        "template": "nonidentity.zeroNormal|normal=5,1,1",
+        "template_leaf_count": 62,
+        "total_case_count": 517
+      },
+      {
+        "new_leaf_coverage": 55,
+        "rank": 19,
+        "remaining_leaves": 2359,
+        "template": "nonidentity.zeroNormal|normal=7,-5,13",
+        "template_leaf_count": 55,
+        "total_case_count": 637
+      },
+      {
+        "new_leaf_coverage": 54,
+        "rank": 20,
+        "remaining_leaves": 2305,
+        "template": "nonidentity.zeroNormal|normal=1,5,-1",
+        "template_leaf_count": 54,
+        "total_case_count": 467
+      },
+      {
+        "new_leaf_coverage": 53,
+        "rank": 21,
+        "remaining_leaves": 2252,
+        "template": "nonidentity.zeroNormal|normal=1,-5,-1",
+        "template_leaf_count": 53,
+        "total_case_count": 358
+      },
+      {
+        "new_leaf_coverage": 49,
+        "rank": 22,
+        "remaining_leaves": 2203,
+        "template": "nonidentity.zeroNormal|normal=5,-1,1",
+        "template_leaf_count": 49,
+        "total_case_count": 290
+      },
+      {
+        "new_leaf_coverage": 44,
+        "rank": 23,
+        "remaining_leaves": 2159,
+        "template": "cross.pairNormal|pair=y|normal=0,1,0",
+        "template_leaf_count": 44,
+        "total_case_count": 1086
+      },
+      {
+        "new_leaf_coverage": 39,
+        "rank": 24,
+        "remaining_leaves": 2120,
+        "template": "cross.pairNormal|pair=z|normal=0,0,1",
+        "template_leaf_count": 39,
+        "total_case_count": 8174
+      },
+      {
+        "new_leaf_coverage": 38,
+        "rank": 25,
+        "remaining_leaves": 2082,
+        "template": "nonidentity.zeroNormal|normal=43,-17,7",
+        "template_leaf_count": 38,
+        "total_case_count": 246
+      }
+    ],
+    "selected_template_count": 223,
+    "selected_template_families": [
+      "cross.pairNormal",
+      "nonidentity.zeroAxis",
+      "nonidentity.zeroNormal",
+      "nonidentity.zeroRemainingCounts"
+    ],
+    "selected_template_family_counts": {
+      "cross.pairNormal": 73,
+      "nonidentity.zeroAxis": 23,
+      "nonidentity.zeroNormal": 69,
+      "nonidentity.zeroRemainingCounts": 58
+    },
+    "translation_leaves": 0
+  },
+  "rank_window": {
+    "end": 30100000,
+    "start": 30000000,
+    "width": 100000
+  },
+  "schema_version": 1,
+  "top_all_templates": [
+    {
+      "case_count": 1454,
+      "leaf_count": 144,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000449,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:0,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d11m,d1m1,d111,y",
+          "zero_at": 10
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000870,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d1m1,d11m,y,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/3,2/3,-1",
+          "axis_class": "1,-2,3",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000883,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d1m1,dm11,y,d1m1,d11m",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30001410,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d111,d11m,y,d1m1,dm11",
+          "zero_at": 6
+        },
+        {
+          "axis": "-1/3,2/3,-1",
+          "axis_class": "1,-2,3",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30001423,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d111,dm11,y,d1m1,d11m",
+          "zero_at": 6
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,-1"
+    },
+    {
+      "case_count": 1737,
+      "leaf_count": 130,
+      "samples": [
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000601,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d111,d11m,d1m1,dm11,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000661,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d111,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000666,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d1m1,d1m1,dm11,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-4/3,-1",
+          "axis_class": "1,4,3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000668,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d1m1,dm11,d1m1,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000669,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,dm11,d111,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,1"
+    },
+    {
+      "case_count": 5165,
+      "leaf_count": 129,
+      "samples": [
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "8c89a667c055c4962ff812088f1445a77859e4c9ca06b53e03f335654b858f29",
+          "rank": 30000455,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d1m1,d11m,d111,y",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000587,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:0,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,d1m1,d111,y,d11m,d111,y",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "5,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "8c89a667c055c4962ff812088f1445a77859e4c9ca06b53e03f335654b858f29",
+          "rank": 30000855,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d11m,d1m1,y,d1m1,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/6,1/6,-1",
+          "axis_class": "1,-1,6",
+          "normal_class": "5,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30001150,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,y,d111,dm11,d1m1,d111,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30001174,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:0,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,d111,y,d1m1,d111,dm11,d1m1",
+          "zero_at": 10
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,-1,-1"
+    },
+    {
+      "case_count": 1112,
+      "leaf_count": 117,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000447,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:0,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d11m,d111,d1m1,y",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000580,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:0,d1m1:0,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,d1m1,y,d11m,d111,y,d111",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000856,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d11m,d1m1,y,dm11,d1m1",
+          "zero_at": 6
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000894,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,dm11,d1m1,y,d11m,d1m1",
+          "zero_at": 6
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000900,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d11m,y,d111,d1m1,d1m1,dm11",
+          "zero_at": 6
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,-1"
+    },
+    {
+      "case_count": 5653,
+      "leaf_count": 106,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-5,1"
+    },
+    {
+      "case_count": 1664,
+      "leaf_count": 97,
+      "samples": [
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005730,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d1m1,d1m1,dm11,d111,d11m,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-2,-11,1",
+          "axis_class": "2,11,-1",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005732,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d1m1,d1m1,dm11,d11m,d111,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-6/5,-11/5,1",
+          "axis_class": "6,11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005733,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d1m1,d1m1,dm11,d11m,dm11,d111",
+          "zero_at": 9
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005760,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,dm11,d111,d11m,d1m1,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005762,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,dm11,d111,d11m,dm11,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=11,-1,11"
+    },
+    {
+      "case_count": 1389,
+      "leaf_count": 94,
+      "samples": [
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "d1m1",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30006230,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,y,d1m1,z,dm11,d1m1,d11m,d111,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,-4,1",
+          "axis_class": "3,4,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "d1m1",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30006231,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,y,d1m1,z,dm11,d1m1,d11m,dm11,d111",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006398,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,z,d11m,d111,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-4,1",
+          "axis_class": "3,4,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006399,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,z,d11m,dm11,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-10,-9,1",
+          "axis_class": "10,9,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006403,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,d111,z,dm11,d11m",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,-7,-13"
+    },
+    {
+      "case_count": 1166,
+      "leaf_count": 94,
+      "samples": [
+        {
+          "axis": "-20/3,35/3,-1",
+          "axis_class": "20,-35,3",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005644,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005650,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,d1m1,d1m1,dm11,d11m,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/29,-17/29,-1",
+          "axis_class": "2,17,29",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005654,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005658,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,dm11,d11m,d1m1,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005660,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,dm11,d11m,dm11,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=13,7,-5"
+    },
+    {
+      "case_count": 1033,
+      "leaf_count": 90,
+      "samples": [
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000009,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,d1m1,y",
+          "zero_at": 4
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000013,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,y,d1m1,d111",
+          "zero_at": 4
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000014,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d111,y,d1m1",
+          "zero_at": 4
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000015,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d111,d1m1,y",
+          "zero_at": 4
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000016,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d1m1,y,d111",
+          "zero_at": 4
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,-5"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=1,1,1"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,1"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroPairNormal|pair=d11m|normal=1,1,1"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroPrefixState|zeroAt=1|pair=d11m|prefix=a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroRemainingCounts|pair=d11m|remaining=x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2"
+    },
+    {
+      "case_count": 730,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-11/2,1/2,-1",
+          "axis_class": "11,-1,2",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008028,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,y,d111,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/6,5/6,-1",
+          "axis_class": "11,-5,6",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008029,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,y,d111,dm11,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/4,-5/4,1",
+          "axis_class": "11,5,-4",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008030,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,y,d1m1,d111,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/4,-5/4,1",
+          "axis_class": "11,5,-4",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008036,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,d111,d1m1,y,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/2,1/2,-1",
+          "axis_class": "11,-1,2",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008042,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,d1m1,d111,y,dm11",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-11,-11"
+    },
+    {
+      "case_count": 701,
+      "leaf_count": 77,
+      "samples": [
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30000895,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,dm11,d1m1,y,d1m1,d11m",
+          "zero_at": 9
+        },
+        {
+          "axis": "-6,-1,-1",
+          "axis_class": "6,1,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d111",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30001684,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,y,d111,d11m,d1m1,d111,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d111",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30001716,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d1m1,d111,d11m,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001728,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,d111,d1m1,y,d11m,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001800,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d1m1,y,d111,d111,d11m,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,-5"
+    },
+    {
+      "case_count": 730,
+      "leaf_count": 75,
+      "samples": [
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001611,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:0,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d1m1,dm11,d111,y,d111,d11m",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/6,-1/6,-1",
+          "axis_class": "1,1,6",
+          "normal_class": "5,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30001705,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,y,d1m1,d11m,d111,d1m1,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001710,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d111,d11m,d1m1,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001712,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d111,d1m1,d1m1,d11m",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,-1",
+          "axis_class": "1,-2,3",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001713,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d11m,d111,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,1,-1"
+    },
+    {
+      "case_count": 724,
+      "leaf_count": 73,
+      "samples": [
+        {
+          "axis": "-10,5,-1",
+          "axis_class": "10,-5,1",
+          "normal_class": "7,13,-5",
+          "pair": "d11m",
+          "prefix_digest": "20b2101c58ab50b5acda019faf710ce16ba320feab24bf58217a5403a62d04d8",
+          "rank": 30007986,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,y,d11m,d111,d1m1,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-8/7,1,1",
+          "axis_class": "8,-7,-7",
+          "normal_class": "7,13,-5",
+          "pair": "d11m",
+          "prefix_digest": "20b2101c58ab50b5acda019faf710ce16ba320feab24bf58217a5403a62d04d8",
+          "rank": 30007988,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,y,d11m,d1m1,d111,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-8/7,1,1",
+          "axis_class": "8,-7,-7",
+          "normal_class": "7,13,-5",
+          "pair": "dm11",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008087,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,dm11,d111,d1m1,d11m,y",
+          "zero_at": 8
+        },
+        {
+          "axis": "-10,5,-1",
+          "axis_class": "10,-5,1",
+          "normal_class": "7,13,-5",
+          "pair": "dm11",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008097,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,dm11,d1m1,d111,d11m,y",
+          "zero_at": 8
+        },
+        {
+          "axis": "-9/10,1/10,-1",
+          "axis_class": "9,-1,10",
+          "normal_class": "7,13,-5",
+          "pair": "dm11",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008098,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,dm11,d1m1,d11m,y,d111",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=7,13,-5"
+    },
+    {
+      "case_count": 4484,
+      "leaf_count": 72,
+      "samples": [
+        {
+          "axis": "-2/11,1/11,-1",
+          "axis_class": "2,-1,11",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005851,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,d1m1,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,-13/3,1",
+          "axis_class": "2,13,-3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005854,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,dm11,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005856,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,d1m1,dm11,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005857,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005858,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,dm11,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=5,-1,-1"
+    },
+    {
+      "case_count": 4484,
+      "leaf_count": 72,
+      "samples": [
+        {
+          "axis": "-2/11,1/11,-1",
+          "axis_class": "2,-1,11",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005851,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,d1m1,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,-13/3,1",
+          "axis_class": "2,13,-3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005854,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,dm11,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005856,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,d1m1,dm11,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005857,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005858,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,dm11,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroPairNormal|pair=d11m|normal=5,-1,-1"
+    },
+    {
+      "case_count": 864,
+      "leaf_count": 70,
+      "samples": [
+        {
+          "axis": "-3/2,1/2,-1",
+          "axis_class": "3,-1,2",
+          "normal_class": "1,5,1",
+          "pair": "dm11",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30011500,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,y,dm11,d11m,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1/4,1/4,-1",
+          "axis_class": "1,-1,4",
+          "normal_class": "1,5,1",
+          "pair": "dm11",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30011501,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,y,dm11,d1m1,d11m",
+          "zero_at": 10
+        },
+        {
+          "axis": "-4,1,-1",
+          "axis_class": "4,-1,1",
+          "normal_class": "1,5,1",
+          "pair": "d11m",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30011505,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,d11m,d1m1,dm11,y",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3/2,1/2,-1",
+          "axis_class": "3,-1,2",
+          "normal_class": "1,5,1",
+          "pair": "d11m",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30011506,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,d11m,dm11,y,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-2/3,1/3,-1",
+          "axis_class": "2,-1,3",
+          "normal_class": "1,5,1",
+          "pair": "d11m",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30011507,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,d11m,dm11,d1m1,y",
+          "zero_at": 9
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,5,1"
+    },
+    {
+      "case_count": 5242,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "cross.pairNormal|pair=d111|normal=1,-5,1"
+    },
+    {
+      "case_count": 5242,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "nonidentity.zeroPairNormal|pair=d111|normal=1,-5,1"
+    },
+    {
+      "case_count": 517,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "5,1,1",
+          "pair": "dm11",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000640,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d1m1,d1m1,dm11,d111,d11m",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1,4,1",
+          "axis_class": "1,-4,-1",
+          "normal_class": "5,1,1",
+          "pair": "dm11",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000641,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d1m1,d1m1,dm11,d11m,d111",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "5,1,1",
+          "pair": "dm11",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000648,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,dm11,d111,d11m,d1m1,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "5,1,1",
+          "pair": "dm11",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000650,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,dm11,d111,d1m1,d1m1,d11m",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,4,1",
+          "axis_class": "1,-4,-1",
+          "normal_class": "5,1,1",
+          "pair": "dm11",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000651,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,dm11,d11m,d111,d1m1,d1m1",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,1,1"
+    },
+    {
+      "case_count": 506,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1,-4,1",
+          "axis_class": "1,4,-1",
+          "normal_class": "1,1,5",
+          "pair": "dm11",
+          "prefix_digest": "b28d2b949b07d5770054308fd5eb4f98e9a062a734010ede8283d7dfe37c3595",
+          "rank": 30000607,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d111,d1m1,dm11,d11m,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,1,5",
+          "pair": "dm11",
+          "prefix_digest": "b28d2b949b07d5770054308fd5eb4f98e9a062a734010ede8283d7dfe37c3595",
+          "rank": 30000608,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d111,d1m1,dm11,d1m1,d11m",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1,-4,1",
+          "axis_class": "1,4,-1",
+          "normal_class": "1,1,5",
+          "pair": "dm11",
+          "prefix_digest": "b28d2b949b07d5770054308fd5eb4f98e9a062a734010ede8283d7dfe37c3595",
+          "rank": 30000694,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d1m1,d111,d111,dm11,d11m,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,1,5",
+          "pair": "dm11",
+          "prefix_digest": "b28d2b949b07d5770054308fd5eb4f98e9a062a734010ede8283d7dfe37c3595",
+          "rank": 30000695,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d1m1,d111,d111,dm11,d1m1,d11m",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1,-4,1",
+          "axis_class": "1,4,-1",
+          "normal_class": "1,1,5",
+          "pair": "dm11",
+          "prefix_digest": "b28d2b949b07d5770054308fd5eb4f98e9a062a734010ede8283d7dfe37c3595",
+          "rank": 30000738,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d1m1,dm11,d111,d111,d11m,d1m1",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,5"
+    },
+    {
+      "case_count": 490,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1,4,1",
+          "axis_class": "1,-4,-1",
+          "normal_class": "1,-1,5",
+          "pair": "d11m",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000618,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d11m,d1m1,d1m1,dm11,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-5,-10,-1",
+          "axis_class": "5,10,1",
+          "normal_class": "1,-1,5",
+          "pair": "d11m",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000620,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d11m,d1m1,dm11,d1m1,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,4,1",
+          "axis_class": "1,-4,-1",
+          "normal_class": "1,-1,5",
+          "pair": "d11m",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000621,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d11m,dm11,d111,d1m1,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,4,1",
+          "axis_class": "1,-4,-1",
+          "normal_class": "1,-1,5",
+          "pair": "d11m",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000623,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d11m,dm11,d1m1,d1m1,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,4,1",
+          "axis_class": "1,-4,-1",
+          "normal_class": "1,-1,5",
+          "pair": "d11m",
+          "prefix_digest": "67e4eb62a75146245ac60215bf878ce10569a140e5589ebe832a318e596af7ed",
+          "rank": 30000639,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d1m1,d1m1,d11m,dm11,d111",
+          "zero_at": 10
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,5"
+    },
+    {
+      "case_count": 637,
+      "leaf_count": 55,
+      "samples": [
+        {
+          "axis": "-2/3,5/3,1",
+          "axis_class": "2,-5,-3",
+          "normal_class": "7,-5,13",
+          "pair": "d1m1",
+          "prefix_digest": "20b2101c58ab50b5acda019faf710ce16ba320feab24bf58217a5403a62d04d8",
+          "rank": 30001144,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,y,d111,d1m1,d111,dm11,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-9,-10,1",
+          "axis_class": "9,10,-1",
+          "normal_class": "7,-5,13",
+          "pair": "d1m1",
+          "prefix_digest": "20b2101c58ab50b5acda019faf710ce16ba320feab24bf58217a5403a62d04d8",
+          "rank": 30001237,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:0,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,d1m1,y,d1m1,d111,dm11,d111",
+          "zero_at": 9
+        },
+        {
+          "axis": "-2/3,5/3,1",
+          "axis_class": "2,-5,-3",
+          "normal_class": "7,-5,13",
+          "pair": "d111",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30001243,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:0,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,d1m1,d111,y,d111,dm11,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-9,-10,1",
+          "axis_class": "9,10,-1",
+          "normal_class": "7,-5,13",
+          "pair": "d111",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30001255,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:0,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,d1m1,d111,d1m1,y,dm11,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-9,-10,1",
+          "axis_class": "9,10,-1",
+          "normal_class": "7,-5,13",
+          "pair": "d111",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30005164,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,dm11,dm11,y,d1m1,d111,d1m1,d11m,y,d111",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=7,-5,13"
+    },
+    {
+      "case_count": 467,
+      "leaf_count": 54,
+      "samples": [
+        {
+          "axis": "-1/4,1/4,1",
+          "axis_class": "1,-1,-4",
+          "normal_class": "1,5,-1",
+          "pair": "d111",
+          "prefix_digest": "8d9ceb9dab54e901570080a7956937a2f2ed36fc08c488e312001f7c11c1022a",
+          "rank": 30001431,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d11m,y,d1m1,dm11,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-11,2,-1",
+          "axis_class": "11,-2,1",
+          "normal_class": "1,5,-1",
+          "pair": "d111",
+          "prefix_digest": "8d9ceb9dab54e901570080a7956937a2f2ed36fc08c488e312001f7c11c1022a",
+          "rank": 30001441,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d11m,d1m1,y,dm11,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3/13,-2/13,-1",
+          "axis_class": "3,2,13",
+          "normal_class": "1,5,-1",
+          "pair": "d111",
+          "prefix_digest": "8d9ceb9dab54e901570080a7956937a2f2ed36fc08c488e312001f7c11c1022a",
+          "rank": 30001464,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d1m1,d11m,y,d111,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,5,-1",
+          "pair": "d111",
+          "prefix_digest": "8d9ceb9dab54e901570080a7956937a2f2ed36fc08c488e312001f7c11c1022a",
+          "rank": 30001466,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d1m1,d11m,d111,y,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-13/3,2/3,-1",
+          "axis_class": "13,-2,3",
+          "normal_class": "1,5,-1",
+          "pair": "d111",
+          "prefix_digest": "8d9ceb9dab54e901570080a7956937a2f2ed36fc08c488e312001f7c11c1022a",
+          "rank": 30001470,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d1m1,dm11,y,d111,d11m",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,5,-1"
+    },
+    {
+      "case_count": 5199,
+      "leaf_count": 53,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "nonidentity.zeroPrefixState|zeroAt=3|pair=d111|prefix=6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4"
+    },
+    {
+      "case_count": 5199,
+      "leaf_count": 53,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "nonidentity.zeroRemainingCounts|pair=d111|remaining=x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2"
+    }
+  ],
+  "top_cross_templates": [
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=1,1,1"
+    },
+    {
+      "case_count": 4484,
+      "leaf_count": 72,
+      "samples": [
+        {
+          "axis": "-2/11,1/11,-1",
+          "axis_class": "2,-1,11",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005851,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,d1m1,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,-13/3,1",
+          "axis_class": "2,13,-3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005854,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,dm11,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005856,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,d1m1,dm11,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005857,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005858,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,dm11,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=5,-1,-1"
+    },
+    {
+      "case_count": 5242,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "cross.pairNormal|pair=d111|normal=1,-5,1"
+    },
+    {
+      "case_count": 1079,
+      "leaf_count": 46,
+      "samples": [
+        {
+          "axis": "-3/2,-1/2,1",
+          "axis_class": "3,1,-2",
+          "normal_class": "1,-1,1",
+          "pair": "d111",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30010881,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,y,d1m1,d111,dm11,d11m,dm11,z",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3/2,-1/2,1",
+          "axis_class": "3,1,-2",
+          "normal_class": "1,-1,1",
+          "pair": "d111",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30054900,
+          "remaining_counts": "x:0,y:0,z:1,d111:2,d11m:0,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d11m,y,dm11,y,d1m1,d111,dm11,z,d111,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d111",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30055153,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,d11m,y,dm11,d111,y,d111,z,d1m1,dm11,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-2,-3,-1",
+          "axis_class": "2,3,1",
+          "normal_class": "1,-1,1",
+          "pair": "d111",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30055155,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,d11m,y,dm11,d111,y,d111,d1m1,z,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-2,-3,-1",
+          "axis_class": "2,3,1",
+          "normal_class": "1,-1,1",
+          "pair": "d111",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30055160,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,d11m,y,dm11,d111,y,d111,d1m1,dm11,d1m1,z",
+          "zero_at": 8
+        }
+      ],
+      "template": "cross.pairNormal|pair=d111|normal=1,-1,1"
+    },
+    {
+      "case_count": 1086,
+      "leaf_count": 44,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "0,1,0",
+          "pair": "y",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000444,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:0,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d11m,y,d111,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "0,1,0",
+          "pair": "y",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000445,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:0,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d11m,y,d1m1,d111",
+          "zero_at": 10
+        },
+        {
+          "axis": "-5,0,1",
+          "axis_class": "5,0,-1",
+          "normal_class": "0,1,0",
+          "pair": "y",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000613,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d11m,d111,d1m1,dm11,d1m1",
+          "zero_at": 5
+        },
+        {
+          "axis": "-1/7,0,-1",
+          "axis_class": "1,0,7",
+          "normal_class": "0,1,0",
+          "pair": "y",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000616,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d11m,d1m1,d111,dm11,d1m1",
+          "zero_at": 5
+        },
+        {
+          "axis": "-7/11,0,1",
+          "axis_class": "7,0,-11",
+          "normal_class": "0,1,0",
+          "pair": "y",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000634,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d1m1,d11m,dm11,d111,d1m1",
+          "zero_at": 5
+        }
+      ],
+      "template": "cross.pairNormal|pair=y|normal=0,1,0"
+    },
+    {
+      "case_count": 443,
+      "leaf_count": 44,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30005892,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d11m,z,d1m1,dm11,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30005893,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d11m,z,dm11,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30005894,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d11m,z,dm11,dm11,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30005896,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d11m,d1m1,dm11,z,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-2,-3,1",
+          "axis_class": "2,3,-1",
+          "normal_class": "1,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "2572ce7dcdf15f15a41e677d1b18459ecc905dc984e56dd3a1ea70ebdc1ccbeb",
+          "rank": 30005899,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d11m,dm11,z,dm11,d1m1",
+          "zero_at": 8
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=1,-1,-1"
+    },
+    {
+      "case_count": 8174,
+      "leaf_count": 39,
+      "samples": [
+        {
+          "axis": "-1,1,0",
+          "axis_class": "1,-1,0",
+          "normal_class": "0,0,1",
+          "pair": "z",
+          "prefix_digest": "be98157195fbaddb2b872143091b6a121800cd1494ff8bb4e4b2468785d185da",
+          "rank": 30000012,
+          "remaining_counts": "x:1,y:2,z:2,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,y,d111,d1m1",
+          "zero_at": 0
+        },
+        {
+          "axis": "-1,1,0",
+          "axis_class": "1,-1,0",
+          "normal_class": "0,0,1",
+          "pair": "z",
+          "prefix_digest": "be98157195fbaddb2b872143091b6a121800cd1494ff8bb4e4b2468785d185da",
+          "rank": 30000017,
+          "remaining_counts": "x:1,y:2,z:2,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d1m1,d111,y",
+          "zero_at": 0
+        },
+        {
+          "axis": "-1,1,0",
+          "axis_class": "1,-1,0",
+          "normal_class": "0,0,1",
+          "pair": "z",
+          "prefix_digest": "be98157195fbaddb2b872143091b6a121800cd1494ff8bb4e4b2468785d185da",
+          "rank": 30000082,
+          "remaining_counts": "x:1,y:2,z:2,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,d111,d111,dm11,y,d1m1",
+          "zero_at": 0
+        },
+        {
+          "axis": "-1,1,0",
+          "axis_class": "1,-1,0",
+          "normal_class": "0,0,1",
+          "pair": "z",
+          "prefix_digest": "be98157195fbaddb2b872143091b6a121800cd1494ff8bb4e4b2468785d185da",
+          "rank": 30000108,
+          "remaining_counts": "x:1,y:2,z:2,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,dm11,y,d111,d111,d1m1",
+          "zero_at": 0
+        },
+        {
+          "axis": "-1,1,0",
+          "axis_class": "1,-1,0",
+          "normal_class": "0,0,1",
+          "pair": "z",
+          "prefix_digest": "be98157195fbaddb2b872143091b6a121800cd1494ff8bb4e4b2468785d185da",
+          "rank": 30000110,
+          "remaining_counts": "x:1,y:2,z:2,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,dm11,y,d1m1,d111,d111",
+          "zero_at": 0
+        }
+      ],
+      "template": "cross.pairNormal|pair=z|normal=0,0,1"
+    },
+    {
+      "case_count": 1046,
+      "leaf_count": 39,
+      "samples": [
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006398,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,z,d11m,d111,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-4,1",
+          "axis_class": "3,4,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006399,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,z,d11m,dm11,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-10,-9,1",
+          "axis_class": "10,9,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006403,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,d111,z,dm11,d11m",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006404,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,d111,d11m,z,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006552,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,dm11,z,d11m,d111,d1m1,d1m1,dm11",
+          "zero_at": 6
+        }
+      ],
+      "template": "cross.pairNormal|pair=dm11|normal=5,-7,-13"
+    },
+    {
+      "case_count": 1070,
+      "leaf_count": 38,
+      "samples": [
+        {
+          "axis": "-2,-11,1",
+          "axis_class": "2,11,-1",
+          "normal_class": "11,-1,11",
+          "pair": "d1m1",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006255,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d111,d11m,d1m1,z,dm11,dm11",
+          "zero_at": 6
+        },
+        {
+          "axis": "-2,-11,1",
+          "axis_class": "2,11,-1",
+          "normal_class": "11,-1,11",
+          "pair": "d1m1",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006257,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d111,d11m,d1m1,dm11,dm11,z",
+          "zero_at": 6
+        },
+        {
+          "axis": "-2,-11,1",
+          "axis_class": "2,11,-1",
+          "normal_class": "11,-1,11",
+          "pair": "d1m1",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006258,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d111,d11m,dm11,z,d1m1,dm11",
+          "zero_at": 6
+        },
+        {
+          "axis": "-2,-11,1",
+          "axis_class": "2,11,-1",
+          "normal_class": "11,-1,11",
+          "pair": "d1m1",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006263,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d111,d11m,dm11,dm11,d1m1,z",
+          "zero_at": 6
+        },
+        {
+          "axis": "-6/5,-11/5,1",
+          "axis_class": "6,11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "d1m1",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006267,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d111,d1m1,d11m,z,dm11,dm11",
+          "zero_at": 6
+        }
+      ],
+      "template": "cross.pairNormal|pair=d1m1|normal=11,-1,11"
+    },
+    {
+      "case_count": 370,
+      "leaf_count": 38,
+      "samples": [
+        {
+          "axis": "-1/2,-3/2,1",
+          "axis_class": "1,3,-2",
+          "normal_class": "1,-1,-1",
+          "pair": "dm11",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011658,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,dm11,y,dm11,z,d11m,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "dm11",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011660,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,dm11,y,dm11,d11m,z,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "dm11",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011670,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,dm11,z,d11m,y,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "dm11",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011671,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,dm11,z,d11m,y,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "dm11",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011682,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,dm11,z,dm11,y,d11m,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=dm11|normal=1,-1,-1"
+    },
+    {
+      "case_count": 4473,
+      "leaf_count": 37,
+      "samples": [
+        {
+          "axis": "-1/2,-5/4,1",
+          "axis_class": "2,5,-4",
+          "normal_class": "1,-2,-2",
+          "pair": "x",
+          "prefix_digest": "ba5416e4a11ad2eddef74d0c354f2efda0c5c9220ba9aa0ba138dc737433dde9",
+          "rank": 30000252,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d1m1,y,d111,y,d111,d11m,dm11",
+          "zero_at": 2
+        },
+        {
+          "axis": "-2,0,-1",
+          "axis_class": "2,0,1",
+          "normal_class": "1,-2,-2",
+          "pair": "x",
+          "prefix_digest": "ba5416e4a11ad2eddef74d0c354f2efda0c5c9220ba9aa0ba138dc737433dde9",
+          "rank": 30000433,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,y,d111,d1m1,d11m",
+          "zero_at": 2
+        },
+        {
+          "axis": "-2,0,-1",
+          "axis_class": "2,0,1",
+          "normal_class": "1,-2,-2",
+          "pair": "x",
+          "prefix_digest": "ba5416e4a11ad2eddef74d0c354f2efda0c5c9220ba9aa0ba138dc737433dde9",
+          "rank": 30000452,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d1m1,d111,y,d11m",
+          "zero_at": 2
+        },
+        {
+          "axis": "-2,0,-1",
+          "axis_class": "2,0,1",
+          "normal_class": "1,-2,-2",
+          "pair": "x",
+          "prefix_digest": "ba5416e4a11ad2eddef74d0c354f2efda0c5c9220ba9aa0ba138dc737433dde9",
+          "rank": 30000584,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,d1m1,d111,y,d111,y,d11m",
+          "zero_at": 2
+        },
+        {
+          "axis": "-2,0,-1",
+          "axis_class": "2,0,1",
+          "normal_class": "1,-2,-2",
+          "pair": "x",
+          "prefix_digest": "ba5416e4a11ad2eddef74d0c354f2efda0c5c9220ba9aa0ba138dc737433dde9",
+          "rank": 30000812,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,dm11,y,d111,y,d1m1,d11m,d1m1,d111,dm11",
+          "zero_at": 2
+        }
+      ],
+      "template": "cross.pairNormal|pair=x|normal=1,-2,-2"
+    },
+    {
+      "case_count": 515,
+      "leaf_count": 35,
+      "samples": [
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30002318,
+          "remaining_counts": "x:0,y:2,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,d111,d1m1,y,d11m,d1m1,y,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30002332,
+          "remaining_counts": "x:0,y:2,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,d111,d1m1,y,dm11,d1m1,y,d11m",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30002337,
+          "remaining_counts": "x:0,y:2,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,d111,d1m1,d11m,y,d1m1,dm11,y",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30002363,
+          "remaining_counts": "x:0,y:2,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,d111,d1m1,dm11,y,d1m1,d11m,y",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30003842,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d1m1,y,d111,d111,d11m,d1m1,y,dm11",
+          "zero_at": 5
+        }
+      ],
+      "template": "cross.pairNormal|pair=d1m1|normal=1,1,-1"
+    },
+    {
+      "case_count": 407,
+      "leaf_count": 35,
+      "samples": [
+        {
+          "axis": "-11/4,-5/4,1",
+          "axis_class": "11,5,-4",
+          "normal_class": "1,-11,-11",
+          "pair": "d1m1",
+          "prefix_digest": "79cc9238cba5b2b3807d1377cd5a6edae912c6e7ad06156644c28b0a045bdd76",
+          "rank": 30010830,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:0,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,y,d11m,d1m1,dm11,z,d111,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/5,-6/5,1",
+          "axis_class": "11,6,-5",
+          "normal_class": "1,-11,-11",
+          "pair": "d1m1",
+          "prefix_digest": "79cc9238cba5b2b3807d1377cd5a6edae912c6e7ad06156644c28b0a045bdd76",
+          "rank": 30012553,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,dm11,y,d1m1,z,d111,dm11,d11m",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/2,1/2,-1",
+          "axis_class": "11,-1,2",
+          "normal_class": "1,-11,-11",
+          "pair": "d1m1",
+          "prefix_digest": "79cc9238cba5b2b3807d1377cd5a6edae912c6e7ad06156644c28b0a045bdd76",
+          "rank": 30021690,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,d111,d111,y,dm11,y,d1m1,d11m,z,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/6,5/6,-1",
+          "axis_class": "11,-5,6",
+          "normal_class": "1,-11,-11",
+          "pair": "d1m1",
+          "prefix_digest": "79cc9238cba5b2b3807d1377cd5a6edae912c6e7ad06156644c28b0a045bdd76",
+          "rank": 30021691,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,d111,d111,y,dm11,y,d1m1,d11m,z,dm11,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/6,5/6,-1",
+          "axis_class": "11,-5,6",
+          "normal_class": "1,-11,-11",
+          "pair": "d1m1",
+          "prefix_digest": "79cc9238cba5b2b3807d1377cd5a6edae912c6e7ad06156644c28b0a045bdd76",
+          "rank": 30021693,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,d111,d111,y,dm11,y,d1m1,d11m,d1m1,dm11,z",
+          "zero_at": 8
+        }
+      ],
+      "template": "cross.pairNormal|pair=d1m1|normal=1,-11,-11"
+    },
+    {
+      "case_count": 427,
+      "leaf_count": 34,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30001932,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,y,d111,d11m,y,d1m1,d1m1,dm11",
+          "zero_at": 5
+        },
+        {
+          "axis": "-5/11,6/11,-1",
+          "axis_class": "5,-6,11",
+          "normal_class": "1,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30001933,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,y,d111,d11m,y,d1m1,dm11,d1m1",
+          "zero_at": 5
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30001934,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,y,d111,d11m,y,dm11,d1m1,d1m1",
+          "zero_at": 5
+        },
+        {
+          "axis": "-5/2,-3/2,-1",
+          "axis_class": "5,3,2",
+          "normal_class": "1,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30001936,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,y,d111,d11m,d1m1,y,dm11,d1m1",
+          "zero_at": 5
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30001937,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,d111,y,d111,d11m,d1m1,d1m1,y,dm11",
+          "zero_at": 5
+        }
+      ],
+      "template": "cross.pairNormal|pair=d111|normal=1,-1,-1"
+    },
+    {
+      "case_count": 375,
+      "leaf_count": 34,
+      "samples": [
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000009,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,d1m1,y",
+          "zero_at": 4
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000013,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,y,d1m1,d111",
+          "zero_at": 4
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000014,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d111,y,d1m1",
+          "zero_at": 4
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000015,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d111,d1m1,y",
+          "zero_at": 4
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000016,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d1m1,y,d111",
+          "zero_at": 4
+        }
+      ],
+      "template": "cross.pairNormal|pair=d1m1|normal=1,1,-5"
+    },
+    {
+      "case_count": 207,
+      "leaf_count": 33,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d11m",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011535,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d11m,z,d1m1,y,dm11,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d11m",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011537,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d11m,z,d1m1,dm11,dm11,y",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,1,-1",
+          "pair": "d11m",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011541,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d11m,z,dm11,d1m1,dm11,y",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d11m",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011543,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d11m,z,dm11,dm11,d1m1,y",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,1,-1",
+          "pair": "d11m",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011553,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d11m,d1m1,dm11,z,dm11,y",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=1,1,-1"
+    },
+    {
+      "case_count": 642,
+      "leaf_count": 31,
+      "samples": [
+        {
+          "axis": "-20/3,35/3,-1",
+          "axis_class": "20,-35,3",
+          "normal_class": "13,7,-5",
+          "pair": "d11m",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006034,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d11m,d111,z,dm11,d1m1,dm11,d1m1",
+          "zero_at": 6
+        },
+        {
+          "axis": "-1/3,4/3,1",
+          "axis_class": "1,-4,-3",
+          "normal_class": "13,7,-5",
+          "pair": "d11m",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006036,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d11m,d111,d1m1,z,d1m1,dm11,dm11",
+          "zero_at": 6
+        },
+        {
+          "axis": "-5,10,1",
+          "axis_class": "5,-10,-1",
+          "normal_class": "13,7,-5",
+          "pair": "d11m",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006037,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d11m,d111,d1m1,z,dm11,d1m1,dm11",
+          "zero_at": 6
+        },
+        {
+          "axis": "-1/3,4/3,1",
+          "axis_class": "1,-4,-3",
+          "normal_class": "13,7,-5",
+          "pair": "d11m",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006038,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d11m,d111,d1m1,z,dm11,dm11,d1m1",
+          "zero_at": 6
+        },
+        {
+          "axis": "-5,10,1",
+          "axis_class": "5,-10,-1",
+          "normal_class": "13,7,-5",
+          "pair": "d11m",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006040,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d11m,d111,d1m1,d1m1,dm11,z,dm11",
+          "zero_at": 6
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=13,7,-5"
+    },
+    {
+      "case_count": 331,
+      "leaf_count": 31,
+      "samples": [
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000601,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d111,d11m,d1m1,dm11,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000661,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d111,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000666,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d1m1,d1m1,dm11,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-4/3,-1",
+          "axis_class": "1,4,3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000668,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d1m1,dm11,d1m1,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000669,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,dm11,d111,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=d11m|normal=1,-1,1"
+    },
+    {
+      "case_count": 347,
+      "leaf_count": 30,
+      "samples": [
+        {
+          "axis": "-2,-3,-1",
+          "axis_class": "2,3,1",
+          "normal_class": "1,1,-5",
+          "pair": "dm11",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005911,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d1m1,dm11,z,dm11,d11m",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "1,1,-5",
+          "pair": "dm11",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005912,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,d1m1,dm11,d11m,z,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-2,-3,-1",
+          "axis_class": "2,3,1",
+          "normal_class": "1,1,-5",
+          "pair": "dm11",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005946,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,dm11,z,d1m1,d1m1,dm11,d11m",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2,-3,-1",
+          "axis_class": "2,3,1",
+          "normal_class": "1,1,-5",
+          "pair": "dm11",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005949,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,dm11,z,dm11,d11m,d1m1,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,-13/3,-1",
+          "axis_class": "2,13,3",
+          "normal_class": "1,1,-5",
+          "pair": "dm11",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005950,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,dm11,z,dm11,d1m1,d11m,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=dm11|normal=1,1,-5"
+    },
+    {
+      "case_count": 178,
+      "leaf_count": 30,
+      "samples": [
+        {
+          "axis": "-3/2,-1/2,1",
+          "axis_class": "3,1,-2",
+          "normal_class": "1,-1,1",
+          "pair": "d1m1",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011589,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d1m1,y,dm11,d11m,dm11,z",
+          "zero_at": 7
+        },
+        {
+          "axis": "-3/2,-1/2,1",
+          "axis_class": "3,1,-2",
+          "normal_class": "1,-1,1",
+          "pair": "d1m1",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011611,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d1m1,d11m,dm11,y,dm11,z",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,1/3,1",
+          "axis_class": "2,-1,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d1m1",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011621,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d1m1,dm11,y,dm11,d11m,z",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,1/3,1",
+          "axis_class": "2,-1,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d1m1",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011632,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d1m1,dm11,d11m,dm11,y,z",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,1/3,1",
+          "axis_class": "2,-1,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d1m1",
+          "prefix_digest": "be547b46b4facb02375e76688a0512b560ebc1cf178ce678b691272eb96a71b8",
+          "rank": 30011633,
+          "remaining_counts": "x:0,y:1,z:1,d111:0,d11m:1,d1m1:1,dm11:2",
+          "word": "z,d11m,x,d111,y,d1m1,d111,d1m1,dm11,d11m,dm11,z,y",
+          "zero_at": 7
+        }
+      ],
+      "template": "cross.pairNormal|pair=d1m1|normal=1,-1,1"
+    }
+  ],
+  "top_nonidentity_templates": [
+    {
+      "case_count": 1454,
+      "leaf_count": 144,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000449,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:0,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d11m,d1m1,d111,y",
+          "zero_at": 10
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000870,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d1m1,d11m,y,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/3,2/3,-1",
+          "axis_class": "1,-2,3",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000883,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d1m1,dm11,y,d1m1,d11m",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30001410,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d111,d11m,y,d1m1,dm11",
+          "zero_at": 6
+        },
+        {
+          "axis": "-1/3,2/3,-1",
+          "axis_class": "1,-2,3",
+          "normal_class": "1,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30001423,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d111,d111,dm11,y,d1m1,d11m",
+          "zero_at": 6
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,-1"
+    },
+    {
+      "case_count": 1737,
+      "leaf_count": 130,
+      "samples": [
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000601,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d111,d111,d11m,d1m1,dm11,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,-2,1",
+          "axis_class": "3,2,-1",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000661,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d111,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000666,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d1m1,d1m1,dm11,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-4/3,-1",
+          "axis_class": "1,4,3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000668,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,d1m1,dm11,d1m1,d111",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,1",
+          "axis_class": "1,-2,-3",
+          "normal_class": "1,-1,1",
+          "pair": "d11m",
+          "prefix_digest": "ac2ee7d137d9eb9e0950447faa7d8004b8cdbe770bd079d926723c16c247d1b7",
+          "rank": 30000669,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,y,d11m,d111,dm11,d111,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,1"
+    },
+    {
+      "case_count": 5165,
+      "leaf_count": 129,
+      "samples": [
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "8c89a667c055c4962ff812088f1445a77859e4c9ca06b53e03f335654b858f29",
+          "rank": 30000455,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d1m1,d11m,d111,y",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000587,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:0,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,d1m1,d111,y,d11m,d111,y",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "5,-1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "8c89a667c055c4962ff812088f1445a77859e4c9ca06b53e03f335654b858f29",
+          "rank": 30000855,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d11m,d1m1,y,d1m1,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/6,1/6,-1",
+          "axis_class": "1,-1,6",
+          "normal_class": "5,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30001150,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:0,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,y,d111,dm11,d1m1,d111,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d111",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30001174,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:0,d1m1:1,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d11m,d111,y,d1m1,d111,dm11,d1m1",
+          "zero_at": 10
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,-1,-1"
+    },
+    {
+      "case_count": 1112,
+      "leaf_count": 117,
+      "samples": [
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000447,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:0,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,y,d111,d11m,d111,d1m1,y",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1,0,-1",
+          "axis_class": "1,0,1",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000580,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:0,d1m1:0,dm11:0",
+          "word": "z,d11m,x,z,d1m1,dm11,dm11,d1m1,y,d11m,d111,y,d111",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000856,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,d11m,d1m1,y,dm11,d1m1",
+          "zero_at": 6
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000894,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,dm11,d1m1,y,d11m,d1m1",
+          "zero_at": 6
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "1,1,-1",
+          "pair": "d111",
+          "prefix_digest": "68546937898fc06be71477ea106e42185527e9a298371ed5b7df3383906453a9",
+          "rank": 30000900,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:1",
+          "word": "z,d11m,x,z,dm11,y,d111,d11m,y,d111,d1m1,d1m1,dm11",
+          "zero_at": 6
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,-1"
+    },
+    {
+      "case_count": 5653,
+      "leaf_count": 106,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-5,1"
+    },
+    {
+      "case_count": 1664,
+      "leaf_count": 97,
+      "samples": [
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005730,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d1m1,d1m1,dm11,d111,d11m,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-2,-11,1",
+          "axis_class": "2,11,-1",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005732,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d1m1,d1m1,dm11,d11m,d111,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-6/5,-11/5,1",
+          "axis_class": "6,11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005733,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d1m1,d1m1,dm11,d11m,dm11,d111",
+          "zero_at": 9
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005760,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,dm11,d111,d11m,d1m1,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "11,-1,11",
+          "pair": "dm11",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005762,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,dm11,d111,d11m,dm11,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=11,-1,11"
+    },
+    {
+      "case_count": 1389,
+      "leaf_count": 94,
+      "samples": [
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "d1m1",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30006230,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,y,d1m1,z,dm11,d1m1,d11m,d111,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,-4,1",
+          "axis_class": "3,4,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "d1m1",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30006231,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,y,d1m1,z,dm11,d1m1,d11m,dm11,d111",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/5,-2,1",
+          "axis_class": "1,10,-5",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006398,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,z,d11m,d111,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,-4,1",
+          "axis_class": "3,4,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006399,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,z,d11m,dm11,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-10,-9,1",
+          "axis_class": "10,9,-1",
+          "normal_class": "5,-7,-13",
+          "pair": "dm11",
+          "prefix_digest": "ea22634f218794944f0e4b93444b5d111f6bd88320bda1056fb08a23535311e4",
+          "rank": 30006403,
+          "remaining_counts": "x:0,y:0,z:1,d111:1,d11m:1,d1m1:0,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d1m1,d1m1,dm11,d111,z,dm11,d11m",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,-7,-13"
+    },
+    {
+      "case_count": 1166,
+      "leaf_count": 94,
+      "samples": [
+        {
+          "axis": "-20/3,35/3,-1",
+          "axis_class": "20,-35,3",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005644,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005650,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,d1m1,d1m1,dm11,d11m,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/29,-17/29,-1",
+          "axis_class": "2,17,29",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005654,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005658,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,dm11,d11m,d1m1,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-4/5,11/5,1",
+          "axis_class": "4,-11,-5",
+          "normal_class": "13,7,-5",
+          "pair": "d111",
+          "prefix_digest": "45ab09404860abe8e900ab6486622d00d13d9f51edbbbb4e9bdabdc2a0db947f",
+          "rank": 30005660,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,z,d111,dm11,d11m,dm11,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=13,7,-5"
+    },
+    {
+      "case_count": 1033,
+      "leaf_count": 90,
+      "samples": [
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000009,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d111,d11m,d1m1,y",
+          "zero_at": 4
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000013,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,y,d1m1,d111",
+          "zero_at": 4
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000014,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d111,y,d1m1",
+          "zero_at": 4
+        },
+        {
+          "axis": "-6,1,-1",
+          "axis_class": "6,-1,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000015,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d111,d1m1,y",
+          "zero_at": 4
+        },
+        {
+          "axis": "-3,-2,-1",
+          "axis_class": "3,2,1",
+          "normal_class": "1,1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "d87aa1b088fecabb650db009261964f6f305b49c51c3fc3659a3fcc6d0e56ca8",
+          "rank": 30000016,
+          "remaining_counts": "x:0,y:2,z:0,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d11m,d1m1,y,d111",
+          "zero_at": 4
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,-5"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,1,1"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroPairNormal|pair=d11m|normal=1,1,1"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroPrefixState|zeroAt=1|pair=d11m|prefix=a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e"
+    },
+    {
+      "case_count": 12959,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000023,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,y,d1m1,d11m,d111,y",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,-8/9,1",
+          "axis_class": "1,8,-9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000026,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d111,dm11,d111,y,d11m,y,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000061,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,d111,d111,dm11,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000069,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d111,d111,d1m1",
+          "zero_at": 1
+        },
+        {
+          "axis": "-1/9,10/9,-1",
+          "axis_class": "1,-10,9",
+          "normal_class": "1,1,1",
+          "pair": "d11m",
+          "prefix_digest": "a0af8b51062ec1d694a4f00f3354dd458857a7fab477c844289879e6f589625e",
+          "rank": 30000071,
+          "remaining_counts": "x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2",
+          "word": "z,d11m,x,z,d1m1,dm11,d11m,y,y,dm11,d1m1,d111,d111",
+          "zero_at": 1
+        }
+      ],
+      "template": "nonidentity.zeroRemainingCounts|pair=d11m|remaining=x:1,y:2,z:1,d111:2,d11m:2,d1m1:2,dm11:2"
+    },
+    {
+      "case_count": 730,
+      "leaf_count": 81,
+      "samples": [
+        {
+          "axis": "-11/2,1/2,-1",
+          "axis_class": "11,-1,2",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008028,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,y,d111,d1m1,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/6,5/6,-1",
+          "axis_class": "11,-5,6",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008029,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,y,d111,dm11,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/4,-5/4,1",
+          "axis_class": "11,5,-4",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008030,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,y,d1m1,d111,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/4,-5/4,1",
+          "axis_class": "11,5,-4",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008036,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,d111,d1m1,y,dm11",
+          "zero_at": 8
+        },
+        {
+          "axis": "-11/2,1/2,-1",
+          "axis_class": "11,-1,2",
+          "normal_class": "1,-11,-11",
+          "pair": "d11m",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008042,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,d11m,d1m1,d111,y,dm11",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-11,-11"
+    },
+    {
+      "case_count": 701,
+      "leaf_count": 77,
+      "samples": [
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30000895,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,d111,d111,dm11,d1m1,y,d1m1,d11m",
+          "zero_at": 9
+        },
+        {
+          "axis": "-6,-1,-1",
+          "axis_class": "6,1,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d111",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30001684,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,y,d111,d11m,d1m1,d111,d1m1",
+          "zero_at": 8
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d111",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30001716,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d1m1,d111,d11m,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001728,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,d111,d1m1,y,d11m,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3,2,-1",
+          "axis_class": "3,-2,1",
+          "normal_class": "1,-1,-5",
+          "pair": "d1m1",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001800,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d1m1,y,d111,d111,d11m,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,-1,-5"
+    },
+    {
+      "case_count": 730,
+      "leaf_count": 75,
+      "samples": [
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001611,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:0,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,d1m1,d1m1,dm11,d111,y,d111,d11m",
+          "zero_at": 9
+        },
+        {
+          "axis": "-1/6,-1/6,-1",
+          "axis_class": "1,1,6",
+          "normal_class": "5,1,-1",
+          "pair": "d1m1",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30001705,
+          "remaining_counts": "x:0,y:0,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,y,d1m1,d11m,d111,d1m1,d111",
+          "zero_at": 8
+        },
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001710,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d111,d11m,d1m1,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,4,-1",
+          "axis_class": "1,-4,1",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001712,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d111,d1m1,d1m1,d11m",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,2/3,-1",
+          "axis_class": "1,-2,3",
+          "normal_class": "5,1,-1",
+          "pair": "d111",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30001713,
+          "remaining_counts": "x:0,y:1,z:0,d111:2,d11m:1,d1m1:2,dm11:0",
+          "word": "z,d11m,x,z,dm11,y,dm11,d111,y,d11m,d111,d1m1,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=5,1,-1"
+    },
+    {
+      "case_count": 724,
+      "leaf_count": 73,
+      "samples": [
+        {
+          "axis": "-10,5,-1",
+          "axis_class": "10,-5,1",
+          "normal_class": "7,13,-5",
+          "pair": "d11m",
+          "prefix_digest": "20b2101c58ab50b5acda019faf710ce16ba320feab24bf58217a5403a62d04d8",
+          "rank": 30007986,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,y,d11m,d111,d1m1,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-8/7,1,1",
+          "axis_class": "8,-7,-7",
+          "normal_class": "7,13,-5",
+          "pair": "d11m",
+          "prefix_digest": "20b2101c58ab50b5acda019faf710ce16ba320feab24bf58217a5403a62d04d8",
+          "rank": 30007988,
+          "remaining_counts": "x:0,y:0,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,y,d11m,d1m1,d111,dm11",
+          "zero_at": 9
+        },
+        {
+          "axis": "-8/7,1,1",
+          "axis_class": "8,-7,-7",
+          "normal_class": "7,13,-5",
+          "pair": "dm11",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008087,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,dm11,d111,d1m1,d11m,y",
+          "zero_at": 8
+        },
+        {
+          "axis": "-10,5,-1",
+          "axis_class": "10,-5,1",
+          "normal_class": "7,13,-5",
+          "pair": "dm11",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008097,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,dm11,d1m1,d111,d11m,y",
+          "zero_at": 8
+        },
+        {
+          "axis": "-9/10,1/10,-1",
+          "axis_class": "9,-1,10",
+          "normal_class": "7,13,-5",
+          "pair": "dm11",
+          "prefix_digest": "09ca91cf3c5753db84cb348e308bcae3f1ff79859219834b324866f06e063eb3",
+          "rank": 30008098,
+          "remaining_counts": "x:0,y:1,z:0,d111:1,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,z,dm11,d1m1,dm11,d1m1,d11m,y,d111",
+          "zero_at": 8
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=7,13,-5"
+    },
+    {
+      "case_count": 4484,
+      "leaf_count": 72,
+      "samples": [
+        {
+          "axis": "-2/11,1/11,-1",
+          "axis_class": "2,-1,11",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005851,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,d1m1,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-2/3,-13/3,1",
+          "axis_class": "2,13,-3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005854,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,z,dm11,d1m1,dm11,d1m1",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005856,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,d1m1,dm11,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1,-4,-1",
+          "axis_class": "1,4,1",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005857,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,d1m1,dm11",
+          "zero_at": 7
+        },
+        {
+          "axis": "-1/3,-2/3,-1",
+          "axis_class": "1,2,3",
+          "normal_class": "5,-1,-1",
+          "pair": "d11m",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005858,
+          "remaining_counts": "x:0,y:0,z:1,d111:0,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d11m,d1m1,z,dm11,dm11,d1m1",
+          "zero_at": 7
+        }
+      ],
+      "template": "nonidentity.zeroPairNormal|pair=d11m|normal=5,-1,-1"
+    },
+    {
+      "case_count": 864,
+      "leaf_count": 70,
+      "samples": [
+        {
+          "axis": "-3/2,1/2,-1",
+          "axis_class": "3,-1,2",
+          "normal_class": "1,5,1",
+          "pair": "dm11",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30011500,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,y,dm11,d11m,d1m1",
+          "zero_at": 10
+        },
+        {
+          "axis": "-1/4,1/4,-1",
+          "axis_class": "1,-1,4",
+          "normal_class": "1,5,1",
+          "pair": "dm11",
+          "prefix_digest": "b1b828f6efa44568e20995bf2dc713b03069a9f1c0a8ff2ed433cfb731920dbd",
+          "rank": 30011501,
+          "remaining_counts": "x:0,y:0,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,y,dm11,d1m1,d11m",
+          "zero_at": 10
+        },
+        {
+          "axis": "-4,1,-1",
+          "axis_class": "4,-1,1",
+          "normal_class": "1,5,1",
+          "pair": "d11m",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30011505,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,d11m,d1m1,dm11,y",
+          "zero_at": 9
+        },
+        {
+          "axis": "-3/2,1/2,-1",
+          "axis_class": "3,-1,2",
+          "normal_class": "1,5,1",
+          "pair": "d11m",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30011506,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,d11m,dm11,y,d1m1",
+          "zero_at": 9
+        },
+        {
+          "axis": "-2/3,1/3,-1",
+          "axis_class": "2,-1,3",
+          "normal_class": "1,5,1",
+          "pair": "d11m",
+          "prefix_digest": "a9de377086a39b210091420eacab055bed8a65612358e3d28ec2c5fd5c9896ac",
+          "rank": 30011507,
+          "remaining_counts": "x:0,y:1,z:0,d111:0,d11m:1,d1m1:1,dm11:1",
+          "word": "z,d11m,x,d111,y,d1m1,d111,z,dm11,d11m,dm11,d1m1,y",
+          "zero_at": 9
+        }
+      ],
+      "template": "nonidentity.zeroNormal|normal=1,5,1"
+    },
+    {
+      "case_count": 5242,
+      "leaf_count": 62,
+      "samples": [
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005821,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,d1m1,dm11,d1m1,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-13/3,-2/3,1",
+          "axis_class": "13,2,-3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005824,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d11m,dm11,d1m1,dm11,d1m1",
+          "zero_at": 3
+        },
+        {
+          "axis": "-1/11,2/11,1",
+          "axis_class": "1,-2,-11",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005834,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,z,d1m1,dm11,d1m1,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005884,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,d1m1,dm11,d11m,dm11",
+          "zero_at": 3
+        },
+        {
+          "axis": "-2/3,-1/3,-1",
+          "axis_class": "2,1,3",
+          "normal_class": "1,-5,1",
+          "pair": "d111",
+          "prefix_digest": "6b676d71577b0efdbb69f35947137f8a04fee0eec24ec1839a067873d2dce8c4",
+          "rank": 30005887,
+          "remaining_counts": "x:0,y:2,z:1,d111:2,d11m:1,d1m1:2,dm11:2",
+          "word": "z,d11m,x,d111,y,y,d111,d1m1,z,dm11,d11m,dm11,d1m1",
+          "zero_at": 3
+        }
+      ],
+      "template": "nonidentity.zeroPairNormal|pair=d111|normal=1,-5,1"
+    }
+  ],
+  "top_translation_templates": [],
+  "trusted_as_proof": false
+}

@@ -1,0 +1,149 @@
+{
+  "aggregate_template_families": [
+    {
+      "case_count_sum": 160126,
+      "leaf_count_sum": 64708,
+      "template_family": "cross.pairNormal"
+    },
+    {
+      "case_count_sum": 63690,
+      "leaf_count_sum": 63488,
+      "template_family": "translation.normalSupport"
+    },
+    {
+      "case_count_sum": 8275,
+      "leaf_count_sum": 8159,
+      "template_family": "translation.survivorBitset"
+    },
+    {
+      "case_count_sum": 102532,
+      "leaf_count_sum": 4289,
+      "template_family": "nonidentity.zeroNormal"
+    },
+    {
+      "case_count_sum": 57527,
+      "leaf_count_sum": 515,
+      "template_family": "nonidentity.zeroPairNormal"
+    },
+    {
+      "case_count_sum": 43768,
+      "leaf_count_sum": 173,
+      "template_family": "nonidentity.zeroPrefixState"
+    },
+    {
+      "case_count_sum": 43768,
+      "leaf_count_sum": 173,
+      "template_family": "nonidentity.zeroRemainingCounts"
+    },
+    {
+      "case_count_sum": 2805,
+      "leaf_count_sum": 91,
+      "template_family": "nonidentity.zeroAxis"
+    }
+  ],
+  "decision": {
+    "all_windows_pass_gate": true,
+    "small_selected_template_portfolio": true,
+    "status": "phase6t_accepted"
+  },
+  "emits_lean_evidence": false,
+  "max_lean_leaves": 2000,
+  "max_template_families": 4,
+  "mode": "cross-family-obstruction-cross-window-summary",
+  "schema_version": 1,
+  "selected_template_family_union": [
+    "cross.pairNormal",
+    "nonidentity.zeroAxis",
+    "nonidentity.zeroNormal",
+    "nonidentity.zeroRemainingCounts"
+  ],
+  "trusted_as_proof": false,
+  "window_count": 5,
+  "windows": [
+    {
+      "decision": "phase6t_window_passes",
+      "initial_leaves": 43975,
+      "rank_window": {
+        "end": 100000,
+        "start": 0,
+        "width": 100000
+      },
+      "remaining_leaves_at_max_k": 0,
+      "selected_template_count": 204,
+      "selected_template_families": [
+        "cross.pairNormal",
+        "nonidentity.zeroAxis",
+        "nonidentity.zeroNormal",
+        "nonidentity.zeroRemainingCounts"
+      ]
+    },
+    {
+      "decision": "phase6t_window_passes",
+      "initial_leaves": 28612,
+      "rank_window": {
+        "end": 10100000,
+        "start": 10000000,
+        "width": 100000
+      },
+      "remaining_leaves_at_max_k": 0,
+      "selected_template_count": 281,
+      "selected_template_families": [
+        "cross.pairNormal",
+        "nonidentity.zeroAxis",
+        "nonidentity.zeroNormal",
+        "nonidentity.zeroRemainingCounts"
+      ]
+    },
+    {
+      "decision": "phase6t_window_passes",
+      "initial_leaves": 4058,
+      "rank_window": {
+        "end": 30100000,
+        "start": 30000000,
+        "width": 100000
+      },
+      "remaining_leaves_at_max_k": 0,
+      "selected_template_count": 223,
+      "selected_template_families": [
+        "cross.pairNormal",
+        "nonidentity.zeroAxis",
+        "nonidentity.zeroNormal",
+        "nonidentity.zeroRemainingCounts"
+      ]
+    },
+    {
+      "decision": "phase6t_window_passes",
+      "initial_leaves": 1685,
+      "rank_window": {
+        "end": 60100000,
+        "start": 60000000,
+        "width": 100000
+      },
+      "remaining_leaves_at_max_k": 0,
+      "selected_template_count": 90,
+      "selected_template_families": [
+        "cross.pairNormal",
+        "nonidentity.zeroAxis",
+        "nonidentity.zeroNormal",
+        "nonidentity.zeroRemainingCounts"
+      ]
+    },
+    {
+      "decision": "phase6t_window_passes",
+      "initial_leaves": 1718,
+      "rank_window": {
+        "end": 90100000,
+        "start": 90000000,
+        "width": 100000
+      },
+      "remaining_leaves_at_max_k": 0,
+      "selected_template_count": 94,
+      "selected_template_families": [
+        "cross.pairNormal",
+        "nonidentity.zeroAxis",
+        "nonidentity.zeroNormal",
+        "nonidentity.zeroRemainingCounts"
+      ]
+    }
+  ]
+}
