@@ -1,7 +1,7 @@
 # Conditional Proof Skeleton
 
 This note records the current trusted Lean proof skeleton after the Phase 6Q
-downshift.
+and Phase 6R downshift.
 
 ## What Is Proved
 
@@ -18,6 +18,19 @@ theorem Cuboctahedron.conditional_no_unfolded_omni_starting_xp
 
 In words: if an exhaustive generated coverage witness exists, then Lean proves
 there is no unfolded feasible omnihedral itinerary that starts on `xp`.
+
+It also exposes the conditional full billiard-orbit theorem:
+
+```lean
+theorem Cuboctahedron.conditional_cuboctahedron_no_omnihedral
+    (coverage : ExhaustiveGeneratedCoverage) :
+    ¬ exists o : BilliardOrbit14,
+      o.Nonsingular /\ o.Periodic /\ o.TouchesEachFaceExactlyOnce
+```
+
+In words: if an exhaustive generated coverage witness exists, then Lean proves
+there is no nonsingular periodic billiard orbit touching each cuboctahedron
+face exactly once.
 
 The same module also exposes conditional nonidentity and translation branch
 theorems.
@@ -43,12 +56,13 @@ Lean-leaf target.
 
 ## Why This Is Not The Final Theorem
 
-This is not the final cuboctahedron billiards theorem.  It does not construct
-`ExhaustiveGeneratedCoverage`, and it stops at the started unfolded itinerary
-layer rather than the full billiard-orbit statement.
+This is not the final cuboctahedron billiards theorem.  It proves the intended
+billiard-orbit shape only under the unconstructed assumption
+`ExhaustiveGeneratedCoverage`.
 
 Its purpose is narrower and useful: it validates the trusted Lean bridge from
-complete exact generated coverage to the started unfolded nonexistence theorem.
+complete exact generated coverage through the started unfolded nonexistence
+theorem and onward to the full billiard-orbit statement.
 
 ## Validation
 
@@ -67,6 +81,7 @@ Output:
 
 ```text
 'Cuboctahedron.conditional_no_unfolded_omni_starting_xp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Cuboctahedron.conditional_cuboctahedron_no_omnihedral' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
 The output contains no `sorryAx`, no `Lean.trustCompiler`, and no
@@ -78,8 +93,9 @@ The forbidden-text scan:
 grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
 ```
 
-reported only the intentional validation command:
+reported only the intentional validation commands:
 
 ```text
 Cuboctahedron/PrintConditionalAxioms.lean:#print axioms Cuboctahedron.conditional_no_unfolded_omni_starting_xp
+Cuboctahedron/PrintConditionalAxioms.lean:#print axioms Cuboctahedron.conditional_cuboctahedron_no_omnihedral
 ```

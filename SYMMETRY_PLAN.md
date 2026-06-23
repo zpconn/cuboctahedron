@@ -179,12 +179,11 @@ Phase 6M coarse terminal-obstruction algebra profiler, and Phase 6N combined
 residual/portfolio profiler, Phase 6O translation survivor/Farkas shape-map
 compression, and Phase 6P survivor-bitset theorem pilot profiling. Phase 6P is
 rejected: the diagnostic survivor-bitset classes still fragment into multiple
-source-Farkas skeletons. Phase 6Q is complete: the conditional trusted proof
-skeleton is now exposed, documented, and axiom-checked. The next smaller
-trusted target is Phase 6R: push the conditional theorem layer from started
-unfolded itineraries up to the full billiard-orbit theorem shape, still
-assuming `ExhaustiveGeneratedCoverage`. Full generated coverage work remains
-paused in this architecture unless a new mathematical compression idea appears.
+source-Farkas skeletons. Phase 6Q and Phase 6R are complete: the conditional
+trusted proof skeleton now runs from `ExhaustiveGeneratedCoverage` through
+started unfolded itineraries to the full billiard-orbit theorem shape, and is
+axiom-checked. Full generated coverage work remains paused in this architecture
+unless a new mathematical compression idea appears.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -198,7 +197,7 @@ experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R planned | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, and survivor-bitset theorem piloting all fail bounded gates. The smaller conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply no started unfolded omni itinerary. Phase 6R will test whether the existing orbit-to-unfolding bridges are strong enough to lift that conditional result to the full billiard-orbit theorem shape. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, and survivor-bitset theorem piloting all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -2571,6 +2570,42 @@ Acceptance:
 - The documentation clearly distinguishes this conditional theorem from the
   final unconditional theorem.
 
+Phase 6R implementation results:
+
+- Extended `Cuboctahedron/ConditionalTheorem.lean` with:
+
+  ```lean
+  theorem conditional_cuboctahedron_no_omnihedral
+      (coverage : ExhaustiveGeneratedCoverage) :
+      ¬ exists o : BilliardOrbit14,
+        o.Nonsingular /\ o.Periodic /\ o.TouchesEachFaceExactlyOnce
+  ```
+
+- The proof uses `can_start_at_xp`, `billiard_implies_unfolded`, and
+  `conditional_no_unfolded_omni_starting_xp`.
+- Extended `Cuboctahedron/PrintConditionalAxioms.lean` to print axioms for the
+  conditional full theorem.
+- Updated `CONDITIONAL_PROOF_SKELETON.md`.
+- Validation commands:
+
+  ```bash
+  lake build Cuboctahedron.ConditionalTheorem
+  lake env lean Cuboctahedron/PrintConditionalAxioms.lean
+  grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+  git diff --check
+  ```
+
+- Axiom output:
+
+  ```text
+  'Cuboctahedron.conditional_no_unfolded_omni_starting_xp' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'Cuboctahedron.conditional_cuboctahedron_no_omnihedral' depends on axioms: [propext, Classical.choice, Quot.sound]
+  ```
+
+- Decision: Phase 6R is complete.
+- Caveat: this remains conditional on `ExhaustiveGeneratedCoverage`; the
+  unconditional final theorem still needs actual generated coverage.
+
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
 Purpose: preserve exhaustive coverage without making ranks the compression
@@ -3394,7 +3429,7 @@ Acceptance:
 - [x] Implement and reject Phase 6P survivor-bitset theorem pilot on the
   `[0,100000)` gate.
 - [x] Implement Phase 6Q conditional trusted skeleton target.
-- [ ] Implement Phase 6R conditional full billiard theorem target.
+- [x] Implement Phase 6R conditional full billiard theorem target.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -3463,27 +3498,24 @@ survivor cases, but sampled exact Farkas certificates already split into 7
 source supports and 11 multiplier patterns. This means survivor bitsets are
 not a proof skeleton; they are only a coarse census statistic.
 
-Phase 6Q is complete. The project now exposes and validates the conditional
-trusted skeleton theorem:
+Phase 6Q and Phase 6R are complete. The project now exposes and validates the
+conditional trusted skeleton theorems:
 
 ```lean
 Cuboctahedron.conditional_no_unfolded_omni_starting_xp
+Cuboctahedron.conditional_cuboctahedron_no_omnihedral
 ```
 
-Its axiom output is:
+Their axiom output is:
 
 ```text
 'Cuboctahedron.conditional_no_unfolded_omni_starting_xp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Cuboctahedron.conditional_cuboctahedron_no_omnihedral' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
 Full generated evidence remains open. Do not resume full generated coverage
 work in this architecture without a genuinely new mathematical compression
 idea; the current bounded profiles have rejected the existing approaches.
-
-The next smaller trusted target is Phase 6R: try to lift the conditional
-started-unfolded theorem through the existing billiard/unfolding bridge to a
-conditional full billiard-orbit theorem, still assuming
-`ExhaustiveGeneratedCoverage`.
 
 ## Explicit Non-Goals
 
