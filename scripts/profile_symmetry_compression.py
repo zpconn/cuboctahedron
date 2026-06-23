@@ -117,6 +117,16 @@ def default_translation_farkas_shape_map_output(limit: int | None) -> Path:
     )
 
 
+def default_translation_farkas_phase6v_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"translation_farkas_phase6v_000000000_{rank_end:09d}.json"
+    )
+
+
 def default_translation_bitset_class_pilot_output(limit: int | None) -> Path:
     rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
     return (
@@ -4890,6 +4900,36 @@ def canonical_survivor_shape_map_key(
     return best_key, canonical_bits, len(transform_indices)
 
 
+def canonical_json_key(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"))
+
+
+def source_farkas_support_key(source_terms: list[dict[str, Any]]) -> str:
+    return "|".join(
+        sorted(canonical_json_key(term["source"]) for term in source_terms)
+    )
+
+
+def source_farkas_multiplier_key(source_terms: list[dict[str, Any]]) -> str:
+    return "|".join(
+        sorted(
+            f"{canonical_json_key(term['source'])}@{canonical_json_key(term['multiplier'])}"
+            for term in source_terms
+        )
+    )
+
+
+def source_farkas_shape_key(
+    *,
+    shape_digest: str,
+    source_terms: list[dict[str, Any]],
+) -> str:
+    return (
+        f"shape={shape_digest}|sourceTerms="
+        f"{source_farkas_multiplier_key(source_terms)}"
+    )
+
+
 class TranslationFarkasShapeMapProfiler(TranslationSurvivorProfiler):
     """Phase 6O diagnostic profiler for translation survivor Farkas shapes.
 
@@ -5310,6 +5350,307 @@ class TranslationFarkasShapeMapProfiler(TranslationSurvivorProfiler):
             },
             "decision": self.decision(),
         }
+
+
+class TranslationFarkasPhase6VProfiler(TranslationFarkasShapeMapProfiler):
+    """Phase 6V audit for theorem-backed translation Farkas sharing.
+
+    The older shape-map profiler counts normalized constraint shapes.  This
+    subclass also reconstructs the exact source-indexed Farkas certificate that
+    Lean's current `TransSourceFarkasFamily` path consumes, so proof-ready
+    reuse is measured against the data a generated theorem could actually use.
+    """
+
+    LAYER_METADATA: tuple[dict[str, Any], ...] = (
+        TranslationFarkasShapeMapProfiler.LAYER_METADATA
+        + (
+            {
+                "name": "raw_source_farkas_support",
+                "proof_ready": False,
+                "requirement": "same source rows only; exact multipliers are still required",
+            },
+            {
+                "name": "raw_source_farkas_terms",
+                "proof_ready": True,
+                "requirement": "exact source rows and multipliers for SourceFarkasCert",
+            },
+            {
+                "name": "normalized_shape_plus_source_terms",
+                "proof_ready": True,
+                "requirement": "exact normalized shape plus exact source-indexed Farkas terms",
+            },
+        )
+    )
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.source_farkas_failures: list[dict[str, Any]] = []
+        self.source_term_count_histogram: Counter[int] = Counter()
+        self.source_support_to_term_shapes: Counter[str] = Counter()
+        self.source_samples: list[dict[str, Any]] = []
+
+    def build_source_farkas_cert(self, rank: int, mask: int) -> dict[str, Any]:
+        import generate_exact_certificates as exact
+
+        cert = exact.build_translation_family_cert(
+            rank,
+            mask,
+            f"phase6VTranslationFarkas{rank:09d}_{mask:02d}",
+            "farkas",
+        ).to_json()
+        failure = cert["failure"]
+        if failure["kind"] != "farkas":
+            raise AssertionError("expected Farkas translation cert")
+        return cert
+
+    def record_source_farkas_layers(
+        self,
+        *,
+        rank: int,
+        mask: int,
+        word: tuple[str, ...],
+        raw_shape_digest: str,
+    ) -> None:
+        try:
+            cert = self.build_source_farkas_cert(rank, mask)
+        except Exception as exc:  # pragma: no cover - diagnostic payload
+            self.source_farkas_failures.append({
+                "rank": rank,
+                "mask": mask,
+                "word": word_key(word),
+                "shape_digest": raw_shape_digest,
+                "error": repr(exc),
+            })
+            return
+
+        source_terms = cert["failure"]["sourceTerms"]
+        support_key = source_farkas_support_key(source_terms)
+        terms_key = source_farkas_multiplier_key(source_terms)
+        shape_terms_key = source_farkas_shape_key(
+            shape_digest=raw_shape_digest,
+            source_terms=source_terms,
+        )
+        support_digest = self.record_layer(
+            "raw_source_farkas_support",
+            support_key,
+        )
+        terms_digest = self.record_layer(
+            "raw_source_farkas_terms",
+            terms_key,
+        )
+        shape_terms_digest = self.record_layer(
+            "normalized_shape_plus_source_terms",
+            shape_terms_key,
+        )
+        self.source_term_count_histogram[len(source_terms)] += 1
+        self.source_support_to_term_shapes[
+            f"{support_digest}|{shape_terms_digest}"
+        ] += 1
+        if len(self.source_samples) < self.sample_limit:
+            self.source_samples.append({
+                "rank": rank,
+                "mask": mask,
+                "word": word_key(word),
+                "shape_digest": raw_shape_digest,
+                "source_term_count": len(source_terms),
+                "source_support_digest": support_digest,
+                "source_terms_digest": terms_digest,
+                "shape_plus_source_terms_digest": shape_terms_digest,
+            })
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"translation Phase 6V scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_bits = 0
+        raw_shape_by_mask: dict[int, str] = {}
+        d4_shape_by_mask: dict[int, str] = {}
+        reversal_shape_by_mask: dict[int, str] = {}
+        d4_reversal_shape_by_mask: dict[int, str] = {}
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+
+            if not all(denom > 0 for denom in denoms):
+                self.denominator_nonpositive_masks += 1
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+                continue
+
+            self.good_direction_masks += 1
+            survivor_bits |= 1 << mask
+
+            raw_key, raw_digest, row_multiset_key, row_support = (
+                self.shape_digest_for_choice(word, mask)
+            )
+            raw_shape_by_mask[mask] = raw_digest
+            self.record_layer("raw_normalized_farkas_shape", raw_key)
+            self.record_layer("raw_row_multiset", row_multiset_key)
+            self.record_layer("raw_row_support_skeleton", row_support)
+            self.row_count_histogram[len(raw_key.split("|")) if raw_key else 0] += 1
+            self.record_source_farkas_layers(
+                rank=rank,
+                mask=mask,
+                word=word,
+                raw_shape_digest=raw_digest,
+            )
+
+            d4_word, d4_mask, d4_sym_id = canonical_translation_with_symmetry(
+                word,
+                mask,
+            )
+            d4_key, d4_digest, _d4_rows, _d4_support = self.shape_digest_for_choice(
+                d4_word,
+                d4_mask,
+            )
+            d4_shape_by_mask[mask] = d4_digest
+            self.record_layer("d4_normalized_farkas_shape", d4_key)
+
+            rev_word, rev_mask = self.canonical_combined_choice(
+                word,
+                mask,
+                with_symmetry=False,
+                with_reversal=True,
+            )
+            rev_key, rev_digest, _rev_rows, _rev_support = self.shape_digest_for_choice(
+                rev_word,
+                rev_mask,
+            )
+            reversal_shape_by_mask[mask] = rev_digest
+            self.record_layer("reversal_normalized_farkas_shape", rev_key)
+
+            combo_word, combo_mask = self.canonical_combined_choice(
+                word,
+                mask,
+                with_symmetry=True,
+                with_reversal=True,
+            )
+            combo_key, combo_digest, _combo_rows, _combo_support = (
+                self.shape_digest_for_choice(combo_word, combo_mask)
+            )
+            d4_reversal_shape_by_mask[mask] = combo_digest
+            self.record_layer("d4_reversal_normalized_farkas_shape", combo_key)
+
+            self.farkas_shapes.add(raw_digest)
+            self.farkas_shape_reuse_counts[raw_digest] += 1
+            if len(self.samples) < self.sample_limit:
+                self.samples.append({
+                    "rank": rank,
+                    "word": word_key(word),
+                    "mask": mask,
+                    "raw_shape_digest": raw_digest,
+                    "d4_shape_digest": d4_digest,
+                    "d4_sym_id": d4_sym_id,
+                    "reversal_shape_digest": rev_digest,
+                    "d4_reversal_shape_digest": combo_digest,
+                })
+
+        self.survivor_count_by_identity_word[survivor_bits.bit_count()] += 1
+
+        impact_keys: list[str] = []
+        max_degree = 0
+        for values in impact_values:
+            key, degree = denominator_polynomial_key(values)
+            max_degree = max(max_degree, degree)
+            self.denominator_degree_histogram[degree] += 1
+            impact_keys.append(key)
+        signature_key = "|".join(
+            f"{impact + 1}:{key}" for impact, key in enumerate(impact_keys)
+        )
+        self.record_layer("denominator_signature", signature_key)
+        self.denominator_signatures.add(stable_digest(signature_key))
+
+        survivor_bitset_key = str(survivor_bits)
+        self.record_layer("survivor_bitset", survivor_bitset_key)
+        self.survivor_bitsets.add(survivor_bitset_key)
+
+        if raw_shape_by_mask:
+            raw_map_key = "|".join(
+                f"{mask}:{raw_shape_by_mask[mask]}"
+                for mask in sorted(raw_shape_by_mask)
+            )
+            d4_map_key = "|".join(
+                f"{mask}:{d4_shape_by_mask[mask]}"
+                for mask in sorted(d4_shape_by_mask)
+            )
+            self.record_layer("raw_survivor_shape_map", raw_map_key)
+            self.record_layer("d4_survivor_shape_map", d4_map_key)
+            self.survivor_shape_maps.add(raw_map_key)
+
+            signed_map_key, _canonical_bits, tie_count = canonical_survivor_shape_map_key(
+                survivor_bits,
+                raw_shape_by_mask,
+            )
+            self.signed_variable_tie_histogram[tie_count] += 1
+            self.record_layer("signed_variable_survivor_shape_map", signed_map_key)
+
+    def decision(self) -> dict[str, Any]:
+        payload = super().decision()
+        payload["accepted_for_phase_6v"] = payload["status"] == "accepted"
+        if self.source_farkas_failures:
+            payload["status"] = "rejected"
+            payload["accepted_for_phase_6v"] = False
+            payload["notes"].append(
+                "source Farkas reconstruction failed for "
+                f"{len(self.source_farkas_failures)} survivor cases"
+            )
+        return payload
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        payload = super().payload(elapsed_seconds=elapsed_seconds)
+        payload["schema_version"] = 2
+        payload["mode"] = "translation-farkas-phase6v-profile"
+        payload["options"]["phase"] = "6V"
+        payload["options"]["source_farkas_reconstruction"] = (
+            "exact source-indexed Farkas terms for current Lean transport API"
+        )
+        payload["source_farkas"] = {
+            "failures": self.source_farkas_failures[: self.sample_limit],
+            "failure_count": len(self.source_farkas_failures),
+            "term_count_histogram": dict(
+                sorted(self.source_term_count_histogram.items())
+            ),
+            "support_to_exact_term_shape_count": len(self.source_support_to_term_shapes),
+            "top_support_term_reuse": [
+                {"digest": digest, "count": count}
+                for digest, count in self.source_support_to_term_shapes.most_common(8)
+            ],
+            "samples": self.source_samples,
+        }
+        payload["decision"] = self.decision()
+        return payload
 
 
 @dataclass
@@ -8657,6 +8998,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
         bool(args.translation_farkas_shape_map),
+        bool(args.translation_farkas_phase6v),
         bool(args.translation_bitset_class_pilot),
         bool(args.combined_residual_portfolio),
         bool(args.nonidentity_terminal_algebra),
@@ -8674,6 +9016,7 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-lifted-pb-search, "
             "--translation-survivor-mask-tree, "
             "--translation-state-dag, --translation-farkas-shape-map, "
+            "--translation-farkas-phase6v, "
             "--translation-bitset-class-pilot, --combined-residual-portfolio, "
             "--nonidentity-terminal-algebra, "
             "--nonidentity-state-cone-tree, "
@@ -9044,6 +9387,84 @@ def write_payload(payload: dict[str, Any], output: Path) -> None:
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def write_phase6v_markdown(payload: dict[str, Any], output: Path) -> None:
+    counts = payload["actual_counts"]
+    decision = payload["decision"]
+    layers = payload["layers"]
+    best_proof = decision["best_proof_ready_layer"]
+    best_diag = decision["best_diagnostic_layer"]
+    source = payload["source_farkas"]
+    lines = [
+        "# Phase 6V Translation Farkas Audit",
+        "",
+        "This is an untrusted profiling report. It emits no Lean evidence.",
+        "",
+        "## Counts",
+        "",
+        f"- Pair words scanned: {counts['pair_words_scanned']:,}",
+        f"- Identity-linear words: {counts['identity_linear_words']:,}",
+        f"- Translation sign assignments: {counts['translation_sign_assignments']:,}",
+        f"- GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}",
+        f"- Denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}",
+        f"- Source Farkas reconstruction failures: {source['failure_count']:,}",
+        "",
+        "## Best Layers",
+        "",
+    ]
+    if best_proof is not None:
+        lines.append(
+            "- Best proof-ready layer: "
+            f"`{best_proof['name']}` with {best_proof['lower_bound']:,} unique obligations"
+        )
+    if best_diag is not None:
+        lines.append(
+            "- Best diagnostic layer: "
+            f"`{best_diag['name']}` with {best_diag['lower_bound']:,} unique obligations"
+        )
+    lines.extend([
+        "",
+        "## Proof-Ready Layer Counts",
+        "",
+        "| Layer | Unique lower bound | Max reuse | Requirement |",
+        "| --- | ---: | ---: | --- |",
+    ])
+    for name, layer in sorted(layers.items()):
+        if not layer["proof_ready"]:
+            continue
+        lines.append(
+            f"| `{name}` | {layer['unique']['lower_bound']:,} | "
+            f"{layer['reuse']['max_reuse']:,} | {layer['requirement']} |"
+        )
+    lines.extend([
+        "",
+        "## Diagnostic-Only Layer Counts",
+        "",
+        "| Layer | Unique lower bound | Max reuse | Missing theorem |",
+        "| --- | ---: | ---: | --- |",
+    ])
+    for name, layer in sorted(layers.items()):
+        if layer["proof_ready"]:
+            continue
+        lines.append(
+            f"| `{name}` | {layer['unique']['lower_bound']:,} | "
+            f"{layer['reuse']['max_reuse']:,} | {layer['requirement']} |"
+        )
+    lines.extend([
+        "",
+        "## Source Farkas Diagnostics",
+        "",
+        f"- Source term count histogram: `{source['term_count_histogram']}`",
+        f"- Support/exact-term shape count: {source['support_to_exact_term_shape_count']:,}",
+        "",
+        "## Decision",
+        "",
+        f"- Status: `{decision['status']}`",
+    ])
+    for note in decision["notes"]:
+        lines.append(f"- {note}")
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def print_summary(payload: dict[str, Any]) -> None:
     if payload.get("mode") == "nonidentity-d26-audit":
         window = payload["rank_window"]
@@ -9192,11 +9613,17 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
-    if payload.get("mode") == "translation-farkas-shape-map-profile":
+    if payload.get("mode") in {
+        "translation-farkas-shape-map-profile",
+        "translation-farkas-phase6v-profile",
+    }:
         counts = payload["actual_counts"]
         layers = payload["layers"]
         decision = payload["decision"]
-        print("translation Farkas shape-map profile")
+        if payload.get("mode") == "translation-farkas-phase6v-profile":
+            print("translation Farkas Phase 6V profile")
+        else:
+            print("translation Farkas shape-map profile")
         print(f"pair words scanned: {counts['pair_words_scanned']:,}")
         print(f"identity-linear words: {counts['identity_linear_words']:,}")
         print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
@@ -9220,6 +9647,16 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(
                 "best diagnostic layer: "
                 f"{best_diag['name']} ({best_diag['lower_bound']} unique)"
+            )
+        if payload.get("mode") == "translation-farkas-phase6v-profile":
+            source = payload["source_farkas"]
+            print(
+                "source Farkas reconstruction failures: "
+                f"{source['failure_count']:,}"
+            )
+            print(
+                "source term count histogram: "
+                f"{source['term_count_histogram']}"
             )
         print(f"decision: {decision['status']}")
         for note in decision["notes"]:
@@ -9775,6 +10212,14 @@ def main() -> None:
         help="profile semantic compression layers for translation GoodDirection Farkas survivors",
     )
     parser.add_argument(
+        "--translation-farkas-phase6v",
+        action="store_true",
+        help=(
+            "Phase 6V audit: rebuild exact source-indexed Farkas terms for "
+            "translation GoodDirection survivor cases"
+        ),
+    )
+    parser.add_argument(
         "--translation-bitset-class-pilot",
         action="store_true",
         help="profile whether survivor-bitset classes share reusable Farkas proof skeletons",
@@ -9834,6 +10279,8 @@ def main() -> None:
     if output is None:
         if args.translation_bitset_class_pilot:
             output = default_translation_bitset_class_pilot_output(args.limit)
+        elif args.translation_farkas_phase6v:
+            output = default_translation_farkas_phase6v_output(args.limit)
         elif args.translation_farkas_shape_map:
             output = default_translation_farkas_shape_map_output(args.limit)
         elif args.combined_residual_portfolio:
@@ -9908,6 +10355,21 @@ def main() -> None:
         payload = bitset_pilot_profiler.payload(
             elapsed_seconds=time.monotonic() - start,
         )
+    elif args.translation_farkas_phase6v:
+        phase6v_profiler = TranslationFarkasPhase6VProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        phase6v_profiler.traverse()
+        payload = phase6v_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+        rejected = payload["decision"]["status"] == "rejected"
     elif args.translation_farkas_shape_map:
         shape_map_profiler = TranslationFarkasShapeMapProfiler(
             limit=args.limit,
@@ -10178,6 +10640,8 @@ def main() -> None:
             reject_reasons=reasons,
         )
     write_payload(payload, output)
+    if payload.get("mode") == "translation-farkas-phase6v-profile":
+        write_phase6v_markdown(payload, output.with_suffix(".md"))
     print_summary(payload)
     if rejected and not args.allow_reject:
         raise SystemExit(1)

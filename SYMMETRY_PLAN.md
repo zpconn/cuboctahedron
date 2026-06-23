@@ -209,7 +209,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V next | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, and proof-usable cross-family splitting all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6T's low-count portfolio was diagnostic only; Phase 6U showed that splitting it into theorem-backed families re-exposes the translation Farkas-shape burden. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6V found a small diagnostic-only source-row support layer, so the next strategy must prove or replace source-support-to-exact-Farkas transport rather than emit concrete Farkas leaves. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -229,6 +229,12 @@ Completed current-work items:
   and `scripts/generated/cross_family_obstructions_phase6u_split_000000000_000100000.*`.
 - Rejected the Phase 6U split portfolio on `[0,100000)`: after 500
   proof-usable templates, 43,475 leaves remain, far above the 2,000 gate.
+- Added Phase 6V exact source-Farkas audit mode and reports:
+  `scripts/generated/translation_farkas_phase6v_000000000_000001000.*`
+  and `scripts/generated/translation_farkas_phase6v_000000000_000100000.*`.
+- Phase 6V is blocked, not accepted: the best proof-ready first-window layer
+  is 5,521 leaves, while the 235-shape source-support layer still lacks a
+  theorem that removes the need for exact per-case multipliers.
 - Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
 - Added `nonidentity_killed_of_no_fixed_axis`.
 - Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
@@ -2952,34 +2958,102 @@ lake build Cuboctahedron.Generated.NonIdentity.TemplateSoundness
 
 #### Phase 6V: Translation Farkas-Shape Burden Compression
 
-Purpose: address the obstruction exposed by Phase 6U. The next viable strategy
-must compress or replace the concrete translation Farkas-shape obligations; no
-cross-normal or rank-interval grouping should be treated as proof evidence.
+Purpose: address the obstruction exposed by Phase 6U. The concrete
+translation Farkas-shape obligations were audited by exact source-indexed
+Farkas data, not by pair/reflected-normal support.
 
-Tasks:
+Status: blocked on a missing theorem, not accepted for evidence emission.
 
-1. Profile the `39,582` translation Farkas-shape obligations in `[0,100000)`
-   by exact normalized Farkas certificate structure, not by pair/reflected
-   normal support.
-2. Separate what is already theorem-backed from what is merely a diagnostic
-   digest:
-   - exact Farkas multiplier vector;
-   - exact normalized inequality rows;
-   - row-source map from generated translation constraints;
-   - D4/start-face transport data, if the existing transport theorem applies.
-3. Design one small Lean theorem schema for a genuinely shared translation
-   Farkas family, then run a tiny hand-written prototype before any emitter.
-4. Re-run a bounded `[0,100000)` proof-usable projection only after the
-   translation shape family has a theorem-backed compression candidate.
-5. Reject Phase 6V if the first window still projects above the 2,000-leaf
-   budget after concrete theorem-backed compression.
+Implementation:
+
+- Added `--translation-farkas-phase6v` to
+  `scripts/profile_symmetry_compression.py`.
+- The Phase 6V mode reconstructs exact `SourceFarkasCert`-style terms for
+  every GoodDirection survivor in a bounded window and separately counts:
+  exact normalized Farkas shapes, exact source rows plus multipliers, exact
+  survivor shape maps, and diagnostic-only source-row support.
+- It writes both JSON and Markdown reports, e.g.
+  `scripts/generated/translation_farkas_phase6v_000000000_000100000.{json,md}`.
+
+First-window result `[0,100000)`:
+
+```text
+identity-linear words:               5,565
+translation sign assignments:      356,160
+GoodDirection survivor masks:       39,710
+source Farkas reconstruction failures:   0
+
+best proof-ready layer:
+  raw_survivor_shape_map              5,521
+
+other proof-ready layers:
+  raw_source_farkas_terms             8,939
+  raw_normalized_farkas_shape        39,582
+  normalized_shape_plus_source_terms 39,614
+  raw_row_multiset                   39,710
+
+best diagnostic-only layer:
+  raw_source_farkas_support             235
+```
+
+Decision:
+
+- `Phase 6V blocked_on_transport_theorem`.
+- Do not emit generated Lean evidence from the current proof-ready layers:
+  the best proof-ready first-window count is still `5,521`, above the 2,000
+  gate.
+- The source-support layer is genuinely promising (`235` shapes), but it is
+  not proof-ready because the existing Lean path needs exact multipliers, not
+  just the source rows.
+- The next viable task is a theorem or certificate schema that turns shared
+  source-row support into exact reusable Farkas evidence, or replaces the
+  concrete multiplier burden with a stronger parametric/linear-algebra
+  theorem.
 
 Gate:
 
-- The first default window must reduce from `39,582` translation proof leaves
-  to below the 2,000 total-leaf target using only theorem-backed translation
-  families.
-- No new generated Lean evidence emitter is allowed until this gate passes.
+- Re-run the first default window only after a theorem-backed source-support
+  compression candidate exists.
+- No generated Lean evidence emitter is allowed from Phase 6V's current
+  proof-ready layers.
+
+Validation commands:
+
+```bash
+python3 -m py_compile scripts/profile_symmetry_compression.py
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-farkas-phase6v \
+  --limit 1000 --allow-reject --progress-interval 0 \
+  --output scripts/generated/translation_farkas_phase6v_000000000_000001000.json
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-farkas-phase6v \
+  --limit 100000 --allow-reject --progress-interval 10000 \
+  --output scripts/generated/translation_farkas_phase6v_000000000_000100000.json
+python3 -m json.tool \
+  scripts/generated/translation_farkas_phase6v_000000000_000100000.json
+```
+
+#### Phase 6W: Source-Support Farkas Transport or Replacement
+
+Purpose: decide whether the `235` source-row supports from Phase 6V can become
+a trusted proof family, or whether the translation branch needs a different
+parametric certificate.
+
+Tasks:
+
+1. Inspect several top `raw_source_farkas_support` classes and compare their
+   exact multipliers, normalized rows, and generated source constraints.
+2. Determine whether multiplier variation is only positive rescaling/row
+   normalization, affine parameter variation, or genuinely case-specific.
+3. If variation is structural and simple, write a tiny Lean theorem schema:
+   a source-support family carries symbolic or interval-parameter multipliers
+   and proves `checkSourceFarkas`/`checkFarkas` soundness without one exact
+   multiplier vector per case.
+4. If variation is not structurally simple, reject source-support transport
+   and pivot to a stronger translation theorem, such as denominator-cube
+   Farkas or a word/state DAG over semantic constraints.
+5. The first `[0,100000)` window must project below 2,000 theorem-backed
+   leaves before any generated Lean evidence emitter resumes.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
