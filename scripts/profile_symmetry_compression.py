@@ -138,6 +138,16 @@ def default_translation_farkas_phase6w_output(limit: int | None) -> Path:
     )
 
 
+def default_translation_two_source_farkas_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"translation_two_source_farkas_000000000_{rank_end:09d}.json"
+    )
+
+
 def default_translation_bitset_class_pilot_output(limit: int | None) -> Path:
     rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
     return (
@@ -4997,14 +5007,18 @@ def multiplier_vector_key(vector: tuple[Fraction, ...]) -> str:
     return ",".join(fraction_key(value) for value in vector)
 
 
-def scalar_normalized_multiplier_vector(
-    source_terms: list[dict[str, Any]],
-) -> tuple[Fraction, ...]:
-    vector = source_farkas_multiplier_vector(source_terms)
+def scalar_normalized_vector(vector: tuple[Fraction, ...]) -> tuple[Fraction, ...]:
     scale = next((value for value in vector if value != 0), None)
     if scale is None:
         return vector
     return tuple(value / scale for value in vector)
+
+
+def scalar_normalized_multiplier_vector(
+    source_terms: list[dict[str, Any]],
+) -> tuple[Fraction, ...]:
+    vector = source_farkas_multiplier_vector(source_terms)
+    return scalar_normalized_vector(vector)
 
 
 def scalar_normalized_multiplier_key(source_terms: list[dict[str, Any]]) -> str:
@@ -6595,6 +6609,923 @@ def run_phase6w_parallel(
         target_end=target_end,
         args=args,
     )
+
+
+def two_source_multipliers_for_lines(
+    first_line: tuple[Fraction, Fraction, Fraction],
+    second_line: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, Fraction]:
+    if first_line[0] != 0 or second_line[0] != 0:
+        raw = (second_line[0], -first_line[0])
+    else:
+        raw = (second_line[1], -first_line[1])
+    if raw[0] >= 0 and raw[1] >= 0:
+        return raw
+    return -raw[0], -raw[1]
+
+
+@dataclass
+class TwoSourceSupportStats:
+    support_digest: str
+    source_terms: list[dict[str, Any]]
+    cases: int = 0
+    pass_cases: int = 0
+    fail_cases: int = 0
+    computed_multiplier_patterns: Counter[str] = field(default_factory=Counter)
+    scalar_multiplier_patterns: Counter[str] = field(default_factory=Counter)
+    original_multiplier_patterns: Counter[str] = field(default_factory=Counter)
+    normalized_shapes: Counter[str] = field(default_factory=Counter)
+    samples: list[dict[str, Any]] = field(default_factory=list)
+    failures: list[dict[str, Any]] = field(default_factory=list)
+
+    def add_case(
+        self,
+        *,
+        rank: int,
+        mask: int,
+        word: tuple[str, ...],
+        seq: list[str],
+        raw_shape_digest: str,
+        original_source_terms: list[dict[str, Any]],
+        computed_multipliers: tuple[Fraction, Fraction],
+        passed: bool,
+        sample_limit: int,
+    ) -> None:
+        exact_key = multiplier_vector_key(computed_multipliers)
+        scalar_key = multiplier_vector_key(
+            scalar_normalized_vector(computed_multipliers)
+        )
+        original_key = multiplier_vector_key(
+            source_farkas_multiplier_vector(original_source_terms)
+        )
+        self.cases += 1
+        if passed:
+            self.pass_cases += 1
+        else:
+            self.fail_cases += 1
+        self.computed_multiplier_patterns[exact_key] += 1
+        self.scalar_multiplier_patterns[scalar_key] += 1
+        self.original_multiplier_patterns[original_key] += 1
+        self.normalized_shapes[raw_shape_digest] += 1
+        payload = {
+            "rank": rank,
+            "mask": mask,
+            "word": word_key(word),
+            "seq": seq_key(seq),
+            "shape_digest": raw_shape_digest,
+            "computed_multiplier_key": exact_key,
+            "computed_scalar_multiplier_key": scalar_key,
+            "original_multiplier_key": original_key,
+        }
+        if passed and len(self.samples) < sample_limit:
+            self.samples.append(payload)
+        if not passed and len(self.failures) < sample_limit:
+            self.failures.append(payload)
+
+    @staticmethod
+    def counter_payload(counter: Counter[Any], limit: int = 8) -> dict[str, Any]:
+        return {
+            "unique": len(counter),
+            "max_reuse": max(counter.values(), default=0),
+            "top": [
+                {"key": key, "count": count}
+                for key, count in counter.most_common(limit)
+            ],
+        }
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "support_digest": self.support_digest,
+            "cases": self.cases,
+            "pass_cases": self.pass_cases,
+            "fail_cases": self.fail_cases,
+            "source_terms": self.source_terms,
+            "source_term_count": len(self.source_terms),
+            "computed_multiplier_patterns": self.counter_payload(
+                self.computed_multiplier_patterns
+            ),
+            "scalar_normalized_multiplier_patterns": self.counter_payload(
+                self.scalar_multiplier_patterns
+            ),
+            "original_multiplier_patterns": self.counter_payload(
+                self.original_multiplier_patterns
+            ),
+            "normalized_farkas_shapes": self.counter_payload(
+                self.normalized_shapes
+            ),
+            "samples": self.samples,
+            "failures": self.failures,
+        }
+
+
+class TranslationTwoSourceFarkasProfiler(TranslationFarkasShapeMapProfiler):
+    """Phase 6X pilot for computed two-source Farkas support certs."""
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        rank_start: int = 0,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+        top_support_classes: int,
+        support_sample_cases: int,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            rank_start=rank_start,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.top_support_classes = top_support_classes
+        self.support_sample_cases = support_sample_cases
+        self.source_farkas_failures: list[dict[str, Any]] = []
+        self.non_two_source_cases = 0
+        self.two_source_cases = 0
+        self.two_source_pass_cases = 0
+        self.two_source_fail_cases = 0
+        self.source_term_count_histogram: Counter[int] = Counter()
+        self.source_support_classes: dict[str, TwoSourceSupportStats] = {}
+        self.failure_samples: list[dict[str, Any]] = []
+
+    def build_source_farkas_cert(self, rank: int, mask: int) -> dict[str, Any]:
+        import generate_exact_certificates as exact
+
+        cert = exact.build_translation_family_cert(
+            rank,
+            mask,
+            f"phase6XTranslationFarkas{rank:09d}_{mask:02d}",
+            "farkas",
+        ).to_json()
+        failure = cert["failure"]
+        if failure["kind"] != "farkas":
+            raise AssertionError("expected Farkas translation cert")
+        return cert
+
+    @staticmethod
+    def check_computed_two_source(
+        *,
+        seq: list[str],
+        b: tuple[Fraction, Fraction, Fraction],
+        source_terms: list[dict[str, Any]],
+    ) -> tuple[bool, tuple[Fraction, Fraction], str]:
+        import generate_exact_certificates as exact
+
+        sorted_terms = sorted_source_farkas_terms(source_terms)
+        sources = exact.translation_constraint_sources_py(seq)
+        constraints = exact.translation_constraints_py(seq, b)
+        indices = [sources.index(term["source"]) for term in sorted_terms]
+        source_constraints = [constraints[index] for index in indices]
+        multipliers = two_source_multipliers_for_lines(
+            source_constraints[0],
+            source_constraints[1],
+        )
+        terms = [(0, multipliers[0]), (1, multipliers[1])]
+        passed = exact.check_farkas_py(source_constraints, terms)
+        total = exact.weighted_sum_constraints(source_constraints, terms)
+        total_key = ",".join(fraction_key(value) for value in total)
+        return passed, multipliers, total_key
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"translation two-source Farkas scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            if not all(denom > 0 for denom in denoms):
+                self.denominator_nonpositive_masks += 1
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+                continue
+
+            self.good_direction_masks += 1
+            raw_key, raw_digest, _row_multiset_key, _row_support = (
+                self.shape_digest_for_choice(word, mask)
+            )
+            self.record_layer("raw_normalized_farkas_shape", raw_key)
+            try:
+                cert = self.build_source_farkas_cert(rank, mask)
+            except Exception as exc:  # pragma: no cover - diagnostic payload
+                self.source_farkas_failures.append({
+                    "rank": rank,
+                    "mask": mask,
+                    "word": word_key(word),
+                    "shape_digest": raw_digest,
+                    "error": repr(exc),
+                })
+                continue
+
+            source_terms = cert["failure"]["sourceTerms"]
+            sorted_terms = sorted_source_farkas_terms(source_terms)
+            self.source_term_count_histogram[len(source_terms)] += 1
+            support_key = source_farkas_support_key(source_terms)
+            support_digest = stable_digest(support_key)
+            stats = self.source_support_classes.setdefault(
+                support_digest,
+                TwoSourceSupportStats(
+                    support_digest=support_digest,
+                    source_terms=[
+                        {"source": term["source"]}
+                        for term in sorted_terms
+                    ],
+                ),
+            )
+            if len(source_terms) != 2:
+                self.non_two_source_cases += 1
+                if len(self.failure_samples) < self.sample_limit:
+                    self.failure_samples.append({
+                        "rank": rank,
+                        "mask": mask,
+                        "word": word_key(word),
+                        "source_term_count": len(source_terms),
+                        "reason": "non_two_source",
+                    })
+                continue
+            self.two_source_cases += 1
+            passed, multipliers, total_key = self.check_computed_two_source(
+                seq=cert["seq"],
+                b=tuple(Fraction(value) for value in cert["b"]),
+                source_terms=source_terms,
+            )
+            if passed:
+                self.two_source_pass_cases += 1
+            else:
+                self.two_source_fail_cases += 1
+                if len(self.failure_samples) < self.sample_limit:
+                    self.failure_samples.append({
+                        "rank": rank,
+                        "mask": mask,
+                        "word": word_key(word),
+                        "shape_digest": raw_digest,
+                        "computed_multiplier_key": multiplier_vector_key(multipliers),
+                        "weighted_sum_key": total_key,
+                        "reason": "computed_two_source_check_failed",
+                    })
+            stats.add_case(
+                rank=rank,
+                mask=mask,
+                word=word,
+                seq=cert["seq"],
+                raw_shape_digest=raw_digest,
+                original_source_terms=source_terms,
+                computed_multipliers=multipliers,
+                passed=passed,
+                sample_limit=self.support_sample_cases,
+            )
+
+    def source_support_summary(self) -> dict[str, Any]:
+        classes = list(self.source_support_classes.values())
+        computed_unique_histogram = Counter(
+            len(stats.computed_multiplier_patterns)
+            for stats in classes
+        )
+        scalar_unique_histogram = Counter(
+            len(stats.scalar_multiplier_patterns)
+            for stats in classes
+        )
+        original_unique_histogram = Counter(
+            len(stats.original_multiplier_patterns)
+            for stats in classes
+        )
+        return {
+            "support_class_count": len(classes),
+            "max_cases_per_support": max((stats.cases for stats in classes), default=0),
+            "singleton_support_classes": sum(1 for stats in classes if stats.cases == 1),
+            "computed_multiplier_unique_histogram": dict(
+                sorted(computed_unique_histogram.items())
+            ),
+            "scalar_multiplier_unique_histogram": dict(
+                sorted(scalar_unique_histogram.items())
+            ),
+            "original_multiplier_unique_histogram": dict(
+                sorted(original_unique_histogram.items())
+            ),
+            "classes_with_single_computed_pattern": sum(
+                1 for stats in classes if len(stats.computed_multiplier_patterns) == 1
+            ),
+            "classes_with_single_scalar_pattern": sum(
+                1 for stats in classes if len(stats.scalar_multiplier_patterns) == 1
+            ),
+        }
+
+    def top_source_support_payloads(self) -> list[dict[str, Any]]:
+        return [
+            stats.payload()
+            for stats in sorted(
+                self.source_support_classes.values(),
+                key=lambda item: (-item.cases, item.support_digest),
+            )[: self.top_support_classes]
+        ]
+
+    def decision(self) -> dict[str, Any]:
+        summary = self.source_support_summary()
+        notes: list[str] = []
+        if self.source_farkas_failures:
+            status = "rejected"
+            notes.append(
+                "source Farkas reconstruction failed for "
+                f"{len(self.source_farkas_failures)} survivor cases"
+            )
+        elif self.non_two_source_cases:
+            status = "rejected"
+            notes.append(
+                f"{self.non_two_source_cases} survivor cases were not two-source"
+            )
+        elif self.two_source_fail_cases:
+            status = "rejected"
+            notes.append(
+                f"{self.two_source_fail_cases} computed two-source certs failed"
+            )
+        elif summary["support_class_count"] > self.max_lean_leaves:
+            status = "rejected"
+            notes.append(
+                "source-support classes exceed the "
+                f"{self.max_lean_leaves} leaf gate"
+            )
+        else:
+            status = "accepted"
+            notes.append(
+                "computed two-source Farkas certs cover every GoodDirection "
+                "survivor in this window"
+            )
+        return {
+            "status": status,
+            "accepted_for_phase_6x": status == "accepted",
+            "max_lean_leaves": self.max_lean_leaves,
+            "warn_lean_leaves": self.warn_lean_leaves,
+            "source_support_class_count": summary["support_class_count"],
+            "notes": notes,
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        return {
+            "schema_version": 1,
+            "mode": "translation-two-source-farkas-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation",
+                "phase": "6X",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "good_direction_impacts": "1..13",
+                "emits_bad_direction_evidence": False,
+                "emits_lean_evidence": False,
+                "computed_cert": "two source rows with deterministic multipliers",
+                "top_source_support_classes": self.top_support_classes,
+                "source_support_sample_cases": self.support_sample_cases,
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "bad_direction_generated_evidence": 0,
+            },
+            "two_source": {
+                "source_farkas_reconstruction_failures": len(self.source_farkas_failures),
+                "non_two_source_cases": self.non_two_source_cases,
+                "two_source_cases": self.two_source_cases,
+                "checker_pass_cases": self.two_source_pass_cases,
+                "checker_fail_cases": self.two_source_fail_cases,
+                "source_term_count_histogram": dict(
+                    sorted(self.source_term_count_histogram.items())
+                ),
+                "failure_samples": self.failure_samples,
+                "source_farkas_failures": self.source_farkas_failures[: self.sample_limit],
+            },
+            "source_support_summary": self.source_support_summary(),
+            "top_source_support_classes": self.top_source_support_payloads(),
+            "decision": self.decision(),
+        }
+
+
+def two_source_count_payload(counter: Counter[Any], *, limit: int = 8) -> dict[str, Any]:
+    return {
+        "unique": len(counter),
+        "max_reuse": max(counter.values(), default=0),
+        "top": [
+            {"key": key, "count": count}
+            for key, count in counter.most_common(limit)
+        ],
+    }
+
+
+def two_source_support_class_payload(
+    support_digest: str,
+    state: dict[str, Any],
+) -> dict[str, Any]:
+    computed_multiplier_patterns = Counter(state["computed_multiplier_patterns"])
+    scalar_multiplier_patterns = Counter(state["scalar_multiplier_patterns"])
+    original_multiplier_patterns = Counter(state["original_multiplier_patterns"])
+    normalized_shapes = Counter(state["normalized_shapes"])
+    return {
+        "support_digest": support_digest,
+        "cases": state["cases"],
+        "pass_cases": state["pass_cases"],
+        "fail_cases": state["fail_cases"],
+        "source_terms": state["source_terms"],
+        "source_term_count": len(state["source_terms"]),
+        "computed_multiplier_patterns": two_source_count_payload(
+            computed_multiplier_patterns
+        ),
+        "scalar_normalized_multiplier_patterns": two_source_count_payload(
+            scalar_multiplier_patterns
+        ),
+        "original_multiplier_patterns": two_source_count_payload(
+            original_multiplier_patterns
+        ),
+        "normalized_farkas_shapes": two_source_count_payload(normalized_shapes),
+        "samples": state["samples"],
+        "failures": state["failures"],
+    }
+
+
+def two_source_support_summary_from_state(
+    classes: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    computed_unique_histogram = Counter(
+        len(state["computed_multiplier_patterns"])
+        for state in classes.values()
+    )
+    scalar_unique_histogram = Counter(
+        len(state["scalar_multiplier_patterns"])
+        for state in classes.values()
+    )
+    original_unique_histogram = Counter(
+        len(state["original_multiplier_patterns"])
+        for state in classes.values()
+    )
+    return {
+        "support_class_count": len(classes),
+        "max_cases_per_support": max(
+            (state["cases"] for state in classes.values()),
+            default=0,
+        ),
+        "singleton_support_classes": sum(
+            1 for state in classes.values() if state["cases"] == 1
+        ),
+        "computed_multiplier_unique_histogram": dict(
+            sorted(computed_unique_histogram.items())
+        ),
+        "scalar_multiplier_unique_histogram": dict(
+            sorted(scalar_unique_histogram.items())
+        ),
+        "original_multiplier_unique_histogram": dict(
+            sorted(original_unique_histogram.items())
+        ),
+        "classes_with_single_computed_pattern": sum(
+            1
+            for state in classes.values()
+            if len(state["computed_multiplier_patterns"]) == 1
+        ),
+        "classes_with_single_scalar_pattern": sum(
+            1
+            for state in classes.values()
+            if len(state["scalar_multiplier_patterns"]) == 1
+        ),
+    }
+
+
+def two_source_decision_from_state(
+    *,
+    source_support_summary: dict[str, Any],
+    source_farkas_failure_count: int,
+    non_two_source_cases: int,
+    checker_fail_cases: int,
+    max_lean_leaves: int,
+    warn_lean_leaves: int,
+) -> dict[str, Any]:
+    notes: list[str] = []
+    if source_farkas_failure_count:
+        status = "rejected"
+        notes.append(
+            "source Farkas reconstruction failed for "
+            f"{source_farkas_failure_count} survivor cases"
+        )
+    elif non_two_source_cases:
+        status = "rejected"
+        notes.append(f"{non_two_source_cases} survivor cases were not two-source")
+    elif checker_fail_cases:
+        status = "rejected"
+        notes.append(f"{checker_fail_cases} computed two-source certs failed")
+    elif source_support_summary["support_class_count"] > max_lean_leaves:
+        status = "rejected"
+        notes.append(
+            "source-support classes exceed the "
+            f"{max_lean_leaves} leaf gate"
+        )
+    else:
+        status = "accepted"
+        notes.append(
+            "computed two-source Farkas certs cover every GoodDirection "
+            "survivor in this window"
+        )
+    return {
+        "status": status,
+        "accepted_for_phase_6x": status == "accepted",
+        "max_lean_leaves": max_lean_leaves,
+        "warn_lean_leaves": warn_lean_leaves,
+        "source_support_class_count": source_support_summary["support_class_count"],
+        "notes": notes,
+    }
+
+
+def two_source_profiler_state(
+    profiler: TranslationTwoSourceFarkasProfiler,
+    *,
+    elapsed_seconds: float,
+) -> dict[str, Any]:
+    return {
+        "rank_window": {
+            "start": profiler.rank_start,
+            "end": profiler.rank_end,
+            "width": profiler.rank_end - profiler.rank_start,
+        },
+        "elapsed_seconds": elapsed_seconds,
+        "actual_counts": {
+            "pair_words_scanned": profiler.pair_words_scanned,
+            "identity_linear_words": profiler.identity_words,
+            "nonidentity_words_skipped": profiler.nonidentity_words_skipped,
+            "translation_sign_assignments": profiler.translation_sign_assignments,
+            "good_direction_survivor_masks": profiler.good_direction_masks,
+            "denominator_nonpositive_masks": profiler.denominator_nonpositive_masks,
+            "zero_translation_vector_masks": profiler.zero_vector_masks,
+            "bad_direction_generated_evidence": 0,
+        },
+        "two_source": {
+            "source_farkas_reconstruction_failures": len(
+                profiler.source_farkas_failures
+            ),
+            "non_two_source_cases": profiler.non_two_source_cases,
+            "two_source_cases": profiler.two_source_cases,
+            "checker_pass_cases": profiler.two_source_pass_cases,
+            "checker_fail_cases": profiler.two_source_fail_cases,
+            "source_term_count_histogram": dict(
+                profiler.source_term_count_histogram
+            ),
+            "failure_samples": profiler.failure_samples,
+            "source_farkas_failures": profiler.source_farkas_failures,
+        },
+        "source_support_classes": {
+            digest: {
+                "support_digest": digest,
+                "source_terms": stats.source_terms,
+                "cases": stats.cases,
+                "pass_cases": stats.pass_cases,
+                "fail_cases": stats.fail_cases,
+                "computed_multiplier_patterns": dict(
+                    stats.computed_multiplier_patterns
+                ),
+                "scalar_multiplier_patterns": dict(stats.scalar_multiplier_patterns),
+                "original_multiplier_patterns": dict(stats.original_multiplier_patterns),
+                "normalized_shapes": dict(stats.normalized_shapes),
+                "samples": stats.samples,
+                "failures": stats.failures,
+            }
+            for digest, stats in profiler.source_support_classes.items()
+        },
+    }
+
+
+def run_two_source_window(config: dict[str, Any]) -> dict[str, Any]:
+    import time
+
+    start = time.monotonic()
+    profiler = TranslationTwoSourceFarkasProfiler(
+        limit=config["limit"],
+        rank_start=config["rank_start"],
+        max_lean_leaves=config["max_lean_leaves"],
+        warn_lean_leaves=config["warn_lean_leaves"],
+        max_distinct_tracked=config["max_distinct_tracked"],
+        sample_limit=config["sample_limit"],
+        progress_interval=0,
+        use_d4_transport=config["use_d4_transport"],
+        top_support_classes=config["top_support_classes"],
+        support_sample_cases=config["support_sample_cases"],
+    )
+    profiler.traverse()
+    return two_source_profiler_state(
+        profiler,
+        elapsed_seconds=time.monotonic() - start,
+    )
+
+
+def merge_two_source_states(
+    states: list[dict[str, Any]],
+    *,
+    elapsed_seconds: float,
+    target_start: int,
+    target_end: int,
+    args: argparse.Namespace,
+) -> dict[str, Any]:
+    if not states:
+        raise RuntimeError("no Phase 6X worker states to merge")
+    states = sorted(states, key=lambda state: state["rank_window"]["start"])
+    expected_start = target_start
+    for state in states:
+        window = state["rank_window"]
+        if window["start"] != expected_start:
+            raise RuntimeError(
+                "Phase 6X shard gap or overlap before "
+                f"{window['start']} (expected {expected_start})"
+            )
+        expected_start = window["end"]
+    if expected_start != target_end:
+        raise RuntimeError(
+            f"Phase 6X shards ended at {expected_start}; expected {target_end}"
+        )
+
+    actual_counts = Counter()
+    two_source_counts = Counter()
+    source_term_count_histogram: Counter[int] = Counter()
+    failure_samples: list[dict[str, Any]] = []
+    source_farkas_failures: list[dict[str, Any]] = []
+    source_support_classes: dict[str, dict[str, Any]] = {}
+
+    for state in states:
+        actual_counts.update(state["actual_counts"])
+        two_source = state["two_source"]
+        for key in (
+            "source_farkas_reconstruction_failures",
+            "non_two_source_cases",
+            "two_source_cases",
+            "checker_pass_cases",
+            "checker_fail_cases",
+        ):
+            two_source_counts[key] += two_source[key]
+        source_term_count_histogram.update({
+            int(key): value
+            for key, value in two_source["source_term_count_histogram"].items()
+        })
+        for sample in two_source["failure_samples"]:
+            if len(failure_samples) < args.sample_limit:
+                failure_samples.append(sample)
+        for failure in two_source["source_farkas_failures"]:
+            if len(source_farkas_failures) < args.sample_limit:
+                source_farkas_failures.append(failure)
+
+        for digest, incoming in state["source_support_classes"].items():
+            target = source_support_classes.setdefault(
+                digest,
+                {
+                    "support_digest": digest,
+                    "source_terms": incoming["source_terms"],
+                    "cases": 0,
+                    "pass_cases": 0,
+                    "fail_cases": 0,
+                    "computed_multiplier_patterns": Counter(),
+                    "scalar_multiplier_patterns": Counter(),
+                    "original_multiplier_patterns": Counter(),
+                    "normalized_shapes": Counter(),
+                    "samples": [],
+                    "failures": [],
+                },
+            )
+            if target["source_terms"] != incoming["source_terms"]:
+                raise RuntimeError(
+                    f"source-term mismatch while merging support {digest}"
+                )
+            target["cases"] += incoming["cases"]
+            target["pass_cases"] += incoming["pass_cases"]
+            target["fail_cases"] += incoming["fail_cases"]
+            target["computed_multiplier_patterns"].update(
+                incoming["computed_multiplier_patterns"]
+            )
+            target["scalar_multiplier_patterns"].update(
+                incoming["scalar_multiplier_patterns"]
+            )
+            target["original_multiplier_patterns"].update(
+                incoming["original_multiplier_patterns"]
+            )
+            target["normalized_shapes"].update(incoming["normalized_shapes"])
+            for sample in incoming["samples"]:
+                if len(target["samples"]) < args.source_support_sample_cases:
+                    target["samples"].append(sample)
+            for failure in incoming["failures"]:
+                if len(target["failures"]) < args.source_support_sample_cases:
+                    target["failures"].append(failure)
+
+    support_payloads = [
+        two_source_support_class_payload(digest, state)
+        for digest, state in sorted(
+            source_support_classes.items(),
+            key=lambda item: (-item[1]["cases"], item[0]),
+        )
+    ]
+    source_support_summary = two_source_support_summary_from_state(
+        source_support_classes
+    )
+    decision = two_source_decision_from_state(
+        source_support_summary=source_support_summary,
+        source_farkas_failure_count=two_source_counts[
+            "source_farkas_reconstruction_failures"
+        ],
+        non_two_source_cases=two_source_counts["non_two_source_cases"],
+        checker_fail_cases=two_source_counts["checker_fail_cases"],
+        max_lean_leaves=args.max_lean_leaves,
+        warn_lean_leaves=args.warn_lean_leaves,
+    )
+    return {
+        "schema_version": 1,
+        "mode": "translation-two-source-farkas-profile",
+        "trusted_as_proof": False,
+        "complete": target_start == 0 and target_end == EXPECTED_PAIR_WORDS,
+        "profile_limit": target_end - target_start,
+        "rank_window": {
+            "start": target_start,
+            "end": target_end,
+            "width": target_end - target_start,
+        },
+        "elapsed_seconds": elapsed_seconds,
+        "parallel": {
+            "enabled": True,
+            "jobs": args.parallel_jobs,
+            "window_size": args.parallel_window_size,
+            "shards": [
+                state["rank_window"]
+                | {"elapsed_seconds": state["elapsed_seconds"]}
+                for state in states
+            ],
+            "worker_elapsed_seconds_total": sum(
+                state["elapsed_seconds"] for state in states
+            ),
+            "worker_elapsed_seconds_max": max(
+                state["elapsed_seconds"] for state in states
+            ),
+        },
+        "options": {
+            "branch": "translation",
+            "phase": "6X",
+            "max_lean_leaves": args.max_lean_leaves,
+            "warn_lean_leaves": args.warn_lean_leaves,
+            "progress_interval": args.progress_interval,
+            "good_direction_impacts": "1..13",
+            "emits_bad_direction_evidence": False,
+            "emits_lean_evidence": False,
+            "computed_cert": "two source rows with deterministic multipliers",
+            "top_source_support_classes": args.source_support_top_classes,
+            "source_support_sample_cases": args.source_support_sample_cases,
+        },
+        "expected_counts": {
+            "pair_words": EXPECTED_PAIR_WORDS,
+            "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+            "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+        },
+        "actual_counts": dict(actual_counts),
+        "two_source": {
+            "source_farkas_reconstruction_failures": two_source_counts[
+                "source_farkas_reconstruction_failures"
+            ],
+            "non_two_source_cases": two_source_counts["non_two_source_cases"],
+            "two_source_cases": two_source_counts["two_source_cases"],
+            "checker_pass_cases": two_source_counts["checker_pass_cases"],
+            "checker_fail_cases": two_source_counts["checker_fail_cases"],
+            "source_term_count_histogram": dict(
+                sorted(source_term_count_histogram.items())
+            ),
+            "failure_samples": failure_samples,
+            "source_farkas_failures": source_farkas_failures,
+        },
+        "source_support_summary": source_support_summary,
+        "top_source_support_classes": support_payloads[
+            : args.source_support_top_classes
+        ],
+        "decision": decision,
+    }
+
+
+def run_two_source_parallel(
+    args: argparse.Namespace,
+    *,
+    elapsed_start: float,
+) -> dict[str, Any]:
+    import time
+
+    target_start = args.rank_start
+    target_end = (
+        EXPECTED_PAIR_WORDS
+        if args.limit is None
+        else min(EXPECTED_PAIR_WORDS, target_start + args.limit)
+    )
+    windows = [
+        (lo, min(target_end, lo + args.parallel_window_size))
+        for lo in range(target_start, target_end, args.parallel_window_size)
+    ]
+    if not windows:
+        windows = [(target_start, target_start)]
+    print(
+        "running Phase 6X in parallel: "
+        f"{len(windows)} shards, {args.parallel_jobs} jobs, "
+        f"rank window [{target_start:,}, {target_end:,})",
+        file=sys.stderr,
+    )
+    configs = [
+        {
+            "rank_start": lo,
+            "limit": hi - lo,
+            "max_lean_leaves": args.max_lean_leaves,
+            "warn_lean_leaves": args.warn_lean_leaves,
+            "max_distinct_tracked": args.max_distinct_tracked,
+            "sample_limit": args.sample_limit,
+            "use_d4_transport": not args.no_d4_transport,
+            "top_support_classes": args.source_support_top_classes,
+            "support_sample_cases": args.source_support_sample_cases,
+        }
+        for lo, hi in windows
+    ]
+    states: list[dict[str, Any]] = []
+    completed = 0
+    with ProcessPoolExecutor(max_workers=args.parallel_jobs) as executor:
+        futures = {
+            executor.submit(run_two_source_window, config): config
+            for config in configs
+        }
+        for future in as_completed(futures):
+            state = future.result()
+            states.append(state)
+            completed += 1
+            window = state["rank_window"]
+            print(
+                "completed Phase 6X shard "
+                f"{completed}/{len(windows)} "
+                f"[{window['start']:,}, {window['end']:,}) "
+                f"in {state['elapsed_seconds']:.1f}s",
+                file=sys.stderr,
+            )
+    return merge_two_source_states(
+        states,
+        elapsed_seconds=time.monotonic() - elapsed_start,
+        target_start=target_start,
+        target_end=target_end,
+        args=args,
+    )
+
+
+def write_two_source_farkas_markdown(payload: dict[str, Any], output: Path) -> None:
+    counts = payload["actual_counts"]
+    two_source = payload["two_source"]
+    summary = payload["source_support_summary"]
+    decision = payload["decision"]
+    lines = [
+        "# Phase 6X Two-Source Farkas Pilot",
+        "",
+        "This is an untrusted profiling report. It emits no Lean evidence.",
+        "",
+        "## Counts",
+        "",
+        f"- Pair words scanned: {counts['pair_words_scanned']:,}",
+        f"- Identity-linear words: {counts['identity_linear_words']:,}",
+        f"- Translation sign assignments: {counts['translation_sign_assignments']:,}",
+        f"- GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}",
+        f"- Source-support classes: {summary['support_class_count']:,}",
+        f"- Two-source cases: {two_source['two_source_cases']:,}",
+        f"- Checker pass cases: {two_source['checker_pass_cases']:,}",
+        f"- Checker fail cases: {two_source['checker_fail_cases']:,}",
+        "",
+        "## Multiplier Patterns",
+        "",
+        f"- Computed multiplier histogram: `{summary['computed_multiplier_unique_histogram']}`",
+        f"- Scalar-normalized computed histogram: `{summary['scalar_multiplier_unique_histogram']}`",
+        f"- Original multiplier histogram: `{summary['original_multiplier_unique_histogram']}`",
+        "",
+        "## Decision",
+        "",
+        f"- Status: `{decision['status']}`",
+    ]
+    for note in decision["notes"]:
+        lines.append(f"- {note}")
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 @dataclass
@@ -9944,6 +10875,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_farkas_shape_map),
         bool(args.translation_farkas_phase6v),
         bool(args.translation_farkas_phase6w),
+        bool(args.translation_two_source_farkas),
         bool(args.translation_bitset_class_pilot),
         bool(args.combined_residual_portfolio),
         bool(args.nonidentity_terminal_algebra),
@@ -9962,6 +10894,7 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-survivor-mask-tree, "
             "--translation-state-dag, --translation-farkas-shape-map, "
             "--translation-farkas-phase6v, --translation-farkas-phase6w, "
+            "--translation-two-source-farkas, "
             "--translation-bitset-class-pilot, --combined-residual-portfolio, "
             "--nonidentity-terminal-algebra, "
             "--nonidentity-state-cone-tree, "
@@ -9974,11 +10907,13 @@ def validate_options(args: argparse.Namespace) -> None:
         or args.terminal_residual_census
         or args.nonidentity_terminal_algebra
         or args.translation_farkas_phase6w
+        or args.translation_two_source_farkas
     ):
         raise SystemExit(
             "--rank-start is currently supported only with "
             "--nonidentity-d26-audit, --terminal-residual-census, "
-            "--nonidentity-terminal-algebra, or --translation-farkas-phase6w"
+            "--nonidentity-terminal-algebra, --translation-farkas-phase6w, "
+            "or --translation-two-source-farkas"
         )
     if not (0 <= args.rank_start <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--rank-start must be between 0 and {EXPECTED_PAIR_WORDS}")
@@ -10014,8 +10949,13 @@ def validate_options(args: argparse.Namespace) -> None:
         raise SystemExit("--parallel-jobs must be positive")
     if args.parallel_window_size <= 0:
         raise SystemExit("--parallel-window-size must be positive")
-    if args.parallel_jobs > 1 and not args.translation_farkas_phase6w:
-        raise SystemExit("--parallel-jobs > 1 is currently supported only for Phase 6W")
+    if args.parallel_jobs > 1 and not (
+        args.translation_farkas_phase6w
+        or args.translation_two_source_farkas
+    ):
+        raise SystemExit(
+            "--parallel-jobs > 1 is currently supported only for Phase 6W/6X"
+        )
 
 
 def decision_reasons(profiler: SymmetryCompressionProfiler) -> tuple[bool, list[str]]:
@@ -10685,6 +11625,36 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "translation-two-source-farkas-profile":
+        counts = payload["actual_counts"]
+        two_source = payload["two_source"]
+        support = payload["source_support_summary"]
+        decision = payload["decision"]
+        print("translation two-source Farkas profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}")
+        print(
+            "source Farkas reconstruction failures: "
+            f"{two_source['source_farkas_reconstruction_failures']:,}"
+        )
+        print(f"non-two-source cases: {two_source['non_two_source_cases']:,}")
+        print(f"two-source cases: {two_source['two_source_cases']:,}")
+        print(f"checker pass cases: {two_source['checker_pass_cases']:,}")
+        print(f"checker fail cases: {two_source['checker_fail_cases']:,}")
+        print(f"source-support classes: {support['support_class_count']:,}")
+        print(
+            "computed multiplier histogram: "
+            f"{support['computed_multiplier_unique_histogram']}"
+        )
+        print(f"decision: {decision['status']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "translation-bitset-class-pilot-profile":
         counts = payload["actual_counts"]
         decision = payload["decision"]
@@ -11250,6 +12220,14 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--translation-two-source-farkas",
+        action="store_true",
+        help=(
+            "Phase 6X audit: check deterministic two-source Farkas certs for "
+            "translation GoodDirection survivors"
+        ),
+    )
+    parser.add_argument(
         "--translation-bitset-class-pilot",
         action="store_true",
         help="profile whether survivor-bitset classes share reusable Farkas proof skeletons",
@@ -11323,6 +12301,8 @@ def main() -> None:
     if output is None:
         if args.translation_bitset_class_pilot:
             output = default_translation_bitset_class_pilot_output(args.limit)
+        elif args.translation_two_source_farkas:
+            output = default_translation_two_source_farkas_output(args.limit)
         elif args.translation_farkas_phase6w:
             output = default_translation_farkas_phase6w_output(args.limit)
         elif args.translation_farkas_phase6v:
@@ -11419,6 +12399,27 @@ def main() -> None:
             )
             phase6w_profiler.traverse()
             payload = phase6w_profiler.payload(
+                elapsed_seconds=time.monotonic() - start,
+            )
+        rejected = payload["decision"]["status"] == "rejected"
+    elif args.translation_two_source_farkas:
+        if args.parallel_jobs > 1:
+            payload = run_two_source_parallel(args, elapsed_start=start)
+        else:
+            two_source_profiler = TranslationTwoSourceFarkasProfiler(
+                limit=args.limit,
+                rank_start=args.rank_start,
+                max_lean_leaves=args.max_lean_leaves,
+                warn_lean_leaves=args.warn_lean_leaves,
+                max_distinct_tracked=args.max_distinct_tracked,
+                sample_limit=args.sample_limit,
+                progress_interval=args.progress_interval,
+                use_d4_transport=not args.no_d4_transport,
+                top_support_classes=args.source_support_top_classes,
+                support_sample_cases=args.source_support_sample_cases,
+            )
+            two_source_profiler.traverse()
+            payload = two_source_profiler.payload(
                 elapsed_seconds=time.monotonic() - start,
             )
         rejected = payload["decision"]["status"] == "rejected"
@@ -11709,6 +12710,8 @@ def main() -> None:
     write_payload(payload, output)
     if payload.get("mode") == "translation-farkas-phase6w-profile":
         write_phase6w_markdown(payload, output.with_suffix(".md"))
+    elif payload.get("mode") == "translation-two-source-farkas-profile":
+        write_two_source_farkas_markdown(payload, output.with_suffix(".md"))
     elif payload.get("mode") == "translation-farkas-phase6v-profile":
         write_phase6v_markdown(payload, output.with_suffix(".md"))
     print_summary(payload)

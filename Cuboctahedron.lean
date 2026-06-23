@@ -7,6 +7,7 @@ import Cuboctahedron.Search.Farkas2D
 import Cuboctahedron.Search.Itineraries
 import Cuboctahedron.Search.TranslationCase
 import Cuboctahedron.Search.TranslationGoodDirection
+import Cuboctahedron.Search.TwoSourceFarkas
 import Cuboctahedron.Generated.Coverage.TranslationSurvivors
 
 /-!

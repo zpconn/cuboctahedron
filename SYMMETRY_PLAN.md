@@ -179,13 +179,14 @@ Phase 6M coarse terminal-obstruction algebra profiler, Phase 6N combined
 residual/portfolio profiler, Phase 6O translation survivor/Farkas shape-map
 compression, Phase 6P survivor-bitset theorem pilot profiling, Phase 6V exact
 source-Farkas burden profiling, and Phase 6W source-support multiplier
-variation profiling. Phase 6P is rejected: the diagnostic survivor-bitset
+variation profiling, and Phase 6X two-source Farkas support profiling.
+Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
 `ExhaustiveGeneratedCoverage` through started unfolded itineraries to the full
 billiard-orbit theorem shape, and is axiom-checked. Full generated coverage
-work remains paused in this architecture unless the Phase 6W parametric
-two-term Farkas support theorem or an equivalent replacement is formalized.
+work should now proceed through the Phase 6X two-source support backend rather
+than raw Farkas-shape leaves.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -211,7 +212,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on parametric multiplier theorem | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6V/6W found a small source-row support layer (`235` supports on `[0,100000)`), but every survivor Farkas cert still has varying exact multipliers. The next strategy must prove a parametric two-term source-support Farkas theorem or replace source-support transport rather than emit concrete Farkas leaves. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)` | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X adds a tiny Lean adapter for deterministic two-source Farkas supports and proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -237,6 +238,15 @@ Completed current-work items:
 - Phase 6V is blocked, not accepted: the best proof-ready first-window layer
   is 5,521 leaves, while the 235-shape source-support layer still lacks a
   theorem that removes the need for exact per-case multipliers.
+- Added Phase 6X deterministic two-source Farkas support profiling and Lean
+  adapter:
+  `Cuboctahedron/Search/TwoSourceFarkas.lean`,
+  `scripts/generated/translation_two_source_farkas_000000000_000001000.*`,
+  and
+  `scripts/generated/translation_two_source_farkas_000000000_000100000.*`.
+- Phase 6X is accepted on `[0,100000)`: all 39,710 GoodDirection survivor
+  masks are two-source, all deterministic two-source checks pass, and the
+  window has 235 source-support classes.
 - Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
 - Added `nonidentity_killed_of_no_fixed_axis`.
 - Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
@@ -3150,6 +3160,101 @@ python3 scripts/profile_symmetry_compression.py \
   --output scripts/generated/translation_farkas_phase6w_000000000_000100000.json
 ```
 
+#### Phase 6X: Deterministic Two-Source Farkas Support Theorem
+
+Purpose: turn the Phase 6W observation into a proof-usable theorem shape. In
+the first 100k-rank window, every GoodDirection survivor source-Farkas
+certificate has exactly two source rows. For two strict linear inequalities
+
+```text
+L(y,z) : a y + b z < c
+M(y,z) : A y + B z < C
+```
+
+a deterministic Farkas candidate can cancel the active coordinate by choosing
+weights `(A, -a)` if either `a` or `A` is nonzero, otherwise `(B, -b)`, and
+then orienting both weights nonnegative. Lean then checks the resulting
+two-source `SourceFarkasCert` with `checkSourceFarkas`, so soundness follows
+from the existing `checkSourceFarkas_sound` theorem.
+
+Status: accepted on `[0,100000)` as a bounded profiling gate. This is not yet
+full generated evidence, but it is the first translation survivor path since
+GoodDirection that is both proof-oriented and below the 2,000-leaf gate.
+
+Implementation:
+
+- Added `Cuboctahedron/Search/TwoSourceFarkas.lean`.
+- Defined `TwoSourceFarkasSupport`, deterministic multiplier construction,
+  `TwoSourceFarkasSupport.check`, and
+  `TwoSourceFarkasSupport.check_sound`.
+- Added `--translation-two-source-farkas` to
+  `scripts/profile_symmetry_compression.py`.
+- Added a memory-safe parallel runner for Phase 6X using the same shard model
+  as Phase 6W. Workers return compact counters; the parent verifies shard
+  contiguity before merging.
+
+Bounded results:
+
+```text
+Smoke window `[0,1000)`:
+pair words scanned:                  1,000
+identity-linear words:                 138
+translation sign assignments:        8,832
+GoodDirection survivor masks:        1,465
+two-source cases:                    1,465
+checker pass cases:                  1,465
+checker fail cases:                      0
+source-support classes:                 72
+decision: accepted
+
+First-window gate `[0,100000)`:
+wall time:                         168.62s
+parallel jobs:                          12
+rank shards:                            20
+shard width:                         5,000
+max worker shard time:              154.88s
+
+pair words scanned:                100,000
+identity-linear words:               5,565
+nonidentity words skipped:          94,435
+translation sign assignments:      356,160
+GoodDirection survivor masks:       39,710
+denominator-nonpositive masks:     316,450
+source Farkas reconstruction failures:  0
+non-two-source cases:                    0
+two-source cases:                   39,710
+checker pass cases:                 39,710
+checker fail cases:                      0
+source-support classes:                235
+decision: accepted
+```
+
+Validation commands:
+
+```bash
+python3 -m py_compile scripts/profile_symmetry_compression.py
+lake build Cuboctahedron.Search.TwoSourceFarkas
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-two-source-farkas \
+  --limit 1000 --allow-reject --progress-interval 0 \
+  --output scripts/generated/translation_two_source_farkas_000000000_000001000.json
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run --translation-two-source-farkas \
+  --limit 100000 --parallel-jobs 12 --parallel-window-size 5000 \
+  --allow-reject --progress-interval 0 \
+  --output scripts/generated/translation_two_source_farkas_000000000_000100000.json
+```
+
+Next step:
+
+1. Emit private source-support data plus public semantic interval/word-DAG
+   theorems using `TwoSourceFarkasSupport.check_sound`.
+2. Keep GoodDirection as the generic necessary-condition theorem; do not emit
+   bad-direction evidence.
+3. Profile the remaining nonidentity branch separately. Phase 6X solves the
+   dominant translation survivor bottleneck; it does not by itself cover
+   nonidentity terminal residuals.
+
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
 Purpose: preserve exhaustive coverage without making ranks the compression
@@ -3984,8 +4089,12 @@ Acceptance:
   on the `[0,100000)` gate.
 - [x] Implement Phase 6W source-support multiplier variation profiling,
   including the memory-safe parallel runner.
-- [ ] Prove or reject a parametric two-source-term source-support Farkas
-  theorem for the Phase 6W support classes.
+- [x] Implement and accept Phase 6X deterministic two-source Farkas support
+  profiling on the `[0,100000)` gate.
+- [ ] Emit proof-carrying translation source-support coverage from Phase 6X
+  private support data.
+- [ ] Resume the nonidentity compression track with the translation branch
+  no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -4085,18 +4194,24 @@ semantic theorem eliminates the dense bad-direction complement without
 generated evidence. On `[0,100000)`, only 39,710 masks survive GoodDirection,
 and every surviving Farkas certificate has exactly two source terms. Those
 39,710 survivor certificates collapse to 235 source-row supports, but exact
-multipliers vary inside the supports. Therefore the next step is not another
-rank/mask tiler. It is a theorem design task:
+multipliers vary inside the supports.
+
+Phase 6X resolves that multiplier-variation blocker for the bounded gate by
+computing deterministic two-source multipliers from the two support rows and
+then checking the resulting `SourceFarkasCert` in Lean's existing source
+Farkas checker. On `[0,100000)`, all 39,710 GoodDirection survivors are
+two-source, all computed checks pass, and only 235 source-support classes
+remain. Therefore the next step is no longer another theorem-design probe. It
+is an evidence-emitter task:
 
 ```text
-Can a two-source-term support class, plus checked symbolic/parametric
-multiplier conditions, prove Farkas infeasibility for all cases in the class?
+Emit private source-support data and public semantic coverage theorems that
+use TwoSourceFarkasSupport.check_sound, while keeping bad-direction masks
+handled only by the generic GoodDirection theorem.
 ```
 
-If yes, implement that Lean theorem and then regenerate a tiny source-support
-family backend. If no, reject source-support transport explicitly and pivot to
-a replacement translation theorem, such as a direct denominator/Farkas theorem
-over GoodDirection survivor systems.
+This still leaves the nonidentity side open. Phase 6X should not be mistaken
+for full generated coverage; it unlocks a plausible translation backend.
 
 ## Explicit Non-Goals
 
