@@ -174,6 +174,23 @@ theorem checkFarkas_sound
     exact_mod_cast hc
   linarith
 
+theorem FarkasCert.Valid.sound
+    {constraints : List StrictLin2}
+    {cert : FarkasCert}
+    (hValid : cert.Valid constraints) :
+    ¬ exists y z : Real,
+      forall L, L ∈ constraints -> L.Holds y z := by
+  intro hfeas
+  rcases hfeas with ⟨y, z, hAll⟩
+  rcases hValid with ⟨hTerms, hPos, ha, hb, hc⟩
+  have hlt := weightedSum_eval_lt_c_of_terms_valid_pos hTerms hPos hAll
+  have heval :
+      (weightedSum constraints cert.terms).eval y z = 0 := by
+    simp [StrictLin2.eval, ha, hb]
+  have hcReal : (((weightedSum constraints cert.terms).c : Rat) : Real) <= 0 := by
+    exact_mod_cast hc
+  linarith
+
 def tinyContradictionConstraints : List StrictLin2 :=
   [{ a := 1, b := 0, c := 0 }, { a := -1, b := 0, c := 0 }]
 

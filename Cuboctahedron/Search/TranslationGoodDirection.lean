@@ -30,6 +30,45 @@ def impactDenomAtRank
 def GoodDirectionAtRank (r : Fin numPairWords) (mask : SignMask) : Prop :=
   forall i : InternalImpact, 0 < impactDenomAtRank r mask i.1
 
+def internalImpactList : List InternalImpact :=
+  [⟨⟨1, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨2, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨3, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨4, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨5, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨6, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨7, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨8, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨9, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨10, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨11, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨12, by decide⟩, by constructor <;> decide⟩,
+   ⟨⟨13, by decide⟩, by constructor <;> decide⟩]
+
+def goodDirectionAtRankBool (r : Fin numPairWords) (mask : SignMask) : Bool :=
+  internalImpactList.all fun i =>
+    decide (0 < impactDenomAtRank r mask i.1)
+
+theorem goodDirectionAtRankBool_eq_true_of_goodDirection
+    {r : Fin numPairWords} {mask : SignMask}
+    (h : GoodDirectionAtRank r mask) :
+    goodDirectionAtRankBool r mask = true := by
+  simp [goodDirectionAtRankBool, internalImpactList]
+  exact
+    ⟨h ⟨⟨1, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨2, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨3, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨4, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨5, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨6, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨7, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨8, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨9, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨10, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨11, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨12, by decide⟩, by constructor <;> decide⟩,
+     h ⟨⟨13, by decide⟩, by constructor <;> decide⟩⟩
+
 def TranslationFeasibleAtRank
     (r : Fin numPairWords) (mask : SignMask) : Prop :=
   exists seq,

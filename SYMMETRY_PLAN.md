@@ -179,7 +179,8 @@ Phase 6M coarse terminal-obstruction algebra profiler, Phase 6N combined
 residual/portfolio profiler, Phase 6O translation survivor/Farkas shape-map
 compression, Phase 6P survivor-bitset theorem pilot profiling, Phase 6V exact
 source-Farkas burden profiling, and Phase 6W source-support multiplier
-variation profiling, and Phase 6X two-source Farkas support profiling.
+variation profiling, Phase 6X two-source Farkas support profiling, and the
+Phase 6Y Lean proof-carrying two-source core/sample.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -212,7 +213,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)` | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X adds a tiny Lean adapter for deterministic two-source Farkas supports and proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)`; Phase 6Y core/sample complete, emitter pending | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y adds a Prop-level Lean checker target and one explicit sample, but the generated bounded emitter and rank bridge are still next. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -247,6 +248,17 @@ Completed current-work items:
 - Phase 6X is accepted on `[0,100000)`: all 39,710 GoodDirection survivor
   masks are two-source, all deterministic two-source checks pass, and the
   window has 235 source-support classes.
+- Added the Phase 6Y proof-carrying two-source Lean core:
+  `FarkasCert.Valid.sound`,
+  `TwoSourceFarkasSupport.Checked`,
+  `TwoSourceFarkasSupport.Checked.sound`,
+  `Cuboctahedron/Generated/Translation/TwoSource/Core.lean`, and
+  `Cuboctahedron/Generated/Translation/TwoSource/Sample.lean`.
+- Phase 6Y sample status: an explicit concrete sequence/vector two-source
+  contradiction builds without the native compiler decision tactic or the
+  legacy large Boolean certificate path. A naive rank-level `decide` proof
+  timed out, so the next emitter must generate explicit sequence/vector
+  facts plus a small rank/mask bridge strategy.
 - Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
 - Added `nonidentity_killed_of_no_fixed_axis`.
 - Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
@@ -3247,13 +3259,78 @@ python3 scripts/profile_symmetry_compression.py \
 
 Next step:
 
-1. Emit private source-support data plus public semantic interval/word-DAG
-   theorems using `TwoSourceFarkasSupport.check_sound`.
+1. Finish Phase 6Y by emitting private proof-carrying two-source evidence
+   shards and a bounded semantic coverage root.
 2. Keep GoodDirection as the generic necessary-condition theorem; do not emit
    bad-direction evidence.
-3. Profile the remaining nonidentity branch separately. Phase 6X solves the
+3. Add the rank/mask bridge pilot needed to connect explicit generated
+   sequence/vector contradictions back to `TranslationGoodCaseKilled r mask`.
+4. Profile the remaining nonidentity branch separately. Phase 6X solves the
    dominant translation survivor bottleneck; it does not by itself cover
    nonidentity terminal residuals.
+
+#### Phase 6Y: Proof-Carrying Two-Source Translation Emitter
+
+Purpose: turn the accepted Phase 6X two-source profile into actual
+Lean-checkable generated evidence without returning to large Boolean reduction.
+
+Current status: core theorem layer and one explicit sample are complete. Full
+bounded emitter and rank bridge are still pending.
+
+Implemented Lean support:
+
+- `FarkasCert.Valid.sound` proves infeasibility from Prop-level Farkas validity,
+  avoiding the need to reduce `checkFarkas`.
+- `TwoSourceFarkasSupport.Checked` stores small exact facts for a two-row
+  source Farkas contradiction:
+  - both source rows are legal translation constraint sources;
+  - both deterministic multipliers are nonnegative;
+  - at least one multiplier is positive;
+  - weighted `a` and `b` coefficients cancel;
+  - the weighted RHS is nonpositive.
+- `TwoSourceFarkasSupport.Checked.sound` turns that record into
+  infeasibility of the translation constraint system.
+- `Cuboctahedron.Generated.Translation.TwoSource.goodCaseKilled_of_checked`
+  connects a checked rank/mask two-source witness to
+  `TranslationGoodCaseKilled`.
+- `Cuboctahedron.Generated.Translation.TwoSource.Sample.sampleNoTranslationConstraints`
+  is a hand-authored smoke test for one concrete Phase 6X survivor.
+
+Important implementation lesson:
+
+- A naive rank-level generated proof using `decide` on
+  `translationSeqAtRankMask`, `translationBAtRankMask`, or
+  `goodDirectionAtRankBool` times out even for a tiny sample.
+- The viable generated leaf shape is explicit:
+  - private concrete `seq : Step14 -> Face`;
+  - private concrete `b : Vec3 Rat`;
+  - private `TwoSourceFarkasSupport`;
+  - a small `support.Checked seq b` proof by unfolding only the explicit
+    sequence/vector arithmetic.
+- The remaining bridge must prove, in a bounded and memory-safe way, that the
+  explicit `seq` and `b` correspond to the intended rank/mask. That bridge
+  should be generated as small local facts, not by asking Lean to normalize a
+  large rank expression.
+
+Next Phase 6Y tasks:
+
+1. Add `scripts/generate_translation_two_source_evidence.py` or an equivalent
+   mode that recomputes Phase 6X survivors and emits bounded Lean shards.
+2. Start with `[0,1000)` and shard by source-support class or by modest fixed
+   case count; keep each leaf small enough to compile serially.
+3. Each leaf should export semantic theorems, not raw data tables. Initial
+   bounded roots may target concrete sequence/vector infeasibility first, then
+   add rank/mask coverage once the bridge is proven.
+4. Implement the rank/mask bridge pilot for the `[0,1000)` shard. If direct
+   rank normalization times out, generate explicit unrank/choice equality
+   lemmas or add a smaller checker whose inputs are already explicit
+   pair-word and mask literals.
+5. Acceptance for this phase:
+   - `lake build Cuboctahedron.Generated.Translation.TwoSource.Sample`;
+   - a generated `[0,1000)` two-source shard builds;
+   - the generated shard uses no forbidden proof shortcuts;
+   - no broad `lake build` imports heavy leaves by default;
+   - the plan records whether the rank bridge is accepted or still blocked.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4091,8 +4168,11 @@ Acceptance:
   including the memory-safe parallel runner.
 - [x] Implement and accept Phase 6X deterministic two-source Farkas support
   profiling on the `[0,100000)` gate.
-- [ ] Emit proof-carrying translation source-support coverage from Phase 6X
-  private support data.
+- [x] Implement Phase 6Y two-source Prop-level Lean checker core and explicit
+  sample proof.
+- [ ] Emit proof-carrying translation two-source shards for `[0,1000)`.
+- [ ] Implement the Phase 6Y rank/mask bridge pilot for those generated
+  shards.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -4197,21 +4277,26 @@ and every surviving Farkas certificate has exactly two source terms. Those
 multipliers vary inside the supports.
 
 Phase 6X resolves that multiplier-variation blocker for the bounded gate by
-computing deterministic two-source multipliers from the two support rows and
-then checking the resulting `SourceFarkasCert` in Lean's existing source
-Farkas checker. On `[0,100000)`, all 39,710 GoodDirection survivors are
+computing deterministic two-source multipliers from the two support rows.
+Phase 6Y then converted that idea into a Prop-level Lean checker target so
+generated leaves can prove small exact facts instead of reducing a large
+Boolean checker. On `[0,100000)`, all 39,710 GoodDirection survivors are
 two-source, all computed checks pass, and only 235 source-support classes
-remain. Therefore the next step is no longer another theorem-design probe. It
-is an evidence-emitter task:
+remain. The explicit sample proves the concrete two-row contradiction in Lean.
+Therefore the next step is no longer another theorem-design probe. It is an
+evidence-emitter plus bridge task:
 
 ```text
-Emit private source-support data and public semantic coverage theorems that
-use TwoSourceFarkasSupport.check_sound, while keeping bad-direction masks
-handled only by the generic GoodDirection theorem.
+Emit bounded proof-carrying two-source shards with explicit seq/b/support
+facts, then add the smallest rank/mask bridge that turns those facts into
+TranslationGoodCaseKilled coverage, while keeping bad-direction masks handled
+only by the generic GoodDirection theorem.
 ```
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken
-for full generated coverage; it unlocks a plausible translation backend.
+for full generated coverage; Phase 6Y makes the translation backend
+Lean-checkable at sample scale, and the next proof obligation is to scale that
+sample format through a generated bounded root.
 
 ## Explicit Non-Goals
 
