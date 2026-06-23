@@ -81,12 +81,28 @@ def output_md_path(start: int, end: int) -> Path:
     return GENERATED_DIR / f"cross_family_obstructions_{start:09d}_{end:09d}.md"
 
 
+def proof_usable_output_json_path(start: int, end: int) -> Path:
+    return GENERATED_DIR / f"cross_family_obstructions_phase6u_split_{start:09d}_{end:09d}.json"
+
+
+def proof_usable_output_md_path(start: int, end: int) -> Path:
+    return GENERATED_DIR / f"cross_family_obstructions_phase6u_split_{start:09d}_{end:09d}.md"
+
+
 def cross_summary_json_path() -> Path:
     return GENERATED_DIR / "cross_family_obstructions_cross_window_summary.json"
 
 
 def cross_summary_md_path() -> Path:
     return GENERATED_DIR / "cross_family_obstructions_cross_window_summary.md"
+
+
+def proof_usable_summary_json_path() -> Path:
+    return GENERATED_DIR / "cross_family_obstructions_phase6u_split_summary.json"
+
+
+def proof_usable_summary_md_path() -> Path:
+    return GENERATED_DIR / "cross_family_obstructions_phase6u_split_summary.md"
 
 
 def display_path(path: Path) -> str:
@@ -190,8 +206,16 @@ class CrossFamilyObstructionProfiler:
         self.translation_templates = TemplateTracker(sample_limit=sample_limit)
         self.nonidentity_templates = TemplateTracker(sample_limit=sample_limit)
         self.cross_templates = TemplateTracker(sample_limit=sample_limit)
+        self.proof_templates = TemplateTracker(sample_limit=sample_limit)
+        self.zero_axis_fanout: dict[str, set[str]] = defaultdict(set)
+        self.zero_remaining_fanout: dict[str, set[str]] = defaultdict(set)
+        self.cross_pair_normal_translation_fanout: dict[str, set[str]] = defaultdict(set)
+        self.cross_pair_normal_nonidentity_fanout: dict[str, set[str]] = defaultdict(set)
         self.constraint_cache: dict[tuple[str, str], tuple[str, str]] = {}
-        self.normal_support_cache: dict[str, tuple[str, tuple[str, ...], tuple[str, ...]]] = {}
+        self.normal_support_cache: dict[
+            str,
+            tuple[str, tuple[str, ...], tuple[str, ...], tuple[str, ...]],
+        ] = {}
 
     def add_template(
         self,
@@ -209,6 +233,32 @@ class CrossFamilyObstructionProfiler:
             self.nonidentity_templates.add(full_template, leaf, sample=sample)
         elif family.startswith("cross."):
             self.cross_templates.add(full_template, leaf, sample=sample)
+
+    def add_proof_template(
+        self,
+        family: str,
+        template: str,
+        leaf: str,
+        *,
+        sample: dict[str, Any],
+    ) -> None:
+        self.proof_templates.add(f"{family}|{template}", leaf, sample=sample)
+
+    @staticmethod
+    def fanout_rows(
+        fanout: dict[str, set[str]],
+        *,
+        limit: int = 20,
+    ) -> list[dict[str, Any]]:
+        rows = [
+            {
+                "template": template,
+                "concrete_obligations": len(obligations),
+            }
+            for template, obligations in fanout.items()
+        ]
+        rows.sort(key=lambda row: (-row["concrete_obligations"], row["template"]))
+        return rows[:limit]
 
     @staticmethod
     def translation_denominator_problem(
@@ -273,8 +323,9 @@ class CrossFamilyObstructionProfiler:
                     normal_class = normalized_axis_key(normal)
                     face = impact_face(seq, impact)
                     pair_id, _sign = FACE_TO_PAIR_SIGN[face]
-                pair_classes.add(pair_id)
-                impact_supports.append(f"{impact}:pair={pair_id}|normal={normal_class}")
+                    normal_classes.add(normal_class)
+                    pair_classes.add(pair_id)
+                    impact_supports.append(f"{impact}:pair={pair_id}|normal={normal_class}")
                 self.normal_support_cache[seq_text] = (
                     stable_digest("|".join(sorted(impact_supports))),
                     tuple(sorted(normal_classes)),
@@ -301,6 +352,12 @@ class CrossFamilyObstructionProfiler:
             }
 
             self.add_template(
+                "translation.farkasShape",
+                f"shape={shape_digest}",
+                leaf,
+                sample=sample,
+            )
+            self.add_proof_template(
                 "translation.farkasShape",
                 f"shape={shape_digest}",
                 leaf,
@@ -342,6 +399,9 @@ class CrossFamilyObstructionProfiler:
                     pair_normal,
                     leaf,
                     sample=sample,
+                )
+                self.cross_pair_normal_translation_fanout[pair_normal].add(
+                    f"translation.farkasShape|shape={shape_digest}"
                 )
 
     def classify_nonidentity_leaf(
@@ -399,6 +459,12 @@ class CrossFamilyObstructionProfiler:
             leaf,
             sample=sample,
         )
+        self.add_proof_template(
+            "nonidentity.zeroNormalWitness",
+            leaf_key,
+            leaf,
+            sample=sample,
+        )
         self.add_template(
             "nonidentity.zeroNormal",
             f"normal={normal_class}",
@@ -423,18 +489,25 @@ class CrossFamilyObstructionProfiler:
             leaf,
             sample=sample,
         )
+        self.zero_remaining_fanout[
+            f"pair={pair_id}|remaining={remaining_key}"
+        ].add(leaf_key)
         self.add_template(
             "nonidentity.zeroAxis",
             f"axis={axis_class}",
             leaf,
             sample=sample,
         )
+        self.zero_axis_fanout[f"axis={axis_class}"].add(leaf_key)
         self.add_template(
             "cross.pairNormal",
             f"pair={pair_id}|normal={normal_class}",
             leaf,
             sample=sample,
         )
+        self.cross_pair_normal_nonidentity_fanout[
+            f"pair={pair_id}|normal={normal_class}"
+        ].add(f"nonidentity.zeroNormalWitness|{leaf_key}")
 
     def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
         self.pair_words_scanned += 1
@@ -481,14 +554,20 @@ class CrossFamilyObstructionProfiler:
 
         rec(0)
 
-    def greedy_projection(self, k_values: tuple[int, ...]) -> dict[str, Any]:
+    def greedy_projection(
+        self,
+        k_values: tuple[int, ...],
+        *,
+        proof_usable: bool = False,
+    ) -> dict[str, Any]:
         universe = set(self.translation_leaves) | set(self.nonidentity_leaves)
         uncovered = set(universe)
         selected: list[dict[str, Any]] = []
         by_k: dict[str, dict[str, Any]] = {}
+        tracker = self.proof_templates if proof_usable else self.all_templates
         candidates = {
             template: set(leaves)
-            for template, leaves in self.all_templates.leaves_by_template.items()
+            for template, leaves in tracker.leaves_by_template.items()
         }
         max_k = max(k_values, default=0)
         for step in range(1, max_k + 1):
@@ -514,7 +593,7 @@ class CrossFamilyObstructionProfiler:
                 "template": best_template,
                 "new_leaf_coverage": len(best_cover),
                 "remaining_leaves": len(uncovered),
-                "total_case_count": self.all_templates.case_counts[best_template],
+                "total_case_count": tracker.case_counts[best_template],
                 "template_leaf_count": len(candidates[best_template]),
             })
             if step in k_values:
@@ -547,13 +626,26 @@ class CrossFamilyObstructionProfiler:
             "by_k": by_k,
         }
 
-    def payload(self, *, elapsed_seconds: float, k_values: tuple[int, ...]) -> dict[str, Any]:
-        projection = self.greedy_projection(k_values)
+    def payload(
+        self,
+        *,
+        elapsed_seconds: float,
+        k_values: tuple[int, ...],
+        proof_usable: bool,
+    ) -> dict[str, Any]:
+        raw_projection = self.greedy_projection(k_values, proof_usable=False)
+        proof_projection = self.greedy_projection(k_values, proof_usable=True)
+        projection = proof_projection if proof_usable else raw_projection
         largest_k = str(max(k_values, default=0))
         accepted = projection["by_k"].get(largest_k, {}).get("passes_gate", False)
         return {
             "schema_version": 1,
-            "mode": "cross-family-obstruction-profile",
+            "mode": (
+                "cross-family-obstruction-proof-usable-profile"
+                if proof_usable else
+                "cross-family-obstruction-profile"
+            ),
+            "proof_usable_portfolio": proof_usable,
             "trusted_as_proof": False,
             "emits_lean_evidence": False,
             "rank_window": {
@@ -574,12 +666,29 @@ class CrossFamilyObstructionProfiler:
                 "nonidentity_forced_zero_cases": self.nonidentity_forced_zero_cases,
             },
             "projection": projection,
+            "raw_projection": raw_projection,
+            "proof_projection": proof_projection,
             "top_translation_templates": self.translation_templates.rows(limit=20),
             "top_nonidentity_templates": self.nonidentity_templates.rows(limit=20),
             "top_cross_templates": self.cross_templates.rows(limit=20),
+            "top_proof_templates": self.proof_templates.rows(limit=30),
             "top_all_templates": self.all_templates.rows(limit=30),
+            "proof_usable_fanout": {
+                "zero_axis_to_zero_normal_witnesses":
+                    self.fanout_rows(self.zero_axis_fanout),
+                "zero_remaining_counts_to_zero_normal_witnesses":
+                    self.fanout_rows(self.zero_remaining_fanout),
+                "cross_pair_normal_to_translation_farkas_shapes":
+                    self.fanout_rows(self.cross_pair_normal_translation_fanout),
+                "cross_pair_normal_to_nonidentity_zero_normal_witnesses":
+                    self.fanout_rows(self.cross_pair_normal_nonidentity_fanout),
+            },
             "decision": {
-                "status": "phase6t_window_passes" if accepted else "phase6t_window_rejected",
+                "status": (
+                    ("phase6u_split_window_passes" if accepted else "phase6u_split_window_rejected")
+                    if proof_usable else
+                    ("phase6t_window_passes" if accepted else "phase6t_window_rejected")
+                ),
                 "passes_at_max_k": accepted,
                 "max_k": int(largest_k) if largest_k else 0,
                 "remaining_leaves_at_max_k":
@@ -591,12 +700,18 @@ class CrossFamilyObstructionProfiler:
 def render_window_markdown(payload: dict[str, Any]) -> str:
     window = payload["rank_window"]
     projection = payload["projection"]
+    proof_usable = payload.get("proof_usable_portfolio", False)
     lines = [
-        "# Cross-Family Obstruction Profile",
+        (
+            "# Phase 6U Proof-Usable Split Portfolio Profile"
+            if proof_usable else
+            "# Cross-Family Obstruction Profile"
+        ),
         "",
         "This diagnostic report is not trusted proof and emits no Lean evidence.",
         "",
         f"- Window: `[{window['start']}, {window['end']})`",
+        f"- Proof-usable portfolio mode: `{proof_usable}`",
         f"- Initial leaves: `{projection['initial_leaves']}`",
         f"- Translation leaves: `{projection['translation_leaves']}`",
         f"- Nonidentity leaves: `{projection['nonidentity_leaves']}`",
@@ -622,6 +737,31 @@ def render_window_markdown(payload: dict[str, Any]) -> str:
         lines.append(
             f"| `{row['template']}` | {row['leaf_count']:,} | {row['case_count']:,} |"
         )
+    if proof_usable:
+        lines.extend([
+            "",
+            "## Top Proof-Usable Templates",
+            "",
+            "| Template | Leaves | Cases |",
+            "| --- | ---: | ---: |",
+        ])
+        for row in payload["top_proof_templates"][:12]:
+            lines.append(
+                f"| `{row['template']}` | {row['leaf_count']:,} | {row['case_count']:,} |"
+            )
+        lines.extend([
+            "",
+            "## Fanout Diagnostics",
+            "",
+            "| Fanout | Template | Concrete obligations |",
+            "| --- | --- | ---: |",
+        ])
+        for fanout_name, rows in payload["proof_usable_fanout"].items():
+            for row in rows[:5]:
+                lines.append(
+                    f"| `{fanout_name}` | `{row['template']}` | "
+                    f"{row['concrete_obligations']:,} |"
+                )
     lines.append("")
     return "\n".join(lines)
 
@@ -631,6 +771,7 @@ def summarize_windows(
     *,
     max_lean_leaves: int,
     max_template_families: int,
+    proof_usable: bool,
 ) -> dict[str, Any]:
     windows = [load_json(path) for path in paths]
     all_pass = all(
@@ -662,7 +803,12 @@ def summarize_windows(
     )
     return {
         "schema_version": 1,
-        "mode": "cross-family-obstruction-cross-window-summary",
+        "mode": (
+            "cross-family-obstruction-proof-usable-cross-window-summary"
+            if proof_usable else
+            "cross-family-obstruction-cross-window-summary"
+        ),
+        "proof_usable_portfolio": proof_usable,
         "trusted_as_proof": False,
         "emits_lean_evidence": False,
         "max_lean_leaves": max_lean_leaves,
@@ -686,9 +832,17 @@ def summarize_windows(
         "aggregate_template_families": aggregate_rows,
         "decision": {
             "status": (
-                "phase6t_accepted"
-                if all_pass and small_selected_portfolio
-                else "phase6t_rejected"
+                (
+                    "phase6u_split_accepted"
+                    if all_pass and small_selected_portfolio
+                    else "phase6u_split_rejected"
+                )
+                if proof_usable else
+                (
+                    "phase6t_accepted"
+                    if all_pass and small_selected_portfolio
+                    else "phase6t_rejected"
+                )
             ),
             "all_windows_pass_gate": all_pass,
             "small_selected_template_portfolio": small_selected_portfolio,
@@ -697,12 +851,18 @@ def summarize_windows(
 
 
 def render_summary_markdown(summary: dict[str, Any]) -> str:
+    proof_usable = summary.get("proof_usable_portfolio", False)
     lines = [
-        "# Cross-Family Obstruction Cross-Window Summary",
+        (
+            "# Phase 6U Proof-Usable Split Portfolio Cross-Window Summary"
+            if proof_usable else
+            "# Cross-Family Obstruction Cross-Window Summary"
+        ),
         "",
         "This diagnostic report is not trusted proof and emits no Lean evidence.",
         "",
         f"- Status: `{summary['decision']['status']}`",
+        f"- Proof-usable portfolio mode: `{proof_usable}`",
         f"- All windows pass gate: `{summary['decision']['all_windows_pass_gate']}`",
         f"- Small selected template portfolio: `{summary['decision']['small_selected_template_portfolio']}`",
         "- Selected template family union: "
@@ -755,13 +915,31 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="summarize the default window outputs instead of traversing ranks",
     )
+    parser.add_argument(
+        "--proof-usable-portfolio",
+        action="store_true",
+        help="use only Phase 6U proof-usable split templates for the projection",
+    )
+    parser.add_argument(
+        "--compare-proof-usable-windows",
+        action="store_true",
+        help="summarize the Phase 6U proof-usable default window outputs",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    if args.compare_default_windows:
-        paths = [output_json_path(start, end) for start, end in DEFAULT_WINDOWS]
+    if args.compare_default_windows or args.compare_proof_usable_windows:
+        proof_usable_summary = args.compare_proof_usable_windows
+        paths = [
+            (
+                proof_usable_output_json_path(start, end)
+                if proof_usable_summary else
+                output_json_path(start, end)
+            )
+            for start, end in DEFAULT_WINDOWS
+        ]
         missing = [path for path in paths if not path.exists()]
         if missing:
             raise SystemExit(
@@ -772,12 +950,25 @@ def main() -> None:
             paths,
             max_lean_leaves=args.max_lean_leaves,
             max_template_families=args.max_template_families,
+            proof_usable=proof_usable_summary,
         )
-        output_json = args.output_json or cross_summary_json_path()
-        output_md = args.output_md or cross_summary_md_path()
+        output_json = args.output_json or (
+            proof_usable_summary_json_path()
+            if proof_usable_summary else
+            cross_summary_json_path()
+        )
+        output_md = args.output_md or (
+            proof_usable_summary_md_path()
+            if proof_usable_summary else
+            cross_summary_md_path()
+        )
         write_json(output_json, summary)
         write_text(output_md, render_summary_markdown(summary))
-        print("cross-family obstruction cross-window summary")
+        print(
+            "phase 6u proof-usable split cross-window summary"
+            if proof_usable_summary else
+            "cross-family obstruction cross-window summary"
+        )
         print(f"status: {summary['decision']['status']}")
         print(f"json: {display_path(output_json)}")
         print(f"markdown: {display_path(output_md)}")
@@ -801,13 +992,26 @@ def main() -> None:
     payload = profiler.payload(
         elapsed_seconds=time.monotonic() - started,
         k_values=DEFAULT_K_VALUES,
+        proof_usable=args.proof_usable_portfolio,
     )
-    output_json = args.output_json or output_json_path(args.start_rank, rank_end)
-    output_md = args.output_md or output_md_path(args.start_rank, rank_end)
+    output_json = args.output_json or (
+        proof_usable_output_json_path(args.start_rank, rank_end)
+        if args.proof_usable_portfolio else
+        output_json_path(args.start_rank, rank_end)
+    )
+    output_md = args.output_md or (
+        proof_usable_output_md_path(args.start_rank, rank_end)
+        if args.proof_usable_portfolio else
+        output_md_path(args.start_rank, rank_end)
+    )
     write_json(output_json, payload)
     write_text(output_md, render_window_markdown(payload))
 
-    print("cross-family obstruction profile")
+    print(
+        "phase 6u proof-usable split portfolio profile"
+        if args.proof_usable_portfolio else
+        "cross-family obstruction profile"
+    )
     print(f"rank window: [{args.start_rank:,}, {rank_end:,})")
     print(f"initial leaves: {payload['projection']['initial_leaves']:,}")
     max_k = str(max(DEFAULT_K_VALUES))
