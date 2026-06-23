@@ -58,6 +58,7 @@ from exact_profile import (
     sign_pattern_key,
     sym_word,
     sym_vec,
+    canonical_translation_combined,
     translation_constraints,
     translation_vector,
     total_aff,
@@ -98,6 +99,22 @@ DEFAULT_TRANSLATION_STATE_DAG_OUTPUT = (
 DEFAULT_NONIDENTITY_EMPTY_CONE_OUTPUT = (
     REPO_ROOT / "scripts" / "generated" / "nonidentity_empty_cone_profile.json"
 )
+DEFAULT_COMBINED_RESIDUAL_PORTFOLIO_OUTPUT = (
+    REPO_ROOT
+    / "scripts"
+    / "generated"
+    / "combined_residual_portfolio_profile_000000000_000100000.json"
+)
+
+
+def default_translation_farkas_shape_map_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"translation_farkas_shape_map_profile_000000000_{rank_end:09d}.json"
+    )
 
 
 def default_nonidentity_terminal_algebra_output(rank_start: int, limit: int | None) -> Path:
@@ -3774,6 +3791,457 @@ class NonIdentityTerminalAlgebraProfiler:
         }
 
 
+class CombinedResidualPortfolioProfiler:
+    """Phase 6N profiler for ordered combinations of existing filters.
+
+    This mode is deliberately untrusted and emits no Lean evidence.  It asks
+    whether the current collection of semantic filters is already small enough
+    when treated as an ordered portfolio instead of as independent standalone
+    backends.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        self.target_hi = EXPECTED_PAIR_WORDS if limit is None else limit
+        self.limit = limit
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.max_distinct_tracked = max_distinct_tracked
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.use_d4_transport = use_d4_transport
+
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words = 0
+        self.translation_sign_assignments = 0
+        self.translation_good_direction_masks = 0
+        self.translation_denominator_nonpositive_masks = 0
+        self.translation_zero_vector_masks = 0
+        self.nonidentity_forced_balance_survivors = 0
+
+        self.first_filter_case_counts: Counter[str] = Counter()
+        self.primary_shapes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.primary_shapes_by_filter: dict[str, DistinctTracker] = {}
+        self.primary_shape_reuse: Counter[str] = Counter()
+        self.overlap_shapes_by_filter: dict[str, DistinctTracker] = {}
+        self.overlap_case_counts: Counter[str] = Counter()
+        self.samples: dict[str, list[dict[str, Any]]] = {}
+
+    def tracker_for(
+        self,
+        table: dict[str, DistinctTracker],
+        name: str,
+    ) -> DistinctTracker:
+        if name not in table:
+            table[name] = DistinctTracker(self.max_distinct_tracked, self.sample_limit)
+        return table[name]
+
+    def add_sample(self, filter_name: str, sample: dict[str, Any]) -> None:
+        bucket = self.samples.setdefault(filter_name, [])
+        if len(bucket) < self.sample_limit:
+            bucket.append(sample)
+
+    def record_primary(
+        self,
+        filter_name: str,
+        shape_key: str | None,
+        *,
+        case_count: int = 1,
+        sample: dict[str, Any] | None = None,
+    ) -> None:
+        self.first_filter_case_counts[filter_name] += case_count
+        if shape_key is not None:
+            full_key = f"{filter_name}|{shape_key}"
+            self.primary_shapes.add(full_key)
+            self.tracker_for(self.primary_shapes_by_filter, filter_name).add(shape_key)
+            self.primary_shape_reuse[full_key] += case_count
+        if sample is not None:
+            self.add_sample(filter_name, sample)
+
+    def record_overlap(
+        self,
+        filter_name: str,
+        shape_key: str,
+        *,
+        case_count: int = 1,
+    ) -> None:
+        self.overlap_case_counts[filter_name] += case_count
+        self.tracker_for(self.overlap_shapes_by_filter, filter_name).add(shape_key)
+
+    def canonical_translation_choice(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> tuple[tuple[str, ...], int, int]:
+        if self.use_d4_transport:
+            return canonical_translation_with_symmetry(word, mask)
+        return word, mask, 0
+
+    @staticmethod
+    def denominator_values_for_choice(
+        word: tuple[str, ...],
+        mask: int,
+        pref: list | None = None,
+    ) -> tuple[tuple[Fraction, ...], tuple, list[str]]:
+        return TranslationSurvivorProfiler.denominator_values_for_choice(
+            word,
+            mask,
+            pref,
+        )
+
+    def survivor_shape_digest(self, word: tuple[str, ...], mask: int) -> str:
+        denoms, b, seq = self.denominator_values_for_choice(word, mask)
+        if not all(denom > 0 for denom in denoms):
+            raise ValueError("survivor_shape_digest called for non-survivor mask")
+        return stable_digest(normalized_constraints_key(translation_constraints(seq, b)))
+
+    def analyze_translation_word(
+        self,
+        word: tuple[str, ...],
+        pref: list,
+    ) -> tuple[tuple[QuadraticRow, ...], int, dict[int, str], int]:
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_bits = 0
+        survivor_shape_by_mask: dict[int, str] = {}
+        zero_vector_count = 0
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+            if all(denom > 0 for denom in denoms):
+                survivor_bits |= 1 << mask
+                self.translation_good_direction_masks += 1
+                canonical_word, canonical_mask, _sym_id = self.canonical_translation_choice(
+                    word,
+                    mask,
+                )
+                survivor_shape_by_mask[mask] = self.survivor_shape_digest(
+                    canonical_word,
+                    canonical_mask,
+                )
+            else:
+                self.translation_denominator_nonpositive_masks += 1
+                if b == ZERO_VEC:
+                    zero_vector_count += 1
+                    self.translation_zero_vector_masks += 1
+
+        rows: list[QuadraticRow] = []
+        for values in impact_values:
+            coeffs = denominator_polynomial_coeffs(values)
+            integer_coeffs = integer_normalized_polynomial_coeffs(coeffs)
+            rows.append(quadratic_row_from_coeffs(integer_coeffs))
+        return tuple(rows), survivor_bits, survivor_shape_by_mask, zero_vector_count
+
+    def classify_translation_leaf(
+        self,
+        rank: int,
+        word: tuple[str, ...],
+        pref: list,
+    ) -> None:
+        rows, survivor_bits, survivor_shape_by_mask, _zero_count = (
+            self.analyze_translation_word(word, pref)
+        )
+        bad_mask_count = 64 - survivor_bits.bit_count()
+        if bad_mask_count:
+            self.record_primary(
+                "translation.generic_good_direction",
+                None,
+                case_count=bad_mask_count,
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "case_count": bad_mask_count,
+                    "generated_leaves": 0,
+                },
+            )
+
+        for mask, shape_digest in sorted(survivor_shape_by_mask.items()):
+            self.record_primary(
+                "translation.farkas_survivor",
+                f"shape={shape_digest}",
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "mask": mask,
+                    "shape_digest": shape_digest,
+                },
+            )
+
+        if bad_mask_count:
+            canonical_rows, canonical_problem_key, canonical_bits, _transform, _tie = (
+                canonical_lifted_problem(rows, survivor_bits)
+            )
+            canonical_problem_digest = stable_digest(canonical_problem_key)
+            bad_cubes, _point_fallbacks, _max_cube_size = greedy_bad_cube_cover(
+                canonical_rows=canonical_rows,
+                survivor_bits=canonical_bits,
+            )
+            for bad_cube in bad_cubes:
+                shape_key = (
+                    f"problem={canonical_problem_digest}|cube={bad_cube['cube_key']}|"
+                    f"fail={bad_cube['failure_key']}"
+                )
+                self.record_overlap(
+                    "translation.lifted_pb_bad_cube_diagnostic",
+                    shape_key,
+                    case_count=bad_cube["size"],
+                )
+
+    def classify_nonidentity_leaf(
+        self,
+        rank: int,
+        word: tuple[str, ...],
+        pref: list,
+        matrix,
+    ) -> None:
+        try:
+            axis = one_dimensional_fixed_axis(matrix)
+        except ValueError:
+            self.record_primary(
+                "nonidentity.no_fixed_axis",
+                f"linear={mat_key(matrix)}",
+                sample={"rank": rank, "word": word_key(word), "linear": mat_key(matrix)},
+            )
+            return
+
+        final_dot = final_axis_dot(list(word), axis, pref)
+        if final_dot < 0:
+            axis = (-axis[0], -axis[1], -axis[2])
+            final_dot = -final_dot
+        axis_key = normalized_axis_key(axis)
+        if final_dot == 0:
+            final_normal = mat_vec(pref[-1], vec(NORMALS["x"]))
+            self.record_primary(
+                "nonidentity.final_axis_zero",
+                (
+                    f"zeroAt=final|normalClass={normalized_axis_key(final_normal)}"
+                    f"|axisClass={axis_key}"
+                ),
+                sample={"rank": rank, "word": word_key(word), "axis": vec_key(axis)},
+            )
+            return
+
+        zero_index = first_axis_zero_index(list(word), axis, pref)
+        if zero_index is not None:
+            pair_id = word[zero_index]
+            transformed_normal = mat_vec(pref[zero_index], vec(NORMALS[pair_id]))
+            self.record_primary(
+                "nonidentity.forced_zero_denominator",
+                (
+                    f"zeroAt={zero_index}|pair={pair_id}"
+                    f"|normalClass={normalized_axis_key(transformed_normal)}"
+                    f"|axisClass={axis_key}"
+                ),
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "axis": vec_key(axis),
+                    "zero_at": zero_index,
+                },
+            )
+            return
+
+        forced_seq = forced_sequence_from_axis(list(word), axis, pref)
+        if len(set(forced_seq)) != 14:
+            self.record_primary(
+                "nonidentity.bad_pair_balance",
+                NonIdentityTerminalAlgebraProfiler.bad_pair_balance_key(forced_seq),
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "axis": vec_key(axis),
+                    "forced_seq": forced_seq,
+                },
+            )
+            return
+
+        self.nonidentity_forced_balance_survivors += 1
+        failure, details, key = terminal_axis_candidate_algebra_failure(forced_seq, axis)
+        filter_name = f"nonidentity.terminal_algebra.{failure}"
+        if failure == "simulates_valid_orbit":
+            filter_name = "nonidentity.residual_singleton_fallback"
+            key = f"rank={rank}"
+        sample = {
+            "rank": rank,
+            "word": word_key(word),
+            "axis": vec_key(axis),
+            "forced_seq": forced_seq,
+            "failure": failure,
+        }
+        sample.update(details)
+        self.record_primary(filter_name, key, sample=sample)
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"combined portfolio scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix == IDENTITY:
+            self.identity_words += 1
+            self.classify_translation_leaf(rank, word, pref)
+        else:
+            self.nonidentity_words += 1
+            self.classify_nonidentity_leaf(rank, word, pref, matrix)
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            if rank_lo >= self.target_hi:
+                return
+            if len(prefix) == 13:
+                self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                prefix.append(pair_id)
+                pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                if child_lo < self.target_hi:
+                    rec(child_lo)
+                pref.pop()
+                prefix.pop()
+                remaining[pair_id] += 1
+                child_lo += child_width
+                if child_lo >= self.target_hi:
+                    break
+
+        rec(0)
+
+    def decision(self) -> dict[str, Any]:
+        reasons: list[str] = []
+        if self.primary_shapes.exact_count is None:
+            reasons.append("primary shape tracker overflowed")
+        if self.primary_shapes.lower_bound > self.max_lean_leaves:
+            reasons.append(
+                "projected primary Lean-heavy leaves "
+                f"{self.primary_shapes.lower_bound} exceed max {self.max_lean_leaves}"
+            )
+        elif self.primary_shapes.lower_bound > self.warn_lean_leaves:
+            reasons.append(
+                "warning: projected primary Lean-heavy leaves "
+                f"{self.primary_shapes.lower_bound} exceed warning threshold "
+                f"{self.warn_lean_leaves}"
+            )
+        largest_filter = self.largest_primary_filter()
+        if largest_filter and largest_filter["shape_count"] > self.max_lean_leaves:
+            reasons.append(
+                f"largest residual family {largest_filter['filter']} has "
+                f"{largest_filter['shape_count']} unique shapes"
+            )
+        rejected = any(not reason.startswith("warning:") for reason in reasons)
+        return {
+            "status": "rejected" if rejected else "accepted",
+            "accepted_for_phase_6n": not rejected,
+            "planned_lean_heavy_leaves_exact": self.primary_shapes.exact_count,
+            "planned_lean_heavy_leaves_lower_bound": self.primary_shapes.lower_bound,
+            "max_lean_leaves": self.max_lean_leaves,
+            "warn_lean_leaves": self.warn_lean_leaves,
+            "largest_residual_family": largest_filter,
+            "notes": reasons or [
+                "combined portfolio is below the bounded leaf gate",
+            ],
+        }
+
+    def largest_primary_filter(self) -> dict[str, Any] | None:
+        if not self.primary_shapes_by_filter:
+            return None
+        filter_name, tracker = max(
+            self.primary_shapes_by_filter.items(),
+            key=lambda item: (item[1].lower_bound, item[0]),
+        )
+        return {
+            "filter": filter_name,
+            "shape_count": tracker.lower_bound,
+            "exact": tracker.exact_count is not None,
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        primary_by_filter = {
+            name: tracker.payload()
+            for name, tracker in sorted(self.primary_shapes_by_filter.items())
+        }
+        overlap_by_filter = {
+            name: tracker.payload()
+            for name, tracker in sorted(self.overlap_shapes_by_filter.items())
+        }
+        return {
+            "schema_version": 1,
+            "mode": "combined-residual-portfolio-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "translation_bad_direction": "generic GoodDirection theorem",
+                "translation_survivors": "normalized Farkas shape digests",
+                "nonidentity": "ordered coarse terminal algebra filters",
+                "emits_lean_evidence": False,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_words": self.identity_words,
+                "nonidentity_words": self.nonidentity_words,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "translation_good_direction_masks":
+                    self.translation_good_direction_masks,
+                "translation_denominator_nonpositive_masks":
+                    self.translation_denominator_nonpositive_masks,
+                "translation_zero_vector_masks": self.translation_zero_vector_masks,
+                "nonidentity_forced_balance_survivors":
+                    self.nonidentity_forced_balance_survivors,
+            },
+            "primary_portfolio": {
+                "first_filter_case_counts": dict(
+                    sorted(self.first_filter_case_counts.items())
+                ),
+                "unique_primary_shapes": self.primary_shapes.payload(),
+                "unique_primary_shapes_by_filter": primary_by_filter,
+                "shape_reuse": {
+                    "shape_count": len(self.primary_shape_reuse),
+                    "shared_shape_count": sum(
+                        1 for count in self.primary_shape_reuse.values()
+                        if count > 1
+                    ),
+                    "max_reuse": max(self.primary_shape_reuse.values(), default=0),
+                },
+                "samples": self.samples,
+            },
+            "overlap_diagnostics": {
+                "case_counts": dict(sorted(self.overlap_case_counts.items())),
+                "unique_shapes_by_filter": overlap_by_filter,
+                "notes": [
+                    "Overlap diagnostics are not counted as primary generated leaves.",
+                    "They measure alternative killability by previously rejected filters.",
+                ],
+            },
+            "decision": self.decision(),
+        }
+
+
 class TranslationFarkasTreeProfiler:
     """Dry-run profiler for translation/Farkas family sharing.
 
@@ -4341,6 +4809,496 @@ class TranslationSurvivorProfiler:
                     "A high survivor-map count means use a later compression phase before Lean emission.",
                 ],
             },
+        }
+
+
+def strict_integer_row_key(row: tuple[Fraction, ...]) -> str:
+    """Primitive integer row key preserving inequality orientation."""
+
+    if not row:
+        return ""
+    lcm = 1
+    for value in row:
+        lcm = lcm * value.denominator // math.gcd(lcm, value.denominator)
+    ints = [value.numerator * (lcm // value.denominator) for value in row]
+    content = 0
+    for value in ints:
+        content = math.gcd(content, abs(value))
+    if content == 0:
+        content = 1
+    ints = [value // content for value in ints]
+    return ",".join(str(value) for value in ints)
+
+
+def row_support_key(row: tuple[Fraction, ...]) -> str:
+    def sign(value: Fraction) -> str:
+        if value > 0:
+            return "+"
+        if value < 0:
+            return "-"
+        return "0"
+
+    return "".join(sign(value) for value in row)
+
+
+def constraint_row_multiset_key(constraints: list[tuple[Fraction, Fraction, Fraction]]) -> str:
+    return "|".join(sorted(strict_integer_row_key(row) for row in constraints))
+
+
+def constraint_row_support_key(constraints: list[tuple[Fraction, Fraction, Fraction]]) -> str:
+    return "|".join(sorted(row_support_key(row) for row in constraints))
+
+
+def canonical_survivor_shape_map_key(
+    survivor_bits: int,
+    shape_by_mask: dict[int, str],
+) -> tuple[str, int, int]:
+    """Canonicalize a survivor->shape map under signed variable transforms.
+
+    This is diagnostic only: it measures whether sign-bit renaming/complement
+    could share obligations if later backed by a Lean transport theorem.
+    """
+
+    if not shape_by_mask:
+        return "empty", 0, 0
+    canonical_bits, transform_indices = canonical_survivor_bits_and_transforms(
+        survivor_bits
+    )
+    transforms = signed_variable_transforms()
+    best_key: str | None = None
+    for index in transform_indices:
+        transform = transforms[index]
+        pieces = sorted(
+            f"{transform.new_mask_from_old[mask]}:{digest}"
+            for mask, digest in shape_by_mask.items()
+        )
+        key = f"bits={canonical_bits}|{'|'.join(pieces)}"
+        if best_key is None or key < best_key:
+            best_key = key
+    if best_key is None:
+        raise RuntimeError("no signed-variable transforms")
+    return best_key, canonical_bits, len(transform_indices)
+
+
+class TranslationFarkasShapeMapProfiler(TranslationSurvivorProfiler):
+    """Phase 6O diagnostic profiler for translation survivor Farkas shapes.
+
+    It measures increasingly semantic keys for the GoodDirection survivor
+    obligations that remain after the generic bad-direction theorem.  It emits
+    no Lean evidence and intentionally labels unformalized transports as
+    diagnostic-only.
+    """
+
+    LAYER_METADATA: tuple[dict[str, Any], ...] = (
+        {
+            "name": "raw_normalized_farkas_shape",
+            "proof_ready": True,
+            "requirement": "direct exact normalized translation constraint system",
+        },
+        {
+            "name": "d4_normalized_farkas_shape",
+            "proof_ready": False,
+            "requirement": "requires Lean D4 translation/Farkas transport theorem",
+        },
+        {
+            "name": "reversal_normalized_farkas_shape",
+            "proof_ready": False,
+            "requirement": "requires Lean reversal transport theorem",
+        },
+        {
+            "name": "d4_reversal_normalized_farkas_shape",
+            "proof_ready": False,
+            "requirement": "requires Lean D4 plus reversal transport theorem",
+        },
+        {
+            "name": "raw_row_multiset",
+            "proof_ready": True,
+            "requirement": "row permutation and positive row scaling only",
+        },
+        {
+            "name": "raw_row_support_skeleton",
+            "proof_ready": False,
+            "requirement": "requires theorem that support skeleton determines reusable Farkas proof",
+        },
+        {
+            "name": "denominator_signature",
+            "proof_ready": False,
+            "requirement": "requires theorem from denominator signature to survivor Farkas system",
+        },
+        {
+            "name": "survivor_bitset",
+            "proof_ready": False,
+            "requirement": "diagnostic only; bitset alone does not prove Farkas unsat",
+        },
+        {
+            "name": "raw_survivor_shape_map",
+            "proof_ready": True,
+            "requirement": "direct exact survivor mask to raw shape map",
+        },
+        {
+            "name": "d4_survivor_shape_map",
+            "proof_ready": False,
+            "requirement": "requires Lean D4 translation/Farkas transport theorem",
+        },
+        {
+            "name": "signed_variable_survivor_shape_map",
+            "proof_ready": False,
+            "requirement": "requires sign-bit renaming/complement transport theorem",
+        },
+    )
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.layers = {
+            meta["name"]: DistinctTracker(max_distinct_tracked, sample_limit)
+            for meta in self.LAYER_METADATA
+        }
+        self.layer_reuse = {
+            meta["name"]: Counter()
+            for meta in self.LAYER_METADATA
+        }
+        self.signed_variable_tie_histogram: Counter[int] = Counter()
+        self.survivor_count_by_identity_word: Counter[int] = Counter()
+        self.row_count_histogram: Counter[int] = Counter()
+
+    def record_layer(self, name: str, key: str, *, case_count: int = 1) -> str:
+        digest = stable_digest(key)
+        self.layers[name].add(digest)
+        self.layer_reuse[name][digest] += case_count
+        return digest
+
+    def layer_payload(self, name: str, meta: dict[str, Any]) -> dict[str, Any]:
+        reuse_values = list(self.layer_reuse[name].values())
+        tracker = self.layers[name]
+        return {
+            "proof_ready": meta["proof_ready"],
+            "requirement": meta["requirement"],
+            "unique": tracker.payload(),
+            "reuse": {
+                "shape_count": len(reuse_values),
+                "shared_shape_count": sum(1 for count in reuse_values if count > 1),
+                "max_reuse": max(reuse_values, default=0),
+                "top_reuse": [
+                    {"digest": digest, "count": count}
+                    for digest, count in self.layer_reuse[name].most_common(8)
+                ],
+            },
+        }
+
+    @lru_cache(maxsize=500_000)
+    def shape_digest_for_choice(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> tuple[str, str, str, str]:
+        _denoms, b, seq = self.denominator_values_for_choice(word, mask)
+        constraints = translation_constraints(seq, b)
+        normalized = normalized_constraints_key(constraints)
+        return (
+            normalized,
+            stable_digest(normalized),
+            constraint_row_multiset_key(constraints),
+            constraint_row_support_key(constraints),
+        )
+
+    @lru_cache(maxsize=500_000)
+    def canonical_combined_choice(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+        *,
+        with_symmetry: bool,
+        with_reversal: bool,
+    ) -> tuple[tuple[str, ...], int]:
+        cword, cmask = canonical_translation_combined(
+            list(word),
+            mask,
+            with_symmetry=with_symmetry,
+            with_reversal=with_reversal,
+        )
+        return tuple(cword), cmask
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"translation shape-map scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_bits = 0
+        raw_shape_by_mask: dict[int, str] = {}
+        d4_shape_by_mask: dict[int, str] = {}
+        reversal_shape_by_mask: dict[int, str] = {}
+        d4_reversal_shape_by_mask: dict[int, str] = {}
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+
+            if not all(denom > 0 for denom in denoms):
+                self.denominator_nonpositive_masks += 1
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+                continue
+
+            self.good_direction_masks += 1
+            survivor_bits |= 1 << mask
+
+            raw_key, raw_digest, row_multiset_key, row_support = (
+                self.shape_digest_for_choice(word, mask)
+            )
+            raw_shape_by_mask[mask] = raw_digest
+            self.record_layer("raw_normalized_farkas_shape", raw_key)
+            self.record_layer("raw_row_multiset", row_multiset_key)
+            self.record_layer("raw_row_support_skeleton", row_support)
+            self.row_count_histogram[len(raw_key.split("|")) if raw_key else 0] += 1
+
+            d4_word, d4_mask, d4_sym_id = canonical_translation_with_symmetry(
+                word,
+                mask,
+            )
+            d4_key, d4_digest, _d4_rows, _d4_support = self.shape_digest_for_choice(
+                d4_word,
+                d4_mask,
+            )
+            d4_shape_by_mask[mask] = d4_digest
+            self.record_layer("d4_normalized_farkas_shape", d4_key)
+
+            rev_word, rev_mask = self.canonical_combined_choice(
+                word,
+                mask,
+                with_symmetry=False,
+                with_reversal=True,
+            )
+            rev_key, rev_digest, _rev_rows, _rev_support = self.shape_digest_for_choice(
+                rev_word,
+                rev_mask,
+            )
+            reversal_shape_by_mask[mask] = rev_digest
+            self.record_layer("reversal_normalized_farkas_shape", rev_key)
+
+            combo_word, combo_mask = self.canonical_combined_choice(
+                word,
+                mask,
+                with_symmetry=True,
+                with_reversal=True,
+            )
+            combo_key, combo_digest, _combo_rows, _combo_support = (
+                self.shape_digest_for_choice(combo_word, combo_mask)
+            )
+            d4_reversal_shape_by_mask[mask] = combo_digest
+            self.record_layer("d4_reversal_normalized_farkas_shape", combo_key)
+
+            self.farkas_shapes.add(raw_digest)
+            self.farkas_shape_reuse_counts[raw_digest] += 1
+            if len(self.samples) < self.sample_limit:
+                self.samples.append({
+                    "rank": rank,
+                    "word": word_key(word),
+                    "mask": mask,
+                    "raw_shape_digest": raw_digest,
+                    "d4_shape_digest": d4_digest,
+                    "d4_sym_id": d4_sym_id,
+                    "reversal_shape_digest": rev_digest,
+                    "d4_reversal_shape_digest": combo_digest,
+                })
+
+        self.survivor_count_by_identity_word[survivor_bits.bit_count()] += 1
+
+        impact_keys: list[str] = []
+        max_degree = 0
+        for values in impact_values:
+            key, degree = denominator_polynomial_key(values)
+            max_degree = max(max_degree, degree)
+            self.denominator_degree_histogram[degree] += 1
+            impact_keys.append(key)
+        signature_key = "|".join(
+            f"{impact + 1}:{key}" for impact, key in enumerate(impact_keys)
+        )
+        self.record_layer("denominator_signature", signature_key)
+        self.denominator_signatures.add(stable_digest(signature_key))
+
+        survivor_bitset_key = str(survivor_bits)
+        self.record_layer("survivor_bitset", survivor_bitset_key)
+        self.survivor_bitsets.add(survivor_bitset_key)
+
+        if raw_shape_by_mask:
+            raw_map_key = "|".join(
+                f"{mask}:{raw_shape_by_mask[mask]}"
+                for mask in sorted(raw_shape_by_mask)
+            )
+            d4_map_key = "|".join(
+                f"{mask}:{d4_shape_by_mask[mask]}"
+                for mask in sorted(d4_shape_by_mask)
+            )
+            self.record_layer("raw_survivor_shape_map", raw_map_key)
+            self.record_layer("d4_survivor_shape_map", d4_map_key)
+            self.survivor_shape_maps.add(raw_map_key)
+
+            signed_map_key, _canonical_bits, tie_count = canonical_survivor_shape_map_key(
+                survivor_bits,
+                raw_shape_by_mask,
+            )
+            self.signed_variable_tie_histogram[tie_count] += 1
+            self.record_layer("signed_variable_survivor_shape_map", signed_map_key)
+
+    def best_layer(self, *, proof_ready: bool | None) -> dict[str, Any] | None:
+        candidates: list[dict[str, Any]] = []
+        for meta in self.LAYER_METADATA:
+            if proof_ready is not None and meta["proof_ready"] != proof_ready:
+                continue
+            tracker = self.layers[meta["name"]]
+            candidates.append({
+                "name": meta["name"],
+                "proof_ready": meta["proof_ready"],
+                "count": tracker.exact_count,
+                "lower_bound": tracker.lower_bound,
+                "requirement": meta["requirement"],
+            })
+        if not candidates:
+            return None
+        return min(candidates, key=lambda item: (item["lower_bound"], item["name"]))
+
+    def decision(self) -> dict[str, Any]:
+        proof_ready_best = self.best_layer(proof_ready=True)
+        diagnostic_best = self.best_layer(proof_ready=False)
+        all_best = self.best_layer(proof_ready=None)
+        proof_ready_count = (
+            proof_ready_best["count"] if proof_ready_best is not None else None
+        )
+        proof_ready_lower = (
+            proof_ready_best["lower_bound"] if proof_ready_best is not None else 0
+        )
+        diagnostic_lower = (
+            diagnostic_best["lower_bound"] if diagnostic_best is not None else 0
+        )
+        notes: list[str] = []
+        if proof_ready_best is None:
+            status = "rejected"
+            notes.append("no proof-ready compression layer was recorded")
+        elif proof_ready_count is not None and proof_ready_count <= self.max_lean_leaves:
+            status = "accepted"
+            notes.append(
+                f"best proof-ready layer {proof_ready_best['name']} is within the "
+                f"{self.max_lean_leaves} leaf gate"
+            )
+        elif diagnostic_best is not None and diagnostic_lower <= self.max_lean_leaves:
+            status = "blocked_on_transport_theorem"
+            notes.append(
+                f"best diagnostic layer {diagnostic_best['name']} is within the "
+                f"{self.max_lean_leaves} leaf gate but requires: "
+                f"{diagnostic_best['requirement']}"
+            )
+        else:
+            status = "rejected"
+            notes.append(
+                "no measured layer reaches the "
+                f"{self.max_lean_leaves} leaf gate"
+            )
+        if proof_ready_best is not None and proof_ready_best["lower_bound"] > self.warn_lean_leaves:
+            notes.append(
+                f"best proof-ready layer {proof_ready_best['name']} exceeds warning "
+                f"threshold {self.warn_lean_leaves}"
+            )
+        return {
+            "status": status,
+            "accepted_for_phase_6o": status == "accepted",
+            "best_proof_ready_layer": proof_ready_best,
+            "best_diagnostic_layer": diagnostic_best,
+            "best_overall_layer": all_best,
+            "planned_lean_heavy_leaves_exact": proof_ready_count,
+            "planned_lean_heavy_leaves_lower_bound": proof_ready_lower,
+            "max_lean_leaves": self.max_lean_leaves,
+            "warn_lean_leaves": self.warn_lean_leaves,
+            "notes": notes,
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        layer_payloads = {
+            meta["name"]: self.layer_payload(meta["name"], meta)
+            for meta in self.LAYER_METADATA
+        }
+        return {
+            "schema_version": 1,
+            "mode": "translation-farkas-shape-map-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation",
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "progress_interval": self.progress_interval,
+                "good_direction_impacts": "1..13",
+                "emits_bad_direction_evidence": False,
+                "emits_lean_evidence": False,
+                "d4_layers": "diagnostic until Lean transport is wired into this API",
+                "reversal_layers": "diagnostic only",
+                "signed_variable_layers": "diagnostic only",
+            },
+            "expected_counts": {
+                "pair_words": EXPECTED_PAIR_WORDS,
+                "identity_linear_words": EXPECTED_IDENTITY_WORDS,
+                "translation_sign_assignments": EXPECTED_TRANSLATION_SIGN_ASSIGNMENTS,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "bad_direction_generated_evidence": 0,
+            },
+            "layers": layer_payloads,
+            "diagnostics": {
+                "survivor_density": (
+                    self.good_direction_masks / self.translation_sign_assignments
+                    if self.translation_sign_assignments else None
+                ),
+                "survivor_count_by_identity_word": dict(
+                    sorted(self.survivor_count_by_identity_word.items())
+                ),
+                "denominator_degree_histogram": dict(
+                    sorted(self.denominator_degree_histogram.items())
+                ),
+                "row_count_histogram": dict(sorted(self.row_count_histogram.items())),
+                "signed_variable_transform_tie_histogram": dict(
+                    sorted(self.signed_variable_tie_histogram.items())
+                ),
+                "samples": self.samples,
+            },
+            "decision": self.decision(),
         }
 
 
@@ -7304,6 +8262,8 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_lifted_pb_search),
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
+        bool(args.translation_farkas_shape_map),
+        bool(args.combined_residual_portfolio),
         bool(args.nonidentity_terminal_algebra),
         bool(args.nonidentity_state_cone_tree),
         bool(args.nonidentity_empty_cone_tree),
@@ -7318,7 +8278,9 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-survivors, --translation-pseudoboolean, "
             "--translation-lifted-pb-search, "
             "--translation-survivor-mask-tree, "
-            "--translation-state-dag, --nonidentity-terminal-algebra, "
+            "--translation-state-dag, --translation-farkas-shape-map, "
+            "--combined-residual-portfolio, "
+            "--nonidentity-terminal-algebra, "
             "--nonidentity-state-cone-tree, "
             "--nonidentity-empty-cone-tree, "
             "--nonidentity-d26-audit, and --terminal-residual-census "
@@ -7794,6 +8756,77 @@ def print_summary(payload: dict[str, Any]) -> None:
         )
         print(f"planned heavy Lean leaves: {planned_leaves}")
         print(f"accepted for Phase 6M: {decision['accepted_for_phase_6m']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
+    if payload.get("mode") == "combined-residual-portfolio-profile":
+        counts = payload["actual_counts"]
+        primary = payload["primary_portfolio"]
+        decision = payload["decision"]
+        print("combined residual portfolio profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity words: {counts['identity_words']:,}")
+        print(f"nonidentity words: {counts['nonidentity_words']:,}")
+        print(
+            "translation GoodDirection masks: "
+            f"{counts['translation_good_direction_masks']:,}"
+        )
+        print(
+            "translation non-GoodDirection masks: "
+            f"{counts['translation_denominator_nonpositive_masks']:,}"
+        )
+        print(
+            "unique primary shapes: "
+            f"{primary['unique_primary_shapes']['lower_bound']}"
+        )
+        planned_leaves = (
+            str(decision["planned_lean_heavy_leaves_exact"])
+            if decision["planned_lean_heavy_leaves_exact"] is not None
+            else f">{decision['planned_lean_heavy_leaves_lower_bound'] - 1}"
+        )
+        print(f"planned heavy Lean leaves: {planned_leaves}")
+        largest = decision["largest_residual_family"]
+        if largest is not None:
+            print(
+                "largest residual family: "
+                f"{largest['filter']} ({largest['shape_count']} shapes)"
+            )
+        print(f"accepted for Phase 6N: {decision['accepted_for_phase_6n']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
+    if payload.get("mode") == "translation-farkas-shape-map-profile":
+        counts = payload["actual_counts"]
+        layers = payload["layers"]
+        decision = payload["decision"]
+        print("translation Farkas shape-map profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"denominator-nonpositive masks: {counts['denominator_nonpositive_masks']:,}")
+        for name in sorted(layers):
+            layer = layers[name]
+            print(
+                f"{name}: {layer['unique']['lower_bound']} unique "
+                f"(proof_ready={layer['proof_ready']})"
+            )
+        best_proof = decision["best_proof_ready_layer"]
+        best_diag = decision["best_diagnostic_layer"]
+        if best_proof is not None:
+            print(
+                "best proof-ready layer: "
+                f"{best_proof['name']} ({best_proof['lower_bound']} unique)"
+            )
+        if best_diag is not None:
+            print(
+                "best diagnostic layer: "
+                f"{best_diag['name']} ({best_diag['lower_bound']} unique)"
+            )
+        print(f"decision: {decision['status']}")
         for note in decision["notes"]:
             print(f"- {note}")
         return
@@ -8316,6 +9349,16 @@ def main() -> None:
         help="profile recursive word/state DAG sharing for translation coverage",
     )
     parser.add_argument(
+        "--translation-farkas-shape-map",
+        action="store_true",
+        help="profile semantic compression layers for translation GoodDirection Farkas survivors",
+    )
+    parser.add_argument(
+        "--combined-residual-portfolio",
+        action="store_true",
+        help="profile an ordered portfolio of existing translation and nonidentity filters",
+    )
+    parser.add_argument(
         "--nonidentity-empty-cone-tree",
         action="store_true",
         help="profile exact empty-cone Farkas pruning for nonidentity pair prefixes",
@@ -8361,7 +9404,11 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        if args.translation_state_dag:
+        if args.translation_farkas_shape_map:
+            output = default_translation_farkas_shape_map_output(args.limit)
+        elif args.combined_residual_portfolio:
+            output = DEFAULT_COMBINED_RESIDUAL_PORTFOLIO_OUTPUT
+        elif args.translation_state_dag:
             output = DEFAULT_TRANSLATION_STATE_DAG_OUTPUT
         elif args.translation_survivor_mask_tree:
             output = DEFAULT_TRANSLATION_SURVIVOR_MASK_TREE_OUTPUT
@@ -8412,6 +9459,36 @@ def main() -> None:
         terminal_profiler.traverse()
         rejected = False
         payload = terminal_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.translation_farkas_shape_map:
+        shape_map_profiler = TranslationFarkasShapeMapProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        shape_map_profiler.traverse()
+        rejected = False
+        payload = shape_map_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.combined_residual_portfolio:
+        portfolio_profiler = CombinedResidualPortfolioProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        portfolio_profiler.traverse()
+        rejected = not portfolio_profiler.decision()["accepted_for_phase_6n"]
+        payload = portfolio_profiler.payload(
             elapsed_seconds=time.monotonic() - start,
         )
     elif args.nonidentity_terminal_algebra:

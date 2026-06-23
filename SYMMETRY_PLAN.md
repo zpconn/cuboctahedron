@@ -174,8 +174,13 @@ Last updated after completing the GoodDirection bridge, bounded survivor
 profiler, bounded survivor mask-tree profiler, bounded translation word/state
 DAG profiler, rank-boundary audit, integer arithmetic core, Phase 6L.2A
 translation pseudo-Boolean denominator profiler, Phase 6L.2B lifted
-pseudo-Boolean search profiler, Phase 6L.3A signed-state cone profiler, and
-Phase 6M coarse terminal-obstruction algebra profiler.
+pseudo-Boolean search profiler, Phase 6L.3A signed-state cone profiler,
+Phase 6M coarse terminal-obstruction algebra profiler, and Phase 6N combined
+residual/portfolio profiler, and Phase 6O translation survivor/Farkas
+shape-map compression. Phase 6O is rejected as a proof-ready generated
+backend; the active strategy is now a narrow Phase 6P attempt to turn the
+diagnostic survivor-bitset compression into a real semantic theorem, or else
+downshift to a smaller formal target.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -189,7 +194,7 @@ experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, and coarse terminal-algebra grouping all fail bounded gates. The next step should be a materially different semantic model or smaller theorem target, not another rank/mask/state/terminal-shape tiler variant. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P planned | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, and proof-ready translation shape-map compression all fail bounded gates. Phase 6O found a diagnostic-only survivor-bitset layer under the 2,000 gate, so the next step is to see whether that layer can be upgraded into an actual theorem. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -2150,6 +2155,258 @@ Decision:
   a generic theorem or state invariant, or else switch to a smaller formally
   useful theorem target before trying full generated coverage again.
 
+#### Phase 6N: Combined Residual / Portfolio Profiler
+
+Purpose: determine whether the already-profiled filters become viable when
+combined in a fixed semantic pipeline, instead of judging each profile as a
+standalone backend.
+
+Rationale:
+
+- The rejected profiles are not all mutually exclusive.
+- Several are alternative descriptions of the same failures, so their raw
+  counts cannot simply be added or subtracted.
+- The missing measurement is overlap: after applying one filter, how many
+  genuinely new obligations remain for the next filter?
+
+Tasks:
+
+1. Add a profiler-only mode:
+
+   ```bash
+   python3 scripts/profile_symmetry_compression.py \
+     --dry-run \
+     --combined-residual-portfolio \
+     --limit 100000 \
+     --progress-interval 10000 \
+     --output scripts/generated/combined_residual_portfolio_profile_000000000_000100000.json
+   ```
+
+2. Apply reusable filters in a fixed order and report residual counts after
+   each stage:
+   - generic translation `GoodDirection` theorem;
+   - translation lifted-PB bad-cube diagnostics, only as a profiler filter;
+   - translation normalized Farkas survivor shapes;
+   - nonidentity no-fixed-axis and fixed-axis orientation filters;
+   - nonidentity bad pair balance;
+   - nonidentity empty-cone/state-cone diagnostics, where applicable;
+   - nonidentity coarse terminal algebra from Phase 6M;
+   - explicit residual singleton fallback count.
+3. Report both case counts and projected Lean-heavy shape counts per stage.
+4. Record overlap statistics:
+   - cases killed by each first-applicable filter;
+   - cases also killable by later filters;
+   - residual shape families after each stage.
+5. Emit no Lean evidence and no generated checker data.
+6. Reject if the final projected Lean-heavy leaf count is still above 2,000
+   on `[0,100000)`.
+
+Acceptance:
+
+- The output answers whether the current portfolio already fits under the
+  low-thousands gate.
+- The profile is explicitly ordered and deterministic.
+- The report distinguishes:
+  - “first filter that kills this case”;
+  - “other filters that also would kill this case”;
+  - “remaining residual fallback.”
+- If accepted, the next step is to design a Lean API for the accepted
+  portfolio order.
+- If rejected, the report must identify the largest remaining residual family,
+  with `forced_zero_denominator` expected to be checked first.
+
+Phase 6N implementation results:
+
+- Added `scripts/profile_symmetry_compression.py
+  --combined-residual-portfolio`.
+- The mode emits no Lean evidence.
+- A 1k smoke profile passed the hard gate but exceeded the warning gate:
+  - pair words scanned: 1,000;
+  - identity words: 138;
+  - nonidentity words: 862;
+  - translation GoodDirection masks: 1,465;
+  - translation non-GoodDirection masks: 7,367;
+  - unique primary shapes: 1,210;
+  - largest residual family:
+    `translation.farkas_survivor = 870`;
+  - accepted for Phase 6N: true.
+- The `[0,100000)` bounded profile is
+  `scripts/generated/combined_residual_portfolio_profile_000000000_000100000.json`:
+  - pair words scanned: 100,000;
+  - identity words: 5,565;
+  - nonidentity words: 94,435;
+  - translation GoodDirection masks: 39,710;
+  - translation non-GoodDirection masks: 316,450;
+  - unique primary shapes: 17,760;
+  - accepted for Phase 6N: false.
+- First-applicable case counts:
+  - `translation.generic_good_direction = 316,450`;
+  - `translation.farkas_survivor = 39,710`;
+  - `nonidentity.bad_pair_balance = 24,364`;
+  - `nonidentity.final_axis_zero = 6,241`;
+  - `nonidentity.forced_zero_denominator = 54,794`;
+  - `nonidentity.terminal_algebra.axis_misses_start_interior = 8,775`;
+  - `nonidentity.terminal_algebra.first_hit_mismatch = 251`;
+  - `nonidentity.terminal_algebra.hit_tie = 10`.
+- Unique primary shape counts:
+  - `translation.farkas_survivor = 11,478`;
+  - `nonidentity.forced_zero_denominator = 4,393`;
+  - `nonidentity.terminal_algebra.axis_misses_start_interior = 1,593`;
+  - `nonidentity.bad_pair_balance = 106`;
+  - `nonidentity.final_axis_zero = 120`;
+  - `nonidentity.terminal_algebra.first_hit_mismatch = 67`;
+  - `nonidentity.terminal_algebra.hit_tie = 3`.
+- Overlap diagnostics:
+  - `translation.lifted_pb_bad_cube_diagnostic = 2,950` unique shapes;
+  - these are diagnostic only and are not counted as primary generated leaves.
+
+Decision:
+
+- Phase 6N is rejected.
+- The existing filters do not already combine under the 2,000-leaf gate.
+- The largest remaining residual family is now translation normalized Farkas
+  survivor shapes, not nonidentity `forced_zero_denominator`.
+- The next useful step should target translation survivor/Farkas shape-map
+  compression directly, or choose a smaller formal target theorem before full
+  generated coverage is retried.
+
+#### Phase 6O: Translation Survivor / Farkas Shape-Map Compression
+
+Purpose: reduce the dominant Phase 6N residual,
+`translation.farkas_survivor`, before returning to public generated coverage.
+
+Rationale:
+
+- Phase 6N proves the existing filter portfolio is not enough.
+- The largest remaining family is translation normalized Farkas survivor
+  shapes:
+  - 39,710 GoodDirection survivor masks in `[0,100000)`;
+  - 11,478 unique normalized Farkas shapes;
+  - 17,760 total portfolio leaves against the 2,000 gate.
+- Nonidentity `forced_zero_denominator` remains a real problem, but it is now
+  second-order relative to translation survivor shape explosion.
+
+Tasks:
+
+1. Add a profiler-only mode:
+
+   ```bash
+   python3 scripts/profile_symmetry_compression.py \
+     --dry-run \
+     --translation-farkas-shape-map \
+     --limit 100000 \
+     --progress-interval 10000 \
+     --output scripts/generated/translation_farkas_shape_map_profile_000000000_000100000.json
+   ```
+
+2. Profile the translation survivor shapes by increasingly semantic keys:
+   - raw normalized Farkas constraint system digest;
+   - denominator signature digest;
+   - survivor bitset;
+   - survivor-mask to Farkas-shape map;
+   - Farkas certificate support pattern;
+   - row-count/row-normal multiset;
+   - shape under row permutation and positive row scaling;
+   - shape under started-face `D4`;
+   - shape under sign-bit renaming/complement induced by repeated pair labels;
+   - shape under affine changes of the start-face coordinates `(y,z)` if an
+     exact, auditable normal form can be implemented.
+3. Report cumulative compression factors for each canonicalization layer.
+4. Track whether a small number of proof skeletons can cover many shape
+   digests:
+   - same Farkas multiplier support;
+   - same coefficient-sign pattern;
+   - same normalized row dependency graph;
+   - same source-row transport map.
+5. Emit no Lean evidence.
+6. Reject if the best projected translation survivor leaf count remains above
+   2,000 on `[0,100000)`.
+
+Acceptance:
+
+- The output identifies which equivalences actually reduce the 11,478-shape
+  residual.
+- The profiler reports both:
+  - unique canonical shape-map classes;
+  - remaining cases requiring per-shape proof skeletons.
+- If accepted, the next step is a Lean checker/API for the winning
+  translation shape-map equivalence.
+- If rejected, the plan should either:
+  - target a generic theorem about translation feasible polygons/Farkas
+    systems, or
+  - downshift to a smaller formal theorem target before full generated
+    coverage.
+
+Phase 6O implementation results:
+
+- Implemented `--translation-farkas-shape-map`.
+- Ran:
+
+  ```bash
+  python3 scripts/profile_symmetry_compression.py \
+    --dry-run \
+    --translation-farkas-shape-map \
+    --limit 100000 \
+    --progress-interval 10000 \
+    --output scripts/generated/translation_farkas_shape_map_profile_000000000_000100000.json
+  ```
+
+- Results on `[0,100000)`:
+  - pair words scanned: 100,000;
+  - identity-linear words: 5,565;
+  - translation sign assignments: 356,160;
+  - GoodDirection survivor masks: 39,710;
+  - denominator-nonpositive masks discharged by the generic theorem: 316,450;
+  - raw normalized Farkas shapes: 39,582;
+  - raw survivor shape maps: 5,521;
+  - started-face `D4` survivor shape maps: 5,521;
+  - denominator signatures: 5,565;
+  - signed-variable survivor shape maps: 5,521;
+  - survivor bitsets: 1,479.
+- Decision: Phase 6O is rejected as a proof-ready backend.
+- Reason:
+  - the best proof-ready layer is `raw_survivor_shape_map`, with 5,521
+    obligations, still above the 2,000 gate;
+  - the only layer under the gate is `survivor_bitset`, with 1,479 classes,
+    but this is diagnostic-only because a bitset alone does not prove Farkas
+    infeasibility.
+
+#### Phase 6P: Upgrade Survivor-Bitset Compression or Downshift
+
+Purpose: determine whether the only Phase 6O low-count layer can become a
+real theorem instead of a diagnostic coincidence.
+
+Tasks:
+
+1. For each survivor-bitset class, profile the associated Farkas systems:
+   - number of raw shape maps in the class;
+   - number of normalized Farkas shapes in the class;
+   - whether the class has a common row-support pattern, multiplier support,
+     or denominator-signature family.
+2. Try to extract one reusable proof skeleton for the largest survivor-bitset
+   classes:
+   - a shared Farkas multiplier template;
+   - a theorem that the bitset plus a small denominator signature implies the
+     corresponding strict system is unsatisfiable;
+   - or a theorem about the translation feasible polygon that bypasses
+     per-shape Farkas data.
+3. Implement one Lean pilot theorem for one high-reuse class before generating
+   any broad evidence.
+4. Reject Phase 6P if the pilot theorem still needs raw Farkas-shape data for
+   most members of the class.
+5. If Phase 6P rejects, stop pursuing full generated coverage in this
+   architecture and deliberately choose a smaller formal target theorem.
+
+Acceptance:
+
+- A survivor-bitset or bitset-plus-signature theorem eliminates many raw
+  Farkas shapes with a proof-ready obligation count below 2,000 on
+  `[0,100000)`.
+- The pilot Lean theorem compiles without `sorry`, `native_decide`, `unsafe`,
+  or custom axioms.
+- If no such theorem exists, the plan records the failure and names the
+  smaller target theorem to finish next.
+
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
 Purpose: preserve exhaustive coverage without making ranks the compression
@@ -2966,6 +3223,12 @@ Acceptance:
   profiler on the bounded gate.
 - [x] Implement and reject Phase 6M coarse terminal-obstruction algebra
   profiler on the `[0,100000)` gate.
+- [x] Implement and reject Phase 6N combined residual/portfolio profiler to measure
+  overlap among existing filters before inventing another backend.
+- [x] Implement and reject Phase 6O translation survivor/Farkas shape-map compression
+  profiler on the `[0,100000)` gate.
+- [ ] Implement Phase 6P survivor-bitset theorem pilot, or choose a smaller
+  formal target if the pilot rejects.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -3014,10 +3277,25 @@ Phase 6M tested that coarser terminal-obstruction idea. It improved the
 nonidentity shape count substantially but still rejected the bounded gate:
 `[0,100000)` has 6,282 projected heavy leaves, and
 `forced_zero_denominator` alone contributes 4,393 unique witness shapes. The
-next useful step is therefore not another terminal-first-hit shape tiler. It
-should either prove a generic theorem/invariant eliminating forced-zero
-denominator cases in bulk, or deliberately downshift to a smaller formal target
-that can be completed and validated before full generated coverage is retried.
+next useful step was therefore not another terminal-first-hit shape tiler. It
+first measured whether the existing rejected filters combine into an
+acceptable residual when applied as an ordered semantic portfolio.
+
+Phase 6N is rejected. The `[0,100000)` portfolio profile has 17,760 projected
+primary shapes. The largest residual family is `translation.farkas_survivor`,
+with 11,478 unique normalized Farkas survivor shapes; nonidentity
+`forced_zero_denominator` is second at 4,393 shapes.
+
+Phase 6O is now rejected too. The best proof-ready translation survivor layer
+is `raw_survivor_shape_map`, with 5,521 obligations on `[0,100000)`, still
+above the 2,000 gate. The only low-count layer is diagnostic:
+`survivor_bitset` has 1,479 classes, but a bitset alone does not prove Farkas
+infeasibility. The active next step is Phase 6P: try to upgrade
+survivor-bitset compression into a genuine theorem, probably bitset plus a
+small denominator/signature witness. If Phase 6P cannot produce a compiling
+Lean pilot theorem for a high-reuse class, stop trying to finish full
+generated coverage in this architecture and deliberately downshift to a
+smaller formal target that can be completed and validated.
 
 ## Explicit Non-Goals
 
@@ -3045,6 +3323,15 @@ that can be completed and validated before full generated coverage is retried.
 - Do not emit coarse terminal-obstruction algebra leaves from Phase 6M; the
   bounded gate still produces 6,282 projected leaves, dominated by
   `forced_zero_denominator`.
+- Do not emit the Phase 6N combined portfolio as generated proof evidence; it
+  still produces 17,760 projected primary leaves, dominated by translation
+  Farkas survivor shapes.
+- Do not return to nonidentity terminal-filter variants until translation
+  Farkas survivor shape compression has been profiled; Phase 6N shows
+  translation is the larger current blocker.
+- Do not emit raw translation Farkas survivor shapes from the Phase 6N
+  portfolio; the 11,478-shape residual must be compressed or replaced by a
+  stronger theorem first.
 - Do not start another strategy whose main compression claim is that a
   geometric failure covers a large contiguous lexicographic rank interval.
 - Do not build new heavy generated checkers over `Rat`/`ℚ` unless an explicit
