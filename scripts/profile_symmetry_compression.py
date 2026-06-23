@@ -117,6 +117,16 @@ def default_translation_farkas_shape_map_output(limit: int | None) -> Path:
     )
 
 
+def default_translation_bitset_class_pilot_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"translation_bitset_class_pilot_000000000_{rank_end:09d}.json"
+    )
+
+
 def default_nonidentity_terminal_algebra_output(rank_start: int, limit: int | None) -> Path:
     rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
         EXPECTED_PAIR_WORDS,
@@ -5302,6 +5312,390 @@ class TranslationFarkasShapeMapProfiler(TranslationSurvivorProfiler):
         }
 
 
+@dataclass
+class BitsetClassStats:
+    bitset: int
+    identity_words: int = 0
+    survivor_cases: int = 0
+    raw_shape_maps: set[str] = field(default_factory=set)
+    normalized_farkas_shapes: set[str] = field(default_factory=set)
+    denominator_signatures: set[str] = field(default_factory=set)
+    row_support_patterns: set[str] = field(default_factory=set)
+    row_multiset_patterns: set[str] = field(default_factory=set)
+    samples: list[dict[str, Any]] = field(default_factory=list)
+    cert_candidates: list[tuple[int, int, str, str]] = field(default_factory=list)
+
+    def add_word(
+        self,
+        *,
+        rank: int,
+        word: tuple[str, ...],
+        signature_key: str,
+        survivor_shape_by_mask: dict[int, str],
+        raw_shape_map_key: str,
+        row_support_by_mask: dict[int, str],
+        row_multiset_by_mask: dict[int, str],
+        sample_limit: int,
+        max_cert_candidates: int,
+    ) -> None:
+        self.identity_words += 1
+        self.survivor_cases += len(survivor_shape_by_mask)
+        self.denominator_signatures.add(stable_digest(signature_key))
+        if raw_shape_map_key:
+            self.raw_shape_maps.add(stable_digest(raw_shape_map_key))
+        for mask, shape_digest in survivor_shape_by_mask.items():
+            self.normalized_farkas_shapes.add(shape_digest)
+            self.row_support_patterns.add(stable_digest(row_support_by_mask[mask]))
+            self.row_multiset_patterns.add(stable_digest(row_multiset_by_mask[mask]))
+            if len(self.samples) < sample_limit:
+                self.samples.append({
+                    "rank": rank,
+                    "word": word_key(word),
+                    "mask": mask,
+                    "shape_digest": shape_digest,
+                    "denominator_signature_digest": stable_digest(signature_key),
+                    "row_support_digest": stable_digest(row_support_by_mask[mask]),
+                    "row_multiset_digest": stable_digest(row_multiset_by_mask[mask]),
+                })
+            if len(self.cert_candidates) < max_cert_candidates:
+                self.cert_candidates.append((
+                    rank,
+                    mask,
+                    shape_digest,
+                    stable_digest(signature_key),
+                ))
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "bitset": self.bitset,
+            "bitset_hex": f"{self.bitset:016x}",
+            "identity_words": self.identity_words,
+            "survivor_cases": self.survivor_cases,
+            "unique_raw_shape_maps": len(self.raw_shape_maps),
+            "unique_normalized_farkas_shapes": len(self.normalized_farkas_shapes),
+            "unique_denominator_signatures": len(self.denominator_signatures),
+            "unique_row_support_patterns": len(self.row_support_patterns),
+            "unique_row_multiset_patterns": len(self.row_multiset_patterns),
+            "samples": self.samples,
+        }
+
+
+class TranslationBitsetClassPilotProfiler(TranslationSurvivorProfiler):
+    """Phase 6P profiler for high-reuse survivor-bitset classes.
+
+    This mode asks whether a survivor bitset class has a reusable Farkas proof
+    skeleton.  It classifies the whole bounded window, then synthesizes exact
+    source-Farkas certificates only for capped representatives of the largest
+    bitset classes.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+        top_classes: int,
+        max_certs_per_class: int,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            use_d4_transport=use_d4_transport,
+        )
+        self.top_classes = top_classes
+        self.max_certs_per_class = max_certs_per_class
+        self.bitset_classes: dict[int, BitsetClassStats] = {}
+        self.cert_analysis: list[dict[str, Any]] = []
+        self.cert_failures: list[dict[str, Any]] = []
+
+    @lru_cache(maxsize=500_000)
+    def shape_details_for_choice(
+        self,
+        word: tuple[str, ...],
+        mask: int,
+    ) -> tuple[str, str, str, str]:
+        _denoms, b, seq = self.denominator_values_for_choice(word, mask)
+        constraints = translation_constraints(seq, b)
+        normalized = normalized_constraints_key(constraints)
+        return (
+            normalized,
+            stable_digest(normalized),
+            constraint_row_multiset_key(constraints),
+            constraint_row_support_key(constraints),
+        )
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"translation bitset pilot scanned {self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        if matrix != IDENTITY:
+            self.nonidentity_words_skipped += 1
+            return
+
+        self.identity_words += 1
+        impact_values: list[list[Fraction]] = [[] for _ in range(13)]
+        survivor_bits = 0
+        survivor_shape_by_mask: dict[int, str] = {}
+        row_support_by_mask: dict[int, str] = {}
+        row_multiset_by_mask: dict[int, str] = {}
+
+        for mask in range(64):
+            self.translation_sign_assignments += 1
+            denoms, b, _seq = self.denominator_values_for_choice(word, mask, pref)
+            for index, denom in enumerate(denoms):
+                impact_values[index].append(denom)
+            if not all(denom > 0 for denom in denoms):
+                self.denominator_nonpositive_masks += 1
+                if b == ZERO_VEC:
+                    self.zero_vector_masks += 1
+                continue
+
+            self.good_direction_masks += 1
+            survivor_bits |= 1 << mask
+            _shape_key, shape_digest, row_multiset, row_support = (
+                self.shape_details_for_choice(word, mask)
+            )
+            survivor_shape_by_mask[mask] = shape_digest
+            row_support_by_mask[mask] = row_support
+            row_multiset_by_mask[mask] = row_multiset
+
+        impact_keys: list[str] = []
+        for values in impact_values:
+            key, degree = denominator_polynomial_key(values)
+            self.denominator_degree_histogram[degree] += 1
+            impact_keys.append(key)
+        signature_key = "|".join(
+            f"{impact + 1}:{key}" for impact, key in enumerate(impact_keys)
+        )
+        raw_shape_map_key = "|".join(
+            f"{mask}:{survivor_shape_by_mask[mask]}"
+            for mask in sorted(survivor_shape_by_mask)
+        )
+        stats = self.bitset_classes.setdefault(
+            survivor_bits,
+            BitsetClassStats(survivor_bits),
+        )
+        stats.add_word(
+            rank=rank,
+            word=word,
+            signature_key=signature_key,
+            survivor_shape_by_mask=survivor_shape_by_mask,
+            raw_shape_map_key=raw_shape_map_key,
+            row_support_by_mask=row_support_by_mask,
+            row_multiset_by_mask=row_multiset_by_mask,
+            sample_limit=self.sample_limit,
+            max_cert_candidates=self.max_certs_per_class,
+        )
+
+    @staticmethod
+    def source_key(source: dict[str, Any]) -> str:
+        return json.dumps(source, sort_keys=True, separators=(",", ":"))
+
+    @staticmethod
+    def source_term_support_key(source_terms: list[dict[str, Any]]) -> str:
+        return "|".join(
+            sorted(TranslationBitsetClassPilotProfiler.source_key(term["source"])
+                for term in source_terms)
+        )
+
+    @staticmethod
+    def source_term_multiplier_key(source_terms: list[dict[str, Any]]) -> str:
+        return "|".join(
+            sorted(
+                f"{TranslationBitsetClassPilotProfiler.source_key(term['source'])}"
+                f"@{term['multiplier']}"
+                for term in source_terms
+            )
+        )
+
+    def build_source_farkas_cert(self, rank: int, mask: int) -> dict[str, Any]:
+        import generate_exact_certificates as exact
+
+        cert = exact.build_translation_family_cert(
+            rank,
+            mask,
+            f"phase6PTranslationFarkas{rank:09d}_{mask:02d}",
+            "farkas",
+        ).to_json()
+        failure = cert["failure"]
+        if failure["kind"] != "farkas":
+            raise AssertionError("expected Farkas translation cert")
+        return cert
+
+    def top_bitset_classes(self) -> list[BitsetClassStats]:
+        return sorted(
+            self.bitset_classes.values(),
+            key=lambda stats: (
+                -stats.identity_words,
+                -stats.survivor_cases,
+                stats.bitset,
+            ),
+        )[:self.top_classes]
+
+    def analyze_certificates(self) -> None:
+        for stats in self.top_bitset_classes():
+            support_keys: Counter[str] = Counter()
+            multiplier_keys: Counter[str] = Counter()
+            term_count_histogram: Counter[int] = Counter()
+            analyzed_cases: list[dict[str, Any]] = []
+            for rank, mask, shape_digest, signature_digest in stats.cert_candidates:
+                try:
+                    cert = self.build_source_farkas_cert(rank, mask)
+                except Exception as exc:  # pragma: no cover - diagnostic payload
+                    self.cert_failures.append({
+                        "bitset": stats.bitset,
+                        "rank": rank,
+                        "mask": mask,
+                        "error": repr(exc),
+                    })
+                    continue
+                source_terms = cert["failure"]["sourceTerms"]
+                support_key = self.source_term_support_key(source_terms)
+                multiplier_key = self.source_term_multiplier_key(source_terms)
+                support_digest = stable_digest(support_key)
+                multiplier_digest = stable_digest(multiplier_key)
+                support_keys[support_digest] += 1
+                multiplier_keys[multiplier_digest] += 1
+                term_count_histogram[len(source_terms)] += 1
+                if len(analyzed_cases) < self.sample_limit:
+                    analyzed_cases.append({
+                        "rank": rank,
+                        "mask": mask,
+                        "shape_digest": shape_digest,
+                        "denominator_signature_digest": signature_digest,
+                        "source_term_count": len(source_terms),
+                        "support_digest": support_digest,
+                        "multiplier_digest": multiplier_digest,
+                    })
+            analyzed_count = sum(support_keys.values())
+            self.cert_analysis.append({
+                **stats.payload(),
+                "cert_candidates": len(stats.cert_candidates),
+                "certs_analyzed": analyzed_count,
+                "unique_source_supports": len(support_keys),
+                "unique_multiplier_patterns": len(multiplier_keys),
+                "source_term_count_histogram": dict(sorted(term_count_histogram.items())),
+                "top_source_supports": [
+                    {"digest": digest, "count": count}
+                    for digest, count in support_keys.most_common(8)
+                ],
+                "top_multiplier_patterns": [
+                    {"digest": digest, "count": count}
+                    for digest, count in multiplier_keys.most_common(8)
+                ],
+                "analyzed_case_samples": analyzed_cases,
+                "pilot_candidate": (
+                    analyzed_count > 0
+                    and len(support_keys) <= 2
+                    and len(multiplier_keys) <= 2
+                    and stats.identity_words >= 8
+                ),
+            })
+
+    def traverse(self) -> None:
+        super().traverse()
+        self.analyze_certificates()
+
+    def decision(self) -> dict[str, Any]:
+        pilot_candidates = [
+            entry for entry in self.cert_analysis
+            if entry["pilot_candidate"]
+        ]
+        best = max(
+            self.cert_analysis,
+            key=lambda entry: (
+                entry["identity_words"],
+                entry["survivor_cases"],
+            ),
+            default=None,
+        )
+        if pilot_candidates:
+            status = "accepted_for_lean_pilot"
+            notes = [
+                "at least one high-reuse survivor-bitset class has a compact sampled Farkas skeleton",
+                "next step is a single Lean pilot theorem for that class before broad generation",
+            ]
+        else:
+            status = "rejected"
+            notes = [
+                "sampled high-reuse bitset classes still require too many raw Farkas skeletons",
+                "do not treat survivor-bitset compression as proof-ready",
+            ]
+        if self.cert_failures:
+            notes.append(
+                f"{len(self.cert_failures)} sampled Farkas certificate builds failed"
+            )
+        return {
+            "status": status,
+            "accepted_for_phase_6p": status == "accepted_for_lean_pilot",
+            "best_analyzed_class": best,
+            "pilot_candidate_count": len(pilot_candidates),
+            "top_pilot_candidates": pilot_candidates[:4],
+            "max_lean_leaves": self.max_lean_leaves,
+            "warn_lean_leaves": self.warn_lean_leaves,
+            "notes": notes,
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        class_payloads = [
+            stats.payload()
+            for stats in sorted(
+                self.bitset_classes.values(),
+                key=lambda entry: (
+                    -entry.identity_words,
+                    -entry.survivor_cases,
+                    entry.bitset,
+                ),
+            )[:max(self.top_classes, self.sample_limit)]
+        ]
+        return {
+            "schema_version": 1,
+            "mode": "translation-bitset-class-pilot-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "translation",
+                "top_classes": self.top_classes,
+                "max_certs_per_class": self.max_certs_per_class,
+                "sample_limit": self.sample_limit,
+                "progress_interval": self.progress_interval,
+                "emits_lean_evidence": False,
+                "emits_bad_direction_evidence": False,
+            },
+            "actual_counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_linear_words": self.identity_words,
+                "nonidentity_words_skipped": self.nonidentity_words_skipped,
+                "translation_sign_assignments": self.translation_sign_assignments,
+                "good_direction_survivor_masks": self.good_direction_masks,
+                "denominator_nonpositive_masks": self.denominator_nonpositive_masks,
+                "zero_translation_vector_masks": self.zero_vector_masks,
+                "survivor_bitset_classes": len(self.bitset_classes),
+                "bad_direction_generated_evidence": 0,
+            },
+            "top_bitset_classes": class_payloads,
+            "certificate_analysis": self.cert_analysis,
+            "certificate_failures": self.cert_failures[:self.sample_limit],
+            "decision": self.decision(),
+        }
+
+
 @dataclass(frozen=True)
 class MaskTreeBuild:
     key: str
@@ -8263,6 +8657,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_survivor_mask_tree),
         bool(args.translation_state_dag),
         bool(args.translation_farkas_shape_map),
+        bool(args.translation_bitset_class_pilot),
         bool(args.combined_residual_portfolio),
         bool(args.nonidentity_terminal_algebra),
         bool(args.nonidentity_state_cone_tree),
@@ -8279,7 +8674,7 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-lifted-pb-search, "
             "--translation-survivor-mask-tree, "
             "--translation-state-dag, --translation-farkas-shape-map, "
-            "--combined-residual-portfolio, "
+            "--translation-bitset-class-pilot, --combined-residual-portfolio, "
             "--nonidentity-terminal-algebra, "
             "--nonidentity-state-cone-tree, "
             "--nonidentity-empty-cone-tree, "
@@ -8831,6 +9226,32 @@ def print_summary(payload: dict[str, Any]) -> None:
             print(f"- {note}")
         return
 
+    if payload.get("mode") == "translation-bitset-class-pilot-profile":
+        counts = payload["actual_counts"]
+        decision = payload["decision"]
+        print("translation bitset-class pilot profile")
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"identity-linear words: {counts['identity_linear_words']:,}")
+        print(f"nonidentity words skipped: {counts['nonidentity_words_skipped']:,}")
+        print(f"translation sign assignments: {counts['translation_sign_assignments']:,}")
+        print(f"GoodDirection survivor masks: {counts['good_direction_survivor_masks']:,}")
+        print(f"survivor bitset classes: {counts['survivor_bitset_classes']:,}")
+        print(f"certificate classes analyzed: {len(payload['certificate_analysis']):,}")
+        best = decision["best_analyzed_class"]
+        if best is not None:
+            print(
+                "best analyzed class: "
+                f"bitset={best['bitset_hex']} identity_words={best['identity_words']} "
+                f"survivor_cases={best['survivor_cases']} "
+                f"source_supports={best['unique_source_supports']} "
+                f"multiplier_patterns={best['unique_multiplier_patterns']}"
+            )
+        print(f"pilot candidates: {decision['pilot_candidate_count']}")
+        print(f"decision: {decision['status']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "nonidentity-empty-cone-profile":
         prefix = payload["prefix"]
         tiling = payload["tiling"]
@@ -9354,6 +9775,11 @@ def main() -> None:
         help="profile semantic compression layers for translation GoodDirection Farkas survivors",
     )
     parser.add_argument(
+        "--translation-bitset-class-pilot",
+        action="store_true",
+        help="profile whether survivor-bitset classes share reusable Farkas proof skeletons",
+    )
+    parser.add_argument(
         "--combined-residual-portfolio",
         action="store_true",
         help="profile an ordered portfolio of existing translation and nonidentity filters",
@@ -9390,6 +9816,8 @@ def main() -> None:
     parser.add_argument("--max-state-cone-depth", type=int, default=9)
     parser.add_argument("--max-state-cone-states", type=int, default=250_000)
     parser.add_argument("--max-linear-fm-constraints", type=int, default=100_000)
+    parser.add_argument("--bitset-pilot-top-classes", type=int, default=8)
+    parser.add_argument("--bitset-pilot-max-certs-per-class", type=int, default=24)
     parser.add_argument(
         "--no-d4-transport",
         action="store_true",
@@ -9404,7 +9832,9 @@ def main() -> None:
     validate_options(args)
     output = args.output
     if output is None:
-        if args.translation_farkas_shape_map:
+        if args.translation_bitset_class_pilot:
+            output = default_translation_bitset_class_pilot_output(args.limit)
+        elif args.translation_farkas_shape_map:
             output = default_translation_farkas_shape_map_output(args.limit)
         elif args.combined_residual_portfolio:
             output = DEFAULT_COMBINED_RESIDUAL_PORTFOLIO_OUTPUT
@@ -9459,6 +9889,23 @@ def main() -> None:
         terminal_profiler.traverse()
         rejected = False
         payload = terminal_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+    elif args.translation_bitset_class_pilot:
+        bitset_pilot_profiler = TranslationBitsetClassPilotProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+            top_classes=args.bitset_pilot_top_classes,
+            max_certs_per_class=args.bitset_pilot_max_certs_per_class,
+        )
+        bitset_pilot_profiler.traverse()
+        rejected = False
+        payload = bitset_pilot_profiler.payload(
             elapsed_seconds=time.monotonic() - start,
         )
     elif args.translation_farkas_shape_map:

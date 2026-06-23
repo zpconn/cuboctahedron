@@ -176,11 +176,12 @@ DAG profiler, rank-boundary audit, integer arithmetic core, Phase 6L.2A
 translation pseudo-Boolean denominator profiler, Phase 6L.2B lifted
 pseudo-Boolean search profiler, Phase 6L.3A signed-state cone profiler,
 Phase 6M coarse terminal-obstruction algebra profiler, and Phase 6N combined
-residual/portfolio profiler, and Phase 6O translation survivor/Farkas
-shape-map compression. Phase 6O is rejected as a proof-ready generated
-backend; the active strategy is now a narrow Phase 6P attempt to turn the
-diagnostic survivor-bitset compression into a real semantic theorem, or else
-downshift to a smaller formal target.
+residual/portfolio profiler, Phase 6O translation survivor/Farkas shape-map
+compression, and Phase 6P survivor-bitset theorem pilot profiling. Phase 6P is
+rejected: the diagnostic survivor-bitset classes still fragment into multiple
+source-Farkas skeletons. The active strategy is now Phase 6Q, a deliberate
+downshift to validating and documenting the conditional trusted proof skeleton
+instead of pursuing full generated coverage in this architecture.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -194,7 +195,7 @@ experiments.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P planned | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, and proof-ready translation shape-map compression all fail bounded gates. Phase 6O found a diagnostic-only survivor-bitset layer under the 2,000 gate, so the next step is to see whether that layer can be upgraded into an actual theorem. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q planned | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, and survivor-bitset theorem piloting all fail bounded gates. The next useful target is the smaller conditional theorem layer: verify and expose the Lean proof that exhaustive generated coverage would imply no started unfolded omni itinerary. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -2407,6 +2408,83 @@ Acceptance:
 - If no such theorem exists, the plan records the failure and names the
   smaller target theorem to finish next.
 
+Phase 6P implementation results:
+
+- Implemented `--translation-bitset-class-pilot`.
+- Ran:
+
+  ```bash
+  python3 scripts/profile_symmetry_compression.py \
+    --dry-run \
+    --translation-bitset-class-pilot \
+    --limit 100000 \
+    --progress-interval 10000 \
+    --output scripts/generated/translation_bitset_class_pilot_000000000_000100000.json
+  ```
+
+- Results on `[0,100000)`:
+  - pair words scanned: 100,000;
+  - identity-linear words: 5,565;
+  - translation sign assignments: 356,160;
+  - GoodDirection survivor masks: 39,710;
+  - survivor-bitset classes: 1,479;
+  - top bitset: `80c0a000f1452300`;
+  - top-bitset identity words: 96;
+  - top-bitset survivor cases: 1,536;
+  - top-bitset normalized Farkas shapes: 1,500;
+  - top-bitset raw shape maps: 96;
+  - sampled top-bitset source supports: 7;
+  - sampled top-bitset multiplier patterns: 11.
+- Decision: Phase 6P is rejected.
+- Reason:
+  - survivor bitsets compress the set of identity words, but do not determine
+    a reusable Farkas proof skeleton;
+  - even the highest-reuse bitset class still fragments into multiple source
+    supports and multiplier patterns;
+  - a Lean theorem based only on survivor bitsets would need extra raw
+    Farkas-shape data for most members of the class.
+
+#### Phase 6Q: Conditional Trusted Skeleton Target
+
+Purpose: deliberately downshift to a smaller formal target that is already
+mathematically meaningful and buildable: the Lean proof skeleton saying that
+an `ExhaustiveGeneratedCoverage` object implies no started unfolded omnihedral
+itinerary.
+
+Rationale:
+
+- The repeated bounded compression gates show that the remaining full
+  generated evidence problem is an engineering/research bottleneck, not a
+  good next Lean implementation target.
+- `Cuboctahedron/Search/Certificates.lean` already contains:
+  - `generated_nonidentity_complete_of_coverage`;
+  - `generated_translation_complete_of_coverage`;
+  - `no_unfolded_omni_starting_xp_of_coverage`.
+- This conditional layer is the trusted theorem skeleton Step 15 needs once
+  full evidence exists, and it can be validated now without pretending the
+  generated coverage problem is solved.
+
+Tasks:
+
+1. Create a small public-facing module importing only the necessary trusted
+   files and exposing the conditional theorem under a clear name, e.g.
+   `conditional_no_unfolded_omni_starting_xp`.
+2. Add a validation file that prints axioms for the conditional theorem.
+3. Document in the README or a short markdown note:
+   - what the theorem proves;
+   - what assumption remains (`ExhaustiveGeneratedCoverage`);
+   - why this is not the final theorem.
+4. Build only the conditional module and validation file.
+5. Run the repository grep for forbidden proof escapes.
+
+Acceptance:
+
+- The conditional theorem compiles without `sorry`, `admit`,
+  `native_decide`, `unsafe`, or custom axioms.
+- The axiom printout contains no `sorryAx`, `Lean.trustCompiler`, or
+  project-specific custom axioms.
+- The documentation makes clear that full generated evidence remains open.
+
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
 Purpose: preserve exhaustive coverage without making ranks the compression
@@ -3227,8 +3305,9 @@ Acceptance:
   overlap among existing filters before inventing another backend.
 - [x] Implement and reject Phase 6O translation survivor/Farkas shape-map compression
   profiler on the `[0,100000)` gate.
-- [ ] Implement Phase 6P survivor-bitset theorem pilot, or choose a smaller
-  formal target if the pilot rejects.
+- [x] Implement and reject Phase 6P survivor-bitset theorem pilot on the
+  `[0,100000)` gate.
+- [ ] Implement Phase 6Q conditional trusted skeleton target.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
   the gate.
 - [ ] Generate bounded scaled prefix-pruning evidence and externally compile it
@@ -3286,16 +3365,22 @@ primary shapes. The largest residual family is `translation.farkas_survivor`,
 with 11,478 unique normalized Farkas survivor shapes; nonidentity
 `forced_zero_denominator` is second at 4,393 shapes.
 
-Phase 6O is now rejected too. The best proof-ready translation survivor layer
-is `raw_survivor_shape_map`, with 5,521 obligations on `[0,100000)`, still
-above the 2,000 gate. The only low-count layer is diagnostic:
-`survivor_bitset` has 1,479 classes, but a bitset alone does not prove Farkas
-infeasibility. The active next step is Phase 6P: try to upgrade
-survivor-bitset compression into a genuine theorem, probably bitset plus a
-small denominator/signature witness. If Phase 6P cannot produce a compiling
-Lean pilot theorem for a high-reuse class, stop trying to finish full
-generated coverage in this architecture and deliberately downshift to a
-smaller formal target that can be completed and validated.
+Phase 6O is rejected too. The best proof-ready translation survivor layer is
+`raw_survivor_shape_map`, with 5,521 obligations on `[0,100000)`, still above
+the 2,000 gate. The only low-count layer is diagnostic: `survivor_bitset` has
+1,479 classes, but a bitset alone does not prove Farkas infeasibility.
+
+Phase 6P tested whether the survivor-bitset layer could become a theorem. It
+also rejects: the top survivor bitset covers 96 identity words and 1,536
+survivor cases, but sampled exact Farkas certificates already split into 7
+source supports and 11 multiplier patterns. This means survivor bitsets are
+not a proof skeleton; they are only a coarse census statistic.
+
+The active next step is Phase 6Q: stop trying to finish full generated
+coverage in this architecture and complete the smaller conditional trusted
+skeleton target. In concrete terms, expose and validate the existing Lean
+theorem that `ExhaustiveGeneratedCoverage` implies no started unfolded
+omnihedral itinerary. Full generated evidence remains open.
 
 ## Explicit Non-Goals
 
