@@ -1,0 +1,3 @@
+import Cuboctahedron.ConditionalTheorem
+
+#print axioms Cuboctahedron.conditional_no_unfolded_omni_starting_xp
