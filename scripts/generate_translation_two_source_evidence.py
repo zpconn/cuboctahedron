@@ -61,12 +61,20 @@ def chunked(items: list[TwoSourceCase], size: int) -> list[list[TwoSourceCase]]:
     return [items[index : index + size] for index in range(0, len(items), size)]
 
 
-def lean_module_part(path_part: str) -> str:
-    return path_part.replace("/", ".").removesuffix(".lean")
-
-
 def lean_case_name(case_index: int) -> str:
     return f"case_{case_index:06d}"
+
+
+def validate_module_namespace(namespace: str) -> str:
+    parts = namespace.split(".")
+    if not parts or any(not part for part in parts):
+        raise ValueError("--module-namespace must be a nonempty dotted Lean namespace")
+    for part in parts:
+        if not (part[0].isalpha() or part[0] == "_"):
+            raise ValueError(f"invalid Lean namespace component: {part!r}")
+        if not all(ch.isalnum() or ch == "_" for ch in part):
+            raise ValueError(f"invalid Lean namespace component: {part!r}")
+    return namespace
 
 
 def lean_seq_definition(name: str, seq: list[str]) -> list[str]:
@@ -331,8 +339,14 @@ def case_lines(case: TwoSourceCase, case_index: int) -> list[str]:
     return lines
 
 
-def shard_lines(shard_index: int, cases: list[TwoSourceCase], case_offset: int) -> list[str]:
-    module_name = f"Cuboctahedron.Generated.Translation.TwoSource.Coverage.Shard{shard_index:03d}"
+def shard_lines(
+    shard_index: int,
+    cases: list[TwoSourceCase],
+    case_offset: int,
+    *,
+    module_namespace: str,
+) -> list[str]:
+    module_name = f"{module_namespace}.Shard{shard_index:03d}"
     lines = [
         "import Cuboctahedron.Generated.Translation.TwoSource.Core",
         "",
@@ -366,20 +380,18 @@ def shard_lines(shard_index: int, cases: list[TwoSourceCase], case_offset: int) 
     return lines
 
 
-def all_lines(shard_count: int) -> list[str]:
+def all_lines(shard_count: int, *, module_namespace: str) -> list[str]:
     lines: list[str] = []
     for shard_index in range(shard_count):
-        lines.append(
-            f"import Cuboctahedron.Generated.Translation.TwoSource.Coverage.Shard{shard_index:03d}"
-        )
+        lines.append(f"import {module_namespace}.Shard{shard_index:03d}")
     lines.extend([
         "",
-        "namespace Cuboctahedron.Generated.Translation.TwoSource.Coverage",
+        f"namespace {module_namespace}",
         "",
         "theorem boundedTwoSourceEvidenceBuilds : True := by",
         "  trivial",
         "",
-        "end Cuboctahedron.Generated.Translation.TwoSource.Coverage",
+        f"end {module_namespace}",
         "",
     ])
     return lines
@@ -485,6 +497,7 @@ def write_generated_files(
     *,
     out_dir: Path,
     cases_per_shard: int,
+    module_namespace: str,
 ) -> list[Path]:
     if cases_per_shard <= 0:
         raise ValueError("--cases-per-shard must be positive")
@@ -500,12 +513,31 @@ def write_generated_files(
     shards = chunked(cases, cases_per_shard)
     for shard_index, shard_cases in enumerate(shards):
         path = out_dir / f"Shard{shard_index:03d}.lean"
-        path.write_text("\n".join(shard_lines(shard_index, shard_cases, case_offset)))
+        path.write_text(
+            "\n".join(
+                shard_lines(
+                    shard_index,
+                    shard_cases,
+                    case_offset,
+                    module_namespace=module_namespace,
+                )
+            )
+        )
         paths.append(path)
         case_offset += len(shard_cases)
-    all_file.write_text("\n".join(all_lines(len(shards))))
+    all_file.write_text("\n".join(all_lines(len(shards), module_namespace=module_namespace)))
     paths.append(all_file)
     return paths
+
+
+def projected_paths(out_dir: Path, shard_count: int) -> list[Path]:
+    return [out_dir / f"Shard{index:03d}.lean" for index in range(shard_count)] + [
+        out_dir / "All.lean"
+    ]
+
+
+def existing_file_sizes(paths: list[Path]) -> dict[str, int]:
+    return {str(path): path.stat().st_size for path in paths if path.exists()}
 
 
 def main() -> int:
@@ -514,6 +546,16 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=1000)
     parser.add_argument("--max-cases", type=int, default=None)
     parser.add_argument("--cases-per-shard", type=int, default=25)
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="collect and summarize cases without writing generated Lean files",
+    )
+    parser.add_argument(
+        "--module-namespace",
+        default="Cuboctahedron.Generated.Translation.TwoSource.Coverage",
+        help="Lean namespace/module prefix for generated shard imports",
+    )
     parser.add_argument(
         "--out-dir",
         type=Path,
@@ -532,35 +574,54 @@ def main() -> int:
         raise ValueError("--limit must be nonnegative")
     if args.rank_start + args.limit > exact.EXPECTED_PAIR_WORDS:
         raise ValueError("requested range exceeds pair-word count")
+    if args.cases_per_shard <= 0:
+        raise ValueError("--cases-per-shard must be positive")
+    module_namespace = validate_module_namespace(args.module_namespace)
 
     cases, stats = collect_cases(args.rank_start, args.limit, args.max_cases)
-    paths = write_generated_files(
-        cases,
-        out_dir=args.out_dir,
-        cases_per_shard=args.cases_per_shard,
-    )
+    shard_count = (len(cases) + args.cases_per_shard - 1) // args.cases_per_shard
+    if args.dry_run:
+        paths = projected_paths(args.out_dir, shard_count)
+        generated_file_sizes: dict[str, int] = {}
+    else:
+        paths = write_generated_files(
+            cases,
+            out_dir=args.out_dir,
+            cases_per_shard=args.cases_per_shard,
+            module_namespace=module_namespace,
+        )
+        generated_file_sizes = existing_file_sizes(paths)
+    generated_source_bytes = sum(generated_file_sizes.values())
 
     args.summary.parent.mkdir(parents=True, exist_ok=True)
     summary = {
-        "schema_version": 1,
+        "schema_version": 2,
         "mode": "translation_two_source_prop_evidence",
         "trusted_as_proof": False,
+        "dry_run": args.dry_run,
         "options": {
             "rank_start": args.rank_start,
             "limit": args.limit,
             "max_cases": args.max_cases,
             "cases_per_shard": args.cases_per_shard,
             "out_dir": str(args.out_dir),
+            "module_namespace": module_namespace,
         },
         "stats": stats,
+        "shards": {
+            "count": shard_count,
+            "cases_per_shard": args.cases_per_shard,
+            "last_shard_cases": (len(cases) % args.cases_per_shard) or (args.cases_per_shard if cases else 0),
+            "projected_files": [str(path) for path in projected_paths(args.out_dir, shard_count)],
+            "generated_source_bytes": generated_source_bytes,
+            "generated_file_sizes": generated_file_sizes,
+        },
         "generated_files": [str(path) for path in paths],
     }
     args.summary.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
 
-    print(
-        f"emitted {len(cases)} two-source survivor cases across "
-        f"{max(len(paths) - 1, 0)} shard(s)"
-    )
+    action = "would emit" if args.dry_run else "emitted"
+    print(f"{action} {len(cases)} two-source survivor cases across {shard_count} shard(s)")
     print(f"summary: {args.summary}")
     return 0
 

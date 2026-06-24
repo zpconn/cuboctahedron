@@ -180,7 +180,8 @@ residual/portfolio profiler, Phase 6O translation survivor/Farkas shape-map
 compression, Phase 6P survivor-bitset theorem pilot profiling, Phase 6V exact
 source-Farkas burden profiling, and Phase 6W source-support multiplier
 variation profiling, Phase 6X two-source Farkas support profiling, and the
-Phase 6Y Lean proof-carrying two-source emitter pilot.
+Phase 6Y Lean proof-carrying two-source emitter pilot plus its `[0,10000)`
+scaling/memory measurement.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -213,7 +214,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y now emits proof-carrying two-source shards for `[0,1000)`: 1,465 GoodDirection survivors in 59 shards, each with an explicit rank/mask bridge to `TranslationGoodCaseKilled`. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)` | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y emits proof-carrying two-source shards for `[0,1000)` and `[0,10000)`, with explicit rank/mask bridges to `TranslationGoodCaseKilled`; the `[0,10000)` shard sweep passes, but directly importing all heavy shard `.olean`s through `Coverage10k.All` is not a memory-safe root strategy. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -264,6 +265,12 @@ Completed current-work items:
   explicit source rows and deterministic multipliers locally, and each case
   exports a `TranslationGoodCaseKilled` theorem through generated rank,
   unrank, sequence, and translation-vector bridge lemmas.
+- Phase 6Y scaling status: the same emitter now supports dry-run summaries,
+  configurable generated namespaces, and a bounded shard validator. The
+  isolated `[0,10000)` pilot emits 6,389 GoodDirection survivor cases across
+  256 shards in `Coverage10k`; all 256 shards compile through the external
+  cache validator with zero failures and max observed per-shard RSS about
+  4.72 GiB.
 - Added `BadDirectionPrefixCert` and `BadDirectionPrefixCert.sound`.
 - Added `nonidentity_killed_of_no_fixed_axis`.
 - Added `UniformBadDirectionPrefixCert` and `UniformBadDirectionPrefixCert.sound`.
@@ -3279,9 +3286,12 @@ Phase 6Y follow-up:
 Purpose: turn the accepted Phase 6X two-source profile into actual
 Lean-checkable generated evidence without returning to large Boolean reduction.
 
-Current status: accepted on the bounded `[0,1000)` pilot. The core theorem
-layer, explicit sample, generated shards, generated rank/mask bridge facts, and
-bounded generated root all build.
+Current status: accepted on the bounded `[0,1000)` pilot and shard-scaled on
+the isolated `[0,10000)` pilot. The core theorem layer, explicit sample,
+generated shards, and generated rank/mask bridge facts build. The `[0,10000)`
+individual shard sweep is memory-safe under the external validator, but a root
+file that imports every heavy shard directly is not memory-safe and should not
+be used as the final public coverage architecture.
 
 Implemented Lean support:
 
@@ -3324,6 +3334,7 @@ Important implementation lesson:
 Implemented generated evidence:
 
 - Added `scripts/generate_translation_two_source_evidence.py`.
+- Added `scripts/check_translation_two_source_shards.py`.
 - Generated
   `Cuboctahedron/Generated/Translation/TwoSource/Coverage/Shard000.lean`
   through
@@ -3332,6 +3343,15 @@ Implemented generated evidence:
   `Cuboctahedron/Generated/Translation/TwoSource/Coverage/All.lean`.
 - Generated summary:
   `scripts/generated/translation_two_source_evidence_000000000_000001000.json`.
+- Generated isolated scale-pilot evidence:
+  `Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard000.lean`
+  through
+  `Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard255.lean`.
+- Generated scale summaries:
+  `scripts/generated/translation_two_source_evidence_000000000_000010000.dry_run.json`,
+  `scripts/generated/translation_two_source_evidence_000000000_000010000.json`,
+  `scripts/generated/translation_two_source_10k_focused_check.json`, and
+  `scripts/generated/translation_two_source_10k_all_shards_check.json`.
 
 Bounded `[0,1000)` result:
 
@@ -3378,16 +3398,47 @@ Observed build behavior:
   for JSON output in `lake query`, and `lake build -J 4 ...` parses `4` as a
   target. Future larger generated builds therefore need external memory
   monitoring and shard-cost control rather than relying on a Lake jobs flag.
+- The `[0,10000)` dry run passed the scale gate:
+
+```text
+pair words scanned:                 10,000
+identity-linear words:                 712
+nonidentity words skipped:           9,288
+translation sign assignments:       45,568
+bad-direction or zero-vector masks:  39,179
+GoodDirection survivor masks:        6,389
+two-source cases emitted:            6,389
+non-two-source cases:                    0
+generated shards:                      256
+cases per shard:                        25
+generated source bytes:         40,635,686
+```
+
+- The `[0,10000)` focused check built first, middle, largest, and last shards
+  with max RSS about 4.58 GiB.
+- The `[0,10000)` all-shard external-cache sweep built all 256 shards with
+  zero failures, eight validator jobs, 16 cache hits, max per-shard RSS
+  4,944,740 KiB (about 4.72 GiB), max per-shard elapsed time about 188.4
+  seconds, and total per-task elapsed time about 40,290 seconds.
+- `Coverage10k.All` is not an acceptable root pattern. Even after all shards
+  were compiled into an external cache, directly importing the 256 heavy shard
+  `.olean`s failed during root import/load behavior. The final public generated
+  coverage layer must therefore expose small semantic summaries or a manifest
+  checked outside normal imports; it must not rely on a root module importing
+  every heavy generated shard.
 
 Next Phase 6Y tasks:
 
-1. Scale this emitter to a larger bounded window, probably `[0,100000)`, but
-   first decide whether to keep fixed 25-case shards or shard by source-support
-   class/build-cost buckets.
-2. Add build-memory measurement around the larger window because Lake compiled
-   many generated shards concurrently in the bounded root.
-3. Do not import the generated coverage root from the normal project root until
-   the full compressed translation and nonidentity coverage APIs are ready.
+1. Replace the heavy-import `All.lean` idea with a memory-safe public coverage
+   contract: generated heavy shards may be checked and cached externally, but
+   normal Lean imports should see only small semantic theorem modules or a
+   manifest-level statement whose type does not mention or import every shard.
+2. Scale the two-source emitter beyond `[0,10000)` only after the root strategy
+   is changed; otherwise source generation succeeds but public coverage still
+   bottlenecks on heavy `.olean` imports.
+3. Keep the external validator as the authority for heavy shard checks, and
+   treat `lake build` of broad generated roots as unsafe unless a bounded root
+   architecture is in place.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4230,8 +4281,10 @@ Acceptance:
 - [x] Emit proof-carrying translation two-source shards for `[0,1000)`.
 - [x] Implement the Phase 6Y rank/mask bridge pilot for those generated
   shards.
-- [ ] Scale the Phase 6Y two-source emitter beyond `[0,1000)` with memory
-  measurement and a deliberate shard-cost policy.
+- [x] Scale the Phase 6Y two-source emitter to `[0,10000)` with dry-run gating,
+  memory measurement, and external-cache shard validation.
+- [ ] Replace heavy generated `All.lean` imports with a memory-safe public
+  coverage root/manifest architecture.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -4345,14 +4398,15 @@ remain. The explicit sample proves the concrete two-row contradiction in Lean.
 The bounded `[0,1000)` emitter now proves 1,465 GoodDirection survivor cases
 across 59 generated shards, and every emitted case has a generated rank/mask
 bridge to `TranslationGoodCaseKilled`.
-Therefore the next step is scaling and measuring this accepted emitter, not
-another theorem-design probe:
+Therefore the next step is no longer proving that the two-source shard shape
+works. It does. The next step is preventing the public root from importing
+all heavy shard `.olean`s:
 
 ```text
-Scale the proof-carrying two-source shards beyond [0,1000), keep explicit
-seq/b/source-row facts and rank/mask bridge facts, measure memory and build
-time, and keep bad-direction masks handled only by the generic GoodDirection
-theorem.
+Design a memory-safe generated coverage root: heavy two-source shards are
+checked externally and cached, while normal Lean imports expose only small
+semantic coverage facts or a manifest-level theorem whose type does not import
+every heavy generated shard.
 ```
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken

@@ -1,6 +1,7 @@
 .lake/
 __pycache__/
 evidence/.external_olean_cache/
+evidence/.translation_two_source_olean_cache/
 evidence/**/*.olean
 evidence/**/*.ilean
 evidence/**/check_report.json

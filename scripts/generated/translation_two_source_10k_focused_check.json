@@ -1,0 +1,60 @@
+{
+  "coverage_dir": "Cuboctahedron/Generated/Translation/TwoSource/Coverage10k",
+  "job_gib": 10.0,
+  "jobs_effective": 4,
+  "jobs_requested": 4,
+  "lean_memory_limit_gib": 12.0,
+  "memory_budget_gib": 40.0,
+  "results": [
+    {
+      "cached": false,
+      "elapsed_seconds": 147.19801417599956,
+      "label": "Shard000",
+      "max_rss_kb": 4561396,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard000.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.translation_two_source_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard000.olean Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard000.lean\"\n\tUser time (seconds): 136.83\n\tSystem time (seconds): 2.26\n\tPercent of CPU this job got: 94%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:27.19\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 4561396\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 34526\n\tMinor (reclaiming a frame) page faults: 263261\n\tVoluntary context switches: 55186\n\tInvoluntary context switches: 325\n\tSwaps: 0\n\tFile system inputs: 1355712\n\tFile system outputs: 73840\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 163.8124627109937,
+      "label": "Shard128",
+      "max_rss_kb": 4710320,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard128.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.translation_two_source_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard128.olean Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard128.lean\"\n\tUser time (seconds): 153.56\n\tSystem time (seconds): 2.17\n\tPercent of CPU this job got: 95%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:43.80\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 4710320\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 33896\n\tMinor (reclaiming a frame) page faults: 308243\n\tVoluntary context switches: 54962\n\tInvoluntary context switches: 221\n\tSwaps: 0\n\tFile system inputs: 1151560\n\tFile system outputs: 86840\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 171.81780926400097,
+      "label": "Shard224",
+      "max_rss_kb": 4798172,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard224.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.translation_two_source_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard224.olean Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard224.lean\"\n\tUser time (seconds): 161.49\n\tSystem time (seconds): 2.24\n\tPercent of CPU this job got: 95%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:51.81\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 4798172\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 34449\n\tMinor (reclaiming a frame) page faults: 282499\n\tVoluntary context switches: 55490\n\tInvoluntary context switches: 318\n\tSwaps: 0\n\tFile system inputs: 1399368\n\tFile system outputs: 78832\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 93.86429568000312,
+      "label": "Shard255",
+      "max_rss_kb": 4047348,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard255.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.translation_two_source_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard255.olean Cuboctahedron/Generated/Translation/TwoSource/Coverage10k/Shard255.lean\"\n\tUser time (seconds): 83.91\n\tSystem time (seconds): 1.82\n\tPercent of CPU this job got: 91%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 1:33.86\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 4047348\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 36059\n\tMinor (reclaiming a frame) page faults: 199454\n\tVoluntary context switches: 50782\n\tInvoluntary context switches: 129\n\tSwaps: 0\n\tFile system inputs: 1370656\n\tFile system outputs: 45296\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    }
+  ],
+  "schema_version": 1,
+  "select": "focused",
+  "summary": {
+    "cached": 0,
+    "checked": 4,
+    "failed": 0,
+    "max_elapsed_seconds": 171.81780926400097,
+    "max_rss_kb": 4798172,
+    "total_elapsed_seconds": 576.6925818309974
+  }
+}
