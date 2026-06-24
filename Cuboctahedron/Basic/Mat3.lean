@@ -32,6 +32,42 @@ theorem ext {A B : Mat3 alpha}
   cases B
   simp_all
 
+theorem ne_of_m00_ne {A B : Mat3 alpha} (h : A.m00 ≠ B.m00) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m00 hAB)
+
+theorem ne_of_m01_ne {A B : Mat3 alpha} (h : A.m01 ≠ B.m01) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m01 hAB)
+
+theorem ne_of_m02_ne {A B : Mat3 alpha} (h : A.m02 ≠ B.m02) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m02 hAB)
+
+theorem ne_of_m10_ne {A B : Mat3 alpha} (h : A.m10 ≠ B.m10) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m10 hAB)
+
+theorem ne_of_m11_ne {A B : Mat3 alpha} (h : A.m11 ≠ B.m11) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m11 hAB)
+
+theorem ne_of_m12_ne {A B : Mat3 alpha} (h : A.m12 ≠ B.m12) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m12 hAB)
+
+theorem ne_of_m20_ne {A B : Mat3 alpha} (h : A.m20 ≠ B.m20) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m20 hAB)
+
+theorem ne_of_m21_ne {A B : Mat3 alpha} (h : A.m21 ≠ B.m21) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m21 hAB)
+
+theorem ne_of_m22_ne {A B : Mat3 alpha} (h : A.m22 ≠ B.m22) : A ≠ B := by
+  intro hAB
+  exact h (congrArg Mat3.m22 hAB)
+
 def map (A : Mat3 alpha) (f : alpha -> beta) : Mat3 beta where
   m00 := f A.m00
   m01 := f A.m01

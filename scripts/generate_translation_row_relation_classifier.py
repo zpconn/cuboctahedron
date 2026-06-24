@@ -55,14 +55,38 @@ DEFAULT_MODULE_NAMESPACE = (
     "Cuboctahedron.Generated.Translation.TwoSource."
     "RowRelationClassifier.Window000000000_000001000"
 )
+DEFAULT_MODULE_PREFIX = (
+    "Cuboctahedron.Generated.Translation.TwoSource.RowRelationClassifier"
+)
 DEFAULT_OUT = Path(
     "Cuboctahedron/Generated/Translation/TwoSource/"
     "RowRelationClassifier/Window000000000_000001000.lean"
+)
+DEFAULT_OUT_DIR = Path(
+    "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier"
 )
 DEFAULT_SUMMARY = Path(
     "scripts/generated/"
     "translation_row_relation_classifier_000000000_000001000.json"
 )
+
+Vec = tuple[Fraction, Fraction, Fraction]
+Mat = tuple[tuple[Fraction, Fraction, Fraction], ...]
+StrictLin2 = tuple[Fraction, Fraction, Fraction]
+
+MAT_ENTRIES = [
+    ("m00", 0, 0),
+    ("m01", 0, 1),
+    ("m02", 0, 2),
+    ("m10", 1, 0),
+    ("m11", 1, 1),
+    ("m12", 1, 2),
+    ("m20", 2, 0),
+    ("m21", 2, 1),
+    ("m22", 2, 2),
+]
+
+ZERO_VEC: Vec = (Fraction(0), Fraction(0), Fraction(0))
 
 
 TEMPLATE_TO_LEAN: dict[str, tuple[str, str]] = {
@@ -122,24 +146,14 @@ LINE_SIMPS = [
     "lastImpact",
 ]
 
-GOOD_DIRECTION_SIMPS = [
-    "goodDirectionAtRankBool",
-    "internalImpactList",
-    "impactDenomAtRank",
-    "translationSeqAtRankMask",
-    "translationBAtRankMask",
-    "translationChoiceSeq",
-    "signedPositiveAt",
-    "faceOfPairSign",
+DENOM_SIMPS = [
     "impactDenom",
     "impactPlaneNormalQ",
+    "copiedNormalQ",
+    "preImpactCopyAff",
     "pathPrefixAff",
     "pathPrefixAffNat",
     "impactFace",
-    "totalAff",
-    "totalOrder",
-    "composeFaceList",
-    "affCompose",
     "faceReflectionQ",
     "reflM",
     "reflD",
@@ -148,6 +162,7 @@ GOOD_DIRECTION_SIMPS = [
     "matSub",
     "matId",
     "affId",
+    "affCompose",
     "scalarMat",
     "outer",
     "dot",
@@ -165,12 +180,100 @@ class ClassifiedCase:
     template_id: str
 
 
+@dataclass(frozen=True)
+class NonIdentityRank:
+    rank: int
+    word: list[str]
+    entry: str
+    value: Fraction
+    expected: Fraction
+
+
+@dataclass(frozen=True)
+class BadDirectionCase:
+    rank: int
+    mask: int
+    word: list[str]
+    seq: list[str]
+    b: Vec
+    impact: int
+    denom: Fraction
+
+
+@dataclass
+class RankCases:
+    rank: int
+    word: list[str]
+    identity: bool
+    nonidentity: NonIdentityRank | None = None
+    survivors: dict[int, ClassifiedCase] | None = None
+    bad_masks: dict[int, BadDirectionCase] | None = None
+
+
 def lean_case_name(case_index: int) -> str:
     return f"case_{case_index:06d}"
 
 
 def lean_rank_theorem_name(rank: int) -> str:
-    return f"rank_{rank:09d}_identityCoverage"
+    return f"rank_{rank:09d}_goodCoverage"
+
+
+def lean_nonidentity_name(rank: int) -> str:
+    return f"rank_{rank:09d}_nonidentity"
+
+
+def lean_bad_name(rank: int, mask: int) -> str:
+    return f"rank_{rank:09d}_mask_{mask:02d}_badDirection"
+
+
+def range_suffix(start: int, end: int) -> str:
+    return f"Window{start:09d}_{end:09d}"
+
+
+def root_suffix(start: int, end: int) -> str:
+    return f"AllWindow{start:09d}_{end:09d}"
+
+
+def namespace_for_range(prefix: str, start: int, end: int) -> str:
+    return f"{prefix}.{range_suffix(start, end)}"
+
+
+def find_nonidentity_witness(rank: int, word: list[str]) -> NonIdentityRank:
+    linear = exact.total_linear(word)
+    ident = exact.mat_id()
+    for entry, row, col in MAT_ENTRIES:
+        value = linear[row][col]
+        expected = ident[row][col]
+        if value != expected:
+            return NonIdentityRank(
+                rank=rank,
+                word=word,
+                entry=entry,
+                value=value,
+                expected=expected,
+            )
+    raise AssertionError(f"rank {rank} is identity-linear")
+
+
+def first_bad_direction_case(rank: int, word: list[str], mask: int) -> BadDirectionCase:
+    b, seq = exact.translation_vector(word, mask)
+    impact = 1
+    if b != ZERO_VEC:
+        impact = exact.first_bad_translation_impact(seq, b)
+    denom = exact.impact_denom(seq, b, impact)
+    if denom > 0:
+        raise AssertionError(
+            f"rank {rank}, mask {mask}, impact {impact} denominator is positive"
+        )
+    return BadDirectionCase(
+        rank=rank,
+        mask=mask,
+        word=word,
+        seq=seq,
+        b=b,
+        impact=impact,
+        denom=denom,
+    )
 
 
 def collect_classified_cases(
@@ -178,9 +281,9 @@ def collect_classified_cases(
     limit: int,
     *,
     max_cases: int | None = None,
-) -> tuple[list[ClassifiedCase], dict[int, dict[int, ClassifiedCase]], dict[str, Any]]:
+) -> tuple[list[ClassifiedCase], dict[int, RankCases], dict[str, Any]]:
     classified: list[ClassifiedCase] = []
-    by_rank_mask: dict[int, dict[int, ClassifiedCase]] = defaultdict(dict)
+    by_rank: dict[int, RankCases] = {}
     stats: dict[str, Any] = {
         "rank_start": rank_start,
         "rank_end": rank_start + limit,
@@ -190,6 +293,7 @@ def collect_classified_cases(
         "translation_sign_assignments": 0,
         "good_direction_survivors": 0,
         "bad_direction_or_zero_masks": 0,
+        "bad_direction_witnesses": 0,
         "two_source_cases": 0,
         "non_two_source_cases": 0,
         "covered_by_row_template": 0,
@@ -207,14 +311,31 @@ def collect_classified_cases(
 
         if exact.total_linear(word) != exact.mat_id():
             stats["nonidentity_words_skipped"] += 1
+            by_rank[rank] = RankCases(
+                rank=rank,
+                word=word,
+                identity=False,
+                nonidentity=find_nonidentity_witness(rank, word),
+            )
             continue
 
         stats["identity_words"] += 1
+        rank_cases = RankCases(
+            rank=rank,
+            word=word,
+            identity=True,
+            survivors={},
+            bad_masks={},
+        )
+        by_rank[rank] = rank_cases
         for mask in range(64):
             stats["translation_sign_assignments"] += 1
             needs = exact.translation_needs_farkas(word, mask)
             if needs is None:
                 stats["bad_direction_or_zero_masks"] += 1
+                assert rank_cases.bad_masks is not None
+                rank_cases.bad_masks[mask] = first_bad_direction_case(rank, word, mask)
+                stats["bad_direction_witnesses"] += 1
                 continue
 
             stats["good_direction_survivors"] += 1
@@ -274,14 +395,15 @@ def collect_classified_cases(
             )
             cc = ClassifiedCase(len(classified), case, matches[0])
             classified.append(cc)
-            by_rank_mask[rank][mask] = cc
+            assert rank_cases.survivors is not None
+            rank_cases.survivors[mask] = cc
             if max_cases is not None and len(classified) >= max_cases:
                 stats["truncated_by_max_cases"] = True
                 stats["template_counts"] = dict(sorted(stats["template_counts"].items()))
-                return classified, by_rank_mask, stats
+                return classified, by_rank, stats
 
     stats["template_counts"] = dict(sorted(stats["template_counts"].items()))
-    return classified, by_rank_mask, stats
+    return classified, by_rank, stats
 
 
 def case_header_lines(cc: ClassifiedCase) -> list[str]:
@@ -482,7 +604,7 @@ def case_shape_lines(cc: ClassifiedCase) -> list[str]:
         f"    simp [{support_pair_ns}.secondLineAt, hseq, hb, {name}_secondLine_eq]",
         f"  have {name}_sourceChecks :",
         f"      SourceChecks {name}_support {name}_rank.val hlt {name}_mask := by",
-        f"    norm_num [SourceChecks, hseq, {name}_support,",
+        f"    simp [SourceChecks, hseq, {name}_support,",
         f"      checkTranslationConstraintSource, {name}_seq, impactFace]",
         *shape_tail,
         "",
@@ -507,71 +629,168 @@ def case_shape_lines(cc: ClassifiedCase) -> list[str]:
     ]
 
 
-def bad_good_direction_branch(rank: int, mask: int) -> list[str]:
+def nonidentity_lines(witness: NonIdentityRank) -> list[str]:
+    name = lean_nonidentity_name(witness.rank)
+    lines = [
+        f"private def {name}_rank : Fin numPairWords := ⟨{witness.rank}, by decide⟩",
+        f"private def {name}_word : PairWord := {exact.lean_pair_word_inline(witness.word)}",
+        "",
+    ]
+    exact.append_pair_word_get_theorems(lines, f"{name}_word", witness.word)
+    lines.extend([
+        f"private theorem {name}_rankWord :",
+        f"    rankPairWord? {name}_word = some {name}_rank := by",
+        "  decide",
+        "",
+        f"private theorem {name}_unrank :",
+        f"    unrankPairWord {name}_rank = {name}_word := by",
+        f"  exact (rankPairWord?_eq_some_iff_unrank {name}_word {name}_rank).1",
+        f"    {name}_rankWord |>.symm",
+        "",
+        "set_option maxHeartbeats 1200000 in",
+        f"private theorem {name}_totalLinear :",
+        f"    totalLinearOfPairWord {name}_word =",
+        f"      {exact.lean_mat3(exact.total_linear(witness.word))} := by",
+        "  rw [totalLinearOfPairWord_eq_pairLinearProductRight]",
+        f"  simp [pairLinearProductRight, pairLinearSuffixNat, reflM,",
+        f"    canonicalNormalQ, matSub, matId, scalarMat, outer, dot, matMul]",
+        "  norm_num",
+        "",
+        f"private theorem {name}_linear_ne :",
+        f"    totalLinearOfPairWord {name}_word ≠ (matId : Mat3 Rat) := by",
+        f"  rw [{name}_totalLinear]",
+        "  intro h",
+        f"  have hfield := congrArg Mat3.{witness.entry} h",
+        f"  norm_num [matId] at hfield",
+        "",
+        f"private theorem {name}_linear_ne_atRank",
+        f"    (hlt : {witness.rank} < numPairWords) :",
+        f"    totalLinearOfPairWord",
+        f"      (unrankPairWord (⟨{witness.rank}, hlt⟩ : Fin numPairWords)) ≠",
+        f"        (matId : Mat3 Rat) := by",
+        f"  have hrank :",
+        f"      (⟨{witness.rank}, hlt⟩ : Fin numPairWords) = {name}_rank := by",
+        "    ext",
+        "    rfl",
+        f"  simpa [hrank, {name}_unrank] using {name}_linear_ne",
+        "",
+    ])
+    return lines
+
+
+def bad_direction_lines(bad: BadDirectionCase) -> list[str]:
+    name = lean_bad_name(bad.rank, bad.mask)
     return [
-        f"  · have hrank :",
-        f"        (⟨{rank}, hlt⟩ : Fin numPairWords) =",
-        f"          (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
-        "      ext",
-        "      rfl",
-        f"    exact False.elim",
-        f"      ((not_goodDirection_of_bool_false",
-        f"        (r := (⟨{rank}, by decide⟩ : Fin numPairWords))",
-        f"        (mask := {exact.lean_sign_mask(mask)})",
-        f"        (by",
-        f"          norm_num [",
-        *format_simp_list(GOOD_DIRECTION_SIMPS, indent="            "),
-        f"          ]))",
-        f"        (by simpa [hrank] using hgood))",
+        f"private def {name}_rank : Fin numPairWords := ⟨{bad.rank}, by decide⟩",
+        f"private def {name}_mask : SignMask := {exact.lean_sign_mask(bad.mask)}",
+        f"private def {name}_word : PairWord := {exact.lean_pair_word_inline(bad.word)}",
+        *lean_seq_definition(name, bad.seq),
+        f"private def {name}_b : Vec3 Rat := {exact.lean_vec(bad.b)}",
+        f"private def {name}_denom : Rat := {exact.lean_rat(bad.denom)}",
+        "",
+        f"private theorem {name}_rankWord :",
+        f"    rankPairWord? {name}_word = some {name}_rank := by",
+        "  decide",
+        "",
+        f"private theorem {name}_unrank :",
+        f"    unrankPairWord {name}_rank = {name}_word := by",
+        f"  exact (rankPairWord?_eq_some_iff_unrank {name}_word {name}_rank).1",
+        f"    {name}_rankWord |>.symm",
+        "",
+        f"private theorem {name}_seqChoice :",
+        f"    translationChoiceSeq {name}_word {name}_mask = {name}_seq := by",
+        "  funext i",
+        "  fin_cases i <;> rfl",
+        "",
+        f"private theorem {name}_seqAtRank :",
+        f"    translationSeqAtRankMask {name}_rank {name}_mask = {name}_seq := by",
+        f"  rw [translationSeqAtRankMask, {name}_unrank]",
+        f"  exact {name}_seqChoice",
+        "",
+        "set_option maxHeartbeats 1200000 in",
+        f"private theorem {name}_bAtRank :",
+        f"    translationBAtRankMask {name}_rank {name}_mask = {name}_b := by",
+        f"  rw [translationBAtRankMask, {name}_seqAtRank]",
+        "  apply Vec3.ext <;>",
+        f"    norm_num [{name}_b, {name}_seq,",
+        *format_simp_list(COMMON_B_SIMP),
+        "    ]",
+        "",
+        "set_option maxHeartbeats 1200000 in",
+        f"private theorem {name}_denomAtRank :",
+        f"    impactDenomAtRank {name}_rank {name}_mask ⟨{bad.impact}, by decide⟩ =",
+        f"      {name}_denom := by",
+        f"  rw [impactDenomAtRank, {name}_seqAtRank, {name}_bAtRank]",
+        f"  norm_num [{name}_denom, {name}_seq, {name}_b,",
+        *format_simp_list(DENOM_SIMPS),
+        "    ]",
+        "",
+        f"private theorem {name}_notGood",
+        f"    (hlt : {bad.rank} < numPairWords) :",
+        f"    ¬ GoodDirectionAtRank (⟨{bad.rank}, hlt⟩ : Fin numPairWords)",
+        f"      {name}_mask := by",
+        f"  have hrank :",
+        f"      (⟨{bad.rank}, hlt⟩ : Fin numPairWords) = {name}_rank := by",
+        "    ext",
+        "    rfl",
+        f"  apply not_goodDirectionAtRank_of_nonpositive_denom",
+        f"      (r := (⟨{bad.rank}, hlt⟩ : Fin numPairWords))",
+        f"      (mask := {name}_mask)",
+        f"      (i := ⟨{bad.impact}, by decide⟩)",
+        "    <;> try decide",
+        f"  rw [hrank, {name}_denomAtRank]",
+        f"  norm_num [{name}_denom]",
+        "",
+    ]
+
+
+def bad_good_direction_branch(bad: BadDirectionCase) -> list[str]:
+    name = lean_bad_name(bad.rank, bad.mask)
+    return [
+        f"  · exact False.elim (({name}_notGood hlt) hgood)",
     ]
 
 
 def survivor_branch(cc: ClassifiedCase) -> list[str]:
     name = lean_case_name(cc.index)
-    return [f"  · exact {name}_supportWitness hlt"]
+    return [
+        f"  · rcases {name}_supportWitness hlt with ⟨support, hchecked⟩",
+        f"    exact goodCaseKilled_of_checked hchecked hgood hM hbad",
+    ]
 
 
 def rank_theorem_lines(
     rank: int,
-    rank_cases: dict[int, ClassifiedCase],
-    *,
-    identity: bool,
+    rank_cases: RankCases,
 ) -> list[str]:
     theorem_name = lean_rank_theorem_name(rank)
     lines = [
         f"private theorem {theorem_name}",
         f"    (hlt : {rank} < numPairWords) (mask : SignMask)",
-        f"    (_hM : totalLinearOfPairWord",
-        f"      (unrankPairWord (⟨{rank}, hlt⟩ : Fin numPairWords)) =",
-        f"        (matId : Mat3 Rat))",
-        f"    (hgood : GoodDirectionAtRank (⟨{rank}, hlt⟩ : Fin numPairWords) mask) :",
-        f"    exists support : TwoSourceFarkasSupport,",
-        f"      support.Checked",
-        f"        (translationSeqAtRankMask (⟨{rank}, hlt⟩ : Fin numPairWords) mask)",
-        f"        (translationBAtRankMask (⟨{rank}, hlt⟩ : Fin numPairWords) mask) := by",
+        f"    : TranslationGoodCaseKilled",
+        f"      (⟨{rank}, hlt⟩ : Fin numPairWords) mask := by",
     ]
-    if not identity:
+    if not rank_cases.identity:
+        if rank_cases.nonidentity is None:
+            raise AssertionError(f"rank {rank} missing nonidentity witness")
+        name = lean_nonidentity_name(rank)
         lines.extend([
-            "  have hrank :",
-            f"      (⟨{rank}, hlt⟩ : Fin numPairWords) =",
-            f"        (⟨{rank}, by decide⟩ : Fin numPairWords) := by",
-            "    ext",
-            "    rfl",
-            "  have hNot :",
-            f"      totalLinearOfPairWord",
-            f"        (unrankPairWord (⟨{rank}, by decide⟩ : Fin numPairWords)) ≠",
-            f"          (matId : Mat3 Rat) := by",
-            "    decide",
-            "  exact False.elim (hNot (by simpa [hrank] using _hM))",
+            f"  exact goodCaseKilled_of_nonidentity ({name}_linear_ne_atRank hlt)",
             "",
         ])
         return lines
 
+    if rank_cases.survivors is None or rank_cases.bad_masks is None:
+        raise AssertionError(f"identity rank {rank} missing mask cases")
+    lines.append("  intro hgood hM hbad")
     lines.append("  fin_cases mask")
     for mask in range(64):
-        cc = rank_cases.get(mask)
+        cc = rank_cases.survivors.get(mask)
         if cc is None:
-            lines.extend(bad_good_direction_branch(rank, mask))
+            bad = rank_cases.bad_masks.get(mask)
+            if bad is None:
+                raise AssertionError(f"rank {rank}, mask {mask} missing bad witness")
+            lines.extend(bad_good_direction_branch(bad))
         else:
             lines.extend(survivor_branch(cc))
     lines.append("")
@@ -584,10 +803,9 @@ def module_lines(
     rank_start: int,
     limit: int,
     classified: list[ClassifiedCase],
-    by_rank_mask: dict[int, dict[int, ClassifiedCase]],
+    by_rank: dict[int, RankCases],
 ) -> list[str]:
     rank_end = rank_start + limit
-    identity_ranks = set(by_rank_mask)
     lines = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates",
         "",
@@ -612,34 +830,33 @@ def module_lines(
         "set_option linter.unnecessarySeqFocus false",
         "",
     ]
+    for rank in range(rank_start, rank_end):
+        rank_cases = by_rank[rank]
+        if rank_cases.nonidentity is not None:
+            lines.extend(nonidentity_lines(rank_cases.nonidentity))
+        if rank_cases.bad_masks is not None:
+            for mask in range(64):
+                bad = rank_cases.bad_masks.get(mask)
+                if bad is not None:
+                    lines.extend(bad_direction_lines(bad))
+
     for cc in classified:
         lines.extend(case_header_lines(cc))
         lines.extend(case_shape_lines(cc))
 
     for rank in range(rank_start, rank_end):
-        lines.extend(
-            rank_theorem_lines(
-                rank,
-                by_rank_mask.get(rank, {}),
-                identity=rank in identity_ranks,
-            )
-        )
+        lines.extend(rank_theorem_lines(rank, by_rank[rank]))
 
     lines.extend([
         "set_option maxHeartbeats 4000000 in",
-        "theorem rowRelationClassifierIdentityCoverage :",
-        f"    SupportFamilyCoverageOnIdentityRange {rank_start} {rank_end} := by",
-        "  intro r hlt mask hlo hhi hM hgood",
+        "theorem rowRelationClassifierGoodCoverage :",
+        f"    TranslationGoodCoverageOnRange {rank_start} {rank_end} := by",
+        "  intro r hlo hhi hlt mask",
         "  interval_cases r",
     ])
     for rank in range(rank_start, rank_end):
-        lines.append(f"  · exact {lean_rank_theorem_name(rank)} hlt mask hM hgood")
+        lines.append(f"  · exact {lean_rank_theorem_name(rank)} hlt mask")
     lines.extend([
-        "",
-        "theorem rowRelationClassifierGoodCoverage :",
-        f"    TranslationGoodCoverageOnRange {rank_start} {rank_end} :=",
-        "  TranslationGoodCoverageOnRange.of_identitySupportFamily",
-        "    rowRelationClassifierIdentityCoverage",
         "",
         f"end {module_namespace}",
         "",
@@ -647,9 +864,173 @@ def module_lines(
     return lines
 
 
+def indent_block(text: str, indent: str) -> str:
+    return ("\n" + indent).join(text.splitlines())
+
+
+def balanced_concat_expr(theorem_refs: list[str], *, indent: str = "  ") -> str:
+    if not theorem_refs:
+        raise ValueError("cannot concat an empty theorem list")
+    if len(theorem_refs) == 1:
+        return theorem_refs[0]
+    mid = len(theorem_refs) // 2
+    child_indent = indent + "  "
+    left = balanced_concat_expr(theorem_refs[:mid], indent=child_indent)
+    right = balanced_concat_expr(theorem_refs[mid:], indent=child_indent)
+    return (
+        "(CoversInterval.concat\n"
+        f"{child_indent}{indent_block(left, child_indent)}\n"
+        f"{child_indent}{indent_block(right, child_indent)})"
+    )
+
+
+def root_module_lines(
+    *,
+    module_namespace: str,
+    rank_start: int,
+    rank_end: int,
+    shard_namespaces: list[str],
+) -> list[str]:
+    theorem_refs = [
+        f"_root_.{namespace}.rowRelationClassifierGoodCoverage"
+        for namespace in shard_namespaces
+    ]
+    lines = [
+        "import Cuboctahedron.Generated.Translation.TwoSource.FamilyCoverage",
+        *[f"import {namespace}" for namespace in shard_namespaces],
+        "",
+        "/-!",
+        "Generated root for bounded row-relation classifier shards.",
+        "",
+        "This module composes small Prop-level interval theorems.  It contains no",
+        "certificate literals and performs no Boolean search.",
+        "-/",
+        "",
+        f"namespace {module_namespace}",
+        "",
+        "open Cuboctahedron.Generated.Coverage",
+        "",
+        "theorem rowRelationClassifierGoodCoverage :",
+        f"    TranslationGoodCoverageOnRange {rank_start} {rank_end} :=",
+    ]
+    if theorem_refs:
+        lines.append(f"  {balanced_concat_expr(theorem_refs)}")
+    else:
+        lines.extend([
+            "  CoversInterval.empty TranslationGoodRankCovered (by decide)",
+        ])
+    lines.extend([
+        "",
+        f"end {module_namespace}",
+        "",
+    ])
+    return lines
+
+
+def merge_stats(stats_values: list[dict[str, Any]], rank_start: int, limit: int) -> dict[str, Any]:
+    merged: dict[str, Any] = {
+        "rank_start": rank_start,
+        "rank_end": rank_start + limit,
+        "template_counts": defaultdict(int),
+        "truncated_by_max_cases": any(s.get("truncated_by_max_cases", False) for s in stats_values),
+    }
+    for stats in stats_values:
+        for key, value in stats.items():
+            if key in {"rank_start", "rank_end", "template_counts", "truncated_by_max_cases"}:
+                continue
+            if isinstance(value, int):
+                merged[key] = int(merged.get(key, 0)) + value
+        for template_id, count in stats.get("template_counts", {}).items():
+            merged["template_counts"][template_id] += count
+    merged["template_counts"] = dict(sorted(merged["template_counts"].items()))
+    return merged
+
+
 def write_generated(path: Path, lines: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines))
+
+
+def emit_single_file(
+    *,
+    rank_start: int,
+    limit: int,
+    max_cases: int | None,
+    module_namespace: str,
+    out: Path,
+) -> tuple[list[ClassifiedCase], dict[str, Any], int, int]:
+    classified, by_rank, stats = collect_classified_cases(
+        rank_start,
+        limit,
+        max_cases=max_cases,
+    )
+    lines = module_lines(
+        module_namespace=module_namespace,
+        rank_start=rank_start,
+        limit=limit,
+        classified=classified,
+        by_rank=by_rank,
+    )
+    write_generated(out, lines)
+    return classified, stats, len(lines), out.stat().st_size
+
+
+def emit_shards(
+    *,
+    rank_start: int,
+    limit: int,
+    shard_size: int,
+    module_prefix: str,
+    out_dir: Path,
+    root_module_namespace: str,
+    root_out: Path,
+) -> tuple[int, dict[str, Any], int, int, list[dict[str, Any]]]:
+    if shard_size <= 0:
+        raise ValueError("--shard-size must be positive")
+    rank_end = rank_start + limit
+    shard_namespaces: list[str] = []
+    shard_stats: list[dict[str, Any]] = []
+    generated_line_count = 0
+    generated_source_bytes = 0
+    total_classified = 0
+    for shard_start in range(rank_start, rank_end, shard_size):
+        shard_end = min(shard_start + shard_size, rank_end)
+        suffix = range_suffix(shard_start, shard_end)
+        namespace = f"{module_prefix}.{suffix}"
+        out = out_dir / f"{suffix}.lean"
+        classified, stats, line_count, source_bytes = emit_single_file(
+            rank_start=shard_start,
+            limit=shard_end - shard_start,
+            max_cases=None,
+            module_namespace=namespace,
+            out=out,
+        )
+        shard_namespaces.append(namespace)
+        shard_stats.append({
+            "namespace": namespace,
+            "out": str(out),
+            "rank_start": shard_start,
+            "rank_end": shard_end,
+            "classified_cases": len(classified),
+            "line_count": line_count,
+            "source_bytes": source_bytes,
+            "stats": stats,
+        })
+        total_classified += len(classified)
+        generated_line_count += line_count
+        generated_source_bytes += source_bytes
+
+    root_lines = root_module_lines(
+        module_namespace=root_module_namespace,
+        rank_start=rank_start,
+        rank_end=rank_end,
+        shard_namespaces=shard_namespaces,
+    )
+    write_generated(root_out, root_lines)
+    generated_line_count += len(root_lines)
+    generated_source_bytes += root_out.stat().st_size
+    stats = merge_stats([entry["stats"] for entry in shard_stats], rank_start, limit)
+    return total_classified, stats, generated_line_count, generated_source_bytes, shard_stats
 
 
 def main() -> int:
@@ -659,6 +1040,12 @@ def main() -> int:
     parser.add_argument("--max-cases", type=int, default=None)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--emit-shards", action="store_true")
+    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
+    parser.add_argument("--shard-size", type=int, default=1)
+    parser.add_argument("--module-prefix", default=DEFAULT_MODULE_PREFIX)
+    parser.add_argument("--root-out", type=Path, default=None)
+    parser.add_argument("--root-module-namespace", default=None)
     parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
     parser.add_argument("--module-namespace", default=DEFAULT_MODULE_NAMESPACE)
     args = parser.parse_args()
@@ -669,49 +1056,104 @@ def main() -> int:
         raise ValueError("--limit must be nonnegative")
     if args.rank_start + args.limit > exact.EXPECTED_PAIR_WORDS:
         raise ValueError("requested range exceeds pair-word count")
-    module_namespace = validate_module_namespace(args.module_namespace)
+    if args.emit_shards and args.max_cases is not None:
+        raise ValueError("--max-cases is only supported for single-file emission")
 
-    classified, by_rank_mask, stats = collect_classified_cases(
-        args.rank_start,
-        args.limit,
-        max_cases=args.max_cases,
-    )
-    lines = module_lines(
-        module_namespace=module_namespace,
-        rank_start=args.rank_start,
-        limit=args.limit,
-        classified=classified,
-        by_rank_mask=by_rank_mask,
-    )
-    if not args.dry_run:
-        write_generated(args.out, lines)
+    rank_end = args.rank_start + args.limit
+    shard_stats: list[dict[str, Any]] = []
+    if args.emit_shards:
+        module_prefix = validate_module_namespace(args.module_prefix)
+        root_module_namespace = validate_module_namespace(
+            args.root_module_namespace
+            or f"{module_prefix}.{root_suffix(args.rank_start, rank_end)}"
+        )
+        root_out = args.root_out or (args.out_dir / f"{root_suffix(args.rank_start, rank_end)}.lean")
+        if args.dry_run:
+            classified, _by_rank, stats = collect_classified_cases(
+                args.rank_start,
+                args.limit,
+                max_cases=None,
+            )
+            generated_line_count = 0
+            generated_source_bytes = 0
+            classified_count = len(classified)
+        else:
+            (
+                classified_count,
+                stats,
+                generated_line_count,
+                generated_source_bytes,
+                shard_stats,
+            ) = emit_shards(
+                rank_start=args.rank_start,
+                limit=args.limit,
+                shard_size=args.shard_size,
+                module_prefix=module_prefix,
+                out_dir=args.out_dir,
+                root_module_namespace=root_module_namespace,
+                root_out=root_out,
+            )
+        module_namespace = root_module_namespace
+        output_path = root_out
+    else:
+        module_namespace = validate_module_namespace(args.module_namespace)
+        if args.dry_run:
+            classified, by_rank, stats = collect_classified_cases(
+                args.rank_start,
+                args.limit,
+                max_cases=args.max_cases,
+            )
+            lines = module_lines(
+                module_namespace=module_namespace,
+                rank_start=args.rank_start,
+                limit=args.limit,
+                classified=classified,
+                by_rank=by_rank,
+            )
+            generated_line_count = len(lines)
+            generated_source_bytes = 0
+            classified_count = len(classified)
+        else:
+            classified, stats, generated_line_count, generated_source_bytes = emit_single_file(
+                rank_start=args.rank_start,
+                limit=args.limit,
+                max_cases=args.max_cases,
+                module_namespace=module_namespace,
+                out=args.out,
+            )
+            classified_count = len(classified)
+        output_path = args.out
 
     summary = {
         "schema_version": 1,
         "mode": "translation_row_relation_classifier",
         "trusted_as_proof": False,
         "dry_run": args.dry_run,
+        "emit_shards": args.emit_shards,
         "options": {
             "rank_start": args.rank_start,
             "limit": args.limit,
             "max_cases": args.max_cases,
-            "out": str(args.out),
+            "out": str(output_path),
+            "out_dir": str(args.out_dir),
+            "shard_size": args.shard_size,
             "module_namespace": module_namespace,
         },
         "stats": stats,
-        "generated_line_count": len(lines),
-        "generated_source_bytes": 0 if args.dry_run else args.out.stat().st_size,
+        "shards": shard_stats,
+        "generated_line_count": generated_line_count,
+        "generated_source_bytes": generated_source_bytes,
     }
     args.summary.parent.mkdir(parents=True, exist_ok=True)
     args.summary.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
     verb = "would emit" if args.dry_run else "emitted"
     print(
-        f"{verb} {len(classified)} row-relation survivor cases "
+        f"{verb} {classified_count} row-relation survivor cases "
         f"for ranks [{args.rank_start}, {args.rank_start + args.limit})"
     )
     print(f"summary: {args.summary}")
     if not args.dry_run:
-        print(f"generated: {args.out}")
+        print(f"generated: {output_path}")
     return 0
 
 

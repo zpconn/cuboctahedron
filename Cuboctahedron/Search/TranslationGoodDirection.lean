@@ -30,6 +30,14 @@ def impactDenomAtRank
 def GoodDirectionAtRank (r : Fin numPairWords) (mask : SignMask) : Prop :=
   forall i : InternalImpact, 0 < impactDenomAtRank r mask i.1
 
+theorem not_goodDirectionAtRank_of_nonpositive_denom
+    {r : Fin numPairWords} {mask : SignMask} {i : Impact15}
+    (h0 : i ≠ (0 : Impact15)) (hlast : i ≠ lastImpact)
+    (hdenom : impactDenomAtRank r mask i <= 0) :
+    ¬ GoodDirectionAtRank r mask := by
+  intro hgood
+  exact (not_lt_of_ge hdenom) (hgood ⟨i, h0, hlast⟩)
+
 def internalImpactList : List InternalImpact :=
   [⟨⟨1, by decide⟩, by constructor <;> decide⟩,
    ⟨⟨2, by decide⟩, by constructor <;> decide⟩,

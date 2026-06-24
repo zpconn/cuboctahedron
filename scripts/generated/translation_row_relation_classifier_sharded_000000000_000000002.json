@@ -1,0 +1,102 @@
+{
+  "dry_run": false,
+  "emit_shards": true,
+  "generated_line_count": 6451,
+  "generated_source_bytes": 338861,
+  "mode": "translation_row_relation_classifier",
+  "options": {
+    "limit": 2,
+    "max_cases": null,
+    "module_namespace": "Cuboctahedron.Generated.Translation.TwoSource.RowRelationClassifier.AllWindow000000000_000000002",
+    "out": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/AllWindow000000000_000000002.lean",
+    "out_dir": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier",
+    "rank_start": 0,
+    "shard_size": 1
+  },
+  "schema_version": 1,
+  "shards": [
+    {
+      "classified_cases": 16,
+      "line_count": 6198,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.RowRelationClassifier.Window000000000_000000001",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000000_000000001.lean",
+      "rank_end": 1,
+      "rank_start": 0,
+      "source_bytes": 329376,
+      "stats": {
+        "bad_direction_or_zero_masks": 48,
+        "bad_direction_witnesses": 48,
+        "covered_by_row_template": 16,
+        "good_direction_survivors": 16,
+        "identity_words": 1,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 0,
+        "overlap_cases": 0,
+        "pair_words_scanned": 1,
+        "rank_end": 1,
+        "rank_start": 0,
+        "template_counts": {
+          "eq_eq_pos_var_first": 10,
+          "eq_eq_pos_var_second": 2,
+          "opp_1m_var_first": 2,
+          "opp_m1_var_second": 2
+        },
+        "translation_sign_assignments": 64,
+        "truncated_by_max_cases": false,
+        "two_source_cases": 16,
+        "uncovered_by_row_template": 0
+      }
+    },
+    {
+      "classified_cases": 0,
+      "line_count": 232,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.RowRelationClassifier.Window000000001_000000002",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000001_000000002.lean",
+      "rank_end": 2,
+      "rank_start": 1,
+      "source_bytes": 8381,
+      "stats": {
+        "bad_direction_or_zero_masks": 0,
+        "bad_direction_witnesses": 0,
+        "covered_by_row_template": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 0,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 1,
+        "overlap_cases": 0,
+        "pair_words_scanned": 1,
+        "rank_end": 2,
+        "rank_start": 1,
+        "template_counts": {},
+        "translation_sign_assignments": 0,
+        "truncated_by_max_cases": false,
+        "two_source_cases": 0,
+        "uncovered_by_row_template": 0
+      }
+    }
+  ],
+  "stats": {
+    "bad_direction_or_zero_masks": 48,
+    "bad_direction_witnesses": 48,
+    "covered_by_row_template": 16,
+    "good_direction_survivors": 16,
+    "identity_words": 1,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 1,
+    "overlap_cases": 0,
+    "pair_words_scanned": 2,
+    "rank_end": 2,
+    "rank_start": 0,
+    "template_counts": {
+      "eq_eq_pos_var_first": 10,
+      "eq_eq_pos_var_second": 2,
+      "opp_1m_var_first": 2,
+      "opp_m1_var_second": 2
+    },
+    "translation_sign_assignments": 64,
+    "truncated_by_max_cases": false,
+    "two_source_cases": 16,
+    "uncovered_by_row_template": 0
+  },
+  "trusted_as_proof": false
+}
