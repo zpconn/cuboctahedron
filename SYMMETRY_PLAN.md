@@ -214,7 +214,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z support-family profile accepted on `[0,100000)` and finite largest-family pilot builds | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y emits proof-carrying two-source shards for `[0,1000)` and `[0,10000)`, with explicit rank/mask bridges to `TranslationGoodCaseKilled`; the `[0,10000)` shard sweep passes, but directly importing all heavy shard `.olean`s through `Coverage10k.All` is not a memory-safe root strategy. Phase 6Z adds the small semantic family-coverage API and proves a finite 16-case largest-family pilot; full largest-support classification is still open. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. The next translation hypothesis is source-pair parametric support predicates, not exact row-shape leaves. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -3540,18 +3540,53 @@ decision: accepted
   source-support digest. This is proof-safe: Lean proves the row contradiction
   for every case satisfying the shape predicate, regardless of which sparse
   support the Python search would have selected.
+- Added the Phase 6Z.1 generic row-shape template module:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ShapeTemplate.lean`.
+  It defines `RowShape`, `RowShape.Valid`, and `RowShape.Applies`, and proves:
+
+```lean
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowShape.checked_of_valid_applies
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowShape.checkedOn_of_valid
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowShape.killsOn_of_valid
+```
+
+  This is the reusable theorem shape that a generated row-shape portfolio would
+  have used.
+- Added `scripts/profile_translation_support_shapes.py`, with process-parallel
+  bounded-window profiling for the exact facts consumed by `RowShape`.
+- The full `[0,100000)` row-shape portfolio gate rejected:
+
+```text
+workers:                              8
+rank shards:                         20
+elapsed seconds:                 295.07
+pair words scanned:             100,000
+identity-linear words:            5,565
+GoodDirection survivor masks:    39,710
+row-shape cases:                 39,710
+unique row shapes:                8,970
+max cases per shape:             10,435
+singleton row shapes:             4,843
+source pairs:                       235
+decision: rejected
+```
+
+  No row-shape portfolio shards were emitted. Exact fixed row coefficients and
+  deterministic multipliers fragment almost as badly as earlier proof-ready
+  Farkas shapes. The useful compression signal is one level higher: source
+  pairs remain at 235 classes, but exact row-shape predicates split those
+  source pairs into 8,970 proof leaves.
 
 Next Phase 6Z tasks:
 
-1. Generalize the `LargestShape` pattern into a generated support-shape
-   emitter. It should group supports by source pair plus small row-shape
-   predicates, prove one `SupportFamilyCheckedOn` theorem per shape, and avoid
-   listing rank/mask members.
-2. Run the generated support-shape portfolio on `[0,100000)` and require it to
-   cover all 39,710 GoodDirection survivors with low-hundreds support-shape
-   theorems.
-3. Only after that portfolio builds should we compose a lightweight semantic
-   translation root for the bounded window.
+1. Do not emit the rejected exact row-shape portfolio.
+2. Try a source-pair parametric support theorem layer instead. The next
+   profiler should group only by the 235 source pairs and measure what extra
+   symbolic conditions are needed to prove `support.Checked` without fixing
+   every row coefficient and multiplier.
+3. Only after a source-pair/parametric layer covers all 39,710 survivors below
+   the low-thousands gate should we compose a lightweight semantic translation
+   root for the bounded window.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4402,8 +4437,10 @@ Acceptance:
   module for sampled members of the largest source-support class.
 - [x] Replace the finite largest-support pilot predicate with a real
   proof-usable largest-support classifier/generic theorem.
-- [ ] Generate proof-usable support-shape classifiers for the remaining
-  two-source translation support families in the `[0,100000)` gate.
+- [x] Implement and reject exact row-shape support-family portfolio profiling
+  on the `[0,100000)` gate.
+- [ ] Try source-pair parametric support predicates for the 235 two-source
+  translation support families.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -4529,10 +4566,12 @@ largestObservedSupport` without enumerating all 10,435 rank/mask cases.
 
 The shape profile shows that this theorem kills 11,589 GoodDirection survivors
 in `[0,100000)`, more than the 10,435 cases in the originally discovered
-largest source-support digest. The next useful work is to generate analogous
-source-pair/row-shape theorems for the remaining two-source support families
-and measure whether the resulting portfolio covers all 39,710 survivors in the
-first window.
+largest source-support digest. However, the generalized exact row-shape
+portfolio is now rejected: the same window has 8,970 unique row shapes, even
+though it has only 235 source pairs. The next useful work is not more exact
+row-shape emission; it is a parametric source-pair theorem layer that keeps the
+235-class compression and proves the coefficient/multiplier obligations
+symbolically.
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken
 for full generated coverage; Phase 6Y makes per-case translation evidence
@@ -4550,13 +4589,13 @@ Current strategic assessment:
   two-source profile collapses the remaining 39,710 survivor masks to 235
   source-row supports.
 - The Phase 6Z support-family interface is the right proof shape, and the
-  largest-family module now has a real semantic row-shape theorem. That theorem
-  is not yet a full translation root; it handles 11,589 of 39,710
-  GoodDirection survivors in the first window.
+  largest-family module now has a real semantic row-shape theorem. The exact
+  row-shape portfolio is not the right scaling unit: it handles the first large
+  family but fragments to 8,970 shapes on the full first window.
 - The first uncached 16-case pilot build used about 4.5 GiB RSS, which is a
   warning that scaling by listing support-family members would reproduce the
-  old memory problem. The next useful work must be a generated portfolio of
-  generic support-shape theorems, not more per-case evidence.
+  old memory problem. The next useful work must preserve the 235 source-pair
+  compression with parametric proofs, not emit 8,970 exact row-shape leaves.
 - The nonidentity branch remains unresolved. Translation is no longer the only
   blocker, but full generated coverage still requires a separate low-count
   nonidentity family path.
