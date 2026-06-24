@@ -1,0 +1,42 @@
+{
+  "dry_run": true,
+  "generated_line_count": 380108,
+  "generated_source_bytes": 0,
+  "mode": "translation_row_relation_classifier",
+  "options": {
+    "limit": 1000,
+    "max_cases": null,
+    "module_namespace": "Cuboctahedron.Generated.Translation.TwoSource.RowRelationClassifier.Window000000000_000001000",
+    "out": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000000_000001000.lean",
+    "rank_start": 0
+  },
+  "schema_version": 1,
+  "stats": {
+    "bad_direction_or_zero_masks": 7367,
+    "covered_by_row_template": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "overlap_cases": 0,
+    "pair_words_scanned": 1000,
+    "rank_end": 1000,
+    "rank_start": 0,
+    "template_counts": {
+      "axis_a_only": 9,
+      "eq_eq_neg_var_first": 32,
+      "eq_eq_neg_var_second": 3,
+      "eq_eq_pos_var_first": 711,
+      "eq_eq_pos_var_second": 240,
+      "opp_1m_var_first": 227,
+      "opp_1m_var_second": 73,
+      "opp_m1_var_first": 126,
+      "opp_m1_var_second": 44
+    },
+    "translation_sign_assignments": 8832,
+    "truncated_by_max_cases": false,
+    "two_source_cases": 1465,
+    "uncovered_by_row_template": 0
+  },
+  "trusted_as_proof": false
+}
