@@ -23,6 +23,30 @@ def TranslationGoodRankCovered (r : Nat) : Prop :=
 abbrev TranslationGoodCoverageOnRange (lo hi : Nat) : Prop :=
   CoversInterval TranslationGoodRankCovered lo hi
 
+def SupportFamilyCheckedOn
+    (support : TwoSourceFarkasSupport)
+    (Applies : Nat -> SignMask -> Prop) : Prop :=
+  forall (r : Nat) (hlt : r < numPairWords) (mask : SignMask),
+    Applies r mask ->
+      support.Checked
+        (translationSeqAtRankMask ⟨r, hlt⟩ mask)
+        (translationBAtRankMask ⟨r, hlt⟩ mask)
+
+def SupportFamilyKillsOn
+    (_support : TwoSourceFarkasSupport)
+    (Applies : Nat -> SignMask -> Prop) : Prop :=
+  forall (r : Nat) (hlt : r < numPairWords) (mask : SignMask),
+    Applies r mask ->
+      TranslationGoodCaseKilled ⟨r, hlt⟩ mask
+
+theorem SupportFamilyCheckedOn.kills
+    {support : TwoSourceFarkasSupport}
+    {Applies : Nat -> SignMask -> Prop}
+    (hchecked : SupportFamilyCheckedOn support Applies) :
+    SupportFamilyKillsOn support Applies := by
+  intro r hlt mask happ
+  exact goodCaseKilled_of_checked (hchecked r hlt mask happ)
+
 def SupportFamilyCoverageOnRange (lo hi : Nat) : Prop :=
   forall (r : Nat) (hlt : r < numPairWords) (mask : SignMask),
     lo <= r ->
@@ -32,6 +56,21 @@ def SupportFamilyCoverageOnRange (lo hi : Nat) : Prop :=
             support.Checked
               (translationSeqAtRankMask ⟨r, hlt⟩ mask)
               (translationBAtRankMask ⟨r, hlt⟩ mask)
+
+theorem SupportFamilyCheckedOn.to_rangeCoverage
+    {support : TwoSourceFarkasSupport}
+    {Applies : Nat -> SignMask -> Prop}
+    {lo hi : Nat}
+    (hchecked : SupportFamilyCheckedOn support Applies)
+    (hcover :
+      forall (r : Nat) (hlt : r < numPairWords) (mask : SignMask),
+        lo <= r ->
+          r < hi ->
+            GoodDirectionAtRank ⟨r, hlt⟩ mask ->
+              Applies r mask) :
+    SupportFamilyCoverageOnRange lo hi := by
+  intro r hlt mask hlo hhi hgood
+  exact ⟨support, hchecked r hlt mask (hcover r hlt mask hlo hhi hgood)⟩
 
 theorem TranslationGoodCoverageOnRange.of_supportFamily
     {lo hi : Nat}

@@ -1,0 +1,158 @@
+{
+  "computed_multiplier_patterns": {
+    "max_reuse": 10435,
+    "top": [
+      {
+        "count": 10435,
+        "key": "1,1"
+      }
+    ],
+    "unique": 1
+  },
+  "full_support_cases_in_report": 10435,
+  "input": "scripts/generated/translation_two_source_family_phase6z_000000000_000100000.json",
+  "lean_theorems": [
+    "largestSupportPilot_checkedOn",
+    "largestSupportPilot_killsOn"
+  ],
+  "mode": "translation-two-source-support-family-pilot",
+  "module_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Largest",
+  "normalized_farkas_shapes": {
+    "max_reuse": 3,
+    "top": [
+      {
+        "count": 3,
+        "key": "4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506"
+      },
+      {
+        "count": 3,
+        "key": "7b9b8499653b5fb1d88b73ae6600ed6ec437d7a849586f3e3f6a5837764dbcf5"
+      },
+      {
+        "count": 3,
+        "key": "74a452ba5e3358c0ce64dd4bfd8e5ccf43c989e3b7143bcc387898d2d0f43bab"
+      },
+      {
+        "count": 3,
+        "key": "dc856a2463f448f5e37402ec5a1fba3349d1acb896a642e29f01c8f5ca4667de"
+      },
+      {
+        "count": 3,
+        "key": "06dab1ba194fbb00c1f401b39f90ef30fb8056ad3ae2c995cba7101a804ebe7d"
+      },
+      {
+        "count": 3,
+        "key": "2c740dca7f1442cfdc717a90bfa107d4b29cec2f8310e78913ad993bd547a901"
+      },
+      {
+        "count": 3,
+        "key": "fa59f79b11b755290489a9ea1a4bca1a0941f449c1a6ae01dbd0a1f6a9d2dec6"
+      },
+      {
+        "count": 3,
+        "key": "84af9949185b2999078c543a7a513a3bd3f828347e60ce4c221d8909d3fd8ad2"
+      }
+    ],
+    "unique": 10409
+  },
+  "notes": [
+    "diagnostic only; Lean checks the generated module",
+    "not full coverage for the largest support family"
+  ],
+  "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Largest.lean",
+  "pilot_cases_emitted": 16,
+  "pilot_rank_masks": [
+    {
+      "mask": 8,
+      "rank": 0
+    },
+    {
+      "mask": 9,
+      "rank": 0
+    },
+    {
+      "mask": 16,
+      "rank": 0
+    },
+    {
+      "mask": 18,
+      "rank": 0
+    },
+    {
+      "mask": 24,
+      "rank": 0
+    },
+    {
+      "mask": 8,
+      "rank": 2
+    },
+    {
+      "mask": 9,
+      "rank": 2
+    },
+    {
+      "mask": 16,
+      "rank": 2
+    },
+    {
+      "mask": 18,
+      "rank": 2
+    },
+    {
+      "mask": 24,
+      "rank": 2
+    },
+    {
+      "mask": 8,
+      "rank": 3
+    },
+    {
+      "mask": 9,
+      "rank": 3
+    },
+    {
+      "mask": 16,
+      "rank": 3
+    },
+    {
+      "mask": 18,
+      "rank": 3
+    },
+    {
+      "mask": 8,
+      "rank": 5
+    },
+    {
+      "mask": 9,
+      "rank": 5
+    }
+  ],
+  "scalar_normalized_multiplier_patterns": {
+    "max_reuse": 10435,
+    "top": [
+      {
+        "count": 10435,
+        "key": "1,1"
+      }
+    ],
+    "unique": 1
+  },
+  "schema_version": 1,
+  "source_terms": [
+    {
+      "source": {
+        "face": "tmmm",
+        "impact": 1,
+        "kind": "interior"
+      }
+    },
+    {
+      "source": {
+        "index": 0,
+        "kind": "xpStart"
+      }
+    }
+  ],
+  "support_digest": "8fbb8d2e5508a43184d6aa62ade779a7ad03a2f2719f40317c1b5cf0aecf033e",
+  "trusted_as_proof": false
+}
