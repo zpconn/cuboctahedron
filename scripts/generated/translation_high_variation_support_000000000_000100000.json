@@ -1,0 +1,206 @@
+{
+  "counts": {
+    "good_direction_survivors": 39710,
+    "identity_words": 5565,
+    "nonidentity_words_skipped": 94435,
+    "pair_words_scanned": 100000,
+    "shape_extra_cases": 754,
+    "shape_matches_all_good": 1770,
+    "source_farkas_failures": 0,
+    "target_shape_matches": 1016,
+    "target_shape_misses": 0,
+    "target_source_pair_cases": 1016,
+    "translation_sign_assignments": 356160
+  },
+  "decision": {
+    "accepted_for_phase_6z3": true,
+    "expected_target_cases": 1016,
+    "notes": [
+      "the high-variation shape covers every target source-pair case in the window",
+      "the semantic shape also matches non-target source pairs; this is safe but should be handled deliberately by future classifier code"
+    ],
+    "status": "accepted"
+  },
+  "elapsed_seconds": 283.9602992919972,
+  "extra_samples": [
+    {
+      "mask": 29,
+      "rank": 35117,
+      "seq": "xp,xm,yp,ym,tppp,tppm,tpmm,tmpp,zm,tmmm,tmmp,tpmp,tmpm,zp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-364/111",
+        "first_line": [
+          "-101/111",
+          "-101/111",
+          "-155/37"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716",
+      "word": "x,y,y,d111,d11m,dm11,dm11,z,d111,d11m,d1m1,d1m1,z"
+    },
+    {
+      "mask": 13,
+      "rank": 35325,
+      "seq": "xp,xm,yp,ym,tppp,tmpm,zm,zp,tppm,tmmp,tpmp,tmmm,tpmm,tmpp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-380/87",
+        "first_line": [
+          "-91/87",
+          "-91/87",
+          "-157/29"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+      "word": "x,y,y,d111,d1m1,z,z,d11m,d11m,d1m1,d111,dm11,dm11"
+    },
+    {
+      "mask": 13,
+      "rank": 35373,
+      "seq": "xp,xm,yp,ym,tppp,tmpm,zm,zp,tpmp,tmmm,tpmm,tppm,tmmp,tmpp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-36/49",
+        "first_line": [
+          "-29/49",
+          "-29/49",
+          "-65/49"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+      "word": "x,y,y,d111,d1m1,z,z,d1m1,d111,dm11,d11m,d11m,dm11"
+    },
+    {
+      "mask": 13,
+      "rank": 35375,
+      "seq": "xp,xm,yp,ym,tppp,tmpm,zm,zp,tpmp,tmmm,tpmm,tmpp,tppm,tmmp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-28/15",
+        "first_line": [
+          "-11/15",
+          "-11/15",
+          "-13/5"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+      "word": "x,y,y,d111,d1m1,z,z,d1m1,d111,dm11,dm11,d11m,d11m"
+    },
+    {
+      "mask": 29,
+      "rank": 35375,
+      "seq": "xp,xm,yp,ym,tppp,tpmp,zm,zp,tmpm,tmmm,tpmm,tmpp,tppm,tmmp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-164/33",
+        "first_line": [
+          "-37/33",
+          "-37/33",
+          "-67/11"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+      "word": "x,y,y,d111,d1m1,z,z,d1m1,d111,dm11,dm11,d11m,d11m"
+    },
+    {
+      "mask": 13,
+      "rank": 35379,
+      "seq": "xp,xm,yp,ym,tppp,tmpm,zm,zp,tpmp,tppm,tmmp,tmmm,tpmm,tmpp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-100/33",
+        "first_line": [
+          "-29/33",
+          "-29/33",
+          "-43/11"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+      "word": "x,y,y,d111,d1m1,z,z,d1m1,d11m,d11m,d111,dm11,dm11"
+    },
+    {
+      "mask": 5,
+      "rank": 35763,
+      "seq": "xp,xm,yp,ym,tppp,tmpm,zm,tmmp,tppm,zp,tpmp,tmmm,tpmm,tmpp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-188/159",
+        "first_line": [
+          "-103/159",
+          "-103/159",
+          "-97/53"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+      "word": "x,y,y,d111,d1m1,z,d11m,d11m,z,d1m1,d111,dm11,dm11"
+    },
+    {
+      "mask": 5,
+      "rank": 36384,
+      "seq": "xp,xm,yp,ym,tppp,tmpm,zm,tpmm,tmmp,tpmp,tppm,zp,tmmm,tmpp",
+      "shape": {
+        "a_eq_b": true,
+        "a_negative": true,
+        "c_le_a": true,
+        "c_minus_a": "-52/57",
+        "first_line": [
+          "-35/57",
+          "-35/57",
+          "-29/19"
+        ],
+        "source_ok": true
+      },
+      "source_pair_digest": "5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5",
+      "word": "x,y,y,d111,d1m1,z,dm11,d11m,d1m1,d11m,z,d111,dm11"
+    }
+  ],
+  "failure_samples": [],
+  "miss_samples": [],
+  "mode": "translation-high-variation-support-profile",
+  "parallel": {
+    "enabled": true,
+    "shard_size": 5000,
+    "workers": 8
+  },
+  "rank_window": {
+    "end": 100000,
+    "start": 0,
+    "width": 100000
+  },
+  "schema_version": 1,
+  "target_source_pair_digest": "278db1f49b17f0333e2d33788b892e0b8624c42f213541e9a7d9f02f7c961482",
+  "target_sources": [
+    {
+      "face": "xp",
+      "impact": 4,
+      "kind": "interior"
+    },
+    {
+      "index": 0,
+      "kind": "xpStart"
+    }
+  ],
+  "trusted_as_proof": false
+}
