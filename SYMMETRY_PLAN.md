@@ -179,16 +179,16 @@ Phase 6M coarse terminal-obstruction algebra profiler, Phase 6N combined
 residual/portfolio profiler, Phase 6O translation survivor/Farkas shape-map
 compression, Phase 6P survivor-bitset theorem pilot profiling, Phase 6V exact
 source-Farkas burden profiling, and Phase 6W source-support multiplier
-variation profiling, Phase 6X two-source Farkas support profiling, and the
+variation profiling, Phase 6X two-source Farkas support profiling, the
 Phase 6Y Lean proof-carrying two-source emitter pilot plus its `[0,10000)`
-scaling/memory measurement.
+scaling/memory measurement, and Phase 6Z support-family coverage scaffolding.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
 `ExhaustiveGeneratedCoverage` through started unfolded itineraries to the full
 billiard-orbit theorem shape, and is axiom-checked. Full generated coverage
-work should now proceed through the Phase 6X two-source support backend rather
-than raw Farkas-shape leaves.
+work should now proceed through the Phase 6Z two-source support-family backend
+rather than raw Farkas-shape leaves or per-survivor shard roots.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -214,7 +214,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)` | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y emits proof-carrying two-source shards for `[0,1000)` and `[0,10000)`, with explicit rank/mask bridges to `TranslationGoodCaseKilled`; the `[0,10000)` shard sweep passes, but directly importing all heavy shard `.olean`s through `Coverage10k.All` is not a memory-safe root strategy. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6V blocked on source-support theorem; Phase 6W blocked on concrete multiplier transport; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z support-family profile accepted on `[0,100000)` | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Raw survivor-map, mask-tree, word/state DAG grouping, conservative all-signed empty-cone pair-prefix pruning, the D26 finite-axis hypothesis, terminal residual shape grouping, lifted-PB cube/Farkas profiling, signed-state cone profiling, coarse terminal-algebra grouping, the combined portfolio, proof-ready translation shape-map compression, survivor-bitset theorem piloting, single-candidate obstruction-atlas promotion, proof-usable cross-family splitting, and exact source-Farkas proof-ready grouping all fail bounded gates. The conditional theorem layer now validates that `ExhaustiveGeneratedCoverage` would imply both no started unfolded omni itinerary and no full nonsingular periodic omnihedral billiard orbit. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y emits proof-carrying two-source shards for `[0,1000)` and `[0,10000)`, with explicit rank/mask bridges to `TranslationGoodCaseKilled`; the `[0,10000)` shard sweep passes, but directly importing all heavy shard `.olean`s through `Coverage10k.All` is not a memory-safe root strategy. Phase 6Z adds the small semantic family-coverage API and confirms the 235 support-family gate for `[0,100000)`. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -3427,18 +3427,63 @@ generated source bytes:         40,635,686
   checked outside normal imports; it must not rely on a root module importing
   every heavy generated shard.
 
-Next Phase 6Y tasks:
+Phase 6Z status:
 
-1. Replace the heavy-import `All.lean` idea with a memory-safe public coverage
-   contract: generated heavy shards may be checked and cached externally, but
-   normal Lean imports should see only small semantic theorem modules or a
-   manifest-level statement whose type does not mention or import every shard.
-2. Scale the two-source emitter beyond `[0,10000)` only after the root strategy
-   is changed; otherwise source generation succeeds but public coverage still
-   bottlenecks on heavy `.olean` imports.
-3. Keep the external validator as the authority for heavy shard checks, and
-   treat `lake build` of broad generated roots as unsafe unless a bounded root
-   architecture is in place.
+- Added `Cuboctahedron/Generated/Translation/TwoSource/FamilyCoverage.lean`.
+  This is the small semantic interface for the next backend:
+  `TranslationGoodCoverageOnRange`, `SupportFamilyCoverageOnRange`, and
+  `TranslationGoodCoverageOnRange.of_supportFamily`.
+- Added `largestObservedSupport` and
+  `largestObservedSupport_kills_checked` as a theorem-backed prototype target
+  for the largest Phase 6X source-support family.
+- Added `scripts/profile_translation_two_source_families.py`.
+- Generated reports:
+  `scripts/generated/translation_two_source_family_phase6z_000000000_000100000.json`
+  and
+  `scripts/generated/translation_two_source_family_phase6z_000000000_000100000.md`.
+- The Phase 6Z report accepts the `[0,100000)` support-family gate:
+
+```text
+GoodDirection survivor masks:          39,710
+two-source cases:                      39,710
+non-two-source cases:                       0
+checker failures:                           0
+source-support classes:                   235
+max cases per support:                 10,435
+singleton support classes:                  8
+classes with one computed pattern:         40
+```
+
+- The per-case two-source emitter now refuses non-dry-run rank windows above
+  10,000 unless `--allow-large-per-case-pilot` is passed explicitly. This keeps
+  the validated `[0,10000)` per-case corpus available for diagnostics without
+  accidentally scaling the wrong architecture.
+- Focused validation passed:
+
+```bash
+python3 -m py_compile \
+  scripts/generate_translation_two_source_evidence.py \
+  scripts/profile_translation_two_source_families.py
+lake build Cuboctahedron.Generated.Translation.TwoSource.FamilyCoverage
+python3 scripts/generate_translation_two_source_evidence.py \
+  --rank-start 0 --limit 10001 \
+  --out-dir /tmp/should_not_write \
+  --summary /tmp/should_not_write.json
+```
+
+The last command intentionally fails unless the output contains
+`refusing large per-case Lean emission`; the guard test returned `guard-ok`.
+
+Next Phase 6Z tasks:
+
+1. Emit a theorem-backed support-family prototype for the largest support
+   class. The public theorem must target `SupportFamilyCoverageOnRange` or
+   `TranslationGoodCoverageOnRange`, not per-case shard imports.
+2. If the largest-support prototype keeps root RSS small, generate all 235
+   support-family modules for `[0,100000)` and compose a lightweight semantic
+   root.
+3. Only after that root builds should the translation branch scale beyond the
+   first 100k window.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4283,8 +4328,10 @@ Acceptance:
   shards.
 - [x] Scale the Phase 6Y two-source emitter to `[0,10000)` with dry-run gating,
   memory measurement, and external-cache shard validation.
-- [ ] Replace heavy generated `All.lean` imports with a memory-safe public
-  coverage root/manifest architecture.
+- [x] Add Phase 6Z support-family semantic coverage API and accept the
+  `[0,100000)` support-family gate.
+- [ ] Emit and build the first theorem-backed Phase 6Z support-family module
+  for the largest source-support class.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -4398,21 +4445,20 @@ remain. The explicit sample proves the concrete two-row contradiction in Lean.
 The bounded `[0,1000)` emitter now proves 1,465 GoodDirection survivor cases
 across 59 generated shards, and every emitted case has a generated rank/mask
 bridge to `TranslationGoodCaseKilled`.
-Therefore the next step is no longer proving that the two-source shard shape
-works. It does. The next step is preventing the public root from importing
-all heavy shard `.olean`s:
+Phase 6Z is now the active way to prevent the public root from importing all
+heavy shard `.olean`s. The next step is no longer another profiler; it is a
+theorem-backed generated support-family module:
 
 ```text
-Design a memory-safe generated coverage root: heavy two-source shards are
-checked externally and cached, while normal Lean imports expose only small
-semantic coverage facts or a manifest-level theorem whose type does not import
-every heavy generated shard.
+Emit the largest support family against `SupportFamilyCoverageOnRange`; prove
+its checked two-source row facts in Lean; then compose it through
+`TranslationGoodCoverageOnRange.of_supportFamily` and measure root import RSS.
 ```
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken
-for full generated coverage; Phase 6Y makes the translation backend
-Lean-checkable at bounded generated scale, and the next proof obligation is to
-scale that sample format while resuming the nonidentity compression track.
+for full generated coverage; Phase 6Y makes per-case translation evidence
+Lean-checkable at bounded generated scale, and Phase 6Z changes the target to
+low-count support-family theorem modules.
 
 ## Explicit Non-Goals
 

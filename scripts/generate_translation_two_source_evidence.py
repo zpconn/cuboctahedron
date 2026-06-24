@@ -41,6 +41,7 @@ from profile_symmetry_compression import (  # noqa: E402
 
 Vec = tuple[Fraction, Fraction, Fraction]
 StrictLin2 = tuple[Fraction, Fraction, Fraction]
+DEFAULT_LARGE_PILOT_RANK_LIMIT = 10_000
 
 
 @dataclass(frozen=True)
@@ -552,6 +553,14 @@ def main() -> int:
         help="collect and summarize cases without writing generated Lean files",
     )
     parser.add_argument(
+        "--allow-large-per-case-pilot",
+        action="store_true",
+        help=(
+            "allow per-case Lean emission for rank windows larger than "
+            f"{DEFAULT_LARGE_PILOT_RANK_LIMIT}; use only for bounded experiments"
+        ),
+    )
+    parser.add_argument(
         "--module-namespace",
         default="Cuboctahedron.Generated.Translation.TwoSource.Coverage",
         help="Lean namespace/module prefix for generated shard imports",
@@ -576,6 +585,15 @@ def main() -> int:
         raise ValueError("requested range exceeds pair-word count")
     if args.cases_per_shard <= 0:
         raise ValueError("--cases-per-shard must be positive")
+    if (
+        not args.dry_run
+        and args.limit > DEFAULT_LARGE_PILOT_RANK_LIMIT
+        and not args.allow_large_per_case_pilot
+    ):
+        raise ValueError(
+            "refusing large per-case Lean emission: use --dry-run for profiling "
+            "or pass --allow-large-per-case-pilot for an explicit bounded pilot"
+        )
     module_namespace = validate_module_namespace(args.module_namespace)
 
     cases, stats = collect_cases(args.rank_start, args.limit, args.max_cases)
@@ -606,6 +624,8 @@ def main() -> int:
             "cases_per_shard": args.cases_per_shard,
             "out_dir": str(args.out_dir),
             "module_namespace": module_namespace,
+            "allow_large_per_case_pilot": args.allow_large_per_case_pilot,
+            "large_pilot_rank_limit": DEFAULT_LARGE_PILOT_RANK_LIMIT,
         },
         "stats": stats,
         "shards": {
