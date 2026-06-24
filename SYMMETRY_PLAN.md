@@ -214,7 +214,7 @@ templates. The cross-family template must not be used as evidence.
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.3 proves the highest-variation source pair parametrically, covering 1,016/1,016 target cases without enumerating its 273 exact row shapes. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows nine semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -3657,16 +3657,54 @@ decision: accepted
   classifiers must assign cases deliberately to avoid overlapping-family
   bookkeeping problems.
 
+- Added `scripts/profile_translation_row_relation_templates.py`, a diagnostic
+  profiler for reusable source-pair row-relation templates. It assigns each
+  GoodDirection survivor to the first matching semantic template and also
+  tracks overlap.
+- The `[0,100000)` row-relation template gate accepted:
+
+```text
+workers:                                  8
+rank shards:                             20
+elapsed seconds:                     296.84
+pair words scanned:                 100,000
+identity-linear words:                5,565
+GoodDirection survivor masks:        39,710
+template candidate cases:            39,710
+covered cases:                       39,710
+uncovered cases:                          0
+overlap cases:                            0
+total source pairs:                     235
+fully covered source pairs:             235
+partial source pairs:                     0
+source pairs with uncovered cases:        0
+decision: accepted
+```
+
+  Assigned template counts:
+
+```text
+eq_eq_pos_var_first:   18,238
+opp_1m_var_first:       8,677
+eq_eq_pos_var_second:   4,210
+opp_m1_var_first:       4,017
+opp_1m_var_second:      2,086
+opp_m1_var_second:      1,103
+eq_eq_neg_var_first:    1,003
+eq_eq_neg_var_second:     240
+axis_a_only:              136
+```
+
 Next Phase 6Z tasks:
 
-1. Generalize the high-variation pilot into reusable source-pair templates.
-   Start with the recurring `xpStart 0` pattern where the second row is
-   `(1, 1, 1)` and the first row has equal `a`/`b` coefficients.
-2. Profile how many of the 235 source pairs are covered by a small set of such
-   row-relation templates before emitting any full translation portfolio.
-3. Only after the source-pair template portfolio covers all 39,710 survivors
-   below the low-thousands gate should we generate a bounded-window translation
-   root.
+1. Formalize the nine accepted row-relation template theorem schemas in Lean,
+   generalizing `HighVariation.lean` rather than creating one file per source
+   pair.
+2. Add a generated bounded-window classifier that assigns each GoodDirection
+   survivor to exactly one of these template schemas, matching the profiler's
+   priority order.
+3. Only after the classifier builds should we generate a bounded-window
+   translation root.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4523,8 +4561,11 @@ Acceptance:
   for the 235 two-source translation support families.
 - [x] Implement and accept Phase 6Z.3 high-variation source-pair Lean pilot
   without enumerating its 273 exact row shapes.
-- [ ] Build a reusable source-pair row-relation template portfolio and profile
-  how many of the 235 source pairs it covers.
+- [x] Build and accept the Phase 6Z.4 reusable source-pair row-relation
+  template profiler on the `[0,100000)` gate.
+- [ ] Formalize the accepted row-relation template theorem schemas in Lean.
+- [ ] Generate a bounded-window classifier assigning GoodDirection survivors
+  to exactly one row-relation template.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -4664,9 +4705,10 @@ pair has 273 row/multiplier variants.
 
 Phase 6Z.3 proves that highest-variation source pair parametrically in Lean.
 The theorem covers the pair's 1,016/1,016 target cases in `[0,100000)` without
-enumerating the 273 exact row shapes. The next useful work is to factor this
-into a small portfolio of source-pair row-relation templates, then profile how
-many of the 235 source pairs those templates cover.
+enumerating the 273 exact row shapes. Phase 6Z.4 then factors that idea into a
+small portfolio of row-relation templates. The portfolio covers all 39,710
+GoodDirection survivors and all 235 source pairs in the first 100k window, with
+zero overlap and zero uncovered cases.
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken
 for full generated coverage; Phase 6Y makes per-case translation evidence
@@ -4695,6 +4737,10 @@ Current strategic assessment:
   the most fragmented source pair and validates `SupportPair.Applies` as a
   usable proof interface. The next translation compression unit should be
   reusable row-relation templates, not one-off source-pair files.
+- The Phase 6Z.4 row-relation profiler succeeds: nine semantic template
+  families cover every GoodDirection survivor in the first 100k window. The
+  next translation work is no longer discovery; it is Lean formalization of the
+  nine theorem schemas plus a generated priority classifier.
 - The first uncached 16-case pilot build used about 4.5 GiB RSS, which is a
   warning that scaling by listing support-family members would reproduce the
   old memory problem. The next useful work must preserve the 235 source-pair
