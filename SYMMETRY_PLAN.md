@@ -3499,18 +3499,59 @@ Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Largest.largestSup
   The first observed focused build after generation completed in about 18.9s
   wall time with max RSS about 4,544,356 KiB. A cached replay completed in
   about 0.9s with max RSS about 853,100 KiB.
+- Added the first generic theorem-backed support-family shape module:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/LargestShape.lean`.
+  This replaces the finite 16-case pilot predicate with the semantic predicate
+  `LargestObservedSupportShape`.
+
+  The module proves:
+
+```lean
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.LargestShape.largestObservedSupport_checked_of_shape
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.LargestShape.largestObservedSupport_shape_checkedOn
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.LargestShape.largestObservedSupport_shape_killsOn
+```
+
+  The theorem is deliberately stated over the row shape, not over an external
+  sparse-solver digest. If the first row is the `impact 1 / tmmm` interior
+  source with coefficients `(-1, -1, c)` and `c + 1 <= 0`, then the fixed
+  `xpStart 0` row and multipliers `(1, 1)` give a checked two-source Farkas
+  contradiction.
+- Added `scripts/profile_translation_largest_support_shape.py`, including a
+  process-parallel sharded mode. The profiler is diagnostic only; it confirms
+  how many GoodDirection survivors the semantic row-shape theorem can cover.
+  The default mode avoids one sparse Farkas solve per survivor and checks the
+  proof-relevant row predicate directly; the optional
+  `--check-support-digest` mode retains the slower digest audit.
+- The `[0,100000)` shape profile accepted:
+
+```text
+workers:                                  8
+rank shards:                             20
+pair words scanned:                 100,000
+identity-linear words:                5,565
+GoodDirection survivor masks:        39,710
+semantic shape matches:              11,589
+known largest source-support count:  10,435
+decision: accepted
+```
+
+  The semantic shape covers more cases than the originally discovered largest
+  source-support digest. This is proof-safe: Lean proves the row contradiction
+  for every case satisfying the shape predicate, regardless of which sparse
+  support the Python search would have selected.
 
 Next Phase 6Z tasks:
 
-1. Replace `LargestSupportPilotApplies` with a real proof-usable classifier
-   for the largest support family. The classifier must avoid listing all
-   10,435 rank/mask cases.
-2. Prove `SupportFamilyCheckedOn largestObservedSupport` for that real
-   classifier, or prove that the largest support cannot be generic enough and
-   record the exact obstruction.
-3. Only if that generic largest-support theorem builds should we generate the
-   remaining support-family modules for `[0,100000)` and compose a lightweight
-   semantic root.
+1. Generalize the `LargestShape` pattern into a generated support-shape
+   emitter. It should group supports by source pair plus small row-shape
+   predicates, prove one `SupportFamilyCheckedOn` theorem per shape, and avoid
+   listing rank/mask members.
+2. Run the generated support-shape portfolio on `[0,100000)` and require it to
+   cover all 39,710 GoodDirection survivors with low-hundreds support-shape
+   theorems.
+3. Only after that portfolio builds should we compose a lightweight semantic
+   translation root for the bounded window.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4359,8 +4400,10 @@ Acceptance:
   `[0,100000)` support-family gate.
 - [x] Emit and build the first theorem-backed Phase 6Z support-family pilot
   module for sampled members of the largest source-support class.
-- [ ] Replace the finite largest-support pilot predicate with a real
+- [x] Replace the finite largest-support pilot predicate with a real
   proof-usable largest-support classifier/generic theorem.
+- [ ] Generate proof-usable support-shape classifiers for the remaining
+  two-source translation support families in the `[0,100000)` gate.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -4476,13 +4519,20 @@ across 59 generated shards, and every emitted case has a generated rank/mask
 bridge to `TranslationGoodCaseKilled`.
 Phase 6Z is now the active way to prevent the public root from importing all
 heavy shard `.olean`s. The first theorem-backed generated support-family pilot
-builds, but it deliberately covers only a finite 16-case predicate:
+builds, and the finite 16-case predicate has now been replaced by a generic
+semantic row-shape theorem:
 
 ```text
-Replace `LargestSupportPilotApplies` with a real proof-usable classifier for
-the largest support family; prove `SupportFamilyCheckedOn largestObservedSupport`
-for that classifier without enumerating all 10,435 rank/mask cases.
+`LargestObservedSupportShape` proves `SupportFamilyCheckedOn
+largestObservedSupport` without enumerating all 10,435 rank/mask cases.
 ```
+
+The shape profile shows that this theorem kills 11,589 GoodDirection survivors
+in `[0,100000)`, more than the 10,435 cases in the originally discovered
+largest source-support digest. The next useful work is to generate analogous
+source-pair/row-shape theorems for the remaining two-source support families
+and measure whether the resulting portfolio covers all 39,710 survivors in the
+first window.
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken
 for full generated coverage; Phase 6Y makes per-case translation evidence
@@ -4499,14 +4549,14 @@ Current strategic assessment:
   removes masks that cannot arise from a feasible orbit, and the `[0,100000)`
   two-source profile collapses the remaining 39,710 survivor masks to 235
   source-row supports.
-- The Phase 6Z support-family interface is the right proof shape, but the
-  largest-family module is only a finite 16-case pilot. It proves that the
-  interface is Lean-checkable; it does not prove the 10,435-case support
-  family.
+- The Phase 6Z support-family interface is the right proof shape, and the
+  largest-family module now has a real semantic row-shape theorem. That theorem
+  is not yet a full translation root; it handles 11,589 of 39,710
+  GoodDirection survivors in the first window.
 - The first uncached 16-case pilot build used about 4.5 GiB RSS, which is a
   warning that scaling by listing support-family members would reproduce the
-  old memory problem. The next useful work must be a generic theorem or
-  compact classifier for `largestObservedSupport`, not more per-case evidence.
+  old memory problem. The next useful work must be a generated portfolio of
+  generic support-shape theorems, not more per-case evidence.
 - The nonidentity branch remains unresolved. Translation is no longer the only
   blocker, but full generated coverage still requires a separate low-count
   nonidentity family path.
