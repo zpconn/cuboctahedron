@@ -3577,16 +3577,60 @@ decision: rejected
   pairs remain at 235 classes, but exact row-shape predicates split those
   source pairs into 8,970 proof leaves.
 
+- Added the Phase 6Z.2 source-pair parametric theorem adapter:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairTemplate.lean`.
+  It defines the looser predicate
+  `SupportPair.Applies support r mask` and proves:
+
+```lean
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.checked_of_applies
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.checkedOn
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.killsOn
+```
+
+  This does not fix row coefficients or multipliers in the predicate. It is the
+  intended target for generated parametric source-pair proofs.
+- Added `scripts/profile_translation_source_pair_params.py`, with the same
+  process-parallel bounded-window scan shape as the rejected row-shape
+  profiler, but grouping GoodDirection survivors by source pair only.
+- The full `[0,100000)` source-pair parametric gate accepted:
+
+```text
+workers:                                  8
+rank shards:                             20
+elapsed seconds:                     296.68
+pair words scanned:                 100,000
+identity-linear words:                5,565
+GoodDirection survivor masks:        39,710
+source-pair cases:                   39,710
+unique source pairs:                    235
+exact row shapes behind those pairs:  8,970
+max row shapes per source pair:         273
+source pairs with >100 row shapes:       32
+max multiplier variants per pair:       273
+max weighted-c values per pair:         868
+decision: accepted
+```
+
+  The acceptance is diagnostic, not a finished Lean coverage proof. It confirms
+  that the right scaling unit is still the 235 source pairs, while also showing
+  that any generated Lean proof must establish coefficient/multiplier facts
+  parametrically; exact row or exact multiplier enumeration would immediately
+  return to thousands of leaves.
+
 Next Phase 6Z tasks:
 
 1. Do not emit the rejected exact row-shape portfolio.
-2. Try a source-pair parametric support theorem layer instead. The next
-   profiler should group only by the 235 source pairs and measure what extra
-   symbolic conditions are needed to prove `support.Checked` without fixing
-   every row coefficient and multiplier.
-3. Only after a source-pair/parametric layer covers all 39,710 survivors below
-   the low-thousands gate should we compose a lightweight semantic translation
-   root for the bounded window.
+2. Generate one Lean pilot for a high-variation source pair, starting with
+   source pair
+   `278db1f49b17f0333e2d33788b892e0b8624c42f213541e9a7d9f02f7c961482`
+   (`interior impact 4 face xp` with `xpStart index 0`). This pair has 1,016
+   GoodDirection cases and 273 exact row shapes in the `[0,100000)` window, so
+   it is the right stress test for `SupportPair.Applies`.
+3. The pilot must prove the `SupportPair.Applies` facts by a compact semantic
+   predicate, not by enumerating the 273 exact row shapes.
+4. Only after a high-variation source-pair pilot builds should we emit the full
+   235-family bounded-window translation portfolio.
 
 #### Phase 6L.4: Rank Adapter Only After Semantic Coverage
 
@@ -4568,10 +4612,16 @@ The shape profile shows that this theorem kills 11,589 GoodDirection survivors
 in `[0,100000)`, more than the 10,435 cases in the originally discovered
 largest source-support digest. However, the generalized exact row-shape
 portfolio is now rejected: the same window has 8,970 unique row shapes, even
-though it has only 235 source pairs. The next useful work is not more exact
-row-shape emission; it is a parametric source-pair theorem layer that keeps the
-235-class compression and proves the coefficient/multiplier obligations
-symbolically.
+though it has only 235 source pairs.
+
+Phase 6Z.2 now adds the source-pair theorem adapter and accepts the
+source-pair parametric profiling gate. The `[0,100000)` window still has all
+39,710 GoodDirection survivors covered by 235 source pairs, with no source
+Farkas failures, no non-two-source survivors, and no invalid two-source facts.
+The hard part is now mathematical compression inside each source pair:
+32 source pairs have more than 100 exact row shapes, and the highest-variation
+pair has 273 row/multiplier variants. The next useful work is a compact Lean
+pilot for that high-variation source pair using `SupportPair.Applies`.
 
 This still leaves the nonidentity side open. Phase 6X should not be mistaken
 for full generated coverage; Phase 6Y makes per-case translation evidence
@@ -4592,6 +4642,10 @@ Current strategic assessment:
   largest-family module now has a real semantic row-shape theorem. The exact
   row-shape portfolio is not the right scaling unit: it handles the first large
   family but fragments to 8,970 shapes on the full first window.
+- The Phase 6Z.2 source-pair profile preserves the 235-class compression target.
+  It does not finish translation coverage yet; it identifies the next stress
+  test, a high-variation source-pair pilot that must prove parametric
+  multiplier/coefficient facts without exact row enumeration.
 - The first uncached 16-case pilot build used about 4.5 GiB RSS, which is a
   warning that scaling by listing support-family members would reproduce the
   old memory problem. The next useful work must preserve the 235 source-pair
