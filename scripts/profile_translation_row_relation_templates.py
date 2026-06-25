@@ -76,6 +76,7 @@ class Template:
     template_id: str
     description: str
     matcher: Matcher
+    fallback: bool = False
 
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -202,6 +203,14 @@ def axis_b_only(first: Line, second: Line, w: tuple[Fraction, Fraction]) -> bool
     )
 
 
+def exact_two_source_valid(
+    first: Line,
+    second: Line,
+    w: tuple[Fraction, Fraction],
+) -> bool:
+    return shape_valid(multipliers=w, first_line=first, second_line=second)
+
+
 TEMPLATES: list[Template] = [
     Template(
         "eq_eq_pos_var_first",
@@ -253,6 +262,12 @@ TEMPLATES: list[Template] = [
         "both rows have zero `a` coefficient and opposite nonzero `b` signs",
         axis_b_only,
     ),
+    Template(
+        "exact_two_source_valid",
+        "fallback: exact two-source Farkas validity facts hold",
+        exact_two_source_valid,
+        fallback=True,
+    ),
 ]
 
 
@@ -261,10 +276,19 @@ def matching_templates(
     second_line: Line,
     multipliers: tuple[Fraction, Fraction],
 ) -> list[str]:
+    primary = [
+        template.template_id
+        for template in TEMPLATES
+        if not template.fallback
+        and template.matcher(first_line, second_line, multipliers)
+    ]
+    if primary:
+        return primary
     return [
         template.template_id
         for template in TEMPLATES
-        if template.matcher(first_line, second_line, multipliers)
+        if template.fallback
+        and template.matcher(first_line, second_line, multipliers)
     ]
 
 
@@ -568,6 +592,7 @@ def template_catalog() -> list[dict[str, str]]:
         {
             "template_id": template.template_id,
             "description": template.description,
+            "kind": "fallback" if template.fallback else "primary",
         }
         for template in TEMPLATES
     ]

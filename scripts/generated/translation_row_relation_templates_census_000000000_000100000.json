@@ -21,7 +21,7 @@
     "opp_m1_var_first": 4017,
     "opp_m1_var_second": 1103
   },
-  "checkpoint_dir": "/tmp/cuboctahedron_rowrel_census_100k",
+  "checkpoint_dir": "/tmp/cuboctahedron_rowrel_census_100k_v2",
   "completed_window_count": 20,
   "counts": {
     "covered_cases": 39710,
@@ -48,9 +48,9 @@
     "partial_uncovered_max": 0,
     "status": "accepted"
   },
-  "elapsed_seconds": 213.63282046100358,
+  "elapsed_seconds": 209.41798261599615,
   "failure_samples": [],
-  "max_window_rss_kib": 20328,
+  "max_window_rss_kib": 20528,
   "mode": "translation-row-relation-template-global-census",
   "overlap_samples": [],
   "parallel": {
@@ -331,43 +331,58 @@
   "template_catalog": [
     {
       "description": "variable `(a,a,c)` first, fixed `(1,1,1)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "eq_eq_pos_var_first"
     },
     {
       "description": "fixed `(1,1,1)` first, variable `(a,a,c)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "eq_eq_pos_var_second"
     },
     {
       "description": "variable `(a,a,c)` first, fixed `(-1,-1,1)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "eq_eq_neg_var_first"
     },
     {
       "description": "fixed `(-1,-1,1)` first, variable `(a,a,c)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "eq_eq_neg_var_second"
     },
     {
       "description": "variable `(a,-a,c)` first, fixed `(1,-1,1)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "opp_1m_var_first"
     },
     {
       "description": "fixed `(1,-1,1)` first, variable `(a,-a,c)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "opp_1m_var_second"
     },
     {
       "description": "variable `(a,-a,c)` first, fixed `(-1,1,1)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "opp_m1_var_first"
     },
     {
       "description": "fixed `(-1,1,1)` first, variable `(a,-a,c)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "opp_m1_var_second"
     },
     {
       "description": "both rows have zero `b` coefficient and opposite nonzero `a` signs",
+      "kind": "primary",
       "template_id": "axis_a_only"
     },
     {
       "description": "both rows have zero `a` coefficient and opposite nonzero `b` signs",
+      "kind": "primary",
       "template_id": "axis_b_only"
+    },
+    {
+      "description": "fallback: exact two-source Farkas validity facts hold",
+      "kind": "fallback",
+      "template_id": "exact_two_source_valid"
     }
   ],
   "top_uncovered_source_pairs": [],
@@ -377,121 +392,121 @@
   "window_mode": "contiguous",
   "windows": [
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000000000_000005000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000000000_000005000.json",
       "end": 5000,
       "start": 0,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000005000_000010000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000005000_000010000.json",
       "end": 10000,
       "start": 5000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000010000_000015000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000010000_000015000.json",
       "end": 15000,
       "start": 10000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000015000_000020000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000015000_000020000.json",
       "end": 20000,
       "start": 15000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000020000_000025000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000020000_000025000.json",
       "end": 25000,
       "start": 20000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000025000_000030000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000025000_000030000.json",
       "end": 30000,
       "start": 25000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000030000_000035000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000030000_000035000.json",
       "end": 35000,
       "start": 30000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000035000_000040000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000035000_000040000.json",
       "end": 40000,
       "start": 35000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000040000_000045000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000040000_000045000.json",
       "end": 45000,
       "start": 40000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000045000_000050000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000045000_000050000.json",
       "end": 50000,
       "start": 45000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000050000_000055000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000050000_000055000.json",
       "end": 55000,
       "start": 50000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000055000_000060000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000055000_000060000.json",
       "end": 60000,
       "start": 55000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000060000_000065000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000060000_000065000.json",
       "end": 65000,
       "start": 60000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000065000_000070000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000065000_000070000.json",
       "end": 70000,
       "start": 65000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000070000_000075000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000070000_000075000.json",
       "end": 75000,
       "start": 70000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000075000_000080000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000075000_000080000.json",
       "end": 80000,
       "start": 75000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000080000_000085000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000080000_000085000.json",
       "end": 85000,
       "start": 80000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000085000_000090000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000085000_000090000.json",
       "end": 90000,
       "start": 85000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000090000_000095000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000090000_000095000.json",
       "end": 95000,
       "start": 90000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k/window_000095000_000100000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_100k_v2/window_000095000_000100000.json",
       "end": 100000,
       "start": 95000,
       "width": 5000

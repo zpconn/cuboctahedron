@@ -17,8 +17,8 @@ This report is diagnostic only; Lean must check any emitted family theorem.
 | Fully covered source pairs | 235 |
 | Partial source pairs | 0 |
 | Source pairs with uncovered cases | 0 |
-| Elapsed seconds | 213.63 |
-| Max window RSS KiB | 20,328 |
+| Elapsed seconds | 209.42 |
+| Max window RSS KiB | 20,528 |
 
 Decision: **accepted**
 

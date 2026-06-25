@@ -6,6 +6,7 @@
     "eq_eq_neg_var_second": 697,
     "eq_eq_pos_var_first": 27681,
     "eq_eq_pos_var_second": 7292,
+    "exact_two_source_valid": 749,
     "opp_1m_var_first": 13330,
     "opp_1m_var_second": 3445,
     "opp_m1_var_first": 6324,
@@ -18,15 +19,16 @@
     "eq_eq_neg_var_second": 697,
     "eq_eq_pos_var_first": 27681,
     "eq_eq_pos_var_second": 7292,
+    "exact_two_source_valid": 749,
     "opp_1m_var_first": 13330,
     "opp_1m_var_second": 3445,
     "opp_m1_var_first": 6324,
     "opp_m1_var_second": 2162
   },
-  "checkpoint_dir": "/tmp/cuboctahedron_rowrel_census_calibration",
+  "checkpoint_dir": "/tmp/cuboctahedron_rowrel_census_calibration_v2",
   "completed_window_count": 100,
   "counts": {
-    "covered_cases": 62976,
+    "covered_cases": 63725,
     "denominator_nonpositive_masks": 782355,
     "good_direction_survivors": 63725,
     "identity_words": 13220,
@@ -39,20 +41,20 @@
     "template_invalid_cases": 0,
     "template_valid_cases": 63725,
     "translation_sign_assignments": 846080,
-    "uncovered_cases": 749,
+    "uncovered_cases": 0,
     "zero_translation_vector_masks": 363
   },
   "decision": {
-    "accepted_for_phase_6z4": false,
+    "accepted_for_phase_6z4": true,
     "notes": [
-      "uncovered cases exceed the partial gate of 0"
+      "row-relation templates cover every GoodDirection survivor"
     ],
     "partial_uncovered_max": 0,
-    "status": "rejected"
+    "status": "accepted"
   },
-  "elapsed_seconds": 275.7779886520002,
+  "elapsed_seconds": 277.2308824629872,
   "failure_samples": [],
-  "max_window_rss_kib": 20364,
+  "max_window_rss_kib": 20560,
   "mode": "translation-row-relation-template-global-census",
   "overlap_samples": [],
   "parallel": {
@@ -70,10 +72,10 @@
   },
   "schema_version": 1,
   "source_pair_summary": {
-    "fully_covered_source_pairs": 410,
+    "fully_covered_source_pairs": 555,
     "partial_source_pairs": 0,
     "total_source_pairs": 555,
-    "uncovered_source_pairs": 145
+    "uncovered_source_pairs": 0
   },
   "source_pairs_by_template": {
     "axis_a_only": [
@@ -314,6 +316,153 @@
       "d44e0f54769b96479ac8af87903afa3c4e016cf6948f41c229290909e5823d59",
       "d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead"
     ],
+    "exact_two_source_valid": [
+      "0250858ca3531e28142211336bc23638494dedc4facb224fd68d9b8231764900",
+      "06394f3bd71287276d79e1743eecd237d521b8fed883d219d10eafe5cde5c5a0",
+      "06ab3d338511d5fafe8ca13b42d95b956e79405e3f9ddc01cfadbb03da5693c9",
+      "089aa19e97e1a505cb322c126aad7d81f8347db51363e86f90ed2328eea638f4",
+      "08b0322a73227d5fc14ef464010297637c759b813cba65467ecb0b4d9569a198",
+      "0a076062a35bef942e74b5dd5a5351c082d9a3e829e2a3c895ebf73af70c94fc",
+      "0b6067854f263a0aba15a87b83ff2a893104626f9aaf9ed95cdad6a2091be600",
+      "0d349e1c57c0d23a5a76d8299583e0a209e2ddf7dc17a788dd4836af325d5d32",
+      "0e01e740946052aad11e647d61e444c64b3bc26418e0f7845e8f8af4908c9499",
+      "1197c2ae76c82857e900fbab233635f2bf860656033767d6a335f27a34d439b4",
+      "123d6393524a780f8da3a5281c59cf0a1d950cdccb4151813717daca182ce3d0",
+      "13d354e74d40592d2ef3212f7ac8c50286ca3347253fd604e80436c916dee764",
+      "173257e09a8fd9c88e3a18d6b4d1f61ceefedf8d490eb06fe1883dd5325bbfa5",
+      "25f7eff4818676e842d1d061a7fdd3902ee07d48501136b21a481512129e9696",
+      "270afc87c22ea687474ce4049804ed3c4d14b16803d4d573d472f44503af5b52",
+      "287d81bcd3ac0feee8950dbe9e2ad16dfd7ad04bb97641752e57a87864414186",
+      "2cda8f3f20467fbf7527a176e1ad6a72baa9a66acc2b69d0a3b87315b697bde5",
+      "2d8e8c00189ef0a0af984e48b5c7c13b526343cc6ec92625e432d92d858d0443",
+      "33997a30800a06187267ea627348823fe208ffbd8b5018f793121e4c5bb339f4",
+      "33b26c6afed748169ab0f0592a281dad2da80692ee334774f3192276553f77d1",
+      "34f078bb19648c2a44bd4739bd51428460159540b84da4dd8fc1e587572915b2",
+      "35a8917b67ec2c1389a6a33bb9a641fdf7b38869acad6e77922e22dbffe9130f",
+      "374fe83237c43ca899aa8efe3bd7663d65803fe17e4a49702022a9b090254dc8",
+      "39e6f7164d1f28250c84641840677cc7d551a23a8e1468f19360a2f2834578f9",
+      "3badff2efe9c42ab1c1235655fcee6fc546dc35e6e10d63092adfebbbea16aaf",
+      "3de0a1c6956d01f9f84a725c78bc1b5fc4c6f7d48cf112e48e4543cb278f90a3",
+      "3e1a42b7f81cc034988ea0e1793dfe12dcd7eaa447cdfddda233e1caa98b5280",
+      "3e5d2447b9abd40c5279be0879f067dc725a2356c4b5a42f99f8d0d24979af62",
+      "405866730f0e2cb32d53b294fa01fd35f158904345cb285d978f5ff62d08101d",
+      "42244ce973d093868e5b441ce22e209dc1532181d2431b5ce6252625d5fd8bf5",
+      "42ef46f718127cba626b1547f778f8ee8331f1735baba0a3ab56c63966dbd627",
+      "4319da5c820865af6a7435c08df372ca3ab6ac2020a332e9529407d61d5de19d",
+      "45d10b0a59c2598b8e88b05535c4dc65e21056d2890f3b59814794b2cf9ce0ef",
+      "4768ba6c4459fa2ea127d1a6b2c18062a99539acb2342ff7c4fe3568b3a715c4",
+      "4ffdc4dd2e16dc82c491cd096b4b65ea5f7a65579ad29604d5dda4e30bbebbc9",
+      "50692e1a21678e4b2665031bce21189e7f64b533b3ed2456443b799985cd6d9e",
+      "51fbac7c79425fb43a24ffb0e9cfe65d74d10bb0011c0bf66c82dbad5c0488e8",
+      "54e463d0dfda5592210bbd12829823bf24e8f3707a84d5902cb38c82db74addf",
+      "5525f28c2cd115f2d5fc20a0d87b091e5bd989414a29bf11116de71955e43e34",
+      "579125e885ba37c41617e548cf4255ac01682e96106815bc75828d6a4a397e76",
+      "5a1d73dd6f51eae9678956e6777e3d9b42537d2c6ce88806169dc95c72d06891",
+      "5ae90e2c5e58ecb77116c40411a0acc6ded3a89f7833569ea5a540ec1a6f7c76",
+      "5b4c7387c84476887e11ec3c82b43acba91adbe4b1ba92b63d0bcc1fa0069cb5",
+      "5b9c7110b3541aa7d74c999b86b7e168d13f3e34099e15e8eb662b5af54a5f09",
+      "5c43a634e68ce373fb0c7a51b0cfa3f19d77ff3fbf8c797b7831881f37974b5e",
+      "5efb33cac8f80e845462524d70fac8e832fad2925cf4dfe63bad1132e38ea90c",
+      "6061a88ddf62524f8351fa4629f4d0f888ff7924e86eb9300bfc9812a7e2ffd1",
+      "60bb4635903a5883245db8092e277cb6bf6114e13263f970a9d9c127eb8a9737",
+      "64a27f57e336c4a0dfb3adf485794565de31fe24af0297574c1eea1253b867d7",
+      "65252581b73408a31e8c4581aa9dc7ede37abb08c856830a68247a4f97074a81",
+      "65ef75550cb4367f9541b48ede1de9766d694af0dc615868dc764d5bb5f14174",
+      "660640a77e252306dd277c7bc1202513394e1d5097c067607c17d0f3642bf2f8",
+      "679c7aaaf72828cff1c34eee0aec8692102082b26b5b535da9ac567b16df3f8a",
+      "685fdebf749777dd5a556d544662b34b64f5265faaa7ec2de033952fdd547ad2",
+      "68dc04c2d05032b775f81a7f2676cd3fa281d8bbf1ffa18d883aa1c1d1b066cf",
+      "6d2013c3c584299c5f1313cf1079b855ca0d6058579ea71172f3ec23a35c225f",
+      "6d9ff24a88e8e4dba3e9c794dafa4eb2bb160b5184d503f991318ac1c31872c4",
+      "6eb1c31bcafae620955e29c8ca4d6812c240350c3aa38d116646e4bde88853a6",
+      "731a791305a5203557bf8747bb4024f8f1273fed5103843dc90485dd863bc88c",
+      "74f73e601bce1f69646a1a753001e8aef41501a8c584366c33b55e1d30469340",
+      "75fac07f28b1abeeddacd6179511bcbb0a9a80b845c4c0b55efec9b90727a5a5",
+      "7a05d98c3a5f6abd736398e784154c8b3c83c8b89ab29f12ded862cf8be98869",
+      "7b7417f5b69dbb0154a76fa77de21c396fd227ae661e0264d19ac328cd0d8c77",
+      "7b93365354306e311b46986f640fdc17fb7fcd8c8433ca8f34833dcb92581173",
+      "7cd1e54c4037e61e965af357f9f8067371194740df51e3763af41c0b8e0103cd",
+      "7db51bea4480d68ff7688ea5419c3e0ecf2e8ab108a86e9d298a6aaa6289a4a1",
+      "81588a712c1a5c33fa2854638e02a00a606248cc6a3280079cfa0d1e1278596a",
+      "81c17063bd97ddc2b81714381fc07913b227c4b53956e55536cfcdc9a0e8ed98",
+      "85e8c4f1a737c302fe6da1bbb13c928d930ae44a8a7872fd7d287ebf5655418b",
+      "86123570ca41f8d6153ea74f75902a093c841d7d20c7a95054d83a4af8c367b4",
+      "86fbfd40eed251cf1ab653dc7e706ee00dbda1932f8715a8d81edc991cd0c7bc",
+      "87f34dcf2d003b1cf856a1b9679df7c50bcaeaca0b7bd6c3fa1b9219f8d74f2d",
+      "8abd14f0796ca58d90823cbc258003a3e665ad06b2ed2f23304e20923247d698",
+      "8b82eece96f4f26784abe0a71ee9c167e2db648e8c890c7863c6d342d2a12358",
+      "8d56bae33648da4153097e7b9ad179dfee0e5fc23ce8213e92a65ef034d1d50e",
+      "8dfdfcbe8d2bd8fdbbef70713aa96b8ed7f7ca92539b6f21fc660157534c0b8d",
+      "9078b18ff3f2ceecbe1e3a6539c360acbfe322836f51e5778237424a2af87654",
+      "9384893486f1d55d97c65be5cdbc7616034028e6145dc1fe2363e8106c99d630",
+      "94062b7af4c404cbee4db3a9e68ec9ae521708b62e75ced7f065382ddf346eed",
+      "96e0d57c88512e54a6e70ea89006d011318589f7a095b9a508ccc5f21848b38b",
+      "97ebbc47c556864d60c17f150a15cc47537f506ad01988bf122bfcb9b53d23d3",
+      "98d10ffe777700579f329ee30560f936fb28c24b2c788d1b4c7e1ac541de69df",
+      "9a15e11e34c9bbfce3b7f7602384f637e8d6c893cdef7a379798336e50deb5e4",
+      "9a2958bfea63abb39b8077db388e85c7e35e598f15516ddd4db5247176c02226",
+      "9d2875eabb6379f151afeabdebef61fba29c8778738d6ea552862c2c2cceee5c",
+      "a018722aa1713f61fc8dd9008ea7adfde598d4477f768cfeb0233c933f54d6c1",
+      "a07ac1d66a84bebab7b04de4f3ce5c321f88f33a4f6da2ea85f969fe5f67c6a5",
+      "a10aab65898ed2fde59ce514e826709d8212f75cbb2d933b865cf1b4102f650a",
+      "a229a2408cfa01d69e99a9ef065301680c057a16e33ae3972b1faecb039274ed",
+      "a255fa705997d549c63c12cb6b625bafd25c72fdb92680be232590c7b9822983",
+      "a4fc8ee0c066dbf9bda4eae526e05ff37ee1888f8e74dcaee9eea00dacf91299",
+      "a6e56e9403b8d3759928ca85445d566f2f5fc3396b0c01b80ea7808d47d5010b",
+      "a7be6b27d69ab99b4d2c905c4bc7b32dca1033eb38dbf600b8875dde3347c16f",
+      "a89abb1220bbfab208f264df37bd71fee41325a84d57ecbd339f091446ce382c",
+      "aadacbbdead6b0fa256a47dac9243bf531e913eb7fd881bdc213879d7b38d662",
+      "ab7bd33dfcfd8ad83addc06b80ee415867cf39a43d7d021bca7fe3ec375c50de",
+      "aceab5937031ed7ef47668beb4c18a25eeed769a638a1996608b6fc2ad79aee8",
+      "ae952d44a2b0ec73b9a3f4795a9c36cdeb0ff6d68a790e0246f08e0a6f67308f",
+      "b2c2b11b7688876de1dd4457bdb56aab95422ef880644d4a441979df603df098",
+      "b3bdd3c8d74a1fe7333ef584ecf2db4e5ec6c8f7aeadc705325e71ca2f9145e6",
+      "b4850f0f2de40b63697cede3034274bf7afef649989734b3ca6a1f0c94e178c9",
+      "b55c3cf8bc012b70d9dde51e2ca7e0c3b64e79f711ff8fee9e3df36efb7605a2",
+      "bbbef95deace17595becd08171f4b041870fd8dfa7d88454654d20cabe12b3b4",
+      "bdfc119a343f3443d0a7bc900af5541a92679941b372f33071d47c1998c8f8cb",
+      "bf5385463dc799cb2c13760a8bc36523142ebd095a8f90760ea56069bb311043",
+      "c07b19e23afd4b3eb0f2f34b900c05c844163f353fbe5d13b4b4c758abd21358",
+      "c34acd7184ad60078e345d1740be13e962d0df97256193670946ceee3543bdd0",
+      "c35ecdf09f7e9b38debe85e82bdcc9fed05d4ecb3b4f872dc97980d50d2c0643",
+      "c5c70740ecd0b3661c4827416ea6ce0e8da41309f7fd7dfaa3e5de561a5b4f63",
+      "c69d4f0760d9abaced08a020d5ea8440789cfd8742299c71b6300427c8eacfeb",
+      "c6a6d4c330b1c17395c081e7dd5268fa1b5ceeebb2f16145b08d791c5acb92b1",
+      "c99e17f896282a51f538cece715f50fc6b8fc2c04f15b23e85ff045c5fea6623",
+      "cdf1628e626e4e4553e7b1bfc97943136cdade27b23f5e0b1d2e8e2df4fcd8e1",
+      "ce89f31d12065d5a6521794fb3b581e65ff7f41ecc8abdc5c84bcde172cd6c8b",
+      "cf035583d2ee0b94f01fe8ac77e73eb408afcfc872f2ab58c7eb64fabfd6a0a7",
+      "cf702cc725f61a7e2c8bab2579dd758811baa60ec02250341fe804452fa97b88",
+      "d0e420617d30806c09ae198546b4aa126edd4bbbcddc4f228833cec10dc5c147",
+      "d4c69b4adaf9d34d1fc38f658384b40765af3f7541d711b01d897cc923336076",
+      "d60c7f37904f28251b9fef15076a0b3165cc955d812ea114afeff326eb2559b1",
+      "d6ca92633064ab73c5a5b51e5be80f6cd33558e2f862a38406ebd22e6e327620",
+      "d6d2c754377ffc61b897d7cf3c9d794ddd07f46254bc460368aa7d0e61af3b96",
+      "d91c7ce22010049a00f0fc51d791b7a1926e31cc9f4baff5cedd89e92a2d4339",
+      "d98d07640a5f35f362d12a4ddd7a9d97ffac66af6832aaa5c9c21bef30e54055",
+      "da7e825b4e897b308fb4644c3054f286beb6ed9341bdc98d6ea62f2259108fd5",
+      "dc66da3f6502d53a75f223678cf2b13b0434566dc32c6db95da071012629dcae",
+      "df9d468fd4bc46187363f123e13d7a42028831521400b24cf43eb491c4ab0142",
+      "dff5d5ca541de90f0e0adb3ff0a6dfd57c309d44f7d366d789fd111d2174d629",
+      "e328434389aafa376ba5604da7845ccf59c6dad4f89b3b4471ae28f8e486fae5",
+      "e34ab29870e50736b414757c9f80a9cfe0ad8517eb403c27aa9e956959ccb319",
+      "e4f368451726951a57727b61b18d8097565c716db146362c1295f17590c97c9f",
+      "e6ed26f02c316937c2a60e3360c32e17fc0fa9b234054d99e0671c73778c2484",
+      "e9547f8759dac827a4ca0a045821e42cf9ff4aabb6e77d977725a86692fa9dd3",
+      "eb643e9bc599ccd7a5b5ee78a082cc29abf94cb3ba10d0b254df456c4ff6f31e",
+      "ecb4b248e847a77919f99a4b6a7bf6140b0095876926420b293e207f71deffbe",
+      "ecd3a1f7350f84a2ceff675044a5b8b51f4ebf1a2433c16ba036586f4228ae57",
+      "ecdcdaadf4a9dd5fc8290e75e666efccbb4266e40d6c75e984a47a1901952196",
+      "eda45d1618bd2af12ddd395a9380b4fe9ee045ac0b1b0bb5755f603e27439342",
+      "edd8d5586e10b14982dc3ad6723ab08cf7ce82a3a8472dff7c9660382d3f5aa5",
+      "eed5518c22893ec40409301be23abc5587f1f4d7bcc272a6b580319979080b64",
+      "ef8fa9b47e6272f404476155cb14bad92da77bf020a125386f8f757a32ef66bd",
+      "f6828fc4313236c825c308bccd7a740a53cf26a95f16a624b4d5cfc522dc2a2f",
+      "f830c45e61c5a02213400821e7f9bc129ec7645341ed060746a7d6a1345af88a",
+      "f8d92fa343ee537ee3391bcebfab95afe6b73143a41af79e5846abf0a1da310a",
+      "f8e2161176fc0bfca9b4876d19f8a688ac0cb1859813fbfa6f346f4ff75fa829",
+      "fc783a704c7b43dc3eb99c4831f715dad94d436184c732692535d4763a1e428d"
+    ],
     "opp_1m_var_first": [
       "03d63fe1f3b4c5a91b784bbe3f5af8f7cb0202cbe57757237359a35577224939",
       "0523c27508b816d30ac006b8ce72cb7e702a1c1964e3957f62a232bafa42ef85",
@@ -517,1309 +666,662 @@
   "template_catalog": [
     {
       "description": "variable `(a,a,c)` first, fixed `(1,1,1)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "eq_eq_pos_var_first"
     },
     {
       "description": "fixed `(1,1,1)` first, variable `(a,a,c)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "eq_eq_pos_var_second"
     },
     {
       "description": "variable `(a,a,c)` first, fixed `(-1,-1,1)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "eq_eq_neg_var_first"
     },
     {
       "description": "fixed `(-1,-1,1)` first, variable `(a,a,c)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "eq_eq_neg_var_second"
     },
     {
       "description": "variable `(a,-a,c)` first, fixed `(1,-1,1)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "opp_1m_var_first"
     },
     {
       "description": "fixed `(1,-1,1)` first, variable `(a,-a,c)` second, `a < 0`, `c <= a`",
+      "kind": "primary",
       "template_id": "opp_1m_var_second"
     },
     {
       "description": "variable `(a,-a,c)` first, fixed `(-1,1,1)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "opp_m1_var_first"
     },
     {
       "description": "fixed `(-1,1,1)` first, variable `(a,-a,c)` second, `0 < a`, `c <= -a`",
+      "kind": "primary",
       "template_id": "opp_m1_var_second"
     },
     {
       "description": "both rows have zero `b` coefficient and opposite nonzero `a` signs",
+      "kind": "primary",
       "template_id": "axis_a_only"
     },
     {
       "description": "both rows have zero `a` coefficient and opposite nonzero `b` signs",
+      "kind": "primary",
       "template_id": "axis_b_only"
+    },
+    {
+      "description": "fallback: exact two-source Farkas validity facts hold",
+      "kind": "fallback",
+      "template_id": "exact_two_source_valid"
     }
   ],
-  "top_uncovered_source_pairs": [
-    {
-      "source_pair_digest": "da7e825b4e897b308fb4644c3054f286beb6ed9341bdc98d6ea62f2259108fd5",
-      "total_cases": 75,
-      "uncovered_cases": 75
-    },
-    {
-      "source_pair_digest": "6d2013c3c584299c5f1313cf1079b855ca0d6058579ea71172f3ec23a35c225f",
-      "total_cases": 67,
-      "uncovered_cases": 67
-    },
-    {
-      "source_pair_digest": "f830c45e61c5a02213400821e7f9bc129ec7645341ed060746a7d6a1345af88a",
-      "total_cases": 33,
-      "uncovered_cases": 33
-    },
-    {
-      "source_pair_digest": "9d2875eabb6379f151afeabdebef61fba29c8778738d6ea552862c2c2cceee5c",
-      "total_cases": 32,
-      "uncovered_cases": 32
-    },
-    {
-      "source_pair_digest": "ecd3a1f7350f84a2ceff675044a5b8b51f4ebf1a2433c16ba036586f4228ae57",
-      "total_cases": 31,
-      "uncovered_cases": 31
-    },
-    {
-      "source_pair_digest": "86fbfd40eed251cf1ab653dc7e706ee00dbda1932f8715a8d81edc991cd0c7bc",
-      "total_cases": 25,
-      "uncovered_cases": 25
-    },
-    {
-      "source_pair_digest": "a4fc8ee0c066dbf9bda4eae526e05ff37ee1888f8e74dcaee9eea00dacf91299",
-      "total_cases": 22,
-      "uncovered_cases": 22
-    },
-    {
-      "source_pair_digest": "6061a88ddf62524f8351fa4629f4d0f888ff7924e86eb9300bfc9812a7e2ffd1",
-      "total_cases": 22,
-      "uncovered_cases": 22
-    },
-    {
-      "source_pair_digest": "d60c7f37904f28251b9fef15076a0b3165cc955d812ea114afeff326eb2559b1",
-      "total_cases": 19,
-      "uncovered_cases": 19
-    },
-    {
-      "source_pair_digest": "685fdebf749777dd5a556d544662b34b64f5265faaa7ec2de033952fdd547ad2",
-      "total_cases": 18,
-      "uncovered_cases": 18
-    },
-    {
-      "source_pair_digest": "0250858ca3531e28142211336bc23638494dedc4facb224fd68d9b8231764900",
-      "total_cases": 18,
-      "uncovered_cases": 18
-    },
-    {
-      "source_pair_digest": "dff5d5ca541de90f0e0adb3ff0a6dfd57c309d44f7d366d789fd111d2174d629",
-      "total_cases": 18,
-      "uncovered_cases": 18
-    },
-    {
-      "source_pair_digest": "9384893486f1d55d97c65be5cdbc7616034028e6145dc1fe2363e8106c99d630",
-      "total_cases": 18,
-      "uncovered_cases": 18
-    },
-    {
-      "source_pair_digest": "5a1d73dd6f51eae9678956e6777e3d9b42537d2c6ce88806169dc95c72d06891",
-      "total_cases": 17,
-      "uncovered_cases": 17
-    },
-    {
-      "source_pair_digest": "65ef75550cb4367f9541b48ede1de9766d694af0dc615868dc764d5bb5f14174",
-      "total_cases": 12,
-      "uncovered_cases": 12
-    },
-    {
-      "source_pair_digest": "54e463d0dfda5592210bbd12829823bf24e8f3707a84d5902cb38c82db74addf",
-      "total_cases": 10,
-      "uncovered_cases": 10
-    },
-    {
-      "source_pair_digest": "aceab5937031ed7ef47668beb4c18a25eeed769a638a1996608b6fc2ad79aee8",
-      "total_cases": 10,
-      "uncovered_cases": 10
-    },
-    {
-      "source_pair_digest": "eb643e9bc599ccd7a5b5ee78a082cc29abf94cb3ba10d0b254df456c4ff6f31e",
-      "total_cases": 11,
-      "uncovered_cases": 9
-    },
-    {
-      "source_pair_digest": "a6e56e9403b8d3759928ca85445d566f2f5fc3396b0c01b80ea7808d47d5010b",
-      "total_cases": 7,
-      "uncovered_cases": 7
-    },
-    {
-      "source_pair_digest": "06394f3bd71287276d79e1743eecd237d521b8fed883d219d10eafe5cde5c5a0",
-      "total_cases": 8,
-      "uncovered_cases": 7
-    },
-    {
-      "source_pair_digest": "8abd14f0796ca58d90823cbc258003a3e665ad06b2ed2f23304e20923247d698",
-      "total_cases": 13,
-      "uncovered_cases": 7
-    },
-    {
-      "source_pair_digest": "ab7bd33dfcfd8ad83addc06b80ee415867cf39a43d7d021bca7fe3ec375c50de",
-      "total_cases": 7,
-      "uncovered_cases": 7
-    },
-    {
-      "source_pair_digest": "96e0d57c88512e54a6e70ea89006d011318589f7a095b9a508ccc5f21848b38b",
-      "total_cases": 6,
-      "uncovered_cases": 6
-    },
-    {
-      "source_pair_digest": "3e5d2447b9abd40c5279be0879f067dc725a2356c4b5a42f99f8d0d24979af62",
-      "total_cases": 6,
-      "uncovered_cases": 6
-    }
-  ],
+  "top_uncovered_source_pairs": [],
   "trusted_as_proof": false,
-  "uncovered_samples": [
-    {
-      "first_line": [
-        "-2/3",
-        "-11/15",
-        "-16/15"
-      ],
-      "mask": 24,
-      "matches": [],
-      "multipliers": [
-        "45/1078",
-        "2/3"
-      ],
-      "rank": 10000083,
-      "second_line": [
-        "45/1078",
-        "9/196",
-        "9/154"
-      ],
-      "seq": "xp,ym,zm,xm,yp,tpmm,tpmp,zp,tppm,tmmp,tmpp,tmmm,tppp,tmpm",
-      "source_pair_digest": "5b4c7387c84476887e11ec3c82b43acba91adbe4b1ba92b63d0bcc1fa0069cb5",
-      "sources": [
-        {
-          "face": "ym",
-          "impact": 11,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 4
-        }
-      ],
-      "weighted_c": "-3/539",
-      "word": "y,z,x,y,dm11,d1m1,z,d11m,d11m,dm11,d111,d111,d1m1"
-    },
-    {
-      "first_line": [
-        "-62/147",
-        "356/147",
-        "-62/49"
-      ],
-      "mask": 24,
-      "matches": [],
-      "multipliers": [
-        "93/3626",
-        "62/147"
-      ],
-      "rank": 10000145,
-      "second_line": [
-        "93/3626",
-        "-267/1813",
-        "33/518"
-      ],
-      "seq": "xp,ym,zm,xm,yp,tpmm,tpmp,zp,tmpp,tmmm,tppm,tmmp,tppp,tmpm",
-      "source_pair_digest": "d6ca92633064ab73c5a5b51e5be80f6cd33558e2f862a38406ebd22e6e327620",
-      "sources": [
-        {
-          "face": "tmpp",
-          "impact": 13,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-496/88837",
-      "word": "y,z,x,y,dm11,d1m1,z,dm11,d111,d11m,d11m,d111,d1m1"
-    },
-    {
-      "first_line": [
-        "-103/135",
-        "-22/27",
-        "202/135"
-      ],
-      "mask": 6,
-      "matches": [],
-      "multipliers": [
-        "103/2130",
-        "103/135"
-      ],
-      "rank": 10000251,
-      "second_line": [
-        "103/2130",
-        "11/213",
-        "-281/2130"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpm,tppp,tmmm,tmmp,tppm,tpmp,tmpp,zm",
-      "source_pair_digest": "7db51bea4480d68ff7688ea5419c3e0ecf2e8ab108a86e9d298a6aaa6289a4a1",
-      "sources": [
-        {
-          "face": "zp",
-          "impact": 11,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-8137/287550",
-      "word": "y,z,x,y,dm11,d1m1,d111,d111,d11m,d11m,d1m1,dm11,z"
-    },
-    {
-      "first_line": [
-        "-142/51",
-        "-59/51",
-        "-130/17"
-      ],
-      "mask": 6,
-      "matches": [],
-      "multipliers": [
-        "639/7906",
-        "142/51"
-      ],
-      "rank": 10000272,
-      "second_line": [
-        "639/7906",
-        "9/268",
-        "207/7906"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpm,tppp,tmmm,tpmp,tmmp,tppm,tmpp,zm",
-      "source_pair_digest": "287d81bcd3ac0feee8950dbe9e2ad16dfd7ad04bb97641752e57a87864414186",
-      "sources": [
-        {
-          "face": "ym",
-          "impact": 10,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 4
-        }
-      ],
-      "weighted_c": "-36636/67201",
-      "word": "y,z,x,y,dm11,d1m1,d111,d111,d1m1,d11m,d11m,dm11,z"
-    },
-    {
-      "first_line": [
-        "-337/441",
-        "-362/441",
-        "670/441"
-      ],
-      "mask": 6,
-      "matches": [],
-      "multipliers": [
-        "1011/22834",
-        "337/441"
-      ],
-      "rank": 10000347,
-      "second_line": [
-        "1011/22834",
-        "543/11417",
-        "-2733/22834"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpm,tppp,tmmp,tppm,tmmm,tpmp,tmpp,zm",
-      "source_pair_digest": "7db51bea4480d68ff7688ea5419c3e0ecf2e8ab108a86e9d298a6aaa6289a4a1",
-      "sources": [
-        {
-          "face": "zp",
-          "impact": 11,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-81217/3356598",
-      "word": "y,z,x,y,dm11,d1m1,d111,d11m,d11m,d111,d1m1,dm11,z"
-    },
-    {
-      "first_line": [
-        "-43/69",
-        "-8/69",
-        "-304/207"
-      ],
-      "mask": 15,
-      "matches": [],
-      "multipliers": [
-        "129/782",
-        "43/69"
-      ],
-      "rank": 10000757,
-      "second_line": [
-        "129/782",
-        "12/391",
-        "225/782"
-      ],
-      "seq": "xp,yp,zp,xm,ym,tpmm,tmpm,tppm,tmmp,tpmp,tmpp,tppp,tmmm,zm",
-      "source_pair_digest": "5ae90e2c5e58ecb77116c40411a0acc6ded3a89f7833569ea5a540ec1a6f7c76",
-      "sources": [
-        {
-          "face": "zp",
-          "impact": 9,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-3397/53958",
-      "word": "y,z,x,y,dm11,d1m1,d11m,d11m,d1m1,dm11,d111,d111,z"
-    },
-    {
-      "first_line": [
-        "-59/51",
-        "-142/51",
-        "-146/17"
-      ],
-      "mask": 6,
-      "matches": [],
-      "multipliers": [
-        "177/2278",
-        "59/51"
-      ],
-      "rank": 10001001,
-      "second_line": [
-        "177/2278",
-        "213/1139",
-        "465/2278"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpm,tpmp,tmmp,tppp,tmmm,tppm,tmpp,zm",
-      "source_pair_digest": "25f7eff4818676e842d1d061a7fdd3902ee07d48501136b21a481512129e9696",
-      "sources": [
-        {
-          "face": "zp",
-          "impact": 7,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-16697/38726",
-      "word": "y,z,x,y,dm11,d1m1,d1m1,d11m,d111,d111,d11m,dm11,z"
-    },
-    {
-      "first_line": [
-        "-1",
-        "166/55",
-        "54/55"
-      ],
-      "mask": 20,
-      "matches": [],
-      "multipliers": [
-        "165/3626",
-        "1"
-      ],
-      "rank": 10001001,
-      "second_line": [
-        "165/3626",
-        "-249/1813",
-        "-489/3626"
-      ],
-      "seq": "xp,ym,zm,xm,yp,tpmm,tpmp,tmpm,tmmp,tppp,tmmm,tppm,tmpp,zp",
-      "source_pair_digest": "a89abb1220bbfab208f264df37bd71fee41325a84d57ecbd339f091446ce382c",
-      "sources": [
-        {
-          "face": "tmpm",
-          "impact": 2,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-327/3626",
-      "word": "y,z,x,y,dm11,d1m1,d1m1,d11m,d111,d111,d11m,dm11,z"
-    },
-    {
-      "first_line": [
-        "-54/37",
-        "-17/37",
-        "-40/111"
-      ],
-      "mask": 22,
-      "matches": [],
-      "multipliers": [
-        "243/2414",
-        "54/37"
-      ],
-      "rank": 10001252,
-      "second_line": [
-        "243/2414",
-        "9/284",
-        "-117/2414"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpp,zm,tppp,tmmm,tmmp,tpmp,tmpm,tppm",
-      "source_pair_digest": "85e8c4f1a737c302fe6da1bbb13c928d930ae44a8a7872fd7d287ebf5655418b",
-      "sources": [
-        {
-          "face": "ym",
-          "impact": 9,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 4
-        }
-      ],
-      "weighted_c": "-4779/44659",
-      "word": "y,z,x,y,dm11,dm11,z,d111,d111,d11m,d1m1,d1m1,d11m"
-    },
-    {
-      "first_line": [
-        "79/129",
-        "-8/129",
-        "-64/43"
-      ],
-      "mask": 22,
-      "matches": [],
-      "multipliers": [
-        "237/2494",
-        "79/129"
-      ],
-      "rank": 10001267,
-      "second_line": [
-        "-237/2494",
-        "12/1247",
-        "445/2494"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpp,zm,tppp,tmmp,tpmp,tmpm,tppm,tmmm",
-      "source_pair_digest": "c69d4f0760d9abaced08a020d5ea8440789cfd8742299c71b6300427c8eacfeb",
-      "sources": [
-        {
-          "face": "zm",
-          "impact": 12,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 8
-        }
-      ],
-      "weighted_c": "-10349/321726",
-      "word": "y,z,x,y,dm11,dm11,z,d111,d11m,d1m1,d1m1,d11m,d111"
-    },
-    {
-      "first_line": [
-        "126/83",
-        "-43/83",
-        "-322/249"
-      ],
-      "mask": 15,
-      "matches": [],
-      "multipliers": [
-        "1701/7138",
-        "126/83"
-      ],
-      "rank": 10001501,
-      "second_line": [
-        "-1701/7138",
-        "27/332",
-        "-810/3569"
-      ],
-      "seq": "xp,yp,zp,xm,ym,tpmm,tmpp,tppp,tmpm,tppm,tmmp,tpmp,tmmm,zm",
-      "source_pair_digest": "2d8e8c00189ef0a0af984e48b5c7c13b526343cc6ec92625e432d92d858d0443",
-      "sources": [
-        {
-          "face": "yp",
-          "impact": 6,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 4
-        }
-      ],
-      "weighted_c": "-193347/296227",
-      "word": "y,z,x,y,dm11,dm11,d111,d1m1,d11m,d11m,d1m1,d111,z"
-    },
-    {
-      "first_line": [
-        "9/196",
-        "855/4214",
-        "-234/2107"
-      ],
-      "mask": 26,
-      "matches": [],
-      "multipliers": [
-        "387/22834",
-        "9/196"
-      ],
-      "rank": 10001769,
-      "second_line": [
-        "-387/22834",
-        "-855/11417",
-        "213/22834"
-      ],
-      "seq": "xp,ym,zp,xm,yp,tpmm,tmpp,tpmp,tmmm,tppm,tmmp,tppp,tmpm,zm",
-      "source_pair_digest": "06ab3d338511d5fafe8ca13b42d95b956e79405e3f9ddc01cfadbb03da5693c9",
-      "sources": [
-        {
-          "kind": "ordering",
-          "step": 12
-        },
-        {
-          "kind": "ordering",
-          "step": 6
-        }
-      ],
-      "weighted_c": "-6507/4475464",
-      "word": "y,z,x,y,dm11,dm11,d1m1,d111,d11m,d11m,d111,d1m1,z"
-    },
-    {
-      "first_line": [
-        "-27/332",
-        "27/236",
-        "162/4897"
-      ],
-      "mask": 7,
-      "matches": [],
-      "multipliers": [
-        "27/332",
-        "27/332"
-      ],
-      "rank": 10002017,
-      "second_line": [
-        "27/332",
-        "-27/236",
-        "-486/4897"
-      ],
-      "seq": "xp,yp,zp,xm,zm,ym,tppp,tmmp,tppm,tmpm,tpmm,tmpp,tpmp,tmmm",
-      "source_pair_digest": "6d2013c3c584299c5f1313cf1079b855ca0d6058579ea71172f3ec23a35c225f",
-      "sources": [
-        {
-          "kind": "ordering",
-          "step": 1
-        },
-        {
-          "kind": "ordering",
-          "step": 4
-        }
-      ],
-      "weighted_c": "-2187/406451",
-      "word": "y,z,x,z,y,d111,d11m,d11m,d1m1,dm11,dm11,d1m1,d111"
-    },
-    {
-      "first_line": [
-        "-27/380",
-        "-27/220",
-        "54/1045"
-      ],
-      "mask": 13,
-      "matches": [],
-      "multipliers": [
-        "27/380",
-        "27/380"
-      ],
-      "rank": 10002017,
-      "second_line": [
-        "27/380",
-        "27/220",
-        "-162/1045"
-      ],
-      "seq": "xp,yp,zm,xm,zp,ym,tppp,tppm,tmmp,tmpm,tpmm,tmpp,tpmp,tmmm",
-      "source_pair_digest": "6d2013c3c584299c5f1313cf1079b855ca0d6058579ea71172f3ec23a35c225f",
-      "sources": [
-        {
-          "kind": "ordering",
-          "step": 1
-        },
-        {
-          "kind": "ordering",
-          "step": 4
-        }
-      ],
-      "weighted_c": "-729/99275",
-      "word": "y,z,x,z,y,d111,d11m,d11m,d1m1,dm11,dm11,d1m1,d111"
-    },
-    {
-      "first_line": [
-        "337/441",
-        "-362/441",
-        "-6/49"
-      ],
-      "mask": 7,
-      "matches": [],
-      "multipliers": [
-        "1011/22834",
-        "337/441"
-      ],
-      "rank": 10002131,
-      "second_line": [
-        "-1011/22834",
-        "543/11417",
-        "-561/22834"
-      ],
-      "seq": "xp,yp,zp,xm,zm,ym,tppp,tmmp,tpmm,tmpm,tpmp,tmpp,tppm,tmmm",
-      "source_pair_digest": "3de0a1c6956d01f9f84a725c78bc1b5fc4c6f7d48cf112e48e4543cb278f90a3",
-      "sources": [
-        {
-          "face": "zm",
-          "impact": 12,
-          "kind": "interior"
-        },
-        {
-          "kind": "ordering",
-          "step": 6
-        }
-      ],
-      "weighted_c": "-81217/3356598",
-      "word": "y,z,x,z,y,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111"
-    },
-    {
-      "first_line": [
-        "-855/11417",
-        "-387/22834",
-        "1311/22834"
-      ],
-      "mask": 22,
-      "matches": [],
-      "multipliers": [
-        "855/4214",
-        "855/11417"
-      ],
-      "rank": 10002141,
-      "second_line": [
-        "855/4214",
-        "9/196",
-        "-1017/4214"
-      ],
-      "seq": "xp,ym,zp,xm,zm,yp,tppp,tmmp,tpmm,tmpp,tppm,tmmm,tpmp,tmpm",
-      "source_pair_digest": "685fdebf749777dd5a556d544662b34b64f5265faaa7ec2de033952fdd547ad2",
-      "sources": [
-        {
-          "kind": "ordering",
-          "step": 11
-        },
-        {
-          "kind": "ordering",
-          "step": 5
-        }
-      ],
-      "weighted_c": "-618165/96222476",
-      "word": "y,z,x,z,y,d111,d11m,dm11,dm11,d11m,d111,d1m1,d1m1"
-    }
-  ],
+  "uncovered_samples": [],
   "window_count": 100,
   "window_mode": "calibration",
   "windows": [
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000000000_000005000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000000000_000005000.json",
       "end": 5000,
       "start": 0,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000005000_000010000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000005000_000010000.json",
       "end": 10000,
       "start": 5000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000010000_000015000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000010000_000015000.json",
       "end": 15000,
       "start": 10000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000015000_000020000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000015000_000020000.json",
       "end": 20000,
       "start": 15000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000020000_000025000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000020000_000025000.json",
       "end": 25000,
       "start": 20000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000025000_000030000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000025000_000030000.json",
       "end": 30000,
       "start": 25000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000030000_000035000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000030000_000035000.json",
       "end": 35000,
       "start": 30000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000035000_000040000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000035000_000040000.json",
       "end": 40000,
       "start": 35000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000040000_000045000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000040000_000045000.json",
       "end": 45000,
       "start": 40000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000045000_000050000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000045000_000050000.json",
       "end": 50000,
       "start": 45000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000050000_000055000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000050000_000055000.json",
       "end": 55000,
       "start": 50000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000055000_000060000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000055000_000060000.json",
       "end": 60000,
       "start": 55000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000060000_000065000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000060000_000065000.json",
       "end": 65000,
       "start": 60000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000065000_000070000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000065000_000070000.json",
       "end": 70000,
       "start": 65000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000070000_000075000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000070000_000075000.json",
       "end": 75000,
       "start": 70000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000075000_000080000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000075000_000080000.json",
       "end": 80000,
       "start": 75000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000080000_000085000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000080000_000085000.json",
       "end": 85000,
       "start": 80000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000085000_000090000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000085000_000090000.json",
       "end": 90000,
       "start": 85000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000090000_000095000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000090000_000095000.json",
       "end": 95000,
       "start": 90000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_000095000_000100000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_000095000_000100000.json",
       "end": 100000,
       "start": 95000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010000000_010005000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010000000_010005000.json",
       "end": 10005000,
       "start": 10000000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010005000_010010000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010005000_010010000.json",
       "end": 10010000,
       "start": 10005000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010010000_010015000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010010000_010015000.json",
       "end": 10015000,
       "start": 10010000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010015000_010020000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010015000_010020000.json",
       "end": 10020000,
       "start": 10015000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010020000_010025000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010020000_010025000.json",
       "end": 10025000,
       "start": 10020000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010025000_010030000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010025000_010030000.json",
       "end": 10030000,
       "start": 10025000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010030000_010035000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010030000_010035000.json",
       "end": 10035000,
       "start": 10030000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010035000_010040000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010035000_010040000.json",
       "end": 10040000,
       "start": 10035000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010040000_010045000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010040000_010045000.json",
       "end": 10045000,
       "start": 10040000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010045000_010050000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010045000_010050000.json",
       "end": 10050000,
       "start": 10045000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010050000_010055000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010050000_010055000.json",
       "end": 10055000,
       "start": 10050000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010055000_010060000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010055000_010060000.json",
       "end": 10060000,
       "start": 10055000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010060000_010065000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010060000_010065000.json",
       "end": 10065000,
       "start": 10060000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010065000_010070000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010065000_010070000.json",
       "end": 10070000,
       "start": 10065000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010070000_010075000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010070000_010075000.json",
       "end": 10075000,
       "start": 10070000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010075000_010080000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010075000_010080000.json",
       "end": 10080000,
       "start": 10075000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010080000_010085000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010080000_010085000.json",
       "end": 10085000,
       "start": 10080000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010085000_010090000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010085000_010090000.json",
       "end": 10090000,
       "start": 10085000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010090000_010095000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010090000_010095000.json",
       "end": 10095000,
       "start": 10090000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_010095000_010100000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_010095000_010100000.json",
       "end": 10100000,
       "start": 10095000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030000000_030005000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030000000_030005000.json",
       "end": 30005000,
       "start": 30000000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030005000_030010000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030005000_030010000.json",
       "end": 30010000,
       "start": 30005000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030010000_030015000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030010000_030015000.json",
       "end": 30015000,
       "start": 30010000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030015000_030020000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030015000_030020000.json",
       "end": 30020000,
       "start": 30015000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030020000_030025000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030020000_030025000.json",
       "end": 30025000,
       "start": 30020000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030025000_030030000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030025000_030030000.json",
       "end": 30030000,
       "start": 30025000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030030000_030035000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030030000_030035000.json",
       "end": 30035000,
       "start": 30030000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030035000_030040000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030035000_030040000.json",
       "end": 30040000,
       "start": 30035000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030040000_030045000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030040000_030045000.json",
       "end": 30045000,
       "start": 30040000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030045000_030050000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030045000_030050000.json",
       "end": 30050000,
       "start": 30045000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030050000_030055000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030050000_030055000.json",
       "end": 30055000,
       "start": 30050000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030055000_030060000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030055000_030060000.json",
       "end": 30060000,
       "start": 30055000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030060000_030065000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030060000_030065000.json",
       "end": 30065000,
       "start": 30060000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030065000_030070000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030065000_030070000.json",
       "end": 30070000,
       "start": 30065000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030070000_030075000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030070000_030075000.json",
       "end": 30075000,
       "start": 30070000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030075000_030080000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030075000_030080000.json",
       "end": 30080000,
       "start": 30075000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030080000_030085000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030080000_030085000.json",
       "end": 30085000,
       "start": 30080000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030085000_030090000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030085000_030090000.json",
       "end": 30090000,
       "start": 30085000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030090000_030095000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030090000_030095000.json",
       "end": 30095000,
       "start": 30090000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_030095000_030100000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_030095000_030100000.json",
       "end": 30100000,
       "start": 30095000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060000000_060005000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060000000_060005000.json",
       "end": 60005000,
       "start": 60000000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060005000_060010000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060005000_060010000.json",
       "end": 60010000,
       "start": 60005000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060010000_060015000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060010000_060015000.json",
       "end": 60015000,
       "start": 60010000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060015000_060020000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060015000_060020000.json",
       "end": 60020000,
       "start": 60015000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060020000_060025000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060020000_060025000.json",
       "end": 60025000,
       "start": 60020000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060025000_060030000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060025000_060030000.json",
       "end": 60030000,
       "start": 60025000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060030000_060035000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060030000_060035000.json",
       "end": 60035000,
       "start": 60030000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060035000_060040000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060035000_060040000.json",
       "end": 60040000,
       "start": 60035000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060040000_060045000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060040000_060045000.json",
       "end": 60045000,
       "start": 60040000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060045000_060050000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060045000_060050000.json",
       "end": 60050000,
       "start": 60045000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060050000_060055000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060050000_060055000.json",
       "end": 60055000,
       "start": 60050000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060055000_060060000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060055000_060060000.json",
       "end": 60060000,
       "start": 60055000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060060000_060065000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060060000_060065000.json",
       "end": 60065000,
       "start": 60060000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060065000_060070000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060065000_060070000.json",
       "end": 60070000,
       "start": 60065000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060070000_060075000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060070000_060075000.json",
       "end": 60075000,
       "start": 60070000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060075000_060080000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060075000_060080000.json",
       "end": 60080000,
       "start": 60075000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060080000_060085000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060080000_060085000.json",
       "end": 60085000,
       "start": 60080000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060085000_060090000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060085000_060090000.json",
       "end": 60090000,
       "start": 60085000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060090000_060095000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060090000_060095000.json",
       "end": 60095000,
       "start": 60090000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_060095000_060100000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_060095000_060100000.json",
       "end": 60100000,
       "start": 60095000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090000000_090005000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090000000_090005000.json",
       "end": 90005000,
       "start": 90000000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090005000_090010000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090005000_090010000.json",
       "end": 90010000,
       "start": 90005000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090010000_090015000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090010000_090015000.json",
       "end": 90015000,
       "start": 90010000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090015000_090020000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090015000_090020000.json",
       "end": 90020000,
       "start": 90015000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090020000_090025000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090020000_090025000.json",
       "end": 90025000,
       "start": 90020000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090025000_090030000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090025000_090030000.json",
       "end": 90030000,
       "start": 90025000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090030000_090035000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090030000_090035000.json",
       "end": 90035000,
       "start": 90030000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090035000_090040000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090035000_090040000.json",
       "end": 90040000,
       "start": 90035000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090040000_090045000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090040000_090045000.json",
       "end": 90045000,
       "start": 90040000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090045000_090050000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090045000_090050000.json",
       "end": 90050000,
       "start": 90045000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090050000_090055000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090050000_090055000.json",
       "end": 90055000,
       "start": 90050000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090055000_090060000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090055000_090060000.json",
       "end": 90060000,
       "start": 90055000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090060000_090065000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090060000_090065000.json",
       "end": 90065000,
       "start": 90060000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090065000_090070000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090065000_090070000.json",
       "end": 90070000,
       "start": 90065000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090070000_090075000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090070000_090075000.json",
       "end": 90075000,
       "start": 90070000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090075000_090080000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090075000_090080000.json",
       "end": 90080000,
       "start": 90075000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090080000_090085000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090080000_090085000.json",
       "end": 90085000,
       "start": 90080000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090085000_090090000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090085000_090090000.json",
       "end": 90090000,
       "start": 90085000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090090000_090095000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090090000_090095000.json",
       "end": 90095000,
       "start": 90090000,
       "width": 5000
     },
     {
-      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration/window_090095000_090100000.json",
+      "checkpoint": "/tmp/cuboctahedron_rowrel_census_calibration_v2/window_090095000_090100000.json",
       "end": 90100000,
       "start": 90095000,
       "width": 5000

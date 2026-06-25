@@ -4,8 +4,8 @@ import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairTemplat
 Reusable row-relation templates for two-source translation Farkas families.
 
 The Phase 6Z.4 profiler found that the `[0,100000)` GoodDirection translation
-survivors are covered by nine semantic row-relation templates.  This module
-formalizes those templates generically: generated classifiers only need to
+survivors are covered by a small set of semantic row-relation templates.  This
+module formalizes those templates generically: generated classifiers only need to
 prove that a rank/mask case satisfies one of these small predicates, and this
 file turns the predicate into the existing `SupportPair.Applies` evidence.
 
@@ -120,6 +120,40 @@ def AxisAOnly
               (SupportPair.multipliersAt support r hlt mask).2 *
                 (SecondLineAt support r hlt mask).c <= 0
 
+def AxisBOnly
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) : Prop :=
+  forall hlt : r < numPairWords,
+    SourceChecks support r hlt mask /\
+      (FirstLineAt support r hlt mask).a = 0 /\
+        (SecondLineAt support r hlt mask).a = 0 /\
+          (FirstLineAt support r hlt mask).b *
+              (SecondLineAt support r hlt mask).b < 0 /\
+            (SupportPair.multipliersAt support r hlt mask).1 *
+                (FirstLineAt support r hlt mask).c +
+              (SupportPair.multipliersAt support r hlt mask).2 *
+                (SecondLineAt support r hlt mask).c <= 0
+
+def ExactTwoSourceValid
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) : Prop :=
+  forall hlt : r < numPairWords,
+    SourceChecks support r hlt mask /\
+      0 <= (SupportPair.multipliersAt support r hlt mask).1 /\
+        0 <= (SupportPair.multipliersAt support r hlt mask).2 /\
+          (0 < (SupportPair.multipliersAt support r hlt mask).1 \/
+            0 < (SupportPair.multipliersAt support r hlt mask).2) /\
+            (SupportPair.multipliersAt support r hlt mask).1 *
+                (FirstLineAt support r hlt mask).a +
+              (SupportPair.multipliersAt support r hlt mask).2 *
+                (SecondLineAt support r hlt mask).a = 0 /\
+              (SupportPair.multipliersAt support r hlt mask).1 *
+                  (FirstLineAt support r hlt mask).b +
+                (SupportPair.multipliersAt support r hlt mask).2 *
+                  (SecondLineAt support r hlt mask).b = 0 /\
+                (SupportPair.multipliersAt support r hlt mask).1 *
+                    (FirstLineAt support r hlt mask).c +
+                  (SupportPair.multipliersAt support r hlt mask).2 *
+                    (SecondLineAt support r hlt mask).c <= 0
+
 theorem multipliers_eq_var_first_pos
     {L M : StrictLin2} {fixedB : Rat}
     (hM : FixedRow M 1 fixedB)
@@ -178,6 +212,37 @@ theorem multipliers_eq_axis_neg_pos
   have hraw_true : 0 <= M.a /\ L.a <= 0 := by
     constructor <;> linarith
   simp [hnonzero, TwoSourceFarkasSupport.orientNonnegative, hraw_true]
+
+theorem multipliers_eq_axis_b_pos_neg
+    {L M : StrictLin2}
+    (hLa_zero : L.a = 0) (hMa_zero : M.a = 0)
+    (_hLb_pos : 0 < L.b) (hMb_neg : M.b < 0) :
+    TwoSourceFarkasSupport.multipliersForLines L M = (-M.b, L.b) := by
+  rw [TwoSourceFarkasSupport.multipliersForLines]
+  have hzero : ¬ (L.a ≠ 0 ∨ M.a ≠ 0) := by
+    intro h
+    cases h with
+    | inl hL => exact hL hLa_zero
+    | inr hM => exact hM hMa_zero
+  have hraw_false : ¬ (0 <= M.b /\ L.b <= 0) := by
+    intro h
+    linarith
+  simp [hzero, TwoSourceFarkasSupport.orientNonnegative, hraw_false]
+
+theorem multipliers_eq_axis_b_neg_pos
+    {L M : StrictLin2}
+    (hLa_zero : L.a = 0) (hMa_zero : M.a = 0)
+    (hLb_neg : L.b < 0) (hMb_pos : 0 < M.b) :
+    TwoSourceFarkasSupport.multipliersForLines L M = (M.b, -L.b) := by
+  rw [TwoSourceFarkasSupport.multipliersForLines]
+  have hzero : ¬ (L.a ≠ 0 ∨ M.a ≠ 0) := by
+    intro h
+    cases h with
+    | inl hL => exact hL hLa_zero
+    | inr hM => exact hM hMa_zero
+  have hraw_true : 0 <= M.b /\ L.b <= 0 := by
+    constructor <;> linarith
+  simp [hzero, TwoSourceFarkasSupport.orientNonnegative, hraw_true]
 
 private theorem eqEqPosFirst_facts
     {L M : StrictLin2}
@@ -762,6 +827,79 @@ theorem axisAOnly_applies_of_shape
       ring
     · simpa [L, M, FirstLineAt, SecondLineAt] using hc
 
+theorem axisBOnly_applies_of_shape
+    {support : TwoSourceFarkasSupport} {r : Nat} {mask : SignMask}
+    (hshape : AxisBOnly support r mask) :
+    SupportPair.Applies support r mask := by
+  refine applies_from_facts ?_
+  intro hlt
+  rcases hshape hlt with ⟨hsource, ha1, ha2, hb_prod, hc⟩
+  let L := SupportPair.firstLineAt support r hlt mask
+  let M := SupportPair.secondLineAt support r hlt mask
+  have ha1' : L.a = 0 := by
+    simpa [L, FirstLineAt] using ha1
+  have ha2' : M.a = 0 := by
+    simpa [M, SecondLineAt] using ha2
+  have hprod' : L.b * M.b < 0 := by
+    simpa [L, M, FirstLineAt, SecondLineAt] using hb_prod
+  have hm0 :
+      SupportPair.multipliersAt support r hlt mask =
+        TwoSourceFarkasSupport.multipliersForLines L M := by
+    rw [multipliersAt_eq_for_lines]
+  have hcases : (0 < L.b /\ M.b < 0) \/ (L.b < 0 /\ 0 < M.b) := by
+    exact (mul_neg_iff.mp hprod')
+  rcases hcases with hcase | hcase
+  · rcases hcase with ⟨hLb_pos, hMb_neg⟩
+    have hm : SupportPair.multipliersAt support r hlt mask = (-M.b, L.b) := by
+      rw [hm0]
+      exact multipliers_eq_axis_b_pos_neg ha1' ha2' hLb_pos hMb_neg
+    refine ⟨hsource, ?_, ?_, ?_, ?_, ?_, ?_⟩
+    · rw [hm]
+      linarith
+    · rw [hm]
+      exact hLb_pos.le
+    · rw [hm]
+      right
+      exact hLb_pos
+    · rw [hm]
+      rw [ha1', ha2']
+      ring
+    · rw [hm]
+      ring
+    · simpa [L, M, FirstLineAt, SecondLineAt] using hc
+  · rcases hcase with ⟨hLb_neg, hMb_pos⟩
+    have hm : SupportPair.multipliersAt support r hlt mask = (M.b, -L.b) := by
+      rw [hm0]
+      exact multipliers_eq_axis_b_neg_pos ha1' ha2' hLb_neg hMb_pos
+    refine ⟨hsource, ?_, ?_, ?_, ?_, ?_, ?_⟩
+    · rw [hm]
+      exact hMb_pos.le
+    · rw [hm]
+      linarith
+    · rw [hm]
+      left
+      exact hMb_pos
+    · rw [hm]
+      rw [ha1', ha2']
+      ring
+    · rw [hm]
+      ring
+    · simpa [L, M, FirstLineAt, SecondLineAt] using hc
+
+theorem exactTwoSourceValid_applies_of_shape
+    {support : TwoSourceFarkasSupport} {r : Nat} {mask : SignMask}
+    (hshape : ExactTwoSourceValid support r mask) :
+    SupportPair.Applies support r mask := by
+  refine applies_from_facts ?_
+  intro hlt
+  rcases hshape hlt with
+    ⟨hsource, hw1, hw2, hpos, hwa, hwb, hwc⟩
+  exact
+    ⟨hsource, hw1, hw2, hpos,
+      by simpa [FirstLineAt, SecondLineAt] using hwa,
+      by simpa [FirstLineAt, SecondLineAt] using hwb,
+      by simpa [FirstLineAt, SecondLineAt] using hwc⟩
+
 theorem eqEqPosVarFirst_checkedOn (support : TwoSourceFarkasSupport) :
     SupportFamilyCheckedOn support (EqEqPosVarFirst support) := by
   intro r hlt mask hshape
@@ -816,6 +954,18 @@ theorem axisAOnly_checkedOn (support : TwoSourceFarkasSupport) :
   exact SupportPair.checked_of_applies
     (axisAOnly_applies_of_shape hshape)
 
+theorem axisBOnly_checkedOn (support : TwoSourceFarkasSupport) :
+    SupportFamilyCheckedOn support (AxisBOnly support) := by
+  intro r hlt mask hshape
+  exact SupportPair.checked_of_applies
+    (axisBOnly_applies_of_shape hshape)
+
+theorem exactTwoSourceValid_checkedOn (support : TwoSourceFarkasSupport) :
+    SupportFamilyCheckedOn support (ExactTwoSourceValid support) := by
+  intro r hlt mask hshape
+  exact SupportPair.checked_of_applies
+    (exactTwoSourceValid_applies_of_shape hshape)
+
 theorem eqEqPosVarFirst_killsOn (support : TwoSourceFarkasSupport) :
     SupportFamilyKillsOn support (EqEqPosVarFirst support) :=
   SupportFamilyCheckedOn.kills (eqEqPosVarFirst_checkedOn support)
@@ -851,6 +1001,14 @@ theorem oppMinusOneVarSecond_killsOn (support : TwoSourceFarkasSupport) :
 theorem axisAOnly_killsOn (support : TwoSourceFarkasSupport) :
     SupportFamilyKillsOn support (AxisAOnly support) :=
   SupportFamilyCheckedOn.kills (axisAOnly_checkedOn support)
+
+theorem axisBOnly_killsOn (support : TwoSourceFarkasSupport) :
+    SupportFamilyKillsOn support (AxisBOnly support) :=
+  SupportFamilyCheckedOn.kills (axisBOnly_checkedOn support)
+
+theorem exactTwoSourceValid_killsOn (support : TwoSourceFarkasSupport) :
+    SupportFamilyKillsOn support (ExactTwoSourceValid support) :=
+  SupportFamilyCheckedOn.kills (exactTwoSourceValid_checkedOn support)
 
 theorem rowRelationTemplates_builds : True := by
   trivial
