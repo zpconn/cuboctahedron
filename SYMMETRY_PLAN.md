@@ -5048,14 +5048,53 @@ decision:           rejected
     row-extraction rewrite as a separate option rather than the immediate
     production path.
 
-Phase 6Z.6J planned result: D4 semantic-family transport profiler.
+Phase 6Z.6J completed result: D4 semantic-family transport profiler is
+implemented, with first bounded result `needs-larger-sample`.
 
-- Canonicalize row-template families, prefix/state cone families, and
-  nonidentity axis/failure families under the `X+` stabilizer `D4`.
-- Use D4 only after the family predicate is semantic enough that transport
-  avoids duplicating proof work.
-- Report canonical family count, transported family count, transport theorem
-  proof cost, and whether D4 materially reduces projected build time.
+- Added `scripts/profile_d4_semantic_family_transport.py`.
+- The profiler is diagnostic only and emits no Lean evidence.
+- It uses the current row-template/diamond semantic family classifier for
+  translation GoodDirection survivors, then compares:
+  - raw semantic family keys;
+  - `D4`-canonical semantic family keys;
+  - round-trip transport metadata through the existing started-face symmetry
+    action.
+- It records reports in:
+  - `scripts/generated/phase6z6j_d4_semantic_family_transport.json`
+  - `scripts/generated/phase6z6j_d4_semantic_family_transport.md`
+- Validation run:
+
+```bash
+python3 scripts/profile_d4_semantic_family_transport.py \
+  --start-rank 0 --end-rank 10000 \
+  --workers 24 --shard-size 250 \
+  --output-json scripts/generated/phase6z6j_d4_semantic_family_transport.json \
+  --output-md scripts/generated/phase6z6j_d4_semantic_family_transport.md
+```
+
+- Result:
+
+```text
+pair words scanned:                  10,000
+identity words:                         712
+GoodDirection survivors:              6,389
+raw semantic families:                  144
+D4-canonical semantic families:         110
+raw/canonical ratio:                  1.309x
+observed canonical orbits:             2,666
+average observed orbit size:           2.396
+max observed orbit size:                   4
+decision:                   needs-larger-sample
+```
+
+- Interpretation:
+  - `D4` gives a real but moderate reduction on the first 10k ranks.
+  - It does not meet the 1.5x immediate-accept threshold.
+  - Do not add Lean transport adapters yet.
+  - The next active move is Phase 6Z.6J.1: run the same profiler on the
+    representative calibration windows and aggregate the decision. If the
+    representative aggregate still stays below 1.5x, reject `D4` as a
+    near-term translation-family build-time optimization.
 
 Completed Phase 6Z.5:
 
@@ -5974,8 +6013,10 @@ Acceptance:
   representative generated semantic checks.
 - [x] Implement and reject Phase 6Z.6I.1 scaled semantic row-family pilot using
   agreement-backed integer/scaled row normal forms.
-- [ ] Implement Phase 6Z.6J D4 semantic-family transport profiler after family
+- [x] Implement Phase 6Z.6J D4 semantic-family transport profiler after family
   predicates exist.
+- [ ] Implement Phase 6Z.6J.1 representative-window D4 semantic-family
+  transport aggregate before any Lean transport work.
 - [ ] Keep `[0,1000)` one-rank cached validation as an optional regression
   benchmark only; do not treat it as a path to final coverage.
 - [ ] Resume the nonidentity compression track with the translation branch
@@ -5993,13 +6034,14 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6I is complete and accepted, but Phase 6Z.6I.1 shows that scaled row
-normal forms do not help enough when the leaf still performs the existing
-rank/sequence/rational line-agreement work. The immediate next step is
-Phase 6Z.6J: implement the D4 semantic-family transport profiler against the
-current row-template/diamond family predicates. D4 transport is now worthwhile
-because the predicates are semantic; it should be measured as a family-count
-and proof-work reducer, not as a rescue for raw rank intervals.
+Phase 6Z.6J is implemented. Its first `[0,10000)` run gives a moderate
+`1.309x` raw/canonical family reduction and therefore returns
+`needs-larger-sample`, not acceptance. The immediate next step is
+Phase 6Z.6J.1: run a representative-window aggregate with the same profiler
+before investing in Lean D4 transport adapters. If the representative aggregate
+does not clear the 1.5x threshold, reject `D4` as a near-term
+translation-family build-time optimization and return to semantic family
+compression that changes the row extraction/source-agreement layer itself.
 
 Keep the integer/scaled rewrite as a deeper follow-up only if it moves row
 extraction and agreement into symbolic/integer family facts. Do not scale the

@@ -1,0 +1,2659 @@
+{
+  "canonical_family_count": 110,
+  "canonical_family_counts": {
+    "diamond:diamond_first|source=081320ea1560bc661bc776897d0f19a4390e809866f79fca68108a2a8eda93e2": 29,
+    "diamond:diamond_first|source=09f6780a5f01b03ab60f8aa201ed9c87ba7ca75e0704c1a3b6efb050d595aa46": 6,
+    "diamond:diamond_first|source=11a43b911e0533d3e0bfabbb1f524722a8389fc73e2f6e286686139ee3c3b8c6": 1,
+    "diamond:diamond_first|source=1902b48f12fe5c4c505fa6a875762d22165c84439e631febb8148ebce2de327e": 26,
+    "diamond:diamond_first|source=1acdb4a1fe8548ab4040cd8bcb9404c787bbf99afa29f05268253b2fefdaa4f4": 59,
+    "diamond:diamond_first|source=20b5bc2daa53595d45290a31bbd57a1e99d1d433cde28c39d61e3a59dc7ec37b": 2,
+    "diamond:diamond_first|source=277e3534422c8508f9110c5fc6fc9b696ce000d5ec5c6f9c168db72d8b5f2d80": 15,
+    "diamond:diamond_first|source=292982063d6cd1ec16bd057fe5dc1504269a158617068bd58903336f74501b17": 1,
+    "diamond:diamond_first|source=2a7ec0b5bc25398c00f3b20cf4c8fbf29733fd35a900081bcfec0dc88430238b": 4,
+    "diamond:diamond_first|source=2b7371e83fe30b4a36ed001329ac2c2ed0a3d695c668a5cfd7ae0512402b1402": 4,
+    "diamond:diamond_first|source=32c85a4b86c88f50d59343ab25f1626e2a28784edf83ca014457ed0cb9ace305": 2,
+    "diamond:diamond_first|source=33ebfb8a90a44e7e558621f80550567f9d1f6c00873590b8826ed0544b435d22": 41,
+    "diamond:diamond_first|source=34d9a809c0dda8943833f88b4ee7dcef750d7b9a06732dec40addb0872e94209": 80,
+    "diamond:diamond_first|source=359483e6c3bd63d0b861dedb099869137d791e25ce45480719d0c01cc40cdfa6": 25,
+    "diamond:diamond_first|source=36916775418c854462b703296283c9bfe4bfad67bcba02d9645f62621587fd4a": 1,
+    "diamond:diamond_first|source=3835f0122a0c8740331fb11bcfb1b91b9fd727a94478703da6ea7908dc3e40ad": 9,
+    "diamond:diamond_first|source=3c5c45bebff1cf6eb21df0ca45ee1920d1a0fa521d9eb01627bbffd3b86889a4": 34,
+    "diamond:diamond_first|source=4476a5ee6e929b7d50974eefdfcdb9b6a5f773a721551eccd1def3347ce30026": 6,
+    "diamond:diamond_first|source=45bf04c1296460bab9064a95107f079b6bba75eb6882abbad90c79696210b40e": 10,
+    "diamond:diamond_first|source=4a1ec3b8ff99b5f230a6872e5b20534b849a752a124aa0d751f5bf0e3b39ad74": 14,
+    "diamond:diamond_first|source=52347f9e1d0e9538511d3e69a711a1dcf3f9ffb6cd4e74d1b0555c2ad0ccec6c": 2,
+    "diamond:diamond_first|source=55f26045ff81f56765c35562394306053ec02060435e216f54f928a6f6cda39b": 76,
+    "diamond:diamond_first|source=57151907a708c4fc036b9e4fdc4b80756b207e3e6601b11f1fe985f958a0ec87": 11,
+    "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201": 625,
+    "diamond:diamond_first|source=580aebe859f629760f0e277bce4cd0b9adc9690590dce17caf50fe1121d331c8": 1,
+    "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b": 1823,
+    "diamond:diamond_first|source=5c47633dc1fed7fa5fb7df6f020eb517143d87b4a4f1059ff1dfe12354229748": 19,
+    "diamond:diamond_first|source=5dfd9ac79c1157283fb324b8755d495676c60e4c33fe928b81991d8b25259cb9": 17,
+    "diamond:diamond_first|source=6a1169c86301f17f88c4ba207f016625742fcfc52d759287e0387c29177eb972": 13,
+    "diamond:diamond_first|source=6abd77537cc7aed0d24f35e5ccc711437b08efb58ab8400e3fef89bc4b0762bc": 24,
+    "diamond:diamond_first|source=6bb5295405e440d65df3057c181ad1519da069779ffb5e3891847e2ca6c1c4ad": 6,
+    "diamond:diamond_first|source=6c2fa0c560cfaf32ab7b67e424c9c3e6dba41c14e7b03e34191cbb7c9e559f1c": 8,
+    "diamond:diamond_first|source=6eb2ca7ee870afc8fb8d36967d28637a34a23cd6ed785bcf97c659adaa8b1bb5": 31,
+    "diamond:diamond_first|source=6ff8f3b95cc70300cc87260de0357c28b9a5d766f0a9be577bd2cfc630139dbc": 3,
+    "diamond:diamond_first|source=7360ea999a5754c1cfe664453f5df1487c1114a2ff9ac3e5f4cbe3acd8fe8a28": 90,
+    "diamond:diamond_first|source=75f2ad40913c2321e9f9395b77eb4580d7e0a0aefd4e9956fa5bfed30e84c888": 3,
+    "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198": 474,
+    "diamond:diamond_first|source=76ce9d9193078ed0871916988f41a66dc725220c67c6a1549e5aad4cd4c245a9": 1,
+    "diamond:diamond_first|source=777c17e4b48270f3c0984fdc43cf54c7efaa625f642394b972d3adbc3ede1a4c": 15,
+    "diamond:diamond_first|source=7c682b5564fd2ea8cb3db5a20f5238fb6f2736ba1e81d5f62b29f58f9eceef02": 21,
+    "diamond:diamond_first|source=7e9d11d50581a2e4bcb3c9dfbeb3f41c7bbcc9772f0d9b742a85f6db7e3ad4c5": 8,
+    "diamond:diamond_first|source=7eab3080e823ecafa85864033eafc10759cdc0448534b78f303ef165b5e7a473": 14,
+    "diamond:diamond_first|source=802553153614fa734193f5541fa8993ca68b9b70e0bc3967b40e59c3e21da47f": 1,
+    "diamond:diamond_first|source=81dafb8841a71e814f8adb2db8a0b6300dc26e6d5c09b4f775e92dadfe61b160": 2,
+    "diamond:diamond_first|source=84fa9f6dfd2aa7fe0bb5b8959610e771827d2d860acd9ce89a9b7ceb11709757": 3,
+    "diamond:diamond_first|source=858dd10eb1f325704199aeb83fc5a4c807d07fc7943f2b23636a7591c46b3cb4": 8,
+    "diamond:diamond_first|source=86abc4102073a6374c5c33875ab703acbbc5e4be795712c75dedab1c0ed39655": 19,
+    "diamond:diamond_first|source=89798bfc21e90e6eb1fc851b1ef2d4b54c8dc246d983d111d92c3671497b0c12": 40,
+    "diamond:diamond_first|source=8c0ff95aa5c587794c889a9d49335dc9bcf6a4ba5f2e5633bcd63b5d4d4d9625": 32,
+    "diamond:diamond_first|source=8f9848bdd41930cfa92f9c65e2c2cfdddf8e4fbf6d3e3f9ea2e20f63bf11ecae": 1,
+    "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933": 104,
+    "diamond:diamond_first|source=9b634ac3eafd23ff87fc59750abff1945ea633d8538d99c8e53466bf85ded0ab": 1,
+    "diamond:diamond_first|source=9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f": 178,
+    "diamond:diamond_first|source=a2fbeafee9559eb340d6d09c521de51f8a5acab7c710d6875570fdc0c9c738cc": 46,
+    "diamond:diamond_first|source=a4976c8bb8d31dfc418e91f103df38074bd61c3582cc75571c6f988e17c6d827": 2,
+    "diamond:diamond_first|source=a6845b082c2e979ead3480042e51bf028e6914e64ef8c3f7a3d018e6d05d271c": 16,
+    "diamond:diamond_first|source=ac38ebc3bc7bff197701922c3e77cce2c5d819956c2bd444ce36ca122a7ccd67": 26,
+    "diamond:diamond_first|source=ac511c5d05ada275de7b3ad6ae6965d5763f322166cf3d35883813419c9799a2": 18,
+    "diamond:diamond_first|source=b60ef4dd79479611e827999125353661a24b0b32ac42a3d6c17c520ac487f2a0": 8,
+    "diamond:diamond_first|source=b72b888d7acb35ee69f1f91e03beaae60caf6bf6b674799ad4cfccf48c14c70b": 20,
+    "diamond:diamond_first|source=baeec08c25d8d71425ba9ce04d08c470c714b8adc5ce0d42357637a5024655e1": 2,
+    "diamond:diamond_first|source=bb5d97033cee0e90009c237d0fb92dcdcbd022701bcbe89dbc3eb85619bfd21c": 24,
+    "diamond:diamond_first|source=bc5e545b5b64368da87311d78124b9705e97336843ae7537a15c65e3223dabb5": 4,
+    "diamond:diamond_first|source=bdd6ae8abddb8a187048c67c58ff66a67d49842cb4cf1f7e57055893351b594f": 33,
+    "diamond:diamond_first|source=be545f38cd79ff84fc12e32e2aad4d6ab524ec73af55f6643c76c1b22af7bb92": 27,
+    "diamond:diamond_first|source=c42462dbe08940ee3cd9ada21d2e236dda274a34365955b1acbbcf969fc48760": 18,
+    "diamond:diamond_first|source=c8cc98f68482ef3208d4910efc502629256add7f6a6f9243e1ac935d28ab9762": 4,
+    "diamond:diamond_first|source=cbfc32bb175d041305dea8c3dfc4d718d77901966cdb395d88a5e390164f2ca3": 6,
+    "diamond:diamond_first|source=cd1238a0446f01e430ae4d5c58bb25f2a0327a0b19692ea0d19a3218090f79eb": 1,
+    "diamond:diamond_first|source=d1dc1893cbaa42b1c1c80f790380500f9b5eb4e796e68ba05a4660df9ac1cb7b": 1,
+    "diamond:diamond_first|source=d2315eb98fc4350a76f1996fc3072dc286709067e395bf5ac90b1ca01815fb2f": 9,
+    "diamond:diamond_first|source=d4bee78b63fa6bcebd58ce23dce690fc537b368d0b8afd26b4c969ef509d6bb4": 512,
+    "diamond:diamond_first|source=dde356ab8e9edf9b9effab1e8a6907da4f27f0547b6b1ed015ab731ddbdecc22": 2,
+    "diamond:diamond_first|source=dec5fcc03db46a56e424bdf0d8ce702b528d9517cab37da5ede0f9fb7f498537": 24,
+    "diamond:diamond_first|source=e077434d25cd2b8256b2c045b2f2c39e2e407562a418eb83b7432401c75cb23e": 36,
+    "diamond:diamond_first|source=e50ac61c2402e57c52766b81a7c87caadf6ffb400e7c30fb8d740303283e480b": 4,
+    "diamond:diamond_first|source=e58583817e4c894b76047896869adf8b9421a6c3ed3be30fdb227ea8c58bc1a7": 2,
+    "diamond:diamond_first|source=e5c2b7d717ebbb6aa19cf30dbcf015c44b507b3094de93889a6ac6867129bff3": 4,
+    "diamond:diamond_first|source=e6e0694e677d3171b47c2ff2be279f819203a1b44aea71e4668d09ea0c0b7cf0": 20,
+    "diamond:diamond_first|source=f085760676e67ac16ac39a5eb916cd53702efa6ed9d05e0b3ee6fb46da0de635": 1,
+    "diamond:diamond_first|source=fca4f0e528b4b540c00288af18d713166d9c385b8dd93ebae9db50bc1d5a7bd7": 38,
+    "diamond:diamond_second|source=0249e46ade361197e1cd1422025f90a9df91232173b6d40238155790b36ac48a": 4,
+    "diamond:diamond_second|source=0f6ef32b9565222a0e759dc01a84ba268a6d3e3e9093bbc75ce57cd038b97af3": 69,
+    "diamond:diamond_second|source=10f55e679b46433e8ac90156ceef17f7721a9fc512aeebfd0978fe0bc6df440c": 2,
+    "diamond:diamond_second|source=2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33": 102,
+    "diamond:diamond_second|source=351b04128f3f1901e5ffdc54430fe02cdaf1bcc1903ee1fbc5c5707bb7bc9b00": 88,
+    "diamond:diamond_second|source=37831c321f15114c8ece15312f79c8001777f006128c1dbe0314d4e136f4257f": 8,
+    "diamond:diamond_second|source=4e2a427051647da36fd524fb73b2b9545c4cee9881d034db785c9c2923875dc2": 17,
+    "diamond:diamond_second|source=513f51128e8b6d356d5f0059d792b6ee98b4d6a8f8e6deb429fb6b769a3bafea": 112,
+    "diamond:diamond_second|source=5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5": 53,
+    "diamond:diamond_second|source=6595b1e4e1e444bbe5de2202a4edb3fae1b02249686f99c0b3085a6b694ea0fb": 54,
+    "diamond:diamond_second|source=8af698b6859a00ba828b63e36430c4f64a3caf0ad66415a34e3af5b4242c4a98": 12,
+    "diamond:diamond_second|source=8b6c5ba8e2164db87a4af731e1e84a5994a43bcf8e36d3895be235153cd505a2": 290,
+    "diamond:diamond_second|source=8ddcdceac923c274dfa75aa9a04e638162605f4d7f26962e09785dd81fc51391": 45,
+    "diamond:diamond_second|source=8edb4430e8bf0e8a81f2012a6d75316b44c5c4ef1c8292610cb9c21089553908": 29,
+    "diamond:diamond_second|source=99a61a9d8799208b9a333952c7a92d0a56168bcaaf69510f6c6720cd6bb1afc2": 21,
+    "diamond:diamond_second|source=9b167f29cbdda7204b0b18f50069946c17d6178ac44bc418b261ef92694693b1": 52,
+    "diamond:diamond_second|source=b18325bfb69383fbb6b0c426d2fa4646c3e17253c22f6311aeb2e8313733daa0": 4,
+    "diamond:diamond_second|source=b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716": 73,
+    "diamond:diamond_second|source=b818a6007c627d6ece7c98642cf613f115e43cd9d7ab57e6dbfa01c2deeef121": 36,
+    "diamond:diamond_second|source=c70492ed8faca293187643380dc66b322798ec21b32c913857d1aa10559c5aec": 44,
+    "diamond:diamond_second|source=ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451": 64,
+    "diamond:diamond_second|source=ca73ccf925acb77f6dee5977822daecbe5e3fccf2166bc5e88108b06b1d8e669": 4,
+    "diamond:diamond_second|source=d44e0f54769b96479ac8af87903afa3c4e016cf6948f41c229290909e5823d59": 56,
+    "diamond:diamond_second|source=d54a2c889fcef309a0ac57baed60019f5ac403474816c214742668137ff16d26": 43,
+    "diamond:diamond_second|source=d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead": 76,
+    "diamond:diamond_second|source=f0ba0180061f59e53faeed2e79d4c15930c29140733cd9e71bf34fae67f35907": 11,
+    "diamond:diamond_second|source=f6e07e76b2998324712d885a7137f176cfe062aba6228d33dfcb73dbc74dee74": 47,
+    "diamond:diamond_second|source=fa6e4d538edd5d868330d4cba581bc421ac6c42d669bee81b5a61b6d08157c0a": 11,
+    "template:axis_a_only|source=e6e0694e677d3171b47c2ff2be279f819203a1b44aea71e4668d09ea0c0b7cf0": 11
+  },
+  "counts": {
+    "denominator_nonpositive_masks": 39179,
+    "good_direction_survivors": 6389,
+    "identity_words": 712,
+    "nonidentity_words_skipped": 9288,
+    "pair_words_scanned": 10000,
+    "translation_sign_assignments": 45568
+  },
+  "decision": {
+    "max_leaf_gate": 2000,
+    "notes": [
+      "D4 gives moderate improvement; run representative windows before Lean work"
+    ],
+    "raw_over_canonical_ratio": 1.309090909090909,
+    "status": "needs-larger-sample"
+  },
+  "diamond_enabled": true,
+  "elapsed_s": 39.632789814000716,
+  "orbit_summary": {
+    "average_observed_orbit_size": 2.3964741185296323,
+    "canonical_orbits": 2666,
+    "fixed_or_singleton_orbits": 695,
+    "max_observed_orbit_size": 4,
+    "smaller_than_8_orbits": 2666
+  },
+  "parallel": {
+    "shard_size": 250,
+    "workers": 24
+  },
+  "phase": "6Z.6J",
+  "rank_end": 10000,
+  "rank_start": 0,
+  "raw_family_count": 144,
+  "raw_family_counts": {
+    "diamond:diamond_first|source=081320ea1560bc661bc776897d0f19a4390e809866f79fca68108a2a8eda93e2": 49,
+    "diamond:diamond_first|source=09f6780a5f01b03ab60f8aa201ed9c87ba7ca75e0704c1a3b6efb050d595aa46": 6,
+    "diamond:diamond_first|source=11a43b911e0533d3e0bfabbb1f524722a8389fc73e2f6e286686139ee3c3b8c6": 1,
+    "diamond:diamond_first|source=1902b48f12fe5c4c505fa6a875762d22165c84439e631febb8148ebce2de327e": 13,
+    "diamond:diamond_first|source=1acdb4a1fe8548ab4040cd8bcb9404c787bbf99afa29f05268253b2fefdaa4f4": 39,
+    "diamond:diamond_first|source=1ce69f03d3f2694da46129b32c343e63dd4ae49eb414458eff48a077005b4ccc": 1,
+    "diamond:diamond_first|source=20b5bc2daa53595d45290a31bbd57a1e99d1d433cde28c39d61e3a59dc7ec37b": 3,
+    "diamond:diamond_first|source=247a93752d163201f38fb65c547a9cfe9eaa1ad51a0a6e3bf06407f562c82bdb": 1,
+    "diamond:diamond_first|source=277e3534422c8508f9110c5fc6fc9b696ce000d5ec5c6f9c168db72d8b5f2d80": 11,
+    "diamond:diamond_first|source=292982063d6cd1ec16bd057fe5dc1504269a158617068bd58903336f74501b17": 1,
+    "diamond:diamond_first|source=2a7ec0b5bc25398c00f3b20cf4c8fbf29733fd35a900081bcfec0dc88430238b": 3,
+    "diamond:diamond_first|source=2b7371e83fe30b4a36ed001329ac2c2ed0a3d695c668a5cfd7ae0512402b1402": 13,
+    "diamond:diamond_first|source=2c3f19981d61ef277ba91f41ba48c6139c575e2a6631be0e9ae57e5b78fec915": 3,
+    "diamond:diamond_first|source=32c85a4b86c88f50d59343ab25f1626e2a28784edf83ca014457ed0cb9ace305": 1,
+    "diamond:diamond_first|source=338b63960b11452e26f23534af0398f64e6b724e80fe50f779015150e8c2fd3b": 7,
+    "diamond:diamond_first|source=33ebfb8a90a44e7e558621f80550567f9d1f6c00873590b8826ed0544b435d22": 24,
+    "diamond:diamond_first|source=34d9a809c0dda8943833f88b4ee7dcef750d7b9a06732dec40addb0872e94209": 35,
+    "diamond:diamond_first|source=359483e6c3bd63d0b861dedb099869137d791e25ce45480719d0c01cc40cdfa6": 19,
+    "diamond:diamond_first|source=36916775418c854462b703296283c9bfe4bfad67bcba02d9645f62621587fd4a": 2,
+    "diamond:diamond_first|source=3835f0122a0c8740331fb11bcfb1b91b9fd727a94478703da6ea7908dc3e40ad": 6,
+    "diamond:diamond_first|source=3c5c45bebff1cf6eb21df0ca45ee1920d1a0fa521d9eb01627bbffd3b86889a4": 39,
+    "diamond:diamond_first|source=4258c2575c404056bb05ad2bfd995b97a9f3f145eacf6d563568c62007c6f25c": 1,
+    "diamond:diamond_first|source=4476a5ee6e929b7d50974eefdfcdb9b6a5f773a721551eccd1def3347ce30026": 7,
+    "diamond:diamond_first|source=45bf04c1296460bab9064a95107f079b6bba75eb6882abbad90c79696210b40e": 10,
+    "diamond:diamond_first|source=4a1ec3b8ff99b5f230a6872e5b20534b849a752a124aa0d751f5bf0e3b39ad74": 14,
+    "diamond:diamond_first|source=4b4073027c97d33dfe4756dd743558374013c1047edb99e44bf00da2b7d77ad9": 3,
+    "diamond:diamond_first|source=4d6e049da75a71f3c04fdadeac16028afb2b900dfa821e3b072b260f1627393f": 3,
+    "diamond:diamond_first|source=52347f9e1d0e9538511d3e69a711a1dcf3f9ffb6cd4e74d1b0555c2ad0ccec6c": 8,
+    "diamond:diamond_first|source=5400426f8054254b886174ba31b4deb27f22feac8e2e083f2c50279fdecf9fd9": 2,
+    "diamond:diamond_first|source=552f8e720cd35d210517fe374663bbfe1e890e7b1e7d4981309d68cb82c985f5": 4,
+    "diamond:diamond_first|source=55f26045ff81f56765c35562394306053ec02060435e216f54f928a6f6cda39b": 91,
+    "diamond:diamond_first|source=57151907a708c4fc036b9e4fdc4b80756b207e3e6601b11f1fe985f958a0ec87": 11,
+    "diamond:diamond_first|source=579f0de79872f6ec351e4d6eb3ef929a6d8db384f364e27c0394a4be95e70b66": 20,
+    "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201": 668,
+    "diamond:diamond_first|source=580aebe859f629760f0e277bce4cd0b9adc9690590dce17caf50fe1121d331c8": 1,
+    "diamond:diamond_first|source=5a898293a2b13e7c50e26dd21eee89abef68d2d730bafe3aadbe46e809a623dc": 128,
+    "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b": 1709,
+    "diamond:diamond_first|source=5c47633dc1fed7fa5fb7df6f020eb517143d87b4a4f1059ff1dfe12354229748": 11,
+    "diamond:diamond_first|source=5dfd9ac79c1157283fb324b8755d495676c60e4c33fe928b81991d8b25259cb9": 20,
+    "diamond:diamond_first|source=6a1169c86301f17f88c4ba207f016625742fcfc52d759287e0387c29177eb972": 82,
+    "diamond:diamond_first|source=6abd77537cc7aed0d24f35e5ccc711437b08efb58ab8400e3fef89bc4b0762bc": 29,
+    "diamond:diamond_first|source=6bb5295405e440d65df3057c181ad1519da069779ffb5e3891847e2ca6c1c4ad": 2,
+    "diamond:diamond_first|source=6c2fa0c560cfaf32ab7b67e424c9c3e6dba41c14e7b03e34191cbb7c9e559f1c": 13,
+    "diamond:diamond_first|source=6eb2ca7ee870afc8fb8d36967d28637a34a23cd6ed785bcf97c659adaa8b1bb5": 26,
+    "diamond:diamond_first|source=6ff8f3b95cc70300cc87260de0357c28b9a5d766f0a9be577bd2cfc630139dbc": 2,
+    "diamond:diamond_first|source=7360ea999a5754c1cfe664453f5df1487c1114a2ff9ac3e5f4cbe3acd8fe8a28": 60,
+    "diamond:diamond_first|source=75f2ad40913c2321e9f9395b77eb4580d7e0a0aefd4e9956fa5bfed30e84c888": 3,
+    "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198": 426,
+    "diamond:diamond_first|source=76ce9d9193078ed0871916988f41a66dc725220c67c6a1549e5aad4cd4c245a9": 2,
+    "diamond:diamond_first|source=777c17e4b48270f3c0984fdc43cf54c7efaa625f642394b972d3adbc3ede1a4c": 10,
+    "diamond:diamond_first|source=7c682b5564fd2ea8cb3db5a20f5238fb6f2736ba1e81d5f62b29f58f9eceef02": 21,
+    "diamond:diamond_first|source=7cd05ce313188b3ba30ad121d812fd7b3c2f0e5d7e5e9758bca385d2076ff8fc": 24,
+    "diamond:diamond_first|source=7ce432e4c4c8ae6c5b059a44929baf1661f7ce3368772941e4f4e2b5f8627de0": 15,
+    "diamond:diamond_first|source=7e9d11d50581a2e4bcb3c9dfbeb3f41c7bbcc9772f0d9b742a85f6db7e3ad4c5": 26,
+    "diamond:diamond_first|source=7eab3080e823ecafa85864033eafc10759cdc0448534b78f303ef165b5e7a473": 16,
+    "diamond:diamond_first|source=802553153614fa734193f5541fa8993ca68b9b70e0bc3967b40e59c3e21da47f": 1,
+    "diamond:diamond_first|source=81dafb8841a71e814f8adb2db8a0b6300dc26e6d5c09b4f775e92dadfe61b160": 3,
+    "diamond:diamond_first|source=84fa9f6dfd2aa7fe0bb5b8959610e771827d2d860acd9ce89a9b7ceb11709757": 3,
+    "diamond:diamond_first|source=858dd10eb1f325704199aeb83fc5a4c807d07fc7943f2b23636a7591c46b3cb4": 6,
+    "diamond:diamond_first|source=860a192a0880a73fbcd55bf496a1bc67580b9f1f16f8f95a5b3ff960bc61e1ba": 10,
+    "diamond:diamond_first|source=86abc4102073a6374c5c33875ab703acbbc5e4be795712c75dedab1c0ed39655": 11,
+    "diamond:diamond_first|source=8863cd6d0c2ef821f2c27b14c2d0722138949ad795f45ce46cb0015b3a0a7c19": 1,
+    "diamond:diamond_first|source=89798bfc21e90e6eb1fc851b1ef2d4b54c8dc246d983d111d92c3671497b0c12": 10,
+    "diamond:diamond_first|source=8c0ff95aa5c587794c889a9d49335dc9bcf6a4ba5f2e5633bcd63b5d4d4d9625": 25,
+    "diamond:diamond_first|source=8f9848bdd41930cfa92f9c65e2c2cfdddf8e4fbf6d3e3f9ea2e20f63bf11ecae": 1,
+    "diamond:diamond_first|source=90c3ddba2f792845f85ceb80857d1906e1d60a27e6d3800f5e5c48b3f6cd9e19": 3,
+    "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933": 67,
+    "diamond:diamond_first|source=94ad024e89766b48a544b65b7e53290187cd6d1c3665323227c6209c696a3acf": 4,
+    "diamond:diamond_first|source=99074a3c15c786eec86d9bd1f45d53479e440fc40eee77eb0a74285a87f23b42": 2,
+    "diamond:diamond_first|source=9b634ac3eafd23ff87fc59750abff1945ea633d8538d99c8e53466bf85ded0ab": 1,
+    "diamond:diamond_first|source=9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f": 116,
+    "diamond:diamond_first|source=a293692866d2a0cd3cd0bfb84ae21cae79272d0903c8acc1310e3d29d2cabc47": 5,
+    "diamond:diamond_first|source=a2fbeafee9559eb340d6d09c521de51f8a5acab7c710d6875570fdc0c9c738cc": 35,
+    "diamond:diamond_first|source=a4976c8bb8d31dfc418e91f103df38074bd61c3582cc75571c6f988e17c6d827": 5,
+    "diamond:diamond_first|source=a6845b082c2e979ead3480042e51bf028e6914e64ef8c3f7a3d018e6d05d271c": 17,
+    "diamond:diamond_first|source=a7f1414d2006f9a61ddc45e2beac64055d38b4ffc72ba3e09c3e30d31c744771": 16,
+    "diamond:diamond_first|source=a87df3761588149ec70ae72e9d80affcb1c73828616207d10a9ef2692fb1ff92": 23,
+    "diamond:diamond_first|source=ac38ebc3bc7bff197701922c3e77cce2c5d819956c2bd444ce36ca122a7ccd67": 15,
+    "diamond:diamond_first|source=ac511c5d05ada275de7b3ad6ae6965d5763f322166cf3d35883813419c9799a2": 57,
+    "diamond:diamond_first|source=b2a22e380955fd3b4754ff71dc7ae521860783048c09f4e231e6b9ac04c8f276": 2,
+    "diamond:diamond_first|source=b60ef4dd79479611e827999125353661a24b0b32ac42a3d6c17c520ac487f2a0": 11,
+    "diamond:diamond_first|source=b72b888d7acb35ee69f1f91e03beaae60caf6bf6b674799ad4cfccf48c14c70b": 13,
+    "diamond:diamond_first|source=baeec08c25d8d71425ba9ce04d08c470c714b8adc5ce0d42357637a5024655e1": 3,
+    "diamond:diamond_first|source=bb5d97033cee0e90009c237d0fb92dcdcbd022701bcbe89dbc3eb85619bfd21c": 18,
+    "diamond:diamond_first|source=bc5e545b5b64368da87311d78124b9705e97336843ae7537a15c65e3223dabb5": 4,
+    "diamond:diamond_first|source=bcfa0529e761de4b525227e2cb6d5138e9e4f44d37cd445857ff581365236e72": 4,
+    "diamond:diamond_first|source=bdd6ae8abddb8a187048c67c58ff66a67d49842cb4cf1f7e57055893351b594f": 56,
+    "diamond:diamond_first|source=be545f38cd79ff84fc12e32e2aad4d6ab524ec73af55f6643c76c1b22af7bb92": 78,
+    "diamond:diamond_first|source=c1fc80d5a61df02eb7f20811738a444afc3861956c880b1c2223abadad5767ef": 2,
+    "diamond:diamond_first|source=c42462dbe08940ee3cd9ada21d2e236dda274a34365955b1acbbcf969fc48760": 14,
+    "diamond:diamond_first|source=c8cc98f68482ef3208d4910efc502629256add7f6a6f9243e1ac935d28ab9762": 4,
+    "diamond:diamond_first|source=cbfc32bb175d041305dea8c3dfc4d718d77901966cdb395d88a5e390164f2ca3": 12,
+    "diamond:diamond_first|source=cd1238a0446f01e430ae4d5c58bb25f2a0327a0b19692ea0d19a3218090f79eb": 1,
+    "diamond:diamond_first|source=d1dc1893cbaa42b1c1c80f790380500f9b5eb4e796e68ba05a4660df9ac1cb7b": 1,
+    "diamond:diamond_first|source=d2315eb98fc4350a76f1996fc3072dc286709067e395bf5ac90b1ca01815fb2f": 8,
+    "diamond:diamond_first|source=d4bee78b63fa6bcebd58ce23dce690fc537b368d0b8afd26b4c969ef509d6bb4": 161,
+    "diamond:diamond_first|source=d5d59761d544f1b73c0f073d0e56681d2ad64df3305d0c7e38099d016c35e092": 5,
+    "diamond:diamond_first|source=dde356ab8e9edf9b9effab1e8a6907da4f27f0547b6b1ed015ab731ddbdecc22": 2,
+    "diamond:diamond_first|source=dec5fcc03db46a56e424bdf0d8ce702b528d9517cab37da5ede0f9fb7f498537": 6,
+    "diamond:diamond_first|source=e077434d25cd2b8256b2c045b2f2c39e2e407562a418eb83b7432401c75cb23e": 74,
+    "diamond:diamond_first|source=e50ac61c2402e57c52766b81a7c87caadf6ffb400e7c30fb8d740303283e480b": 5,
+    "diamond:diamond_first|source=e58583817e4c894b76047896869adf8b9421a6c3ed3be30fdb227ea8c58bc1a7": 1,
+    "diamond:diamond_first|source=e5c2b7d717ebbb6aa19cf30dbcf015c44b507b3094de93889a6ac6867129bff3": 9,
+    "diamond:diamond_first|source=e6e0694e677d3171b47c2ff2be279f819203a1b44aea71e4668d09ea0c0b7cf0": 20,
+    "diamond:diamond_first|source=e930f073b1ee5dab0c8350367446c6d7be4b845f585949021eb524d25de3113c": 3,
+    "diamond:diamond_first|source=f085760676e67ac16ac39a5eb916cd53702efa6ed9d05e0b3ee6fb46da0de635": 3,
+    "diamond:diamond_first|source=f3fe237b2a7b9b98e0fb8302080317c9e6fd909ebf8f5128cb88809d5c9e0500": 32,
+    "diamond:diamond_first|source=f56d8c7c165a6c58a5673ea342474d21c4240a55b9892b63393fa7408652b7ce": 48,
+    "diamond:diamond_first|source=fca4f0e528b4b540c00288af18d713166d9c385b8dd93ebae9db50bc1d5a7bd7": 34,
+    "diamond:diamond_first|source=fca67ede40153fb30a5780941b10faed75bc0f8fdca574ec1c9220cc14fb5a88": 3,
+    "diamond:diamond_second|source=0249e46ade361197e1cd1422025f90a9df91232173b6d40238155790b36ac48a": 4,
+    "diamond:diamond_second|source=04ff62b278b69818a1bed34ca8d1e6523cda8aca7c366cfe50eb1881f1e0f3c1": 1,
+    "diamond:diamond_second|source=09181142a0b1fc22fb28e95beca62b0a3c26dfee4b3991601703bffb93866ea3": 7,
+    "diamond:diamond_second|source=0f6ef32b9565222a0e759dc01a84ba268a6d3e3e9093bbc75ce57cd038b97af3": 72,
+    "diamond:diamond_second|source=10f55e679b46433e8ac90156ceef17f7721a9fc512aeebfd0978fe0bc6df440c": 4,
+    "diamond:diamond_second|source=1bdd186ff857e5cdfebd10b7372d4a1c8238dd6d3a4ac609fb83cbd37ea77c2c": 4,
+    "diamond:diamond_second|source=2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33": 72,
+    "diamond:diamond_second|source=351b04128f3f1901e5ffdc54430fe02cdaf1bcc1903ee1fbc5c5707bb7bc9b00": 127,
+    "diamond:diamond_second|source=37831c321f15114c8ece15312f79c8001777f006128c1dbe0314d4e136f4257f": 4,
+    "diamond:diamond_second|source=4e2a427051647da36fd524fb73b2b9545c4cee9881d034db785c9c2923875dc2": 17,
+    "diamond:diamond_second|source=513f51128e8b6d356d5f0059d792b6ee98b4d6a8f8e6deb429fb6b769a3bafea": 73,
+    "diamond:diamond_second|source=5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5": 83,
+    "diamond:diamond_second|source=6595b1e4e1e444bbe5de2202a4edb3fae1b02249686f99c0b3085a6b694ea0fb": 49,
+    "diamond:diamond_second|source=8af698b6859a00ba828b63e36430c4f64a3caf0ad66415a34e3af5b4242c4a98": 13,
+    "diamond:diamond_second|source=8b6c5ba8e2164db87a4af731e1e84a5994a43bcf8e36d3895be235153cd505a2": 346,
+    "diamond:diamond_second|source=8ddcdceac923c274dfa75aa9a04e638162605f4d7f26962e09785dd81fc51391": 29,
+    "diamond:diamond_second|source=8edb4430e8bf0e8a81f2012a6d75316b44c5c4ef1c8292610cb9c21089553908": 22,
+    "diamond:diamond_second|source=99a61a9d8799208b9a333952c7a92d0a56168bcaaf69510f6c6720cd6bb1afc2": 16,
+    "diamond:diamond_second|source=9b167f29cbdda7204b0b18f50069946c17d6178ac44bc418b261ef92694693b1": 62,
+    "diamond:diamond_second|source=b18325bfb69383fbb6b0c426d2fa4646c3e17253c22f6311aeb2e8313733daa0": 4,
+    "diamond:diamond_second|source=b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716": 81,
+    "diamond:diamond_second|source=b818a6007c627d6ece7c98642cf613f115e43cd9d7ab57e6dbfa01c2deeef121": 32,
+    "diamond:diamond_second|source=c70492ed8faca293187643380dc66b322798ec21b32c913857d1aa10559c5aec": 27,
+    "diamond:diamond_second|source=c93168692bb372770a3715550cf008784985e01a07428c38ce4676118b0c64d0": 2,
+    "diamond:diamond_second|source=ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451": 125,
+    "diamond:diamond_second|source=ca73ccf925acb77f6dee5977822daecbe5e3fccf2166bc5e88108b06b1d8e669": 23,
+    "diamond:diamond_second|source=d44e0f54769b96479ac8af87903afa3c4e016cf6948f41c229290909e5823d59": 42,
+    "diamond:diamond_second|source=d54a2c889fcef309a0ac57baed60019f5ac403474816c214742668137ff16d26": 41,
+    "diamond:diamond_second|source=d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead": 95,
+    "diamond:diamond_second|source=d62239e6a6ca222e02dce798d9eb940267f0d7f1ccf5da6d6a2d58a397654611": 2,
+    "diamond:diamond_second|source=f0ba0180061f59e53faeed2e79d4c15930c29140733cd9e71bf34fae67f35907": 38,
+    "diamond:diamond_second|source=f6e07e76b2998324712d885a7137f176cfe062aba6228d33dfcb73dbc74dee74": 31,
+    "diamond:diamond_second|source=fa6e4d538edd5d868330d4cba581bc421ac6c42d669bee81b5a61b6d08157c0a": 11,
+    "template:axis_a_only|source=e6e0694e677d3171b47c2ff2be279f819203a1b44aea71e4668d09ea0c0b7cf0": 11
+  },
+  "schema_version": 1,
+  "symmetry_use_counts": {
+    "0": 2666,
+    "1": 1971,
+    "2": 876,
+    "3": 876
+  },
+  "top_canonical_families": [
+    {
+      "cases": 1823,
+      "family_key": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "sample": {
+        "canonical_mask": 28,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,d111,d1m1,z,dm11,d11m,dm11,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "-1",
+              "-1",
+              "-217/59"
+            ],
+            "row": "first",
+            "strict_rhs": "-217/59"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "-1",
+          "-217/59"
+        ],
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "raw_mask": 28,
+        "raw_rank": 5314,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tppp,tpmp,tmmm,tmpm,zp,tpmm,tppm,tmpp,tmmp",
+        "source_pair_digest": "5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 625,
+      "family_key": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "sample": {
+        "canonical_mask": 18,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "-1",
+              "1",
+              "-7"
+            ],
+            "row": "first",
+            "strict_rhs": "-7"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "1",
+          "-7"
+        ],
+        "matches": [
+          "opp_1m_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "raw_mask": 18,
+        "raw_rank": 6003,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tpmp,tpmm,tppp,zm,tmmp,tmpm,tmpp,tppm",
+        "source_pair_digest": "5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 512,
+      "family_key": "diamond:diamond_first|source=d4bee78b63fa6bcebd58ce23dce690fc537b368d0b8afd26b4c969ef509d6bb4",
+      "sample": {
+        "canonical_mask": 22,
+        "canonical_to_raw_sym": 3,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,dm11,d1m1,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "row": "first",
+            "strict_rhs": "-1"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "-1",
+          "-1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "raw_mask": 13,
+        "raw_rank": 2502,
+        "raw_to_canonical_sym": 3,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,zm,tppp,tmmm,tmmp,tpmp,tpmm,tmpp,tmpm,tppm",
+        "source_pair_digest": "d4bee78b63fa6bcebd58ce23dce690fc537b368d0b8afd26b4c969ef509d6bb4",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 474,
+      "family_key": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "sample": {
+        "canonical_mask": 45,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,d111,dm11,z,d1m1,d11m,dm11,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "1",
+              "-1",
+              "-693/163"
+            ],
+            "row": "first",
+            "strict_rhs": "-693/163"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "-693/163"
+        ],
+        "matches": [
+          "opp_m1_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "raw_mask": 45,
+        "raw_rank": 5347,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tmpm,tmmm,tmpp,zp,tpmp,tppm,tpmm,tmmp",
+        "source_pair_digest": "7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 290,
+      "family_key": "diamond:diamond_second|source=8b6c5ba8e2164db87a4af731e1e84a5994a43bcf8e36d3895be235153cd505a2",
+      "sample": {
+        "canonical_mask": 29,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,dm11,dm11,d11m,d11m,d1m1,d111,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/20",
+            "line": [
+              "-9/20",
+              "-9/20",
+              "-9/10"
+            ],
+            "row": "second",
+            "strict_rhs": "-9/10"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "9/20",
+          "1"
+        ],
+        "raw_mask": 29,
+        "raw_rank": 6281,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-9/20",
+          "-9/20",
+          "-9/10"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tpmp,tpmm,tmpp,tppm,tmmp,tmpm,tmmm,zp",
+        "source_pair_digest": "8b6c5ba8e2164db87a4af731e1e84a5994a43bcf8e36d3895be235153cd505a2",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 178,
+      "family_key": "diamond:diamond_first|source=9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f",
+      "sample": {
+        "canonical_mask": 29,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-85/177",
+            "line": [
+              "-85/177",
+              "85/177",
+              "-227/177"
+            ],
+            "row": "first",
+            "strict_rhs": "-227/177"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-85/177",
+          "85/177",
+          "-227/177"
+        ],
+        "matches": [
+          "opp_1m_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "85/177"
+        ],
+        "raw_mask": 29,
+        "raw_rank": 6003,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tpmp,tpmm,tmmm,zp,tppm,tmpm,tmpp,tmmp",
+        "source_pair_digest": "9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 112,
+      "family_key": "diamond:diamond_second|source=513f51128e8b6d356d5f0059d792b6ee98b4d6a8f8e6deb429fb6b769a3bafea",
+      "sample": {
+        "canonical_mask": 26,
+        "canonical_to_raw_sym": 1,
+        "canonical_word": "x,y,y,z,d111,d11m,d11m,d1m1,d1m1,d111,dm11,dm11,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/86",
+            "line": [
+              "-9/86",
+              "-9/86",
+              "-6/43"
+            ],
+            "row": "second",
+            "strict_rhs": "-6/43"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "9/86",
+          "1"
+        ],
+        "raw_mask": 20,
+        "raw_rank": 8543,
+        "raw_to_canonical_sym": 1,
+        "second_line": [
+          "-9/86",
+          "-9/86",
+          "-6/43"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tppm,tmmp,tpmp,tmpm,tppp,tpmm,tmpp,zm",
+        "source_pair_digest": "513f51128e8b6d356d5f0059d792b6ee98b4d6a8f8e6deb429fb6b769a3bafea",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 104,
+      "family_key": "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+      "sample": {
+        "canonical_mask": 30,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,z,d111,d1m1,dm11,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-217/51",
+            "line": [
+              "217/51",
+              "-217/51",
+              "-319/51"
+            ],
+            "row": "first",
+            "strict_rhs": "-319/51"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "217/51",
+          "-217/51",
+          "-319/51"
+        ],
+        "matches": [
+          "opp_m1_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "217/51"
+        ],
+        "raw_mask": 30,
+        "raw_rank": 6063,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tppp,tpmp,tpmm,tppm,zm,tmmm,tmpm,tmpp,tmmp",
+        "source_pair_digest": "91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 102,
+      "family_key": "diamond:diamond_second|source=2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33",
+      "sample": {
+        "canonical_mask": 29,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,dm11,d111,d1m1,z,dm11,d11m,d1m1,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-211/2450",
+            "line": [
+              "-211/2450",
+              "211/2450",
+              "-69/245"
+            ],
+            "row": "second",
+            "strict_rhs": "-69/245"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "matches": [
+          "opp_1m_var_second"
+        ],
+        "multipliers": [
+          "211/2450",
+          "1"
+        ],
+        "raw_mask": 29,
+        "raw_rank": 6580,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-211/2450",
+          "211/2450",
+          "-69/245"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tpmm,tmmm,tpmp,zp,tmpp,tppm,tmpm,tmmp",
+        "source_pair_digest": "2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 90,
+      "family_key": "diamond:diamond_first|source=7360ea999a5754c1cfe664453f5df1487c1114a2ff9ac3e5f4cbe3acd8fe8a28",
+      "sample": {
+        "canonical_mask": 54,
+        "canonical_to_raw_sym": 3,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,dm11,d1m1,d1m1",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/5",
+            "line": [
+              "-3/5",
+              "-3/5",
+              "-11/3"
+            ],
+            "row": "first",
+            "strict_rhs": "-11/3"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-3/5",
+          "-3/5",
+          "-11/3"
+        ],
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "3/5"
+        ],
+        "raw_mask": 9,
+        "raw_rank": 2514,
+        "raw_to_canonical_sym": 3,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,zm,tppp,tmmm,tmmp,tppm,tmpp,tpmm,tpmp,tmpm",
+        "source_pair_digest": "7360ea999a5754c1cfe664453f5df1487c1114a2ff9ac3e5f4cbe3acd8fe8a28",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 88,
+      "family_key": "diamond:diamond_second|source=351b04128f3f1901e5ffdc54430fe02cdaf1bcc1903ee1fbc5c5707bb7bc9b00",
+      "sample": {
+        "canonical_mask": 7,
+        "canonical_to_raw_sym": 3,
+        "canonical_word": "x,y,y,z,z,d111,dm11,d11m,d1m1,d1m1,d11m,dm11,d111",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1011/22834",
+            "line": [
+              "-1011/22834",
+              "-1011/22834",
+              "-1329/11417"
+            ],
+            "row": "second",
+            "strict_rhs": "-1329/11417"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "1011/22834",
+          "1"
+        ],
+        "raw_mask": 4,
+        "raw_rank": 2000,
+        "raw_to_canonical_sym": 3,
+        "second_line": [
+          "-1011/22834",
+          "-1011/22834",
+          "-1329/11417"
+        ],
+        "seq": "xp,xm,yp,ym,zp,zm,tppp,tpmm,tmmp,tmpm,tpmp,tppm,tmpp,tmmm",
+        "source_pair_digest": "351b04128f3f1901e5ffdc54430fe02cdaf1bcc1903ee1fbc5c5707bb7bc9b00",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 80,
+      "family_key": "diamond:diamond_first|source=34d9a809c0dda8943833f88b4ee7dcef750d7b9a06732dec40addb0872e94209",
+      "sample": {
+        "canonical_mask": 39,
+        "canonical_to_raw_sym": 3,
+        "canonical_word": "x,y,y,z,z,d111,dm11,d11m,d11m,dm11,d1m1,d1m1,d111",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-46/165",
+            "line": [
+              "-46/165",
+              "-46/165",
+              "-64/55"
+            ],
+            "row": "first",
+            "strict_rhs": "-64/55"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-46/165",
+          "-46/165",
+          "-64/55"
+        ],
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "46/165"
+        ],
+        "raw_mask": 0,
+        "raw_rank": 2016,
+        "raw_to_canonical_sym": 3,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zp,zm,tppp,tmpp,tmmp,tppm,tpmm,tmpm,tpmp,tmmm",
+        "source_pair_digest": "34d9a809c0dda8943833f88b4ee7dcef750d7b9a06732dec40addb0872e94209",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 76,
+      "family_key": "diamond:diamond_first|source=55f26045ff81f56765c35562394306053ec02060435e216f54f928a6f6cda39b",
+      "sample": {
+        "canonical_mask": 15,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d1m1,dm11,dm11,d1m1,d11m,z,d111,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "1",
+              "1",
+              "-17/7"
+            ],
+            "row": "first",
+            "strict_rhs": "-17/7"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "-17/7"
+        ],
+        "matches": [
+          "eq_eq_neg_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "raw_mask": 15,
+        "raw_rank": 6294,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tppp,tmpm,tpmm,tmpp,tpmp,tppm,zm,tmmm,tmmp",
+        "source_pair_digest": "55f26045ff81f56765c35562394306053ec02060435e216f54f928a6f6cda39b",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 76,
+      "family_key": "diamond:diamond_second|source=d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+      "sample": {
+        "canonical_mask": 16,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d111,dm11,dm11,d1m1,d11m,d11m,d1m1,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-5/26",
+            "line": [
+              "-5/26",
+              "-5/26",
+              "-31/13"
+            ],
+            "row": "second",
+            "strict_rhs": "-31/13"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "5/26",
+          "1"
+        ],
+        "raw_mask": 16,
+        "raw_rank": 3774,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-5/26",
+          "-5/26",
+          "-31/13"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tmmm,tppp,tpmm,tmpp,tpmp,tmmp,tppm,tmpm,zp",
+        "source_pair_digest": "d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 73,
+      "family_key": "diamond:diamond_second|source=b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716",
+      "sample": {
+        "canonical_mask": 26,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d111,dm11,dm11,d11m,d11m,d1m1,d1m1,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/14",
+            "line": [
+              "-3/14",
+              "-3/14",
+              "-2/7"
+            ],
+            "row": "second",
+            "strict_rhs": "-2/7"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "3/14",
+          "1"
+        ],
+        "raw_mask": 26,
+        "raw_rank": 3761,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-3/14",
+          "-3/14",
+          "-2/7"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tppp,tpmm,tmpp,tppm,tmmp,tpmp,tmpm,zm",
+        "source_pair_digest": "b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 69,
+      "family_key": "diamond:diamond_second|source=0f6ef32b9565222a0e759dc01a84ba268a6d3e3e9093bbc75ce57cd038b97af3",
+      "sample": {
+        "canonical_mask": 15,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d11m,d11m,dm11,dm11,d111,d1m1,d1m1,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/28",
+            "line": [
+              "-3/28",
+              "3/28",
+              "-3/14"
+            ],
+            "row": "second",
+            "strict_rhs": "-3/14"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "matches": [
+          "opp_1m_var_second"
+        ],
+        "multipliers": [
+          "3/28",
+          "1"
+        ],
+        "raw_mask": 15,
+        "raw_rank": 4313,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-3/28",
+          "3/28",
+          "-3/14"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tppp,tppm,tmmp,tpmm,tmpp,tmmm,tmpm,tpmp,zm",
+        "source_pair_digest": "0f6ef32b9565222a0e759dc01a84ba268a6d3e3e9093bbc75ce57cd038b97af3",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 64,
+      "family_key": "diamond:diamond_second|source=ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+      "sample": {
+        "canonical_mask": 11,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d111,dm11,dm11,d11m,d1m1,d1m1,d11m,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-5/26",
+            "line": [
+              "-5/26",
+              "-5/26",
+              "-7/13"
+            ],
+            "row": "second",
+            "strict_rhs": "-7/13"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "5/26",
+          "1"
+        ],
+        "raw_mask": 11,
+        "raw_rank": 3767,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-5/26",
+          "-5/26",
+          "-7/13"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tmmm,tppp,tpmm,tmpp,tppm,tmpm,tpmp,tmmp,zm",
+        "source_pair_digest": "ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 59,
+      "family_key": "diamond:diamond_first|source=1acdb4a1fe8548ab4040cd8bcb9404c787bbf99afa29f05268253b2fefdaa4f4",
+      "sample": {
+        "canonical_mask": 61,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d111,dm11,dm11,d11m,d1m1,d1m1,d11m,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-25/33",
+            "line": [
+              "-25/33",
+              "-25/33",
+              "-43/33"
+            ],
+            "row": "first",
+            "strict_rhs": "-43/33"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-25/33",
+          "-25/33",
+          "-43/33"
+        ],
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "25/33"
+        ],
+        "raw_mask": 61,
+        "raw_rank": 3767,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tmmm,tmpp,tpmm,tppm,tpmp,tmpm,tmmp,zp",
+        "source_pair_digest": "1acdb4a1fe8548ab4040cd8bcb9404c787bbf99afa29f05268253b2fefdaa4f4",
+        "template_id": "diamond_first"
+      }
+    },
+    {
+      "cases": 56,
+      "family_key": "diamond:diamond_second|source=d44e0f54769b96479ac8af87903afa3c4e016cf6948f41c229290909e5823d59",
+      "sample": {
+        "canonical_mask": 55,
+        "canonical_to_raw_sym": 3,
+        "canonical_word": "x,y,y,z,z,d111,dm11,d11m,d11m,d1m1,d1m1,dm11,d111",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-5/26",
+            "line": [
+              "-5/26",
+              "-5/26",
+              "-12/13"
+            ],
+            "row": "second",
+            "strict_rhs": "-12/13"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "5/26",
+          "1"
+        ],
+        "raw_mask": 8,
+        "raw_rank": 2021,
+        "raw_to_canonical_sym": 3,
+        "second_line": [
+          "-5/26",
+          "-5/26",
+          "-12/13"
+        ],
+        "seq": "xp,xm,yp,ym,zp,zm,tppp,tmpp,tmmp,tppm,tpmp,tmpm,tpmm,tmmm",
+        "source_pair_digest": "d44e0f54769b96479ac8af87903afa3c4e016cf6948f41c229290909e5823d59",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 54,
+      "family_key": "diamond:diamond_second|source=6595b1e4e1e444bbe5de2202a4edb3fae1b02249686f99c0b3085a6b694ea0fb",
+      "sample": {
+        "canonical_mask": 28,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,dm11,dm11,d1m1,d1m1,d111,d11m,d11m,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1/4",
+            "line": [
+              "1/4",
+              "-1/4",
+              "-1/2"
+            ],
+            "row": "second",
+            "strict_rhs": "-1/2"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "opp_m1_var_second"
+        ],
+        "multipliers": [
+          "1/4",
+          "1"
+        ],
+        "raw_mask": 28,
+        "raw_rank": 7553,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "1/4",
+          "-1/4",
+          "-1/2"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tppp,tpmm,tmpp,tpmp,tmpm,tmmm,tppm,tmmp,zp",
+        "source_pair_digest": "6595b1e4e1e444bbe5de2202a4edb3fae1b02249686f99c0b3085a6b694ea0fb",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 53,
+      "family_key": "diamond:diamond_second|source=5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5",
+      "sample": {
+        "canonical_mask": 26,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,dm11,d11m,d11m,d1m1,d1m1,dm11,d111,z",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/34",
+            "line": [
+              "-9/34",
+              "-9/34",
+              "-6/17"
+            ],
+            "row": "second",
+            "strict_rhs": "-6/17"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "9/34",
+          "1"
+        ],
+        "raw_mask": 26,
+        "raw_rank": 6821,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-9/34",
+          "-9/34",
+          "-6/17"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tpmm,tppm,tmmp,tpmp,tmpm,tmpp,tppp,zm",
+        "source_pair_digest": "5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 52,
+      "family_key": "diamond:diamond_second|source=9b167f29cbdda7204b0b18f50069946c17d6178ac44bc418b261ef92694693b1",
+      "sample": {
+        "canonical_mask": 28,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d111,dm11,dm11,z,d11m,d11m,d1m1,d1m1",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/22",
+            "line": [
+              "-3/22",
+              "3/22",
+              "-2/11"
+            ],
+            "row": "second",
+            "strict_rhs": "-2/11"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "matches": [
+          "opp_1m_var_second"
+        ],
+        "multipliers": [
+          "3/22",
+          "1"
+        ],
+        "raw_mask": 28,
+        "raw_rank": 3750,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "-3/22",
+          "3/22",
+          "-2/11"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tppp,tmmm,tpmm,tmpp,zp,tppm,tmmp,tpmp,tmpm",
+        "source_pair_digest": "9b167f29cbdda7204b0b18f50069946c17d6178ac44bc418b261ef92694693b1",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 47,
+      "family_key": "diamond:diamond_second|source=f6e07e76b2998324712d885a7137f176cfe062aba6228d33dfcb73dbc74dee74",
+      "sample": {
+        "canonical_mask": 47,
+        "canonical_to_raw_sym": 0,
+        "canonical_word": "x,y,y,z,d111,d11m,dm11,dm11,z,d111,d11m,d1m1,d1m1",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-117/3538",
+            "line": [
+              "117/3538",
+              "-117/3538",
+              "-201/1769"
+            ],
+            "row": "second",
+            "strict_rhs": "-201/1769"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "matches": [
+          "opp_m1_var_second"
+        ],
+        "multipliers": [
+          "117/3538",
+          "1"
+        ],
+        "raw_mask": 47,
+        "raw_rank": 4980,
+        "raw_to_canonical_sym": 0,
+        "second_line": [
+          "117/3538",
+          "-117/3538",
+          "-201/1769"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tppp,tppm,tmpp,tpmm,zm,tmmm,tmmp,tmpm,tpmp",
+        "source_pair_digest": "f6e07e76b2998324712d885a7137f176cfe062aba6228d33dfcb73dbc74dee74",
+        "template_id": "diamond_second"
+      }
+    },
+    {
+      "cases": 46,
+      "family_key": "diamond:diamond_first|source=a2fbeafee9559eb340d6d09c521de51f8a5acab7c710d6875570fdc0c9c738cc",
+      "sample": {
+        "canonical_mask": 61,
+        "canonical_to_raw_sym": 3,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d1m1,d1m1,dm11,dm11,d11m",
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-29/63",
+            "line": [
+              "-29/63",
+              "29/63",
+              "-103/189"
+            ],
+            "row": "first",
+            "strict_rhs": "-103/189"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-29/63",
+          "29/63",
+          "-103/189"
+        ],
+        "matches": [
+          "opp_1m_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "29/63"
+        ],
+        "raw_mask": 26,
+        "raw_rank": 2508,
+        "raw_to_canonical_sym": 3,
+        "second_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,zp,tppp,tmmm,tppm,tpmp,tmpm,tmpp,tpmm,tmmp",
+        "source_pair_digest": "a2fbeafee9559eb340d6d09c521de51f8a5acab7c710d6875570fdc0c9c738cc",
+        "template_id": "diamond_first"
+      }
+    }
+  ],
+  "top_raw_families": [
+    {
+      "cases": 1709,
+      "family_key": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "-1",
+              "-1",
+              "-217/59"
+            ],
+            "row": "first",
+            "strict_rhs": "-217/59"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "-1",
+          "-217/59"
+        ],
+        "mask": 28,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "rank": 5314,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tppp,tpmp,tmmm,tmpm,zp,tpmm,tppm,tmpp,tmmp",
+        "source_pair_digest": "5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,d111,d1m1,z,dm11,d11m,dm11,d11m"
+      }
+    },
+    {
+      "cases": 668,
+      "family_key": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "-1",
+              "1",
+              "-7"
+            ],
+            "row": "first",
+            "strict_rhs": "-7"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "1",
+          "-7"
+        ],
+        "mask": 18,
+        "matches": [
+          "opp_1m_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "rank": 6003,
+        "second_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tpmp,tpmm,tppp,zm,tmmp,tmpm,tmpp,tppm",
+        "source_pair_digest": "5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m"
+      }
+    },
+    {
+      "cases": 426,
+      "family_key": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "1",
+              "-1",
+              "-693/163"
+            ],
+            "row": "first",
+            "strict_rhs": "-693/163"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "-693/163"
+        ],
+        "mask": 45,
+        "matches": [
+          "opp_m1_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "rank": 5347,
+        "second_line": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tmpm,tmmm,tmpp,zp,tpmp,tppm,tpmm,tmmp",
+        "source_pair_digest": "7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,d111,dm11,z,d1m1,d11m,dm11,d11m"
+      }
+    },
+    {
+      "cases": 346,
+      "family_key": "diamond:diamond_second|source=8b6c5ba8e2164db87a4af731e1e84a5994a43bcf8e36d3895be235153cd505a2",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/20",
+            "line": [
+              "-9/20",
+              "-9/20",
+              "-9/10"
+            ],
+            "row": "second",
+            "strict_rhs": "-9/10"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 29,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "9/20",
+          "1"
+        ],
+        "rank": 6281,
+        "second_line": [
+          "-9/20",
+          "-9/20",
+          "-9/10"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tpmp,tpmm,tmpp,tppm,tmmp,tmpm,tmmm,zp",
+        "source_pair_digest": "8b6c5ba8e2164db87a4af731e1e84a5994a43bcf8e36d3895be235153cd505a2",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d111,d1m1,dm11,dm11,d11m,d11m,d1m1,d111,z"
+      }
+    },
+    {
+      "cases": 161,
+      "family_key": "diamond:diamond_first|source=d4bee78b63fa6bcebd58ce23dce690fc537b368d0b8afd26b4c969ef509d6bb4",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "-1",
+              "-1",
+              "-3"
+            ],
+            "row": "first",
+            "strict_rhs": "-3"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1",
+          "-1",
+          "-3"
+        ],
+        "mask": 63,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "rank": 2508,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zp,zm,tmpp,tpmm,tpmp,tppm,tmmp,tppp,tmmm,tmpm",
+        "source_pair_digest": "d4bee78b63fa6bcebd58ce23dce690fc537b368d0b8afd26b4c969ef509d6bb4",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,z,dm11,dm11,d1m1,d11m,d11m,d111,d111,d1m1"
+      }
+    },
+    {
+      "cases": 128,
+      "family_key": "diamond:diamond_first|source=5a898293a2b13e7c50e26dd21eee89abef68d2d730bafe3aadbe46e809a623dc",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-209/129",
+            "line": [
+              "-209/129",
+              "-209/129",
+              "-947/129"
+            ],
+            "row": "first",
+            "strict_rhs": "-947/129"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-209/129",
+          "-209/129",
+          "-947/129"
+        ],
+        "mask": 29,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "209/129"
+        ],
+        "rank": 9087,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppm,tppp,tpmp,tpmm,tmpp,tmpm,tmmm,tmmp,zp",
+        "source_pair_digest": "5a898293a2b13e7c50e26dd21eee89abef68d2d730bafe3aadbe46e809a623dc",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d11m,d111,d1m1,dm11,dm11,d1m1,d111,d11m,z"
+      }
+    },
+    {
+      "cases": 127,
+      "family_key": "diamond:diamond_second|source=351b04128f3f1901e5ffdc54430fe02cdaf1bcc1903ee1fbc5c5707bb7bc9b00",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-435/3182",
+            "line": [
+              "-435/3182",
+              "-435/3182",
+              "-942/1591"
+            ],
+            "row": "second",
+            "strict_rhs": "-942/1591"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 55,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "435/3182",
+          "1"
+        ],
+        "rank": 2000,
+        "second_line": [
+          "-435/3182",
+          "-435/3182",
+          "-942/1591"
+        ],
+        "seq": "xp,xm,yp,ym,zp,zm,tmpp,tppp,tpmp,tmmp,tppm,tmpm,tmmm,tpmm",
+        "source_pair_digest": "351b04128f3f1901e5ffdc54430fe02cdaf1bcc1903ee1fbc5c5707bb7bc9b00",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,z,dm11,d111,d1m1,d11m,d11m,d1m1,d111,dm11"
+      }
+    },
+    {
+      "cases": 125,
+      "family_key": "diamond:diamond_second|source=ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-5/26",
+            "line": [
+              "-5/26",
+              "-5/26",
+              "-7/13"
+            ],
+            "row": "second",
+            "strict_rhs": "-7/13"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 11,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "5/26",
+          "1"
+        ],
+        "rank": 8549,
+        "second_line": [
+          "-5/26",
+          "-5/26",
+          "-7/13"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tppm,tmmm,tppp,tpmm,tmpp,tmpm,tpmp,tmmp,zm",
+        "source_pair_digest": "ca2b14f915ca83a1a12d8dffbbe80a668272f570172001789f97a34e7649e451",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d11m,d111,d111,dm11,dm11,d1m1,d1m1,d11m,z"
+      }
+    },
+    {
+      "cases": 116,
+      "family_key": "diamond:diamond_first|source=9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-85/177",
+            "line": [
+              "-85/177",
+              "85/177",
+              "-227/177"
+            ],
+            "row": "first",
+            "strict_rhs": "-227/177"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-85/177",
+          "85/177",
+          "-227/177"
+        ],
+        "mask": 29,
+        "matches": [
+          "opp_1m_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "85/177"
+        ],
+        "rank": 6003,
+        "second_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tpmp,tpmm,tmmm,zp,tppm,tmpm,tmpp,tmmp",
+        "source_pair_digest": "9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m"
+      }
+    },
+    {
+      "cases": 95,
+      "family_key": "diamond:diamond_second|source=d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-207/986",
+            "line": [
+              "-207/986",
+              "-207/986",
+              "-22/17"
+            ],
+            "row": "second",
+            "strict_rhs": "-22/17"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 13,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "207/986",
+          "1"
+        ],
+        "rank": 8223,
+        "second_line": [
+          "-207/986",
+          "-207/986",
+          "-22/17"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppm,tppp,zp,tmmp,tmmm,tpmm,tmpm,tpmp,tmpp",
+        "source_pair_digest": "d611693e904457a75b4b118a7390fd88fd0ef30213e479ab00229c7656f94ead",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d11m,d111,z,d11m,d111,dm11,d1m1,d1m1,dm11"
+      }
+    },
+    {
+      "cases": 91,
+      "family_key": "diamond:diamond_first|source=55f26045ff81f56765c35562394306053ec02060435e216f54f928a6f6cda39b",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1",
+            "line": [
+              "1",
+              "1",
+              "-17/7"
+            ],
+            "row": "first",
+            "strict_rhs": "-17/7"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "-17/7"
+        ],
+        "mask": 15,
+        "matches": [
+          "eq_eq_neg_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1"
+        ],
+        "rank": 6294,
+        "second_line": [
+          "-1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tppp,tmpm,tpmm,tmpp,tpmp,tppm,zm,tmmm,tmmp",
+        "source_pair_digest": "55f26045ff81f56765c35562394306053ec02060435e216f54f928a6f6cda39b",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,dm11,dm11,d1m1,d11m,z,d111,d11m"
+      }
+    },
+    {
+      "cases": 83,
+      "family_key": "diamond:diamond_second|source=5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/34",
+            "line": [
+              "-9/34",
+              "-9/34",
+              "-6/17"
+            ],
+            "row": "second",
+            "strict_rhs": "-6/17"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 26,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "9/34",
+          "1"
+        ],
+        "rank": 6821,
+        "second_line": [
+          "-9/34",
+          "-9/34",
+          "-6/17"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tpmm,tppm,tmmp,tpmp,tmpm,tmpp,tppp,zm",
+        "source_pair_digest": "5c64d4cb48f5c7b902456fd0d508ac726746f2d6514ca46677c69b3c6a9546a5",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d111,dm11,d11m,d11m,d1m1,d1m1,dm11,d111,z"
+      }
+    },
+    {
+      "cases": 82,
+      "family_key": "diamond:diamond_first|source=6a1169c86301f17f88c4ba207f016625742fcfc52d759287e0387c29177eb972",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-91/165",
+            "line": [
+              "-91/165",
+              "91/165",
+              "-61/55"
+            ],
+            "row": "first",
+            "strict_rhs": "-61/55"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-91/165",
+          "91/165",
+          "-61/55"
+        ],
+        "mask": 28,
+        "matches": [
+          "opp_1m_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "91/165"
+        ],
+        "rank": 7541,
+        "second_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tppp,tpmm,tmpp,tpmp,tppm,tmmp,tmpm,tmmm,zp",
+        "source_pair_digest": "6a1169c86301f17f88c4ba207f016625742fcfc52d759287e0387c29177eb972",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,dm11,dm11,d1m1,d11m,d11m,d1m1,d111,z"
+      }
+    },
+    {
+      "cases": 81,
+      "family_key": "diamond:diamond_second|source=b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/14",
+            "line": [
+              "-3/14",
+              "-3/14",
+              "-2/7"
+            ],
+            "row": "second",
+            "strict_rhs": "-2/7"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 26,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "3/14",
+          "1"
+        ],
+        "rank": 8543,
+        "second_line": [
+          "-3/14",
+          "-3/14",
+          "-2/7"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tppm,tmmm,tppp,tpmm,tmpp,tmmp,tpmp,tmpm,zm",
+        "source_pair_digest": "b7efa03a1d5cfa8e557fd9bad2c2784fe7e03cb5e7e3edda6993009238812716",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d11m,d111,d111,dm11,dm11,d11m,d1m1,d1m1,z"
+      }
+    },
+    {
+      "cases": 78,
+      "family_key": "diamond:diamond_first|source=be545f38cd79ff84fc12e32e2aad4d6ab524ec73af55f6643c76c1b22af7bb92",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-25/33",
+            "line": [
+              "-25/33",
+              "-25/33",
+              "-17/11"
+            ],
+            "row": "first",
+            "strict_rhs": "-17/11"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-25/33",
+          "-25/33",
+          "-17/11"
+        ],
+        "mask": 26,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "25/33"
+        ],
+        "rank": 8400,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tppm,tmmm,tppp,tmmp,zm,tpmp,tmpm,tpmm,tmpp",
+        "source_pair_digest": "be545f38cd79ff84fc12e32e2aad4d6ab524ec73af55f6643c76c1b22af7bb92",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d11m,d111,d111,d11m,z,d1m1,d1m1,dm11,dm11"
+      }
+    },
+    {
+      "cases": 74,
+      "family_key": "diamond:diamond_first|source=e077434d25cd2b8256b2c045b2f2c39e2e407562a418eb83b7432401c75cb23e",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/11",
+            "line": [
+              "-3/11",
+              "-3/11",
+              "-5/3"
+            ],
+            "row": "first",
+            "strict_rhs": "-5/3"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-3/11",
+          "-3/11",
+          "-5/3"
+        ],
+        "mask": 47,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "3/11"
+        ],
+        "rank": 2508,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zp,zm,tmpp,tpmm,tmpm,tppm,tmmp,tppp,tmmm,tpmp",
+        "source_pair_digest": "e077434d25cd2b8256b2c045b2f2c39e2e407562a418eb83b7432401c75cb23e",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,z,dm11,dm11,d1m1,d11m,d11m,d111,d111,d1m1"
+      }
+    },
+    {
+      "cases": 73,
+      "family_key": "diamond:diamond_second|source=513f51128e8b6d356d5f0059d792b6ee98b4d6a8f8e6deb429fb6b769a3bafea",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/86",
+            "line": [
+              "-9/86",
+              "-9/86",
+              "-6/43"
+            ],
+            "row": "second",
+            "strict_rhs": "-6/43"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mask": 26,
+        "matches": [
+          "eq_eq_pos_var_second"
+        ],
+        "multipliers": [
+          "9/86",
+          "1"
+        ],
+        "rank": 4229,
+        "second_line": [
+          "-9/86",
+          "-9/86",
+          "-6/43"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tmmm,tppm,tmmp,tpmp,tmpm,tppp,tpmm,tmpp,zm",
+        "source_pair_digest": "513f51128e8b6d356d5f0059d792b6ee98b4d6a8f8e6deb429fb6b769a3bafea",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d111,d11m,d11m,d1m1,d1m1,d111,dm11,dm11,z"
+      }
+    },
+    {
+      "cases": 72,
+      "family_key": "diamond:diamond_second|source=2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-211/2450",
+            "line": [
+              "-211/2450",
+              "211/2450",
+              "-69/245"
+            ],
+            "row": "second",
+            "strict_rhs": "-69/245"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "mask": 29,
+        "matches": [
+          "opp_1m_var_second"
+        ],
+        "multipliers": [
+          "211/2450",
+          "1"
+        ],
+        "rank": 6580,
+        "second_line": [
+          "-211/2450",
+          "211/2450",
+          "-69/245"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tpmm,tmmm,tpmp,zp,tmpp,tppm,tmpm,tmmp",
+        "source_pair_digest": "2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d111,dm11,d111,d1m1,z,dm11,d11m,d1m1,d11m"
+      }
+    },
+    {
+      "cases": 72,
+      "family_key": "diamond:diamond_second|source=0f6ef32b9565222a0e759dc01a84ba268a6d3e3e9093bbc75ce57cd038b97af3",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/28",
+            "line": [
+              "-3/28",
+              "3/28",
+              "-3/14"
+            ],
+            "row": "second",
+            "strict_rhs": "-3/14"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "mask": 15,
+        "matches": [
+          "opp_1m_var_second"
+        ],
+        "multipliers": [
+          "3/28",
+          "1"
+        ],
+        "rank": 4313,
+        "second_line": [
+          "-3/28",
+          "3/28",
+          "-3/14"
+        ],
+        "seq": "xp,xm,yp,ym,zp,tppp,tppm,tmmp,tpmm,tmpp,tmmm,tmpm,tpmp,zm",
+        "source_pair_digest": "0f6ef32b9565222a0e759dc01a84ba268a6d3e3e9093bbc75ce57cd038b97af3",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d111,d11m,d11m,dm11,dm11,d111,d1m1,d1m1,z"
+      }
+    },
+    {
+      "cases": 67,
+      "family_key": "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-217/51",
+            "line": [
+              "217/51",
+              "-217/51",
+              "-319/51"
+            ],
+            "row": "first",
+            "strict_rhs": "-319/51"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "217/51",
+          "-217/51",
+          "-319/51"
+        ],
+        "mask": 30,
+        "matches": [
+          "opp_m1_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "217/51"
+        ],
+        "rank": 6063,
+        "second_line": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,ym,yp,zp,tppp,tpmp,tpmm,tppm,zm,tmmm,tmpm,tmpp,tmmp",
+        "source_pair_digest": "91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,dm11,d11m,z,d111,d1m1,dm11,d11m"
+      }
+    },
+    {
+      "cases": 62,
+      "family_key": "diamond:diamond_second|source=9b167f29cbdda7204b0b18f50069946c17d6178ac44bc418b261ef92694693b1",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-3/22",
+            "line": [
+              "-3/22",
+              "3/22",
+              "-2/11"
+            ],
+            "row": "second",
+            "strict_rhs": "-2/11"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "mask": 28,
+        "matches": [
+          "opp_1m_var_second"
+        ],
+        "multipliers": [
+          "3/22",
+          "1"
+        ],
+        "rank": 3750,
+        "second_line": [
+          "-3/22",
+          "3/22",
+          "-2/11"
+        ],
+        "seq": "xp,xm,ym,yp,zm,tppp,tmmm,tpmm,tmpp,zp,tppm,tmmp,tpmp,tmpm",
+        "source_pair_digest": "9b167f29cbdda7204b0b18f50069946c17d6178ac44bc418b261ef92694693b1",
+        "template_id": "diamond_second",
+        "word": "x,y,y,z,d111,d111,dm11,dm11,z,d11m,d11m,d1m1,d1m1"
+      }
+    },
+    {
+      "cases": 60,
+      "family_key": "diamond:diamond_first|source=7360ea999a5754c1cfe664453f5df1487c1114a2ff9ac3e5f4cbe3acd8fe8a28",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-9/13",
+            "line": [
+              "-9/13",
+              "-9/13",
+              "-53/39"
+            ],
+            "row": "first",
+            "strict_rhs": "-53/39"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-9/13",
+          "-9/13",
+          "-53/39"
+        ],
+        "mask": 13,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "9/13"
+        ],
+        "rank": 8231,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppm,tppp,zp,tmmp,tmpm,tpmp,tpmm,tmpp,tmmm",
+        "source_pair_digest": "7360ea999a5754c1cfe664453f5df1487c1114a2ff9ac3e5f4cbe3acd8fe8a28",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d11m,d111,z,d11m,d1m1,d1m1,dm11,dm11,d111"
+      }
+    },
+    {
+      "cases": 57,
+      "family_key": "diamond:diamond_first|source=ac511c5d05ada275de7b3ad6ae6965d5763f322166cf3d35883813419c9799a2",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-1/23",
+            "line": [
+              "-1/23",
+              "-1/23",
+              "-1/23"
+            ],
+            "row": "first",
+            "strict_rhs": "-1/23"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-1/23",
+          "-1/23",
+          "-1/23"
+        ],
+        "mask": 45,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "1/23"
+        ],
+        "rank": 4313,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tppm,tmmp,tmpp,tpmm,tmmm,tmpm,tpmp,zp",
+        "source_pair_digest": "ac511c5d05ada275de7b3ad6ae6965d5763f322166cf3d35883813419c9799a2",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d11m,d11m,dm11,dm11,d111,d1m1,d1m1,z"
+      }
+    },
+    {
+      "cases": 56,
+      "family_key": "diamond:diamond_first|source=bdd6ae8abddb8a187048c67c58ff66a67d49842cb4cf1f7e57055893351b594f",
+      "sample": {
+        "diamond_matches": [
+          {
+            "diamond_min_lhs": "-47/59",
+            "line": [
+              "-47/59",
+              "-47/59",
+              "-161/177"
+            ],
+            "row": "first",
+            "strict_rhs": "-161/177"
+          }
+        ],
+        "family_kind": "diamond",
+        "first_line": [
+          "-47/59",
+          "-47/59",
+          "-161/177"
+        ],
+        "mask": 5,
+        "matches": [
+          "eq_eq_pos_var_first"
+        ],
+        "multipliers": [
+          "1",
+          "47/59"
+        ],
+        "rank": 5547,
+        "second_line": [
+          "1",
+          "1",
+          "1"
+        ],
+        "seq": "xp,xm,yp,ym,zm,tppp,tmpm,tmmp,tppm,tpmp,tmmm,zp,tpmm,tmpp",
+        "source_pair_digest": "bdd6ae8abddb8a187048c67c58ff66a67d49842cb4cf1f7e57055893351b594f",
+        "template_id": "diamond_first",
+        "word": "x,y,y,z,d111,d1m1,d11m,d11m,d1m1,d111,z,dm11,dm11"
+      }
+    }
+  ],
+  "transport_samples": [
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 28,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,d111,d1m1,z,dm11,d11m,dm11,d11m",
+      "mask": 28,
+      "rank": 5314,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,d111,d1m1,z,dm11,d11m,dm11,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "canonical_mask": 45,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,d111,dm11,z,d1m1,d11m,dm11,d11m",
+      "mask": 45,
+      "rank": 5347,
+      "raw_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,d111,dm11,z,d1m1,d11m,dm11,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "canonical_mask": 18,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m",
+      "mask": 18,
+      "rank": 6003,
+      "raw_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 28,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m",
+      "mask": 28,
+      "rank": 6003,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f",
+      "canonical_mask": 29,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m",
+      "mask": 29,
+      "rank": 6003,
+      "raw_family": "diamond:diamond_first|source=9b67d5de1b10f76dd82d4d212296c5cc298220220954c1c00f40b7103f1a491f",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d111,z,d11m,d1m1,dm11,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+      "canonical_mask": 30,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,z,d111,d1m1,dm11,d11m",
+      "mask": 30,
+      "rank": 6063,
+      "raw_family": "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,z,d111,d1m1,dm11,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "canonical_mask": 5,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 5,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5c47633dc1fed7fa5fb7df6f020eb517143d87b4a4f1059ff1dfe12354229748",
+      "canonical_mask": 7,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 7,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=5c47633dc1fed7fa5fb7df6f020eb517143d87b4a4f1059ff1dfe12354229748",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "canonical_mask": 11,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 11,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=777c17e4b48270f3c0984fdc43cf54c7efaa625f642394b972d3adbc3ede1a4c",
+      "canonical_mask": 20,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 20,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=777c17e4b48270f3c0984fdc43cf54c7efaa625f642394b972d3adbc3ede1a4c",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "canonical_mask": 26,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 26,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 28,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 28,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 52,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z",
+      "mask": 52,
+      "rank": 6131,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d1m1,dm11,d11m,d11m,dm11,d1m1,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_second|source=2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33",
+      "canonical_mask": 29,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,dm11,d111,d1m1,z,dm11,d11m,d1m1,d11m",
+      "mask": 29,
+      "rank": 6580,
+      "raw_family": "diamond:diamond_second|source=2ff03e5a6064fae3d4f1d07e54e292a1575efe23955fe0d08665c7e6f281ae33",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,dm11,d111,d1m1,z,dm11,d11m,d1m1,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "canonical_mask": 18,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,dm11,d111,dm11,z,d1m1,d11m,d1m1,d11m",
+      "mask": 18,
+      "rank": 6634,
+      "raw_family": "diamond:diamond_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,dm11,d111,dm11,z,d1m1,d11m,d1m1,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 16,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,z,dm11,d1m1,d111,d11m",
+      "mask": 16,
+      "rank": 4882,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,z,dm11,d1m1,d111,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=a4976c8bb8d31dfc418e91f103df38074bd61c3582cc75571c6f988e17c6d827",
+      "canonical_mask": 28,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,z,dm11,d1m1,d111,d11m",
+      "mask": 28,
+      "rank": 4882,
+      "raw_family": "diamond:diamond_first|source=a4976c8bb8d31dfc418e91f103df38074bd61c3582cc75571c6f988e17c6d827",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,z,dm11,d1m1,d111,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "canonical_mask": 47,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,z,dm11,d1m1,d111,d11m",
+      "mask": 47,
+      "rank": 4882,
+      "raw_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,z,dm11,d1m1,d111,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 16,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,z,d111,d11m",
+      "mask": 16,
+      "rank": 4950,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,z,d111,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+      "canonical_mask": 30,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,z,d111,d11m",
+      "mask": 30,
+      "rank": 4950,
+      "raw_family": "diamond:diamond_first|source=91068e922f52887dcd4e14d311d1bb23d0c4c846f7240f55b89c35e31ba96933",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,z,d111,d11m"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 4,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z",
+      "mask": 4,
+      "rank": 4955,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "canonical_mask": 5,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z",
+      "mask": 5,
+      "rank": 4955,
+      "raw_family": "diamond:diamond_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z"
+    },
+    {
+      "canonical_family": "template:axis_a_only|source=e6e0694e677d3171b47c2ff2be279f819203a1b44aea71e4668d09ea0c0b7cf0",
+      "canonical_mask": 15,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z",
+      "mask": 15,
+      "rank": 4955,
+      "raw_family": "template:axis_a_only|source=e6e0694e677d3171b47c2ff2be279f819203a1b44aea71e4668d09ea0c0b7cf0",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z"
+    },
+    {
+      "canonical_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "canonical_mask": 16,
+      "canonical_to_raw_sym": 0,
+      "canonical_word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z",
+      "mask": 16,
+      "rank": 4955,
+      "raw_family": "diamond:diamond_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "raw_to_canonical_sym": 0,
+      "word": "x,y,y,z,d111,d11m,dm11,d1m1,d1m1,dm11,d11m,d111,z"
+    }
+  ]
+}
