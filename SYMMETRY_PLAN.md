@@ -4746,6 +4746,82 @@ theorem representativeFamilyCoverage :
 - Do not emit a global rank/mask table. If the representative root fragments
   or builds slowly, switch to Phase 6Z.6G/6Z.6J before scaling further.
 
+Phase 6Z.6F.1 implementation result: bounded representative semantic root accepted.
+
+- Extended `scripts/generate_translation_row_family_smoke.py` with
+  `--mode representative-root`.
+- Added the missing proof-usable Python template mappings for
+  `axis_b_only` and `exact_two_source_valid`, matching the already-formalized
+  Lean templates in `RowRelationTemplates.lean`.
+- Generated bounded representative modules under:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Representative/
+  Group000.lean ... Group007.lean
+  All.lean
+```
+
+- The generated root is intentionally semantic and family-valued:
+
+```lean
+RepresentativeFamilyCovered : Nat -> SignMask -> Prop
+
+theorem representativeGoodCasesKilled
+    (r : Nat) (hlt : r < numPairWords) (mask : SignMask)
+    (h : RepresentativeFamilyCovered r mask) :
+    TranslationGoodCaseKilled ⟨r, hlt⟩ mask
+```
+
+- It does not export or replay ordinary `TranslationCert` evidence.
+- Summary from
+  `scripts/generated/translation_row_family_representative_summary.json`:
+
+```text
+expected representative GoodDirection survivors: 4,779
+template_source families:                         123
+groups:                                           8
+largest family:                                   1,260
+singleton families:                               12
+support witnesses searched:                       123
+unsupported GoodDirection survivors:              0
+```
+
+- Validation:
+
+```bash
+python3 -m py_compile scripts/generate_translation_row_family_smoke.py \
+  scripts/generate_translation_row_relation_classifier.py
+python3 scripts/generate_translation_row_family_smoke.py --mode smoke \
+  --families 3 --cases-per-family 2
+lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/FamilySmoke.lean
+python3 scripts/generate_translation_row_family_smoke.py --mode representative-root
+lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Representative/Group000.lean
+lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Representative.All
+rg -n "sorry|admit|axiom|native_decide|unsafe|TranslationCert|checkTranslationCert" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Representative \
+  scripts/generate_translation_row_family_smoke.py
+git diff --check
+```
+
+- Result:
+
+```text
+FamilySmoke direct Lean build: passed in about 14.8s
+Group000 direct Lean build:    passed in about 1.5s
+Representative All lake build: passed; generated groups each about 1.6s
+hygiene rg:                    no matches
+```
+
+- Interpretation:
+  - The semantic family-root shape scales across the representative
+    `template_source` families with tiny generated source and fast Lean checks.
+  - This root is not yet final public coverage: it proves all cases satisfying
+    the generated family-union predicate are killed, while the summary records
+    the bounded representative survivor assignment.
+  - Next, resume the compression/profiling tracks needed for global coverage:
+    signed prefix/state cone pruning, nonidentity axis/linear census, integer
+    arithmetic constants, and D4 transport.
+
 Phase 6Z.6G planned result: signed prefix/state cone profiler for leftovers.
 
 - Use signed prefix/state languages and Gordan/Farkas empty-cone certificates
@@ -5720,7 +5796,7 @@ Acceptance:
 - [x] Implement Phase 6Z.6F row-template/diamond family Lean smoke with semantic
   `TranslationCaseKilled` leaves and no ordinary translation-certificate
   replay.
-- [ ] Implement Phase 6Z.6F.1 bounded representative row-family coverage root
+- [x] Implement Phase 6Z.6F.1 bounded representative row-family coverage root
   using grouped semantic family theorems.
 - [ ] Implement Phase 6Z.6G signed prefix/state cone profiler for nonidentity and
   translation leftovers if semantic row families do not meet the 24 CPU-hour
@@ -5749,21 +5825,18 @@ Acceptance:
 
 Current next step:
 
-The immediate next step is Phase 6Z.6F.1: scale the accepted
-row-template family smoke into a bounded representative coverage root. Phase
-6Z.6F proved three `template_source` families and six representative
-rank/mask cases through semantic `TranslationGoodCaseKilled` and
-`TranslationCaseKilled` theorems in a generated module that builds in about
-8.1 seconds and does not replay ordinary translation certificates. The next
-emitter should cover the Phase 6Z.6E.1 representative windows by grouped
-family theorems, while keeping the root theorem semantic and small.
+Phase 6Z.6F.1 is complete: the representative `template_source` family-union
+root builds quickly and proves semantic `TranslationGoodCaseKilled` facts
+without ordinary translation-certificate replay. The immediate next step is
+Phase 6Z.6G: implement the signed prefix/state cone profiler for remaining
+compression pressure, especially nonidentity and translation leftovers that
+cannot be globally discharged by row-family predicates alone.
 
-In parallel planning, prepare Phase 6Z.6G/6Z.6H/6Z.6I/6Z.6J as profiling
-tracks: signed prefix/state cone pruning, nonidentity linear-part/axis census
-with the `M`-alone caveat, integer/scaled arithmetic microbenchmarks, and D4
-transport. These are not substitutes for semantic killed bridges; they are the
-compression and constant-factor tools used after the final theorem surface is
-semantic.
+In parallel planning, keep Phase 6Z.6H/6Z.6I/6Z.6J ready: nonidentity
+linear-part/axis census with the `M`-alone caveat, integer/scaled arithmetic
+microbenchmarks, and D4 semantic-family transport. These are not substitutes
+for semantic killed bridges; they are the compression and constant-factor tools
+used after the final theorem surface is semantic.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

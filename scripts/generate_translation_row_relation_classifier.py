@@ -104,6 +104,8 @@ TEMPLATE_TO_LEAN: dict[str, tuple[str, str]] = {
     "opp_m1_var_first": ("OppMinusOneVarFirst", "oppMinusOneVarFirst_checkedOn"),
     "opp_m1_var_second": ("OppMinusOneVarSecond", "oppMinusOneVarSecond_checkedOn"),
     "axis_a_only": ("AxisAOnly", "axisAOnly_checkedOn"),
+    "axis_b_only": ("AxisBOnly", "axisBOnly_checkedOn"),
+    "exact_two_source_valid": ("ExactTwoSourceValid", "exactTwoSourceValid_checkedOn"),
 }
 
 LINE_SIMPS = [

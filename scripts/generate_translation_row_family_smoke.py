@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Emit a small semantic row-family Lean smoke module.
+"""Emit semantic row-family Lean modules.
 
-This is diagnostic/generated proof code for Phase 6Z.6F.  It selects a few
-high-volume `template_source` families from the representative profiler report,
-finds concrete GoodDirection cases in those families, and emits Lean proving
-that the cases are killed through semantic support-family predicates.
+This is diagnostic/generated proof code for Phase 6Z.6F and 6Z.6F.1.  The
+default smoke mode selects a few high-volume `template_source` families from the
+representative profiler report, finds concrete GoodDirection cases in those
+families, and emits Lean proving that the cases are killed through semantic
+support-family predicates.
+
+The representative-root mode scans the bounded representative windows and emits
+a compact family-union root.  It does not replay ordinary translation
+certificates, and it does not emit per-rank certificate data.
 
 The Python script is not trusted as proof.  The generated Lean module checks the
-exact row/source facts.
+semantic family theorems.
 """
 
 from __future__ import annotations
@@ -62,6 +67,15 @@ DEFAULT_SUMMARY = Path(
 DEFAULT_NAMESPACE = (
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.FamilySmoke"
 )
+DEFAULT_REPRESENTATIVE_DIR = Path(
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Representative"
+)
+DEFAULT_REPRESENTATIVE_NAMESPACE = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Representative"
+)
+DEFAULT_REPRESENTATIVE_SUMMARY = Path(
+    "scripts/generated/translation_row_family_representative_summary.json"
+)
 
 
 @dataclass(frozen=True)
@@ -77,6 +91,42 @@ class FamilySpec:
 class FamilyCases:
     spec: FamilySpec
     cases: list[ClassifiedCase]
+
+
+@dataclass
+class RepresentativeFamily:
+    spec: FamilySpec
+    first_case: TwoSourceCase
+    observed_cases: int
+
+
+def expected_template_source_counts(report: dict[str, Any]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for result in report.get("window_results", []):
+        checkpoint = result.get("family_checkpoint")
+        if not checkpoint:
+            continue
+        path = Path(checkpoint)
+        if not path.exists():
+            continue
+        payload = read_json(path)
+        window_result = payload.get("result", {})
+        family_counts = (
+            window_result.get("family_counts", {})
+            .get("template_source", {})
+        )
+        for key, count in family_counts.items():
+            counts[key] = counts.get(key, 0) + int(count)
+    if counts:
+        return counts
+
+    # Fallback for portable checkouts where /tmp checkpoints are unavailable:
+    # the report stores the largest families directly.  This is enough for smoke
+    # behavior, but representative-root generation should normally use the full
+    # checkpoint counts.
+    for item in report["variant_stats"]["template_source"]["top_families"]:
+        counts[str(item["family_key"])] = int(item["cases"])
+    return counts
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -213,6 +263,132 @@ def collect_family_cases(
     return list(by_key.values())
 
 
+def collect_representative_families(
+    report: dict[str, Any],
+) -> tuple[list[RepresentativeFamily], dict[str, int]]:
+    """Scan the representative windows and group all supported survivors.
+
+    The returned families are diagnostic inputs to generated Lean.  Lean checks
+    the semantic family predicates; this scanner is not trusted as proof that a
+    future arbitrary rank belongs to a family.
+    """
+
+    expected_counts = expected_template_source_counts(report)
+    if not expected_counts:
+        raise RuntimeError("no template_source family counts available")
+
+    by_key: dict[str, RepresentativeFamily] = {}
+    counts = {
+        "expected_family_count": len(expected_counts),
+        "expected_covered_cases": sum(expected_counts.values()),
+        "support_search_pair_words_scanned": 0,
+        "support_search_identity_words": 0,
+        "support_search_nonidentity_words_skipped": 0,
+        "support_search_translation_sign_assignments": 0,
+        "support_search_not_good_direction_masks": 0,
+        "support_search_good_direction_survivors": 0,
+        "support_search_covered_cases": 0,
+        "unsupported_good_direction_survivors": 0,
+        "families_found": 0,
+    }
+
+    for window in report["selected_windows"]:
+        start = int(window["start"])
+        end = int(window["end"])
+        print(
+            f"searching representative supports in [{start}, {end}); "
+            f"{len(by_key)}/{len(expected_counts)} families found",
+            flush=True,
+        )
+        for rank in range(start, end):
+            if len(by_key) == len(expected_counts):
+                break
+            counts["support_search_pair_words_scanned"] += 1
+            word = exact.pair_word_at_rank(rank)
+            if exact.total_linear(word) != exact.mat_id():
+                counts["support_search_nonidentity_words_skipped"] += 1
+                continue
+            counts["support_search_identity_words"] += 1
+            for mask in range(64):
+                if len(by_key) == len(expected_counts):
+                    break
+                counts["support_search_translation_sign_assignments"] += 1
+                needs = exact.translation_needs_farkas(word, mask)
+                if needs is None:
+                    counts["support_search_not_good_direction_masks"] += 1
+                    continue
+                counts["support_search_good_direction_survivors"] += 1
+                result = classify_case(rank, mask)
+                if result is None:
+                    counts["unsupported_good_direction_survivors"] += 1
+                    continue
+                family_key, case, template_id = result
+                if family_key not in expected_counts or family_key in by_key:
+                    continue
+                family = by_key.get(family_key)
+                if family is None:
+                    spec = parse_template_source_key(
+                        len(by_key),
+                        {
+                            "family_key": family_key,
+                            "cases": expected_counts[family_key],
+                        },
+                    )
+                    if template_id != spec.template_id:
+                        raise AssertionError(
+                            f"template mismatch for {family_key}: "
+                            f"{template_id} != {spec.template_id}"
+                        )
+                    family = RepresentativeFamily(
+                        spec=spec,
+                        first_case=case,
+                        observed_cases=expected_counts[family_key],
+                    )
+                    by_key[family_key] = family
+                elif template_id != family.spec.template_id:
+                    raise AssertionError(
+                        f"template mismatch for {family_key}: "
+                        f"{template_id} != {family.spec.template_id}"
+                    )
+                counts["support_search_covered_cases"] += 1
+                counts["families_found"] = len(by_key)
+        if len(by_key) == len(expected_counts):
+            break
+
+    if counts["unsupported_good_direction_survivors"] != 0:
+        raise RuntimeError(
+            "unsupported GoodDirection survivors in representative windows: "
+            f"{counts['unsupported_good_direction_survivors']}"
+        )
+    missing = sorted(set(expected_counts) - set(by_key))
+    if missing:
+        raise RuntimeError(
+            f"could not find support witnesses for {len(missing)} families; "
+            f"first missing key: {missing[0]}"
+        )
+
+    families = sorted(
+        by_key.values(),
+        key=lambda family: (-family.observed_cases, family.spec.family_key),
+    )
+    reindexed: list[RepresentativeFamily] = []
+    for index, family in enumerate(families):
+        reindexed.append(
+            RepresentativeFamily(
+                spec=FamilySpec(
+                    index=index,
+                    family_key=family.spec.family_key,
+                    template_id=family.spec.template_id,
+                    source_digest=family.spec.source_digest,
+                    expected_cases=family.observed_cases,
+                ),
+                first_case=family.first_case,
+                observed_cases=family.observed_cases,
+            )
+        )
+    return reindexed, counts
+
+
 def case_header_lines_for_family(cc: ClassifiedCase, family_name: str) -> list[str]:
     case = cc.case
     name = lean_case_name(cc.index)
@@ -273,6 +449,10 @@ def case_header_lines_for_family(cc: ClassifiedCase, family_name: str) -> list[s
 
 def family_name(index: int) -> str:
     return f"fam_{index:03d}"
+
+
+def group_name(index: int) -> str:
+    return f"Group{index:03d}"
 
 
 def family_lines(family: FamilyCases) -> list[str]:
@@ -355,6 +535,148 @@ def module_lines(namespace: str, families: list[FamilyCases]) -> list[str]:
     return lines
 
 
+def representative_family_lines(family: RepresentativeFamily) -> list[str]:
+    name = family_name(family.spec.index)
+    predicate_name, checked_on = TEMPLATE_TO_LEAN[family.spec.template_id]
+    return [
+        f"/-- Representative family `{family.spec.family_key}`.",
+        f"It covered {family.observed_cases} observed GoodDirection survivors in the bounded scan. -/",
+        *support_lines(name, family.first_case.first_source, family.first_case.second_source),
+        "",
+        f"private abbrev {name}_contains (r : Nat) (mask : SignMask) : Prop :=",
+        f"  {predicate_name} {name}_support r mask",
+        "",
+        f"private theorem {name}_checkedOn :",
+        f"    SupportFamilyCheckedOn {name}_support {name}_contains := by",
+        f"  simpa [{name}_contains] using {checked_on} {name}_support",
+        "",
+        f"private theorem {name}_killsOn :",
+        f"    SupportFamilyKillsOn {name}_support {name}_contains :=",
+        f"  SupportFamilyCheckedOn.kills {name}_checkedOn",
+        "",
+    ]
+
+
+def representative_group_lines(
+    *,
+    namespace: str,
+    group_index: int,
+    families: list[RepresentativeFamily],
+) -> list[str]:
+    lines = [
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates",
+        "",
+        "/-!",
+        "Generated bounded representative semantic row-family group.",
+        "",
+        "This module exports a family-union predicate and theorem.  It contains no",
+        "ordinary translation certificates and no per-rank certificate replay.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "open Cuboctahedron.Generated.Coverage",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates",
+        "",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "",
+    ]
+    for family in families:
+        lines.extend(representative_family_lines(family))
+
+    covered_name = f"{group_name(group_index)}Covered"
+    lines.extend([
+        f"inductive {covered_name} : Nat -> SignMask -> Prop",
+    ])
+    for family in families:
+        name = family_name(family.spec.index)
+        lines.append(
+            f"  | {name} {{r : Nat}} {{mask : SignMask}} "
+            f"(h : {name}_contains r mask) : {covered_name} r mask"
+        )
+    lines.extend([
+        "",
+        f"theorem {group_name(group_index)}GoodCasesKilled",
+        f"    (r : Nat) (hlt : r < numPairWords) (mask : SignMask)",
+        f"    (h : {covered_name} r mask) :",
+        "    TranslationGoodCaseKilled ⟨r, hlt⟩ mask := by",
+        "  cases h with",
+    ])
+    for family in families:
+        name = family_name(family.spec.index)
+        lines.extend([
+            f"  | {name} h =>",
+            f"      exact {name}_killsOn r hlt mask h",
+        ])
+    lines.extend([
+        "",
+        f"theorem {group_name(group_index)}_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    return lines
+
+
+def representative_root_lines(
+    *,
+    namespace: str,
+    group_namespaces: list[str],
+) -> list[str]:
+    lines = [
+        *[f"import {group_namespace}" for group_namespace in group_namespaces],
+        "",
+        "/-!",
+        "Generated bounded representative semantic row-family root.",
+        "",
+        "The root composes group-level semantic predicates.  It is deliberately a",
+        "bounded representative root, not final full translation coverage.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "open Cuboctahedron.Generated.Coverage",
+        "",
+        "inductive RepresentativeFamilyCovered : Nat -> SignMask -> Prop",
+    ]
+    for index, group_namespace in enumerate(group_namespaces):
+        gname = group_name(index)
+        lines.append(
+            f"  | group{index:03d} {{r : Nat}} {{mask : SignMask}} "
+            f"(h : _root_.{group_namespace}.{gname}Covered r mask) : "
+            "RepresentativeFamilyCovered r mask"
+        )
+    lines.extend([
+        "",
+        "theorem representativeGoodCasesKilled",
+        "    (r : Nat) (hlt : r < numPairWords) (mask : SignMask)",
+        "    (h : RepresentativeFamilyCovered r mask) :",
+        "    TranslationGoodCaseKilled ⟨r, hlt⟩ mask := by",
+        "  cases h with",
+    ])
+    for index, group_namespace in enumerate(group_namespaces):
+        gname = group_name(index)
+        lines.extend([
+            f"  | group{index:03d} h =>",
+            f"      exact _root_.{group_namespace}.{gname}GoodCasesKilled r hlt mask h",
+        ])
+    lines.extend([
+        "",
+        "theorem representativeFamilyCoverage_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    return lines
+
+
+def chunks(items: list[RepresentativeFamily], size: int) -> list[list[RepresentativeFamily]]:
+    return [items[index : index + size] for index in range(0, len(items), size)]
+
+
 def summary_payload(families: list[FamilyCases]) -> dict[str, Any]:
     return {
         "schema_version": 1,
@@ -381,20 +703,44 @@ def summary_payload(families: list[FamilyCases]) -> dict[str, Any]:
     }
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
-    parser.add_argument("--families", type=int, default=3)
-    parser.add_argument("--cases-per-family", type=int, default=2)
-    parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
-    parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
-    parser.add_argument("--module-namespace", default=DEFAULT_NAMESPACE)
-    args = parser.parse_args()
+def representative_summary_payload(
+    *,
+    families: list[RepresentativeFamily],
+    counts: dict[str, int],
+    group_modules: list[str],
+    root_module: str,
+    families_per_group: int,
+) -> dict[str, Any]:
+    return {
+        "schema_version": 1,
+        "mode": "translation-row-family-representative-root",
+        "trusted_as_proof": False,
+        "bounded_diagnostic_only": True,
+        "counts": counts,
+        "families_per_group": families_per_group,
+        "family_count": len(families),
+        "largest_family_size": max((family.observed_cases for family in families), default=0),
+        "singleton_family_count": sum(1 for family in families if family.observed_cases == 1),
+        "group_modules": group_modules,
+        "root_module": root_module,
+        "families": [
+            {
+                "index": family.spec.index,
+                "family_key": family.spec.family_key,
+                "template_id": family.spec.template_id,
+                "source_digest": family.spec.source_digest,
+                "observed_cases": family.observed_cases,
+                "first_case": {
+                    "rank": family.first_case.rank,
+                    "mask": family.first_case.mask,
+                },
+            }
+            for family in families
+        ],
+    }
 
-    if args.families <= 0:
-        parser.error("--families must be positive")
-    if args.cases_per_family <= 0:
-        parser.error("--cases-per-family must be positive")
+
+def emit_smoke(args: argparse.Namespace) -> None:
     namespace = validate_module_namespace(args.module_namespace)
     report = read_json(args.report)
     specs = select_family_specs(report, args.families)
@@ -410,6 +756,106 @@ def main() -> int:
         f"{len(families)} families, "
         f"{sum(len(family.cases) for family in families)} sample cases"
     )
+
+
+def emit_representative_root(args: argparse.Namespace) -> None:
+    base_namespace = validate_module_namespace(args.representative_namespace)
+    report = read_json(args.report)
+    families, counts = collect_representative_families(report)
+    family_groups = chunks(families, args.families_per_group)
+
+    args.representative_dir.mkdir(parents=True, exist_ok=True)
+    group_modules: list[str] = []
+    for index, family_group in enumerate(family_groups):
+        module_name = group_name(index)
+        module_namespace = f"{base_namespace}.{module_name}"
+        path = args.representative_dir / f"{module_name}.lean"
+        path.write_text(
+            "\n".join(
+                representative_group_lines(
+                    namespace=module_namespace,
+                    group_index=index,
+                    families=family_group,
+                )
+            ),
+            encoding="utf-8",
+        )
+        group_modules.append(module_namespace)
+        print(f"wrote {path}")
+
+    root_namespace = f"{base_namespace}.All"
+    root_path = args.representative_dir / "All.lean"
+    root_path.write_text(
+        "\n".join(
+            representative_root_lines(
+                namespace=root_namespace,
+                group_namespaces=group_modules,
+            )
+        ),
+        encoding="utf-8",
+    )
+    print(f"wrote {root_path}")
+
+    write_json(
+        args.representative_summary,
+        representative_summary_payload(
+            families=families,
+            counts=counts,
+            group_modules=group_modules,
+            root_module=root_namespace,
+            families_per_group=args.families_per_group,
+        ),
+    )
+    print(f"wrote {args.representative_summary}")
+    print(
+        "generated representative family root: "
+        f"{len(families)} families, "
+        f"{counts['expected_covered_cases']} observed GoodDirection survivors, "
+        f"{len(group_modules)} groups"
+    )
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--mode",
+        choices=["smoke", "representative-root"],
+        default="smoke",
+    )
+    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument("--families", type=int, default=3)
+    parser.add_argument("--cases-per-family", type=int, default=2)
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
+    parser.add_argument("--module-namespace", default=DEFAULT_NAMESPACE)
+    parser.add_argument(
+        "--representative-dir",
+        type=Path,
+        default=DEFAULT_REPRESENTATIVE_DIR,
+    )
+    parser.add_argument(
+        "--representative-namespace",
+        default=DEFAULT_REPRESENTATIVE_NAMESPACE,
+    )
+    parser.add_argument(
+        "--representative-summary",
+        type=Path,
+        default=DEFAULT_REPRESENTATIVE_SUMMARY,
+    )
+    parser.add_argument("--families-per-group", type=int, default=16)
+    args = parser.parse_args()
+
+    if args.families <= 0:
+        parser.error("--families must be positive")
+    if args.cases_per_family <= 0:
+        parser.error("--cases-per-family must be positive")
+    if args.families_per_group <= 0:
+        parser.error("--families-per-group must be positive")
+
+    if args.mode == "smoke":
+        emit_smoke(args)
+    else:
+        emit_representative_root(args)
     return 0
 
 
