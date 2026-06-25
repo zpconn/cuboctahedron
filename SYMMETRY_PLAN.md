@@ -5004,6 +5004,50 @@ decision:             accepted
     semantic row-family pilot that reuses the accepted row-relation theorem
     surface but proves row/source facts through integer/scaled normal forms.
 
+Phase 6Z.6I.1 completed result: scaled semantic row-family pilot is rejected
+as a standalone optimization.
+
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ScaledRows.lean`.
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ScaledFamilySmoke.lean`.
+- Added `scripts/run_phase6z6i1_scaled_family_pilot.py`.
+- The pilot proves the existing semantic surfaces for the same representative
+  case as the Phase 6Z.6I rational baseline:
+  - `pilotGoodKilled : TranslationGoodCaseKilled pilotRank pilotMask`
+  - `pilotTranslationKilled : TranslationCaseKilled pilotRank pilotMask`
+- It uses integer/scaled row normal forms for the final row-template facts,
+  but it still needs the existing rank/sequence/line-agreement proofs to
+  connect generated rows to the rational semantic model.
+- Benchmark report:
+  - `scripts/generated/phase6z6i1_scaled_family_pilot.json`
+  - `scripts/generated/phase6z6i1_scaled_family_pilot.md`
+- Result:
+
+```text
+module            min elapsed   geomean elapsed   max RSS
+rat_baseline        6.304s          6.319s       3,453,524 KiB
+scaled_family       6.150s          6.176s       3,460,268 KiB
+
+speedup:            1.025x
+scaled/Rat RSS:     1.002
+decision:           rejected
+```
+
+- Interpretation:
+  - Integer/scaled row normal forms are sound and can prove the semantic
+    killed theorem, but wrapping only the final row-shape facts is not enough.
+    The remaining rank/sequence/rational line-agreement work dominates the
+    leaf.
+  - Do not scale this exact wrapper pattern to production.
+  - Scaled arithmetic remains useful only if a later emitter moves the row
+    extraction/agreement layer itself to integer-normalized or symbolic
+    semantic family facts.
+  - The next active route should be Phase 6Z.6J: test `D4` transport on the
+    already semantic family predicates, while keeping the deeper integer
+    row-extraction rewrite as a separate option rather than the immediate
+    production path.
+
 Phase 6Z.6J planned result: D4 semantic-family transport profiler.
 
 - Canonicalize row-template families, prefix/state cone families, and
@@ -5928,7 +5972,7 @@ Acceptance:
   elsewhere.
 - [x] Implement and accept Phase 6Z.6I integer/scaled arithmetic microbenchmarks for
   representative generated semantic checks.
-- [ ] Implement Phase 6Z.6I.1 scaled semantic row-family pilot using
+- [x] Implement and reject Phase 6Z.6I.1 scaled semantic row-family pilot using
   agreement-backed integer/scaled row normal forms.
 - [ ] Implement Phase 6Z.6J D4 semantic-family transport profiler after family
   predicates exist.
@@ -5949,17 +5993,17 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6I is complete and accepted: the scaled benchmark gives a 3.468x
-wall-time speedup over the current rational baseline on representative
-semantic checks, with a scaled/Rat RSS ratio of 0.962. The immediate next step
-is Phase 6Z.6I.1: implement a small scaled semantic row-family pilot. That
-pilot should keep the existing semantic theorem surface but replace expensive
-rank-specific rational row/source facts with integer/scaled normal forms plus
-small agreement lemmas.
+Phase 6Z.6I is complete and accepted, but Phase 6Z.6I.1 shows that scaled row
+normal forms do not help enough when the leaf still performs the existing
+rank/sequence/rational line-agreement work. The immediate next step is
+Phase 6Z.6J: implement the D4 semantic-family transport profiler against the
+current row-template/diamond family predicates. D4 transport is now worthwhile
+because the predicates are semantic; it should be measured as a family-count
+and proof-work reducer, not as a rescue for raw rank intervals.
 
-Keep Phase 6Z.6J ready only after family predicates exist: D4 semantic-family
-transport can shrink accepted families, but it does not rescue a family shape
-that already fragments into tens of thousands of keys on `[0,100000)`.
+Keep the integer/scaled rewrite as a deeper follow-up only if it moves row
+extraction and agreement into symbolic/integer family facts. Do not scale the
+Phase 6Z.6I.1 wrapper pattern as-is.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
