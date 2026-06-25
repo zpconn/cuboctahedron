@@ -1,0 +1,661 @@
+{
+  "job_gib": 8.0,
+  "jobs_effective": 4,
+  "jobs_requested": 4,
+  "kind": "leaves",
+  "lean_memory_limit_gib": 12.0,
+  "memory_budget_gib": 40.0,
+  "results": [
+    {
+      "cached": true,
+      "elapsed_seconds": 0.005586110011790879,
+      "label": "Window000000000_000000001",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000000_000000001.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.79010763099359,
+      "label": "Window000000001_000000002",
+      "max_rss_kb": 3729124,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000001_000000002.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000001_000000002.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000001_000000002.lean\"\n\tUser time (seconds): 21.01\n\tSystem time (seconds): 0.74\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.78\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3729124\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 114\n\tMinor (reclaiming a frame) page faults: 125924\n\tVoluntary context switches: 768\n\tInvoluntary context switches: 84\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1912\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 381.0898989510024,
+      "label": "Window000000002_000000003",
+      "max_rss_kb": 6696212,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000002_000000003.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000002_000000003.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000002_000000003.lean\"\n\tUser time (seconds): 378.36\n\tSystem time (seconds): 2.78\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:21.08\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6696212\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 121\n\tMinor (reclaiming a frame) page faults: 477293\n\tVoluntary context switches: 22651\n\tInvoluntary context switches: 814\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 178344\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 368.5542431220092,
+      "label": "Window000000003_000000004",
+      "max_rss_kb": 6635064,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000003_000000004.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000003_000000004.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000003_000000004.lean\"\n\tUser time (seconds): 366.06\n\tSystem time (seconds): 2.53\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:08.54\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6635064\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 108\n\tMinor (reclaiming a frame) page faults: 443980\n\tVoluntary context switches: 22860\n\tInvoluntary context switches: 538\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 178488\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.89024460199289,
+      "label": "Window000000004_000000005",
+      "max_rss_kb": 3732500,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000004_000000005.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000004_000000005.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000004_000000005.lean\"\n\tUser time (seconds): 21.07\n\tSystem time (seconds): 0.79\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.88\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3732500\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 121\n\tMinor (reclaiming a frame) page faults: 128604\n\tVoluntary context switches: 750\n\tInvoluntary context switches: 61\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1912\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 333.3499309330073,
+      "label": "Window000000005_000000006",
+      "max_rss_kb": 6390724,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000005_000000006.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000005_000000006.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000005_000000006.lean\"\n\tUser time (seconds): 330.94\n\tSystem time (seconds): 2.47\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 5:33.34\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6390724\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 390644\n\tVoluntary context switches: 22510\n\tInvoluntary context switches: 636\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 163112\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 24.12926116300514,
+      "label": "Window000000006_000000007",
+      "max_rss_kb": 3895940,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000006_000000007.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000006_000000007.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000006_000000007.lean\"\n\tUser time (seconds): 23.50\n\tSystem time (seconds): 0.66\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:24.12\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3895940\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105275\n\tVoluntary context switches: 709\n\tInvoluntary context switches: 129\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1928\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.80625919101294,
+      "label": "Window000000007_000000008",
+      "max_rss_kb": 3840516,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000007_000000008.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000007_000000008.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000007_000000008.lean\"\n\tUser time (seconds): 21.09\n\tSystem time (seconds): 0.67\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.80\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840516\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105544\n\tVoluntary context switches: 718\n\tInvoluntary context switches: 58\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.751429846000974,
+      "label": "Window000000008_000000009",
+      "max_rss_kb": 3823208,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000008_000000009.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000008_000000009.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000008_000000009.lean\"\n\tUser time (seconds): 21.15\n\tSystem time (seconds): 0.65\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.74\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3823208\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 108616\n\tVoluntary context switches: 684\n\tInvoluntary context switches: 62\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1912\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 384.54555960600555,
+      "label": "Window000000009_000000010",
+      "max_rss_kb": 6787608,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000009_000000010.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000009_000000010.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000009_000000010.lean\"\n\tUser time (seconds): 381.87\n\tSystem time (seconds): 2.63\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:24.54\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6787608\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 453851\n\tVoluntary context switches: 22442\n\tInvoluntary context switches: 740\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 179528\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.114280619993224,
+      "label": "Window000000010_000000011",
+      "max_rss_kb": 3826064,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000010_000000011.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000010_000000011.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000010_000000011.lean\"\n\tUser time (seconds): 21.48\n\tSystem time (seconds): 0.60\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.11\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3826064\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105462\n\tVoluntary context switches: 676\n\tInvoluntary context switches: 61\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 392.186117854013,
+      "label": "Window000000011_000000012",
+      "max_rss_kb": 6762808,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000011_000000012.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000011_000000012.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000011_000000012.lean\"\n\tUser time (seconds): 389.79\n\tSystem time (seconds): 2.40\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:32.18\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6762808\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 425929\n\tVoluntary context switches: 21799\n\tInvoluntary context switches: 568\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 172088\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.718425187005778,
+      "label": "Window000000012_000000013",
+      "max_rss_kb": 3840836,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000012_000000013.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000012_000000013.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000012_000000013.lean\"\n\tUser time (seconds): 21.17\n\tSystem time (seconds): 0.61\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.71\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840836\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105569\n\tVoluntary context switches: 697\n\tInvoluntary context switches: 59\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1936\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.711213312999462,
+      "label": "Window000000013_000000014",
+      "max_rss_kb": 3840928,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000013_000000014.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000013_000000014.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000013_000000014.lean\"\n\tUser time (seconds): 21.10\n\tSystem time (seconds): 0.65\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.70\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840928\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 107070\n\tVoluntary context switches: 683\n\tInvoluntary context switches: 64\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.805995692004217,
+      "label": "Window000000014_000000015",
+      "max_rss_kb": 3826672,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000014_000000015.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000014_000000015.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000014_000000015.lean\"\n\tUser time (seconds): 21.16\n\tSystem time (seconds): 0.61\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.80\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3826672\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105309\n\tVoluntary context switches: 695\n\tInvoluntary context switches: 59\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.741775297996355,
+      "label": "Window000000015_000000016",
+      "max_rss_kb": 3824988,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000015_000000016.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000015_000000016.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000015_000000016.lean\"\n\tUser time (seconds): 21.05\n\tSystem time (seconds): 0.66\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.73\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824988\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106015\n\tVoluntary context switches: 735\n\tInvoluntary context switches: 66\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.173066642993945,
+      "label": "Window000000016_000000017",
+      "max_rss_kb": 3848124,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000016_000000017.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000016_000000017.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000016_000000017.lean\"\n\tUser time (seconds): 21.42\n\tSystem time (seconds): 0.64\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.17\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3848124\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106052\n\tVoluntary context switches: 716\n\tInvoluntary context switches: 63\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 404.7277607200085,
+      "label": "Window000000017_000000018",
+      "max_rss_kb": 6909972,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000017_000000018.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000017_000000018.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000017_000000018.lean\"\n\tUser time (seconds): 402.30\n\tSystem time (seconds): 2.40\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:44.72\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6909972\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 455676\n\tVoluntary context switches: 21007\n\tInvoluntary context switches: 823\n\tSwaps: 0\n\tFile system inputs: 8\n\tFile system outputs: 170664\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.885103610999067,
+      "label": "Window000000018_000000019",
+      "max_rss_kb": 3840332,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000018_000000019.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000018_000000019.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000018_000000019.lean\"\n\tUser time (seconds): 21.29\n\tSystem time (seconds): 0.64\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.88\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840332\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105374\n\tVoluntary context switches: 693\n\tInvoluntary context switches: 82\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1912\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.983677782001905,
+      "label": "Window000000019_000000020",
+      "max_rss_kb": 3840584,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000019_000000020.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000019_000000020.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000019_000000020.lean\"\n\tUser time (seconds): 21.32\n\tSystem time (seconds): 0.65\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.98\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840584\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105624\n\tVoluntary context switches: 692\n\tInvoluntary context switches: 73\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1936\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 24.125152041000547,
+      "label": "Window000000020_000000021",
+      "max_rss_kb": 3897004,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000020_000000021.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000020_000000021.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000020_000000021.lean\"\n\tUser time (seconds): 23.45\n\tSystem time (seconds): 0.69\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:24.12\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3897004\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106112\n\tVoluntary context switches: 716\n\tInvoluntary context switches: 65\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1936\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.60191958399082,
+      "label": "Window000000021_000000022",
+      "max_rss_kb": 3824640,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000021_000000022.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000021_000000022.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000021_000000022.lean\"\n\tUser time (seconds): 20.93\n\tSystem time (seconds): 0.64\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.59\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824640\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105541\n\tVoluntary context switches: 668\n\tInvoluntary context switches: 62\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.71896380299586,
+      "label": "Window000000022_000000023",
+      "max_rss_kb": 3839540,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000022_000000023.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000022_000000023.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000022_000000023.lean\"\n\tUser time (seconds): 21.12\n\tSystem time (seconds): 0.60\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.71\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3839540\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105352\n\tVoluntary context switches: 693\n\tInvoluntary context switches: 58\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1936\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.67475413500506,
+      "label": "Window000000023_000000024",
+      "max_rss_kb": 3842932,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000023_000000024.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000023_000000024.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000023_000000024.lean\"\n\tUser time (seconds): 21.08\n\tSystem time (seconds): 0.59\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.67\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3842932\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105588\n\tVoluntary context switches: 721\n\tInvoluntary context switches: 63\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 398.5941257700033,
+      "label": "Window000000024_000000025",
+      "max_rss_kb": 6912508,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000024_000000025.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000024_000000025.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000024_000000025.lean\"\n\tUser time (seconds): 396.29\n\tSystem time (seconds): 2.30\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:38.59\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6912508\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 432195\n\tVoluntary context switches: 21360\n\tInvoluntary context switches: 769\n\tSwaps: 0\n\tFile system inputs: 8\n\tFile system outputs: 171640\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.180527921009343,
+      "label": "Window000000025_000000026",
+      "max_rss_kb": 3832636,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000025_000000026.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000025_000000026.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000025_000000026.lean\"\n\tUser time (seconds): 21.57\n\tSystem time (seconds): 0.61\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.17\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3832636\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 107851\n\tVoluntary context switches: 673\n\tInvoluntary context switches: 69\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.26751565800805,
+      "label": "Window000000026_000000027",
+      "max_rss_kb": 3849400,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000026_000000027.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000026_000000027.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000026_000000027.lean\"\n\tUser time (seconds): 21.52\n\tSystem time (seconds): 0.70\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.26\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3849400\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105305\n\tVoluntary context switches: 692\n\tInvoluntary context switches: 60\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 385.86383328300144,
+      "label": "Window000000027_000000028",
+      "max_rss_kb": 6792280,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000027_000000028.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000027_000000028.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000027_000000028.lean\"\n\tUser time (seconds): 383.68\n\tSystem time (seconds): 2.20\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:25.86\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6792280\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 437238\n\tVoluntary context switches: 22310\n\tInvoluntary context switches: 595\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 178952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.30637739499798,
+      "label": "Window000000028_000000029",
+      "max_rss_kb": 3849032,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000028_000000029.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000028_000000029.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000028_000000029.lean\"\n\tUser time (seconds): 21.69\n\tSystem time (seconds): 0.64\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.30\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3849032\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105418\n\tVoluntary context switches: 705\n\tInvoluntary context switches: 102\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 393.7221997320012,
+      "label": "Window000000029_000000030",
+      "max_rss_kb": 6749192,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000029_000000030.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000029_000000030.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000029_000000030.lean\"\n\tUser time (seconds): 391.38\n\tSystem time (seconds): 2.35\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:33.71\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6749192\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 434162\n\tVoluntary context switches: 22534\n\tInvoluntary context switches: 580\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 172176\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 391.5484891360102,
+      "label": "Window000000030_000000031",
+      "max_rss_kb": 6791080,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000030_000000031.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000030_000000031.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000030_000000031.lean\"\n\tUser time (seconds): 389.24\n\tSystem time (seconds): 2.35\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:31.54\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6791080\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 472482\n\tVoluntary context switches: 22747\n\tInvoluntary context switches: 912\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 179304\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.67629549499543,
+      "label": "Window000000031_000000032",
+      "max_rss_kb": 3824084,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000031_000000032.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000031_000000032.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000031_000000032.lean\"\n\tUser time (seconds): 21.97\n\tSystem time (seconds): 0.71\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.67\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824084\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105625\n\tVoluntary context switches: 682\n\tInvoluntary context switches: 76\n\tSwaps: 0\n\tFile system inputs: 8\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.0005474649951793253,
+      "label": "Window000000032_000000033",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000032_000000033.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 24.113593229005346,
+      "label": "Window000000033_000000034",
+      "max_rss_kb": 3913080,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000033_000000034.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000033_000000034.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000033_000000034.lean\"\n\tUser time (seconds): 23.45\n\tSystem time (seconds): 0.63\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:24.11\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3913080\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105075\n\tVoluntary context switches: 731\n\tInvoluntary context switches: 80\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1928\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.667314335994888,
+      "label": "Window000000034_000000035",
+      "max_rss_kb": 3842176,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000034_000000035.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000034_000000035.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000034_000000035.lean\"\n\tUser time (seconds): 21.03\n\tSystem time (seconds): 0.69\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.66\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3842176\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106292\n\tVoluntary context switches: 721\n\tInvoluntary context switches: 78\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.533264646001044,
+      "label": "Window000000035_000000036",
+      "max_rss_kb": 3824216,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000035_000000036.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000035_000000036.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000035_000000036.lean\"\n\tUser time (seconds): 20.95\n\tSystem time (seconds): 0.64\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.53\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824216\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105945\n\tVoluntary context switches: 662\n\tInvoluntary context switches: 56\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.504022900990094,
+      "label": "Window000000036_000000037",
+      "max_rss_kb": 3824332,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000036_000000037.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000036_000000037.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000036_000000037.lean\"\n\tUser time (seconds): 20.89\n\tSystem time (seconds): 0.61\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.50\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824332\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 107185\n\tVoluntary context switches: 764\n\tInvoluntary context switches: 98\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.57441820501117,
+      "label": "Window000000037_000000038",
+      "max_rss_kb": 3840472,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000037_000000038.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000037_000000038.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000037_000000038.lean\"\n\tUser time (seconds): 20.94\n\tSystem time (seconds): 0.61\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.57\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840472\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105608\n\tVoluntary context switches: 719\n\tInvoluntary context switches: 54\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.732785041007446,
+      "label": "Window000000038_000000039",
+      "max_rss_kb": 3842676,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000038_000000039.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000038_000000039.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000038_000000039.lean\"\n\tUser time (seconds): 20.96\n\tSystem time (seconds): 0.65\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.73\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3842676\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105825\n\tVoluntary context switches: 681\n\tInvoluntary context switches: 59\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.580419245001394,
+      "label": "Window000000039_000000040",
+      "max_rss_kb": 3841456,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000039_000000040.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000039_000000040.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000039_000000040.lean\"\n\tUser time (seconds): 20.87\n\tSystem time (seconds): 0.59\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.57\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3841456\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105375\n\tVoluntary context switches: 714\n\tInvoluntary context switches: 75\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 423.8624995069986,
+      "label": "Window000000040_000000041",
+      "max_rss_kb": 6899084,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000040_000000041.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000040_000000041.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000040_000000041.lean\"\n\tUser time (seconds): 421.22\n\tSystem time (seconds): 2.72\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 7:03.85\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6899084\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 472487\n\tVoluntary context switches: 21333\n\tInvoluntary context switches: 734\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 172824\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.954830336995656,
+      "label": "Window000000041_000000042",
+      "max_rss_kb": 3833140,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000041_000000042.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000041_000000042.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000041_000000042.lean\"\n\tUser time (seconds): 21.41\n\tSystem time (seconds): 0.61\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.95\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3833140\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 108221\n\tVoluntary context switches: 691\n\tInvoluntary context switches: 63\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.00036604100023396313,
+      "label": "Window000000042_000000043",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000042_000000043.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.763015253993217,
+      "label": "Window000000043_000000044",
+      "max_rss_kb": 3842652,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000043_000000044.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000043_000000044.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000043_000000044.lean\"\n\tUser time (seconds): 21.15\n\tSystem time (seconds): 0.63\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.76\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3842652\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105967\n\tVoluntary context switches: 710\n\tInvoluntary context switches: 59\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 401.42693485900236,
+      "label": "Window000000044_000000045",
+      "max_rss_kb": 6770664,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000044_000000045.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000044_000000045.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000044_000000045.lean\"\n\tUser time (seconds): 398.95\n\tSystem time (seconds): 2.46\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:41.42\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6770664\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 446982\n\tVoluntary context switches: 22551\n\tInvoluntary context switches: 671\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 179064\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 385.53924731000734,
+      "label": "Window000000045_000000046",
+      "max_rss_kb": 6705428,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000045_000000046.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000045_000000046.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000045_000000046.lean\"\n\tUser time (seconds): 383.25\n\tSystem time (seconds): 2.34\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:25.53\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6705428\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 441137\n\tVoluntary context switches: 22660\n\tInvoluntary context switches: 644\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 176480\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.530473753999104,
+      "label": "Window000000046_000000047",
+      "max_rss_kb": 3823796,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000046_000000047.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000046_000000047.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000046_000000047.lean\"\n\tUser time (seconds): 21.88\n\tSystem time (seconds): 0.65\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.52\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3823796\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106326\n\tVoluntary context switches: 739\n\tInvoluntary context switches: 53\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 350.6763566180016,
+      "label": "Window000000047_000000048",
+      "max_rss_kb": 6390840,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000047_000000048.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000047_000000048.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000047_000000048.lean\"\n\tUser time (seconds): 348.62\n\tSystem time (seconds): 2.14\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 5:50.67\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6390840\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 380439\n\tVoluntary context switches: 22844\n\tInvoluntary context switches: 641\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 162616\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 23.01835003501037,
+      "label": "Window000000048_000000049",
+      "max_rss_kb": 3824956,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000048_000000049.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000048_000000049.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000048_000000049.lean\"\n\tUser time (seconds): 22.34\n\tSystem time (seconds): 0.66\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:23.01\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824956\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105791\n\tVoluntary context switches: 719\n\tInvoluntary context switches: 65\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 415.0214020169951,
+      "label": "Window000000049_000000050",
+      "max_rss_kb": 6940684,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000049_000000050.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000049_000000050.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000049_000000050.lean\"\n\tUser time (seconds): 412.42\n\tSystem time (seconds): 2.66\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:55.01\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6940684\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 445865\n\tVoluntary context switches: 21506\n\tInvoluntary context switches: 667\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 173184\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 23.030120547002298,
+      "label": "Window000000050_000000051",
+      "max_rss_kb": 3828128,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000050_000000051.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000050_000000051.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000050_000000051.lean\"\n\tUser time (seconds): 22.31\n\tSystem time (seconds): 0.74\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:23.02\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3828128\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106839\n\tVoluntary context switches: 729\n\tInvoluntary context switches: 63\n\tSwaps: 0\n\tFile system inputs: 2840\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.930831771998783,
+      "label": "Window000000051_000000052",
+      "max_rss_kb": 3824964,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000051_000000052.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000051_000000052.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000051_000000052.lean\"\n\tUser time (seconds): 22.21\n\tSystem time (seconds): 0.71\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.92\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824964\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105409\n\tVoluntary context switches: 696\n\tInvoluntary context switches: 62\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1936\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 23.75875782199728,
+      "label": "Window000000052_000000053",
+      "max_rss_kb": 3848312,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000052_000000053.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000052_000000053.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000052_000000053.lean\"\n\tUser time (seconds): 23.05\n\tSystem time (seconds): 0.67\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:23.75\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3848312\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105984\n\tVoluntary context switches: 692\n\tInvoluntary context switches: 189\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.895796830009203,
+      "label": "Window000000053_000000054",
+      "max_rss_kb": 3833212,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000053_000000054.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000053_000000054.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000053_000000054.lean\"\n\tUser time (seconds): 22.21\n\tSystem time (seconds): 0.67\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.89\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3833212\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 107917\n\tVoluntary context switches: 687\n\tInvoluntary context switches: 56\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1952\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 21.92175733500335,
+      "label": "Window000000054_000000055",
+      "max_rss_kb": 3825480,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000054_000000055.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000054_000000055.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000054_000000055.lean\"\n\tUser time (seconds): 21.32\n\tSystem time (seconds): 0.60\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:21.91\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3825480\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106971\n\tVoluntary context switches: 687\n\tInvoluntary context switches: 66\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1912\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.1026704320102,
+      "label": "Window000000055_000000056",
+      "max_rss_kb": 3840984,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000055_000000056.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000055_000000056.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000055_000000056.lean\"\n\tUser time (seconds): 21.52\n\tSystem time (seconds): 0.63\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.10\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3840984\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 105952\n\tVoluntary context switches: 729\n\tInvoluntary context switches: 87\n\tSwaps: 0\n\tFile system inputs: 160\n\tFile system outputs: 1936\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 24.93929606101301,
+      "label": "Window000000056_000000057",
+      "max_rss_kb": 3896516,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000056_000000057.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000056_000000057.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000056_000000057.lean\"\n\tUser time (seconds): 24.19\n\tSystem time (seconds): 0.70\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:24.93\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3896516\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 106603\n\tVoluntary context switches: 687\n\tInvoluntary context switches: 66\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1928\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 412.3362184289872,
+      "label": "Window000000057_000000058",
+      "max_rss_kb": 6777240,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000057_000000058.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000057_000000058.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000057_000000058.lean\"\n\tUser time (seconds): 409.92\n\tSystem time (seconds): 2.41\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:52.33\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6777240\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 442723\n\tVoluntary context switches: 22740\n\tInvoluntary context switches: 859\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 173168\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.483689438013243,
+      "label": "Window000000058_000000059",
+      "max_rss_kb": 3832768,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000058_000000059.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000058_000000059.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000058_000000059.lean\"\n\tUser time (seconds): 21.75\n\tSystem time (seconds): 0.71\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.48\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3832768\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 108370\n\tVoluntary context switches: 680\n\tInvoluntary context switches: 65\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 404.63898285100004,
+      "label": "Window000000059_000000060",
+      "max_rss_kb": 6818504,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000059_000000060.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000059_000000060.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000059_000000060.lean\"\n\tUser time (seconds): 402.17\n\tSystem time (seconds): 2.53\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:44.63\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6818504\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 463457\n\tVoluntary context switches: 23194\n\tInvoluntary context switches: 628\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 180232\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 390.6707920339977,
+      "label": "Window000000060_000000061",
+      "max_rss_kb": 6734652,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000060_000000061.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000060_000000061.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000060_000000061.lean\"\n\tUser time (seconds): 388.37\n\tSystem time (seconds): 2.37\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:30.66\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6734652\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 465563\n\tVoluntary context switches: 22358\n\tInvoluntary context switches: 609\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 176504\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 22.10232505199383,
+      "label": "Window000000061_000000062",
+      "max_rss_kb": 3824180,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000061_000000062.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000061_000000062.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000061_000000062.lean\"\n\tUser time (seconds): 21.43\n\tSystem time (seconds): 0.69\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:22.09\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3824180\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 108090\n\tVoluntary context switches: 670\n\tInvoluntary context switches: 91\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 1920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 365.8268640909955,
+      "label": "Window000000062_000000063",
+      "max_rss_kb": 6748792,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000062_000000063.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lake env lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000062_000000063.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000062_000000063.lean\"\n\tUser time (seconds): 363.33\n\tSystem time (seconds): 2.42\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 6:05.82\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 6748792\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 417140\n\tVoluntary context switches: 23323\n\tInvoluntary context switches: 911\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 178920\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.000275083992164582,
+      "label": "Window000000063_000000064",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Window000000063_000000064.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "schema_version": 1,
+  "select": "all",
+  "source": "scripts/generated/translation_row_relation_classifier_sharded_000000000_000000064.json",
+  "summary": {
+    "cached": 4,
+    "checked": 64,
+    "failed": 0,
+    "max_elapsed_seconds": 423.8624995069986,
+    "max_rss_kb": 6940684,
+    "total_elapsed_seconds": 8298.3783104061
+  }
+}

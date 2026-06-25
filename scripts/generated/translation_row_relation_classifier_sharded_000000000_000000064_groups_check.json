@@ -1,0 +1,62 @@
+{
+  "job_gib": 8.0,
+  "jobs_effective": 4,
+  "jobs_requested": 4,
+  "kind": "groups",
+  "lean_memory_limit_gib": 12.0,
+  "memory_budget_gib": 40.0,
+  "mirror_to_lake": true,
+  "results": [
+    {
+      "cached": false,
+      "elapsed_seconds": 1.545221104999655,
+      "label": "Group000000000_000000016",
+      "max_rss_kb": 3262368,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000000_000000016.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000000_000000016.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000000_000000016.lean\"\n\tUser time (seconds): 1.10\n\tSystem time (seconds): 0.43\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:01.54\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3262368\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 50\n\tMinor (reclaiming a frame) page faults: 93253\n\tVoluntary context switches: 39\n\tInvoluntary context switches: 24\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 32\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 1.5440327060059644,
+      "label": "Group000000016_000000032",
+      "max_rss_kb": 3246740,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000016_000000032.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000016_000000032.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000016_000000032.lean\"\n\tUser time (seconds): 1.08\n\tSystem time (seconds): 0.45\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:01.54\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3246740\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 52\n\tMinor (reclaiming a frame) page faults: 92755\n\tVoluntary context switches: 40\n\tInvoluntary context switches: 25\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 32\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 1.54461030899256,
+      "label": "Group000000032_000000048",
+      "max_rss_kb": 3273380,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000032_000000048.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000032_000000048.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000032_000000048.lean\"\n\tUser time (seconds): 1.09\n\tSystem time (seconds): 0.44\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:01.53\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3273380\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 45\n\tMinor (reclaiming a frame) page faults: 91117\n\tVoluntary context switches: 41\n\tInvoluntary context switches: 26\n\tSwaps: 0\n\tFile system inputs: 1720\n\tFile system outputs: 32\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 1.5436433839931851,
+      "label": "Group000000048_000000064",
+      "max_rss_kb": 3247000,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000048_000000064.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o /home/zpconn/code/cuboctahedron/evidence/.row_relation_classifier_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000048_000000064.olean Cuboctahedron/Generated/Translation/TwoSource/RowRelationClassifier/Group000000048_000000064.lean\"\n\tUser time (seconds): 1.04\n\tSystem time (seconds): 0.49\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:01.53\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 3247000\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 43\n\tMinor (reclaiming a frame) page faults: 92951\n\tVoluntary context switches: 38\n\tInvoluntary context switches: 23\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 32\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    }
+  ],
+  "schema_version": 1,
+  "select": "all",
+  "source": "scripts/generated/translation_row_relation_classifier_sharded_000000000_000000064.json",
+  "summary": {
+    "cached": 0,
+    "checked": 4,
+    "failed": 0,
+    "max_elapsed_seconds": 1.545221104999655,
+    "max_rss_kb": 3273380,
+    "total_elapsed_seconds": 6.1775075039913645
+  }
+}

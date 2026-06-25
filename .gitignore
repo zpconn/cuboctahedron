@@ -2,7 +2,9 @@
 __pycache__/
 evidence/.external_olean_cache/
 evidence/.translation_two_source_olean_cache/
+evidence/.row_relation_classifier_olean_cache/
 evidence/**/*.olean
+evidence/**/*.olean.json
 evidence/**/*.ilean
 evidence/**/check_report.json
 certs/nonidentity_residual_shards/

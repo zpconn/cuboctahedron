@@ -7,7 +7,12 @@ certificate for every bad-direction mask.  Instead it emits:
 * private per-survivor row-relation witnesses, proved from exact line facts;
 * private per-rank mask dispatch theorems, using GoodDirection only for masks
   that could arise from a feasible translation orbit; and
-* one public identity-premised interval theorem for a bounded rank window.
+* one public semantic interval theorem for a bounded rank window.
+
+When `--emit-shards` is enabled, the emitter writes small `Window...` leaves
+and a bounded import hierarchy of `Group...` roots plus one `AllWindow...` root.
+The hierarchy keeps expensive proof leaves out of broad root imports while still
+using only Prop-level interval composition.
 
 The generated Lean is proof-carrying and self-checking; the Python script is
 only a guardrail and is not trusted as proof.
@@ -232,6 +237,10 @@ def range_suffix(start: int, end: int) -> str:
 
 def root_suffix(start: int, end: int) -> str:
     return f"AllWindow{start:09d}_{end:09d}"
+
+
+def group_suffix(start: int, end: int) -> str:
+    return f"Group{start:09d}_{end:09d}"
 
 
 def namespace_for_range(prefix: str, start: int, end: int) -> str:
@@ -980,16 +989,21 @@ def emit_shards(
     rank_start: int,
     limit: int,
     shard_size: int,
+    group_size: int,
     module_prefix: str,
     out_dir: Path,
     root_module_namespace: str,
     root_out: Path,
-) -> tuple[int, dict[str, Any], int, int, list[dict[str, Any]]]:
+) -> tuple[int, dict[str, Any], int, int, list[dict[str, Any]], list[dict[str, Any]]]:
     if shard_size <= 0:
         raise ValueError("--shard-size must be positive")
+    if group_size <= 0:
+        raise ValueError("--group-size must be positive")
     rank_end = rank_start + limit
     shard_namespaces: list[str] = []
     shard_stats: list[dict[str, Any]] = []
+    group_namespaces: list[str] = []
+    group_stats: list[dict[str, Any]] = []
     generated_line_count = 0
     generated_source_bytes = 0
     total_classified = 0
@@ -1020,17 +1034,48 @@ def emit_shards(
         generated_line_count += line_count
         generated_source_bytes += source_bytes
 
+    for group_index, first_shard in enumerate(range(0, len(shard_stats), group_size)):
+        group_entries = shard_stats[first_shard:first_shard + group_size]
+        if not group_entries:
+            continue
+        group_start = int(group_entries[0]["rank_start"])
+        group_end = int(group_entries[-1]["rank_end"])
+        suffix = group_suffix(group_start, group_end)
+        namespace = f"{module_prefix}.{suffix}"
+        out = out_dir / f"{suffix}.lean"
+        group_lines = root_module_lines(
+            module_namespace=namespace,
+            rank_start=group_start,
+            rank_end=group_end,
+            shard_namespaces=[str(entry["namespace"]) for entry in group_entries],
+        )
+        write_generated(out, group_lines)
+        group_namespaces.append(namespace)
+        group_stats.append({
+            "namespace": namespace,
+            "out": str(out),
+            "rank_start": group_start,
+            "rank_end": group_end,
+            "first_shard_index": first_shard,
+            "last_shard_index": first_shard + len(group_entries) - 1,
+            "shard_count": len(group_entries),
+            "line_count": len(group_lines),
+            "source_bytes": out.stat().st_size,
+        })
+        generated_line_count += len(group_lines)
+        generated_source_bytes += out.stat().st_size
+
     root_lines = root_module_lines(
         module_namespace=root_module_namespace,
         rank_start=rank_start,
         rank_end=rank_end,
-        shard_namespaces=shard_namespaces,
+        shard_namespaces=group_namespaces if group_namespaces else shard_namespaces,
     )
     write_generated(root_out, root_lines)
     generated_line_count += len(root_lines)
     generated_source_bytes += root_out.stat().st_size
     stats = merge_stats([entry["stats"] for entry in shard_stats], rank_start, limit)
-    return total_classified, stats, generated_line_count, generated_source_bytes, shard_stats
+    return total_classified, stats, generated_line_count, generated_source_bytes, shard_stats, group_stats
 
 
 def main() -> int:
@@ -1043,6 +1088,7 @@ def main() -> int:
     parser.add_argument("--emit-shards", action="store_true")
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--shard-size", type=int, default=1)
+    parser.add_argument("--group-size", type=int, default=32)
     parser.add_argument("--module-prefix", default=DEFAULT_MODULE_PREFIX)
     parser.add_argument("--root-out", type=Path, default=None)
     parser.add_argument("--root-module-namespace", default=None)
@@ -1061,6 +1107,7 @@ def main() -> int:
 
     rank_end = args.rank_start + args.limit
     shard_stats: list[dict[str, Any]] = []
+    group_stats: list[dict[str, Any]] = []
     if args.emit_shards:
         module_prefix = validate_module_namespace(args.module_prefix)
         root_module_namespace = validate_module_namespace(
@@ -1084,10 +1131,12 @@ def main() -> int:
                 generated_line_count,
                 generated_source_bytes,
                 shard_stats,
+                group_stats,
             ) = emit_shards(
                 rank_start=args.rank_start,
                 limit=args.limit,
                 shard_size=args.shard_size,
+                group_size=args.group_size,
                 module_prefix=module_prefix,
                 out_dir=args.out_dir,
                 root_module_namespace=root_module_namespace,
@@ -1137,10 +1186,12 @@ def main() -> int:
             "out": str(output_path),
             "out_dir": str(args.out_dir),
             "shard_size": args.shard_size,
+            "group_size": args.group_size,
             "module_namespace": module_namespace,
         },
         "stats": stats,
         "shards": shard_stats,
+        "groups": group_stats,
         "generated_line_count": generated_line_count,
         "generated_source_bytes": generated_source_bytes,
     }
