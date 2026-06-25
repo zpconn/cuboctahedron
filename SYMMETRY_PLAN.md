@@ -231,10 +231,11 @@ full one-rank extrapolation:     ~97 CPU-years
 
 Therefore the next proof architecture is a semantic-family architecture:
 
-1. Add semantic killed bridges parallel to the existing certificate bridges.
-   Final public coverage should consume `Coverage.TranslationCaseKilled`,
-   `Coverage.NonIdentityRankKilled`, and related semantic predicates directly.
-   Certificate-producing bridges stay only for smoke/regression checks.
+1. Semantic killed bridges now exist parallel to the existing certificate
+   bridges. Final public coverage can consume
+   `Coverage.TranslationCaseKilled`, `Coverage.NonIdentityRankKilled`, and
+   related semantic predicates directly. Certificate-producing bridges stay
+   for smoke/regression checks.
 2. Run a full global row-template census before emitting more Lean. The
    `[0,100000)` gate strongly suggests the nine row-relation templates are the
    translation compression layer, but the final plan must know whether that
@@ -281,14 +282,29 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows nine semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those nine template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. The active path is now semantic killed bridges, a global nine-template census, row-template family leaves, signed prefix/state cone pruning, D4 transport as a multiplier, and integer/scaled arithmetic as a measured constant-factor optimization. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows nine semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those nine template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. The active path is now the global nine-template census, row-template family leaves, signed prefix/state cone pruning, D4 transport as a multiplier, and integer/scaled arithmetic as a measured constant-factor optimization. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
-| Phase 8: public coverage API | Blocked on survivor coverage | The raw/singleton/OOM paths are archived or avoided; public API should wait for GoodDirection survivor/Farkas coverage. |
+| Phase 8: public coverage API | Partially complete | The semantic public API now exists as `SemanticExhaustiveGeneratedCoverage` plus semantic Step-15 adapters. It still needs full generated semantic evidence before `Generated.rank_complete`/final Step 15 can be unconditional. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
 | Phase 10: final theorem/axioms | Not ready | Wait for Step 15. |
 
 Completed current-work items:
 
+- Completed Phase 6Z.6C semantic killed bridge layer:
+  - `Cuboctahedron/Generated/Coverage/ComputableClassifiers.lean`
+    now has semantic killed bridge variants for nonidentity residuals and
+    translation Farkas cases.
+  - `Cuboctahedron/Generated/NonIdentity/Complete.lean` and
+    `Cuboctahedron/Generated/Translation/Complete.lean` now expose semantic
+    complete theorems parallel to the older certificate-producing complete
+    theorems.
+  - `Cuboctahedron/Generated/NonIdentity/Coverage/All.lean` and
+    `Cuboctahedron/Generated/Translation/Coverage/All.lean` now expose
+    semantic interval predicates, including GoodDirection-specific translation
+    interval predicates.
+  - `Cuboctahedron/Generated/ExhaustiveCoverage.lean` now defines
+    `SemanticExhaustiveGeneratedCoverage` and semantic Step-15-facing theorem
+    adapters.
 - Added `Cuboctahedron/Generated/NonIdentity/PrefixPruning.lean`.
 - Added reusable theorem `nonidentity_killed_of_axis_dot_zero`.
 - Added `Cuboctahedron/Generated/NonIdentity/TemplateSoundness.lean`.
@@ -3964,10 +3980,33 @@ rg -n "sorry|admit|axiom|native_decide|unsafe" \
   5-6-hour build target. The next scaling step is semantic-family compression,
   not more one-rank leaf tuning.
 
-Phase 6Z.6C planned result: semantic killed bridges.
+Phase 6Z.6C implementation result: semantic killed bridges.
 
-- Add final-surface bridge theorems parallel to the existing certificate
-  bridges:
+- Added final-surface bridge theorems parallel to the existing certificate
+  bridges. The certificate-producing bridges remain available for
+  smoke/regression checks, but the new bridge surface consumes semantic killed
+  predicates directly.
+
+Implemented names:
+
+- `Coverage.NonIdComputableClassifier.KilledResidualBridge`
+- `Coverage.NonIdComputableClassifier.complete_killed_of_residual_bridge`
+- `Coverage.TranslationComputableClassifier.KilledFarkasBridge`
+- `Coverage.TranslationComputableClassifier.complete_killed_of_farkas_bridge`
+- `Generated.NonIdentity.KilledResidualBridge`
+- `Generated.NonIdentity.complete_killed_of_residual_bridge`
+- `Generated.NonIdentity.complete_killed_of_computable_residual_bridge`
+- `Generated.Translation.KilledBridge`
+- `Generated.Translation.complete_killed_of_bridge`
+- `Generated.Translation.complete_killed_of_computable_farkas_bridge`
+- `Generated.NonIdentity.Coverage.ResidualRankKilled`
+- `Generated.NonIdentity.Coverage.ResidualRankKilledBy`
+- `Generated.Translation.Coverage.FarkasRankKilled`
+- `Generated.Translation.Coverage.FarkasRankKilledBy`
+- `Generated.Translation.Coverage.FarkasGoodRankKilled`
+- `Generated.Translation.Coverage.FarkasGoodRankKilledBy`
+
+The intended theorem shapes are now available in Lean:
 
 ```lean
 namespace Cuboctahedron.Generated.Translation
@@ -3988,24 +4027,47 @@ theorem complete_killed_of_bridge
 ```lean
 namespace Cuboctahedron.Generated.NonIdentity
 
-abbrev KilledBridge : Prop :=
+abbrev KilledResidualBridge : Prop :=
   ∀ {r : Fin numPairWords},
     nonIdEarlyFamilyClassOfRank r = NonIdFamilyClass.residual →
     totalLinearOfPairWord (unrankPairWord r) ≠ (matId : Mat3 ℚ) →
       Coverage.NonIdentityRankKilled r
 
 theorem complete_killed_of_bridge
-    (bridge : KilledBridge)
+    (bridge : KilledResidualBridge)
     (r : Fin numPairWords) :
     Coverage.NonIdentityRankKilled r := ...
 ```
 
-- Keep existing bridges returning ordinary checked certificates for regression
-  tests, but do not let `Generated.rank_complete` depend on them.
-- Acceptance:
-  `lake build Cuboctahedron.Generated.Translation.Complete` and
-  `lake build Cuboctahedron.Generated.NonIdentity.Complete` still pass, and
-  new final-surface bridge theorem names are visible by `#check`.
+- Added a parallel semantic public coverage structure and Step-15-facing
+  adapters:
+  - `Generated.SemanticExhaustiveGeneratedCoverage`
+  - `Generated.semanticGeneratedCoverageOfBridges`
+  - `Generated.semanticGeneratedCoverageOfIntervals`
+  - `Generated.semanticGeneratedCoverageOfGoodIntervals`
+  - `Generated.semanticGeneratedCoverageOfComputableBridges`
+  - `Generated.semanticGeneratedCoverageOfComputableIntervals`
+  - `Generated.semanticGeneratedCoverageOfComputableGoodIntervals`
+  - `Generated.generated_nonidentity_complete_of_semantic_coverage`
+  - `Generated.generated_translation_complete_of_semantic_coverage`
+  - `Generated.no_unfolded_omni_starting_xp_of_semantic_coverage`
+
+Validation commands passed:
+
+```text
+lake build Cuboctahedron.Generated.Coverage.ComputableClassifiers
+lake build Cuboctahedron.Generated.NonIdentity.Complete
+lake build Cuboctahedron.Generated.Translation.Complete
+lake build Cuboctahedron.Generated.NonIdentity.Coverage.All
+lake build Cuboctahedron.Generated.Translation.Coverage.All
+lake build Cuboctahedron.Generated.ExhaustiveCoverage
+lake build Cuboctahedron.Generated.Translation.TwoSource.FamilyCoverage
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+```
+
+The grep scan only hit existing `#print axioms` validation lines in
+`PrintConditionalAxioms.lean`, not proof-bypass tokens introduced by this
+phase.
 
 Phase 6Z.6D planned result: global row-template census.
 
@@ -5039,7 +5101,7 @@ Acceptance:
 - [x] Add an external-cache validator and hierarchical group/root validator for
   the witness-based row-relation classifier, and accept the `[0,64)` bounded
   root.
-- [ ] Implement Phase 6Z.6C semantic killed bridges so final generated
+- [x] Implement Phase 6Z.6C semantic killed bridges so final generated
   coverage consumes `...Killed` predicates directly rather than
   `exists cert, checkCert = true` witnesses.
 - [ ] Implement Phase 6Z.6D full global row-template census for GoodDirection
@@ -5076,17 +5138,11 @@ Acceptance:
 
 Current next step:
 
-The immediate next step is Phase 6Z.6C: add semantic killed bridges in the
-translation and nonidentity completion modules. The goal is to make the final
-generated coverage root consume semantic `Coverage.TranslationCaseKilled` and
-`Coverage.NonIdentityRankKilled` theorems directly. Existing certificate
-bridges remain useful for smoke tests, but the final proof path must not be
-forced through `exists cert, checkCert = true`.
-
-After Phase 6Z.6C, implement Phase 6Z.6D: the full global row-template census.
+The immediate next step is Phase 6Z.6D: the full global row-template census.
 It should confirm whether the nine accepted row-relation templates cover every
 GoodDirection survivor globally. If the census has any uncovered cases, add or
-prove more semantic templates before emitting production family leaves.
+prove more semantic templates before emitting production family leaves. The
+census should emit only profiler reports, not production Lean evidence.
 
 After the global census accepts, implement Phase 6Z.6E: a row-template semantic
 family profiler. It should group GoodDirection survivors by template/source/row

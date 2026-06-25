@@ -92,6 +92,14 @@ def ResidualBridge
           cert.word = unrankPairWord r /\
             checkNonIdCert cert = true
 
+def KilledResidualBridge
+    (classifier : NonIdComputableClassifier) : Prop :=
+  forall {r : Fin numPairWords},
+    classifier.classOfRank r = NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord r) ≠
+          (matId : Mat3 Rat) ->
+        NonIdentityRankKilled r
+
 theorem complete_of_residual_bridge
     (classifier : NonIdComputableClassifier)
     (residualBridge : classifier.ResidualBridge)
@@ -113,6 +121,26 @@ theorem killed_of_residual_bridge
     NonIdentityRankKilled r :=
   NonIdentityRankCertified.killed
     (classifier.complete_of_residual_bridge residualBridge r)
+
+theorem complete_killed_of_residual_bridge
+    (classifier : NonIdComputableClassifier)
+    (residualBridge : classifier.KilledResidualBridge)
+    (r : Fin numPairWords) :
+    NonIdentityRankKilled r := by
+  intro hM
+  cases hclass : classifier.classOfRank r with
+  | badDirectionSign =>
+      have hcert : NonIdentityRankCertified r := by
+        intro _hM
+        exact classifier.badDirection_exists_cert hclass
+      exact NonIdentityRankCertified.killed hcert hM
+  | badPairBalance =>
+      have hcert : NonIdentityRankCertified r := by
+        intro _hM
+        exact classifier.badPairBalance_exists_cert hclass
+      exact NonIdentityRankCertified.killed hcert hM
+  | residual =>
+      exact residualBridge hclass hM hM
 
 end NonIdComputableClassifier
 
@@ -196,6 +224,15 @@ def FarkasBridge
             cert.signMask = mask /\
               checkTranslationCert cert = true
 
+def KilledFarkasBridge
+    (classifier : TranslationComputableClassifier) : Prop :=
+  forall {r : Fin numPairWords} {mask : SignMask},
+    classifier.classOfChoice r mask =
+        TranslationFamilyClass.needsFarkas ->
+      totalLinearOfPairWord (unrankPairWord r) =
+          (matId : Mat3 Rat) ->
+        TranslationCaseKilled r mask
+
 theorem complete_of_farkas_bridge
     (classifier : TranslationComputableClassifier)
     (farkasBridge : classifier.FarkasBridge)
@@ -219,6 +256,27 @@ theorem killed_of_farkas_bridge
     TranslationCaseKilled r mask :=
   TranslationCaseCertified.killed
     (classifier.complete_of_farkas_bridge farkasBridge r mask)
+
+theorem complete_killed_of_farkas_bridge
+    (classifier : TranslationComputableClassifier)
+    (farkasBridge : classifier.KilledFarkasBridge)
+    (r : Fin numPairWords)
+    (mask : SignMask) :
+    TranslationCaseKilled r mask := by
+  intro hM
+  cases hclass : classifier.classOfChoice r mask with
+  | badDirectionSign =>
+      have hcert : TranslationCaseCertified r mask := by
+        intro _hM
+        exact classifier.badDirection_exists_cert hclass
+      exact TranslationCaseCertified.killed hcert hM
+  | badTranslationVector =>
+      have hcert : TranslationCaseCertified r mask := by
+        intro _hM
+        exact classifier.badVector_exists_cert hclass
+      exact TranslationCaseCertified.killed hcert hM
+  | needsFarkas =>
+      exact farkasBridge hclass hM hM
 
 end TranslationComputableClassifier
 

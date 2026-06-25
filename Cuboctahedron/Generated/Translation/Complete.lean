@@ -22,6 +22,13 @@ abbrev FarkasBridge : Prop :=
             cert.signMask = mask /\
               checkTranslationCert cert = true
 
+abbrev KilledBridge : Prop :=
+  forall {r : Fin numPairWords} {mask : SignMask},
+    translationEarlyFamilyClassOfChoice r mask =
+        TranslationFamilyClass.needsFarkas ->
+      totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+        Coverage.TranslationCaseKilled r mask
+
 theorem complete_of_farkas_bridge
     (farkasBridge : FarkasBridge)
     (r : Fin numPairWords)
@@ -57,6 +64,35 @@ theorem complete_no_feasible_of_farkas_bridge
   Coverage.TranslationCaseCertified.killed
     (complete_of_farkas_bridge farkasBridge r mask)
 
+theorem complete_killed_of_bridge
+    (farkasBridge : KilledBridge)
+    (r : Fin numPairWords)
+    (mask : SignMask) :
+    Coverage.TranslationCaseKilled r mask := by
+  classical
+  intro hM
+  cases hclass : translationEarlyFamilyClassOfChoice r mask with
+  | badDirectionSign =>
+      have hcontains :
+          exhaustiveFamilyPartition.CoversBadDirection r mask := by
+        simp [exhaustiveFamilyPartition, hclass]
+      have hcert : Coverage.TranslationCaseCertified r mask := by
+        intro _hM
+        exact exhaustiveTranslationBadDirectionFamily_sound
+          (exhaustiveBadDirectionPartition_sound hcontains)
+      exact Coverage.TranslationCaseCertified.killed hcert hM
+  | badTranslationVector =>
+      have hcontains :
+          exhaustiveFamilyPartition.CoversBadVector r mask := by
+        simp [exhaustiveFamilyPartition, hclass]
+      have hcert : Coverage.TranslationCaseCertified r mask := by
+        intro _hM
+        exact exhaustiveTranslationBadVectorFamily_sound
+          (exhaustiveBadVectorPartition_sound hcontains)
+      exact Coverage.TranslationCaseCertified.killed hcert hM
+  | needsFarkas =>
+      exact farkasBridge hclass hM hM
+
 theorem complete_of_computable_farkas_bridge
     (classifier : Coverage.TranslationComputableClassifier)
     (farkasBridge : classifier.FarkasBridge)
@@ -79,5 +115,13 @@ theorem complete_no_feasible_of_computable_farkas_bridge
   Coverage.TranslationCaseCertified.killed
     (complete_of_computable_farkas_bridge
       classifier farkasBridge r mask)
+
+theorem complete_killed_of_computable_farkas_bridge
+    (classifier : Coverage.TranslationComputableClassifier)
+    (farkasBridge : classifier.KilledFarkasBridge)
+    (r : Fin numPairWords)
+    (mask : SignMask) :
+    Coverage.TranslationCaseKilled r mask :=
+  classifier.complete_killed_of_farkas_bridge farkasBridge r mask
 
 end Cuboctahedron.Generated.Translation

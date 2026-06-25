@@ -32,6 +32,22 @@ theorem residualBridge_of_interval
   intro r hclass hM
   exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
 
+def ResidualRankKilled (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ =
+        NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        Cuboctahedron.Generated.Coverage.NonIdentityRankKilled ⟨r, hlt⟩
+
+theorem killedResidualBridge_of_interval
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        ResidualRankKilled 0 numPairWords) :
+    Cuboctahedron.Generated.NonIdentity.KilledResidualBridge := by
+  intro r hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
+
 def ResidualRankCertifiedBy
     (classifier :
       Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
@@ -52,6 +68,27 @@ theorem residualBridge_of_interval_by
       Cuboctahedron.Generated.Coverage.CoversInterval
         (ResidualRankCertifiedBy classifier) 0 numPairWords) :
     classifier.ResidualBridge := by
+  intro r hclass hM
+  exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
+
+def ResidualRankKilledBy
+    (classifier :
+      Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
+    (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    classifier.classOfRank ⟨r, hlt⟩ =
+        NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        Cuboctahedron.Generated.Coverage.NonIdentityRankKilled ⟨r, hlt⟩
+
+theorem killedResidualBridge_of_interval_by
+    (classifier :
+      Cuboctahedron.Generated.Coverage.NonIdComputableClassifier)
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        (ResidualRankKilledBy classifier) 0 numPairWords) :
+    classifier.KilledResidualBridge := by
   intro r hclass hM
   exact h r.val (Nat.zero_le r.val) r.isLt r.isLt hclass hM
 
