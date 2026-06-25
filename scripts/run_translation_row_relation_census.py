@@ -96,19 +96,21 @@ def calibration_windows(
     return windows
 
 
-def scan_window_worker(args: tuple[int, int, int]) -> dict[str, Any]:
-    start, end, sample_limit = args
+def scan_window_worker(args: tuple[int, int, int, bool]) -> dict[str, Any]:
+    start, end, sample_limit, enable_diamond = args
     elapsed_start = time.monotonic()
     result = rowrel.scan_rank_window(
         rank_start=start,
         rank_end=end,
         sample_limit=sample_limit,
+        enable_diamond=enable_diamond,
         progress_interval=0,
     )
     return {
         "schema_version": 1,
         "mode": "translation-row-relation-template-census-window",
         "trusted_as_proof": False,
+        "diamond_enabled": enable_diamond,
         "window": {
             "start": start,
             "end": end,
@@ -138,13 +140,24 @@ def collect_payloads(
     aggregate_only: bool,
     stop_on_reject: bool,
     partial_uncovered_max: int,
+    enable_diamond: bool,
 ) -> list[dict[str, Any]]:
     payloads_by_window: dict[tuple[int, int], dict[str, Any]] = {}
     todo: list[tuple[int, int]] = []
     for window in windows:
         path = checkpoint_path(checkpoint_dir, *window)
         if path.exists() and (resume or aggregate_only):
-            payloads_by_window[window] = read_json(path)
+            payload = read_json(path)
+            if bool(payload.get("diamond_enabled", False)) == enable_diamond:
+                payloads_by_window[window] = payload
+            elif aggregate_only:
+                raise ValueError(
+                    "checkpoint diamond mode mismatch for "
+                    f"{window}: expected {enable_diamond}, "
+                    f"found {payload.get('diamond_enabled', False)}"
+                )
+            else:
+                todo.append(window)
         elif aggregate_only:
             raise FileNotFoundError(f"missing checkpoint for window {window}: {path}")
         else:
@@ -160,7 +173,10 @@ def collect_payloads(
                     window = next(remaining)
                 except StopIteration:
                     return
-                future = pool.submit(scan_window_worker, (*window, sample_limit))
+                future = pool.submit(
+                    scan_window_worker,
+                    (*window, sample_limit, enable_diamond),
+                )
                 active[future] = window
 
             for _ in range(min(workers, len(todo))):
@@ -182,6 +198,7 @@ def collect_payloads(
                         f"good={counts['good_direction_survivors']:,} "
                         f"covered={counts['covered_cases']:,} "
                         f"uncovered={counts['uncovered_cases']:,} "
+                        f"diamond={counts['diamond_covered_cases']:,} "
                         f"rss={payload['max_rss_kib']:,} KiB",
                         file=sys.stderr,
                     )
@@ -211,6 +228,7 @@ def aggregate_payload(
     partial_uncovered_max: int,
     elapsed_seconds: float,
     sample_limit: int,
+    enable_diamond: bool,
 ) -> dict[str, Any]:
     total = rowrel.fresh_total()
     for payload in payloads:
@@ -260,6 +278,7 @@ def aggregate_payload(
             "workers": workers,
         },
         "checkpoint_dir": str(checkpoint_dir),
+        "diamond_enabled": enable_diamond,
         "elapsed_seconds": elapsed_seconds,
         "max_window_rss_kib": max_rss,
         "sanity": sanity,
@@ -292,6 +311,15 @@ def markdown_report(payload: dict[str, Any]) -> str:
         f"| Covered cases | {counts['covered_cases']:,} |",
         f"| Uncovered cases | {counts['uncovered_cases']:,} |",
         f"| Overlap cases | {counts['overlap_cases']:,} |",
+        f"| Diamond profiling enabled | `{payload.get('diamond_enabled', False)}` |",
+        f"| Sharp-template covered cases | {counts['sharp_template_covered_cases']:,} |",
+        f"| Fallback-template cases | {counts['fallback_template_cases']:,} |",
+        f"| Diamond-covered cases | {counts['diamond_covered_cases']:,} |",
+        f"| Diamond + sharp covered cases | {counts['diamond_or_sharp_covered_cases']:,} |",
+        f"| Left after diamond + sharp templates | {counts['diamond_or_sharp_leftover_cases']:,} |",
+        f"| Fallback cases subsumed by diamond | {counts['diamond_subsumes_fallback_cases']:,} |",
+        f"| Fallback cases not covered by diamond | {counts['fallback_not_diamond_cases']:,} |",
+        f"| Left after diamond + expanded catalog | {counts['diamond_or_expanded_uncovered_cases']:,} |",
         f"| Total source pairs | {pair_summary['total_source_pairs']:,} |",
         f"| Fully covered source pairs | {pair_summary['fully_covered_source_pairs']:,} |",
         f"| Partial source pairs | {pair_summary['partial_source_pairs']:,} |",
@@ -313,6 +341,20 @@ def markdown_report(payload: dict[str, Any]) -> str:
     ):
         lines.append(f"- `{template_id}`: {count:,}")
     lines.append("")
+    if payload.get("diamond_enabled", False):
+        lines.append("## Diamond Row Counts")
+        lines.append("")
+        for row_name, count in sorted(
+            payload["diamond_row_counts"].items(),
+            key=lambda item: (-item[1], item[0]),
+        ):
+            source_pairs = len(
+                payload.get("source_pairs_by_diamond_row", {}).get(row_name, [])
+            )
+            lines.append(
+                f"- `{row_name}`: {count:,} cases across {source_pairs:,} source pairs"
+            )
+        lines.append("")
     if payload["top_uncovered_source_pairs"]:
         lines.append("## Top Uncovered Source Pairs")
         lines.append("")
@@ -339,6 +381,7 @@ def main() -> int:
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--aggregate-only", action="store_true")
     parser.add_argument("--stop-on-reject", action="store_true")
+    parser.add_argument("--enable-diamond", action="store_true")
     parser.add_argument("--calibration", action="store_true")
     parser.add_argument("--calibration-width", type=int, default=100_000)
     parser.add_argument(
@@ -389,6 +432,7 @@ def main() -> int:
         aggregate_only=args.aggregate_only,
         stop_on_reject=args.stop_on_reject,
         partial_uncovered_max=args.partial_uncovered_max,
+        enable_diamond=args.enable_diamond,
     )
     aggregate = aggregate_payload(
         payloads=payloads,
@@ -401,6 +445,7 @@ def main() -> int:
         partial_uncovered_max=args.partial_uncovered_max,
         elapsed_seconds=time.monotonic() - start,
         sample_limit=args.sample_limit,
+        enable_diamond=args.enable_diamond,
     )
     write_json_atomic(args.output, aggregate)
     markdown_output = args.markdown_output or args.output.with_suffix(".md")
@@ -412,6 +457,7 @@ def main() -> int:
         "global row-template census: "
         f"{aggregate['counts']['covered_cases']:,}/"
         f"{aggregate['counts']['good_direction_survivors']:,}; "
+        f"diamond={aggregate['counts']['diamond_covered_cases']:,}; "
         f"decision: {aggregate['decision']['status']}"
     )
     if args.stop_on_reject and aggregate["decision"]["status"] == "rejected":

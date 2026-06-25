@@ -13,12 +13,21 @@ This report is diagnostic only; Lean must check any emitted family theorem.
 | Covered cases | 63,725 |
 | Uncovered cases | 0 |
 | Overlap cases | 0 |
+| Diamond profiling enabled | `True` |
+| Sharp-template covered cases | 62,976 |
+| Fallback-template cases | 749 |
+| Diamond-covered cases | 63,276 |
+| Diamond + sharp covered cases | 63,363 |
+| Left after diamond + sharp templates | 362 |
+| Fallback cases subsumed by diamond | 387 |
+| Fallback cases not covered by diamond | 362 |
+| Left after diamond + expanded catalog | 0 |
 | Total source pairs | 555 |
 | Fully covered source pairs | 555 |
 | Partial source pairs | 0 |
 | Source pairs with uncovered cases | 0 |
-| Elapsed seconds | 277.23 |
-| Max window RSS KiB | 20,560 |
+| Elapsed seconds | 276.66 |
+| Max window RSS KiB | 20,476 |
 
 Decision: **accepted**
 
@@ -37,3 +46,8 @@ Decision: **accepted**
 - `eq_eq_neg_var_second`: 697
 - `axis_a_only`: 272
 - `axis_b_only`: 121
+
+## Diamond Row Counts
+
+- `first`: 49,466 cases across 433 source pairs
+- `second`: 13,845 cases across 93 source pairs

@@ -65,6 +65,18 @@ COUNT_KEYS = [
     "covered_cases",
     "uncovered_cases",
     "overlap_cases",
+    "sharp_template_covered_cases",
+    "fallback_template_cases",
+    "diamond_covered_cases",
+    "diamond_first_row_cases",
+    "diamond_second_row_cases",
+    "diamond_both_rows_cases",
+    "diamond_and_sharp_cases",
+    "diamond_subsumes_fallback_cases",
+    "fallback_not_diamond_cases",
+    "diamond_or_sharp_covered_cases",
+    "diamond_or_sharp_leftover_cases",
+    "diamond_or_expanded_uncovered_cases",
 ]
 
 Line = tuple[Fraction, Fraction, Fraction]
@@ -101,6 +113,35 @@ def multipliers_key(values: tuple[Fraction, Fraction]) -> list[str]:
     return [fraction_key(values[0]), fraction_key(values[1])]
 
 
+def diamond_bound(line: Line) -> Fraction:
+    """Maximum of a*y + b*z on the closed X+ diamond |y| + |z| <= 1."""
+    return max(abs(line[0]), abs(line[1]))
+
+
+def diamond_row_obstruction(line: Line) -> bool:
+    """True when line.Holds is impossible on the closed X+ diamond.
+
+    The repo convention is StrictLin2.Holds: a*y + b*z < c.  On the closed
+    diamond, a*y + b*z is always at least -max(|a|, |b|), so the strict
+    inequality is impossible when c <= -max(|a|, |b|).
+    """
+    return line[2] <= -diamond_bound(line)
+
+
+def diamond_obstructions(first_line: Line, second_line: Line) -> list[dict[str, Any]]:
+    obstructions: list[dict[str, Any]] = []
+    for row_name, line in [("first", first_line), ("second", second_line)]:
+        bound = diamond_bound(line)
+        if line[2] <= -bound:
+            obstructions.append({
+                "row": row_name,
+                "line": line_key(line),
+                "diamond_min_lhs": fraction_key(-bound),
+                "strict_rhs": fraction_key(line[2]),
+            })
+    return obstructions
+
+
 def sample_payload(
     *,
     rank: int,
@@ -113,6 +154,7 @@ def sample_payload(
     second_line: Line,
     multipliers: tuple[Fraction, Fraction],
     matches: list[str],
+    diamond_matches: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     return {
         "rank": rank,
@@ -128,6 +170,7 @@ def sample_payload(
             weighted_c_value(multipliers, first_line, second_line)
         ),
         "matches": matches,
+        "diamond_matches": diamond_matches or [],
     }
 
 
@@ -297,12 +340,15 @@ def scan_rank_window(
     rank_start: int,
     rank_end: int,
     sample_limit: int,
+    enable_diamond: bool = False,
     progress_interval: int = 0,
 ) -> dict[str, Any]:
     counts = fresh_counts()
     assigned_template_counts: Counter[str] = Counter()
     all_template_counts: Counter[str] = Counter()
+    diamond_row_counts: Counter[str] = Counter()
     source_pairs_by_template: dict[str, set[str]] = defaultdict(set)
+    source_pairs_by_diamond_row: dict[str, set[str]] = defaultdict(set)
     covered_source_pairs: set[str] = set()
     all_source_pairs: set[str] = set()
     uncovered_source_pairs: set[str] = set()
@@ -312,6 +358,8 @@ def scan_rank_window(
     failure_samples: list[dict[str, Any]] = []
     uncovered_samples: list[dict[str, Any]] = []
     overlap_samples: list[dict[str, Any]] = []
+    diamond_samples: list[dict[str, Any]] = []
+    diamond_missed_fallback_samples: list[dict[str, Any]] = []
 
     for rank in range(rank_start, rank_end):
         if (
@@ -391,9 +439,56 @@ def scan_rank_window(
             source_pair_case_counts[source_pair_digest] += 1
 
             matches = matching_templates(first_line, second_line, multipliers)
+            sharp_matches = [
+                template.template_id
+                for template in TEMPLATES
+                if not template.fallback
+                and template.matcher(first_line, second_line, multipliers)
+            ]
+            fallback_matches = [
+                template.template_id
+                for template in TEMPLATES
+                if template.fallback
+                and template.matcher(first_line, second_line, multipliers)
+            ]
+            diamond_matches = (
+                diamond_obstructions(first_line, second_line)
+                if enable_diamond else []
+            )
+            diamond_hit = bool(diamond_matches)
+            sharp_hit = bool(sharp_matches)
             for template_id in matches:
                 all_template_counts[template_id] += 1
                 source_pairs_by_template[template_id].add(source_pair_digest)
+            if sharp_hit:
+                counts["sharp_template_covered_cases"] += 1
+            if fallback_matches and not sharp_hit:
+                counts["fallback_template_cases"] += 1
+            if diamond_hit:
+                counts["diamond_covered_cases"] += 1
+            if diamond_hit and sharp_hit:
+                counts["diamond_and_sharp_cases"] += 1
+            if diamond_hit and fallback_matches and not sharp_hit:
+                counts["diamond_subsumes_fallback_cases"] += 1
+            if (not diamond_hit) and fallback_matches and not sharp_hit:
+                counts["fallback_not_diamond_cases"] += 1
+            if diamond_hit or sharp_hit:
+                counts["diamond_or_sharp_covered_cases"] += 1
+            else:
+                counts["diamond_or_sharp_leftover_cases"] += 1
+            if not (diamond_hit or bool(matches)):
+                counts["diamond_or_expanded_uncovered_cases"] += 1
+            if diamond_hit:
+                if len(diamond_matches) == 2:
+                    counts["diamond_both_rows_cases"] += 1
+                for item in diamond_matches:
+                    row_name = str(item["row"])
+                    diamond_row_counts[row_name] += 1
+                    source_pairs_by_diamond_row[row_name].add(source_pair_digest)
+                    if row_name == "first":
+                        counts["diamond_first_row_cases"] += 1
+                    elif row_name == "second":
+                        counts["diamond_second_row_cases"] += 1
             sample = sample_payload(
                 rank=rank,
                 mask=mask,
@@ -405,7 +500,17 @@ def scan_rank_window(
                 second_line=second_line,
                 multipliers=multipliers,
                 matches=matches,
+                diamond_matches=diamond_matches,
             )
+            if diamond_hit and len(diamond_samples) < sample_limit:
+                diamond_samples.append(sample)
+            if (
+                (not diamond_hit)
+                and fallback_matches
+                and not sharp_hit
+                and len(diamond_missed_fallback_samples) < sample_limit
+            ):
+                diamond_missed_fallback_samples.append(sample)
             if matches:
                 counts["covered_cases"] += 1
                 assigned_template_counts[matches[0]] += 1
@@ -426,11 +531,17 @@ def scan_rank_window(
 
     return {
         "counts": counts,
+        "diamond_enabled": enable_diamond,
         "assigned_template_counts": dict(assigned_template_counts),
         "all_template_counts": dict(all_template_counts),
+        "diamond_row_counts": dict(diamond_row_counts),
         "source_pairs_by_template": {
             template_id: sorted(digests)
             for template_id, digests in source_pairs_by_template.items()
+        },
+        "source_pairs_by_diamond_row": {
+            row_name: sorted(digests)
+            for row_name, digests in source_pairs_by_diamond_row.items()
         },
         "all_source_pairs": sorted(all_source_pairs),
         "covered_source_pairs": sorted(covered_source_pairs),
@@ -441,15 +552,18 @@ def scan_rank_window(
         "failure_samples": failure_samples,
         "uncovered_samples": uncovered_samples,
         "overlap_samples": overlap_samples,
+        "diamond_samples": diamond_samples,
+        "diamond_missed_fallback_samples": diamond_missed_fallback_samples,
     }
 
 
-def scan_rank_window_from_tuple(args: tuple[int, int, int]) -> dict[str, Any]:
-    rank_start, rank_end, sample_limit = args
+def scan_rank_window_from_tuple(args: tuple[int, int, int, bool]) -> dict[str, Any]:
+    rank_start, rank_end, sample_limit, enable_diamond = args
     return scan_rank_window(
         rank_start=rank_start,
         rank_end=rank_end,
         sample_limit=sample_limit,
+        enable_diamond=enable_diamond,
     )
 
 
@@ -475,8 +589,11 @@ def merge_results(
     merge_counts(total["counts"], part["counts"])
     merge_counter_dict(total["assigned_template_counts"], part["assigned_template_counts"])
     merge_counter_dict(total["all_template_counts"], part["all_template_counts"])
+    merge_counter_dict(total["diamond_row_counts"], part.get("diamond_row_counts", {}))
     for template_id, digests in part["source_pairs_by_template"].items():
         total["source_pairs_by_template"][template_id].update(digests)
+    for row_name, digests in part.get("source_pairs_by_diamond_row", {}).items():
+        total["source_pairs_by_diamond_row"][row_name].update(digests)
     for name in [
         "all_source_pairs",
         "covered_source_pairs",
@@ -492,6 +609,12 @@ def merge_results(
     extend_samples(total["failure_samples"], part["failure_samples"], sample_limit)
     extend_samples(total["uncovered_samples"], part["uncovered_samples"], sample_limit)
     extend_samples(total["overlap_samples"], part["overlap_samples"], sample_limit)
+    extend_samples(total["diamond_samples"], part.get("diamond_samples", []), sample_limit)
+    extend_samples(
+        total["diamond_missed_fallback_samples"],
+        part.get("diamond_missed_fallback_samples", []),
+        sample_limit,
+    )
 
 
 def fresh_total() -> dict[str, Any]:
@@ -499,7 +622,9 @@ def fresh_total() -> dict[str, Any]:
         "counts": fresh_counts(),
         "assigned_template_counts": Counter(),
         "all_template_counts": Counter(),
+        "diamond_row_counts": Counter(),
         "source_pairs_by_template": defaultdict(set),
+        "source_pairs_by_diamond_row": defaultdict(set),
         "all_source_pairs": set(),
         "covered_source_pairs": set(),
         "uncovered_source_pairs": set(),
@@ -509,6 +634,8 @@ def fresh_total() -> dict[str, Any]:
         "failure_samples": [],
         "uncovered_samples": [],
         "overlap_samples": [],
+        "diamond_samples": [],
+        "diamond_missed_fallback_samples": [],
     }
 
 
@@ -521,6 +648,7 @@ def finalize_total(total: dict[str, Any]) -> dict[str, Any]:
         "counts": total["counts"],
         "assigned_template_counts": dict(sorted(total["assigned_template_counts"].items())),
         "all_template_counts": dict(sorted(total["all_template_counts"].items())),
+        "diamond_row_counts": dict(sorted(total["diamond_row_counts"].items())),
         "source_pair_summary": {
             "total_source_pairs": len(all_pairs),
             "fully_covered_source_pairs": len(fully_covered_pairs),
@@ -530,6 +658,10 @@ def finalize_total(total: dict[str, Any]) -> dict[str, Any]:
         "source_pairs_by_template": {
             template_id: sorted(digests)
             for template_id, digests in sorted(total["source_pairs_by_template"].items())
+        },
+        "source_pairs_by_diamond_row": {
+            row_name: sorted(digests)
+            for row_name, digests in sorted(total["source_pairs_by_diamond_row"].items())
         },
         "top_uncovered_source_pairs": [
             {
@@ -542,6 +674,8 @@ def finalize_total(total: dict[str, Any]) -> dict[str, Any]:
         "failure_samples": total["failure_samples"],
         "uncovered_samples": total["uncovered_samples"],
         "overlap_samples": total["overlap_samples"],
+        "diamond_samples": total["diamond_samples"],
+        "diamond_missed_fallback_samples": total["diamond_missed_fallback_samples"],
     }
 
 
@@ -615,6 +749,15 @@ def markdown_report(payload: dict[str, Any]) -> str:
         f"| Covered cases | {counts['covered_cases']:,} |",
         f"| Uncovered cases | {counts['uncovered_cases']:,} |",
         f"| Overlap cases | {counts['overlap_cases']:,} |",
+        f"| Diamond profiling enabled | `{payload.get('diamond_enabled', False)}` |",
+        f"| Sharp-template covered cases | {counts['sharp_template_covered_cases']:,} |",
+        f"| Fallback-template cases | {counts['fallback_template_cases']:,} |",
+        f"| Diamond-covered cases | {counts['diamond_covered_cases']:,} |",
+        f"| Diamond + sharp covered cases | {counts['diamond_or_sharp_covered_cases']:,} |",
+        f"| Left after diamond + sharp templates | {counts['diamond_or_sharp_leftover_cases']:,} |",
+        f"| Fallback cases subsumed by diamond | {counts['diamond_subsumes_fallback_cases']:,} |",
+        f"| Fallback cases not covered by diamond | {counts['fallback_not_diamond_cases']:,} |",
+        f"| Left after diamond + expanded catalog | {counts['diamond_or_expanded_uncovered_cases']:,} |",
         f"| Total source pairs | {pair_summary['total_source_pairs']:,} |",
         f"| Fully covered source pairs | {pair_summary['fully_covered_source_pairs']:,} |",
         f"| Partial source pairs | {pair_summary['partial_source_pairs']:,} |",
@@ -634,6 +777,20 @@ def markdown_report(payload: dict[str, Any]) -> str:
     ):
         lines.append(f"- `{template_id}`: {count:,}")
     lines.append("")
+    if payload.get("diamond_enabled", False):
+        lines.append("## Diamond Row Counts")
+        lines.append("")
+        for row_name, count in sorted(
+            payload["diamond_row_counts"].items(),
+            key=lambda item: (-item[1], item[0]),
+        ):
+            source_pairs = len(
+                payload.get("source_pairs_by_diamond_row", {}).get(row_name, [])
+            )
+            lines.append(
+                f"- `{row_name}`: {count:,} cases across {source_pairs:,} source pairs"
+            )
+        lines.append("")
     if payload["top_uncovered_source_pairs"]:
         lines.append("## Top Uncovered Source Pairs")
         lines.append("")
@@ -657,6 +814,7 @@ def main() -> int:
     parser.add_argument("--sample-limit", type=int, default=8)
     parser.add_argument("--progress-interval", type=int, default=10_000)
     parser.add_argument("--partial-uncovered-max", type=int, default=250)
+    parser.add_argument("--enable-diamond", action="store_true")
     args = parser.parse_args()
 
     if args.rank_start < 0:
@@ -679,12 +837,18 @@ def main() -> int:
             rank_start=args.rank_start,
             rank_end=end,
             sample_limit=args.sample_limit,
+            enable_diamond=args.enable_diamond,
             progress_interval=args.progress_interval,
         )
         merge_results(total, result, sample_limit=args.sample_limit)
     else:
         shards = [
-            (shard_start, min(shard_start + args.shard_size, end), args.sample_limit)
+            (
+                shard_start,
+                min(shard_start + args.shard_size, end),
+                args.sample_limit,
+                args.enable_diamond,
+            )
             for shard_start in range(args.rank_start, end, args.shard_size)
         ]
         completed_ranks = 0
@@ -721,6 +885,7 @@ def main() -> int:
             "shard_size": args.shard_size,
         },
         "template_catalog": template_catalog(),
+        "diamond_enabled": args.enable_diamond,
         "elapsed_seconds": time.monotonic() - start,
         **finalized,
     }
