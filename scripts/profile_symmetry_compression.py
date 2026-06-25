@@ -215,6 +215,22 @@ def default_phase6z6g_marginal_cone_output(limit: int | None) -> Path:
     )
 
 
+def default_phase6z6h_nonidentity_axis_census_output(
+    rank_start: int,
+    limit: int | None,
+) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
+        EXPECTED_PAIR_WORDS,
+        rank_start + limit,
+    )
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"phase6z6h_nonidentity_axis_census_{rank_start:09d}_{rank_end:09d}.json"
+    )
+
+
 def default_translation_pseudoboolean_output(limit: int | None) -> Path:
     rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
     return (
@@ -4135,6 +4151,480 @@ class NonIdentityTerminalAlgebraProfiler:
                 },
                 "samples": self.samples,
             },
+            "decision": self.decision(),
+        }
+
+
+class Phase6Z6HNonidentityAxisCensusProfiler:
+    """Phase 6Z.6H profiler for nonidentity linear/axis family structure.
+
+    This is deliberately untrusted.  It answers whether total-linear classes
+    are enough for any part of the nonidentity branch, and otherwise measures
+    richer axis/failure family keys before any Lean evidence is designed.
+    """
+
+    def __init__(
+        self,
+        *,
+        rank_start: int,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        use_d4_transport: bool,
+    ) -> None:
+        self.rank_start = rank_start
+        self.rank_end = EXPECTED_PAIR_WORDS if limit is None else min(
+            EXPECTED_PAIR_WORDS,
+            rank_start + limit,
+        )
+        self.limit = None if limit is None else self.rank_end - rank_start
+        self.max_lean_leaves = max_lean_leaves
+        self.warn_lean_leaves = warn_lean_leaves
+        self.max_distinct_tracked = max_distinct_tracked
+        self.sample_limit = sample_limit
+        self.progress_interval = progress_interval
+        self.use_d4_transport = use_d4_transport
+
+        self.prefix_nodes = 0
+        self.prefix_nodes_by_depth: Counter[int] = Counter()
+        self.pair_words_scanned = 0
+        self.identity_words = 0
+        self.nonidentity_words = 0
+
+        self.linear_counts: Counter[str] = Counter()
+        self.nonidentity_linear_counts: Counter[str] = Counter()
+        self.d4_linear_counts: Counter[str] = Counter()
+        self.d4_nonidentity_linear_counts: Counter[str] = Counter()
+        self.linear_classes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.nonidentity_linear_classes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.d4_linear_classes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.d4_nonidentity_linear_classes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+
+        self.no_fixed_axis = 0
+        self.fixed_axis = 0
+        self.final_axis_zero = 0
+        self.forced_zero_denominator = 0
+        self.bad_pair_balance = 0
+        self.forced_balance_survivors = 0
+        self.terminal_failure_counts: Counter[str] = Counter()
+
+        self.no_fixed_axis_linear_classes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.fixed_axis_linear_classes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.projective_axis_classes = DistinctTracker(
+            max_distinct_tracked,
+            sample_limit,
+        )
+        self.linear_axis_classes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.d4_fixed_axis_classes = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.axes_by_linear: dict[str, set[str]] = {}
+
+        self.semantic_families = DistinctTracker(max_distinct_tracked, sample_limit)
+        self.semantic_family_counts: Counter[str] = Counter()
+        self.family_trackers: dict[str, DistinctTracker] = {}
+        self.family_counts: dict[str, Counter[str]] = {}
+        self.samples: dict[str, list[dict[str, Any]]] = {}
+
+    @staticmethod
+    def top_counter_payload(counter: Counter[str], limit: int = 12) -> list[dict[str, Any]]:
+        return [
+            {"key": key, "count": count}
+            for key, count in counter.most_common(limit)
+        ]
+
+    @staticmethod
+    def matrix_from_word(word: tuple[str, ...]) -> tuple[tuple[Fraction, Fraction, Fraction], ...]:
+        pref = prefix_matrices(list(word))
+        return mat_mul(pref[-1], RPAIR["x"])
+
+    def tracker_for_family(self, family: str) -> DistinctTracker:
+        if family not in self.family_trackers:
+            self.family_trackers[family] = DistinctTracker(
+                self.max_distinct_tracked,
+                self.sample_limit,
+            )
+        return self.family_trackers[family]
+
+    def add_sample(self, family: str, sample: dict[str, Any]) -> None:
+        bucket = self.samples.setdefault(family, [])
+        if len(bucket) < self.sample_limit:
+            bucket.append(sample)
+
+    def record_semantic_family(
+        self,
+        family: str,
+        key: str,
+        *,
+        sample: dict[str, Any] | None = None,
+    ) -> None:
+        full_key = f"{family}|{key}"
+        self.semantic_families.add(full_key)
+        self.tracker_for_family(family).add(key)
+        self.semantic_family_counts[full_key] += 1
+        self.family_counts.setdefault(family, Counter())[key] += 1
+        if sample is not None:
+            self.add_sample(family, sample)
+
+    def record_d4_linear(self, word: tuple[str, ...], matrix) -> None:
+        if not self.use_d4_transport:
+            return
+        canonical_word, _sym_id = canonical_word_with_symmetry(word)
+        canonical_matrix = self.matrix_from_word(canonical_word)
+        canonical_key = mat_key(canonical_matrix)
+        self.d4_linear_classes.add(canonical_key)
+        self.d4_linear_counts[canonical_key] += 1
+        if matrix != IDENTITY:
+            self.d4_nonidentity_linear_classes.add(canonical_key)
+            self.d4_nonidentity_linear_counts[canonical_key] += 1
+            try:
+                canonical_axis = one_dimensional_fixed_axis(canonical_matrix)
+            except ValueError:
+                return
+            self.d4_fixed_axis_classes.add(
+                f"linear={canonical_key}|axis={normalized_axis_key(canonical_axis)}"
+            )
+
+    def classify_nonidentity_leaf(
+        self,
+        rank: int,
+        word: tuple[str, ...],
+        pref: list,
+        matrix,
+        linear_key: str,
+    ) -> None:
+        self.nonidentity_words += 1
+        self.nonidentity_linear_classes.add(linear_key)
+        self.nonidentity_linear_counts[linear_key] += 1
+        try:
+            axis = one_dimensional_fixed_axis(matrix)
+        except ValueError:
+            self.no_fixed_axis += 1
+            self.no_fixed_axis_linear_classes.add(linear_key)
+            self.record_semantic_family(
+                "no_fixed_axis",
+                f"linear={linear_key}",
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "linear": linear_key,
+                    "m_alone_sound": True,
+                },
+            )
+            return
+
+        self.fixed_axis += 1
+        self.fixed_axis_linear_classes.add(linear_key)
+        axis_key = normalized_axis_key(axis)
+        self.projective_axis_classes.add(axis_key)
+        self.linear_axis_classes.add(f"linear={linear_key}|axis={axis_key}")
+        self.axes_by_linear.setdefault(linear_key, set()).add(axis_key)
+
+        final_dot = final_axis_dot(list(word), axis, pref)
+        if final_dot < 0:
+            axis = (-axis[0], -axis[1], -axis[2])
+            final_dot = -final_dot
+            axis_key = normalized_axis_key(axis)
+        if final_dot == 0:
+            self.final_axis_zero += 1
+            final_normal = mat_vec(pref[-1], vec(NORMALS["x"]))
+            key = (
+                f"linear={linear_key}|axisClass={axis_key}"
+                f"|finalNormalClass={normalized_axis_key(final_normal)}"
+            )
+            self.record_semantic_family(
+                "final_axis_zero",
+                key,
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "linear": linear_key,
+                    "axis": vec_key(axis),
+                },
+            )
+            return
+
+        zero_index = first_axis_zero_index(list(word), axis, pref)
+        if zero_index is not None:
+            self.forced_zero_denominator += 1
+            pair_id = word[zero_index]
+            transformed_normal = mat_vec(pref[zero_index], vec(NORMALS[pair_id]))
+            key = (
+                f"linear={linear_key}|axisClass={axis_key}"
+                f"|zeroAt={zero_index}|pair={pair_id}"
+                f"|normalClass={normalized_axis_key(transformed_normal)}"
+            )
+            self.record_semantic_family(
+                "forced_zero_denominator",
+                key,
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "linear": linear_key,
+                    "axis": vec_key(axis),
+                    "zero_at": zero_index,
+                },
+            )
+            return
+
+        forced_seq = forced_sequence_from_axis(list(word), axis, pref)
+        if len(set(forced_seq)) != 14:
+            self.bad_pair_balance += 1
+            balance_key = NonIdentityTerminalAlgebraProfiler.bad_pair_balance_key(
+                forced_seq,
+            )
+            key = f"linear={linear_key}|axisClass={axis_key}|{balance_key}"
+            self.record_semantic_family(
+                "bad_pair_balance",
+                key,
+                sample={
+                    "rank": rank,
+                    "word": word_key(word),
+                    "linear": linear_key,
+                    "axis": vec_key(axis),
+                    "forced_seq": forced_seq,
+                },
+            )
+            return
+
+        self.forced_balance_survivors += 1
+        failure, details, terminal_key = terminal_axis_candidate_algebra_failure(
+            forced_seq,
+            axis,
+        )
+        self.terminal_failure_counts[failure] += 1
+        key = f"linear={linear_key}|axisClass={axis_key}|{terminal_key}"
+        sample = {
+            "rank": rank,
+            "word": word_key(word),
+            "linear": linear_key,
+            "axis": vec_key(axis),
+            "normalized_axis": axis_key,
+            "forced_seq": forced_seq,
+            "failure": failure,
+        }
+        sample.update(details)
+        self.record_semantic_family(f"terminal_{failure}", key, sample=sample)
+
+    def classify_leaf(self, rank: int, word: tuple[str, ...], pref: list) -> None:
+        self.pair_words_scanned += 1
+        if self.progress_interval and self.pair_words_scanned % self.progress_interval == 0:
+            print(
+                f"Phase 6Z.6H nonidentity axis census scanned "
+                f"{self.pair_words_scanned:,} pair words",
+                file=sys.stderr,
+            )
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        linear_key = mat_key(matrix)
+        self.linear_classes.add(linear_key)
+        self.linear_counts[linear_key] += 1
+        self.record_d4_linear(word, matrix)
+        if matrix == IDENTITY:
+            self.identity_words += 1
+            return
+        self.classify_nonidentity_leaf(rank, word, pref, matrix, linear_key)
+
+    def traverse(self) -> None:
+        remaining = dict(PAIR_COUNTS)
+        prefix: list[str] = []
+        pref = [IDENTITY]
+
+        def rec(rank_lo: int) -> None:
+            block_width = multinomial_count(remaining)
+            rank_hi = rank_lo + block_width
+            if rank_hi <= self.rank_start or rank_lo >= self.rank_end:
+                return
+            depth = len(prefix)
+            self.prefix_nodes += 1
+            self.prefix_nodes_by_depth[depth] += 1
+            if len(prefix) == 13:
+                if self.rank_start <= rank_lo < self.rank_end:
+                    self.classify_leaf(rank_lo, tuple(prefix), list(pref))
+                return
+            child_lo = rank_lo
+            for pair_id in PAIR_IDS:
+                if remaining[pair_id] <= 0:
+                    continue
+                remaining[pair_id] -= 1
+                child_width = multinomial_count(remaining)
+                child_hi = child_lo + child_width
+                if child_hi > self.rank_start and child_lo < self.rank_end:
+                    prefix.append(pair_id)
+                    pref.append(mat_mul(pref[-1], RPAIR[pair_id]))
+                    rec(child_lo)
+                    pref.pop()
+                    prefix.pop()
+                remaining[pair_id] += 1
+                child_lo = child_hi
+                if child_lo >= self.rank_end:
+                    break
+
+        rec(0)
+
+    def axes_per_linear_histogram(self) -> dict[int, int]:
+        histogram: Counter[int] = Counter()
+        for axes in self.axes_by_linear.values():
+            histogram[len(axes)] += 1
+        return dict(sorted(histogram.items()))
+
+    def decision(self) -> dict[str, Any]:
+        reasons: list[str] = []
+        if self.semantic_families.exact_count is None:
+            reasons.append("semantic family tracker overflowed")
+        if self.semantic_families.lower_bound > self.max_lean_leaves:
+            reasons.append(
+                "projected semantic family leaves "
+                f"{self.semantic_families.lower_bound} exceed max "
+                f"{self.max_lean_leaves}"
+            )
+        elif self.semantic_families.lower_bound > self.warn_lean_leaves:
+            reasons.append(
+                "warning: projected semantic family leaves "
+                f"{self.semantic_families.lower_bound} exceed warning threshold "
+                f"{self.warn_lean_leaves}"
+            )
+        for family, tracker in sorted(self.family_trackers.items()):
+            if tracker.lower_bound > self.max_lean_leaves:
+                reasons.append(
+                    f"family {family} has {tracker.lower_bound} unique keys, "
+                    f"exceeding max {self.max_lean_leaves}"
+                )
+        if self.terminal_failure_counts.get("simulates_valid_orbit", 0):
+            reasons.append("terminal classifier found a simulated valid orbit candidate")
+        rejected = any(not reason.startswith("warning:") for reason in reasons)
+        if (
+            self.no_fixed_axis_linear_classes.lower_bound <= self.warn_lean_leaves
+            and self.no_fixed_axis > 0
+        ):
+            no_axis_note = (
+                "pure no-fixed-axis classes are small enough for a candidate "
+                "M-class Lean theorem"
+            )
+        else:
+            no_axis_note = (
+                "pure no-fixed-axis classes are absent or too numerous to be "
+                "the sole compression route"
+            )
+        return {
+            "status": "rejected" if rejected else "accepted",
+            "accepted_for_phase_6z_6h": not rejected,
+            "projected_semantic_family_leaves_exact": (
+                self.semantic_families.exact_count
+            ),
+            "projected_semantic_family_leaves_lower_bound": (
+                self.semantic_families.lower_bound
+            ),
+            "max_lean_leaves": self.max_lean_leaves,
+            "warn_lean_leaves": self.warn_lean_leaves,
+            "m_alone_sound_scope": (
+                "M-alone families are considered sound only for no-fixed-axis "
+                "classes; +1-axis classes require axis/sign/failure structure."
+            ),
+            "notes": reasons or [no_axis_note],
+        }
+
+    def family_payload(self) -> dict[str, Any]:
+        by_family = {
+            family: {
+                "distinct": self.family_trackers[family].payload(),
+                "top": self.top_counter_payload(self.family_counts[family]),
+            }
+            for family in sorted(self.family_trackers)
+        }
+        return {
+            "semantic": self.semantic_families.payload(),
+            "top_semantic_families": self.top_counter_payload(
+                self.semantic_family_counts,
+            ),
+            "by_family": by_family,
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        return {
+            "schema_version": 1,
+            "mode": "phase6z6h-nonidentity-axis-census",
+            "trusted_as_proof": False,
+            "elapsed_seconds": elapsed_seconds,
+            "rank_window": {
+                "start": self.rank_start,
+                "end": self.rank_end,
+                "width": self.rank_end - self.rank_start,
+            },
+            "options": {
+                "branch": "nonidentity",
+                "symmetry": "started-face D4" if self.use_d4_transport else "none",
+                "emits_lean_evidence": False,
+                "m_alone_sound_scope": (
+                    "no-fixed-axis classes only; fixed-axis classes require "
+                    "richer axis/sign/failure keys"
+                ),
+            },
+            "prefix": {
+                "nodes_visited": self.prefix_nodes,
+                "nodes_by_depth": dict(sorted(self.prefix_nodes_by_depth.items())),
+            },
+            "counts": {
+                "pair_words_scanned": self.pair_words_scanned,
+                "identity_words": self.identity_words,
+                "nonidentity_words": self.nonidentity_words,
+                "no_fixed_axis": self.no_fixed_axis,
+                "fixed_axis": self.fixed_axis,
+                "final_axis_zero": self.final_axis_zero,
+                "forced_zero_denominator": self.forced_zero_denominator,
+                "bad_pair_balance": self.bad_pair_balance,
+                "forced_balance_survivors": self.forced_balance_survivors,
+            },
+            "linear": {
+                "all_classes": self.linear_classes.payload(),
+                "nonidentity_classes": self.nonidentity_linear_classes.payload(),
+                "no_fixed_axis_classes": (
+                    self.no_fixed_axis_linear_classes.payload()
+                ),
+                "fixed_axis_linear_classes": (
+                    self.fixed_axis_linear_classes.payload()
+                ),
+                "top_all_classes": self.top_counter_payload(self.linear_counts),
+                "top_nonidentity_classes": self.top_counter_payload(
+                    self.nonidentity_linear_counts,
+                ),
+            },
+            "axis": {
+                "projective_axis_classes": self.projective_axis_classes.payload(),
+                "linear_axis_classes": self.linear_axis_classes.payload(),
+                "axes_per_linear_histogram": self.axes_per_linear_histogram(),
+            },
+            "d4": {
+                "enabled": self.use_d4_transport,
+                "linear_classes": self.d4_linear_classes.payload(),
+                "nonidentity_linear_classes": (
+                    self.d4_nonidentity_linear_classes.payload()
+                ),
+                "fixed_axis_classes": self.d4_fixed_axis_classes.payload(),
+                "top_linear_classes": self.top_counter_payload(
+                    self.d4_linear_counts,
+                ),
+                "top_nonidentity_linear_classes": self.top_counter_payload(
+                    self.d4_nonidentity_linear_counts,
+                ),
+            },
+            "terminal": {
+                "failure_counts": dict(sorted(self.terminal_failure_counts.items())),
+            },
+            "families": self.family_payload(),
+            "samples": self.samples,
             "decision": self.decision(),
         }
 
@@ -11184,6 +11674,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_bitset_class_pilot),
         bool(args.combined_residual_portfolio),
         bool(args.phase6z6g_marginal_cone_profile),
+        bool(args.phase6z6h_nonidentity_axis_census),
         bool(args.nonidentity_terminal_algebra),
         bool(args.nonidentity_state_cone_tree),
         bool(args.nonidentity_empty_cone_tree),
@@ -11203,6 +11694,7 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-two-source-farkas, "
             "--translation-bitset-class-pilot, --combined-residual-portfolio, "
             "--phase6z6g-marginal-cone-profile, "
+            "--phase6z6h-nonidentity-axis-census, "
             "--nonidentity-terminal-algebra, "
             "--nonidentity-state-cone-tree, "
             "--nonidentity-empty-cone-tree, "
@@ -11213,14 +11705,16 @@ def validate_options(args: argparse.Namespace) -> None:
         args.nonidentity_d26_audit
         or args.terminal_residual_census
         or args.nonidentity_terminal_algebra
+        or args.phase6z6h_nonidentity_axis_census
         or args.translation_farkas_phase6w
         or args.translation_two_source_farkas
     ):
         raise SystemExit(
             "--rank-start is currently supported only with "
             "--nonidentity-d26-audit, --terminal-residual-census, "
-            "--nonidentity-terminal-algebra, --translation-farkas-phase6w, "
-            "or --translation-two-source-farkas"
+            "--nonidentity-terminal-algebra, "
+            "--phase6z6h-nonidentity-axis-census, "
+            "--translation-farkas-phase6w, or --translation-two-source-farkas"
         )
     if not (0 <= args.rank_start <= EXPECTED_PAIR_WORDS):
         raise SystemExit(f"--rank-start must be between 0 and {EXPECTED_PAIR_WORDS}")
@@ -11777,7 +12271,120 @@ def write_phase6z6g_markdown(payload: dict[str, Any], output: Path) -> None:
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def write_phase6z6h_markdown(payload: dict[str, Any], output: Path) -> None:
+    window = payload["rank_window"]
+    counts = payload["counts"]
+    linear = payload["linear"]
+    axis = payload["axis"]
+    families = payload["families"]
+    decision = payload["decision"]
+    lines = [
+        "# Phase 6Z.6H Nonidentity Linear-Part/Axis Census",
+        "",
+        "This is an untrusted diagnostic report. It emits no Lean evidence.",
+        "",
+        "## Decision",
+        "",
+        f"- Status: `{decision['status']}`",
+        "- Accepted for Phase 6Z.6H: "
+        f"{decision['accepted_for_phase_6z_6h']}",
+        "- Projected semantic family leaves: "
+        f"{decision['projected_semantic_family_leaves_exact']}",
+        "- M-alone sound scope: "
+        f"{decision['m_alone_sound_scope']}",
+        "",
+        "## Window",
+        "",
+        f"- Rank window: [{window['start']:,}, {window['end']:,})",
+        f"- Width: {window['width']:,}",
+        "",
+        "## Counts",
+        "",
+        f"- Pair words scanned: {counts['pair_words_scanned']:,}",
+        f"- Identity words: {counts['identity_words']:,}",
+        f"- Nonidentity words: {counts['nonidentity_words']:,}",
+        f"- No fixed axis: {counts['no_fixed_axis']:,}",
+        f"- Fixed axis: {counts['fixed_axis']:,}",
+        f"- Final-axis zero: {counts['final_axis_zero']:,}",
+        f"- Forced zero denominator: {counts['forced_zero_denominator']:,}",
+        f"- Bad pair balance: {counts['bad_pair_balance']:,}",
+        f"- Forced-balance survivors: {counts['forced_balance_survivors']:,}",
+        "",
+        "## Linear And Axis Families",
+        "",
+        "- Nonidentity linear classes: "
+        f"{linear['nonidentity_classes']['lower_bound']:,}",
+        "- No-fixed-axis linear classes: "
+        f"{linear['no_fixed_axis_classes']['lower_bound']:,}",
+        "- Fixed-axis linear classes: "
+        f"{linear['fixed_axis_linear_classes']['lower_bound']:,}",
+        "- Projective axis classes: "
+        f"{axis['projective_axis_classes']['lower_bound']:,}",
+        "- Linear/axis classes: "
+        f"{axis['linear_axis_classes']['lower_bound']:,}",
+        "",
+        "## Semantic Families",
+        "",
+        "- Family lower bound: "
+        f"{families['semantic']['lower_bound']:,}",
+        "",
+    ]
+    for family, summary in families["by_family"].items():
+        lines.extend([
+            f"### {family}",
+            "",
+            f"- Distinct keys: {summary['distinct']['lower_bound']:,}",
+            "",
+        ])
+        for item in summary["top"][:10]:
+            lines.append(f"- `{item['key']}`: {item['count']:,}")
+        lines.append("")
+    if decision["notes"]:
+        lines.extend(["## Notes", ""])
+        for note in decision["notes"]:
+            lines.append(f"- {note}")
+        lines.append("")
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def print_summary(payload: dict[str, Any]) -> None:
+    if payload.get("mode") == "phase6z6h-nonidentity-axis-census":
+        window = payload["rank_window"]
+        counts = payload["counts"]
+        linear = payload["linear"]
+        axis = payload["axis"]
+        families = payload["families"]
+        decision = payload["decision"]
+        print("Phase 6Z.6H nonidentity linear-part/axis census")
+        print(
+            "rank window: "
+            f"[{window['start']:,}, {window['end']:,}) "
+            f"width {window['width']:,}"
+        )
+        print(f"pair words scanned: {counts['pair_words_scanned']:,}")
+        print(f"nonidentity words: {counts['nonidentity_words']:,}")
+        print(f"identity words: {counts['identity_words']:,}")
+        print(
+            "nonidentity linear classes: "
+            f"{linear['nonidentity_classes']['lower_bound']:,}"
+        )
+        print(
+            "no-fixed-axis linear classes: "
+            f"{linear['no_fixed_axis_classes']['lower_bound']:,}"
+        )
+        print(
+            "projective axis classes: "
+            f"{axis['projective_axis_classes']['lower_bound']:,}"
+        )
+        print(
+            "semantic family lower bound: "
+            f"{families['semantic']['lower_bound']:,}"
+        )
+        print(f"decision: {decision['status']}")
+        for note in decision["notes"]:
+            print(f"- {note}")
+        return
+
     if payload.get("mode") == "nonidentity-d26-audit":
         window = payload["rank_window"]
         counts = payload["counts"]
@@ -12649,6 +13256,14 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--phase6z6h-nonidentity-axis-census",
+        action="store_true",
+        help=(
+            "Phase 6Z.6H diagnostic: profile nonidentity linear-part, "
+            "projective-axis, and forced-sign/failure families"
+        ),
+    )
+    parser.add_argument(
         "--nonidentity-empty-cone-tree",
         action="store_true",
         help="profile exact empty-cone Farkas pruning for nonidentity pair prefixes",
@@ -12724,6 +13339,11 @@ def main() -> None:
             output = DEFAULT_COMBINED_RESIDUAL_PORTFOLIO_OUTPUT
         elif args.phase6z6g_marginal_cone_profile:
             output = default_phase6z6g_marginal_cone_output(args.limit)
+        elif args.phase6z6h_nonidentity_axis_census:
+            output = default_phase6z6h_nonidentity_axis_census_output(
+                args.rank_start,
+                args.limit,
+            )
         elif args.translation_state_dag:
             output = DEFAULT_TRANSLATION_STATE_DAG_OUTPUT
         elif args.translation_survivor_mask_tree:
@@ -12897,6 +13517,22 @@ def main() -> None:
             elapsed_seconds=time.monotonic() - start,
         )
         rejected = not payload["decision"]["accepted_for_phase_6z_6g"]
+    elif args.phase6z6h_nonidentity_axis_census:
+        axis_census_profiler = Phase6Z6HNonidentityAxisCensusProfiler(
+            rank_start=args.rank_start,
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            use_d4_transport=not args.no_d4_transport,
+        )
+        axis_census_profiler.traverse()
+        payload = axis_census_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+        rejected = not payload["decision"]["accepted_for_phase_6z_6h"]
     elif args.nonidentity_terminal_algebra:
         terminal_algebra_profiler = NonIdentityTerminalAlgebraProfiler(
             rank_start=args.rank_start,
@@ -13145,6 +13781,8 @@ def main() -> None:
         write_phase6v_markdown(payload, output.with_suffix(".md"))
     elif payload.get("mode") == "phase6z6g-marginal-cone-profile":
         write_phase6z6g_markdown(payload, output.with_suffix(".md"))
+    elif payload.get("mode") == "phase6z6h-nonidentity-axis-census":
+        write_phase6z6h_markdown(payload, output.with_suffix(".md"))
     print_summary(payload)
     if rejected and not args.allow_reject:
         raise SystemExit(1)

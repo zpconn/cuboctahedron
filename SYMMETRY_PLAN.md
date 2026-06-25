@@ -4890,24 +4890,66 @@ decision:                              rejected
   - Empty-cone families have high mass, but the axis-cone boundary/failure
     families still fragment catastrophically.
   - This confirms Phase 6Z.6G should not emit Lean evidence.
-  - The next active route should be Phase 6Z.6H: nonidentity linear-part/axis
-    census, with the existing caveat that `M` alone is only sound for pure
-    no-axis classes.
+  - Phase 6Z.6H tested the next natural nonidentity idea: linear-part and
+    fixed-axis family grouping, with `M` alone allowed only for pure no-axis
+    classes.
 
-Phase 6Z.6H planned result: nonidentity linear-part/axis census.
+Phase 6Z.6H completed result: nonidentity linear-part/axis census is rejected.
 
-- Enumerate valid pair words by total linear part and projective fixed-axis
-  data.
-- Report:
+- Added `--phase6z6h-nonidentity-axis-census` to
+  `scripts/profile_symmetry_compression.py`.
+- The profiler enumerates valid pair words by total linear part, projective
+  fixed axis, forced-sign gate, and terminal algebraic failure family. It
+  reports D4-canonical linear/axis counts as diagnostics and explicitly records
+  that `M`-alone is sound only for no-fixed-axis classes.
+- Generated reports:
+  - `scripts/generated/phase6z6h_nonidentity_axis_census_000000000_000005000.{json,md}`
+  - `scripts/generated/phase6z6h_nonidentity_axis_census_000000000_000100000.{json,md}`
+- `[0,5000)` smoke result:
 
 ```text
-linear-part classes appearing
-classes with no nonzero fixed vector
-classes with +1 fixed axis
-rank mass killed by pure no-axis classes
-axis/sign/failure-pattern signatures for +1-axis classes
-D4 canonical class counts
+pair words scanned:             5,000
+nonidentity words:              4,513
+identity words:                   487
+nonidentity linear classes:     1,500
+no-fixed-axis linear classes:       0
+projective axis classes:          868
+semantic family lower bound:    2,145
+decision: rejected
 ```
+
+- `[0,100000)` gate result:
+
+```text
+pair words scanned:                 100,000
+nonidentity words:                   94,435
+identity words:                       5,565
+no fixed axis:                            0
+fixed axis:                          94,435
+final-axis zero:                      6,241
+forced zero denominator:             54,794
+bad pair balance:                    24,364
+forced-balance survivors:             9,036
+nonidentity linear classes:           3,878
+no-fixed-axis linear classes:             0
+projective axis classes:              1,906
+linear/axis classes:                  3,878
+semantic family lower bound:         23,806
+bad-pair-balance family keys:        11,834
+forced-zero-denominator keys:         5,128
+axis-misses-start-interior keys:      6,466
+decision: rejected
+```
+
+- Interpretation:
+  - There is no pure no-fixed-axis mass in the sampled nonidentity windows, so
+    Claude's suggested `M`-class no-axis compression does not help here.
+  - Every sampled nonidentity word has a fixed axis, and the richer
+    axis/sign/failure keys still fragment far above the 2,000-leaf gate.
+  - Do not emit Lean evidence from the Phase 6Z.6H family shape.
+  - The next active route should be Phase 6Z.6I: integer/scaled/projective
+    arithmetic microbenchmarks for the semantic leaves that remain plausible,
+    before any more production Lean emission.
 
 - Important caveat: do not claim `∀ w, linearPart w = M → ¬ feasible w`
   for every nonidentity `M`. This is only sound for classes with a pure
@@ -5858,7 +5900,7 @@ Acceptance:
 - [x] Implement and reject Phase 6Z.6G signed prefix/state cone profiler for nonidentity and
   translation leftovers if semantic row families do not meet the 24 CPU-hour
   budget alone.
-- [ ] Implement Phase 6Z.6H nonidentity linear-part/axis census, using pure
+- [x] Implement and reject Phase 6Z.6H nonidentity linear-part/axis census, using pure
   linear classes only where sound and profiling richer axis/failure families
   elsewhere.
 - [ ] Implement Phase 6Z.6I integer/scaled arithmetic microbenchmarks for
@@ -5882,18 +5924,17 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6G is complete and rejected: even after coarser post-row-family keys,
-the marginal signed cone profiler still fragments into 85,740 semantic
-families on the bounded `[0,100000)` profile and truncates before completing
-the window. The immediate next step is Phase 6Z.6H: implement the nonidentity
-linear-part/axis census, preserving the `M`-alone caveat and measuring whether
-pure no-axis classes or richer axis/failure families can provide a smaller
-semantic proof surface.
+Phase 6Z.6H is complete and rejected: the `[0,100000)` nonidentity axis census
+has zero no-fixed-axis rank mass and still fragments into 23,806 semantic
+family keys. The immediate next step is Phase 6Z.6I: implement
+integer/scaled/projective arithmetic microbenchmarks for representative
+semantic checks. This should measure the best possible constant-factor speedup
+before we decide whether any remaining semantic family route can meet the
+5-6 hour build target.
 
-In parallel planning, keep Phase 6Z.6I/6Z.6J ready: integer/scaled arithmetic
-microbenchmarks and D4 semantic-family transport. These are not substitutes for
-semantic killed bridges; they are the compression and constant-factor tools
-used after the final theorem surface is semantic.
+Keep Phase 6Z.6J ready only after family predicates exist: D4 semantic-family
+transport can shrink accepted families, but it does not rescue a family shape
+that already fragments into tens of thousands of keys on `[0,100000)`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
