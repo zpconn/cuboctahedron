@@ -4837,6 +4837,63 @@ therefore no feasible direction v exists
   compression if simple semantic row families leave the projected proof above
   the build-time budget.
 
+Phase 6Z.6G implementation result: marginal signed cone profiler rejected.
+
+- Added `scripts/profile_symmetry_compression.py
+  --phase6z6g-marginal-cone-profile`.
+- This mode reuses the signed-state traversal, but records coarser
+  post-row-family semantic families instead of the over-specific Phase 6L.3A
+  terminal keys.
+- It emits only JSON/Markdown diagnostics and no Lean evidence.
+- Generated reports:
+
+```text
+scripts/generated/phase6z6g_marginal_cone_0_5000.json
+scripts/generated/phase6z6g_marginal_cone_0_5000.md
+scripts/generated/phase6z6g_marginal_cone_0_100000.json
+scripts/generated/phase6z6g_marginal_cone_0_100000.md
+```
+
+- `[0,5000)` result:
+
+```text
+signed states visited:                 250,000
+truncated:                             true
+empty-cone states:                     1,491
+empty-cone signed completion width:    160,080
+identity terminals routed translation: 11,239
+nonidentity terminals:                 80,032
+axis-cone failures:                    79,571
+residual fallback terminals:           0
+semantic families:                     40,757
+largest semantic family:               10,080
+decision:                              rejected
+```
+
+- `[0,100000)` result with a 500k state cap:
+
+```text
+signed states visited:                 500,000
+truncated:                             true
+empty-cone states:                     3,143
+empty-cone signed completion width:    389,856
+identity terminals routed translation: 14,155
+nonidentity terminals:                 168,365
+axis-cone failures:                    167,551
+residual fallback terminals:           0
+semantic families:                     85,740
+largest semantic family:               40,320
+decision:                              rejected
+```
+
+- Interpretation:
+  - Empty-cone families have high mass, but the axis-cone boundary/failure
+    families still fragment catastrophically.
+  - This confirms Phase 6Z.6G should not emit Lean evidence.
+  - The next active route should be Phase 6Z.6H: nonidentity linear-part/axis
+    census, with the existing caveat that `M` alone is only sound for pure
+    no-axis classes.
+
 Phase 6Z.6H planned result: nonidentity linear-part/axis census.
 
 - Enumerate valid pair words by total linear part and projective fixed-axis
@@ -5798,7 +5855,7 @@ Acceptance:
   replay.
 - [x] Implement Phase 6Z.6F.1 bounded representative row-family coverage root
   using grouped semantic family theorems.
-- [ ] Implement Phase 6Z.6G signed prefix/state cone profiler for nonidentity and
+- [x] Implement and reject Phase 6Z.6G signed prefix/state cone profiler for nonidentity and
   translation leftovers if semantic row families do not meet the 24 CPU-hour
   budget alone.
 - [ ] Implement Phase 6Z.6H nonidentity linear-part/axis census, using pure
@@ -5825,17 +5882,17 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6F.1 is complete: the representative `template_source` family-union
-root builds quickly and proves semantic `TranslationGoodCaseKilled` facts
-without ordinary translation-certificate replay. The immediate next step is
-Phase 6Z.6G: implement the signed prefix/state cone profiler for remaining
-compression pressure, especially nonidentity and translation leftovers that
-cannot be globally discharged by row-family predicates alone.
+Phase 6Z.6G is complete and rejected: even after coarser post-row-family keys,
+the marginal signed cone profiler still fragments into 85,740 semantic
+families on the bounded `[0,100000)` profile and truncates before completing
+the window. The immediate next step is Phase 6Z.6H: implement the nonidentity
+linear-part/axis census, preserving the `M`-alone caveat and measuring whether
+pure no-axis classes or richer axis/failure families can provide a smaller
+semantic proof surface.
 
-In parallel planning, keep Phase 6Z.6H/6Z.6I/6Z.6J ready: nonidentity
-linear-part/axis census with the `M`-alone caveat, integer/scaled arithmetic
-microbenchmarks, and D4 semantic-family transport. These are not substitutes
-for semantic killed bridges; they are the compression and constant-factor tools
+In parallel planning, keep Phase 6Z.6I/6Z.6J ready: integer/scaled arithmetic
+microbenchmarks and D4 semantic-family transport. These are not substitutes for
+semantic killed bridges; they are the compression and constant-factor tools
 used after the final theorem surface is semantic.
 
 Do not return to the current nonidentity prefix-kill emitter,

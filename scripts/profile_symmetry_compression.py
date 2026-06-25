@@ -205,6 +205,16 @@ def default_nonidentity_state_cone_output(limit: int | None) -> Path:
     )
 
 
+def default_phase6z6g_marginal_cone_output(limit: int | None) -> Path:
+    rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
+    return (
+        REPO_ROOT
+        / "scripts"
+        / "generated"
+        / f"phase6z6g_marginal_cone_0_{rank_end:09d}.json"
+    )
+
+
 def default_translation_pseudoboolean_output(limit: int | None) -> Path:
     rank_end = EXPECTED_PAIR_WORDS if limit is None else min(EXPECTED_PAIR_WORDS, limit)
     return (
@@ -2837,6 +2847,301 @@ class NonIdentityStateConeProfiler:
                     "If terminal obstruction shapes remain above the gate, reject this backend before emission.",
                 ],
             },
+        }
+
+
+class Phase6Z6GMarginalConeProfiler(NonIdentityStateConeProfiler):
+    """Post-row-family marginal profiler for signed cone/state pruning.
+
+    Phase 6L.3A used the same traversal but tracked terminal obstruction keys
+    that were too specific.  This variant deliberately records coarser semantic
+    family keys and reports marginal value before any Lean evidence is emitted.
+    """
+
+    def __init__(
+        self,
+        *,
+        limit: int | None,
+        max_lean_leaves: int,
+        warn_lean_leaves: int,
+        max_distinct_tracked: int,
+        sample_limit: int,
+        progress_interval: int,
+        max_state_cone_depth: int,
+        max_state_cone_states: int,
+    ) -> None:
+        super().__init__(
+            limit=limit,
+            max_lean_leaves=max_lean_leaves,
+            warn_lean_leaves=warn_lean_leaves,
+            max_distinct_tracked=max_distinct_tracked,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+            max_state_cone_depth=max_state_cone_depth,
+            max_state_cone_states=max_state_cone_states,
+        )
+        self.semantic_family_counts: Counter[str] = Counter()
+        self.empty_cone_family_counts: Counter[str] = Counter()
+        self.no_axis_family_counts: Counter[str] = Counter()
+        self.axis_cone_family_counts: Counter[str] = Counter()
+        self.terminal_algebra_family_counts: Counter[str] = Counter()
+        self.residual_fallback_terminals = 0
+        self.identity_terminal_route_to_translation = 0
+
+    def add_semantic_family(self, key: str, count: int = 1) -> None:
+        self.semantic_family_counts[key] += count
+
+    def empty_cone_key(
+        self,
+        prefix: tuple[str, ...],
+        signs: tuple[int, ...],
+        cert: dict[str, Any],
+    ) -> str:
+        # The proof-relevant object is the active-normal Farkas/Gordan
+        # certificate shape, not the lexicographic rank interval.
+        return f"emptyCone|depth={len(prefix)}|" + empty_cone_certificate_key(cert)
+
+    def record_empty_cone(
+        self,
+        *,
+        rank_lo: int,
+        rank_hi: int,
+        prefix: tuple[str, ...],
+        signs: tuple[int, ...],
+        remaining: dict[str, int],
+        used_signs: dict[str, int],
+        cert: dict[str, Any],
+    ) -> None:
+        key = self.empty_cone_key(prefix, signs, cert)
+        completion_width = signed_completion_count_from_state(remaining, used_signs)
+        self.empty_cone_family_counts[key] += completion_width
+        self.add_semantic_family(f"emptyCone:{key}", completion_width)
+        super().record_empty_cone(
+            rank_lo=rank_lo,
+            rank_hi=rank_hi,
+            prefix=prefix,
+            signs=signs,
+            remaining=remaining,
+            used_signs=used_signs,
+            cert=cert,
+        )
+
+    def classify_terminal(
+        self,
+        *,
+        rank: int,
+        prefix: tuple[str, ...],
+        signs: tuple[int, ...],
+        pref: list,
+        active_normals: tuple[tuple[Fraction, Fraction, Fraction], ...],
+    ) -> None:
+        matrix = mat_mul(pref[-1], RPAIR["x"])
+        seq = signed_face_sequence(prefix, signs)
+        if matrix == IDENTITY:
+            self.identity_signed_terminals += 1
+            self.identity_terminal_route_to_translation += 1
+            return
+
+        self.nonidentity_signed_terminals += 1
+        try:
+            axis = one_dimensional_fixed_axis(matrix)
+        except ValueError:
+            self.no_fixed_axis += 1
+            key = f"noFixedAxis|linear={mat_key(matrix)}"
+            self.no_axis_family_counts[key] += 1
+            self.terminal_obstruction_shapes.add(key)
+            self.terminal_failure_counts["no_fixed_axis"] += 1
+            self.add_semantic_family(f"noAxis:{key}")
+            self.add_sample("terminal", {
+                "rank": rank,
+                "word": word_key(prefix),
+                "signs": ["+" if sign > 0 else "-" for sign in signs],
+                "failure": "no_fixed_axis",
+                "family_key": key,
+            })
+            return
+
+        oriented_axis, cone_status, dot_signature = orient_axis_for_signed_cone(
+            active_normals,
+            axis,
+        )
+        if oriented_axis is None:
+            self.axis_cone_failures += 1
+            self.axis_cone_failure_counts[cone_status] += 1
+            key = (
+                f"{cone_status}|axis={normalized_axis_key(axis)}"
+                f"|dotSignature={dot_signature}"
+            )
+            self.axis_cone_family_counts[key] += 1
+            self.axis_cone_obstruction_shapes.add(key)
+            self.terminal_obstruction_shapes.add(key)
+            self.terminal_failure_counts[cone_status] += 1
+            self.add_semantic_family(f"axisCone:{key}")
+            self.add_sample("axis_cone", {
+                "rank": rank,
+                "word": word_key(prefix),
+                "signs": ["+" if sign > 0 else "-" for sign in signs],
+                "axis": vec_key(axis),
+                "failure": cone_status,
+                "dot_signature": dot_signature,
+                "family_key": key,
+            })
+            return
+
+        self.terminal_axes.add(normalized_axis_key(oriented_axis))
+        self.terminal_sequences.add(seq_key(seq))
+        failure, details, key = terminal_axis_candidate_algebra_failure(
+            seq,
+            oriented_axis,
+        )
+        self.terminal_failure_counts[failure] += 1
+        if failure == "simulates_valid_orbit":
+            self.residual_fallback_terminals += 1
+        else:
+            self.terminal_algebra_family_counts[key] += 1
+            self.terminal_obstruction_shapes.add(key)
+            self.add_semantic_family(f"terminal:{key}")
+        sample = {
+            "rank": rank,
+            "word": word_key(prefix),
+            "signs": ["+" if sign > 0 else "-" for sign in signs],
+            "axis": vec_key(oriented_axis),
+            "seq": seq,
+            "failure": failure,
+            "family_key": key,
+        }
+        sample.update(details)
+        self.add_sample("terminal", sample)
+
+    @staticmethod
+    def counter_summary(counter: Counter[str], sample_limit: int) -> dict[str, Any]:
+        total = sum(counter.values())
+        top = [
+            {"family_key": key, "cases": count}
+            for key, count in counter.most_common(sample_limit)
+        ]
+        return {
+            "family_count": len(counter),
+            "case_count": total,
+            "largest_family_size": top[0]["cases"] if top else 0,
+            "top_families": top,
+        }
+
+    def decision(self, planned_exact: int | None, planned_lower: int) -> dict[str, Any]:
+        reasons: list[str] = []
+        if self.truncated:
+            reasons.append(self.truncation_reason or "truncated before completing profile")
+        if planned_exact is None:
+            reasons.append(
+                "projected semantic family count exceeded tracking cap "
+                f"(lower bound {planned_lower})"
+            )
+        elif planned_exact > self.max_lean_leaves:
+            reasons.append(
+                "projected semantic family leaves "
+                f"{planned_exact} exceed max {self.max_lean_leaves}"
+            )
+        elif planned_exact > self.warn_lean_leaves:
+            reasons.append(
+                "warning: projected semantic family leaves "
+                f"{planned_exact} exceed warning threshold {self.warn_lean_leaves}"
+            )
+        nonidentity_total = max(self.nonidentity_signed_terminals, 1)
+        residual_ratio = self.residual_fallback_terminals / nonidentity_total
+        if residual_ratio > 0.10:
+            reasons.append(
+                "residual nonidentity terminal fallback ratio "
+                f"{residual_ratio:.3f} exceeds max 0.100"
+            )
+        if planned_exact is not None and planned_exact == 0 and self.target_hi > 0:
+            reasons.append("no semantic cone/axis families observed")
+        rejected = any(not reason.startswith("warning:") for reason in reasons)
+        return {
+            "status": "accepted_for_phase_6z_6g" if not rejected else "rejected",
+            "accepted_for_phase_6z_6g": not rejected,
+            "reasons": reasons,
+            "projected_semantic_family_leaves_exact": planned_exact,
+            "projected_semantic_family_leaves_lower_bound": planned_lower,
+            "residual_nonidentity_terminal_fallback_ratio": residual_ratio,
+            "notes": [
+                "This mode emits no Lean evidence.",
+                "It profiles marginal semantic family keys after the translation row-family pivot.",
+                "Acceptance is only permission to design Lean family theorems; it is not proof coverage.",
+            ],
+        }
+
+    def payload(self, *, elapsed_seconds: float) -> dict[str, Any]:
+        planned_exact = len(self.semantic_family_counts)
+        planned_lower = planned_exact
+        decision = self.decision(planned_exact, planned_lower)
+        return {
+            "schema_version": 1,
+            "mode": "phase6z6g-marginal-cone-profile",
+            "trusted_as_proof": False,
+            "complete": self.limit is None and not self.truncated,
+            "profile_limit": self.limit,
+            "elapsed_seconds": elapsed_seconds,
+            "options": {
+                "branch": "nonidentity plus identity-terminal routing",
+                "state_model": "signed pair-prefix cone with coarse terminal algebra families",
+                "max_state_cone_depth": self.max_state_cone_depth,
+                "max_state_cone_states": self.max_state_cone_states,
+                "max_lean_leaves": self.max_lean_leaves,
+                "warn_lean_leaves": self.warn_lean_leaves,
+                "emits_lean_evidence": False,
+            },
+            "truncation": {
+                "truncated": self.truncated,
+                "reason": self.truncation_reason,
+            },
+            "signed_states": {
+                "visited": self.signed_states_visited,
+                "by_depth": dict(sorted(self.signed_states_by_depth.items())),
+                "empty_cone_states": self.empty_cone_states,
+                "empty_cone_signed_completion_width":
+                    self.empty_cone_signed_completion_width,
+                "max_empty_cone_signed_completion_width":
+                    self.max_empty_cone_signed_completion_width,
+            },
+            "terminals": {
+                "identity_signed_terminals": self.identity_signed_terminals,
+                "identity_terminal_route_to_translation":
+                    self.identity_terminal_route_to_translation,
+                "nonidentity_signed_terminals": self.nonidentity_signed_terminals,
+                "no_fixed_axis": self.no_fixed_axis,
+                "axis_cone_failures": self.axis_cone_failures,
+                "residual_fallback_terminals": self.residual_fallback_terminals,
+                "axis_cone_failure_counts": dict(
+                    sorted(self.axis_cone_failure_counts.items())
+                ),
+                "terminal_failure_counts": dict(
+                    sorted(self.terminal_failure_counts.items())
+                ),
+            },
+            "families": {
+                "semantic": self.counter_summary(
+                    self.semantic_family_counts,
+                    self.sample_limit,
+                ),
+                "empty_cone": self.counter_summary(
+                    self.empty_cone_family_counts,
+                    self.sample_limit,
+                ),
+                "no_fixed_axis": self.counter_summary(
+                    self.no_axis_family_counts,
+                    self.sample_limit,
+                ),
+                "axis_cone": self.counter_summary(
+                    self.axis_cone_family_counts,
+                    self.sample_limit,
+                ),
+                "terminal_algebra": self.counter_summary(
+                    self.terminal_algebra_family_counts,
+                    self.sample_limit,
+                ),
+            },
+            "samples": self.samples,
+            "decision": decision,
         }
 
 
@@ -10878,6 +11183,7 @@ def validate_options(args: argparse.Namespace) -> None:
         bool(args.translation_two_source_farkas),
         bool(args.translation_bitset_class_pilot),
         bool(args.combined_residual_portfolio),
+        bool(args.phase6z6g_marginal_cone_profile),
         bool(args.nonidentity_terminal_algebra),
         bool(args.nonidentity_state_cone_tree),
         bool(args.nonidentity_empty_cone_tree),
@@ -10896,6 +11202,7 @@ def validate_options(args: argparse.Namespace) -> None:
             "--translation-farkas-phase6v, --translation-farkas-phase6w, "
             "--translation-two-source-farkas, "
             "--translation-bitset-class-pilot, --combined-residual-portfolio, "
+            "--phase6z6g-marginal-cone-profile, "
             "--nonidentity-terminal-algebra, "
             "--nonidentity-state-cone-tree, "
             "--nonidentity-empty-cone-tree, "
@@ -11411,6 +11718,65 @@ def write_phase6w_markdown(payload: dict[str, Any], output: Path) -> None:
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def write_phase6z6g_markdown(payload: dict[str, Any], output: Path) -> None:
+    states = payload["signed_states"]
+    terminals = payload["terminals"]
+    families = payload["families"]
+    decision = payload["decision"]
+    lines = [
+        "# Phase 6Z.6G Marginal Signed Cone Profile",
+        "",
+        "This is an untrusted diagnostic report. It emits no Lean evidence.",
+        "",
+        "## Decision",
+        "",
+        f"- Status: `{decision['status']}`",
+        "- Accepted for Phase 6Z.6G: "
+        f"{decision['accepted_for_phase_6z_6g']}",
+        "- Projected semantic family leaves: "
+        f"{decision['projected_semantic_family_leaves_exact']}",
+        "- Residual nonidentity terminal fallback ratio: "
+        f"{decision['residual_nonidentity_terminal_fallback_ratio']:.3%}",
+        "",
+        "## State Counts",
+        "",
+        f"- Signed states visited: {states['visited']:,}",
+        f"- Empty-cone states: {states['empty_cone_states']:,}",
+        "- Empty-cone signed completion width: "
+        f"{states['empty_cone_signed_completion_width']:,}",
+        "",
+        "## Terminal Counts",
+        "",
+        f"- Identity terminals routed to translation: {terminals['identity_terminal_route_to_translation']:,}",
+        f"- Nonidentity terminals: {terminals['nonidentity_signed_terminals']:,}",
+        f"- No fixed axis: {terminals['no_fixed_axis']:,}",
+        f"- Axis-cone failures: {terminals['axis_cone_failures']:,}",
+        f"- Residual fallback terminals: {terminals['residual_fallback_terminals']:,}",
+        "",
+        "## Family Counts",
+        "",
+    ]
+    for name in ["semantic", "empty_cone", "no_fixed_axis", "axis_cone", "terminal_algebra"]:
+        summary = families[name]
+        lines.extend([
+            f"### {name}",
+            "",
+            f"- Families: {summary['family_count']:,}",
+            f"- Cases/completion mass: {summary['case_count']:,}",
+            f"- Largest family: {summary['largest_family_size']:,}",
+            "",
+        ])
+        for item in summary["top_families"][:10]:
+            lines.append(f"- `{item['family_key']}`: {item['cases']:,}")
+        lines.append("")
+    if decision["reasons"]:
+        lines.extend(["## Reasons", ""])
+        for reason in decision["reasons"]:
+            lines.append(f"- {reason}")
+        lines.append("")
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def print_summary(payload: dict[str, Any]) -> None:
     if payload.get("mode") == "nonidentity-d26-audit":
         window = payload["rank_window"]
@@ -11745,6 +12111,43 @@ def print_summary(payload: dict[str, Any]) -> None:
         print(f"terminal fallback dominates: {decision['terminal_fallback_dominates']}")
         for note in decision["notes"]:
             print(f"- {note}")
+        return
+
+    if payload.get("mode") == "phase6z6g-marginal-cone-profile":
+        states = payload["signed_states"]
+        terminals = payload["terminals"]
+        families = payload["families"]
+        decision = payload["decision"]
+        truncation = payload["truncation"]
+        print("Phase 6Z.6G marginal signed cone profile")
+        print(f"truncated: {truncation['truncated']}")
+        if truncation["reason"] is not None:
+            print(f"truncation reason: {truncation['reason']}")
+        print(f"signed states visited: {states['visited']:,}")
+        print(f"empty-cone states: {states['empty_cone_states']:,}")
+        print(
+            "empty-cone signed completion width: "
+            f"{states['empty_cone_signed_completion_width']:,}"
+        )
+        print(
+            "identity terminals routed to translation: "
+            f"{terminals['identity_terminal_route_to_translation']:,}"
+        )
+        print(f"nonidentity terminals: {terminals['nonidentity_signed_terminals']:,}")
+        print(f"no fixed axis: {terminals['no_fixed_axis']:,}")
+        print(f"axis-cone failures: {terminals['axis_cone_failures']:,}")
+        print(f"residual fallback terminals: {terminals['residual_fallback_terminals']:,}")
+        print(
+            "semantic families: "
+            f"{families['semantic']['family_count']:,}"
+        )
+        print(
+            "largest semantic family: "
+            f"{families['semantic']['largest_family_size']:,}"
+        )
+        print(f"decision: {decision['status']}")
+        for reason in decision["reasons"]:
+            print(f"- {reason}")
         return
 
     if payload.get("mode") == "prefix-kill-tree-profile":
@@ -12238,6 +12641,14 @@ def main() -> None:
         help="profile an ordered portfolio of existing translation and nonidentity filters",
     )
     parser.add_argument(
+        "--phase6z6g-marginal-cone-profile",
+        action="store_true",
+        help=(
+            "Phase 6Z.6G diagnostic: profile marginal signed cone/state "
+            "semantic families after the row-family pivot"
+        ),
+    )
+    parser.add_argument(
         "--nonidentity-empty-cone-tree",
         action="store_true",
         help="profile exact empty-cone Farkas pruning for nonidentity pair prefixes",
@@ -12311,6 +12722,8 @@ def main() -> None:
             output = default_translation_farkas_shape_map_output(args.limit)
         elif args.combined_residual_portfolio:
             output = DEFAULT_COMBINED_RESIDUAL_PORTFOLIO_OUTPUT
+        elif args.phase6z6g_marginal_cone_profile:
+            output = default_phase6z6g_marginal_cone_output(args.limit)
         elif args.translation_state_dag:
             output = DEFAULT_TRANSLATION_STATE_DAG_OUTPUT
         elif args.translation_survivor_mask_tree:
@@ -12468,6 +12881,22 @@ def main() -> None:
         payload = portfolio_profiler.payload(
             elapsed_seconds=time.monotonic() - start,
         )
+    elif args.phase6z6g_marginal_cone_profile:
+        marginal_cone_profiler = Phase6Z6GMarginalConeProfiler(
+            limit=args.limit,
+            max_lean_leaves=args.max_lean_leaves,
+            warn_lean_leaves=args.warn_lean_leaves,
+            max_distinct_tracked=args.max_distinct_tracked,
+            sample_limit=args.sample_limit,
+            progress_interval=args.progress_interval,
+            max_state_cone_depth=args.max_state_cone_depth,
+            max_state_cone_states=args.max_state_cone_states,
+        )
+        marginal_cone_profiler.traverse()
+        payload = marginal_cone_profiler.payload(
+            elapsed_seconds=time.monotonic() - start,
+        )
+        rejected = not payload["decision"]["accepted_for_phase_6z_6g"]
     elif args.nonidentity_terminal_algebra:
         terminal_algebra_profiler = NonIdentityTerminalAlgebraProfiler(
             rank_start=args.rank_start,
@@ -12714,6 +13143,8 @@ def main() -> None:
         write_two_source_farkas_markdown(payload, output.with_suffix(".md"))
     elif payload.get("mode") == "translation-farkas-phase6v-profile":
         write_phase6v_markdown(payload, output.with_suffix(".md"))
+    elif payload.get("mode") == "phase6z6g-marginal-cone-profile":
+        write_phase6z6g_markdown(payload, output.with_suffix(".md"))
     print_summary(payload)
     if rejected and not args.allow_reject:
         raise SystemExit(1)

@@ -1,0 +1,1891 @@
+{
+  "complete": false,
+  "decision": {
+    "accepted_for_phase_6z_6g": false,
+    "notes": [
+      "This mode emits no Lean evidence.",
+      "It profiles marginal semantic family keys after the translation row-family pivot.",
+      "Acceptance is only permission to design Lean family theorems; it is not proof coverage."
+    ],
+    "projected_semantic_family_leaves_exact": 40757,
+    "projected_semantic_family_leaves_lower_bound": 40757,
+    "reasons": [
+      "signed state cap reached before completing the requested window",
+      "projected semantic family leaves 40757 exceed max 2000"
+    ],
+    "residual_nonidentity_terminal_fallback_ratio": 0.0,
+    "status": "rejected"
+  },
+  "elapsed_seconds": 65.2089447239996,
+  "families": {
+    "axis_cone": {
+      "case_count": 79571,
+      "family_count": 39924,
+      "largest_family_size": 264,
+      "top_families": [
+        {
+          "cases": 264,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,-,-,-,-,0,0,0"
+        },
+        {
+          "cases": 200,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,-,-,-,-,0,0"
+        },
+        {
+          "cases": 160,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,0,-,-,-,-,0"
+        },
+        {
+          "cases": 160,
+          "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,-,-,-,-,0,0,0,0,0"
+        },
+        {
+          "cases": 160,
+          "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,+,+,+,+,0,0,0,0,0"
+        },
+        {
+          "cases": 144,
+          "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,+,+,0,+,+,+,+,0,0,0,0,0"
+        },
+        {
+          "cases": 104,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,0,0,+,+,+,+"
+        },
+        {
+          "cases": 104,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,0,0,-,-,-,-"
+        },
+        {
+          "cases": 100,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,-,-,0,0,-,-"
+        },
+        {
+          "cases": 100,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,-,-,0,0,+,+"
+        },
+        {
+          "cases": 100,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,-,-,0,-,-,0"
+        },
+        {
+          "cases": 100,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,-,-,0,+,+,0"
+        },
+        {
+          "cases": 100,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,0,-,-,+,+,0,0"
+        },
+        {
+          "cases": 98,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,-,-,0,0,0,-,-"
+        },
+        {
+          "cases": 98,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,-,-,0,0,0,+,+"
+        },
+        {
+          "cases": 98,
+          "family_key": "axis_on_cone_boundary|axis=1,1,0|dotSignature=-,-,-,-,0,0,0,-,-,0,0,-,-,0"
+        }
+      ]
+    },
+    "empty_cone": {
+      "case_count": 160080,
+      "family_count": 667,
+      "largest_family_size": 10080,
+      "top_families": [
+        {
+          "cases": 10080,
+          "family_key": "emptyCone|depth=6|support=0,2,4,5|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,-1;1,-1,1"
+        },
+        {
+          "cases": 7200,
+          "family_key": "emptyCone|depth=7|support=4,5,6|weights=6,1,3|normals=0,0,-1;1,-1,1;-1/3,1/3,5/3"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,-1,0;0,0,-1;1,1,1"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,-1,0;0,0,1;1,1,-1"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,-1;1,-1,1"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,1;1,-1,-1"
+        },
+        {
+          "cases": 3600,
+          "family_key": "emptyCone|depth=7|support=4,5,6|weights=6,1,3|normals=0,0,1;-1,1,-1;1/3,-1/3,-5/3"
+        },
+        {
+          "cases": 3600,
+          "family_key": "emptyCone|depth=7|support=0,2,4,5|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,-1;1,-1,1"
+        },
+        {
+          "cases": 2880,
+          "family_key": "emptyCone|depth=7|support=4,5,7|weights=3,4,9|normals=0,0,-1;-1,1,-1;4/9,-4/9,7/9"
+        },
+        {
+          "cases": 2400,
+          "family_key": "emptyCone|depth=8|support=4,5,6|weights=6,1,3|normals=0,0,-1;1,-1,1;-1/3,1/3,5/3"
+        },
+        {
+          "cases": 2160,
+          "family_key": "emptyCone|depth=7|support=0,6,7|weights=6,1,3|normals=-1,0,0;1,-1,-1;5/3,1/3,1/3"
+        },
+        {
+          "cases": 2160,
+          "family_key": "emptyCone|depth=7|support=5,7|weights=1,1|normals=-1,1,-1;1,-1,1"
+        },
+        {
+          "cases": 2160,
+          "family_key": "emptyCone|depth=7|support=0,2,4,7|weights=5,13,7,9|normals=-1,0,0;0,-1,0;0,0,1;5/9,13/9,-7/9"
+        },
+        {
+          "cases": 1800,
+          "family_key": "emptyCone|depth=8|support=0,2,4,7|weights=13,5,7,9|normals=-1,0,0;0,-1,0;0,0,-1;13/9,5/9,7/9"
+        },
+        {
+          "cases": 1440,
+          "family_key": "emptyCone|depth=7|support=4,6,7|weights=6,1,3|normals=0,0,-1;-1,1,1;1/3,-1/3,5/3"
+        },
+        {
+          "cases": 1440,
+          "family_key": "emptyCone|depth=7|support=2,6,7|weights=6,1,3|normals=0,-1,0;-1,1,1;1/3,5/3,-1/3"
+        }
+      ]
+    },
+    "no_fixed_axis": {
+      "case_count": 0,
+      "family_count": 0,
+      "largest_family_size": 0,
+      "top_families": []
+    },
+    "semantic": {
+      "case_count": 240112,
+      "family_count": 40757,
+      "largest_family_size": 10080,
+      "top_families": [
+        {
+          "cases": 10080,
+          "family_key": "emptyCone:emptyCone|depth=6|support=0,2,4,5|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,-1;1,-1,1"
+        },
+        {
+          "cases": 7200,
+          "family_key": "emptyCone:emptyCone|depth=7|support=4,5,6|weights=6,1,3|normals=0,0,-1;1,-1,1;-1/3,1/3,5/3"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone:emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,-1,0;0,0,-1;1,1,1"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone:emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,-1,0;0,0,1;1,1,-1"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone:emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,-1;1,-1,1"
+        },
+        {
+          "cases": 5040,
+          "family_key": "emptyCone:emptyCone|depth=6|support=0,2,4,6|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,1;1,-1,-1"
+        },
+        {
+          "cases": 3600,
+          "family_key": "emptyCone:emptyCone|depth=7|support=4,5,6|weights=6,1,3|normals=0,0,1;-1,1,-1;1/3,-1/3,-5/3"
+        },
+        {
+          "cases": 3600,
+          "family_key": "emptyCone:emptyCone|depth=7|support=0,2,4,5|weights=1,1,1,1|normals=-1,0,0;0,1,0;0,0,-1;1,-1,1"
+        },
+        {
+          "cases": 2880,
+          "family_key": "emptyCone:emptyCone|depth=7|support=4,5,7|weights=3,4,9|normals=0,0,-1;-1,1,-1;4/9,-4/9,7/9"
+        },
+        {
+          "cases": 2400,
+          "family_key": "emptyCone:emptyCone|depth=8|support=4,5,6|weights=6,1,3|normals=0,0,-1;1,-1,1;-1/3,1/3,5/3"
+        },
+        {
+          "cases": 2160,
+          "family_key": "emptyCone:emptyCone|depth=7|support=0,6,7|weights=6,1,3|normals=-1,0,0;1,-1,-1;5/3,1/3,1/3"
+        },
+        {
+          "cases": 2160,
+          "family_key": "emptyCone:emptyCone|depth=7|support=5,7|weights=1,1|normals=-1,1,-1;1,-1,1"
+        },
+        {
+          "cases": 2160,
+          "family_key": "emptyCone:emptyCone|depth=7|support=0,2,4,7|weights=5,13,7,9|normals=-1,0,0;0,-1,0;0,0,1;5/9,13/9,-7/9"
+        },
+        {
+          "cases": 1800,
+          "family_key": "emptyCone:emptyCone|depth=8|support=0,2,4,7|weights=13,5,7,9|normals=-1,0,0;0,-1,0;0,0,-1;13/9,5/9,7/9"
+        },
+        {
+          "cases": 1440,
+          "family_key": "emptyCone:emptyCone|depth=7|support=4,6,7|weights=6,1,3|normals=0,0,-1;-1,1,1;1/3,-1/3,5/3"
+        },
+        {
+          "cases": 1440,
+          "family_key": "emptyCone:emptyCone|depth=7|support=2,6,7|weights=6,1,3|normals=0,-1,0;-1,1,1;1/3,5/3,-1/3"
+        }
+      ]
+    },
+    "terminal_algebra": {
+      "case_count": 461,
+      "family_count": 166,
+      "largest_family_size": 9,
+      "top_families": [
+        {
+          "cases": 9,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-25/11"
+        },
+        {
+          "cases": 9,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-3/11"
+        },
+        {
+          "cases": 8,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-4401/410"
+        },
+        {
+          "cases": 7,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-61/66"
+        },
+        {
+          "cases": 7,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-511/66"
+        },
+        {
+          "cases": 7,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-35/66"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-2719/1300"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-643/462"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=tpmm|margin=neg:-7/22"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-123/22"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-53/33"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-141/22"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=tpmm|margin=neg:-20/33"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-4039/6150"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-1123/1300"
+        },
+        {
+          "cases": 6,
+          "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-6664/3075"
+        }
+      ]
+    }
+  },
+  "mode": "phase6z6g-marginal-cone-profile",
+  "options": {
+    "branch": "nonidentity plus identity-terminal routing",
+    "emits_lean_evidence": false,
+    "max_lean_leaves": 2000,
+    "max_state_cone_depth": 9,
+    "max_state_cone_states": 250000,
+    "state_model": "signed pair-prefix cone with coarse terminal algebra families",
+    "warn_lean_leaves": 900
+  },
+  "profile_limit": 5000,
+  "samples": {
+    "axis_cone": [
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 1,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 1,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 1,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 1,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 4,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 4,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 4,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1"
+      },
+      {
+        "axis": "-1,1,0",
+        "dot_signature": "+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-1,0|dotSignature=+,+,-,-,0,0,-,-,-,-,0,0,0,0",
+        "rank": 4,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1"
+      },
+      {
+        "axis": "0,1,1",
+        "dot_signature": "0,0,-,-,-,-,-,-,0,0,0,0,-,-",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=0,1,1|dotSignature=0,0,-,-,-,-,-,-,0,0,0,0,-,-",
+        "rank": 6,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,d1m1,dm11,dm11"
+      },
+      {
+        "axis": "0,1,1",
+        "dot_signature": "0,0,-,-,-,-,-,-,0,0,0,0,+,+",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=0,1,1|dotSignature=0,0,-,-,-,-,-,-,0,0,0,0,+,+",
+        "rank": 6,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "+",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,d1m1,dm11,dm11"
+      },
+      {
+        "axis": "-1,6,1",
+        "dot_signature": "+,+,-,-,-,-,-,-,-,0,-,-,0,-",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-6,-1|dotSignature=+,+,-,-,-,-,-,-,-,0,-,-,0,-",
+        "rank": 7,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "0,1,1",
+        "dot_signature": "0,0,-,-,-,-,-,-,0,0,0,-,-,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=0,1,1|dotSignature=0,0,-,-,-,-,-,-,0,0,0,-,-,0",
+        "rank": 8,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "+",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,dm11,d1m1"
+      },
+      {
+        "axis": "-1,6,1",
+        "dot_signature": "+,+,-,-,-,-,-,-,-,0,-,+,0,+",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,-6,-1|dotSignature=+,+,-,-,-,-,-,-,-,0,-,+,0,+",
+        "rank": 7,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "0,1,1",
+        "dot_signature": "0,0,-,-,-,-,-,-,0,0,0,+,+,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=0,1,1|dotSignature=0,0,-,-,-,-,-,-,0,0,0,+,+,0",
+        "rank": 8,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,dm11,d1m1"
+      },
+      {
+        "axis": "-1,0,1",
+        "dot_signature": "+,+,0,0,-,-,-,-,0,+,+,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,0,-1|dotSignature=+,+,0,0,-,-,-,-,0,+,+,0,0,0",
+        "rank": 10,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d1m1,dm11,d11m,dm11"
+      },
+      {
+        "axis": "-1,0,1",
+        "dot_signature": "+,+,0,0,-,-,-,-,0,+,+,0,0,0",
+        "failure": "axis_on_cone_boundary",
+        "family_key": "axis_on_cone_boundary|axis=1,0,-1|dotSignature=+,+,0,0,-,-,-,-,0,+,+,0,0,0",
+        "rank": 10,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-"
+        ],
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d1m1,dm11,d11m,dm11"
+      }
+    ],
+    "empty_cone": [
+      {
+        "certificate": "support=0,8,9|weights=6,1,3|normals=-1,0,0;1,-1,1;5/3,1/3,-1/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "d1m1"
+        ],
+        "rank_hi": 18,
+        "rank_lo": 6,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-"
+        ]
+      },
+      {
+        "certificate": "support=0,2,4,9|weights=1,5,1,3|normals=-1,0,0;0,-1,0;0,0,-1;1/3,5/3,1/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "dm11"
+        ],
+        "rank_hi": 30,
+        "rank_lo": 18,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=2,8,9|weights=6,1,3|normals=0,-1,0;-1,1,-1;1/3,5/3,1/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d11m",
+          "dm11"
+        ],
+        "rank_hi": 30,
+        "rank_lo": 18,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=0,8,9|weights=6,1,3|normals=-1,0,0;1,1,-1;5/3,-1/3,1/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d1m1",
+          "d11m"
+        ],
+        "rank_hi": 42,
+        "rank_lo": 30,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-"
+        ]
+      },
+      {
+        "certificate": "support=0,2,4,9|weights=1,1,5,3|normals=-1,0,0;0,-1,0;0,0,-1;1/3,1/3,5/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d1m1",
+          "dm11"
+        ],
+        "rank_hi": 60,
+        "rank_lo": 48,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=4,8,9|weights=6,1,3|normals=0,0,-1;-1,-1,1;1/3,1/3,5/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "d1m1",
+          "dm11"
+        ],
+        "rank_hi": 60,
+        "rank_lo": 48,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=0,6,8|weights=2,1,1|normals=-1,0,0;1,-1,-1;1,1,1",
+        "depth": 8,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d111",
+          "dm11"
+        ],
+        "rank_hi": 90,
+        "rank_lo": 60,
+        "signed_completion_width": 120,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=4,6,9|weights=30,13,27|normals=0,0,-1;1,-1,-1;-13/27,13/27,43/27",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "d11m"
+        ],
+        "rank_hi": 96,
+        "rank_lo": 90,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=0,2,4,9|weights=37,17,23,27|normals=-1,0,0;0,-1,0;0,0,-1;37/27,17/27,23/27",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "d1m1"
+        ],
+        "rank_hi": 108,
+        "rank_lo": 96,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "-"
+        ]
+      },
+      {
+        "certificate": "support=0,2,7,9|weights=36,54,23,45|normals=-1,0,0;0,-1,0;1/3,-1/3,5/3;17/27,37/27,-23/27",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d111",
+          "dm11"
+        ],
+        "rank_hi": 120,
+        "rank_lo": 108,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=0,2,7,9|weights=2,8,1,5|normals=-1,0,0;0,-1,0;1/3,-1/3,5/3;1/3,5/3,-1/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d11m",
+          "d1m1"
+        ],
+        "rank_hi": 138,
+        "rank_lo": 126,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "-"
+        ]
+      },
+      {
+        "certificate": "support=0,6,9|weights=6,1,3|normals=-1,0,0;1,-1,-1;5/3,1/3,1/3",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d11m",
+          "dm11"
+        ],
+        "rank_hi": 150,
+        "rank_lo": 138,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=0,2,4,8|weights=5,13,7,9|normals=-1,0,0;0,-1,0;0,0,-1;5/9,13/9,7/9",
+        "depth": 8,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "d1m1"
+        ],
+        "rank_hi": 210,
+        "rank_lo": 150,
+        "signed_completion_width": 120,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "-"
+        ]
+      },
+      {
+        "certificate": "support=0,2,4,9|weights=35,1,31,27|normals=-1,0,0;0,-1,0;0,0,-1;35/27,1/27,31/27",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "dm11",
+          "d11m"
+        ],
+        "rank_hi": 234,
+        "rank_lo": 222,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "-",
+          "+"
+        ]
+      },
+      {
+        "certificate": "support=0,4,6,9|weights=18,6,29,27|normals=-1,0,0;0,0,-1;1,-1,-1;-11/27,29/27,35/27",
+        "depth": 9,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "dm11",
+          "d1m1"
+        ],
+        "rank_hi": 258,
+        "rank_lo": 234,
+        "signed_completion_width": 24,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "-",
+          "-"
+        ]
+      },
+      {
+        "certificate": "support=0,2,7,8|weights=24,6,7,15|normals=-1,0,0;0,-1,0;1/3,-1/3,5/3;13/9,5/9,-7/9",
+        "depth": 8,
+        "prefix": [
+          "x",
+          "y",
+          "y",
+          "z",
+          "z",
+          "d111",
+          "d11m",
+          "dm11"
+        ],
+        "rank_hi": 270,
+        "rank_lo": 210,
+        "signed_completion_width": 120,
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+"
+        ]
+      }
+    ],
+    "terminal": [
+      {
+        "axis": "-4/13,-15/13,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-6413/1640",
+        "margin": "-6413/1640",
+        "p0": "1,-8053/1640,-1655/328",
+        "rank": 115,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tppp",
+          "tpmm",
+          "tpmp",
+          "tmpp",
+          "tmmp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "36cf39a150665c85",
+        "word": "x,y,y,z,z,d111,d11m,d111,dm11,d1m1,dm11,d11m,d1m1"
+      },
+      {
+        "axis": "-1/3,-5/6,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-1159/520",
+        "margin": "-1159/520",
+        "p0": "1,-1679/520,-59/13",
+        "rank": 116,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tppp",
+          "tpmm",
+          "tpmp",
+          "tmpp",
+          "tmpm",
+          "tmmp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "e53bbe8c66bccdca",
+        "word": "x,y,y,z,z,d111,d11m,d111,dm11,d1m1,dm11,d1m1,d11m"
+      },
+      {
+        "axis": "-1,-3,-1",
+        "bad_face": "yp",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-35/22",
+        "margin": "-35/22",
+        "p0": "1,57/22,-36/11",
+        "rank": 142,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tmmp",
+          "tpmm",
+          "tpmp",
+          "tppp",
+          "tmpp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-"
+        ],
+        "solve_shape": "ca0b79dc989735e1",
+        "word": "x,y,y,z,z,d111,d11m,d11m,dm11,d1m1,d111,dm11,d1m1"
+      },
+      {
+        "axis": "-1,-3/2,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-203/272",
+        "margin": "-203/272",
+        "p0": "1,-475/272,-181/68",
+        "rank": 217,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tpmp",
+          "tmpp",
+          "tmmp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "c10942c6e11a93e9",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d111,d1m1,dm11,d11m,d1m1"
+      },
+      {
+        "axis": "-8/15,-11/15,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-407/164",
+        "margin": "-407/164",
+        "p0": "1,-571/164,-2717/820",
+        "rank": 218,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tpmp",
+          "tmpp",
+          "tmpm",
+          "tmmp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "bcb04758dbab345b",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d111,d1m1,dm11,d1m1,d11m"
+      },
+      {
+        "axis": "-13/4,-15/4,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-2399/5330",
+        "margin": "-2399/5330",
+        "p0": "1,-7729/5330,-3869/1066",
+        "rank": 220,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmpp",
+          "tpmp",
+          "tmmp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "1a7939e7933a3265",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d111,dm11,d1m1,d11m,d1m1"
+      },
+      {
+        "axis": "-11/8,-15/8,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-1549/4510",
+        "margin": "-1549/4510",
+        "p0": "1,-6059/4510,-1511/451",
+        "rank": 229,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tmmp",
+          "tpmp",
+          "tmpp",
+          "tppp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-"
+        ],
+        "solve_shape": "48092f6fadb49f1b",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d11m,d1m1,dm11,d111,d1m1"
+      },
+      {
+        "axis": "-5/2,-3,-1",
+        "bad_face": "zm",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-2719/1300",
+        "margin": "-2719/1300",
+        "p0": "1,343/1300,-4019/1300",
+        "rank": 232,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tmmp",
+          "tmpp",
+          "tpmp",
+          "tppp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-"
+        ],
+        "solve_shape": "f4acc7943a5b50f2",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d11m,dm11,d1m1,d111,d1m1"
+      },
+      {
+        "axis": "-7/4,-9/4,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-2237/1022",
+        "margin": "-2237/1022",
+        "p0": "1,-3259/1022,-4621/1022",
+        "rank": 241,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tpmp",
+          "tmmp",
+          "tppp",
+          "tmpp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-"
+        ],
+        "solve_shape": "8a97f939e4165eb1",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d1m1,d11m,d111,dm11,d1m1"
+      },
+      {
+        "axis": "-7/5,-1,-1",
+        "bad_face": "zm",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-643/462",
+        "margin": "-643/462",
+        "p0": "1,-83/462,-1105/462",
+        "rank": 245,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "tmpm",
+          "tppp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+"
+        ],
+        "solve_shape": "3c27f21d1682814a",
+        "word": "x,y,y,z,z,d111,d11m,dm11,d1m1,d11m,dm11,d1m1,d111"
+      },
+      {
+        "axis": "-2/5,-6/5,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-46/13",
+        "margin": "-46/13",
+        "p0": "1,-59/13,-1679/520",
+        "rank": 292,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "tppm",
+          "tmpp",
+          "tmmp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "a687093d9d2598d8",
+        "word": "x,y,y,z,z,d111,d1m1,d111,dm11,d11m,dm11,d11m,d1m1"
+      },
+      {
+        "axis": "-4/15,-13/15,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-1327/328",
+        "margin": "-1327/328",
+        "p0": "1,-1655/328,-8053/1640",
+        "rank": 293,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "tppm",
+          "tmpp",
+          "tmpm",
+          "tmmp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "adbeb39bf4f1464d",
+        "word": "x,y,y,z,z,d111,d1m1,d111,dm11,d11m,dm11,d1m1,d11m"
+      },
+      {
+        "axis": "-1/3,-1/3,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-25/11",
+        "margin": "-25/11",
+        "p0": "1,-36/11,57/22",
+        "rank": 382,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tmpm",
+          "tpmm",
+          "tppm",
+          "tppp",
+          "tmpp",
+          "tmmp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-"
+        ],
+        "solve_shape": "352355dccdc068c3",
+        "word": "x,y,y,z,z,d111,d1m1,d1m1,dm11,d11m,d111,dm11,d11m"
+      },
+      {
+        "axis": "-8/11,-15/11,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-1897/820",
+        "margin": "-1897/820",
+        "p0": "1,-2717/820,-571/164",
+        "rank": 394,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tpmm",
+          "tppp",
+          "tppm",
+          "tmpp",
+          "tmmp",
+          "tmpm"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "640ce27cd6d39f69",
+        "word": "x,y,y,z,z,d111,d1m1,dm11,d111,d11m,dm11,d11m,d1m1"
+      },
+      {
+        "axis": "-2/3,-2/3,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-113/68",
+        "margin": "-113/68",
+        "p0": "1,-181/68,-475/272",
+        "rank": 395,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tpmm",
+          "tppp",
+          "tppm",
+          "tmpp",
+          "tmpm",
+          "tmmp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "06f3469b288cea78",
+        "word": "x,y,y,z,z,d111,d1m1,dm11,d111,d11m,dm11,d1m1,d11m"
+      },
+      {
+        "axis": "-13/15,-4/15,-1",
+        "bad_face": "ym",
+        "canonical_bad_face": "yp",
+        "failure": "axis_misses_start_interior",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-2803/1066",
+        "margin": "-2803/1066",
+        "p0": "1,-3869/1066,-7729/5330",
+        "rank": 400,
+        "seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tpmm",
+          "tppp",
+          "tmpp",
+          "tppm",
+          "tmpm",
+          "tmmp"
+        ],
+        "signs": [
+          "-",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "-",
+          "+",
+          "+",
+          "+",
+          "-",
+          "-"
+        ],
+        "solve_shape": "6e16ab67b4810489",
+        "word": "x,y,y,z,z,d111,d1m1,dm11,d111,dm11,d11m,d1m1,d11m"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "signed_states": {
+    "by_depth": {
+      "0": 1,
+      "1": 1,
+      "2": 2,
+      "3": 2,
+      "4": 4,
+      "5": 10,
+      "6": 51,
+      "7": 310,
+      "8": 1325,
+      "9": 4871,
+      "10": 15244,
+      "11": 45636,
+      "12": 91272,
+      "13": 91271
+    },
+    "empty_cone_signed_completion_width": 160080,
+    "empty_cone_states": 1491,
+    "max_empty_cone_signed_completion_width": 5040,
+    "visited": 250000
+  },
+  "terminals": {
+    "axis_cone_failure_counts": {
+      "axis_not_in_cone": 22726,
+      "axis_on_cone_boundary": 56845
+    },
+    "axis_cone_failures": 79571,
+    "identity_signed_terminals": 11239,
+    "identity_terminal_route_to_translation": 11239,
+    "no_fixed_axis": 0,
+    "nonidentity_signed_terminals": 80032,
+    "residual_fallback_terminals": 0,
+    "terminal_failure_counts": {
+      "axis_misses_start_interior": 437,
+      "axis_not_in_cone": 22726,
+      "axis_on_cone_boundary": 56845,
+      "first_hit_mismatch": 24
+    }
+  },
+  "truncation": {
+    "reason": "signed state cap reached before completing the requested window",
+    "truncated": true
+  },
+  "trusted_as_proof": false
+}
