@@ -4677,6 +4677,75 @@ theorem family_042_kills :
   `TranslationCert`, `SourceFarkasCert`, or call `checkTranslationCert` as its
   primary proof method.
 
+Phase 6Z.6F implementation result: semantic row-family Lean smoke accepted.
+
+- Added `scripts/generate_translation_row_family_smoke.py`, a diagnostic-only
+  emitter that reads the representative family profile, selects the largest
+  proof-relevant `template_source` families, and emits exact Lean membership
+  proofs for representative cases.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/FamilySmoke.lean`
+  and `scripts/generated/translation_row_family_smoke_summary.json`.
+- The smoke covers three families and six representative cases:
+
+```text
+eq_eq_pos_var_first | source 5adcd...3580b | profile cases 1,260
+opp_1m_var_first    | source 5803...f201  | profile cases   555
+opp_m1_var_first    | source 7689...198   | profile cases   271
+```
+
+- The generated Lean proves:
+
+```lean
+fam_000_killsOn : SupportFamilyKillsOn fam_000_support fam_000_contains
+case_000002_goodKilled : TranslationGoodCaseKilled case_000002_rank case_000002_mask
+case_000002_translationKilled : TranslationCaseKilled case_000002_rank case_000002_mask
+```
+
+  with analogous theorems for all six samples.
+- Validation:
+
+```bash
+python3 -m py_compile scripts/generate_translation_row_family_smoke.py
+python3 scripts/generate_translation_row_family_smoke.py --families 3 --cases-per-family 2
+lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/FamilySmoke.lean
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|TranslationCert\|checkTranslationCert" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/FamilySmoke.lean \
+  scripts/generate_translation_row_family_smoke.py || true
+git diff --check
+```
+
+- Result:
+
+```text
+generated smoke size: 49,862 bytes
+Lean smoke build:    passed in about 8.1 seconds
+hygiene grep:        no matches
+```
+
+- Interpretation:
+  - The accepted `template_source` coordinate now has a real Lean proof-shape
+    smoke that targets semantic killed predicates and avoids ordinary
+    certificate replay in the generated module.
+  - The next step should scale this exact pattern to a bounded representative
+    family coverage root before attempting global translation coverage.
+
+Phase 6Z.6F.1 planned result: bounded representative row-family coverage root.
+
+- Extend the smoke emitter into a bounded family emitter over the Phase
+  6Z.6E.1 representative windows.
+- Emit one family module per selected `template_source` family, or small groups
+  of families, and one root theorem for the bounded representative window set.
+- Keep the root semantic and small:
+
+```lean
+theorem representativeFamilyCoverage :
+  -- bounded TranslationGoodCoverageOnRange or an equivalent window-set theorem
+```
+
+- Do not emit a global rank/mask table. If the representative root fragments
+  or builds slowly, switch to Phase 6Z.6G/6Z.6J before scaling further.
+
 Phase 6Z.6G planned result: signed prefix/state cone profiler for leftovers.
 
 - Use signed prefix/state languages and Gordan/Farkas empty-cone certificates
@@ -5648,9 +5717,11 @@ Acceptance:
   first fast-window profile for GoodDirection survivors.
 - [x] Implement Phase 6Z.6E.1 larger representative semantic family profile
   with per-window progress logging or checkpoint-backed family payload reuse.
-- [ ] Implement Phase 6Z.6F row-template/diamond family Lean smoke with semantic
+- [x] Implement Phase 6Z.6F row-template/diamond family Lean smoke with semantic
   `TranslationCaseKilled` leaves and no ordinary translation-certificate
   replay.
+- [ ] Implement Phase 6Z.6F.1 bounded representative row-family coverage root
+  using grouped semantic family theorems.
 - [ ] Implement Phase 6Z.6G signed prefix/state cone profiler for nonidentity and
   translation leftovers if semantic row families do not meet the 24 CPU-hour
   budget alone.
@@ -5678,14 +5749,14 @@ Acceptance:
 
 Current next step:
 
-The immediate next step is Phase 6Z.6F: emit and build a small
-row-template/diamond family Lean smoke using semantic
-`TranslationCaseKilled` leaves. Phase 6Z.6E.1 accepted the proof-relevant
-`template_source` coordinate on a representative 4,779-survivor sample with
-123 observed families, zero uncovered cases, and no ordinary translation
-certificate replay. The smoke should prove a small number of whole-family
-theorems from the hand-written row-template infeasibility schemas, not one
-rank/mask certificate at a time.
+The immediate next step is Phase 6Z.6F.1: scale the accepted
+row-template family smoke into a bounded representative coverage root. Phase
+6Z.6F proved three `template_source` families and six representative
+rank/mask cases through semantic `TranslationGoodCaseKilled` and
+`TranslationCaseKilled` theorems in a generated module that builds in about
+8.1 seconds and does not replay ordinary translation certificates. The next
+emitter should cover the Phase 6Z.6E.1 representative windows by grouped
+family theorems, while keeping the root theorem semantic and small.
 
 In parallel planning, prepare Phase 6Z.6G/6Z.6H/6Z.6I/6Z.6J as profiling
 tracks: signed prefix/state cone pruning, nonidentity linear-part/axis census
