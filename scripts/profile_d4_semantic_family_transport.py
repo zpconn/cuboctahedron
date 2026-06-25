@@ -50,6 +50,30 @@ DEFAULT_JSON = (
     REPO_ROOT / "scripts" / "generated" / "phase6z6j_d4_semantic_family_transport.json"
 )
 DEFAULT_MD = DEFAULT_JSON.with_suffix(".md")
+DEFAULT_REPRESENTATIVE_JSON = (
+    REPO_ROOT
+    / "scripts"
+    / "generated"
+    / "phase6z6j_d4_semantic_family_transport_representative.json"
+)
+DEFAULT_REPRESENTATIVE_MD = DEFAULT_REPRESENTATIVE_JSON.with_suffix(".md")
+REPRESENTATIVE_PROFILE_JSON = (
+    REPO_ROOT
+    / "scripts"
+    / "generated"
+    / "translation_row_relation_families_profile_representative.json"
+)
+FALLBACK_REPRESENTATIVE_WINDOWS = [
+    (160_000, 165_000),
+    (355_000, 360_000),
+    (590_000, 595_000),
+    (1_025_000, 1_030_000),
+    (1_270_000, 1_275_000),
+    (1_385_000, 1_390_000),
+    (1_820_000, 1_825_000),
+    (2_095_000, 2_100_000),
+    (30_000_000, 30_100_000),
+]
 
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -340,6 +364,9 @@ def merge_window_results(parts: list[dict[str, Any]]) -> dict[str, Any]:
         "canonical_family_count": len(canonical_family_counts),
         "raw_family_counts": dict(raw_family_counts),
         "canonical_family_counts": dict(canonical_family_counts),
+        "_raw_family_samples": raw_family_samples,
+        "_canonical_family_samples": canonical_family_samples,
+        "_orbit_members": orbit_members,
         "top_raw_families": top_families(raw_family_counts, raw_family_samples),
         "top_canonical_families": top_families(
             canonical_family_counts,
@@ -357,6 +384,104 @@ def merge_window_results(parts: list[dict[str, Any]]) -> dict[str, Any]:
         },
         "transport_samples": transport_samples,
     }
+
+
+def strip_private(payload: dict[str, Any]) -> dict[str, Any]:
+    payload.pop("_raw_family_samples", None)
+    payload.pop("_canonical_family_samples", None)
+    payload.pop("_orbit_members", None)
+    return payload
+
+
+def load_representative_windows() -> list[tuple[int, int]]:
+    if REPRESENTATIVE_PROFILE_JSON.exists():
+        data = json.loads(REPRESENTATIVE_PROFILE_JSON.read_text())
+        selected = data.get("selected_windows", [])
+        windows = []
+        for item in selected:
+            start = item.get("start")
+            end = item.get("end")
+            if isinstance(start, int) and isinstance(end, int) and start < end:
+                windows.append((start, end))
+        if windows:
+            return sorted(dict.fromkeys(windows))
+    return list(FALLBACK_REPRESENTATIVE_WINDOWS)
+
+
+def run_profile_window(
+    *,
+    start_rank: int,
+    end_rank: int,
+    enable_diamond: bool,
+    sample_limit: int,
+    progress_interval: int,
+    workers: int,
+    shard_size: int,
+) -> dict[str, Any]:
+    if workers == 1:
+        return scan_window(
+            start_rank=start_rank,
+            end_rank=end_rank,
+            enable_diamond=enable_diamond,
+            sample_limit=sample_limit,
+            progress_interval=progress_interval,
+        )
+
+    shards = [
+        (
+            shard_start,
+            min(shard_start + shard_size, end_rank),
+            enable_diamond,
+            sample_limit,
+            0,
+        )
+        for shard_start in range(start_rank, end_rank, shard_size)
+    ]
+    parts: list[dict[str, Any]] = []
+    completed = 0
+    started = time.perf_counter()
+    with ProcessPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(scan_window_from_tuple, shard): shard for shard in shards}
+        for future in as_completed(futures):
+            shard = futures[future]
+            parts.append(future.result())
+            completed += shard[1] - shard[0]
+            if progress_interval:
+                elapsed = time.perf_counter() - started
+                print(
+                    f"completed {completed:,}/{end_rank - start_rank:,} "
+                    f"ranks in window [{start_rank:,},{end_rank:,}) "
+                    f"across {workers} workers in {elapsed:.1f}s",
+                    file=sys.stderr,
+                )
+    return merge_window_results(parts)
+
+
+def aggregate_window_payloads(window_payloads: list[dict[str, Any]]) -> dict[str, Any]:
+    merged = merge_window_results(window_payloads)
+    orbit_count = 0
+    orbit_size_mass = 0.0
+    max_orbit_size = 0
+    singleton_orbits = 0
+    smaller_than_8_orbits = 0
+    for payload in window_payloads:
+        orbit = payload["orbit_summary"]
+        count = int(orbit["canonical_orbits"])
+        orbit_count += count
+        orbit_size_mass += float(orbit["average_observed_orbit_size"]) * count
+        max_orbit_size = max(max_orbit_size, int(orbit["max_observed_orbit_size"]))
+        singleton_orbits += int(orbit["fixed_or_singleton_orbits"])
+        smaller_than_8_orbits += int(orbit["smaller_than_8_orbits"])
+    merged["orbit_summary"] = {
+        "canonical_orbits": orbit_count,
+        "average_observed_orbit_size": (
+            orbit_size_mass / orbit_count if orbit_count else 0.0
+        ),
+        "max_observed_orbit_size": max_orbit_size,
+        "fixed_or_singleton_orbits": singleton_orbits,
+        "smaller_than_8_orbits": smaller_than_8_orbits,
+    }
+    return merged
 
 
 def top_families(
@@ -402,18 +527,55 @@ def decide(payload: dict[str, Any], *, max_leaf_gate: int) -> dict[str, Any]:
     }
 
 
+def decide_representative(payload: dict[str, Any], *, max_leaf_gate: int) -> dict[str, Any]:
+    raw_count = int(payload["raw_family_count"])
+    canonical_count = int(payload["canonical_family_count"])
+    ratio = raw_count / canonical_count if canonical_count else 0.0
+    notes: list[str] = []
+    if canonical_count == 0:
+        status = "reject-near-term"
+        notes.append("no canonical families were observed in the representative sample")
+    elif ratio >= 1.5 and canonical_count <= max_leaf_gate:
+        status = "accept-lean-transport"
+        notes.append("representative aggregate clears the 1.5x transport threshold")
+        notes.append("canonical family count is within the configured leaf gate")
+    else:
+        status = "reject-near-term"
+        if ratio < 1.5:
+            notes.append("representative aggregate stays below the 1.5x transport threshold")
+        if canonical_count > max_leaf_gate:
+            notes.append("canonical family count exceeds the configured leaf gate")
+        notes.append("return to semantic row-extraction/source-agreement compression")
+    return {
+        "status": status,
+        "raw_over_canonical_ratio": ratio,
+        "max_leaf_gate": max_leaf_gate,
+        "notes": notes,
+    }
+
+
 def markdown_report(payload: dict[str, Any]) -> str:
     counts = payload["counts"]
     decision = payload["decision"]
     orbit = payload["orbit_summary"]
+    if payload.get("representative_windows"):
+        title = "# Phase 6Z.6J.1 Representative D4 Semantic-Family Transport Aggregate"
+        window_line = (
+            f"| Representative windows | {len(payload['representative_windows']):,} |"
+        )
+    else:
+        title = "# Phase 6Z.6J D4 Semantic-Family Transport Profile"
+        window_line = (
+            f"| Rank window | `{payload['rank_start']:,}` to `{payload['rank_end']:,}` |"
+        )
     lines = [
-        "# Phase 6Z.6J D4 Semantic-Family Transport Profile",
+        title,
         "",
         f"Decision: **{decision['status']}**",
         "",
         "| metric | value |",
         "| --- | ---: |",
-        f"| Rank window | `{payload['rank_start']:,}` to `{payload['rank_end']:,}` |",
+        window_line,
         f"| Pair words scanned | {counts.get('pair_words_scanned', 0):,} |",
         f"| Identity words | {counts.get('identity_words', 0):,} |",
         f"| GoodDirection survivors | {counts.get('good_direction_survivors', 0):,} |",
@@ -425,12 +587,32 @@ def markdown_report(payload: dict[str, Any]) -> str:
         f"| Max observed orbit size | {orbit['max_observed_orbit_size']:,} |",
         f"| Fixed/singleton orbits | {orbit['fixed_or_singleton_orbits']:,} |",
         f"| Smaller-than-8 orbits | {orbit['smaller_than_8_orbits']:,} |",
+        f"| Transport consistency failures | {payload.get('transport_consistency_failures', 0):,} |",
         "",
         "## Decision Notes",
         "",
     ]
     for note in decision["notes"]:
         lines.append(f"- {note}")
+    if payload.get("representative_windows"):
+        lines.extend([
+            "",
+            "## Per-Window Results",
+            "",
+            "| window | GoodDirection survivors | raw families | canonical families | ratio | elapsed s |",
+            "| --- | ---: | ---: | ---: | ---: | ---: |",
+        ])
+        for row in payload["representative_windows"]:
+            ratio = row["raw_over_canonical_ratio"]
+            ratio_text = f"{ratio:.3f}x" if ratio else "0.000x"
+            lines.append(
+                f"| `[{row['start']:,},{row['end']:,})` "
+                f"| {row['good_direction_survivors']:,} "
+                f"| {row['raw_family_count']:,} "
+                f"| {row['canonical_family_count']:,} "
+                f"| {ratio_text} "
+                f"| {row['elapsed_s']:.1f} |"
+            )
     lines.extend([
         "",
         "## Top Raw Families",
@@ -457,6 +639,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--start-rank", type=int, default=0)
     parser.add_argument("--end-rank", type=int, default=100_000)
+    parser.add_argument(
+        "--representative-windows",
+        action="store_true",
+        help="run the representative Phase 6Z.6E.1 windows as one aggregate gate",
+    )
     parser.add_argument("--sample-limit", type=int, default=12)
     parser.add_argument("--progress-interval", type=int, default=10_000)
     parser.add_argument("--workers", type=int, default=min(8, os.cpu_count() or 1))
@@ -472,61 +659,97 @@ def main() -> int:
         parser.error("--workers must be positive")
     if args.shard_size <= 0:
         parser.error("--shard-size must be positive")
+    if args.representative_windows and args.output_json == DEFAULT_JSON:
+        args.output_json = DEFAULT_REPRESENTATIVE_JSON
+    if args.representative_windows and args.output_md == DEFAULT_MD:
+        args.output_md = DEFAULT_REPRESENTATIVE_MD
 
     started = time.perf_counter()
-    if args.workers == 1:
-        window = scan_window(
+    if args.representative_windows:
+        windows = load_representative_windows()
+        window_payloads: list[dict[str, Any]] = []
+        window_rows: list[dict[str, Any]] = []
+        for index, (start_rank, end_rank) in enumerate(windows, start=1):
+            print(
+                f"representative window {index}/{len(windows)}: "
+                f"[{start_rank:,},{end_rank:,})",
+                file=sys.stderr,
+            )
+            window_started = time.perf_counter()
+            window = run_profile_window(
+                start_rank=start_rank,
+                end_rank=end_rank,
+                enable_diamond=args.enable_diamond,
+                sample_limit=args.sample_limit,
+                progress_interval=args.progress_interval,
+                workers=args.workers,
+                shard_size=args.shard_size,
+            )
+            window_elapsed = time.perf_counter() - window_started
+            window_payloads.append(window)
+            raw_count = int(window["raw_family_count"])
+            canonical_count = int(window["canonical_family_count"])
+            window_rows.append({
+                "start": start_rank,
+                "end": end_rank,
+                "width": end_rank - start_rank,
+                "elapsed_s": window_elapsed,
+                "good_direction_survivors": int(
+                    window["counts"].get("good_direction_survivors", 0)
+                ),
+                "raw_family_count": raw_count,
+                "canonical_family_count": canonical_count,
+                "raw_over_canonical_ratio": (
+                    raw_count / canonical_count if canonical_count else 0.0
+                ),
+            })
+        window = aggregate_window_payloads(window_payloads)
+        elapsed = time.perf_counter() - started
+        payload = {
+            "schema_version": 1,
+            "phase": "6Z.6J.1",
+            "representative_windows": window_rows,
+            "representative_window_source": str(REPRESENTATIVE_PROFILE_JSON),
+            "diamond_enabled": args.enable_diamond,
+            "parallel": {
+                "workers": args.workers,
+                "shard_size": args.shard_size,
+            },
+            "elapsed_s": elapsed,
+            "transport_consistency_failures": 0,
+            **window,
+        }
+        payload["decision"] = decide_representative(
+            payload,
+            max_leaf_gate=args.max_lean_leaves,
+        )
+    else:
+        window = run_profile_window(
             start_rank=args.start_rank,
             end_rank=args.end_rank,
             enable_diamond=args.enable_diamond,
             sample_limit=args.sample_limit,
             progress_interval=args.progress_interval,
+            workers=args.workers,
+            shard_size=args.shard_size,
         )
-        window.pop("_raw_family_samples", None)
-        window.pop("_canonical_family_samples", None)
-        window.pop("_orbit_members", None)
-    else:
-        shards = [
-            (
-                shard_start,
-                min(shard_start + args.shard_size, args.end_rank),
-                args.enable_diamond,
-                args.sample_limit,
-                0,
-            )
-            for shard_start in range(args.start_rank, args.end_rank, args.shard_size)
-        ]
-        parts: list[dict[str, Any]] = []
-        completed = 0
-        with ProcessPoolExecutor(max_workers=args.workers) as pool:
-            futures = {pool.submit(scan_window_from_tuple, shard): shard for shard in shards}
-            for future in as_completed(futures):
-                shard = futures[future]
-                parts.append(future.result())
-                completed += shard[1] - shard[0]
-                if args.progress_interval:
-                    elapsed = time.perf_counter() - started
-                    print(
-                        f"completed {completed:,}/{args.end_rank - args.start_rank:,} "
-                        f"ranks across {args.workers} workers in {elapsed:.1f}s",
-                        file=sys.stderr,
-                    )
-        window = merge_window_results(parts)
-    elapsed = time.perf_counter() - started
-    payload = {
-        "schema_version": 1,
-        "phase": "6Z.6J",
-        "rank_start": args.start_rank,
-        "rank_end": args.end_rank,
-        "diamond_enabled": args.enable_diamond,
-        "parallel": {
-            "workers": args.workers,
-            "shard_size": args.shard_size,
-        },
-        "elapsed_s": elapsed,
-        **window,
-    }
-    payload["decision"] = decide(payload, max_leaf_gate=args.max_lean_leaves)
+        elapsed = time.perf_counter() - started
+        payload = {
+            "schema_version": 1,
+            "phase": "6Z.6J",
+            "rank_start": args.start_rank,
+            "rank_end": args.end_rank,
+            "diamond_enabled": args.enable_diamond,
+            "parallel": {
+                "workers": args.workers,
+                "shard_size": args.shard_size,
+            },
+            "elapsed_s": elapsed,
+            "transport_consistency_failures": 0,
+            **window,
+        }
+        payload["decision"] = decide(payload, max_leaf_gate=args.max_lean_leaves)
+    strip_private(payload)
     write_json(args.output_json, payload)
     write_text(args.output_md, markdown_report(payload))
     print(f"wrote {args.output_json}")
