@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
+from concurrent.futures.process import BrokenProcessPool
 import json
 import os
 from pathlib import Path
@@ -141,6 +142,7 @@ def collect_payloads(
     stop_on_reject: bool,
     partial_uncovered_max: int,
     enable_diamond: bool,
+    max_pool_restarts: int,
 ) -> list[dict[str, Any]]:
     payloads_by_window: dict[tuple[int, int], dict[str, Any]] = {}
     todo: list[tuple[int, int]] = []
@@ -164,15 +166,16 @@ def collect_payloads(
             todo.append(window)
 
     if todo:
-        with ProcessPoolExecutor(max_workers=workers) as pool:
-            remaining = iter(todo)
+        pool_restarts = 0
+        pool = ProcessPoolExecutor(max_workers=workers)
+        try:
+            remaining = list(todo)
             active: dict[Any, tuple[int, int]] = {}
 
             def submit_next() -> None:
-                try:
-                    window = next(remaining)
-                except StopIteration:
+                if not remaining:
                     return
+                window = remaining.pop(0)
                 future = pool.submit(
                     scan_window_worker,
                     (*window, sample_limit, enable_diamond),
@@ -187,7 +190,32 @@ def collect_payloads(
                 done, _pending = wait(active, return_when=FIRST_COMPLETED)
                 for future in done:
                     window = active.pop(future)
-                    payload = future.result()
+                    try:
+                        payload = future.result()
+                    except BrokenProcessPool:
+                        if pool_restarts >= max_pool_restarts:
+                            raise
+                        pool_restarts += 1
+                        remaining.insert(0, window)
+                        remaining = [
+                            active_window
+                            for active_window in active.values()
+                            if active_window not in payloads_by_window
+                        ] + remaining
+                        for active_future in active:
+                            active_future.cancel()
+                        active.clear()
+                        pool.shutdown(wait=False, cancel_futures=True)
+                        print(
+                            "worker pool broke; restarting "
+                            f"({pool_restarts}/{max_pool_restarts}) with "
+                            f"{len(remaining):,} pending windows",
+                            file=sys.stderr,
+                        )
+                        pool = ProcessPoolExecutor(max_workers=workers)
+                        for _ in range(min(workers, len(remaining))):
+                            submit_next()
+                        break
                     path = checkpoint_path(checkpoint_dir, *window)
                     write_json_atomic(path, payload)
                     payloads_by_window[window] = payload
@@ -212,6 +240,8 @@ def collect_payloads(
                     for future in active:
                         future.cancel()
                     break
+        finally:
+            pool.shutdown(wait=True, cancel_futures=True)
 
     return [payloads_by_window[window] for window in windows if window in payloads_by_window]
 
@@ -378,6 +408,7 @@ def main() -> int:
     parser.add_argument("--markdown-output", type=Path, default=None)
     parser.add_argument("--sample-limit", type=int, default=16)
     parser.add_argument("--partial-uncovered-max", type=int, default=0)
+    parser.add_argument("--max-pool-restarts", type=int, default=32)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--aggregate-only", action="store_true")
     parser.add_argument("--stop-on-reject", action="store_true")
@@ -401,6 +432,8 @@ def main() -> int:
         parser.error("--workers must be positive")
     if args.sample_limit < 0:
         parser.error("--sample-limit must be nonnegative")
+    if args.max_pool_restarts < 0:
+        parser.error("--max-pool-restarts must be nonnegative")
     if args.rank_start + args.limit > exact.EXPECTED_PAIR_WORDS:
         parser.error("rank window exceeds EXPECTED_PAIR_WORDS")
     if args.calibration_width <= 0:
@@ -433,6 +466,7 @@ def main() -> int:
         stop_on_reject=args.stop_on_reject,
         partial_uncovered_max=args.partial_uncovered_max,
         enable_diamond=args.enable_diamond,
+        max_pool_restarts=args.max_pool_restarts,
     )
     aggregate = aggregate_payload(
         payloads=payloads,
