@@ -4957,10 +4957,20 @@ decision: rejected
   family keys must include affine part/order/sign/start/interior failure
   invariants or be handled by prefix/state cone pruning.
 
-Phase 6Z.6I planned result: integer/scaled arithmetic microbenchmark.
+Phase 6Z.6I completed result: integer/scaled arithmetic microbenchmark is
+accepted.
 
-- Add a small benchmark comparing current rational generated checks with
-  integer/scaled/projective versions of the proof-critical computations:
+- Added `scripts/run_phase6z6i_arithmetic_benchmarks.py`.
+- The runner emits benchmark-only Lean modules under
+  `Cuboctahedron/Generated/Benchmarks/Phase6Z6I/`:
+  - `RatBaseline.lean`
+  - `ScaledCandidate.lean`
+  - `AgreementSmoke.lean`
+- It records `/usr/bin/time -v` wall-time and RSS telemetry in:
+  - `scripts/generated/phase6z6i_arithmetic_benchmark.json`
+  - `scripts/generated/phase6z6i_arithmetic_benchmark.md`
+- The benchmark compares current rational generated checks with
+  integer/scaled/projective versions of proof-critical computations:
 
 ```text
 reflection product identity/nonidentity classification
@@ -4969,17 +4979,30 @@ denominator sign witnesses
 small Farkas/vector-sum checks
 ```
 
-- Acceptance is empirical:
+- Result:
 
 ```text
->= 2x speedup on representative generated semantic leaves -> consider using
-integer/scaled arithmetic in production family emitters
-< 2x speedup -> defer broad arithmetic rewrite
+module              min elapsed   mean elapsed   max RSS
+rat_baseline          5.903s        5.923s       3,451,304 KiB
+scaled_candidate      1.702s        1.721s       3,321,704 KiB
+agreement_smoke       1.543s        1.569s       3,308,844 KiB
+
+speedup:              3.468x
+scaled/Rat RSS ratio: 0.962
+decision:             accepted
 ```
 
-- This optimization must remain behind semantic generated checkers and must
-  prove agreement with the existing rational model; it cannot replace the
-  rational mathematical definitions.
+- Interpretation:
+  - Integer/scaled arithmetic clears the 2x gate on representative semantic
+    checks.
+  - Memory is slightly better, not worse.
+  - This does not replace the rational mathematical definitions. Scaled
+    arithmetic may now be used behind semantic generated checkers, provided
+    small agreement lemmas connect each scaled checker to the existing rational
+    model.
+  - The next active route should be Phase 6Z.6I.1: build a small scaled
+    semantic row-family pilot that reuses the accepted row-relation theorem
+    surface but proves row/source facts through integer/scaled normal forms.
 
 Phase 6Z.6J planned result: D4 semantic-family transport profiler.
 
@@ -5903,8 +5926,10 @@ Acceptance:
 - [x] Implement and reject Phase 6Z.6H nonidentity linear-part/axis census, using pure
   linear classes only where sound and profiling richer axis/failure families
   elsewhere.
-- [ ] Implement Phase 6Z.6I integer/scaled arithmetic microbenchmarks for
+- [x] Implement and accept Phase 6Z.6I integer/scaled arithmetic microbenchmarks for
   representative generated semantic checks.
+- [ ] Implement Phase 6Z.6I.1 scaled semantic row-family pilot using
+  agreement-backed integer/scaled row normal forms.
 - [ ] Implement Phase 6Z.6J D4 semantic-family transport profiler after family
   predicates exist.
 - [ ] Keep `[0,1000)` one-rank cached validation as an optional regression
@@ -5924,13 +5949,13 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6H is complete and rejected: the `[0,100000)` nonidentity axis census
-has zero no-fixed-axis rank mass and still fragments into 23,806 semantic
-family keys. The immediate next step is Phase 6Z.6I: implement
-integer/scaled/projective arithmetic microbenchmarks for representative
-semantic checks. This should measure the best possible constant-factor speedup
-before we decide whether any remaining semantic family route can meet the
-5-6 hour build target.
+Phase 6Z.6I is complete and accepted: the scaled benchmark gives a 3.468x
+wall-time speedup over the current rational baseline on representative
+semantic checks, with a scaled/Rat RSS ratio of 0.962. The immediate next step
+is Phase 6Z.6I.1: implement a small scaled semantic row-family pilot. That
+pilot should keep the existing semantic theorem surface but replace expensive
+rank-specific rational row/source facts with integer/scaled normal forms plus
+small agreement lemmas.
 
 Keep Phase 6Z.6J ready only after family predicates exist: D4 semantic-family
 transport can shrink accepted families, but it does not rescue a family shape
