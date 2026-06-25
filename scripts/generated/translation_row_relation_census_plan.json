@@ -1,0 +1,257 @@
+{
+  "adaptive_window_recommendations": {
+    "dense_examples": [
+      {
+        "elapsed_seconds": 307.6379507269885,
+        "end": 115000,
+        "good_direction_survivors": 5804,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 110000
+      },
+      {
+        "elapsed_seconds": 273.8157039200014,
+        "end": 140000,
+        "good_direction_survivors": 5406,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 135000
+      },
+      {
+        "elapsed_seconds": 261.22074443500605,
+        "end": 30100000,
+        "good_direction_survivors": 0,
+        "observed_width": 100000,
+        "recommended_window_size": 100000,
+        "start": 30000000
+      },
+      {
+        "elapsed_seconds": 257.8214082260092,
+        "end": 1250000,
+        "good_direction_survivors": 4913,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 1245000
+      },
+      {
+        "elapsed_seconds": 253.16862436101655,
+        "end": 685000,
+        "good_direction_survivors": 4159,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 680000
+      },
+      {
+        "elapsed_seconds": 244.71155049302615,
+        "end": 5000,
+        "good_direction_survivors": 4693,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 0
+      },
+      {
+        "elapsed_seconds": 243.00951258998248,
+        "end": 60100000,
+        "good_direction_survivors": 797,
+        "observed_width": 100000,
+        "recommended_window_size": 100000,
+        "start": 60000000
+      },
+      {
+        "elapsed_seconds": 238.0936747950036,
+        "end": 1275000,
+        "good_direction_survivors": 4779,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 1270000
+      },
+      {
+        "elapsed_seconds": 236.11262543898192,
+        "end": 1230000,
+        "good_direction_survivors": 4025,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 1225000
+      },
+      {
+        "elapsed_seconds": 230.53883712101378,
+        "end": 1560000,
+        "good_direction_survivors": 4116,
+        "observed_width": 5000,
+        "recommended_window_size": 5000,
+        "start": 1555000
+      }
+    ],
+    "sparse_examples": [
+      {
+        "elapsed_seconds": 1.5433228579931892,
+        "end": 1345000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 1340000
+      },
+      {
+        "elapsed_seconds": 1.567472180002369,
+        "end": 800000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 795000
+      },
+      {
+        "elapsed_seconds": 1.579868972999975,
+        "end": 1435000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 1430000
+      },
+      {
+        "elapsed_seconds": 1.5878452729957644,
+        "end": 365000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 360000
+      },
+      {
+        "elapsed_seconds": 1.5887524889840279,
+        "end": 805000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 800000
+      },
+      {
+        "elapsed_seconds": 1.5996884779888205,
+        "end": 210000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 205000
+      },
+      {
+        "elapsed_seconds": 1.6016749189875554,
+        "end": 580000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 575000
+      },
+      {
+        "elapsed_seconds": 1.60356344198226,
+        "end": 590000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 585000
+      },
+      {
+        "elapsed_seconds": 1.6058004219958093,
+        "end": 820000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 815000
+      },
+      {
+        "elapsed_seconds": 1.6105153179960325,
+        "end": 2105000,
+        "good_direction_survivors": 0,
+        "observed_width": 5000,
+        "recommended_window_size": 100000,
+        "start": 2100000
+      }
+    ]
+  },
+  "checkpoint_dirs": [
+    "/tmp/cuboctahedron_rowrel_diamond_global",
+    "/tmp/cuboctahedron_rowrel_diamond_calibration_100k"
+  ],
+  "checkpoint_summary": {
+    "checkpoint_count": 593,
+    "checkpointed_fraction": 0.03340281118058896,
+    "checkpointed_rank_mass": 3250000,
+    "contiguous_coverage_end": 2945000,
+    "contiguous_coverage_start": 0,
+    "contiguous_coverage_width": 2945000,
+    "merged_interval_count": 5,
+    "merged_intervals_preview": [
+      {
+        "end": 2945000,
+        "start": 0,
+        "width": 2945000
+      },
+      {
+        "end": 2970000,
+        "start": 2965000,
+        "width": 5000
+      },
+      {
+        "end": 30100000,
+        "start": 30000000,
+        "width": 100000
+      },
+      {
+        "end": 60100000,
+        "start": 60000000,
+        "width": 100000
+      },
+      {
+        "end": 90100000,
+        "start": 90000000,
+        "width": 100000
+      }
+    ],
+    "raw_window_rank_mass": 3250000
+  },
+  "decision": {
+    "notes": [
+      "Observed dense-window cost projects beyond the configured wall-time budget; prefer semantic family/state-space profiling over a full fixed-rank census.",
+      "The p95 observed throughput projection also exceeds the wall-time budget.",
+      "Contiguous checkpoint coverage stops at rank 2,945,000; later sampled windows are non-contiguous calibration evidence."
+    ],
+    "status": "skip_to_semantic_family_profiling"
+  },
+  "diamond_filter": true,
+  "mode": "translation-row-relation-adaptive-census-plan",
+  "observed_counts": {
+    "covered_cases": 429636,
+    "good_direction_survivors": 429636,
+    "uncovered_cases": 0
+  },
+  "observed_timing": {
+    "max_window_elapsed_seconds": 307.6379507269885,
+    "max_window_rss_kib": 71720,
+    "mean_seconds_per_rank": 0.009121820700102791,
+    "mean_window_elapsed_seconds": 49.9931151354706,
+    "median_window_elapsed_seconds": 30.22186834400054,
+    "p95_seconds_per_rank": 0.02866739643603909,
+    "p95_window_elapsed_seconds": 158.11310285619692,
+    "total_window_elapsed_seconds": 29645.917275334068
+  },
+  "planner_config": {
+    "max_projected_wall_seconds": 21600.0,
+    "max_window_size": 100000,
+    "min_window_size": 5000,
+    "sufficient_rank_mass": 1000000,
+    "target_window_seconds": 300.0,
+    "window_granularity": 5000,
+    "workers": 12
+  },
+  "projection": {
+    "projected_cpu_seconds_mean": 887527.6130220413,
+    "projected_wall_hours_mean": 20.544620671806513,
+    "projected_wall_hours_p95": 64.56614362306905,
+    "projected_wall_seconds_mean": 73960.63441850344,
+    "projected_wall_seconds_p95": 232438.11704304858
+  },
+  "rank_window": {
+    "end": 97297200,
+    "start": 0,
+    "width": 97297200
+  },
+  "schema_version": 1,
+  "trusted_as_proof": false
+}

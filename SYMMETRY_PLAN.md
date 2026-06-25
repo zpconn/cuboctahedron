@@ -313,7 +313,7 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. The active path is now adaptive/family-level row-template profiling rather than brute fixed-window census. Signed prefix/state cone pruning, D4 transport, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. The active path is now Phase 6Z.6E semantic row-template/diamond family profiling. Signed prefix/state cone pruning, D4 transport, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Partially complete | The semantic public API now exists as `SemanticExhaustiveGeneratedCoverage` plus semantic Step-15 adapters. It still needs full generated semantic evidence before `Generated.rank_complete`/final Step 15 can be unconditional. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -4416,6 +4416,51 @@ projected global diagnostic wall time too high -> skip full fixed-rank census an
   move directly to semantic family/state-space profiling
 ```
 
+Phase 6Z.6D.4 implementation result: adaptive planner rejects further global
+rank-sweep diagnostics.
+
+- Added `scripts/plan_translation_row_relation_census.py`, a diagnostic-only
+  planner that reads existing row-template/diamond checkpoint files and does
+  not launch new scans or emit proof evidence.
+- Ran the planner on both existing checkpoint caches:
+
+```bash
+python3 scripts/plan_translation_row_relation_census.py \
+  --checkpoint-dir /tmp/cuboctahedron_rowrel_diamond_global \
+  --checkpoint-dir /tmp/cuboctahedron_rowrel_diamond_calibration_100k \
+  --workers 12 \
+  --output scripts/generated/translation_row_relation_census_plan.json \
+  --markdown-output scripts/generated/translation_row_relation_census_plan.md
+```
+
+- Result:
+
+```text
+checkpoint files:              593
+checkpointed rank mass:        3,250,000
+contiguous coverage end:       2,945,000
+GoodDirection survivors:         429,636
+covered cases:                   429,636
+uncovered cases:                       0
+median window seconds:             30.22
+p95 window seconds:               158.11
+max window seconds:               307.64
+max window RSS KiB:               71,720
+mean projected wall hours:         20.54
+p95 projected wall hours:          64.57
+decision: skip_to_semantic_family_profiling
+```
+
+- Interpretation:
+  - The expanded row-template/diamond catalog remains mathematically promising
+    on observed windows: all 429,636 observed GoodDirection survivors are
+    covered.
+  - Even an adaptive rank sweep is projected beyond the 5-6 hour target and is
+    no longer the right next step.
+  - Phase 6Z.6E should now group GoodDirection survivors by semantic family
+    keys directly, so the proof surface is family/state based rather than
+    rank-window based.
+
 Phase 6Z.6E planned result: row-template/diamond semantic family profiler.
 
 - Profile GoodDirection survivors by family keys such as:
@@ -5434,12 +5479,12 @@ Acceptance:
   GoodDirection translation survivors.
 - [x] Attempt Phase 6Z.6D.3 fixed-window global row-template/diamond census and
   reject blind fixed-size rank sweeps as too slow for the proof-build target.
-- [ ] Implement Phase 6Z.6D.4 adaptive row-template/diamond census planner that
+- [x] Implement Phase 6Z.6D.4 adaptive row-template/diamond census planner that
   decides whether any remaining global diagnostic sweep is worth running before
   semantic family emission.
 - [ ] Implement Phase 6Z.6E row-template/diamond semantic family profiler for
-  GoodDirection survivors, after the adaptive planner accepts the coverage
-  coordinate.
+  GoodDirection survivors, now that the adaptive planner has rejected further
+  global rank sweeps.
 - [ ] Implement Phase 6Z.6F row-template/diamond family Lean smoke with semantic
   `TranslationCaseKilled` leaves and no ordinary translation-certificate
   replay.
@@ -5470,17 +5515,11 @@ Acceptance:
 
 Current next step:
 
-The immediate next step is Phase 6Z.6D.4: implement an adaptive
-row-template/diamond census planner. Phase 6Z.6D.3 showed that the expanded
-catalog is still promising mathematically, but blind fixed-size rank sweeps are
-not the right engineering primitive: 5k windows checkpoint safely but create
-too many tasks, while 100k windows are acceptable in sparse regions but too
-slow in dense early regions. The planner should consume existing checkpoints
-and sampled density data, estimate runtime, and decide whether a bounded
-adaptive census is worth running before Phase 6Z.6E.
-
-After the adaptive planner accepts a coverage coordinate, implement Phase
-6Z.6E: a row-template/diamond semantic family profiler. It should group
+The immediate next step is Phase 6Z.6E: implement a row-template/diamond
+semantic family profiler. Phase 6Z.6D.4 rejected further global rank sweeps:
+the adaptive planner observed 429,636 covered GoodDirection survivors with
+zero uncovered cases, but projected about 20.54 mean wall hours and 64.57 p95
+wall hours for a full diagnostic rank sweep. The profiler should group
 GoodDirection survivors by template/source/row normal form/D4 state and
 estimate whether the translation layer can land under roughly 1200 semantic
 leaves. A direct `[0,1000)` one-rank cached run is feasible as a long
