@@ -313,7 +313,7 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needs more samples; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; the first 25k fast-window profile covers 50/50 survivors but needs more samples before Lean emission. Signed prefix/state cone pruning, D4 transport, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Signed prefix/state cone pruning, D4 transport, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Partially complete | The semantic public API now exists as `SemanticExhaustiveGeneratedCoverage` plus semantic Step-15 adapters. It still needs full generated semantic evidence before `Generated.rank_complete`/final Step 15 can be unconditional. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -4581,6 +4581,84 @@ exact row-shape families:       44
     adding per-window progress logging and/or checkpoint-backed reuse of the
     per-window family payloads.
 
+Phase 6Z.6E.1 implementation result: representative semantic family profile
+accepted.
+
+- Extended `scripts/profile_translation_row_relation_families.py` with
+  per-window family-profile checkpoints, `--resume`, progress logging,
+  `--target-good-survivors`, and proof-relevant acceptance variants.
+- The acceptance decision now excludes `template_only`; it remains diagnostic
+  only because it is too coarse to justify a semantic row-source theorem.
+- Cache smoke:
+
+```bash
+python3 scripts/profile_translation_row_relation_families.py \
+  --checkpoint-dir /tmp/cuboctahedron_rowrel_diamond_global \
+  --checkpoint-dir /tmp/cuboctahedron_rowrel_diamond_calibration_100k \
+  --from-planner scripts/generated/translation_row_relation_census_plan.json \
+  --family-checkpoint-dir /tmp/cuboctahedron_rowrel_family_profile_smoke \
+  --workers 2 --max-rank-mass 10000 \
+  --dense-window-count 0 --sparse-window-count 0 \
+  --window 255000:260000 \
+  --window 300000:305000 \
+  --sample-limit 8 --enable-diamond --use-d4 \
+  --output /tmp/cuboctahedron_family_profile_cache_smoke.json \
+  --markdown-output /tmp/cuboctahedron_family_profile_cache_smoke.md
+```
+
+- A second run with `--resume` hit both cached windows and reproduced the
+  same semantic counts and decision.
+- Representative run:
+
+```bash
+python3 scripts/profile_translation_row_relation_families.py \
+  --checkpoint-dir /tmp/cuboctahedron_rowrel_diamond_global \
+  --checkpoint-dir /tmp/cuboctahedron_rowrel_diamond_calibration_100k \
+  --from-planner scripts/generated/translation_row_relation_census_plan.json \
+  --family-checkpoint-dir /tmp/cuboctahedron_rowrel_family_profile_6z6e1 \
+  --resume --workers 8 --max-rank-mass 250000 \
+  --target-good-survivors 750 --dense-window-count 80 \
+  --sparse-window-count 8 --dense-selection throughput \
+  --sample-limit 32 --enable-diamond --use-d4 \
+  --output scripts/generated/translation_row_relation_families_profile_representative.json \
+  --markdown-output scripts/generated/translation_row_relation_families_profile_representative.md
+```
+
+- Result:
+
+```text
+selected windows:                 9
+scanned rank mass:          140,000
+identity-linear words:        2,410
+GoodDirection survivors:      4,779
+covered cases:                4,779
+uncovered cases:                  0
+invalid cases:                    0
+non-two-source cases:             0
+decision: accepted_for_family_smoke
+
+template_source families:       123
+diamond/source families:        124
+D4 diamond/source families:     462
+exact row-shape families:     1,641
+template_only families:           9  diagnostic only
+```
+
+- Interpretation:
+  - The proof-relevant `template_source` coordinate is accepted for a Lean
+    smoke on this representative sample: 123 observed families, largest family
+    1,260 cases, singleton case mass 0.25%, and zero tail discovery after the
+    dense window.
+  - `diamond_then_template_source` is effectively tied at 124 families and can
+    remain as the immediate fallback if the Lean family theorem needs the
+    diamond/source split.
+  - The current D4 key still increases family count, so Phase 6Z.6J remains a
+    later transport optimization rather than a prerequisite for the first
+    family smoke.
+  - Proceed to Phase 6Z.6F: generate a small semantic family Lean smoke using
+    `template_source` first, without replaying ordinary `TranslationCert`
+    certificates.
+
 Phase 6Z.6F planned result: row-template family Lean smoke.
 
 - Generate a small set of semantic family leaves. Each leaf should export a
@@ -5568,7 +5646,7 @@ Acceptance:
   semantic family emission.
 - [x] Implement Phase 6Z.6E row-template/diamond semantic family profiler and
   first fast-window profile for GoodDirection survivors.
-- [ ] Implement Phase 6Z.6E.1 larger representative semantic family profile
+- [x] Implement Phase 6Z.6E.1 larger representative semantic family profile
   with per-window progress logging or checkpoint-backed family payload reuse.
 - [ ] Implement Phase 6Z.6F row-template/diamond family Lean smoke with semantic
   `TranslationCaseKilled` leaves and no ordinary translation-certificate
@@ -5600,14 +5678,14 @@ Acceptance:
 
 Current next step:
 
-The immediate next step is Phase 6Z.6E.1: run a larger representative semantic
-family profile after adding per-window progress logging or checkpoint-backed
-family payload reuse. Phase 6Z.6E now has a working profiler and a fast-window
-profile with 50/50 GoodDirection survivors covered, but the decision is
-`needs_more_samples`. The next run should sample enough source/template
-variation to decide whether `template_source` or `diamond_then_template_source`
-can stay under roughly 1200 proof-relevant semantic families. Do not move to
-Phase 6Z.6F Lean smoke until this larger profile is accepted.
+The immediate next step is Phase 6Z.6F: emit and build a small
+row-template/diamond family Lean smoke using semantic
+`TranslationCaseKilled` leaves. Phase 6Z.6E.1 accepted the proof-relevant
+`template_source` coordinate on a representative 4,779-survivor sample with
+123 observed families, zero uncovered cases, and no ordinary translation
+certificate replay. The smoke should prove a small number of whole-family
+theorems from the hand-written row-template infeasibility schemas, not one
+rank/mask certificate at a time.
 
 In parallel planning, prepare Phase 6Z.6G/6Z.6H/6Z.6I/6Z.6J as profiling
 tracks: signed prefix/state cone pruning, nonidentity linear-part/axis census

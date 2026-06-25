@@ -47,6 +47,10 @@ from profile_translation_support_shapes import shape_valid  # noqa: E402
 
 
 DEFAULT_OUTPUT = Path("scripts/generated/translation_row_relation_families_profile.json")
+DEFAULT_PROOF_RELEVANT_VARIANTS = [
+    "template_source",
+    "diamond_then_template_source",
+]
 COUNT_KEYS = [
     "pair_words_scanned",
     "identity_words",
@@ -72,6 +76,85 @@ def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     tmp = path.with_name(f"{path.name}.tmp")
     tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     tmp.replace(path)
+
+
+def config_digest(payload: dict[str, Any]) -> str:
+    text = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return stable_digest(text)
+
+
+def family_checkpoint_path(
+    checkpoint_dir: Path,
+    *,
+    start: int,
+    end: int,
+    digest: str,
+) -> Path:
+    return checkpoint_dir / f"window_{start}_{end}_{digest[:16]}.json"
+
+
+def load_family_checkpoint(
+    checkpoint_dir: Path | None,
+    *,
+    start: int,
+    end: int,
+    digest: str,
+    resume: bool,
+) -> dict[str, Any] | None:
+    if checkpoint_dir is None or not resume:
+        return None
+    path = family_checkpoint_path(
+        checkpoint_dir,
+        start=start,
+        end=end,
+        digest=digest,
+    )
+    if not path.exists():
+        return None
+    payload = read_json(path)
+    if payload.get("mode") != "translation-row-relation-family-profile-window":
+        return None
+    if payload.get("config_digest") != digest:
+        return None
+    result = payload.get("result")
+    if not isinstance(result, dict):
+        return None
+    result = dict(result)
+    result["cache_status"] = "hit"
+    result["profile_elapsed_seconds"] = 0.0
+    result["family_checkpoint"] = str(path)
+    return result
+
+
+def write_family_checkpoint(
+    checkpoint_dir: Path | None,
+    *,
+    start: int,
+    end: int,
+    digest: str,
+    config: dict[str, Any],
+    result: dict[str, Any],
+    elapsed_seconds: float,
+) -> None:
+    if checkpoint_dir is None:
+        return
+    path = family_checkpoint_path(
+        checkpoint_dir,
+        start=start,
+        end=end,
+        digest=digest,
+    )
+    payload = {
+        "schema_version": 1,
+        "mode": "translation-row-relation-family-profile-window",
+        "trusted_as_proof": False,
+        "config_digest": digest,
+        "config": config,
+        "window": {"start": start, "end": end, "width": end - start},
+        "elapsed_seconds": elapsed_seconds,
+        "result": result,
+    }
+    write_json_atomic(path, payload)
 
 
 def load_checkpoint_summaries(
@@ -118,6 +201,7 @@ def select_windows(
     max_rank_mass: int,
     dense_selection: str,
     explicit_windows: list[tuple[int, int]],
+    target_good_survivors: int | None,
 ) -> list[dict[str, Any]]:
     by_window = {
         (int(summary["start"]), int(summary["end"])): summary
@@ -126,17 +210,20 @@ def select_windows(
     selected: list[dict[str, Any]] = []
     selected_keys: set[tuple[int, int]] = set()
     rank_mass = 0
+    good_survivor_mass = 0
 
-    def try_add(summary: dict[str, Any]) -> None:
-        nonlocal rank_mass
+    def try_add(summary: dict[str, Any]) -> bool:
+        nonlocal rank_mass, good_survivor_mass
         key = (summary["start"], summary["end"])
         if key in selected_keys:
-            return
+            return False
         if rank_mass + int(summary["width"]) > max_rank_mass:
-            return
+            return False
         selected.append(summary)
         selected_keys.add(key)
         rank_mass += int(summary["width"])
+        good_survivor_mass += int(summary.get("good_direction_survivors", 0))
+        return True
 
     for window in explicit_windows:
         if window not in by_window:
@@ -155,8 +242,14 @@ def select_windows(
         raise ValueError(f"unknown dense selection mode: {dense_selection}")
 
     dense = sorted(summaries, key=dense_key)
-    for summary in dense[:dense_window_count]:
-        try_add(summary)
+    added_dense = 0
+    for summary in dense:
+        if added_dense >= dense_window_count:
+            break
+        if target_good_survivors is not None and good_survivor_mass >= target_good_survivors:
+            break
+        if try_add(summary):
+            added_dense += 1
 
     sparse_candidates = [
         item for item in summaries if int(item["good_direction_survivors"]) == 0
@@ -390,6 +483,68 @@ def scan_window_worker(args: tuple[int, int, int, bool, bool]) -> dict[str, Any]
     }
 
 
+def scan_window_cached_worker(
+    args: tuple[
+        int,
+        int,
+        int,
+        bool,
+        bool,
+        str | None,
+        str,
+        dict[str, Any],
+        bool,
+    ],
+) -> dict[str, Any]:
+    (
+        start,
+        end,
+        sample_limit,
+        enable_diamond,
+        use_d4,
+        family_checkpoint_dir,
+        digest,
+        cache_config,
+        resume,
+    ) = args
+    checkpoint_dir = Path(family_checkpoint_dir) if family_checkpoint_dir else None
+    cached = load_family_checkpoint(
+        checkpoint_dir,
+        start=start,
+        end=end,
+        digest=digest,
+        resume=resume,
+    )
+    if cached is not None:
+        return cached
+    start_time = time.monotonic()
+    result = scan_window_worker(
+        (start, end, sample_limit, enable_diamond, use_d4)
+    )
+    elapsed_seconds = time.monotonic() - start_time
+    result["cache_status"] = "miss"
+    result["profile_elapsed_seconds"] = elapsed_seconds
+    write_family_checkpoint(
+        checkpoint_dir,
+        start=start,
+        end=end,
+        digest=digest,
+        config=cache_config,
+        result=result,
+        elapsed_seconds=elapsed_seconds,
+    )
+    if checkpoint_dir is not None:
+        result["family_checkpoint"] = str(
+            family_checkpoint_path(
+                checkpoint_dir,
+                start=start,
+                end=end,
+                digest=digest,
+            )
+        )
+    return result
+
+
 def merge_counter(target: Counter[str], incoming: dict[str, int]) -> None:
     for key, value in incoming.items():
         target[key] += int(value)
@@ -420,7 +575,10 @@ def singleton_stats(counter: Counter[str]) -> dict[str, Any]:
         "singleton_case_fraction": singleton_mass / total if total else 0.0,
         "top_families": [
             {"family_key": key, "cases": value}
-            for key, value in counter.most_common(25)
+            for key, value in sorted(
+                counter.items(),
+                key=lambda item: (-item[1], item[0]),
+            )[:25]
         ],
     }
 
@@ -433,6 +591,7 @@ def decision(
     singleton_fraction_limit: float,
     tail_fraction_limit: float,
     discovery_curve: list[dict[str, Any]],
+    proof_relevant_variants: list[str],
 ) -> dict[str, Any]:
     notes: list[str] = []
     if counts["uncovered_cases"] or counts["invalid_cases"] or counts["non_two_source_cases"]:
@@ -446,8 +605,14 @@ def decision(
     eligible = {
         variant: stats
         for variant, stats in variant_stats.items()
-        if variant != "exact_row_shape_reference"
+        if variant in proof_relevant_variants
     }
+    if not eligible:
+        return {
+            "status": "rejected_family_coordinate",
+            "best_variant": None,
+            "notes": ["No configured proof-relevant family variants were present."],
+        }
     best_variant, best_stats = min(
         eligible.items(),
         key=lambda item: (
@@ -469,6 +634,12 @@ def decision(
         f"Best observed variant is `{best_variant}` with "
         f"{best_stats['family_count']:,} families."
     )
+    if "template_only" in variant_stats and best_variant != "template_only":
+        template_only = variant_stats["template_only"]
+        notes.append(
+            "`template_only` is diagnostic only and cannot unlock Lean emission "
+            f"({template_only['family_count']:,} observed families)."
+        )
     notes.append(
         f"Tail discovery for best variant added {tail_new:,} families "
         f"({tail_fraction:.2%})."
@@ -513,10 +684,15 @@ def markdown_report(payload: dict[str, Any]) -> str:
         f"| Uncovered cases | {counts.get('uncovered_cases', 0):,} |",
         f"| Invalid cases | {counts.get('invalid_cases', 0):,} |",
         f"| Non-two-source cases | {counts.get('non_two_source_cases', 0):,} |",
+        f"| Cache hits | {payload.get('cache_hits', 0):,} |",
+        f"| Cache misses | {payload.get('cache_misses', 0):,} |",
         f"| Elapsed seconds | {payload['elapsed_seconds']:.2f} |",
         "",
         f"Decision: **{decision_payload['status']}**",
         f"Best variant: `{decision_payload.get('best_variant')}`",
+        "",
+        "Proof-relevant variants: "
+        + ", ".join(f"`{variant}`" for variant in payload["config"].get("proof_relevant_variants", [])),
         "",
     ]
     for note in decision_payload["notes"]:
@@ -530,13 +706,34 @@ def markdown_report(payload: dict[str, Any]) -> str:
             f"({stats['singleton_case_fraction']:.2%} case mass)"
         )
     lines.extend(["", "## Selected Windows", ""])
+    result_by_window = {
+        (int(item["window"]["start"]), int(item["window"]["end"])): item
+        for item in payload.get("window_results", [])
+    }
     for item in payload["selected_windows"]:
+        result = result_by_window.get((int(item["start"]), int(item["end"])), {})
+        result_counts = result.get("counts", {})
         lines.append(
             f"- `[{item['start']:,},{item['end']:,})`: "
             f"width={item['width']:,}, "
             f"checkpoint_good={item.get('good_direction_survivors', 0):,}, "
-            f"checkpoint_seconds={item.get('elapsed_seconds', 0.0):.2f}"
+            f"profile_good={result_counts.get('good_direction_survivors', 0):,}, "
+            f"cache={result.get('cache_status', 'unknown')}, "
+            f"checkpoint_seconds={item.get('elapsed_seconds', 0.0):.2f}, "
+            f"profile_seconds={result.get('profile_elapsed_seconds', 0.0):.2f}"
         )
+    if payload.get("discovery_curve"):
+        lines.extend(["", "## Discovery Curve", ""])
+        for point in payload["discovery_curve"][-25:]:
+            window = point["window"]
+            family_counts = ", ".join(
+                f"{variant}={count:,}"
+                for variant, count in sorted(point["variant_family_counts"].items())
+                if variant in payload["config"].get("proof_relevant_variants", [])
+            )
+            lines.append(
+                f"- after `[{window['start']:,},{window['end']:,})`: {family_counts}"
+            )
     lines.append("")
     return "\n".join(lines)
 
@@ -544,9 +741,26 @@ def markdown_report(payload: dict[str, Any]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint-dir", type=Path, action="append", required=True)
+    parser.add_argument(
+        "--family-checkpoint-dir",
+        type=Path,
+        default=None,
+        help="Optional directory for per-window family-profile cache payloads.",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Reuse compatible payloads from --family-checkpoint-dir.",
+    )
     parser.add_argument("--from-planner", type=Path, default=None)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--max-rank-mass", type=int, default=250_000)
+    parser.add_argument(
+        "--target-good-survivors",
+        type=int,
+        default=0,
+        help="Stop dense window selection after this many checkpoint GoodDirection survivors.",
+    )
     parser.add_argument("--dense-window-count", type=int, default=20)
     parser.add_argument("--sparse-window-count", type=int, default=8)
     parser.add_argument(
@@ -564,6 +778,21 @@ def main() -> int:
     parser.add_argument("--family-limit", type=int, default=1_200)
     parser.add_argument("--singleton-fraction-limit", type=float, default=0.05)
     parser.add_argument("--tail-fraction-limit", type=float, default=0.10)
+    parser.add_argument(
+        "--proof-relevant-variant",
+        action="append",
+        default=None,
+        help=(
+            "Family variant eligible for acceptance. May be repeated. "
+            "Defaults to template_source and diamond_then_template_source."
+        ),
+    )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=1,
+        help="Print progress after every N completed windows; 0 disables progress.",
+    )
     parser.add_argument("--enable-diamond", action="store_true")
     parser.add_argument("--use-d4", action="store_true")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
@@ -574,12 +803,21 @@ def main() -> int:
         parser.error("--workers must be positive")
     if args.max_rank_mass <= 0:
         parser.error("--max-rank-mass must be positive")
+    if args.target_good_survivors < 0:
+        parser.error("--target-good-survivors must be nonnegative")
     if args.dense_window_count < 0 or args.sparse_window_count < 0:
         parser.error("window counts must be nonnegative")
     if args.sample_limit < 0:
         parser.error("--sample-limit must be nonnegative")
     if args.family_limit <= 0:
         parser.error("--family-limit must be positive")
+    if args.progress_every < 0:
+        parser.error("--progress-every must be nonnegative")
+    proof_relevant_variants = (
+        args.proof_relevant_variant
+        if args.proof_relevant_variant
+        else DEFAULT_PROOF_RELEVANT_VARIANTS
+    )
     explicit_windows: list[tuple[int, int]] = []
     for raw in args.window:
         pieces = raw.split(":")
@@ -602,6 +840,9 @@ def main() -> int:
         max_rank_mass=args.max_rank_mass,
         dense_selection=args.dense_selection,
         explicit_windows=explicit_windows,
+        target_good_survivors=(
+            args.target_good_survivors if args.target_good_survivors else None
+        ),
     )
     start_time = time.monotonic()
     total_counts: Counter[str] = Counter()
@@ -619,6 +860,16 @@ def main() -> int:
     }
     discovery_curve: list[dict[str, Any]] = []
 
+    family_cache_config = {
+        "schema_version": 1,
+        "sample_limit": args.sample_limit,
+        "enable_diamond": args.enable_diamond,
+        "use_d4": args.use_d4,
+    }
+    family_cache_digest = config_digest(family_cache_config)
+    family_checkpoint_dir = (
+        str(args.family_checkpoint_dir) if args.family_checkpoint_dir else None
+    )
     tasks = [
         (
             int(window["start"]),
@@ -626,18 +877,54 @@ def main() -> int:
             args.sample_limit,
             args.enable_diamond,
             args.use_d4,
+            family_checkpoint_dir,
+            family_cache_digest,
+            family_cache_config,
+            args.resume,
         )
         for window in selected
     ]
     results: list[dict[str, Any]] = []
+    completed = 0
+    cache_hits = 0
+    cache_misses = 0
+
+    def record_progress(result: dict[str, Any]) -> None:
+        nonlocal completed, cache_hits, cache_misses
+        completed += 1
+        if result.get("cache_status") == "hit":
+            cache_hits += 1
+        else:
+            cache_misses += 1
+        if args.progress_every and completed % args.progress_every == 0:
+            window = result["window"]
+            counts = result.get("counts", {})
+            print(
+                "profiled window "
+                f"{completed}/{len(tasks)} "
+                f"[{window['start']},{window['end']}): "
+                f"good={counts.get('good_direction_survivors', 0):,}, "
+                f"covered={counts.get('covered_cases', 0):,}, "
+                f"cache={result.get('cache_status', 'unknown')}, "
+                f"seconds={result.get('profile_elapsed_seconds', 0.0):.2f}",
+                flush=True,
+            )
+
     if args.workers == 1:
         for task in tasks:
-            results.append(scan_window_worker(task))
+            result = scan_window_cached_worker(task)
+            results.append(result)
+            record_progress(result)
     else:
         with ProcessPoolExecutor(max_workers=args.workers) as pool:
-            futures = {pool.submit(scan_window_worker, task): task for task in tasks}
+            futures = {
+                pool.submit(scan_window_cached_worker, task): task
+                for task in tasks
+            }
             for future in as_completed(futures):
-                results.append(future.result())
+                result = future.result()
+                results.append(result)
+                record_progress(result)
 
     for result in sorted(results, key=lambda item: item["window"]["start"]):
         merge_counter(total_counts, result["counts"])
@@ -664,6 +951,7 @@ def main() -> int:
         singleton_fraction_limit=args.singleton_fraction_limit,
         tail_fraction_limit=args.tail_fraction_limit,
         discovery_curve=discovery_curve,
+        proof_relevant_variants=proof_relevant_variants,
     )
     scanned_rank_mass = sum(int(window["width"]) for window in selected)
     payload = {
@@ -675,6 +963,7 @@ def main() -> int:
             "checkpoint_dirs": [str(path) for path in args.checkpoint_dir],
             "workers": args.workers,
             "max_rank_mass": args.max_rank_mass,
+            "target_good_survivors": args.target_good_survivors,
             "dense_window_count": args.dense_window_count,
             "sparse_window_count": args.sparse_window_count,
             "dense_selection": args.dense_selection,
@@ -684,11 +973,29 @@ def main() -> int:
             ],
             "enable_diamond": args.enable_diamond,
             "use_d4": args.use_d4,
+            "family_checkpoint_dir": str(args.family_checkpoint_dir)
+            if args.family_checkpoint_dir else None,
+            "family_cache_digest": family_cache_digest,
             "family_limit": args.family_limit,
             "singleton_fraction_limit": args.singleton_fraction_limit,
             "tail_fraction_limit": args.tail_fraction_limit,
+            "proof_relevant_variants": proof_relevant_variants,
         },
         "selected_windows": selected,
+        "window_results": [
+            {
+                "window": result["window"],
+                "counts": finalized_counts(Counter(result.get("counts", {}))),
+                "cache_status": result.get("cache_status", "unknown"),
+                "profile_elapsed_seconds": float(
+                    result.get("profile_elapsed_seconds", 0.0)
+                ),
+                "family_checkpoint": result.get("family_checkpoint"),
+            }
+            for result in sorted(results, key=lambda item: item["window"]["start"])
+        ],
+        "cache_hits": cache_hits,
+        "cache_misses": cache_misses,
         "scanned_rank_mass": scanned_rank_mass,
         "counts": finalized_counts(total_counts),
         "variant_stats": variant_stats,
