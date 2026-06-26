@@ -64,7 +64,7 @@
   "stats": {
     "axis_expected_row_properties": 4,
     "axis_family_target": "axis_b_only|source=4e7bbe2b2a3fe8a7bebe4a810f32b04fb4c1965cd675cc919449c05dc64bd067",
-    "good_direction_survivors": 1280,
+    "good_direction_survivors": 1620,
     "identity_words": 152,
     "pair_words_scanned": 21036,
     "selected_cases": 7,
