@@ -293,6 +293,10 @@ def classify_choice(rank: int, mask: int) -> dict[str, Any] | None:
             "template_row_property": (
                 f"{template_id}|rowProperty={digest_payload(row_payload)}"
             ),
+            "row_property_parametric": (
+                f"{template_id}|rowProperty={digest_payload(row_payload)}"
+            ),
+            "row_predicate_parametric": template_id,
             "template_source_row_property": (
                 f"{template_id}|sourceAgreement={digest_payload(source_payload)}"
                 f"|rowProperty={digest_payload(row_payload)}"

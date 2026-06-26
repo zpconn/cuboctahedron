@@ -40,6 +40,7 @@ DEFAULT_OUTPUT = Path("scripts/generated/phase6z6k3_symbolic_family_census.json"
 DEFAULT_REPORT = Path(
     "scripts/generated/translation_row_relation_families_profile_representative.json"
 )
+DEFAULT_PRIMARY_COORDINATE = "template_source_row_property"
 
 
 def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
@@ -268,6 +269,7 @@ def projection(
     limit: int,
     window_mode: str,
     workers: int,
+    primary_coordinate: str,
 ) -> dict[str, Any]:
     observed_width = sum(int(p["window"]["width"]) for p in payloads)
     elapsed_values = [float(p.get("elapsed_seconds", 0.0)) for p in payloads]
@@ -276,7 +278,7 @@ def projection(
     seconds_per_rank = total_elapsed / observed_width if observed_width else 0.0
     projected_cpu_seconds = seconds_per_rank * limit if observed_width else float("inf")
     projected_wall_seconds = projected_cpu_seconds / max(1, workers)
-    symbolic_count = family_count(merged, "template_source_row_property")
+    primary_count = family_count(merged, primary_coordinate)
     observed_good = int(merged["counts"].get("good_direction_survivors", 0))
     full_window = (
         window_mode == "contiguous"
@@ -285,7 +287,7 @@ def projection(
         and observed_width == exact.EXPECTED_PAIR_WORDS
     )
     scale = (exact.EXPECTED_PAIR_WORDS / observed_width) if observed_width else 0.0
-    projected_symbolic_families = symbolic_count if full_window else math.ceil(symbolic_count * scale)
+    projected_symbolic_families = primary_count if full_window else math.ceil(primary_count * scale)
     projected_good_survivors = observed_good if full_window else math.ceil(observed_good * scale)
     return {
         "observed_rank_width": observed_width,
@@ -309,7 +311,8 @@ def decision(
     max_projected_wall_seconds: float,
 ) -> dict[str, Any]:
     counts = aggregate["counts"]
-    symbolic_count = family_count(aggregate, "template_source_row_property")
+    primary_coordinate = aggregate["primary_coordinate"]
+    primary_count = family_count(aggregate, primary_coordinate)
     observed_rank_width = int(aggregate["projection"]["observed_rank_width"])
     projected_families = int(
         aggregate["projection"]["projected_symbolic_families_for_full_space_linear_scale"]
@@ -329,8 +332,8 @@ def decision(
     if observed_rank_width < min_observed_rank_mass:
         notes.append("coverage is clean but observed rank mass is below the configured gate")
         return {"status": "needs-more-sampling", "notes": notes}
-    if symbolic_count > family_gate:
-        notes.append("observed symbolic family count exceeds the configured gate")
+    if primary_count > family_gate:
+        notes.append("observed primary family count exceeds the configured gate")
         return {"status": "rejected", "notes": notes}
     if projected_families > family_gate:
         notes.append("linear global projection exceeds the configured family gate")
@@ -338,7 +341,7 @@ def decision(
     if projected_wall > max_projected_wall_seconds:
         notes.append("projected diagnostic wall time exceeds the configured gate")
         return {"status": "needs-more-sampling", "notes": notes}
-    notes.append("symbolic family coordinate remains clean and below configured gates")
+    notes.append("primary family coordinate remains clean and below configured gates")
     return {"status": "accepted-for-emission", "notes": notes}
 
 
@@ -355,15 +358,23 @@ def aggregate_payload(
     family_gate: int,
     min_observed_rank_mass: int,
     max_projected_wall_seconds: float,
+    primary_coordinate: str,
+    phase: str,
 ) -> dict[str, Any]:
     parts = [payload["result"] for payload in payloads]
     merged = symbolic.merge_results(parts)
     max_rss = max((int(payload.get("max_rss_kib", 0)) for payload in payloads), default=0)
+    if (
+        merged["counts"].get("covered_cases", 0) > 0
+        and primary_coordinate not in merged.get("candidate_family_counts", {})
+    ):
+        raise ValueError(f"primary coordinate not present in census: {primary_coordinate}")
     aggregate = {
         "schema_version": 1,
         "mode": "symbolic-row-family-census",
-        "phase": "6Z.6K.3",
+        "phase": phase,
         "trusted_as_proof": False,
+        "primary_coordinate": primary_coordinate,
         "window_mode": window_mode,
         "rank_window": {
             "start": rank_start,
@@ -386,7 +397,7 @@ def aggregate_payload(
         "elapsed_seconds": elapsed_seconds,
         "max_window_rss_kib": max_rss,
         "top_symbolic_families": top_counter(
-            merged.get("candidate_counts", {}).get("template_source_row_property", {})
+            merged.get("candidate_counts", {}).get(primary_coordinate, {})
             if "candidate_counts" in merged else {}
         ),
         **merged,
@@ -398,6 +409,7 @@ def aggregate_payload(
         limit=limit,
         window_mode=window_mode,
         workers=workers,
+        primary_coordinate=primary_coordinate,
     )
     aggregate["decision"] = decision(
         aggregate=aggregate,
@@ -428,9 +440,13 @@ def markdown_report(payload: dict[str, Any]) -> str:
         f"| Covered cases | {counts.get('covered_cases', 0):,} |",
         f"| Uncovered cases | {counts.get('uncovered_cases', 0):,} |",
         f"| Non-two-source cases | {counts.get('non_two_source_cases', 0):,} |",
-        f"| Symbolic families | {family_count(payload, 'template_source_row_property'):,} |",
+        f"| Primary coordinate | `{payload['primary_coordinate']}` |",
+        f"| Primary families | {family_count(payload, payload['primary_coordinate']):,} |",
+        f"| Source-keyed symbolic families | {family_count(payload, 'template_source_row_property'):,} |",
         f"| Template-source families | {family_count(payload, 'template_source'):,} |",
         f"| Row-property families | {family_count(payload, 'template_row_property'):,} |",
+        f"| Row-property parametric families | {family_count(payload, 'row_property_parametric'):,} |",
+        f"| Row-predicate parametric families | {family_count(payload, 'row_predicate_parametric'):,} |",
         f"| Exact row-shape families | {family_count(payload, 'exact_row_shape'):,} |",
         f"| Aggregate command elapsed seconds | {payload['elapsed_seconds']:.2f} |",
         f"| Observed window elapsed seconds | {projection_data['observed_elapsed_seconds']:.2f} |",
@@ -454,10 +470,10 @@ def markdown_report(payload: dict[str, Any]) -> str:
         lines.append(f"| `{name}` | {count:,} |")
     lines.extend([
         "",
-        "## Top Symbolic Families",
+        "## Top Primary Families",
         "",
     ])
-    for item in payload["candidate_top_families"].get("template_source_row_property", []):
+    for item in payload["candidate_top_families"].get(payload["primary_coordinate"], []):
         lines.append(f"- `{item['family_key']}`: {item['cases']:,}")
     lines.extend([
         "",
@@ -499,6 +515,8 @@ def main() -> int:
         default="0,10000000,30000000,60000000,90000000",
     )
     parser.add_argument("--family-gate", type=int, default=2_000)
+    parser.add_argument("--primary-coordinate", type=str, default=DEFAULT_PRIMARY_COORDINATE)
+    parser.add_argument("--phase", type=str, default="6Z.6K.3")
     parser.add_argument("--min-observed-rank-mass", type=int, default=100_000)
     parser.add_argument("--max-projected-wall-seconds", type=float, default=21_600.0)
     parser.add_argument("--max-pool-restarts", type=int, default=32)
@@ -557,6 +575,8 @@ def main() -> int:
         family_gate=args.family_gate,
         min_observed_rank_mass=args.min_observed_rank_mass,
         max_projected_wall_seconds=args.max_projected_wall_seconds,
+        primary_coordinate=args.primary_coordinate,
+        phase=args.phase,
     )
     write_json_atomic(args.output, aggregate)
     markdown_output = args.markdown_output or args.output.with_suffix(".md")
@@ -568,7 +588,7 @@ def main() -> int:
         "symbolic family census: "
         f"{aggregate['counts']['covered_cases']:,}/"
         f"{aggregate['counts']['good_direction_survivors']:,}; "
-        f"families={family_count(aggregate, 'template_source_row_property'):,}; "
+        f"{args.primary_coordinate}={family_count(aggregate, args.primary_coordinate):,}; "
         f"decision={aggregate['decision']['status']}"
     )
     return 0
