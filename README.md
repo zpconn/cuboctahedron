@@ -1,29 +1,37 @@
 # Cuboctahedron Omnihedral Billiards
 
-This repository is a Lean 4/mathlib formalization project for the theorem:
+This repository is a Lean 4/mathlib project about one question:
 
 ```text
-The cuboctahedron has no nonsingular periodic billiard orbit that touches
-each of its 14 faces exactly once before repeating.
+Can a billiard path inside a cuboctahedron bounce once off every face and then
+repeat forever without ever hitting an edge or vertex?
 ```
 
-As of June 2026, this appears to be a novel result in pure mathematics (though of minor curiosity at best). It is a celebrated result of geometry that all five Platonic solids do admit such an orbit, but the question of whether the cuboctahedron -- a quasiregular Archimedean polyhedron -- also admits this type of orbit has remained open.
+The intended theorem says **no**.
 
-A billiard orbit is a broken line inside a polyhedron: it moves straight until
-it hits a face, then reflects by the mirror law. It is nonsingular when every
-hit is in the relative interior of a face, not on an edge or vertex. It is
-omnihedral for the cuboctahedron when one period hits all 6 square faces and
-all 8 triangular faces exactly once.
+The question is interesting because all five Platonic solids do admit
+omnihedral billiard orbits, while the cuboctahedron is the next highly symmetric
+solid one naturally tries. This project is building a proof that the
+cuboctahedron behaves differently.
 
-The project is not a floating-point simulation. The trusted proof path uses
-exact rational arithmetic in Lean. External scripts may discover certificates
-and generate Lean files, but Lean must check the certificates and the coverage.
+The proof is being built so that the final answer is not trusted because a
+program searched many cases. The final answer should be trusted because Lean
+checks:
+
+- the geometry;
+- the reduction from bouncing paths to straight lines;
+- the complete finite enumeration of possible face orders;
+- every generated obstruction certificate used to rule out those orders.
+
+External Python and C++ code may help find patterns and certificates. It is
+not part of the trusted proof.
 
 <img width="500" height="490" alt="cuboctahedron" src="https://github.com/user-attachments/assets/896ae16c-8587-4926-8cee-da614f5b7c38" />
 
-## The Shape
+## The Object
 
-The cuboctahedron is modeled as the exact polyhedron
+A **cuboctahedron** has 14 faces: 6 squares and 8 triangles. This project uses
+the coordinate model
 
 ```text
 P = { (x, y, z) :
@@ -31,54 +39,85 @@ P = { (x, y, z) :
       and +/-x +/-y +/-z <= 2 for all sign choices }.
 ```
 
-Its square faces are `x = +/-1`, `y = +/-1`, and `z = +/-1`. Its triangular
-faces are the eight planes `+/-x +/-y +/-z = 2`. In Lean, each face has an
-integer normal vector `n` and rational offset `c`, so the reflection in that
-face is the exact affine map
+The square faces are
 
 ```text
-r_F(p) = p - 2 * (n dot p - c) / (n dot n) * n.
+x = 1, x = -1, y = 1, y = -1, z = 1, z = -1.
 ```
 
-This is the first simplifying miracle: every reflection matrix and translation
-vector has rational coefficients.
+The triangular faces are the eight planes
 
-## The Idea
+```text
++/-x +/-y +/-z = 2.
+```
 
-The proof straightens billiards.
+Each face is stored in Lean by a normal vector `n` and an offset `c`. The face
+plane is `n dot p = c`. Because these numbers are integers, all reflection
+calculations are exact rational arithmetic.
 
-<img width="6000" height="3390" alt="image" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
+## The Billiard Trick
 
-Instead of reflecting the velocity at each impact, reflect the next copy of the
-polyhedron across the impact face. The broken billiard path becomes one
-straight line through reflected copies. For a proposed face itinerary
+A billiard path normally bends at each bounce. The standard trick is to
+**unfold** it.
+
+Instead of reflecting the moving ball, reflect the room. After each impact,
+copy the cuboctahedron across the hit face. In this unfolded world, the
+billiard path is one straight line through reflected copies.
+
+```mermaid
+flowchart LR
+    A["bouncing path inside one cuboctahedron"]
+    B["reflect the cuboctahedron at each hit"]
+    C["one straight line through unfolded copies"]
+    D["exact algebraic conditions"]
+    A --> B --> C --> D
+```
+
+For any proposed order of faces
 
 ```text
 F0, F1, ..., F13
 ```
 
-the unfolded return map is an affine isometry
+Lean composes the corresponding reflections into one affine map
 
 ```text
-A(p) = M p + b,
+A(p) = M p + b.
 ```
 
-obtained by composing the corresponding face reflections. A periodic orbit
-with that itinerary can exist only if a straight line is compatible with this
-single affine map.
+Here `M` is the linear part, and `b` is the translation part. A periodic orbit
+with that face order can exist only if a straight line is compatible with this
+single map.
 
-Because an omnihedral orbit hits every face once, we may cyclically reindex it
-so that it starts on the square face `Face.xp`. The problem becomes finite:
-rule out all possible orders of the remaining 13 faces.
+## Why The Search Is Finite
 
-## Pair Words
+An omnihedral orbit hits every face exactly once. If it exists, we can choose
+where to call the period "the beginning." So the proof always starts the orbit
+on one chosen square face, called `Face.xp`, the face `x = 1`.
 
-Opposite faces have the same linear reflection. So the finite search first
-records only the opposite face-pair at each of the 13 remaining impacts. After
-starting at `xp`, a valid pair word must contain
+After that choice, there are 13 remaining face hits to order. That is still a
+large but finite problem.
+
+The finite search is organized in two layers.
+
+### Pair Words
+
+Opposite faces have the same mirror direction. For example, `x = 1` and
+`x = -1` are different faces, but their reflection matrices have the same
+linear part. So the proof first records only which **opposite face-pair** is
+hit.
+
+A **pair word** is this length-13 list of face-pairs after starting at
+`Face.xp`. It is not yet the full face itinerary, because it forgets the sign
+inside each opposite pair.
+
+After starting at `Face.xp`, a valid pair word must contain:
 
 ```text
-x once, and y, z, d111, d11m, d1m1, dm11 twice each.
+x once,
+y twice,
+z twice,
+and each of the four triangular opposite-pairs twice.
 ```
 
 There are exactly
@@ -87,91 +126,299 @@ There are exactly
 13! / 2^6 = 97,297,200
 ```
 
-such pair words. Lean contains the rank/unrank machinery for this finite set,
-so coverage is stated over `Fin numPairWords`, not over an externally trusted
-list.
+valid pair words.
 
-For each pair word, the proof splits according to the linear part `M` of the
+A **rank** is just a serial number for one of these pair words. Lean proves the
+rank/unrank machinery, so a statement over all ranks means a statement over
+all valid pair words, not over a list supplied by an external script.
+
+```mermaid
+flowchart TD
+    A["all possible omnihedral face orders"]
+    B["rotate the period so the first face is Face.xp"]
+    C["forget signs and keep only opposite face-pairs"]
+    D["97,297,200 valid pair words"]
+    E["rank = exact serial number for a pair word"]
+    A --> B --> C --> D --> E
+```
+
+### Sign Masks
+
+In the translation case, the proof also has to choose which face in each
+opposite pair is hit. A **sign mask** is a compact six-bit record of those
+choices. Six bits give 64 possibilities.
+
+So the raw translation branch is:
+
+```text
+identity-linear pair word + one of 64 sign masks.
+```
+
+The total number of translation sign assignments over all identity-linear pair
+words is `157,957,632`.
+
+## The Two Cases
+
+For each pair word, Lean splits according to the linear part `M` of the
 unfolded return map.
 
-## Non-Identity Case
+```mermaid
+flowchart TD
+    A["rank gives a pair word"]
+    B{"is M the identity?"}
+    C["non-identity case"]
+    D["translation case"]
+    A --> B
+    B -- "no" --> C
+    B -- "yes" --> D
+```
 
-If `M` is not the identity, any periodic unfolded line must lie on the invariant
-axis of the affine isometry. This makes the geometry rigid: the direction, the
-signed face choices, and often the starting point are forced.
+### Case 1: Non-Identity
 
-Lean checks exact non-identity obstructions such as:
+If `M` is not the identity, any periodic straight line must lie on a special
+axis of the affine map. This makes the possible orbit extremely rigid: the
+direction, signed face choices, and often the starting point are forced.
+
+Lean checks exact certificates showing that the forced candidate fails. Typical
+failures are:
 
 - there is no nonzero fixed direction;
-- a required crossing direction has the wrong sign;
-- the forced signed itinerary is not omnihedral;
-- the forced axis misses the interior of `xp`;
-- the unique candidate line hits the wrong face first;
-- a candidate hit is not in the intended face interior.
+- a required crossing direction points the wrong way;
+- the forced signed face sequence is not actually omnihedral;
+- the forced axis misses the interior of the starting face;
+- the candidate hits the wrong face first;
+- a hit lands outside the intended face interior.
 
-The checker lives around `NonIdCert` and `checkNonIdCert`, with soundness
-theorems connecting a checked certificate back to nonexistence of an unfolded
-orbit. Current generated work also exposes semantic non-identity coverage
-predicates, so future generated roots can prove that a rank is killed without
-exporting giant certificate objects.
+The repository name for one such certificate is `NonIdCert`. The checker is
+`checkNonIdCert`. The important theorem is not the checker itself, but its
+soundness theorem: if Lean verifies the certificate, then no real unfolded
+orbit exists for that case.
 
-## Translation Case
+### Case 2: Translation
 
-If `M` is the identity, the return map is a translation. A signed choice inside
-each opposite face-pair is recorded by a `SignMask`, so each identity-linear
-pair word has 64 signed translation choices.
+If `M` is the identity, the unfolded return map is a pure translation:
 
-The starting point on `xp` is written
+```text
+A(p) = p + b.
+```
+
+The starting point on `Face.xp` has the form
 
 ```text
 (1, y, z).
 ```
 
-For a fixed word and mask, the crossing order and interior conditions become a
-finite strict linear system in the two real variables `y` and `z`. The proof
-uses exact Farkas certificates: Lean verifies nonnegative rational multipliers
-whose weighted sum cancels the `y` and `z` terms and leaves an impossible
-strict inequality.
+For a fixed pair word and sign mask, all crossing-order and face-interior
+requirements become strict linear inequalities in the two unknowns `y` and
+`z`.
 
-The latest strategy does not generate evidence for every mask that has an
-obviously wrong crossing direction. Instead, Lean proves the structural lemma:
+The proof then uses a certificate of contradiction. The certificate gives
+nonnegative rational multipliers for some of the inequalities. Lean checks
+that, when those inequalities are added with those multipliers, the left side
+cancels and the result is impossible.
+
+This is a Farkas-style certificate. In plain language:
 
 ```text
-translation feasible -> GoodDirection
+If all these inequalities were true, their checked weighted sum would say
+0 < a number that is <= 0.
 ```
 
-where `GoodDirection` means every internal impact denominator has the required
-positive sign. Bad-direction masks are therefore eliminated by mathematics, not
-by a huge generated list.
+That cannot happen, so the proposed orbit does not exist.
 
-Generated translation evidence now targets only the `GoodDirection` survivors.
-The active backend proves survivor infeasibility by small two-source Farkas
-supports and row-relation families: often two selected constraints already
-combine to a contradiction. The public generated surface is semantic, using
-predicates such as `TranslationGoodCaseKilled`, rather than raw per-case
-certificate arrays.
+## Good Direction
 
-## Trusted Boundary
+A large part of the translation branch fails before needing a full Farkas
+certificate. Some proposed signed itineraries would require the straight line
+to cross a future face in the wrong direction.
 
-The intended final proof has three layers.
+For each internal impact, the exact formula for the crossing time has a
+denominator. An **internal impact denominator** is this exact rational quantity
+for one of the non-start, non-end crossings. A physically possible translation
+orbit must have all these denominators positive.
 
-1. Geometry: exact faces, exact reflections, billiard orbits, unfolding, and
-   the theorem that a genuine nonsingular billiard orbit gives an unfolded
-   feasible straight-line witness.
-2. Enumeration: exact pair-word rank/unrank, the identity/non-identity split,
-   sign masks, and coverage over all `97,297,200` pair-word ranks.
-3. Certificates: Lean-checked non-identity obstructions and translation Farkas
-   obstructions, assembled through small semantic coverage theorems.
+The predicate `GoodDirection` means exactly that:
 
-Python and C++ may help find the witnesses. They are not trusted. Counts and
-JSON summaries are diagnostics only. The Lean code must not use floating point,
-epsilon thresholds, `sorry`, `admit`, custom axioms, `unsafe`, or
-`native_decide`.
+```text
+every required internal crossing has the correct positive denominator.
+```
+
+The latest proof strategy proves in Lean:
+
+```text
+translation feasible -> GoodDirection.
+```
+
+This matters because bad-direction cases no longer need generated
+certificates. They are eliminated by a general theorem. Generated translation
+evidence only has to handle the surviving `GoodDirection` cases.
+
+```mermaid
+flowchart TD
+    A["translation pair word + sign mask"]
+    B{"GoodDirection?"}
+    C["impossible by general Lean theorem"]
+    D["needs linear-inequality contradiction"]
+    E["two-source Farkas / row-relation family"]
+    A --> B
+    B -- "no" --> C
+    B -- "yes" --> D --> E
+```
+
+## Symmetry
+
+The cuboctahedron has many symmetries. In the coordinate model, the full face
+symmetry comes from permuting the coordinates and flipping signs. There are 48
+such signed coordinate symmetries if orientation-reversing symmetries are
+included.
+
+These symmetries can turn one face itinerary into another equivalent itinerary.
+If one case is impossible, its symmetric copies are impossible too.
+
+However, after the proof chooses to start on `Face.xp`, not every symmetry is
+still available. We may use only symmetries that keep `Face.xp` fixed. This
+remaining started-face symmetry group has 8 elements: swap `y` and `z`, and
+independently flip the signs of `y` and `z`. This is the symmetry group of the
+square starting face.
+
+```mermaid
+flowchart TD
+    A["full cuboctahedron symmetry group"]
+    B["choose the first face to be Face.xp"]
+    C["only symmetries fixing Face.xp remain"]
+    D["8 started-face symmetries"]
+    E["canonical representative"]
+    F["Lean-checked transport back to all symmetric cases"]
+    A --> B --> C --> D --> E --> F
+```
+
+Symmetry is a compression tool, not a trust shortcut. A symmetry-reduced proof
+must still prove three things in Lean:
+
+1. the symmetry sends faces, interiors, reflections, and feasibility conditions
+   to the corresponding symmetric objects;
+2. every raw case belongs to some symmetry orbit with a chosen representative;
+3. the certificate for the representative transports to the raw case.
+
+The repository has symmetry infrastructure in `PairWordSymmetry.lean` and
+`Generated/Coverage/SymmetryTransport.lean`. The current final architecture
+does not rely on unproved symmetry assumptions. If symmetry is used to reduce
+generated data, Lean must check the transport and the coverage. If a branch is
+not symmetry-compressed, it is still covered by the raw rank/unrank
+enumeration.
+
+That is why the proof can still be exhaustive: coverage ultimately means
+"every rank, and every required sign mask, is killed," either directly or via a
+Lean-checked transport from a symmetric representative.
+
+## Generated Families
+
+A naive proof would write down one certificate for every case. That is too big.
+The current architecture uses families.
+
+A **family** is a reusable reason that kills many cases at once. Instead of
+saying "case 100 fails, case 101 fails, case 102 fails," a family theorem says
+"every case with this exact structural pattern fails."
+
+Some translation survivors are killed by very small Farkas contradictions. A
+**Farkas support** is the small set of inequalities used in such a
+contradiction. In the current two-source backend, a support often consists of
+just two inequalities.
+
+A **row-relation template** is a reusable algebraic pattern saying that two
+rows of the linear inequality system always combine into a contradiction for a
+whole family of cases. The word "row" just means one inequality in the system.
+
+A **symbolic row family** is a collection of cases that share the same
+proof-relevant row pattern, even if the raw numbers differ. A symbolic family
+root is a generated Lean module that proves coverage for such families over
+some range or sample.
+
+These terms are engineering vocabulary for one idea:
+
+```text
+Find one exact reason that rules out many proposed orbits, then make Lean check
+that the reason really applies to all of them.
+```
+
+## Proof Architecture
+
+The final proof has four layers.
+
+<img width="6000" height="3390" alt="proof strategy overview" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
+
+```mermaid
+flowchart TD
+    A["Real billiard theorem"]
+    B["Unfolding theorem: bouncing orbit gives straight-line witness"]
+    C["Finite itinerary theorem: every started witness has a pair-word rank"]
+    D["Case split by the unfolded linear part M"]
+    E["Non-identity certificates and families"]
+    F["Translation GoodDirection theorem"]
+    G["Translation Farkas certificates and families"]
+    H["Generated coverage: every rank/mask is killed"]
+    I["No unfolded omnihedral orbit starting at Face.xp"]
+    J["No cuboctahedron omnihedral billiard orbit"]
+
+    A --> B --> C --> D
+    D --> E --> H
+    D --> F --> G --> H
+    H --> I --> J
+```
+
+Another way to view the trusted boundary:
+
+```mermaid
+flowchart LR
+    subgraph Untrusted["untrusted helpers"]
+        P["Python generators"]
+        Cpp["old C++ searches"]
+        Reports["JSON / markdown diagnostics"]
+    end
+
+    subgraph Trusted["Lean-checked proof"]
+        Geometry["exact geometry"]
+        Enumerate["rank/unrank coverage"]
+        Checkers["certificate checkers"]
+        Soundness["soundness theorems"]
+        Coverage["generated theorem coverage"]
+        Final["final theorem"]
+    end
+
+    P -->|proposes data| Checkers
+    Cpp -->|sanity checks only| Reports
+    Reports -->|not proof| P
+    Geometry --> Soundness
+    Enumerate --> Coverage
+    Checkers --> Soundness
+    Soundness --> Coverage
+    Coverage --> Final
+```
+
+## Does This Cover Everything?
+
+The intended exhaustive argument is:
+
+1. Any omnihedral orbit can be reindexed to start on `Face.xp`.
+2. Any started omnihedral itinerary gives a valid pair word.
+3. Every valid pair word has a unique rank below `numPairWords`.
+4. For each rank, either the linear part is non-identity or it is identity.
+5. In the non-identity branch, Lean-checked coverage kills the rank.
+6. In the identity branch, every possible signed face choice is represented by
+   one of 64 sign masks.
+7. Bad-direction masks are impossible by the general `GoodDirection` theorem.
+8. GoodDirection masks are killed by Lean-checked Farkas or family evidence.
+9. Symmetry may reduce the amount of generated evidence only when Lean proves
+   that representatives cover all symmetric raw cases.
+
+So the proof does not depend on believing that "the sampled cases looked
+covered." The final proof must contain a Lean-checkable coverage theorem whose
+type says that all ranks and all required masks are handled.
 
 ## Current Status
 
-The unconditional final theorem is not yet present. The current trusted bridge
-is conditional on complete generated coverage:
+The unconditional final theorem is not yet present. The trusted Lean bridge is
+currently conditional on complete generated coverage:
 
 ```lean
 theorem Cuboctahedron.conditional_cuboctahedron_no_omnihedral
@@ -180,48 +427,49 @@ theorem Cuboctahedron.conditional_cuboctahedron_no_omnihedral
       o.Nonsingular /\ o.Periodic /\ o.TouchesEachFaceExactlyOnce
 ```
 
-In words: once Lean has an exhaustive generated coverage witness, Lean already
-proves the full billiard-orbit theorem shape.
+In plain language: if Lean is given a complete generated coverage witness, the
+rest of the proof already reaches the real billiard theorem.
 
-The newer generated API also defines `SemanticExhaustiveGeneratedCoverage` and
-semantic Step-15 adapters. This is the current completion path: emit compact
-semantic family coverage, not millions of raw certificates. The main remaining
-work is to produce full generated semantic evidence, especially the global
-translation survivor families and remaining non-identity coverage, and then
-assemble an unconditional `Generated.rank_complete` or equivalent coverage
-witness.
+The newer generated API also defines `SemanticExhaustiveGeneratedCoverage`.
+That is the current completion path: generated files should expose compact
+semantic theorems saying cases are impossible, not huge public arrays of raw
+certificates.
 
-Recent diagnostics support the current translation direction:
+Recent diagnostics support the current translation-family direction:
 
-- the first `100,000` pair-word ranks contain `39,710` GoodDirection survivors,
-  all covered by row-relation templates in the diagnostic census;
-- calibration windows cover `63,725` GoodDirection survivors with zero
+- in the first `100,000` pair-word ranks, all `39,710` GoodDirection survivors
+  were covered by row-relation templates in the diagnostic census;
+- calibration windows covered `63,725` GoodDirection survivors with zero
   uncovered cases after the expanded row-template catalog;
-- a representative symbolic row-family root covers `4,779` survivors using
+- a representative symbolic row-family root covered `4,779` survivors using
   `126` symbolic families, but broader sampling is still needed before full
-  emission.
+  generated emission.
 
-Those diagnostics are encouraging, not proof. Lean must check the emitted
-family theorems and final coverage.
+These are promising diagnostics, not proof. The final step is to emit and check
+the corresponding Lean coverage.
 
 ## Important Files
 
-- `Cuboctahedron/Basic/*`: fixed-size exact vector, matrix, and affine algebra.
-- `Cuboctahedron/Geometry/*`: faces, polyhedron interiors, reflections,
+- `Cuboctahedron/Geometry/*`: exact faces, face interiors, reflections,
   billiard orbits, and unfolding.
-- `Cuboctahedron/Search/Enumeration.lean`: pair-word rank/unrank and finite
-  coverage infrastructure.
+- `Cuboctahedron/Search/Enumeration.lean`: pair-word ranking, unranking, and
+  exact enumeration.
 - `Cuboctahedron/Search/Certificates.lean`: non-identity and translation
-  certificate checkers and soundness.
-- `Cuboctahedron/Search/Farkas2D.lean`: strict two-variable Farkas soundness.
-- `Cuboctahedron/Search/TranslationGoodDirection.lean`: the theorem that
-  feasible translation cases satisfy `GoodDirection`.
-- `Cuboctahedron/Generated/ExhaustiveCoverage.lean`: public coverage assembly
-  types, including semantic generated coverage.
-- `Cuboctahedron/Generated/Translation/TwoSource/*`: current two-source Farkas
-  and support-family translation backend.
+  certificate checkers and their soundness theorems.
+- `Cuboctahedron/Search/Farkas2D.lean`: the reusable strict linear-inequality
+  contradiction theorem.
+- `Cuboctahedron/Search/TranslationGoodDirection.lean`: the proof that any
+  feasible translation orbit satisfies `GoodDirection`.
+- `Cuboctahedron/Search/PairWordSymmetry.lean`: started-face symmetry group
+  infrastructure.
+- `Cuboctahedron/Generated/Coverage/SymmetryTransport.lean`: semantic symmetry
+  transport adapters.
+- `Cuboctahedron/Generated/ExhaustiveCoverage.lean`: generated coverage
+  assembly types, including semantic coverage.
+- `Cuboctahedron/Generated/Translation/TwoSource/*`: current two-source
+  Farkas and support-family backend.
 - `Cuboctahedron/ConditionalTheorem.lean`: the conditional bridge from complete
-  generated coverage to the billiard theorem.
+  coverage to the billiard theorem.
 
 ## Validation
 
