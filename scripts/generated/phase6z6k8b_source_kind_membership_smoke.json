@@ -1,0 +1,44 @@
+{
+  "decision": {
+    "notes": [
+      "the smoke tests the source-kind family interface",
+      "the witness predicate still contains SourceAgrees and row-property facts",
+      "do not scale source_kind_row_property until a later phase proves those facts from source kind alone or enriches the coordinate"
+    ],
+    "status": "interface-only-source-kind"
+  },
+  "input": "scripts/generated/phase6z6k8a_row_property_membership_signatures.json",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceKindMembershipSmoke.lean",
+  "lean_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceKindMembershipSmoke",
+  "mode": "phase6z6k8b_source_kind_membership_smoke",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "selected_families": [
+    {
+      "cases": 711,
+      "first_kind": "interior",
+      "key": "275a8c6e355659afe955918277d524438e785d419ceceeae937fa060290b9734",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "second_kind": "xpStart",
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 240,
+      "first_kind": "xpStart",
+      "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "second_kind": "ordering",
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 2,
+      "first_kind": "interior",
+      "key": "dc273dda7321ad8928cd5014ac39f2932da81d69cb1f07d2e50b34aaede94fe0",
+      "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+      "second_kind": "ordering",
+      "template_id": "axis_a_only"
+    }
+  ],
+  "trusted_as_proof": false
+}
