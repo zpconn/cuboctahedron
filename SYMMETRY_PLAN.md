@@ -238,9 +238,11 @@ coordinates; `source_kind_row_property` is the best bounded pilot coordinate
 with 11 families on `[0,1000)`. Phase 6Z.6K.8B tests that coordinate in Lean
 and rejects it as a production proof coordinate: the interface builds, but the
 witness predicate still contains the concrete `SourceAgrees` and row-property
-facts. The next membership step must enrich the coordinate, first with
-`source_kind_impact_row_property` and then, if needed, with
-`source_pair_skeleton_row_property`.
+facts. Phase 6Z.6K.8C then tests richer coordinates and rejects both
+`source_kind_impact_row_property` and `source_pair_skeleton_row_property`:
+they still contain ambiguous concrete source agreements and many exact row
+shapes inside individual coordinate families. The next membership move must
+change the theorem shape, not merely add another coarse coordinate hash.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -5849,6 +5851,58 @@ axis_a_only, interior -> ordering, 2 observed cases
     starting with `source_kind_impact_row_property` and falling back to
     `source_pair_skeleton_row_property` if needed.
 
+Completed Phase 6Z.6K.8C:
+
+- Added `scripts/generate_enriched_membership_smoke.py`.
+- Generated reports:
+  - `scripts/generated/phase6z6k8c_enriched_membership_smoke.json`
+  - `scripts/generated/phase6z6k8c_enriched_membership_smoke.md`
+- Commands run:
+
+```bash
+python3 -m py_compile scripts/generate_enriched_membership_smoke.py
+python3 scripts/generate_enriched_membership_smoke.py \
+  --input scripts/generated/phase6z6k8a_row_property_membership_signatures.json
+```
+
+- Result:
+
+```text
+rank range:                         [0,1000)
+GoodDirection survivors:                1,465
+covered two-source cases:               1,465
+source_kind_impact_row_property:           33 families
+source_pair_skeleton_row_property:         43 families
+decision:        reject-enriched-membership-coordinates
+```
+
+- Representative failure details:
+
+```text
+source_kind_impact_row_property largest family:
+  421 cases, 1 source signature, 1 row-property signature, 89 exact row shapes
+source_kind_impact_row_property second family:
+  240 cases, 8 source signatures, 1 row-property signature, 105 exact row shapes
+source_pair_skeleton_row_property largest family:
+  421 cases, 1 source signature, 1 row-property signature, 89 exact row shapes
+source_pair_skeleton_row_property second family:
+  240 cases, 8 source signatures, 1 row-property signature, 105 exact row shapes
+```
+
+- Decision:
+  - Reject both enriched coordinates as production membership keys.
+  - They are better diagnostics than `source_kind_row_property`, but neither
+    determines the concrete `SourceAgrees` facts needed by
+    `RowPropertyParametricCovered`.
+  - The large exact-row variation is acceptable for a row-property theorem, but
+    the source-agreement ambiguity means a generated proof would still need
+    rank/mask-specific reconstruction or facts carried inside `Applies`.
+  - Do not continue to full emission from these coordinates. The next step must
+    revise the membership theorem shape, for example by proving a source
+    agreement from a formal source-index/state predicate or by generating a
+    smaller source-agreement partition that composes with the row-property
+    quotient.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -6803,9 +6857,13 @@ Acceptance:
 - [x] Implement and reject Phase 6Z.6K.8B targeted Lean smoke for
   `source_kind_row_property`: the generated module builds, but the witness
   predicate still contains concrete `SourceAgrees` and row-property facts.
-- [ ] Implement Phase 6Z.6K.8C enriched membership-coordinate smoke for
-  `source_kind_impact_row_property`, falling back to
-  `source_pair_skeleton_row_property` if it remains interface-only.
+- [x] Implement and reject Phase 6Z.6K.8C enriched membership-coordinate smoke:
+  both `source_kind_impact_row_property` and
+  `source_pair_skeleton_row_property` remain ambiguous source-agreement
+  coordinates in `[0,1000)`.
+- [ ] Implement Phase 6Z.6K.8D membership theorem-shape reassessment:
+  choose between a formal source-index/state predicate and a smaller
+  source-agreement partition that composes with `RowPropertyParametricCovered`.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -6848,21 +6906,31 @@ only because the witness predicate still contains concrete `SourceAgrees` and
 row-property facts. In other words, source kind plus row-property name is a
 good diagnostic label, not yet a theorem-sufficient membership key.
 
-The immediate next step is Phase 6Z.6K.8C: enriched membership-coordinate
-smoke. That step should:
+Phase 6Z.6K.8C is implemented and rejected too. It audits
+`source_kind_impact_row_property` and `source_pair_skeleton_row_property` on
+the same `[0,1000)` window. Both coordinates cover the 1,465 GoodDirection
+survivors diagnostically, but both remain theorem-insufficient: the largest
+421-case families still contain 89 exact row shapes, and the 240-case
+`eq_eq_pos_var_second` families contain 8 concrete source-agreement
+signatures. The row-property side is stable, but source agreement is not.
 
-- test `source_kind_impact_row_property` first, because the 6K.8A profiler
-  found 33 families and it adds impact identity while staying much smaller
-  than exact row shapes;
-- select representative families that include the largest family, a
-  non-`eq_eq_pos_var_first` family, and a small family;
-- emit a tiny Lean smoke that tries to prove the `SourceAgrees` and
-  row-property membership facts from the enriched coordinate rather than
-  carrying those facts inside the witness predicate;
-- reject the coordinate if the proof still needs concrete per-rank
-  `bAtRank`/`FirstLineAt`/`SecondLineAt` reconstruction;
-- if rejected, test `source_pair_skeleton_row_property` next, then stop and
-  reassess before any full-scale emission.
+The immediate next step is Phase 6Z.6K.8D: membership theorem-shape
+reassessment. That step should:
+
+- stop testing nearby hash coordinates until the source-agreement ambiguity is
+  addressed directly;
+- compare two proof surfaces:
+  1. a formal source-index/state predicate that proves `SourceAgrees` from
+     rank/mask state, then composes with the existing row-property quotient;
+  2. a smaller source-agreement partition layered under the 11 row-property
+     theorem constructors, accepting more families only if each family has a
+     cheap semantic proof rather than per-rank row reconstruction;
+- run a bounded profiler on `[0,1000)` that estimates family count and source
+  agreement stability for both surfaces;
+- emit a tiny Lean smoke only for the chosen surface, and only if its `Applies`
+  predicate no longer carries concrete `SourceAgrees` or `*Rows` facts;
+- otherwise stop and reassess the translation membership strategy before any
+  full-scale generation.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

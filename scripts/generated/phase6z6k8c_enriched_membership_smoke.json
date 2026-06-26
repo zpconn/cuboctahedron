@@ -1,0 +1,205 @@
+{
+  "coordinates": [
+    {
+      "coordinate": "source_kind_impact_row_property",
+      "families": 33,
+      "largest_family_cases": 421,
+      "notes": [
+        "some coordinate families contain multiple concrete source agreements",
+        "some coordinate families contain multiple exact row shapes",
+        "the coordinate does not determine the facts needed by RowPropertyParametricCovered"
+      ],
+      "selected_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "integer_scaled_signatures": 89,
+          "key": "d7b2c4939f8b414c09cd44138e920222e0c6deccf2bae93b95e356760e66671e",
+          "row_property_signatures": 1,
+          "sample": {
+            "mask": 8,
+            "rank": 0,
+            "sources": [
+              {
+                "face": "tmmm",
+                "impact": 1,
+                "kind": "interior"
+              },
+              {
+                "index": 0,
+                "kind": "xpStart"
+              }
+            ]
+          },
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "integer_scaled_signatures": 105,
+          "key": "ce40ee73f7b69abc061a8cce4dac1334086a80355b7c51a711d8de721d70596f",
+          "row_property_signatures": 1,
+          "sample": {
+            "mask": 13,
+            "rank": 0,
+            "sources": [
+              {
+                "index": 0,
+                "kind": "xpStart"
+              },
+              {
+                "kind": "ordering",
+                "step": 3
+              }
+            ]
+          },
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 1,
+          "exact_row_shape_signatures": 1,
+          "integer_scaled_signatures": 1,
+          "key": "73d9eda208e9c14ba5b96406a90559d7e160229668608eed8e0161533d1299da",
+          "row_property_signatures": 1,
+          "sample": {
+            "mask": 63,
+            "rank": 714,
+            "sources": [
+              {
+                "face": "xm",
+                "impact": 11,
+                "kind": "interior"
+              },
+              {
+                "index": 2,
+                "kind": "xpStart"
+              }
+            ]
+          },
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "status": "reject-ambiguous-membership-coordinate",
+      "unstable_exact_row_shape_families": 31,
+      "unstable_row_property_families": 0,
+      "unstable_source_agreement_families": 16
+    },
+    {
+      "coordinate": "source_pair_skeleton_row_property",
+      "families": 43,
+      "largest_family_cases": 421,
+      "notes": [
+        "some coordinate families contain multiple concrete source agreements",
+        "some coordinate families contain multiple exact row shapes",
+        "the coordinate does not determine the facts needed by RowPropertyParametricCovered"
+      ],
+      "selected_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "integer_scaled_signatures": 89,
+          "key": "d10ddf0005d5c2250e9ef3a7622871f0cafa71f4b247a96d5564e86f8a8e9ef2",
+          "row_property_signatures": 1,
+          "sample": {
+            "mask": 8,
+            "rank": 0,
+            "sources": [
+              {
+                "face": "tmmm",
+                "impact": 1,
+                "kind": "interior"
+              },
+              {
+                "index": 0,
+                "kind": "xpStart"
+              }
+            ]
+          },
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "integer_scaled_signatures": 105,
+          "key": "04d6813ebdd388115d30b4edc6ffbed217f3e2f39db08b0a108eaf9a761cc6f1",
+          "row_property_signatures": 1,
+          "sample": {
+            "mask": 13,
+            "rank": 0,
+            "sources": [
+              {
+                "index": 0,
+                "kind": "xpStart"
+              },
+              {
+                "kind": "ordering",
+                "step": 3
+              }
+            ]
+          },
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 1,
+          "exact_row_shape_signatures": 1,
+          "integer_scaled_signatures": 1,
+          "key": "12c5f3ce0a6e7c5b05f2070bf99d71eb08e52dbf99f4e395aed1d65766ad6ea5",
+          "row_property_signatures": 1,
+          "sample": {
+            "mask": 45,
+            "rank": 57,
+            "sources": [
+              {
+                "face": "tppm",
+                "impact": 8,
+                "kind": "interior"
+              },
+              {
+                "index": 1,
+                "kind": "xpStart"
+              }
+            ]
+          },
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "status": "reject-ambiguous-membership-coordinate",
+      "unstable_exact_row_shape_families": 38,
+      "unstable_row_property_families": 0,
+      "unstable_source_agreement_families": 14
+    }
+  ],
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "coordinate": null,
+    "notes": [
+      "neither enriched coordinate can currently prove RowPropertyParametricCovered without carrying concrete facts",
+      "do not emit full Lean coverage from these coordinates"
+    ],
+    "status": "reject-enriched-membership-coordinates"
+  },
+  "input": "scripts/generated/phase6z6k8a_row_property_membership_signatures.json",
+  "lean_file_emitted": false,
+  "limit": 1000,
+  "mode": "phase6z6k8c_enriched_membership_smoke",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
