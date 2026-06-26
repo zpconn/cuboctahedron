@@ -1,0 +1,41 @@
+{
+  "applies_contains_source_or_row_facts": false,
+  "applies_surface": "rank/mask equality from SourceIndexStateDescriptor",
+  "decision": "source-index-state-smoke-emitted",
+  "input": "scripts/generated/phase6z6k8d_source_agreement_theorem_shapes.json",
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSmoke.lean",
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSmoke",
+  "phase": "6Z.6K.8E",
+  "schema_version": 1,
+  "selected_cases": [
+    {
+      "case_index": 0,
+      "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "mask": 8,
+      "observed_cases": 421,
+      "rank": 0,
+      "selected_reason": "largest source-index/state family",
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_index": 1,
+      "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "mask": 54,
+      "observed_cases": 134,
+      "rank": 0,
+      "selected_reason": "largest non-eq_eq_pos_var_first source-index/state family",
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_index": 2,
+      "family_key": "1720c5c6897de884a3f69d37a00482f5017602df26b88e99a3a0e35b3b08aa9f",
+      "mask": 28,
+      "observed_cases": 1,
+      "rank": 444,
+      "selected_reason": "singleton source-index/state family",
+      "template_id": "opp_1m_var_first"
+    }
+  ],
+  "selected_surface": "source_index_state_row_property",
+  "trusted_as_proof": false
+}

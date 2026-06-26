@@ -5951,6 +5951,61 @@ source_agreement_row_property:
     the predicate for selected representative families without placing
     `SourceAgrees` or row-property facts inside `Applies`.
 
+Completed Phase 6Z.6K.8E:
+
+- Added `scripts/generate_source_index_state_smoke.py`.
+- Generated:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSmoke.lean`
+  - `scripts/generated/phase6z6k8e_source_index_state_smoke.json`
+  - `scripts/generated/phase6z6k8e_source_index_state_smoke.md`
+- The generated Lean module defines a small
+  `SourceIndexStateDescriptor` and a fact-free `Applies` predicate:
+
+```lean
+def SourceIndexStateDescriptor.Applies
+    (desc : SourceIndexStateDescriptor) (r : Nat) (mask : SignMask) : Prop :=
+  r = desc.rank /\ mask = desc.mask
+```
+
+- The selected smoke cases are the three representatives from 6K.8D:
+
+```text
+rank 0, mask 8,   eq_eq_pos_var_first, 421 observed bounded cases
+rank 0, mask 54,  opp_1m_var_first,    134 observed bounded cases
+rank 444, mask 28, opp_1m_var_first,      1 observed bounded case
+```
+
+- For each case, the module proves `SourceAgrees` and the relevant `*Rows`
+  predicate outside `Applies`, then composes them through
+  `RowPropertyParametricCovered` and `RowPropertyMembershipFamily.killsOn`.
+- Focused verification passed:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSmoke
+```
+
+- Result:
+
+```text
+wall time:     0:20.13
+peak RSS:      3,685,108 KB
+status:        success
+```
+
+- Decision:
+  - Accept the bounded source-index/state smoke as a successful interface
+    check: `Applies` no longer carries `SourceAgrees`, row predicates,
+    row-shape facts, or ordinary translation certificates.
+  - Do not treat it as production coverage. The smoke descriptor still uses
+    exact rank/mask identity to select a representative. The production
+    surface needs a family-wide/state-wide membership predicate that implies
+    source lookup and row-property facts for all 74 bounded families without
+    becoming another singleton-rank table.
+  - The next step is Phase 6Z.6K.8F: lift the source-index/state bridge from
+    representative singleton descriptors to bounded family/state descriptors,
+    still keeping `SourceAgrees` and row predicates outside `Applies`.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -6912,9 +6967,13 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8D membership theorem-shape reassessment:
   choose between a formal source-index/state predicate and a smaller
   source-agreement partition that composes with `RowPropertyParametricCovered`.
-- [ ] Implement Phase 6Z.6K.8E source-index/state Lean smoke for the selected
+- [x] Implement Phase 6Z.6K.8E source-index/state Lean smoke for the selected
   `source_index_state_row_property` surface, proving `SourceAgrees` without
   carrying it inside `Applies`.
+- [ ] Implement Phase 6Z.6K.8F bounded source-index/state family bridge:
+  generalize the successful singleton smoke into family/state descriptors for
+  the 74 bounded source-index families without putting `SourceAgrees`, `*Rows`,
+  or ordinary certificate witnesses inside `Applies`.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -6972,20 +7031,27 @@ both are stable for source agreement and row property, and the selected surface
 is `source_index_state_row_property` because it avoids baking the whole source
 agreement payload into the key.
 
-The immediate next step is Phase 6Z.6K.8E: source-index/state Lean smoke. That
-step should:
+Phase 6Z.6K.8E is complete as a bounded representative smoke. It proves that
+the selected source-index/state surface can be packaged as a fact-free
+`Applies` predicate and then composed with the existing row-property quotient.
+The smoke uses singleton rank/mask descriptors, so it is an interface check,
+not a production coverage layer.
 
-- define a formal source-index/state descriptor for two-source supports,
-  including source indices, kinds, and impacts/faces where needed;
-- prove, for selected representative families, that the descriptor implies
-  `SourceAgrees support r mask`;
-- compose that source proof with the existing row-property quotient without
-  putting `SourceAgrees` or `*Rows` facts inside `Applies`;
-- select the same three smoke shapes reported by 6K.8D: largest
-  `eq_eq_pos_var_first`, largest non-`eq_eq_pos_var_first`
-  `opp_1m_var_first`, and a singleton;
-- reject the surface if the smoke still requires per-rank
-  `bAtRank`/`FirstLineAt`/`SecondLineAt` reconstruction inside `Applies`.
+The immediate next step is Phase 6Z.6K.8F: bounded source-index/state family
+bridge. That step should:
+
+- generalize the successful 6K.8E pattern from singleton rank/mask equality to
+  the 74 bounded source-index/state families found in `[0,1000)`;
+- keep `SourceAgrees`, row-property predicates, exact row-shape facts, and
+  ordinary translation certificates out of `Applies`;
+- define a family/state membership predicate that records enough cheap
+  source-index/state information to derive `SourceAgrees support r mask` for
+  all members;
+- derive the relevant `*Rows` predicate outside `Applies`, then compose with
+  `RowPropertyParametricCovered`;
+- fail fast if the only way to prove membership is to reintroduce
+  rank/mask-specific `bAtRank`, `FirstLineAt`, or `SecondLineAt`
+  reconstruction into `Applies`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
