@@ -1,0 +1,482 @@
+{
+  "job_gib": 14.0,
+  "jobs_effective": 2,
+  "jobs_requested": 2,
+  "kind": "groups",
+  "lean_memory_limit_gib": 12.0,
+  "memory_budget_gib": 40.0,
+  "mirror_to_lake": false,
+  "results": [
+    {
+      "cached": true,
+      "elapsed_seconds": 0.0021930200164206326,
+      "label": "Group000",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group000.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 169.2730889999948,
+      "label": "Group001",
+      "max_rss_kb": 4979232,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group001.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group001.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group001.lean\"\n\tUser time (seconds): 167.46\n\tSystem time (seconds): 1.79\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:49.27\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 4979232\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 8\n\tMinor (reclaiming a frame) page faults: 330630\n\tVoluntary context switches: 28499\n\tInvoluntary context switches: 366\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 93840\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 189.62495878897607,
+      "label": "Group002",
+      "max_rss_kb": 5103936,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group002.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group002.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group002.lean\"\n\tUser time (seconds): 187.83\n\tSystem time (seconds): 1.79\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:09.62\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5103936\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 6\n\tMinor (reclaiming a frame) page faults: 375089\n\tVoluntary context switches: 27604\n\tInvoluntary context switches: 389\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 98608\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 186.3352749219921,
+      "label": "Group003",
+      "max_rss_kb": 5133936,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group003.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group003.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group003.lean\"\n\tUser time (seconds): 184.62\n\tSystem time (seconds): 1.68\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:06.33\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5133936\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 324245\n\tVoluntary context switches: 28400\n\tInvoluntary context switches: 345\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 95064\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 186.26213355301297,
+      "label": "Group004",
+      "max_rss_kb": 5123860,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group004.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group004.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group004.lean\"\n\tUser time (seconds): 184.70\n\tSystem time (seconds): 1.55\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:06.25\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5123860\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 354356\n\tVoluntary context switches: 28005\n\tInvoluntary context switches: 357\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 97896\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 172.98692927599768,
+      "label": "Group005",
+      "max_rss_kb": 5073852,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group005.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group005.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group005.lean\"\n\tUser time (seconds): 171.50\n\tSystem time (seconds): 1.46\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:52.98\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5073852\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 328455\n\tVoluntary context switches: 28220\n\tInvoluntary context switches: 488\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 95944\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 171.89849151100498,
+      "label": "Group006",
+      "max_rss_kb": 5056564,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group006.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group006.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group006.lean\"\n\tUser time (seconds): 170.38\n\tSystem time (seconds): 1.52\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:51.89\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5056564\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 325000\n\tVoluntary context switches: 27653\n\tInvoluntary context switches: 254\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 93088\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 180.10631841002032,
+      "label": "Group007",
+      "max_rss_kb": 5147660,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group007.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group007.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group007.lean\"\n\tUser time (seconds): 178.45\n\tSystem time (seconds): 1.64\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:00.10\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5147660\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 356815\n\tVoluntary context switches: 27474\n\tInvoluntary context switches: 394\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 96704\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 185.37474783399375,
+      "label": "Group008",
+      "max_rss_kb": 5241164,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group008.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group008.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group008.lean\"\n\tUser time (seconds): 183.77\n\tSystem time (seconds): 1.59\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:05.37\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5241164\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 403507\n\tVoluntary context switches: 28886\n\tInvoluntary context switches: 276\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 104968\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 170.0324147119827,
+      "label": "Group009",
+      "max_rss_kb": 5053684,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group009.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group009.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group009.lean\"\n\tUser time (seconds): 168.41\n\tSystem time (seconds): 1.60\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:50.02\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5053684\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 334495\n\tVoluntary context switches: 28262\n\tInvoluntary context switches: 327\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 96832\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 175.7330276010034,
+      "label": "Group010",
+      "max_rss_kb": 5098928,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group010.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group010.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group010.lean\"\n\tUser time (seconds): 174.27\n\tSystem time (seconds): 1.47\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:55.73\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5098928\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 367680\n\tVoluntary context switches: 28382\n\tInvoluntary context switches: 451\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 99048\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 174.23390027700225,
+      "label": "Group011",
+      "max_rss_kb": 5126464,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group011.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group011.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group011.lean\"\n\tUser time (seconds): 172.61\n\tSystem time (seconds): 1.59\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:54.23\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5126464\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 328407\n\tVoluntary context switches: 26916\n\tInvoluntary context switches: 454\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 98144\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 181.03802322602132,
+      "label": "Group012",
+      "max_rss_kb": 5162772,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group012.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group012.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group012.lean\"\n\tUser time (seconds): 179.43\n\tSystem time (seconds): 1.59\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:01.03\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5162772\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 348903\n\tVoluntary context switches: 26376\n\tInvoluntary context switches: 309\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 97960\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 191.64984045701567,
+      "label": "Group013",
+      "max_rss_kb": 5283256,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group013.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group013.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group013.lean\"\n\tUser time (seconds): 189.99\n\tSystem time (seconds): 1.64\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:11.64\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5283256\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 377513\n\tVoluntary context switches: 27508\n\tInvoluntary context switches: 440\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 102280\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 189.88815867499216,
+      "label": "Group014",
+      "max_rss_kb": 5254856,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group014.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group014.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group014.lean\"\n\tUser time (seconds): 188.32\n\tSystem time (seconds): 1.56\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:09.88\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5254856\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 360653\n\tVoluntary context switches: 27013\n\tInvoluntary context switches: 404\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 102096\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 195.2132665210229,
+      "label": "Group015",
+      "max_rss_kb": 5369504,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group015.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group015.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group015.lean\"\n\tUser time (seconds): 193.56\n\tSystem time (seconds): 1.65\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:15.21\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5369504\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 371203\n\tVoluntary context switches: 26939\n\tInvoluntary context switches: 372\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 101088\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 191.06660654500592,
+      "label": "Group016",
+      "max_rss_kb": 5283952,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group016.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group016.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group016.lean\"\n\tUser time (seconds): 189.46\n\tSystem time (seconds): 1.57\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:11.06\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5283952\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 357839\n\tVoluntary context switches: 27841\n\tInvoluntary context switches: 494\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 99736\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 189.68965844699414,
+      "label": "Group017",
+      "max_rss_kb": 5262392,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group017.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group017.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group017.lean\"\n\tUser time (seconds): 187.99\n\tSystem time (seconds): 1.66\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:09.68\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5262392\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 386118\n\tVoluntary context switches: 26550\n\tInvoluntary context switches: 410\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 99608\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 177.63647951200255,
+      "label": "Group018",
+      "max_rss_kb": 5129720,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group018.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group018.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group018.lean\"\n\tUser time (seconds): 176.20\n\tSystem time (seconds): 1.43\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:57.63\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5129720\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 335116\n\tVoluntary context switches: 28572\n\tInvoluntary context switches: 345\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 94800\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 186.10869857197395,
+      "label": "Group019",
+      "max_rss_kb": 5246264,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group019.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group019.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group019.lean\"\n\tUser time (seconds): 184.34\n\tSystem time (seconds): 1.73\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:06.10\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5246264\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 349186\n\tVoluntary context switches: 27219\n\tInvoluntary context switches: 394\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 98464\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 188.8953372889955,
+      "label": "Group020",
+      "max_rss_kb": 5243444,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group020.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group020.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group020.lean\"\n\tUser time (seconds): 187.28\n\tSystem time (seconds): 1.59\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:08.89\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5243444\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 373931\n\tVoluntary context switches: 28278\n\tInvoluntary context switches: 401\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 101256\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 190.4542787380051,
+      "label": "Group021",
+      "max_rss_kb": 5290552,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group021.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group021.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group021.lean\"\n\tUser time (seconds): 188.83\n\tSystem time (seconds): 1.58\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:10.45\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5290552\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 347931\n\tVoluntary context switches: 27632\n\tInvoluntary context switches: 368\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 98384\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 187.09517451300053,
+      "label": "Group022",
+      "max_rss_kb": 5251896,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group022.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group022.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group022.lean\"\n\tUser time (seconds): 185.50\n\tSystem time (seconds): 1.59\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:07.09\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5251896\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 340701\n\tVoluntary context switches: 28120\n\tInvoluntary context switches: 431\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 96128\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.0003324180142953992,
+      "label": "Group023",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group023.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 192.63732275701477,
+      "label": "Group024",
+      "max_rss_kb": 5256836,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group024.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group024.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group024.lean\"\n\tUser time (seconds): 190.96\n\tSystem time (seconds): 1.64\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:12.63\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5256836\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 419331\n\tVoluntary context switches: 27278\n\tInvoluntary context switches: 541\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 109544\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 178.18216123100137,
+      "label": "Group025",
+      "max_rss_kb": 5168268,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group025.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group025.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group025.lean\"\n\tUser time (seconds): 176.48\n\tSystem time (seconds): 1.69\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:58.17\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5168268\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 333556\n\tVoluntary context switches: 27079\n\tInvoluntary context switches: 288\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 95752\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 188.19512191601098,
+      "label": "Group026",
+      "max_rss_kb": 5248888,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group026.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group026.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group026.lean\"\n\tUser time (seconds): 186.64\n\tSystem time (seconds): 1.50\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:08.19\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5248888\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 360630\n\tVoluntary context switches: 28170\n\tInvoluntary context switches: 440\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 98808\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 181.437431311002,
+      "label": "Group027",
+      "max_rss_kb": 5180616,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group027.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group027.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group027.lean\"\n\tUser time (seconds): 179.86\n\tSystem time (seconds): 1.58\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:01.43\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5180616\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 340730\n\tVoluntary context switches: 26760\n\tInvoluntary context switches: 297\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 97072\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 184.93429744799505,
+      "label": "Group028",
+      "max_rss_kb": 5207032,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group028.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group028.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group028.lean\"\n\tUser time (seconds): 183.21\n\tSystem time (seconds): 1.70\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:04.93\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5207032\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 363722\n\tVoluntary context switches: 26774\n\tInvoluntary context switches: 375\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 101296\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 191.94983458000934,
+      "label": "Group029",
+      "max_rss_kb": 5225144,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group029.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group029.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group029.lean\"\n\tUser time (seconds): 190.48\n\tSystem time (seconds): 1.46\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:11.94\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5225144\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 343668\n\tVoluntary context switches: 27291\n\tInvoluntary context switches: 356\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 95144\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 193.58732750901254,
+      "label": "Group030",
+      "max_rss_kb": 5263760,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group030.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group030.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group030.lean\"\n\tUser time (seconds): 192.00\n\tSystem time (seconds): 1.57\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:13.58\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5263760\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 358470\n\tVoluntary context switches: 26572\n\tInvoluntary context switches: 424\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 102064\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.0004779850132763386,
+      "label": "Group031",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group031.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 189.08444485301152,
+      "label": "Group032",
+      "max_rss_kb": 5277052,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group032.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group032.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group032.lean\"\n\tUser time (seconds): 187.37\n\tSystem time (seconds): 1.68\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:09.08\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5277052\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 359987\n\tVoluntary context switches: 27837\n\tInvoluntary context switches: 365\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 103256\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 171.43207532397355,
+      "label": "Group033",
+      "max_rss_kb": 5070024,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group033.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group033.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group033.lean\"\n\tUser time (seconds): 169.95\n\tSystem time (seconds): 1.49\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:51.42\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5070024\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 333438\n\tVoluntary context switches: 28020\n\tInvoluntary context switches: 303\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 94432\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 171.9824372830044,
+      "label": "Group034",
+      "max_rss_kb": 5065180,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group034.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group034.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group034.lean\"\n\tUser time (seconds): 170.45\n\tSystem time (seconds): 1.52\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:51.98\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5065180\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 349165\n\tVoluntary context switches: 27963\n\tInvoluntary context switches: 403\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 97408\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 183.4387284720142,
+      "label": "Group035",
+      "max_rss_kb": 5202788,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group035.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group035.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group035.lean\"\n\tUser time (seconds): 181.75\n\tSystem time (seconds): 1.67\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:03.43\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5202788\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 405356\n\tVoluntary context switches: 28131\n\tInvoluntary context switches: 420\n\tSwaps: 0\n\tFile system inputs: 8\n\tFile system outputs: 101016\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 179.5499930579972,
+      "label": "Group036",
+      "max_rss_kb": 5143868,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group036.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group036.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group036.lean\"\n\tUser time (seconds): 177.85\n\tSystem time (seconds): 1.69\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:59.54\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5143868\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 350950\n\tVoluntary context switches: 27717\n\tInvoluntary context switches: 367\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 99352\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 177.10007284101448,
+      "label": "Group037",
+      "max_rss_kb": 5124892,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group037.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group037.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group037.lean\"\n\tUser time (seconds): 175.57\n\tSystem time (seconds): 1.49\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:57.09\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5124892\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 362708\n\tVoluntary context switches: 28365\n\tInvoluntary context switches: 442\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 101616\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 184.26687316698371,
+      "label": "Group038",
+      "max_rss_kb": 5190652,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group038.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group038.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group038.lean\"\n\tUser time (seconds): 182.83\n\tSystem time (seconds): 1.42\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:04.26\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5190652\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 356030\n\tVoluntary context switches: 27686\n\tInvoluntary context switches: 311\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 109552\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 186.53308227402158,
+      "label": "Group039",
+      "max_rss_kb": 5188404,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group039.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group039.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group039.lean\"\n\tUser time (seconds): 184.81\n\tSystem time (seconds): 1.68\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:06.53\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5188404\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 374982\n\tVoluntary context switches: 26497\n\tInvoluntary context switches: 320\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 106152\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 190.12236535799457,
+      "label": "Group040",
+      "max_rss_kb": 5233424,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group040.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group040.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group040.lean\"\n\tUser time (seconds): 188.55\n\tSystem time (seconds): 1.57\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:10.12\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5233424\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 400995\n\tVoluntary context switches: 28340\n\tInvoluntary context switches: 419\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 107672\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 194.19271365599707,
+      "label": "Group041",
+      "max_rss_kb": 5287276,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group041.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group041.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group041.lean\"\n\tUser time (seconds): 192.44\n\tSystem time (seconds): 1.75\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:14.19\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5287276\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 452402\n\tVoluntary context switches: 28378\n\tInvoluntary context switches: 334\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 112112\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 176.95822482500807,
+      "label": "Group042",
+      "max_rss_kb": 5108924,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group042.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group042.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group042.lean\"\n\tUser time (seconds): 175.22\n\tSystem time (seconds): 1.71\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:56.95\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5108924\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 359642\n\tVoluntary context switches: 27599\n\tInvoluntary context switches: 431\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 104096\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 172.17129054499674,
+      "label": "Group043",
+      "max_rss_kb": 5089368,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group043.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group043.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group043.lean\"\n\tUser time (seconds): 170.63\n\tSystem time (seconds): 1.51\n\tPercent of CPU this job got: 99%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 2:52.16\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5089368\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 359982\n\tVoluntary context switches: 27689\n\tInvoluntary context switches: 338\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 99928\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": false,
+      "elapsed_seconds": 195.3548461199971,
+      "label": "Group044",
+      "max_rss_kb": 5292560,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group044.lean",
+      "returncode": 0,
+      "stderr": "\tCommand being timed: \"lean -j1 -R . -o evidence/.row_property_quotient_olean_cache/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group044.olean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group044.lean\"\n\tUser time (seconds): 193.79\n\tSystem time (seconds): 1.55\n\tPercent of CPU this job got: 100%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 3:15.35\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 5292560\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 354555\n\tVoluntary context switches: 27381\n\tInvoluntary context switches: 358\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 98632\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.0003400699933990836,
+      "label": "Group045",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group045.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "schema_version": 1,
+  "select": "all",
+  "source": "scripts/generated/phase6z6k6_row_property_quotient_representative_summary.json",
+  "summary": {
+    "cached": 4,
+    "checked": 46,
+    "failed": 0,
+    "max_elapsed_seconds": 195.3548461199971,
+    "max_rss_kb": 5369504,
+    "total_elapsed_seconds": 7713.710796401108
+  }
+}

@@ -1,0 +1,385 @@
+{
+  "bounded_diagnostic_only": true,
+  "case_count": 1465,
+  "cases_per_group": 32,
+  "do_not_broad_lake_build": true,
+  "generated_files": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/All.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group000.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group001.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group002.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group003.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group004.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group005.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group006.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group007.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group008.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group009.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group010.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group011.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group012.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group013.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group014.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group015.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group016.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group017.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group018.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group019.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group020.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group021.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group022.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group023.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group024.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group025.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group026.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group027.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group028.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group029.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group030.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group031.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group032.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group033.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group034.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group035.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group036.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group037.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group038.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group039.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group040.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group041.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group042.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group043.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group044.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group045.lean"
+  ],
+  "group_modules": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group000",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group001",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group002",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group003",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group004",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group005",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group006",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group007",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group008",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group009",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group010",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group011",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group012",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group013",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group014",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group015",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group016",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group017",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group018",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group019",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group020",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group021",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group022",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group023",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group024",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group025",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group026",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group027",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group028",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group029",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group030",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group031",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group032",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group033",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group034",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group035",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group036",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group037",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group038",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group039",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group040",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group041",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group042",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group043",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group044",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group045"
+  ],
+  "groups": [
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group000",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group000.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group001",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group001.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group002",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group002.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group003",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group003.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group004",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group004.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group005",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group005.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group006",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group006.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group007",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group007.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group008",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group008.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group009",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group009.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group010",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group010.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group011",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group011.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group012",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group012.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group013",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group013.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group014",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group014.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group015",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group015.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group016",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group016.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group017",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group017.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group018",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group018.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group019",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group019.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group020",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group020.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group021",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group021.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group022",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group022.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group023",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group023.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group024",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group024.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group025",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group025.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group026",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group026.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group027",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group027.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group028",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group028.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group029",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group029.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group030",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group030.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group031",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group031.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group032",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group032.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group033",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group033.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group034",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group034.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group035",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group035.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group036",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group036.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group037",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group037.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group038",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group038.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group039",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group039.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group040",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group040.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group041",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group041.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group042",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group042.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group043",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group043.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group044",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group044.lean"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.Group045",
+      "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group045.lean"
+    }
+  ],
+  "largest_generated_file_bytes": 238264,
+  "limit": 1000,
+  "mode": "phase6z6k6_row_property_quotient_representative",
+  "options": {
+    "out": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/All.lean",
+    "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.All"
+  },
+  "rank_start": 0,
+  "recommended_checker": "scripts/check_row_relation_classifier_shards.py",
+  "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotientRepresentative.All",
+  "row_property_families": [
+    {
+      "cases": 711,
+      "family_key": "eq_eq_pos_var_first|rowProperty=89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df"
+    },
+    {
+      "cases": 240,
+      "family_key": "eq_eq_pos_var_second|rowProperty=8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976"
+    },
+    {
+      "cases": 227,
+      "family_key": "opp_1m_var_first|rowProperty=83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082"
+    },
+    {
+      "cases": 126,
+      "family_key": "opp_m1_var_first|rowProperty=0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403"
+    },
+    {
+      "cases": 73,
+      "family_key": "opp_1m_var_second|rowProperty=9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382"
+    },
+    {
+      "cases": 44,
+      "family_key": "opp_m1_var_second|rowProperty=563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd"
+    },
+    {
+      "cases": 32,
+      "family_key": "eq_eq_neg_var_first|rowProperty=516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b"
+    },
+    {
+      "cases": 4,
+      "family_key": "axis_a_only|rowProperty=0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61"
+    },
+    {
+      "cases": 3,
+      "family_key": "axis_a_only|rowProperty=99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96"
+    },
+    {
+      "cases": 3,
+      "family_key": "eq_eq_neg_var_second|rowProperty=02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5"
+    },
+    {
+      "cases": 2,
+      "family_key": "axis_a_only|rowProperty=f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee"
+    }
+  ],
+  "row_property_family_count": 11,
+  "schema_version": 1,
+  "stats": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "rank_end": 1000,
+    "rank_start": 0,
+    "row_property_family_count": 11,
+    "row_property_family_counts": {
+      "axis_a_only|rowProperty=0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61": 4,
+      "axis_a_only|rowProperty=99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96": 3,
+      "axis_a_only|rowProperty=f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee": 2,
+      "eq_eq_neg_var_first|rowProperty=516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b": 32,
+      "eq_eq_neg_var_second|rowProperty=02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5": 3,
+      "eq_eq_pos_var_first|rowProperty=89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df": 711,
+      "eq_eq_pos_var_second|rowProperty=8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976": 240,
+      "opp_1m_var_first|rowProperty=83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082": 227,
+      "opp_1m_var_second|rowProperty=9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382": 73,
+      "opp_m1_var_first|rowProperty=0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403": 126,
+      "opp_m1_var_second|rowProperty=563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd": 44
+    },
+    "template_counts": {
+      "axis_a_only": 9,
+      "eq_eq_neg_var_first": 32,
+      "eq_eq_neg_var_second": 3,
+      "eq_eq_pos_var_first": 711,
+      "eq_eq_pos_var_second": 240,
+      "opp_1m_var_first": 227,
+      "opp_1m_var_second": 73,
+      "opp_m1_var_first": 126,
+      "opp_m1_var_second": 44
+    },
+    "translation_sign_assignments": 8832,
+    "unsupported_good_direction_survivors": 0
+  },
+  "trusted_as_proof": false
+}

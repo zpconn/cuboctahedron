@@ -1,0 +1,482 @@
+{
+  "job_gib": 14.0,
+  "jobs_effective": 2,
+  "jobs_requested": 2,
+  "kind": "groups",
+  "lean_memory_limit_gib": 12.0,
+  "memory_budget_gib": 40.0,
+  "mirror_to_lake": true,
+  "results": [
+    {
+      "cached": true,
+      "elapsed_seconds": 0.021550833975197747,
+      "label": "Group000",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group000.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.021231119986623526,
+      "label": "Group001",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group001.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02050019701709971,
+      "label": "Group002",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group002.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.020973371021682397,
+      "label": "Group003",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group003.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02426647298852913,
+      "label": "Group004",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group004.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.024479362997226417,
+      "label": "Group005",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group005.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.027093131007859483,
+      "label": "Group006",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group006.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.024819295009365305,
+      "label": "Group007",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group007.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02960035900468938,
+      "label": "Group008",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group008.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025190088985254988,
+      "label": "Group009",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group009.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02494077099254355,
+      "label": "Group010",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group010.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02313402501749806,
+      "label": "Group011",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group011.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.020584912999765947,
+      "label": "Group012",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group012.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02116325797396712,
+      "label": "Group013",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group013.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.026003360020695254,
+      "label": "Group014",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group014.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02554437899379991,
+      "label": "Group015",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group015.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025422136997804046,
+      "label": "Group016",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group016.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025262859009671956,
+      "label": "Group017",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group017.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.024684850010089576,
+      "label": "Group018",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group018.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025358768994919956,
+      "label": "Group019",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group019.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025902025983668864,
+      "label": "Group020",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group020.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025125064013991505,
+      "label": "Group021",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group021.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02523480899981223,
+      "label": "Group022",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group022.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02807130600558594,
+      "label": "Group023",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group023.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.027881707006599754,
+      "label": "Group024",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group024.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.024669497011927888,
+      "label": "Group025",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group025.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025874253013171256,
+      "label": "Group026",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group026.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.024879305012291297,
+      "label": "Group027",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group027.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.026033657020889223,
+      "label": "Group028",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group028.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.024438794003799558,
+      "label": "Group029",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group029.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02652179601136595,
+      "label": "Group030",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group030.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02917042700573802,
+      "label": "Group031",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group031.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.026547371002379805,
+      "label": "Group032",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group032.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02404877101071179,
+      "label": "Group033",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group033.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.0258186110004317,
+      "label": "Group034",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group034.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025946754991309717,
+      "label": "Group035",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group035.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025732927984790877,
+      "label": "Group036",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group036.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02594350799336098,
+      "label": "Group037",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group037.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.027894726023077965,
+      "label": "Group038",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group038.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.027088096976513043,
+      "label": "Group039",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group039.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02759930500178598,
+      "label": "Group040",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group040.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02892278099898249,
+      "label": "Group041",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group041.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.02612112701172009,
+      "label": "Group042",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group042.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025105709006311372,
+      "label": "Group043",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group043.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.025945286004571244,
+      "label": "Group044",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group044.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "cached": true,
+      "elapsed_seconds": 0.023432142013916746,
+      "label": "Group045",
+      "max_rss_kb": null,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientRepresentative/Group045.lean",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "schema_version": 1,
+  "select": "all",
+  "source": "scripts/generated/phase6z6k6_row_property_quotient_representative_summary.json",
+  "summary": {
+    "cached": 46,
+    "checked": 46,
+    "failed": 0,
+    "max_elapsed_seconds": 0.02960035900468938,
+    "max_rss_kb": null,
+    "total_elapsed_seconds": 1.1617533111129887
+  }
+}
