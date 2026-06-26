@@ -241,8 +241,10 @@ witness predicate still contains the concrete `SourceAgrees` and row-property
 facts. Phase 6Z.6K.8C then tests richer coordinates and rejects both
 `source_kind_impact_row_property` and `source_pair_skeleton_row_property`:
 they still contain ambiguous concrete source agreements and many exact row
-shapes inside individual coordinate families. The next membership move must
-change the theorem shape, not merely add another coarse coordinate hash.
+shapes inside individual coordinate families. Phase 6Z.6K.8D changes the
+theorem-shape question and selects `source_index_state_row_property` as the
+preferred bounded surface: it has 74 stable families on `[0,1000)`, but still
+needs a Lean predicate proving `SourceAgrees` from source-index/state data.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -5903,6 +5905,52 @@ source_pair_skeleton_row_property second family:
     smaller source-agreement partition that composes with the row-property
     quotient.
 
+Completed Phase 6Z.6K.8D:
+
+- Added `scripts/profile_source_agreement_theorem_shapes.py`.
+- Generated reports:
+  - `scripts/generated/phase6z6k8d_source_agreement_theorem_shapes.json`
+  - `scripts/generated/phase6z6k8d_source_agreement_theorem_shapes.md`
+- Commands run:
+
+```bash
+python3 -m py_compile scripts/profile_source_agreement_theorem_shapes.py
+python3 scripts/profile_source_agreement_theorem_shapes.py \
+  --input scripts/generated/phase6z6k8a_row_property_membership_signatures.json
+```
+
+- Result:
+
+```text
+rank range:                         [0,1000)
+GoodDirection survivors:                1,465
+covered two-source cases:               1,465
+source_index_state_row_property:           74 families
+source_agreement_row_property:             74 families
+decision:        needs-source-index-lean-smoke
+```
+
+- Surface comparison:
+
+```text
+source_index_state_row_property:
+  74 families, largest 421 cases, 0 source-unstable families, 0 row-unstable families
+source_agreement_row_property:
+  74 families, largest 421 cases, 0 source-unstable families, 0 row-unstable families
+```
+
+- Decision:
+  - Select `source_index_state_row_property` as the preferred next proof
+    surface because it is stable in the bounded window and avoids baking the
+    entire concrete source-agreement payload into the family key.
+  - Do not treat this as coverage yet: `fact_free_applies_available` is still
+    false because no Lean predicate currently derives `SourceAgrees` from the
+    source-index/state descriptor.
+  - The next step is Phase 6Z.6K.8E: add a bounded Lean smoke for a formal
+    source-index/state predicate. That smoke must prove `SourceAgrees` from
+    the predicate for selected representative families without placing
+    `SourceAgrees` or row-property facts inside `Applies`.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -6861,9 +6909,12 @@ Acceptance:
   both `source_kind_impact_row_property` and
   `source_pair_skeleton_row_property` remain ambiguous source-agreement
   coordinates in `[0,1000)`.
-- [ ] Implement Phase 6Z.6K.8D membership theorem-shape reassessment:
+- [x] Implement Phase 6Z.6K.8D membership theorem-shape reassessment:
   choose between a formal source-index/state predicate and a smaller
   source-agreement partition that composes with `RowPropertyParametricCovered`.
+- [ ] Implement Phase 6Z.6K.8E source-index/state Lean smoke for the selected
+  `source_index_state_row_property` surface, proving `SourceAgrees` without
+  carrying it inside `Applies`.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -6914,23 +6965,27 @@ survivors diagnostically, but both remain theorem-insufficient: the largest
 `eq_eq_pos_var_second` families contain 8 concrete source-agreement
 signatures. The row-property side is stable, but source agreement is not.
 
-The immediate next step is Phase 6Z.6K.8D: membership theorem-shape
-reassessment. That step should:
+Phase 6Z.6K.8D is implemented. It compares a formal
+`source_index_state_row_property` surface against the concrete
+`source_agreement_row_property` fallback. Both have 74 families in `[0,1000)`,
+both are stable for source agreement and row property, and the selected surface
+is `source_index_state_row_property` because it avoids baking the whole source
+agreement payload into the key.
 
-- stop testing nearby hash coordinates until the source-agreement ambiguity is
-  addressed directly;
-- compare two proof surfaces:
-  1. a formal source-index/state predicate that proves `SourceAgrees` from
-     rank/mask state, then composes with the existing row-property quotient;
-  2. a smaller source-agreement partition layered under the 11 row-property
-     theorem constructors, accepting more families only if each family has a
-     cheap semantic proof rather than per-rank row reconstruction;
-- run a bounded profiler on `[0,1000)` that estimates family count and source
-  agreement stability for both surfaces;
-- emit a tiny Lean smoke only for the chosen surface, and only if its `Applies`
-  predicate no longer carries concrete `SourceAgrees` or `*Rows` facts;
-- otherwise stop and reassess the translation membership strategy before any
-  full-scale generation.
+The immediate next step is Phase 6Z.6K.8E: source-index/state Lean smoke. That
+step should:
+
+- define a formal source-index/state descriptor for two-source supports,
+  including source indices, kinds, and impacts/faces where needed;
+- prove, for selected representative families, that the descriptor implies
+  `SourceAgrees support r mask`;
+- compose that source proof with the existing row-property quotient without
+  putting `SourceAgrees` or `*Rows` facts inside `Applies`;
+- select the same three smoke shapes reported by 6K.8D: largest
+  `eq_eq_pos_var_first`, largest non-`eq_eq_pos_var_first`
+  `opp_1m_var_first`, and a singleton;
+- reject the surface if the smoke still requires per-rank
+  `bAtRank`/`FirstLineAt`/`SecondLineAt` reconstruction inside `Applies`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

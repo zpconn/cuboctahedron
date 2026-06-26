@@ -1,0 +1,332 @@
+{
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "chosen_surface": "source_index_state_row_property",
+    "notes": [
+      "source-index/state is the preferred surface if a formal Lean predicate is added",
+      "do not emit production coverage until that predicate proves SourceAgrees without carrying facts"
+    ],
+    "status": "needs-source-index-lean-smoke"
+  },
+  "family_gate": 200,
+  "input": "scripts/generated/phase6z6k8a_row_property_membership_signatures.json",
+  "lean_file_emitted": false,
+  "limit": 1000,
+  "mode": "phase6z6k8d_source_agreement_theorem_shapes",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "surfaces": [
+    {
+      "exact_row_shape_unstable_families": 59,
+      "fact_free_applies_available": false,
+      "families": 74,
+      "largest_family_cases": 421,
+      "notes": [
+        "the bounded surface is stable, but no fact-free Lean source-index predicate exists yet"
+      ],
+      "row_property_unstable_families": 0,
+      "selected_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmm",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 0,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 9,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmm",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 0,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 16,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmm",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 0,
+                  "kind": "xpStart"
+                }
+              ]
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmp",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 55,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmp",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 54,
+              "rank": 2,
+              "sources": [
+                {
+                  "face": "tmmp",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 1,
+          "exact_row_shape_signatures": 1,
+          "key": "1720c5c6897de884a3f69d37a00482f5017602df26b88e99a3a0e35b3b08aa9f",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 444,
+              "sources": [
+                {
+                  "face": "xm",
+                  "impact": 11,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "source_unstable_families": 0,
+      "status": "needs-formal-source-index-lean-smoke",
+      "surface": "source_index_state_row_property"
+    },
+    {
+      "exact_row_shape_unstable_families": 59,
+      "fact_free_applies_available": false,
+      "families": 74,
+      "largest_family_cases": 421,
+      "notes": [
+        "the fallback partition is stable and small, but still needs a cheap semantic source predicate"
+      ],
+      "row_property_unstable_families": 0,
+      "selected_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "63563304bbc6ea3db6881b4b39ae102bc745990ec16fcadfbb4d329e03cbee9d",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmm",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 0,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 9,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmm",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 0,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 16,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmm",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 0,
+                  "kind": "xpStart"
+                }
+              ]
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "6972ecc5470115b6397aa3df7adb851ebf8d0dea9e6abfd9d48be1fe0fb35bfd",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmp",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 55,
+              "rank": 0,
+              "sources": [
+                {
+                  "face": "tmmp",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            },
+            {
+              "mask": 54,
+              "rank": 2,
+              "sources": [
+                {
+                  "face": "tmmp",
+                  "impact": 1,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 1,
+          "exact_row_shape_signatures": 1,
+          "key": "31a2cecc0bd3f1827ff8facabe4ddd3e05b8cd4b8f938ec45dee93e2064d9158",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 47,
+              "rank": 89,
+              "sources": [
+                {
+                  "face": "xp",
+                  "impact": 12,
+                  "kind": "interior"
+                },
+                {
+                  "index": 1,
+                  "kind": "xpStart"
+                }
+              ]
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "source_unstable_families": 0,
+      "status": "needs-formal-source-agreement-partition-smoke",
+      "surface": "source_agreement_row_property"
+    }
+  ],
+  "trusted_as_proof": false
+}
