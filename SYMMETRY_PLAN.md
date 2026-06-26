@@ -186,8 +186,9 @@ Phase 6Z.5 reusable row-relation theorem schemas, and the Phase 6Z.6A
 bounded row-relation classifier emitter with witness-based negative branches
 and a sharded `[0,10)` Lean coverage root, plus the Phase 6Z.6B
 external-cache validator and hierarchical `[0,64)` row-relation coverage root,
-Phase 6Z.6C semantic killed bridges, and the Phase 6Z.6D row-template census
-runner plus representative calibration.
+Phase 6Z.6C semantic killed bridges, the Phase 6Z.6D row-template census
+runner plus representative calibration, and the Phase 6Z.6K.5
+source-parametric row-property quotient.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -5490,6 +5491,76 @@ decision: needs-more-sampling
     agreement a parameter/proof obligation under row-property families rather
     than part of the generated family key.
 
+Phase 6Z.6K.5 completed result: source-parametric row-property quotient
+implemented and sampled. It preserves the complete two-source coverage of the
+broader disjoint sample while removing source agreement from the primary
+generated family key.
+
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotient.lean`.
+- Added the smoke module
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyQuotientSmoke.lean`.
+- Extended `scripts/profile_symbolic_row_extraction_families.py` with:
+  - `row_property_parametric`;
+  - `row_predicate_parametric`.
+- Extended `scripts/run_symbolic_row_family_census.py` with:
+  - `--primary-coordinate`;
+  - `--phase`;
+  - primary-coordinate-aware reports, top families, projections, and summary
+    output.
+- Ran the five disjoint 100k-rank calibration windows:
+  `0`, `10000000`, `30000000`, `60000000`, and `90000000`.
+- Checkpoints were kept outside generated source under:
+  `/tmp/cuboctahedron_row_property_parametric_100k`.
+- Generated reports:
+  - `scripts/generated/phase6z6k5_row_property_parametric_disjoint_100k.json`
+  - `scripts/generated/phase6z6k5_row_property_parametric_disjoint_100k.md`
+- Aggregate-only replay from checkpoints reproduced the same result.
+
+Disjoint source-parametric row-property result:
+
+```text
+windows completed:                   500/500
+pair words scanned:                  500,000
+identity words:                       13,220
+translation sign assignments:        846,080
+GoodDirection survivors:              63,725
+covered cases:                        63,725
+uncovered cases:                           0
+non-two-source cases:                      0
+primary coordinate:      row_property_parametric
+primary families:                         24
+source-keyed symbolic families:          671
+template-source families:                562
+row-predicate parametric families:        11
+exact row-shape families:             15,629
+max window RSS:                      23,968 KiB
+observed window elapsed:            5,138.71 s
+linear full-space primary projection:  4,671
+decision: needs-more-sampling
+```
+
+- Interpretation:
+  - The source-parametric theorem surface is viable in the sampled windows:
+    it covers all 63,725 GoodDirection survivors with zero uncovered and zero
+    non-two-source cases.
+  - The effective generated-family coordinate is now 24 row-property families
+    rather than 671 source-agreement-keyed symbolic families.
+  - The runner still reports `needs-more-sampling` because the generic
+    projection gate is conservative and still sees a linear full-space
+    projection above the configured family gate. That warning should not be
+    ignored, but it is no longer the same rejection as 6K.4: the next test
+    should measure Lean theorem emission for the 24 row-property family
+    surfaces directly.
+  - The next step is a bounded row-property-family emitter/root. It should
+    export semantic `TranslationGoodCaseKilled` or `TranslationCaseKilled`
+    theorems from row-property predicates and prove the required source-row
+    instantiation as a local parameter, not a source-agreement family key.
+  - If that bounded root is fast, scale representative and disjoint windows
+    through row-property roots. If the local source-row instantiation itself
+    fragments, then promote a state/DAG or source-row-normal-form layer under
+    the 24 row-property theorem schemas.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -6426,9 +6497,12 @@ Acceptance:
 - [x] Implement and reject Phase 6Z.6K.4 broader disjoint/global symbolic-family sampling
   with the new runner to replace the pessimistic representative linear
   projection with observed global family growth.
-- [ ] Implement Phase 6Z.6K.5 source-parametric row-property quotient so
+- [x] Implement Phase 6Z.6K.5 source-parametric row-property quotient so
   source agreement is checked as a local parameter/transport fact, not part of
   the generated semantic family key.
+- [ ] Implement Phase 6Z.6K.6 bounded row-property-family Lean emitter/root
+  using the 24 row-property-parametric theorem surfaces, with source rows
+  checked as local parameters rather than source-agreement family keys.
 - [ ] Keep `[0,1000)` one-rank cached validation as an optional regression
   benchmark only; do not treat it as a path to final coverage.
 - [ ] Resume the nonidentity compression track with the translation branch
@@ -6446,26 +6520,27 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6K.4 is implemented. Broader disjoint sampling covered all 63,725
-sampled GoodDirection survivors with zero uncovered and zero non-two-source
-cases, but the current `template + source-agreement + row-property` symbolic
-coordinate produced 671 sample families and a conservative linear full-space
-projection of 130,573 families. That is above the low-thousands / 5-6 hour
-Lean-build gate, so this coordinate is rejected as a global emission surface.
+Phase 6Z.6K.5 is implemented. The source-parametric row-property quotient
+covered all 63,725 sampled GoodDirection survivors across the same five
+disjoint 100k-rank windows, with zero uncovered and zero non-two-source cases.
+The primary coordinate collapsed to 24 row-property-parametric families,
+compared with 671 source-agreement-keyed symbolic families and 15,629 exact
+row-shape families.
 
-The immediate next step is Phase 6Z.6K.5: turn the promising row-property
-coordinate into the primary theorem surface. The broader sample has only 24
-row-property families, so the next attempt should:
+The immediate next step is Phase 6Z.6K.6: build a bounded Lean emitter/root for
+the row-property quotient. That emitter should:
 
-- prove/emit row-property semantic family theorems that take source agreement
-  as a local parameter or transport obligation;
-- add a profiler proving that each sampled source-agreement case maps into one
-  of the row-property theorem schemas without creating one family per source
-  agreement hash;
-- rerun the same five-window disjoint sample and report whether the effective
-  family count remains in the low-thousands while coverage stays complete;
-- if source agreement cannot be parameterized soundly, pivot to a state/DAG
-  proof surface before any global Lean emission.
+- export semantic row-property-family theorems, not ordinary
+  `TranslationCert` witnesses;
+- keep source agreement/source rows as local proof parameters or transport
+  obligations under the row-property theorem schemas;
+- smoke-build a small bounded root first, then scale to representative and
+  disjoint windows only if the bounded root is fast and memory-safe;
+- report per-family compile time, RSS, source size, and whether any
+  source-row-instantiation subcase fragments beyond the 24 row-property
+  surfaces;
+- pivot to a state/DAG or source-row-normal-form layer only if the local
+  source-row proofs fragment during emission.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
