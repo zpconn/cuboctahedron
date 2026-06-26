@@ -341,6 +341,108 @@ Find one exact reason that rules out many proposed orbits, then make Lean check
 that the reason really applies to all of them.
 ```
 
+## The Systems Problem
+
+At first glance this is a problem in geometry. The mathematical idea is
+beautifully compact: unfold the billiard, enumerate the possible face orders,
+and prove that each order is impossible.
+
+The hard part is that "enumerate the possible face orders" is not small.
+
+The raw finite problem contains:
+
+```text
+97,297,200 pair words
+157,957,632 translation sign assignments
+```
+
+Those numbers are not large by supercomputer standards, but they are large for
+a formal proof. A normal search program can test a case, throw away its
+temporary data, and keep a counter. Lean cannot merely be told that a program
+did that. Lean needs a proof object, or a checked certificate, whose soundness
+connects the computation back to the theorem.
+
+That changes the engineering problem completely.
+
+```mermaid
+flowchart TD
+    A["mathematical reduction"]
+    B["hundreds of millions of finite cases"]
+    C["certificates for why cases fail"]
+    D["Lean must check the certificates"]
+    E["generated source and compiled proof artifacts"]
+    F["consumer hardware limits"]
+
+    A --> B --> C --> D --> E --> F
+```
+
+A naive formalization would emit one Lean proof or one Lean certificate for
+each case. That is trustworthy in principle and unusable in practice: the
+source tree becomes enormous, elaboration becomes slow, and memory usage can
+explode. Other apparently compact approaches also failed. Packed byte strings
+made source files smaller, but Lean still had to decode and check them. Giant
+Boolean checkers moved the burden into kernel reduction. Splitting into small
+chunks helped only until even the smallest meaningful chunk was too expensive.
+
+So the project became a systems problem:
+
+```text
+How do we make a proof computation that is exact enough for Lean,
+complete enough to cover every case,
+small enough to build,
+and predictable enough not to run out of memory?
+```
+
+The current target is deliberately "large workstation" rather than "cluster."
+Some validation paths can still need tens of gigabytes of memory, and the
+project currently treats roughly 64 GB of RAM as the practical upper bound. The
+goal is not merely to finish eventually; it is to avoid proof-generation and
+Lean-build strategies that take days, weeks, or months, or fail halfway through
+with an out-of-memory error.
+
+That is why the proof architecture emphasizes:
+
+- exact rational and integer arithmetic, never floating point;
+- small reusable soundness theorems instead of one-off giant reductions;
+- semantic family theorems instead of raw per-case certificate arrays;
+- generated roots that expose compact theorem statements;
+- smoke tests on the heaviest expected generated leaves before scaling;
+- bounded memory profiles and external build caches for generated evidence;
+- rank/unrank coverage so compression never replaces exhaustiveness.
+
+The evolution looks like this:
+
+```mermaid
+flowchart TD
+    A["raw exhaustive search"]
+    B["one certificate per case"]
+    C["packed blobs / byte lists"]
+    D["structured certificate literals"]
+    E["proof-carrying local facts"]
+    F["shared semantic families"]
+    G["row-property and symmetry-aware coverage"]
+    H["final compact coverage theorem"]
+
+    A --> B
+    B -->|"too much source"| C
+    C -->|"too much Lean reduction"| D
+    D -->|"still too local"| E
+    E -->|"works in smoke tests"| F
+    F --> G --> H
+```
+
+This is the unusual character of the project: the mathematical proof and the
+build system are entangled. A proof strategy is not viable just because it is
+logically correct. It also has to compile, cache, and replay on real hardware.
+The current row-property and two-source Farkas work is an example of that
+pressure: it is not just looking for nicer mathematics, but for theorem shapes
+that let one checked argument cover many cases without making Lean materialize
+millions of near-duplicate proof terms.
+
+The trusted boundary remains the same throughout. Profilers and generators may
+measure, discover, compress, and emit. They may be wrong. Lean must still check
+the final family theorem and the final coverage theorem.
+
 ## Proof Architecture
 
 The final proof has four layers.
