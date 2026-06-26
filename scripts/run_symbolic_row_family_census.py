@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Run a resumable symbolic row-family census for translation survivors.
 
-This Phase 6Z.6K.3 runner is diagnostic only; it is not trusted as proof and it
-does not emit Lean evidence.  It wraps the symbolic row-extraction classifier
+This runner is diagnostic only; it is not trusted as proof and it does not emit
+Lean evidence.  It wraps the symbolic row-extraction classifier
 from `profile_symbolic_row_extraction_families.py` with:
 
 * top-level parallelism;
@@ -413,7 +413,7 @@ def markdown_report(payload: dict[str, Any]) -> str:
     projection_data = payload["projection"]
     decision_data = payload["decision"]
     lines = [
-        "# Phase 6Z.6K.3 Symbolic Row-Family Census",
+        "# Symbolic Row-Family Census",
         "",
         "This report is diagnostic only; Lean must check any emitted family theorem.",
         "",
