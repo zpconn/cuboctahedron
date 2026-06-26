@@ -7,7 +7,7 @@ The cuboctahedron has no nonsingular periodic billiard orbit that touches
 each of its 14 faces exactly once before repeating.
 ```
 
-As of June 2026, this appears to be a novel result in pure mathematics (though of minor curiosity at best). It is celebrated result of geometry that all five Platonic solids do admit such an orbit, but the question of whether the cuboctahedron -- a quasiregular Archimedean polyhedron -- also admits this type of orbit has remained open.
+As of June 2026, this appears to be a novel result in pure mathematics (though of minor curiosity at best). It is a celebrated result of geometry that all five Platonic solids do admit such an orbit, but the question of whether the cuboctahedron -- a quasiregular Archimedean polyhedron -- also admits this type of orbit has remained open.
 
 A billiard orbit is a broken line inside a polyhedron: it moves straight until
 it hits a face, then reflects by the mirror law. It is nonsingular when every
@@ -46,6 +46,8 @@ vector has rational coefficients.
 ## The Idea
 
 The proof straightens billiards.
+
+<img width="6000" height="3390" alt="image" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
 
 Instead of reflecting the velocity at each impact, reflect the next copy of the
 polyhedron across the impact face. The broken billiard path becomes one
