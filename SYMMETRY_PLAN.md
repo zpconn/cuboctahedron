@@ -232,7 +232,11 @@ but only 9 public row-property theorem constructors and 11 row-property
 digests. The blocker is not more row-property-family theorem emission; it is
 proving the existential `SourceAgrees` plus row-predicate membership facts
 without concrete rank/mask row reconstruction. The next active move is a
-state/signature membership bridge for `RowPropertyParametricCovered`.
+state/signature membership bridge for `RowPropertyParametricCovered`. Phase
+6Z.6K.8A adds that bridge interface and profiles candidate membership
+coordinates; `source_kind_row_property` is the best bounded pilot coordinate
+with 11 families on `[0,1000)`, so Phase 6Z.6K.8B should test whether that
+abstraction is actually Lean-proof-usable before any scaling.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -5748,6 +5752,63 @@ exact row-shape families:                 574
     denominator signatures, or row-normal-form transport, without replaying
     per-rank row reconstruction.
 
+Phase 6Z.6K.8A completed result: membership signature discovery found a small
+bounded pilot coordinate and added the generic Lean interface for future
+membership families.
+
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/MembershipBridge.lean`.
+- Added `scripts/profile_row_property_membership_signatures.py`.
+- Generated reports:
+  - `scripts/generated/phase6z6k8a_row_property_membership_signatures.json`
+  - `scripts/generated/phase6z6k8a_row_property_membership_signatures.md`
+- Commands:
+
+```bash
+python3 -m py_compile scripts/profile_row_property_membership_signatures.py
+python3 scripts/profile_row_property_membership_signatures.py \
+  --rank-start 0 --limit 1000
+lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
+```
+
+- Result:
+
+```text
+rank range:                         [0,1000)
+GoodDirection survivors:                1,465
+covered two-source cases:               1,465
+uncovered/non-two-source cases:             0
+best pilot coordinate:      source_kind_row_property
+best pilot family count:                   11
+family gate:                              200
+decision:                 needs-targeted-lean-pilot
+```
+
+- Coordinate counts:
+
+```text
+theorem_constructor:                    9
+row_property_parametric:               11
+source_kind_row_property:              11
+source_kind_impact_row_property:       33
+source_pair_skeleton_row_property:     43
+source_pair_sign_skeleton_row_property:53
+source_agreement:                      72
+source_row_property:                   74
+local_word_window_row_property:       151
+exact_row_shape:                      574
+```
+
+- Decision:
+  - Accept `source_kind_row_property` only as a bounded pilot target, not as a
+    trusted proof coordinate yet.
+  - The next step is Phase 6Z.6K.8B: emit a small Lean smoke that proves a few
+    representative `source_kind_row_property` membership families imply
+    `RowPropertyParametricCovered`, using `MembershipBridge.lean`.
+  - Do not scale this coordinate until the Lean smoke demonstrates that its
+    source-kind abstraction is proof-usable and does not secretly require
+    per-rank row reconstruction.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -6696,9 +6757,11 @@ Acceptance:
   emission: profile the theorem surface and show that it is already collapsed
   to row-property constructors; the remaining blocker is membership, not more
   theorem emission.
-- [ ] Implement Phase 6Z.6K.8 state/signature membership bridge for
-  `RowPropertyParametricCovered`, proving source-row instantiation from shared
-  symbolic state facts rather than per-rank row reconstruction.
+- [x] Implement Phase 6Z.6K.8A row-property membership signature discovery:
+  add the generic membership-family Lean interface and profile candidate
+  source/state coordinates for `RowPropertyParametricCovered`.
+- [ ] Implement Phase 6Z.6K.8B targeted Lean smoke for the best bounded
+  coordinate, `source_kind_row_property`, before scaling any membership bridge.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -6728,18 +6791,25 @@ to establish concrete `SourceAgrees` and row-predicate membership facts, and
 those appear as 72 source-agreement families, 74 source+row-property families,
 and 574 exact row-shape families in this small window.
 
-The immediate next step is Phase 6Z.6K.8: build a state/signature membership
-bridge for `RowPropertyParametricCovered`. That step should:
+Phase 6Z.6K.8A is implemented. It adds the generic membership-family Lean
+interface and profiles candidate coordinates for `[0,1000)`. The best bounded
+candidate is `source_kind_row_property`, with 11 families, but this is only a
+diagnostic coordinate until Lean proves that the abstraction is strong enough
+to reconstruct `RowPropertyParametricCovered`.
 
-- prove the existential row-property membership facts from shared symbolic
-  state, denominator-signature, row-normal-form, or source-transport data;
-- avoid emitting more row-property theorem constructors, since
-  `RowPropertyQuotient.lean` already has the reusable killed theorem surface;
-- avoid per-rank `bAtRank`/`FirstLineAt`/`SecondLineAt` reconstruction as the
-  production proof path;
-- use the 6K.6 representative root only as a regression benchmark;
-- reject the route if membership still fragments back into representative
-  cases with minute-scale group checks.
+The immediate next step is Phase 6Z.6K.8B: targeted Lean smoke for
+`source_kind_row_property`. That step should:
+
+- select a few representative families from the 6K.8A report, including at
+  least the largest family and one non-`eq_eq_pos_var_first` family;
+- emit or hand-write a tiny generated smoke module that uses
+  `RowPropertyMembershipFamily` and proves each selected family implies
+  `RowPropertyParametricCovered`;
+- keep the proof bounded and diagnostic; do not scale to full coverage yet;
+- reject `source_kind_row_property` if the smoke proof still needs concrete
+  per-rank `bAtRank`/`FirstLineAt`/`SecondLineAt` reconstruction;
+- if rejected, promote the next best richer coordinates:
+  `source_kind_impact_row_property`, then `source_pair_skeleton_row_property`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

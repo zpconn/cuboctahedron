@@ -1,0 +1,759 @@
+{
+  "best_pilot_coordinate": {
+    "baseline": false,
+    "coordinate": "source_kind_row_property",
+    "families": 11,
+    "largest_family_cases": 711,
+    "mean_cases_per_family": 133.1818181818182,
+    "pilot_candidate": true,
+    "top_families": [
+      {
+        "cases": 711,
+        "key": "275a8c6e355659afe955918277d524438e785d419ceceeae937fa060290b9734"
+      },
+      {
+        "cases": 240,
+        "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478"
+      },
+      {
+        "cases": 227,
+        "key": "886c4501023457cb2bce257f3f5b2d8f0f7710f15d1b1cc25f5b4cb0d2125d29"
+      },
+      {
+        "cases": 126,
+        "key": "aa87af4e2f0560d085528a1fc4aa77a27a857e4905982b92bca86bb6023a8870"
+      },
+      {
+        "cases": 73,
+        "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609"
+      },
+      {
+        "cases": 44,
+        "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46"
+      },
+      {
+        "cases": 32,
+        "key": "ad2e0f1cf34dec064c1e0c849877e9be977c6c89cbaa9bbf6110b0c3de442968"
+      },
+      {
+        "cases": 4,
+        "key": "219193339030d823a9e480c720f88f24aa5ee856b7f91ee96eef4c363045a652"
+      },
+      {
+        "cases": 3,
+        "key": "486e563abace3f0fdf5f413541bd4405570656e05d33e78b827b52b110b54fa9"
+      },
+      {
+        "cases": 3,
+        "key": "f8fbc2be94209f87f427253d28a496c9a99327852bd3155ac131c615940b19d8"
+      },
+      {
+        "cases": 2,
+        "key": "dc273dda7321ad8928cd5014ac39f2932da81d69cb1f07d2e50b34aaede94fe0"
+      }
+    ]
+  },
+  "coordinate_summary": [
+    {
+      "baseline": true,
+      "coordinate": "exact_row_shape",
+      "families": 574,
+      "largest_family_cases": 53,
+      "mean_cases_per_family": 2.552264808362369,
+      "pilot_candidate": false,
+      "top_families": [
+        {
+          "cases": 53,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-1;second=1|1|1"
+        },
+        {
+          "cases": 41,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-13/3;second=1|1|1"
+        },
+        {
+          "cases": 36,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-25/3;second=1|1|1"
+        },
+        {
+          "cases": 32,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-19/13;second=1|1|1"
+        },
+        {
+          "cases": 25,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-3;second=1|1|1"
+        },
+        {
+          "cases": 25,
+          "key": "opp_1m_var_first|shape=w=1|1;first=-1|1|-1;second=1|-1|1"
+        },
+        {
+          "cases": 23,
+          "key": "eq_eq_pos_var_second|shape=w=3/28|1;first=1|1|1;second=-3/28|-3/28|-3/14"
+        },
+        {
+          "cases": 20,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-43/5;second=1|1|1"
+        },
+        {
+          "cases": 18,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-71/13;second=1|1|1"
+        },
+        {
+          "cases": 16,
+          "key": "eq_eq_pos_var_second|shape=w=1/4|1;first=1|1|1;second=-1/4|-1/4|-1/2"
+        },
+        {
+          "cases": 16,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-83/17;second=1|1|1"
+        },
+        {
+          "cases": 14,
+          "key": "eq_eq_pos_var_first|shape=w=1|1;first=-1|-1|-59/25;second=1|1|1"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "local_word_window_row_property",
+      "families": 151,
+      "largest_family_cases": 348,
+      "mean_cases_per_family": 9.701986754966887,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 348,
+          "key": "3f09a495f2938456320a2e716da66a04fa5cc87f94a3257eea0f943562e75ba8"
+        },
+        {
+          "cases": 240,
+          "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478"
+        },
+        {
+          "cases": 102,
+          "key": "625a21b82341fba4579f4a10a23526ed67ba84c04ef0038f543916b8b0fcf15e"
+        },
+        {
+          "cases": 101,
+          "key": "ea838131d5397d192505ae1a8ea387f7359bd80a0597e483e15bc28446375be4"
+        },
+        {
+          "cases": 73,
+          "key": "290d7cd5c0e465948a65cb3734ccdb276eef727c4633edcd2ea40ecc8e878cfb"
+        },
+        {
+          "cases": 73,
+          "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609"
+        },
+        {
+          "cases": 53,
+          "key": "5f887b82b7374502fcbc22f87d3973b149b1cf41eb4219dc0e75a52c98341a18"
+        },
+        {
+          "cases": 44,
+          "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46"
+        },
+        {
+          "cases": 33,
+          "key": "55e07e1f14bfe65a1409299fb467ba870ba6b75d838698959c517c8092b3dcbe"
+        },
+        {
+          "cases": 24,
+          "key": "fabc455fa4c2ce8c321fc3ea767d83a2e3701515c61592c5719decafb6c343b6"
+        },
+        {
+          "cases": 22,
+          "key": "98a24fbb1ddbb3fd44dbda035a2ce0bb919ddb22115bd794802d3a0d052039d7"
+        },
+        {
+          "cases": 22,
+          "key": "624311ec7597a7a434ac5809095e7e57647065bc8b340b821dac5ca850880166"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "prefix_count_state_row_property",
+      "families": 74,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 19.7972972972973,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "3641320cff4f2c736251e6f0311dde5e6e1a71e0fc30183ed77e84cac432fb9b"
+        },
+        {
+          "cases": 240,
+          "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478"
+        },
+        {
+          "cases": 134,
+          "key": "a5404d7df64935f224facdd18faa69689a2040d92d95daf86f824a0e18b14902"
+        },
+        {
+          "cases": 128,
+          "key": "50a740b71637d864218738f2148f56cd687a1e80f62668be4fcc38d59fd1db4e"
+        },
+        {
+          "cases": 102,
+          "key": "629806c1509310344de986ff3bddd6dfcfd4ad14e22bad52c83c4e2066776c44"
+        },
+        {
+          "cases": 73,
+          "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609"
+        },
+        {
+          "cases": 44,
+          "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46"
+        },
+        {
+          "cases": 44,
+          "key": "bdceede5c990aac5a9a8e6737dd88fb003c7a84cfc83eec5a47256d20b5caeaf"
+        },
+        {
+          "cases": 22,
+          "key": "59b816832e9b5d7451e21584911f82190c58d5dfd3dc4ef30c4cf498c7d7ba4a"
+        },
+        {
+          "cases": 21,
+          "key": "5be1f8a17ee3ce36c95c9d371ecb5f61425915f09a378acc90c15dc385724404"
+        },
+        {
+          "cases": 14,
+          "key": "b601918ec373b8f47d40c691ee15f56a755af65d8af50158a648e19d4991006c"
+        },
+        {
+          "cases": 13,
+          "key": "0ddad09f0042b8c377226e68f78c23f618f97a3697c999e87b22205fa976869e"
+        }
+      ]
+    },
+    {
+      "baseline": true,
+      "coordinate": "row_property_parametric",
+      "families": 11,
+      "largest_family_cases": 711,
+      "mean_cases_per_family": 133.1818181818182,
+      "pilot_candidate": false,
+      "top_families": [
+        {
+          "cases": 711,
+          "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d"
+        },
+        {
+          "cases": 240,
+          "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906"
+        },
+        {
+          "cases": 227,
+          "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651"
+        },
+        {
+          "cases": 126,
+          "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2"
+        },
+        {
+          "cases": 73,
+          "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d"
+        },
+        {
+          "cases": 44,
+          "key": "01ef342f8b3eccbcf838de2272e3e0a618591c1f735c69fabb94c6c2f2cedabf"
+        },
+        {
+          "cases": 32,
+          "key": "ab58d270064eefa002683f651a0d6bfcfa613500a91016f81015c7bbfc9bfb9d"
+        },
+        {
+          "cases": 4,
+          "key": "7d9e6f246fd2ff58074eff2e9a128514417de91d61a5aaea2b2d365f8aaf48db"
+        },
+        {
+          "cases": 3,
+          "key": "aa6ee8c6fd34af113194c2f37bcaa4ecb38560551b8ab398bf66c361ff434dac"
+        },
+        {
+          "cases": 3,
+          "key": "3beed738f15a25af0630f30ade1b42fffce6993851c9692587843c0ee7214e89"
+        },
+        {
+          "cases": 2,
+          "key": "7004acc1337b24940623e18b8c13c02b05202309d9ebace2dce850072f93a061"
+        }
+      ]
+    },
+    {
+      "baseline": true,
+      "coordinate": "source_agreement",
+      "families": 72,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 20.34722222222222,
+      "pilot_candidate": false,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "30299f7ae714ded68c477c7d0e77d7373e239a2a66e49c6546a52c096a1b8cb9"
+        },
+        {
+          "cases": 134,
+          "key": "a5bdb1584ac187b131b76acb2ae217cff9615887185fc63f2eacbb380ced4559"
+        },
+        {
+          "cases": 128,
+          "key": "51830e41af68c151e841cb9013c0914d84dce8c238004a54672367ac19d5a875"
+        },
+        {
+          "cases": 102,
+          "key": "4ce471f5683b7df844862225dfa29f7e350a72eaf20d42092ae6341cb699b687"
+        },
+        {
+          "cases": 79,
+          "key": "fb499f906cca7031f191afbf891ecbe28e86e0901e9cf51be8ccf2f023503d3c"
+        },
+        {
+          "cases": 44,
+          "key": "d1a0f0b4b4ceefb40e6778b3b0afbc9c6dfee30054cbf1d703356dddfbbf43ed"
+        },
+        {
+          "cases": 30,
+          "key": "906fbd656cf0c19c5fe4360d3ed6a7443708e192eb07c77d6a3d0e36257c2116"
+        },
+        {
+          "cases": 29,
+          "key": "312e843ab42928dc8faba50fd1c0798af62c1194a6a55b81e002e054388d4026"
+        },
+        {
+          "cases": 23,
+          "key": "9a1d8ce95d7b6b5131cf29c5d5036c071aa9c4f63bc20df6795c40506157a6de"
+        },
+        {
+          "cases": 22,
+          "key": "9f74ded1a3e7a6cedf4a6c6c359c1f72e01cea7457c6048b69a87072da4012ec"
+        },
+        {
+          "cases": 22,
+          "key": "2c411364d78da9a6da2507ede1aa1b2a48079e0a7c7ddfcff4fd6d727443816a"
+        },
+        {
+          "cases": 21,
+          "key": "f155304336c3fc9d087708f8b1fff9ce76b78c113889dab42407989ec7de05b3"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "source_index_row_property",
+      "families": 74,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 19.7972972972973,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "fee87c169d506e1f9a6e1b38c2ef0cde38b8d3033109d548e340ca4acfa7d742"
+        },
+        {
+          "cases": 134,
+          "key": "5fe70bd06eb1580fb45be4e539a3133709bedcb9a7fc5ae7869c9679c61ef472"
+        },
+        {
+          "cases": 128,
+          "key": "65e133889d38fe9f08dac79d1e83d3c860857711f9966f0c2dfb07319450f57a"
+        },
+        {
+          "cases": 102,
+          "key": "71604aa839e505c5c4f4b4661a73125bf31e2271bfd8d6a41425a1429d0eb961"
+        },
+        {
+          "cases": 79,
+          "key": "d3682a39506cbf27344f887e57000f5eeb679acbc1d37f60042f615a704cc387"
+        },
+        {
+          "cases": 44,
+          "key": "9e5c105f81c8048db404c9c05cde1bd1bc58fc7c4872953b33fb859c435b0ed3"
+        },
+        {
+          "cases": 30,
+          "key": "85264d4c0d0c1b0cef16581392d86ad5b9377bc26e9697974eb9b77a3a50ba66"
+        },
+        {
+          "cases": 29,
+          "key": "ba7e617f2106ad5e9c801d0bd0a89291ef91df36437124cf87138494017a452a"
+        },
+        {
+          "cases": 23,
+          "key": "b7fb42c913836c9be1acb0cefd96cf7a1eeefedc319c2aedef9980b47302e4a6"
+        },
+        {
+          "cases": 22,
+          "key": "c3ba2cf24f5e575fba0b4afe9523ba55632f053001f3048536c28fac69be171c"
+        },
+        {
+          "cases": 22,
+          "key": "6cd947b931aecbaa8514468fbd77ac89a48ae80020eb505c39dafd2b551d4620"
+        },
+        {
+          "cases": 21,
+          "key": "519be56cdbd392a616335d1bdc76a9b696c00cb09f1c0d0b86ccf1ddc2309da2"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "source_kind_impact_row_property",
+      "families": 33,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 44.39393939393939,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "d7b2c4939f8b414c09cd44138e920222e0c6deccf2bae93b95e356760e66671e"
+        },
+        {
+          "cases": 240,
+          "key": "ce40ee73f7b69abc061a8cce4dac1334086a80355b7c51a711d8de721d70596f"
+        },
+        {
+          "cases": 134,
+          "key": "787f97767e8eb0e36a8510071cdd0252a1a11a0b07a3a70c5d4fab1f59a971a4"
+        },
+        {
+          "cases": 128,
+          "key": "903059f4bd64844c9e50ee5cebddbd2062513efa4c7eef6d1497e9524f167d72"
+        },
+        {
+          "cases": 102,
+          "key": "46ed8a5b524b0f306ed8bce163d54c678c8d6e0e16a282bd363d199fb4423c4a"
+        },
+        {
+          "cases": 73,
+          "key": "26b42897e86d6bd31f34aec03a7db41322d049ca8b663fa04ae5dfebd28d8f7c"
+        },
+        {
+          "cases": 44,
+          "key": "802d89005e91880fde3b1ae6132e5deefcfd13a4e109a11e7cf8e52ea564f540"
+        },
+        {
+          "cases": 44,
+          "key": "cca0716732315e2d083704dfd1c89a425d1cdf5c085384b14fa6c5358913e09f"
+        },
+        {
+          "cases": 34,
+          "key": "5f3fea636dbc9bb2d2d445e1a7d7d83b31497d1a37dffe0fa12534e8825745c6"
+        },
+        {
+          "cases": 29,
+          "key": "17a881e5e6f166aa585081e8e5760f313a202c6f65275bce42ffd0b58a3ef00f"
+        },
+        {
+          "cases": 23,
+          "key": "cbc45c173bb53fa861681edf9261d7e08cd8fba27a081f0f779239cbba37f331"
+        },
+        {
+          "cases": 22,
+          "key": "8ea2a3a1e9b2759a9661cb6a6002f40e6b3a29ed6259bc69eb0cafe73d4613f6"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "source_kind_row_property",
+      "families": 11,
+      "largest_family_cases": 711,
+      "mean_cases_per_family": 133.1818181818182,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 711,
+          "key": "275a8c6e355659afe955918277d524438e785d419ceceeae937fa060290b9734"
+        },
+        {
+          "cases": 240,
+          "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478"
+        },
+        {
+          "cases": 227,
+          "key": "886c4501023457cb2bce257f3f5b2d8f0f7710f15d1b1cc25f5b4cb0d2125d29"
+        },
+        {
+          "cases": 126,
+          "key": "aa87af4e2f0560d085528a1fc4aa77a27a857e4905982b92bca86bb6023a8870"
+        },
+        {
+          "cases": 73,
+          "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609"
+        },
+        {
+          "cases": 44,
+          "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46"
+        },
+        {
+          "cases": 32,
+          "key": "ad2e0f1cf34dec064c1e0c849877e9be977c6c89cbaa9bbf6110b0c3de442968"
+        },
+        {
+          "cases": 4,
+          "key": "219193339030d823a9e480c720f88f24aa5ee856b7f91ee96eef4c363045a652"
+        },
+        {
+          "cases": 3,
+          "key": "486e563abace3f0fdf5f413541bd4405570656e05d33e78b827b52b110b54fa9"
+        },
+        {
+          "cases": 3,
+          "key": "f8fbc2be94209f87f427253d28a496c9a99327852bd3155ac131c615940b19d8"
+        },
+        {
+          "cases": 2,
+          "key": "dc273dda7321ad8928cd5014ac39f2932da81d69cb1f07d2e50b34aaede94fe0"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "source_pair_sign_skeleton_row_property",
+      "families": 53,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 27.641509433962263,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "21fd16150b04318afea5e5a672c65f7ecc699fa3b12b0726887f7341dd4feaf0"
+        },
+        {
+          "cases": 240,
+          "key": "e15aa3f0cb55bbc319b52f7e14f991bba91f639ed17c8d48c14f4e1c3cd57358"
+        },
+        {
+          "cases": 134,
+          "key": "d3291306660226ce0272a7a7e8fe1aff3dffee6c5b8cbd7f7215dc4ee96607a1"
+        },
+        {
+          "cases": 128,
+          "key": "80774a714a1480ec4d18d9aeeb6d3254b12d7f73c1e1dab8de8789f945fc072f"
+        },
+        {
+          "cases": 102,
+          "key": "d37999aab40122d8a30fefb26872a742e8c49f8e6d4c46355e2c370ac1713406"
+        },
+        {
+          "cases": 73,
+          "key": "1976b022f196dbb56353efa5d550a0c4e38a99138f9272f11e1cbaef56e50ed7"
+        },
+        {
+          "cases": 44,
+          "key": "8d86cbb5161bf3acd54c1cb9bd93fc99b3cede40e6c20839632c679772791d39"
+        },
+        {
+          "cases": 44,
+          "key": "8f2d4b109bb5fadecab32e0f26ff2939b49d4c029ee8046290851d814026b01f"
+        },
+        {
+          "cases": 22,
+          "key": "132abf102f77b7982d5d0a000b515ee050094287bcaf2b0ff8b415f9ab34fe05"
+        },
+        {
+          "cases": 21,
+          "key": "87b656c79e8414db6151f8312fcfea8b4828ccb001aff0cd9bf39c71313415af"
+        },
+        {
+          "cases": 19,
+          "key": "2a4933025bea48bc1fe19cfdc406fd4beb6797c24ac560150ccb3dfbe6a97614"
+        },
+        {
+          "cases": 19,
+          "key": "847d12cde2e06c13751ccb79ceccfd03a636188cfbc6bea1252d6a7c6cb16104"
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "coordinate": "source_pair_skeleton_row_property",
+      "families": 43,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 34.06976744186046,
+      "pilot_candidate": true,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "d10ddf0005d5c2250e9ef3a7622871f0cafa71f4b247a96d5564e86f8a8e9ef2"
+        },
+        {
+          "cases": 240,
+          "key": "04d6813ebdd388115d30b4edc6ffbed217f3e2f39db08b0a108eaf9a761cc6f1"
+        },
+        {
+          "cases": 134,
+          "key": "f2fa1b0afb75bdef39599cc68c867d394853102ba159da1c37d99ac30ba31cfb"
+        },
+        {
+          "cases": 128,
+          "key": "81d004568f12e45644c5a1c43559caf61512d0a256a6515e9a6a31125596a8b9"
+        },
+        {
+          "cases": 102,
+          "key": "1b626bf32592beff34c620bd3ee1d8341c7219d9b638275ee0b2adac760b5642"
+        },
+        {
+          "cases": 73,
+          "key": "7f768ae3aa54349b347b1767aba95f962aef8bc98f72ffe5a138bf81041e559e"
+        },
+        {
+          "cases": 44,
+          "key": "2d3bbc9b4128f28723a01d93da3c1ab220caa78bef739123300a1f21abfa0b60"
+        },
+        {
+          "cases": 44,
+          "key": "8621d6f9eca807517282f0441f0a9985253337596109732142212673298a901c"
+        },
+        {
+          "cases": 27,
+          "key": "e4707c3c3ffe22024bb446707e7f0d0eec9fccd4beac7c6a78a9630c0c7cad5d"
+        },
+        {
+          "cases": 22,
+          "key": "72ef94e4074e22ef34a9c207372e3ed40f04a5aa97e2da3544c179db8ac07143"
+        },
+        {
+          "cases": 21,
+          "key": "dc3c09ad2b782b8b50ec0a030b7bf7450d10f08d57739bf2dd9edc8b236b72b4"
+        },
+        {
+          "cases": 19,
+          "key": "e3527efe5b2905642c8222e7799d26c6fb52a7572b99fd093e1a14800d0bbc41"
+        }
+      ]
+    },
+    {
+      "baseline": true,
+      "coordinate": "source_row_property",
+      "families": 74,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 19.7972972972973,
+      "pilot_candidate": false,
+      "top_families": [
+        {
+          "cases": 421,
+          "key": "63563304bbc6ea3db6881b4b39ae102bc745990ec16fcadfbb4d329e03cbee9d"
+        },
+        {
+          "cases": 134,
+          "key": "6972ecc5470115b6397aa3df7adb851ebf8d0dea9e6abfd9d48be1fe0fb35bfd"
+        },
+        {
+          "cases": 128,
+          "key": "a5a62087010e2bf47a8effb26424c731028c331ca6ba783f44261c0a09f63236"
+        },
+        {
+          "cases": 102,
+          "key": "e561931da46539a5f886307bc3b7a2a9bb94073ad5cdad8ba34b0deeacc9569c"
+        },
+        {
+          "cases": 79,
+          "key": "685c0a74e245cc780b5fc41d984de35e44a08e5e09220a0abde28325e434474e"
+        },
+        {
+          "cases": 44,
+          "key": "1750c3d24a2bcf69eeaead261f02ca8e116a6c66fe8e2bbe1aacdaf6cd3732f2"
+        },
+        {
+          "cases": 30,
+          "key": "b18cd851c4b7b4abe1b0385d8ec120e662fd98487b24661a24ac11da4f947aca"
+        },
+        {
+          "cases": 29,
+          "key": "719a25bbd0bf0b194f34886aec2b8f6a4ee70ecb72c06ddda771a8573c243609"
+        },
+        {
+          "cases": 23,
+          "key": "878139dbcad08411b4addf888df360bc2adc939e2457a0c4df3daa1e5c9dfb99"
+        },
+        {
+          "cases": 22,
+          "key": "ec799fed7e4f674a96a4ce44c081fd341749fb27a0281cbdf1bce921be367f12"
+        },
+        {
+          "cases": 22,
+          "key": "89674ea9a9698d94437aed3433afb7f4572f3a186429a62b9b65b81d8b56a006"
+        },
+        {
+          "cases": 21,
+          "key": "430375cdb790509ddadfa8b845a2d757e41c88d0f298c173f65744f113576e5e"
+        }
+      ]
+    },
+    {
+      "baseline": true,
+      "coordinate": "theorem_constructor",
+      "families": 9,
+      "largest_family_cases": 711,
+      "mean_cases_per_family": 162.77777777777777,
+      "pilot_candidate": false,
+      "top_families": [
+        {
+          "cases": 711,
+          "key": "2669574e59369a39fbdd2a32e2735bdd71c7f5248547a699977563d3a0740454"
+        },
+        {
+          "cases": 240,
+          "key": "e7bd0a1010c7116e1dda1dcb23fd35c6d336440a43cb35e05416584fc50016a3"
+        },
+        {
+          "cases": 227,
+          "key": "da0dbee41f7e315136a1969b4c199deab52f27e7b34d0d1dccff20f78634c839"
+        },
+        {
+          "cases": 126,
+          "key": "b1fd93522824040b683ec1fb0c9a97e585724253fd6baebd809278bf01366a07"
+        },
+        {
+          "cases": 73,
+          "key": "7edb322a03e1a5e1358e25a37fda02846820af6d40207b10fae6868a12d88803"
+        },
+        {
+          "cases": 44,
+          "key": "c4025619ee82a790743689b3753c99023b96d42a5990e2b73b7733341c77efa3"
+        },
+        {
+          "cases": 32,
+          "key": "e234cfb2b473491ad908be1f532932ef0e03aec7899eadc442653f31c65ae4a9"
+        },
+        {
+          "cases": 9,
+          "key": "4c1f47618ffc752691d6202d6ae384007944e70f38a215769cf1b479477a2f7f"
+        },
+        {
+          "cases": 3,
+          "key": "3e04341cc43b431a7c9efad58cab3bfba3169fd3776bc0b1365f056dfb2d64ca"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "a non-exact membership coordinate is below the configured family gate",
+      "next step should prove a small Lean smoke for that coordinate before scaling"
+    ],
+    "status": "needs-targeted-lean-pilot"
+  },
+  "family_gate": 200,
+  "limit": 1000,
+  "mode": "phase6z6k8a_row_property_membership_signatures",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
