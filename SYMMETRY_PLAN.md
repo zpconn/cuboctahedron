@@ -313,7 +313,7 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile needs targeted Lean pilot; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family, so the next active translation work is a targeted symbolic Lean smoke. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted for targeted Lean pilot; Phase 6Z.6K.1 symbolic Lean smoke accepted; one-rank leaves rejected for final build time | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Partially complete | The semantic public API now exists as `SemanticExhaustiveGeneratedCoverage` plus semantic Step-15 adapters. It still needs full generated semantic evidence before `Generated.rank_complete`/final Step 15 can be unconditional. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -5199,9 +5199,64 @@ decision:          needs-targeted-lean-pilot
   - Row-property facts are stable for all but one observed family.
   - The one unstable family is an `axis_b_only` source family with four
     row-property subcases.
-  - The next active move is Phase 6Z.6K.1: write a small Lean smoke for
-    source-agreement plus row-property family facts, including an explicit
-    split for the `axis_b_only` four-subcase family.
+  - The follow-up Phase 6Z.6K.1 is the small Lean smoke for source-agreement
+    plus row-property family facts, including an explicit split for the
+    `axis_b_only` four-subcase family.
+
+Phase 6Z.6K.1 completed result: targeted symbolic Lean smoke accepted.
+
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SymbolicFacts.lean`.
+- Added `scripts/generate_symbolic_row_family_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SymbolicSmoke.lean`.
+- Generated diagnostic summary:
+  `scripts/generated/phase6z6k1_symbolic_row_family_smoke_summary.json`.
+- The helper module factors row-template proofs into:
+  - `SourceAgrees support r mask`;
+  - a row-property predicate such as `EqEqPosVarFirstRows`,
+    `OppOneMinusVarFirstRows`, `OppMinusOneVarFirstRows`, or
+    `AxisBOnlyRows`;
+  - a tiny bridge theorem recombining those facts into the already-proved
+    row-template predicates.
+- The smoke generator selected:
+  - the three largest stable `template_source` families; and
+  - all four row-property subcases of the single unstable `axis_b_only`
+    source family.
+- Smoke selection stats:
+
+```text
+pair words scanned:                21,036
+identity words:                       152
+translation sign assignments:       9,721
+GoodDirection survivors:            1,280
+selected smoke cases:                   7
+axis_b_only row subcases:               4
+```
+
+- Validation passed:
+
+```bash
+lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts
+python3 -m py_compile scripts/generate_symbolic_row_family_smoke.py
+python3 scripts/generate_symbolic_row_family_smoke.py
+lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicSmoke
+rg -n "TranslationCert|checkTranslationCert|native_decide|sorry|admit|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Symbolic*.lean || true
+git diff --check
+```
+
+- Interpretation:
+  - The source-agreement plus row-property split is Lean-checkable for the
+    representative symbolic family surface.
+  - The `axis_b_only` row-property split is viable in Lean when the four
+    row-property subfamilies are explicit.
+  - The smoke still uses private concrete rank/line facts as local witnesses;
+    this is acceptable for the bounded pilot but is not final coverage.
+  - The next active translation step is to build a production symbolic-family
+    emitter that exports semantic family predicates and membership/coverage
+    theorems, while avoiding public exact-row-shape keys and avoiding any
+    ordinary `TranslationCert` bridge.
 
 Completed Phase 6Z.5:
 
@@ -6127,9 +6182,12 @@ Acceptance:
 - [x] Implement Phase 6Z.6K symbolic/integer row-extraction and
   source-agreement family profiler for the accepted row-template/diamond
   semantic families.
-- [ ] Implement Phase 6Z.6K.1 targeted Lean smoke for symbolic
+- [x] Implement Phase 6Z.6K.1 targeted Lean smoke for symbolic
   source-agreement plus row-property family facts, including the
   `axis_b_only` four-subcase split.
+- [ ] Implement Phase 6Z.6K.2 production symbolic-family emitter for the
+  representative calibration set, exporting semantic source/row family
+  predicates and coverage theorems without exact-row-shape public keys.
 - [ ] Keep `[0,1000)` one-rank cached validation as an optional regression
   benchmark only; do not treat it as a path to final coverage.
 - [ ] Resume the nonidentity compression track with the translation branch
@@ -6147,17 +6205,23 @@ Acceptance:
 
 Current next step:
 
-Phase 6Z.6K is implemented. It confirms that the representative translation
-survivors still fragment into 1,641 exact row shapes, but collapse to 126
-combined source-agreement plus row-property symbolic families. Source agreement
-is stable across every observed `template_source` family, and row-property
-facts vary in only one `axis_b_only` family.
+Phase 6Z.6K.1 is implemented. The symbolic source-agreement plus row-property
+surface is now Lean-checkable on the three largest stable representative
+families and all four `axis_b_only` row-property subcases.
 
-The immediate next step is Phase 6Z.6K.1: generate and build a targeted Lean
-smoke for symbolic source-agreement plus row-property family facts. The smoke
-should cover several high-volume stable families and the one `axis_b_only`
-four-subcase split. It must not emit per-rank translation certificates or exact
-row-shape leaves.
+The immediate next step is Phase 6Z.6K.2: turn the smoke into a production
+symbolic-family emitter for the representative calibration set. It should:
+
+- emit one theorem-valued semantic family surface per combined
+  source-agreement/row-property family, including the explicit `axis_b_only`
+  row-property subfamilies;
+- export membership/coverage predicates over representative GoodDirection
+  cases, not exact row-shape data;
+- keep concrete row reconstruction private/local to proof leaves;
+- avoid ordinary `TranslationCert`, `checkTranslationCert`, `native_decide`,
+  and broad Boolean checker reduction;
+- measure generated file count, build time, and whether the 126 symbolic
+  families remain below the 2,000-heavy-leaf gate.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

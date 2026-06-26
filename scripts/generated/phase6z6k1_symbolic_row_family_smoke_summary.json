@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "family_key": "eq_eq_pos_var_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "index": 1,
+      "mask": 24,
+      "rank": 1270032,
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "family_key": "opp_1m_var_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "index": 0,
+      "mask": 26,
+      "rank": 1270011,
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "family_key": "opp_m1_var_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198",
+      "index": 2,
+      "mask": 45,
+      "rank": 1270083,
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "family_key": "axis_b_only|source=4e7bbe2b2a3fe8a7bebe4a810f32b04fb4c1965cd675cc919449c05dc64bd067",
+      "index": 3,
+      "mask": 29,
+      "rank": 1270289,
+      "row_property_key": "4a3826bd8d3b0ac0be35bb4bc6be7081d235968f1d735a572158e06ce51cbb75",
+      "template_id": "axis_b_only"
+    },
+    {
+      "family_key": "axis_b_only|source=4e7bbe2b2a3fe8a7bebe4a810f32b04fb4c1965cd675cc919449c05dc64bd067",
+      "index": 5,
+      "mask": 22,
+      "rank": 1270493,
+      "row_property_key": "8b4dd94d20d08f377387b9783af3183fb37c7ca9d2f4c5cc27551e8c6f50591e",
+      "template_id": "axis_b_only"
+    },
+    {
+      "family_key": "axis_b_only|source=4e7bbe2b2a3fe8a7bebe4a810f32b04fb4c1965cd675cc919449c05dc64bd067",
+      "index": 4,
+      "mask": 30,
+      "rank": 1270437,
+      "row_property_key": "a05be6f960acd5b37a303070036c45464e600546d005942e649f11e113f2f977",
+      "template_id": "axis_b_only"
+    },
+    {
+      "family_key": "axis_b_only|source=4e7bbe2b2a3fe8a7bebe4a810f32b04fb4c1965cd675cc919449c05dc64bd067",
+      "index": 6,
+      "mask": 56,
+      "rank": 1271035,
+      "row_property_key": "abdd7574b7e475663326ccfa26c8ffe65837d915356d0bac48b01e96bba3c77b",
+      "template_id": "axis_b_only"
+    }
+  ],
+  "mode": "phase6z6k1_symbolic_row_family_smoke",
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicSmoke",
+  "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SymbolicSmoke.lean",
+  "schema_version": 1,
+  "stats": {
+    "axis_expected_row_properties": 4,
+    "axis_family_target": "axis_b_only|source=4e7bbe2b2a3fe8a7bebe4a810f32b04fb4c1965cd675cc919449c05dc64bd067",
+    "good_direction_survivors": 1280,
+    "identity_words": 152,
+    "pair_words_scanned": 21036,
+    "selected_cases": 7,
+    "stable_family_targets": [
+      "eq_eq_pos_var_first|source=5adcd045a97319ca2c507f2a2729e7e4b44586b0af09727c0f6dd12e5bb3580b",
+      "opp_1m_var_first|source=5803f35d677ae04166a321d8243e2278ba6a40142643333ae17cbcb910b4f201",
+      "opp_m1_var_first|source=7689ca8f4559480b5882866950c23005b8844177f2c8efd7fdc4ab7fef075198"
+    ],
+    "translation_sign_assignments": 9721
+  },
+  "trusted_as_proof": false
+}
