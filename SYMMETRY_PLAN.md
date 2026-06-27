@@ -5954,6 +5954,8 @@ source_agreement_row_property:
 Completed Phase 6Z.6K.8E:
 
 - Added `scripts/generate_source_index_state_smoke.py`.
+- Added the shared descriptor core
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`.
 - Generated:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSmoke.lean`
   - `scripts/generated/phase6z6k8e_source_index_state_smoke.json`
@@ -6005,6 +6007,76 @@ status:        success
   - The next step is Phase 6Z.6K.8F: lift the source-index/state bridge from
     representative singleton descriptors to bounded family/state descriptors,
     still keeping `SourceAgrees` and row predicates outside `Applies`.
+
+Completed Phase 6Z.6K.8F:
+
+- Added `scripts/generate_source_index_state_family_bridge.py`.
+- Extended `scripts/generate_symbolic_row_family_smoke.py` so row-fact
+  generation supports all first/second variants of the two-row templates, not
+  only the three templates needed by earlier smoke files.
+- Generated:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateFamilySmoke.lean`
+  - `scripts/generated/phase6z6k8f_source_index_state_family_bridge.json`
+  - `scripts/generated/phase6z6k8f_source_index_state_family_bridge.md`
+- Dry-run result over `[0,1000)`:
+
+```text
+pair words scanned:             1,000
+identity words:                   138
+GoodDirection survivors:        1,465
+covered two-source cases:       1,465
+source-index/state families:       74
+largest family cases:             421
+```
+
+- Selected smoke families:
+
+```text
+421 cases, eq_eq_pos_var_first,  emitted r0/m8 and r0/m9
+134 cases, opp_1m_var_first,     emitted r0/m54 and r0/m55
+  2 cases, eq_eq_neg_var_second, emitted r65/m63 and r72/m63
+```
+
+- Because the selected families contain 557 total members, emission was capped
+  to two members per selected family. The emitted Lean module uses inductive
+  rank/mask member predicates as fact-free `Applies` predicates and proves
+  `SourceAgrees`/`*Rows` outside `Applies`.
+- Focused verification passed:
+
+```bash
+python3 -m py_compile \
+  scripts/generate_symbolic_row_family_smoke.py \
+  scripts/generate_source_index_state_family_bridge.py \
+  scripts/generate_source_index_state_smoke.py
+python3 scripts/generate_source_index_state_family_bridge.py --dry-run
+python3 scripts/generate_source_index_state_family_bridge.py --emit-smoke
+lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSmoke
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateFamilySmoke
+```
+
+- Build results:
+
+```text
+SourceIndexStateSmoke wall time:       0:07.57
+SourceIndexStateSmoke peak RSS:        3,678,280 KB
+SourceIndexStateFamilySmoke wall time: 0:16.18
+SourceIndexStateFamilySmoke peak RSS:  3,858,936 KB
+```
+
+- Decision:
+  - Accept 6K.8F as a bounded bridge smoke: multi-member fact-free membership
+    predicates compose with the row-property quotient and build safely.
+  - Do not scale this exact shape to production. It is still a bounded member
+    enumeration, and emitting all members globally would recreate the rank/mask
+    table problem.
+  - The next step is Phase 6Z.6K.8G: source-index/state non-enumerative
+    membership audit. That step must search for a compact predicate that proves
+    membership for whole source-index/state families without enumerating
+    individual rank/mask members; if none exists in bounded windows, reject the
+    source-index/state family path as a final compression surface.
 
 Completed Phase 6Z.5:
 
@@ -6970,10 +7042,13 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8E source-index/state Lean smoke for the selected
   `source_index_state_row_property` surface, proving `SourceAgrees` without
   carrying it inside `Applies`.
-- [ ] Implement Phase 6Z.6K.8F bounded source-index/state family bridge:
+- [x] Implement Phase 6Z.6K.8F bounded source-index/state family bridge:
   generalize the successful singleton smoke into family/state descriptors for
   the 74 bounded source-index families without putting `SourceAgrees`, `*Rows`,
   or ordinary certificate witnesses inside `Applies`.
+- [ ] Implement Phase 6Z.6K.8G source-index/state non-enumerative membership
+  audit: find a compact whole-family predicate for the bounded families or
+  reject this path as a final compression surface.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7037,21 +7112,26 @@ the selected source-index/state surface can be packaged as a fact-free
 The smoke uses singleton rank/mask descriptors, so it is an interface check,
 not a production coverage layer.
 
-The immediate next step is Phase 6Z.6K.8F: bounded source-index/state family
-bridge. That step should:
+Phase 6Z.6K.8F is complete as a bounded family bridge smoke. It proves that a
+multi-member fact-free `Applies` predicate can compose with the row-property
+quotient, but it still uses bounded inductive member enumeration and therefore
+is not a final compression surface.
 
-- generalize the successful 6K.8E pattern from singleton rank/mask equality to
-  the 74 bounded source-index/state families found in `[0,1000)`;
-- keep `SourceAgrees`, row-property predicates, exact row-shape facts, and
-  ordinary translation certificates out of `Applies`;
-- define a family/state membership predicate that records enough cheap
-  source-index/state information to derive `SourceAgrees support r mask` for
-  all members;
-- derive the relevant `*Rows` predicate outside `Applies`, then compose with
-  `RowPropertyParametricCovered`;
-- fail fast if the only way to prove membership is to reintroduce
-  rank/mask-specific `bAtRank`, `FirstLineAt`, or `SecondLineAt`
-  reconstruction into `Applies`.
+The immediate next step is Phase 6Z.6K.8G: source-index/state non-enumerative
+membership audit. That step should:
+
+- profile the 74 bounded source-index/state families for compact predicates
+  that describe all members without enumerating each rank/mask;
+- compare candidate predicates such as local word windows, prefix-count state,
+  source-index plus impact state, and mask-bit state against the exact
+  `SourceAgrees` and row-property obligations;
+- emit no production Lean until at least one predicate proves every bounded
+  member of selected large families without carrying source/row facts inside
+  `Applies`;
+- reject the source-index/state family path as a final compression surface if
+  every successful predicate still degenerates into a rank/mask member list;
+- keep the 6K.8F smoke as a regression test for the generic membership
+  interface, not as coverage.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 
 /-!
 Generated source-index/state membership smoke for Phase 6Z.6K.8E.
@@ -15,6 +15,7 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIn
 open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotient
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates
 
@@ -23,22 +24,6 @@ set_option linter.unusedSimpArgs false
 set_option linter.unusedTactic false
 set_option linter.unreachableTactic false
 set_option linter.unnecessarySeqFocus false
-
-/--
-A deliberately small source-index/state descriptor for bounded smoke.
-
-`Applies` is fact-free: it stores no `SourceAgrees`, no row-property
-predicate, and no old certificate witness.  The support is data used by
-the semantic bridge after `Applies` identifies the rank/mask state.
--/
-structure SourceIndexStateDescriptor where
-  rank : Nat
-  mask : SignMask
-  support : TwoSourceFarkasSupport
-
-def SourceIndexStateDescriptor.Applies
-    (desc : SourceIndexStateDescriptor) (r : Nat) (mask : SignMask) : Prop :=
-  r = desc.rank /\ mask = desc.mask
 
 /-- Source-index/state smoke case: largest source-index/state family.
 Family key: `07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199`.

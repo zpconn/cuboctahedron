@@ -590,17 +590,47 @@ def rows_tail(cc: SymbolicCase) -> list[str]:
             *fixed_fact_lines(name, "second", 1, 1, "fixedSecond"),
             f"  exact ⟨{name}_rowFirst, {name}_fixedSecond⟩",
         ]
+    if cc.template_id == "eq_eq_pos_var_second":
+        return [
+            *fixed_fact_lines(name, "first", 1, 1, "fixedFirst"),
+            *row_fact_lines(name, "second", "EqEqPosRow", "rowSecond"),
+            f"  exact ⟨{name}_fixedFirst, {name}_rowSecond⟩",
+        ]
+    if cc.template_id == "eq_eq_neg_var_first":
+        return [
+            *row_fact_lines(name, "first", "EqEqNegRow", "rowFirst"),
+            *fixed_fact_lines(name, "second", -1, -1, "fixedSecond"),
+            f"  exact ⟨{name}_rowFirst, {name}_fixedSecond⟩",
+        ]
+    if cc.template_id == "eq_eq_neg_var_second":
+        return [
+            *fixed_fact_lines(name, "first", -1, -1, "fixedFirst"),
+            *row_fact_lines(name, "second", "EqEqNegRow", "rowSecond"),
+            f"  exact ⟨{name}_fixedFirst, {name}_rowSecond⟩",
+        ]
     if cc.template_id == "opp_1m_var_first":
         return [
             *row_fact_lines(name, "first", "OppPosRow", "rowFirst"),
             *fixed_fact_lines(name, "second", 1, -1, "fixedSecond"),
             f"  exact ⟨{name}_rowFirst, {name}_fixedSecond⟩",
         ]
+    if cc.template_id == "opp_1m_var_second":
+        return [
+            *fixed_fact_lines(name, "first", 1, -1, "fixedFirst"),
+            *row_fact_lines(name, "second", "OppPosRow", "rowSecond"),
+            f"  exact ⟨{name}_fixedFirst, {name}_rowSecond⟩",
+        ]
     if cc.template_id == "opp_m1_var_first":
         return [
             *row_fact_lines(name, "first", "OppNegRow", "rowFirst"),
             *fixed_fact_lines(name, "second", -1, 1, "fixedSecond"),
             f"  exact ⟨{name}_rowFirst, {name}_fixedSecond⟩",
+        ]
+    if cc.template_id == "opp_m1_var_second":
+        return [
+            *fixed_fact_lines(name, "first", -1, 1, "fixedFirst"),
+            *row_fact_lines(name, "second", "OppNegRow", "rowSecond"),
+            f"  exact ⟨{name}_fixedFirst, {name}_rowSecond⟩",
         ]
     if cc.template_id == "axis_b_only":
         return [

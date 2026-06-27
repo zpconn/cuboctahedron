@@ -158,27 +158,6 @@ def constructor_for_template(template_id: str) -> str:
         raise ValueError(f"unsupported row-property template {template_id!r}") from exc
 
 
-def descriptor_lines() -> list[str]:
-    return [
-        "/--",
-        "A deliberately small source-index/state descriptor for bounded smoke.",
-        "",
-        "`Applies` is fact-free: it stores no `SourceAgrees`, no row-property",
-        "predicate, and no old certificate witness.  The support is data used by",
-        "the semantic bridge after `Applies` identifies the rank/mask state.",
-        "-/",
-        "structure SourceIndexStateDescriptor where",
-        "  rank : Nat",
-        "  mask : SignMask",
-        "  support : TwoSourceFarkasSupport",
-        "",
-        "def SourceIndexStateDescriptor.Applies",
-        "    (desc : SourceIndexStateDescriptor) (r : Nat) (mask : SignMask) : Prop :=",
-        "  r = desc.rank /\\ mask = desc.mask",
-        "",
-    ]
-
-
 def case_descriptor_lines(selected: SelectedCase) -> list[str]:
     cc = selected.symbolic
     name = lean_case_name(cc.index)
@@ -230,7 +209,7 @@ def case_descriptor_lines(selected: SelectedCase) -> list[str]:
 
 def module_lines(namespace: str, selected_cases: list[SelectedCase]) -> list[str]:
     lines = [
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "",
         "/-!",
         "Generated source-index/state membership smoke for Phase 6Z.6K.8E.",
@@ -247,6 +226,7 @@ def module_lines(namespace: str, selected_cases: list[SelectedCase]) -> list[str
         "open Cuboctahedron.Generated.Coverage",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotient",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates",
         "",
@@ -256,7 +236,6 @@ def module_lines(namespace: str, selected_cases: list[SelectedCase]) -> list[str
         "set_option linter.unreachableTactic false",
         "set_option linter.unnecessarySeqFocus false",
         "",
-        *descriptor_lines(),
     ]
     for selected in selected_cases:
         cc = selected.symbolic
