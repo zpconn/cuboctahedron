@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "phase": "6Z.6K.8AP.5",
+  "mode": "catalog_erasure_bridge",
+  "trusted_as_proof": false,
+  "timestamp_utc": "2026-06-27T20:36:52Z",
+  "files_changed": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean"
+  ],
+  "lean_exports_added": [
+    "SourceRowFactsGoodCatalogOnRange",
+    "SourceRowPredicateGoodCatalogOnRange",
+    "SourceRowFactsGoodCatalogOnRange.to_bridge",
+    "SourceRowPredicateGoodCatalogOnRange.to_bridge",
+    "SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage",
+    "SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage"
+  ],
+  "decision": {
+    "status": "accepted-bridge-surface",
+    "notes": [
+      "adds a finite-catalog Prop-level adapter for generated AP membership chunks",
+      "catalog data can remain private in generated modules and be erased before export",
+      "does not prove global membership coverage by itself",
+      "does not scale the rejected AP.4 finite rank/mask dispatcher"
+    ]
+  },
+  "validation": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
+    "exit_status": 0,
+    "wall_seconds": 2.32,
+    "max_rss_kib": 3301828
+  },
+  "next_step": "generate a tiny catalog-membership smoke that keeps keyAt private, proves SourceRowPredicateGoodCatalogOnRange for a deliberately small non-enumerative family, and exports only SourceRowPredicateGoodBridgeOnRange or AllTranslationGoodCoverageOnRange"
+}

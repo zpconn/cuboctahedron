@@ -192,6 +192,49 @@ abbrev SourceRowPredicateGoodBridgeOnRange (lo hi : Nat) : Prop :=
                 key.firstIndex key.secondIndex key.support rank mask /\
                 key.template.Rows key.support rank mask
 
+/--
+Finite-catalog variant of `SourceRowFactsGoodBridgeOnRange`.
+
+Generated modules may keep the actual catalog private, prove this catalog
+membership statement, and export only
+`SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage` after applying
+`SourceRowFactsGoodCatalogOnRange.to_bridge`.  This keeps large key catalogs
+out of public theorem statements.
+-/
+abbrev SourceRowFactsGoodCatalogOnRange {n : Nat}
+    (keyAt : Fin n -> SourceIndexStateKey) (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists i : Fin n,
+              SourceIndexStateSourceFacts (keyAt i) rank mask /\
+                SourceIndexStateRowFacts (keyAt i) rank mask
+
+/--
+Finite-catalog variant of `SourceRowPredicateGoodBridgeOnRange`.
+
+This is the preferred generated production surface when source and row
+predicates are still cheaper than constructing their fact records directly.
+The exported theorem should immediately erase the private catalog through
+`SourceRowPredicateGoodCatalogOnRange.to_bridge`.
+-/
+abbrev SourceRowPredicateGoodCatalogOnRange {n : Nat}
+    (keyAt : Fin n -> SourceIndexStateKey) (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists i : Fin n,
+              SourceIndexStateSourcePredicate
+                (keyAt i).firstIndex (keyAt i).secondIndex
+                (keyAt i).support rank mask /\
+                (keyAt i).template.Rows (keyAt i).support rank mask
+
 theorem SourceRowFactsBridge.to_killedBridge
     (bridge : SourceRowFactsBridge) :
     Translation.KilledBridge := by
@@ -353,6 +396,37 @@ theorem SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
     SourceIndexStateSourceFacts.of_sourcePredicate
       (key := key) rfl rfl rfl hsource,
     SourceIndexStateRowFacts.of_rows hrows⟩
+
+theorem SourceRowFactsGoodCatalogOnRange.to_bridge
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowFactsGoodCatalogOnRange keyAt lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases catalog hlt hlo hhi hM hgood with ⟨i, hsource, hrows⟩
+  exact ⟨keyAt i, hsource, hrows⟩
+
+theorem SourceRowPredicateGoodCatalogOnRange.to_bridge
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowPredicateGoodCatalogOnRange keyAt lo hi) :
+    SourceRowPredicateGoodBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases catalog hlt hlo hhi hM hgood with ⟨i, hsource, hrows⟩
+  exact ⟨keyAt i, hsource, hrows⟩
+
+theorem SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowFactsGoodCatalogOnRange keyAt lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
+    (SourceRowFactsGoodCatalogOnRange.to_bridge catalog)
+
+theorem SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowPredicateGoodCatalogOnRange keyAt lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
+      (SourceRowPredicateGoodCatalogOnRange.to_bridge catalog))
 
 theorem SourceRowPredicateGoodBridge.to_allGoodCoverage
     (bridge : SourceRowPredicateGoodBridge) :

@@ -9099,6 +9099,13 @@ Acceptance:
   `CoversInterval Translation.Coverage.AllGoodRankKilled lo hi`; build the
   `[0,16)` smoke and reject finite rank/mask dispatch as production evidence
   based on the measured 288.66s / 14,041,472 KiB result.
+- [x] Implement Phase 6Z.6K.8AP.5 catalog-erasure bridge:
+  add `SourceRowFactsGoodCatalogOnRange`,
+  `SourceRowPredicateGoodCatalogOnRange`, and adapters that erase a private
+  generated key catalog to `SourceRowFactsGoodBridgeOnRange`,
+  `SourceRowPredicateGoodBridgeOnRange`, and `AllTranslationGoodCoverageOnRange`.
+  This is accepted bridge infrastructure only; it does not prove global
+  membership coverage.
 - [ ] Implement Phase 6Z.6K.8AP producer membership bridge:
   define non-enumerative generated membership chunks that turn arbitrary
   identity-linear `GoodDirectionAtRank` translation cases in each rank range
@@ -9880,6 +9887,45 @@ surface, but it rejects finite rank/mask dispatch as a production strategy:
 16 ranks already take nearly five minutes and 14 GiB.  The next AP work must
 produce non-enumerative source/row membership evidence rather than scaling this
 bounded dispatcher.
+
+Phase 6Z.6K.8AP.5 adds a small catalog-erasure bridge and reports:
+
+- `scripts/generated/phase6z6k8ap5_catalog_erasure_bridge.json`
+- `scripts/generated/phase6z6k8ap5_catalog_erasure_bridge.md`
+
+It extends
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean`
+with:
+
+```lean
+abbrev SourceRowFactsGoodCatalogOnRange
+    (keyAt : Fin n -> SourceIndexStateKey) (lo hi : Nat) : Prop
+abbrev SourceRowPredicateGoodCatalogOnRange
+    (keyAt : Fin n -> SourceIndexStateKey) (lo hi : Nat) : Prop
+theorem SourceRowFactsGoodCatalogOnRange.to_bridge :
+  SourceRowFactsGoodCatalogOnRange keyAt lo hi ->
+    SourceRowFactsGoodBridgeOnRange lo hi
+theorem SourceRowPredicateGoodCatalogOnRange.to_bridge :
+  SourceRowPredicateGoodCatalogOnRange keyAt lo hi ->
+    SourceRowPredicateGoodBridgeOnRange lo hi
+theorem SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage :
+  SourceRowFactsGoodCatalogOnRange keyAt lo hi ->
+    AllTranslationGoodCoverageOnRange lo hi
+theorem SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage :
+  SourceRowPredicateGoodCatalogOnRange keyAt lo hi ->
+    AllTranslationGoodCoverageOnRange lo hi
+```
+
+Focused validation passes:
+`lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge`
+in 2.32s with 3,301,828 KiB peak RSS.  This is not global membership
+coverage.  It is accepted AP bridge infrastructure: generated modules can keep
+a finite `keyAt` catalog private, prove a catalog membership theorem, then
+export only the erased semantic range theorem.  The next AP step is a tiny
+catalog-membership smoke that proves `SourceRowPredicateGoodCatalogOnRange` or
+`SourceRowFactsGoodCatalogOnRange` for a deliberately small non-enumerative
+family and exports only `SourceRowPredicateGoodBridgeOnRange` or
+`AllTranslationGoodCoverageOnRange`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
