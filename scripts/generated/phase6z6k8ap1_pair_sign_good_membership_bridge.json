@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "phase": "6Z.6K.8AP.1",
+  "mode": "pair_sign_good_membership_bridge",
+  "trusted_as_proof": false,
+  "decision": {
+    "status": "accepted-good-survivor-bridge",
+    "notes": [
+      "GoodDirection-survivor range adapters are Lean-checked and memory-safe",
+      "generated chunks can now target ResidualTranslationGoodCoverageOnRange before the full-range root produces Translation.KilledBridge",
+      "this is not global membership coverage; generated range membership evidence is still required"
+    ]
+  },
+  "exported_bridge_shapes": [
+    "ResidualTranslationGoodRankKilled",
+    "ResidualTranslationGoodCoverageOnRange",
+    "SourceRowFactsBridgeOnRange.to_residualGoodCoverage",
+    "ResidualTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange",
+    "SourceRowPredicateBridgeOnRange.to_residualGoodCoverage",
+    "SourceRowPredicateBridgeOnRange.to_killedBridge_of_fullGoodRange"
+  ],
+  "focused_build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
+    "exit_status": 0,
+    "max_rss_kib": 853684,
+    "wall_seconds": 2.74
+  }
+}
