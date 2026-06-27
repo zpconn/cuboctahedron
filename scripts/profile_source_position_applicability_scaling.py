@@ -298,6 +298,7 @@ def profile(
     ranges: list[tuple[int, int]],
     jobs: int,
     sample_limit: int,
+    phase: str,
 ) -> dict[str, Any]:
     window_payloads = [
         profile_window(start=start, end=end, jobs=jobs, sample_limit=sample_limit)
@@ -341,6 +342,7 @@ def profile(
     return {
         "schema_version": 1,
         "mode": "source_position_applicability_scaling_profile",
+        "phase": phase,
         "trusted_as_proof": False,
         "jobs": jobs,
         "ranges": [list(item) for item in ranges],
@@ -374,7 +376,7 @@ def markdown(payload: dict[str, Any]) -> str:
     decision = payload["decision"]
     union = payload["union_signature_counts"]
     lines = [
-        "# Phase 6Z.6K.8AB Source-Position Applicability Scaling Profile",
+        f"# Phase {payload['phase']} Source-Position Applicability Scaling Profile",
         "",
         "This diagnostic is not trusted as proof and emits no Lean. It profiles",
         "whether the Phase 8AA source-position and row-template predicate surfaces",
@@ -427,6 +429,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--ranges", default=DEFAULT_RANGES)
     parser.add_argument("--jobs", type=int, default=4)
+    parser.add_argument("--phase", default="6Z.6K.8AB")
     parser.add_argument("--sample-limit", type=int, default=10)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
@@ -441,12 +444,14 @@ def main() -> None:
         ranges=ranges,
         jobs=args.jobs,
         sample_limit=args.sample_limit,
+        phase=args.phase,
     )
     write_json(args.json, payload)
     write_text(args.md, markdown(payload))
     print(json.dumps({
         "status": payload["decision"]["status"],
         "jobs": payload["jobs"],
+        "phase": payload["phase"],
         "ranges": payload["ranges"],
         "total_represented_good_direction_cases": payload["total_represented_good_direction_cases"],
         "union_signature_counts": payload["union_signature_counts"],

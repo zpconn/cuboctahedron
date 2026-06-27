@@ -7464,6 +7464,104 @@ exit status: 0
     windows. Emit no new Lean unless the union signatures remain bounded and
     the profile still has zero validation failures.
 
+Completed Phase 6Z.6K.8AC:
+
+- Reused `scripts/profile_source_position_applicability_scaling.py`, now with
+  a `--phase` label so 8AC profile artifacts are named honestly.
+- Ran a broader external-only profile over 20,000 total ranks spread across
+  low, middle, and high rank regions:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_source_position_applicability_scaling.py \
+  --phase 6Z.6K.8AC \
+  --jobs 4 \
+  --ranges 0:5000,100000:102500,1000000:1002500,10000000:10002500,30000000:30002500,60000000:60002500,90000000:90002500 \
+  --json scripts/generated/phase6z6k8ac_broader_applicability_profile.json \
+  --md scripts/generated/phase6z6k8ac_broader_applicability_profile.md
+```
+
+- Profiling result:
+
+```text
+status:      rejected-validation-failures
+wall time:   3:11.06
+CPU:         257%
+peak RSS:    42,116 KB
+exit status: 0
+```
+
+- Window summary:
+
+| Window | GoodDirection cases | Descriptor | Source-position | Row-template | Source-language obligations | Failures |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `[0,5000)` | 4,693 | 125 | 122 | 12 | 68 | 0 |
+| `[100000,102500)` | 296 | 37 | 36 | 8 | 33 | 0 |
+| `[1000000,1002500)` | 50 | 12 | 12 | 4 | 16 | 0 |
+| `[10000000,10002500)` | 2,069 | 135 | 134 | 19 | 79 | 1 |
+| `[30000000,30002500)` | 0 | 0 | 0 | 0 | 0 | 0 |
+| `[60000000,60002500)` | 0 | 0 | 0 | 0 | 0 | 0 |
+| `[90000000,90002500)` | 4 | 1 | 1 | 1 | 2 | 0 |
+
+- Failure investigation:
+  - The single validation failure occurred in `[10000000,10002500)`.
+  - A source group with source index 144 and source skeleton
+    `{"kind":"interior","impact":"10"}` mixed concrete source faces `tmpp`
+    and `tpmm`.
+  - The bounded 8AA source-position key is therefore too coarse for global
+    use: it records kind/impact but not the signed face information needed by
+    the source-language obligation.
+- Decision:
+  - Reject the old kind/impact source-position key as a global theorem
+    surface.
+  - Do not emit broader Lean from the 8AA key until the source-position
+    grouping is refined.
+
+Completed Phase 6Z.6K.8AD:
+
+- Added `scripts/profile_source_position_key_refinement.py`.
+- This external-only profiler compares four source-position key surfaces over
+  the same broader 8AC windows:
+  - `kind_impact`;
+  - `pair`;
+  - `pair_sign`;
+  - `full_source`.
+- Profiling command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_source_position_key_refinement.py --jobs 4
+```
+
+- Profiling result:
+
+```text
+status:      accepted-refined-source-key-candidate
+preferred:   pair_sign
+wall time:   3:12.94
+CPU:         257%
+peak RSS:    43,276 KB
+exit status: 0
+```
+
+- Aggregate key comparison:
+
+| Source key | Max descriptor signatures | Max source-position signatures | Max source occurrences | Validation failures |
+| --- | ---: | ---: | ---: | ---: |
+| `kind_impact` | 135 | 134 | 89 | 1 |
+| `pair` | 135 | 134 | 89 | 1 |
+| `pair_sign` | 136 | 135 | 90 | 0 |
+| `full_source` | 136 | 135 | 90 | 0 |
+
+- Decision:
+  - Accept `pair_sign` as the next source-position key candidate. It removes
+    the concrete source variation found by 8AC with only one additional
+    descriptor/source-position signature in the worst sampled window.
+  - `full_source` also has zero failures in this profile, but `pair_sign` is
+    preferred because it is more semantic and equally compact in the sampled
+    windows.
+  - This remains diagnostic, not proof. The immediate next step is Phase
+    6Z.6K.8AE: regenerate the bounded source-position producer/glue/applicability
+    smoke using the `pair_sign` source key, then run the focused Lean build.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8506,10 +8604,16 @@ Acceptance:
   profile the 8AA source-position and row-template predicate obligations over
   larger translation windows and decide whether they form a global bounded
   state language or need a new invariant.
-- [ ] Implement Phase 6Z.6K.8AC broader representative applicability profile:
+- [x] Implement Phase 6Z.6K.8AC broader representative applicability profile:
   run more disjoint and larger bounded windows with the 8AB profiler, then
   decide whether to emit a small multi-window Lean smoke or search for another
   invariant.
+- [x] Implement Phase 6Z.6K.8AD source-position key refinement profile:
+  compare kind/impact, pair, pair/sign, and full-source source-position keys
+  after the broader 8AC validation failure.
+- [ ] Implement Phase 6Z.6K.8AE pair-sign source-position Lean smoke:
+  regenerate the bounded producer, glue, and applicability modules using the
+  accepted `pair_sign` key and run the focused Lean build.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8653,25 +8757,22 @@ generators used `--jobs 4`, each finished in about 35 seconds with about
 31 MB peak RSS, and the focused Lean build passed in 13.67 seconds with
 3.40 GiB peak RSS.
 
-Phase 6Z.6K.8AB is complete as the first applicability scaling profile. It
-ran the external profiler with `--jobs 4` over `[0,1000)`, `[0,2500)`,
-`[10000,11000)`, and `[90000,91000)`. The run finished in 2:16.63 with
-36.8 MB peak RSS and zero validation failures. Across those windows the union
-signature counts were 146 descriptor/applicability signatures, 143
-source-position signatures, 12 row-template signatures, 146 source/row pair
-signatures, and 83 source-language obligations.
+Phase 6Z.6K.8AB is complete as the first applicability scaling profile. Phase
+6Z.6K.8AC broadened that profile and rejected the old kind/impact source key:
+one sampled source group mixed concrete faces at the same interior impact.
+Phase 6Z.6K.8AD compared source-key refinements over the same broader windows
+and accepted `pair_sign` as the next candidate: it had zero validation
+failures, while increasing the worst sampled descriptor count only from 135 to
+136.
 
-The immediate next step is Phase 6Z.6K.8AC: broaden the applicability profile
-before emitting more Lean. That step should:
+The immediate next step is Phase 6Z.6K.8AE: regenerate the bounded
+source-position producer/glue/applicability Lean smoke using the `pair_sign`
+source key. That step should:
 
-- profile source-position predicate signatures and row-template predicate
-  signatures over more disjoint and larger translation windows;
-- report whether the 8AA obligations remain a bounded state language or grow
-  with raw ranks/masks;
-- keep the profiling external and memory-safe, using `--jobs 4` or similar
-  safe parallelism;
-- emit Lean only for a small smoke if the profile shows a stable bounded
-  signature set;
+- patch the bounded source-position family collector/generators to group by
+  `pair_sign` source information rather than kind/impact alone;
+- regenerate the producer, glue, and applicability smoke modules;
+- run the same focused Lean build as 8AA;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;
