@@ -498,6 +498,19 @@ theorem SourceIndexStateKey.covered_of_source_row
     RowPropertyParametricCovered r mask :=
   key.covered_of_facts (SourceIndexStateKeyFacts.of_source_row hsource hrows)
 
+theorem SourceIndexStateKey.goodKilled_of_facts
+    {key : SourceIndexStateKey} {r : Nat} {hlt : r < numPairWords} {mask : SignMask}
+    (h : SourceIndexStateKeyFacts key r mask) :
+    Cuboctahedron.Generated.Coverage.TranslationGoodCaseKilled ⟨r, hlt⟩ mask :=
+  RowPropertyParametricCovered.kills (key.covered_of_facts h)
+
+theorem SourceIndexStateKey.goodKilled_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {hlt : r < numPairWords} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    Cuboctahedron.Generated.Coverage.TranslationGoodCaseKilled ⟨r, hlt⟩ mask :=
+  key.goodKilled_of_facts (SourceIndexStateKeyFacts.of_source_row hsource hrows)
+
 theorem sourceIndexState_builds : True := by
   trivial
 

@@ -7683,6 +7683,97 @@ found no matches.
     whether a source/row state DAG or another semantic glue theorem can replace
     one-theorem-per-descriptor-family.
 
+Completed Phase 6Z.6K.8AF:
+
+- Added `scripts/profile_pair_sign_descriptor_glue_compression.py`.
+- This profiler emits no Lean and is not trusted as proof. It measures the
+  refined `pair_sign` source/row graph across representative windows:
+  - descriptor/current glue edges;
+  - source-position producer nodes;
+  - row-template producer nodes;
+  - source skeletons with and without indices;
+  - descriptor keys with source indices erased or source skeletons erased;
+  - source/row graph component sizes.
+- Profiling command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_pair_sign_descriptor_glue_compression.py --jobs 4
+```
+
+- Profiling result:
+
+```text
+status:      accepted-generic-glue-candidate
+wall time:   3:15.31
+CPU:         257%
+peak RSS:    42,148 KB
+exit status: 0
+```
+
+- Union signature counts over the 8AD representative windows:
+
+| Surface | Union count |
+| --- | ---: |
+| descriptor / current glue edge | 195 |
+| source-position producer | 191 |
+| row-template producer | 21 |
+| source skeleton without indices | 149 |
+| source index pair only | 189 |
+| descriptor without source indices | 159 |
+| descriptor without source skeletons | 193 |
+| source/row edge | 195 |
+
+- Projected obligation surfaces:
+
+| Surface | Obligations |
+| --- | ---: |
+| current descriptor/glue edges | 195 |
+| fact producers only | 212 |
+| source/row edges plus fact producers | 407 |
+| generic glue plus descriptor membership | 195 |
+
+- Interpretation:
+  - `pair_sign` validation stayed clean.
+  - Descriptor reuse ratio across the sampled windows was about 1.595, so
+    descriptors do merge somewhat across windows, but the edge set is still
+    not a sufficient global compression coordinate by itself.
+  - A generic source/row composition theorem can remove generated
+    per-descriptor composition proofs, but it does not remove the need for a
+    descriptor membership/state-language classifier.
+- Added generic Lean bridge theorems to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`:
+  - `SourceIndexStateKey.goodKilled_of_facts`;
+  - `SourceIndexStateKey.goodKilled_of_source_row`.
+- Focused Lean build command:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionApplicabilitySmoke
+```
+
+- Focused Lean build result:
+
+```text
+status:      accepted-smoke
+wall time:   0:30.36
+CPU:         142%
+peak RSS:    3,605,636 KB
+exit status: 0
+```
+
+- Decision:
+  - Accept 8AF as a useful theorem-surface improvement: final generated
+    evidence should use generic source/row composition rather than one
+    composition theorem per descriptor edge.
+  - This still does not solve global translation membership. The next required
+    compression target is the descriptor membership/state-language classifier
+    that proves a GoodDirection case belongs to some pair-sign descriptor key
+    without enumerating raw ranks/masks.
+  - The immediate next step is Phase 6Z.6K.8AG: profile pair-sign descriptor
+    membership as a state-language/DAG problem and determine whether the
+    descriptor classifier can be made bounded enough for final coverage.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8735,10 +8826,14 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AE pair-sign source-position Lean smoke:
   regenerate the bounded producer, glue, and applicability modules using the
   accepted `pair_sign` key and run the focused Lean build.
-- [ ] Implement Phase 6Z.6K.8AF pair-sign descriptor/glue compression profile:
+- [x] Implement Phase 6Z.6K.8AF pair-sign descriptor/glue compression profile:
   measure whether pair-sign descriptor families merge across representative
   windows, and test whether a source/row state DAG or stronger semantic glue
   theorem can replace one-theorem-per-descriptor-family.
+- [ ] Implement Phase 6Z.6K.8AG pair-sign descriptor membership state-language profile:
+  profile whether GoodDirection survivors can be classified into pair-sign
+  descriptor keys by a bounded state/DAG theorem rather than raw rank/mask
+  member replay.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8897,13 +8992,22 @@ producer, producer glue, and applicability modules for the `[10000000,
 21.71 seconds with 3.464 GiB peak RSS. This proves the refined key is
 Lean-checkable on the window that broke the old kind/impact key.
 
-The immediate next step is Phase 6Z.6K.8AF: profile and compress the remaining
-descriptor/glue layer for the `pair_sign` source key. That step should:
+Phase 6Z.6K.8AF is complete as the pair-sign descriptor/glue compression
+profile and generic source/row bridge. It showed 195 current descriptor/glue
+edges over the representative windows, 191 source-position producer nodes, 21
+row-template producer nodes, and zero pair-sign validation failures. It also
+added the generic Lean bridge theorems
+`SourceIndexStateKey.goodKilled_of_facts` and
+`SourceIndexStateKey.goodKilled_of_source_row`; the focused build passed in
+30.36 seconds with 3.606 GiB peak RSS.
 
-- measure whether `pair_sign` descriptor families merge across representative
-  windows or continue to grow with raw GoodDirection cases;
-- test whether a source/row state DAG or stronger semantic glue theorem can
-  replace one-theorem-per-descriptor-family;
+The immediate next step is Phase 6Z.6K.8AG: profile descriptor membership as a
+state-language/DAG classifier. That step should:
+
+- determine whether GoodDirection survivors can be classified into pair-sign
+  descriptor keys without raw rank/mask member replay;
+- measure descriptor classifier state count and reuse across the same
+  representative windows;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;
