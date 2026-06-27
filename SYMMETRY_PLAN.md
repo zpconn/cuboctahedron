@@ -256,6 +256,12 @@ semantic source-language obligations, with zero validation failures and only
 root; it is a small source-position theorem surface that proves the
 `translationConstraintSources` lookup facts from static indices and dynamic
 interior excluded-face conditions.
+Phase 6Z.6K.8W implements the first such Lean source-position smoke: static
+`xpStart` and ordering lookup lemmas plus the largest dynamic
+`impact 1 / tmmm / slot 5` interior obligation, then two source producers that
+derive `SourceIndexStateSourceFacts` from those semantic source-position facts.
+The focused build completes in 2.21s with 3.286 GiB RSS and no generated
+rank/mask replay.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -7045,6 +7051,53 @@ CPU utilization:                         298%
     condition. Generated smokes should invoke those lemmas rather than
     `fin_cases r <;> fin_cases mask`.
 
+Completed Phase 6Z.6K.8W:
+
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean`.
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean`.
+- The new source-position module proves:
+  - `lookup_xpStart`: static `xpStart` sources at indices `0..3`.
+  - `lookup_ordering`: static ordering sources at indices `4..17`.
+  - `lookup_interior_impact1_tmmm_slot5`: the largest dynamic 8V pattern,
+    where `interior 1 tmmm` appears at source index `23` whenever the impact
+    face at impact `1` is one of the six square faces.
+- The smoke defines two source producers with no rank/mask member replay:
+  - `source_000_positionProducer` derives source facts for the high-volume
+    dynamic `interior 1 tmmm` plus `xpStart 0` source group from an
+    impact-face excluded-set fact and `SourceChecks`.
+  - `source_004_positionProducer` derives source facts for a static
+    `xpStart 0` plus `ordering 3` source group from `SourceChecks`.
+- Verification command:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke
+```
+
+- Result:
+
+```text
+status:      accepted-smoke
+wall time:   0:02.21
+peak RSS:    3,286,136 KB
+exit status: 0
+```
+
+- Decision:
+  - Accept 8W as the first Lean-checked source-position theorem surface.
+  - The smoke proves the intended bridge shape: source producers can consume
+    semantic source-position facts instead of a generated
+    `SourceIndexStateSourcePredicate` proved by rank/mask replay.
+  - This is not yet global. The smoke covers one dynamic interior pattern and
+    one static pattern. The next step is Phase 6Z.6K.8X: scale the
+    source-position language to all 44 profiled obligations. In particular,
+    later-impact interior sources must avoid the failed generic simp path by
+    using explicit block-length/skipping lemmas or generated per-obligation
+    source-position lemmas.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8065,10 +8118,13 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8V semantic source-index/state language profiler:
   identify the static source-index and dynamic interior source-position
   obligations needed to replace bounded rank/mask replay.
-- [ ] Implement Phase 6Z.6K.8W Lean source-position-language smoke:
+- [x] Implement Phase 6Z.6K.8W Lean source-position-language smoke:
   prove reusable lookup lemmas for `translationConstraintSources`, especially
   the interior slot/excluded-face condition, and use them in a bounded
   source-producer membership smoke without `fin_cases r <;> fin_cases mask`.
+- [ ] Implement Phase 6Z.6K.8X source-position obligation scaler:
+  extend the source-position theorem surface from the accepted 8W smoke to all
+  44 profiled 8V source-language obligations without using rank/mask replay.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8178,25 +8234,30 @@ dynamic interior slot/excluded-face obligations. The run used `--jobs 4` and
 peaked at only 30.7 MB RSS, so this kind of Python profiling should use safe
 parallelism when available.
 
-The immediate next step is Phase 6Z.6K.8W: a Lean source-position-language
-smoke. That step should:
+Phase 6Z.6K.8W is complete as the first Lean source-position-language smoke.
+It adds `SourcePositionLanguage` and `SourcePositionLanguageSmoke`, proves
+static lookup for `xpStart` and ordering sources, proves one high-volume
+dynamic interior lookup from an excluded-face set/slot condition, and composes
+two source producers through the existing 8T glue surface without rank/mask
+member replay. The focused build of both modules passed in 2.21 seconds with
+3.286 GiB peak RSS.
 
-- keep the accepted semantic classifier branch shape from 8L and the key
-  routing/fact surface from 8N/8O/8P/8Q;
-- use the completed 8T glue theorem surface as the target predicate;
-- prove source-producer membership from source-position facts, especially:
-  static `xpStart` index lookup, static ordering index lookup, and interior
-  source lookup from an excluded-face set/slot condition;
-- then reconnect those source facts to the existing row-producer and glue
-  surface, not by finite `fin_cases` replay over ranks and masks;
-- treat `[0,1000)` only as a profiling/calibration window for the semantic
-  state theorem, not as the theorem's proof mechanism;
+The immediate next step is Phase 6Z.6K.8X: scale the source-position language
+from the accepted 8W smoke to all 44 8V obligations. That step should:
+
+- generate or prove source-position lemmas for every static and dynamic
+  source-language obligation from the 8V profile;
+- avoid the failed generic simplification path for later impacts by using
+  explicit block-length/skipping lemmas or generated per-obligation lemmas;
+- keep source-position facts separate from row-property facts and continue
+  using the 8T glue theorem surface;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;
-- reject immediately if the proof again devolves into rank/mask member replay;
-- produce a small Lean theorem surface that can plausibly be reused globally,
-  or explicitly report the remaining symbolic invariant needed to make that
+- reject immediately if the proof again devolves into rank/mask member replay
+  or large generic `simp` searches over complete source lists;
+- produce a small theorem surface that can plausibly be reused globally, or
+  explicitly report the remaining symbolic invariant needed to make that
   possible.
 
 Do not return to the current nonidentity prefix-kill emitter,
