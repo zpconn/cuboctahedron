@@ -204,6 +204,106 @@ structure SourceIndexStateSourceFacts
     ∀ hlt : r < numPairWords,
       SourceChecks key.support r hlt mask
 
+def SourceIndexStateSourcePredicate
+    (firstIndex secondIndex : Nat) (support : TwoSourceFarkasSupport)
+    (r : Nat) (mask : SignMask) : Prop :=
+  ∀ hlt : r < numPairWords,
+    let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+    listGet? (translationConstraintSources seq) firstIndex =
+        some support.first /\
+      listGet? (translationConstraintSources seq) secondIndex =
+        some support.second /\
+      SourceChecks support r hlt mask
+
+private def decidableForRankProof
+    {r : Nat} (P : (r < numPairWords) -> Prop)
+    (decideP : ∀ hlt, Decidable (P hlt)) :
+    Decidable (∀ hlt : r < numPairWords, P hlt) := by
+  by_cases hlt : r < numPairWords
+  · cases decideP hlt with
+    | isTrue hp =>
+        exact isTrue (by
+          intro h
+          simpa [Subsingleton.elim h hlt] using hp)
+    | isFalse hn =>
+        exact isFalse (by
+          intro hall
+          exact hn (hall hlt))
+  · exact isTrue (by
+      intro h
+      exact False.elim (hlt h))
+
+instance instDecidableSourceChecks
+    (support : TwoSourceFarkasSupport)
+    (r : Nat) (hlt : r < numPairWords) (mask : SignMask) :
+    Decidable (SourceChecks support r hlt mask) := by
+  unfold SourceChecks
+  infer_instance
+
+instance instDecidableFixedRow (L : StrictLin2) (a b : Rat) :
+    Decidable (FixedRow L a b) := by
+  unfold FixedRow
+  infer_instance
+
+instance instDecidableEqEqPosRow (L : StrictLin2) :
+    Decidable (EqEqPosRow L) := by
+  unfold EqEqPosRow
+  infer_instance
+
+instance instDecidableEqEqNegRow (L : StrictLin2) :
+    Decidable (EqEqNegRow L) := by
+  unfold EqEqNegRow
+  infer_instance
+
+instance instDecidableOppPosRow (L : StrictLin2) :
+    Decidable (OppPosRow L) := by
+  unfold OppPosRow
+  infer_instance
+
+instance instDecidableOppNegRow (L : StrictLin2) :
+    Decidable (OppNegRow L) := by
+  unfold OppNegRow
+  infer_instance
+
+instance instDecidableSourceIndexStateSourcePredicate
+    (firstIndex secondIndex : Nat) (support : TwoSourceFarkasSupport)
+    (r : Nat) (mask : SignMask) :
+    Decidable
+      (SourceIndexStateSourcePredicate firstIndex secondIndex support r mask) := by
+  unfold SourceIndexStateSourcePredicate
+  exact
+    decidableForRankProof (r := r) (fun hlt =>
+      let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+      listGet? (translationConstraintSources seq) firstIndex =
+          some support.first /\
+        listGet? (translationConstraintSources seq) secondIndex =
+          some support.second /\
+        SourceChecks support r hlt mask) (fun _ => inferInstance)
+
+theorem SourceIndexStateSourceFacts.of_sourcePredicate
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    {firstIndex secondIndex : Nat} {support : TwoSourceFarkasSupport}
+    (hfirstIndex : key.firstIndex = firstIndex)
+    (hsecondIndex : key.secondIndex = secondIndex)
+    (hsupport : key.support = support)
+    (hsource :
+      SourceIndexStateSourcePredicate firstIndex secondIndex support r mask) :
+    SourceIndexStateSourceFacts key r mask := by
+  subst firstIndex
+  subst secondIndex
+  subst support
+  exact {
+    firstSource := fun hlt => (hsource hlt).1
+    secondSource := fun hlt => (hsource hlt).2.1
+    sourceChecks := fun hlt => (hsource hlt).2.2
+  }
+
+structure SourceIndexStateSourceProducer where
+  Applies : SourceIndexStateKey -> Nat -> SignMask -> Prop
+  sourceFacts :
+    ∀ {key : SourceIndexStateKey} {r : Nat} {mask : SignMask},
+      Applies key r mask -> SourceIndexStateSourceFacts key r mask
+
 structure SourceIndexStateRowFacts
     (key : SourceIndexStateKey) (r : Nat) (mask : SignMask) : Prop where
   rows : key.template.Rows key.support r mask
@@ -222,6 +322,126 @@ theorem SourceIndexStateRowFacts.of_template_rows
     SourceIndexStateRowFacts key r mask := by
   subst template
   exact SourceIndexStateRowFacts.of_rows hrows
+
+instance instDecidableEqEqPosVarFirstRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (EqEqPosVarFirstRows support r mask) := by
+  unfold EqEqPosVarFirstRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    EqEqPosRow (FirstLineAt support r hlt mask) /\
+      FixedRow (SecondLineAt support r hlt mask) 1 1) (fun _ => inferInstance)
+
+instance instDecidableEqEqPosVarSecondRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (EqEqPosVarSecondRows support r mask) := by
+  unfold EqEqPosVarSecondRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    FixedRow (FirstLineAt support r hlt mask) 1 1 /\
+      EqEqPosRow (SecondLineAt support r hlt mask)) (fun _ => inferInstance)
+
+instance instDecidableEqEqNegVarFirstRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (EqEqNegVarFirstRows support r mask) := by
+  unfold EqEqNegVarFirstRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    EqEqNegRow (FirstLineAt support r hlt mask) /\
+      FixedRow (SecondLineAt support r hlt mask) (-1) (-1)) (fun _ => inferInstance)
+
+instance instDecidableEqEqNegVarSecondRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (EqEqNegVarSecondRows support r mask) := by
+  unfold EqEqNegVarSecondRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    FixedRow (FirstLineAt support r hlt mask) (-1) (-1) /\
+      EqEqNegRow (SecondLineAt support r hlt mask)) (fun _ => inferInstance)
+
+instance instDecidableOppOneMinusVarFirstRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (OppOneMinusVarFirstRows support r mask) := by
+  unfold OppOneMinusVarFirstRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    OppPosRow (FirstLineAt support r hlt mask) /\
+      FixedRow (SecondLineAt support r hlt mask) 1 (-1)) (fun _ => inferInstance)
+
+instance instDecidableOppOneMinusVarSecondRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (OppOneMinusVarSecondRows support r mask) := by
+  unfold OppOneMinusVarSecondRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    FixedRow (FirstLineAt support r hlt mask) 1 (-1) /\
+      OppPosRow (SecondLineAt support r hlt mask)) (fun _ => inferInstance)
+
+instance instDecidableOppMinusOneVarFirstRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (OppMinusOneVarFirstRows support r mask) := by
+  unfold OppMinusOneVarFirstRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    OppNegRow (FirstLineAt support r hlt mask) /\
+      FixedRow (SecondLineAt support r hlt mask) (-1) 1) (fun _ => inferInstance)
+
+instance instDecidableOppMinusOneVarSecondRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (OppMinusOneVarSecondRows support r mask) := by
+  unfold OppMinusOneVarSecondRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    FixedRow (FirstLineAt support r hlt mask) (-1) 1 /\
+      OppNegRow (SecondLineAt support r hlt mask)) (fun _ => inferInstance)
+
+instance instDecidableAxisAOnlyRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (AxisAOnlyRows support r mask) := by
+  unfold AxisAOnlyRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    (FirstLineAt support r hlt mask).b = 0 /\
+      (SecondLineAt support r hlt mask).b = 0 /\
+        (FirstLineAt support r hlt mask).a *
+            (SecondLineAt support r hlt mask).a < 0 /\
+          (SupportPair.multipliersAt support r hlt mask).1 *
+              (FirstLineAt support r hlt mask).c +
+            (SupportPair.multipliersAt support r hlt mask).2 *
+              (SecondLineAt support r hlt mask).c <= 0) (fun _ => inferInstance)
+
+instance instDecidableAxisBOnlyRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (AxisBOnlyRows support r mask) := by
+  unfold AxisBOnlyRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    (FirstLineAt support r hlt mask).a = 0 /\
+      (SecondLineAt support r hlt mask).a = 0 /\
+        (FirstLineAt support r hlt mask).b *
+            (SecondLineAt support r hlt mask).b < 0 /\
+          (SupportPair.multipliersAt support r hlt mask).1 *
+              (FirstLineAt support r hlt mask).c +
+          (SupportPair.multipliersAt support r hlt mask).2 *
+              (SecondLineAt support r hlt mask).c <= 0) (fun _ => inferInstance)
+
+instance instDecidableExactTwoSourceValidRows
+    (support : TwoSourceFarkasSupport) (r : Nat) (mask : SignMask) :
+    Decidable (ExactTwoSourceValidRows support r mask) := by
+  unfold ExactTwoSourceValidRows
+  exact decidableForRankProof (r := r) (fun hlt =>
+    0 <= (SupportPair.multipliersAt support r hlt mask).1 /\
+      0 <= (SupportPair.multipliersAt support r hlt mask).2 /\
+        (0 < (SupportPair.multipliersAt support r hlt mask).1 \/
+          0 < (SupportPair.multipliersAt support r hlt mask).2) /\
+          (SupportPair.multipliersAt support r hlt mask).1 *
+              (FirstLineAt support r hlt mask).a +
+            (SupportPair.multipliersAt support r hlt mask).2 *
+              (SecondLineAt support r hlt mask).a = 0 /\
+            (SupportPair.multipliersAt support r hlt mask).1 *
+                (FirstLineAt support r hlt mask).b +
+              (SupportPair.multipliersAt support r hlt mask).2 *
+                (SecondLineAt support r hlt mask).b = 0 /\
+              (SupportPair.multipliersAt support r hlt mask).1 *
+                  (FirstLineAt support r hlt mask).c +
+                (SupportPair.multipliersAt support r hlt mask).2 *
+                  (SecondLineAt support r hlt mask).c <= 0) (fun _ => inferInstance)
+
+instance instDecidableSourceIndexTemplateRows
+    (template : SourceIndexTemplate) (support : TwoSourceFarkasSupport)
+    (r : Nat) (mask : SignMask) :
+    Decidable (template.Rows support r mask) := by
+  cases template <;> unfold SourceIndexTemplate.Rows <;> infer_instance
 
 structure SourceIndexStateRowProducer where
   Applies : SourceIndexStateKey -> Nat -> SignMask -> Prop

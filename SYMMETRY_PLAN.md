@@ -190,7 +190,8 @@ Phase 6Z.6C semantic killed bridges, the Phase 6Z.6D row-template census
 runner plus representative calibration, the Phase 6Z.6K.5 source-parametric
 row-property quotient, the Phase 6Z.6K.6 bounded row-property quotient
 representative emitter/root, and the Phase 6Z.6K.7 row-property membership
-burden profiler.
+burden profiler, plus the Phase 6Z.6K.8S/8T producer-fact/glue smokes and
+the Phase 6Z.6K.8U bounded producer-membership rejection.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -6784,6 +6785,200 @@ Lean smoke peak RSS:             3,281,464 KB
     producers for the 72 bounded source groups, using the same memory-safe
     Python parallelism and focused Lean builds.
 
+Completed Phase 6Z.6K.8S:
+
+- Added source-fact producer helpers to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`:
+  - `SourceIndexStateSourcePredicate`
+  - `SourceIndexStateSourceFacts.of_sourcePredicate`
+  - `SourceIndexStateSourceProducer`
+- Added `scripts/generate_source_index_state_source_fact_producer_smoke.py`.
+  The generator supports `--jobs`; the accepted run used four Python workers
+  for the same low-memory classifier path used in 8Q/8R.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSourceFactProducerSmoke.lean`
+  for all 72 source-fact groups in the bounded `[0,1000)` window.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_source_fact_producer_smoke.py
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+/usr/bin/time -v python3 scripts/generate_source_index_state_source_fact_producer_smoke.py \
+  --jobs 4
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSourceFactProducerSmoke.lean \
+  scripts/generated/phase6z6k8s_source_index_state_source_fact_producer_smoke.json \
+  scripts/generated/phase6z6k8s_source_index_state_source_fact_producer_smoke.md || true
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSourceFactProducerSmoke.lean \
+  scripts/generate_source_index_state_source_fact_producer_smoke.py || true
+wc -c \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSourceFactProducerSmoke.lean \
+  scripts/generated/phase6z6k8s_source_index_state_source_fact_producer_smoke.json \
+  scripts/generated/phase6z6k8s_source_index_state_source_fact_producer_smoke.md
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSourceFactProducerSmoke
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateKeyFactsSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSplitFactsSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSourceFactProducerSmoke
+```
+
+- Results:
+
+```text
+source groups represented:       72
+descriptor families represented: 74
+GoodDirection cases represented: 1,465
+generated Lean source size:      72,240 bytes
+generator wall time:             0:31.47
+generator peak RSS:              30,888 KB
+parallel workers:                4
+replay-pattern audit:            clean
+constraint grep:                 clean
+Lean core build wall:            0:03.33
+Lean core peak RSS:              3,308,812 KB
+Lean smoke build wall:           0:02.57
+Lean smoke peak RSS:             3,306,228 KB
+four-smoke build wall:           0:02.77
+four-smoke peak RSS:             3,250,656 KB
+```
+
+- Decision:
+  - Accept the source-fact producer smoke.
+  - The 72 bounded source-fact groups can now be represented by reusable
+    source-index/support predicates and converted to
+    `SourceIndexStateSourceFacts` without concrete rank/mask member replay.
+  - Source facts and row facts are now independently factored. The remaining
+    bounded membership bridge is descriptor glue: compose a source producer and
+    row producer for each of the 74 descriptor keys, yielding key facts and
+    then `TranslationGoodCaseKilled`.
+  - The next step is Phase 6Z.6K.8T: generate a source+row producer glue smoke
+    over all 74 descriptor keys. It should consume `SourceIndexStateSourceProducer`
+    and `SourceIndexStateRowProducer` applications, not raw source or row facts,
+    and it must still avoid concrete rank/mask member replay.
+
+Completed Phase 6Z.6K.8T:
+
+- Added `scripts/generate_source_index_state_producer_glue_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateProducerGlueSmoke.lean`.
+- The generated module is self-contained: it defines the 72 reusable source
+  producers, the 11 reusable row producers, all 74 descriptor keys, and a
+  classifier that derives `TranslationGoodCaseKilled` from producer
+  applications. It does not require raw `SourceIndexStateSourceFacts` or
+  `SourceIndexStateRowFacts` as public premises.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_producer_glue_smoke.py
+/usr/bin/time -v python3 scripts/generate_source_index_state_producer_glue_smoke.py \
+  --jobs 4
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateProducerGlueSmoke.lean \
+  scripts/generated/phase6z6k8t_source_index_state_producer_glue_smoke.json \
+  scripts/generated/phase6z6k8t_source_index_state_producer_glue_smoke.md || true
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateProducerGlueSmoke.lean \
+  scripts/generate_source_index_state_producer_glue_smoke.py || true
+wc -c \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateProducerGlueSmoke.lean \
+  scripts/generated/phase6z6k8t_source_index_state_producer_glue_smoke.json \
+  scripts/generated/phase6z6k8t_source_index_state_producer_glue_smoke.md
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateProducerGlueSmoke
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateKeyFactsSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSplitFactsSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSourceFactProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateProducerGlueSmoke
+```
+
+- Results:
+
+```text
+source groups represented:       72
+row groups represented:          11
+descriptor families represented: 74
+GoodDirection cases represented: 1,465
+generated Lean source size:      199,558 bytes
+generator wall time:             0:31.36
+generator peak RSS:              31,564 KB
+parallel workers:                4
+replay-pattern audit:            clean
+constraint grep:                 clean
+Lean glue build wall:            0:04.39
+Lean glue peak RSS:              3,359,252 KB
+five-smoke cached build wall:    0:00.89
+five-smoke cached peak RSS:      858,440 KB
+```
+
+- Decision:
+  - Accept the source+row producer glue smoke.
+  - The bounded theorem surface now factors GoodDirection survivor killing into
+    three semantic layers: reusable source predicates, reusable row predicates,
+    and descriptor-key glue.
+  - This still does not prove bounded membership coverage. The generated
+    module proves that producer applications are sufficient; it does not prove
+    every bounded GoodDirection survivor satisfies the appropriate producer
+    applications.
+  - The next attempted step was Phase 6Z.6K.8U: generate a bounded
+    GoodDirection membership-coverage smoke for `[0,1000)` that proves the
+    appropriate `ProducerGlueClassifierApplies r mask` for every
+    GoodDirection survivor, without reintroducing bad-direction cases and
+    without letting the proof collapse into one proof branch per rank/mask.
+
+Rejected Phase 6Z.6K.8U:
+
+- Attempted a bounded producer-membership coverage smoke using the accepted
+  8T producer glue surface. A memory-safe parallel Python run emitted a
+  `[0,25)` diagnostic:
+
+```text
+rank window:                    [0,25)
+descriptor families represented: 18
+source groups represented:      18
+row groups represented:         7
+GoodDirection cases represented: 96
+generator workers:              4
+generator wall time:            0:03.50
+generator peak RSS:             26,464 KB
+```
+
+- The first generated Lean shape attempted to decide the generated producer
+  projection fields directly and failed: `Decidable` instances do not unfold
+  through `source_..._producer.Applies` / `row_..._producer.Applies`
+  projections in the intended way.
+- The emitter was then changed to decide explicit semantic predicates:
+  `SourceIndexStateSourcePredicate first second support r mask` plus the
+  concrete row-template predicate such as `EqEqPosVarFirstRows support r mask`.
+  That fixed the local classifier-soundness layer.
+- The remaining bounded coverage theorem still reduced to finite rank/mask
+  replay. The only viable proof shape found was:
+
+```lean
+intro r mask hM hgood
+fin_cases r <;> fin_cases mask <;> decide
+```
+
+- Even for `[0,25)`, that explicit finite replay ran for more than 70 seconds
+  with no result and was manually stopped before it could become a broader
+  build risk. This is a build-time rejection, not an OOM event.
+- The generated 8U Lean artifact and its reports were removed so broad builds
+  are not poisoned.
+- Decision:
+  - Reject bounded producer-membership coverage via `fin_cases` or any other
+    rank/mask finite replay.
+  - Keep the 8T producer-glue surface as a sufficient theorem layer.
+  - The next step must prove source/row producer membership as a semantic
+    theorem over a source-index/state language or decision tree, with ranks
+    only entering through a small final adapter.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7791,9 +7986,20 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8R row-fact producer smoke:
   prove or profile reusable producers for the 11 bounded row-fact groups before
   attacking the harder 72 source-fact groups.
-- [ ] Implement Phase 6Z.6K.8S source-fact producer profile/smoke:
+- [x] Implement Phase 6Z.6K.8S source-fact producer profile/smoke:
   prove or profile reusable producers for the 72 bounded source-fact groups,
   keeping row facts separate and avoiding rank/mask member replay.
+- [x] Implement Phase 6Z.6K.8T source+row producer glue smoke:
+  compose reusable source producers and row producers for all 74 bounded
+  descriptor keys, deriving `TranslationGoodCaseKilled` without raw source/row
+  facts as premises.
+- [x] Attempt Phase 6Z.6K.8U bounded producer-membership coverage smoke:
+  rejected because the proof devolved into rank/mask finite replay; even a
+  `[0,25)` version exceeded the build-time gate and was stopped.
+- [ ] Implement Phase 6Z.6K.8V semantic source-index/state membership theorem:
+  replace bounded rank/mask replay with a proof over a source-index/state
+  language or decision-tree coordinate that derives source and row producer
+  applications from symbolic state facts.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7895,23 +8101,24 @@ branches. The 8M profiler shows that the full descriptor key is descriptor-
 unique with 74 obligations and no concrete member branches; all coarser keys
 are ambiguous on the bounded window.
 
-The immediate next step is Phase 6Z.6K.8S: source-fact production.
-That step should:
+Phase 6Z.6K.8U is rejected as described above. The immediate next step is
+Phase 6Z.6K.8V: a semantic source-index/state membership theorem. That step
+should:
 
 - keep the accepted semantic classifier branch shape from 8L and the key
   routing/fact surface from 8N/8O/8P/8Q;
-- use the completed 8R row-fact producer interface as the reusable row side of
-  the split;
-- focus on the 72 source-fact groups identified by 8Q, especially the facts
-  proving source-index lookup and `SourceChecks` from reusable source-index
-  predicates;
+- use the completed 8T glue theorem surface as the target predicate;
+- prove producer membership from symbolic source-index/state facts, not by
+  finite `fin_cases` replay over ranks and masks;
+- treat `[0,1000)` only as a profiling/calibration window for the semantic
+  state theorem, not as the theorem's proof mechanism;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
-- avoid concrete survivor, bad-direction, nonidentity, and bounded interval
-  coverage branches;
-- reject immediately if the proof devolves into rank/mask member replay;
-- treat the output as a bounded Lean smoke before attempting global
-  descriptor-key facts generation.
+- avoid bad-direction, nonidentity, and bounded interval coverage branches;
+- reject immediately if the proof again devolves into rank/mask member replay;
+- produce a small Lean theorem surface that can plausibly be reused globally,
+  or explicitly report the remaining symbolic invariant needed to make that
+  possible.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
