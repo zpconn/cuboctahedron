@@ -154,6 +154,29 @@ theorem SourceIndexStateFamilyDescriptor.covered_of_applies
     (desc.sourceAgrees_of_applies h)
     (desc.rows_of_applies h)
 
+structure SourceIndexStateKey where
+  firstIndex : Nat
+  secondIndex : Nat
+  support : TwoSourceFarkasSupport
+  template : SourceIndexTemplate
+
+def SourceIndexStateKey.toDescriptor
+    (key : SourceIndexStateKey) : SourceIndexStateFamilyDescriptor where
+  firstIndex := key.firstIndex
+  secondIndex := key.secondIndex
+  support := key.support
+  template := key.template
+
+def SourceIndexStateKey.Matches
+    (key : SourceIndexStateKey) (r : Nat) (mask : SignMask) : Prop :=
+  key.toDescriptor.Applies r mask
+
+theorem SourceIndexStateKey.covered_of_matches
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (h : key.Matches r mask) :
+    RowPropertyParametricCovered r mask :=
+  key.toDescriptor.covered_of_applies h
+
 theorem sourceIndexState_builds : True := by
   trivial
 

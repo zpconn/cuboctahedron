@@ -6421,6 +6421,151 @@ constraint grep:                    clean
   - Do not scale beyond `[0,1000)` until 8M finds a non-replay membership proof
     surface.
 
+Completed Phase 6Z.6K.8M:
+
+- Added `scripts/profile_source_index_state_descriptor_membership.py`.
+- This diagnostic emits no Lean. It compares compact key surfaces for routing
+  `[0,1000)` GoodDirection survivors into the all-family classifier branches
+  accepted by 8L.
+- Verification/profiling command:
+
+```bash
+python3 -m py_compile scripts/profile_source_index_state_descriptor_membership.py
+/usr/bin/time -v python3 scripts/profile_source_index_state_descriptor_membership.py \
+  --rank-start 0 --limit 1000 --group-gate 100
+```
+
+- Results:
+
+```text
+source-index/state families:            74
+GoodDirection cases:                 1,465
+explicit replay obligations:         1,465
+descriptor-key obligations:             74
+descriptor-key ambiguous groups:         0
+descriptor-key ambiguous cases:          0
+source-index/template ambiguous groups:  1
+source-index/template ambiguous cases:   9
+row-property-only ambiguous cases:    1,456
+template-only ambiguous cases:        1,465
+profiler wall time:                  1:35.52
+profiler peak RSS:                  29,292 KB
+```
+
+- Decision:
+  - Accept `descriptor_key` as the only non-replay membership coordinate for
+    the current bounded window.
+  - Reject coarser keys: template-only, row-property-only, source-indices-only,
+    and source-index/template all merge distinct descriptors in this bounded
+    window.
+  - The next step is Phase 6Z.6K.8N: implement a tiny Lean smoke for
+    descriptor-key membership. It should prove selected descriptor-key matches
+    imply the corresponding `ClassifierApplies` branch, without carrying a
+    concrete rank/mask member list.
+  - Do not scale beyond `[0,1000)` until a Lean key-membership smoke builds and
+    remains replay-free.
+
+Completed Phase 6Z.6K.8N:
+
+- Added `SourceIndexStateKey` to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`.
+  A key is a small Prop-level wrapper around the existing
+  `SourceIndexStateFamilyDescriptor`; its `Matches` predicate is semantic
+  descriptor applicability, not a generated member table.
+- Added `scripts/generate_source_index_state_descriptor_key_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeySmoke.lean`
+  with five selected descriptor keys.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_descriptor_key_smoke.py
+/usr/bin/time -v python3 scripts/generate_source_index_state_descriptor_key_smoke.py \
+  --profile-json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --family-count 5 --phase 6Z.6K.8N
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeySmoke.lean || true
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorKeySmoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeySmoke.lean \
+  scripts/generate_source_index_state_descriptor_key_smoke.py \
+  scripts/profile_source_index_state_descriptor_membership.py || true
+```
+
+- Results:
+
+```text
+selected keys:             5
+represented cases:       864
+generator wall time:    1:33.15
+generator peak RSS:    28,724 KB
+replay-pattern audit:  clean
+Lean build wall time:  0:11.28
+Lean build peak RSS: 3,296,572 KB
+constraint grep:       clean
+```
+
+- Decision:
+  - Accept the selected descriptor-key routing smoke.
+  - This proves that key predicates can route into the semantic classifier
+    branch and then into `TranslationGoodCaseKilled` without concrete rank/mask
+    member lists.
+  - The smoke is still only conditional on a key match; it does not yet prove
+    that all GoodDirection survivors satisfy a key.
+
+Completed Phase 6Z.6K.8O:
+
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeyAllSmoke.lean`
+  with all 74 `[0,1000)` descriptor keys.
+- Verification commands:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_source_index_state_descriptor_key_smoke.py \
+  --profile-json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --family-count 74 \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeyAllSmoke.lean \
+  --json scripts/generated/phase6z6k8o_source_index_state_descriptor_key_all_smoke.json \
+  --md scripts/generated/phase6z6k8o_source_index_state_descriptor_key_all_smoke.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorKeyAllSmoke \
+  --phase 6Z.6K.8O
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeyAllSmoke.lean || true
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeyAllSmoke.lean \
+  scripts/generate_source_index_state_descriptor_key_smoke.py || true
+wc -c \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeyAllSmoke.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorKeySmoke.lean
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorKeyAllSmoke
+```
+
+- Results:
+
+```text
+selected keys:             74
+represented cases:      1,465
+generated source size: 82,888 bytes
+generator wall time:    1:33.88
+generator peak RSS:    29,504 KB
+replay-pattern audit:  clean
+Lean build wall time:  0:02.80
+Lean build peak RSS: 3,326,208 KB
+constraint grep:       clean
+```
+
+- Decision:
+  - Accept the all-key descriptor-routing smoke.
+  - The route from descriptor key match to `TranslationGoodCaseKilled` is now
+    Lean-checked for every bounded source-index/state family in `[0,1000)`.
+  - The next required step is Phase 6Z.6K.8P: prove a genuine membership
+    predicate that derives descriptor-key matches for GoodDirection survivors,
+    instead of assuming a key match as a premise. The production route still
+    cannot claim coverage until this membership predicate is formalized.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7409,9 +7554,18 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8L all-family GoodDirection-only classifier Lean
   smoke: scale the accepted smoke from five selected families to all 74
   `[0,1000)` source-index/state families under the 60 second / 8 GB gate.
-- [ ] Implement Phase 6Z.6K.8M compact descriptor-key membership profiler:
+- [x] Implement Phase 6Z.6K.8M compact descriptor-key membership profiler:
   find a non-replay proof surface showing that every `[0,1000)`
   GoodDirection survivor satisfies one of the 74 descriptor predicates.
+- [x] Implement Phase 6Z.6K.8N descriptor-key membership Lean smoke:
+  prove selected descriptor-key matches imply the corresponding
+  `ClassifierApplies` branch without concrete rank/mask member lists.
+- [x] Implement Phase 6Z.6K.8O all-key descriptor-routing Lean smoke:
+  scale the key-match-to-classifier route to all 74 `[0,1000)` keys under the
+  60 second / 8 GB gate.
+- [ ] Implement Phase 6Z.6K.8P formal descriptor-key membership predicate:
+  prove that bounded GoodDirection survivors satisfy a descriptor key without
+  assuming a key match and without replaying concrete rank/mask members.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7506,23 +7660,27 @@ GoodDirection-only source-index/state classifier surface on `[0,25)` and
 bad-direction masks to 74 source-index/state obligations, with no Lean emitted
 and only about 36 MB peak RSS.
 
-Phase 6Z.6K.8K and 6Z.6K.8L are complete. The 5-family and all-74-family
-GoodDirection-only classifier smokes both build under the 60 second / 8 GB
-gate, with clean replay-pattern audits. The all-family smoke represents all
-1,465 `[0,1000)` GoodDirection survivors through 74 source-index/state
-descriptor branches, without concrete rank/mask survivor, bad-direction,
-nonidentity, or bounded interval coverage branches.
+Phase 6Z.6K.8K, 6Z.6K.8L, and 6Z.6K.8M are complete. The all-74-family
+GoodDirection-only classifier smoke builds under the 60 second / 8 GB gate and
+represents all 1,465 `[0,1000)` GoodDirection survivors through descriptor
+branches. The 8M profiler shows that the full descriptor key is descriptor-
+unique with 74 obligations and no concrete member branches; all coarser keys
+are ambiguous on the bounded window.
 
-The immediate next step is Phase 6Z.6K.8M: compact descriptor-key membership.
+The immediate next step is Phase 6Z.6K.8P: formal descriptor-key membership.
 That step should:
 
-- keep the accepted semantic classifier branch shape from 8L;
-- profile whether every `[0,1000)` GoodDirection survivor can be routed to one
-  of the 74 descriptors by compact computable keys;
-- avoid emitting concrete survivor or bad-direction branches;
-- reject immediately if the only proof of membership is bounded replay over
-  rank/mask examples;
-- treat the output as a profiler/design gate before any larger Lean coverage.
+- keep the accepted semantic classifier branch shape from 8L and the key
+  routing surface from 8N/8O;
+- define a formal predicate that derives a descriptor key from source-index,
+  source-skeleton, and row-property facts for a GoodDirection survivor;
+- prove that this predicate implies `SourceIndexStateKey.Matches`, then reuse
+  the all-key classifier route;
+- avoid concrete survivor, bad-direction, nonidentity, and bounded interval
+  coverage branches;
+- reject immediately if the proof devolves into rank/mask member replay;
+- treat the output as a bounded Lean smoke before attempting global
+  descriptor-key membership generation.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

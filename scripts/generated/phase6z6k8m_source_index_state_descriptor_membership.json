@@ -1,0 +1,4193 @@
+{
+  "accepted_candidates": [
+    "descriptor_key"
+  ],
+  "candidate_results": [
+    {
+      "ambiguous_cases": 0,
+      "ambiguous_group_count": 0,
+      "ambiguous_samples": [],
+      "concrete_member_branches": 1465,
+      "description": "one membership branch per concrete GoodDirection rank/mask case",
+      "group_count": 1465,
+      "largest_group_cases": 1,
+      "name": "explicit_member_replay",
+      "notes": [
+        "this is the bounded replay path rejected by 8I",
+        "kept only as a baseline"
+      ],
+      "requires_row_property": true,
+      "requires_source_state": true,
+      "status": "rejected",
+      "theorem_obligations": 1465,
+      "top_groups": []
+    },
+    {
+      "ambiguous_cases": 0,
+      "ambiguous_group_count": 0,
+      "ambiguous_samples": [],
+      "concrete_member_branches": 0,
+      "description": "template + source indices + source skeletons + row-property key",
+      "group_count": 74,
+      "largest_group_cases": 421,
+      "name": "descriptor_key",
+      "notes": [
+        "one compact key per descriptor and no concrete member list",
+        "next Lean smoke should prove key-to-descriptor membership for selected keys"
+      ],
+      "requires_row_property": true,
+      "requires_source_state": true,
+      "status": "accepted-next-lean-smoke",
+      "theorem_obligations": 74,
+      "top_groups": [
+        {
+          "case_count": 421,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "4ab625a66362aed9aa5398318116d17226ddcd8960cf777e2e1c880300564174"
+        },
+        {
+          "case_count": 134,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "3e7b61323fd0e0c35c3f960d77d8d9ab050d21139083b4f335c8cca271b3cf50"
+        },
+        {
+          "case_count": 128,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "a62d6c9aac3fc22d33dd5b6e943e36823d2d92dc18a4bd9869de7a28960eaa9f"
+        },
+        {
+          "case_count": 102,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "cabf83ae8ea0eca519c9a0e4ae99d31cca73126d157975f938f9ce376914a854"
+        },
+        {
+          "case_count": 79,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "fcecc66becc3a19cacfc01fe3e605ad61a696f718d579d843ea73eb94b0cd1d0"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "c53e436dcea556c6c04a3258972c2364b38dd674b7366b36340502906724bd17"
+        },
+        {
+          "case_count": 30,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "51955be4f7824326e23377d37a68453d65b77afe0e997ce06ef54861f8b53c9f"
+        },
+        {
+          "case_count": 29,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "b53ac2c54d5143fdd95e39fa4c5cb7e3077bd4efa58a562bcb387b6d61cc7316"
+        },
+        {
+          "case_count": 23,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 23,
+              "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 60
+                },
+                {
+                  "mask": 22,
+                  "rank": 62
+                },
+                {
+                  "mask": 29,
+                  "rank": 62
+                }
+              ],
+              "source_indices": [
+                0,
+                11
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "0dbbb8f3ac4003ba7aa2acd9d34d68a9e31eded5d4f914ed5f6037fb32ad875d"
+        },
+        {
+          "case_count": 22,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "33ade8b13674a509c9cb9ed561bc15e9ce30855adce49f6940ac51de7d78dd17"
+        },
+        {
+          "case_count": 22,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 498
+                },
+                {
+                  "mask": 23,
+                  "rank": 501
+                },
+                {
+                  "mask": 7,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                0,
+                10
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "90f7eb28eebc24f4005228fa53fa0de576078d0d3ba1d31ea3ada33bb7683c29"
+        },
+        {
+          "case_count": 21,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "5148876162833da53e6d609d37ac3d6dd06b6d8f6266dc3dc99c08416ff3ec23"
+        }
+      ]
+    },
+    {
+      "ambiguous_cases": 9,
+      "ambiguous_group_count": 1,
+      "ambiguous_samples": [
+        {
+          "case_count": 9,
+          "descriptor_count": 3,
+          "descriptors": [
+            {
+              "cases": 4,
+              "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+              "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 357
+                },
+                {
+                  "mask": 22,
+                  "rank": 413
+                },
+                {
+                  "mask": 6,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 3,
+              "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+              "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 251
+                },
+                {
+                  "mask": 5,
+                  "rank": 561
+                },
+                {
+                  "mask": 63,
+                  "rank": 748
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 2,
+              "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+              "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+              "samples": [
+                {
+                  "mask": 29,
+                  "rank": 209
+                },
+                {
+                  "mask": 31,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "18c8730a353b99b8593c12cdc409f1c27b25463e7c98e6baa2abdbbde40b5ddf"
+        }
+      ],
+      "concrete_member_branches": 0,
+      "description": "template + source indices + source skeletons",
+      "group_count": 72,
+      "largest_group_cases": 421,
+      "name": "source_index_template",
+      "notes": [
+        "key is ambiguous: at least one key maps to multiple descriptors"
+      ],
+      "requires_row_property": false,
+      "requires_source_state": true,
+      "status": "rejected",
+      "theorem_obligations": 72,
+      "top_groups": [
+        {
+          "case_count": 421,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "000ba822a18783af457a46db1c2ae6239c6e15fb5aef991e267d8ccd5b520b8e"
+        },
+        {
+          "case_count": 134,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "102b13da17fec328c9c170078205e7a7fecba1a611b3d3b26821d90e58571fbb"
+        },
+        {
+          "case_count": 128,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "2c7efa3d93a1d45b5c6943e7d328f577738cf0efc4361564939add6f5ef1fd52"
+        },
+        {
+          "case_count": 102,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "2d0de47e833812063586894c89dfdfc763a095762b2a2f76df968c66dfe20c5d"
+        },
+        {
+          "case_count": 79,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "e1f3c0156e62ec0e13bd2a43f0abc4d3f41273df60f1bf9331f241159522988c"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "f9e82450b9a28106f9330a62c006236d9b6815e006d50e150f9edb67ca08ea74"
+        },
+        {
+          "case_count": 30,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "c973a4dfbb226d6d0899e3a0d423ad2123c4249396265c136d8d99dc253f3de7"
+        },
+        {
+          "case_count": 29,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "6b5812196ec76242318030bac9405b1b1805db1d88cf0c0bdf6805258387ed1c"
+        },
+        {
+          "case_count": 23,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 23,
+              "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 60
+                },
+                {
+                  "mask": 22,
+                  "rank": 62
+                },
+                {
+                  "mask": 29,
+                  "rank": 62
+                }
+              ],
+              "source_indices": [
+                0,
+                11
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "dbc9e2c6b6cbbd9509ca816dabe176b08ba4e660a9e14dea61596c4741e7a8e1"
+        },
+        {
+          "case_count": 22,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "0479cf21b35fa3df23d4d4635113bb4345c4add1498e4a237c825950abc0406f"
+        },
+        {
+          "case_count": 22,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 498
+                },
+                {
+                  "mask": 23,
+                  "rank": 501
+                },
+                {
+                  "mask": 7,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                0,
+                10
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "c0b92f49d941cca5b1c63932b86888bf957a2a734f244ae6b061c8f7d3a53cca"
+        },
+        {
+          "case_count": 21,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "04f4136c8c3162c268930344520cf9b3f56aa2cbe85912221c344a5080f0ea93"
+        }
+      ]
+    },
+    {
+      "ambiguous_cases": 9,
+      "ambiguous_group_count": 1,
+      "ambiguous_samples": [
+        {
+          "case_count": 9,
+          "descriptor_count": 3,
+          "descriptors": [
+            {
+              "cases": 4,
+              "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+              "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 357
+                },
+                {
+                  "mask": 22,
+                  "rank": 413
+                },
+                {
+                  "mask": 6,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 3,
+              "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+              "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 251
+                },
+                {
+                  "mask": 5,
+                  "rank": 561
+                },
+                {
+                  "mask": 63,
+                  "rank": 748
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 2,
+              "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+              "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+              "samples": [
+                {
+                  "mask": 29,
+                  "rank": 209
+                },
+                {
+                  "mask": 31,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "86e2fe1800a75b1e7b880e3bd6649bd5648e4a48f057e0cdad72bdff8e08377b"
+        }
+      ],
+      "concrete_member_branches": 0,
+      "description": "template + source indices",
+      "group_count": 72,
+      "largest_group_cases": 421,
+      "name": "source_indices_only",
+      "notes": [
+        "key is ambiguous: at least one key maps to multiple descriptors"
+      ],
+      "requires_row_property": false,
+      "requires_source_state": true,
+      "status": "rejected",
+      "theorem_obligations": 72,
+      "top_groups": [
+        {
+          "case_count": 421,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "1b6b38d811aee3f77ed2d33b2c9caf533cd5903b8fe418048b8ffdbeab308162"
+        },
+        {
+          "case_count": 134,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "d0467b432c01d7623306cdf7d5f0bd75ab8cff5fc8967cada8aa79f3b3d9425d"
+        },
+        {
+          "case_count": 128,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "06774118aa1370722417c25369bb90108a9eaf1658e7b2d9454841d367f22e4e"
+        },
+        {
+          "case_count": 102,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "6d5904f888b91b892e07fa1dadfe7bf50f9ea46ab245496e466f8bcc97f80a9b"
+        },
+        {
+          "case_count": 79,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "69a35a3215f5b6c68841a6642a0fef171ad53c2b03ea5ed1f30eb9bf40d448c0"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "cfb1924df5d3f3ff82e81828c3e05d4fec45ccbfa40079b33d9b0ef5b99d31a4"
+        },
+        {
+          "case_count": 30,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "c4dfa13556a89cff9b7640389ac00026a30a70c0bfbf327ed97ea333e36cbb7f"
+        },
+        {
+          "case_count": 29,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "e44b9cedf82cb2f327ae76d79a419dd91f14e459f2f296b8223d22907f94d5ee"
+        },
+        {
+          "case_count": 23,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 23,
+              "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 60
+                },
+                {
+                  "mask": 22,
+                  "rank": 62
+                },
+                {
+                  "mask": 29,
+                  "rank": 62
+                }
+              ],
+              "source_indices": [
+                0,
+                11
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "1cbcbf38c5995f6a6962c5cd2f38ab13527fc7bae1fc760fa457b6f045aa9b3e"
+        },
+        {
+          "case_count": 22,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 498
+                },
+                {
+                  "mask": 23,
+                  "rank": 501
+                },
+                {
+                  "mask": 7,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                0,
+                10
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "506c8b68b4b09851ea7a29f3d83994c19bc2c345a24ca68ca576567a6bb3d32c"
+        },
+        {
+          "case_count": 22,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "e61b1775779004e639e6d097c4aa68dbd6f05cfdfdfff30a94d47ee8ab60abb2"
+        },
+        {
+          "case_count": 21,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "a88f57ee24e5f5ee3359ba6085a5d19cce9e010a5c5b28e256ae2a2716acff84"
+        }
+      ]
+    },
+    {
+      "ambiguous_cases": 1456,
+      "ambiguous_group_count": 8,
+      "ambiguous_samples": [
+        {
+          "case_count": 711,
+          "descriptor_count": 19,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 19,
+              "key": "0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 86
+                },
+                {
+                  "mask": 55,
+                  "rank": 86
+                },
+                {
+                  "mask": 45,
+                  "rank": 87
+                }
+              ],
+              "source_indices": [
+                122,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d"
+        },
+        {
+          "case_count": 240,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 23,
+              "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 60
+                },
+                {
+                  "mask": 22,
+                  "rank": 62
+                },
+                {
+                  "mask": 29,
+                  "rank": 62
+                }
+              ],
+              "source_indices": [
+                0,
+                11
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906"
+        },
+        {
+          "case_count": 227,
+          "descriptor_count": 18,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 7,
+              "key": "47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 44
+                },
+                {
+                  "mask": 45,
+                  "rank": 641
+                },
+                {
+                  "mask": 45,
+                  "rank": 724
+                }
+              ],
+              "source_indices": [
+                184,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 7,
+              "key": "cb8990495e80e4e83ff3dd6dbc52d2311080437714265957a3e06912a1fb84fc",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 32
+                },
+                {
+                  "mask": 28,
+                  "rank": 842
+                },
+                {
+                  "mask": 31,
+                  "rank": 842
+                }
+              ],
+              "source_indices": [
+                175,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651"
+        },
+        {
+          "case_count": 126,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 14,
+              "key": "361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 654
+                },
+                {
+                  "mask": 30,
+                  "rank": 716
+                },
+                {
+                  "mask": 30,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                84,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 3,
+              "key": "1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 447
+                },
+                {
+                  "mask": 30,
+                  "rank": 447
+                },
+                {
+                  "mask": 28,
+                  "rank": 602
+                }
+              ],
+              "source_indices": [
+                162,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 3,
+              "key": "68ca43ad6da1bf21837ad43de8916779d8c9b7674f02fd42c9fb46275e56520c",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 602
+                },
+                {
+                  "mask": 63,
+                  "rank": 903
+                },
+                {
+                  "mask": 63,
+                  "rank": 905
+                }
+              ],
+              "source_indices": [
+                136,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2"
+        },
+        {
+          "case_count": 73,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 19,
+              "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 3
+                },
+                {
+                  "mask": 63,
+                  "rank": 45
+                },
+                {
+                  "mask": 63,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                7
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 12,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 27
+                },
+                {
+                  "mask": 54,
+                  "rank": 59
+                },
+                {
+                  "mask": 55,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 11,
+              "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 9
+                },
+                {
+                  "mask": 55,
+                  "rank": 9
+                },
+                {
+                  "mask": 28,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                14
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "173645791fcf6158993df04a06cad8e6c9277a4a5116eeeae8320100bc7ad399",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 850
+                },
+                {
+                  "mask": 28,
+                  "rank": 854
+                },
+                {
+                  "mask": 29,
+                  "rank": 854
+                }
+              ],
+              "source_indices": [
+                1,
+                11
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ],
+          "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 13,
+              "key": "5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 45
+                },
+                {
+                  "mask": 28,
+                  "rank": 47
+                },
+                {
+                  "mask": 28,
+                  "rank": 78
+                }
+              ],
+              "source_indices": [
+                2,
+                7
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 842
+                }
+              ],
+              "source_indices": [
+                2,
+                11
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 27
+                },
+                {
+                  "mask": 47,
+                  "rank": 27
+                },
+                {
+                  "mask": 28,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 7,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 0
+                },
+                {
+                  "mask": 47,
+                  "rank": 0
+                },
+                {
+                  "mask": 47,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ],
+          "key": "01ef342f8b3eccbcf838de2272e3e0a618591c1f735c69fabb94c6c2f2cedabf"
+        },
+        {
+          "case_count": 32,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "cases": 10,
+              "key": "532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 24
+                },
+                {
+                  "mask": 28,
+                  "rank": 49
+                },
+                {
+                  "mask": 28,
+                  "rank": 86
+                }
+              ],
+              "source_indices": [
+                84,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "ab58d270064eefa002683f651a0d6bfcfa613500a91016f81015c7bbfc9bfb9d"
+        },
+        {
+          "case_count": 3,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 2,
+              "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+              "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 65
+                },
+                {
+                  "mask": 63,
+                  "rank": 72
+                }
+              ],
+              "source_indices": [
+                3,
+                11
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "cases": 1,
+              "key": "533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc",
+              "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+              "samples": [
+                {
+                  "mask": 12,
+                  "rank": 875
+                }
+              ],
+              "source_indices": [
+                3,
+                12
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            }
+          ],
+          "key": "aa6ee8c6fd34af113194c2f37bcaa4ecb38560551b8ab398bf66c361ff434dac"
+        }
+      ],
+      "concrete_member_branches": 0,
+      "description": "template + row-property key",
+      "group_count": 11,
+      "largest_group_cases": 711,
+      "name": "row_property_only",
+      "notes": [
+        "key is ambiguous: at least one key maps to multiple descriptors"
+      ],
+      "requires_row_property": true,
+      "requires_source_state": false,
+      "status": "rejected",
+      "theorem_obligations": 11,
+      "top_groups": [
+        {
+          "case_count": 711,
+          "descriptor_count": 19,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d"
+        },
+        {
+          "case_count": 240,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906"
+        },
+        {
+          "case_count": 227,
+          "descriptor_count": 18,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 7,
+              "key": "47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 44
+                },
+                {
+                  "mask": 45,
+                  "rank": 641
+                },
+                {
+                  "mask": 45,
+                  "rank": 724
+                }
+              ],
+              "source_indices": [
+                184,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651"
+        },
+        {
+          "case_count": 126,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 14,
+              "key": "361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 654
+                },
+                {
+                  "mask": 30,
+                  "rank": 716
+                },
+                {
+                  "mask": 30,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                84,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 3,
+              "key": "1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 447
+                },
+                {
+                  "mask": 30,
+                  "rank": 447
+                },
+                {
+                  "mask": 28,
+                  "rank": 602
+                }
+              ],
+              "source_indices": [
+                162,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2"
+        },
+        {
+          "case_count": 73,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 19,
+              "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 3
+                },
+                {
+                  "mask": 63,
+                  "rank": 45
+                },
+                {
+                  "mask": 63,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                7
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 12,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 27
+                },
+                {
+                  "mask": 54,
+                  "rank": 59
+                },
+                {
+                  "mask": 55,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 11,
+              "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 9
+                },
+                {
+                  "mask": 55,
+                  "rank": 9
+                },
+                {
+                  "mask": 28,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                14
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ],
+          "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 13,
+              "key": "5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 45
+                },
+                {
+                  "mask": 28,
+                  "rank": 47
+                },
+                {
+                  "mask": 28,
+                  "rank": 78
+                }
+              ],
+              "source_indices": [
+                2,
+                7
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 842
+                }
+              ],
+              "source_indices": [
+                2,
+                11
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 27
+                },
+                {
+                  "mask": 47,
+                  "rank": 27
+                },
+                {
+                  "mask": 28,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ],
+          "key": "01ef342f8b3eccbcf838de2272e3e0a618591c1f735c69fabb94c6c2f2cedabf"
+        },
+        {
+          "case_count": 32,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "cases": 10,
+              "key": "532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 24
+                },
+                {
+                  "mask": 28,
+                  "rank": 49
+                },
+                {
+                  "mask": 28,
+                  "rank": 86
+                }
+              ],
+              "source_indices": [
+                84,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "ab58d270064eefa002683f651a0d6bfcfa613500a91016f81015c7bbfc9bfb9d"
+        },
+        {
+          "case_count": 4,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 4,
+              "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+              "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 357
+                },
+                {
+                  "mask": 22,
+                  "rank": 413
+                },
+                {
+                  "mask": 6,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "7d9e6f246fd2ff58074eff2e9a128514417de91d61a5aaea2b2d365f8aaf48db"
+        },
+        {
+          "case_count": 3,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 3,
+              "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+              "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 251
+                },
+                {
+                  "mask": 5,
+                  "rank": 561
+                },
+                {
+                  "mask": 63,
+                  "rank": 748
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "3beed738f15a25af0630f30ade1b42fffce6993851c9692587843c0ee7214e89"
+        },
+        {
+          "case_count": 3,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 2,
+              "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+              "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 65
+                },
+                {
+                  "mask": 63,
+                  "rank": 72
+                }
+              ],
+              "source_indices": [
+                3,
+                11
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "cases": 1,
+              "key": "533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc",
+              "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+              "samples": [
+                {
+                  "mask": 12,
+                  "rank": 875
+                }
+              ],
+              "source_indices": [
+                3,
+                12
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            }
+          ],
+          "key": "aa6ee8c6fd34af113194c2f37bcaa4ecb38560551b8ab398bf66c361ff434dac"
+        },
+        {
+          "case_count": 2,
+          "descriptor_count": 1,
+          "descriptors": [
+            {
+              "cases": 2,
+              "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+              "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+              "samples": [
+                {
+                  "mask": 29,
+                  "rank": 209
+                },
+                {
+                  "mask": 31,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "7004acc1337b24940623e18b8c13c02b05202309d9ebace2dce850072f93a061"
+        }
+      ]
+    },
+    {
+      "ambiguous_cases": 1465,
+      "ambiguous_group_count": 9,
+      "ambiguous_samples": [
+        {
+          "case_count": 711,
+          "descriptor_count": 19,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 19,
+              "key": "0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 86
+                },
+                {
+                  "mask": 55,
+                  "rank": 86
+                },
+                {
+                  "mask": 45,
+                  "rank": 87
+                }
+              ],
+              "source_indices": [
+                122,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "2669574e59369a39fbdd2a32e2735bdd71c7f5248547a699977563d3a0740454"
+        },
+        {
+          "case_count": 240,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 23,
+              "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 60
+                },
+                {
+                  "mask": 22,
+                  "rank": 62
+                },
+                {
+                  "mask": 29,
+                  "rank": 62
+                }
+              ],
+              "source_indices": [
+                0,
+                11
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "e7bd0a1010c7116e1dda1dcb23fd35c6d336440a43cb35e05416584fc50016a3"
+        },
+        {
+          "case_count": 227,
+          "descriptor_count": 18,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 7,
+              "key": "47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 44
+                },
+                {
+                  "mask": 45,
+                  "rank": 641
+                },
+                {
+                  "mask": 45,
+                  "rank": 724
+                }
+              ],
+              "source_indices": [
+                184,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 7,
+              "key": "cb8990495e80e4e83ff3dd6dbc52d2311080437714265957a3e06912a1fb84fc",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 32
+                },
+                {
+                  "mask": 28,
+                  "rank": 842
+                },
+                {
+                  "mask": 31,
+                  "rank": 842
+                }
+              ],
+              "source_indices": [
+                175,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "da0dbee41f7e315136a1969b4c199deab52f27e7b34d0d1dccff20f78634c839"
+        },
+        {
+          "case_count": 126,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 14,
+              "key": "361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 654
+                },
+                {
+                  "mask": 30,
+                  "rank": 716
+                },
+                {
+                  "mask": 30,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                84,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 3,
+              "key": "1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 447
+                },
+                {
+                  "mask": 30,
+                  "rank": 447
+                },
+                {
+                  "mask": 28,
+                  "rank": 602
+                }
+              ],
+              "source_indices": [
+                162,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 3,
+              "key": "68ca43ad6da1bf21837ad43de8916779d8c9b7674f02fd42c9fb46275e56520c",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 602
+                },
+                {
+                  "mask": 63,
+                  "rank": 903
+                },
+                {
+                  "mask": 63,
+                  "rank": 905
+                }
+              ],
+              "source_indices": [
+                136,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "b1fd93522824040b683ec1fb0c9a97e585724253fd6baebd809278bf01366a07"
+        },
+        {
+          "case_count": 73,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 19,
+              "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 3
+                },
+                {
+                  "mask": 63,
+                  "rank": 45
+                },
+                {
+                  "mask": 63,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                7
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 12,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 27
+                },
+                {
+                  "mask": 54,
+                  "rank": 59
+                },
+                {
+                  "mask": 55,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 11,
+              "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 9
+                },
+                {
+                  "mask": 55,
+                  "rank": 9
+                },
+                {
+                  "mask": 28,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                14
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "173645791fcf6158993df04a06cad8e6c9277a4a5116eeeae8320100bc7ad399",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 850
+                },
+                {
+                  "mask": 28,
+                  "rank": 854
+                },
+                {
+                  "mask": 29,
+                  "rank": 854
+                }
+              ],
+              "source_indices": [
+                1,
+                11
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ],
+          "key": "7edb322a03e1a5e1358e25a37fda02846820af6d40207b10fae6868a12d88803"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 13,
+              "key": "5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 45
+                },
+                {
+                  "mask": 28,
+                  "rank": 47
+                },
+                {
+                  "mask": 28,
+                  "rank": 78
+                }
+              ],
+              "source_indices": [
+                2,
+                7
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 842
+                }
+              ],
+              "source_indices": [
+                2,
+                11
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 27
+                },
+                {
+                  "mask": 47,
+                  "rank": 27
+                },
+                {
+                  "mask": 28,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 7,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 0
+                },
+                {
+                  "mask": 47,
+                  "rank": 0
+                },
+                {
+                  "mask": 47,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ],
+          "key": "c4025619ee82a790743689b3753c99023b96d42a5990e2b73b7733341c77efa3"
+        },
+        {
+          "case_count": 32,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "cases": 10,
+              "key": "532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 24
+                },
+                {
+                  "mask": 28,
+                  "rank": 49
+                },
+                {
+                  "mask": 28,
+                  "rank": 86
+                }
+              ],
+              "source_indices": [
+                84,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "e234cfb2b473491ad908be1f532932ef0e03aec7899eadc442653f31c65ae4a9"
+        },
+        {
+          "case_count": 9,
+          "descriptor_count": 3,
+          "descriptors": [
+            {
+              "cases": 4,
+              "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+              "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 357
+                },
+                {
+                  "mask": 22,
+                  "rank": 413
+                },
+                {
+                  "mask": 6,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 3,
+              "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+              "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 251
+                },
+                {
+                  "mask": 5,
+                  "rank": 561
+                },
+                {
+                  "mask": 63,
+                  "rank": 748
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 2,
+              "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+              "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+              "samples": [
+                {
+                  "mask": 29,
+                  "rank": 209
+                },
+                {
+                  "mask": 31,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "4c1f47618ffc752691d6202d6ae384007944e70f38a215769cf1b479477a2f7f"
+        }
+      ],
+      "concrete_member_branches": 0,
+      "description": "template constructor only",
+      "group_count": 9,
+      "largest_group_cases": 711,
+      "name": "template_only",
+      "notes": [
+        "key is ambiguous: at least one key maps to multiple descriptors"
+      ],
+      "requires_row_property": false,
+      "requires_source_state": false,
+      "status": "rejected",
+      "theorem_obligations": 9,
+      "top_groups": [
+        {
+          "case_count": 711,
+          "descriptor_count": 19,
+          "descriptors": [
+            {
+              "cases": 421,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 8,
+                  "rank": 0
+                },
+                {
+                  "mask": 9,
+                  "rank": 0
+                },
+                {
+                  "mask": 16,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 128,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 0
+                },
+                {
+                  "mask": 30,
+                  "rank": 0
+                },
+                {
+                  "mask": 31,
+                  "rank": 0
+                }
+              ],
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "cases": 21,
+              "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+              "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+              "samples": [
+                {
+                  "mask": 39,
+                  "rank": 149
+                },
+                {
+                  "mask": 47,
+                  "rank": 149
+                },
+                {
+                  "mask": 45,
+                  "rank": 185
+                }
+              ],
+              "source_indices": [
+                183,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ],
+          "key": "2669574e59369a39fbdd2a32e2735bdd71c7f5248547a699977563d3a0740454"
+        },
+        {
+          "case_count": 240,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 79,
+              "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 0
+                },
+                {
+                  "mask": 29,
+                  "rank": 0
+                },
+                {
+                  "mask": 13,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                0,
+                7
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 30,
+              "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 123
+                },
+                {
+                  "mask": 22,
+                  "rank": 123
+                },
+                {
+                  "mask": 13,
+                  "rank": 125
+                }
+              ],
+              "source_indices": [
+                0,
+                13
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "cases": 29,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+              "samples": [
+                {
+                  "mask": 22,
+                  "rank": 129
+                },
+                {
+                  "mask": 31,
+                  "rank": 129
+                },
+                {
+                  "mask": 13,
+                  "rank": 177
+                }
+              ],
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ],
+          "key": "e7bd0a1010c7116e1dda1dcb23fd35c6d336440a43cb35e05416584fc50016a3"
+        },
+        {
+          "case_count": 227,
+          "descriptor_count": 18,
+          "descriptors": [
+            {
+              "cases": 134,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 0
+                },
+                {
+                  "mask": 55,
+                  "rank": 0
+                },
+                {
+                  "mask": 54,
+                  "rank": 2
+                }
+              ],
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 44,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 633
+                },
+                {
+                  "mask": 63,
+                  "rank": 633
+                },
+                {
+                  "mask": 25,
+                  "rank": 639
+                }
+              ],
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "cases": 7,
+              "key": "47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2",
+              "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 44
+                },
+                {
+                  "mask": 45,
+                  "rank": 641
+                },
+                {
+                  "mask": 45,
+                  "rank": 724
+                }
+              ],
+              "source_indices": [
+                184,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ],
+          "key": "da0dbee41f7e315136a1969b4c199deab52f27e7b34d0d1dccff20f78634c839"
+        },
+        {
+          "case_count": 126,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 102,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 3
+                },
+                {
+                  "mask": 45,
+                  "rank": 5
+                },
+                {
+                  "mask": 47,
+                  "rank": 5
+                }
+              ],
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 14,
+              "key": "361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 654
+                },
+                {
+                  "mask": 30,
+                  "rank": 716
+                },
+                {
+                  "mask": 30,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                84,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "cases": 3,
+              "key": "1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b",
+              "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 447
+                },
+                {
+                  "mask": 30,
+                  "rank": 447
+                },
+                {
+                  "mask": 28,
+                  "rank": 602
+                }
+              ],
+              "source_indices": [
+                162,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ],
+          "key": "b1fd93522824040b683ec1fb0c9a97e585724253fd6baebd809278bf01366a07"
+        },
+        {
+          "case_count": 73,
+          "descriptor_count": 8,
+          "descriptors": [
+            {
+              "cases": 19,
+              "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 3
+                },
+                {
+                  "mask": 63,
+                  "rank": 45
+                },
+                {
+                  "mask": 63,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                7
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 12,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 27
+                },
+                {
+                  "mask": 54,
+                  "rank": 59
+                },
+                {
+                  "mask": 55,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "cases": 11,
+              "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+              "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+              "samples": [
+                {
+                  "mask": 54,
+                  "rank": 9
+                },
+                {
+                  "mask": 55,
+                  "rank": 9
+                },
+                {
+                  "mask": 28,
+                  "rank": 60
+                }
+              ],
+              "source_indices": [
+                1,
+                14
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ],
+          "key": "7edb322a03e1a5e1358e25a37fda02846820af6d40207b10fae6868a12d88803"
+        },
+        {
+          "case_count": 44,
+          "descriptor_count": 7,
+          "descriptors": [
+            {
+              "cases": 13,
+              "key": "5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 45
+                },
+                {
+                  "mask": 28,
+                  "rank": 47
+                },
+                {
+                  "mask": 28,
+                  "rank": 78
+                }
+              ],
+              "source_indices": [
+                2,
+                7
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 840
+                },
+                {
+                  "mask": 47,
+                  "rank": 842
+                }
+              ],
+              "source_indices": [
+                2,
+                11
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "cases": 9,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+              "samples": [
+                {
+                  "mask": 45,
+                  "rank": 27
+                },
+                {
+                  "mask": 47,
+                  "rank": 27
+                },
+                {
+                  "mask": 28,
+                  "rank": 59
+                }
+              ],
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ],
+          "key": "c4025619ee82a790743689b3753c99023b96d42a5990e2b73b7733341c77efa3"
+        },
+        {
+          "case_count": 32,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 22,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 7,
+                  "rank": 137
+                },
+                {
+                  "mask": 7,
+                  "rank": 185
+                },
+                {
+                  "mask": 7,
+                  "rank": 251
+                }
+              ],
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "cases": 10,
+              "key": "532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366",
+              "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+              "samples": [
+                {
+                  "mask": 28,
+                  "rank": 24
+                },
+                {
+                  "mask": 28,
+                  "rank": 49
+                },
+                {
+                  "mask": 28,
+                  "rank": 86
+                }
+              ],
+              "source_indices": [
+                84,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ],
+          "key": "e234cfb2b473491ad908be1f532932ef0e03aec7899eadc442653f31c65ae4a9"
+        },
+        {
+          "case_count": 9,
+          "descriptor_count": 3,
+          "descriptors": [
+            {
+              "cases": 4,
+              "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+              "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+              "samples": [
+                {
+                  "mask": 30,
+                  "rank": 357
+                },
+                {
+                  "mask": 22,
+                  "rank": 413
+                },
+                {
+                  "mask": 6,
+                  "rank": 519
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 3,
+              "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+              "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+              "samples": [
+                {
+                  "mask": 13,
+                  "rank": 251
+                },
+                {
+                  "mask": 5,
+                  "rank": 561
+                },
+                {
+                  "mask": 63,
+                  "rank": 748
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            },
+            {
+              "cases": 2,
+              "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+              "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+              "samples": [
+                {
+                  "mask": 29,
+                  "rank": 209
+                },
+                {
+                  "mask": 31,
+                  "rank": 790
+                }
+              ],
+              "source_indices": [
+                44,
+                5
+              ],
+              "template_id": "axis_a_only"
+            }
+          ],
+          "key": "4c1f47618ffc752691d6202d6ae384007944e70f38a215769cf1b479477a2f7f"
+        },
+        {
+          "case_count": 3,
+          "descriptor_count": 2,
+          "descriptors": [
+            {
+              "cases": 2,
+              "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+              "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+              "samples": [
+                {
+                  "mask": 63,
+                  "rank": 65
+                },
+                {
+                  "mask": 63,
+                  "rank": 72
+                }
+              ],
+              "source_indices": [
+                3,
+                11
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "cases": 1,
+              "key": "533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc",
+              "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+              "samples": [
+                {
+                  "mask": 12,
+                  "rank": 875
+                }
+              ],
+              "source_indices": [
+                3,
+                12
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            }
+          ],
+          "key": "3e04341cc43b431a7c9efad58cab3bfba3169fd3776bc0b1365f056dfb2d64ca"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "This report emits no Lean and is not trusted as proof.",
+      "Accepted means suitable for the next bounded Lean smoke only.",
+      "Final coverage still needs Lean-checked descriptor membership and rank/sign-mask coverage."
+    ],
+    "status": "accepted-next-lean-smoke"
+  },
+  "family_count": 74,
+  "good_direction_case_count": 1465,
+  "group_gate": 100,
+  "largest_family_cases": 421,
+  "limit": 1000,
+  "phase": "6Z.6K.8M",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
