@@ -7247,6 +7247,90 @@ exit status: 0
     source-position producers, reusing the accepted 8R row producers and 8T
     glue theorem surface.
 
+Completed Phase 6Z.6K.8Z:
+
+- Patched the 8R and 8Y producer emitters so the small producer definitions
+  are public importable theorem surfaces rather than private one-file helpers:
+  - `scripts/generate_source_index_state_row_fact_producer_smoke.py`
+  - `scripts/generate_source_position_producer_smoke.py`
+- Regenerated:
+  - `SourceIndexStateRowFactProducerSmoke.lean`
+  - `SourcePositionProducerSmoke.lean`
+- Added `scripts/generate_source_position_producer_glue_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerGlueSmoke.lean`.
+- Generated evidence metadata:
+  `scripts/generated/phase6z6k8z_source_position_producer_glue_smoke.json`
+  and `.md`.
+- The generated 8Z module imports the 8Y source-position producers and the 8R
+  row producers. It does not define a raw source-fact producer and does not use
+  `SourceIndexStateSourcePredicate` as the source side of the final glue.
+- It proves 74 bounded source-index/state descriptor families can derive
+  `TranslationGoodCaseKilled` from:
+  - an imported source-position producer `Applies` proof;
+  - an imported row-template producer `Applies` proof;
+  - the existing source+row/key-fact glue surface.
+- Parallel regeneration commands:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_source_index_state_row_fact_producer_smoke.py --jobs 4
+/usr/bin/time -v python3 scripts/generate_source_position_producer_smoke.py --jobs 4
+```
+
+- Parallel regeneration results:
+
+```text
+8R wall time: 0:33.43, peak RSS: 30,512 KB, CPU: 298%, exit status: 0
+8Y wall time: 0:34.17, peak RSS: 31,468 KB, CPU: 300%, exit status: 0
+```
+
+- 8Z generator command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_source_position_producer_glue_smoke.py --jobs 4
+```
+
+- 8Z generator result:
+
+```text
+status:                source-position-producer-glue-smoke-emitted
+source groups:         72
+row groups:            11
+descriptor families:   74
+represented cases:     1,465
+wall time:             0:31.83
+peak RSS:              31,652 KB
+CPU:                   297%
+exit status:           0
+```
+
+- Focused build command:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerGlueSmoke
+```
+
+- Focused build result:
+
+```text
+status:      accepted-smoke
+wall time:   0:10.68
+peak RSS:    3,358,728 KB
+exit status: 0
+```
+
+- Decision:
+  - Accept 8Z. The bounded source+row glue path now composes the accepted
+    source-position and row-template producer layers, with no raw source-fact
+    predicate in the glue theorem surface and no concrete rank/mask replay.
+  - The immediate next step is Phase 6Z.6K.8AA: profile and implement a
+    semantic producer-applicability layer. It must prove the imported source
+    and row producer `Applies` premises from symbolic source-position and row
+    state invariants, not from bounded member lists.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8278,10 +8362,13 @@ Acceptance:
   compose the 8X source-position theorem surface into source-producer
   membership for all 74 source-index/state families from the bounded profile,
   while keeping row-property facts separate and avoiding rank/mask replay.
-- [ ] Implement Phase 6Z.6K.8Z source-position glue replacement:
+- [x] Implement Phase 6Z.6K.8Z source-position glue replacement:
   compose the 8Y source-position producers with the accepted row producers and
   the 8T glue theorem surface, deriving bounded `TranslationGoodCaseKilled`
   without the old raw source-fact predicate layer.
+- [ ] Implement Phase 6Z.6K.8AA semantic producer-applicability layer:
+  prove or profile a non-replay way to derive the 8Z source/row producer
+  `Applies` premises from symbolic source-position and row state invariants.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8410,15 +8497,25 @@ generates 72 reusable source-position producers covering the bounded profile's
 used `--jobs 4`, finished in 32.10 seconds with 31.5 MB peak RSS, and the
 focused Lean build passed in 6.61 seconds with 3.42 GiB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8Z: replace the old raw-source-fact
-producer dependency in the source+row glue smoke with the 8Y source-position
-producer layer. That step should:
+Phase 6Z.6K.8Z is complete as the source-position glue replacement. It imports
+the public 8Y source-position producers and public 8R row producers, then
+derives bounded `TranslationGoodCaseKilled` theorems for all 74 descriptor
+families through the existing glue surface. The generator used `--jobs 4`,
+finished in 31.83 seconds with 31.7 MB peak RSS, and the focused three-module
+Lean build passed in 10.68 seconds with 3.36 GiB peak RSS.
 
-- reuse the accepted 8R row producers;
-- use the 8Y source-position producers for source facts;
-- continue using the 8T glue theorem surface where possible;
-- cover the full bounded 74-family profile without making `Applies` a
-  rank/mask member list or raw source-list predicate;
+The immediate next step is Phase 6Z.6K.8AA: implement or profile the semantic
+producer-applicability layer. That step should:
+
+- prove source producer `Applies` from source-position language obligations
+  and `SourceChecks`, not from `SourceIndexStateSourcePredicate` or member
+  replay;
+- prove row producer `Applies` from row-template/state invariants, not from
+  concrete rank/mask row arithmetic;
+- connect those `Applies` facts to the accepted 8Z glue theorem surface;
+- report whether the producer-applicability obligations collapse to a bounded
+  set of symbolic source/row states globally, or identify the missing
+  invariant if they do not;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;

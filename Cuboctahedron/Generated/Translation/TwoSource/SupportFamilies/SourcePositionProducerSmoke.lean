@@ -35,7 +35,7 @@ private def source_000_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_000_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_000_support r hlt mask
 
-private def source_000_producer : SourceIndexStateSourceProducer where
+def source_000_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 23 /\
       key.secondIndex = 0 /\
@@ -88,7 +88,7 @@ private def source_001_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_001_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_001_support r hlt mask
 
-private def source_001_producer : SourceIndexStateSourceProducer where
+def source_001_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 24 /\
       key.secondIndex = 1 /\
@@ -141,7 +141,7 @@ private def source_002_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_002_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_002_support r hlt mask
 
-private def source_002_producer : SourceIndexStateSourceProducer where
+def source_002_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 83 /\
       key.secondIndex = 0 /\
@@ -194,7 +194,7 @@ private def source_003_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_003_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_003_support r hlt mask
 
-private def source_003_producer : SourceIndexStateSourceProducer where
+def source_003_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 25 /\
       key.secondIndex = 2 /\
@@ -245,7 +245,7 @@ private def source_004_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_004_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_004_support r hlt mask
 
-private def source_004_producer : SourceIndexStateSourceProducer where
+def source_004_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 7 /\
@@ -293,7 +293,7 @@ private def source_005_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_005_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_005_support r hlt mask
 
-private def source_005_producer : SourceIndexStateSourceProducer where
+def source_005_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 83 /\
       key.secondIndex = 1 /\
@@ -344,7 +344,7 @@ private def source_006_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_006_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_006_support r hlt mask
 
-private def source_006_producer : SourceIndexStateSourceProducer where
+def source_006_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 13 /\
@@ -390,7 +390,7 @@ private def source_007_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_007_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_007_support r hlt mask
 
-private def source_007_producer : SourceIndexStateSourceProducer where
+def source_007_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 15 /\
@@ -436,7 +436,7 @@ private def source_008_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_008_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_008_support r hlt mask
 
-private def source_008_producer : SourceIndexStateSourceProducer where
+def source_008_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 11 /\
@@ -482,7 +482,7 @@ private def source_009_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_009_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_009_support r hlt mask
 
-private def source_009_producer : SourceIndexStateSourceProducer where
+def source_009_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 10 /\
@@ -530,7 +530,7 @@ private def source_010_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_010_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_010_support r hlt mask
 
-private def source_010_producer : SourceIndexStateSourceProducer where
+def source_010_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 26 /\
       key.secondIndex = 3 /\
@@ -583,7 +583,7 @@ private def source_011_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_011_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_011_support r hlt mask
 
-private def source_011_producer : SourceIndexStateSourceProducer where
+def source_011_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 183 /\
       key.secondIndex = 0 /\
@@ -634,7 +634,7 @@ private def source_012_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_012_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_012_support r hlt mask
 
-private def source_012_producer : SourceIndexStateSourceProducer where
+def source_012_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 14 /\
@@ -682,7 +682,7 @@ private def source_013_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_013_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_013_support r hlt mask
 
-private def source_013_producer : SourceIndexStateSourceProducer where
+def source_013_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 148 /\
       key.secondIndex = 0 /\
@@ -733,7 +733,7 @@ private def source_014_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_014_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_014_support r hlt mask
 
-private def source_014_producer : SourceIndexStateSourceProducer where
+def source_014_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 7 /\
@@ -781,7 +781,7 @@ private def source_015_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_015_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_015_support r hlt mask
 
-private def source_015_producer : SourceIndexStateSourceProducer where
+def source_015_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 122 /\
       key.secondIndex = 0 /\
@@ -832,7 +832,7 @@ private def source_016_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_016_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_016_support r hlt mask
 
-private def source_016_producer : SourceIndexStateSourceProducer where
+def source_016_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 16 /\
@@ -878,7 +878,7 @@ private def source_017_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_017_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_017_support r hlt mask
 
-private def source_017_producer : SourceIndexStateSourceProducer where
+def source_017_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 0 /\
       key.secondIndex = 12 /\
@@ -926,7 +926,7 @@ private def source_018_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_018_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_018_support r hlt mask
 
-private def source_018_producer : SourceIndexStateSourceProducer where
+def source_018_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 109 /\
       key.secondIndex = 0 /\
@@ -979,7 +979,7 @@ private def source_019_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_019_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_019_support r hlt mask
 
-private def source_019_producer : SourceIndexStateSourceProducer where
+def source_019_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 96 /\
       key.secondIndex = 0 /\
@@ -1032,7 +1032,7 @@ private def source_020_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_020_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_020_support r hlt mask
 
-private def source_020_producer : SourceIndexStateSourceProducer where
+def source_020_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 84 /\
       key.secondIndex = 2 /\
@@ -1083,7 +1083,7 @@ private def source_021_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_021_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_021_support r hlt mask
 
-private def source_021_producer : SourceIndexStateSourceProducer where
+def source_021_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 7 /\
@@ -1129,7 +1129,7 @@ private def source_022_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_022_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_022_support r hlt mask
 
-private def source_022_producer : SourceIndexStateSourceProducer where
+def source_022_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 15 /\
@@ -1177,7 +1177,7 @@ private def source_023_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_023_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_023_support r hlt mask
 
-private def source_023_producer : SourceIndexStateSourceProducer where
+def source_023_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 136 /\
       key.secondIndex = 0 /\
@@ -1228,7 +1228,7 @@ private def source_024_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_024_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_024_support r hlt mask
 
-private def source_024_producer : SourceIndexStateSourceProducer where
+def source_024_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 14 /\
@@ -1276,7 +1276,7 @@ private def source_025_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_025_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_025_support r hlt mask
 
-private def source_025_producer : SourceIndexStateSourceProducer where
+def source_025_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 84 /\
       key.secondIndex = 3 /\
@@ -1329,7 +1329,7 @@ private def source_026_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_026_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_026_support r hlt mask
 
-private def source_026_producer : SourceIndexStateSourceProducer where
+def source_026_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 162 /\
       key.secondIndex = 0 /\
@@ -1382,7 +1382,7 @@ private def source_027_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_027_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_027_support r hlt mask
 
-private def source_027_producer : SourceIndexStateSourceProducer where
+def source_027_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 110 /\
       key.secondIndex = 0 /\
@@ -1433,7 +1433,7 @@ private def source_028_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_028_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_028_support r hlt mask
 
-private def source_028_producer : SourceIndexStateSourceProducer where
+def source_028_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 11 /\
@@ -1479,7 +1479,7 @@ private def source_029_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_029_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_029_support r hlt mask
 
-private def source_029_producer : SourceIndexStateSourceProducer where
+def source_029_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 11 /\
@@ -1527,7 +1527,7 @@ private def source_030_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_030_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_030_support r hlt mask
 
-private def source_030_producer : SourceIndexStateSourceProducer where
+def source_030_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 44 /\
       key.secondIndex = 5 /\
@@ -1578,7 +1578,7 @@ private def source_031_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_031_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_031_support r hlt mask
 
-private def source_031_producer : SourceIndexStateSourceProducer where
+def source_031_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 15 /\
@@ -1626,7 +1626,7 @@ private def source_032_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_032_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_032_support r hlt mask
 
-private def source_032_producer : SourceIndexStateSourceProducer where
+def source_032_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 175 /\
       key.secondIndex = 0 /\
@@ -1677,7 +1677,7 @@ private def source_033_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_033_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_033_support r hlt mask
 
-private def source_033_producer : SourceIndexStateSourceProducer where
+def source_033_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 13 /\
@@ -1725,7 +1725,7 @@ private def source_034_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_034_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_034_support r hlt mask
 
-private def source_034_producer : SourceIndexStateSourceProducer where
+def source_034_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 184 /\
       key.secondIndex = 1 /\
@@ -1778,7 +1778,7 @@ private def source_035_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_035_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_035_support r hlt mask
 
-private def source_035_producer : SourceIndexStateSourceProducer where
+def source_035_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 175 /\
       key.secondIndex = 1 /\
@@ -1831,7 +1831,7 @@ private def source_036_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_036_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_036_support r hlt mask
 
-private def source_036_producer : SourceIndexStateSourceProducer where
+def source_036_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 161 /\
       key.secondIndex = 0 /\
@@ -1884,7 +1884,7 @@ private def source_037_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_037_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_037_support r hlt mask
 
-private def source_037_producer : SourceIndexStateSourceProducer where
+def source_037_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 109 /\
       key.secondIndex = 1 /\
@@ -1937,7 +1937,7 @@ private def source_038_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_038_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_038_support r hlt mask
 
-private def source_038_producer : SourceIndexStateSourceProducer where
+def source_038_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 96 /\
       key.secondIndex = 1 /\
@@ -1988,7 +1988,7 @@ private def source_039_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_039_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_039_support r hlt mask
 
-private def source_039_producer : SourceIndexStateSourceProducer where
+def source_039_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 13 /\
@@ -2036,7 +2036,7 @@ private def source_040_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_040_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_040_support r hlt mask
 
-private def source_040_producer : SourceIndexStateSourceProducer where
+def source_040_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 105 /\
       key.secondIndex = 0 /\
@@ -2089,7 +2089,7 @@ private def source_041_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_041_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_041_support r hlt mask
 
-private def source_041_producer : SourceIndexStateSourceProducer where
+def source_041_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 167 /\
       key.secondIndex = 0 /\
@@ -2140,7 +2140,7 @@ private def source_042_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_042_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_042_support r hlt mask
 
-private def source_042_producer : SourceIndexStateSourceProducer where
+def source_042_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 16 /\
@@ -2186,7 +2186,7 @@ private def source_043_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_043_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_043_support r hlt mask
 
-private def source_043_producer : SourceIndexStateSourceProducer where
+def source_043_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 12 /\
@@ -2234,7 +2234,7 @@ private def source_044_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_044_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_044_support r hlt mask
 
-private def source_044_producer : SourceIndexStateSourceProducer where
+def source_044_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 162 /\
       key.secondIndex = 1 /\
@@ -2285,7 +2285,7 @@ private def source_045_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_045_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_045_support r hlt mask
 
-private def source_045_producer : SourceIndexStateSourceProducer where
+def source_045_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 1 /\
       key.secondIndex = 10 /\
@@ -2333,7 +2333,7 @@ private def source_046_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_046_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_046_support r hlt mask
 
-private def source_046_producer : SourceIndexStateSourceProducer where
+def source_046_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 121 /\
       key.secondIndex = 0 /\
@@ -2386,7 +2386,7 @@ private def source_047_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_047_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_047_support r hlt mask
 
-private def source_047_producer : SourceIndexStateSourceProducer where
+def source_047_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 147 /\
       key.secondIndex = 0 /\
@@ -2439,7 +2439,7 @@ private def source_048_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_048_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_048_support r hlt mask
 
-private def source_048_producer : SourceIndexStateSourceProducer where
+def source_048_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 106 /\
       key.secondIndex = 1 /\
@@ -2492,7 +2492,7 @@ private def source_049_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_049_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_049_support r hlt mask
 
-private def source_049_producer : SourceIndexStateSourceProducer where
+def source_049_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 122 /\
       key.secondIndex = 1 /\
@@ -2545,7 +2545,7 @@ private def source_050_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_050_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_050_support r hlt mask
 
-private def source_050_producer : SourceIndexStateSourceProducer where
+def source_050_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 162 /\
       key.secondIndex = 2 /\
@@ -2598,7 +2598,7 @@ private def source_051_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_051_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_051_support r hlt mask
 
-private def source_051_producer : SourceIndexStateSourceProducer where
+def source_051_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 115 /\
       key.secondIndex = 0 /\
@@ -2651,7 +2651,7 @@ private def source_052_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_052_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_052_support r hlt mask
 
-private def source_052_producer : SourceIndexStateSourceProducer where
+def source_052_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 136 /\
       key.secondIndex = 2 /\
@@ -2704,7 +2704,7 @@ private def source_053_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_053_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_053_support r hlt mask
 
-private def source_053_producer : SourceIndexStateSourceProducer where
+def source_053_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 168 /\
       key.secondIndex = 1 /\
@@ -2755,7 +2755,7 @@ private def source_054_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_054_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_054_support r hlt mask
 
-private def source_054_producer : SourceIndexStateSourceProducer where
+def source_054_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 10 /\
@@ -2803,7 +2803,7 @@ private def source_055_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_055_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_055_support r hlt mask
 
-private def source_055_producer : SourceIndexStateSourceProducer where
+def source_055_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 148 /\
       key.secondIndex = 1 /\
@@ -2856,7 +2856,7 @@ private def source_056_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_056_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_056_support r hlt mask
 
-private def source_056_producer : SourceIndexStateSourceProducer where
+def source_056_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 129 /\
       key.secondIndex = 2 /\
@@ -2907,7 +2907,7 @@ private def source_057_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_057_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_057_support r hlt mask
 
-private def source_057_producer : SourceIndexStateSourceProducer where
+def source_057_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 3 /\
       key.secondIndex = 11 /\
@@ -2953,7 +2953,7 @@ private def source_058_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_058_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_058_support r hlt mask
 
-private def source_058_producer : SourceIndexStateSourceProducer where
+def source_058_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 14 /\
@@ -2999,7 +2999,7 @@ private def source_059_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_059_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_059_support r hlt mask
 
-private def source_059_producer : SourceIndexStateSourceProducer where
+def source_059_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 2 /\
       key.secondIndex = 12 /\
@@ -3047,7 +3047,7 @@ private def source_060_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_060_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_060_support r hlt mask
 
-private def source_060_producer : SourceIndexStateSourceProducer where
+def source_060_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 142 /\
       key.secondIndex = 1 /\
@@ -3098,7 +3098,7 @@ private def source_061_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_061_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_061_support r hlt mask
 
-private def source_061_producer : SourceIndexStateSourceProducer where
+def source_061_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 3 /\
       key.secondIndex = 12 /\
@@ -3146,7 +3146,7 @@ private def source_062_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_062_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_062_support r hlt mask
 
-private def source_062_producer : SourceIndexStateSourceProducer where
+def source_062_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 135 /\
       key.secondIndex = 2 /\
@@ -3199,7 +3199,7 @@ private def source_063_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_063_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_063_support r hlt mask
 
-private def source_063_producer : SourceIndexStateSourceProducer where
+def source_063_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 161 /\
       key.secondIndex = 1 /\
@@ -3252,7 +3252,7 @@ private def source_064_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_064_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_064_support r hlt mask
 
-private def source_064_producer : SourceIndexStateSourceProducer where
+def source_064_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 149 /\
       key.secondIndex = 1 /\
@@ -3305,7 +3305,7 @@ private def source_065_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_065_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_065_support r hlt mask
 
-private def source_065_producer : SourceIndexStateSourceProducer where
+def source_065_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 135 /\
       key.secondIndex = 1 /\
@@ -3358,7 +3358,7 @@ private def source_066_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_066_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_066_support r hlt mask
 
-private def source_066_producer : SourceIndexStateSourceProducer where
+def source_066_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 149 /\
       key.secondIndex = 2 /\
@@ -3411,7 +3411,7 @@ private def source_067_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_067_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_067_support r hlt mask
 
-private def source_067_producer : SourceIndexStateSourceProducer where
+def source_067_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 141 /\
       key.secondIndex = 0 /\
@@ -3464,7 +3464,7 @@ private def source_068_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_068_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_068_support r hlt mask
 
-private def source_068_producer : SourceIndexStateSourceProducer where
+def source_068_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 135 /\
       key.secondIndex = 0 /\
@@ -3517,7 +3517,7 @@ private def source_069_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_069_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_069_support r hlt mask
 
-private def source_069_producer : SourceIndexStateSourceProducer where
+def source_069_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 110 /\
       key.secondIndex = 1 /\
@@ -3570,7 +3570,7 @@ private def source_070_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_070_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_070_support r hlt mask
 
-private def source_070_producer : SourceIndexStateSourceProducer where
+def source_070_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 136 /\
       key.secondIndex = 1 /\
@@ -3623,7 +3623,7 @@ private def source_071_positionPredicate (r : Nat) (mask : SignMask) : Prop :=
     source_071_secondPosition r mask /\
       ∀ hlt : r < numPairWords, SourceChecks source_071_support r hlt mask
 
-private def source_071_producer : SourceIndexStateSourceProducer where
+def source_071_producer : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
     key.firstIndex = 120 /\
       key.secondIndex = 1 /\

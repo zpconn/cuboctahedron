@@ -103,7 +103,7 @@ def producer_lines(index: int, group: dict[str, Any]) -> list[str]:
     return [
         f"/-- Row-fact producer for row group `{group['key']}`.",
         f"Observed bounded GoodDirection cases: {group['case_count']}. -/",
-        f"private def {name}_producer : SourceIndexStateRowProducer where",
+        f"def {name}_producer : SourceIndexStateRowProducer where",
         "  Applies := fun key r mask =>",
         f"    key.template = SourceIndexTemplate.{ctor} /\\",
         f"      {row_predicate} key.support r mask",

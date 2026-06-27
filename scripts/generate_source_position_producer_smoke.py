@@ -180,7 +180,7 @@ def producer_lines(index: int, group: dict[str, Any]) -> list[str]:
         f"    {name}_secondPosition r mask /\\",
         f"      ∀ hlt : r < numPairWords, SourceChecks {name}_support r hlt mask",
         "",
-        f"private def {name}_producer : SourceIndexStateSourceProducer where",
+        f"def {name}_producer : SourceIndexStateSourceProducer where",
         "  Applies := fun key r mask =>",
         f"    key.firstIndex = {first_index} /\\",
         f"      key.secondIndex = {second_index} /\\",
