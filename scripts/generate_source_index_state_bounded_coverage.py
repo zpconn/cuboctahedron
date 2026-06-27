@@ -363,6 +363,7 @@ def shard_lines(
 def all_lines(
     *,
     namespace: str,
+    phase: str,
     shard_count: int,
     rank_start: int,
     rank_end: int,
@@ -372,16 +373,23 @@ def all_lines(
         f"import {namespace}.{shard_name(index)}"
         for index in range(shard_count)
     ]
+    imports.append("import Cuboctahedron.Generated.Translation.Coverage.All")
+    imports.append(
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+        "PairSignProducerMembershipBridge"
+    )
     lines = [
         *imports,
         "",
         "/-!",
-        "Bounded source-index/state coverage root for Phase 6Z.6K.8I.",
+        f"Bounded source-index/state coverage root for Phase {phase}.",
         "-/",
         "",
         f"namespace {namespace}.All",
         "",
         "open Cuboctahedron.Generated.Coverage",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
         "",
         "set_option maxRecDepth 10000",
         "",
@@ -405,6 +413,20 @@ def all_lines(
         )
     lines.extend([
         "",
+        "theorem boundedAllGoodCoverage :",
+        f"    AllTranslationGoodCoverageOnRange {rank_start} {rank_end} := by",
+        "  intro r hlo hhi hlt mask hM",
+        "  exact boundedGoodCasesKilled r hlt mask hlo hhi hM",
+        "",
+        "theorem boundedPublicAllGoodCoverage :",
+        "    CoversInterval",
+        "      Cuboctahedron.Generated.Translation.Coverage.AllGoodRankKilled",
+        f"      {rank_start} {rank_end} := by",
+        "  intro r hlo hhi hlt mask hM",
+        "  exact boundedGoodCasesKilled r hlt mask hlo hhi hM",
+    ])
+    lines.extend([
+        "",
         "theorem boundedCoverage_builds : True := by",
         "  trivial",
         "",
@@ -425,6 +447,7 @@ def emit_modules(
     *,
     out_dir: Path,
     namespace: str,
+    phase: str,
     data: WindowData,
     shard_size: int,
 ) -> list[Path]:
@@ -450,12 +473,13 @@ def emit_modules(
     all_path = out_dir / "All.lean"
     write_text(
         all_path,
-        "\n".join(
-            all_lines(
-                namespace=namespace,
-                shard_count=len(shard_ranges),
-                rank_start=data.rank_start,
-                rank_end=rank_end,
+            "\n".join(
+                all_lines(
+                    namespace=namespace,
+                    phase=phase,
+                    shard_count=len(shard_ranges),
+                    rank_start=data.rank_start,
+                    rank_end=rank_end,
                 shard_size=shard_size,
             )
         ),
@@ -471,11 +495,12 @@ def payload(
     emitted: bool,
     written: list[Path],
     namespace: str,
+    phase: str,
 ) -> dict[str, Any]:
     rank_end = data.rank_start + data.limit
     return {
         "schema_version": 1,
-        "phase": "6Z.6K.8I",
+        "phase": phase,
         "mode": "source_index_state_bounded_coverage",
         "trusted_as_proof": False,
         "rank_start": data.rank_start,
@@ -499,6 +524,7 @@ def payload(
                 "descriptor Applies predicates are source-index/state based",
                 "coverage proof is bounded and may still be rejected if it behaves like per-case replay",
                 "this is not final global coverage",
+                "root exports AllTranslationGoodCoverageOnRange and public AllGoodRankKilled interval adapters",
             ],
         },
         "top_families": [family_summary(family) for family in data.families[:12]],
@@ -508,7 +534,7 @@ def payload(
 def markdown(report: dict[str, Any]) -> str:
     counts = report["counts"]
     lines = [
-        "# Phase 6Z.6K.8I Source-Index/State Bounded Coverage",
+        f"# Phase {report['phase']} Source-Index/State Bounded Coverage",
         "",
         "This diagnostic is not trusted as proof. It emits bounded Lean coverage",
         "shards for the source-index/state descriptor surface.",
@@ -552,6 +578,7 @@ def main() -> None:
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
     parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
+    parser.add_argument("--phase", default="6Z.6K.8I")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--emit", action="store_true")
     args = parser.parse_args()
@@ -569,6 +596,7 @@ def main() -> None:
         written = emit_modules(
             out_dir=args.out_dir,
             namespace=args.namespace,
+            phase=args.phase,
             data=data,
             shard_size=args.shard_size,
         )
@@ -578,6 +606,7 @@ def main() -> None:
         emitted=emitted,
         written=written,
         namespace=args.namespace,
+        phase=args.phase,
     )
     write_json(args.json, report)
     write_text(args.md, markdown(report))
