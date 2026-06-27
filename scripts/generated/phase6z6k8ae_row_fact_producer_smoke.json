@@ -1,0 +1,1899 @@
+{
+  "collected_family_count": 136,
+  "decision": {
+    "notes": [
+      "no concrete rank/mask examples are emitted",
+      "row facts are produced from reusable row-template predicates",
+      "source agreement remains a separate theorem obligation"
+    ],
+    "status": "row-fact-producer-smoke-emitted"
+  },
+  "jobs": 4,
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateRowFactProducerSmoke.lean",
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke",
+  "phase": "6Z.6K.8AE",
+  "rank_end": 10002500,
+  "rank_start": 10000000,
+  "represented_case_count": 2069,
+  "represented_family_count": 136,
+  "row_group_count": 19,
+  "row_groups": [
+    {
+      "case_count": 901,
+      "family_count": 27,
+      "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_families": [
+        {
+          "cases": 497,
+          "key": "01630a20f4bc0763aa95de21589f5f9c8b3363fb3730266afffd5b30c79f5714",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 16,
+              "rank": 10000075
+            },
+            {
+              "mask": 16,
+              "rank": 10000083
+            },
+            {
+              "mask": 16,
+              "rank": 10000085
+            },
+            {
+              "mask": 16,
+              "rank": 10000142
+            },
+            {
+              "mask": 16,
+              "rank": 10000160
+            }
+          ],
+          "source_indices": [
+            52,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"dm11:+\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 131,
+          "key": "ad68f1bb9b0315772fae5e354b9b7ad4a3d53402b6aee2a888356422665afcf8",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10001880
+            },
+            {
+              "mask": 22,
+              "rank": 10001880
+            },
+            {
+              "mask": 29,
+              "rank": 10001880
+            },
+            {
+              "mask": 30,
+              "rank": 10001880
+            },
+            {
+              "mask": 63,
+              "rank": 10001880
+            }
+          ],
+          "source_indices": [
+            83,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 30,
+          "key": "1e4b51557f977673d7b96e011cacc8e7fad17c5469b237589f0acb70bfb48421",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 10001561
+            },
+            {
+              "mask": 29,
+              "rank": 10001565
+            },
+            {
+              "mask": 45,
+              "rank": 10001565
+            },
+            {
+              "mask": 29,
+              "rank": 10001573
+            },
+            {
+              "mask": 61,
+              "rank": 10001573
+            }
+          ],
+          "source_indices": [
+            96,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 26,
+          "key": "f0260915116830cdee4479e0ba120e2345afce1dd4b432687b3459ab0a8c7217",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 39,
+              "rank": 10001261
+            },
+            {
+              "mask": 7,
+              "rank": 10001267
+            },
+            {
+              "mask": 39,
+              "rank": 10001267
+            },
+            {
+              "mask": 7,
+              "rank": 10001274
+            },
+            {
+              "mask": 37,
+              "rank": 10001274
+            }
+          ],
+          "source_indices": [
+            183,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"13\", \"kind\": \"interior\", \"pairSign\": \"dm11:-\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 373,
+      "family_count": 25,
+      "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_families": [
+        {
+          "cases": 185,
+          "key": "8fdf87b4a1e5d605f85018aae0772f29d4a32e98a10f9ac2559a073aa64bfee6",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 10000009
+            },
+            {
+              "mask": 29,
+              "rank": 10000051
+            },
+            {
+              "mask": 29,
+              "rank": 10000075
+            },
+            {
+              "mask": 29,
+              "rank": 10000145
+            },
+            {
+              "mask": 29,
+              "rank": 10000158
+            }
+          ],
+          "source_indices": [
+            51,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"d1m1:-\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 29,
+          "key": "a340539b4a9b2de6e046ab2e1f0be8328761e0e3c7c229dd5c481f9f2d19c90e",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 10001250
+            },
+            {
+              "mask": 45,
+              "rank": 10001261
+            },
+            {
+              "mask": 45,
+              "rank": 10001267
+            },
+            {
+              "mask": 45,
+              "rank": 10001274
+            },
+            {
+              "mask": 45,
+              "rank": 10001279
+            }
+          ],
+          "source_indices": [
+            83,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 25,
+          "key": "b6ed4a6c3471880f9c7efcd3dbc12c073964d261bc2e2dd65ba49e0bbfa2e0fc",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 15,
+              "rank": 10000272
+            },
+            {
+              "mask": 15,
+              "rank": 10000275
+            },
+            {
+              "mask": 15,
+              "rank": 10000277
+            },
+            {
+              "mask": 15,
+              "rank": 10000623
+            },
+            {
+              "mask": 15,
+              "rank": 10000943
+            }
+          ],
+          "source_indices": [
+            76,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"5\", \"kind\": \"interior\", \"pairSign\": \"d111:-\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 21,
+          "key": "df22064af643aad235f9a9166e7b689a6734e88981457906fca0ca0ee09756fe",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 61,
+              "rank": 10001040
+            },
+            {
+              "mask": 61,
+              "rank": 10001042
+            },
+            {
+              "mask": 45,
+              "rank": 10001043
+            },
+            {
+              "mask": 61,
+              "rank": 10001045
+            },
+            {
+              "mask": 47,
+              "rank": 10001049
+            }
+          ],
+          "source_indices": [
+            109,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 245,
+      "family_count": 17,
+      "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_families": [
+        {
+          "cases": 107,
+          "key": "a0a84a8450ad0f1ba6ca9cb2f07a3cd3ec2ce8a4584354c6a0c481c00898ee9a",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 10000009
+            },
+            {
+              "mask": 47,
+              "rank": 10000051
+            },
+            {
+              "mask": 47,
+              "rank": 10000075
+            },
+            {
+              "mask": 47,
+              "rank": 10000083
+            },
+            {
+              "mask": 47,
+              "rank": 10000152
+            }
+          ],
+          "source_indices": [
+            50,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"d11m:-\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 83,
+          "key": "215d250904345a406f359e21d7279c48890a8382cbf9f4542b80af6541ea31e7",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 10000075
+            },
+            {
+              "mask": 24,
+              "rank": 10000152
+            },
+            {
+              "mask": 28,
+              "rank": 10000160
+            },
+            {
+              "mask": 24,
+              "rank": 10000164
+            },
+            {
+              "mask": 28,
+              "rank": 10000164
+            }
+          ],
+          "source_indices": [
+            70,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"5\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 11,
+          "key": "6b77eeef1471b90640a4845f2e7b7b4a3d02289c82b7c304ef9116544d18b9ad",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 26,
+              "rank": 10001387
+            },
+            {
+              "mask": 26,
+              "rank": 10001394
+            },
+            {
+              "mask": 26,
+              "rank": 10001399
+            },
+            {
+              "mask": 24,
+              "rank": 10002240
+            },
+            {
+              "mask": 28,
+              "rank": 10002240
+            }
+          ],
+          "source_indices": [
+            96,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 11,
+          "key": "76d5d3ad3b190c9f6e119b8a88c041a9008a492b90dba38b5f0bdfa2c0b545ca",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 15,
+              "rank": 10000941
+            },
+            {
+              "mask": 15,
+              "rank": 10001045
+            },
+            {
+              "mask": 14,
+              "rank": 10001067
+            },
+            {
+              "mask": 26,
+              "rank": 10001310
+            },
+            {
+              "mask": 26,
+              "rank": 10001315
+            }
+          ],
+          "source_indices": [
+            109,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 199,
+      "family_count": 7,
+      "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_families": [
+        {
+          "cases": 50,
+          "key": "8091c0e1dc28305cd10a569ab32a31ad560134ee230e6f93c77595ef1620b33f",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 2,
+              "rank": 10001022
+            },
+            {
+              "mask": 6,
+              "rank": 10001022
+            },
+            {
+              "mask": 2,
+              "rank": 10001027
+            },
+            {
+              "mask": 61,
+              "rank": 10001663
+            },
+            {
+              "mask": 29,
+              "rank": 10001694
+            }
+          ],
+          "source_indices": [
+            0,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 33,
+          "key": "fbadcb6b4d7876f5e23098783dd8173fca93b8b373cdbba7ae20d14bffb14fff",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 10000251
+            },
+            {
+              "mask": 61,
+              "rank": 10000251
+            },
+            {
+              "mask": 26,
+              "rank": 10001381
+            },
+            {
+              "mask": 28,
+              "rank": 10001381
+            },
+            {
+              "mask": 29,
+              "rank": 10001381
+            }
+          ],
+          "source_indices": [
+            0,
+            14
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 30,
+          "key": "45c7c17ea15024b7144eb0684c9a7a63344c888808b4afcc33b5cc6448dfac69",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 26,
+              "rank": 10001634
+            },
+            {
+              "mask": 29,
+              "rank": 10001634
+            },
+            {
+              "mask": 31,
+              "rank": 10001634
+            },
+            {
+              "mask": 61,
+              "rank": 10001634
+            },
+            {
+              "mask": 31,
+              "rank": 10001637
+            }
+          ],
+          "source_indices": [
+            0,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 28,
+          "key": "1e7fea08c0f0687ccf3374a0decd7681fa8fa126c599606f3ddb4c546fab2a4b",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 11,
+              "rank": 10001387
+            },
+            {
+              "mask": 16,
+              "rank": 10001387
+            },
+            {
+              "mask": 20,
+              "rank": 10001387
+            },
+            {
+              "mask": 47,
+              "rank": 10001387
+            },
+            {
+              "mask": 52,
+              "rank": 10001387
+            }
+          ],
+          "source_indices": [
+            0,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 119,
+      "family_count": 6,
+      "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_families": [
+        {
+          "cases": 30,
+          "key": "cc8ca5d0fc2c2db74ea8cf06ba88b6e33fd01b21b30be9cf8b02a8af1a6bc7eb",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 10000142
+            },
+            {
+              "mask": 15,
+              "rank": 10000752
+            },
+            {
+              "mask": 15,
+              "rank": 10001022
+            },
+            {
+              "mask": 24,
+              "rank": 10001250
+            },
+            {
+              "mask": 22,
+              "rank": 10001255
+            }
+          ],
+          "source_indices": [
+            1,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 24,
+          "key": "2cc74ca6dcf453d30173de7ab6ba408c54fb8cc3211ebbaca2f91495312617ac",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 2,
+              "rank": 10001049
+            },
+            {
+              "mask": 61,
+              "rank": 10001049
+            },
+            {
+              "mask": 61,
+              "rank": 10001051
+            },
+            {
+              "mask": 47,
+              "rank": 10001052
+            },
+            {
+              "mask": 10,
+              "rank": 10001057
+            }
+          ],
+          "source_indices": [
+            1,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 24,
+          "key": "b262fbb3ec3a90332364035f2306b73246563f9815da042889ecc813f517c606",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 18,
+              "rank": 10001370
+            },
+            {
+              "mask": 18,
+              "rank": 10001372
+            },
+            {
+              "mask": 61,
+              "rank": 10001372
+            },
+            {
+              "mask": 18,
+              "rank": 10001373
+            },
+            {
+              "mask": 18,
+              "rank": 10001375
+            }
+          ],
+          "source_indices": [
+            1,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 17,
+          "key": "2439de6f0b777e4cc736c05012dc6ad5c4f965cbc1b24ed407455cf2737070f7",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 10000167
+            },
+            {
+              "mask": 6,
+              "rank": 10000941
+            },
+            {
+              "mask": 7,
+              "rank": 10000941
+            },
+            {
+              "mask": 29,
+              "rank": 10000943
+            },
+            {
+              "mask": 24,
+              "rank": 10001295
+            }
+          ],
+          "source_indices": [
+            1,
+            13
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "case_count": 112,
+      "family_count": 6,
+      "key": "01ef342f8b3eccbcf838de2272e3e0a618591c1f735c69fabb94c6c2f2cedabf",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_families": [
+        {
+          "cases": 36,
+          "key": "54e546a4bdb558dace5714844d7837c44ad6154f0336ec1ba619519c4ecbd5ea",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 10001372
+            },
+            {
+              "mask": 30,
+              "rank": 10001372
+            },
+            {
+              "mask": 28,
+              "rank": 10001373
+            },
+            {
+              "mask": 30,
+              "rank": 10001373
+            },
+            {
+              "mask": 28,
+              "rank": 10001375
+            }
+          ],
+          "source_indices": [
+            2,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 25,
+          "key": "1f99a51da0266b5f986c5abc34cd20986949fecc29ff21415b195d1ebbe71a75",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 24,
+              "rank": 10000001
+            },
+            {
+              "mask": 28,
+              "rank": 10000001
+            },
+            {
+              "mask": 24,
+              "rank": 10000142
+            },
+            {
+              "mask": 28,
+              "rank": 10000142
+            },
+            {
+              "mask": 28,
+              "rank": 10000241
+            }
+          ],
+          "source_indices": [
+            2,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 21,
+          "key": "f6372e655bd1e080f715a75f5998002a7c4eb5c48c53c25dce5244b50fc611b2",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 14,
+              "rank": 10001049
+            },
+            {
+              "mask": 15,
+              "rank": 10001049
+            },
+            {
+              "mask": 28,
+              "rank": 10001049
+            },
+            {
+              "mask": 15,
+              "rank": 10001051
+            },
+            {
+              "mask": 28,
+              "rank": 10001051
+            }
+          ],
+          "source_indices": [
+            2,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 14,
+          "key": "561c18e9c09f8b6b63975005dbb3f97e58761fac0cbe5e8ff8e448b41a1c3805",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 20,
+              "rank": 10000757
+            },
+            {
+              "mask": 28,
+              "rank": 10000757
+            },
+            {
+              "mask": 15,
+              "rank": 10001027
+            },
+            {
+              "mask": 20,
+              "rank": 10001027
+            },
+            {
+              "mask": 28,
+              "rank": 10001027
+            }
+          ],
+          "source_indices": [
+            2,
+            14
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "case_count": 47,
+      "family_count": 10,
+      "key": "ab58d270064eefa002683f651a0d6bfcfa613500a91016f81015c7bbfc9bfb9d",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_families": [
+        {
+          "cases": 23,
+          "key": "aaf0c94ac777e38df6704e10e5b134474fbdaee67e45dbecaf0a75839e4051c4",
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "sample_members": [
+            {
+              "mask": 20,
+              "rank": 10000347
+            },
+            {
+              "mask": 45,
+              "rank": 10000597
+            },
+            {
+              "mask": 6,
+              "rank": 10001042
+            },
+            {
+              "mask": 10,
+              "rank": 10001064
+            },
+            {
+              "mask": 6,
+              "rank": 10001267
+            }
+          ],
+          "source_indices": [
+            49,
+            3
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"d111:-\"}",
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        },
+        {
+          "cases": 4,
+          "key": "17977d6940b4f9b3cd69d726764fbc1b74e3cc88634752afc69080c10d28229e",
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "sample_members": [
+            {
+              "mask": 24,
+              "rank": 10001889
+            },
+            {
+              "mask": 24,
+              "rank": 10001904
+            },
+            {
+              "mask": 24,
+              "rank": 10001910
+            },
+            {
+              "mask": 24,
+              "rank": 10001929
+            }
+          ],
+          "source_indices": [
+            83,
+            3
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        },
+        {
+          "cases": 4,
+          "key": "2b13ec450d4e16701ee460dbb55d845bd603427f2235572a3df3ee8e915caa6c",
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "sample_members": [
+            {
+              "mask": 24,
+              "rank": 10002017
+            },
+            {
+              "mask": 24,
+              "rank": 10002143
+            },
+            {
+              "mask": 24,
+              "rank": 10002257
+            },
+            {
+              "mask": 24,
+              "rank": 10002329
+            }
+          ],
+          "source_indices": [
+            92,
+            3
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\", \"pairSign\": \"dm11:-\"}",
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        },
+        {
+          "cases": 4,
+          "key": "8382ddd9bd9da8912d9a8e90d4b12f57e9d5a8174160d8ddfc87346c5e94d05d",
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002024
+            },
+            {
+              "mask": 13,
+              "rank": 10002029
+            },
+            {
+              "mask": 22,
+              "rank": 10002264
+            },
+            {
+              "mask": 22,
+              "rank": 10002269
+            }
+          ],
+          "source_indices": [
+            128,
+            3
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"9\", \"kind\": \"interior\", \"pairSign\": \"d111:-\"}",
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        }
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "case_count": 14,
+      "family_count": 3,
+      "key": "562ff0c45e5c0528ea789ea204eba3b4146d73ffae0e9b54da6a3a710bde9c33",
+      "row_property_key": "aeb5b4e539b04433effdc099c3a62c28f12d5e963fb5870e318adafb13279290",
+      "sample_families": [
+        {
+          "cases": 11,
+          "key": "84cbf583a8d3dad09d61d062b4f77758321b9574ea5c3d469d2fe7b9ff6500ef",
+          "row_property_key": "aeb5b4e539b04433effdc099c3a62c28f12d5e963fb5870e318adafb13279290",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002017
+            },
+            {
+              "mask": 13,
+              "rank": 10002143
+            },
+            {
+              "mask": 13,
+              "rank": 10002149
+            },
+            {
+              "mask": 7,
+              "rank": 10002203
+            },
+            {
+              "mask": 13,
+              "rank": 10002237
+            }
+          ],
+          "source_indices": [
+            5,
+            8
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 2,
+          "key": "a9acae98018f2876953edf07894ef6f663c7bac68c07a4d1bcfa1cec39be4b11",
+          "row_property_key": "aeb5b4e539b04433effdc099c3a62c28f12d5e963fb5870e318adafb13279290",
+          "sample_members": [
+            {
+              "mask": 6,
+              "rank": 10000251
+            },
+            {
+              "mask": 6,
+              "rank": 10000347
+            }
+          ],
+          "source_indices": [
+            152,
+            9
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\", \"pairSign\": \"z:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 1,
+          "key": "aba7fa5bfdfe17c46ab677e2d650fecb0bc52213a611e16ace70c35c8679d47a",
+          "row_property_key": "aeb5b4e539b04433effdc099c3a62c28f12d5e963fb5870e318adafb13279290",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002141
+            }
+          ],
+          "source_indices": [
+            15,
+            9
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        }
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "case_count": 13,
+      "family_count": 8,
+      "key": "523642c364059c21d649a28a5030e10f3e8d86c3905a4cc916d8562511e882f6",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_families": [
+        {
+          "cases": 4,
+          "key": "770c17db81a00d2cc196f1c69403cf77853451677532a5501a7f235477ca92e8",
+          "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+          "sample_members": [
+            {
+              "mask": 7,
+              "rank": 10002017
+            },
+            {
+              "mask": 7,
+              "rank": 10002329
+            },
+            {
+              "mask": 13,
+              "rank": 10002467
+            },
+            {
+              "mask": 13,
+              "rank": 10002491
+            }
+          ],
+          "source_indices": [
+            5,
+            8
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 2,
+          "key": "48038dc101c048930f554be5a91e6fe62258d506fff57340597ff92e26ecfa21",
+          "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002143
+            },
+            {
+              "mask": 22,
+              "rank": 10002383
+            }
+          ],
+          "source_indices": [
+            160,
+            9
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\", \"pairSign\": \"d111:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 2,
+          "key": "54abd5a283a8ebf0f7808b920e7326763748f6411dad3136fa5f8676ebf4327d",
+          "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+          "sample_members": [
+            {
+              "mask": 7,
+              "rank": 10002131
+            },
+            {
+              "mask": 7,
+              "rank": 10002149
+            }
+          ],
+          "source_indices": [
+            166,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\", \"pairSign\": \"z:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 1,
+          "key": "02b127e3afcd56f6775e889cb82626bf61f0f0e26ca3fce84e1c8a0b89d4f727",
+          "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10001252
+            }
+          ],
+          "source_indices": [
+            125,
+            8
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"9\", \"kind\": \"interior\", \"pairSign\": \"y:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        }
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "case_count": 11,
+      "family_count": 5,
+      "key": "aa6ee8c6fd34af113194c2f37bcaa4ecb38560551b8ab398bf66c361ff434dac",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_families": [
+        {
+          "cases": 4,
+          "key": "39004b075b2d62a7ab782a5bd13ffb6c869a6a98a769f9380559dbab6c97eb26",
+          "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+          "sample_members": [
+            {
+              "mask": 63,
+              "rank": 10001945
+            },
+            {
+              "mask": 63,
+              "rank": 10001952
+            },
+            {
+              "mask": 24,
+              "rank": 10001966
+            },
+            {
+              "mask": 24,
+              "rank": 10001967
+            }
+          ],
+          "source_indices": [
+            3,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_second"
+        },
+        {
+          "cases": 4,
+          "key": "3a888576ba3bfcde7a8d90f15a809c0953309774e01d898ae3ca1bf3606a85ed",
+          "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+          "sample_members": [
+            {
+              "mask": 8,
+              "rank": 10002399
+            },
+            {
+              "mask": 16,
+              "rank": 10002441
+            },
+            {
+              "mask": 24,
+              "rank": 10002482
+            },
+            {
+              "mask": 24,
+              "rank": 10002483
+            }
+          ],
+          "source_indices": [
+            3,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_second"
+        },
+        {
+          "cases": 1,
+          "key": "6c41c02549ae4d2775d47f5e083cf12723ea4da308c4ba5294e6d2e42013e537",
+          "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+          "sample_members": [
+            {
+              "mask": 26,
+              "rank": 10001874
+            }
+          ],
+          "source_indices": [
+            3,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_second"
+        },
+        {
+          "cases": 1,
+          "key": "6feeb6884d5e0b667d64bdfb21d087168ae5b53bfbf4cc4ff400605a833e93ac",
+          "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+          "sample_members": [
+            {
+              "mask": 31,
+              "rank": 10001697
+            }
+          ],
+          "source_indices": [
+            3,
+            13
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "eq_eq_neg_var_second"
+        }
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "case_count": 7,
+      "family_count": 7,
+      "key": "2049ebbee6bbf2d1ded8999d1329c79130dca9db14a62ff0fcd41bc8b7a3fe3c",
+      "row_property_key": "045a2f1229553e98c796f7dbec044fd693afeea9df4b176d178fa83e915bdaec",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "264b9cd7d7fcb257e5fce6e2479524e2d5771f79a2680568564ffb5a0f7151e4",
+          "row_property_key": "045a2f1229553e98c796f7dbec044fd693afeea9df4b176d178fa83e915bdaec",
+          "sample_members": [
+            {
+              "mask": 24,
+              "rank": 10000083
+            }
+          ],
+          "source_indices": [
+            151,
+            8
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\", \"pairSign\": \"y:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 1,
+          "key": "2d7aafa6d90a976cfbbdcec38eb55e5706411aa12f2c996088719de38bd31150",
+          "row_property_key": "045a2f1229553e98c796f7dbec044fd693afeea9df4b176d178fa83e915bdaec",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002257
+            }
+          ],
+          "source_indices": [
+            115,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\", \"pairSign\": \"d111:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 1,
+          "key": "39ee2997250107122e7eea24dc0a941a697f6601faf64ab54cf0f400444dbf6a",
+          "row_property_key": "045a2f1229553e98c796f7dbec044fd693afeea9df4b176d178fa83e915bdaec",
+          "sample_members": [
+            {
+              "mask": 6,
+              "rank": 10001001
+            }
+          ],
+          "source_indices": [
+            100,
+            9
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\", \"pairSign\": \"z:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        },
+        {
+          "cases": 1,
+          "key": "5eb0c3d816e9ae0244f9f8027a8608d0a114355a14521202f75873951bb8882c",
+          "row_property_key": "045a2f1229553e98c796f7dbec044fd693afeea9df4b176d178fa83e915bdaec",
+          "sample_members": [
+            {
+              "mask": 15,
+              "rank": 10000757
+            }
+          ],
+          "source_indices": [
+            126,
+            9
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"9\", \"kind\": \"interior\", \"pairSign\": \"z:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "exact_two_source_valid"
+        }
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "case_count": 7,
+      "family_count": 1,
+      "key": "7d9e6f246fd2ff58074eff2e9a128514417de91d61a5aaea2b2d365f8aaf48db",
+      "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+      "sample_families": [
+        {
+          "cases": 7,
+          "key": "d7d264c0e3ad46aaf9b9b576e0654381201768312415e3f1a37f4245a134d5a2",
+          "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002017
+            },
+            {
+              "mask": 22,
+              "rank": 10002089
+            },
+            {
+              "mask": 22,
+              "rank": 10002203
+            },
+            {
+              "mask": 22,
+              "rank": 10002324
+            },
+            {
+              "mask": 22,
+              "rank": 10002329
+            }
+          ],
+          "source_indices": [
+            70,
+            4
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"5\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        }
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "case_count": 5,
+      "family_count": 4,
+      "key": "00621f89fefce6223c8a4ba8320e9f078086f13412a5127e0f4f62e1fad6df16",
+      "row_property_key": "a05be6f960acd5b37a303070036c45464e600546d005942e649f11e113f2f977",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "646c6bc7f18e68e95287ee82b7443b597812247d0cdf72e65e8c74347cff221c",
+          "row_property_key": "a05be6f960acd5b37a303070036c45464e600546d005942e649f11e113f2f977",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002011
+            },
+            {
+              "mask": 22,
+              "rank": 10002065
+            }
+          ],
+          "source_indices": [
+            99,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\", \"pairSign\": \"y:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        },
+        {
+          "cases": 1,
+          "key": "2c872c6dbd1776a2b1dec52274fe2eb0c49bec62c8202bdc3b28f9bdbd5397e5",
+          "row_property_key": "a05be6f960acd5b37a303070036c45464e600546d005942e649f11e113f2f977",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002462
+            }
+          ],
+          "source_indices": [
+            15,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        },
+        {
+          "cases": 1,
+          "key": "c8cabab02f21f094bfbcc9f8e6089f1a1dd557fd810e328ccdf8d15df743d5b0",
+          "row_property_key": "a05be6f960acd5b37a303070036c45464e600546d005942e649f11e113f2f977",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002251
+            }
+          ],
+          "source_indices": [
+            14,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        },
+        {
+          "cases": 1,
+          "key": "ca84b89b0f6ddf05518b1edae25c6870b88d9fac02b265344bf98adf0431a536",
+          "row_property_key": "a05be6f960acd5b37a303070036c45464e600546d005942e649f11e113f2f977",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002378
+            }
+          ],
+          "source_indices": [
+            163,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\", \"pairSign\": \"y:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        }
+      ],
+      "template_id": "axis_b_only"
+    },
+    {
+      "case_count": 5,
+      "family_count": 2,
+      "key": "7004acc1337b24940623e18b8c13c02b05202309d9ebace2dce850072f93a061",
+      "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+      "sample_families": [
+        {
+          "cases": 4,
+          "key": "3bfda27fc01458d2f389e7f2c54bc8b1ccbe1f08a7582d881305cbba7f775712",
+          "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002203
+            },
+            {
+              "mask": 13,
+              "rank": 10002251
+            },
+            {
+              "mask": 7,
+              "rank": 10002257
+            },
+            {
+              "mask": 13,
+              "rank": 10002257
+            }
+          ],
+          "source_indices": [
+            101,
+            4
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\", \"pairSign\": \"z:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 1,
+          "key": "c0c4f8c4270ccb5fdb6be4c285762053c1e68378c304374a58b5a4defe3c393f",
+          "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002462
+            }
+          ],
+          "source_indices": [
+            165,
+            4
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\", \"pairSign\": \"z:+\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        }
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "case_count": 5,
+      "family_count": 4,
+      "key": "ef988bf5329f02fde86143eba244d2c48095d3772daffbcf05a3220e88bb6152",
+      "row_property_key": "1dee29a9357097418e64d3ac5d9ef85ff2658928556791be401f5d78a507ca45",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "176a6f5cde928d4c056b2b27f4236130f38d8b4b1697cedc9d7872ca728c9dc0",
+          "row_property_key": "1dee29a9357097418e64d3ac5d9ef85ff2658928556791be401f5d78a507ca45",
+          "sample_members": [
+            {
+              "mask": 7,
+              "rank": 10002065
+            },
+            {
+              "mask": 13,
+              "rank": 10002065
+            }
+          ],
+          "source_indices": [
+            4,
+            13
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 1,
+          "key": "71e3ad528373844c11c154df7a1c687f874e9406d9a35e40463e415d66404b66",
+          "row_property_key": "1dee29a9357097418e64d3ac5d9ef85ff2658928556791be401f5d78a507ca45",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002324
+            }
+          ],
+          "source_indices": [
+            4,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 1,
+          "key": "adfd7e89c920e311d60870c08633b54c785db45d159b4fd2abdf7c89fe8cdb47",
+          "row_property_key": "1dee29a9357097418e64d3ac5d9ef85ff2658928556791be401f5d78a507ca45",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002378
+            }
+          ],
+          "source_indices": [
+            4,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 1,
+          "key": "ea15f28d1c5665a8d2a9dc3b6db8d2fb91ff08b2b069103b426fc07c20e2cba9",
+          "row_property_key": "1dee29a9357097418e64d3ac5d9ef85ff2658928556791be401f5d78a507ca45",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 10002011
+            }
+          ],
+          "source_indices": [
+            4,
+            14
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        }
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "key": "3810676fed6e48b30935a034db1cd780ca9c99af6375bf13a5537f3ed7c4ce40",
+      "row_property_key": "8b4dd94d20d08f377387b9783af3183fb37c7ca9d2f4c5cc27551e8c6f50591e",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "bb557a47819ccd5bfcd16195b358e1dbdd60929380c98b284cb0b8d8188086a6",
+          "row_property_key": "8b4dd94d20d08f377387b9783af3183fb37c7ca9d2f4c5cc27551e8c6f50591e",
+          "sample_members": [
+            {
+              "mask": 20,
+              "rank": 10000251
+            },
+            {
+              "mask": 20,
+              "rank": 10000272
+            }
+          ],
+          "source_indices": [
+            175,
+            6
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"13\", \"kind\": \"interior\", \"pairSign\": \"x:-\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        }
+      ],
+      "template_id": "axis_b_only"
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "key": "4e68ab662a028c0f92c81fe5711201eca3ffc425b51b8de8b00f42bd0edccefa",
+      "row_property_key": "dc9974be37adc02c3dc9e92b5c8e23662e3b7f809556c1b65d6e57a6b808076a",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "a6a31f751351ebb4e60512e2b32d6628586215d4259dbfe9d2fe299bba1b8a1c",
+          "row_property_key": "dc9974be37adc02c3dc9e92b5c8e23662e3b7f809556c1b65d6e57a6b808076a",
+          "sample_members": [
+            {
+              "mask": 6,
+              "rank": 10000731
+            },
+            {
+              "mask": 20,
+              "rank": 10000731
+            }
+          ],
+          "source_indices": [
+            4,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_a_only"
+        }
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "key": "d44f94eb1867f97107b94cb154e946dee5feb29aace477abb538ee2f4d2fd2f0",
+      "row_property_key": "ade0396d3ff233b63e1043757b719b503525313b8b728c922a2c1fb6d4e016a0",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "af434ef1e28c4e9374e80e31bdac5132c4122299fdf6297c00b77e81462ef215",
+          "row_property_key": "ade0396d3ff233b63e1043757b719b503525313b8b728c922a2c1fb6d4e016a0",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002491
+            }
+          ],
+          "source_indices": [
+            6,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        }
+      ],
+      "template_id": "axis_b_only"
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "key": "f9687380c0b6df0c13b296b9be6a7101c393a12ef6726f18f2431280e581af90",
+      "row_property_key": "2a67b5d4e7d6f23715f442381488f540ec55086e5365ddec9900f9748cb2d82d",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "69bc7c3517157185f772d7d69611a7b13e98049ded09ed5cdadce666e18f9b52",
+          "row_property_key": "2a67b5d4e7d6f23715f442381488f540ec55086e5365ddec9900f9748cb2d82d",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 10002149
+            }
+          ],
+          "source_indices": [
+            7,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+          ],
+          "template_id": "axis_b_only"
+        }
+      ],
+      "template_id": "axis_b_only"
+    }
+  ],
+  "schema_version": 1,
+  "trusted_as_proof": false
+}

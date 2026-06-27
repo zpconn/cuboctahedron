@@ -39,10 +39,14 @@ from generate_translation_two_source_evidence import (  # noqa: E402
 )
 from profile_source_agreement_theorem_shapes import (  # noqa: E402
     source_index_state_payload,
-    surface_key,
+)
+from profile_row_property_membership_signatures import (  # noqa: E402
+    source_pair_sign_skeleton,
+    source_pair_skeleton,
 )
 from profile_symbolic_row_extraction_families import (  # noqa: E402
     classify_choice as profile_classify_choice,
+    digest_payload,
 )
 
 
@@ -110,7 +114,33 @@ def skeleton_strings(payload: dict[str, Any]) -> tuple[str, str]:
     return sources  # type: ignore[return-value]
 
 
-def collect_families(*, rank_start: int, limit: int) -> tuple[list[Family], dict[str, int]]:
+def source_payload_for_surface(result: dict[str, Any], source_key_surface: str) -> dict[str, Any]:
+    if source_key_surface == "kind_impact":
+        return source_index_state_payload(result)
+
+    sample = result["sample"]
+    source_agreement = sample["source_agreement"]
+    sources = source_agreement["sources"]
+    if source_key_surface == "pair":
+        source_skeletons = [source_pair_skeleton(source) for source in sources]
+    elif source_key_surface == "pair_sign":
+        source_skeletons = [source_pair_sign_skeleton(source) for source in sources]
+    else:
+        raise ValueError(f"unsupported source key surface {source_key_surface!r}")
+    return {
+        "template": result["template_id"],
+        "indices": source_agreement["indices"],
+        "sources": source_skeletons,
+        "rowProperty": result["row_property_key"],
+    }
+
+
+def collect_families(
+    *,
+    rank_start: int,
+    limit: int,
+    source_key_surface: str = "kind_impact",
+) -> tuple[list[Family], dict[str, int]]:
     counts: Counter[str] = Counter({
         "pair_words_scanned": 0,
         "nonidentity_words_skipped": 0,
@@ -164,8 +194,8 @@ def collect_families(*, rank_start: int, limit: int) -> tuple[list[Family], dict
             if template_id not in TEMPLATE_TO_SOURCE_INDEX:
                 raise ValueError(f"unsupported template {template_id!r}")
 
-            key = surface_key("source_index_state_row_property", result)
-            payload = source_index_state_payload(result)
+            payload = source_payload_for_surface(result, source_key_surface)
+            key = digest_payload(payload)
             indices = tuple(int(i) for i in payload["indices"])
             if len(indices) != 2:
                 raise ValueError(f"expected two source indices, got {indices!r}")
@@ -460,10 +490,15 @@ def main() -> None:
     parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--emit-smoke", action="store_true")
+    parser.add_argument("--source-key-surface", default="kind_impact")
     args = parser.parse_args()
 
     validate_module_namespace(args.namespace)
-    families, counts = collect_families(rank_start=args.rank_start, limit=args.limit)
+    families, counts = collect_families(
+        rank_start=args.rank_start,
+        limit=args.limit,
+        source_key_surface=args.source_key_surface,
+    )
     selected = select_smoke_families(families)
     emitted = bool(args.emit_smoke and not args.dry_run)
     if emitted:

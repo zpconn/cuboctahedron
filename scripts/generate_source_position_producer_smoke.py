@@ -333,6 +333,7 @@ def main() -> None:
     parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
     parser.add_argument("--phase", default="6Z.6K.8Y")
     parser.add_argument("--jobs", type=int, default=1)
+    parser.add_argument("--source-key-surface", default="kind_impact")
     args = parser.parse_args()
 
     namespace = validate_module_namespace(args.namespace)
@@ -348,6 +349,7 @@ def main() -> None:
         rank_start=rank_start,
         limit=rank_end - rank_start,
         jobs=args.jobs,
+        source_key_surface=args.source_key_surface,
     )
     expected_count = int(profile.get("source_index_state_family_count", len(families)))
     if len(families) != expected_count:

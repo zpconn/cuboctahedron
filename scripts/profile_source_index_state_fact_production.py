@@ -101,9 +101,13 @@ def grouped_by(
     return grouped
 
 
-def collect_partition(args: tuple[int, int]) -> tuple[list[Family], dict[str, int]]:
-    rank_start, limit = args
-    return collect_families(rank_start=rank_start, limit=limit)
+def collect_partition(args: tuple[int, int, str]) -> tuple[list[Family], dict[str, int]]:
+    rank_start, limit, source_key_surface = args
+    return collect_families(
+        rank_start=rank_start,
+        limit=limit,
+        source_key_surface=source_key_surface,
+    )
 
 
 def windows(rank_start: int, limit: int, jobs: int) -> list[tuple[int, int]]:
@@ -146,14 +150,22 @@ def collect_families_maybe_parallel(
     rank_start: int,
     limit: int,
     jobs: int,
+    source_key_surface: str = "kind_impact",
 ) -> tuple[list[Family], dict[str, int]]:
     if jobs <= 1 or limit <= 1:
-        return collect_families(rank_start=rank_start, limit=limit)
+        return collect_families(
+            rank_start=rank_start,
+            limit=limit,
+            source_key_surface=source_key_surface,
+        )
     parts: list[tuple[list[Family], dict[str, int]]] = []
     with ProcessPoolExecutor(max_workers=jobs) as pool:
         futures = [
             pool.submit(collect_partition, window)
-            for window in windows(rank_start, limit, jobs)
+            for window in [
+                (start, size, source_key_surface)
+                for start, size in windows(rank_start, limit, jobs)
+            ]
         ]
         for future in as_completed(futures):
             parts.append(future.result())
@@ -168,6 +180,7 @@ def profile_from_families(
     jobs: int,
     families: list[Family],
     counts: dict[str, int],
+    source_key_surface: str,
 ) -> dict[str, Any]:
     total_cases = member_count(families)
 
@@ -203,6 +216,7 @@ def profile_from_families(
         "schema_version": 1,
         "mode": "source_index_state_fact_production_profile",
         "trusted_as_proof": False,
+        "source_key_surface": source_key_surface,
         "rank_start": rank_start,
         "rank_end": rank_start + limit,
         "jobs": jobs,
@@ -233,10 +247,28 @@ def profile_from_families(
 
 
 def profile(*, rank_start: int, limit: int, group_gate: int, jobs: int = 1) -> dict[str, Any]:
+    return profile_with_source_key(
+        rank_start=rank_start,
+        limit=limit,
+        group_gate=group_gate,
+        jobs=jobs,
+        source_key_surface="kind_impact",
+    )
+
+
+def profile_with_source_key(
+    *,
+    rank_start: int,
+    limit: int,
+    group_gate: int,
+    jobs: int = 1,
+    source_key_surface: str,
+) -> dict[str, Any]:
     families, counts = collect_families_maybe_parallel(
         rank_start=rank_start,
         limit=limit,
         jobs=jobs,
+        source_key_surface=source_key_surface,
     )
     return profile_from_families(
         rank_start=rank_start,
@@ -245,6 +277,7 @@ def profile(*, rank_start: int, limit: int, group_gate: int, jobs: int = 1) -> d
         jobs=jobs,
         families=families,
         counts=counts,
+        source_key_surface=source_key_surface,
     )
 
 
@@ -259,6 +292,7 @@ def markdown(payload: dict[str, Any]) -> str:
         "",
         f"- Status: `{decision['status']}`",
         f"- Rank window: `[{payload['rank_start']}, {payload['rank_end']})`",
+        f"- Source key surface: `{payload['source_key_surface']}`",
         f"- Source-index/state families: `{payload['source_index_state_family_count']}`",
         f"- GoodDirection cases: `{payload['good_direction_cases']}`",
         "",
@@ -308,6 +342,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=1000)
     parser.add_argument("--group-gate", type=int, default=200)
     parser.add_argument("--jobs", type=int, default=1)
+    parser.add_argument("--source-key-surface", default="kind_impact")
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
     args = parser.parse_args()
@@ -322,6 +357,7 @@ def main() -> None:
         rank_start=args.rank_start,
         limit=args.limit,
         jobs=args.jobs,
+        source_key_surface=args.source_key_surface,
     )
     payload = profile_from_families(
         rank_start=args.rank_start,
@@ -330,6 +366,7 @@ def main() -> None:
         jobs=args.jobs,
         families=families,
         counts=counts,
+        source_key_surface=args.source_key_surface,
     )
     write_json(args.json, payload)
     write_text(args.md, markdown(payload))
@@ -337,6 +374,7 @@ def main() -> None:
         "status": payload["decision"]["status"],
         "rank_start": payload["rank_start"],
         "rank_end": payload["rank_end"],
+        "source_key_surface": payload["source_key_surface"],
         "source_index_state_family_count": payload["source_index_state_family_count"],
         "good_direction_cases": payload["good_direction_cases"],
         "source_fact_obligations": payload["source_fact_obligations"],

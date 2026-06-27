@@ -7562,6 +7562,127 @@ exit status: 0
     6Z.6K.8AE: regenerate the bounded source-position producer/glue/applicability
     smoke using the `pair_sign` source key, then run the focused Lean build.
 
+Completed Phase 6Z.6K.8AE:
+
+- Patched the source-index/state family collector to accept an explicit
+  `--source-key-surface` option. The default remains `kind_impact` for
+  reproducibility, while 8AE uses `pair_sign`.
+- Threaded `--source-key-surface pair_sign` through:
+  - `scripts/profile_source_index_state_fact_production.py`;
+  - `scripts/generate_source_index_state_row_fact_producer_smoke.py`;
+  - `scripts/generate_source_position_producer_smoke.py`;
+  - `scripts/generate_source_position_producer_glue_smoke.py`;
+  - `scripts/generate_source_position_applicability_smoke.py`.
+- Generated a dedicated pair-sign fact-production profile for the 8AC failure
+  window:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_source_index_state_fact_production.py \
+  --rank-start 10000000 \
+  --limit 2500 \
+  --jobs 4 \
+  --source-key-surface pair_sign \
+  --json scripts/generated/phase6z6k8ae_pair_sign_fact_production_profile.json \
+  --md scripts/generated/phase6z6k8ae_pair_sign_fact_production_profile.md
+```
+
+- Pair-sign profile result:
+
+```text
+status:      needs-smaller-fact-surface
+wall time:   0:55.10
+CPU:         247%
+peak RSS:    32,852 KB
+exit status: 0
+```
+
+| Surface | Count |
+| --- | ---: |
+| GoodDirection cases represented | 2,069 |
+| descriptor families | 136 |
+| source groups | 135 |
+| row groups | 19 |
+| source/row glue pairs | 136 |
+| total split-fact obligations | 290 |
+
+- Regenerated the bounded pair-sign Lean smoke:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_source_index_state_row_fact_producer_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ae_pair_sign_fact_production_profile.json \
+  --phase 6Z.6K.8AE --jobs 4 --source-key-surface pair_sign \
+  --json scripts/generated/phase6z6k8ae_row_fact_producer_smoke.json \
+  --md scripts/generated/phase6z6k8ae_row_fact_producer_smoke.md
+
+/usr/bin/time -v python3 scripts/generate_source_position_producer_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ae_pair_sign_fact_production_profile.json \
+  --phase 6Z.6K.8AE --jobs 4 --source-key-surface pair_sign \
+  --json scripts/generated/phase6z6k8ae_source_position_producer_smoke.json \
+  --md scripts/generated/phase6z6k8ae_source_position_producer_smoke.md
+
+/usr/bin/time -v python3 scripts/generate_source_position_producer_glue_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ae_pair_sign_fact_production_profile.json \
+  --phase 6Z.6K.8AE --jobs 4 --source-key-surface pair_sign \
+  --json scripts/generated/phase6z6k8ae_source_position_producer_glue_smoke.json \
+  --md scripts/generated/phase6z6k8ae_source_position_producer_glue_smoke.md
+
+/usr/bin/time -v python3 scripts/generate_source_position_applicability_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ae_pair_sign_fact_production_profile.json \
+  --phase 6Z.6K.8AE --jobs 4 --source-key-surface pair_sign \
+  --json scripts/generated/phase6z6k8ae_source_position_applicability_smoke.json \
+  --md scripts/generated/phase6z6k8ae_source_position_applicability_smoke.md
+```
+
+- Generator results:
+
+| Generator | Wall time | Peak RSS | Output |
+| --- | ---: | ---: | --- |
+| row producer | 0:55.89 | 32,640 KB | 19 row groups |
+| source-position producer | 0:56.24 | 33,980 KB | 135 source groups |
+| source-position glue | 0:55.93 | 33,384 KB | 136 descriptor families |
+| applicability | 0:56.45 | 33,144 KB | 136 descriptor families |
+
+- Focused Lean build command:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerGlueSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionApplicabilitySmoke
+```
+
+- Focused Lean build result:
+
+```text
+status:      accepted-smoke
+wall time:   0:21.71
+CPU:         114%
+peak RSS:    3,464,060 KB
+exit status: 0
+```
+
+- Targeted forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies || true
+```
+
+found no matches.
+
+- Decision:
+  - Accept 8AE as a Lean-checked bounded smoke for the refined `pair_sign`
+    source-position key. It specifically covers the rank window that exposed
+    the old key's validation failure.
+  - Do not treat this as global coverage. The profile still reports
+    `needs-smaller-fact-surface` because 136 descriptor/glue obligations in a
+    2,500-rank window would not by itself satisfy the final low-leaf budget.
+  - The immediate next step is Phase 6Z.6K.8AF: profile how pair-sign
+    descriptor/glue obligations merge across representative windows and test
+    whether a source/row state DAG or another semantic glue theorem can replace
+    one-theorem-per-descriptor-family.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8611,9 +8732,13 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AD source-position key refinement profile:
   compare kind/impact, pair, pair/sign, and full-source source-position keys
   after the broader 8AC validation failure.
-- [ ] Implement Phase 6Z.6K.8AE pair-sign source-position Lean smoke:
+- [x] Implement Phase 6Z.6K.8AE pair-sign source-position Lean smoke:
   regenerate the bounded producer, glue, and applicability modules using the
   accepted `pair_sign` key and run the focused Lean build.
+- [ ] Implement Phase 6Z.6K.8AF pair-sign descriptor/glue compression profile:
+  measure whether pair-sign descriptor families merge across representative
+  windows, and test whether a source/row state DAG or stronger semantic glue
+  theorem can replace one-theorem-per-descriptor-family.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8765,23 +8890,29 @@ and accepted `pair_sign` as the next candidate: it had zero validation
 failures, while increasing the worst sampled descriptor count only from 135 to
 136.
 
-The immediate next step is Phase 6Z.6K.8AE: regenerate the bounded
-source-position producer/glue/applicability Lean smoke using the `pair_sign`
-source key. That step should:
+Phase 6Z.6K.8AE is complete as the first Lean smoke using the refined
+`pair_sign` source key. It regenerates the row producer, source-position
+producer, producer glue, and applicability modules for the `[10000000,
+10002500)` failure window. The focused four-module Lean build passed in
+21.71 seconds with 3.464 GiB peak RSS. This proves the refined key is
+Lean-checkable on the window that broke the old kind/impact key.
 
-- patch the bounded source-position family collector/generators to group by
-  `pair_sign` source information rather than kind/impact alone;
-- regenerate the producer, glue, and applicability smoke modules;
-- run the same focused Lean build as 8AA;
+The immediate next step is Phase 6Z.6K.8AF: profile and compress the remaining
+descriptor/glue layer for the `pair_sign` source key. That step should:
+
+- measure whether `pair_sign` descriptor families merge across representative
+  windows or continue to grow with raw GoodDirection cases;
+- test whether a source/row state DAG or stronger semantic glue theorem can
+  replace one-theorem-per-descriptor-family;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;
 - reject immediately if the proof again devolves into rank/mask member replay,
   large generic `simp` searches over complete source lists, or concrete
   per-rank row arithmetic;
-- produce a small theorem surface that can plausibly be reused globally, or
-  explicitly report the remaining symbolic invariant needed to make that
-  possible.
+- produce a theorem surface that can plausibly be reused globally, or
+  explicitly report the remaining symbolic invariant needed before global
+  translation coverage emission.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
