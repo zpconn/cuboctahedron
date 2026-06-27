@@ -1,0 +1,697 @@
+{
+  "counts": {
+    "covered_cases": 13899,
+    "good_direction_survivors": 13899,
+    "identity_words": 2310,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 62690,
+    "not_good_direction_masks": 133941,
+    "pair_words_scanned": 65000,
+    "translation_sign_assignments": 147840,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "source+row producer obligations stayed within the scaling gate",
+      "descriptor keys stayed within the scaling gate",
+      "next step should test a larger/resumable census or emit a bounded scaling Lean smoke"
+    ],
+    "status": "accepted-scaling-candidate"
+  },
+  "descriptor_family_count": 328,
+  "descriptor_gate": 5000,
+  "good_direction_cases": 13899,
+  "jobs": 4,
+  "merged_counts": {
+    "covered_cases": 13899,
+    "good_direction_survivors": 13899,
+    "identity_words": 2310,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 62690,
+    "not_good_direction_masks": 133941,
+    "pair_words_scanned": 65000,
+    "translation_sign_assignments": 147840,
+    "uncovered_cases": 0
+  },
+  "mode": "pair_sign_producer_coverage_scaling_profile",
+  "phase": "6Z.6K.8AI",
+  "producer_gate": 2000,
+  "ranges": [
+    [
+      0,
+      10000
+    ],
+    [
+      100000,
+      105000
+    ],
+    [
+      250000,
+      255000
+    ],
+    [
+      1000000,
+      1005000
+    ],
+    [
+      5000000,
+      5005000
+    ],
+    [
+      10000000,
+      10005000
+    ],
+    [
+      20000000,
+      20005000
+    ],
+    [
+      30000000,
+      30005000
+    ],
+    [
+      45000000,
+      45005000
+    ],
+    [
+      60000000,
+      60005000
+    ],
+    [
+      75000000,
+      75005000
+    ],
+    [
+      90000000,
+      90005000
+    ]
+  ],
+  "rank_count": 65000,
+  "row_group_count": 24,
+  "sample_limit": 10,
+  "schema_version": 1,
+  "source_group_count": 294,
+  "source_language_failure_samples": [],
+  "source_language_validation_failure_count": 0,
+  "source_language_validation_failures": {},
+  "source_row_edge_count": 328,
+  "source_row_producer_obligations": 318,
+  "top_descriptor_families": [
+    {
+      "case_count": 2430,
+      "key": "a9c85d3d6e44b215a28bb60fdfa44d57307c74d1fef19ff6c080d2299a790531",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "source_indices": [
+        23,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\", \"pairSign\": \"d111:-\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 1037,
+      "key": "01630a20f4bc0763aa95de21589f5f9c8b3363fb3730266afffd5b30c79f5714",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "source_indices": [
+        52,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"dm11:+\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 855,
+      "key": "e69eef4a66ce47619b1bed30bd6a7b44c30d512546fd37bbd28d302f3b3819c0",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "source_indices": [
+        24,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\", \"pairSign\": \"d11m:-\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 533,
+      "key": "b5f9d1e0e64a092f3819db8d161920f591f42c3405c959e580ed19a9bf1eaf38",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "source_indices": [
+        25,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\", \"pairSign\": \"d1m1:-\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 419,
+      "key": "8fdf87b4a1e5d605f85018aae0772f29d4a32e98a10f9ac2559a073aa64bfee6",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "source_indices": [
+        51,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"d1m1:-\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 346,
+      "key": "91584f867c1a75c1aad2d359f27f17930c4b72d522aafc482d19d584e10b7a37",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "source_indices": [
+        0,
+        7
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 319,
+      "key": "ad68f1bb9b0315772fae5e354b9b7ad4a3d53402b6aee2a888356422665afcf8",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "source_indices": [
+        83,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\", \"pairSign\": \"x:+\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 286,
+      "key": "1e7fea08c0f0687ccf3374a0decd7681fa8fa126c599606f3ddb4c546fab2a4b",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "source_indices": [
+        0,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 275,
+      "key": "a0a84a8450ad0f1ba6ca9cb2f07a3cd3ec2ce8a4584354c6a0c481c00898ee9a",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "source_indices": [
+        50,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\", \"pairSign\": \"d11m:-\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 218,
+      "key": "54d9751320b2945766ccad09043b2fbd49fa7f68c11088ac95297208c3eaac97",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "source_indices": [
+        0,
+        13
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\", \"pairSign\": \"none\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\", \"pairSign\": \"none\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    }
+  ],
+  "top_row_groups": [
+    {
+      "case_count": 6155,
+      "descriptor_count": 61,
+      "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d"
+    },
+    {
+      "case_count": 2445,
+      "descriptor_count": 49,
+      "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651"
+    },
+    {
+      "case_count": 1674,
+      "descriptor_count": 10,
+      "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906"
+    },
+    {
+      "case_count": 1388,
+      "descriptor_count": 38,
+      "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2"
+    },
+    {
+      "case_count": 782,
+      "descriptor_count": 10,
+      "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d"
+    },
+    {
+      "case_count": 589,
+      "descriptor_count": 10,
+      "key": "01ef342f8b3eccbcf838de2272e3e0a618591c1f735c69fabb94c6c2f2cedabf"
+    },
+    {
+      "case_count": 406,
+      "descriptor_count": 25,
+      "key": "ab58d270064eefa002683f651a0d6bfcfa613500a91016f81015c7bbfc9bfb9d"
+    },
+    {
+      "case_count": 107,
+      "descriptor_count": 8,
+      "key": "aa6ee8c6fd34af113194c2f37bcaa4ecb38560551b8ab398bf66c361ff434dac"
+    },
+    {
+      "case_count": 71,
+      "descriptor_count": 31,
+      "key": "2049ebbee6bbf2d1ded8999d1329c79130dca9db14a62ff0fcd41bc8b7a3fe3c"
+    },
+    {
+      "case_count": 68,
+      "descriptor_count": 25,
+      "key": "523642c364059c21d649a28a5030e10f3e8d86c3905a4cc916d8562511e882f6"
+    }
+  ],
+  "top_source_groups": [
+    {
+      "case_count": 2430,
+      "descriptor_count": 1,
+      "key": "7da0a70eeb26127085fa7422a04501b6f62db3389e10d3b3b8d218f38b141147"
+    },
+    {
+      "case_count": 1037,
+      "descriptor_count": 1,
+      "key": "8b3a3995294856088c7f47aef5c3bd8844c0ac044e09739dc93fc242d0a9ef41"
+    },
+    {
+      "case_count": 855,
+      "descriptor_count": 1,
+      "key": "604b8ddbcb59507e14ec5d237ea5d79914e634db3c8960106673adc48dc114a0"
+    },
+    {
+      "case_count": 533,
+      "descriptor_count": 1,
+      "key": "406a25da4affd7d9f18fec47dcabb1626af3588a7834933d2976a1049ca94071"
+    },
+    {
+      "case_count": 419,
+      "descriptor_count": 1,
+      "key": "b1984127e635f9866c065edc87a5945b45d8d13d8e9795119e832266819c19d6"
+    },
+    {
+      "case_count": 346,
+      "descriptor_count": 1,
+      "key": "80b1986cf3f00fdf9c127257de2eab91722dc2e21558505080f614b53fe4b1e3"
+    },
+    {
+      "case_count": 319,
+      "descriptor_count": 1,
+      "key": "4a0c5e158e345c0d7e7993b928b615657e77494bc31d65cbd2a47305f273afb1"
+    },
+    {
+      "case_count": 286,
+      "descriptor_count": 1,
+      "key": "aa145e748362515bb1f5f25abe8e27d2c8fb7da216db879387ea5df98e557f76"
+    },
+    {
+      "case_count": 275,
+      "descriptor_count": 1,
+      "key": "1af4ad5c5a8f2bc9bcb59dd0f6eb1159ddf9a7cf586f392ce0a487e53b070127"
+    },
+    {
+      "case_count": 218,
+      "descriptor_count": 1,
+      "key": "3fcd2221292f554295322121d811b40eeb21367cfc50ced8f31a6ab53a3e7673"
+    }
+  ],
+  "trusted_as_proof": false,
+  "window_count": 12,
+  "windows": [
+    {
+      "counts": {
+        "covered_cases": 6389,
+        "good_direction_survivors": 6389,
+        "identity_words": 712,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 9288,
+        "not_good_direction_masks": 39179,
+        "pair_words_scanned": 10000,
+        "translation_sign_assignments": 45568,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 146,
+      "cumulative_good_direction_cases": 6389,
+      "cumulative_row_group_count": 12,
+      "cumulative_source_group_count": 143,
+      "cumulative_source_row_edge_count": 146,
+      "cumulative_source_row_producer_obligations": 155,
+      "descriptor_family_count": 146,
+      "good_direction_cases": 6389,
+      "range": [
+        0,
+        10000
+      ],
+      "rank_count": 10000,
+      "row_group_count": 12,
+      "source_group_count": 143,
+      "source_row_edge_count": 146
+    },
+    {
+      "counts": {
+        "covered_cases": 1280,
+        "good_direction_survivors": 1280,
+        "identity_words": 213,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4787,
+        "not_good_direction_masks": 12352,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 13632,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 167,
+      "cumulative_good_direction_cases": 7669,
+      "cumulative_row_group_count": 12,
+      "cumulative_source_group_count": 164,
+      "cumulative_source_row_edge_count": 167,
+      "cumulative_source_row_producer_obligations": 176,
+      "descriptor_family_count": 72,
+      "good_direction_cases": 1280,
+      "range": [
+        100000,
+        105000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 10,
+      "source_group_count": 71,
+      "source_row_edge_count": 72
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 0,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 5000,
+        "not_good_direction_masks": 0,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 0,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 167,
+      "cumulative_good_direction_cases": 7669,
+      "cumulative_row_group_count": 12,
+      "cumulative_source_group_count": 164,
+      "cumulative_source_row_edge_count": 167,
+      "cumulative_source_row_producer_obligations": 176,
+      "descriptor_family_count": 0,
+      "good_direction_cases": 0,
+      "range": [
+        250000,
+        255000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 0,
+      "source_group_count": 0,
+      "source_row_edge_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 79,
+        "good_direction_survivors": 79,
+        "identity_words": 39,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4961,
+        "not_good_direction_masks": 2417,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 2496,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 172,
+      "cumulative_good_direction_cases": 7748,
+      "cumulative_row_group_count": 13,
+      "cumulative_source_group_count": 169,
+      "cumulative_source_row_edge_count": 172,
+      "cumulative_source_row_producer_obligations": 182,
+      "descriptor_family_count": 15,
+      "good_direction_cases": 79,
+      "range": [
+        1000000,
+        1005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 6,
+      "source_group_count": 15,
+      "source_row_edge_count": 15
+    },
+    {
+      "counts": {
+        "covered_cases": 1253,
+        "good_direction_survivors": 1253,
+        "identity_words": 241,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4759,
+        "not_good_direction_masks": 14171,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 15424,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 212,
+      "cumulative_good_direction_cases": 9001,
+      "cumulative_row_group_count": 15,
+      "cumulative_source_group_count": 207,
+      "cumulative_source_row_edge_count": 212,
+      "cumulative_source_row_producer_obligations": 222,
+      "descriptor_family_count": 102,
+      "good_direction_cases": 1253,
+      "range": [
+        5000000,
+        5005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 11,
+      "source_group_count": 100,
+      "source_row_edge_count": 102
+    },
+    {
+      "counts": {
+        "covered_cases": 4729,
+        "good_direction_survivors": 4729,
+        "identity_words": 490,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4510,
+        "not_good_direction_masks": 26631,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 31360,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 300,
+      "cumulative_good_direction_cases": 13730,
+      "cumulative_row_group_count": 22,
+      "cumulative_source_group_count": 273,
+      "cumulative_source_row_edge_count": 300,
+      "cumulative_source_row_producer_obligations": 295,
+      "descriptor_family_count": 200,
+      "good_direction_cases": 4729,
+      "range": [
+        10000000,
+        10005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 20,
+      "source_group_count": 180,
+      "source_row_edge_count": 200
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 125,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4875,
+        "not_good_direction_masks": 8000,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 8000,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 300,
+      "cumulative_good_direction_cases": 13730,
+      "cumulative_row_group_count": 22,
+      "cumulative_source_group_count": 273,
+      "cumulative_source_row_edge_count": 300,
+      "cumulative_source_row_producer_obligations": 295,
+      "descriptor_family_count": 0,
+      "good_direction_cases": 0,
+      "range": [
+        20000000,
+        20005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 0,
+      "source_group_count": 0,
+      "source_row_edge_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 261,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4739,
+        "not_good_direction_masks": 16704,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 16704,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 300,
+      "cumulative_good_direction_cases": 13730,
+      "cumulative_row_group_count": 22,
+      "cumulative_source_group_count": 273,
+      "cumulative_source_row_edge_count": 300,
+      "cumulative_source_row_producer_obligations": 295,
+      "descriptor_family_count": 0,
+      "good_direction_cases": 0,
+      "range": [
+        30000000,
+        30005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 0,
+      "source_group_count": 0,
+      "source_row_edge_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 158,
+        "good_direction_survivors": 158,
+        "identity_words": 112,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4888,
+        "not_good_direction_masks": 7010,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 7168,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 325,
+      "cumulative_good_direction_cases": 13888,
+      "cumulative_row_group_count": 24,
+      "cumulative_source_group_count": 291,
+      "cumulative_source_row_edge_count": 325,
+      "cumulative_source_row_producer_obligations": 315,
+      "descriptor_family_count": 39,
+      "good_direction_cases": 158,
+      "range": [
+        45000000,
+        45005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 9,
+      "source_group_count": 32,
+      "source_row_edge_count": 39
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 75,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4925,
+        "not_good_direction_masks": 4800,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 4800,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 325,
+      "cumulative_good_direction_cases": 13888,
+      "cumulative_row_group_count": 24,
+      "cumulative_source_group_count": 291,
+      "cumulative_source_row_edge_count": 325,
+      "cumulative_source_row_producer_obligations": 315,
+      "descriptor_family_count": 0,
+      "good_direction_cases": 0,
+      "range": [
+        60000000,
+        60005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 0,
+      "source_group_count": 0,
+      "source_row_edge_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 19,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4981,
+        "not_good_direction_masks": 1216,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 1216,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 325,
+      "cumulative_good_direction_cases": 13888,
+      "cumulative_row_group_count": 24,
+      "cumulative_source_group_count": 291,
+      "cumulative_source_row_edge_count": 325,
+      "cumulative_source_row_producer_obligations": 315,
+      "descriptor_family_count": 0,
+      "good_direction_cases": 0,
+      "range": [
+        75000000,
+        75005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 0,
+      "source_group_count": 0,
+      "source_row_edge_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 11,
+        "good_direction_survivors": 11,
+        "identity_words": 23,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4977,
+        "not_good_direction_masks": 1461,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 1472,
+        "uncovered_cases": 0
+      },
+      "cumulative_descriptor_family_count": 328,
+      "cumulative_good_direction_cases": 13899,
+      "cumulative_row_group_count": 24,
+      "cumulative_source_group_count": 294,
+      "cumulative_source_row_edge_count": 328,
+      "cumulative_source_row_producer_obligations": 318,
+      "descriptor_family_count": 4,
+      "good_direction_cases": 11,
+      "range": [
+        90000000,
+        90005000
+      ],
+      "rank_count": 5000,
+      "row_group_count": 3,
+      "source_group_count": 4,
+      "source_row_edge_count": 4
+    }
+  ]
+}
