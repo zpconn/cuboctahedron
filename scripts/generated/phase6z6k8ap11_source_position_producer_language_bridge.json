@@ -1,0 +1,25 @@
+{
+  "phase": "6Z.6K.8AP.11",
+  "status": "accepted-api-smoke",
+  "timestamp_utc": "2026-06-27T21:09:56Z",
+  "purpose": "Add a source-position plus row-producer language bridge that erases semantic source-position membership and row-producer Applies evidence to the AP.10 producer-language surface.",
+  "lean_files_added": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean"
+  ],
+  "new_api": [
+    "SourcePositionRowProducerGoodLanguageOnRange",
+    "SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage",
+    "SourcePositionRowProducerGoodLanguageOnRange.to_factsLanguage",
+    "SourcePositionRowProducerGoodLanguageOnRange.to_bridge",
+    "SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage"
+  ],
+  "focused_build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguageSmoke",
+    "result": "passed",
+    "wall_seconds": 8.41,
+    "max_rss_kib": 3302808
+  },
+  "proof_scope": "empty-range API smoke only; no nonempty rank/mask coverage is claimed",
+  "next_step": "Generate or prove a nonempty SourcePositionRowProducerGoodLanguageOnRange over meaningful ranges, using SourcePairPositionSpec.Predicate and row-producer Applies evidence without finite rank/mask replay."
+}

@@ -1,0 +1,126 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
+
+/-!
+Source-position plus row-producer language bridge.
+
+`SourceRowProducerGoodLanguageOnRange` is the public AP.10 target for generated
+translation chunks, but generated source producers are most naturally described
+by source positions (`xpStart`, ordering, or interior slots).  This module
+packages that intermediate form: prove a language over a source-position spec,
+a row producer, and a key, then erase it to the producer-level AP target.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
+namespace SourcePositionProducerLanguage
+
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+
+/--
+GoodDirection survivor language expressed by source positions and row
+producers.
+
+Generated modules should aim to prove this kind of statement over nonempty
+ranges: every identity-linear GoodDirection survivor belongs to one semantic
+source-position spec and one row producer, with the key tying the two together.
+-/
+structure SourcePositionRowProducerGoodLanguageOnRange (lo hi : Nat) where
+  Language :
+    SourcePairPositionSpec ->
+      SourceIndexStateRowProducer ->
+        SourceIndexStateKey -> Nat -> SignMask -> Prop
+  firstIndex :
+    forall {spec : SourcePairPositionSpec}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language spec rowProducer key rank mask ->
+          key.firstIndex = spec.first.index
+  secondIndex :
+    forall {spec : SourcePairPositionSpec}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language spec rowProducer key rank mask ->
+          key.secondIndex = spec.second.index
+  support :
+    forall {spec : SourcePairPositionSpec}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language spec rowProducer key rank mask ->
+          key.support = spec.support
+  source :
+    forall {spec : SourcePairPositionSpec}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language spec rowProducer key rank mask ->
+          spec.Predicate rank mask
+  rows :
+    forall {spec : SourcePairPositionSpec}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language spec rowProducer key rank mask ->
+          rowProducer.Applies key rank mask
+  complete :
+    forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+      lo <= rank ->
+        rank < hi ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              exists spec : SourcePairPositionSpec,
+                exists rowProducer : SourceIndexStateRowProducer,
+                  exists key : SourceIndexStateKey,
+                    Language spec rowProducer key rank mask
+
+def SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    SourceRowProducerGoodLanguageOnRange lo hi where
+  Language := fun sourceProducer rowProducer key rank mask =>
+    exists spec : SourcePairPositionSpec,
+      sourceProducer = spec.sourceProducer /\
+        language.Language spec rowProducer key rank mask
+  source := by
+    intro sourceProducer rowProducer key rank mask hmem
+    rcases hmem with ⟨spec, hsourceProducer, hmem⟩
+    subst sourceProducer
+    exact ⟨language.firstIndex hmem,
+      ⟨language.secondIndex hmem,
+        ⟨language.support hmem, language.source hmem⟩⟩⟩
+  rows := by
+    intro sourceProducer rowProducer key rank mask hmem
+    rcases hmem with ⟨spec, hsourceProducer, hmem⟩
+    exact language.rows hmem
+  complete := by
+    intro rank mask hlt hlo hhi hM hgood
+    rcases language.complete hlt hlo hhi hM hgood with
+      ⟨spec, rowProducer, key, hmem⟩
+    exact ⟨spec.sourceProducer, rowProducer, key, ⟨spec, rfl, hmem⟩⟩
+
+def SourcePositionRowProducerGoodLanguageOnRange.to_factsLanguage
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodLanguageOnRange lo hi :=
+  SourceRowProducerGoodLanguageOnRange.to_factsLanguage
+    (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_bridge
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourceRowProducerGoodLanguageOnRange.to_bridge
+    (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowProducerGoodLanguageOnRange.to_allGoodCoverage
+    (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
+
+theorem sourcePositionProducerLanguage_builds : True := by
+  trivial
+
+end SourcePositionProducerLanguage
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
