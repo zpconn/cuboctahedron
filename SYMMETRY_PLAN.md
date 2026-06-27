@@ -472,13 +472,19 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted; Phase 6Z.6K.1 symbolic Lean smoke accepted; Phase 6Z.6K.2 symbolic representative root accepted; Phase 6Z.6K.3 symbolic census runner accepted on representative calibration; Phase 6Z.6K.4 broader disjoint sampling rejects source-agreement as a global family key; Phase 6Z.6K.5 source-parametric row-property quotient implemented and sampled at 24 families; Phase 6Z.6K.6 bounded row-property quotient representative root accepted as memory-safe diagnostic but rejected for global scaling; Phase 6Z.6K.7 row-property membership profile rejects further theorem-surface emission and promotes a state/signature membership bridge; Phase 6Z.6K.8AH pair-sign producer-coverage smoke accepted on representative windows; Phase 6Z.6K.8AI broader producer-coverage scaling profile accepted; Phase 6Z.6K.8AJ resumable producer census accepted as diagnostic infrastructure; Phase 6Z.6K.8AK bounded scaling Lean smoke accepted; Phase 6Z.6K.8AL split group/root smoke accepted; Phase 6Z.6K.8AM larger split-root smoke accepted; Phase 6Z.6K.8AN growth projection accepted; Phase 6Z.6K.8AO production hierarchy design accepted; Phase 6Z.6K.8AP.0 range bridge core accepted; Phase 6Z.6K.8AP.1 good-survivor bridge accepted; Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge accepted; Phase 6Z.6K.8AP.3 public all-Good coverage bridge accepted; Phase 6Z.6K.8AP.4 bounded AP smoke checked but production-rejected; Phase 6Z.6K.8AP.5 catalog erasure accepted; Phase 6Z.6K.8AP.6 catalog smoke accepted; Phase 6Z.6K.8AP.7 membership audit rejects catalog route; Phase 6Z.6K.8AP.8 source/row language bridge accepted as API smoke; Phase 6Z.6K.8AP.9 source-position spec bridge accepted; Phase 6Z.6K.8AP.10 source/row producer language bridge accepted; Phase 6Z.6K.8AP.11 source-position producer language bridge accepted; Phase 6Z.6K.8AP.12 source-position adapters accepted; Phase 6Z.6K.8AP.13 projection audit accepted; Phase 6Z.6K.8AP.14 confirms the membership gap; Phase 6Z.6K.8AP.15 descriptor language bridge accepted; Phase 6Z.6K.8AP.16A facts-to-descriptor adapter accepted; Phase 6Z.6K.8AP.16B producer-membership candidate accepted; Phase 6Z.6K.8AP.16C source-position descriptor adapter accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Phase 6Z.6K.2 extends that to a bounded representative root over all 126 symbolic families and all 4,779 representative GoodDirection survivors. Phase 6Z.6K.3 adds a resumable census runner and recovers the same 4,779/126 representative baseline. Phase 6Z.6K.4 covers 63,725/63,725 broader disjoint GoodDirection survivors but projects 130,573 source-agreement-keyed symbolic families, rejecting source agreement as a global key. Phase 6Z.6K.5 keeps the same coverage while collapsing the primary coordinate to 24 row-property-parametric families. Phase 6Z.6K.6 validates a bounded representative root under strict memory controls, but its measured 195.355s worst group means representative-per-case roots cannot scale. Phase 6Z.6K.7 shows the theorem layer is already collapsed to 9 constructors/11 row-property digests on `[0,1000)`; the missing compression is a shared membership bridge for `SourceAgrees` and row predicates. Phase 6Z.6K.8AH confirms that source-language producer facts plus exact row producer facts compose cheaply in Lean over 7,112 representative GoodDirection cases. Phase 6Z.6K.8AI keeps the same route below the scaling gates over 65k sampled ranks: 328 descriptors, 294 source groups, 24 row groups, 318 source+row obligations, and zero source-language validation failures. Phase 6Z.6K.8AJ adds a resumable checkpointed census and confirms the route remains cheap on a 10-window checkpoint run: 247 source+row obligations, zero validation failures, and aggregate-only replay in 0.06s. Phase 6Z.6K.8AK proves the same checkpoint-window producer surface can be emitted as theorem-valued Lean and built in 13.72s at 3.545 GiB RSS; Phase 6Z.6K.8AL proves the same surface can be split into shared source/row modules, bounded descriptor chunks, and a tiny root that builds in 10.50s at 3.343 GiB RSS; Phase 6Z.6K.8AM doubles the sampled window count and still builds the split root in 10.86s at 3.300 GiB RSS with only 315 descriptor families, 298 source groups, and 22 row groups. Phase 6Z.6K.8AN expands the checkpointed census to 39 windows / 97,500 sampled ranks and projects 862 descriptor families, 748 source+row producers, and 14 descriptor chunks, below the current gates. Phase 6Z.6K.8AO projects the production translation producer hierarchy at roughly 58k Lean lines / 2.3 MiB, 14 chunks, 748 producers, about 70 wall seconds at four jobs, and about 3.93 GiB peak RSS. Phase 6Z.6K.8AP.0 adds and checks the theorem adapters from `SourceRowPredicateBridge`/`SourceRowFactsBridge` and their range variants to residual interval coverage and `Translation.KilledBridge`; Phase 6Z.6K.8AP.1 adds GoodDirection-survivor range adapters so generated chunks can target `ResidualTranslationGoodCoverageOnRange` before producing the full killed bridge; Phase 6Z.6K.8AP.2 adds a classifier-free GoodDirection bridge so generated chunks can avoid `translationEarlyFamilyClassOfChoice` entirely and target `AllTranslationGoodCoverageOnRange`; Phase 6Z.6K.8AP.3 connects that all-GoodDirection target to public semantic generated coverage through `AllGoodRankKilled` and `semanticGeneratedCoverageOfAllGoodIntervals`; Phase 6Z.6K.8AP.4 rejects finite rank/mask dispatch after a `[0,16)` smoke took 288.66s and 14,041,472 KiB RSS; Phase 6Z.6K.8AP.7 rejects catalog membership as a production route; Phase 6Z.6K.8AP.8 adds a relation-based `SourceRow*GoodLanguageOnRange` API and empty-range smoke; Phase 6Z.6K.8AP.9 adds generic `SourcePositionSpec`/`SourcePairPositionSpec` lookup and source-fact producers for static and dynamic source positions; Phase 6Z.6K.8AP.10 adds a producer-level `SourceRowProducerGoodLanguageOnRange` API and empty-range smoke, letting future generated modules keep source/row producers private and export only erased all-Good coverage; Phase 6Z.6K.8AP.11 adds a source-position plus row-producer language API that erases semantic `SourcePairPositionSpec.Predicate` membership and row-producer `Applies` evidence to AP.10; Phase 6Z.6K.8AP.15 adds the descriptor-language/direct descriptor-coverage target; Phase 6Z.6K.8AP.16A lets existing source/row facts and language surfaces erase to descriptor coverage; Phase 6Z.6K.8AP.16B selects `source_language_full + row_exact` as the next producer-membership emitter target with 212 projected obligations over 7,112 sampled GoodDirection cases; Phase 6Z.6K.8AP.16C lets source-position row-producer languages erase directly to descriptor coverage and validates the bridge in 10.56s / 3,308,884 KiB. Full 8AP still needs non-enumerative generated source/row membership evidence for meaningful rank ranges. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
-Dashboard note: Phase 6Z.6K.8AP.16D is now accepted as bridge
-infrastructure.  It adds the direct
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted; Phase 6Z.6K.1 symbolic Lean smoke accepted; Phase 6Z.6K.2 symbolic representative root accepted; Phase 6Z.6K.3 symbolic census runner accepted on representative calibration; Phase 6Z.6K.4 broader disjoint sampling rejects source-agreement as a global family key; Phase 6Z.6K.5 source-parametric row-property quotient implemented and sampled at 24 families; Phase 6Z.6K.6 bounded row-property quotient representative root accepted as memory-safe diagnostic but rejected for global scaling; Phase 6Z.6K.7 row-property membership profile rejects further theorem-surface emission and promotes a state/signature membership bridge; Phase 6Z.6K.8AH pair-sign producer-coverage smoke accepted on representative windows; Phase 6Z.6K.8AI broader producer-coverage scaling profile accepted; Phase 6Z.6K.8AJ resumable producer census accepted as diagnostic infrastructure; Phase 6Z.6K.8AK bounded scaling Lean smoke accepted; Phase 6Z.6K.8AL split group/root smoke accepted; Phase 6Z.6K.8AM larger split-root smoke accepted; Phase 6Z.6K.8AN growth projection accepted; Phase 6Z.6K.8AO production hierarchy design accepted; Phase 6Z.6K.8AP.0 range bridge core accepted; Phase 6Z.6K.8AP.1 good-survivor bridge accepted; Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge accepted; Phase 6Z.6K.8AP.3 public all-Good coverage bridge accepted; Phase 6Z.6K.8AP.4 bounded AP smoke checked but production-rejected; Phase 6Z.6K.8AP.5 catalog erasure accepted; Phase 6Z.6K.8AP.6 catalog smoke accepted; Phase 6Z.6K.8AP.7 membership audit rejects catalog route; Phase 6Z.6K.8AP.8 source/row language bridge accepted as API smoke; Phase 6Z.6K.8AP.9 source-position spec bridge accepted; Phase 6Z.6K.8AP.10 source/row producer language bridge accepted; Phase 6Z.6K.8AP.11 source-position producer language bridge accepted; Phase 6Z.6K.8AP.12 source-position adapters accepted; Phase 6Z.6K.8AP.13 projection audit accepted; Phase 6Z.6K.8AP.14 confirms the membership gap; Phase 6Z.6K.8AP.15 descriptor language bridge accepted; Phase 6Z.6K.8AP.16A facts-to-descriptor adapter accepted; Phase 6Z.6K.8AP.16B producer-membership candidate accepted; Phase 6Z.6K.8AP.16C source-position descriptor adapter accepted; Phase 6Z.6K.8AP.16D/16E direct target/combinators accepted; Phase 6Z.6K.8AP.16F rejected; Phase 6Z.6K.8AP.16G direct obligation profile accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Phase 6Z.6K.2 extends that to a bounded representative root over all 126 symbolic families and all 4,779 representative GoodDirection survivors. Phase 6Z.6K.3 adds a resumable census runner and recovers the same 4,779/126 representative baseline. Phase 6Z.6K.4 covers 63,725/63,725 broader disjoint GoodDirection survivors but projects 130,573 source-agreement-keyed symbolic families, rejecting source agreement as a global key. Phase 6Z.6K.5 keeps the same coverage while collapsing the primary coordinate to 24 row-property-parametric families. Phase 6Z.6K.6 validates a bounded representative root under strict memory controls, but its measured 195.355s worst group means representative-per-case roots cannot scale. Phase 6Z.6K.7 shows the theorem layer is already collapsed to 9 constructors/11 row-property digests on `[0,1000)`; the missing compression is a shared membership bridge for `SourceAgrees` and row predicates. Phase 6Z.6K.8AH confirms that source-language producer facts plus exact row producer facts compose cheaply in Lean over 7,112 representative GoodDirection cases. Phase 6Z.6K.8AI keeps the same route below the scaling gates over 65k sampled ranks: 328 descriptors, 294 source groups, 24 row groups, 318 source+row obligations, and zero source-language validation failures. Phase 6Z.6K.8AJ adds a resumable checkpointed census and confirms the route remains cheap on a 10-window checkpoint run: 247 source+row obligations, zero validation failures, and aggregate-only replay in 0.06s. Phase 6Z.6K.8AK proves the same checkpoint-window producer surface can be emitted as theorem-valued Lean and built in 13.72s at 3.545 GiB RSS; Phase 6Z.6K.8AL proves the same surface can be split into shared source/row modules, bounded descriptor chunks, and a tiny root that builds in 10.50s at 3.343 GiB RSS; Phase 6Z.6K.8AM doubles the sampled window count and still builds the split root in 10.86s at 3.300 GiB RSS with only 315 descriptor families, 298 source groups, and 22 row groups. Phase 6Z.6K.8AN expands the checkpointed census to 39 windows / 97,500 sampled ranks and projects 862 descriptor families, 748 source+row producers, and 14 descriptor chunks, below the current gates. Phase 6Z.6K.8AO projects the production translation producer hierarchy at roughly 58k Lean lines / 2.3 MiB, 14 chunks, 748 producers, about 70 wall seconds at four jobs, and about 3.93 GiB peak RSS. Phase 6Z.6K.8AP.0 adds and checks the theorem adapters from `SourceRowPredicateBridge`/`SourceRowFactsBridge` and their range variants to residual interval coverage and `Translation.KilledBridge`; Phase 6Z.6K.8AP.1 adds GoodDirection-survivor range adapters so generated chunks can target `ResidualTranslationGoodCoverageOnRange` before producing the full killed bridge; Phase 6Z.6K.8AP.2 adds a classifier-free GoodDirection bridge so generated chunks can avoid `translationEarlyFamilyClassOfChoice` entirely and target `AllTranslationGoodCoverageOnRange`; Phase 6Z.6K.8AP.3 connects that all-GoodDirection target to public semantic generated coverage through `AllGoodRankKilled` and `semanticGeneratedCoverageOfAllGoodIntervals`; Phase 6Z.6K.8AP.4 rejects finite rank/mask dispatch after a `[0,16)` smoke took 288.66s and 14,041,472 KiB RSS; Phase 6Z.6K.8AP.7 rejects catalog membership as a production route; Phase 6Z.6K.8AP.8 adds a relation-based `SourceRow*GoodLanguageOnRange` API and empty-range smoke; Phase 6Z.6K.8AP.9 adds generic `SourcePositionSpec`/`SourcePairPositionSpec` lookup and source-fact producers for static and dynamic source positions; Phase 6Z.6K.8AP.10 adds a producer-level `SourceRowProducerGoodLanguageOnRange` API and empty-range smoke, letting future generated modules keep source/row producers private and export only erased all-Good coverage; Phase 6Z.6K.8AP.11 adds a source-position plus row-producer language API that erases semantic `SourcePairPositionSpec.Predicate` membership and row-producer `Applies` evidence to AP.10; Phase 6Z.6K.8AP.15 adds the descriptor-language/direct descriptor-coverage target; Phase 6Z.6K.8AP.16A lets existing source/row facts and language surfaces erase to descriptor coverage; Phase 6Z.6K.8AP.16B selects `source_language_full + row_exact` as the next producer-membership emitter target with 212 projected obligations over 7,112 sampled GoodDirection cases; Phase 6Z.6K.8AP.16C lets source-position row-producer languages erase directly to descriptor coverage and validates the bridge in 10.56s / 3,308,884 KiB; Phase 6Z.6K.8AP.16D/16E add the direct source-position coverage target and generator-facing combinators; Phase 6Z.6K.8AP.16F rejects the generic full-list lookup converse; Phase 6Z.6K.8AP.16G accepts the direct obligation inventory with 195 source+row candidate groups and 212 reusable obligations over 7,112 GoodDirection cases. Full 8AP still needs a nonempty generated Lean smoke that proves source-position predicates directly from `source_language_full`. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
+Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
+infrastructure, AP.16F rejects the generic source-lookup converse route, and
+AP.16G accepts the direct AP.16D obligation inventory.
+AP.16D adds the direct
 `SourcePositionRowProducerGoodCoverageOnRange` target and adapters to all-Good
-and descriptor coverage, validated by focused source-position and descriptor
-smoke builds.  The Phase 6 row above remains the historical compressed
-one-line dashboard; the detailed AP.16D status is recorded below.
+and descriptor coverage; AP.16E adds the direct target's empty/concat and
+single-candidate constructors.  Both paths were validated by focused
+source-position and descriptor smoke builds.  AP.16F shows source-position
+predicates must be generated directly or proved by narrow per-source lemmas,
+not by simplifying the full source list.  The Phase 6 row above remains the
+historical compressed one-line dashboard; the detailed AP.16D/AP.16E/AP.16F/AP.16G
+status is recorded below.
 
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Partially complete | The semantic public API now exists as `SemanticExhaustiveGeneratedCoverage` plus semantic Step-15 adapters. It still needs full generated semantic evidence before `Generated.rank_complete`/final Step 15 can be unconditional. |
@@ -530,6 +536,43 @@ smoke builds in 8.27s with 3,296,632 KiB peak RSS, and the descriptor smoke
 builds in 3.26s with 3,328,084 KiB peak RSS.  This is accepted bridge
 infrastructure only; the next production step is a nonempty theorem for this
 direct coverage predicate over meaningful rank ranges.
+Phase 6Z.6K.8AP.16E adds the generator-facing combinators for that direct
+coverage predicate: `empty`, `concat`, and `of_singleCandidate`.  These let a
+future emitter build balanced interval roots and package one source-position
+spec plus one row producer without repeating existential boilerplate.  The
+source-position smoke builds in 9.22s with 3,241,388 KiB peak RSS, and the
+descriptor smoke builds in 10.35s with 3,327,952 KiB peak RSS.  This is still
+bridge infrastructure only; the nonempty selector/completeness theorem remains
+the production gap.
+Phase 6Z.6K.8AP.16F rejects a tempting generic source-lookup converse:
+deriving `SourcePairPositionSpec.Predicate` from arbitrary
+`SourceIndexStateSourcePredicate` by simplifying the full
+`translationConstraintSources` list failed after 25.97s with 4,494,220 KiB peak
+RSS, leaving unsolved interior impact-zero cases and hitting the heartbeat
+limit.  The attempted theorem was reverted and the module then rebuilt in
+11.18s with 3,621,628 KiB peak RSS.  Future AP.16 membership emission should
+generate source-position predicates directly from `source_language_full`
+records, or add narrow per-source lemmas that avoid full-list expansion.
+Phase 6Z.6K.8AP.16G profiles the AP.16D direct coverage obligations selected
+by the AP.16B `source_language_full + row_exact` coordinate.  The memory-safe
+parallel diagnostic
+
+```text
+/usr/bin/time -v python3 scripts/profile_ap16d_direct_coverage_obligations.py --jobs 4 --sample-limit 8 --obligation-gate 2000
+```
+
+passes in 3:10.80 wall time with only 47,300 KiB peak RSS.  It accepts the
+direct obligation inventory: the seven representative windows contain 7,112
+GoodDirection cases, 195 descriptor families, 191 source-language groups, 191
+source-position spec groups, 21 row groups, 195 direct source+row candidate
+groups, 212 reusable source+row obligations, and zero source-language
+validation failures.  The next Lean-producing step is no longer another bridge
+or generic lookup theorem; it is a bounded AP.16D smoke that proves
+`SourcePairPositionSpec.Predicate` directly from these generated
+`source_language_full` records, reuses `row_exact` for the row-producer side,
+and calls
+`SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate` inside
+balanced interval roots.
 
 Completed current-work items:
 
@@ -648,6 +691,17 @@ Completed current-work items:
   reports:
   - `scripts/generated/phase6z6k8ap16d_source_position_direct_coverage_target.json`
   - `scripts/generated/phase6z6k8ap16d_source_position_direct_coverage_target.md`
+- Added the Phase 6Z.6K.8AP.16E direct coverage combinator reports:
+  - `scripts/generated/phase6z6k8ap16e_direct_coverage_combinators.json`
+  - `scripts/generated/phase6z6k8ap16e_direct_coverage_combinators.md`
+- Added the Phase 6Z.6K.8AP.16F source-lookup converse rejection reports:
+  - `scripts/generated/phase6z6k8ap16f_source_lookup_converse_rejected.json`
+  - `scripts/generated/phase6z6k8ap16f_source_lookup_converse_rejected.md`
+- Added the Phase 6Z.6K.8AP.16G direct AP.16D obligation profiler and
+  reports:
+  - `scripts/profile_ap16d_direct_coverage_obligations.py`
+  - `scripts/generated/phase6z6k8ap16g_direct_coverage_obligations.json`
+  - `scripts/generated/phase6z6k8ap16g_direct_coverage_obligations.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -9345,6 +9399,28 @@ Acceptance:
   source-position and descriptor-language smokes in 8.27s / 3,296,632 KiB and
   3.26s / 3,328,084 KiB respectively.  This is accepted bridge infrastructure
   only.
+- [x] Implement Phase 6Z.6K.8AP.16E direct coverage combinators:
+  add `SourcePositionRowProducerGoodCoverageOnRange.empty`,
+  `SourcePositionRowProducerGoodCoverageOnRange.concat`, and
+  `SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate`, then
+  validate empty/concat/single-candidate/all-Good/descriptor erasure smokes in
+  9.22s / 3,241,388 KiB and 10.35s / 3,327,952 KiB.  This is accepted
+  generator-facing bridge infrastructure only.
+- [x] Reject Phase 6Z.6K.8AP.16F generic source-lookup converse:
+  a generic `SourcePositionSpec.holds_of_lookup` proof over arbitrary
+  `translationConstraintSources` expansion failed after 25.97s /
+  4,494,220 KiB with unsolved interior impact-zero cases and a heartbeat
+  timeout.  The theorem was reverted; rebuilding the module passed in 11.18s /
+  3,621,628 KiB.  Do not use full-list simplification as the AP.16 source
+  membership route.
+- [x] Implement Phase 6Z.6K.8AP.16G direct AP.16D obligation profile:
+  add `scripts/profile_ap16d_direct_coverage_obligations.py` and run it with
+  `--jobs 4`.  It accepts the AP.16D direct obligation inventory in 3:10.80
+  wall time with 47,300 KiB peak RSS: 7,112 GoodDirection cases collapse to
+  195 direct source+row candidate groups, 191 source-language groups, 191
+  source-position spec groups, 21 row groups, and 212 reusable source+row
+  obligations, with zero source-language validation failures.  This is
+  diagnostic only, but it fixes the next Lean emitter target.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -9357,8 +9433,16 @@ Acceptance:
   `interval_cases r` plus `fin_cases mask` replay.  The next concrete target
   is to instantiate the AP.16D direct source-position coverage target with a
   nonempty generated theorem using `source_language_full + row_exact`, erased
-  through AP.16D/AP.16C to descriptor coverage.  AP.5 catalogs may remain
-  export boundaries, but not the production membership proof coordinate.
+  through AP.16D/AP.16C to descriptor coverage and composed with AP.16E
+  `concat` for balanced roots.  After AP.16F, source-position predicates should
+  be generated directly from `source_language_full` records or proved with
+  narrow per-source lemmas, not recovered by a generic full-list lookup
+  converse.  After AP.16G, the first nonempty Lean smoke should emit shared
+  source-position predicate lemmas from `source_language_full`, shared row
+  producer lemmas from `row_exact`, and descriptor chunks that call
+  `SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate`, then
+  compose with `concat`.  AP.5 catalogs may remain export boundaries, but not
+  the production membership proof coordinate.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -10682,6 +10766,90 @@ next Lean-producing step should target a nonempty
 `SourcePositionRowProducerGoodCoverageOnRange lo hi` theorem over meaningful
 rank ranges, using the AP.16B `source_language_full + row_exact` route without
 rank/mask replay.
+
+Phase 6Z.6K.8AP.16E adds direct coverage combinators:
+
+```lean
+SourcePositionRowProducerGoodCoverageOnRange.empty
+SourcePositionRowProducerGoodCoverageOnRange.concat
+SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate
+```
+
+These are the generic constructors a production emitter needs.  `empty` and
+`concat` support balanced interval roots for the direct coverage target.
+`of_singleCandidate` packages one source-position spec, one row producer, one
+key, the key/source-position equalities, the source-position predicate proof,
+and the row-producer applicability proof into the AP.16D existential target.
+
+The focused validation commands
+
+```text
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguageSmoke
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke
+```
+
+pass in 9.22s / 3,241,388 KiB peak RSS and 10.35s / 3,327,952 KiB peak RSS,
+respectively.  The smoke validates empty, concat, single-candidate, all-Good
+erasure, and descriptor erasure paths.  This is still not nonempty generated
+membership coverage: it only removes boilerplate and root-composition work
+from the next emitter.
+
+Phase 6Z.6K.8AP.16F tests and rejects a generic source-lookup converse.  The
+attempted theorem would have derived `SourcePositionSpec.Holds` from
+
+```lean
+listGet? (translationConstraintSources seq) spec.index = some spec.source
+```
+
+and then derived `SourcePairPositionSpec.Predicate` from
+`SourceIndexStateSourcePredicate`.  The proof tried to simplify the whole
+`translationConstraintSources` list for arbitrary interior sources.  The focused
+build
+
+```text
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
+```
+
+failed after 25.97s with 4,494,220 KiB peak RSS.  Lean left unsolved interior
+impact-zero cases and reported a deterministic heartbeat timeout in `simp`.
+The attempted theorem was removed.  The post-revert focused build of the same
+module passed in 11.18s with 3,621,628 KiB peak RSS.
+
+This rejection is important for the next emitter: do not recover AP.16D
+source-position predicates from old source-list lookup predicates by generic
+full-list simplification.  Generate `SourcePairPositionSpec.Predicate` directly
+from `source_language_full` records, or introduce narrow source-specific lemmas
+that do not expand every source block at once.
+
+Phase 6Z.6K.8AP.16G adds the direct AP.16D obligation profiler:
+
+```text
+scripts/profile_ap16d_direct_coverage_obligations.py
+```
+
+It reuses the bounded representative windows and the AP.16B
+`source_language_full + row_exact` route, but it asks the AP.16D-specific
+question: how many source-position predicate obligations and row-producer
+obligations would a nonempty direct coverage emitter have to prove?  The run
+
+```text
+/usr/bin/time -v python3 scripts/profile_ap16d_direct_coverage_obligations.py --jobs 4 --sample-limit 8 --obligation-gate 2000
+```
+
+passes in 3:10.80 wall time, 490.91s user time, 257% CPU, and 47,300 KiB peak
+RSS.  The result is accepted as a diagnostic inventory: 7,112 GoodDirection
+cases, 195 descriptor families, 191 source-language groups, 191
+source-position spec groups, 21 row groups, 195 direct source+row candidate
+groups, 212 reusable obligations, zero source-language validation failures,
+and an accepted status under the 2,000-obligation gate.
+
+This is still not proof, but it gives the next proof-producing target a crisp
+shape: generate a bounded AP.16D Lean smoke with shared source-position modules
+that prove `SourcePairPositionSpec.Predicate` directly from
+`source_language_full`, shared row modules that reuse `row_exact`, and
+descriptor chunks that call
+`SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate` before
+erasing through AP.16D/AP.16C.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

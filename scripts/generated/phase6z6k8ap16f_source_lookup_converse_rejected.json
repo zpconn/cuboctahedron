@@ -1,0 +1,38 @@
+{
+  "artifacts": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean"
+  ],
+  "attempt": {
+    "description": "Add a generic SourcePositionSpec.holds_of_lookup theorem and derive SourcePairPositionSpec.Predicate from SourceIndexStateSourcePredicate.",
+    "result": "rejected and reverted",
+    "reason": "The proof expanded the full translationConstraintSources list, left unsolved interior impact cases, and hit the heartbeat limit in a large simp goal."
+  },
+  "builds": [
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage",
+      "elapsed_seconds": 25.97,
+      "max_rss_kib": 4494220,
+      "status": "failed",
+      "notes": [
+        "unsolved goals in SourcePositionSpec.holds_of_lookup for impossible interior impact zero cases",
+        "simp timeout at 200000 heartbeats while expanding translationConstraintSources"
+      ]
+    },
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage",
+      "elapsed_seconds": 11.18,
+      "max_rss_kib": 3621628,
+      "status": "passed-after-revert"
+    }
+  ],
+  "decision": {
+    "notes": [
+      "do not pursue a generic full-list lookup converse by brute-force simplification",
+      "future source-position membership should be generated from source-language obligations directly, or proved with much narrower per-source lemmas",
+      "the failed theorem was not kept in the Lean source"
+    ],
+    "status": "rejected-generic-source-lookup-converse"
+  },
+  "phase": "6Z.6K.8AP.16F",
+  "trusted_as_proof": false
+}

@@ -98,6 +98,53 @@ def SourcePositionRowProducerGoodCoverageOnRange (lo hi : Nat) : Prop :=
                         spec.Predicate rank mask /\
                           rowProducer.Applies key rank mask
 
+theorem SourcePositionRowProducerGoodCoverageOnRange.empty
+    {lo hi : Nat} (h : hi <= lo) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact False.elim ((Nat.not_lt_of_ge h) (lt_of_le_of_lt hlo hhi))
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.concat
+    {lo mid hi : Nat}
+    (left : SourcePositionRowProducerGoodCoverageOnRange lo mid)
+    (right : SourcePositionRowProducerGoodCoverageOnRange mid hi) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  by_cases hmid : rank < mid
+  · exact left hlt hlo hmid hM hgood
+  · exact right hlt (Nat.le_of_not_lt hmid) hhi hM hgood
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate
+    {lo hi : Nat}
+    (spec : SourcePairPositionSpec)
+    (rowProducer : SourceIndexStateRowProducer)
+    (key : SourceIndexStateKey)
+    (hfirst : key.firstIndex = spec.first.index)
+    (hsecond : key.secondIndex = spec.second.index)
+    (hsupport : key.support = spec.support)
+    (hsource :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                spec.Predicate rank mask)
+    (hrows :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                rowProducer.Applies key rank mask) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact ⟨spec, rowProducer, key,
+    ⟨hfirst, ⟨hsecond, ⟨hsupport,
+      ⟨hsource hlt hlo hhi hM hgood,
+        hrows hlt hlo hhi hM hgood⟩⟩⟩⟩⟩
+
 def SourcePositionRowProducerGoodLanguageOnRange.of_coverage
     {lo hi : Nat}
     (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :

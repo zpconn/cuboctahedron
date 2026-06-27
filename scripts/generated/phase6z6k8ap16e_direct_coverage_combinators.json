@@ -1,0 +1,33 @@
+{
+  "artifacts": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean"
+  ],
+  "builds": [
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguageSmoke",
+      "elapsed_seconds": 9.22,
+      "max_rss_kib": 3241388,
+      "status": "passed"
+    },
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke",
+      "elapsed_seconds": 10.35,
+      "max_rss_kib": 3327952,
+      "status": "passed"
+    }
+  ],
+  "decision": {
+    "notes": [
+      "accepted as AP.16E generator-facing bridge infrastructure only",
+      "SourcePositionRowProducerGoodCoverageOnRange now has empty and concat combinators for interval roots",
+      "of_singleCandidate packages a source-position spec, row producer, key equalities, source predicate proof, and row-producer proof into direct coverage",
+      "smoke validates the empty, concat, single-candidate, all-Good erasure, and descriptor erasure paths",
+      "does not prove nonempty generated membership coverage"
+    ],
+    "status": "accepted-direct-coverage-combinators"
+  },
+  "phase": "6Z.6K.8AP.16E",
+  "trusted_as_proof": false
+}

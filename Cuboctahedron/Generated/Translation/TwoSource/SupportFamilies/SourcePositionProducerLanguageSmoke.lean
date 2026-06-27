@@ -12,6 +12,8 @@ membership, not by bounded rank/mask replay.
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguageSmoke
 
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
 
 private def emptySourcePositionRowProducerLanguage :
@@ -40,6 +42,43 @@ private theorem emptySourcePositionRowProducerCoverage :
     SourcePositionRowProducerGoodCoverageOnRange 0 0 := by
   intro rank mask hlt hlo hhi hM hgood
   exact False.elim (Nat.not_lt_zero rank hhi)
+
+private theorem emptySourcePositionRowProducerCoverageByEmpty :
+    SourcePositionRowProducerGoodCoverageOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.empty (Nat.le_refl 0)
+
+private theorem emptySourcePositionRowProducerCoverageByConcat :
+    SourcePositionRowProducerGoodCoverageOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.concat
+    emptySourcePositionRowProducerCoverageByEmpty
+    emptySourcePositionRowProducerCoverageByEmpty
+
+private def smokeSpec : SourcePairPositionSpec where
+  first := SourcePositionSpec.xpStart ⟨0, by decide⟩
+  second := SourcePositionSpec.xpStart ⟨1, by decide⟩
+
+private def smokeRowProducer : SourceIndexStateRowProducer where
+  Applies := fun _ _ _ => False
+  rowFacts := by
+    intro key rank mask h
+    cases h
+
+private def smokeKey : SourceIndexStateKey where
+  firstIndex := smokeSpec.first.index
+  secondIndex := smokeSpec.second.index
+  support := smokeSpec.support
+  template := SourceIndexTemplate.eqEqPosVarFirst
+
+private theorem emptySourcePositionRowProducerCoverageBySingleCandidate :
+    SourcePositionRowProducerGoodCoverageOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate
+    smokeSpec smokeRowProducer smokeKey rfl rfl rfl
+    (by
+      intro rank mask hlt hlo hhi hM hgood
+      exact False.elim (Nat.not_lt_zero rank hhi))
+    (by
+      intro rank mask hlt hlo hhi hM hgood
+      exact False.elim (Nat.not_lt_zero rank hhi))
 
 def smokeLanguageOfCoverage :
     SourcePositionRowProducerGoodLanguageOnRange 0 0 :=
@@ -70,6 +109,11 @@ theorem smokeAllGoodCoverageOfDirectCoverage :
     AllTranslationGoodCoverageOnRange 0 0 :=
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     emptySourcePositionRowProducerCoverage
+
+theorem smokeAllGoodCoverageOfSingleCandidateCoverage :
+    AllTranslationGoodCoverageOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    emptySourcePositionRowProducerCoverageBySingleCandidate
 
 theorem sourcePositionProducerLanguageSmoke_builds : True := by
   trivial

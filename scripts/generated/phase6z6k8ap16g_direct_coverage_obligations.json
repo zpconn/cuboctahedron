@@ -1,0 +1,1340 @@
+{
+  "counts": {
+    "covered_cases": 7112,
+    "good_direction_survivors": 7112,
+    "identity_words": 958,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 19042,
+    "not_good_direction_masks": 54200,
+    "pair_words_scanned": 20000,
+    "translation_sign_assignments": 61312,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "source_language_full records map unambiguously to source-position specs",
+      "row_exact remains the row producer coordinate",
+      "the next Lean emitter should generate source-position predicates directly from these records"
+    ],
+    "status": "accepted-direct-coverage-obligation-inventory"
+  },
+  "descriptor_family_count": 195,
+  "direct_candidate_group_count": 195,
+  "dynamic_source_obligation_count": 90,
+  "excluded_face_set_size_histogram": {
+    "10": 102,
+    "11": 63,
+    "12": 648,
+    "13": 1322,
+    "4": 18,
+    "5": 10,
+    "6": 1380,
+    "7": 760,
+    "8": 532,
+    "9": 596
+  },
+  "jobs": 4,
+  "phase": "6Z.6K.8AP.16G",
+  "ranges": [
+    [
+      0,
+      5000
+    ],
+    [
+      100000,
+      102500
+    ],
+    [
+      1000000,
+      1002500
+    ],
+    [
+      10000000,
+      10002500
+    ],
+    [
+      30000000,
+      30002500
+    ],
+    [
+      60000000,
+      60002500
+    ],
+    [
+      90000000,
+      90002500
+    ]
+  ],
+  "reusable_obligation_count": 212,
+  "row_group_count": 21,
+  "schema_version": 1,
+  "source_groups_unambiguous": true,
+  "source_kind_counts": {
+    "interior": 5431,
+    "ordering": 1776,
+    "xpStart": 7017
+  },
+  "source_language_failure_samples": [],
+  "source_language_group_count": 191,
+  "source_language_validation_failures": {},
+  "source_pair_spec_group_count": 191,
+  "top_direct_candidate_groups": [
+    {
+      "case_count": 1316,
+      "descriptor_count": 1,
+      "key": "9485cbee1a3258dd9c837bee13ded2ae0380027275800ae94eefc0aca57a1c50",
+      "sample": [
+        {
+          "mask": 18,
+          "rank": 3759,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 20,
+          "rank": 3759,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 3761,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 3761,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ]
+    },
+    {
+      "case_count": 547,
+      "descriptor_count": 1,
+      "key": "18ea3957be5c18cea42e5d3f5b000448085b4dfba47579cf96bf0e02d3bc2cdd",
+      "sample": [
+        {
+          "mask": 18,
+          "rank": 3750,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 3752,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 26,
+          "rank": 3753,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 26,
+          "rank": 3759,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ]
+    },
+    {
+      "case_count": 497,
+      "descriptor_count": 1,
+      "key": "5f7cdceccf62d15f3b3da7398c7181d741b538d9cd6d76adc90d0a1fee2a0bd5",
+      "sample": [
+        {
+          "mask": 16,
+          "rank": 10000075,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 10000083,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 10000085,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 10000142,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "excludedFaceSetSize": 9,
+          "face": "tmpp",
+          "impact": 3,
+          "index": 52,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpp 8",
+          "obligation": "interior:3:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+          "slot": 8
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ]
+    },
+    {
+      "case_count": 339,
+      "descriptor_count": 1,
+      "key": "1705ab6e6030216353096977ac347f9414c97c2b473f3d171587a71096a9fc34",
+      "sample": [
+        {
+          "mask": 47,
+          "rank": 3783,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 3785,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 3789,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 3864,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ]
+    },
+    {
+      "case_count": 283,
+      "descriptor_count": 1,
+      "key": "b7babc9f0f24cd3e51141945bddaa8edc2c910a65183a3e12451366349afe658",
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 2508,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 2510,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 2514,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 2517,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ]
+    },
+    {
+      "case_count": 271,
+      "descriptor_count": 1,
+      "key": "b2bae12c684597144a516282ccf5a8654bc9fd833aa6a8e1787a003aa725baa6",
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 3750,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 45,
+          "rank": 3750,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 29,
+          "rank": 3752,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 45,
+          "rank": 3752,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ]
+    },
+    {
+      "case_count": 185,
+      "descriptor_count": 1,
+      "key": "e47a5c691c8ed6db6409ed93931eb6ccacacd9bf560d8ae20dd39f5d27724265",
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 10000009,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 10000051,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 10000075,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 10000145,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 3,
+          "index": 51,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:3:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ]
+    },
+    {
+      "case_count": 128,
+      "descriptor_count": 1,
+      "key": "7ebc519059639dfdd42fe4e805408a8df2137417c0bbbbd210c15e462878f71a",
+      "sample": [
+        {
+          "mask": 11,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 16,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 20,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 47,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 15,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e811, by decide\u27e9",
+          "obligation": "ordering:11"
+        }
+      ]
+    }
+  ],
+  "top_source_language_groups": [
+    {
+      "case_count": 1316,
+      "descriptor_count": 1,
+      "key": "5a0f1dd69a6c1a928aa4fd524b7482886617ed2b4f4f13b88c219fdd99518057",
+      "sample": [
+        {
+          "mask": 18,
+          "rank": 3759,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 20,
+          "rank": 3759,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 3761,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 3761,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ]
+    },
+    {
+      "case_count": 547,
+      "descriptor_count": 1,
+      "key": "4022268621e125985b50c93bd1aead7a83ea00484118594e9e34e341b1dffc24",
+      "sample": [
+        {
+          "mask": 18,
+          "rank": 3750,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 3752,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 26,
+          "rank": 3753,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 26,
+          "rank": 3759,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ]
+    },
+    {
+      "case_count": 497,
+      "descriptor_count": 1,
+      "key": "604e682aaa37f988771a765599de8294ee3b1a348e5a16551b4a7a4a7dcd2e59",
+      "sample": [
+        {
+          "mask": 16,
+          "rank": 10000075,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 10000083,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 10000085,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 10000142,
+          "sourceIndices": [
+            52,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "excludedFaceSetSize": 9,
+          "face": "tmpp",
+          "impact": 3,
+          "index": 52,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpp 8",
+          "obligation": "interior:3:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+          "slot": 8
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ]
+    },
+    {
+      "case_count": 339,
+      "descriptor_count": 1,
+      "key": "0fbb8840d01bf9199dadfcfbec75cbd0b4028d8e45230002f1a5c55a949629d6",
+      "sample": [
+        {
+          "mask": 47,
+          "rank": 3783,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 3785,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 3789,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 3864,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ]
+    },
+    {
+      "case_count": 283,
+      "descriptor_count": 1,
+      "key": "0d9f68bbf28bc6b9e0c6f0653fcdf9d8c90802d4a91705581ba08c0002632a75",
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 2508,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 2510,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 2514,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 2517,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ]
+    },
+    {
+      "case_count": 271,
+      "descriptor_count": 1,
+      "key": "2a7e030451acd9a7985b8d6b549df750713e940cc17a8be63d2577ec59a96f7c",
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 3750,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 45,
+          "rank": 3750,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 29,
+          "rank": 3752,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 45,
+          "rank": 3752,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ]
+    },
+    {
+      "case_count": 185,
+      "descriptor_count": 1,
+      "key": "499a293c786b92374ca332dd34b1f81b339f9839b26a80d5cfe8881499142b8a",
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 10000009,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 10000051,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 10000075,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 10000145,
+          "sourceIndices": [
+            51,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 3,
+          "index": 51,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:3:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ]
+    },
+    {
+      "case_count": 128,
+      "descriptor_count": 1,
+      "key": "7c22303e1e3f10f8c374bc9f955db79ec812430b881655d509ba85b48db58b16",
+      "sample": [
+        {
+          "mask": 11,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 16,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 20,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 47,
+          "rank": 3767,
+          "sourceIndices": [
+            0,
+            15
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "sourcePositions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 15,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e811, by decide\u27e9",
+          "obligation": "ordering:11"
+        }
+      ]
+    }
+  ],
+  "total_good_direction_cases": 7112,
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "counts": {
+        "covered_cases": 4693,
+        "good_direction_survivors": 4693,
+        "identity_words": 487,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 4513,
+        "not_good_direction_masks": 26475,
+        "pair_words_scanned": 5000,
+        "translation_sign_assignments": 31168,
+        "uncovered_cases": 0
+      },
+      "family_count": 125,
+      "range": [
+        0,
+        5000
+      ],
+      "represented_case_count": 4693
+    },
+    {
+      "counts": {
+        "covered_cases": 296,
+        "good_direction_survivors": 296,
+        "identity_words": 66,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2434,
+        "not_good_direction_masks": 3928,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 4224,
+        "uncovered_cases": 0
+      },
+      "family_count": 37,
+      "range": [
+        100000,
+        102500
+      ],
+      "represented_case_count": 296
+    },
+    {
+      "counts": {
+        "covered_cases": 50,
+        "good_direction_survivors": 50,
+        "identity_words": 11,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2489,
+        "not_good_direction_masks": 654,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 704,
+        "uncovered_cases": 0
+      },
+      "family_count": 12,
+      "range": [
+        1000000,
+        1002500
+      ],
+      "represented_case_count": 50
+    },
+    {
+      "counts": {
+        "covered_cases": 2069,
+        "good_direction_survivors": 2069,
+        "identity_words": 235,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2265,
+        "not_good_direction_masks": 12971,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 15040,
+        "uncovered_cases": 0
+      },
+      "family_count": 136,
+      "range": [
+        10000000,
+        10002500
+      ],
+      "represented_case_count": 2069
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 127,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2373,
+        "not_good_direction_masks": 8128,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 8128,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "range": [
+        30000000,
+        30002500
+      ],
+      "represented_case_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 27,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2473,
+        "not_good_direction_masks": 1728,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 1728,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "range": [
+        60000000,
+        60002500
+      ],
+      "represented_case_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 4,
+        "good_direction_survivors": 4,
+        "identity_words": 5,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2495,
+        "not_good_direction_masks": 316,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 320,
+        "uncovered_cases": 0
+      },
+      "family_count": 1,
+      "range": [
+        90000000,
+        90002500
+      ],
+      "represented_case_count": 4
+    }
+  ]
+}
