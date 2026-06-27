@@ -7399,6 +7399,71 @@ exit status: 0
     whether they collapse to a global bounded state language or require a new
     symbolic invariant.
 
+Completed Phase 6Z.6K.8AB:
+
+- Added `scripts/profile_source_position_applicability_scaling.py`.
+- The profiler emits no Lean and is not trusted as proof. It reuses the exact
+  external source-index/state classifier and counts the semantic theorem
+  surfaces needed after 8AA:
+  - descriptor/applicability signatures;
+  - source-position signatures;
+  - row-template signatures;
+  - source/row pair signatures;
+  - source-language obligations.
+- It validates sampled source-language obligations while grouping, so a
+  mismatch is reported as a profile rejection rather than converted into
+  generated proof data.
+- The profiler uses bounded Python parallelism through the existing
+  `collect_families_maybe_parallel` worker pool. It does not run Lean and does
+  not create rank/mask member replay tables.
+- Profiling command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_source_position_applicability_scaling.py \
+  --jobs 4 \
+  --ranges 0:1000,0:2500,10000:11000,90000:91000
+```
+
+- Profiling result:
+
+```text
+status:      accepted-next-broader-profile
+wall time:   2:16.63
+CPU:         303%
+peak RSS:    36,820 KB
+exit status: 0
+```
+
+- Window results:
+
+| Window | GoodDirection cases | Descriptor | Source-position | Row-template | Source/row pairs | Source-language obligations | Failures |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `[0,1000)` | 1,465 | 74 | 72 | 11 | 74 | 44 | 0 |
+| `[0,2500)` | 3,415 | 102 | 99 | 12 | 102 | 53 | 0 |
+| `[10000,11000)` | 371 | 52 | 52 | 8 | 52 | 40 | 0 |
+| `[90000,91000)` | 1,059 | 79 | 78 | 10 | 79 | 50 | 0 |
+
+- Union signature counts across those windows:
+
+| Surface | Union count |
+| --- | ---: |
+| descriptor/applicability | 146 |
+| source-position | 143 |
+| row-template | 12 |
+| source/row pair | 146 |
+| source-language obligation | 83 |
+| source-language signature | 83 |
+
+- Decision:
+  - Accept 8AB as the first applicability scaling profile. The sampled
+    signature surfaces remain small and the run was memory-safe with 4
+    workers.
+  - This is still not a global coverage proof and it emitted no Lean. The
+    immediate next step is Phase 6Z.6K.8AC: run a broader representative
+    applicability profile across more disjoint windows and larger bounded
+    windows. Emit no new Lean unless the union signatures remain bounded and
+    the profile still has zero validation failures.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8437,10 +8502,14 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AA semantic producer-applicability layer:
   prove or profile a non-replay way to derive the 8Z source/row producer
   `Applies` premises from symbolic source-position and row state invariants.
-- [ ] Implement Phase 6Z.6K.8AB applicability scaling profiler:
+- [x] Implement Phase 6Z.6K.8AB applicability scaling profiler:
   profile the 8AA source-position and row-template predicate obligations over
   larger translation windows and decide whether they form a global bounded
   state language or need a new invariant.
+- [ ] Implement Phase 6Z.6K.8AC broader representative applicability profile:
+  run more disjoint and larger bounded windows with the 8AB profiler, then
+  decide whether to emit a small multi-window Lean smoke or search for another
+  invariant.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8584,11 +8653,19 @@ generators used `--jobs 4`, each finished in about 35 seconds with about
 31 MB peak RSS, and the focused Lean build passed in 13.67 seconds with
 3.40 GiB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8AB: scale the applicability profile
-beyond `[0,1000)`. That step should:
+Phase 6Z.6K.8AB is complete as the first applicability scaling profile. It
+ran the external profiler with `--jobs 4` over `[0,1000)`, `[0,2500)`,
+`[10000,11000)`, and `[90000,91000)`. The run finished in 2:16.63 with
+36.8 MB peak RSS and zero validation failures. Across those windows the union
+signature counts were 146 descriptor/applicability signatures, 143
+source-position signatures, 12 row-template signatures, 146 source/row pair
+signatures, and 83 source-language obligations.
+
+The immediate next step is Phase 6Z.6K.8AC: broaden the applicability profile
+before emitting more Lean. That step should:
 
 - profile source-position predicate signatures and row-template predicate
-  signatures over larger translation windows;
+  signatures over more disjoint and larger translation windows;
 - report whether the 8AA obligations remain a bounded state language or grow
   with raw ranks/masks;
 - keep the profiling external and memory-safe, using `--jobs 4` or similar
