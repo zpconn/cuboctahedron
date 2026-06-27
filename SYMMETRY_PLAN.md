@@ -9106,6 +9106,9 @@ Acceptance:
   `SourceRowPredicateGoodBridgeOnRange`, and `AllTranslationGoodCoverageOnRange`.
   This is accepted bridge infrastructure only; it does not prove global
   membership coverage.
+- [x] Implement Phase 6Z.6K.8AP.6 catalog-membership smoke:
+  add a tiny private-catalog module exporting only erased AP theorems over
+  `[0,0)`.  This is accepted as an API smoke, not nonempty coverage.
 - [ ] Implement Phase 6Z.6K.8AP producer membership bridge:
   define non-enumerative generated membership chunks that turn arbitrary
   identity-linear `GoodDirectionAtRank` translation cases in each rank range
@@ -9926,6 +9929,32 @@ catalog-membership smoke that proves `SourceRowPredicateGoodCatalogOnRange` or
 `SourceRowFactsGoodCatalogOnRange` for a deliberately small non-enumerative
 family and exports only `SourceRowPredicateGoodBridgeOnRange` or
 `AllTranslationGoodCoverageOnRange`.
+
+Phase 6Z.6K.8AP.6 adds the first catalog-membership smoke and reports:
+
+- `scripts/generated/phase6z6k8ap6_catalog_membership_smoke.json`
+- `scripts/generated/phase6z6k8ap6_catalog_membership_smoke.md`
+
+It adds
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CatalogMembershipSmoke.lean`.
+The module keeps a singleton `smokeCatalog` private, proves
+`SourceRowPredicateGoodCatalogOnRange smokeCatalog 0 0`, and exports only:
+
+```lean
+theorem CatalogMembershipSmoke.smokePredicateBridge :
+  SourceRowPredicateGoodBridgeOnRange 0 0
+theorem CatalogMembershipSmoke.smokeAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 0 0
+```
+
+Focused validation passes:
+`lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.CatalogMembershipSmoke`
+in 5.29s with 3,275,708 KiB peak RSS.  This is accepted only as an API smoke:
+it proves that private catalogs can be erased before export, but it is empty
+coverage and does not solve nonempty source/row membership.  The next AP step
+must attempt a nonempty catalog membership family without rank/mask replay. If
+that cannot be done, reject catalog membership as production coverage and
+return to a stronger source/row language theorem.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

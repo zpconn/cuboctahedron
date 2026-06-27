@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "phase": "6Z.6K.8AP.6",
+  "mode": "catalog_membership_smoke",
+  "trusted_as_proof": false,
+  "timestamp_utc": "2026-06-27T20:40:19Z",
+  "files_changed": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CatalogMembershipSmoke.lean"
+  ],
+  "lean_exports_added": [
+    "CatalogMembershipSmoke.smokePredicateBridge",
+    "CatalogMembershipSmoke.smokeAllGoodCoverage"
+  ],
+  "decision": {
+    "status": "accepted-api-smoke",
+    "notes": [
+      "checks that a private finite key catalog can be erased to SourceRowPredicateGoodBridgeOnRange and AllTranslationGoodCoverageOnRange",
+      "uses an empty range intentionally to avoid finite rank/mask replay",
+      "does not prove nonempty membership coverage",
+      "next step must prove a nonempty non-enumerative membership family or reject the catalog route"
+    ]
+  },
+  "validation": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.CatalogMembershipSmoke",
+    "exit_status": 0,
+    "wall_seconds": 5.29,
+    "max_rss_kib": 3275708
+  },
+  "next_step": "attempt a nonempty catalog membership family that does not case-replay ranks or masks; if every nonempty smoke collapses to finite replay, reject catalog membership as production coverage and return to the source/row language theorem design"
+}
