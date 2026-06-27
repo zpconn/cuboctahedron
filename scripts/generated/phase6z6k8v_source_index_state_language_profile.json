@@ -1,0 +1,1428 @@
+{
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "source lookup splits into static xpStart/ordering facts and interior face-position facts",
+      "no sampled source group needs rank/mask finite replay at this abstraction level"
+    ],
+    "status": "accepted-next-lean-smoke"
+  },
+  "dynamic_obligation_count": 31,
+  "jobs": 4,
+  "max_interior_excluded_face_set_size": 13,
+  "mode": "source_index_state_language_profile",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "source_group_count": 72,
+  "source_index_state_family_count": 74,
+  "source_language_obligation_count": 44,
+  "source_occurrence_count": 144,
+  "static_obligation_count": 13,
+  "top_obligations": [
+    {
+      "caseCount": 951,
+      "dynamic": false,
+      "familyCount": 27,
+      "kind": "xpStart",
+      "obligation": "xpStart:0",
+      "occurrenceCount": 27,
+      "sample": [
+        {
+          "caseCount": 79,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 30,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 29,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "ae3bde4a1a4cc1ec75f1cb2bb1a8c46d60dc621e6564547419af063c86107bad",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 23,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "42b2ca31b66f321779af52fa7d1705bf6225addea038120f1bf009a80458707e",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 22,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "1d34e50ef50db67906309004624aa6d4e651dbd09c6d043c3d8c09105f94b4a9",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 20,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "cea4464df905000142edce9b11281690a008c9d5cd1e771dca605906f1732c50",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "f5d3bc532de79b891d27a058711bfb9349a1f9c646078b419227a9526058c152",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 18,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bfaf1e6ce0ce1d61786e4a66aa7cc7fe1274f69ba512fb8d2b3b5615b469ad17",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 421,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 128,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "102f94908cffedc720a55cfc27b35406493b72b1e82b3d7c1c24b827dcd70992",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 21,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "8b9860bf1b03698c2e5b816aa6d65a36f6345895abd06affbaa3b1e84c613982",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 421,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 421,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm"
+            ],
+            "excludedFaceSetSize": 6,
+            "face": "tmmm",
+            "faceIndex": 6,
+            "impact": 1,
+            "index": 23,
+            "kind": "interior",
+            "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+            "slot": 5,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmm",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+          "sourceIndex": 23,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 300,
+      "dynamic": false,
+      "familyCount": 26,
+      "kind": "xpStart",
+      "obligation": "xpStart:1",
+      "occurrenceCount": 26,
+      "sample": [
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "11d11e966a166501fce2240603d022412ecfc147a743e9eeb858fff69d844ebb",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 12,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "5ce1ee1f662aea79fe8c212d24c3e68d99cff33e5b7b11e2d6750a5472d0dc92",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 11,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "96db83cdd7dfbc306ef127f08ef94f5c3d71c27df72ac9f8545d0cd54e7b6dcb",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "2cc68c3b6a2dde0b5894b80d15ebc02445fe20739f015077a5ff51c7ae15634c",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "df66f4d09d995af9598edddf3f11fdf3faae819a11a4cf6f534a2a37f31d7c48",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3ce052d543893c1cede10f0b9b363c6ff783fb2298e6854feb62cc31de50d4c5",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3b2ecd7f1f860d940180e8edc9161ad12e089bf87d9755a00a9270c5672ca99b",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b2680d819fee8747dcca856d2980d906bdf5e5ef0fb1042fb131650341dacbc1",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 134,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 44,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a7877ce1c46d485047a80b1eccd5d4d7989cdb821193b5dc7ca680eae2097744",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b7f13f08666187ae2ff10842e7f35bf0bdf9c969d7d944b20a0473f3707df6fe",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 172,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 128,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 6,
+            "index": 83,
+            "kind": "interior",
+            "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "102f94908cffedc720a55cfc27b35406493b72b1e82b3d7c1c24b827dcd70992",
+          "sourceIndex": 83,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 44,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 6,
+            "index": 83,
+            "kind": "interior",
+            "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+          "sourceIndex": 83,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 170,
+      "dynamic": false,
+      "familyCount": 14,
+      "kind": "xpStart",
+      "obligation": "xpStart:2",
+      "occurrenceCount": 14,
+      "sample": [
+        {
+          "caseCount": 13,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3940e6d91b3a2977beb1d4942a19557c49dabb0e49e65b72e3227a510d4b67d7",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3290d20984474e3909c8a8dbc359f8163dd1eb7d94bb9866a2af2d916807585d",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "f6d33b37efe11ca04d4d63e6211fac6edae2c5f8c55bcd8093d7d8eab574be5b",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "5235f96701952b933dac7760828ad3a186c53ea499c754a3eef721e2d1a4f450",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "d7eceb9816d10bd7d38bd3b8bb132a7efa99fc38fde8edbb34f84d1cd377e09e",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c7adc305f537d2b6caee36a1174826e86bf4307f0781368733fabc1121201665",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "36eec823d5ba41c4a9e4265ec047b661da07f7adb499c0084faa69539f6df833",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 102,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 14,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "64fe078a0a250d964f3008d90e897412404e0cc786f6faf5a4783eaea38449b4",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bc3c3f42aacb1d847258109c055cea04afc822f2739a74efdebc85827b65df42",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "6f6d6a6023a5e161019f94f7a55b0822f48f5f64997f9ca7acae7509c8af8e65",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 134,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 134,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm"
+            ],
+            "excludedFaceSetSize": 7,
+            "face": "tmmp",
+            "faceIndex": 7,
+            "impact": 1,
+            "index": 24,
+            "kind": "interior",
+            "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+            "slot": 6,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmp",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+          "sourceIndex": 24,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 111,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:3",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 79,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "11d11e966a166501fce2240603d022412ecfc147a743e9eeb858fff69d844ebb",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 13,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "3940e6d91b3a2977beb1d4942a19557c49dabb0e49e65b72e3227a510d4b67d7",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 102,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 102,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp"
+            ],
+            "excludedFaceSetSize": 8,
+            "face": "tmpm",
+            "faceIndex": 8,
+            "impact": 1,
+            "index": 25,
+            "kind": "interior",
+            "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+            "slot": 7,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmpm",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+          "sourceIndex": 25,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 50,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:11",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 29,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 15,
+            "index": 15,
+            "kind": "ordering",
+            "obligation": "ordering:11",
+            "step": 11,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 11
+          },
+          "sourceGroupKey": "ae3bde4a1a4cc1ec75f1cb2bb1a8c46d60dc621e6564547419af063c86107bad",
+          "sourceIndex": 15,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 12,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 15,
+            "index": 15,
+            "kind": "ordering",
+            "obligation": "ordering:11",
+            "step": 11,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 11
+          },
+          "sourceGroupKey": "5ce1ee1f662aea79fe8c212d24c3e68d99cff33e5b7b11e2d6750a5472d0dc92",
+          "sourceIndex": 15,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 15,
+            "index": 15,
+            "kind": "ordering",
+            "obligation": "ordering:11",
+            "step": 11,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 11
+          },
+          "sourceGroupKey": "f6d33b37efe11ca04d4d63e6211fac6edae2c5f8c55bcd8093d7d8eab574be5b",
+          "sourceIndex": 15,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 43,
+      "dynamic": false,
+      "familyCount": 4,
+      "kind": "ordering",
+      "obligation": "ordering:7",
+      "occurrenceCount": 4,
+      "sample": [
+        {
+          "caseCount": 23,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "42b2ca31b66f321779af52fa7d1705bf6225addea038120f1bf009a80458707e",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "2cc68c3b6a2dde0b5894b80d15ebc02445fe20739f015077a5ff51c7ae15634c",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "3290d20984474e3909c8a8dbc359f8163dd1eb7d94bb9866a2af2d916807585d",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "a5857231036a8e1c27fa075ebed81e3a025d7ef170cef21a55a1520d311e11c1",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 43,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:9",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 30,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "5235f96701952b933dac7760828ad3a186c53ea499c754a3eef721e2d1a4f450",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "3ce052d543893c1cede10f0b9b363c6ff783fb2298e6854feb62cc31de50d4c5",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 35,
+      "dynamic": false,
+      "familyCount": 4,
+      "kind": "xpStart",
+      "obligation": "xpStart:3",
+      "occurrenceCount": 4,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a5857231036a8e1c27fa075ebed81e3a025d7ef170cef21a55a1520d311e11c1",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3acf75b0368568ac92f7f30f1945e86dcf9f597b55082f79a406da198e07b216",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 22,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "53696c059bbf359ca7a6c7accc921f9fa16dfba896d6532ca0eab7f9821a867c",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "91680d53032fa2b164ce79bff664fd9b3c2668cecd33138eaecccb17f8b26b08",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    }
+  ],
+  "trusted_as_proof": false,
+  "validation_failure_count": 0
+}

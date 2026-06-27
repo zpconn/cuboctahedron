@@ -191,7 +191,8 @@ runner plus representative calibration, the Phase 6Z.6K.5 source-parametric
 row-property quotient, the Phase 6Z.6K.6 bounded row-property quotient
 representative emitter/root, and the Phase 6Z.6K.7 row-property membership
 burden profiler, plus the Phase 6Z.6K.8S/8T producer-fact/glue smokes and
-the Phase 6Z.6K.8U bounded producer-membership rejection.
+the Phase 6Z.6K.8U bounded producer-membership rejection, and the Phase
+6Z.6K.8V source-index/state language profiler.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -246,6 +247,15 @@ shapes inside individual coordinate families. Phase 6Z.6K.8D changes the
 theorem-shape question and selects `source_index_state_row_property` as the
 preferred bounded surface: it has 74 stable families on `[0,1000)`, but still
 needs a Lean predicate proving `SourceAgrees` from source-index/state data.
+Phase 6Z.6K.8V then profiles the missing source-position layer directly:
+source lookup splits into static `xpStart`/ordering obligations plus small
+interior impact-face position obligations. On `[0,1000)`, a memory-safe
+parallel run with four Python workers reduces 144 source occurrences to 44
+semantic source-language obligations, with zero validation failures and only
+30.7 MB peak RSS. The next Lean target is therefore not a rank/mask replay
+root; it is a small source-position theorem surface that proves the
+`translationConstraintSources` lookup facts from static indices and dynamic
+interior excluded-face conditions.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -6979,6 +6989,62 @@ fin_cases r <;> fin_cases mask <;> decide
     theorem over a source-index/state language or decision tree, with ranks
     only entering through a small final adapter.
 
+Completed Phase 6Z.6K.8V:
+
+- Added `scripts/profile_source_index_state_language.py`.
+- Purpose: profile the semantic source-position facts needed to replace the
+  rejected 8U rank/mask replay proof. This emits no Lean and is not trusted as
+  proof.
+- The profiler groups source-index/state families by actual source-list
+  positions:
+  - `xpStart` sources are static by source index.
+  - `ordering` sources are static by step/source index.
+  - `interior` sources reduce to a face-position obligation: for source index
+    `18 + 13 * (impact - 1) + slot`, the excluded impact face must lie in the
+    exact finite set of faces that place the requested interior face at that
+    slot in `impactInteriorConstraints`.
+- Verification/profiling commands:
+
+```text
+python3 -m py_compile scripts/profile_source_index_state_language.py
+/usr/bin/time -v python3 scripts/profile_source_index_state_language.py --limit 1000 --jobs 4
+```
+
+- Result:
+
+```text
+status:                                  accepted-next-lean-smoke
+rank window:                             [0,1000)
+jobs:                                    4
+source-index/state families:             74
+source groups:                           72
+source occurrences:                      144
+source-language obligations:             44
+static obligations:                      13
+dynamic interior obligations:            31
+max interior excluded-face set size:     13
+validation failures:                     0
+wall time:                               0:31.11
+peak RSS:                                30,700 KB
+CPU utilization:                         298%
+```
+
+- Reports:
+  - `scripts/generated/phase6z6k8v_source_index_state_language_profile.json`
+  - `scripts/generated/phase6z6k8v_source_index_state_language_profile.md`
+- Decision:
+  - Accept the source-index/state language profiler as the next Lean smoke
+    target.
+  - This is a safe place to use Python parallelism: four workers cut wall time
+    while staying far below the memory budget.
+  - The profiler does not prove coverage. It identifies the theorem-sufficient
+    source-lookup facts that a Lean module should prove next.
+  - The next step is Phase 6Z.6K.8W: implement a small Lean
+    source-position-language module proving reusable lookup lemmas for
+    `translationConstraintSources`, especially the interior slot/excluded-face
+    condition. Generated smokes should invoke those lemmas rather than
+    `fin_cases r <;> fin_cases mask`.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7996,10 +8062,13 @@ Acceptance:
 - [x] Attempt Phase 6Z.6K.8U bounded producer-membership coverage smoke:
   rejected because the proof devolved into rank/mask finite replay; even a
   `[0,25)` version exceeded the build-time gate and was stopped.
-- [ ] Implement Phase 6Z.6K.8V semantic source-index/state membership theorem:
-  replace bounded rank/mask replay with a proof over a source-index/state
-  language or decision-tree coordinate that derives source and row producer
-  applications from symbolic state facts.
+- [x] Implement Phase 6Z.6K.8V semantic source-index/state language profiler:
+  identify the static source-index and dynamic interior source-position
+  obligations needed to replace bounded rank/mask replay.
+- [ ] Implement Phase 6Z.6K.8W Lean source-position-language smoke:
+  prove reusable lookup lemmas for `translationConstraintSources`, especially
+  the interior slot/excluded-face condition, and use them in a bounded
+  source-producer membership smoke without `fin_cases r <;> fin_cases mask`.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8101,15 +8170,25 @@ branches. The 8M profiler shows that the full descriptor key is descriptor-
 unique with 74 obligations and no concrete member branches; all coarser keys
 are ambiguous on the bounded window.
 
-Phase 6Z.6K.8U is rejected as described above. The immediate next step is
-Phase 6Z.6K.8V: a semantic source-index/state membership theorem. That step
-should:
+Phase 6Z.6K.8U is rejected as described above. Phase 6Z.6K.8V is complete as
+a profiler-only source-position language gate. It shows that the source side
+of producer membership can be reduced to 44 semantic source-language
+obligations on `[0,1000)`: 13 static `xpStart`/ordering obligations and 31
+dynamic interior slot/excluded-face obligations. The run used `--jobs 4` and
+peaked at only 30.7 MB RSS, so this kind of Python profiling should use safe
+parallelism when available.
+
+The immediate next step is Phase 6Z.6K.8W: a Lean source-position-language
+smoke. That step should:
 
 - keep the accepted semantic classifier branch shape from 8L and the key
   routing/fact surface from 8N/8O/8P/8Q;
 - use the completed 8T glue theorem surface as the target predicate;
-- prove producer membership from symbolic source-index/state facts, not by
-  finite `fin_cases` replay over ranks and masks;
+- prove source-producer membership from source-position facts, especially:
+  static `xpStart` index lookup, static ordering index lookup, and interior
+  source lookup from an excluded-face set/slot condition;
+- then reconnect those source facts to the existing row-producer and glue
+  surface, not by finite `fin_cases` replay over ranks and masks;
 - treat `[0,1000)` only as a profiling/calibration window for the semantic
   state theorem, not as the theorem's proof mechanism;
 - use memory-safe Python parallelism for profiling/generation where available
