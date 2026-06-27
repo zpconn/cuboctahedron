@@ -335,6 +335,21 @@ theorem SourcePairPositionSpec.sourceFacts
       simpa [hsupport, SourcePairPositionSpec.support] using (h hlt).2.2
   }
 
+theorem SourcePairPositionSpec.sourcePredicate
+    (spec : SourcePairPositionSpec)
+    {r : Nat} {mask : SignMask}
+    (h : spec.Predicate r mask) :
+    SourceIndexStateSourcePredicate
+      spec.first.index spec.second.index spec.support r mask := by
+  intro hlt
+  exact ⟨
+    spec.first.lookup (translationSeqAtRankMask ⟨r, hlt⟩ mask) (h hlt).1,
+    ⟨
+      spec.second.lookup (translationSeqAtRankMask ⟨r, hlt⟩ mask) (h hlt).2.1,
+      (h hlt).2.2
+    ⟩
+  ⟩
+
 def SourcePairPositionSpec.sourceProducer
     (spec : SourcePairPositionSpec) : SourceIndexStateSourceProducer where
   Applies := fun key r mask =>
@@ -345,6 +360,16 @@ def SourcePairPositionSpec.sourceProducer
   sourceFacts := by
     intro key r mask h
     exact spec.sourceFacts h.1 h.2.1 h.2.2.1 h.2.2.2
+
+theorem SourcePairPositionSpec.sourceProducerApplies
+    (spec : SourcePairPositionSpec)
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hfirst : key.firstIndex = spec.first.index)
+    (hsecond : key.secondIndex = spec.second.index)
+    (hsupport : key.support = spec.support)
+    (h : spec.Predicate r mask) :
+    spec.sourceProducer.Applies key r mask := by
+  exact ⟨hfirst, ⟨hsecond, ⟨hsupport, h⟩⟩⟩
 
 theorem sourcePositionLanguage_builds : True := by
   trivial

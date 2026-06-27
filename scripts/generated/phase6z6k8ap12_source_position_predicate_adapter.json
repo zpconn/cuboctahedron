@@ -1,0 +1,29 @@
+{
+  "phase": "6Z.6K.8AP.12",
+  "name": "source_position_predicate_adapter",
+  "status": "accepted_bridge_infrastructure",
+  "purpose": "Expose direct adapters from SourcePairPositionSpec.Predicate to SourceIndexStateSourcePredicate and spec.sourceProducer.Applies so generated nonempty AP language modules can reuse source-position lookup proofs through either bridge surface.",
+  "lean_files": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean"
+  ],
+  "new_theorems": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage.SourcePairPositionSpec.sourcePredicate",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage.SourcePairPositionSpec.sourceProducerApplies",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke.generic_source_000_sourcePredicate",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke.generic_source_000_sourceProducerApplies",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke.generic_source_004_sourcePredicate",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke.generic_source_004_sourceProducerApplies"
+  ],
+  "focused_build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke",
+    "passed": true,
+    "elapsed_seconds": 18.76,
+    "user_seconds": 20.92,
+    "system_seconds": 2.42,
+    "max_rss_kib": 3636984,
+    "swaps": 0
+  },
+  "coverage_scope": "empty/smoke only; no nonempty generated rank-range coverage",
+  "next_target": "Instantiate SourcePositionRowProducerGoodLanguageOnRange or a compatible source/row language over meaningful nonempty rank ranges without finite rank/mask replay."
+}

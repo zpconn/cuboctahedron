@@ -119,6 +119,22 @@ theorem generic_source_000_sourceFacts
   (generic_source_000_spec.sourceProducer).sourceFacts
     ⟨rfl, ⟨rfl, ⟨rfl, h⟩⟩⟩
 
+theorem generic_source_000_sourcePredicate
+    {r : Nat} {mask : SignMask}
+    (h : generic_source_000_spec.Predicate r mask) :
+    SourceIndexStateSourcePredicate
+      generic_source_000_spec.first.index
+      generic_source_000_spec.second.index
+      generic_source_000_spec.support r mask :=
+  generic_source_000_spec.sourcePredicate h
+
+theorem generic_source_000_sourceProducerApplies
+    {r : Nat} {mask : SignMask}
+    (h : generic_source_000_spec.Predicate r mask) :
+    generic_source_000_spec.sourceProducer.Applies
+      generic_source_000_key r mask :=
+  generic_source_000_spec.sourceProducerApplies rfl rfl rfl h
+
 /-- Static source group expressed through the generic source-position spec. -/
 private def generic_source_004_spec : SourcePairPositionSpec where
   first := SourcePositionSpec.xpStart ⟨0, by decide⟩
@@ -136,6 +152,22 @@ theorem generic_source_004_sourceFacts
     SourceIndexStateSourceFacts generic_source_004_key r mask :=
   (generic_source_004_spec.sourceProducer).sourceFacts
     ⟨rfl, ⟨rfl, ⟨rfl, h⟩⟩⟩
+
+theorem generic_source_004_sourcePredicate
+    {r : Nat} {mask : SignMask}
+    (h : generic_source_004_spec.Predicate r mask) :
+    SourceIndexStateSourcePredicate
+      generic_source_004_spec.first.index
+      generic_source_004_spec.second.index
+      generic_source_004_spec.support r mask :=
+  generic_source_004_spec.sourcePredicate h
+
+theorem generic_source_004_sourceProducerApplies
+    {r : Nat} {mask : SignMask}
+    (h : generic_source_004_spec.Predicate r mask) :
+    generic_source_004_spec.sourceProducer.Applies
+      generic_source_004_key r mask :=
+  generic_source_004_spec.sourceProducerApplies rfl rfl rfl h
 
 theorem sourcePositionLanguageSmoke_builds : True := by
   trivial

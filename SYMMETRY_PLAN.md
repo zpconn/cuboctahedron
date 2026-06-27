@@ -197,7 +197,8 @@ producer-growth projection gate and Phase 6Z.6K.8AO production hierarchy
 design, plus the Phase 6Z.6K.8AP.0 producer membership bridge core and
 Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge, and the Phase
 6Z.6K.8AP.3 public all-Good coverage bridge, and the Phase 6Z.6K.8AP.4
-bounded AP interval smoke.
+bounded AP interval smoke, through the Phase 6Z.6K.8AP.12 source-position
+predicate/producer adapter.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -450,6 +451,11 @@ Nonidentity caveat:
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
 | Phase 10: final theorem/axioms | Not ready | Wait for Step 15. |
 
+Dashboard addendum: Phase 6Z.6K.8AP.12 is accepted as bridge
+infrastructure. It adds direct source-position adapters to
+`SourceIndexStateSourcePredicate` and `spec.sourceProducer.Applies`; it does
+not yet provide nonempty generated coverage.
+
 Completed current-work items:
 
 - Added `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean`.
@@ -535,6 +541,12 @@ Completed current-work items:
   - `scripts/generated/phase6z6k8ap11_source_position_producer_language_bridge.md`
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean`
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean`
+- Added the Phase 6Z.6K.8AP.12 source-position predicate/producer adapter
+  reports and Lean:
+  - `scripts/generated/phase6z6k8ap12_source_position_predicate_adapter.json`
+  - `scripts/generated/phase6z6k8ap12_source_position_predicate_adapter.md`
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean`
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -9166,6 +9178,11 @@ Acceptance:
   prove source-position predicates plus row-producer `Applies` facts and erase
   them to the AP.10 producer-language surface.  Validate the erasure path with
   an empty-range smoke.
+- [x] Implement Phase 6Z.6K.8AP.12 source-position predicate/producer adapter:
+  add direct adapters from `SourcePairPositionSpec.Predicate` to
+  `SourceIndexStateSourcePredicate` and `spec.sourceProducer.Applies`, then
+  validate dynamic and static source-position examples in the smoke module.
+  This is accepted bridge infrastructure only.
 - [ ] Prove nonempty Phase 6Z.6K.8AP source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceRowProducerGoodLanguageOnRange lo hi`,
@@ -10227,6 +10244,41 @@ passes in 8.41s with 3,302,808 KiB peak RSS.  This is still an empty-range API
 smoke, not nonempty coverage.  The next AP target is to emit or prove a
 nonempty `SourcePositionRowProducerGoodLanguageOnRange lo hi` over meaningful
 ranges without finite rank/mask replay.
+
+Phase 6Z.6K.8AP.12 adds a small source-position adapter layer and reports:
+
+- `scripts/generated/phase6z6k8ap12_source_position_predicate_adapter.json`
+- `scripts/generated/phase6z6k8ap12_source_position_predicate_adapter.md`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean`
+
+The new adapter lemmas are:
+
+```lean
+theorem SourcePairPositionSpec.sourcePredicate :
+    spec.Predicate r mask ->
+      SourceIndexStateSourcePredicate
+        spec.first.index spec.second.index spec.support r mask
+
+theorem SourcePairPositionSpec.sourceProducerApplies :
+    key.firstIndex = spec.first.index ->
+    key.secondIndex = spec.second.index ->
+    key.support = spec.support ->
+    spec.Predicate r mask ->
+      spec.sourceProducer.Applies key r mask
+```
+
+These are not new coverage facts. They are generator-facing glue: a future
+nonempty AP.11 module can prove the semantic source-position predicate once
+and use it through either the older source-predicate bridge or the newer
+source-producer bridge. The focused validation command
+
+```text
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke
+```
+
+passes in 18.76s with 3,636,984 KiB peak RSS.  The next AP target remains a
+non-enumerative generated `complete` theorem over meaningful rank ranges.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
