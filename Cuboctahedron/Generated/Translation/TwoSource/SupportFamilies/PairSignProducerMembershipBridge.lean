@@ -235,6 +235,58 @@ abbrev SourceRowPredicateGoodCatalogOnRange {n : Nat}
                 (keyAt i).support rank mask /\
                 (keyAt i).template.Rows (keyAt i).support rank mask
 
+/--
+Semantic source/row facts language for a rank range.
+
+Unlike a finite catalog, this does not prescribe how keys are enumerated.
+Generated code can define `Language` as a state/prefix/source-position
+predicate, prove the three fields below, keep the structure private, and export
+only the erased bridge theorem.
+-/
+structure SourceRowFactsGoodLanguageOnRange (lo hi : Nat) where
+  Language : SourceIndexStateKey -> Nat -> SignMask -> Prop
+  source :
+    forall {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+      Language key rank mask -> SourceIndexStateSourceFacts key rank mask
+  rows :
+    forall {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+      Language key rank mask -> SourceIndexStateRowFacts key rank mask
+  complete :
+    forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+      lo <= rank ->
+        rank < hi ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              exists key : SourceIndexStateKey, Language key rank mask
+
+/--
+Semantic source/row predicate language for a rank range.
+
+This is the predicate-level analogue of `SourceRowFactsGoodLanguageOnRange`.
+It is the preferred future production target: prove a reusable language
+membership theorem, then erase it to `SourceRowPredicateGoodBridgeOnRange`.
+-/
+structure SourceRowPredicateGoodLanguageOnRange (lo hi : Nat) where
+  Language : SourceIndexStateKey -> Nat -> SignMask -> Prop
+  source :
+    forall {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+      Language key rank mask ->
+        SourceIndexStateSourcePredicate
+          key.firstIndex key.secondIndex key.support rank mask
+  rows :
+    forall {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+      Language key rank mask ->
+        key.template.Rows key.support rank mask
+  complete :
+    forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+      lo <= rank ->
+        rank < hi ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              exists key : SourceIndexStateKey, Language key rank mask
+
 theorem SourceRowFactsBridge.to_killedBridge
     (bridge : SourceRowFactsBridge) :
     Translation.KilledBridge := by
@@ -427,6 +479,37 @@ theorem SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage
   SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
     (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
       (SourceRowPredicateGoodCatalogOnRange.to_bridge catalog))
+
+theorem SourceRowFactsGoodLanguageOnRange.to_bridge
+    {lo hi : Nat}
+    (language : SourceRowFactsGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases language.complete hlt hlo hhi hM hgood with ⟨key, hmem⟩
+  exact ⟨key, language.source hmem, language.rows hmem⟩
+
+theorem SourceRowPredicateGoodLanguageOnRange.to_bridge
+    {lo hi : Nat}
+    (language : SourceRowPredicateGoodLanguageOnRange lo hi) :
+    SourceRowPredicateGoodBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases language.complete hlt hlo hhi hM hgood with ⟨key, hmem⟩
+  exact ⟨key, language.source hmem, language.rows hmem⟩
+
+theorem SourceRowFactsGoodLanguageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (language : SourceRowFactsGoodLanguageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
+    (SourceRowFactsGoodLanguageOnRange.to_bridge language)
+
+theorem SourceRowPredicateGoodLanguageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (language : SourceRowPredicateGoodLanguageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
+      (SourceRowPredicateGoodLanguageOnRange.to_bridge language))
 
 theorem SourceRowPredicateGoodBridge.to_allGoodCoverage
     (bridge : SourceRowPredicateGoodBridge) :

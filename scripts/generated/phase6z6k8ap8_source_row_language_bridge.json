@@ -1,0 +1,39 @@
+{
+  "phase": "6Z.6K.8AP.8",
+  "mode": "source_row_language_bridge",
+  "schema_version": 1,
+  "trusted_as_proof": false,
+  "decision": {
+    "status": "accepted-api-smoke",
+    "notes": [
+      "added relation-based source/row language structures that erase to existing AP GoodDirection bridges",
+      "empty-range smoke builds and exports erased bridge/coverage theorems without exposing a private language value",
+      "this is bridge infrastructure only; nonempty full-range source/row language membership remains open"
+    ]
+  },
+  "lean_files": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceRowLanguageSmoke.lean"
+  ],
+  "declarations_added": [
+    "SourceRowFactsGoodLanguageOnRange",
+    "SourceRowPredicateGoodLanguageOnRange",
+    "SourceRowFactsGoodLanguageOnRange.to_bridge",
+    "SourceRowPredicateGoodLanguageOnRange.to_bridge",
+    "SourceRowFactsGoodLanguageOnRange.to_allGoodCoverage",
+    "SourceRowPredicateGoodLanguageOnRange.to_allGoodCoverage",
+    "SourceRowLanguageSmoke.smokePredicateBridge",
+    "SourceRowLanguageSmoke.smokeAllGoodCoverage"
+  ],
+  "validation": {
+    "command": "lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowLanguageSmoke",
+    "status": "passed",
+    "wall_seconds": 1.01,
+    "max_rss_kib": 852772,
+    "notes": [
+      "warm focused build replayed dependencies",
+      "broad generated builds should remain serial or low-parallel until per-target RSS is measured"
+    ]
+  },
+  "remaining_gap": "prove a nonempty generated SourceRowPredicateGoodLanguageOnRange/SourceRowFactsGoodLanguageOnRange over meaningful rank ranges without interval_cases/fin_cases rank-mask replay"
+}
