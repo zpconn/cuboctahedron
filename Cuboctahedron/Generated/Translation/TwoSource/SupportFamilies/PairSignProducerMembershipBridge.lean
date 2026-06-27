@@ -287,6 +287,43 @@ structure SourceRowPredicateGoodLanguageOnRange (lo hi : Nat) where
             GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
               exists key : SourceIndexStateKey, Language key rank mask
 
+/--
+Producer-level source/row language for a rank range.
+
+This is the surface closest to the split producer hierarchy.  A generated
+module can keep its source/row producer definitions private, prove that every
+GoodDirection survivor belongs to one producer pair, and export only the
+erased facts-language or all-Good coverage theorem.
+-/
+structure SourceRowProducerGoodLanguageOnRange (lo hi : Nat) where
+  Language :
+    SourceIndexStateSourceProducer ->
+      SourceIndexStateRowProducer ->
+        SourceIndexStateKey -> Nat -> SignMask -> Prop
+  source :
+    forall {sourceProducer : SourceIndexStateSourceProducer}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language sourceProducer rowProducer key rank mask ->
+          sourceProducer.Applies key rank mask
+  rows :
+    forall {sourceProducer : SourceIndexStateSourceProducer}
+      {rowProducer : SourceIndexStateRowProducer}
+      {key : SourceIndexStateKey} {rank : Nat} {mask : SignMask},
+        Language sourceProducer rowProducer key rank mask ->
+          rowProducer.Applies key rank mask
+  complete :
+    forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+      lo <= rank ->
+        rank < hi ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              exists sourceProducer : SourceIndexStateSourceProducer,
+                exists rowProducer : SourceIndexStateRowProducer,
+                  exists key : SourceIndexStateKey,
+                    Language sourceProducer rowProducer key rank mask
+
 theorem SourceRowFactsBridge.to_killedBridge
     (bridge : SourceRowFactsBridge) :
     Translation.KilledBridge := by
@@ -510,6 +547,42 @@ theorem SourceRowPredicateGoodLanguageOnRange.to_allGoodCoverage
   SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
     (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
       (SourceRowPredicateGoodLanguageOnRange.to_bridge language))
+
+def SourceRowProducerGoodLanguageOnRange.to_factsLanguage
+    {lo hi : Nat}
+    (language : SourceRowProducerGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodLanguageOnRange lo hi where
+  Language := fun key rank mask =>
+    exists sourceProducer : SourceIndexStateSourceProducer,
+      exists rowProducer : SourceIndexStateRowProducer,
+        language.Language sourceProducer rowProducer key rank mask
+  source := by
+    intro key rank mask hmem
+    rcases hmem with ⟨sourceProducer, rowProducer, hmem⟩
+    exact sourceProducer.sourceFacts (language.source hmem)
+  rows := by
+    intro key rank mask hmem
+    rcases hmem with ⟨sourceProducer, rowProducer, hmem⟩
+    exact rowProducer.rowFacts (language.rows hmem)
+  complete := by
+    intro rank mask hlt hlo hhi hM hgood
+    rcases language.complete hlt hlo hhi hM hgood with
+      ⟨sourceProducer, rowProducer, key, hmem⟩
+    exact ⟨key, sourceProducer, rowProducer, hmem⟩
+
+theorem SourceRowProducerGoodLanguageOnRange.to_bridge
+    {lo hi : Nat}
+    (language : SourceRowProducerGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourceRowFactsGoodLanguageOnRange.to_bridge
+    (SourceRowProducerGoodLanguageOnRange.to_factsLanguage language)
+
+theorem SourceRowProducerGoodLanguageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (language : SourceRowProducerGoodLanguageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodLanguageOnRange.to_allGoodCoverage
+    (SourceRowProducerGoodLanguageOnRange.to_factsLanguage language)
 
 theorem SourceRowPredicateGoodBridge.to_allGoodCoverage
     (bridge : SourceRowPredicateGoodBridge) :

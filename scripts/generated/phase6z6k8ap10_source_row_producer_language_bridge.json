@@ -1,0 +1,36 @@
+{
+  "phase": "6Z.6K.8AP.10",
+  "status": "accepted-api-smoke",
+  "timestamp_utc": "2026-06-27T21:04:00Z",
+  "purpose": "Add a producer-level GoodDirection language bridge so generated modules can keep source/row producers private and export only erased all-Good translation coverage.",
+  "lean_files_added": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceRowProducerLanguageSmoke.lean"
+  ],
+  "lean_files_modified": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean"
+  ],
+  "new_api": [
+    "SourceRowProducerGoodLanguageOnRange",
+    "SourceRowProducerGoodLanguageOnRange.to_factsLanguage",
+    "SourceRowProducerGoodLanguageOnRange.to_bridge",
+    "SourceRowProducerGoodLanguageOnRange.to_allGoodCoverage"
+  ],
+  "focused_build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowProducerLanguageSmoke",
+    "result": "passed",
+    "wall_seconds": 2.08,
+    "max_rss_kib": 3300380
+  },
+  "initial_failures": [
+    {
+      "cause": "structure-valued adapter was declared as theorem",
+      "fix": "changed SourceRowProducerGoodLanguageOnRange.to_factsLanguage from theorem to def"
+    },
+    {
+      "cause": "structure-valued smokeFactsLanguage was declared as theorem",
+      "fix": "changed smokeFactsLanguage from theorem to def"
+    }
+  ],
+  "proof_scope": "empty-range API smoke only; no nonempty rank/mask coverage is claimed",
+  "next_step": "Prove a nonempty SourceRowProducerGoodLanguageOnRange over meaningful rank ranges by combining SourcePairPositionSpec.Predicate with row producer Applies evidence and a complete language theorem."
+}
