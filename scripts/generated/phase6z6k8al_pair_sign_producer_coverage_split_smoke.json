@@ -1,0 +1,276 @@
+{
+  "chunk_count": 4,
+  "chunk_size": 64,
+  "counts": {
+    "covered_cases": 6048,
+    "good_direction_survivors": 6048,
+    "identity_words": 1008,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 23992,
+    "not_good_direction_masks": 58464,
+    "pair_words_scanned": 25000,
+    "translation_sign_assignments": 64512,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "source and row producers are emitted once in shared modules",
+      "descriptor keys are split into bounded chunk modules",
+      "root imports only chunks and contains no raw rank/mask replay"
+    ],
+    "status": "split-pair-sign-producer-coverage-smoke-emitted"
+  },
+  "descriptor_family_count": 232,
+  "files": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/Source.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/Row.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/Chunks/Chunk000.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/Chunks/Chunk001.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/Chunks/Chunk002.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/Chunks/Chunk003.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit/All.lean"
+  ],
+  "jobs": 4,
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerCoverageScalingSplit",
+  "phase": "6Z.6K.8AL",
+  "ranges": [
+    [
+      0,
+      2500
+    ],
+    [
+      10000000,
+      10002500
+    ],
+    [
+      20000000,
+      20002500
+    ],
+    [
+      30000000,
+      30002500
+    ],
+    [
+      40000000,
+      40002500
+    ],
+    [
+      50000000,
+      50002500
+    ],
+    [
+      60000000,
+      60002500
+    ],
+    [
+      70000000,
+      70002500
+    ],
+    [
+      80000000,
+      80002500
+    ],
+    [
+      90000000,
+      90002500
+    ]
+  ],
+  "represented_case_count": 6048,
+  "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerCoverageScalingSplit.All",
+  "row_group_count": 22,
+  "schema_version": 1,
+  "source_group_count": 225,
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "counts": {
+        "covered_cases": 3415,
+        "good_direction_survivors": 3415,
+        "identity_words": 329,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2171,
+        "not_good_direction_masks": 17641,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 21056,
+        "uncovered_cases": 0
+      },
+      "family_count": 102,
+      "range": [
+        0,
+        2500
+      ],
+      "represented_case_count": 3415
+    },
+    {
+      "counts": {
+        "covered_cases": 2069,
+        "good_direction_survivors": 2069,
+        "identity_words": 235,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2265,
+        "not_good_direction_masks": 12971,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 15040,
+        "uncovered_cases": 0
+      },
+      "family_count": 136,
+      "range": [
+        10000000,
+        10002500
+      ],
+      "represented_case_count": 2069
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 4,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2496,
+        "not_good_direction_masks": 256,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 256,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "range": [
+        20000000,
+        20002500
+      ],
+      "represented_case_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 127,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2373,
+        "not_good_direction_masks": 8128,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 8128,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "range": [
+        30000000,
+        30002500
+      ],
+      "represented_case_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 3,
+        "good_direction_survivors": 3,
+        "identity_words": 11,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2489,
+        "not_good_direction_masks": 701,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 704,
+        "uncovered_cases": 0
+      },
+      "family_count": 2,
+      "range": [
+        40000000,
+        40002500
+      ],
+      "represented_case_count": 3
+    },
+    {
+      "counts": {
+        "covered_cases": 171,
+        "good_direction_survivors": 171,
+        "identity_words": 91,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2409,
+        "not_good_direction_masks": 5653,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 5824,
+        "uncovered_cases": 0
+      },
+      "family_count": 37,
+      "range": [
+        50000000,
+        50002500
+      ],
+      "represented_case_count": 171
+    },
+    {
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 27,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2473,
+        "not_good_direction_masks": 1728,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 1728,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "range": [
+        60000000,
+        60002500
+      ],
+      "represented_case_count": 0
+    },
+    {
+      "counts": {
+        "covered_cases": 223,
+        "good_direction_survivors": 223,
+        "identity_words": 94,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2406,
+        "not_good_direction_masks": 5793,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 6016,
+        "uncovered_cases": 0
+      },
+      "family_count": 61,
+      "range": [
+        70000000,
+        70002500
+      ],
+      "represented_case_count": 223
+    },
+    {
+      "counts": {
+        "covered_cases": 163,
+        "good_direction_survivors": 163,
+        "identity_words": 85,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2415,
+        "not_good_direction_masks": 5277,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 5440,
+        "uncovered_cases": 0
+      },
+      "family_count": 42,
+      "range": [
+        80000000,
+        80002500
+      ],
+      "represented_case_count": 163
+    },
+    {
+      "counts": {
+        "covered_cases": 4,
+        "good_direction_survivors": 4,
+        "identity_words": 5,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 2495,
+        "not_good_direction_masks": 316,
+        "pair_words_scanned": 2500,
+        "translation_sign_assignments": 320,
+        "uncovered_cases": 0
+      },
+      "family_count": 1,
+      "range": [
+        90000000,
+        90002500
+      ],
+      "represented_case_count": 4
+    }
+  ]
+}
