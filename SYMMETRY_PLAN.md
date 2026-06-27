@@ -6139,10 +6139,68 @@ local_word_window_row_property:       151 families, largest 348, source unstable
     variation remains large for the selected predicate, but the row-property
     theorem layer has already quotiented that away; carrying exact rows in
     membership would reintroduce the data problem.
-  - The next step is Phase 6Z.6K.8H: prove a small Lean smoke for
+  - This led to Phase 6Z.6K.8H, completed below: prove a small Lean smoke for
     `source_index_state` membership without inductive rank/mask member
-    enumeration. The smoke should show that the compact predicate itself
-    implies `SourceAgrees`/row-property facts for selected large families.
+    enumeration, showing that the compact predicate itself implies
+    `SourceAgrees`/row-property facts for selected large families.
+
+Completed Phase 6Z.6K.8H:
+
+- Added the source-index/state theorem surface in
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`:
+  `SourceIndexTemplate`, `SourceIndexStateFamilyDescriptor`,
+  `translationConstraintSources`, and descriptor lemmas proving that the compact
+  predicate implies source agreement, row-template rows, and
+  `RowPropertyParametricCovered`.
+- Added
+  `scripts/generate_source_index_state_nonenum_smoke.py`, which emits a bounded
+  diagnostic Lean smoke and a JSON/Markdown audit report. The emitted family
+  `Applies` predicates are broad source-index/state checks, not inductive
+  rank/mask member lists.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateNonEnumSmoke.lean`
+  and reports under `scripts/generated/phase6z6k8h_source_index_state_nonenum_smoke.*`.
+- Bounded audit result on `[0,1000)`:
+
+```text
+pair words scanned:          1000
+identity words:               138
+GoodDirection survivors:     1465
+covered two-source cases:    1465
+source-index/state families:   74
+selected families:              2
+selected sample cases:          4
+largest selected families:      421 eq_eq_pos_var_first [23,0]
+                                134 opp_1m_var_first [24,1]
+```
+
+- Verification passed:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_nonenum_smoke.py
+python3 scripts/generate_source_index_state_nonenum_smoke.py --dry-run
+python3 scripts/generate_source_index_state_nonenum_smoke.py --emit-smoke
+lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateNonEnumSmoke
+```
+
+The timed smoke build succeeded in `0:07.71` wall time with peak RSS
+`3,651,344 KB`.
+
+- Decision:
+  - Accept Phase 6Z.6K.8H as a successful non-enumerative Lean smoke. It proves
+    that a broad source-index/state descriptor can produce the semantic
+    row-property theorem surface and kill selected sample cases without an
+    inductive member predicate.
+  - Do not treat it as production coverage. The smoke validates selected large
+    families only; it does not yet prove that every GoodDirection survivor in
+    `[0,1000)` satisfies one of the 74 source-index/state descriptors.
+  - The next step is Phase 6Z.6K.8I: bounded source-index/state coverage
+    classifier/root. Generate all 74 `[0,1000)` descriptors and prove that every
+    GoodDirection two-source survivor in the window is covered by some
+    descriptor `Applies` predicate, without putting member lists inside
+    `Applies`. If that bounded root still requires raw member facts, keep 6K.8H
+    as an interface smoke and switch to a computable classifier/root design.
 
 Completed Phase 6Z.5:
 
@@ -7115,10 +7173,14 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8G source-index/state non-enumerative membership
   audit: find a compact whole-family predicate for the bounded families or
   reject this path as a final compression surface.
-- [ ] Implement Phase 6Z.6K.8H source-index/state non-enumerative Lean smoke:
+- [x] Implement Phase 6Z.6K.8H source-index/state non-enumerative Lean smoke:
   prove that the selected `source_index_state` predicate can imply
   `SourceAgrees` and row-property facts for selected large families without
   inductive rank/mask member enumeration.
+- [ ] Implement Phase 6Z.6K.8I bounded source-index/state coverage
+  classifier/root: prove the `[0,1000)` GoodDirection two-source survivors are
+  covered by source-index/state descriptor `Applies` predicates without putting
+  member lists inside `Applies`.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7194,21 +7256,26 @@ member-list-free. Coarser predicates reduce family count but fail source
 stability, while exact-row shapes still vary too much to belong in the
 membership surface.
 
-The immediate next step is Phase 6Z.6K.8H: source-index/state non-enumerative
-Lean smoke. That step should:
+Phase 6Z.6K.8H is complete as a bounded non-enumerative Lean smoke. It adds the
+source-index/state descriptor interface and proves that selected large
+families can compose through the row-property quotient without making
+`Applies` an inductive member list. The smoke validates the interface on
+selected samples, not exhaustive bounded coverage.
 
-- add a small theorem-level interface for the selected `source_index_state`
-  predicate, keeping `Applies` fact-free and member-list-free;
-- generate or hand-write a bounded smoke for selected large families from
-  6K.8G, especially the 421-case and 134-case families;
-- prove that the compact predicate implies the needed `SourceAgrees` and
-  row-property facts without inductive rank/mask member enumeration;
-- compose those facts through the existing row-property quotient and
-  `RowPropertyMembershipFamily.killsOn`;
-- keep exact-row variation outside `Applies`, because the row-property layer is
-  the intended quotient;
-- reject the predicate as a final production surface if the Lean proof still
-  needs a concrete member list to recover sources or rows.
+The immediate next step is Phase 6Z.6K.8I: bounded source-index/state coverage
+classifier/root. That step should:
+
+- generate all 74 `[0,1000)` source-index/state descriptors from the 6K.8G/8H
+  audit;
+- prove a bounded root theorem that every GoodDirection two-source survivor in
+  `[0,1000)` satisfies one descriptor `Applies` predicate;
+- keep each descriptor `Applies` fact-free and member-list-free;
+- avoid recovering coverage by inductive rank/mask member enumeration;
+- compose covered descriptors through `RowPropertyMembershipFamily.killsOn`;
+- record build time and peak RSS for the bounded root;
+- reject the source-index/state path as a production coverage surface if
+  bounded coverage still requires concrete member facts rather than a
+  classifier/root theorem.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
