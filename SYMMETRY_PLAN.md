@@ -7186,6 +7186,67 @@ exit status: 0
     source-index/state families from `[0,1000)`, still keeping row-property
     facts separate and composing through the 8T glue theorem surface.
 
+Completed Phase 6Z.6K.8Y:
+
+- Added `scripts/generate_source_position_producer_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerSmoke.lean`.
+- Generated evidence metadata:
+  `scripts/generated/phase6z6k8y_source_position_producer_smoke.json`
+  and `.md`.
+- The generated module defines 72 reusable source-position producers covering
+  the bounded profile's 74 source-index/state families and 1,465 bounded
+  GoodDirection survivor cases. Each producer derives
+  `SourceIndexStateSourceFacts` from:
+  - static `lookup_xpStart` / `lookup_ordering` lemmas;
+  - dynamic `lookup_interior_of_excluded_slot` obligations;
+  - semantic `SourceChecks` premises.
+- It does not contain concrete rank/mask membership lists and does not replay
+  bounded members.
+- Generator command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_source_position_producer_smoke.py --jobs 4
+```
+
+- Generator result:
+
+```text
+status:                   source-position-producer-smoke-emitted
+source groups:            72
+represented families:     74
+represented cases:        1,465
+wall time:                0:32.10
+peak RSS:                 31,464 KB
+CPU:                      296%
+exit status:              0
+```
+
+- Focused build command:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke
+```
+
+- Focused build result:
+
+```text
+status:      accepted-smoke
+wall time:   0:06.61
+peak RSS:    3,418,160 KB
+exit status: 0
+```
+
+- Decision:
+  - Accept 8Y. The bounded source side now has a generated theorem-valued
+    producer layer built from source-position semantics rather than from
+    rank/mask member replay.
+  - The immediate next step is Phase 6Z.6K.8Z: replace the old source-fact
+    producer dependency in the source+row glue smoke with the 8Y
+    source-position producers, reusing the accepted 8R row producers and 8T
+    glue theorem surface.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8213,10 +8274,14 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8X source-position obligation scaler:
   extend the source-position theorem surface from the accepted 8W smoke to all
   44 profiled 8V source-language obligations without using rank/mask replay.
-- [ ] Implement Phase 6Z.6K.8Y source-producer family scaler:
+- [x] Implement Phase 6Z.6K.8Y source-producer family scaler:
   compose the 8X source-position theorem surface into source-producer
   membership for all 74 source-index/state families from the bounded profile,
   while keeping row-property facts separate and avoiding rank/mask replay.
+- [ ] Implement Phase 6Z.6K.8Z source-position glue replacement:
+  compose the 8Y source-position producers with the accepted row producers and
+  the 8T glue theorem surface, deriving bounded `TranslationGoodCaseKilled`
+  without the old raw source-fact predicate layer.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8339,17 +8404,21 @@ one reusable dynamic interior lookup theorem and a Lean smoke covering all 44
 profiled 8V source-language obligations. The focused three-module build
 passed in 2.59 seconds with 3.33 GiB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8Y: compose the 8X source-position
-surface into source-producer families for the full bounded set of 74
-source-index/state families. That step should:
+Phase 6Z.6K.8Y is complete as the source-position source-producer scaler. It
+generates 72 reusable source-position producers covering the bounded profile's
+74 source-index/state families and 1,465 GoodDirection cases. The generator
+used `--jobs 4`, finished in 32.10 seconds with 31.5 MB peak RSS, and the
+focused Lean build passed in 6.61 seconds with 3.42 GiB peak RSS.
 
-- use `lookup_xpStart`, `lookup_ordering`, and
-  `lookup_interior_of_excluded_slot` through the concrete 8X obligation
-  theorems where useful;
-- keep source-position facts separate from row-property facts and continue
-  using the 8T glue theorem surface;
+The immediate next step is Phase 6Z.6K.8Z: replace the old raw-source-fact
+producer dependency in the source+row glue smoke with the 8Y source-position
+producer layer. That step should:
+
+- reuse the accepted 8R row producers;
+- use the 8Y source-position producers for source facts;
+- continue using the 8T glue theorem surface where possible;
 - cover the full bounded 74-family profile without making `Applies` a
-  rank/mask member list;
+  rank/mask member list or raw source-list predicate;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;

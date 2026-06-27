@@ -1,0 +1,5168 @@
+{
+  "collected_family_count": 74,
+  "decision": {
+    "notes": [
+      "no concrete rank/mask examples are emitted",
+      "source facts are produced from semantic source-position predicates",
+      "row facts remain a separate theorem obligation"
+    ],
+    "status": "source-position-producer-smoke-emitted"
+  },
+  "jobs": 4,
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerSmoke.lean",
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke",
+  "phase": "6Z.6K.8Y",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "represented_case_count": 1465,
+  "represented_family_count": 74,
+  "schema_version": 1,
+  "source_group_count": 72,
+  "source_groups": [
+    {
+      "case_count": 421,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 18,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm"
+        ],
+        "excludedFaceSetSize": 6,
+        "face": "tmmm",
+        "faceIndex": 6,
+        "impact": 1,
+        "index": 23,
+        "kind": "interior",
+        "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+        "slot": 5,
+        "valid": true
+      },
+      "key": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+      "sample_families": [
+        {
+          "cases": 421,
+          "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 18,
+              "rank": 251
+            },
+            {
+              "mask": 24,
+              "rank": 251
+            },
+            {
+              "mask": 24,
+              "rank": 261
+            },
+            {
+              "mask": 24,
+              "rank": 263
+            },
+            {
+              "mask": 18,
+              "rank": 269
+            }
+          ],
+          "source_indices": [
+            23,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"1\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        23,
+        0
+      ]
+    },
+    {
+      "case_count": 134,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 18,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm"
+        ],
+        "excludedFaceSetSize": 7,
+        "face": "tmmp",
+        "faceIndex": 7,
+        "impact": 1,
+        "index": 24,
+        "kind": "interior",
+        "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+        "slot": 6,
+        "valid": true
+      },
+      "key": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+      "sample_families": [
+        {
+          "cases": 134,
+          "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 6,
+              "rank": 251
+            },
+            {
+              "mask": 22,
+              "rank": 261
+            },
+            {
+              "mask": 22,
+              "rank": 263
+            },
+            {
+              "mask": 22,
+              "rank": 269
+            },
+            {
+              "mask": 54,
+              "rank": 315
+            }
+          ],
+          "source_indices": [
+            24,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"1\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        24,
+        1
+      ]
+    },
+    {
+      "case_count": 128,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 83,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 6,
+        "index": 83,
+        "kind": "interior",
+        "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "102f94908cffedc720a55cfc27b35406493b72b1e82b3d7c1c24b827dcd70992",
+      "sample_families": [
+        {
+          "cases": 128,
+          "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 251
+            },
+            {
+              "mask": 23,
+              "rank": 261
+            },
+            {
+              "mask": 15,
+              "rank": 263
+            },
+            {
+              "mask": 29,
+              "rank": 263
+            },
+            {
+              "mask": 29,
+              "rank": 269
+            }
+          ],
+          "source_indices": [
+            83,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        83,
+        0
+      ]
+    },
+    {
+      "case_count": 102,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 18,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp"
+        ],
+        "excludedFaceSetSize": 8,
+        "face": "tmpm",
+        "faceIndex": 8,
+        "impact": 1,
+        "index": 25,
+        "kind": "interior",
+        "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+        "slot": 7,
+        "valid": true
+      },
+      "key": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+      "sample_families": [
+        {
+          "cases": 102,
+          "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 251
+            },
+            {
+              "mask": 13,
+              "rank": 261
+            },
+            {
+              "mask": 45,
+              "rank": 261
+            },
+            {
+              "mask": 13,
+              "rank": 263
+            },
+            {
+              "mask": 45,
+              "rank": 263
+            }
+          ],
+          "source_indices": [
+            25,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"1\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        25,
+        2
+      ]
+    },
+    {
+      "case_count": 79,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+      "sample_families": [
+        {
+          "cases": 79,
+          "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 369
+            },
+            {
+              "mask": 13,
+              "rank": 609
+            },
+            {
+              "mask": 29,
+              "rank": 609
+            },
+            {
+              "mask": 29,
+              "rank": 630
+            },
+            {
+              "mask": 29,
+              "rank": 635
+            }
+          ],
+          "source_indices": [
+            0,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 7,
+        "index": 7,
+        "kind": "ordering",
+        "obligation": "ordering:3",
+        "step": 3,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        7
+      ]
+    },
+    {
+      "case_count": 44,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 83,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 6,
+        "index": 83,
+        "kind": "interior",
+        "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+      "sample_families": [
+        {
+          "cases": 44,
+          "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 633
+            },
+            {
+              "mask": 63,
+              "rank": 633
+            },
+            {
+              "mask": 25,
+              "rank": 639
+            },
+            {
+              "mask": 25,
+              "rank": 641
+            },
+            {
+              "mask": 61,
+              "rank": 641
+            }
+          ],
+          "source_indices": [
+            83,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        83,
+        1
+      ]
+    },
+    {
+      "case_count": 30,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+      "sample_families": [
+        {
+          "cases": 30,
+          "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 363
+            },
+            {
+              "mask": 22,
+              "rank": 363
+            },
+            {
+              "mask": 13,
+              "rank": 365
+            },
+            {
+              "mask": 22,
+              "rank": 365
+            },
+            {
+              "mask": 30,
+              "rank": 365
+            }
+          ],
+          "source_indices": [
+            0,
+            13
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 13,
+        "index": 13,
+        "kind": "ordering",
+        "obligation": "ordering:9",
+        "step": 9,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        13
+      ]
+    },
+    {
+      "case_count": 29,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "ae3bde4a1a4cc1ec75f1cb2bb1a8c46d60dc621e6564547419af063c86107bad",
+      "sample_families": [
+        {
+          "cases": 29,
+          "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 315
+            },
+            {
+              "mask": 22,
+              "rank": 315
+            },
+            {
+              "mask": 22,
+              "rank": 369
+            },
+            {
+              "mask": 31,
+              "rank": 369
+            },
+            {
+              "mask": 13,
+              "rank": 819
+            }
+          ],
+          "source_indices": [
+            0,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 15,
+        "index": 15,
+        "kind": "ordering",
+        "obligation": "ordering:11",
+        "step": 11,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        15
+      ]
+    },
+    {
+      "case_count": 23,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "42b2ca31b66f321779af52fa7d1705bf6225addea038120f1bf009a80458707e",
+      "sample_families": [
+        {
+          "cases": 23,
+          "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 60
+            },
+            {
+              "mask": 22,
+              "rank": 62
+            },
+            {
+              "mask": 29,
+              "rank": 62
+            },
+            {
+              "mask": 31,
+              "rank": 62
+            },
+            {
+              "mask": 13,
+              "rank": 65
+            }
+          ],
+          "source_indices": [
+            0,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 11,
+        "index": 11,
+        "kind": "ordering",
+        "obligation": "ordering:7",
+        "step": 7,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        11
+      ]
+    },
+    {
+      "case_count": 22,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "1d34e50ef50db67906309004624aa6d4e651dbd09c6d043c3d8c09105f94b4a9",
+      "sample_families": [
+        {
+          "cases": 22,
+          "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 7,
+              "rank": 498
+            },
+            {
+              "mask": 23,
+              "rank": 501
+            },
+            {
+              "mask": 7,
+              "rank": 519
+            },
+            {
+              "mask": 7,
+              "rank": 561
+            },
+            {
+              "mask": 7,
+              "rank": 582
+            }
+          ],
+          "source_indices": [
+            0,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 10,
+        "index": 10,
+        "kind": "ordering",
+        "obligation": "ordering:6",
+        "step": 6,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        10
+      ]
+    },
+    {
+      "case_count": 22,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 18,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm"
+        ],
+        "excludedFaceSetSize": 9,
+        "face": "tmpp",
+        "faceIndex": 9,
+        "impact": 1,
+        "index": 26,
+        "kind": "interior",
+        "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+        "slot": 8,
+        "valid": true
+      },
+      "key": "53696c059bbf359ca7a6c7accc921f9fa16dfba896d6532ca0eab7f9821a867c",
+      "sample_families": [
+        {
+          "cases": 22,
+          "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "sample_members": [
+            {
+              "mask": 7,
+              "rank": 251
+            },
+            {
+              "mask": 7,
+              "rank": 263
+            },
+            {
+              "mask": 7,
+              "rank": 269
+            },
+            {
+              "mask": 7,
+              "rank": 323
+            },
+            {
+              "mask": 7,
+              "rank": 377
+            }
+          ],
+          "source_indices": [
+            26,
+            3
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"1\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 3,
+        "index": 3,
+        "kind": "xpStart",
+        "obligation": "xpStart:3",
+        "valid": true
+      },
+      "source_indices": [
+        26,
+        3
+      ]
+    },
+    {
+      "case_count": 21,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 174,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp"
+        ],
+        "excludedFaceSetSize": 10,
+        "face": "tpmm",
+        "faceIndex": 10,
+        "impact": 13,
+        "index": 183,
+        "kind": "interior",
+        "obligation": "interior:13:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+        "slot": 9,
+        "valid": true
+      },
+      "key": "8b9860bf1b03698c2e5b816aa6d65a36f6345895abd06affbaa3b1e84c613982",
+      "sample_families": [
+        {
+          "cases": 21,
+          "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 269
+            },
+            {
+              "mask": 47,
+              "rank": 269
+            },
+            {
+              "mask": 54,
+              "rank": 323
+            },
+            {
+              "mask": 55,
+              "rank": 323
+            },
+            {
+              "mask": 7,
+              "rank": 357
+            }
+          ],
+          "source_indices": [
+            183,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"13\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        183,
+        0
+      ]
+    },
+    {
+      "case_count": 20,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "cea4464df905000142edce9b11281690a008c9d5cd1e771dca605906f1732c50",
+      "sample_families": [
+        {
+          "cases": 20,
+          "key": "158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 16,
+              "rank": 387
+            },
+            {
+              "mask": 18,
+              "rank": 387
+            },
+            {
+              "mask": 8,
+              "rank": 501
+            },
+            {
+              "mask": 9,
+              "rank": 501
+            },
+            {
+              "mask": 16,
+              "rank": 585
+            }
+          ],
+          "source_indices": [
+            0,
+            14
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 14,
+        "index": 14,
+        "kind": "ordering",
+        "obligation": "ordering:10",
+        "step": 10,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        14
+      ]
+    },
+    {
+      "case_count": 19,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 148,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 11,
+        "index": 148,
+        "kind": "interior",
+        "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "06a7f983ec54b3872bb5dd9456861860d39e3e54508d4af2b7d0394448a044b9",
+      "sample_families": [
+        {
+          "cases": 19,
+          "key": "9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 7,
+              "rank": 317
+            },
+            {
+              "mask": 22,
+              "rank": 317
+            },
+            {
+              "mask": 45,
+              "rank": 365
+            },
+            {
+              "mask": 47,
+              "rank": 365
+            },
+            {
+              "mask": 63,
+              "rank": 635
+            }
+          ],
+          "source_indices": [
+            148,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        148,
+        0
+      ]
+    },
+    {
+      "case_count": 19,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "11d11e966a166501fce2240603d022412ecfc147a743e9eeb858fff69d844ebb",
+      "sample_families": [
+        {
+          "cases": 19,
+          "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 39,
+              "rank": 369
+            },
+            {
+              "mask": 63,
+              "rank": 639
+            },
+            {
+              "mask": 63,
+              "rank": 657
+            },
+            {
+              "mask": 63,
+              "rank": 810
+            },
+            {
+              "mask": 63,
+              "rank": 813
+            }
+          ],
+          "source_indices": [
+            1,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 7,
+        "index": 7,
+        "kind": "ordering",
+        "obligation": "ordering:3",
+        "step": 3,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        7
+      ]
+    },
+    {
+      "case_count": 19,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 122,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 9,
+        "index": 122,
+        "kind": "interior",
+        "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4",
+      "sample_families": [
+        {
+          "cases": 19,
+          "key": "0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 360
+            },
+            {
+              "mask": 13,
+              "rank": 384
+            },
+            {
+              "mask": 13,
+              "rank": 387
+            },
+            {
+              "mask": 13,
+              "rank": 389
+            },
+            {
+              "mask": 22,
+              "rank": 834
+            }
+          ],
+          "source_indices": [
+            122,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"9\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        122,
+        0
+      ]
+    },
+    {
+      "case_count": 19,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "f5d3bc532de79b891d27a058711bfb9349a1f9c646078b419227a9526058c152",
+      "sample_families": [
+        {
+          "cases": 19,
+          "key": "bcaa49bdf67db120feb9ad4dda9a69450799ee1076adb235c86f602b449e273d",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 54,
+              "rank": 317
+            },
+            {
+              "mask": 39,
+              "rank": 371
+            },
+            {
+              "mask": 47,
+              "rank": 371
+            },
+            {
+              "mask": 55,
+              "rank": 371
+            },
+            {
+              "mask": 39,
+              "rank": 384
+            }
+          ],
+          "source_indices": [
+            0,
+            16
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 16,
+        "index": 16,
+        "kind": "ordering",
+        "obligation": "ordering:12",
+        "step": 12,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        16
+      ]
+    },
+    {
+      "case_count": 18,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "key": "bfaf1e6ce0ce1d61786e4a66aa7cc7fe1274f69ba512fb8d2b3b5615b469ad17",
+      "sample_families": [
+        {
+          "cases": 18,
+          "key": "5651cb30a48af7c1f0528abbffbbcf4eb1954a09872946c492757538dfa5516f",
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 600
+            },
+            {
+              "mask": 55,
+              "rank": 600
+            },
+            {
+              "mask": 47,
+              "rank": 605
+            },
+            {
+              "mask": 55,
+              "rank": 605
+            },
+            {
+              "mask": 22,
+              "rank": 657
+            }
+          ],
+          "source_indices": [
+            0,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 12,
+        "index": 12,
+        "kind": "ordering",
+        "obligation": "ordering:8",
+        "step": 8,
+        "valid": true
+      },
+      "source_indices": [
+        0,
+        12
+      ]
+    },
+    {
+      "case_count": 17,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 8,
+        "index": 109,
+        "kind": "interior",
+        "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "3a2924aa5bdbec3a5329bab98173034188d967d93ba7605c96c85f733e8934bc",
+      "sample_families": [
+        {
+          "cases": 17,
+          "key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 810
+            },
+            {
+              "mask": 30,
+              "rank": 810
+            },
+            {
+              "mask": 31,
+              "rank": 810
+            },
+            {
+              "mask": 55,
+              "rank": 810
+            },
+            {
+              "mask": 30,
+              "rank": 812
+            }
+          ],
+          "source_indices": [
+            109,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        109,
+        0
+      ]
+    },
+    {
+      "case_count": 15,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 96,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 7,
+        "index": 96,
+        "kind": "interior",
+        "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "3ec14ceb9b28b37bfe12fc6a8c3e6defb306f79d63b69d9cae8059ab8e87ed95",
+      "sample_families": [
+        {
+          "cases": 15,
+          "key": "b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 617
+            },
+            {
+              "mask": 13,
+              "rank": 624
+            },
+            {
+              "mask": 22,
+              "rank": 630
+            },
+            {
+              "mask": 30,
+              "rank": 630
+            },
+            {
+              "mask": 22,
+              "rank": 635
+            }
+          ],
+          "source_indices": [
+            96,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        96,
+        0
+      ]
+    },
+    {
+      "case_count": 14,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 83,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 6,
+        "index": 84,
+        "kind": "interior",
+        "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e",
+      "sample_families": [
+        {
+          "cases": 14,
+          "key": "361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 30,
+              "rank": 654
+            },
+            {
+              "mask": 30,
+              "rank": 716
+            },
+            {
+              "mask": 30,
+              "rank": 790
+            },
+            {
+              "mask": 30,
+              "rank": 827
+            },
+            {
+              "mask": 30,
+              "rank": 854
+            }
+          ],
+          "source_indices": [
+            84,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        84,
+        2
+      ]
+    },
+    {
+      "case_count": 13,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "3940e6d91b3a2977beb1d4942a19557c49dabb0e49e65b72e3227a510d4b67d7",
+      "sample_families": [
+        {
+          "cases": 13,
+          "key": "5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 360
+            },
+            {
+              "mask": 28,
+              "rank": 365
+            },
+            {
+              "mask": 28,
+              "rank": 371
+            },
+            {
+              "mask": 28,
+              "rank": 387
+            },
+            {
+              "mask": 28,
+              "rank": 389
+            }
+          ],
+          "source_indices": [
+            2,
+            7
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 7,
+        "index": 7,
+        "kind": "ordering",
+        "obligation": "ordering:3",
+        "step": 3,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        7
+      ]
+    },
+    {
+      "case_count": 12,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "5ce1ee1f662aea79fe8c212d24c3e68d99cff33e5b7b11e2d6750a5472d0dc92",
+      "sample_families": [
+        {
+          "cases": 12,
+          "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 600
+            },
+            {
+              "mask": 29,
+              "rank": 600
+            },
+            {
+              "mask": 30,
+              "rank": 600
+            },
+            {
+              "mask": 22,
+              "rank": 605
+            },
+            {
+              "mask": 63,
+              "rank": 798
+            }
+          ],
+          "source_indices": [
+            1,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 15,
+        "index": 15,
+        "kind": "ordering",
+        "obligation": "ordering:11",
+        "step": 11,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        15
+      ]
+    },
+    {
+      "case_count": 11,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 10,
+        "index": 136,
+        "kind": "interior",
+        "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "66c02cba404c532f1e9ea96ebfda39fd2349706278e115bea1674477e05dd3b2",
+      "sample_families": [
+        {
+          "cases": 11,
+          "key": "eec6cea09d6d89c03f3c4577319600781c82fe093551478e4074800b6ef59c13",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 389
+            },
+            {
+              "mask": 22,
+              "rank": 633
+            },
+            {
+              "mask": 31,
+              "rank": 635
+            },
+            {
+              "mask": 54,
+              "rank": 839
+            },
+            {
+              "mask": 55,
+              "rank": 839
+            }
+          ],
+          "source_indices": [
+            136,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        136,
+        0
+      ]
+    },
+    {
+      "case_count": 11,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "96db83cdd7dfbc306ef127f08ef94f5c3d71c27df72ac9f8545d0cd54e7b6dcb",
+      "sample_families": [
+        {
+          "cases": 11,
+          "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 54,
+              "rank": 603
+            },
+            {
+              "mask": 55,
+              "rank": 603
+            },
+            {
+              "mask": 28,
+              "rank": 611
+            },
+            {
+              "mask": 54,
+              "rank": 639
+            },
+            {
+              "mask": 55,
+              "rank": 639
+            }
+          ],
+          "source_indices": [
+            1,
+            14
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 14,
+        "index": 14,
+        "kind": "ordering",
+        "obligation": "ordering:10",
+        "step": 10,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        14
+      ]
+    },
+    {
+      "case_count": 10,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 83,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 6,
+        "index": 84,
+        "kind": "interior",
+        "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "91680d53032fa2b164ce79bff664fd9b3c2668cecd33138eaecccb17f8b26b08",
+      "sample_families": [
+        {
+          "cases": 10,
+          "key": "532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366",
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 263
+            },
+            {
+              "mask": 28,
+              "rank": 357
+            },
+            {
+              "mask": 28,
+              "rank": 377
+            },
+            {
+              "mask": 28,
+              "rank": 449
+            },
+            {
+              "mask": 28,
+              "rank": 24
+            }
+          ],
+          "source_indices": [
+            84,
+            3
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"6\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 3,
+        "index": 3,
+        "kind": "xpStart",
+        "obligation": "xpStart:3",
+        "valid": true
+      },
+      "source_indices": [
+        84,
+        3
+      ]
+    },
+    {
+      "case_count": 10,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 12,
+        "index": 162,
+        "kind": "interior",
+        "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "b7ca266b8fa988d73c3b864dff16753f69846cf84ad358a64417c436bdeb8f8b",
+      "sample_families": [
+        {
+          "cases": 10,
+          "key": "49dc29bc5a3a346e57575f61d2b4fdb2f12956835c68063381b703d6ac1f887b",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 31,
+              "rank": 630
+            },
+            {
+              "mask": 31,
+              "rank": 639
+            },
+            {
+              "mask": 30,
+              "rank": 714
+            },
+            {
+              "mask": 31,
+              "rank": 714
+            },
+            {
+              "mask": 31,
+              "rank": 840
+            }
+          ],
+          "source_indices": [
+            162,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        162,
+        0
+      ]
+    },
+    {
+      "case_count": 10,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 8,
+        "index": 110,
+        "kind": "interior",
+        "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "fc805e5aa43cbf59fd54e11b9b4cc4bf2c46e5b085bcbdba6c2acab8157c72dc",
+      "sample_families": [
+        {
+          "cases": 10,
+          "key": "1f4f8742fa2970d296e3fbf12e541c66c254d7c7dd433859bf0e6d97828c2309",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 611
+            },
+            {
+              "mask": 55,
+              "rank": 611
+            },
+            {
+              "mask": 47,
+              "rank": 629
+            },
+            {
+              "mask": 55,
+              "rank": 629
+            },
+            {
+              "mask": 31,
+              "rank": 870
+            }
+          ],
+          "source_indices": [
+            110,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        110,
+        0
+      ]
+    },
+    {
+      "case_count": 9,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "2cc68c3b6a2dde0b5894b80d15ebc02445fe20739f015077a5ff51c7ae15634c",
+      "sample_families": [
+        {
+          "cases": 9,
+          "key": "173645791fcf6158993df04a06cad8e6c9277a4a5116eeeae8320100bc7ad399",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 63,
+              "rank": 850
+            },
+            {
+              "mask": 28,
+              "rank": 854
+            },
+            {
+              "mask": 29,
+              "rank": 854
+            },
+            {
+              "mask": 28,
+              "rank": 855
+            },
+            {
+              "mask": 29,
+              "rank": 855
+            }
+          ],
+          "source_indices": [
+            1,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 11,
+        "index": 11,
+        "kind": "ordering",
+        "obligation": "ordering:7",
+        "step": 7,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        11
+      ]
+    },
+    {
+      "case_count": 9,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "3290d20984474e3909c8a8dbc359f8163dd1eb7d94bb9866a2af2d916807585d",
+      "sample_families": [
+        {
+          "cases": 9,
+          "key": "34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 840
+            },
+            {
+              "mask": 47,
+              "rank": 840
+            },
+            {
+              "mask": 47,
+              "rank": 842
+            },
+            {
+              "mask": 13,
+              "rank": 850
+            },
+            {
+              "mask": 45,
+              "rank": 852
+            }
+          ],
+          "source_indices": [
+            2,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 11,
+        "index": 11,
+        "kind": "ordering",
+        "obligation": "ordering:7",
+        "step": 7,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        11
+      ]
+    },
+    {
+      "case_count": 9,
+      "family_count": 3,
+      "first_language": {
+        "blockStart": 44,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 3,
+        "index": 44,
+        "kind": "interior",
+        "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "46b74a54a57a25ed51e207d17428b8f88e3a57422f9046833bc6157d56270cb6",
+      "sample_families": [
+        {
+          "cases": 4,
+          "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+          "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+          "sample_members": [
+            {
+              "mask": 30,
+              "rank": 357
+            },
+            {
+              "mask": 22,
+              "rank": 413
+            },
+            {
+              "mask": 6,
+              "rank": 519
+            },
+            {
+              "mask": 56,
+              "rank": 955
+            }
+          ],
+          "source_indices": [
+            44,
+            5
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 3,
+          "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+          "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 251
+            },
+            {
+              "mask": 5,
+              "rank": 561
+            },
+            {
+              "mask": 63,
+              "rank": 748
+            }
+          ],
+          "source_indices": [
+            44,
+            5
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 2,
+          "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+          "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+          "sample_members": [
+            {
+              "mask": 31,
+              "rank": 790
+            },
+            {
+              "mask": 29,
+              "rank": 209
+            }
+          ],
+          "source_indices": [
+            44,
+            5
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"3\", \"kind\": \"interior\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "axis_a_only"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 5,
+        "index": 5,
+        "kind": "ordering",
+        "obligation": "ordering:1",
+        "step": 1,
+        "valid": true
+      },
+      "source_indices": [
+        44,
+        5
+      ]
+    },
+    {
+      "case_count": 9,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "f6d33b37efe11ca04d4d63e6211fac6edae2c5f8c55bcd8093d7d8eab574be5b",
+      "sample_families": [
+        {
+          "cases": 9,
+          "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 600
+            },
+            {
+              "mask": 30,
+              "rank": 605
+            },
+            {
+              "mask": 47,
+              "rank": 657
+            },
+            {
+              "mask": 47,
+              "rank": 798
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_indices": [
+            2,
+            15
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 15,
+        "index": 15,
+        "kind": "ordering",
+        "obligation": "ordering:11",
+        "step": 11,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        15
+      ]
+    },
+    {
+      "case_count": 8,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 174,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 13,
+        "index": 175,
+        "kind": "interior",
+        "obligation": "interior:13:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "714cbfa66a98642d64c09ac23728c29c4968d8efd1b91af74d04f05c45dbf096",
+      "sample_families": [
+        {
+          "cases": 8,
+          "key": "cb6f6bc2af727b7b07a1a5f93b6bb4b547714996ae906018ac0e2560d8102162",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 870
+            },
+            {
+              "mask": 30,
+              "rank": 870
+            },
+            {
+              "mask": 29,
+              "rank": 60
+            },
+            {
+              "mask": 30,
+              "rank": 60
+            },
+            {
+              "mask": 29,
+              "rank": 65
+            }
+          ],
+          "source_indices": [
+            175,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"13\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        175,
+        0
+      ]
+    },
+    {
+      "case_count": 7,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "5235f96701952b933dac7760828ad3a186c53ea499c754a3eef721e2d1a4f450",
+      "sample_families": [
+        {
+          "cases": 7,
+          "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 630
+            },
+            {
+              "mask": 47,
+              "rank": 630
+            },
+            {
+              "mask": 45,
+              "rank": 632
+            },
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            }
+          ],
+          "source_indices": [
+            2,
+            13
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 13,
+        "index": 13,
+        "kind": "ordering",
+        "obligation": "ordering:9",
+        "step": 9,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        13
+      ]
+    },
+    {
+      "case_count": 7,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 174,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm"
+        ],
+        "excludedFaceSetSize": 11,
+        "face": "tpmp",
+        "faceIndex": 11,
+        "impact": 13,
+        "index": 184,
+        "kind": "interior",
+        "obligation": "interior:13:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+        "slot": 10,
+        "valid": true
+      },
+      "key": "a7877ce1c46d485047a80b1eccd5d4d7989cdb821193b5dc7ca680eae2097744",
+      "sample_families": [
+        {
+          "cases": 7,
+          "key": "47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 641
+            },
+            {
+              "mask": 45,
+              "rank": 724
+            },
+            {
+              "mask": 47,
+              "rank": 724
+            },
+            {
+              "mask": 57,
+              "rank": 790
+            },
+            {
+              "mask": 45,
+              "rank": 808
+            }
+          ],
+          "source_indices": [
+            184,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"13\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        184,
+        1
+      ]
+    },
+    {
+      "case_count": 7,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 174,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 13,
+        "index": 175,
+        "kind": "interior",
+        "obligation": "interior:13:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "b7f13f08666187ae2ff10842e7f35bf0bdf9c969d7d944b20a0473f3707df6fe",
+      "sample_families": [
+        {
+          "cases": 7,
+          "key": "cb8990495e80e4e83ff3dd6dbc52d2311080437714265957a3e06912a1fb84fc",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 842
+            },
+            {
+              "mask": 31,
+              "rank": 842
+            },
+            {
+              "mask": 31,
+              "rank": 850
+            },
+            {
+              "mask": 28,
+              "rank": 859
+            },
+            {
+              "mask": 28,
+              "rank": 867
+            }
+          ],
+          "source_indices": [
+            175,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"13\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        175,
+        1
+      ]
+    },
+    {
+      "case_count": 7,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 12,
+        "index": 161,
+        "kind": "interior",
+        "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "c5ec5e493c6af976a1b03f30aeb9d26ee4dd468f968a4361500947da83fa8093",
+      "sample_families": [
+        {
+          "cases": 7,
+          "key": "6d2e4128c784627b01fdf6513ed433ec6ab2c1c8a0fcf082c21e14a67526bbd1",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 857
+            },
+            {
+              "mask": 54,
+              "rank": 857
+            },
+            {
+              "mask": 63,
+              "rank": 857
+            },
+            {
+              "mask": 47,
+              "rank": 869
+            },
+            {
+              "mask": 55,
+              "rank": 869
+            }
+          ],
+          "source_indices": [
+            161,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        161,
+        0
+      ]
+    },
+    {
+      "case_count": 6,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 8,
+        "index": 109,
+        "kind": "interior",
+        "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "021f47f86b4b3fb33307baa849562c0b227409fe01f9975b8d574ee8cb4ddb01",
+      "sample_families": [
+        {
+          "cases": 6,
+          "key": "4fda77f1bb3ebbed92f40e150884471b84d123e5b2d9d45e0eaff7690fb57cc9",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 3
+            },
+            {
+              "mask": 28,
+              "rank": 5
+            },
+            {
+              "mask": 28,
+              "rank": 11
+            },
+            {
+              "mask": 61,
+              "rank": 11
+            },
+            {
+              "mask": 28,
+              "rank": 29
+            }
+          ],
+          "source_indices": [
+            109,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        109,
+        1
+      ]
+    },
+    {
+      "case_count": 6,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 96,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 7,
+        "index": 96,
+        "kind": "interior",
+        "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "16a3d3e54d8e16a85fc508bb0843f087f24dfabc9831756d44d4a8431a94f258",
+      "sample_families": [
+        {
+          "cases": 6,
+          "key": "46754c731c77c053bab64c67da53dcc1b5f174fe3ff8b9895806bf6c39f4d95a",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 269
+            },
+            {
+              "mask": 28,
+              "rank": 120
+            },
+            {
+              "mask": 28,
+              "rank": 125
+            },
+            {
+              "mask": 28,
+              "rank": 147
+            },
+            {
+              "mask": 28,
+              "rank": 149
+            }
+          ],
+          "source_indices": [
+            96,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        96,
+        1
+      ]
+    },
+    {
+      "case_count": 6,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "3ce052d543893c1cede10f0b9b363c6ff783fb2298e6854feb62cc31de50d4c5",
+      "sample_families": [
+        {
+          "cases": 6,
+          "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 63,
+              "rank": 630
+            },
+            {
+              "mask": 63,
+              "rank": 632
+            },
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 42
+            },
+            {
+              "mask": 55,
+              "rank": 42
+            }
+          ],
+          "source_indices": [
+            1,
+            13
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 13,
+        "index": 13,
+        "kind": "ordering",
+        "obligation": "ordering:9",
+        "step": 9,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        13
+      ]
+    },
+    {
+      "case_count": 6,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 96,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp"
+        ],
+        "excludedFaceSetSize": 10,
+        "face": "tpmm",
+        "faceIndex": 10,
+        "impact": 7,
+        "index": 105,
+        "kind": "interior",
+        "obligation": "interior:7:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+        "slot": 9,
+        "valid": true
+      },
+      "key": "5092ca106263554f5b683c65f4f879203379892190c8cabe8cbd9b7e6d6f0091",
+      "sample_families": [
+        {
+          "cases": 6,
+          "key": "969bdd36c0ff690c62a0b53d598d08baaaffcf117b705925f574eaf39d9931f0",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 30,
+              "rank": 3
+            },
+            {
+              "mask": 22,
+              "rank": 24
+            },
+            {
+              "mask": 30,
+              "rank": 24
+            },
+            {
+              "mask": 29,
+              "rank": 45
+            },
+            {
+              "mask": 13,
+              "rank": 49
+            }
+          ],
+          "source_indices": [
+            105,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        105,
+        0
+      ]
+    },
+    {
+      "case_count": 6,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 7,
+        "face": "tmmm",
+        "faceIndex": 6,
+        "impact": 12,
+        "index": 167,
+        "kind": "interior",
+        "obligation": "interior:12:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 6,
+        "valid": true
+      },
+      "key": "514e679fb2cb513fea8452df5c6d54611177a5cf9b1976b20c0bc342cc7ee6d4",
+      "sample_families": [
+        {
+          "cases": 6,
+          "key": "1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 22,
+              "rank": 714
+            },
+            {
+              "mask": 28,
+              "rank": 810
+            },
+            {
+              "mask": 28,
+              "rank": 0
+            },
+            {
+              "mask": 28,
+              "rank": 9
+            },
+            {
+              "mask": 28,
+              "rank": 30
+            }
+          ],
+          "source_indices": [
+            167,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        167,
+        0
+      ]
+    },
+    {
+      "case_count": 6,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "df66f4d09d995af9598edddf3f11fdf3faae819a11a4cf6f534a2a37f31d7c48",
+      "sample_families": [
+        {
+          "cases": 6,
+          "key": "5b8f1619d9cedeebccbff7692bcab9431eb53ed757cb015fe838ebbaead6de0b",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 602
+            },
+            {
+              "mask": 47,
+              "rank": 602
+            },
+            {
+              "mask": 45,
+              "rank": 659
+            },
+            {
+              "mask": 47,
+              "rank": 800
+            },
+            {
+              "mask": 45,
+              "rank": 911
+            }
+          ],
+          "source_indices": [
+            1,
+            16
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 16,
+        "index": 16,
+        "kind": "ordering",
+        "obligation": "ordering:12",
+        "step": 12,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        16
+      ]
+    },
+    {
+      "case_count": 5,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "3b2ecd7f1f860d940180e8edc9161ad12e089bf87d9755a00a9270c5672ca99b",
+      "sample_families": [
+        {
+          "cases": 5,
+          "key": "8a4f0d011c71c3855f0555c3626724c8b000efab7f757f1019e23747d7b7642b",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 61,
+              "rank": 17
+            },
+            {
+              "mask": 54,
+              "rank": 30
+            },
+            {
+              "mask": 45,
+              "rank": 32
+            },
+            {
+              "mask": 45,
+              "rank": 40
+            },
+            {
+              "mask": 28,
+              "rank": 131
+            }
+          ],
+          "source_indices": [
+            1,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 12,
+        "index": 12,
+        "kind": "ordering",
+        "obligation": "ordering:8",
+        "step": 8,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        12
+      ]
+    },
+    {
+      "case_count": 5,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 12,
+        "index": 162,
+        "kind": "interior",
+        "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "b262bda8a9b2bc998f6f5a46f6e8b1e9759df004acf04940922c2f40be3027c7",
+      "sample_families": [
+        {
+          "cases": 5,
+          "key": "001142d72c22dac0fd41e429a47c6f32d0f7456e0dce2c45057120b7f77f0162",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 261
+            },
+            {
+              "mask": 29,
+              "rank": 261
+            },
+            {
+              "mask": 28,
+              "rank": 323
+            },
+            {
+              "mask": 28,
+              "rank": 603
+            },
+            {
+              "mask": 28,
+              "rank": 57
+            }
+          ],
+          "source_indices": [
+            162,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        162,
+        1
+      ]
+    },
+    {
+      "case_count": 5,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "key": "b2680d819fee8747dcca856d2980d906bdf5e5ef0fb1042fb131650341dacbc1",
+      "sample_families": [
+        {
+          "cases": 5,
+          "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "sample_members": [
+            {
+              "mask": 25,
+              "rank": 903
+            },
+            {
+              "mask": 57,
+              "rank": 955
+            },
+            {
+              "mask": 25,
+              "rank": 990
+            },
+            {
+              "mask": 25,
+              "rank": 992
+            },
+            {
+              "mask": 61,
+              "rank": 992
+            }
+          ],
+          "source_indices": [
+            1,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 10,
+        "index": 10,
+        "kind": "ordering",
+        "obligation": "ordering:6",
+        "step": 6,
+        "valid": true
+      },
+      "source_indices": [
+        1,
+        10
+      ]
+    },
+    {
+      "case_count": 4,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "tppp",
+        "faceIndex": 13,
+        "impact": 8,
+        "index": 121,
+        "kind": "interior",
+        "obligation": "interior:8:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+        "slot": 12,
+        "valid": true
+      },
+      "key": "27a3084b923bb5236f8cc839b571250cffc7405f7417c98d5743dcc8c7d753d4",
+      "sample_families": [
+        {
+          "cases": 4,
+          "key": "4c6ff9165c9b0df23d40bbb5ff34c1a7b846bc771a0a38da6434f7fa604e061a",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 888
+            },
+            {
+              "mask": 54,
+              "rank": 888
+            },
+            {
+              "mask": 55,
+              "rank": 897
+            },
+            {
+              "mask": 54,
+              "rank": 899
+            }
+          ],
+          "source_indices": [
+            121,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        121,
+        0
+      ]
+    },
+    {
+      "case_count": 4,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "tppp",
+        "faceIndex": 13,
+        "impact": 10,
+        "index": 147,
+        "kind": "interior",
+        "obligation": "interior:10:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+        "slot": 12,
+        "valid": true
+      },
+      "key": "eac8a8e11f7390ffd6117f5dcd089fe4d3a520218555c0ff166e5d1b2d304535",
+      "sample_families": [
+        {
+          "cases": 4,
+          "key": "62f5ae522c0e7133d5843c313ca60aeae4e0b20c912d1f80286ac540b2b6eb8a",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 54,
+              "rank": 635
+            },
+            {
+              "mask": 55,
+              "rank": 635
+            },
+            {
+              "mask": 55,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 47
+            }
+          ],
+          "source_indices": [
+            147,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        147,
+        0
+      ]
+    },
+    {
+      "case_count": 3,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 96,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm"
+        ],
+        "excludedFaceSetSize": 11,
+        "face": "tpmp",
+        "faceIndex": 11,
+        "impact": 7,
+        "index": 106,
+        "kind": "interior",
+        "obligation": "interior:7:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+        "slot": 10,
+        "valid": true
+      },
+      "key": "0080d2169e5f320234753654ba1bd847fa2619afc8b075a94c578ca4f8f3b9ee",
+      "sample_families": [
+        {
+          "cases": 3,
+          "key": "c7ecaa84912e11bf981f33a9429149f9aabf3ad114bccc532cfcca21be76d3b9",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 812
+            },
+            {
+              "mask": 28,
+              "rank": 827
+            },
+            {
+              "mask": 63,
+              "rank": 882
+            }
+          ],
+          "source_indices": [
+            106,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"7\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        106,
+        1
+      ]
+    },
+    {
+      "case_count": 3,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 122,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 9,
+        "index": 122,
+        "kind": "interior",
+        "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "10fb7297a02c68cf49596ccac2193db7a7b2e20c6b165046ae872e25aaccfc86",
+      "sample_families": [
+        {
+          "cases": 3,
+          "key": "7a15080fd1fc18351ab493b05ba7ccdff63eef25273e8bd050bd328d075d5e21",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 609
+            },
+            {
+              "mask": 45,
+              "rank": 855
+            },
+            {
+              "mask": 28,
+              "rank": 62
+            }
+          ],
+          "source_indices": [
+            122,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"9\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        122,
+        1
+      ]
+    },
+    {
+      "case_count": 3,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 12,
+        "index": 162,
+        "kind": "interior",
+        "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "64fe078a0a250d964f3008d90e897412404e0cc786f6faf5a4783eaea38449b4",
+      "sample_families": [
+        {
+          "cases": 3,
+          "key": "1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 447
+            },
+            {
+              "mask": 30,
+              "rank": 447
+            },
+            {
+              "mask": 28,
+              "rank": 602
+            }
+          ],
+          "source_indices": [
+            162,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        162,
+        2
+      ]
+    },
+    {
+      "case_count": 3,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 7,
+        "face": "tmmm",
+        "faceIndex": 6,
+        "impact": 8,
+        "index": 115,
+        "kind": "interior",
+        "obligation": "interior:8:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 6,
+        "valid": true
+      },
+      "key": "7368049780bbf43add9863c6101eb0d4cd3834ff6d00889c4be0799b78a4996a",
+      "sample_families": [
+        {
+          "cases": 3,
+          "key": "2331829ae5f9c9473447cdc0d7e31e8e2c9371e462f2a7f75cdaa02627990bfb",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 13,
+              "rank": 870
+            },
+            {
+              "mask": 13,
+              "rank": 882
+            },
+            {
+              "mask": 13,
+              "rank": 888
+            }
+          ],
+          "source_indices": [
+            115,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        115,
+        0
+      ]
+    },
+    {
+      "case_count": 3,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 10,
+        "index": 136,
+        "kind": "interior",
+        "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "bc3c3f42aacb1d847258109c055cea04afc822f2739a74efdebc85827b65df42",
+      "sample_families": [
+        {
+          "cases": 3,
+          "key": "68ca43ad6da1bf21837ad43de8916779d8c9b7674f02fd42c9fb46275e56520c",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 30,
+              "rank": 602
+            },
+            {
+              "mask": 63,
+              "rank": 903
+            },
+            {
+              "mask": 63,
+              "rank": 905
+            }
+          ],
+          "source_indices": [
+            136,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        136,
+        2
+      ]
+    },
+    {
+      "case_count": 3,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 6,
+        "face": "tmmp",
+        "faceIndex": 7,
+        "impact": 12,
+        "index": 168,
+        "kind": "interior",
+        "obligation": "interior:12:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 7,
+        "valid": true
+      },
+      "key": "ce3322b8aaa21875ba5bbc49db950dd63e754b3498e8ca29d562f1d36e8297d9",
+      "sample_families": [
+        {
+          "cases": 3,
+          "key": "698bc5fc0b761af936d02e66853f313943632c3c9abf425807a742b732b440f1",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 30,
+              "rank": 837
+            },
+            {
+              "mask": 30,
+              "rank": 872
+            },
+            {
+              "mask": 30,
+              "rank": 894
+            }
+          ],
+          "source_indices": [
+            168,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        168,
+        1
+      ]
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "36eec823d5ba41c4a9e4265ec047b661da07f7adb499c0084faa69539f6df833",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 990
+            },
+            {
+              "mask": 47,
+              "rank": 990
+            }
+          ],
+          "source_indices": [
+            2,
+            10
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 10,
+        "index": 10,
+        "kind": "ordering",
+        "obligation": "ordering:6",
+        "step": 6,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        10
+      ]
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 148,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 11,
+        "index": 148,
+        "kind": "interior",
+        "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "63e7915585768679d25965847ecdf6cd5bac64d95a7ab04272f2741e2a36943a",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "843502ed659adec3e8be559efd41763a66b8f79a231413413bfc62074b30741b",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 57,
+              "rank": 800
+            },
+            {
+              "mask": 63,
+              "rank": 800
+            }
+          ],
+          "source_indices": [
+            148,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        148,
+        1
+      ]
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 122,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 6,
+        "face": "tmmp",
+        "faceIndex": 7,
+        "impact": 9,
+        "index": 129,
+        "kind": "interior",
+        "obligation": "interior:9:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 7,
+        "valid": true
+      },
+      "key": "6f6d6a6023a5e161019f94f7a55b0822f48f5f64997f9ca7acae7509c8af8e65",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "e123e95ce12fb8512a98acdcdc060cc8e1427e5e426c456b02f2df50bb835096",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 63,
+              "rank": 641
+            },
+            {
+              "mask": 63,
+              "rank": 647
+            }
+          ],
+          "source_indices": [
+            129,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"9\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        129,
+        2
+      ]
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 3,
+        "index": 3,
+        "kind": "xpStart",
+        "obligation": "xpStart:3",
+        "valid": true
+      },
+      "key": "a5857231036a8e1c27fa075ebed81e3a025d7ef170cef21a55a1520d311e11c1",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+          "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+          "sample_members": [
+            {
+              "mask": 63,
+              "rank": 65
+            },
+            {
+              "mask": 63,
+              "rank": 72
+            }
+          ],
+          "source_indices": [
+            3,
+            11
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_neg_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 11,
+        "index": 11,
+        "kind": "ordering",
+        "obligation": "ordering:7",
+        "step": 7,
+        "valid": true
+      },
+      "source_indices": [
+        3,
+        11
+      ]
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "c7adc305f537d2b6caee36a1174826e86bf4307f0781368733fabc1121201665",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "548ef76c4ca70a698bc32c47af5db80f61529e06e13bb8e3a7091ea372d4cad6",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 30
+            },
+            {
+              "mask": 47,
+              "rank": 30
+            }
+          ],
+          "source_indices": [
+            2,
+            14
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 14,
+        "index": 14,
+        "kind": "ordering",
+        "obligation": "ordering:10",
+        "step": 10,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        14
+      ]
+    },
+    {
+      "case_count": 2,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "key": "d7eceb9816d10bd7d38bd3b8bb132a7efa99fc38fde8edbb34f84d1cd377e09e",
+      "sample_families": [
+        {
+          "cases": 2,
+          "key": "3b759ab3163ba9496a7005928678cb5a209032fa5b627ee33ba282b0bdd0155e",
+          "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 62,
+              "rank": 40
+            }
+          ],
+          "source_indices": [
+            2,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "opp_m1_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 12,
+        "index": 12,
+        "kind": "ordering",
+        "obligation": "ordering:8",
+        "step": 8,
+        "valid": true
+      },
+      "source_indices": [
+        2,
+        12
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 6,
+        "face": "tmmp",
+        "faceIndex": 7,
+        "impact": 10,
+        "index": 142,
+        "kind": "interior",
+        "obligation": "interior:10:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 7,
+        "valid": true
+      },
+      "key": "16cacb415ed7eabd7b27729cd9bcd96dea765583f13e6b06e1297ba22fc94528",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "7659a13ad32f460ad82d3854a24dec02c246f9199e2b5034f1f0eccddebb8b43",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 605
+            }
+          ],
+          "source_indices": [
+            142,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        142,
+        1
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "dynamic": false,
+        "expectedIndex": 3,
+        "index": 3,
+        "kind": "xpStart",
+        "obligation": "xpStart:3",
+        "valid": true
+      },
+      "key": "3acf75b0368568ac92f7f30f1945e86dcf9f597b55082f79a406da198e07b216",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc",
+          "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+          "sample_members": [
+            {
+              "mask": 12,
+              "rank": 875
+            }
+          ],
+          "source_indices": [
+            3,
+            12
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+            "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+          ],
+          "template_id": "eq_eq_neg_var_second"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 12,
+        "index": 12,
+        "kind": "ordering",
+        "obligation": "ordering:8",
+        "step": 8,
+        "valid": true
+      },
+      "source_indices": [
+        3,
+        12
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 10,
+        "index": 135,
+        "kind": "interior",
+        "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "3ef4896247432b1a2431f95273664fa7fb8d37522534e387ab5f8b385c90a0cf",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "a8779ef21d07f80a863f92a4d0b3a9e5785baca760e90b9f12ba91df5af57a50",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 30,
+              "rank": 603
+            }
+          ],
+          "source_indices": [
+            135,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        135,
+        2
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 161,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 12,
+        "index": 161,
+        "kind": "interior",
+        "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "4d8e6947f2ddc6a3618ab93fdf1006ff3b36f8549c5748fd7576f7888e2bc7ff",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "4295d2e8233f5dbac79b0d712f2b60b2c1f9bbb4a65b79e19eb3b7beac461229",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 47,
+              "rank": 89
+            }
+          ],
+          "source_indices": [
+            161,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"12\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        161,
+        1
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 148,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 11,
+        "index": 149,
+        "kind": "interior",
+        "obligation": "interior:11:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "5d6014683304aed3e28830656ee73df7b399bbd023093abecc598c2b5ff207d7",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "1720c5c6897de884a3f69d37a00482f5017602df26b88e99a3a0e35b3b08aa9f",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 28,
+              "rank": 444
+            }
+          ],
+          "source_indices": [
+            149,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        149,
+        1
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 10,
+        "index": 135,
+        "kind": "interior",
+        "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "6d38fb5e536e38a81b47077b24c2e0182b86ffd406d33e3acb537bf44b5aecd2",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "c05b3d59255e1cb9689a33957c160b34cf7f5fb51fa9849d03bfcac29208d36a",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 602
+            }
+          ],
+          "source_indices": [
+            135,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        135,
+        1
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 148,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 11,
+        "index": 149,
+        "kind": "interior",
+        "obligation": "interior:11:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "7dc53a82bb503c32e7263f3e9d693f015ab6858f0100452b7570f1aa77a4133c",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "3c44231cc1af8934c73ab9eb42337f5296972af30c98905c6664e173469df457",
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "sample_members": [
+            {
+              "mask": 63,
+              "rank": 714
+            }
+          ],
+          "source_indices": [
+            149,
+            2
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"11\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 2,
+        "index": 2,
+        "kind": "xpStart",
+        "obligation": "xpStart:2",
+        "valid": true
+      },
+      "source_indices": [
+        149,
+        2
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 7,
+        "face": "tmmm",
+        "faceIndex": 6,
+        "impact": 10,
+        "index": 141,
+        "kind": "interior",
+        "obligation": "interior:10:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 6,
+        "valid": true
+      },
+      "key": "a8e6642b8ec7292baf6d65c2cd38554be67fd5f8d772c20a8a26dbad0797ae2d",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "f58e8057dc1ef59724f47203d7b7cee139d6b386b440a531b6e8043e0830769d",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 633
+            }
+          ],
+          "source_indices": [
+            141,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        141,
+        0
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 13,
+        "face": "xp",
+        "faceIndex": 0,
+        "impact": 10,
+        "index": 135,
+        "kind": "interior",
+        "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 0,
+        "valid": true
+      },
+      "key": "c741f9357cb8d22c7fc023467f89b2c238226094138641ff1b529c8bec947c5c",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "dbcf419ae9e07ff307f82ab76c38130544ba6f8432769e038bdb3f3cb3d892f1",
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "sample_members": [
+            {
+              "mask": 31,
+              "rank": 854
+            }
+          ],
+          "source_indices": [
+            135,
+            0
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 0,
+        "index": 0,
+        "kind": "xpStart",
+        "obligation": "xpStart:0",
+        "valid": true
+      },
+      "source_indices": [
+        135,
+        0
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 8,
+        "index": 110,
+        "kind": "interior",
+        "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "e11276c9d62904761e5dd669b875363481744d1a8b42c14892f823c9770cc9f4",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "323821661c9a96d8517395d7e2ed673c7ac9f6e241d41aa3d6f0c54b617725bc",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 992
+            }
+          ],
+          "source_indices": [
+            110,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        110,
+        1
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 135,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp",
+          "tppm",
+          "tppp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "xm",
+        "faceIndex": 1,
+        "impact": 10,
+        "index": 136,
+        "kind": "interior",
+        "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+        "slot": 1,
+        "valid": true
+      },
+      "key": "e31d66d4944bc99b32bb4f5ef1d42f2000ed437ea61790d150c0d92c6d0ab2be",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "29c667e5aa818ea6f1b958dd1d1050e310d4a3d40eb8ec4a842957f47cc4fc73",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 29,
+              "rank": 603
+            }
+          ],
+          "source_indices": [
+            136,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"10\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        136,
+        1
+      ]
+    },
+    {
+      "case_count": 1,
+      "family_count": 1,
+      "first_language": {
+        "blockStart": 109,
+        "dynamic": true,
+        "excludedFaceSet": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tmmm",
+          "tmmp",
+          "tmpm",
+          "tmpp",
+          "tpmm",
+          "tpmp"
+        ],
+        "excludedFaceSetSize": 12,
+        "face": "tppm",
+        "faceIndex": 12,
+        "impact": 8,
+        "index": 120,
+        "kind": "interior",
+        "obligation": "interior:8:tppm:slot11:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp",
+        "slot": 11,
+        "valid": true
+      },
+      "key": "f3eb21134ab24754c014506e4209bf469d3cd76890b9bf4b275b751a7e056544",
+      "sample_families": [
+        {
+          "cases": 1,
+          "key": "fe6dcb0e1d5af6cc7f6e5b61abf78e5a6c655ce793a9a24af1459862db39f388",
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "sample_members": [
+            {
+              "mask": 45,
+              "rank": 57
+            }
+          ],
+          "source_indices": [
+            120,
+            1
+          ],
+          "source_skeletons": [
+            "{\"impact\": \"8\", \"kind\": \"interior\"}",
+            "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "second_language": {
+        "dynamic": false,
+        "expectedIndex": 1,
+        "index": 1,
+        "kind": "xpStart",
+        "obligation": "xpStart:1",
+        "valid": true
+      },
+      "source_indices": [
+        120,
+        1
+      ]
+    }
+  ],
+  "trusted_as_proof": false
+}
