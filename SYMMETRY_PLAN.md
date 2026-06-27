@@ -6078,6 +6078,72 @@ SourceIndexStateFamilySmoke peak RSS:  3,858,936 KB
     individual rank/mask members; if none exists in bounded windows, reject the
     source-index/state family path as a final compression surface.
 
+Completed Phase 6Z.6K.8G:
+
+- Added `scripts/profile_source_index_state_nonenum_membership.py`.
+- Generated:
+  - `scripts/generated/phase6z6k8g_source_index_state_nonenum_membership_audit.json`
+  - `scripts/generated/phase6z6k8g_source_index_state_nonenum_membership_audit.md`
+- The audit compares candidate membership predicates for the same `[0,1000)`
+  bounded translation window used by 6K.8F. A candidate passes only if it:
+  - covers all bounded GoodDirection two-source cases;
+  - has stable source-agreement obligations inside each family;
+  - has stable row-property obligations inside each family;
+  - does not carry concrete source-agreement, row-property, exact-row,
+    rank/mask member, word, sequence, translation vector, line, or Farkas
+    witness data in the membership payload.
+- Verification commands passed:
+
+```bash
+python3 -m py_compile scripts/profile_source_index_state_nonenum_membership.py
+python3 scripts/profile_source_index_state_nonenum_membership.py --rank-start 0 --limit 1000
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/profile_source_index_state_nonenum_membership.py \
+  scripts/generated/phase6z6k8g_source_index_state_nonenum_membership_audit.*
+```
+
+- Audit result:
+
+```text
+pair words scanned:             1,000
+identity words:                   138
+GoodDirection survivors:        1,465
+covered two-source cases:       1,465
+uncovered/non-two-source cases:     0
+decision: needs-nonenum-lean-smoke
+chosen candidate: source_index_state
+```
+
+- Candidate table:
+
+```text
+source_index_state:                    74 families, largest 421, source unstable 0, row unstable 0, exact-row unstable 59, gate true
+prefix_count_state_row_property:       74 families, largest 421, source unstable 10, row unstable 0, exact-row unstable 45, gate false
+source_pair_sign_skeleton_row_property:53 families, largest 421, source unstable 4, row unstable 0, exact-row unstable 40, gate false
+source_pair_skeleton_row_property:     43 families, largest 421, source unstable 14, row unstable 0, exact-row unstable 38, gate false
+source_kind_impact_row_property:       33 families, largest 421, source unstable 16, row unstable 0, exact-row unstable 31, gate false
+source_kind_row_property:              11 families, largest 711, source unstable 8, row unstable 0, exact-row unstable 10, gate false
+local_word_window_row_property:       151 families, largest 348, source unstable 11, row unstable 0, exact-row unstable 70, gate false
+```
+
+- Decision:
+  - Keep `source_index_state` as the selected production candidate for the
+    next smoke. In this bounded window it is the only audited predicate that is
+    stable for source agreement, stable for the row-property theorem surface,
+    fact-free, and member-list-free.
+  - Reject the coarser candidates for the production surface. They are
+    diagnostically useful, but source agreement varies inside their families,
+    so Lean would need extra concrete facts or a member enumeration to recover
+    the needed row sources.
+  - Do not require exact row shapes to be stable in `Applies`. Exact-row
+    variation remains large for the selected predicate, but the row-property
+    theorem layer has already quotiented that away; carrying exact rows in
+    membership would reintroduce the data problem.
+  - The next step is Phase 6Z.6K.8H: prove a small Lean smoke for
+    `source_index_state` membership without inductive rank/mask member
+    enumeration. The smoke should show that the compact predicate itself
+    implies `SourceAgrees`/row-property facts for selected large families.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7046,9 +7112,13 @@ Acceptance:
   generalize the successful singleton smoke into family/state descriptors for
   the 74 bounded source-index families without putting `SourceAgrees`, `*Rows`,
   or ordinary certificate witnesses inside `Applies`.
-- [ ] Implement Phase 6Z.6K.8G source-index/state non-enumerative membership
+- [x] Implement Phase 6Z.6K.8G source-index/state non-enumerative membership
   audit: find a compact whole-family predicate for the bounded families or
   reject this path as a final compression surface.
+- [ ] Implement Phase 6Z.6K.8H source-index/state non-enumerative Lean smoke:
+  prove that the selected `source_index_state` predicate can imply
+  `SourceAgrees` and row-property facts for selected large families without
+  inductive rank/mask member enumeration.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7117,21 +7187,28 @@ multi-member fact-free `Applies` predicate can compose with the row-property
 quotient, but it still uses bounded inductive member enumeration and therefore
 is not a final compression surface.
 
-The immediate next step is Phase 6Z.6K.8G: source-index/state non-enumerative
-membership audit. That step should:
+Phase 6Z.6K.8G is complete as a non-enumerative membership audit. It shows that
+`source_index_state` is the only audited predicate in `[0,1000)` that is stable
+for source agreement, stable for row-property obligations, fact-free, and
+member-list-free. Coarser predicates reduce family count but fail source
+stability, while exact-row shapes still vary too much to belong in the
+membership surface.
 
-- profile the 74 bounded source-index/state families for compact predicates
-  that describe all members without enumerating each rank/mask;
-- compare candidate predicates such as local word windows, prefix-count state,
-  source-index plus impact state, and mask-bit state against the exact
-  `SourceAgrees` and row-property obligations;
-- emit no production Lean until at least one predicate proves every bounded
-  member of selected large families without carrying source/row facts inside
-  `Applies`;
-- reject the source-index/state family path as a final compression surface if
-  every successful predicate still degenerates into a rank/mask member list;
-- keep the 6K.8F smoke as a regression test for the generic membership
-  interface, not as coverage.
+The immediate next step is Phase 6Z.6K.8H: source-index/state non-enumerative
+Lean smoke. That step should:
+
+- add a small theorem-level interface for the selected `source_index_state`
+  predicate, keeping `Applies` fact-free and member-list-free;
+- generate or hand-write a bounded smoke for selected large families from
+  6K.8G, especially the 421-case and 134-case families;
+- prove that the compact predicate implies the needed `SourceAgrees` and
+  row-property facts without inductive rank/mask member enumeration;
+- compose those facts through the existing row-property quotient and
+  `RowPropertyMembershipFamily.killsOn`;
+- keep exact-row variation outside `Applies`, because the row-property layer is
+  the intended quotient;
+- reject the predicate as a final production surface if the Lean proof still
+  needs a concrete member list to recover sources or rows.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

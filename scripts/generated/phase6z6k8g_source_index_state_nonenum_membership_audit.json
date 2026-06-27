@@ -1,0 +1,2215 @@
+{
+  "candidate_results": [
+    {
+      "candidate": "source_index_state",
+      "exact_row_shape_unstable_families": 59,
+      "fact_free": true,
+      "families": 74,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 19.7972972972973,
+      "member_list_free": true,
+      "passes_nonenum_gate": true,
+      "passes_stability": true,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 0,
+      "top_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 24,
+              "rank": 0
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 3
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 128,
+          "exact_row_shape_signatures": 25,
+          "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 0
+            },
+            {
+              "mask": 31,
+              "rank": 0
+            },
+            {
+              "mask": 63,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 102,
+          "exact_row_shape_signatures": 52,
+          "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 79,
+          "exact_row_shape_signatures": 11,
+          "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 18,
+          "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 633
+            },
+            {
+              "mask": 63,
+              "rank": 633
+            },
+            {
+              "mask": 25,
+              "rank": 639
+            },
+            {
+              "mask": 25,
+              "rank": 641
+            },
+            {
+              "mask": 61,
+              "rank": 641
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 30,
+          "exact_row_shape_signatures": 24,
+          "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 123
+            },
+            {
+              "mask": 22,
+              "rank": 123
+            },
+            {
+              "mask": 13,
+              "rank": 125
+            },
+            {
+              "mask": 22,
+              "rank": 125
+            },
+            {
+              "mask": 29,
+              "rank": 125
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 29,
+          "exact_row_shape_signatures": 21,
+          "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 129
+            },
+            {
+              "mask": 31,
+              "rank": 129
+            },
+            {
+              "mask": 13,
+              "rank": 177
+            },
+            {
+              "mask": 22,
+              "rank": 177
+            },
+            {
+              "mask": 13,
+              "rank": 315
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 23,
+          "exact_row_shape_signatures": 11,
+          "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 60
+            },
+            {
+              "mask": 22,
+              "rank": 62
+            },
+            {
+              "mask": 29,
+              "rank": 62
+            },
+            {
+              "mask": 31,
+              "rank": 62
+            },
+            {
+              "mask": 13,
+              "rank": 65
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 22,
+          "exact_row_shape_signatures": 10,
+          "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 7,
+              "rank": 498
+            },
+            {
+              "mask": 23,
+              "rank": 501
+            },
+            {
+              "mask": 7,
+              "rank": 519
+            },
+            {
+              "mask": 7,
+              "rank": 561
+            },
+            {
+              "mask": 7,
+              "rank": 582
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ]
+    },
+    {
+      "candidate": "prefix_count_state_row_property",
+      "exact_row_shape_unstable_families": 45,
+      "fact_free": true,
+      "families": 74,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 19.7972972972973,
+      "member_list_free": true,
+      "passes_nonenum_gate": false,
+      "passes_stability": false,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 10,
+      "top_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "3641320cff4f2c736251e6f0311dde5e6e1a71e0fc30183ed77e84cac432fb9b",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 24,
+              "rank": 0
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "a5404d7df64935f224facdd18faa69689a2040d92d95daf86f824a0e18b14902",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 3
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 128,
+          "exact_row_shape_signatures": 25,
+          "key": "50a740b71637d864218738f2148f56cd687a1e80f62668be4fcc38d59fd1db4e",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 0
+            },
+            {
+              "mask": 31,
+              "rank": 0
+            },
+            {
+              "mask": 63,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 102,
+          "exact_row_shape_signatures": 52,
+          "key": "629806c1509310344de986ff3bddd6dfcfd4ad14e22bad52c83c4e2066776c44",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 52,
+          "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 63,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 9
+            },
+            {
+              "mask": 55,
+              "rank": 9
+            },
+            {
+              "mask": 61,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 29,
+          "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 2
+            },
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 18,
+          "key": "bdceede5c990aac5a9a8e6737dd88fb003c7a84cfc83eec5a47256d20b5caeaf",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 633
+            },
+            {
+              "mask": 63,
+              "rank": 633
+            },
+            {
+              "mask": 25,
+              "rank": 639
+            },
+            {
+              "mask": 25,
+              "rank": 641
+            },
+            {
+              "mask": 61,
+              "rank": 641
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 22,
+          "exact_row_shape_signatures": 10,
+          "key": "59b816832e9b5d7451e21584911f82190c58d5dfd3dc4ef30c4cf498c7d7ba4a",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 7,
+              "rank": 137
+            },
+            {
+              "mask": 7,
+              "rank": 185
+            },
+            {
+              "mask": 7,
+              "rank": 251
+            },
+            {
+              "mask": 7,
+              "rank": 263
+            },
+            {
+              "mask": 7,
+              "rank": 269
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_neg_var_first"
+        },
+        {
+          "cases": 21,
+          "exact_row_shape_signatures": 7,
+          "key": "5be1f8a17ee3ce36c95c9d371ecb5f61425915f09a378acc90c15dc385724404",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 39,
+              "rank": 149
+            },
+            {
+              "mask": 47,
+              "rank": 149
+            },
+            {
+              "mask": 45,
+              "rank": 185
+            },
+            {
+              "mask": 47,
+              "rank": 185
+            },
+            {
+              "mask": 7,
+              "rank": 209
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ]
+    },
+    {
+      "candidate": "source_pair_sign_skeleton_row_property",
+      "exact_row_shape_unstable_families": 40,
+      "fact_free": true,
+      "families": 53,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 27.641509433962263,
+      "member_list_free": true,
+      "passes_nonenum_gate": false,
+      "passes_stability": false,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 4,
+      "top_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "21fd16150b04318afea5e5a672c65f7ecc699fa3b12b0726887f7341dd4feaf0",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 24,
+              "rank": 0
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "key": "e15aa3f0cb55bbc319b52f7e14f991bba91f639ed17c8d48c14f4e1c3cd57358",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "d3291306660226ce0272a7a7e8fe1aff3dffee6c5b8cbd7f7215dc4ee96607a1",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 3
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 128,
+          "exact_row_shape_signatures": 25,
+          "key": "80774a714a1480ec4d18d9aeeb6d3254b12d7f73c1e1dab8de8789f945fc072f",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 0
+            },
+            {
+              "mask": 31,
+              "rank": 0
+            },
+            {
+              "mask": 63,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 102,
+          "exact_row_shape_signatures": 52,
+          "key": "d37999aab40122d8a30fefb26872a742e8c49f8e6d4c46355e2c370ac1713406",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 52,
+          "key": "1976b022f196dbb56353efa5d550a0c4e38a99138f9272f11e1cbaef56e50ed7",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 63,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 9
+            },
+            {
+              "mask": 55,
+              "rank": 9
+            },
+            {
+              "mask": 61,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 29,
+          "key": "8d86cbb5161bf3acd54c1cb9bd93fc99b3cede40e6c20839632c679772791d39",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 2
+            },
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 18,
+          "key": "8f2d4b109bb5fadecab32e0f26ff2939b49d4c029ee8046290851d814026b01f",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 633
+            },
+            {
+              "mask": 63,
+              "rank": 633
+            },
+            {
+              "mask": 25,
+              "rank": 639
+            },
+            {
+              "mask": 25,
+              "rank": 641
+            },
+            {
+              "mask": 61,
+              "rank": 641
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 22,
+          "exact_row_shape_signatures": 10,
+          "key": "132abf102f77b7982d5d0a000b515ee050094287bcaf2b0ff8b415f9ab34fe05",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 7,
+              "rank": 137
+            },
+            {
+              "mask": 7,
+              "rank": 185
+            },
+            {
+              "mask": 7,
+              "rank": 251
+            },
+            {
+              "mask": 7,
+              "rank": 263
+            },
+            {
+              "mask": 7,
+              "rank": 269
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_neg_var_first"
+        },
+        {
+          "cases": 21,
+          "exact_row_shape_signatures": 7,
+          "key": "87b656c79e8414db6151f8312fcfea8b4828ccb001aff0cd9bf39c71313415af",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 39,
+              "rank": 149
+            },
+            {
+              "mask": 47,
+              "rank": 149
+            },
+            {
+              "mask": 45,
+              "rank": 185
+            },
+            {
+              "mask": 47,
+              "rank": 185
+            },
+            {
+              "mask": 7,
+              "rank": 209
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ]
+    },
+    {
+      "candidate": "source_pair_skeleton_row_property",
+      "exact_row_shape_unstable_families": 38,
+      "fact_free": true,
+      "families": 43,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 34.06976744186046,
+      "member_list_free": true,
+      "passes_nonenum_gate": false,
+      "passes_stability": false,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 14,
+      "top_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "d10ddf0005d5c2250e9ef3a7622871f0cafa71f4b247a96d5564e86f8a8e9ef2",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 24,
+              "rank": 0
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "key": "04d6813ebdd388115d30b4edc6ffbed217f3e2f39db08b0a108eaf9a761cc6f1",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "f2fa1b0afb75bdef39599cc68c867d394853102ba159da1c37d99ac30ba31cfb",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 3
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 128,
+          "exact_row_shape_signatures": 25,
+          "key": "81d004568f12e45644c5a1c43559caf61512d0a256a6515e9a6a31125596a8b9",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 0
+            },
+            {
+              "mask": 31,
+              "rank": 0
+            },
+            {
+              "mask": 63,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 102,
+          "exact_row_shape_signatures": 52,
+          "key": "1b626bf32592beff34c620bd3ee1d8341c7219d9b638275ee0b2adac760b5642",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 52,
+          "key": "7f768ae3aa54349b347b1767aba95f962aef8bc98f72ffe5a138bf81041e559e",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 63,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 9
+            },
+            {
+              "mask": 55,
+              "rank": 9
+            },
+            {
+              "mask": 61,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 29,
+          "key": "2d3bbc9b4128f28723a01d93da3c1ab220caa78bef739123300a1f21abfa0b60",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 2
+            },
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 18,
+          "key": "8621d6f9eca807517282f0441f0a9985253337596109732142212673298a901c",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 633
+            },
+            {
+              "mask": 63,
+              "rank": 633
+            },
+            {
+              "mask": 25,
+              "rank": 639
+            },
+            {
+              "mask": 25,
+              "rank": 641
+            },
+            {
+              "mask": 61,
+              "rank": 641
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 27,
+          "exact_row_shape_signatures": 11,
+          "key": "e4707c3c3ffe22024bb446707e7f0d0eec9fccd4beac7c6a78a9630c0c7cad5d",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 47,
+              "rank": 611
+            },
+            {
+              "mask": 55,
+              "rank": 611
+            },
+            {
+              "mask": 47,
+              "rank": 629
+            },
+            {
+              "mask": 55,
+              "rank": 629
+            },
+            {
+              "mask": 22,
+              "rank": 810
+            }
+          ],
+          "source_agreement_signatures": 2,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 22,
+          "exact_row_shape_signatures": 10,
+          "key": "72ef94e4074e22ef34a9c207372e3ed40f04a5aa97e2da3544c179db8ac07143",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 7,
+              "rank": 137
+            },
+            {
+              "mask": 7,
+              "rank": 185
+            },
+            {
+              "mask": 7,
+              "rank": 251
+            },
+            {
+              "mask": 7,
+              "rank": 263
+            },
+            {
+              "mask": 7,
+              "rank": 269
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_neg_var_first"
+        }
+      ]
+    },
+    {
+      "candidate": "source_kind_impact_row_property",
+      "exact_row_shape_unstable_families": 31,
+      "fact_free": true,
+      "families": 33,
+      "largest_family_cases": 421,
+      "mean_cases_per_family": 44.39393939393939,
+      "member_list_free": true,
+      "passes_nonenum_gate": false,
+      "passes_stability": false,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 16,
+      "top_families": [
+        {
+          "cases": 421,
+          "exact_row_shape_signatures": 89,
+          "key": "d7b2c4939f8b414c09cd44138e920222e0c6deccf2bae93b95e356760e66671e",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 24,
+              "rank": 0
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "key": "ce40ee73f7b69abc061a8cce4dac1334086a80355b7c51a711d8de721d70596f",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 134,
+          "exact_row_shape_signatures": 65,
+          "key": "787f97767e8eb0e36a8510071cdd0252a1a11a0b07a3a70c5d4fab1f59a971a4",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 3
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 128,
+          "exact_row_shape_signatures": 25,
+          "key": "903059f4bd64844c9e50ee5cebddbd2062513efa4c7eef6d1497e9524f167d72",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 0
+            },
+            {
+              "mask": 31,
+              "rank": 0
+            },
+            {
+              "mask": 63,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 102,
+          "exact_row_shape_signatures": 52,
+          "key": "46ed8a5b524b0f306ed8bce163d54c678c8d6e0e16a282bd363d199fb4423c4a",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 52,
+          "key": "26b42897e86d6bd31f34aec03a7db41322d049ca8b663fa04ae5dfebd28d8f7c",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 63,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 9
+            },
+            {
+              "mask": 55,
+              "rank": 9
+            },
+            {
+              "mask": 61,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 29,
+          "key": "802d89005e91880fde3b1ae6132e5deefcfd13a4e109a11e7cf8e52ea564f540",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 2
+            },
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 18,
+          "key": "cca0716732315e2d083704dfd1c89a425d1cdf5c085384b14fa6c5358913e09f",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 633
+            },
+            {
+              "mask": 63,
+              "rank": 633
+            },
+            {
+              "mask": 25,
+              "rank": 639
+            },
+            {
+              "mask": 25,
+              "rank": 641
+            },
+            {
+              "mask": 61,
+              "rank": 641
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 34,
+          "exact_row_shape_signatures": 16,
+          "key": "5f3fea636dbc9bb2d2d445e1a7d7d83b31497d1a37dffe0fa12534e8825745c6",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 47,
+              "rank": 611
+            },
+            {
+              "mask": 55,
+              "rank": 611
+            },
+            {
+              "mask": 47,
+              "rank": 629
+            },
+            {
+              "mask": 55,
+              "rank": 629
+            },
+            {
+              "mask": 22,
+              "rank": 810
+            }
+          ],
+          "source_agreement_signatures": 4,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 29,
+          "exact_row_shape_signatures": 10,
+          "key": "17a881e5e6f166aa585081e8e5760f313a202c6f65275bce42ffd0b58a3ef00f",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 29,
+              "rank": 60
+            },
+            {
+              "mask": 30,
+              "rank": 60
+            },
+            {
+              "mask": 29,
+              "rank": 65
+            },
+            {
+              "mask": 30,
+              "rank": 72
+            },
+            {
+              "mask": 29,
+              "rank": 78
+            }
+          ],
+          "source_agreement_signatures": 2,
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ]
+    },
+    {
+      "candidate": "source_kind_row_property",
+      "exact_row_shape_unstable_families": 10,
+      "fact_free": true,
+      "families": 11,
+      "largest_family_cases": 711,
+      "mean_cases_per_family": 133.1818181818182,
+      "member_list_free": true,
+      "passes_nonenum_gate": false,
+      "passes_stability": false,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 8,
+      "top_families": [
+        {
+          "cases": 711,
+          "exact_row_shape_signatures": 188,
+          "key": "275a8c6e355659afe955918277d524438e785d419ceceeae937fa060290b9734",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 22,
+              "rank": 0
+            }
+          ],
+          "source_agreement_signatures": 19,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 227,
+          "exact_row_shape_signatures": 108,
+          "key": "886c4501023457cb2bce257f3f5b2d8f0f7710f15d1b1cc25f5b4cb0d2125d29",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 28,
+              "rank": 3
+            }
+          ],
+          "source_agreement_signatures": 18,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 126,
+          "exact_row_shape_signatures": 70,
+          "key": "aa87af4e2f0560d085528a1fc4aa77a27a857e4905982b92bca86bb6023a8870",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 52,
+          "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 63,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 9
+            },
+            {
+              "mask": 55,
+              "rank": 9
+            },
+            {
+              "mask": 61,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 29,
+          "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 2
+            },
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 32,
+          "exact_row_shape_signatures": 14,
+          "key": "ad2e0f1cf34dec064c1e0c849877e9be977c6c89cbaa9bbf6110b0c3de442968",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 24
+            },
+            {
+              "mask": 28,
+              "rank": 49
+            },
+            {
+              "mask": 28,
+              "rank": 86
+            },
+            {
+              "mask": 28,
+              "rank": 87
+            },
+            {
+              "mask": 7,
+              "rank": 137
+            }
+          ],
+          "source_agreement_signatures": 2,
+          "template_id": "eq_eq_neg_var_first"
+        },
+        {
+          "cases": 4,
+          "exact_row_shape_signatures": 3,
+          "key": "219193339030d823a9e480c720f88f24aa5ee856b7f91ee96eef4c363045a652",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 30,
+              "rank": 357
+            },
+            {
+              "mask": 22,
+              "rank": 413
+            },
+            {
+              "mask": 6,
+              "rank": 519
+            },
+            {
+              "mask": 56,
+              "rank": 955
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "axis_a_only"
+        },
+        {
+          "cases": 3,
+          "exact_row_shape_signatures": 2,
+          "key": "486e563abace3f0fdf5f413541bd4405570656e05d33e78b827b52b110b54fa9",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 63,
+              "rank": 65
+            },
+            {
+              "mask": 63,
+              "rank": 72
+            },
+            {
+              "mask": 12,
+              "rank": 875
+            }
+          ],
+          "source_agreement_signatures": 2,
+          "template_id": "eq_eq_neg_var_second"
+        },
+        {
+          "cases": 3,
+          "exact_row_shape_signatures": 2,
+          "key": "f8fbc2be94209f87f427253d28a496c9a99327852bd3155ac131c615940b19d8",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 251
+            },
+            {
+              "mask": 5,
+              "rank": 561
+            },
+            {
+              "mask": 63,
+              "rank": 748
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "axis_a_only"
+        }
+      ]
+    },
+    {
+      "candidate": "local_word_window_row_property",
+      "exact_row_shape_unstable_families": 70,
+      "fact_free": true,
+      "families": 151,
+      "largest_family_cases": 348,
+      "mean_cases_per_family": 9.701986754966887,
+      "member_list_free": true,
+      "passes_nonenum_gate": false,
+      "passes_stability": false,
+      "row_property_unstable_families": 0,
+      "source_unstable_families": 11,
+      "top_families": [
+        {
+          "cases": 348,
+          "exact_row_shape_signatures": 87,
+          "key": "3f09a495f2938456320a2e716da66a04fa5cc87f94a3257eea0f943562e75ba8",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 8,
+              "rank": 0
+            },
+            {
+              "mask": 16,
+              "rank": 0
+            },
+            {
+              "mask": 18,
+              "rank": 0
+            },
+            {
+              "mask": 24,
+              "rank": 0
+            },
+            {
+              "mask": 8,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 240,
+          "exact_row_shape_signatures": 105,
+          "key": "9f4152d21342c1684f1829b586a4cdff09186e05d8c029643c20aa601fa1c478",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 13,
+              "rank": 0
+            },
+            {
+              "mask": 29,
+              "rank": 0
+            },
+            {
+              "mask": 13,
+              "rank": 2
+            },
+            {
+              "mask": 29,
+              "rank": 2
+            },
+            {
+              "mask": 13,
+              "rank": 5
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 102,
+          "exact_row_shape_signatures": 52,
+          "key": "625a21b82341fba4579f4a10a23526ed67ba84c04ef0038f543916b8b0fcf15e",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 3
+            },
+            {
+              "mask": 45,
+              "rank": 5
+            },
+            {
+              "mask": 47,
+              "rank": 5
+            },
+            {
+              "mask": 61,
+              "rank": 24
+            },
+            {
+              "mask": 45,
+              "rank": 42
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 101,
+          "exact_row_shape_signatures": 51,
+          "key": "ea838131d5397d192505ae1a8ea387f7359bd80a0597e483e15bc28446375be4",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 54,
+              "rank": 0
+            },
+            {
+              "mask": 54,
+              "rank": 2
+            },
+            {
+              "mask": 54,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 11
+            },
+            {
+              "mask": 54,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 20,
+          "key": "290d7cd5c0e465948a65cb3734ccdb276eef727c4633edcd2ea40ecc8e878cfb",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 9,
+              "rank": 0
+            },
+            {
+              "mask": 9,
+              "rank": 2
+            },
+            {
+              "mask": 9,
+              "rank": 3
+            },
+            {
+              "mask": 9,
+              "rank": 5
+            },
+            {
+              "mask": 9,
+              "rank": 9
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 73,
+          "exact_row_shape_signatures": 52,
+          "key": "c30830b2240d4080bbc26c945ca18f55e01bb75651d3edab776c96dad02eb609",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 28,
+              "rank": 2
+            },
+            {
+              "mask": 63,
+              "rank": 3
+            },
+            {
+              "mask": 54,
+              "rank": 9
+            },
+            {
+              "mask": 55,
+              "rank": 9
+            },
+            {
+              "mask": 61,
+              "rank": 17
+            }
+          ],
+          "source_agreement_signatures": 8,
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 53,
+          "exact_row_shape_signatures": 10,
+          "key": "5f887b82b7374502fcbc22f87d3973b149b1cf41eb4219dc0e75a52c98341a18",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 22,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 0
+            },
+            {
+              "mask": 31,
+              "rank": 0
+            },
+            {
+              "mask": 63,
+              "rank": 0
+            },
+            {
+              "mask": 30,
+              "rank": 2
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 44,
+          "exact_row_shape_signatures": 29,
+          "key": "b9053141837b3139b3cd8167c75b7ff1422d05b060624072de0a2d2ca99aad46",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 45,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 0
+            },
+            {
+              "mask": 47,
+              "rank": 2
+            },
+            {
+              "mask": 45,
+              "rank": 9
+            },
+            {
+              "mask": 45,
+              "rank": 27
+            }
+          ],
+          "source_agreement_signatures": 7,
+          "template_id": "opp_m1_var_second"
+        },
+        {
+          "cases": 33,
+          "exact_row_shape_signatures": 14,
+          "key": "55e07e1f14bfe65a1409299fb467ba870ba6b75d838698959c517c8092b3dcbe",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 55,
+              "rank": 0
+            },
+            {
+              "mask": 55,
+              "rank": 2
+            },
+            {
+              "mask": 55,
+              "rank": 3
+            },
+            {
+              "mask": 55,
+              "rank": 27
+            },
+            {
+              "mask": 55,
+              "rank": 47
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 24,
+          "exact_row_shape_signatures": 14,
+          "key": "fabc455fa4c2ce8c321fc3ea767d83a2e3701515c61592c5719decafb6c343b6",
+          "row_property_signatures": 1,
+          "samples": [
+            {
+              "mask": 30,
+              "rank": 315
+            },
+            {
+              "mask": 23,
+              "rank": 317
+            },
+            {
+              "mask": 30,
+              "rank": 317
+            },
+            {
+              "mask": 30,
+              "rank": 323
+            },
+            {
+              "mask": 31,
+              "rank": 323
+            }
+          ],
+          "source_agreement_signatures": 1,
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "chosen_candidate": "source_index_state",
+    "notes": [
+      "source_index_state is stable, fact-free, and member-list-free in the bounded window",
+      "next step should prove a small Lean smoke for this predicate without enumerating members"
+    ],
+    "status": "needs-nonenum-lean-smoke"
+  },
+  "limit": 1000,
+  "mode": "source_index_state_nonenum_membership_audit",
+  "phase": "6Z.6K.8G",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
