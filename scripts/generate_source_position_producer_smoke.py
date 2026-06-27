@@ -102,7 +102,7 @@ def source_position_def(name: str, ordinal: str, source: dict[str, Any], languag
     kind = source["kind"]
     if kind in {"xpStart", "ordering"}:
         return [
-            f"private def {def_name} (r : Nat) (mask : SignMask) : Prop :=",
+            f"def {def_name} (r : Nat) (mask : SignMask) : Prop :=",
             "  ∀ _hlt : r < numPairWords, True",
             "",
         ]
@@ -110,7 +110,7 @@ def source_position_def(name: str, ordinal: str, source: dict[str, Any], languag
         impact = int(source["impact"])
         excluded = lean_face_list(language["excludedFaceSet"])
         return [
-            f"private def {def_name} (r : Nat) (mask : SignMask) : Prop :=",
+            f"def {def_name} (r : Nat) (mask : SignMask) : Prop :=",
             "  ∀ hlt : r < numPairWords,",
             f"    impactFace (translationSeqAtRankMask ⟨r, hlt⟩ mask) ⟨{impact}, by decide⟩ ∈",
             f"      {excluded}",
@@ -172,10 +172,13 @@ def producer_lines(index: int, group: dict[str, Any]) -> list[str]:
     return [
         f"/-- Source-position producer for source group `{group['key']}`.",
         f"Observed bounded GoodDirection cases: {group['case_count']}. -/",
-        *support_lines(name, first_source, second_source),
+        *[
+            line.replace("private def", "def", 1)
+            for line in support_lines(name, first_source, second_source)
+        ],
         *source_position_def(name, "first", first_source, group["first_language"]),
         *source_position_def(name, "second", second_source, group["second_language"]),
-        f"private def {name}_positionPredicate (r : Nat) (mask : SignMask) : Prop :=",
+        f"def {name}_positionPredicate (r : Nat) (mask : SignMask) : Prop :=",
         f"  {name}_firstPosition r mask /\\",
         f"    {name}_secondPosition r mask /\\",
         f"      ∀ hlt : r < numPairWords, SourceChecks {name}_support r hlt mask",

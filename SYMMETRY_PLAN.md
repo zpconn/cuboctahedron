@@ -7331,6 +7331,74 @@ exit status: 0
     and row producer `Applies` premises from symbolic source-position and row
     state invariants, not from bounded member lists.
 
+Completed Phase 6Z.6K.8AA:
+
+- Patched `scripts/generate_source_position_producer_smoke.py` so the small
+  source supports and source-position predicates are public theorem-surface
+  definitions rather than private helpers.
+- Patched `scripts/generate_source_position_producer_glue_smoke.py` so the
+  8Z keys are public and use the imported 8Y source supports directly.
+- Added `scripts/generate_source_position_applicability_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionApplicabilitySmoke.lean`.
+- Generated evidence metadata:
+  `scripts/generated/phase6z6k8aa_source_position_applicability_smoke.json`
+  and `.md`.
+- The generated 8AA module proves, for each of the 74 bounded descriptor
+  families:
+  - source producer `Applies` follows from the corresponding
+    `source_###_positionPredicate`;
+  - row producer `Applies` follows from the corresponding row-template
+    predicate;
+  - those two semantic premises compose through 8Z to
+    `TranslationGoodCaseKilled`.
+- It does not contain concrete rank/mask membership lists and does not replay
+  bounded members.
+- Parallel regeneration commands:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_source_position_producer_smoke.py --jobs 4
+/usr/bin/time -v python3 scripts/generate_source_position_producer_glue_smoke.py --jobs 4
+/usr/bin/time -v python3 scripts/generate_source_position_applicability_smoke.py --jobs 4
+```
+
+- Parallel regeneration results:
+
+```text
+8Y wall time:  0:35.61, peak RSS: 31,276 KB, CPU: 302%, exit status: 0
+8Z wall time:  0:34.93, peak RSS: 30,868 KB, CPU: 302%, exit status: 0
+8AA wall time: 0:34.88, peak RSS: 30,768 KB, CPU: 302%, exit status: 0
+```
+
+- Focused build command:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerGlueSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionApplicabilitySmoke
+```
+
+- Focused build result:
+
+```text
+status:      accepted-smoke
+wall time:   0:13.67
+peak RSS:    3,402,648 KB
+exit status: 0
+```
+
+- Decision:
+  - Accept 8AA as the bounded semantic producer-applicability theorem
+    surface. The translation row-template path now has a Lean-checked chain:
+    source-position predicate + row-template predicate -> producer applies ->
+    source+row key facts -> `TranslationGoodCaseKilled`.
+  - This is still bounded evidence. The immediate next step is Phase
+    6Z.6K.8AB: profile the remaining source-position predicates and
+    row-template predicates over larger translation windows, then determine
+    whether they collapse to a global bounded state language or require a new
+    symbolic invariant.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8366,9 +8434,13 @@ Acceptance:
   compose the 8Y source-position producers with the accepted row producers and
   the 8T glue theorem surface, deriving bounded `TranslationGoodCaseKilled`
   without the old raw source-fact predicate layer.
-- [ ] Implement Phase 6Z.6K.8AA semantic producer-applicability layer:
+- [x] Implement Phase 6Z.6K.8AA semantic producer-applicability layer:
   prove or profile a non-replay way to derive the 8Z source/row producer
   `Applies` premises from symbolic source-position and row state invariants.
+- [ ] Implement Phase 6Z.6K.8AB applicability scaling profiler:
+  profile the 8AA source-position and row-template predicate obligations over
+  larger translation windows and decide whether they form a global bounded
+  state language or need a new invariant.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8504,18 +8576,25 @@ families through the existing glue surface. The generator used `--jobs 4`,
 finished in 31.83 seconds with 31.7 MB peak RSS, and the focused three-module
 Lean build passed in 10.68 seconds with 3.36 GiB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8AA: implement or profile the semantic
-producer-applicability layer. That step should:
+Phase 6Z.6K.8AA is complete as the bounded producer-applicability theorem
+surface. It proves, for all 74 bounded descriptor families, that
+source-position predicates plus row-template predicates imply the 8Z producer
+`Applies` premises and hence `TranslationGoodCaseKilled`. The three parallel
+generators used `--jobs 4`, each finished in about 35 seconds with about
+31 MB peak RSS, and the focused Lean build passed in 13.67 seconds with
+3.40 GiB peak RSS.
 
-- prove source producer `Applies` from source-position language obligations
-  and `SourceChecks`, not from `SourceIndexStateSourcePredicate` or member
-  replay;
-- prove row producer `Applies` from row-template/state invariants, not from
-  concrete rank/mask row arithmetic;
-- connect those `Applies` facts to the accepted 8Z glue theorem surface;
-- report whether the producer-applicability obligations collapse to a bounded
-  set of symbolic source/row states globally, or identify the missing
-  invariant if they do not;
+The immediate next step is Phase 6Z.6K.8AB: scale the applicability profile
+beyond `[0,1000)`. That step should:
+
+- profile source-position predicate signatures and row-template predicate
+  signatures over larger translation windows;
+- report whether the 8AA obligations remain a bounded state language or grow
+  with raw ranks/masks;
+- keep the profiling external and memory-safe, using `--jobs 4` or similar
+  safe parallelism;
+- emit Lean only for a small smoke if the profile shows a stable bounded
+  signature set;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;

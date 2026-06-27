@@ -24,13 +24,10 @@ set_option linter.unusedVariables false
 
 /-- Source-position producer-glue family `07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199`.
 Observed bounded GoodDirection cases: 421. -/
-private def fam_000_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmmm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_000_key : SourceIndexStateKey where
+def fam_000_key : SourceIndexStateKey where
   firstIndex := 23
   secondIndex := 0
-  support := fam_000_support
+  support := source_000_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_000_producerFactsImplyKeyFacts
@@ -44,13 +41,10 @@ theorem fam_000_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217`.
 Observed bounded GoodDirection cases: 134. -/
-private def fam_001_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmmp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_001_key : SourceIndexStateKey where
+def fam_001_key : SourceIndexStateKey where
   firstIndex := 24
   secondIndex := 1
-  support := fam_001_support
+  support := source_001_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_001_producerFactsImplyKeyFacts
@@ -64,13 +58,10 @@ theorem fam_001_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261`.
 Observed bounded GoodDirection cases: 128. -/
-private def fam_002_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_002_key : SourceIndexStateKey where
+def fam_002_key : SourceIndexStateKey where
   firstIndex := 83
   secondIndex := 0
-  support := fam_002_support
+  support := source_002_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_002_producerFactsImplyKeyFacts
@@ -84,13 +75,10 @@ theorem fam_002_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07`.
 Observed bounded GoodDirection cases: 102. -/
-private def fam_003_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmpm
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_003_key : SourceIndexStateKey where
+def fam_003_key : SourceIndexStateKey where
   firstIndex := 25
   secondIndex := 2
-  support := fam_003_support
+  support := source_003_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_003_producerFactsImplyKeyFacts
@@ -104,13 +92,10 @@ theorem fam_003_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085`.
 Observed bounded GoodDirection cases: 79. -/
-private def fam_004_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_004_key : SourceIndexStateKey where
+def fam_004_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 7
-  support := fam_004_support
+  support := source_004_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_004_producerFactsImplyKeyFacts
@@ -124,13 +109,10 @@ theorem fam_004_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494`.
 Observed bounded GoodDirection cases: 44. -/
-private def fam_005_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_005_key : SourceIndexStateKey where
+def fam_005_key : SourceIndexStateKey where
   firstIndex := 83
   secondIndex := 1
-  support := fam_005_support
+  support := source_005_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_005_producerFactsImplyKeyFacts
@@ -144,13 +126,10 @@ theorem fam_005_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41`.
 Observed bounded GoodDirection cases: 30. -/
-private def fam_006_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_006_key : SourceIndexStateKey where
+def fam_006_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 13
-  support := fam_006_support
+  support := source_006_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_006_producerFactsImplyKeyFacts
@@ -164,13 +143,10 @@ theorem fam_006_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db`.
 Observed bounded GoodDirection cases: 29. -/
-private def fam_007_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_007_key : SourceIndexStateKey where
+def fam_007_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 15
-  support := fam_007_support
+  support := source_007_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_007_producerFactsImplyKeyFacts
@@ -184,13 +160,10 @@ theorem fam_007_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112`.
 Observed bounded GoodDirection cases: 23. -/
-private def fam_008_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_008_key : SourceIndexStateKey where
+def fam_008_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 11
-  support := fam_008_support
+  support := source_008_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_008_producerFactsImplyKeyFacts
@@ -204,13 +177,10 @@ theorem fam_008_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986`.
 Observed bounded GoodDirection cases: 22. -/
-private def fam_009_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmpp
-  second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_009_key : SourceIndexStateKey where
+def fam_009_key : SourceIndexStateKey where
   firstIndex := 26
   secondIndex := 3
-  support := fam_009_support
+  support := source_010_support
   template := SourceIndexTemplate.eqEqNegVarFirst
 
 theorem fam_009_producerFactsImplyKeyFacts
@@ -224,13 +194,10 @@ theorem fam_009_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9`.
 Observed bounded GoodDirection cases: 22. -/
-private def fam_010_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_010_key : SourceIndexStateKey where
+def fam_010_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 10
-  support := fam_010_support
+  support := source_009_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_010_producerFactsImplyKeyFacts
@@ -244,13 +211,10 @@ theorem fam_010_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b`.
 Observed bounded GoodDirection cases: 21. -/
-private def fam_011_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.tpmm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_011_key : SourceIndexStateKey where
+def fam_011_key : SourceIndexStateKey where
   firstIndex := 183
   secondIndex := 0
-  support := fam_011_support
+  support := source_011_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_011_producerFactsImplyKeyFacts
@@ -264,13 +228,10 @@ theorem fam_011_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158`.
 Observed bounded GoodDirection cases: 20. -/
-private def fam_012_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨10, by decide⟩
-private def fam_012_key : SourceIndexStateKey where
+def fam_012_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 14
-  support := fam_012_support
+  support := source_012_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_012_producerFactsImplyKeyFacts
@@ -284,13 +245,10 @@ theorem fam_012_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981`.
 Observed bounded GoodDirection cases: 19. -/
-private def fam_013_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_013_key : SourceIndexStateKey where
+def fam_013_key : SourceIndexStateKey where
   firstIndex := 122
   secondIndex := 0
-  support := fam_013_support
+  support := source_015_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_013_producerFactsImplyKeyFacts
@@ -304,13 +262,10 @@ theorem fam_013_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9`.
 Observed bounded GoodDirection cases: 19. -/
-private def fam_014_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_014_key : SourceIndexStateKey where
+def fam_014_key : SourceIndexStateKey where
   firstIndex := 148
   secondIndex := 0
-  support := fam_014_support
+  support := source_013_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_014_producerFactsImplyKeyFacts
@@ -324,13 +279,10 @@ theorem fam_014_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `bcaa49bdf67db120feb9ad4dda9a69450799ee1076adb235c86f602b449e273d`.
 Observed bounded GoodDirection cases: 19. -/
-private def fam_015_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨12, by decide⟩
-private def fam_015_key : SourceIndexStateKey where
+def fam_015_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 16
-  support := fam_015_support
+  support := source_016_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_015_producerFactsImplyKeyFacts
@@ -344,13 +296,10 @@ theorem fam_015_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede`.
 Observed bounded GoodDirection cases: 19. -/
-private def fam_016_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_016_key : SourceIndexStateKey where
+def fam_016_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 7
-  support := fam_016_support
+  support := source_014_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_016_producerFactsImplyKeyFacts
@@ -364,13 +313,10 @@ theorem fam_016_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `5651cb30a48af7c1f0528abbffbbcf4eb1954a09872946c492757538dfa5516f`.
 Observed bounded GoodDirection cases: 18. -/
-private def fam_017_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_017_key : SourceIndexStateKey where
+def fam_017_key : SourceIndexStateKey where
   firstIndex := 0
   secondIndex := 12
-  support := fam_017_support
+  support := source_017_support
   template := SourceIndexTemplate.eqEqPosVarSecond
 
 theorem fam_017_producerFactsImplyKeyFacts
@@ -384,13 +330,10 @@ theorem fam_017_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70`.
 Observed bounded GoodDirection cases: 17. -/
-private def fam_018_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_018_key : SourceIndexStateKey where
+def fam_018_key : SourceIndexStateKey where
   firstIndex := 109
   secondIndex := 0
-  support := fam_018_support
+  support := source_018_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_018_producerFactsImplyKeyFacts
@@ -404,13 +347,10 @@ theorem fam_018_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231`.
 Observed bounded GoodDirection cases: 15. -/
-private def fam_019_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_019_key : SourceIndexStateKey where
+def fam_019_key : SourceIndexStateKey where
   firstIndex := 96
   secondIndex := 0
-  support := fam_019_support
+  support := source_019_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_019_producerFactsImplyKeyFacts
@@ -424,13 +364,10 @@ theorem fam_019_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0`.
 Observed bounded GoodDirection cases: 14. -/
-private def fam_020_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_020_key : SourceIndexStateKey where
+def fam_020_key : SourceIndexStateKey where
   firstIndex := 84
   secondIndex := 2
-  support := fam_020_support
+  support := source_020_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_020_producerFactsImplyKeyFacts
@@ -444,13 +381,10 @@ theorem fam_020_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757`.
 Observed bounded GoodDirection cases: 13. -/
-private def fam_021_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_021_key : SourceIndexStateKey where
+def fam_021_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 7
-  support := fam_021_support
+  support := source_021_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_021_producerFactsImplyKeyFacts
@@ -464,13 +398,10 @@ theorem fam_021_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851`.
 Observed bounded GoodDirection cases: 12. -/
-private def fam_022_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_022_key : SourceIndexStateKey where
+def fam_022_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 15
-  support := fam_022_support
+  support := source_022_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_022_producerFactsImplyKeyFacts
@@ -484,13 +415,10 @@ theorem fam_022_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `eec6cea09d6d89c03f3c4577319600781c82fe093551478e4074800b6ef59c13`.
 Observed bounded GoodDirection cases: 11. -/
-private def fam_023_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_023_key : SourceIndexStateKey where
+def fam_023_key : SourceIndexStateKey where
   firstIndex := 136
   secondIndex := 0
-  support := fam_023_support
+  support := source_023_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_023_producerFactsImplyKeyFacts
@@ -504,13 +432,10 @@ theorem fam_023_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c`.
 Observed bounded GoodDirection cases: 11. -/
-private def fam_024_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨10, by decide⟩
-private def fam_024_key : SourceIndexStateKey where
+def fam_024_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 14
-  support := fam_024_support
+  support := source_024_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_024_producerFactsImplyKeyFacts
@@ -524,13 +449,10 @@ theorem fam_024_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_025_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_025_key : SourceIndexStateKey where
+def fam_025_key : SourceIndexStateKey where
   firstIndex := 84
   secondIndex := 3
-  support := fam_025_support
+  support := source_025_support
   template := SourceIndexTemplate.eqEqNegVarFirst
 
 theorem fam_025_producerFactsImplyKeyFacts
@@ -544,13 +466,10 @@ theorem fam_025_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `1f4f8742fa2970d296e3fbf12e541c66c254d7c7dd433859bf0e6d97828c2309`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_026_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_026_key : SourceIndexStateKey where
+def fam_026_key : SourceIndexStateKey where
   firstIndex := 110
   secondIndex := 0
-  support := fam_026_support
+  support := source_027_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_026_producerFactsImplyKeyFacts
@@ -564,13 +483,10 @@ theorem fam_026_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `49dc29bc5a3a346e57575f61d2b4fdb2f12956835c68063381b703d6ac1f887b`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_027_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_027_key : SourceIndexStateKey where
+def fam_027_key : SourceIndexStateKey where
   firstIndex := 162
   secondIndex := 0
-  support := fam_027_support
+  support := source_026_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_027_producerFactsImplyKeyFacts
@@ -584,13 +500,10 @@ theorem fam_027_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `173645791fcf6158993df04a06cad8e6c9277a4a5116eeeae8320100bc7ad399`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_028_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_028_key : SourceIndexStateKey where
+def fam_028_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 11
-  support := fam_028_support
+  support := source_028_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_028_producerFactsImplyKeyFacts
@@ -604,13 +517,10 @@ theorem fam_028_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_029_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_029_key : SourceIndexStateKey where
+def fam_029_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 11
-  support := fam_029_support
+  support := source_029_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_029_producerFactsImplyKeyFacts
@@ -624,13 +534,10 @@ theorem fam_029_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_030_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_030_key : SourceIndexStateKey where
+def fam_030_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 15
-  support := fam_030_support
+  support := source_031_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_030_producerFactsImplyKeyFacts
@@ -644,13 +551,10 @@ theorem fam_030_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `cb6f6bc2af727b7b07a1a5f93b6bb4b547714996ae906018ac0e2560d8102162`.
 Observed bounded GoodDirection cases: 8. -/
-private def fam_031_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_031_key : SourceIndexStateKey where
+def fam_031_key : SourceIndexStateKey where
   firstIndex := 175
   secondIndex := 0
-  support := fam_031_support
+  support := source_032_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_031_producerFactsImplyKeyFacts
@@ -664,13 +568,10 @@ theorem fam_031_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `6d2e4128c784627b01fdf6513ed433ec6ab2c1c8a0fcf082c21e14a67526bbd1`.
 Observed bounded GoodDirection cases: 7. -/
-private def fam_032_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_032_key : SourceIndexStateKey where
+def fam_032_key : SourceIndexStateKey where
   firstIndex := 161
   secondIndex := 0
-  support := fam_032_support
+  support := source_036_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_032_producerFactsImplyKeyFacts
@@ -684,13 +585,10 @@ theorem fam_032_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2`.
 Observed bounded GoodDirection cases: 7. -/
-private def fam_033_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.tpmp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_033_key : SourceIndexStateKey where
+def fam_033_key : SourceIndexStateKey where
   firstIndex := 184
   secondIndex := 1
-  support := fam_033_support
+  support := source_034_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_033_producerFactsImplyKeyFacts
@@ -704,13 +602,10 @@ theorem fam_033_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `cb8990495e80e4e83ff3dd6dbc52d2311080437714265957a3e06912a1fb84fc`.
 Observed bounded GoodDirection cases: 7. -/
-private def fam_034_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_034_key : SourceIndexStateKey where
+def fam_034_key : SourceIndexStateKey where
   firstIndex := 175
   secondIndex := 1
-  support := fam_034_support
+  support := source_035_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_034_producerFactsImplyKeyFacts
@@ -724,13 +619,10 @@ theorem fam_034_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232`.
 Observed bounded GoodDirection cases: 7. -/
-private def fam_035_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_035_key : SourceIndexStateKey where
+def fam_035_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 13
-  support := fam_035_support
+  support := source_033_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_035_producerFactsImplyKeyFacts
@@ -744,13 +636,10 @@ theorem fam_035_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_036_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.tmmm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_036_key : SourceIndexStateKey where
+def fam_036_key : SourceIndexStateKey where
   firstIndex := 167
   secondIndex := 0
-  support := fam_036_support
+  support := source_041_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_036_producerFactsImplyKeyFacts
@@ -764,13 +653,10 @@ theorem fam_036_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `969bdd36c0ff690c62a0b53d598d08baaaffcf117b705925f574eaf39d9931f0`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_037_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tpmm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_037_key : SourceIndexStateKey where
+def fam_037_key : SourceIndexStateKey where
   firstIndex := 105
   secondIndex := 0
-  support := fam_037_support
+  support := source_040_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_037_producerFactsImplyKeyFacts
@@ -784,13 +670,10 @@ theorem fam_037_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `46754c731c77c053bab64c67da53dcc1b5f174fe3ff8b9895806bf6c39f4d95a`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_038_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_038_key : SourceIndexStateKey where
+def fam_038_key : SourceIndexStateKey where
   firstIndex := 96
   secondIndex := 1
-  support := fam_038_support
+  support := source_038_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_038_producerFactsImplyKeyFacts
@@ -804,13 +687,10 @@ theorem fam_038_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `4fda77f1bb3ebbed92f40e150884471b84d123e5b2d9d45e0eaff7690fb57cc9`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_039_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_039_key : SourceIndexStateKey where
+def fam_039_key : SourceIndexStateKey where
   firstIndex := 109
   secondIndex := 1
-  support := fam_039_support
+  support := source_037_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_039_producerFactsImplyKeyFacts
@@ -824,13 +704,10 @@ theorem fam_039_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `5b8f1619d9cedeebccbff7692bcab9431eb53ed757cb015fe838ebbaead6de0b`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_040_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨12, by decide⟩
-private def fam_040_key : SourceIndexStateKey where
+def fam_040_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 16
-  support := fam_040_support
+  support := source_042_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_040_producerFactsImplyKeyFacts
@@ -844,13 +721,10 @@ theorem fam_040_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_041_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_041_key : SourceIndexStateKey where
+def fam_041_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 13
-  support := fam_041_support
+  support := source_039_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_041_producerFactsImplyKeyFacts
@@ -864,13 +738,10 @@ theorem fam_041_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `001142d72c22dac0fd41e429a47c6f32d0f7456e0dce2c45057120b7f77f0162`.
 Observed bounded GoodDirection cases: 5. -/
-private def fam_042_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_042_key : SourceIndexStateKey where
+def fam_042_key : SourceIndexStateKey where
   firstIndex := 162
   secondIndex := 1
-  support := fam_042_support
+  support := source_044_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_042_producerFactsImplyKeyFacts
@@ -884,13 +755,10 @@ theorem fam_042_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `8a4f0d011c71c3855f0555c3626724c8b000efab7f757f1019e23747d7b7642b`.
 Observed bounded GoodDirection cases: 5. -/
-private def fam_043_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_043_key : SourceIndexStateKey where
+def fam_043_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 12
-  support := fam_043_support
+  support := source_043_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_043_producerFactsImplyKeyFacts
@@ -904,13 +772,10 @@ theorem fam_043_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab`.
 Observed bounded GoodDirection cases: 5. -/
-private def fam_044_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_044_key : SourceIndexStateKey where
+def fam_044_key : SourceIndexStateKey where
   firstIndex := 1
   secondIndex := 10
-  support := fam_044_support
+  support := source_045_support
   template := SourceIndexTemplate.oppOneMinusVarSecond
 
 theorem fam_044_producerFactsImplyKeyFacts
@@ -924,13 +789,10 @@ theorem fam_044_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_045_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
-  second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_045_key : SourceIndexStateKey where
+def fam_045_key : SourceIndexStateKey where
   firstIndex := 44
   secondIndex := 5
-  support := fam_045_support
+  support := source_030_support
   template := SourceIndexTemplate.axisAOnly
 
 theorem fam_045_producerFactsImplyKeyFacts
@@ -944,13 +806,10 @@ theorem fam_045_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `4c6ff9165c9b0df23d40bbb5ff34c1a7b846bc771a0a38da6434f7fa604e061a`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_046_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tppp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_046_key : SourceIndexStateKey where
+def fam_046_key : SourceIndexStateKey where
   firstIndex := 121
   secondIndex := 0
-  support := fam_046_support
+  support := source_046_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_046_producerFactsImplyKeyFacts
@@ -964,13 +823,10 @@ theorem fam_046_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `62f5ae522c0e7133d5843c313ca60aeae4e0b20c912d1f80286ac540b2b6eb8a`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_047_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tppp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_047_key : SourceIndexStateKey where
+def fam_047_key : SourceIndexStateKey where
   firstIndex := 147
   secondIndex := 0
-  support := fam_047_support
+  support := source_047_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_047_producerFactsImplyKeyFacts
@@ -984,13 +840,10 @@ theorem fam_047_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_048_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
-  second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_048_key : SourceIndexStateKey where
+def fam_048_key : SourceIndexStateKey where
   firstIndex := 44
   secondIndex := 5
-  support := fam_048_support
+  support := source_030_support
   template := SourceIndexTemplate.axisAOnly
 
 theorem fam_048_producerFactsImplyKeyFacts
@@ -1004,13 +857,10 @@ theorem fam_048_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `2331829ae5f9c9473447cdc0d7e31e8e2c9371e462f2a7f75cdaa02627990bfb`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_049_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tmmm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_049_key : SourceIndexStateKey where
+def fam_049_key : SourceIndexStateKey where
   firstIndex := 115
   secondIndex := 0
-  support := fam_049_support
+  support := source_051_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_049_producerFactsImplyKeyFacts
@@ -1024,13 +874,10 @@ theorem fam_049_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `698bc5fc0b761af936d02e66853f313943632c3c9abf425807a742b732b440f1`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_050_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.tmmp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_050_key : SourceIndexStateKey where
+def fam_050_key : SourceIndexStateKey where
   firstIndex := 168
   secondIndex := 1
-  support := fam_050_support
+  support := source_053_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_050_producerFactsImplyKeyFacts
@@ -1044,13 +891,10 @@ theorem fam_050_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `7a15080fd1fc18351ab493b05ba7ccdff63eef25273e8bd050bd328d075d5e21`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_051_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_051_key : SourceIndexStateKey where
+def fam_051_key : SourceIndexStateKey where
   firstIndex := 122
   secondIndex := 1
-  support := fam_051_support
+  support := source_049_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_051_producerFactsImplyKeyFacts
@@ -1064,13 +908,10 @@ theorem fam_051_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `c7ecaa84912e11bf981f33a9429149f9aabf3ad114bccc532cfcca21be76d3b9`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_052_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tpmp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_052_key : SourceIndexStateKey where
+def fam_052_key : SourceIndexStateKey where
   firstIndex := 106
   secondIndex := 1
-  support := fam_052_support
+  support := source_048_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_052_producerFactsImplyKeyFacts
@@ -1084,13 +925,10 @@ theorem fam_052_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_053_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_053_key : SourceIndexStateKey where
+def fam_053_key : SourceIndexStateKey where
   firstIndex := 162
   secondIndex := 2
-  support := fam_053_support
+  support := source_050_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_053_producerFactsImplyKeyFacts
@@ -1104,13 +942,10 @@ theorem fam_053_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `68ca43ad6da1bf21837ad43de8916779d8c9b7674f02fd42c9fb46275e56520c`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_054_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_054_key : SourceIndexStateKey where
+def fam_054_key : SourceIndexStateKey where
   firstIndex := 136
   secondIndex := 2
-  support := fam_054_support
+  support := source_052_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_054_producerFactsImplyKeyFacts
@@ -1124,13 +959,10 @@ theorem fam_054_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_055_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
-  second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_055_key : SourceIndexStateKey where
+def fam_055_key : SourceIndexStateKey where
   firstIndex := 44
   secondIndex := 5
-  support := fam_055_support
+  support := source_030_support
   template := SourceIndexTemplate.axisAOnly
 
 theorem fam_055_producerFactsImplyKeyFacts
@@ -1144,13 +976,10 @@ theorem fam_055_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_056_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_056_key : SourceIndexStateKey where
+def fam_056_key : SourceIndexStateKey where
   firstIndex := 3
   secondIndex := 11
-  support := fam_056_support
+  support := source_057_support
   template := SourceIndexTemplate.eqEqNegVarSecond
 
 theorem fam_056_producerFactsImplyKeyFacts
@@ -1164,13 +993,10 @@ theorem fam_056_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `843502ed659adec3e8be559efd41763a66b8f79a231413413bfc62074b30741b`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_057_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_057_key : SourceIndexStateKey where
+def fam_057_key : SourceIndexStateKey where
   firstIndex := 148
   secondIndex := 1
-  support := fam_057_support
+  support := source_055_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_057_producerFactsImplyKeyFacts
@@ -1184,13 +1010,10 @@ theorem fam_057_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `e123e95ce12fb8512a98acdcdc060cc8e1427e5e426c456b02f2df50bb835096`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_058_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tmmp
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_058_key : SourceIndexStateKey where
+def fam_058_key : SourceIndexStateKey where
   firstIndex := 129
   secondIndex := 2
-  support := fam_058_support
+  support := source_056_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_058_producerFactsImplyKeyFacts
@@ -1204,13 +1027,10 @@ theorem fam_058_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `3b759ab3163ba9496a7005928678cb5a209032fa5b627ee33ba282b0bdd0155e`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_059_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_059_key : SourceIndexStateKey where
+def fam_059_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 12
-  support := fam_059_support
+  support := source_059_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_059_producerFactsImplyKeyFacts
@@ -1224,13 +1044,10 @@ theorem fam_059_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `548ef76c4ca70a698bc32c47af5db80f61529e06e13bb8e3a7091ea372d4cad6`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_060_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨10, by decide⟩
-private def fam_060_key : SourceIndexStateKey where
+def fam_060_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 14
-  support := fam_060_support
+  support := source_058_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_060_producerFactsImplyKeyFacts
@@ -1244,13 +1061,10 @@ theorem fam_060_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_061_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_061_key : SourceIndexStateKey where
+def fam_061_key : SourceIndexStateKey where
   firstIndex := 2
   secondIndex := 10
-  support := fam_061_support
+  support := source_054_support
   template := SourceIndexTemplate.oppMinusOneVarSecond
 
 theorem fam_061_producerFactsImplyKeyFacts
@@ -1264,13 +1078,10 @@ theorem fam_061_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_062_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-  second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_062_key : SourceIndexStateKey where
+def fam_062_key : SourceIndexStateKey where
   firstIndex := 3
   secondIndex := 12
-  support := fam_062_support
+  support := source_061_support
   template := SourceIndexTemplate.eqEqNegVarSecond
 
 theorem fam_062_producerFactsImplyKeyFacts
@@ -1284,13 +1095,10 @@ theorem fam_062_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `dbcf419ae9e07ff307f82ab76c38130544ba6f8432769e038bdb3f3cb3d892f1`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_063_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_063_key : SourceIndexStateKey where
+def fam_063_key : SourceIndexStateKey where
   firstIndex := 135
   secondIndex := 0
-  support := fam_063_support
+  support := source_068_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_063_producerFactsImplyKeyFacts
@@ -1304,13 +1112,10 @@ theorem fam_063_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `f58e8057dc1ef59724f47203d7b7cee139d6b386b440a531b6e8043e0830769d`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_064_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tmmm
-  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_064_key : SourceIndexStateKey where
+def fam_064_key : SourceIndexStateKey where
   firstIndex := 141
   secondIndex := 0
-  support := fam_064_support
+  support := source_067_support
   template := SourceIndexTemplate.eqEqPosVarFirst
 
 theorem fam_064_producerFactsImplyKeyFacts
@@ -1324,13 +1129,10 @@ theorem fam_064_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `1720c5c6897de884a3f69d37a00482f5017602df26b88e99a3a0e35b3b08aa9f`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_065_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_065_key : SourceIndexStateKey where
+def fam_065_key : SourceIndexStateKey where
   firstIndex := 149
   secondIndex := 1
-  support := fam_065_support
+  support := source_064_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_065_producerFactsImplyKeyFacts
@@ -1344,13 +1146,10 @@ theorem fam_065_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `29c667e5aa818ea6f1b958dd1d1050e310d4a3d40eb8ec4a842957f47cc4fc73`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_066_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_066_key : SourceIndexStateKey where
+def fam_066_key : SourceIndexStateKey where
   firstIndex := 136
   secondIndex := 1
-  support := fam_066_support
+  support := source_070_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_066_producerFactsImplyKeyFacts
@@ -1364,13 +1163,10 @@ theorem fam_066_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `323821661c9a96d8517395d7e2ed673c7ac9f6e241d41aa3d6f0c54b617725bc`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_067_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_067_key : SourceIndexStateKey where
+def fam_067_key : SourceIndexStateKey where
   firstIndex := 110
   secondIndex := 1
-  support := fam_067_support
+  support := source_069_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_067_producerFactsImplyKeyFacts
@@ -1384,13 +1180,10 @@ theorem fam_067_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `4295d2e8233f5dbac79b0d712f2b60b2c1f9bbb4a65b79e19eb3b7beac461229`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_068_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_068_key : SourceIndexStateKey where
+def fam_068_key : SourceIndexStateKey where
   firstIndex := 161
   secondIndex := 1
-  support := fam_068_support
+  support := source_063_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_068_producerFactsImplyKeyFacts
@@ -1404,13 +1197,10 @@ theorem fam_068_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `7659a13ad32f460ad82d3854a24dec02c246f9199e2b5034f1f0eccddebb8b43`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_069_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tmmp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_069_key : SourceIndexStateKey where
+def fam_069_key : SourceIndexStateKey where
   firstIndex := 142
   secondIndex := 1
-  support := fam_069_support
+  support := source_060_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_069_producerFactsImplyKeyFacts
@@ -1424,13 +1214,10 @@ theorem fam_069_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `c05b3d59255e1cb9689a33957c160b34cf7f5fb51fa9849d03bfcac29208d36a`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_070_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_070_key : SourceIndexStateKey where
+def fam_070_key : SourceIndexStateKey where
   firstIndex := 135
   secondIndex := 1
-  support := fam_070_support
+  support := source_065_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_070_producerFactsImplyKeyFacts
@@ -1444,13 +1231,10 @@ theorem fam_070_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `fe6dcb0e1d5af6cc7f6e5b61abf78e5a6c655ce793a9a24af1459862db39f388`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_071_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tppm
-  second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_071_key : SourceIndexStateKey where
+def fam_071_key : SourceIndexStateKey where
   firstIndex := 120
   secondIndex := 1
-  support := fam_071_support
+  support := source_071_support
   template := SourceIndexTemplate.oppOneMinusVarFirst
 
 theorem fam_071_producerFactsImplyKeyFacts
@@ -1464,13 +1248,10 @@ theorem fam_071_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `3c44231cc1af8934c73ab9eb42337f5296972af30c98905c6664e173469df457`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_072_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xm
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_072_key : SourceIndexStateKey where
+def fam_072_key : SourceIndexStateKey where
   firstIndex := 149
   secondIndex := 2
-  support := fam_072_support
+  support := source_066_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_072_producerFactsImplyKeyFacts
@@ -1484,13 +1265,10 @@ theorem fam_072_producerFactsImplyKeyFacts
 
 /-- Source-position producer-glue family `a8779ef21d07f80a863f92a4d0b3a9e5785baca760e90b9f12ba91df5af57a50`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_073_support : TwoSourceFarkasSupport where
-  first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
-  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_073_key : SourceIndexStateKey where
+def fam_073_key : SourceIndexStateKey where
   firstIndex := 135
   secondIndex := 2
-  support := fam_073_support
+  support := source_062_support
   template := SourceIndexTemplate.oppMinusOneVarFirst
 
 theorem fam_073_producerFactsImplyKeyFacts

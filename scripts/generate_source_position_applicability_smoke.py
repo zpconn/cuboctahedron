@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Emit the Phase 6Z.6K.8Z source-position producer glue smoke.
+"""Emit the Phase 6Z.6K.8AA producer-applicability smoke.
 
-This is the 8T glue shape with the old raw-source-predicate producer layer
-removed.  The generated module imports the 8Y source-position producers and
-the 8R row producers, then composes them through the existing source+row glue
-surface.  It intentionally does not replay concrete rank/mask members.
+The 8Z glue layer proves `TranslationGoodCaseKilled` from imported source and
+row producer `Applies` proofs.  This bounded smoke exposes the next semantic
+surface: per-family theorems deriving those `Applies` proofs from
+source-position predicates and row-template predicates, with no concrete
+rank/mask member replay.
 """
 
 from __future__ import annotations
@@ -20,12 +21,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from generate_source_index_state_classifier_smoke import (  # noqa: E402
-    ctor_name,
-    read_json,
-)
+from generate_source_index_state_classifier_smoke import read_json  # noqa: E402
 from generate_source_index_state_nonenum_smoke import (  # noqa: E402
-    TEMPLATE_TO_SOURCE_INDEX,
     family_name,
     family_summary,
     write_json,
@@ -48,15 +45,15 @@ DEFAULT_PROFILE = Path(
 )
 DEFAULT_OUT = Path(
     "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
-    "SourcePositionProducerGlueSmoke.lean"
+    "SourcePositionApplicabilitySmoke.lean"
 )
 DEFAULT_JSON = Path(
-    "scripts/generated/phase6z6k8z_source_position_producer_glue_smoke.json"
+    "scripts/generated/phase6z6k8aa_source_position_applicability_smoke.json"
 )
 DEFAULT_MD = DEFAULT_JSON.with_suffix(".md")
 DEFAULT_NAMESPACE = (
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
-    "SourcePositionProducerGlueSmoke"
+    "SourcePositionApplicabilitySmoke"
 )
 
 
@@ -86,100 +83,43 @@ def grouped_by_payload(families: list[Any], payload) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda item: (-int(item["case_count"]), str(item["key"])))
 
 
-def key_lines(
+def theorem_lines(
     index: int,
     family: Any,
     source_index: int,
     row_index: int,
 ) -> list[str]:
     name = family_name(index)
-    template_ctor = TEMPLATE_TO_SOURCE_INDEX[family.template_id]
-    src_name = source_group_name(source_index)
-    row_name = row_group_name(row_index)
+    src = source_group_name(source_index)
+    row = row_group_name(row_index)
+    row_predicate = TEMPLATE_TO_ROW_PREDICATE[family.template_id]
     return [
-        f"/-- Source-position producer-glue family `{family.key}`.",
+        f"/-- Producer applicability for bounded family `{family.key}`.",
         f"Observed bounded GoodDirection cases: {family.count}. -/",
-        f"def {name}_key : SourceIndexStateKey where",
-        f"  firstIndex := {family.source_indices[0]}",
-        f"  secondIndex := {family.source_indices[1]}",
-        f"  support := {src_name}_support",
-        f"  template := SourceIndexTemplate.{template_ctor}",
-        "",
-        f"theorem {name}_producerFactsImplyKeyFacts",
+        f"theorem {name}_sourceApplies_of_position",
         "    {r : Nat} {mask : SignMask}",
-        f"    (hsource : {src_name}_producer.Applies {name}_key r mask)",
-        f"    (hrows : {row_name}_producer.Applies {name}_key r mask) :",
-        f"    SourceIndexStateKeyFacts {name}_key r mask :=",
-        "  SourceIndexStateKeyFacts.of_source_row",
-        f"    ({src_name}_producer.sourceFacts hsource)",
-        f"    ({row_name}_producer.rowFacts hrows)",
+        f"    (hsource : {src}_positionPredicate r mask) :",
+        f"    {src}_producer.Applies {name}_key r mask := by",
+        f"  unfold {src}_producer",
+        f"  simp [{name}_key, hsource]",
+        "",
+        f"theorem {name}_rowApplies_of_rows",
+        "    {r : Nat} {mask : SignMask}",
+        f"    (hrows : {row_predicate} {name}_key.support r mask) :",
+        f"    {row}_producer.Applies {name}_key r mask := by",
+        f"  unfold {row}_producer",
+        "  exact ⟨rfl, hrows⟩",
+        "",
+        f"theorem {name}_goodKilled_of_position_rows",
+        "    {r : Nat} {hlt : r < numPairWords} {mask : SignMask}",
+        f"    (hsource : {src}_positionPredicate r mask)",
+        f"    (hrows : {row_predicate} {name}_key.support r mask) :",
+        "    TranslationGoodCaseKilled (Fin.mk r hlt) mask :=",
+        f"  {name}_producerFactsGoodKilled",
+        f"    ({name}_sourceApplies_of_position hsource)",
+        f"    ({name}_rowApplies_of_rows hrows)",
         "",
     ]
-
-
-def classifier_lines(
-    families: list[Any],
-    source_lookup: dict[str, int],
-    row_lookup: dict[str, int],
-) -> list[str]:
-    lines = ["inductive SourcePositionProducerGlueApplies : Nat -> SignMask -> Prop"]
-    for index, family in enumerate(families):
-        name = family_name(index)
-        ctor = ctor_name(index)
-        src = source_group_name(source_lookup[key(source_payload(family))])
-        row = row_group_name(row_lookup[key(row_payload(family))])
-        lines.append(
-            f"  | {ctor} {{r : Nat}} {{mask : SignMask}} "
-            f"(hsource : {src}_producer.Applies {name}_key r mask) "
-            f"(hrows : {row}_producer.Applies {name}_key r mask) : "
-            "SourcePositionProducerGlueApplies r mask"
-        )
-    lines.extend([
-        "",
-        "def sourcePositionProducerGlueFamily : RowPropertyMembershipFamily where",
-        "  Applies := SourcePositionProducerGlueApplies",
-        "  covered := by",
-        "    intro r mask h",
-        "    cases h with",
-    ])
-    for index, family in enumerate(families):
-        name = family_name(index)
-        ctor = ctor_name(index)
-        lines.extend([
-            f"    | {ctor} hsource hrows =>",
-            f"        exact {name}_key.covered_of_facts",
-            f"          ({name}_producerFactsImplyKeyFacts hsource hrows)",
-        ])
-    lines.extend([
-        "",
-        "theorem sourcePositionProducerGlueKillsOn :",
-        "    sourcePositionProducerGlueFamily.KillsOn :=",
-        "  sourcePositionProducerGlueFamily.killsOn",
-        "",
-    ])
-    for index, family in enumerate(families):
-        name = family_name(index)
-        ctor = ctor_name(index)
-        src = source_group_name(source_lookup[key(source_payload(family))])
-        row = row_group_name(row_lookup[key(row_payload(family))])
-        lines.extend([
-            f"theorem {name}_producerFactsImplyClassifier",
-            "    {r : Nat} {mask : SignMask}",
-            f"    (hsource : {src}_producer.Applies {name}_key r mask)",
-            f"    (hrows : {row}_producer.Applies {name}_key r mask) :",
-            "    SourcePositionProducerGlueApplies r mask :=",
-            f"  SourcePositionProducerGlueApplies.{ctor} hsource hrows",
-            "",
-            f"theorem {name}_producerFactsGoodKilled",
-            "    {r : Nat} {hlt : r < numPairWords} {mask : SignMask}",
-            f"    (hsource : {src}_producer.Applies {name}_key r mask)",
-            f"    (hrows : {row}_producer.Applies {name}_key r mask) :",
-            "    TranslationGoodCaseKilled (Fin.mk r hlt) mask :=",
-            f"  sourcePositionProducerGlueKillsOn r hlt mask",
-            f"    ({name}_producerFactsImplyClassifier hsource hrows)",
-            "",
-        ])
-    return lines
 
 
 def module_lines(
@@ -193,16 +133,14 @@ def module_lines(
     source_lookup = {str(group["key"]): index for index, group in enumerate(source_groups)}
     row_lookup = {str(group["key"]): index for index, group in enumerate(row_groups)}
     lines = [
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke",
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerGlueSmoke",
         "",
         "/-!",
-        "Generated source-position + row producer glue smoke.",
+        "Generated source-position producer-applicability smoke.",
         "",
         "This module intentionally contains no concrete rank/mask examples and no",
-        "bounded member replay. It imports the 8Y source-position producers and",
-        "the 8R row producers, then composes them into key facts and semantic",
-        "`TranslationGoodCaseKilled` theorems.",
+        "bounded member replay.  It derives the 8Z producer `Applies` premises",
+        "from source-position predicates and row-template predicates.",
         f"Phase: {phase}.",
         "-/",
         "",
@@ -213,21 +151,21 @@ def module_lines(
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerGlueSmoke",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts",
         "",
         "set_option linter.unusedVariables false",
         "",
     ]
     for index, family in enumerate(families):
-        lines.extend(key_lines(
+        lines.extend(theorem_lines(
             index,
             family,
             source_lookup[key(source_payload(family))],
             row_lookup[key(row_payload(family))],
         ))
-    lines.extend(classifier_lines(families, source_lookup, row_lookup))
     lines.extend([
-        "theorem sourcePositionProducerGlueSmoke_builds : True := by",
+        "theorem sourcePositionApplicabilitySmoke_builds : True := by",
         "  trivial",
         "",
         f"end {namespace}",
@@ -238,12 +176,12 @@ def module_lines(
 
 def markdown(payload: dict[str, Any]) -> str:
     lines = [
-        f"# Phase {payload['phase']} Source-Position Producer Glue Smoke",
+        f"# Phase {payload['phase']} Source-Position Applicability Smoke",
         "",
         "This generated smoke is not global coverage. It proves that bounded",
-        "descriptor keys can be killed from imported 8Y source-position producers",
-        "and imported 8R row producers, without raw source predicates or concrete",
-        "rank/mask replay.",
+        "descriptor keys can derive the 8Z source/row producer `Applies` premises",
+        "from source-position predicates and row-template predicates, without",
+        "concrete rank/mask replay.",
         "",
         f"- Source groups: `{payload['source_group_count']}`",
         f"- Row groups: `{payload['row_group_count']}`",
@@ -279,12 +217,12 @@ def build_payload(
         "lean_module": str(out),
         "namespace": namespace,
         "decision": {
-            "status": "source-position-producer-glue-smoke-emitted",
+            "status": "source-position-applicability-smoke-emitted",
             "notes": [
                 "no concrete rank/mask examples are emitted",
-                "source facts are produced by imported source-position producers",
-                "row facts are produced by imported row-template producers",
-                "the module derives key facts and TranslationGoodCaseKilled",
+                "source producer Applies follows from source-position predicates",
+                "row producer Applies follows from row-template predicates",
+                "the module derives TranslationGoodCaseKilled through 8Z glue",
             ],
         },
         "source_groups": [
@@ -314,7 +252,7 @@ def main() -> None:
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
     parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
-    parser.add_argument("--phase", default="6Z.6K.8Z")
+    parser.add_argument("--phase", default="6Z.6K.8AA")
     parser.add_argument("--jobs", type=int, default=1)
     args = parser.parse_args()
 
