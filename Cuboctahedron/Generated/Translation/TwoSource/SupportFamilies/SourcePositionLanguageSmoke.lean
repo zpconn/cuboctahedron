@@ -97,6 +97,46 @@ theorem source_004_sourceFacts
     SourceIndexStateSourceFacts key r mask :=
   source_004_positionProducer.sourceFacts h
 
+/--
+The same dynamic source group expressed through the generic source-position
+language spec.  This is the production-oriented surface: generated code should
+prove the semantic `Predicate`, not replay concrete ranks and masks.
+-/
+private def generic_source_000_spec : SourcePairPositionSpec where
+  first := SourcePositionSpec.interior ⟨1, by decide⟩ Face.tmmm 5
+  second := SourcePositionSpec.xpStart ⟨0, by decide⟩
+
+private def generic_source_000_key : SourceIndexStateKey where
+  firstIndex := generic_source_000_spec.first.index
+  secondIndex := generic_source_000_spec.second.index
+  support := generic_source_000_spec.support
+  template := SourceIndexTemplate.eqEqPosVarFirst
+
+theorem generic_source_000_sourceFacts
+    {r : Nat} {mask : SignMask}
+    (h : generic_source_000_spec.Predicate r mask) :
+    SourceIndexStateSourceFacts generic_source_000_key r mask :=
+  (generic_source_000_spec.sourceProducer).sourceFacts
+    ⟨rfl, ⟨rfl, ⟨rfl, h⟩⟩⟩
+
+/-- Static source group expressed through the generic source-position spec. -/
+private def generic_source_004_spec : SourcePairPositionSpec where
+  first := SourcePositionSpec.xpStart ⟨0, by decide⟩
+  second := SourcePositionSpec.ordering ⟨3, by decide⟩
+
+private def generic_source_004_key : SourceIndexStateKey where
+  firstIndex := generic_source_004_spec.first.index
+  secondIndex := generic_source_004_spec.second.index
+  support := generic_source_004_spec.support
+  template := SourceIndexTemplate.eqEqPosVarSecond
+
+theorem generic_source_004_sourceFacts
+    {r : Nat} {mask : SignMask}
+    (h : generic_source_004_spec.Predicate r mask) :
+    SourceIndexStateSourceFacts generic_source_004_key r mask :=
+  (generic_source_004_spec.sourceProducer).sourceFacts
+    ⟨rfl, ⟨rfl, ⟨rfl, h⟩⟩⟩
+
 theorem sourcePositionLanguageSmoke_builds : True := by
   trivial
 

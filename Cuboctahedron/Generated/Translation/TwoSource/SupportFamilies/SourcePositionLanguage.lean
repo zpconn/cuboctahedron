@@ -13,6 +13,7 @@ interior list at a given impact.
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
 
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates
 
 def faceIndex : Face -> Nat
   | Face.xp => 0
@@ -244,6 +245,106 @@ theorem lookup_interior_of_excluded_slot
   simpa [translationConstraintSources, xpStartSources_eq, orderingSources_eq,
     interiorSourceIndex, listGet?, Nat.add_assoc, Nat.add_left_comm,
     Nat.add_comm] using hlookup
+
+/--
+Semantic description of one source position in `translationConstraintSources`.
+
+This is the reusable source-language building block for AP membership proofs:
+generated code can prove `Holds` for a source position, then use `lookup` to
+obtain the concrete list-index fact without replaying bounded ranks or masks.
+-/
+inductive SourcePositionSpec
+  | xpStart (i : Fin 4)
+  | ordering (i : Step14)
+  | interior (i : Impact15) (face : Face) (slot : Nat)
+deriving Repr
+
+def SourcePositionSpec.index : SourcePositionSpec -> Nat
+  | .xpStart i => i.val
+  | .ordering i => 4 + i.val
+  | .interior i _ slot => interiorSourceIndex i slot
+
+def SourcePositionSpec.source : SourcePositionSpec -> TranslationConstraintSource
+  | .xpStart i => TranslationConstraintSource.xpStart i
+  | .ordering i => TranslationConstraintSource.ordering i
+  | .interior i face _ => TranslationConstraintSource.interior i face
+
+def SourcePositionSpec.Holds
+    (spec : SourcePositionSpec) (seq : Step14 -> Face) : Prop :=
+  match spec with
+  | .xpStart _ => True
+  | .ordering _ => True
+  | .interior i face slot =>
+      i ≠ 0 /\ impactFace seq i ∈ interiorExcludedFacesForSlot face slot
+
+theorem SourcePositionSpec.lookup
+    (spec : SourcePositionSpec) (seq : Step14 -> Face)
+    (h : spec.Holds seq) :
+    listGet? (translationConstraintSources seq) spec.index =
+      some spec.source := by
+  cases spec with
+  | xpStart i =>
+      exact lookup_xpStart seq i
+  | ordering i =>
+      exact lookup_ordering seq i
+  | interior i face slot =>
+      exact lookup_interior_of_excluded_slot seq i face slot h.1 h.2
+
+/--
+Semantic description of a two-source support by source-list positions.
+
+The `Predicate` field is intentionally rank/mask-generic.  It states only the
+source-position obligations and `SourceChecks`; the generic theorem below turns
+that into `SourceIndexStateSourceFacts`.
+-/
+structure SourcePairPositionSpec where
+  first : SourcePositionSpec
+  second : SourcePositionSpec
+
+def SourcePairPositionSpec.support
+    (spec : SourcePairPositionSpec) : TwoSourceFarkasSupport where
+  first := spec.first.source
+  second := spec.second.source
+
+def SourcePairPositionSpec.Predicate
+    (spec : SourcePairPositionSpec) (r : Nat) (mask : SignMask) : Prop :=
+  forall hlt : r < numPairWords,
+    let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+    spec.first.Holds seq /\
+      spec.second.Holds seq /\
+        SourceChecks spec.support r hlt mask
+
+theorem SourcePairPositionSpec.sourceFacts
+    (spec : SourcePairPositionSpec)
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hfirst : key.firstIndex = spec.first.index)
+    (hsecond : key.secondIndex = spec.second.index)
+    (hsupport : key.support = spec.support)
+    (h : spec.Predicate r mask) :
+    SourceIndexStateSourceFacts key r mask := by
+  exact {
+    firstSource := fun hlt => by
+      have hlookup := spec.first.lookup
+        (translationSeqAtRankMask ⟨r, hlt⟩ mask) (h hlt).1
+      simpa [hfirst, hsupport, SourcePairPositionSpec.support] using hlookup
+    secondSource := fun hlt => by
+      have hlookup := spec.second.lookup
+        (translationSeqAtRankMask ⟨r, hlt⟩ mask) (h hlt).2.1
+      simpa [hsecond, hsupport, SourcePairPositionSpec.support] using hlookup
+    sourceChecks := fun hlt => by
+      simpa [hsupport, SourcePairPositionSpec.support] using (h hlt).2.2
+  }
+
+def SourcePairPositionSpec.sourceProducer
+    (spec : SourcePairPositionSpec) : SourceIndexStateSourceProducer where
+  Applies := fun key r mask =>
+    key.firstIndex = spec.first.index /\
+      key.secondIndex = spec.second.index /\
+      key.support = spec.support /\
+      spec.Predicate r mask
+  sourceFacts := by
+    intro key r mask h
+    exact spec.sourceFacts h.1 h.2.1 h.2.2.1 h.2.2.2
 
 theorem sourcePositionLanguage_builds : True := by
   trivial

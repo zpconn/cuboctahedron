@@ -1,0 +1,43 @@
+{
+  "phase": "6Z.6K.8AP.9",
+  "mode": "source_position_spec_bridge",
+  "schema_version": 1,
+  "trusted_as_proof": false,
+  "decision": {
+    "status": "accepted-source-language-building-block",
+    "notes": [
+      "added a reusable SourcePositionSpec language for xpStart, ordering, and dynamic interior source positions",
+      "added SourcePairPositionSpec.Predicate and a generic sourceFacts theorem/sourceProducer",
+      "this removes bespoke source-list lookup proofs from future generated AP language modules, but does not yet prove full nonempty source/row language membership"
+    ]
+  },
+  "lean_files": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean"
+  ],
+  "declarations_added": [
+    "SourcePositionSpec",
+    "SourcePositionSpec.index",
+    "SourcePositionSpec.source",
+    "SourcePositionSpec.Holds",
+    "SourcePositionSpec.lookup",
+    "SourcePairPositionSpec",
+    "SourcePairPositionSpec.support",
+    "SourcePairPositionSpec.Predicate",
+    "SourcePairPositionSpec.sourceFacts",
+    "SourcePairPositionSpec.sourceProducer",
+    "SourcePositionLanguageSmoke.generic_source_000_sourceFacts",
+    "SourcePositionLanguageSmoke.generic_source_004_sourceFacts"
+  ],
+  "validation": {
+    "command": "lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke",
+    "status": "passed",
+    "wall_seconds": 12.80,
+    "max_rss_kib": 3649176,
+    "notes": [
+      "focused serial build",
+      "first attempt failed because SourceChecks was not opened from RowRelationTemplates; patched and reran successfully"
+    ]
+  },
+  "remaining_gap": "combine SourcePairPositionSpec predicates with row producers and a nonempty complete theorem proving every identity-linear GoodDirection case in meaningful ranges belongs to some source/row language member"
+}
