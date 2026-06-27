@@ -110,8 +110,8 @@ def case_items_for_window(window: tuple[int, int], families: list[Any]) -> list[
     ]
 
 
-def scan_window_worker(args: tuple[int, int, int]) -> dict[str, Any]:
-    start, end, sample_limit = args
+def scan_window_worker(args: tuple[int, int, int, str]) -> dict[str, Any]:
+    start, end, sample_limit, phase = args
     t0 = time.monotonic()
     families, counts = collect_families(
         rank_start=start,
@@ -128,7 +128,7 @@ def scan_window_worker(args: tuple[int, int, int]) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "mode": "pair-sign-producer-coverage-census-window",
-        "phase": "6Z.6K.8AJ",
+        "phase": phase,
         "trusted_as_proof": False,
         "window": {
             "start": start,
@@ -176,6 +176,7 @@ def collect_payloads(
     aggregate_only: bool,
     sample_limit: int,
     max_pool_restarts: int,
+    phase: str,
 ) -> list[dict[str, Any]]:
     payloads_by_window: dict[tuple[int, int], dict[str, Any]] = {}
     todo: list[tuple[int, int]] = []
@@ -201,7 +202,7 @@ def collect_payloads(
             if not remaining:
                 return
             window = remaining.pop(0)
-            active[pool.submit(scan_window_worker, (*window, sample_limit))] = window
+            active[pool.submit(scan_window_worker, (*window, sample_limit, phase))] = window
 
         try:
             for _ in range(min(workers, len(remaining))):
@@ -280,6 +281,7 @@ def aggregate_payload(
     producer_gate: int,
     descriptor_gate: int,
     elapsed_seconds: float,
+    phase: str,
 ) -> dict[str, Any]:
     descriptor_keys: set[str] = set()
     source_keys: set[str] = set()
@@ -333,7 +335,7 @@ def aggregate_payload(
     return {
         "schema_version": 1,
         "mode": "pair_sign_producer_coverage_census",
-        "phase": "6Z.6K.8AJ",
+        "phase": phase,
         "trusted_as_proof": False,
         "rank_start": rank_start,
         "limit": limit,
@@ -374,7 +376,7 @@ def aggregate_payload(
 def markdown(payload: dict[str, Any]) -> str:
     elapsed = payload["window_elapsed_seconds"]
     lines = [
-        "# Phase 6Z.6K.8AJ Pair-Sign Producer-Coverage Census",
+        f"# Phase {payload['phase']} Pair-Sign Producer-Coverage Census",
         "",
         "This diagnostic is not trusted as proof and emits no Lean. It is a",
         "resumable checkpointed census for the accepted pair-sign producer",
@@ -421,6 +423,7 @@ def markdown(payload: dict[str, Any]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rank-start", type=int, default=0)
+    parser.add_argument("--phase", default="6Z.6K.8AJ")
     parser.add_argument("--limit", type=int, default=NUM_PAIR_WORDS)
     parser.add_argument("--window-size", type=int, default=2500)
     parser.add_argument("--stride", type=int, default=10_000_000)
@@ -461,6 +464,7 @@ def main() -> None:
         aggregate_only=args.aggregate_only,
         sample_limit=args.sample_limit,
         max_pool_restarts=args.max_pool_restarts,
+        phase=args.phase,
     )
     payload = aggregate_payload(
         payloads=payloads,
@@ -474,6 +478,7 @@ def main() -> None:
         producer_gate=args.producer_gate,
         descriptor_gate=args.descriptor_gate,
         elapsed_seconds=time.monotonic() - t0,
+        phase=args.phase,
     )
     write_json_atomic(args.json, payload)
     args.md.parent.mkdir(parents=True, exist_ok=True)

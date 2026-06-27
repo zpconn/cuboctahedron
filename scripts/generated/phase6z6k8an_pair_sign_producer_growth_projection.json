@@ -1,0 +1,540 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_pair_sign_producer_census_8an_2p5m",
+  "chunk_size": 64,
+  "counts": {
+    "covered_cases": 10402,
+    "good_direction_survivors": 10402,
+    "identity_words": 2966,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 94534,
+    "not_good_direction_masks": 179422,
+    "pair_words_scanned": 97500,
+    "translation_sign_assignments": 189824,
+    "uncovered_cases": 0
+  },
+  "cumulative_windows": [
+    {
+      "cumulative_descriptor": 102,
+      "cumulative_row": 12,
+      "cumulative_source": 99,
+      "cumulative_source_row_edges": 102,
+      "cumulative_source_row_producers": 111,
+      "good_direction_cases": 3415,
+      "range": [
+        0,
+        2500
+      ]
+    },
+    {
+      "cumulative_descriptor": 144,
+      "cumulative_row": 15,
+      "cumulative_source": 141,
+      "cumulative_source_row_edges": 144,
+      "cumulative_source_row_producers": 156,
+      "good_direction_cases": 2182,
+      "range": [
+        2500000,
+        2502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 171,
+      "cumulative_row": 15,
+      "cumulative_source": 168,
+      "cumulative_source_row_edges": 171,
+      "cumulative_source_row_producers": 183,
+      "good_direction_cases": 434,
+      "range": [
+        5000000,
+        5002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 205,
+      "cumulative_row": 17,
+      "cumulative_source": 201,
+      "cumulative_source_row_edges": 205,
+      "cumulative_source_row_producers": 218,
+      "good_direction_cases": 1269,
+      "range": [
+        7500000,
+        7502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 258,
+      "cumulative_row": 21,
+      "cumulative_source": 252,
+      "cumulative_source_row_edges": 258,
+      "cumulative_source_row_producers": 273,
+      "good_direction_cases": 2069,
+      "range": [
+        10000000,
+        10002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 258,
+      "cumulative_row": 21,
+      "cumulative_source": 252,
+      "cumulative_source_row_edges": 258,
+      "cumulative_source_row_producers": 273,
+      "good_direction_cases": 0,
+      "range": [
+        12500000,
+        12502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 258,
+      "cumulative_row": 21,
+      "cumulative_source": 252,
+      "cumulative_source_row_edges": 258,
+      "cumulative_source_row_producers": 273,
+      "good_direction_cases": 0,
+      "range": [
+        15000000,
+        15002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 258,
+      "cumulative_row": 21,
+      "cumulative_source": 252,
+      "cumulative_source_row_edges": 258,
+      "cumulative_source_row_producers": 273,
+      "good_direction_cases": 0,
+      "range": [
+        17500000,
+        17502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 258,
+      "cumulative_row": 21,
+      "cumulative_source": 252,
+      "cumulative_source_row_edges": 258,
+      "cumulative_source_row_producers": 273,
+      "good_direction_cases": 0,
+      "range": [
+        20000000,
+        20002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 258,
+      "cumulative_row": 21,
+      "cumulative_source": 252,
+      "cumulative_source_row_edges": 258,
+      "cumulative_source_row_producers": 273,
+      "good_direction_cases": 0,
+      "range": [
+        22500000,
+        22502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 268,
+      "cumulative_row": 21,
+      "cumulative_source": 262,
+      "cumulative_source_row_edges": 268,
+      "cumulative_source_row_producers": 283,
+      "good_direction_cases": 33,
+      "range": [
+        25000000,
+        25002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 268,
+      "cumulative_row": 21,
+      "cumulative_source": 262,
+      "cumulative_source_row_edges": 268,
+      "cumulative_source_row_producers": 283,
+      "good_direction_cases": 0,
+      "range": [
+        27500000,
+        27502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 268,
+      "cumulative_row": 21,
+      "cumulative_source": 262,
+      "cumulative_source_row_edges": 268,
+      "cumulative_source_row_producers": 283,
+      "good_direction_cases": 0,
+      "range": [
+        30000000,
+        30002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 268,
+      "cumulative_row": 21,
+      "cumulative_source": 262,
+      "cumulative_source_row_edges": 268,
+      "cumulative_source_row_producers": 283,
+      "good_direction_cases": 0,
+      "range": [
+        32500000,
+        32502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 268,
+      "cumulative_row": 21,
+      "cumulative_source": 262,
+      "cumulative_source_row_edges": 268,
+      "cumulative_source_row_producers": 283,
+      "good_direction_cases": 0,
+      "range": [
+        35000000,
+        35002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 268,
+      "cumulative_row": 21,
+      "cumulative_source": 262,
+      "cumulative_source_row_edges": 268,
+      "cumulative_source_row_producers": 283,
+      "good_direction_cases": 0,
+      "range": [
+        37500000,
+        37502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 269,
+      "cumulative_row": 21,
+      "cumulative_source": 263,
+      "cumulative_source_row_edges": 269,
+      "cumulative_source_row_producers": 284,
+      "good_direction_cases": 3,
+      "range": [
+        40000000,
+        40002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 286,
+      "cumulative_row": 21,
+      "cumulative_source": 278,
+      "cumulative_source_row_edges": 286,
+      "cumulative_source_row_producers": 299,
+      "good_direction_cases": 108,
+      "range": [
+        42500000,
+        42502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 297,
+      "cumulative_row": 22,
+      "cumulative_source": 285,
+      "cumulative_source_row_edges": 297,
+      "cumulative_source_row_producers": 307,
+      "good_direction_cases": 38,
+      "range": [
+        45000000,
+        45002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 300,
+      "cumulative_row": 22,
+      "cumulative_source": 287,
+      "cumulative_source_row_edges": 300,
+      "cumulative_source_row_producers": 309,
+      "good_direction_cases": 4,
+      "range": [
+        47500000,
+        47502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 317,
+      "cumulative_row": 22,
+      "cumulative_source": 303,
+      "cumulative_source_row_edges": 317,
+      "cumulative_source_row_producers": 325,
+      "good_direction_cases": 171,
+      "range": [
+        50000000,
+        50002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 317,
+      "cumulative_row": 22,
+      "cumulative_source": 303,
+      "cumulative_source_row_edges": 317,
+      "cumulative_source_row_producers": 325,
+      "good_direction_cases": 0,
+      "range": [
+        52500000,
+        52502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 341,
+      "cumulative_row": 22,
+      "cumulative_source": 322,
+      "cumulative_source_row_edges": 341,
+      "cumulative_source_row_producers": 344,
+      "good_direction_cases": 99,
+      "range": [
+        55000000,
+        55002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 350,
+      "cumulative_row": 22,
+      "cumulative_source": 326,
+      "cumulative_source_row_edges": 350,
+      "cumulative_source_row_producers": 348,
+      "good_direction_cases": 30,
+      "range": [
+        57500000,
+        57502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 350,
+      "cumulative_row": 22,
+      "cumulative_source": 326,
+      "cumulative_source_row_edges": 350,
+      "cumulative_source_row_producers": 348,
+      "good_direction_cases": 0,
+      "range": [
+        60000000,
+        60002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 350,
+      "cumulative_row": 22,
+      "cumulative_source": 326,
+      "cumulative_source_row_edges": 350,
+      "cumulative_source_row_producers": 348,
+      "good_direction_cases": 0,
+      "range": [
+        62500000,
+        62502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 353,
+      "cumulative_row": 22,
+      "cumulative_source": 329,
+      "cumulative_source_row_edges": 353,
+      "cumulative_source_row_producers": 351,
+      "good_direction_cases": 40,
+      "range": [
+        65000000,
+        65002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 353,
+      "cumulative_row": 22,
+      "cumulative_source": 329,
+      "cumulative_source_row_edges": 353,
+      "cumulative_source_row_producers": 351,
+      "good_direction_cases": 0,
+      "range": [
+        67500000,
+        67502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 368,
+      "cumulative_row": 22,
+      "cumulative_source": 344,
+      "cumulative_source_row_edges": 368,
+      "cumulative_source_row_producers": 366,
+      "good_direction_cases": 223,
+      "range": [
+        70000000,
+        70002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 374,
+      "cumulative_row": 22,
+      "cumulative_source": 349,
+      "cumulative_source_row_edges": 374,
+      "cumulative_source_row_producers": 371,
+      "good_direction_cases": 32,
+      "range": [
+        72500000,
+        72502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 374,
+      "cumulative_row": 22,
+      "cumulative_source": 349,
+      "cumulative_source_row_edges": 374,
+      "cumulative_source_row_producers": 371,
+      "good_direction_cases": 0,
+      "range": [
+        75000000,
+        75002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 376,
+      "cumulative_row": 22,
+      "cumulative_source": 351,
+      "cumulative_source_row_edges": 376,
+      "cumulative_source_row_producers": 373,
+      "good_direction_cases": 43,
+      "range": [
+        77500000,
+        77502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 389,
+      "cumulative_row": 22,
+      "cumulative_source": 362,
+      "cumulative_source_row_edges": 389,
+      "cumulative_source_row_producers": 384,
+      "good_direction_cases": 163,
+      "range": [
+        80000000,
+        80002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 389,
+      "cumulative_row": 22,
+      "cumulative_source": 362,
+      "cumulative_source_row_edges": 389,
+      "cumulative_source_row_producers": 384,
+      "good_direction_cases": 0,
+      "range": [
+        82500000,
+        82502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 389,
+      "cumulative_row": 22,
+      "cumulative_source": 362,
+      "cumulative_source_row_edges": 389,
+      "cumulative_source_row_producers": 384,
+      "good_direction_cases": 0,
+      "range": [
+        85000000,
+        85002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 389,
+      "cumulative_row": 22,
+      "cumulative_source": 362,
+      "cumulative_source_row_edges": 389,
+      "cumulative_source_row_producers": 384,
+      "good_direction_cases": 0,
+      "range": [
+        87500000,
+        87502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 389,
+      "cumulative_row": 22,
+      "cumulative_source": 362,
+      "cumulative_source_row_edges": 389,
+      "cumulative_source_row_producers": 384,
+      "good_direction_cases": 4,
+      "range": [
+        90000000,
+        90002500
+      ]
+    },
+    {
+      "cumulative_descriptor": 389,
+      "cumulative_row": 22,
+      "cumulative_source": 362,
+      "cumulative_source_row_edges": 389,
+      "cumulative_source_row_producers": 384,
+      "good_direction_cases": 0,
+      "range": [
+        92500000,
+        92502500
+      ]
+    },
+    {
+      "cumulative_descriptor": 401,
+      "cumulative_row": 22,
+      "cumulative_source": 374,
+      "cumulative_source_row_edges": 401,
+      "cumulative_source_row_producers": 396,
+      "good_direction_cases": 42,
+      "range": [
+        95000000,
+        95002500
+      ]
+    }
+  ],
+  "decision": {
+    "notes": [
+      "incidence projection stays below producer and descriptor gates",
+      "next step can run a larger checkpointed census or design the full split hierarchy"
+    ],
+    "status": "accepted-growth-projection"
+  },
+  "descriptor": {
+    "doubletons": 63,
+    "estimated": 862,
+    "method": "chao2",
+    "observed": 401,
+    "singleton_fraction": 0.600997506234414,
+    "singletons": 241
+  },
+  "descriptor_gate": 5000,
+  "estimated_chunk_count": 14,
+  "estimated_source_row_producers": 748,
+  "good_direction_cases": 10402,
+  "min_windows": 30,
+  "mode": "pair_sign_producer_growth_projection",
+  "observed_chunk_count": 7,
+  "observed_source_row_producers": 396,
+  "phase": "6Z.6K.8AN",
+  "producer_gate": 2000,
+  "rank_count_sampled": 97500,
+  "row": {
+    "doubletons": 4,
+    "estimated": 26,
+    "method": "chao2",
+    "observed": 22,
+    "singleton_fraction": 0.22727272727272727,
+    "singletons": 5
+  },
+  "schema_version": 1,
+  "source": {
+    "doubletons": 64,
+    "estimated": 722,
+    "method": "chao2",
+    "observed": 374,
+    "singleton_fraction": 0.5641711229946524,
+    "singletons": 211
+  },
+  "source_row_edges": {
+    "doubletons": 63,
+    "estimated": 862,
+    "method": "chao2",
+    "observed": 401,
+    "singleton_fraction": 0.600997506234414,
+    "singletons": 241
+  },
+  "trusted_as_proof": false,
+  "validation_failure_count": 0,
+  "validation_failures": {},
+  "window_count": 39
+}
