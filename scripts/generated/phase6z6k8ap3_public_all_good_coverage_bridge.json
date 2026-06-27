@@ -1,0 +1,32 @@
+{
+  "phase": "6Z.6K.8AP.3",
+  "status": "accepted-public-all-good-coverage-bridge",
+  "trusted_as_proof": false,
+  "summary": "Connected the classifier-free GoodDirection bridge to the public generated coverage assembly. This adds a central all-GoodDirection interval predicate for translation and a public semantic coverage constructor consuming nonidentity residual intervals plus all-GoodDirection translation intervals.",
+  "exported_names": [
+    "Cuboctahedron.Generated.Translation.Coverage.AllGoodRankKilled",
+    "Cuboctahedron.Generated.Translation.Coverage.caseKilled_of_all_good_interval",
+    "Cuboctahedron.Generated.PublicAllGoodSemanticCoverageIntervals",
+    "Cuboctahedron.Generated.semanticGeneratedCoverageOfAllGoodIntervals"
+  ],
+  "lean_files": [
+    "Cuboctahedron/Generated/Translation/Coverage/All.lean",
+    "Cuboctahedron/Generated/ExhaustiveCoverage.lean"
+  ],
+  "focused_builds": [
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.Coverage.All",
+      "exit_status": 0,
+      "wall_seconds": 0.91,
+      "max_rss_kib": 856656
+    },
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.ExhaustiveCoverage",
+      "exit_status": 0,
+      "wall_seconds": 3.03,
+      "max_rss_kib": 3287764
+    }
+  ],
+  "memory_notes": "Both builds were run serially. The public exhaustive adapter peaked at roughly 3.14 GiB RSS, safely below the 45 GiB working ceiling.",
+  "remaining_gap": "This is a public API bridge, not full generated evidence. Full AP still needs generated source/row membership chunks proving AllGoodRankKilled or the AP.2 source/row bridge predicates over the full rank range, plus the nonidentity residual coverage interval."
+}

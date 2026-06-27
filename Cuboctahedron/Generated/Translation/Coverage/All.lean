@@ -72,6 +72,34 @@ theorem killedBridge_of_good_interval
     Cuboctahedron.Generated.Coverage.TranslationGoodCaseKilled.killed
       (h r.val (Nat.zero_le r.val) r.isLt r.isLt mask hclass hM)
 
+/--
+Classifier-free GoodDirection translation target.
+
+Generated membership roots can prove this predicate when they cover every
+identity-linear GoodDirection survivor.  The ordinary feasibility
+contradiction is recovered by
+`TranslationGoodCaseKilled.killed`, so this surface does not mention the old
+early translation classifier.
+-/
+def AllGoodRankKilled (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    forall mask : SignMask,
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) =
+          (matId : Mat3 Rat) ->
+        Cuboctahedron.Generated.Coverage.TranslationGoodCaseKilled
+          ⟨r, hlt⟩ mask
+
+theorem caseKilled_of_all_good_interval
+    (h :
+      Cuboctahedron.Generated.Coverage.CoversInterval
+        AllGoodRankKilled 0 numPairWords)
+    (r : Fin numPairWords) (mask : SignMask) :
+    Cuboctahedron.Generated.Coverage.TranslationCaseKilled r mask := by
+  intro hM
+  exact
+    Cuboctahedron.Generated.Coverage.TranslationGoodCaseKilled.killed
+      (h r.val (Nat.zero_le r.val) r.isLt r.isLt mask hM) hM
+
 def FarkasRankCertifiedBy
     (classifier :
       Cuboctahedron.Generated.Coverage.TranslationComputableClassifier)

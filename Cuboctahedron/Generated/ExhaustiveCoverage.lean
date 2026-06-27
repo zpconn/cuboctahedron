@@ -46,6 +46,14 @@ structure PublicGoodSemanticCoverageIntervals : Prop where
     Coverage.CoversInterval
       Translation.Coverage.FarkasGoodRankKilled 0 numPairWords
 
+structure PublicAllGoodSemanticCoverageIntervals : Prop where
+  nonidentityResidual :
+    Coverage.CoversInterval
+      NonIdentity.Coverage.ResidualRankKilled 0 numPairWords
+  translationAllGood :
+    Coverage.CoversInterval
+      Translation.Coverage.AllGoodRankKilled 0 numPairWords
+
 structure PublicComputableCoverageBridges where
   nonidentityClassifier : Coverage.NonIdComputableClassifier
   translationClassifier : Coverage.TranslationComputableClassifier
@@ -371,6 +379,25 @@ def semanticGeneratedCoverageOfGoodIntervals
     (intervals : PublicGoodSemanticCoverageIntervals) :
     SemanticExhaustiveGeneratedCoverage :=
   semanticGeneratedCoverageOfBridges intervals.toBridges
+
+def semanticGeneratedCoverageOfAllGoodIntervals
+    (intervals : PublicAllGoodSemanticCoverageIntervals) :
+    SemanticExhaustiveGeneratedCoverage where
+  pair_rank_covered := by
+    intro r
+    exact ⟨allPairRanksChunk, allPairRanksChunk_covers r⟩
+  sign_mask_covered := by
+    intro mask
+    exact mask.isLt
+  nonidentity_killed := by
+    intro r
+    exact NonIdentity.complete_killed_of_residual_bridge
+      (NonIdentity.Coverage.killedResidualBridge_of_interval
+        intervals.nonidentityResidual) r
+  translation_killed := by
+    intro r mask
+    exact Translation.Coverage.caseKilled_of_all_good_interval
+      intervals.translationAllGood r mask
 
 def semanticGeneratedCoverageOfComputableIntervals
     (intervals : PublicComputableSemanticCoverageIntervals) :
