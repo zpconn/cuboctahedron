@@ -6248,6 +6248,65 @@ nonidentity ranks:                        17
     over descriptor states, without emitting concrete rank/mask survivor and
     bad-direction proofs.
 
+Completed Phase 6Z.6K.8J:
+
+- Added `scripts/profile_source_index_state_computable_classifier.py`.
+- This diagnostic emits no Lean. It compares the rejected bounded replay
+  surface against a GoodDirection-only reflected classifier target over the
+  existing source-index/state families.
+- Verification/profiling commands:
+
+```bash
+python3 -m py_compile scripts/profile_source_index_state_computable_classifier.py
+/usr/bin/time -v python3 scripts/profile_source_index_state_computable_classifier.py \
+  --rank-start 0 --limit 25 --max-rule-count 25 \
+  --json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_25.json \
+  --md scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_25.md
+/usr/bin/time -v python3 scripts/profile_source_index_state_computable_classifier.py \
+  --rank-start 0 --limit 1000 --max-rule-count 100 \
+  --json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --md scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.md
+```
+
+- `[0,25)` result:
+
+```text
+identity words:                       8
+GoodDirection survivors:             96
+not-GoodDirection masks:            416
+source-index/state families:         18
+current replay obligations:         529
+GoodDirection classifier obligations: 18
+wall time:                         0:10.40
+peak RSS:                         26,492 KB
+```
+
+- `[0,1000)` result:
+
+```text
+identity words:                         138
+GoodDirection survivors:              1,465
+not-GoodDirection masks:              7,367
+source-index/state families:             74
+current replay obligations:           9,694
+GoodDirection classifier obligations:    74
+wall time:                            2:47.80
+peak RSS:                            36,664 KB
+```
+
+- Decision:
+  - Accept the GoodDirection-only source-index/state classifier as the next
+    Lean-smoke target.
+  - Keep rejecting bounded replay: the current replay surface still scales as
+    survivors plus bad-direction masks.
+  - The next step is Phase 6Z.6K.8K: implement a small Lean smoke for the
+    accepted surface. It should prove a reflected descriptor classifier or
+    symbolic descriptor-state theorem for selected families, and it must not
+    emit concrete survivor or bad-direction branches.
+  - The final translation coverage shape should consume a GoodDirection
+    premise and let the generic `feasible -> GoodDirection` theorem discharge
+    bad-direction masks, rather than generating contradictions for them.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7227,9 +7286,12 @@ Acceptance:
   classifier/root: prove the `[0,1000)` GoodDirection two-source survivors are
   covered by source-index/state descriptor `Applies` predicates without putting
   member lists inside `Applies`.
-- [ ] Implement Phase 6Z.6K.8J computable classifier/root design: replace
+- [x] Implement Phase 6Z.6K.8J computable classifier/root design: replace
   bounded source-index/state per-case coverage replay with a reflected
   classifier or symbolic descriptor-state theorem.
+- [ ] Implement Phase 6Z.6K.8K GoodDirection-only reflected classifier Lean
+  smoke: prove the accepted source-index/state classifier surface without
+  concrete survivor or bad-direction branches.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7318,19 +7380,25 @@ second gate before finishing and was stopped before OOM. This proves that
 bounded source-index/state coverage still behaves like per-case replay once it
 has to prove classifier membership.
 
-The immediate next step is Phase 6Z.6K.8J: computable classifier/root design.
-That step should:
+Phase 6Z.6K.8J is complete as a profiler-only design gate. It accepted the
+GoodDirection-only source-index/state classifier surface on `[0,25)` and
+`[0,1000)`: the latter reduces 1,465 GoodDirection survivors plus 7,367
+bad-direction masks to 74 source-index/state obligations, with no Lean emitted
+and only about 36 MB peak RSS.
+
+The immediate next step is Phase 6Z.6K.8K: implement a Lean smoke for the
+accepted surface. That step should:
 
 - keep the 6K.8H descriptor theorem surface;
-- avoid any coverage proof whose main mechanism is one theorem per concrete
-  rank/mask survivor or bad-direction mask;
-- define a small computable classifier over descriptor-state keys, or a
-  symbolic theorem over descriptor states, that can be checked without
-  replaying source/row reconstruction per case;
-- first prototype on `[0,25)` and reject immediately if the proof still emits
-  hundreds of concrete contradiction/survivor branches;
-- do not emit `[0,1000)` or larger coverage until the classifier prototype is
-  buildable under the 60 second / 8 GB gate.
+- prove a reflected descriptor classifier or symbolic descriptor-state theorem
+  for selected source-index/state families;
+- consume a `GoodDirection` premise instead of enumerating bad-direction masks;
+- avoid any proof whose main mechanism is one theorem per concrete rank/mask
+  survivor or bad-direction contradiction;
+- reject immediately if the smoke starts reintroducing concrete survivor or
+  bad-direction branches;
+- do not emit `[0,1000)` or larger coverage until this small Lean smoke builds
+  under the 60 second / 8 GB gate.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
