@@ -6566,6 +6566,224 @@ constraint grep:       clean
     instead of assuming a key match as a premise. The production route still
     cannot claim coverage until this membership predicate is formalized.
 
+Completed Phase 6Z.6K.8P:
+
+- Added `SourceIndexStateKeyFacts` to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`.
+  This splits the future membership obligation into explicit source-index
+  lookup facts, `SourceChecks`, and the selected row-template predicate.
+- Added hand-written theorems:
+  - `SourceIndexStateKeyFacts.sourceMatches`
+  - `SourceIndexStateKey.matches_of_facts`
+  - `SourceIndexStateKey.covered_of_facts`
+- Added `scripts/generate_source_index_state_key_facts_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateKeyFactsSmoke.lean`
+  for all 74 `[0,1000)` descriptor keys.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_key_facts_smoke.py
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+/usr/bin/time -v python3 scripts/generate_source_index_state_key_facts_smoke.py \
+  --profile-json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --family-count 74 --phase 6Z.6K.8P
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateKeyFactsSmoke.lean || true
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateKeyFactsSmoke.lean \
+  scripts/generate_source_index_state_key_facts_smoke.py || true
+wc -c \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateKeyFactsSmoke.lean
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateKeyFactsSmoke
+```
+
+- Results:
+
+```text
+selected keys:             74
+represented cases:      1,465
+generated source size: 101,318 bytes
+generator wall time:    1:32.78
+generator peak RSS:    29,320 KB
+replay-pattern audit:  clean
+Lean core build wall:  0:03.60
+Lean smoke build wall: 0:02.68
+Lean smoke peak RSS: 3,332,040 KB
+constraint grep:       clean
+```
+
+- Decision:
+  - Accept the key-facts theorem surface.
+  - This is the first Lean-checked layer that does not assume `key.Matches`
+    directly; it proves that source-index/source-check/row facts imply key
+    matches and then `TranslationGoodCaseKilled`.
+  - This is still conditional on those facts. It is not yet bounded or global
+    membership coverage.
+  - The next step is Phase 6Z.6K.8Q: profile and smoke-test a non-replay
+    producer for `SourceIndexStateKeyFacts`. The production route cannot claim
+    coverage until it can derive those facts for GoodDirection survivors without
+    concrete rank/mask member replay.
+
+Completed Phase 6Z.6K.8Q:
+
+- Added split fact structures and theorems to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`:
+  - `SourceIndexStateSourceFacts`
+  - `SourceIndexStateRowFacts`
+  - `SourceIndexStateKeyFacts.of_source_row`
+  - `SourceIndexStateKey.matches_of_source_row`
+  - `SourceIndexStateKey.covered_of_source_row`
+- Added `scripts/profile_source_index_state_fact_production.py`.
+  This profiler now supports `--jobs`; modest process parallelism is accepted
+  for these Python diagnostics because each worker is memory-light and the
+  output is not trusted as proof.
+- Added `scripts/generate_source_index_state_split_facts_smoke.py`, also with
+  `--jobs`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsSmoke.lean`
+  for all 74 `[0,1000)` descriptor keys.
+- Verification commands:
+
+```bash
+python3 -m py_compile \
+  scripts/profile_source_index_state_fact_production.py \
+  scripts/generate_source_index_state_split_facts_smoke.py
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+/usr/bin/time -v python3 scripts/profile_source_index_state_fact_production.py \
+  --rank-start 0 --limit 1000 --group-gate 200
+/usr/bin/time -v python3 scripts/profile_source_index_state_fact_production.py \
+  --rank-start 0 --limit 1000 --group-gate 200 --jobs 4
+/usr/bin/time -v python3 scripts/generate_source_index_state_split_facts_smoke.py \
+  --profile-json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --family-count 74 --phase 6Z.6K.8Q --jobs 4
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsSmoke.lean || true
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsSmoke.lean \
+  scripts/profile_source_index_state_fact_production.py \
+  scripts/generate_source_index_state_split_facts_smoke.py || true
+wc -c \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsSmoke.lean
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSplitFactsSmoke
+```
+
+- Results:
+
+```text
+GoodDirection cases:             1,465
+descriptor-key obligations:         74
+source-fact obligations:            72
+row-fact obligations:               11
+source/row glue obligations:        74
+total split-fact obligations:      157
+explicit replay obligations:     1,465
+source-only ambiguous groups:        1
+source-only ambiguous cases:         9
+row-only ambiguous groups:           8
+row-only ambiguous cases:        1,456
+
+serial profiler wall time:       1:33.23
+serial profiler peak RSS:       28,948 KB
+parallel profiler wall time:     0:32.22
+parallel profiler peak RSS:     30,508 KB
+parallel workers:                    4
+
+split-facts generator wall time: 0:31.73
+split-facts generator peak RSS: 30,856 KB
+generated source size:         130,373 bytes
+replay-pattern audit:           clean
+Lean build wall time:           0:02.79
+Lean build peak RSS:        3,334,392 KB
+constraint grep:                clean
+```
+
+- Decision:
+  - Accept the split source/row fact theorem surface and the 4-worker Python
+    profiling/generation path.
+  - The split reduces the future proof burden to 72 reusable source-fact
+    obligations, 11 reusable row-fact obligations, and 74 descriptor glue
+    obligations in the bounded window.
+  - Source facts alone and row facts alone are ambiguous, so descriptor glue is
+    still required. This is not a failure; it is the exact theorem-shape
+    boundary for the next generated layer.
+  - The next step is Phase 6Z.6K.8R: build a row-fact producer smoke for the
+    11 row-fact groups, then separately tackle the harder 72 source-fact
+    obligations. Use memory-safe Python parallelism for profiling/generation,
+    but keep Lean builds focused and low-concurrency unless measured otherwise.
+
+Completed Phase 6Z.6K.8R:
+
+- Added row-fact producer helpers to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean`:
+  - `SourceIndexStateRowFacts.of_rows`
+  - `SourceIndexStateRowFacts.of_template_rows`
+  - `SourceIndexStateRowProducer`
+- Added `scripts/generate_source_index_state_row_fact_producer_smoke.py`.
+  The generator supports `--jobs`, and the accepted run used four Python
+  workers because the classifier workers are memory-light.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateRowFactProducerSmoke.lean`
+  for all 11 row-fact groups in the bounded `[0,1000)` window.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_row_fact_producer_smoke.py
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+/usr/bin/time -v python3 scripts/generate_source_index_state_row_fact_producer_smoke.py \
+  --jobs 4
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateRowFactProducerSmoke.lean \
+  scripts/generated/phase6z6k8r_source_index_state_row_fact_producer_smoke.json \
+  scripts/generated/phase6z6k8r_source_index_state_row_fact_producer_smoke.md || true
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateRowFactProducerSmoke.lean || true
+wc -c \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateRowFactProducerSmoke.lean \
+  scripts/generated/phase6z6k8r_source_index_state_row_fact_producer_smoke.json \
+  scripts/generated/phase6z6k8r_source_index_state_row_fact_producer_smoke.md
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke
+```
+
+- Results:
+
+```text
+row groups represented:          11
+descriptor families represented: 74
+GoodDirection cases represented: 1,465
+generated Lean source size:      8,680 bytes
+generator wall time:             0:32.24
+generator peak RSS:              30,708 KB
+parallel workers:                4
+replay-pattern audit:            clean
+constraint grep:                 clean
+Lean core build wall:            0:06.51
+Lean core peak RSS:              3,307,692 KB
+Lean smoke build wall:           0:02.20
+Lean smoke peak RSS:             3,281,464 KB
+```
+
+- Decision:
+  - Accept the row-fact producer smoke.
+  - The 11 bounded row-fact groups can now be represented by reusable
+    row-template predicates and converted to `SourceIndexStateRowFacts`
+    without any concrete rank/mask member replay.
+  - This still does not prove membership coverage by itself. Row facts are
+    now the easy side; the active blocker is the 72 source-fact groups
+    (`firstSource`, `secondSource`, and `SourceChecks`) plus descriptor glue.
+  - The next step is Phase 6Z.6K.8S: profile and smoke-test source-fact
+    producers for the 72 bounded source groups, using the same memory-safe
+    Python parallelism and focused Lean builds.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7563,9 +7781,19 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8O all-key descriptor-routing Lean smoke:
   scale the key-match-to-classifier route to all 74 `[0,1000)` keys under the
   60 second / 8 GB gate.
-- [ ] Implement Phase 6Z.6K.8P formal descriptor-key membership predicate:
-  prove that bounded GoodDirection survivors satisfy a descriptor key without
-  assuming a key match and without replaying concrete rank/mask members.
+- [x] Implement Phase 6Z.6K.8P formal descriptor-key facts predicate:
+  prove that source-index/source-check/row facts imply a descriptor key match
+  without assuming `key.Matches` directly and without replaying concrete
+  rank/mask members.
+- [x] Implement Phase 6Z.6K.8Q key-facts producer profile/smoke:
+  find a non-replay way to derive `SourceIndexStateKeyFacts` for bounded
+  GoodDirection survivors.
+- [x] Implement Phase 6Z.6K.8R row-fact producer smoke:
+  prove or profile reusable producers for the 11 bounded row-fact groups before
+  attacking the harder 72 source-fact groups.
+- [ ] Implement Phase 6Z.6K.8S source-fact producer profile/smoke:
+  prove or profile reusable producers for the 72 bounded source-fact groups,
+  keeping row facts separate and avoiding rank/mask member replay.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7667,20 +7895,23 @@ branches. The 8M profiler shows that the full descriptor key is descriptor-
 unique with 74 obligations and no concrete member branches; all coarser keys
 are ambiguous on the bounded window.
 
-The immediate next step is Phase 6Z.6K.8P: formal descriptor-key membership.
+The immediate next step is Phase 6Z.6K.8S: source-fact production.
 That step should:
 
 - keep the accepted semantic classifier branch shape from 8L and the key
-  routing surface from 8N/8O;
-- define a formal predicate that derives a descriptor key from source-index,
-  source-skeleton, and row-property facts for a GoodDirection survivor;
-- prove that this predicate implies `SourceIndexStateKey.Matches`, then reuse
-  the all-key classifier route;
+  routing/fact surface from 8N/8O/8P/8Q;
+- use the completed 8R row-fact producer interface as the reusable row side of
+  the split;
+- focus on the 72 source-fact groups identified by 8Q, especially the facts
+  proving source-index lookup and `SourceChecks` from reusable source-index
+  predicates;
+- use memory-safe Python parallelism for profiling/generation where available
+  and keep focused Lean builds serial or otherwise measured;
 - avoid concrete survivor, bad-direction, nonidentity, and bounded interval
   coverage branches;
 - reject immediately if the proof devolves into rank/mask member replay;
 - treat the output as a bounded Lean smoke before attempting global
-  descriptor-key membership generation.
+  descriptor-key facts generation.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

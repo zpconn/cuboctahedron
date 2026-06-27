@@ -171,11 +171,112 @@ def SourceIndexStateKey.Matches
     (key : SourceIndexStateKey) (r : Nat) (mask : SignMask) : Prop :=
   key.toDescriptor.Applies r mask
 
+structure SourceIndexStateKeyFacts
+    (key : SourceIndexStateKey) (r : Nat) (mask : SignMask) : Prop where
+  firstSource :
+    ∀ hlt : r < numPairWords,
+      let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+      listGet? (translationConstraintSources seq) key.firstIndex =
+        some key.support.first
+  secondSource :
+    ∀ hlt : r < numPairWords,
+      let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+      listGet? (translationConstraintSources seq) key.secondIndex =
+        some key.support.second
+  sourceChecks :
+    ∀ hlt : r < numPairWords,
+      SourceChecks key.support r hlt mask
+  rows : key.template.Rows key.support r mask
+
+structure SourceIndexStateSourceFacts
+    (key : SourceIndexStateKey) (r : Nat) (mask : SignMask) : Prop where
+  firstSource :
+    ∀ hlt : r < numPairWords,
+      let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+      listGet? (translationConstraintSources seq) key.firstIndex =
+        some key.support.first
+  secondSource :
+    ∀ hlt : r < numPairWords,
+      let seq := translationSeqAtRankMask ⟨r, hlt⟩ mask
+      listGet? (translationConstraintSources seq) key.secondIndex =
+        some key.support.second
+  sourceChecks :
+    ∀ hlt : r < numPairWords,
+      SourceChecks key.support r hlt mask
+
+structure SourceIndexStateRowFacts
+    (key : SourceIndexStateKey) (r : Nat) (mask : SignMask) : Prop where
+  rows : key.template.Rows key.support r mask
+
+theorem SourceIndexStateRowFacts.of_rows
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hrows : key.template.Rows key.support r mask) :
+    SourceIndexStateRowFacts key r mask where
+  rows := hrows
+
+theorem SourceIndexStateRowFacts.of_template_rows
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    {template : SourceIndexTemplate}
+    (htemplate : key.template = template)
+    (hrows : template.Rows key.support r mask) :
+    SourceIndexStateRowFacts key r mask := by
+  subst template
+  exact SourceIndexStateRowFacts.of_rows hrows
+
+structure SourceIndexStateRowProducer where
+  Applies : SourceIndexStateKey -> Nat -> SignMask -> Prop
+  rowFacts :
+    ∀ {key : SourceIndexStateKey} {r : Nat} {mask : SignMask},
+      Applies key r mask -> SourceIndexStateRowFacts key r mask
+
+theorem SourceIndexStateKeyFacts.of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    SourceIndexStateKeyFacts key r mask where
+  firstSource := hsource.firstSource
+  secondSource := hsource.secondSource
+  sourceChecks := hsource.sourceChecks
+  rows := hrows.rows
+
+theorem SourceIndexStateKeyFacts.sourceMatches
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (h : SourceIndexStateKeyFacts key r mask) :
+    key.toDescriptor.SourceMatches r mask := by
+  intro hlt
+  exact ⟨h.firstSource hlt, h.secondSource hlt, h.sourceChecks hlt⟩
+
+theorem SourceIndexStateKey.matches_of_facts
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (h : SourceIndexStateKeyFacts key r mask) :
+    key.Matches r mask :=
+  ⟨h.sourceMatches, h.rows⟩
+
 theorem SourceIndexStateKey.covered_of_matches
     {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
     (h : key.Matches r mask) :
     RowPropertyParametricCovered r mask :=
   key.toDescriptor.covered_of_applies h
+
+theorem SourceIndexStateKey.covered_of_facts
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (h : SourceIndexStateKeyFacts key r mask) :
+    RowPropertyParametricCovered r mask :=
+  key.covered_of_matches (key.matches_of_facts h)
+
+theorem SourceIndexStateKey.matches_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    key.Matches r mask :=
+  key.matches_of_facts (SourceIndexStateKeyFacts.of_source_row hsource hrows)
+
+theorem SourceIndexStateKey.covered_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPropertyParametricCovered r mask :=
+  key.covered_of_facts (SourceIndexStateKeyFacts.of_source_row hsource hrows)
 
 theorem sourceIndexState_builds : True := by
   trivial
