@@ -7774,6 +7774,68 @@ exit status: 0
     membership as a state-language/DAG problem and determine whether the
     descriptor classifier can be made bounded enough for final coverage.
 
+Completed Phase 6Z.6K.8AG:
+
+- Added `scripts/profile_pair_sign_descriptor_membership_state.py`.
+- This profiler emits no Lean and is not trusted as proof. It profiles whether
+  the pair-sign GoodDirection survivors from the representative windows can be
+  routed to descriptor, source, and row semantic families without concrete
+  rank/mask replay.
+- It uses the same memory-safe Python parallelism as 8AF (`--jobs 4`) and
+  compares:
+  - exact source/row producer keys;
+  - source-language obligations with source indices;
+  - source-language obligations plus exact row producers;
+  - descriptor candidates with indices or sources erased;
+  - row-template-only, row-role, and primitive scaled-row candidates.
+- Profiling command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_pair_sign_descriptor_membership_state.py --jobs 4
+```
+
+- Profiling result:
+
+```text
+status:      accepted-producer-membership-candidate
+wall time:   3:13.10
+CPU:         256%
+peak RSS:    50,552 KB
+exit status: 0
+```
+
+- Profile facts over the 8AD/8AF representative windows:
+  - total GoodDirection cases: 7,112;
+  - source-language validation failures: 0;
+  - best descriptor candidate:
+    `descriptor_source_language_row_exact`, 195 obligations;
+  - best independent non-direct source+row candidate:
+    `source_language_full + row_scaled_lines`, 2,735 obligations, above the
+    2,000-obligation diagnostic gate;
+  - best producer source+row candidate:
+    `source_language_full + row_exact`, 212 obligations.
+- Interpretation:
+  - The exact row producer surface remains small: 21 row producers across the
+    sampled windows.
+  - Source-language membership with source indices uniquely determines the
+    pair-sign source producer key in the sampled windows: 191 source producers
+    and zero source-language validation failures.
+  - Coarser row surfaces (`row_template`, `row_template_roles`) are ambiguous;
+    primitive scaled rows are unambiguous but fragment to 2,544 row keys, so
+    that path is not attractive as a final proof surface.
+  - The next Lean step should not try to prove one descriptor edge directly.
+    It should build a bounded producer-coverage root that derives
+    `SourceIndexStateKeyFacts` from source-language membership plus exact row
+    producer membership, then applies
+    `SourceIndexStateKey.goodKilled_of_source_row`.
+- Decision:
+  - Accept 8AG as a producer-membership candidate, not a completed coverage
+    proof.
+  - The immediate next step is Phase 6Z.6K.8AH: generate a bounded Lean smoke
+    over the same representative windows that composes source-language
+    producer facts and row producer facts into `SourceIndexStateKeyFacts`
+    without enumerating raw rank/mask members.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8830,10 +8892,14 @@ Acceptance:
   measure whether pair-sign descriptor families merge across representative
   windows, and test whether a source/row state DAG or stronger semantic glue
   theorem can replace one-theorem-per-descriptor-family.
-- [ ] Implement Phase 6Z.6K.8AG pair-sign descriptor membership state-language profile:
+- [x] Implement Phase 6Z.6K.8AG pair-sign descriptor membership state-language profile:
   profile whether GoodDirection survivors can be classified into pair-sign
   descriptor keys by a bounded state/DAG theorem rather than raw rank/mask
   member replay.
+- [ ] Implement Phase 6Z.6K.8AH bounded producer-coverage Lean smoke:
+  compose source-language producer facts and exact row producer facts into
+  `SourceIndexStateKeyFacts` over the representative windows, without raw
+  rank/mask replay.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -9001,22 +9067,28 @@ added the generic Lean bridge theorems
 `SourceIndexStateKey.goodKilled_of_source_row`; the focused build passed in
 30.36 seconds with 3.606 GiB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8AG: profile descriptor membership as a
-state-language/DAG classifier. That step should:
+Phase 6Z.6K.8AG is complete as the pair-sign descriptor membership
+state-language profile. It found that a purely independent non-direct
+source+row route is still too fragmented (`source_language_full +
+row_scaled_lines`, 2,735 obligations), but the producer route is bounded:
+`source_language_full + row_exact` gives 212 obligations over the
+representative windows, with zero source-language validation failures and only
+50,552 KB peak RSS under `--jobs 4`.
 
-- determine whether GoodDirection survivors can be classified into pair-sign
-  descriptor keys without raw rank/mask member replay;
-- measure descriptor classifier state count and reuse across the same
-  representative windows;
-- use memory-safe Python parallelism for profiling/generation where available
-  and keep focused Lean builds serial or otherwise measured;
-- avoid bad-direction, nonidentity, and bounded interval coverage branches;
-- reject immediately if the proof again devolves into rank/mask member replay,
-  large generic `simp` searches over complete source lists, or concrete
-  per-rank row arithmetic;
-- produce a theorem surface that can plausibly be reused globally, or
-  explicitly report the remaining symbolic invariant needed before global
-  translation coverage emission.
+The immediate next step is Phase 6Z.6K.8AH: generate a bounded Lean smoke over
+the same representative windows that composes source-language producer facts
+and exact row producer facts into `SourceIndexStateKeyFacts`. That step should:
+
+- use `SourceIndexStateKey.goodKilled_of_source_row` as the final semantic
+  bridge for each covered producer case;
+- avoid raw rank/mask replay, concrete per-rank row arithmetic, and giant
+  `simp` searches over full source lists;
+- keep the generated leaf/root files bounded and theorem-valued, not
+  data-valued;
+- run focused Lean builds first, with memory measurement, before any broader
+  package build;
+- reject the producer-coverage route if the generated smoke cannot stay near
+  the observed 212-obligation surface or if it turns into member-list replay.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
