@@ -454,7 +454,10 @@ Nonidentity caveat:
 Dashboard addendum: Phase 6Z.6K.8AP.12 is accepted as bridge
 infrastructure. It adds direct source-position adapters to
 `SourceIndexStateSourcePredicate` and `spec.sourceProducer.Applies`; it does
-not yet provide nonempty generated coverage.
+not yet provide nonempty generated coverage. Phase 6Z.6K.8AP.13 is accepted as
+a diagnostic source-position projection preflight: all 298 emitted split-50k
+source producers project to valid `SourcePairPositionSpec`s, but this is still
+not coverage proof.
 
 Completed current-work items:
 
@@ -547,6 +550,10 @@ Completed current-work items:
   - `scripts/generated/phase6z6k8ap12_source_position_predicate_adapter.md`
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean`
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean`
+- Added the Phase 6Z.6K.8AP.13 source-position spec projection audit:
+  - `scripts/audit_source_position_spec_projection.py`
+  - `scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.json`
+  - `scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -9183,6 +9190,12 @@ Acceptance:
   `SourceIndexStateSourcePredicate` and `spec.sourceProducer.Applies`, then
   validate dynamic and static source-position examples in the smoke module.
   This is accepted bridge infrastructure only.
+- [x] Implement Phase 6Z.6K.8AP.13 source-position spec projection audit:
+  add a cache-friendly audit mode that parses the emitted split source
+  producer module and confirms every source producer has a valid
+  `SourcePairPositionSpec` projection.  The accepted split-50k source audit
+  covers 298 source producers, 6,734 represented bounded cases, and has zero
+  invalid projections.  This is diagnostic preflight only, not coverage proof.
 - [ ] Prove nonempty Phase 6Z.6K.8AP source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceRowProducerGoodLanguageOnRange lo hi`,
@@ -10279,6 +10292,43 @@ source-producer bridge. The focused validation command
 
 passes in 18.76s with 3,636,984 KiB peak RSS.  The next AP target remains a
 non-enumerative generated `complete` theorem over meaningful rank ranges.
+
+Phase 6Z.6K.8AP.13 adds a source-position spec projection audit and reports:
+
+- `scripts/audit_source_position_spec_projection.py`
+- `scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.json`
+- `scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.md`
+
+The first implementation tried to recompute exact sampled families for AP.13.
+That path was stopped twice: the default 65k-rank audit and the reduced
+`[0,10000)` audit both ran for minutes without producing useful incremental
+output.  This is not an OOM problem, but it is the wrong preflight path: AP.13
+should reuse existing source-producer artifacts rather than redoing exact case
+classification.
+
+The accepted AP.13 mode parses the already emitted split source producer
+module:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Source.lean
+```
+
+and checks that every emitted source producer has a valid
+`SourcePairPositionSpec` projection.  The validation command
+
+```text
+/usr/bin/time -v python3 scripts/audit_source_position_spec_projection.py \
+  --from-lean-source Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Source.lean \
+  --json scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.json \
+  --md scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.md
+```
+
+passes in 0.06s with 27,228 KiB peak RSS.  It audits 298 emitted source
+producers representing 6,734 bounded cases, with 298 source-spec pair
+signatures, 149 individual source-spec signatures, and zero invalid source
+producers.  This is still diagnostic preflight rather than Lean coverage, but
+it proves the next AP emitter can be source-position based without duplicating
+source lookup proofs.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

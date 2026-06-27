@@ -1,0 +1,779 @@
+{
+  "decision": {
+    "notes": [
+      "diagnostic only: parsed Lean source producers are not coverage proof",
+      "all emitted source producers have valid SourcePairPositionSpec projections",
+      "next step can emit an AP language pilot from source-position specs"
+    ],
+    "status": "accepted-lean-source-position-spec-projection"
+  },
+  "individualSourceSpecSignatureCount": 149,
+  "invalidSourceProducerCount": 0,
+  "invalidSourceProducers": [],
+  "mode": "lean_source_position_spec_projection_audit",
+  "phase": "6Z.6K.8AP.13",
+  "representedCaseCount": 6734,
+  "schemaVersion": 1,
+  "sourceGroupGate": 1000,
+  "sourceLean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Source.lean",
+  "sourceProducerCount": 298,
+  "sourceSpecPairSignatureCount": 298,
+  "topIndividualSourceSpecs": [
+    {
+      "caseCount": 3551,
+      "signature": "xpStart:0"
+    },
+    {
+      "caseCount": 1722,
+      "signature": "xpStart:1"
+    },
+    {
+      "caseCount": 1024,
+      "signature": "interior:1:tmmm:slot5"
+    },
+    {
+      "caseCount": 980,
+      "signature": "xpStart:2"
+    },
+    {
+      "caseCount": 501,
+      "signature": "interior:3:tmpp:slot8"
+    },
+    {
+      "caseCount": 470,
+      "signature": "interior:6:xp:slot0"
+    },
+    {
+      "caseCount": 399,
+      "signature": "interior:1:tmmp:slot6"
+    },
+    {
+      "caseCount": 313,
+      "signature": "ordering:3"
+    },
+    {
+      "caseCount": 261,
+      "signature": "xpStart:3"
+    },
+    {
+      "caseCount": 254,
+      "signature": "ordering:11"
+    },
+    {
+      "caseCount": 230,
+      "signature": "ordering:6"
+    },
+    {
+      "caseCount": 222,
+      "signature": "interior:1:tmpm:slot7"
+    },
+    {
+      "caseCount": 206,
+      "signature": "ordering:1"
+    },
+    {
+      "caseCount": 194,
+      "signature": "ordering:9"
+    },
+    {
+      "caseCount": 190,
+      "signature": "ordering:7"
+    },
+    {
+      "caseCount": 185,
+      "signature": "interior:3:tmpm:slot7"
+    },
+    {
+      "caseCount": 181,
+      "signature": "ordering:10"
+    },
+    {
+      "caseCount": 171,
+      "signature": "ordering:8"
+    },
+    {
+      "caseCount": 143,
+      "signature": "interior:12:xm:slot1"
+    },
+    {
+      "caseCount": 125,
+      "signature": "interior:7:xp:slot0"
+    }
+  ],
+  "topSourceProducers": [
+    {
+      "caseCount": 1024,
+      "digest": "7da0a70eeb26127085fa7422a04501b6f62db3389e10d3b3b8d218f38b141147",
+      "failures": [],
+      "name": "source_000",
+      "sourceIndices": [
+        23,
+        0
+      ],
+      "sourceSpecSignature": "interior:1:tmmm:slot5|xpStart:0",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "face": "tmmm",
+          "impact": 1,
+          "signature": "interior:1:tmmm:slot5",
+          "slot": 5,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 497,
+      "digest": "8b3a3995294856088c7f47aef5c3bd8844c0ac044e09739dc93fc242d0a9ef41",
+      "failures": [],
+      "name": "source_001",
+      "sourceIndices": [
+        52,
+        0
+      ],
+      "sourceSpecSignature": "interior:3:tmpp:slot8|xpStart:0",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "face": "tmpp",
+          "impact": 3,
+          "signature": "interior:3:tmpp:slot8",
+          "slot": 8,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 399,
+      "digest": "604b8ddbcb59507e14ec5d237ea5d79914e634db3c8960106673adc48dc114a0",
+      "failures": [],
+      "name": "source_002",
+      "sourceIndices": [
+        24,
+        1
+      ],
+      "sourceSpecSignature": "interior:1:tmmp:slot6|xpStart:1",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "face": "tmmp",
+          "impact": 1,
+          "signature": "interior:1:tmmp:slot6",
+          "slot": 6,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 1,
+          "signature": "xpStart:1",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 278,
+      "digest": "4a0c5e158e345c0d7e7993b928b615657e77494bc31d65cbd2a47305f273afb1",
+      "failures": [],
+      "name": "source_003",
+      "sourceIndices": [
+        83,
+        0
+      ],
+      "sourceSpecSignature": "interior:6:xp:slot0|xpStart:0",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "face": "xp",
+          "impact": 6,
+          "signature": "interior:6:xp:slot0",
+          "slot": 0,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 226,
+      "digest": "80b1986cf3f00fdf9c127257de2eab91722dc2e21558505080f614b53fe4b1e3",
+      "failures": [],
+      "name": "source_004",
+      "sourceIndices": [
+        0,
+        7
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:3",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:3",
+          "step": 3,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 222,
+      "digest": "406a25da4affd7d9f18fec47dcabb1626af3588a7834933d2976a1049ca94071",
+      "failures": [],
+      "name": "source_005",
+      "sourceIndices": [
+        25,
+        2
+      ],
+      "sourceSpecSignature": "interior:1:tmpm:slot7|xpStart:2",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "face": "tmpm",
+          "impact": 1,
+          "signature": "interior:1:tmpm:slot7",
+          "slot": 7,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 2,
+          "signature": "xpStart:2",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 185,
+      "digest": "b1984127e635f9866c065edc87a5945b45d8d13d8e9795119e832266819c19d6",
+      "failures": [],
+      "name": "source_006",
+      "sourceIndices": [
+        51,
+        1
+      ],
+      "sourceSpecSignature": "interior:3:tmpm:slot7|xpStart:1",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "face": "tmpm",
+          "impact": 3,
+          "signature": "interior:3:tmpm:slot7",
+          "slot": 7,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 1,
+          "signature": "xpStart:1",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 156,
+      "digest": "6659cf4a94e395d4bbacbad166231897f3d44abe9209d543d588346f5f00275c",
+      "failures": [],
+      "name": "source_007",
+      "sourceIndices": [
+        83,
+        1
+      ],
+      "sourceSpecSignature": "interior:6:xp:slot0|xpStart:1",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "face": "xp",
+          "impact": 6,
+          "signature": "interior:6:xp:slot0",
+          "slot": 0,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 1,
+          "signature": "xpStart:1",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 117,
+      "digest": "aa145e748362515bb1f5f25abe8e27d2c8fb7da216db879387ea5df98e557f76",
+      "failures": [],
+      "name": "source_008",
+      "sourceIndices": [
+        0,
+        15
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:11",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:11",
+          "step": 11,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 115,
+      "digest": "caaabb1d2609b42cd99606f249651ae70078c1479a5c8bfd1159d868c1286ebc",
+      "failures": [],
+      "name": "source_009",
+      "sourceIndices": [
+        0,
+        11
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:7",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:7",
+          "step": 7,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 109,
+      "digest": "1af4ad5c5a8f2bc9bcb59dd0f6eb1159ddf9a7cf586f392ce0a487e53b070127",
+      "failures": [],
+      "name": "source_010",
+      "sourceIndices": [
+        50,
+        2
+      ],
+      "sourceSpecSignature": "interior:3:tmmp:slot6|xpStart:2",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "face": "tmmp",
+          "impact": 3,
+          "signature": "interior:3:tmmp:slot6",
+          "slot": 6,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 2,
+          "signature": "xpStart:2",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 93,
+      "digest": "3fcd2221292f554295322121d811b40eeb21367cfc50ced8f31a6ab53a3e7673",
+      "failures": [],
+      "name": "source_011",
+      "sourceIndices": [
+        0,
+        13
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:9",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:9",
+          "step": 9,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 93,
+      "digest": "506c0900cc34b9aa4c3383cb70825b16f40bee1df73637f7a807dff6f374aec1",
+      "failures": [],
+      "name": "source_012",
+      "sourceIndices": [
+        70,
+        2
+      ],
+      "sourceSpecSignature": "interior:5:xp:slot0|xpStart:2",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "face": "xp",
+          "impact": 5,
+          "signature": "interior:5:xp:slot0",
+          "slot": 0,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 2,
+          "signature": "xpStart:2",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 92,
+      "digest": "3c06e402bff7a3920e0c13a9febbceede49ed758336b959adb510e05e728efe4",
+      "failures": [],
+      "name": "source_013",
+      "sourceIndices": [
+        0,
+        10
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:6",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:6",
+          "step": 6,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 82,
+      "digest": "fb4710b24e527e12a705f595b8d1e2f741cba7340de80527dfbad4335015792f",
+      "failures": [],
+      "name": "source_014",
+      "sourceIndices": [
+        0,
+        14
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:10",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:10",
+          "step": 10,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 79,
+      "digest": "708ef763081464601bc433d87ca107fc8f626f7307633d1945f91d1018f2413a",
+      "failures": [],
+      "name": "source_015",
+      "sourceIndices": [
+        2,
+        5
+      ],
+      "sourceSpecSignature": "xpStart:2|ordering:1",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 2,
+          "signature": "xpStart:2",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:1",
+          "step": 1,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 73,
+      "digest": "25874e96d5c17ac0b13ff49508c565c59aa6360accedd314aa7c19cae918b9fd",
+      "failures": [],
+      "name": "source_016",
+      "sourceIndices": [
+        0,
+        12
+      ],
+      "sourceSpecSignature": "xpStart:0|ordering:8",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:8",
+          "step": 8,
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 72,
+      "digest": "3b4ae49a0ee817a62a3d8f5d6d0e3a76b1f5753db5cd8b3f9fd34564dfa3208a",
+      "failures": [],
+      "name": "source_017",
+      "sourceIndices": [
+        96,
+        0
+      ],
+      "sourceSpecSignature": "interior:7:xp:slot0|xpStart:0",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "face": "xp",
+          "impact": 7,
+          "signature": "interior:7:xp:slot0",
+          "slot": 0,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 70,
+      "digest": "7139c41ee110af735bc230d04cab530a729c4a50730c2386433eb64489bde03a",
+      "failures": [],
+      "name": "source_018",
+      "sourceIndices": [
+        162,
+        0
+      ],
+      "sourceSpecSignature": "interior:12:xm:slot1|xpStart:0",
+      "sourceSpecs": [
+        {
+          "constructor": "interior",
+          "excludedFaceSet": [
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "face": "xm",
+          "impact": 12,
+          "signature": "interior:12:xm:slot1",
+          "slot": 1,
+          "valid": true
+        },
+        {
+          "constructor": "xpStart",
+          "index": 0,
+          "signature": "xpStart:0",
+          "valid": true
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 69,
+      "digest": "19c25d8d5cad596fb3ebbfe7e09156d0f5f62a610254ca96d9f0810584bdb693",
+      "failures": [],
+      "name": "source_019",
+      "sourceIndices": [
+        1,
+        10
+      ],
+      "sourceSpecSignature": "xpStart:1|ordering:6",
+      "sourceSpecs": [
+        {
+          "constructor": "xpStart",
+          "index": 1,
+          "signature": "xpStart:1",
+          "valid": true
+        },
+        {
+          "constructor": "ordering",
+          "signature": "ordering:6",
+          "step": 6,
+          "valid": true
+        }
+      ],
+      "valid": true
+    }
+  ],
+  "trustedAsProof": false
+}
