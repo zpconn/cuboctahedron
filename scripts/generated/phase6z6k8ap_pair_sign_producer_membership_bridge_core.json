@@ -1,0 +1,20 @@
+{
+  "decision": {
+    "notes": [
+      "bridge core is Lean-checked and memory-safe",
+      "this is not global membership coverage",
+      "next step must generate or prove the membership root producing SourceRowPredicateBridge or SourceRowFactsBridge"
+    ],
+    "status": "accepted-bridge-core"
+  },
+  "focused_build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
+    "exit_status": 0,
+    "max_rss_kib": 3285448,
+    "wall_seconds": 2.5
+  },
+  "mode": "pair_sign_producer_membership_bridge_core",
+  "phase": "6Z.6K.8AP.0",
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
