@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "phase": "6Z.6K.8AP.2",
+  "mode": "classifier_free_good_direction_bridge",
+  "trusted_as_proof": false,
+  "decision": {
+    "status": "accepted-classifier-free-good-bridge",
+    "notes": [
+      "Adds a generated target that avoids translationEarlyFamilyClassOfChoice entirely",
+      "Generated chunks may now prove source/row membership under totalLinear = I and GoodDirectionAtRank",
+      "The generic TranslationGoodCaseKilled.killed theorem recovers ordinary TranslationCaseKilled",
+      "This is still not global membership coverage; generated source/row membership evidence is required"
+    ]
+  },
+  "exported_bridge_shapes": [
+    "AllTranslationGoodRankKilled",
+    "AllTranslationGoodCoverageOnRange",
+    "SourceRowFactsGoodBridge",
+    "SourceRowFactsGoodBridgeOnRange",
+    "SourceRowPredicateGoodBridge",
+    "SourceRowPredicateGoodBridgeOnRange",
+    "SourceRowFactsGoodBridge.to_allGoodCoverage",
+    "SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage",
+    "AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange",
+    "SourceRowFactsGoodBridge.to_caseKilled",
+    "SourceRowFactsGoodBridgeOnRange.to_caseKilled_of_fullRange",
+    "SourceRowPredicateGoodBridge.to_factsGoodBridge",
+    "SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange",
+    "SourceRowPredicateGoodBridge.to_allGoodCoverage",
+    "SourceRowPredicateGoodBridgeOnRange.to_allGoodCoverage",
+    "SourceRowPredicateGoodBridge.to_caseKilled",
+    "SourceRowPredicateGoodBridgeOnRange.to_caseKilled_of_fullRange"
+  ],
+  "focused_build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
+    "exit_status": 0,
+    "max_rss_kib": 3277560,
+    "wall_seconds": 4.12
+  }
+}

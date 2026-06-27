@@ -119,6 +119,79 @@ def ResidualTranslationGoodRankKilled (rank : Nat) : Prop :=
 abbrev ResidualTranslationGoodCoverageOnRange (lo hi : Nat) : Prop :=
   CoversInterval ResidualTranslationGoodRankKilled lo hi
 
+/--
+Classifier-free GoodDirection target for one rank.
+
+This is the strongest preferred generated target for the translation branch:
+under the identity-linear premise, prove that every GoodDirection survivor is
+killed.  The ordinary feasibility contradiction is recovered by the generic
+`TranslationGoodCaseKilled.killed` theorem, so generated files do not have to
+classify bad-direction masks or reason about the old noncomputable early
+family classifier.
+-/
+def AllTranslationGoodRankKilled (rank : Nat) : Prop :=
+  forall hlt : rank < numPairWords,
+    forall mask : SignMask,
+      totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+          (matId : Mat3 Rat) ->
+        TranslationGoodCaseKilled ⟨rank, hlt⟩ mask
+
+abbrev AllTranslationGoodCoverageOnRange (lo hi : Nat) : Prop :=
+  CoversInterval AllTranslationGoodRankKilled lo hi
+
+/--
+Classifier-free source/row facts bridge for GoodDirection survivors.
+
+Generated membership chunks should prefer this surface if they can derive the
+source and row facts from `GoodDirectionAtRank` plus the identity-linear
+premise.  It avoids both raw bad-direction mask evidence and the old
+`translationEarlyFamilyClassOfChoice` condition.
+-/
+abbrev SourceRowFactsGoodBridge : Prop :=
+  forall {r : Fin numPairWords} {mask : SignMask},
+    totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+      GoodDirectionAtRank r mask ->
+        exists key : SourceIndexStateKey,
+          SourceIndexStateSourceFacts key r.val mask /\
+            SourceIndexStateRowFacts key r.val mask
+
+/-- Rank-range version of `SourceRowFactsGoodBridge`. -/
+abbrev SourceRowFactsGoodBridgeOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists key : SourceIndexStateKey,
+              SourceIndexStateSourceFacts key rank mask /\
+                SourceIndexStateRowFacts key rank mask
+
+/--
+Classifier-free predicate bridge matching the current split producer chunks.
+-/
+abbrev SourceRowPredicateGoodBridge : Prop :=
+  forall {r : Fin numPairWords} {mask : SignMask},
+    totalLinearOfPairWord (unrankPairWord r) = (matId : Mat3 Rat) ->
+      GoodDirectionAtRank r mask ->
+        exists key : SourceIndexStateKey,
+          SourceIndexStateSourcePredicate
+            key.firstIndex key.secondIndex key.support r.val mask /\
+            key.template.Rows key.support r.val mask
+
+/-- Rank-range version of `SourceRowPredicateGoodBridge`. -/
+abbrev SourceRowPredicateGoodBridgeOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists key : SourceIndexStateKey,
+              SourceIndexStateSourcePredicate
+                key.firstIndex key.secondIndex key.support rank mask /\
+                key.template.Rows key.support rank mask
+
 theorem SourceRowFactsBridge.to_killedBridge
     (bridge : SourceRowFactsBridge) :
     Translation.KilledBridge := by
@@ -159,6 +232,44 @@ theorem ResidualTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
   exact
     TranslationGoodCaseKilled.killed
       (coverage r.val (Nat.zero_le r.val) r.isLt r.isLt mask hclass hM)
+
+theorem SourceRowFactsGoodBridge.to_allGoodCoverage
+    (bridge : SourceRowFactsGoodBridge) :
+    AllTranslationGoodCoverageOnRange 0 numPairWords := by
+  intro rank hlo hhi hlt mask hM hgood
+  rcases bridge hM hgood with ⟨key, hsource, hrows⟩
+  exact (key.goodKilled_of_source_row hsource hrows) hgood
+
+theorem SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi := by
+  intro rank hlo hhi hlt mask hM hgood
+  rcases bridge hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact (key.goodKilled_of_source_row hsource hrows) hgood
+
+theorem AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange
+    (coverage : AllTranslationGoodCoverageOnRange 0 numPairWords)
+    (r : Fin numPairWords) (mask : SignMask) :
+    TranslationCaseKilled r mask := by
+  intro hM
+  exact
+    TranslationGoodCaseKilled.killed
+      (coverage r.val (Nat.zero_le r.val) r.isLt r.isLt mask hM) hM
+
+theorem SourceRowFactsGoodBridge.to_caseKilled
+    (bridge : SourceRowFactsGoodBridge)
+    (r : Fin numPairWords) (mask : SignMask) :
+    TranslationCaseKilled r mask :=
+  AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange
+    (SourceRowFactsGoodBridge.to_allGoodCoverage bridge) r mask
+
+theorem SourceRowFactsGoodBridgeOnRange.to_caseKilled_of_fullRange
+    (bridge : SourceRowFactsGoodBridgeOnRange 0 numPairWords)
+    (r : Fin numPairWords) (mask : SignMask) :
+    TranslationCaseKilled r mask :=
+  AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange
+    (SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage bridge) r mask
 
 theorem SourceRowPredicateBridge.to_factsBridge
     (bridge : SourceRowPredicateBridge) :
@@ -220,6 +331,55 @@ theorem SourceRowPredicateBridgeOnRange.to_killedBridge_of_fullGoodRange
     Translation.KilledBridge :=
   ResidualTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
     (SourceRowPredicateBridgeOnRange.to_residualGoodCoverage bridge)
+
+theorem SourceRowPredicateGoodBridge.to_factsGoodBridge
+    (bridge : SourceRowPredicateGoodBridge) :
+    SourceRowFactsGoodBridge := by
+  intro r mask hM hgood
+  rcases r with ⟨rank, hlt⟩
+  rcases bridge hM hgood with ⟨key, hsource, hrows⟩
+  exact ⟨key,
+    SourceIndexStateSourceFacts.of_sourcePredicate
+      (key := key) rfl rfl rfl hsource,
+    SourceIndexStateRowFacts.of_rows hrows⟩
+
+theorem SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases bridge hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact ⟨key,
+    SourceIndexStateSourceFacts.of_sourcePredicate
+      (key := key) rfl rfl rfl hsource,
+    SourceIndexStateRowFacts.of_rows hrows⟩
+
+theorem SourceRowPredicateGoodBridge.to_allGoodCoverage
+    (bridge : SourceRowPredicateGoodBridge) :
+    AllTranslationGoodCoverageOnRange 0 numPairWords :=
+  SourceRowFactsGoodBridge.to_allGoodCoverage
+    (SourceRowPredicateGoodBridge.to_factsGoodBridge bridge)
+
+theorem SourceRowPredicateGoodBridgeOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge)
+
+theorem SourceRowPredicateGoodBridge.to_caseKilled
+    (bridge : SourceRowPredicateGoodBridge)
+    (r : Fin numPairWords) (mask : SignMask) :
+    TranslationCaseKilled r mask :=
+  SourceRowFactsGoodBridge.to_caseKilled
+    (SourceRowPredicateGoodBridge.to_factsGoodBridge bridge) r mask
+
+theorem SourceRowPredicateGoodBridgeOnRange.to_caseKilled_of_fullRange
+    (bridge : SourceRowPredicateGoodBridgeOnRange 0 numPairWords)
+    (r : Fin numPairWords) (mask : SignMask) :
+    TranslationCaseKilled r mask :=
+  SourceRowFactsGoodBridgeOnRange.to_caseKilled_of_fullRange
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge) r mask
 
 theorem pairSignProducerMembershipBridge_builds : True := by
   trivial
