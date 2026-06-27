@@ -9109,15 +9109,18 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AP.6 catalog-membership smoke:
   add a tiny private-catalog module exporting only erased AP theorems over
   `[0,0)`.  This is accepted as an API smoke, not nonempty coverage.
+- [x] Implement Phase 6Z.6K.8AP.7 AP membership surface audit:
+  scan the current repo for non-replay `GoodDirectionAtRank` to source/row
+  membership theorems.  Reject catalog membership as a production coverage
+  strategy because the only nonempty AP evidence still appears in finite
+  rank/mask replay surfaces.
 - [ ] Implement Phase 6Z.6K.8AP producer membership bridge:
-  define non-enumerative generated membership chunks that turn arbitrary
-  identity-linear `GoodDirectionAtRank` translation cases in each rank range
-  into matching source predicates and row predicates, preferably export
-  `SourceRowPredicateGoodBridgeOnRange lo hi` or
-  `SourceRowFactsGoodBridgeOnRange lo hi`, compose those chunks with
-  `CoversInterval.concat`, then use the AP.2/AP.3 adapters to derive ordinary
-  `TranslationCaseKilled` without raw certificates.  Do not scale the AP.4
-  finite dispatcher.
+  do not implement this as a larger catalog dispatcher.  First implement a
+  source/row language theorem that derives source predicates/facts and row
+  predicates/facts from arbitrary identity-linear `GoodDirectionAtRank`
+  translation cases without finite rank/mask replay; then use the AP.5
+  catalog-erasure adapter only as an export boundary if a private catalog is
+  still needed.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -9955,6 +9958,33 @@ coverage and does not solve nonempty source/row membership.  The next AP step
 must attempt a nonempty catalog membership family without rank/mask replay. If
 that cannot be done, reject catalog membership as production coverage and
 return to a stronger source/row language theorem.
+
+Phase 6Z.6K.8AP.7 audits the available AP membership theorem surfaces and
+reports:
+
+- `scripts/audit_ap_membership_surfaces.py`
+- `scripts/generated/phase6z6k8ap7_membership_surface_audit.json`
+- `scripts/generated/phase6z6k8ap7_membership_surface_audit.md`
+
+The diagnostic scans 772 Lean/Python/Markdown source files.  It finds 65 AP
+adapter hits and 107 finite-replay hits.  The nonempty AP evidence is still
+localized to:
+
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateBoundedAPSmoke/All.lean`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateBoundedAPSmoke/Shard000.lean`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateBoundedAPSmoke/Shard001.lean`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateBoundedAPSmoke/Shard002.lean`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateBoundedAPSmoke/Shard003.lean`
+- `scripts/generate_source_index_state_bounded_coverage.py`
+
+It detects no compact same-line surface combining `GoodDirectionAtRank` with
+`SourceIndexStateSourcePredicate`, and no compact same-line surface combining
+`GoodDirectionAtRank` with a row predicate.  This is a diagnostic search, not
+proof of absence, but it is enough to reject the current catalog-membership
+route as production coverage.  AP.5/AP.6 remain useful export-adapter
+infrastructure.  The next implementation should target a stronger source/row
+language theorem that derives source and row facts from identity-linear
+`GoodDirectionAtRank` cases without `interval_cases r` plus `fin_cases mask`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
