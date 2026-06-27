@@ -1,0 +1,77 @@
+{
+  "chunks": [
+    {
+      "complete_fields": 0,
+      "good_killed_theorems": 64,
+      "has_nonempty_language_export": false,
+      "key_facts_theorems": 64,
+      "language_targets": [],
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk000.lean",
+      "row_applies_theorems": 64,
+      "source_applies_theorems": 64
+    },
+    {
+      "complete_fields": 0,
+      "good_killed_theorems": 64,
+      "has_nonempty_language_export": false,
+      "key_facts_theorems": 64,
+      "language_targets": [],
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk001.lean",
+      "row_applies_theorems": 64,
+      "source_applies_theorems": 64
+    },
+    {
+      "complete_fields": 0,
+      "good_killed_theorems": 64,
+      "has_nonempty_language_export": false,
+      "key_facts_theorems": 64,
+      "language_targets": [],
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk002.lean",
+      "row_applies_theorems": 64,
+      "source_applies_theorems": 64
+    },
+    {
+      "complete_fields": 0,
+      "good_killed_theorems": 64,
+      "has_nonempty_language_export": false,
+      "key_facts_theorems": 64,
+      "language_targets": [],
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk003.lean",
+      "row_applies_theorems": 64,
+      "source_applies_theorems": 64
+    },
+    {
+      "complete_fields": 0,
+      "good_killed_theorems": 59,
+      "has_nonempty_language_export": false,
+      "key_facts_theorems": 59,
+      "language_targets": [],
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk004.lean",
+      "row_applies_theorems": 59,
+      "source_applies_theorems": 59
+    }
+  ],
+  "counts": {
+    "chunk_files": 5,
+    "chunks_with_language_targets": 0,
+    "chunks_with_nonempty_language_export": 0,
+    "good_killed_theorems": 315,
+    "key_facts_theorems": 315,
+    "row_applies_theorems": 315,
+    "row_producers": 22,
+    "source_applies_theorems": 315,
+    "source_producers": 298
+  },
+  "inputs": {
+    "chunks_dir": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks",
+    "jobs": 4,
+    "row_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Row.lean",
+    "source_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Source.lean"
+  },
+  "interpretation": "The split producer chunks contain source/row implication theorems, including `fam_*_goodKilled_of_sourcePredicate_rows`, but no chunk exports an accepted nonempty language-completeness theorem. This confirms that AP.13 projection is only preflight: the next emitter must prove language membership from arbitrary identity-linear `GoodDirectionAtRank` cases.",
+  "phase": "6Z.6K.8AP.14",
+  "status": "membership-gap-confirmed",
+  "timing": {
+    "wall_seconds": 0.02939922799123451
+  }
+}

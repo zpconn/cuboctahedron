@@ -1,0 +1,24 @@
+{
+  "artifacts": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean"
+  ],
+  "build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke",
+    "elapsed_seconds": 5.93,
+    "max_rss_kib": 3321928,
+    "status": "passed"
+  },
+  "decision": {
+    "notes": [
+      "accepted as AP.15 bridge infrastructure only",
+      "descriptor-level complete theorem is now an accepted generator target",
+      "direct descriptor coverage is now the preferred AP.16 generator target when no private language predicate is needed",
+      "empty and concat composition are Lean-checked for future chunk roots",
+      "does not prove nonempty generated coverage"
+    ],
+    "status": "accepted-descriptor-language-bridge"
+  },
+  "phase": "6Z.6K.8AP.15",
+  "trusted_as_proof": false
+}

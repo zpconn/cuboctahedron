@@ -37,6 +37,33 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
   for small hand-written statements and Real bridge theorems, but it should
   not be the substrate for large generated kernel reductions.
 
+## Memory-Safe Parallelism Policy
+
+Use bounded parallelism whenever it is easy to implement and the measured
+memory model is safe. The default for Python profilers, external audits, and
+generators is a small worker pool, usually `--jobs 4`, because the accepted
+translation producer profilers have repeatedly stayed far below the RAM
+ceiling at four workers. Larger worker counts are allowed only after a small
+serial-or-four-worker calibration run records per-worker RSS, wall time, and
+checkpoint behavior.
+
+Do not parallelize by default when the job invokes Lean on heavy generated
+leaves. Lean checks should remain serial or use a conservative external
+scheduler with explicit per-job memory budgets until the target module has a
+measured RSS profile. Broad package builds must not use all available CPU
+cores on generated evidence; previous attempts showed that unchecked Lean
+parallelism can OOM the machine. For each new long-running profiler or
+emitter, prefer:
+
+- `--jobs 4` for memory-light Python classification;
+- checkpointed/resumable work units so interrupted runs do not restart from
+  zero;
+- progress logging with completed windows, elapsed time, and estimated
+  remaining work;
+- `/usr/bin/time -v` or equivalent RSS capture for every accepted gate;
+- serial Lean smoke builds first, then only measured low-parallel Lean builds
+  if peak memory leaves a wide margin under the 45 GiB practical budget.
+
 ## Success Criteria
 
 1. Dry-run compression profiler reports:
@@ -457,7 +484,18 @@ infrastructure. It adds direct source-position adapters to
 not yet provide nonempty generated coverage. Phase 6Z.6K.8AP.13 is accepted as
 a diagnostic source-position projection preflight: all 298 emitted split-50k
 source producers project to valid `SourcePairPositionSpec`s, but this is still
-not coverage proof.
+not coverage proof. Phase 6Z.6K.8AP.14 confirms the exact remaining AP gap:
+the split hierarchy has 315 source/row implication families and zero nonempty
+accepted language-completeness exports, so the next production work must prove
+the `complete` field for a real `SourcePositionRowProducerGoodLanguageOnRange`
+or erased AP variant. Phase 6Z.6K.8AP.15 adds a descriptor-level bridge target:
+future generated chunks may prove one `SourceIndexStateDescriptorGoodLanguageOnRange`
+membership theorem over broad `SourceIndexStateFamilyDescriptor.Applies`
+predicates, or the simpler direct
+`SourceIndexStateDescriptorGoodCoverageOnRange` theorem over the same broad
+descriptor predicate.  Descriptor-language chunks can compose with
+`empty`/`concat`; direct descriptor-coverage chunks erase immediately through
+the same bridge adapters.  Both routes erase the result to all-Good coverage.
 
 Completed current-work items:
 
@@ -554,6 +592,15 @@ Completed current-work items:
   - `scripts/audit_source_position_spec_projection.py`
   - `scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.json`
   - `scripts/generated/phase6z6k8ap13_source_position_spec_projection_split50k_source.md`
+- Added the Phase 6Z.6K.8AP.14 language-membership gap audit:
+  - `scripts/audit_ap_language_membership_gap.py`
+  - `scripts/generated/phase6z6k8ap14_language_membership_gap_audit.json`
+  - `scripts/generated/phase6z6k8ap14_language_membership_gap_audit.md`
+- Added the Phase 6Z.6K.8AP.15 descriptor language bridge:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean`
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean`
+  - `scripts/generated/phase6z6k8ap15_descriptor_language_bridge.json`
+  - `scripts/generated/phase6z6k8ap15_descriptor_language_bridge.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -563,10 +610,15 @@ Completed current-work items:
   source+row producers, 14 chunks, about 57,827 Lean lines, about 2.3 MiB of
   source, about 70 conservative wall seconds at four jobs, and about 3.93 GiB
   peak RSS.
-- The next proof-producing target is Phase 6Z.6K.8AP:
+- The next proof-producing target is Phase 6Z.6K.8AP.16:
   range-chunk membership evidence of type
-  `SourceRowPredicateGoodBridgeOnRange lo hi` or
-  `SourceRowFactsGoodBridgeOnRange lo hi`, composed into
+  `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
+  `SourceIndexStateDescriptorGoodLanguageOnRange lo hi`,
+  `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
+  `SourceRowPredicateGoodBridgeOnRange lo hi`, or
+  `SourceRowFactsGoodBridgeOnRange lo hi`, composed with direct descriptor
+  adapters, descriptor-language `empty`/`concat`, or `CoversInterval.concat`
+  into
   `AllTranslationGoodCoverageOnRange 0 numPairWords` for arbitrary
   identity-linear `GoodDirectionAtRank` translation cases.  The older
   `needsFarkas` residual bridge remains as compatibility surface only.
@@ -9196,16 +9248,35 @@ Acceptance:
   `SourcePairPositionSpec` projection.  The accepted split-50k source audit
   covers 298 source producers, 6,734 represented bounded cases, and has zero
   invalid projections.  This is diagnostic preflight only, not coverage proof.
-- [ ] Prove nonempty Phase 6Z.6K.8AP source/row language membership:
+- [x] Implement Phase 6Z.6K.8AP.14 language-membership gap audit:
+  add a memory-light parallel audit that scans the split producer hierarchy
+  and confirms it exports implication families but not nonempty accepted
+  language-completeness theorems.  The accepted audit sees 298 source
+  producers, 22 row producers, five descriptor chunks, 315 good-killed
+  implication families, and zero chunks with an accepted `complete :=` field.
+  This is blocker-confirming diagnostics only, not coverage proof.
+- [x] Implement Phase 6Z.6K.8AP.15 descriptor language bridge:
+  add `SourceIndexStateDescriptorGoodLanguageOnRange` as a narrower generator
+  target over `SourceIndexStateFamilyDescriptor.Applies`, with adapters to
+  `SourceRowPredicateGoodLanguageOnRange`,
+  `SourceRowPredicateGoodBridgeOnRange`, and
+  `AllTranslationGoodCoverageOnRange`, plus the direct
+  `SourceIndexStateDescriptorGoodCoverageOnRange` target and adapters for
+  generated chunks that do not need a private language predicate.  Validate the
+  erasure and composition path with an empty-range smoke.  This is accepted
+  bridge infrastructure only.
+- [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
+  `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
+  `SourceIndexStateDescriptorGoodLanguageOnRange lo hi`,
   `SourceRowProducerGoodLanguageOnRange lo hi`,
   `SourceRowPredicateGoodLanguageOnRange lo hi`, or
   `SourceRowFactsGoodLanguageOnRange lo hi` over meaningful rank ranges from
   arbitrary identity-linear `GoodDirectionAtRank` translation cases, without
   `interval_cases r` plus `fin_cases mask` replay.  The next concrete target
-  is to instantiate the AP.11 source-position/row-producer language with a
-  nonempty generated `complete` theorem.  AP.5 catalogs may remain export
-  boundaries, but not the production membership proof coordinate.
+  is to instantiate the AP.15 direct descriptor coverage target with a
+  nonempty generated theorem.  AP.5 catalogs may remain export boundaries, but
+  not the production membership proof coordinate.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -10329,6 +10400,111 @@ signatures, 149 individual source-spec signatures, and zero invalid source
 producers.  This is still diagnostic preflight rather than Lean coverage, but
 it proves the next AP emitter can be source-position based without duplicating
 source lookup proofs.
+
+Phase 6Z.6K.8AP.14 adds a language-membership gap audit and reports:
+
+- `scripts/audit_ap_language_membership_gap.py`
+- `scripts/generated/phase6z6k8ap14_language_membership_gap_audit.json`
+- `scripts/generated/phase6z6k8ap14_language_membership_gap_audit.md`
+
+The audit intentionally distinguishes the implication side from the membership
+side.  It scans the current split producer hierarchy:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/
+```
+
+using bounded Python parallelism:
+
+```text
+/usr/bin/time -v python3 scripts/audit_ap_language_membership_gap.py --jobs 4
+```
+
+and completes in 0.05s with 18,048 KiB peak RSS.  It finds 298 source
+producers, 22 row producers, five descriptor chunks, and 315 families with all
+four implication theorem shapes:
+
+```lean
+fam_*_sourceApplies_of_sourcePredicate
+fam_*_rowApplies_of_rows
+fam_*_keyFacts_of_sourcePredicate_rows
+fam_*_goodKilled_of_sourcePredicate_rows
+```
+
+It finds zero chunks exporting any accepted language target with a nonempty
+`complete :=` field.  This confirms that the current split producer hierarchy
+is only an implication backend:
+
+```text
+source predicate + row predicate -> TranslationGoodCaseKilled
+```
+
+The production AP emitter must still prove the missing membership theorem:
+
+```lean
+hM : totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) = (matId : Mat3 Rat)
+hgood : GoodDirectionAtRank ⟨rank, hlt⟩ mask
+------------------------------------------------------------
+exists spec rowProducer key, Language spec rowProducer key rank mask
+```
+
+for a real AP language target.  AP.14 is accepted as a blocker-confirming
+audit, not as coverage proof.  The next AP step is therefore no longer to add
+more source/row implication chunks; it is to generate a nonempty language
+`complete` theorem over a meaningful bounded range without `interval_cases r`
+plus `fin_cases mask` replay.
+
+Phase 6Z.6K.8AP.15 adds a descriptor-level language bridge and reports:
+
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean`
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean`
+- `scripts/generated/phase6z6k8ap15_descriptor_language_bridge.json`
+- `scripts/generated/phase6z6k8ap15_descriptor_language_bridge.md`
+
+The new accepted bridge target is:
+
+```lean
+SourceIndexStateDescriptorGoodLanguageOnRange lo hi
+```
+
+For generated chunks that do not need a private language relation, the same
+module also provides the simpler direct target:
+
+```lean
+SourceIndexStateDescriptorGoodCoverageOnRange lo hi
+```
+
+Its membership relation ranges over `SourceIndexStateFamilyDescriptor`, and
+its `applies` field proves:
+
+```lean
+desc.Applies rank mask
+```
+
+This broad descriptor predicate already contains both source matching and the
+row-template predicate.  The bridge erases descriptor-language membership to
+`SourceRowPredicateGoodLanguageOnRange lo hi`, then to
+`SourceRowPredicateGoodBridgeOnRange lo hi`, and finally to
+`AllTranslationGoodCoverageOnRange lo hi`.  It also adds
+`SourceIndexStateDescriptorGoodLanguageOnRange.empty` and
+`SourceIndexStateDescriptorGoodLanguageOnRange.concat` so future descriptor
+chunks can be assembled structurally without global arrays or Boolean
+reductions.  Direct descriptor coverage erases through
+`SourceIndexStateDescriptorGoodCoverageOnRange.to_bridge` and
+`SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage`, using the
+same trusted path after wrapping coverage as a descriptor language.  The
+focused validation command
+
+```text
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke
+```
+
+passes in 5.93s with 3,321,928 KiB peak RSS.  This is accepted bridge
+infrastructure only.  The next AP step is a nonempty
+`SourceIndexStateDescriptorGoodCoverageOnRange lo hi` module, or a descriptor
+language if a private membership relation is useful, whose proof derives
+descriptor membership from arbitrary identity-linear `GoodDirectionAtRank`
+cases without rank/mask replay.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
