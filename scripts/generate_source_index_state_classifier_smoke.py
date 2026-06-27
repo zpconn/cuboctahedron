@@ -1,0 +1,283 @@
+#!/usr/bin/env python3
+"""Emit the Phase 6Z.6K.8K GoodDirection-only classifier smoke.
+
+The generated Lean module contains no concrete rank/mask examples.  It packages
+selected source-index/state descriptors as a reflected classifier surface and
+proves that each classifier branch yields `TranslationGoodCaseKilled`.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+from typing import Any
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from generate_source_index_state_nonenum_smoke import (  # noqa: E402
+    TEMPLATE_TO_SOURCE_INDEX,
+    collect_families,
+    family_summary,
+    write_json,
+    write_text,
+)
+from generate_translation_two_source_evidence import (  # noqa: E402
+    support_lines,
+    validate_module_namespace,
+)
+
+
+DEFAULT_PROFILE = Path(
+    "scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json"
+)
+DEFAULT_OUT = Path(
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
+    "SourceIndexStateClassifierSmoke.lean"
+)
+DEFAULT_JSON = Path(
+    "scripts/generated/phase6z6k8k_source_index_state_classifier_smoke.json"
+)
+DEFAULT_MD = DEFAULT_JSON.with_suffix(".md")
+DEFAULT_NAMESPACE = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "SourceIndexStateClassifierSmoke"
+)
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text())
+
+
+def family_name(index: int) -> str:
+    return f"fam_{index:03d}"
+
+
+def ctor_name(index: int) -> str:
+    return f"fam{index:03d}"
+
+
+def select_families(families: list[Any], family_count: int) -> list[Any]:
+    if family_count < 0:
+        raise ValueError("--family-count must be nonnegative")
+    if family_count > len(families):
+        raise ValueError(
+            f"--family-count {family_count} exceeds collected family count {len(families)}"
+        )
+    return families[:family_count]
+
+
+def descriptor_lines(index: int, family: Any) -> list[str]:
+    name = family_name(index)
+    template_ctor = TEMPLATE_TO_SOURCE_INDEX[family.template_id]
+    first = family.members[0].symbolic
+    return [
+        f"/-- Classifier smoke family `{family.key}`.",
+        f"Observed bounded GoodDirection cases: {family.count}. -/",
+        *support_lines(name, first.case.first_source, first.case.second_source),
+        f"private def {name}_desc : SourceIndexStateFamilyDescriptor where",
+        f"  firstIndex := {family.source_indices[0]}",
+        f"  secondIndex := {family.source_indices[1]}",
+        f"  support := {name}_support",
+        f"  template := SourceIndexTemplate.{template_ctor}",
+        "",
+    ]
+
+
+def classifier_lines(selected: list[Any]) -> list[str]:
+    lines = ["inductive ClassifierApplies : Nat -> SignMask -> Prop"]
+    for index, _family in enumerate(selected):
+        name = family_name(index)
+        ctor = ctor_name(index)
+        lines.append(
+            f"  | {ctor} {{r : Nat}} {{mask : SignMask}} "
+            f"(h : {name}_desc.Applies r mask) : ClassifierApplies r mask"
+        )
+    lines.extend([
+        "",
+        "def classifierFamily : RowPropertyMembershipFamily where",
+        "  Applies := ClassifierApplies",
+        "  covered := by",
+        "    intro r mask h",
+        "    cases h with",
+    ])
+    for index, _family in enumerate(selected):
+        name = family_name(index)
+        ctor = ctor_name(index)
+        lines.extend([
+            f"    | {ctor} h =>",
+            f"        exact {name}_desc.covered_of_applies h",
+        ])
+    lines.extend([
+        "",
+        "theorem classifierKillsOn : classifierFamily.KillsOn :=",
+        "  classifierFamily.killsOn",
+        "",
+    ])
+    for index, family in enumerate(selected):
+        name = family_name(index)
+        ctor = ctor_name(index)
+        lines.extend([
+            f"theorem {name}_goodKilled",
+            "    {r : Nat} {hlt : r < numPairWords} {mask : SignMask}",
+            f"    (h : {name}_desc.Applies r mask) :",
+            "    TranslationGoodCaseKilled ⟨r, hlt⟩ mask :=",
+            f"  classifierKillsOn r hlt mask (ClassifierApplies.{ctor} h)",
+            "",
+        ])
+    return lines
+
+
+def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str]:
+    lines = [
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
+        "",
+        "/-!",
+        "Generated GoodDirection-only source-index/state classifier smoke.",
+        "",
+        "This module intentionally contains no concrete rank/mask examples and no",
+        "bounded replay proof.  It packages selected descriptor states as a",
+        f"semantic classifier surface for Phase {phase}.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "open Cuboctahedron.Generated.Coverage",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
+        "",
+        "set_option linter.unusedVariables false",
+        "",
+    ]
+    for index, family in enumerate(selected):
+        lines.extend(descriptor_lines(index, family))
+    lines.extend(classifier_lines(selected))
+    lines.extend([
+        "theorem sourceIndexStateClassifierSmoke_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    return lines
+
+
+def markdown(payload: dict[str, Any]) -> str:
+    lines = [
+        f"# Phase {payload['phase']} Source-Index/State Classifier Smoke",
+        "",
+        "This generated smoke is not global coverage. It packages selected",
+        "source-index/state descriptors into a GoodDirection-only classifier",
+        "without concrete rank/mask replay.",
+        "",
+        f"- Selected families: `{payload['selected_family_count']}`",
+        f"- Rank window used for selection: `[{payload['rank_start']}, {payload['rank_end']})`",
+        f"- Lean module: `{payload['lean_module']}`",
+        "",
+        "## Selected Families",
+        "",
+        "| Cases | Template | Source indices |",
+        "| ---: | --- | --- |",
+    ]
+    for family in payload["selected_families"]:
+        lines.append(
+            f"| {family['cases']} | `{family['template_id']}` | "
+            f"`{family['source_indices']}` |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def build_payload(
+    *,
+    profile: dict[str, Any],
+    selected: list[Any],
+    out: Path,
+    namespace: str,
+    family_count: int,
+    phase: str,
+    collected_family_count: int,
+) -> dict[str, Any]:
+    selected_cases = sum(family.count for family in selected)
+    return {
+        "schema_version": 1,
+        "phase": phase,
+        "trusted_as_proof": False,
+        "rank_start": int(profile["rank_start"]),
+        "rank_end": int(profile["rank_end"]),
+        "requested_family_count": family_count,
+        "collected_family_count": collected_family_count,
+        "selected_family_count": len(selected),
+        "selected_case_count": selected_cases,
+        "lean_module": str(out),
+        "namespace": namespace,
+        "decision": {
+            "status": "classifier-smoke-emitted",
+            "notes": [
+                "no concrete rank/mask examples are emitted",
+                "no bounded replay proof is emitted",
+                "the module is a semantic classifier smoke, not global coverage",
+            ],
+        },
+        "selected_families": [family_summary(family) for family in selected],
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--profile-json", type=Path, default=DEFAULT_PROFILE)
+    parser.add_argument("--family-count", type=int, default=5)
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
+    parser.add_argument("--md", type=Path, default=DEFAULT_MD)
+    parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
+    parser.add_argument("--phase", default="6Z.6K.8K")
+    args = parser.parse_args()
+
+    namespace = validate_module_namespace(args.namespace)
+    profile = read_json(args.profile_json)
+    rank_start = int(profile["rank_start"])
+    rank_end = int(profile["rank_end"])
+    if rank_end < rank_start:
+        raise ValueError("profile rank_end is before rank_start")
+    families, _counts = collect_families(
+        rank_start=rank_start,
+        limit=rank_end - rank_start,
+    )
+    expected_count = int(profile.get("source_index_state_family_count", len(families)))
+    if len(families) != expected_count:
+        raise RuntimeError(
+            f"collected {len(families)} families, profile expected {expected_count}"
+        )
+    selected = select_families(families, args.family_count)
+
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    write_text(args.out, "\n".join(module_lines(namespace, selected, phase=args.phase)))
+    payload = build_payload(
+        profile=profile,
+        selected=selected,
+        out=args.out,
+        namespace=namespace,
+        family_count=args.family_count,
+        phase=args.phase,
+        collected_family_count=len(families),
+    )
+    write_json(args.json, payload)
+    write_text(args.md, markdown(payload))
+    print(json.dumps({
+        "status": payload["decision"]["status"],
+        "phase": payload["phase"],
+        "collected_family_count": payload["collected_family_count"],
+        "selected_family_count": payload["selected_family_count"],
+        "selected_case_count": payload["selected_case_count"],
+        "lean_module": payload["lean_module"],
+        "json": str(args.json),
+        "md": str(args.md),
+    }, indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

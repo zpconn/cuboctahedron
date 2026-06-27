@@ -6307,6 +6307,120 @@ peak RSS:                            36,664 KB
     premise and let the generic `feasible -> GoodDirection` theorem discharge
     bad-direction masks, rather than generating contradictions for them.
 
+Completed Phase 6Z.6K.8K:
+
+- Added `scripts/generate_source_index_state_classifier_smoke.py`.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierSmoke.lean`
+  and diagnostic reports under
+  `scripts/generated/phase6z6k8k_source_index_state_classifier_smoke.*`.
+- The generated smoke uses only the top five `[0,1000)` source-index/state
+  families. It defines:
+  - private `TwoSourceFarkasSupport` and `SourceIndexStateFamilyDescriptor`
+    values;
+  - an inductive `ClassifierApplies : Nat -> SignMask -> Prop` whose
+    constructors wrap `desc.Applies r mask`;
+  - one `RowPropertyMembershipFamily`;
+  - semantic `TranslationGoodCaseKilled` theorems for each selected descriptor.
+- It intentionally emits no concrete rank/mask examples, no bad-direction
+  contradictions, no nonidentity witnesses, and no bounded interval coverage.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+/usr/bin/time -v python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --family-count 5
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierSmoke.lean || true
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierSmoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierSmoke.lean \
+  scripts/generate_source_index_state_classifier_smoke.py || true
+```
+
+- Results:
+
+```text
+selected families:                    5
+represented bounded GoodDirection cases: 864
+generator wall time:               1:34.16
+generator peak RSS:                28,724 KB
+replay-pattern audit:              clean
+Lean build wall time:              0:14.98
+Lean build peak RSS:             3,273,756 KB
+constraint grep:                   clean
+```
+
+- Decision:
+  - Accept the 5-family GoodDirection-only classifier smoke.
+  - The next step is Phase 6Z.6K.8L: scale the same classifier smoke to all 74
+    `[0,1000)` source-index/state families, still without concrete survivor,
+    bad-direction, nonidentity, or bounded interval coverage branches.
+  - If the all-family smoke builds under the same 60 second / 8 GB gate, the
+    next root-design question becomes how to prove classifier membership for a
+    rank/mask from compact descriptor keys without reverting to bounded replay.
+
+Completed Phase 6Z.6K.8L:
+
+- Updated `scripts/generate_source_index_state_classifier_smoke.py` so
+  family selection comes from the full recomputed source-index/state family
+  list, not only the `top_families` excerpt stored in the 8J profile JSON.
+- Generated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierAllSmoke.lean`
+  and diagnostic reports under
+  `scripts/generated/phase6z6k8l_source_index_state_classifier_all_smoke.*`.
+- The all-family smoke uses the same semantic classifier shape as 8K:
+  private descriptor/support values, an inductive `ClassifierApplies`, one
+  `RowPropertyMembershipFamily`, and semantic `TranslationGoodCaseKilled`
+  theorems. It still emits no concrete rank/mask examples, no bad-direction
+  contradictions, no nonidentity witnesses, and no bounded interval coverage.
+- Verification commands:
+
+```bash
+python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+/usr/bin/time -v python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json \
+  --family-count 74 \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierAllSmoke.lean \
+  --json scripts/generated/phase6z6k8l_source_index_state_classifier_all_smoke.json \
+  --md scripts/generated/phase6z6k8l_source_index_state_classifier_all_smoke.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierAllSmoke \
+  --phase 6Z.6K.8L
+rg -n "case_[0-9]|fin_cases mask|badDirection|notGood|nonidentity|rank_[0-9]" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierAllSmoke.lean || true
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierAllSmoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierAllSmoke.lean \
+  scripts/generate_source_index_state_classifier_smoke.py || true
+```
+
+- Results:
+
+```text
+selected families:                    74
+represented bounded GoodDirection cases: 1,465
+generator wall time:                1:33.09
+generator peak RSS:                 29,120 KB
+replay-pattern audit:               clean
+Lean build wall time:               0:04.86
+Lean build peak RSS:              3,323,144 KB
+constraint grep:                    clean
+```
+
+- Decision:
+  - Accept the all-family GoodDirection-only classifier smoke.
+  - The next step is Phase 6Z.6K.8M: design and profile a compact
+    descriptor-key membership proof for `[0,1000)`. The key question is no
+    longer whether descriptor branches compose cheaply; they do. The remaining
+    problem is proving, for a rank/mask with a `GoodDirection` premise, that it
+    satisfies one of the 74 descriptor predicates without falling back to
+    concrete bounded replay.
+  - Do not scale beyond `[0,1000)` until 8M finds a non-replay membership proof
+    surface.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -7289,9 +7403,15 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8J computable classifier/root design: replace
   bounded source-index/state per-case coverage replay with a reflected
   classifier or symbolic descriptor-state theorem.
-- [ ] Implement Phase 6Z.6K.8K GoodDirection-only reflected classifier Lean
+- [x] Implement Phase 6Z.6K.8K GoodDirection-only reflected classifier Lean
   smoke: prove the accepted source-index/state classifier surface without
   concrete survivor or bad-direction branches.
+- [x] Implement Phase 6Z.6K.8L all-family GoodDirection-only classifier Lean
+  smoke: scale the accepted smoke from five selected families to all 74
+  `[0,1000)` source-index/state families under the 60 second / 8 GB gate.
+- [ ] Implement Phase 6Z.6K.8M compact descriptor-key membership profiler:
+  find a non-replay proof surface showing that every `[0,1000)`
+  GoodDirection survivor satisfies one of the 74 descriptor predicates.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7386,19 +7506,23 @@ GoodDirection-only source-index/state classifier surface on `[0,25)` and
 bad-direction masks to 74 source-index/state obligations, with no Lean emitted
 and only about 36 MB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8K: implement a Lean smoke for the
-accepted surface. That step should:
+Phase 6Z.6K.8K and 6Z.6K.8L are complete. The 5-family and all-74-family
+GoodDirection-only classifier smokes both build under the 60 second / 8 GB
+gate, with clean replay-pattern audits. The all-family smoke represents all
+1,465 `[0,1000)` GoodDirection survivors through 74 source-index/state
+descriptor branches, without concrete rank/mask survivor, bad-direction,
+nonidentity, or bounded interval coverage branches.
 
-- keep the 6K.8H descriptor theorem surface;
-- prove a reflected descriptor classifier or symbolic descriptor-state theorem
-  for selected source-index/state families;
-- consume a `GoodDirection` premise instead of enumerating bad-direction masks;
-- avoid any proof whose main mechanism is one theorem per concrete rank/mask
-  survivor or bad-direction contradiction;
-- reject immediately if the smoke starts reintroducing concrete survivor or
-  bad-direction branches;
-- do not emit `[0,1000)` or larger coverage until this small Lean smoke builds
-  under the 60 second / 8 GB gate.
+The immediate next step is Phase 6Z.6K.8M: compact descriptor-key membership.
+That step should:
+
+- keep the accepted semantic classifier branch shape from 8L;
+- profile whether every `[0,1000)` GoodDirection survivor can be routed to one
+  of the 74 descriptors by compact computable keys;
+- avoid emitting concrete survivor or bad-direction branches;
+- reject immediately if the only proof of membership is bounded replay over
+  rank/mask examples;
+- treat the output as a profiler/design gate before any larger Lean coverage.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
