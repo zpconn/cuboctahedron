@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean"
+  ],
+  "build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke",
+    "elapsed_seconds": 10.56,
+    "max_rss_kib": 3308884,
+    "status": "passed"
+  },
+  "decision": {
+    "notes": [
+      "accepted as AP.16C bridge infrastructure only",
+      "SourcePositionRowProducerGoodLanguageOnRange now erases directly to SourceIndexStateDescriptorGoodCoverageOnRange",
+      "this is the strongest current producer-language surface selected by AP.16B",
+      "does not prove nonempty generated membership coverage"
+    ],
+    "status": "accepted-source-position-descriptor-adapter"
+  },
+  "phase": "6Z.6K.8AP.16C",
+  "trusted_as_proof": false
+}

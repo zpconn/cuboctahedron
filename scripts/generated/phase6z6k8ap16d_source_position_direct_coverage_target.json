@@ -1,0 +1,34 @@
+{
+  "artifacts": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean"
+  ],
+  "builds": [
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguageSmoke",
+      "elapsed_seconds": 8.27,
+      "max_rss_kib": 3296632,
+      "status": "passed"
+    },
+    {
+      "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke",
+      "elapsed_seconds": 3.26,
+      "max_rss_kib": 3328084,
+      "status": "passed"
+    }
+  ],
+  "decision": {
+    "notes": [
+      "accepted as AP.16D bridge infrastructure only",
+      "SourcePositionRowProducerGoodCoverageOnRange is now the smallest preferred generator target for source-position producer membership",
+      "of_coverage packages direct existential coverage as SourcePositionRowProducerGoodLanguageOnRange",
+      "direct coverage erases to AllTranslationGoodCoverageOnRange and SourceIndexStateDescriptorGoodCoverageOnRange",
+      "does not prove nonempty generated membership coverage"
+    ],
+    "status": "accepted-source-position-direct-coverage-target"
+  },
+  "phase": "6Z.6K.8AP.16D",
+  "trusted_as_proof": false
+}

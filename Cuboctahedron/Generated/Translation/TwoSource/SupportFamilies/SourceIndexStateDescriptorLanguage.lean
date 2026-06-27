@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 
 /-!
@@ -20,6 +21,7 @@ namespace SourceIndexStateDescriptorLanguage
 
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
 
 def descriptorToKey
     (desc : SourceIndexStateFamilyDescriptor) : SourceIndexStateKey where
@@ -183,6 +185,56 @@ theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage
     AllTranslationGoodCoverageOnRange lo hi :=
   SourceIndexStateDescriptorGoodLanguageOnRange.to_allGoodCoverage
     (SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage coverage)
+
+theorem SourceRowFactsGoodBridgeOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases bridge hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact ⟨key.toDescriptor, key.matches_of_source_row hsource hrows⟩
+
+theorem SourceRowPredicateGoodBridgeOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_descriptorCoverage
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge)
+
+theorem SourceRowFactsGoodLanguageOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (language : SourceRowFactsGoodLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_descriptorCoverage
+    (SourceRowFactsGoodLanguageOnRange.to_bridge language)
+
+theorem SourceRowPredicateGoodLanguageOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (language : SourceRowPredicateGoodLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourceRowPredicateGoodBridgeOnRange.to_descriptorCoverage
+    (SourceRowPredicateGoodLanguageOnRange.to_bridge language)
+
+theorem SourceRowProducerGoodLanguageOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (language : SourceRowProducerGoodLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodLanguageOnRange.to_descriptorCoverage
+    (SourceRowProducerGoodLanguageOnRange.to_factsLanguage language)
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourceRowProducerGoodLanguageOnRange.to_descriptorCoverage
+    (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_descriptorCoverage
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_descriptorCoverage
+    (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
 
 theorem sourceIndexStateDescriptorLanguage_builds : True := by
   trivial

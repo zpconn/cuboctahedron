@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguageSmoke.lean"
+  ],
+  "build": {
+    "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguageSmoke",
+    "elapsed_seconds": 8.68,
+    "max_rss_kib": 3296324,
+    "status": "passed"
+  },
+  "decision": {
+    "notes": [
+      "accepted as AP.16A bridge infrastructure only",
+      "SourceRowFactsGoodBridgeOnRange now erases to SourceIndexStateDescriptorGoodCoverageOnRange",
+      "SourceRowPredicateGoodBridgeOnRange and source/row language targets also erase to descriptor coverage",
+      "does not prove nonempty generated coverage"
+    ],
+    "status": "accepted-descriptor-facts-adapter"
+  },
+  "phase": "6Z.6K.8AP.16A",
+  "trusted_as_proof": false
+}

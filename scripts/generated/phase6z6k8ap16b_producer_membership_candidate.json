@@ -1,0 +1,46 @@
+{
+  "artifacts": [
+    "scripts/profile_pair_sign_descriptor_membership_state.py",
+    "scripts/generated/phase6z6k8ag_pair_sign_descriptor_membership_state.json",
+    "scripts/generated/phase6z6k8ag_pair_sign_descriptor_membership_state.md"
+  ],
+  "command": "/usr/bin/time -v python3 scripts/profile_pair_sign_descriptor_membership_state.py --jobs 4 --sample-limit 6 --obligation-gate 2000",
+  "decision": {
+    "notes": [
+      "accepted as AP.16B diagnostic candidate only",
+      "producer-membership route source_language_full + row_exact has 212 projected obligations",
+      "descriptor route descriptor_source_language_row_exact has 195 projected obligations",
+      "source-language validation failures are zero on sampled windows",
+      "the next Lean emitter should test the producer-membership root over the same representative windows"
+    ],
+    "status": "accepted-producer-membership-candidate"
+  },
+  "phase": "6Z.6K.8AP.16B",
+  "profile": {
+    "jobs": 4,
+    "max_rss_kib": 50176,
+    "ranges": [
+      [0, 5000],
+      [100000, 102500],
+      [1000000, 1002500],
+      [10000000, 10002500],
+      [30000000, 30002500],
+      [60000000, 60002500],
+      [90000000, 90002500]
+    ],
+    "source_language_validation_failure_count": 0,
+    "total_good_direction_cases": 7112,
+    "wall_seconds": 194.14
+  },
+  "projected_obligations": {
+    "best_descriptor_candidate": "descriptor_source_language_row_exact",
+    "best_descriptor_obligations": 195,
+    "best_independent_row_candidate": "row_scaled_lines",
+    "best_independent_source_candidate": "source_language_full",
+    "best_independent_source_row_obligations": 2735,
+    "best_row_producer_candidate": "row_exact",
+    "best_source_producer_candidate": "source_language_full",
+    "best_source_row_producer_obligations": 212
+  },
+  "trusted_as_proof": false
+}

@@ -73,6 +73,62 @@ structure SourcePositionRowProducerGoodLanguageOnRange (lo hi : Nat) where
                   exists key : SourceIndexStateKey,
                     Language spec rowProducer key rank mask
 
+/--
+Direct source-position plus row-producer coverage for a rank range.
+
+This is a smaller generator target than the full language structure above:
+generated chunks only need to produce one source-position spec, one row
+producer, and one key for each arbitrary identity-linear GoodDirection
+survivor.  The generic `of_coverage` adapter below packages that existential
+coverage as a `SourcePositionRowProducerGoodLanguageOnRange`.
+-/
+def SourcePositionRowProducerGoodCoverageOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists spec : SourcePairPositionSpec,
+              exists rowProducer : SourceIndexStateRowProducer,
+                exists key : SourceIndexStateKey,
+                  key.firstIndex = spec.first.index /\
+                    key.secondIndex = spec.second.index /\
+                      key.support = spec.support /\
+                        spec.Predicate rank mask /\
+                          rowProducer.Applies key rank mask
+
+def SourcePositionRowProducerGoodLanguageOnRange.of_coverage
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    SourcePositionRowProducerGoodLanguageOnRange lo hi where
+  Language := fun spec rowProducer key rank mask =>
+    key.firstIndex = spec.first.index /\
+      key.secondIndex = spec.second.index /\
+        key.support = spec.support /\
+          spec.Predicate rank mask /\
+            rowProducer.Applies key rank mask
+  firstIndex := by
+    intro spec rowProducer key rank mask hmem
+    exact hmem.1
+  secondIndex := by
+    intro spec rowProducer key rank mask hmem
+    exact hmem.2.1
+  support := by
+    intro spec rowProducer key rank mask hmem
+    exact hmem.2.2.1
+  source := by
+    intro spec rowProducer key rank mask hmem
+    exact hmem.2.2.2.1
+  rows := by
+    intro spec rowProducer key rank mask hmem
+    exact hmem.2.2.2.2
+  complete := by
+    intro rank mask hlt hlo hhi hM hgood
+    rcases coverage hlt hlo hhi hM hgood with
+      ⟨spec, rowProducer, key, hmem⟩
+    exact ⟨spec, rowProducer, key, hmem⟩
+
 def SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage
     {lo hi : Nat}
     (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
@@ -118,6 +174,13 @@ theorem SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
     AllTranslationGoodCoverageOnRange lo hi :=
   SourceRowProducerGoodLanguageOnRange.to_allGoodCoverage
     (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
+    (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
 
 theorem sourcePositionProducerLanguage_builds : True := by
   trivial
