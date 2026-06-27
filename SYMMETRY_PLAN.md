@@ -441,7 +441,7 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted; Phase 6Z.6K.1 symbolic Lean smoke accepted; Phase 6Z.6K.2 symbolic representative root accepted; Phase 6Z.6K.3 symbolic census runner accepted on representative calibration; Phase 6Z.6K.4 broader disjoint sampling rejects source-agreement as a global family key; Phase 6Z.6K.5 source-parametric row-property quotient implemented and sampled at 24 families; Phase 6Z.6K.6 bounded row-property quotient representative root accepted as memory-safe diagnostic but rejected for global scaling; Phase 6Z.6K.7 row-property membership profile rejects further theorem-surface emission and promotes a state/signature membership bridge; Phase 6Z.6K.8AH pair-sign producer-coverage smoke accepted on representative windows; Phase 6Z.6K.8AI broader producer-coverage scaling profile accepted; Phase 6Z.6K.8AJ resumable producer census accepted as diagnostic infrastructure; Phase 6Z.6K.8AK bounded scaling Lean smoke accepted; Phase 6Z.6K.8AL split group/root smoke accepted; Phase 6Z.6K.8AM larger split-root smoke accepted; Phase 6Z.6K.8AN growth projection accepted; Phase 6Z.6K.8AO production hierarchy design accepted; Phase 6Z.6K.8AP.0 bridge core accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Phase 6Z.6K.2 extends that to a bounded representative root over all 126 symbolic families and all 4,779 representative GoodDirection survivors. Phase 6Z.6K.3 adds a resumable census runner and recovers the same 4,779/126 representative baseline. Phase 6Z.6K.4 covers 63,725/63,725 broader disjoint GoodDirection survivors but projects 130,573 source-agreement-keyed symbolic families, rejecting source agreement as a global key. Phase 6Z.6K.5 keeps the same coverage while collapsing the primary coordinate to 24 row-property-parametric families. Phase 6Z.6K.6 validates a bounded representative root under strict memory controls, but its measured 195.355s worst group means representative-per-case roots cannot scale. Phase 6Z.6K.7 shows the theorem layer is already collapsed to 9 constructors/11 row-property digests on `[0,1000)`; the missing compression is a shared membership bridge for `SourceAgrees` and row predicates. Phase 6Z.6K.8AH confirms that source-language producer facts plus exact row producer facts compose cheaply in Lean over 7,112 representative GoodDirection cases. Phase 6Z.6K.8AI keeps the same route below the scaling gates over 65k sampled ranks: 328 descriptors, 294 source groups, 24 row groups, 318 source+row obligations, and zero source-language validation failures. Phase 6Z.6K.8AJ adds a resumable checkpointed census and confirms the route remains cheap on a 10-window checkpoint run: 247 source+row obligations, zero validation failures, and aggregate-only replay in 0.06s. Phase 6Z.6K.8AK proves the same checkpoint-window producer surface can be emitted as theorem-valued Lean and built in 13.72s at 3.545 GiB RSS; Phase 6Z.6K.8AL proves the same surface can be split into shared source/row modules, bounded descriptor chunks, and a tiny root that builds in 10.50s at 3.343 GiB RSS; Phase 6Z.6K.8AM doubles the sampled window count and still builds the split root in 10.86s at 3.300 GiB RSS with only 315 descriptor families, 298 source groups, and 22 row groups. Phase 6Z.6K.8AN expands the checkpointed census to 39 windows / 97,500 sampled ranks and projects 862 descriptor families, 748 source+row producers, and 14 descriptor chunks, below the current gates. Phase 6Z.6K.8AO projects the production translation producer hierarchy at roughly 58k Lean lines / 2.3 MiB, 14 chunks, 748 producers, about 70 wall seconds at four jobs, and about 3.93 GiB peak RSS. Phase 6Z.6K.8AP.0 adds and checks the theorem adapter from `SourceRowPredicateBridge`/`SourceRowFactsBridge` to `Translation.KilledBridge`; full 8AP still needs generated membership evidence for those bridge premises. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted; Phase 6Z.6K.1 symbolic Lean smoke accepted; Phase 6Z.6K.2 symbolic representative root accepted; Phase 6Z.6K.3 symbolic census runner accepted on representative calibration; Phase 6Z.6K.4 broader disjoint sampling rejects source-agreement as a global family key; Phase 6Z.6K.5 source-parametric row-property quotient implemented and sampled at 24 families; Phase 6Z.6K.6 bounded row-property quotient representative root accepted as memory-safe diagnostic but rejected for global scaling; Phase 6Z.6K.7 row-property membership profile rejects further theorem-surface emission and promotes a state/signature membership bridge; Phase 6Z.6K.8AH pair-sign producer-coverage smoke accepted on representative windows; Phase 6Z.6K.8AI broader producer-coverage scaling profile accepted; Phase 6Z.6K.8AJ resumable producer census accepted as diagnostic infrastructure; Phase 6Z.6K.8AK bounded scaling Lean smoke accepted; Phase 6Z.6K.8AL split group/root smoke accepted; Phase 6Z.6K.8AM larger split-root smoke accepted; Phase 6Z.6K.8AN growth projection accepted; Phase 6Z.6K.8AO production hierarchy design accepted; Phase 6Z.6K.8AP.0 range bridge core accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Phase 6Z.6K.2 extends that to a bounded representative root over all 126 symbolic families and all 4,779 representative GoodDirection survivors. Phase 6Z.6K.3 adds a resumable census runner and recovers the same 4,779/126 representative baseline. Phase 6Z.6K.4 covers 63,725/63,725 broader disjoint GoodDirection survivors but projects 130,573 source-agreement-keyed symbolic families, rejecting source agreement as a global key. Phase 6Z.6K.5 keeps the same coverage while collapsing the primary coordinate to 24 row-property-parametric families. Phase 6Z.6K.6 validates a bounded representative root under strict memory controls, but its measured 195.355s worst group means representative-per-case roots cannot scale. Phase 6Z.6K.7 shows the theorem layer is already collapsed to 9 constructors/11 row-property digests on `[0,1000)`; the missing compression is a shared membership bridge for `SourceAgrees` and row predicates. Phase 6Z.6K.8AH confirms that source-language producer facts plus exact row producer facts compose cheaply in Lean over 7,112 representative GoodDirection cases. Phase 6Z.6K.8AI keeps the same route below the scaling gates over 65k sampled ranks: 328 descriptors, 294 source groups, 24 row groups, 318 source+row obligations, and zero source-language validation failures. Phase 6Z.6K.8AJ adds a resumable checkpointed census and confirms the route remains cheap on a 10-window checkpoint run: 247 source+row obligations, zero validation failures, and aggregate-only replay in 0.06s. Phase 6Z.6K.8AK proves the same checkpoint-window producer surface can be emitted as theorem-valued Lean and built in 13.72s at 3.545 GiB RSS; Phase 6Z.6K.8AL proves the same surface can be split into shared source/row modules, bounded descriptor chunks, and a tiny root that builds in 10.50s at 3.343 GiB RSS; Phase 6Z.6K.8AM doubles the sampled window count and still builds the split root in 10.86s at 3.300 GiB RSS with only 315 descriptor families, 298 source groups, and 22 row groups. Phase 6Z.6K.8AN expands the checkpointed census to 39 windows / 97,500 sampled ranks and projects 862 descriptor families, 748 source+row producers, and 14 descriptor chunks, below the current gates. Phase 6Z.6K.8AO projects the production translation producer hierarchy at roughly 58k Lean lines / 2.3 MiB, 14 chunks, 748 producers, about 70 wall seconds at four jobs, and about 3.93 GiB peak RSS. Phase 6Z.6K.8AP.0 adds and checks the theorem adapters from `SourceRowPredicateBridge`/`SourceRowFactsBridge` and their range variants to residual interval coverage and `Translation.KilledBridge`; full 8AP still needs generated membership evidence for those bridge premises over the full rank range. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
 | Phase 7: generated Lean architecture | Partially complete | External evidence-cache workflow works; final low-thousands hierarchy is not generated yet. |
 | Phase 8: public coverage API | Partially complete | The semantic public API now exists as `SemanticExhaustiveGeneratedCoverage` plus semantic Step-15 adapters. It still needs full generated semantic evidence before `Generated.rank_complete`/final Step 15 can be unconditional. |
 | Phase 9: Step 15 integration | Not ready | Requires `Generated.rank_complete` from compressed coverage. |
@@ -454,11 +454,13 @@ Completed current-work items:
   - `scripts/generated/phase6z6k8ap_pair_sign_producer_membership_bridge_core.json`
   - `scripts/generated/phase6z6k8ap_pair_sign_producer_membership_bridge_core.md`
 - The new bridge core defines `SourceRowFactsBridge` and
-  `SourceRowPredicateBridge`, then proves both can produce
-  `Cuboctahedron.Generated.Translation.KilledBridge`.
+  `SourceRowPredicateBridge`, plus `SourceRowFactsBridgeOnRange` and
+  `SourceRowPredicateBridgeOnRange` for generated chunks. It proves the
+  global bridges can produce `Cuboctahedron.Generated.Translation.KilledBridge`
+  and the range bridges can produce `ResidualTranslationCoverageOnRange lo hi`.
 - Focused build passed:
   `lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge`
-  in 2.50s with 3,285,448 KiB peak RSS.
+  in 1.24s with 838,220 KiB peak RSS on the latest replayed build.
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -469,9 +471,11 @@ Completed current-work items:
   source, about 70 conservative wall seconds at four jobs, and about 3.93 GiB
   peak RSS.
 - The next proof-producing target is Phase 6Z.6K.8AP:
-  `pairSignProducerCoverage_killedBridge`, a generated membership bridge from
-  arbitrary `needsFarkas`/GoodDirection residual translation cases to
-  source/row producer predicates and then to `Coverage.TranslationCaseKilled`.
+  range-chunk membership evidence of type
+  `SourceRowPredicateBridgeOnRange lo hi` or
+  `SourceRowFactsBridgeOnRange lo hi`, composed into full-range
+  `pairSignProducerCoverage_killedBridge` for arbitrary
+  `needsFarkas`/GoodDirection residual translation cases.
 - Completed Phase 6Z.6C semantic killed bridge layer:
   - `Cuboctahedron/Generated/Coverage/ComputableClassifiers.lean`
     now has semantic killed bridge variants for nonidentity residuals and
@@ -9021,12 +9025,15 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AP.0 producer membership bridge core:
   add the hand-written theorem adapter showing that either
   `SourceRowPredicateBridge` or `SourceRowFactsBridge` is enough to produce
-  `Cuboctahedron.Generated.Translation.KilledBridge`.
+  `Cuboctahedron.Generated.Translation.KilledBridge`; also add range variants
+  `SourceRowPredicateBridgeOnRange` and `SourceRowFactsBridgeOnRange` so
+  generated chunks can compose `ResidualTranslationCoverageOnRange lo hi`
+  before the full-range root produces the killed bridge.
 - [ ] Implement Phase 6Z.6K.8AP producer membership bridge:
-  define the generated membership root that turns an arbitrary
-  `needsFarkas`/GoodDirection residual translation case into a matching source
-  predicate and row predicate, then applies the generated source/row producer
-  theorem and `TranslationGoodCaseKilled.killed` to satisfy
+  define generated membership chunks that turn arbitrary
+  `needsFarkas`/GoodDirection residual translation cases in each rank range
+  into matching source predicates and row predicates, compose those chunks with
+  `CoversInterval.concat`, then use the full-range adapter to satisfy
   `Cuboctahedron.Generated.Translation.KilledBridge`.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
@@ -9617,14 +9624,19 @@ Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Production/
 
 This remains diagnostic evidence, not proof. It accepts the source/row/chunk
 hierarchy as small enough to emit once the membership theorem shape is ready.
-The next step is Phase 6Z.6K.8AP: implement the producer membership bridge
-targeting `Cuboctahedron.Generated.Translation.KilledBridge`. That step should:
+The next step is full Phase 6Z.6K.8AP: implement generated producer
+membership chunks and a full-range bridge targeting
+`Cuboctahedron.Generated.Translation.KilledBridge`. That step should:
 
 - keep using `SourceIndexStateKey.goodKilled_of_source_row` as the final
   semantic bridge for each covered producer case;
-- prove or generate membership facts that derive a matching
+- prove or generate `SourceRowPredicateBridgeOnRange lo hi` or
+  `SourceRowFactsBridgeOnRange lo hi` for each rank chunk, deriving a matching
   `SourceIndexStateSourcePredicate` and row predicate for arbitrary
-  `needsFarkas`/GoodDirection residual translation cases;
+  `needsFarkas`/GoodDirection residual translation cases in that chunk;
+- compose chunk theorems with `CoversInterval.concat` into a full-range root,
+  then use `SourceRowPredicateBridgeOnRange.to_killedBridge_of_fullRange` or
+  the facts-bridge equivalent;
 - finish by applying `TranslationGoodCaseKilled.killed`, so the public theorem
   target is `Coverage.TranslationCaseKilled`, not an ordinary
   `TranslationCert`;
@@ -9651,13 +9663,30 @@ The module exports:
 
 ```lean
 abbrev SourceRowFactsBridge : Prop
+abbrev SourceRowFactsBridgeOnRange (lo hi : Nat) : Prop
 abbrev SourceRowPredicateBridge : Prop
+abbrev SourceRowPredicateBridgeOnRange (lo hi : Nat) : Prop
+def ResidualTranslationRankKilled (rank : Nat) : Prop
+abbrev ResidualTranslationCoverageOnRange (lo hi : Nat) : Prop
 theorem SourceRowFactsBridge.to_killedBridge :
   SourceRowFactsBridge -> Cuboctahedron.Generated.Translation.KilledBridge
+theorem SourceRowFactsBridge.of_rangeAll :
+  SourceRowFactsBridgeOnRange 0 numPairWords -> SourceRowFactsBridge
+theorem SourceRowFactsBridgeOnRange.to_residualCoverage :
+  SourceRowFactsBridgeOnRange lo hi -> ResidualTranslationCoverageOnRange lo hi
 theorem SourceRowPredicateBridge.to_factsBridge :
   SourceRowPredicateBridge -> SourceRowFactsBridge
+theorem SourceRowPredicateBridgeOnRange.to_factsBridgeOnRange :
+  SourceRowPredicateBridgeOnRange lo hi -> SourceRowFactsBridgeOnRange lo hi
+theorem SourceRowPredicateBridge.of_rangeAll :
+  SourceRowPredicateBridgeOnRange 0 numPairWords -> SourceRowPredicateBridge
+theorem SourceRowPredicateBridgeOnRange.to_residualCoverage :
+  SourceRowPredicateBridgeOnRange lo hi -> ResidualTranslationCoverageOnRange lo hi
 theorem SourceRowPredicateBridge.to_killedBridge :
   SourceRowPredicateBridge -> Cuboctahedron.Generated.Translation.KilledBridge
+theorem SourceRowPredicateBridgeOnRange.to_killedBridge_of_fullRange :
+  SourceRowPredicateBridgeOnRange 0 numPairWords ->
+    Cuboctahedron.Generated.Translation.KilledBridge
 ```
 
 Focused Lean build:
@@ -9671,20 +9700,26 @@ Build result:
 
 ```text
 status:      accepted-bridge-core
-wall time:   0:02.50
-CPU:         103%
-peak RSS:    3,285,448 KiB
+wall time:   0:01.24
+CPU:         95%
+peak RSS:    838,220 KiB
 exit status: 0
 ```
 
 This is not global membership coverage. It proves that the remaining
-production membership root only needs to supply either:
+production membership chunks only need to supply either:
 
-- `SourceRowPredicateBridge`, by deriving
+- `SourceRowPredicateBridgeOnRange lo hi`, by deriving
   `SourceIndexStateSourcePredicate key.firstIndex key.secondIndex key.support r.val mask`
-  plus `key.template.Rows key.support r.val mask`; or
-- `SourceRowFactsBridge`, by deriving `SourceIndexStateSourceFacts` and
-  `SourceIndexStateRowFacts` directly.
+  plus `key.template.Rows key.support r.val mask` throughout the rank range; or
+- `SourceRowFactsBridgeOnRange lo hi`, by deriving
+  `SourceIndexStateSourceFacts` and `SourceIndexStateRowFacts` directly
+  throughout the rank range.
+
+Those range chunks can export `ResidualTranslationCoverageOnRange lo hi`.
+Once a generated root covers `[0, numPairWords)`, the full-range adapter
+produces the bridge consumed by
+`Cuboctahedron.Generated.Translation.complete_killed_of_bridge`.
 
 The full Phase 6Z.6K.8AP remains open until generated membership evidence
 proves one of these bridge predicates for every residual `needsFarkas`

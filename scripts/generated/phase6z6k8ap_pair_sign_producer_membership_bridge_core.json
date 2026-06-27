@@ -3,15 +3,33 @@
     "notes": [
       "bridge core is Lean-checked and memory-safe",
       "this is not global membership coverage",
-      "next step must generate or prove the membership root producing SourceRowPredicateBridge or SourceRowFactsBridge"
+      "range bridge variants are available for chunk/group generated modules",
+      "next step must generate or prove the membership root producing SourceRowPredicateBridgeOnRange or SourceRowFactsBridgeOnRange chunks, then compose the full range into SourceRowPredicateBridge or SourceRowFactsBridge"
     ],
     "status": "accepted-bridge-core"
   },
+  "exported_bridge_shapes": [
+    "SourceRowFactsBridge",
+    "SourceRowFactsBridgeOnRange",
+    "SourceRowPredicateBridge",
+    "SourceRowPredicateBridgeOnRange",
+    "ResidualTranslationRankKilled",
+    "ResidualTranslationCoverageOnRange",
+    "SourceRowFactsBridge.to_killedBridge",
+    "SourceRowFactsBridge.of_rangeAll",
+    "SourceRowFactsBridgeOnRange.to_residualCoverage",
+    "SourceRowPredicateBridge.to_factsBridge",
+    "SourceRowPredicateBridgeOnRange.to_factsBridgeOnRange",
+    "SourceRowPredicateBridge.of_rangeAll",
+    "SourceRowPredicateBridgeOnRange.to_residualCoverage",
+    "SourceRowPredicateBridge.to_killedBridge",
+    "SourceRowPredicateBridgeOnRange.to_killedBridge_of_fullRange"
+  ],
   "focused_build": {
     "command": "/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
     "exit_status": 0,
-    "max_rss_kib": 3285448,
-    "wall_seconds": 2.5
+    "max_rss_kib": 838220,
+    "wall_seconds": 1.24
   },
   "mode": "pair_sign_producer_membership_bridge_core",
   "phase": "6Z.6K.8AP.0",

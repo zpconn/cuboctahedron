@@ -37,6 +37,19 @@ abbrev SourceRowFactsBridge : Prop :=
           SourceIndexStateSourceFacts key r.val mask /\
             SourceIndexStateRowFacts key r.val mask
 
+/-- Rank-range version of `SourceRowFactsBridge` for generated chunk modules. -/
+abbrev SourceRowFactsBridgeOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        translationEarlyFamilyClassOfChoice ⟨rank, hlt⟩ mask =
+            TranslationFamilyClass.needsFarkas ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            exists key : SourceIndexStateKey,
+              SourceIndexStateSourceFacts key rank mask /\
+                SourceIndexStateRowFacts key rank mask
+
 /--
 Predicate-level membership surface matching the current split producer chunks.
 
@@ -54,12 +67,60 @@ abbrev SourceRowPredicateBridge : Prop :=
             key.firstIndex key.secondIndex key.support r.val mask /\
             key.template.Rows key.support r.val mask
 
+/-- Rank-range version of `SourceRowPredicateBridge` for generated chunk modules. -/
+abbrev SourceRowPredicateBridgeOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        translationEarlyFamilyClassOfChoice ⟨rank, hlt⟩ mask =
+            TranslationFamilyClass.needsFarkas ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            exists key : SourceIndexStateKey,
+              SourceIndexStateSourcePredicate
+                key.firstIndex key.secondIndex key.support rank mask /\
+                key.template.Rows key.support rank mask
+
+/--
+Semantic residual killed predicate for one rank.  This is deliberately weaker
+than full `TranslationCaseKilled`: early translation families are handled by
+`Generated.Translation.complete_killed_of_bridge`; this predicate is only the
+remaining `needsFarkas` branch.
+-/
+def ResidualTranslationRankKilled (rank : Nat) : Prop :=
+  forall hlt : rank < numPairWords,
+    forall mask : SignMask,
+      translationEarlyFamilyClassOfChoice ⟨rank, hlt⟩ mask =
+          TranslationFamilyClass.needsFarkas ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          TranslationCaseKilled ⟨rank, hlt⟩ mask
+
+abbrev ResidualTranslationCoverageOnRange (lo hi : Nat) : Prop :=
+  CoversInterval ResidualTranslationRankKilled lo hi
+
 theorem SourceRowFactsBridge.to_killedBridge
     (bridge : SourceRowFactsBridge) :
     Translation.KilledBridge := by
   intro r mask hclass hM
   rcases r with ⟨rank, hlt⟩
   rcases bridge hclass hM with ⟨key, hsource, hrows⟩
+  exact TranslationGoodCaseKilled.killed
+    (key.goodKilled_of_source_row hsource hrows)
+
+theorem SourceRowFactsBridge.of_rangeAll
+    (bridge : SourceRowFactsBridgeOnRange 0 numPairWords) :
+    SourceRowFactsBridge := by
+  intro r mask hclass hM
+  rcases r with ⟨rank, hlt⟩
+  exact bridge hlt (Nat.zero_le rank) hlt hclass hM
+
+theorem SourceRowFactsBridgeOnRange.to_residualCoverage
+    {lo hi : Nat}
+    (bridge : SourceRowFactsBridgeOnRange lo hi) :
+    ResidualTranslationCoverageOnRange lo hi := by
+  intro rank hlo hhi hlt mask hclass hM
+  rcases bridge hlt hlo hhi hclass hM with ⟨key, hsource, hrows⟩
   exact TranslationGoodCaseKilled.killed
     (key.goodKilled_of_source_row hsource hrows)
 
@@ -74,11 +135,42 @@ theorem SourceRowPredicateBridge.to_factsBridge
       (key := key) rfl rfl rfl hsource,
     SourceIndexStateRowFacts.of_rows hrows⟩
 
+theorem SourceRowPredicateBridgeOnRange.to_factsBridgeOnRange
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateBridgeOnRange lo hi) :
+    SourceRowFactsBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hclass hM
+  rcases bridge hlt hlo hhi hclass hM with ⟨key, hsource, hrows⟩
+  exact ⟨key,
+    SourceIndexStateSourceFacts.of_sourcePredicate
+      (key := key) rfl rfl rfl hsource,
+    SourceIndexStateRowFacts.of_rows hrows⟩
+
+theorem SourceRowPredicateBridge.of_rangeAll
+    (bridge : SourceRowPredicateBridgeOnRange 0 numPairWords) :
+    SourceRowPredicateBridge := by
+  intro r mask hclass hM
+  rcases r with ⟨rank, hlt⟩
+  exact bridge hlt (Nat.zero_le rank) hlt hclass hM
+
+theorem SourceRowPredicateBridgeOnRange.to_residualCoverage
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateBridgeOnRange lo hi) :
+    ResidualTranslationCoverageOnRange lo hi :=
+  SourceRowFactsBridgeOnRange.to_residualCoverage
+    (SourceRowPredicateBridgeOnRange.to_factsBridgeOnRange bridge)
+
 theorem SourceRowPredicateBridge.to_killedBridge
     (bridge : SourceRowPredicateBridge) :
     Translation.KilledBridge :=
   SourceRowFactsBridge.to_killedBridge
     (SourceRowPredicateBridge.to_factsBridge bridge)
+
+theorem SourceRowPredicateBridgeOnRange.to_killedBridge_of_fullRange
+    (bridge : SourceRowPredicateBridgeOnRange 0 numPairWords) :
+    Translation.KilledBridge :=
+  SourceRowPredicateBridge.to_killedBridge
+    (SourceRowPredicateBridge.of_rangeAll bridge)
 
 theorem pairSignProducerMembershipBridge_builds : True := by
   trivial
