@@ -6195,12 +6195,58 @@ The timed smoke build succeeded in `0:07.71` wall time with peak RSS
   - Do not treat it as production coverage. The smoke validates selected large
     families only; it does not yet prove that every GoodDirection survivor in
     `[0,1000)` satisfies one of the 74 source-index/state descriptors.
-  - The next step is Phase 6Z.6K.8I: bounded source-index/state coverage
-    classifier/root. Generate all 74 `[0,1000)` descriptors and prove that every
-    GoodDirection two-source survivor in the window is covered by some
-    descriptor `Applies` predicate, without putting member lists inside
-    `Applies`. If that bounded root still requires raw member facts, keep 6K.8H
-    as an interface smoke and switch to a computable classifier/root design.
+  - This led to Phase 6Z.6K.8I: bounded source-index/state coverage
+    classifier/root, completed and rejected below. That gate showed the
+    bounded root still required concrete survivor/bad-direction facts, so the
+    source-index/state descriptor surface remains an interface smoke rather
+    than a production coverage backend.
+
+Completed and rejected Phase 6Z.6K.8I:
+
+- Added `scripts/generate_source_index_state_bounded_coverage.py`.
+- Added the identity-range coverage adapter
+  `RowPropertyMembershipCoverageOnIdentityRange` and
+  `RowPropertyMembershipFamily.identityRangeKills` to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/MembershipBridge.lean`.
+- Emitted a bounded prototype for `[0,25)` only, then attempted:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateBoundedCoverage.Shard000
+```
+
+- Prototype audit result:
+
+```text
+rank window:                         [0,25)
+identity words:                            8
+GoodDirection survivors:                  96
+source-index/state families:              18
+not-GoodDirection contradictions:        416
+nonidentity ranks:                        17
+```
+
+- First generated attempt failed fast because direct `decide` could not reduce
+  `unrankPairWord`/`GoodDirection` under arbitrary proof terms. The generator
+  was repaired to reuse the existing explicit nonidentity and bad-direction
+  witness emitters.
+- The repaired prototype still crossed the 60 second shard-build gate before
+  finishing, so the build was stopped manually before any OOM risk. Peak RSS
+  was not recorded for the stopped run; the earlier failed run peaked at about
+  `3,409,428 KB`.
+- The failed generated Lean shard/root were removed so ordinary `lake build`
+  is not poisoned. The retained JSON/Markdown prototype reports are diagnostic
+  only.
+- Decision:
+  - Reject the source-index/state bounded coverage root as a production
+    compression surface. Even the 25-rank prototype needs 96 concrete survivor
+    proofs plus 416 concrete bad-direction contradictions, so it has collapsed
+    back into bounded per-case replay outside `Applies`.
+  - Keep the 6K.8H descriptor interface as a useful local theorem surface.
+  - The next step is Phase 6Z.6K.8J: computable classifier/root design. It must
+    prove coverage by reflecting a small classifier, or by a symbolic theorem
+    over descriptor states, without emitting concrete rank/mask survivor and
+    bad-direction proofs.
 
 Completed Phase 6Z.5:
 
@@ -7177,10 +7223,13 @@ Acceptance:
   prove that the selected `source_index_state` predicate can imply
   `SourceAgrees` and row-property facts for selected large families without
   inductive rank/mask member enumeration.
-- [ ] Implement Phase 6Z.6K.8I bounded source-index/state coverage
+- [x] Implement and reject Phase 6Z.6K.8I bounded source-index/state coverage
   classifier/root: prove the `[0,1000)` GoodDirection two-source survivors are
   covered by source-index/state descriptor `Applies` predicates without putting
   member lists inside `Applies`.
+- [ ] Implement Phase 6Z.6K.8J computable classifier/root design: replace
+  bounded source-index/state per-case coverage replay with a reflected
+  classifier or symbolic descriptor-state theorem.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -7262,20 +7311,26 @@ families can compose through the row-property quotient without making
 `Applies` an inductive member list. The smoke validates the interface on
 selected samples, not exhaustive bounded coverage.
 
-The immediate next step is Phase 6Z.6K.8I: bounded source-index/state coverage
-classifier/root. That step should:
+Phase 6Z.6K.8I is implemented and rejected. The `[0,25)` prototype had only 8
+identity words but already required 96 concrete survivor proofs and 416
+concrete bad-direction contradictions. The repaired shard crossed the 60
+second gate before finishing and was stopped before OOM. This proves that
+bounded source-index/state coverage still behaves like per-case replay once it
+has to prove classifier membership.
 
-- generate all 74 `[0,1000)` source-index/state descriptors from the 6K.8G/8H
-  audit;
-- prove a bounded root theorem that every GoodDirection two-source survivor in
-  `[0,1000)` satisfies one descriptor `Applies` predicate;
-- keep each descriptor `Applies` fact-free and member-list-free;
-- avoid recovering coverage by inductive rank/mask member enumeration;
-- compose covered descriptors through `RowPropertyMembershipFamily.killsOn`;
-- record build time and peak RSS for the bounded root;
-- reject the source-index/state path as a production coverage surface if
-  bounded coverage still requires concrete member facts rather than a
-  classifier/root theorem.
+The immediate next step is Phase 6Z.6K.8J: computable classifier/root design.
+That step should:
+
+- keep the 6K.8H descriptor theorem surface;
+- avoid any coverage proof whose main mechanism is one theorem per concrete
+  rank/mask survivor or bad-direction mask;
+- define a small computable classifier over descriptor-state keys, or a
+  symbolic theorem over descriptor states, that can be checked without
+  replaying source/row reconstruction per case;
+- first prototype on `[0,25)` and reject immediately if the proof still emits
+  hundreds of concrete contradiction/survivor branches;
+- do not emit `[0,1000)` or larger coverage until the classifier prototype is
+  buildable under the 60 second / 8 GB gate.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

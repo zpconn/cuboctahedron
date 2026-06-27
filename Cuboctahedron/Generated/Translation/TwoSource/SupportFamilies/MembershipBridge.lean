@@ -40,6 +40,15 @@ def RowPropertyMembershipCoverageOnRange
         GoodDirectionAtRank ⟨r, hlt⟩ mask ->
           family.Applies r mask
 
+def RowPropertyMembershipCoverageOnIdentityRange
+    (family : RowPropertyMembershipFamily) (lo hi : Nat) : Prop :=
+  forall (r : Nat) (hlt : r < numPairWords) (mask : SignMask),
+    lo <= r ->
+      r < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) = (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨r, hlt⟩ mask ->
+            family.Applies r mask
+
 theorem RowPropertyMembershipFamily.rangeKills
     {family : RowPropertyMembershipFamily} {lo hi : Nat}
     (hcoverage : RowPropertyMembershipCoverageOnRange family lo hi)
@@ -49,6 +58,18 @@ theorem RowPropertyMembershipFamily.rangeKills
   intro hgood
   exact family.killsOn r hlt mask
     (hcoverage r hlt mask hlo hhi hgood) hgood
+
+theorem RowPropertyMembershipFamily.identityRangeKills
+    {family : RowPropertyMembershipFamily} {lo hi : Nat}
+    (hcoverage : RowPropertyMembershipCoverageOnIdentityRange family lo hi)
+    (r : Nat) (hlt : r < numPairWords) (mask : SignMask)
+    (hlo : lo <= r) (hhi : r < hi)
+    (hM : totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) =
+      (matId : Mat3 Rat)) :
+    TranslationGoodCaseKilled ⟨r, hlt⟩ mask := by
+  intro hgood
+  exact family.killsOn r hlt mask
+    (hcoverage r hlt mask hlo hhi hM hgood) hgood
 
 theorem membershipBridge_builds : True := by
   trivial
