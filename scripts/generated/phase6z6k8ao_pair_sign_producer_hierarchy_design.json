@@ -1,0 +1,93 @@
+{
+  "anchor": {
+    "chunk_count": 5,
+    "chunk_size": 64,
+    "descriptor_families": 315,
+    "line_counts": {
+      "chunk_count": 5,
+      "chunk_files": [
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk000.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk001.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk002.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk003.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/Chunks/Chunk004.lean"
+      ],
+      "chunk_lines": [
+        3352,
+        3352,
+        3352,
+        3352,
+        3092
+      ],
+      "chunk_lines_max": 3352,
+      "chunk_lines_total": 16500,
+      "root_lines": 20,
+      "row_lines": 263,
+      "source_lines": 5087,
+      "total_lines": 21870
+    },
+    "root_rss_anchor_kib": 3300000,
+    "root_wall_anchor_seconds": 10.86,
+    "row_groups": 22,
+    "source_groups": 298,
+    "source_size_kib": 893
+  },
+  "decision": {
+    "notes": [
+      "diagnostic only: this design report is not proof evidence",
+      "source/row producer projection stays below configured gates",
+      "split-source/chunk/root layout remains comfortably below the build budget",
+      "next proof step is the generated membership bridge, not more per-case leaves"
+    ],
+    "status": "accepted-production-hierarchy-design"
+  },
+  "inputs": {
+    "anchor_dir": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k",
+    "projection_json": "scripts/generated/phase6z6k8an_pair_sign_producer_growth_projection.json",
+    "smoke_json": "scripts/generated/phase6z6k8am_pair_sign_producer_coverage_split50k_smoke.json"
+  },
+  "mode": "pair_sign_producer_hierarchy_design",
+  "module_layout": {
+    "descriptor_chunks": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Production/Chunks/ChunkNNN.lean",
+    "membership_core": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Production/Membership/Core.lean",
+    "membership_root": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Production.Membership.All",
+    "root": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Production.All",
+    "row_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Production/Row.lean",
+    "source_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/Production/Source.lean",
+    "translation_complete_bridge": "Cuboctahedron.Generated.Translation.KilledBridge"
+  },
+  "phase": "6Z.6K.8AO",
+  "projection": {
+    "chunk_count": 14,
+    "chunk_lines_max": 3352,
+    "chunk_lines_total": 45153,
+    "chunk_size": 64,
+    "conservative_factor": 2.0,
+    "cpu_seconds": 58,
+    "descriptor_families": 862,
+    "jobs": 4,
+    "root_lines": 38,
+    "row_groups": 26,
+    "row_lines": 311,
+    "rss_kib": 4125000,
+    "source_groups": 722,
+    "source_lines": 12325,
+    "source_row_producers": 748,
+    "source_size_kib": 2362,
+    "total_lines": 57827,
+    "wall_seconds": 70
+  },
+  "remaining_lean_bridge": {
+    "membership_obligation": "derive a matching SourceIndexStateSourcePredicate and row predicate for each GoodDirection residual case, then apply the generated source/row producer theorem and TranslationGoodCaseKilled.killed",
+    "must_not_use": [
+      "raw per-rank TranslationCert witnesses",
+      "global rank/mask arrays",
+      "packed blobs or byte-list decoders",
+      "large Boolean checker reductions"
+    ],
+    "name": "pairSignProducerCoverage_killedBridge",
+    "target": "forall {r : Fin numPairWords} {mask : SignMask}, translationEarlyFamilyClassOfChoice r mask = TranslationFamilyClass.needsFarkas -> totalLinearOfPairWord (unrankPairWord r) = matId -> Coverage.TranslationCaseKilled r mask"
+  },
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
