@@ -1,0 +1,4327 @@
+{
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "source lookup splits into static xpStart/ordering facts and interior face-position facts",
+      "no sampled source group needs rank/mask finite replay at this abstraction level"
+    ],
+    "status": "accepted-next-lean-smoke"
+  },
+  "dynamic_obligation_count": 31,
+  "jobs": 4,
+  "max_interior_excluded_face_set_size": 13,
+  "mode": "source_index_state_language_profile",
+  "rank_end": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "source_group_count": 72,
+  "source_index_state_family_count": 74,
+  "source_language_obligation_count": 44,
+  "source_occurrence_count": 144,
+  "static_obligation_count": 13,
+  "top_obligations": [
+    {
+      "caseCount": 951,
+      "dynamic": false,
+      "familyCount": 27,
+      "kind": "xpStart",
+      "obligation": "xpStart:0",
+      "occurrenceCount": 27,
+      "sample": [
+        {
+          "caseCount": 79,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 30,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 29,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "ae3bde4a1a4cc1ec75f1cb2bb1a8c46d60dc621e6564547419af063c86107bad",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 23,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "42b2ca31b66f321779af52fa7d1705bf6225addea038120f1bf009a80458707e",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 22,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "1d34e50ef50db67906309004624aa6d4e651dbd09c6d043c3d8c09105f94b4a9",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 20,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "cea4464df905000142edce9b11281690a008c9d5cd1e771dca605906f1732c50",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "f5d3bc532de79b891d27a058711bfb9349a1f9c646078b419227a9526058c152",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 18,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bfaf1e6ce0ce1d61786e4a66aa7cc7fe1274f69ba512fb8d2b3b5615b469ad17",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 421,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 128,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "102f94908cffedc720a55cfc27b35406493b72b1e82b3d7c1c24b827dcd70992",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 21,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "8b9860bf1b03698c2e5b816aa6d65a36f6345895abd06affbaa3b1e84c613982",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "06a7f983ec54b3872bb5dd9456861860d39e3e54508d4af2b7d0394448a044b9",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 17,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3a2924aa5bdbec3a5329bab98173034188d967d93ba7605c96c85f733e8934bc",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 15,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3ec14ceb9b28b37bfe12fc6a8c3e6defb306f79d63b69d9cae8059ab8e87ed95",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 11,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "66c02cba404c532f1e9ea96ebfda39fd2349706278e115bea1674477e05dd3b2",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "fc805e5aa43cbf59fd54e11b9b4cc4bf2c46e5b085bcbdba6c2acab8157c72dc",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b7ca266b8fa988d73c3b864dff16753f69846cf84ad358a64417c436bdeb8f8b",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 8,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "714cbfa66a98642d64c09ac23728c29c4968d8efd1b91af74d04f05c45dbf096",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c5ec5e493c6af976a1b03f30aeb9d26ee4dd468f968a4361500947da83fa8093",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "514e679fb2cb513fea8452df5c6d54611177a5cf9b1976b20c0bc342cc7ee6d4",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "5092ca106263554f5b683c65f4f879203379892190c8cabe8cbd9b7e6d6f0091",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 4,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "27a3084b923bb5236f8cc839b571250cffc7405f7417c98d5743dcc8c7d753d4",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 4,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "eac8a8e11f7390ffd6117f5dcd089fe4d3a520218555c0ff166e5d1b2d304535",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "7368049780bbf43add9863c6101eb0d4cd3834ff6d00889c4be0799b78a4996a",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c741f9357cb8d22c7fc023467f89b2c238226094138641ff1b529c8bec947c5c",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a8e6642b8ec7292baf6d65c2cd38554be67fd5f8d772c20a8a26dbad0797ae2d",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 421,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 421,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm"
+            ],
+            "excludedFaceSetSize": 6,
+            "face": "tmmm",
+            "faceIndex": 6,
+            "impact": 1,
+            "index": 23,
+            "kind": "interior",
+            "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+            "slot": 5,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmm",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+          "sourceIndex": 23,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 300,
+      "dynamic": false,
+      "familyCount": 26,
+      "kind": "xpStart",
+      "obligation": "xpStart:1",
+      "occurrenceCount": 26,
+      "sample": [
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "11d11e966a166501fce2240603d022412ecfc147a743e9eeb858fff69d844ebb",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 12,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "5ce1ee1f662aea79fe8c212d24c3e68d99cff33e5b7b11e2d6750a5472d0dc92",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 11,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "96db83cdd7dfbc306ef127f08ef94f5c3d71c27df72ac9f8545d0cd54e7b6dcb",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "2cc68c3b6a2dde0b5894b80d15ebc02445fe20739f015077a5ff51c7ae15634c",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "df66f4d09d995af9598edddf3f11fdf3faae819a11a4cf6f534a2a37f31d7c48",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3ce052d543893c1cede10f0b9b363c6ff783fb2298e6854feb62cc31de50d4c5",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3b2ecd7f1f860d940180e8edc9161ad12e089bf87d9755a00a9270c5672ca99b",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b2680d819fee8747dcca856d2980d906bdf5e5ef0fb1042fb131650341dacbc1",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 134,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 44,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a7877ce1c46d485047a80b1eccd5d4d7989cdb821193b5dc7ca680eae2097744",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b7f13f08666187ae2ff10842e7f35bf0bdf9c969d7d944b20a0473f3707df6fe",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "16a3d3e54d8e16a85fc508bb0843f087f24dfabc9831756d44d4a8431a94f258",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "021f47f86b4b3fb33307baa849562c0b227409fe01f9975b8d574ee8cb4ddb01",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b262bda8a9b2bc998f6f5a46f6e8b1e9759df004acf04940922c2f40be3027c7",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "ce3322b8aaa21875ba5bbc49db950dd63e754b3498e8ca29d562f1d36e8297d9",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "10fb7297a02c68cf49596ccac2193db7a7b2e20c6b165046ae872e25aaccfc86",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "0080d2169e5f320234753654ba1bd847fa2619afc8b075a94c578ca4f8f3b9ee",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "63e7915585768679d25965847ecdf6cd5bac64d95a7ab04272f2741e2a36943a",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "5d6014683304aed3e28830656ee73df7b399bbd023093abecc598c2b5ff207d7",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "e31d66d4944bc99b32bb4f5ef1d42f2000ed437ea61790d150c0d92c6d0ab2be",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "e11276c9d62904761e5dd669b875363481744d1a8b42c14892f823c9770cc9f4",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "4d8e6947f2ddc6a3618ab93fdf1006ff3b36f8549c5748fd7576f7888e2bc7ff",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "16cacb415ed7eabd7b27729cd9bcd96dea765583f13e6b06e1297ba22fc94528",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "6d38fb5e536e38a81b47077b24c2e0182b86ffd406d33e3acb537bf44b5aecd2",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "f3eb21134ab24754c014506e4209bf469d3cd76890b9bf4b275b751a7e056544",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 172,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 128,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 6,
+            "index": 83,
+            "kind": "interior",
+            "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "102f94908cffedc720a55cfc27b35406493b72b1e82b3d7c1c24b827dcd70992",
+          "sourceIndex": 83,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 44,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 6,
+            "index": 83,
+            "kind": "interior",
+            "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+          "sourceIndex": 83,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 170,
+      "dynamic": false,
+      "familyCount": 14,
+      "kind": "xpStart",
+      "obligation": "xpStart:2",
+      "occurrenceCount": 14,
+      "sample": [
+        {
+          "caseCount": 13,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3940e6d91b3a2977beb1d4942a19557c49dabb0e49e65b72e3227a510d4b67d7",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3290d20984474e3909c8a8dbc359f8163dd1eb7d94bb9866a2af2d916807585d",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "f6d33b37efe11ca04d4d63e6211fac6edae2c5f8c55bcd8093d7d8eab574be5b",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "5235f96701952b933dac7760828ad3a186c53ea499c754a3eef721e2d1a4f450",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "d7eceb9816d10bd7d38bd3b8bb132a7efa99fc38fde8edbb34f84d1cd377e09e",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c7adc305f537d2b6caee36a1174826e86bf4307f0781368733fabc1121201665",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "36eec823d5ba41c4a9e4265ec047b661da07f7adb499c0084faa69539f6df833",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 102,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 14,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "64fe078a0a250d964f3008d90e897412404e0cc786f6faf5a4783eaea38449b4",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bc3c3f42aacb1d847258109c055cea04afc822f2739a74efdebc85827b65df42",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "6f6d6a6023a5e161019f94f7a55b0822f48f5f64997f9ca7acae7509c8af8e65",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "7dc53a82bb503c32e7263f3e9d693f015ab6858f0100452b7570f1aa77a4133c",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3ef4896247432b1a2431f95273664fa7fb8d37522534e387ab5f8b385c90a0cf",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 134,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 134,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm"
+            ],
+            "excludedFaceSetSize": 7,
+            "face": "tmmp",
+            "faceIndex": 7,
+            "impact": 1,
+            "index": 24,
+            "kind": "interior",
+            "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+            "slot": 6,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmp",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+          "sourceIndex": 24,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 111,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:3",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 79,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "11d11e966a166501fce2240603d022412ecfc147a743e9eeb858fff69d844ebb",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 13,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "3940e6d91b3a2977beb1d4942a19557c49dabb0e49e65b72e3227a510d4b67d7",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 102,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 102,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp"
+            ],
+            "excludedFaceSetSize": 8,
+            "face": "tmpm",
+            "faceIndex": 8,
+            "impact": 1,
+            "index": 25,
+            "kind": "interior",
+            "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+            "slot": 7,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmpm",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+          "sourceIndex": 25,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 50,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:11",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 29,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 15,
+            "index": 15,
+            "kind": "ordering",
+            "obligation": "ordering:11",
+            "step": 11,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 11
+          },
+          "sourceGroupKey": "ae3bde4a1a4cc1ec75f1cb2bb1a8c46d60dc621e6564547419af063c86107bad",
+          "sourceIndex": 15,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 12,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 15,
+            "index": 15,
+            "kind": "ordering",
+            "obligation": "ordering:11",
+            "step": 11,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 11
+          },
+          "sourceGroupKey": "5ce1ee1f662aea79fe8c212d24c3e68d99cff33e5b7b11e2d6750a5472d0dc92",
+          "sourceIndex": 15,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 15,
+            "index": 15,
+            "kind": "ordering",
+            "obligation": "ordering:11",
+            "step": 11,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 11
+          },
+          "sourceGroupKey": "f6d33b37efe11ca04d4d63e6211fac6edae2c5f8c55bcd8093d7d8eab574be5b",
+          "sourceIndex": 15,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 43,
+      "dynamic": false,
+      "familyCount": 4,
+      "kind": "ordering",
+      "obligation": "ordering:7",
+      "occurrenceCount": 4,
+      "sample": [
+        {
+          "caseCount": 23,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "42b2ca31b66f321779af52fa7d1705bf6225addea038120f1bf009a80458707e",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "2cc68c3b6a2dde0b5894b80d15ebc02445fe20739f015077a5ff51c7ae15634c",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "3290d20984474e3909c8a8dbc359f8163dd1eb7d94bb9866a2af2d916807585d",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 11,
+            "index": 11,
+            "kind": "ordering",
+            "obligation": "ordering:7",
+            "step": 7,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 7
+          },
+          "sourceGroupKey": "a5857231036a8e1c27fa075ebed81e3a025d7ef170cef21a55a1520d311e11c1",
+          "sourceIndex": 11,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 43,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:9",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 30,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "5235f96701952b933dac7760828ad3a186c53ea499c754a3eef721e2d1a4f450",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "3ce052d543893c1cede10f0b9b363c6ff783fb2298e6854feb62cc31de50d4c5",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 35,
+      "dynamic": false,
+      "familyCount": 4,
+      "kind": "xpStart",
+      "obligation": "xpStart:3",
+      "occurrenceCount": 4,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a5857231036a8e1c27fa075ebed81e3a025d7ef170cef21a55a1520d311e11c1",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3acf75b0368568ac92f7f30f1945e86dcf9f597b55082f79a406da198e07b216",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 22,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "53696c059bbf359ca7a6c7accc921f9fa16dfba896d6532ca0eab7f9821a867c",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "91680d53032fa2b164ce79bff664fd9b3c2668cecd33138eaecccb17f8b26b08",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 33,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:10",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 20,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 14,
+            "index": 14,
+            "kind": "ordering",
+            "obligation": "ordering:10",
+            "step": 10,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 10
+          },
+          "sourceGroupKey": "cea4464df905000142edce9b11281690a008c9d5cd1e771dca605906f1732c50",
+          "sourceIndex": 14,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 11,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 14,
+            "index": 14,
+            "kind": "ordering",
+            "obligation": "ordering:10",
+            "step": 10,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 10
+          },
+          "sourceGroupKey": "96db83cdd7dfbc306ef127f08ef94f5c3d71c27df72ac9f8545d0cd54e7b6dcb",
+          "sourceIndex": 14,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 14,
+            "index": 14,
+            "kind": "ordering",
+            "obligation": "ordering:10",
+            "step": 10,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 10
+          },
+          "sourceGroupKey": "c7adc305f537d2b6caee36a1174826e86bf4307f0781368733fabc1121201665",
+          "sourceIndex": 14,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 29,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:6",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 22,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 10,
+            "index": 10,
+            "kind": "ordering",
+            "obligation": "ordering:6",
+            "step": 6,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 6
+          },
+          "sourceGroupKey": "1d34e50ef50db67906309004624aa6d4e651dbd09c6d043c3d8c09105f94b4a9",
+          "sourceIndex": 10,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 10,
+            "index": 10,
+            "kind": "ordering",
+            "obligation": "ordering:6",
+            "step": 6,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 6
+          },
+          "sourceGroupKey": "b2680d819fee8747dcca856d2980d906bdf5e5ef0fb1042fb131650341dacbc1",
+          "sourceIndex": 10,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 10,
+            "index": 10,
+            "kind": "ordering",
+            "obligation": "ordering:6",
+            "step": 6,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 6
+          },
+          "sourceGroupKey": "36eec823d5ba41c4a9e4265ec047b661da07f7adb499c0084faa69539f6df833",
+          "sourceIndex": 10,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 26,
+      "dynamic": false,
+      "familyCount": 4,
+      "kind": "ordering",
+      "obligation": "ordering:8",
+      "occurrenceCount": 4,
+      "sample": [
+        {
+          "caseCount": 18,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 12,
+            "index": 12,
+            "kind": "ordering",
+            "obligation": "ordering:8",
+            "step": 8,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 8
+          },
+          "sourceGroupKey": "bfaf1e6ce0ce1d61786e4a66aa7cc7fe1274f69ba512fb8d2b3b5615b469ad17",
+          "sourceIndex": 12,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 12,
+            "index": 12,
+            "kind": "ordering",
+            "obligation": "ordering:8",
+            "step": 8,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 8
+          },
+          "sourceGroupKey": "3b2ecd7f1f860d940180e8edc9161ad12e089bf87d9755a00a9270c5672ca99b",
+          "sourceIndex": 12,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 12,
+            "index": 12,
+            "kind": "ordering",
+            "obligation": "ordering:8",
+            "step": 8,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 8
+          },
+          "sourceGroupKey": "d7eceb9816d10bd7d38bd3b8bb132a7efa99fc38fde8edbb34f84d1cd377e09e",
+          "sourceIndex": 12,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 12,
+            "index": 12,
+            "kind": "ordering",
+            "obligation": "ordering:8",
+            "step": 8,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 8
+          },
+          "sourceGroupKey": "3acf75b0368568ac92f7f30f1945e86dcf9f597b55082f79a406da198e07b216",
+          "sourceIndex": 12,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 25,
+      "dynamic": false,
+      "familyCount": 2,
+      "kind": "ordering",
+      "obligation": "ordering:12",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 16,
+            "index": 16,
+            "kind": "ordering",
+            "obligation": "ordering:12",
+            "step": 12,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 12
+          },
+          "sourceGroupKey": "f5d3bc532de79b891d27a058711bfb9349a1f9c646078b419227a9526058c152",
+          "sourceIndex": 16,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 16,
+            "index": 16,
+            "kind": "ordering",
+            "obligation": "ordering:12",
+            "step": 12,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 12
+          },
+          "sourceGroupKey": "df66f4d09d995af9598edddf3f11fdf3faae819a11a4cf6f534a2a37f31d7c48",
+          "sourceIndex": 16,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 24,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 14,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 6,
+            "index": 84,
+            "kind": "interior",
+            "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e",
+          "sourceIndex": 84,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 6,
+            "index": 84,
+            "kind": "interior",
+            "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "91680d53032fa2b164ce79bff664fd9b3c2668cecd33138eaecccb17f8b26b08",
+          "sourceIndex": 84,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 23,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 17,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 8,
+            "index": 109,
+            "kind": "interior",
+            "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "3a2924aa5bdbec3a5329bab98173034188d967d93ba7605c96c85f733e8934bc",
+          "sourceIndex": 109,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 8,
+            "index": 109,
+            "kind": "interior",
+            "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "021f47f86b4b3fb33307baa849562c0b227409fe01f9975b8d574ee8cb4ddb01",
+          "sourceIndex": 109,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 22,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 22,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm"
+            ],
+            "excludedFaceSetSize": 9,
+            "face": "tmpp",
+            "faceIndex": 9,
+            "impact": 1,
+            "index": 26,
+            "kind": "interior",
+            "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+            "slot": 8,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmpp",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "53696c059bbf359ca7a6c7accc921f9fa16dfba896d6532ca0eab7f9821a867c",
+          "sourceIndex": 26,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 22,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 122,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 9,
+            "index": 122,
+            "kind": "interior",
+            "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 9,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4",
+          "sourceIndex": 122,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 122,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 9,
+            "index": 122,
+            "kind": "interior",
+            "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 9,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "10fb7297a02c68cf49596ccac2193db7a7b2e20c6b165046ae872e25aaccfc86",
+          "sourceIndex": 122,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 21,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 19,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 148,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 11,
+            "index": 148,
+            "kind": "interior",
+            "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 11,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "06a7f983ec54b3872bb5dd9456861860d39e3e54508d4af2b7d0394448a044b9",
+          "sourceIndex": 148,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 148,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 11,
+            "index": 148,
+            "kind": "interior",
+            "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 11,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "63e7915585768679d25965847ecdf6cd5bac64d95a7ab04272f2741e2a36943a",
+          "sourceIndex": 148,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 21,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:13:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 21,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 174,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp"
+            ],
+            "excludedFaceSetSize": 10,
+            "face": "tpmm",
+            "faceIndex": 10,
+            "impact": 13,
+            "index": 183,
+            "kind": "interior",
+            "obligation": "interior:13:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+            "slot": 9,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tpmm",
+            "impact": 13,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "8b9860bf1b03698c2e5b816aa6d65a36f6345895abd06affbaa3b1e84c613982",
+          "sourceIndex": 183,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 21,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 15,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 96,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 7,
+            "index": 96,
+            "kind": "interior",
+            "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 7,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "3ec14ceb9b28b37bfe12fc6a8c3e6defb306f79d63b69d9cae8059ab8e87ed95",
+          "sourceIndex": 96,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 96,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 7,
+            "index": 96,
+            "kind": "interior",
+            "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 7,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "16a3d3e54d8e16a85fc508bb0843f087f24dfabc9831756d44d4a8431a94f258",
+          "sourceIndex": 96,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 18,
+      "dynamic": true,
+      "familyCount": 3,
+      "kind": "interior",
+      "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 12,
+            "index": 162,
+            "kind": "interior",
+            "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "b7ca266b8fa988d73c3b864dff16753f69846cf84ad358a64417c436bdeb8f8b",
+          "sourceIndex": 162,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 5,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 12,
+            "index": 162,
+            "kind": "interior",
+            "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "b262bda8a9b2bc998f6f5a46f6e8b1e9759df004acf04940922c2f40be3027c7",
+          "sourceIndex": 162,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 12,
+            "index": 162,
+            "kind": "interior",
+            "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "64fe078a0a250d964f3008d90e897412404e0cc786f6faf5a4783eaea38449b4",
+          "sourceIndex": 162,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 15,
+      "dynamic": true,
+      "familyCount": 3,
+      "kind": "interior",
+      "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 11,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 10,
+            "index": 136,
+            "kind": "interior",
+            "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "66c02cba404c532f1e9ea96ebfda39fd2349706278e115bea1674477e05dd3b2",
+          "sourceIndex": 136,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 10,
+            "index": 136,
+            "kind": "interior",
+            "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "bc3c3f42aacb1d847258109c055cea04afc822f2739a74efdebc85827b65df42",
+          "sourceIndex": 136,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 10,
+            "index": 136,
+            "kind": "interior",
+            "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "e31d66d4944bc99b32bb4f5ef1d42f2000ed437ea61790d150c0d92c6d0ab2be",
+          "sourceIndex": 136,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 15,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:13:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 8,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 174,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 13,
+            "index": 175,
+            "kind": "interior",
+            "obligation": "interior:13:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 13,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "714cbfa66a98642d64c09ac23728c29c4968d8efd1b91af74d04f05c45dbf096",
+          "sourceIndex": 175,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 174,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 13,
+            "index": 175,
+            "kind": "interior",
+            "obligation": "interior:13:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 13,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "b7f13f08666187ae2ff10842e7f35bf0bdf9c969d7d944b20a0473f3707df6fe",
+          "sourceIndex": 175,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 11,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 10,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 8,
+            "index": 110,
+            "kind": "interior",
+            "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "fc805e5aa43cbf59fd54e11b9b4cc4bf2c46e5b085bcbdba6c2acab8157c72dc",
+          "sourceIndex": 110,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 8,
+            "index": 110,
+            "kind": "interior",
+            "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "e11276c9d62904761e5dd669b875363481744d1a8b42c14892f823c9770cc9f4",
+          "sourceIndex": 110,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 9,
+      "dynamic": true,
+      "familyCount": 3,
+      "kind": "interior",
+      "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 9,
+          "familyCount": 3,
+          "language": {
+            "blockStart": 44,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 3,
+            "index": 44,
+            "kind": "interior",
+            "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 3,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "46b74a54a57a25ed51e207d17428b8f88e3a57422f9046833bc6157d56270cb6",
+          "sourceIndex": 44,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 9,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "ordering",
+      "obligation": "ordering:1",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 9,
+          "familyCount": 3,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 5,
+            "index": 5,
+            "kind": "ordering",
+            "obligation": "ordering:1",
+            "step": 1,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 1
+          },
+          "sourceGroupKey": "46b74a54a57a25ed51e207d17428b8f88e3a57422f9046833bc6157d56270cb6",
+          "sourceIndex": 5,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 8,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 12,
+            "index": 161,
+            "kind": "interior",
+            "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "c5ec5e493c6af976a1b03f30aeb9d26ee4dd468f968a4361500947da83fa8093",
+          "sourceIndex": 161,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 12,
+            "index": 161,
+            "kind": "interior",
+            "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "4d8e6947f2ddc6a3618ab93fdf1006ff3b36f8549c5748fd7576f7888e2bc7ff",
+          "sourceIndex": 161,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 7,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:13:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 174,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm"
+            ],
+            "excludedFaceSetSize": 11,
+            "face": "tpmp",
+            "faceIndex": 11,
+            "impact": 13,
+            "index": 184,
+            "kind": "interior",
+            "obligation": "interior:13:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+            "slot": 10,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tpmp",
+            "impact": 13,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "a7877ce1c46d485047a80b1eccd5d4d7989cdb821193b5dc7ca680eae2097744",
+          "sourceIndex": 184,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 6,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:12:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 7,
+            "face": "tmmm",
+            "faceIndex": 6,
+            "impact": 12,
+            "index": 167,
+            "kind": "interior",
+            "obligation": "interior:12:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 6,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmm",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "514e679fb2cb513fea8452df5c6d54611177a5cf9b1976b20c0bc342cc7ee6d4",
+          "sourceIndex": 167,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 6,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:7:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 96,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp"
+            ],
+            "excludedFaceSetSize": 10,
+            "face": "tpmm",
+            "faceIndex": 10,
+            "impact": 7,
+            "index": 105,
+            "kind": "interior",
+            "obligation": "interior:7:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+            "slot": 9,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tpmm",
+            "impact": 7,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "5092ca106263554f5b683c65f4f879203379892190c8cabe8cbd9b7e6d6f0091",
+          "sourceIndex": 105,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 4,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:10:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 4,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "tppp",
+            "faceIndex": 13,
+            "impact": 10,
+            "index": 147,
+            "kind": "interior",
+            "obligation": "interior:10:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+            "slot": 12,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tppp",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "eac8a8e11f7390ffd6117f5dcd089fe4d3a520218555c0ff166e5d1b2d304535",
+          "sourceIndex": 147,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 4,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:8:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 4,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "tppp",
+            "faceIndex": 13,
+            "impact": 8,
+            "index": 121,
+            "kind": "interior",
+            "obligation": "interior:8:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+            "slot": 12,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tppp",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "27a3084b923bb5236f8cc839b571250cffc7405f7417c98d5743dcc8c7d753d4",
+          "sourceIndex": 121,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 3,
+      "kind": "interior",
+      "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 10,
+            "index": 135,
+            "kind": "interior",
+            "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "c741f9357cb8d22c7fc023467f89b2c238226094138641ff1b529c8bec947c5c",
+          "sourceIndex": 135,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 10,
+            "index": 135,
+            "kind": "interior",
+            "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "6d38fb5e536e38a81b47077b24c2e0182b86ffd406d33e3acb537bf44b5aecd2",
+          "sourceIndex": 135,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 10,
+            "index": 135,
+            "kind": "interior",
+            "obligation": "interior:10:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "3ef4896247432b1a2431f95273664fa7fb8d37522534e387ab5f8b385c90a0cf",
+          "sourceIndex": 135,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:12:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 6,
+            "face": "tmmp",
+            "faceIndex": 7,
+            "impact": 12,
+            "index": 168,
+            "kind": "interior",
+            "obligation": "interior:12:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 7,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmp",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "ce3322b8aaa21875ba5bbc49db950dd63e754b3498e8ca29d562f1d36e8297d9",
+          "sourceIndex": 168,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:7:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 96,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm"
+            ],
+            "excludedFaceSetSize": 11,
+            "face": "tpmp",
+            "faceIndex": 11,
+            "impact": 7,
+            "index": 106,
+            "kind": "interior",
+            "obligation": "interior:7:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+            "slot": 10,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tpmp",
+            "impact": 7,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "0080d2169e5f320234753654ba1bd847fa2619afc8b075a94c578ca4f8f3b9ee",
+          "sourceIndex": 106,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:8:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 7,
+            "face": "tmmm",
+            "faceIndex": 6,
+            "impact": 8,
+            "index": 115,
+            "kind": "interior",
+            "obligation": "interior:8:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 6,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmm",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "7368049780bbf43add9863c6101eb0d4cd3834ff6d00889c4be0799b78a4996a",
+          "sourceIndex": 115,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": true,
+      "familyCount": 2,
+      "kind": "interior",
+      "obligation": "interior:11:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 2,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 148,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 11,
+            "index": 149,
+            "kind": "interior",
+            "obligation": "interior:11:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 11,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "5d6014683304aed3e28830656ee73df7b399bbd023093abecc598c2b5ff207d7",
+          "sourceIndex": 149,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 148,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 11,
+            "index": 149,
+            "kind": "interior",
+            "obligation": "interior:11:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 11,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "7dc53a82bb503c32e7263f3e9d693f015ab6858f0100452b7570f1aa77a4133c",
+          "sourceIndex": 149,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:9:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 122,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 6,
+            "face": "tmmp",
+            "faceIndex": 7,
+            "impact": 9,
+            "index": 129,
+            "kind": "interior",
+            "obligation": "interior:9:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 7,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmp",
+            "impact": 9,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "6f6d6a6023a5e161019f94f7a55b0822f48f5f64997f9ca7acae7509c8af8e65",
+          "sourceIndex": 129,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:10:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 7,
+            "face": "tmmm",
+            "faceIndex": 6,
+            "impact": 10,
+            "index": 141,
+            "kind": "interior",
+            "obligation": "interior:10:tmmm:slot6:excluded=tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 6,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmm",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "a8e6642b8ec7292baf6d65c2cd38554be67fd5f8d772c20a8a26dbad0797ae2d",
+          "sourceIndex": 141,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:10:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 6,
+            "face": "tmmp",
+            "faceIndex": 7,
+            "impact": 10,
+            "index": 142,
+            "kind": "interior",
+            "obligation": "interior:10:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 7,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmp",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "16cacb415ed7eabd7b27729cd9bcd96dea765583f13e6b06e1297ba22fc94528",
+          "sourceIndex": 142,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:8:tppm:slot11:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "tppm",
+            "faceIndex": 12,
+            "impact": 8,
+            "index": 120,
+            "kind": "interior",
+            "obligation": "interior:8:tppm:slot11:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp",
+            "slot": 11,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tppm",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "f3eb21134ab24754c014506e4209bf469d3cd76890b9bf4b275b751a7e056544",
+          "sourceIndex": 120,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    }
+  ],
+  "trusted_as_proof": false,
+  "validation_failure_count": 0
+}

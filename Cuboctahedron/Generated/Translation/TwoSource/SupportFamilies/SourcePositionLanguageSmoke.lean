@@ -37,9 +37,15 @@ private def source_000_positionProducer : SourceIndexStateSourceProducer where
     rcases h with ⟨hfirst, hsecond, hsupport, hpos⟩
     exact {
       firstSource := fun hlt => by
-        have hlookup := lookup_interior_impact1_tmmm_slot5
-          (translationSeqAtRankMask ⟨r, hlt⟩ mask) (hpos hlt).1
-        simpa [hfirst, hsupport, source_000_support] using hlookup
+        have hslot :
+            impactFace (translationSeqAtRankMask ⟨r, hlt⟩ mask) ⟨1, by decide⟩ ∈
+              interiorExcludedFacesForSlot Face.tmmm 5 := by
+          simpa [interiorExcludedFacesForSlot, interiorSlot?, faceIndex,
+            allFacesList] using (hpos hlt).1
+        have hlookup := lookup_interior_of_excluded_slot
+          (translationSeqAtRankMask ⟨r, hlt⟩ mask)
+          ⟨1, by decide⟩ Face.tmmm 5 (by decide) hslot
+        simpa [hfirst, hsupport, source_000_support, interiorSourceIndex] using hlookup
       secondSource := fun hlt => by
         have hlookup := lookup_xpStart
           (translationSeqAtRankMask ⟨r, hlt⟩ mask) ⟨0, by decide⟩

@@ -262,6 +262,14 @@ Phase 6Z.6K.8W implements the first such Lean source-position smoke: static
 derive `SourceIndexStateSourceFacts` from those semantic source-position facts.
 The focused build completes in 2.21s with 3.286 GiB RSS and no generated
 rank/mask replay.
+Phase 6Z.6K.8X scales that surface to all 44 profiled 8V obligations. It adds
+a reusable dynamic theorem `lookup_interior_of_excluded_slot`, validates the
+full 44-obligation profile with a memory-safe four-worker profiler run, and
+adds `SourcePositionObligations.lean`, a Lean smoke proving every profiled
+static and dynamic source-position obligation from the reusable lookup
+surface. The focused warm build of `SourcePositionLanguage`,
+`SourcePositionLanguageSmoke`, and `SourcePositionObligations` completes in
+2.59s with 3.33 GiB peak RSS and no rank/mask replay.
 Existing bad-direction, mask-tree, word/state DAG, D26, empty-cone, terminal
 residual, lifted-PB, signed-state cone, and coarse terminal-algebra tilers
 remain documented below only as rejected or diagnostic compression
@@ -7098,6 +7106,86 @@ exit status: 0
     using explicit block-length/skipping lemmas or generated per-obligation
     source-position lemmas.
 
+Completed Phase 6Z.6K.8X:
+
+- Re-ran the source-position profiler with all 44 obligations visible:
+
+```text
+/usr/bin/time -v python3 scripts/profile_source_index_state_language.py \
+  --limit 1000 \
+  --jobs 4 \
+  --sample-limit 100 \
+  --json scripts/generated/phase6z6k8v_source_index_state_language_profile_full.json \
+  --md scripts/generated/phase6z6k8v_source_index_state_language_profile_full.md
+```
+
+- Result:
+
+```text
+status:                         accepted-next-lean-smoke
+rank window:                    [0,1000)
+jobs:                           4
+source-index/state families:    74
+source-language obligations:    44
+static obligations:             13
+dynamic interior obligations:   31
+validation failures:            0
+wall time:                      0:31.63
+peak RSS:                       30,704 KB
+CPU utilization:                297%
+```
+
+- Extended
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguage.lean`
+  with reusable source-position infrastructure:
+  - `listGet?_flatMap_const_length`;
+  - `lookup_nonStartImpacts`;
+  - `slot_lt_of_mem_interiorExcludedFacesForSlot`;
+  - `lookup_impactInteriorSources_of_excluded_slot`;
+  - `lookup_interiorSources_of_excluded_slot`;
+  - `lookup_interior_of_excluded_slot`.
+- Updated
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionLanguageSmoke.lean`
+  so the dynamic producer uses the generic `lookup_interior_of_excluded_slot`
+  theorem instead of the one-off 8W lemma.
+- Added
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionObligations.lean`.
+  It proves one theorem for each of the 44 profiled static/dynamic
+  source-language obligations. The dynamic theorems all reduce their explicit
+  excluded-face list to `interiorExcludedFacesForSlot` and then invoke
+  `lookup_interior_of_excluded_slot`; none replay ranks or masks.
+- Verification command:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguageSmoke \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionObligations
+```
+
+- Result:
+
+```text
+status:      accepted-smoke
+wall time:   0:02.59
+peak RSS:    3,332,432 KB
+exit status: 0
+```
+
+- Additional note:
+  - A cold-ish focused build of `SourcePositionLanguage` after adding the
+    generic dynamic theorem completed in 11.59 seconds with 3,669,404 KB peak
+    RSS. This is still within the focused-smoke memory budget and avoids the
+    earlier failed giant generic `simp` proof over every prior impact block.
+- Decision:
+  - Accept 8X. The source-position side of the source-index/state producer
+    bridge now has a Lean-checked theorem surface for every profiled 8V
+    obligation, with no rank/mask member replay.
+  - The immediate next step is Phase 6Z.6K.8Y: use this source-position surface
+    to build or generate source-producer families for the full 74
+    source-index/state families from `[0,1000)`, still keeping row-property
+    facts separate and composing through the 8T glue theorem surface.
+
 Completed Phase 6Z.5:
 
 - Added
@@ -8122,9 +8210,13 @@ Acceptance:
   prove reusable lookup lemmas for `translationConstraintSources`, especially
   the interior slot/excluded-face condition, and use them in a bounded
   source-producer membership smoke without `fin_cases r <;> fin_cases mask`.
-- [ ] Implement Phase 6Z.6K.8X source-position obligation scaler:
+- [x] Implement Phase 6Z.6K.8X source-position obligation scaler:
   extend the source-position theorem surface from the accepted 8W smoke to all
   44 profiled 8V source-language obligations without using rank/mask replay.
+- [ ] Implement Phase 6Z.6K.8Y source-producer family scaler:
+  compose the 8X source-position theorem surface into source-producer
+  membership for all 74 source-index/state families from the bounded profile,
+  while keeping row-property facts separate and avoiding rank/mask replay.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -8242,20 +8334,28 @@ two source producers through the existing 8T glue surface without rank/mask
 member replay. The focused build of both modules passed in 2.21 seconds with
 3.286 GiB peak RSS.
 
-The immediate next step is Phase 6Z.6K.8X: scale the source-position language
-from the accepted 8W smoke to all 44 8V obligations. That step should:
+Phase 6Z.6K.8X is complete as the source-position obligation scaler. It proves
+one reusable dynamic interior lookup theorem and a Lean smoke covering all 44
+profiled 8V source-language obligations. The focused three-module build
+passed in 2.59 seconds with 3.33 GiB peak RSS.
 
-- generate or prove source-position lemmas for every static and dynamic
-  source-language obligation from the 8V profile;
-- avoid the failed generic simplification path for later impacts by using
-  explicit block-length/skipping lemmas or generated per-obligation lemmas;
+The immediate next step is Phase 6Z.6K.8Y: compose the 8X source-position
+surface into source-producer families for the full bounded set of 74
+source-index/state families. That step should:
+
+- use `lookup_xpStart`, `lookup_ordering`, and
+  `lookup_interior_of_excluded_slot` through the concrete 8X obligation
+  theorems where useful;
 - keep source-position facts separate from row-property facts and continue
   using the 8T glue theorem surface;
+- cover the full bounded 74-family profile without making `Applies` a
+  rank/mask member list;
 - use memory-safe Python parallelism for profiling/generation where available
   and keep focused Lean builds serial or otherwise measured;
 - avoid bad-direction, nonidentity, and bounded interval coverage branches;
-- reject immediately if the proof again devolves into rank/mask member replay
-  or large generic `simp` searches over complete source lists;
+- reject immediately if the proof again devolves into rank/mask member replay,
+  large generic `simp` searches over complete source lists, or concrete
+  per-rank row arithmetic;
 - produce a small theorem surface that can plausibly be reused globally, or
   explicitly report the remaining symbolic invariant needed to make that
   possible.

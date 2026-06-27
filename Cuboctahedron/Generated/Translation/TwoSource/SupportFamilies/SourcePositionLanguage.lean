@@ -71,6 +71,50 @@ def interiorSourceIndex (i : Impact15) (slot : Nat) : Nat :=
       | succ n =>
           simp [listGet?, ih n (Nat.le_of_succ_le_succ h)]
 
+theorem listGet?_flatMap_const_length {α β : Type} {xs : List α}
+    {f : α -> List β} {m k n : Nat} {x : α}
+    (hlen : ∀ y, y ∈ xs -> (f y).length = m)
+    (hx : listGet? xs k = some x)
+    (hn : n < m) :
+    listGet? (xs.flatMap f) (m * k + n) = listGet? (f x) n := by
+  induction xs generalizing k with
+  | nil =>
+      simp [listGet?] at hx
+  | cons a xs ih =>
+      cases k with
+      | zero =>
+          have hfa : (f a).length = m := hlen a (by simp)
+          simp [listGet?] at hx
+          subst x
+          simpa [List.flatMap, hfa] using
+            (listGet?_append_left (f a) (xs.flatMap f) n (by simpa [hfa] using hn))
+      | succ k =>
+          have hfa : (f a).length = m := hlen a (by simp)
+          have htail : ∀ y, y ∈ xs -> (f y).length = m := by
+            intro y hy
+            exact hlen y (by simp [hy])
+          have hxTail : listGet? xs k = some x := by
+            simpa [listGet?] using hx
+          have hge : (f a).length <= m * (k + 1) + n := by
+            rw [hfa]
+            have hone : 1 <= k + 1 := Nat.succ_le_succ (Nat.zero_le k)
+            have hmle : m <= m * (k + 1) := by
+              simpa [Nat.mul_one] using Nat.mul_le_mul_left m hone
+            exact Nat.le_trans hmle (Nat.le_add_right (m * (k + 1)) n)
+          have hright := listGet?_append_right (f a) (xs.flatMap f)
+            (m * (k + 1) + n) hge
+          have hindex :
+              (m * (k + 1) + n) - (f a).length = m * k + n := by
+            rw [hfa]
+            rw [Nat.mul_succ]
+            omega
+          have hih := ih htail hxTail
+          have hright' :
+              listGet? (f a ++ xs.flatMap f) (m * (k + 1) + n) =
+                listGet? (xs.flatMap f) (m * k + n) := by
+            simpa [hindex] using hright
+          simpa [List.flatMap] using hright'.trans hih
+
 @[simp] theorem impactInteriorSources_length
     (seq : Step14 -> Face) (i : Impact15) :
     (impactInteriorSources seq i).length = 13 := by
@@ -140,6 +184,66 @@ theorem lookup_interior_impact1_tmmm_slot5
     interiorSources, nonStartImpacts_eq, impactInteriorSources, allFacesList,
     listGet?] at himpact ⊢
   rcases himpact with h | h | h | h | h | h <;> simp [listGet?, h]
+
+theorem lookup_nonStartImpacts
+    (i : Impact15) (hi : i ≠ 0) :
+    listGet? nonStartImpacts (i.val - 1) = some i := by
+  fin_cases i <;> simp [nonStartImpacts_eq, listGet?] at hi ⊢
+
+theorem slot_lt_of_mem_interiorExcludedFacesForSlot
+    {face excluded : Face} {slot : Nat}
+    (h : excluded ∈ interiorExcludedFacesForSlot face slot) :
+    slot < 13 := by
+  fin_cases face <;> fin_cases excluded <;>
+    simp [interiorExcludedFacesForSlot, interiorSlot?, faceIndex, allFacesList] at h ⊢ <;>
+    omega
+
+theorem lookup_impactInteriorSources_of_excluded_slot
+    (seq : Step14 -> Face) (i : Impact15) (face : Face) (slot : Nat)
+    (himpact : impactFace seq i ∈ interiorExcludedFacesForSlot face slot) :
+    listGet? (impactInteriorSources seq i) slot =
+      some (TranslationConstraintSource.interior i face) := by
+  generalize hhit : impactFace seq i = excluded at himpact ⊢
+  fin_cases face <;> fin_cases excluded <;>
+    simp [interiorExcludedFacesForSlot, interiorSlot?, faceIndex, allFacesList] at himpact <;>
+    subst slot <;>
+    simp [impactInteriorSources, allFacesList, listGet?, hhit]
+
+theorem lookup_interiorSources_of_excluded_slot
+    (seq : Step14 -> Face) (i : Impact15) (face : Face) (slot : Nat)
+    (hi : i ≠ 0)
+    (himpact : impactFace seq i ∈ interiorExcludedFacesForSlot face slot) :
+    listGet? (interiorSources seq) (13 * (i.val - 1) + slot) =
+      some (TranslationConstraintSource.interior i face) := by
+  have hslot : slot < 13 :=
+    slot_lt_of_mem_interiorExcludedFacesForSlot himpact
+  have hblock := listGet?_flatMap_const_length
+    (xs := nonStartImpacts)
+    (f := fun i : Impact15 => impactInteriorSources seq i)
+    (m := 13)
+    (k := i.val - 1)
+    (n := slot)
+    (x := i)
+    (hlen := by
+      intro y hy
+      exact impactInteriorSources_length seq y)
+    (hx := lookup_nonStartImpacts i hi)
+    (hn := hslot)
+  have hwithin :=
+    lookup_impactInteriorSources_of_excluded_slot seq i face slot himpact
+  simpa [interiorSources, hwithin] using hblock
+
+theorem lookup_interior_of_excluded_slot
+    (seq : Step14 -> Face) (i : Impact15) (face : Face) (slot : Nat)
+    (hi : i ≠ 0)
+    (himpact : impactFace seq i ∈ interiorExcludedFacesForSlot face slot) :
+    listGet? (translationConstraintSources seq) (interiorSourceIndex i slot) =
+      some (TranslationConstraintSource.interior i face) := by
+  have hlookup :=
+    lookup_interiorSources_of_excluded_slot seq i face slot hi himpact
+  simpa [translationConstraintSources, xpStartSources_eq, orderingSources_eq,
+    interiorSourceIndex, listGet?, Nat.add_assoc, Nat.add_left_comm,
+    Nat.add_comm] using hlookup
 
 theorem sourcePositionLanguage_builds : True := by
   trivial
