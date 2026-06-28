@@ -10742,6 +10742,57 @@ Acceptance:
   many small windows across the full rank range, recording only identity-word
   and GoodDirection counts plus time, so that any eventual catalog emission is
   scheduled by observed density rather than lexical-rank assumptions.
+- [x] Implement Phase 6Z.6K.8AP.16AG lightweight AP.16 density map:
+  AP.16AG adds `scripts/run_ap16_density_map.py`, a checkpointed diagnostic
+  that counts only identity-linear words and GoodDirection masks.  It does not
+  build source/Farkas candidate families and emits no Lean.
+
+  Command:
+
+  ```text
+  /usr/bin/time -v python3 scripts/run_ap16_density_map.py \
+    --no-resume \
+    --rank-start 0 \
+    --limit 88001000 \
+    --window-size 1000 \
+    --stride 8000000 \
+    --max-windows 12 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_ap16ag_density_map \
+    --json scripts/generated/phase6z6k8ap16ag_density_map.json \
+    --md scripts/generated/phase6z6k8ap16ag_density_map.md \
+    --phase 6Z.6K.8AP.16AG
+  ```
+
+  Result:
+
+  ```text
+  completed sampled ranks:   12,000
+  workers:                   4
+  wall time:                 6.88s
+  user CPU:                  19.31s
+  parent max RSS:            23,888 KiB
+  max per-window RSS:        17,172 KiB
+  identity words:              341
+  GoodDirection masks:       1,677
+  ranks with GoodDirection:    236
+  ```
+
+  Densest sampled windows:
+
+  ```text
+  [0, 1000):               138 identity words, 1,465 GoodDirection masks, 6.84s
+  [80,000,000, 80,001,000): 51 identity words,   123 GoodDirection masks, 2.67s
+  [32,000,000, 32,001,000): 51 identity words,    28 GoodDirection masks, 2.67s
+  ```
+
+  Interpretation: the first 1,000 ranks are a dense pocket, not a uniform
+  model for the whole rank range.  The cheap density runner gives a memory-safe
+  way to schedule future positive-survivor catalog construction by observed
+  workload.  If this route continues, the next production-oriented diagnostic
+  should run a broader density grid first, then dispatch heavyweight candidate
+  extraction only to windows whose density justifies it.  This is a scheduling
+  tool, not proof evidence.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
