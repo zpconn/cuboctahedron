@@ -12603,6 +12603,58 @@ Acceptance:
   reuse those seven facts.  This is still rank-specific smoke data, but it
   attacks the actual OOM source: heavy replay of concrete rank/mask
   denominator facts.
+- [x] Test and reject Phase 6Z.6K.8AP.16BT generated six-bit equality smoke:
+  AP16BT adds `scripts/generate_ap16bt_walsh_equality_one_smoke.py`, a
+  one-impact generated smoke for impact `1` at rank `100805`.  The smoke tried
+  the smallest Lean-facing symbolic equality theorem:
+
+  ```lean
+  theorem impact01_walsh_eq
+      (mask : SignMask) (hlt : 100805 < numPairWords) :
+      impactDenomAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask ⟨1, by decide⟩ =
+        generatedPoly.eval mask
+  ```
+
+  It deliberately avoided `fin_cases mask`, splitting instead on the six
+  semantic `maskBitForPair` bits.  Two script-ordering failures were fixed
+  under the same memory guard; the substantive third build was stopped by the
+  guard:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 8000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bt_walsh_equality_one_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshEqualityOneSmoke'
+  ```
+
+  Result:
+
+  ```text
+  exit code: -15
+  elapsed: 10.51s
+  peak tree RSS: 8056 MiB
+  minimum available memory: 42011 MiB
+  killed reason: process-tree RSS 8056 MiB exceeded 8000 MiB cap
+  ```
+
+  The generated non-building Lean module was removed from `Cuboctahedron/`
+  after the guarded failure so normal package builds do not import or discover
+  it.  The diagnostic reports remain:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bt_walsh_equality_one_smoke.json
+  scripts/generated/phase6z6k8ap16bt_walsh_equality_one_smoke.md
+  ```
+
+  Decision: AP16BT rejects generated tactic simplification over six semantic
+  mask bits.  It still has the same memory shape as replay once the exact
+  rational denominator computation unfolds.  The next AP16 equality bridge
+  must introduce a real symbolic evaluator for denominators, preferably over
+  integer/scaled affine data, so Lean checks small coefficient equations
+  instead of unfolding `totalAff`/`translationChoiceSeq` through six Boolean
+  branches.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

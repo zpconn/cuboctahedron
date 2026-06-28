@@ -1,0 +1,23 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BT",
+  "status": "rejected_by_memory_guard",
+  "rank": 100805,
+  "impact": 1,
+  "term_count": 6,
+  "max_degree": 1,
+  "uses_fin_cases_mask": false,
+  "uses_semantic_bit_splits": true,
+  "trusted_as_final_generated_coverage": false,
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshEqualityOneSmoke.lean",
+  "lean_file_retained": false,
+  "rejection_reason": "The semantic six-bit split still exceeded the 8 GiB process-tree RSS guard before completing.",
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 8000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bt_walsh_equality_one_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshEqualityOneSmoke'",
+    "elapsed_seconds": 10.512205725000968,
+    "exit_code": -15,
+    "killed_reason": "process-tree RSS 8056 MiB exceeded 8000 MiB cap",
+    "max_tree_rss_mib": 8056.33203125,
+    "min_available_seen_mib": 42011.20703125
+  },
+  "next_step": "Replace generated bit-split simplification with a hand-written symbolic denominator evaluator or an integer/scaled evaluator; do not widen this tactic-generated equality shape."
+}
