@@ -11560,6 +11560,64 @@ Acceptance:
   GoodDirection survivors, but new generated evidence should target
   `SourcePositionRowProducerGoodCoverageOnRange`, not concrete
   positive-mask candidate facts.
+- [x] Implement Phase 6Z.6K.8AP.16AW signature source-position coverage:
+  AP.16AW aligns the positive-survivor signature classifier layer with the
+  source-position coverage surface selected for production.
+
+  Generic adapters added:
+
+  ```text
+  PositiveSurvivorClassifierOnRange.to_killedBridge_of_fullRange
+  PositiveSurvivorBoolClassifierOnRange.to_coverage
+  PositiveSurvivorBoolClassifierOnRange.to_killedBridge_of_fullRange
+  PositiveSurvivorBoolSignatureClassifierOnRange.to_coverage
+  PositiveSurvivorBoolSignatureClassifierOnRange.to_killedBridge_of_fullRange
+  ```
+
+  Regenerated smoke theorem surface:
+
+  ```text
+  generatedSingletonSignatureSourcePositionCoverage :
+    SourcePositionRowProducerGoodCoverageOnRange 100805 100806
+
+  generatedSingletonSignatureAllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 100805 100806
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16aw_signature_coverage_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  Result:
+
+  ```text
+  build status:             passed
+  elapsed:                   7.51s
+  peak process-tree RSS:     4.036 GiB
+  minimum available memory: 45.06 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16aw_signature_source_position_coverage.json
+  scripts/generated/phase6z6k8ap16aw_signature_source_position_coverage.md
+  ```
+
+  Interpretation: signature classifiers can now erase to source-position
+  coverage and then to `Translation.KilledBridge`.  This keeps the AP16
+  theorem surface aligned with the accepted producer hierarchy.  The remaining
+  hard proof obligation is still the full-range positive-survivor signature
+  membership theorem: for every identity-linear `goodDirectionAtRankBool`
+  survivor, find the signature and prove source/row facts for its selected
+  candidate.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

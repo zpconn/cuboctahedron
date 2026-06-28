@@ -86,6 +86,12 @@ theorem PositiveSurvivorClassifierOnRange.to_allGoodCoverage
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     classifier.to_coverage
 
+theorem PositiveSurvivorClassifierOnRange.to_killedBridge_of_fullRange
+    (classifier : PositiveSurvivorClassifierOnRange 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.KilledBridge :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
+    classifier.to_coverage
+
 def PositiveSurvivorClassifierOnRange.empty
     {lo hi : Nat} (h : hi <= lo) :
     PositiveSurvivorClassifierOnRange lo hi where
@@ -297,6 +303,18 @@ theorem PositiveSurvivorBoolClassifierOnRange.to_allGoodCoverage
     AllTranslationGoodCoverageOnRange lo hi :=
   classifier.to_classifier.to_allGoodCoverage
 
+def PositiveSurvivorBoolClassifierOnRange.to_coverage
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorBoolClassifierOnRange lo hi) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi :=
+  classifier.to_classifier.to_coverage
+
+theorem PositiveSurvivorBoolClassifierOnRange.to_killedBridge_of_fullRange
+    (classifier : PositiveSurvivorBoolClassifierOnRange 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.KilledBridge :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
+    classifier.to_coverage
+
 def PositiveSurvivorBoolClassifierOnRange.of_singleCandidate
     {lo hi : Nat}
     (candidate : Nat -> SignMask -> Prop)
@@ -449,6 +467,18 @@ theorem PositiveSurvivorBoolSignatureClassifierOnRange.to_allGoodCoverage
     (classifier : PositiveSurvivorBoolSignatureClassifierOnRange lo hi) :
     AllTranslationGoodCoverageOnRange lo hi :=
   classifier.to_boolClassifier.to_allGoodCoverage
+
+def PositiveSurvivorBoolSignatureClassifierOnRange.to_coverage
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorBoolSignatureClassifierOnRange lo hi) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi :=
+  classifier.to_boolClassifier.to_coverage
+
+theorem PositiveSurvivorBoolSignatureClassifierOnRange.to_killedBridge_of_fullRange
+    (classifier : PositiveSurvivorBoolSignatureClassifierOnRange 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.KilledBridge :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
+    classifier.to_coverage
 
 def PositiveSurvivorBoolSignatureClassifierOnRange.of_singleSignatureCandidate
     {lo hi : Nat}

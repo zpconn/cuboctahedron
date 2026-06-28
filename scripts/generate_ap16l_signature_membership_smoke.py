@@ -228,6 +228,18 @@ The remaining premises are exactly the split AP.16O proof obligations for the
 next step: prove positive-mask membership from `goodDirectionAtRankBool = true`,
 then prove theorem-valued source/row facts for the mask-selected candidate.
 -/
+theorem generatedSingletonSignatureSourcePositionCoverage
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        goodDirectionAtRankBool ⟨{anchor}, hlt⟩ mask = true ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    SourcePositionRowProducerGoodCoverageOnRange {anchor} {hi} :=
+  (generatedSignatureClassifier hmask hfacts).to_coverage
+
 theorem generatedSingletonSignatureAllGoodCoverage
     (hmask :
       forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
@@ -238,7 +250,8 @@ theorem generatedSingletonSignatureAllGoodCoverage
         generatedGoodMaskMember mask ->
           generatedSignatureFacts mask) :
     AllTranslationGoodCoverageOnRange {anchor} {hi} :=
-  (generatedSignatureClassifier hmask hfacts).to_allGoodCoverage
+  SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    (generatedSingletonSignatureSourcePositionCoverage hmask hfacts)
 
 theorem generatedPositiveSurvivorSignatureMembershipSmoke_builds : True := by
   trivial

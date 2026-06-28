@@ -1,0 +1,29 @@
+{
+  "phase": "6Z.6K.8AP.16AW",
+  "status": "accepted-signature-source-position-coverage",
+  "purpose": "Align the positive-survivor signature classifier layer with the production source-position coverage surface.",
+  "files_changed": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifier.lean",
+    "scripts/generate_ap16l_signature_membership_smoke.py",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean"
+  ],
+  "generic_adapters_added": [
+    "PositiveSurvivorClassifierOnRange.to_killedBridge_of_fullRange",
+    "PositiveSurvivorBoolClassifierOnRange.to_coverage",
+    "PositiveSurvivorBoolClassifierOnRange.to_killedBridge_of_fullRange",
+    "PositiveSurvivorBoolSignatureClassifierOnRange.to_coverage",
+    "PositiveSurvivorBoolSignatureClassifierOnRange.to_killedBridge_of_fullRange"
+  ],
+  "generated_smoke_theorems": [
+    "generatedSingletonSignatureSourcePositionCoverage",
+    "generatedSingletonSignatureAllGoodCoverage"
+  ],
+  "focused_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16aw_signature_coverage_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'",
+    "status": "passed",
+    "elapsed_seconds": 7.51,
+    "peak_tree_rss_mib": 4036,
+    "min_available_mib": 46144
+  },
+  "decision": "Accepted. Signature classifiers can now erase to source-position coverage and then to Translation.KilledBridge. The remaining hard proof obligation is still the full-range positive-survivor signature membership theorem."
+}
