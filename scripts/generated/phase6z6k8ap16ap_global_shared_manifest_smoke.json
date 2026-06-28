@@ -1,0 +1,51 @@
+{
+  "build": {
+    "elapsed_seconds": 40.58,
+    "max_tree_rss_mib": 6169,
+    "min_available_mib": 43597,
+    "rss_cap_mib": 16000,
+    "status": "passed"
+  },
+  "candidate_count": 13,
+  "decision": {
+    "notes": [
+      "diagnostic Lean smoke only",
+      "candidate facts are emitted once for all selected shards",
+      "routing modules are thin and import the shared candidate module",
+      "bounded two-shard build passed under RSS guard",
+      "at two shards, global sharing is slightly smaller in source but not faster than AP.16AN"
+    ],
+    "status": "global-shared-manifest-smoke-emitted"
+  },
+  "group_module": "PositiveSurvivorSharedTop5GlobalGroup000Smoke",
+  "manifest": "scripts/generated/phase6z6k8ap16am_top5_signature_shard_manifest.json",
+  "mode": "ap16_global_shared_manifest_smoke",
+  "outputs": {
+    "group": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5GlobalGroup000Smoke.lean",
+    "routing": [
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5GlobalRoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5GlobalRoutingShard001Smoke.lean"
+    ],
+    "shared": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5GlobalCandidateFactsSmoke.lean"
+  },
+  "phase": "6Z.6K.8AP.16AP",
+  "positive_mask_facts": 30,
+  "profile": "scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json",
+  "routing_modules": [
+    "PositiveSurvivorSharedTop5GlobalRoutingShard000Smoke",
+    "PositiveSurvivorSharedTop5GlobalRoutingShard001Smoke"
+  ],
+  "schema_version": 1,
+  "shards_emitted": 2,
+  "shared_module": "PositiveSurvivorSharedTop5GlobalCandidateFactsSmoke",
+  "signature_count": 3,
+  "source_lines": {
+    "ap16an_total_for_same_shards": 6548,
+    "group": 16,
+    "routing_shard_000": 258,
+    "routing_shard_001": 357,
+    "shared_candidate_facts": 5797,
+    "total": 6428
+  },
+  "trusted_as_proof": false
+}

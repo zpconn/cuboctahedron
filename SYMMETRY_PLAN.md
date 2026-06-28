@@ -11252,6 +11252,60 @@ Acceptance:
   and keep signature chunks as thin routing only.  This should reduce source
   size and prevent the repeated candidate-fact proof work that caused the
   6,548-line / 30-positive-mask AP.16AN smoke.
+- [x] Implement Phase 6Z.6K.8AP.16AP global shared-candidate manifest smoke:
+  AP.16AP adds `scripts/generate_ap16ap_global_shared_manifest_smoke.py`.
+  Unlike AP.16AN, which emitted one candidate-facts module per manifest shard,
+  AP.16AP emits one candidate-facts module shared by several routing shards.
+  This tests the AP.16AO recommendation on the same first two AP.16AM top-5
+  shards.
+
+  Emission result:
+
+  ```text
+  represented shards:          2
+  represented signatures:      3
+  positive-mask facts:        30
+  shared candidate groups:    13
+  total Lean source lines: 6,428
+  ```
+
+  For comparison, AP.16AN emitted `6,548` lines for the same two manifest
+  shards.  The line-count win is small at this scale because the first two
+  shards have limited overlap.
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 16000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16ap_top5_global_group_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedTop5GlobalGroup000Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build status:             passed
+  elapsed:                  40.58s
+  peak process-tree RSS:     6.169 GiB
+  minimum available memory: 42.58 GiB
+  ```
+
+  Diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ap_global_shared_manifest_smoke.json
+  scripts/generated/phase6z6k8ap16ap_global_shared_manifest_smoke.md
+  ```
+
+  Interpretation: AP.16AP is accepted as a bounded layout smoke, but it is not
+  yet a scaling win.  At two shards, global candidate sharing is slightly
+  smaller in source but slightly slower and higher-RSS than AP.16AN.  A larger
+  shard slice may amortize high-reuse candidates, but another possibility is a
+  deeper candidate-fact factoring that avoids one proof block per positive
+  mask.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
