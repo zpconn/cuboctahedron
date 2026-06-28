@@ -11953,6 +11953,53 @@ Acceptance:
   scaling.  The Boolean cube cover itself is only a candidate partition; Lean
   still needs exact denominator-cube witnesses showing that every mask in a bad
   cube contradicts `GoodDirectionAtRank`.
+- [x] Implement Phase 6Z.6K.8AP.16BE bad-mask cover core:
+  AP16BE adds the proof-valued interface that future mask-tree/Farkas-cube
+  generated leaves should target:
+
+  ```lean
+  BadMaskCover
+  BadMaskCover.goodMaskMember_of_goodDirection
+  BadMaskCover.toMembershipPremise
+  ```
+
+  `BadMaskCover` is intentionally representation-agnostic: a generated module
+  may instantiate its `BadFamily` with Boolean cubes, denominator-cube Farkas
+  certificates, or another symbolic language.  The generic theorem then erases
+  the cover into the AP16AZ membership premise
+  `GoodDirectionAtRank -> GoodMaskMember`.
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16be_bad_mask_cover_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                7.51s
+  peak process-tree RSS:  3.813 GiB
+  minimum available mem:  45.26 GiB
+  guard kill:             no
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16be_bad_mask_cover_core.json
+  scripts/generated/phase6z6k8ap16be_bad_mask_cover_core.md
+  ```
+
+  Decision: `BadMaskCover` is the accepted erased semantic interface for the
+  next generated smoke.  The next step is to instantiate it for one survivor
+  bitset using AP16BD's cube cover, first with existing per-mask denominator
+  witnesses as a regression baseline and then with a genuine denominator-cube
+  Farkas witness for at least one cube.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -13998,6 +14045,16 @@ geometric fact yet, but it gives the next concrete Lean target: formalize a
 denominator-cube or pseudo-Boolean Farkas theorem that proves a whole cube of
 masks cannot satisfy `GoodDirectionAtRank`, then test it on one survivor
 bitset before broader generation.
+
+AP.16BE adds the corresponding Lean interface.  `BadMaskCover` is a
+proof-valued cover of all masks outside a positive survivor set at a fixed
+rank.  Its theorem `BadMaskCover.goodMaskMember_of_goodDirection` proves the
+AP16AZ membership premise from two semantic facts: every mask outside the
+positive set belongs to some bad family, and every bad-family member
+contradicts `GoodDirectionAtRank`.  The module builds quickly and contains no
+generated data.  It gives the next generated smoke a clean target: instantiate
+`BadMaskCover` for one AP16BD cube cover, then replace per-mask cube soundness
+with true denominator-cube/Farkas soundness.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

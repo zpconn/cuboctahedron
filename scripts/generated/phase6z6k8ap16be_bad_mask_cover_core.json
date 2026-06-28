@@ -1,0 +1,23 @@
+{
+  "phase": "6Z.6K.8AP.16BE",
+  "status": "accepted-bad-mask-cover-core",
+  "date": "2026-06-28",
+  "changed_files": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/BadMaskCover.lean"
+  ],
+  "new_api": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.BadMaskCover",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.BadMaskCover.goodMaskMember_of_goodDirection",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.BadMaskCover.toMembershipPremise"
+  ],
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16be_bad_mask_cover_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover'",
+    "exit_code": 0,
+    "elapsed_seconds": 7.506888419000461,
+    "peak_tree_rss_mib": 3904.86328125,
+    "min_available_seen_mib": 46343.875,
+    "rss_cap_mib": 12000.0,
+    "killed_reason": null
+  },
+  "decision": "The proof-valued bad-mask cover interface is accepted. It lets future generated mask-cube/Farkas leaves prove the AP16AZ membership premise without exposing per-mask denominator witnesses at the positive-survivor classifier layer."
+}
