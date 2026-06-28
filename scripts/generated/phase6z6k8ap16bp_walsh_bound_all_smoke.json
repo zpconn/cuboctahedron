@@ -1,0 +1,164 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BP",
+  "status": "generated_all_subcube_smoke_build_passed",
+  "rank": 100805,
+  "selected_count": 20,
+  "total_terms": 134,
+  "max_terms": 7,
+  "max_degree": 2,
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshAllSmoke.lean",
+  "connects_to_impactDenomAtRank": false,
+  "trusted_as_final_generated_coverage": false,
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bp_walsh_all_smoke_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshAllSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 23.54,
+    "peak_tree_rss_mib": 4234,
+    "min_available_seen_mib": 45947,
+    "guard_killed": false
+  },
+  "production_decision": "accepted_as_rank_100805_all_selected_walsh_bound_smoke",
+  "next_step": "Connect each Walsh polynomial to impactDenomAtRank, preferably by a symbolic/generated denominator-equality theorem rather than mask replay.",
+  "subcubes": [
+    {
+      "selected_index": 0,
+      "label": "*000**",
+      "impact": 1,
+      "term_count": 6,
+      "bound_sum": "-4/27"
+    },
+    {
+      "selected_index": 1,
+      "label": "*00*0*",
+      "impact": 1,
+      "term_count": 6,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 2,
+      "label": "0100**",
+      "impact": 8,
+      "term_count": 7,
+      "bound_sum": "-4/9"
+    },
+    {
+      "selected_index": 3,
+      "label": "01*1*1",
+      "impact": 2,
+      "term_count": 6,
+      "bound_sum": "-20/27"
+    },
+    {
+      "selected_index": 4,
+      "label": "0*10*1",
+      "impact": 4,
+      "term_count": 7,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 5,
+      "label": "1011**",
+      "impact": 6,
+      "term_count": 7,
+      "bound_sum": "-28/9"
+    },
+    {
+      "selected_index": 6,
+      "label": "1100**",
+      "impact": 5,
+      "term_count": 7,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 7,
+      "label": "1*100*",
+      "impact": 2,
+      "term_count": 6,
+      "bound_sum": "-4/27"
+    },
+    {
+      "selected_index": 8,
+      "label": "0*011*",
+      "impact": 2,
+      "term_count": 6,
+      "bound_sum": "-4/27"
+    },
+    {
+      "selected_index": 9,
+      "label": "*01*10",
+      "impact": 6,
+      "term_count": 7,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 10,
+      "label": "10*11*",
+      "impact": 6,
+      "term_count": 7,
+      "bound_sum": "-28/9"
+    },
+    {
+      "selected_index": 11,
+      "label": "11*01*",
+      "impact": 5,
+      "term_count": 7,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 12,
+      "label": "11**01",
+      "impact": 10,
+      "term_count": 7,
+      "bound_sum": "-4/9"
+    },
+    {
+      "selected_index": 13,
+      "label": "00110*",
+      "impact": 5,
+      "term_count": 7,
+      "bound_sum": "-4"
+    },
+    {
+      "selected_index": 14,
+      "label": "010**0",
+      "impact": 8,
+      "term_count": 7,
+      "bound_sum": "-4"
+    },
+    {
+      "selected_index": 15,
+      "label": "0**111",
+      "impact": 2,
+      "term_count": 6,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 16,
+      "label": "101*1*",
+      "impact": 6,
+      "term_count": 7,
+      "bound_sum": "-28/9"
+    },
+    {
+      "selected_index": 17,
+      "label": "*10*10",
+      "impact": 8,
+      "term_count": 7,
+      "bound_sum": "-28/9"
+    },
+    {
+      "selected_index": 18,
+      "label": "0*1100",
+      "impact": 5,
+      "term_count": 7,
+      "bound_sum": "-4/3"
+    },
+    {
+      "selected_index": 19,
+      "label": "11110*",
+      "impact": 10,
+      "term_count": 7,
+      "bound_sum": "-20/9"
+    }
+  ]
+}
