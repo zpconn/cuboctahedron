@@ -115,6 +115,25 @@ Observed bounded cases in the profile: `{group["case_count"]}`.
 This is a theorem-surface smoke only; future production chunks must prove
 the `hclass` classifier from semantic positive-survivor signatures.
 -/
+theorem generatedGroupSourcePositionCoverage
+    (hclass :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedCandidate rank mask) :
+    SourcePositionRowProducerGoodCoverageOnRange {lo} {hi} :=
+  SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate
+    generatedSpec generatedRowProducer generatedKey rfl rfl rfl
+    (by
+      intro rank mask hlt hlo hhi hM hgood
+      exact (hclass hlt hlo hhi hM hgood).1)
+    (by
+      intro rank mask hlt hlo hhi hM hgood
+      exact (hclass hlt hlo hhi hM hgood).2)
+
 theorem generatedGroupAllGoodCoverage
     (hclass :
       forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
@@ -125,15 +144,8 @@ theorem generatedGroupAllGoodCoverage
               GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
                 generatedCandidate rank mask) :
     AllTranslationGoodCoverageOnRange {lo} {hi} :=
-  allGoodCoverage_of_positiveSingleCandidateClassifier
-    generatedCandidate generatedSpec generatedRowProducer generatedKey
-    rfl rfl rfl hclass
-    (by
-      intro rank mask h
-      exact h.1)
-    (by
-      intro rank mask h
-      exact h.2)
+  SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    (generatedGroupSourcePositionCoverage hclass)
 
 theorem generatedPositiveSurvivorMembershipSmoke_builds : True := by
   trivial

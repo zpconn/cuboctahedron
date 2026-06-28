@@ -1,0 +1,26 @@
+{
+  "phase": "6Z.6K.8AP.16AV",
+  "status": "accepted-source-position-smoke-emitter",
+  "purpose": "Update the AP16I positive-survivor smoke emitter to expose SourcePositionRowProducerGoodCoverageOnRange before deriving all-Good coverage.",
+  "files_changed": [
+    "scripts/generate_ap16i_positive_membership_smoke.py",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean"
+  ],
+  "theorems_emitted": [
+    "generatedGroupSourcePositionCoverage",
+    "generatedGroupAllGoodCoverage"
+  ],
+  "regeneration": {
+    "command": "python3 scripts/generate_ap16i_positive_membership_smoke.py",
+    "group": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+    "observed_cases": 1316
+  },
+  "focused_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16av_generated_source_position_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke'",
+    "status": "passed",
+    "elapsed_seconds": 6.01,
+    "peak_tree_rss_mib": 3997,
+    "min_available_mib": 46150
+  },
+  "decision": "Accepted as the new tiny generated smoke shape. It does not solve global membership, but it proves the generator can target the source-position coverage surface rather than concrete positive-mask candidate facts."
+}

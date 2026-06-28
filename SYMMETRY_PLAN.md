@@ -11505,6 +11505,61 @@ Acceptance:
   erase it to `Translation.KilledBridge`.  This is a better generator target
   than concrete positive-survivor candidate facts because it preserves the
   semantic source-position/row-producer abstraction.
+- [x] Implement Phase 6Z.6K.8AP.16AV source-position smoke emitter:
+  AP.16AV updates the tiny AP16I positive-survivor generated smoke so it
+  exposes the production-preferred source-position coverage theorem before
+  deriving all-Good coverage.
+
+  Updated files:
+
+  ```text
+  scripts/generate_ap16i_positive_membership_smoke.py
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean
+  ```
+
+  Emitted theorem surface:
+
+  ```text
+  generatedGroupSourcePositionCoverage :
+    SourcePositionRowProducerGoodCoverageOnRange 0 5000
+
+  generatedGroupAllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16av_generated_source_position_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke'
+  ```
+
+  Result:
+
+  ```text
+  build status:             passed
+  elapsed:                   6.01s
+  peak process-tree RSS:     3.997 GiB
+  minimum available memory: 45.07 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16av_source_position_smoke_emitter.json
+  scripts/generated/phase6z6k8ap16av_source_position_smoke_emitter.md
+  ```
+
+  Interpretation: the small generated smoke now matches the production
+  theorem surface selected by AP.16AU.  The remaining hard gap is still the
+  classifier/membership theorem (`hclass`) for arbitrary full-range
+  GoodDirection survivors, but new generated evidence should target
+  `SourcePositionRowProducerGoodCoverageOnRange`, not concrete
+  positive-mask candidate facts.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
