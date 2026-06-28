@@ -228,7 +228,8 @@ bounded AP interval smoke, through the Phase 6Z.6K.8AP.12 source-position
 predicate/producer adapter, the Phase 6Z.6K.8AP.16I positive-survivor
 membership profile, the Phase 6Z.6K.8AP.16BF bad-mask cover singleton smoke,
 the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
-6Z.6K.8AP.16BH bounded weighted-denominator rejection.
+6Z.6K.8AP.16BH bounded weighted-denominator rejection, and the Phase
+6Z.6K.8AP.16BI denominator Walsh-degree profile.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -743,6 +744,11 @@ Completed current-work items:
   - `scripts/profile_ap16bh_denominator_cube_weighted_obstruction.py`
   - `scripts/generated/phase6z6k8ap16bh_denominator_cube_weighted_profile.json`
   - `scripts/generated/phase6z6k8ap16bh_denominator_cube_weighted_profile.md`
+- Added the Phase 6Z.6K.8AP.16BI denominator Walsh-degree profiler and
+  reports:
+  - `scripts/profile_ap16bi_denominator_sign_forms.py`
+  - `scripts/generated/phase6z6k8ap16bi_denominator_sign_forms.json`
+  - `scripts/generated/phase6z6k8ap16bi_denominator_sign_forms.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12148,6 +12154,33 @@ Acceptance:
   that no assignment in a cube can make all denominator sign-linear forms
   positive, rather than trying to find a small nonnegative sum of evaluated
   denominators.
+- [x] Implement Phase 6Z.6K.8AP.16BI denominator Walsh-degree profile:
+  AP16BI adds `scripts/profile_ap16bi_denominator_sign_forms.py`, extracting
+  exact denominator functions over the six final translation mask bits for the
+  rank-`100805` AP16BF singleton.  The intended affine sign-form assumption is
+  false: interpolation by degree <= 1 fails beginning at impact 2.  The full
+  Walsh/multilinear representation validates against all 64 masks, and its
+  degree summary is:
+
+  ```text
+  impact 1:      max degree 1, 6 nonzero terms
+  impacts 2-3:   max degree 2, 6 nonzero terms each
+  impacts 4-13:  max degree 2, 7 nonzero terms each
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bi_denominator_sign_forms.json
+  scripts/generated/phase6z6k8ap16bi_denominator_sign_forms.md
+  ```
+
+  Decision: Gemini/GPT-style affine denominator LPs are not the right literal
+  certificate shape for completed final mask bits.  The next certificate layer
+  should use quadratic pseudo-Boolean forms directly, or lift products of sign
+  bits to auxiliary variables and prove the necessary Boolean/product
+  constraints for a cube.  This explains why AP16BH's simple denominator-weight
+  route found no small witnesses.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -14229,6 +14262,13 @@ impact cubes and zero sparse witnesses under support <= 3 and weight <= 8.
 This rejects the simple weighted-denominator shortcut and points the next
 attempt to sign-form / pseudo-Boolean Farkas certificates over the cube's sign
 variables.
+
+AP.16BI checks the sign-form assumption exactly.  The denominator functions do
+not validate as affine functions of the six final mask bits; impacts 2-13 have
+degree-two Walsh terms because the hit-face sign multiplies the affine
+translation vector.  The full Walsh representation validates on all 64 masks.
+Future pseudo-Boolean certificates must therefore be quadratic or use lifted
+product variables, not a plain six-variable affine LP.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

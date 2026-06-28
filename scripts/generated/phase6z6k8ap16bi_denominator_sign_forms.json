@@ -1,0 +1,497 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BI",
+  "rank": 100805,
+  "anchor_mask": 4,
+  "good_masks": [
+    4,
+    6,
+    11,
+    22,
+    30,
+    31,
+    59,
+    63
+  ],
+  "forms_validated": false,
+  "validation_failures": [
+    {
+      "impact": 2,
+      "mask": 0,
+      "expected": "116/9",
+      "actual": "4"
+    },
+    {
+      "impact": 3,
+      "mask": 0,
+      "expected": "116/9",
+      "actual": "4"
+    },
+    {
+      "impact": 4,
+      "mask": 0,
+      "expected": "52/3",
+      "actual": "12"
+    },
+    {
+      "impact": 5,
+      "mask": 0,
+      "expected": "20",
+      "actual": "20/3"
+    },
+    {
+      "impact": 6,
+      "mask": 0,
+      "expected": "28/3",
+      "actual": "4/9"
+    },
+    {
+      "impact": 7,
+      "mask": 0,
+      "expected": "28/3",
+      "actual": "4/9"
+    },
+    {
+      "impact": 8,
+      "mask": 0,
+      "expected": "-4/3",
+      "actual": "20/9"
+    },
+    {
+      "impact": 9,
+      "mask": 0,
+      "expected": "-4/3",
+      "actual": "20/9"
+    },
+    {
+      "impact": 10,
+      "mask": 0,
+      "expected": "68/3",
+      "actual": "52/9"
+    },
+    {
+      "impact": 11,
+      "mask": 0,
+      "expected": "68/3",
+      "actual": "52/9"
+    }
+  ],
+  "walsh_validated": true,
+  "walsh_validation_failures": [],
+  "walsh_summaries": [
+    {
+      "impact": 1,
+      "nonzero_terms": 6,
+      "max_degree": 1,
+      "degree_histogram": {
+        "0": 1,
+        "1": 5
+      }
+    },
+    {
+      "impact": 2,
+      "nonzero_terms": 6,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 3,
+      "nonzero_terms": 6,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 4,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 5,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 6,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 7,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 8,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 9,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 10,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 11,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 12,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    },
+    {
+      "impact": 13,
+      "nonzero_terms": 7,
+      "max_degree": 2,
+      "degree_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 5
+      }
+    }
+  ],
+  "forms": [
+    {
+      "const": "4",
+      "coeffs": [
+        "0",
+        "32/9",
+        "104/27",
+        "8/9",
+        "40/27",
+        "-8/3"
+      ],
+      "nonzero_coeffs": [
+        "z",
+        "d111",
+        "d11m",
+        "d1m1",
+        "dm11"
+      ]
+    },
+    {
+      "const": "4",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": []
+    },
+    {
+      "const": "4",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": []
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "-4"
+      ],
+      "nonzero_coeffs": [
+        "dm11"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "4/3",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "d11m"
+      ]
+    },
+    {
+      "const": "4",
+      "coeffs": [
+        "0",
+        "32/9",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "z"
+      ]
+    },
+    {
+      "const": "4",
+      "coeffs": [
+        "0",
+        "32/9",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "z"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "52/9",
+        "0",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "d111"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "52/9",
+        "0",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "d111"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "20/9",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "d1m1"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "20/9",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "d1m1"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "4/3",
+        "0",
+        "0"
+      ],
+      "nonzero_coeffs": [
+        "d11m"
+      ]
+    },
+    {
+      "const": "8",
+      "coeffs": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "-4"
+      ],
+      "nonzero_coeffs": [
+        "dm11"
+      ]
+    }
+  ],
+  "cube_bounds": [
+    {
+      "index": 0,
+      "label": "10****",
+      "mask_count": 16,
+      "fixed_bits": {
+        "y": 1,
+        "z": -1
+      },
+      "best_single_impact": 6,
+      "best_single_max": "4/9"
+    },
+    {
+      "index": 1,
+      "label": "*1**0*",
+      "mask_count": 16,
+      "fixed_bits": {
+        "z": 1,
+        "d1m1": -1
+      },
+      "best_single_impact": 2,
+      "best_single_max": "4"
+    },
+    {
+      "index": 2,
+      "label": "**00**",
+      "mask_count": 16,
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": -1
+      },
+      "best_single_impact": 8,
+      "best_single_max": "20/9"
+    },
+    {
+      "index": 3,
+      "label": "**1*0*",
+      "mask_count": 16,
+      "fixed_bits": {
+        "d111": 1,
+        "d1m1": -1
+      },
+      "best_single_impact": 2,
+      "best_single_max": "4"
+    },
+    {
+      "index": 4,
+      "label": "**0**1",
+      "mask_count": 16,
+      "fixed_bits": {
+        "d111": -1,
+        "dm11": 1
+      },
+      "best_single_impact": 8,
+      "best_single_max": "20/9"
+    },
+    {
+      "index": 5,
+      "label": "1****0",
+      "mask_count": 16,
+      "fixed_bits": {
+        "y": 1,
+        "dm11": -1
+      },
+      "best_single_impact": 2,
+      "best_single_max": "4"
+    },
+    {
+      "index": 6,
+      "label": "***0*0",
+      "mask_count": 16,
+      "fixed_bits": {
+        "d11m": -1,
+        "dm11": -1
+      },
+      "best_single_impact": 2,
+      "best_single_max": "4"
+    },
+    {
+      "index": 7,
+      "label": "*011**",
+      "mask_count": 8,
+      "fixed_bits": {
+        "z": -1,
+        "d111": 1,
+        "d11m": 1
+      },
+      "best_single_impact": 6,
+      "best_single_max": "4/9"
+    },
+    {
+      "index": 8,
+      "label": "01*0**",
+      "mask_count": 8,
+      "fixed_bits": {
+        "y": -1,
+        "z": 1,
+        "d11m": -1
+      },
+      "best_single_impact": 2,
+      "best_single_max": "4"
+    }
+  ],
+  "trusted_as_proof": false
+}
