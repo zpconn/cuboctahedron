@@ -1,0 +1,38 @@
+{
+  "phase": "6Z.6K.8AP.16AR",
+  "status": "accepted-route-decision",
+  "purpose": "Compare the latest AP16 candidate-fact scaling smoke with the accepted pair-sign producer hierarchy and choose the memory-safe production route.",
+  "candidate_fact_route": {
+    "reference": "scripts/generated/phase6z6k8ap16aq_global4_manifest_smoke.md",
+    "represented_manifest_shards": 4,
+    "represented_signatures": 6,
+    "positive_mask_facts": 60,
+    "shared_candidate_groups": 17,
+    "total_lean_source_lines": 12659,
+    "guarded_build_elapsed_seconds": 69.68,
+    "guarded_build_peak_tree_rss_mib": 8015,
+    "guarded_build_min_available_mib": 40748,
+    "decision": "diagnostic-only"
+  },
+  "pair_sign_producer_route": {
+    "reference": "scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.md",
+    "projected_descriptor_families": 862,
+    "projected_source_groups": 722,
+    "projected_row_groups": 26,
+    "projected_source_row_producers": 748,
+    "projected_descriptor_chunks": 14,
+    "projected_lean_source_lines": 57827,
+    "projected_source_size_kib": 2362,
+    "projected_cpu_check_seconds": 58,
+    "projected_wall_check_minutes_at_4_jobs": 1.2,
+    "projected_peak_rss_gib": 3.93,
+    "decision": "production-preferred"
+  },
+  "decision": "Do not scale the AP16 positive-survivor candidate-fact route as production evidence. Keep it as bounded smoke/regression infrastructure only. Resume implementation on the pair-sign producer membership bridge, whose theorem surface is semantic and whose AP16AO projection is far below the current memory and build-time gates.",
+  "next_bridge_target": "pairSignProducerCoverage_killedBridge",
+  "notes": [
+    "The candidate-fact route still proves useful bounded facts, but its heavy shared candidate module grows with concrete positive-mask proof blocks and reached 8.015 GiB RSS for only 60 positive-mask facts.",
+    "The pair-sign producer hierarchy keeps source and row producers private, exports semantic coverage, and avoids concrete proof replay over positive masks.",
+    "Further focused builds should use scripts/run_memory_guarded.py and avoid ulimit -v, which caused false Lean thread-creation failures in AP16AN."
+  ]
+}

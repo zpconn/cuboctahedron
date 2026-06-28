@@ -1,0 +1,31 @@
+{
+  "phase": "6Z.6K.8AP.16AS",
+  "status": "accepted-bridge-inspection",
+  "purpose": "Identify the exact Lean theorem surfaces needed after AP16AR selected the pair-sign producer hierarchy as the production route.",
+  "public_translation_bridge": {
+    "file": "Cuboctahedron/Generated/Translation/Complete.lean",
+    "name": "Cuboctahedron.Generated.Translation.KilledBridge",
+    "shape": "forall {r : Fin numPairWords} {mask : SignMask}, translationEarlyFamilyClassOfChoice r mask = TranslationFamilyClass.needsFarkas -> totalLinearOfPairWord (unrankPairWord r) = matId -> Coverage.TranslationCaseKilled r mask"
+  },
+  "local_erasure_point": {
+    "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState.lean",
+    "name": "SourceIndexStateKey.goodKilled_of_source_row",
+    "inputs": [
+      "SourceIndexStateSourceFacts key r mask",
+      "SourceIndexStateRowFacts key r mask"
+    ],
+    "output": "Coverage.TranslationGoodCaseKilled ⟨r, hlt⟩ mask"
+  },
+  "producer_surfaces": {
+    "source": "SourceIndexStateSourceProducer",
+    "row": "SourceIndexStateRowProducer",
+    "fact_combiner": "SourceIndexStateKeyFacts.of_source_row",
+    "semantic_coverage": "SourceIndexStateKey.covered_of_source_row"
+  },
+  "existing_smoke_root": {
+    "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k/All.lean",
+    "note": "The current split producer smoke root only imports chunks and proves a True build marker. It does not yet export the production membership bridge."
+  },
+  "next_step": "Generate or hand-write a small nonempty membership root that uses private source and row producers to prove Translation.KilledBridge on the sampled range, then generalize that layout to the AP16AO production hierarchy.",
+  "safety": "No broad Lean build was run during this inspection."
+}

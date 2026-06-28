@@ -11356,6 +11356,63 @@ Acceptance:
   fact-budget/RSS gates, or a deeper candidate-fact theorem that proves
   candidate facts for a family without one concrete proof block per positive
   mask.
+- [x] Implement Phase 6Z.6K.8AP.16AR translation route decision:
+  AP.16AR compares the AP.16AQ candidate-fact scaling smoke with the accepted
+  AP.16AO pair-sign producer hierarchy and records the route decision.
+
+  Decision reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ar_translation_route_decision.json
+  scripts/generated/phase6z6k8ap16ar_translation_route_decision.md
+  ```
+
+  Result:
+
+  ```text
+  candidate-fact route:      diagnostic-only
+  AP.16AQ measured RSS:       8.015 GiB for 60 positive-mask facts
+  pair-sign producer route:  production-preferred
+  AP.16AO projected RSS:      3.93 GiB
+  AP.16AO projected source:   57,827 lines / 2,362 KiB
+  next bridge target:        pairSignProducerCoverage_killedBridge
+  ```
+
+  Interpretation: the AP16 positive-survivor candidate-fact route remains
+  useful as bounded smoke/regression infrastructure, but it is no longer the
+  production scaling target.  Its heavy shared candidate module still grows
+  with concrete positive-mask proof blocks and was already at about 8 GiB RSS
+  for 60 facts.  The accepted production path is the pair-sign producer
+  hierarchy from AP.16AO, followed by the semantic membership bridge to public
+  killed coverage.  Future work should inspect and implement that bridge
+  directly rather than increasing candidate-fact shard sizes.
+- [x] Implement Phase 6Z.6K.8AP.16AS pair-sign bridge inspection:
+  AP.16AS identifies the exact Lean theorem surfaces for the AP.16AO
+  production route.
+
+  Inspection reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16as_pair_sign_bridge_inspection.json
+  scripts/generated/phase6z6k8ap16as_pair_sign_bridge_inspection.md
+  ```
+
+  Findings:
+
+  ```text
+  public bridge:       Cuboctahedron.Generated.Translation.KilledBridge
+  public consumer:     Translation.complete_killed_of_bridge
+  local erasure:       SourceIndexStateKey.goodKilled_of_source_row
+  source producer:     SourceIndexStateSourceProducer
+  row producer:        SourceIndexStateRowProducer
+  current split root:  build marker only, no production bridge yet
+  ```
+
+  Interpretation: the next implementation step should be a small nonempty
+  membership root for the pair-sign producer hierarchy.  It must turn private
+  source and row producer facts into `Coverage.TranslationGoodCaseKilled`, then
+  into `Translation.KilledBridge`.  It should not import the AP16
+  candidate-fact modules and should not replay concrete positive-mask proofs.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -13566,3 +13623,9 @@ Current strategic assessment:
 - Do not assume translation denominator constraints are linear in the six sign
   bits without re-profiling them in the new integer/homogeneous coordinate
   system.
+- Do not scale the AP16 positive-survivor candidate-fact route as production
+  evidence.  AP.16AQ showed that even globally shared candidate facts still
+  grow with concrete positive-mask proof blocks and reached about 8 GiB RSS
+  for 60 facts.  Keep that route for bounded smoke/regression only; production
+  translation coverage should use the pair-sign producer hierarchy and the
+  semantic membership bridge.
