@@ -1,3 +1,4 @@
+import Cuboctahedron.Basic.Vec3
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic
 
 /-!
@@ -105,6 +106,61 @@ theorem WalshAffine.mul_coeffEval
       SignBit.value, SignBit.toPairId, h_y, h_z, h_d111, h_d11m, h_d1m1,
       h_dm11]
     <;> ring
+
+def WalshQuadratic.add (q r : WalshQuadratic) : WalshQuadratic where
+  c := q.c + r.c
+  y := q.y + r.y
+  z := q.z + r.z
+  d111 := q.d111 + r.d111
+  d11m := q.d11m + r.d11m
+  d1m1 := q.d1m1 + r.d1m1
+  dm11 := q.dm11 + r.dm11
+  yz := q.yz + r.yz
+  y_d111 := q.y_d111 + r.y_d111
+  y_d11m := q.y_d11m + r.y_d11m
+  y_d1m1 := q.y_d1m1 + r.y_d1m1
+  y_dm11 := q.y_dm11 + r.y_dm11
+  z_d111 := q.z_d111 + r.z_d111
+  z_d11m := q.z_d11m + r.z_d11m
+  z_d1m1 := q.z_d1m1 + r.z_d1m1
+  z_dm11 := q.z_dm11 + r.z_dm11
+  d111_d11m := q.d111_d11m + r.d111_d11m
+  d111_d1m1 := q.d111_d1m1 + r.d111_d1m1
+  d111_dm11 := q.d111_dm11 + r.d111_dm11
+  d11m_d1m1 := q.d11m_d1m1 + r.d11m_d1m1
+  d11m_dm11 := q.d11m_dm11 + r.d11m_dm11
+  d1m1_dm11 := q.d1m1_dm11 + r.d1m1_dm11
+
+theorem WalshQuadratic.add_coeffEval
+    (q r : WalshQuadratic) (mask : SignMask) :
+    (WalshQuadratic.add q r).coeffEval mask =
+      q.coeffEval mask + r.coeffEval mask := by
+  simp [WalshQuadratic.add, WalshQuadratic.coeffEval]
+  ring
+
+structure WalshAffineVec3 where
+  x : WalshAffine
+  y : WalshAffine
+  z : WalshAffine
+deriving Repr
+
+def WalshAffineVec3.eval (v : WalshAffineVec3) (mask : SignMask) :
+    Vec3 Rat where
+  x := v.x.eval mask
+  y := v.y.eval mask
+  z := v.z.eval mask
+
+def WalshAffineVec3.dot (a b : WalshAffineVec3) : WalshQuadratic :=
+  WalshQuadratic.add
+    (WalshQuadratic.add (WalshAffine.mul a.x b.x) (WalshAffine.mul a.y b.y))
+    (WalshAffine.mul a.z b.z)
+
+theorem WalshAffineVec3.dot_coeffEval
+    (a b : WalshAffineVec3) (mask : SignMask) :
+    (WalshAffineVec3.dot a b).coeffEval mask =
+      Cuboctahedron.dot (a.eval mask) (b.eval mask) := by
+  simp [WalshAffineVec3.dot, WalshAffineVec3.eval, Cuboctahedron.dot,
+    WalshQuadratic.add_coeffEval, WalshAffine.mul_coeffEval]
 
 theorem impactSubcubeWalshSymbolic_builds : True := by
   trivial

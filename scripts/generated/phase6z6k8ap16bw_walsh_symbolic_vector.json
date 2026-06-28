@@ -1,0 +1,24 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BW",
+  "status": "accepted",
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic",
+  "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean",
+  "purpose": "Extend the AP16BV WalshAffine surface with quadratic addition and vector dot-product symbolic algebra.",
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bw_walsh_symbolic_vector_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic'",
+    "exit_code": 0,
+    "elapsed_seconds": 12.02,
+    "max_tree_rss_mib": 4375,
+    "min_available_seen_mib": 45788
+  },
+  "accepted_surface": [
+    "WalshQuadratic.add",
+    "WalshQuadratic.add_coeffEval",
+    "WalshAffineVec3",
+    "WalshAffineVec3.eval",
+    "WalshAffineVec3.dot",
+    "WalshAffineVec3.dot_coeffEval"
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "next_step": "Generate or hand-write a rank-100805 coefficient-check smoke that constructs symbolic affine vectors and compares the computed denominator quadratic to AP16BS WalshQuadratic data without totalAff/mask-branch replay."
+}

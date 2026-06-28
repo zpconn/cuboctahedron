@@ -794,6 +794,9 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`
   - `scripts/generated/phase6z6k8ap16bv_walsh_symbolic_algebra.json`
   - `scripts/generated/phase6z6k8ap16bv_walsh_symbolic_algebra.md`
+- Added the Phase 6Z.6K.8AP.16BW Walsh symbolic vector/dot reports:
+  - `scripts/generated/phase6z6k8ap16bw_walsh_symbolic_vector.json`
+  - `scripts/generated/phase6z6k8ap16bw_walsh_symbolic_vector.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12748,6 +12751,48 @@ Acceptance:
   rank-100805 coefficient-check smoke that compares computed denominator
   coefficients to AP16BS `WalshQuadratic` data without unfolding `totalAff`
   under six mask-bit branches.
+- [x] Implement Phase 6Z.6K.8AP.16BW Walsh symbolic vector/dot algebra:
+  AP16BW extends
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`
+  with `WalshQuadratic.add`, `WalshQuadratic.add_coeffEval`,
+  `WalshAffineVec3`, `WalshAffineVec3.eval`, `WalshAffineVec3.dot`, and
+  `WalshAffineVec3.dot_coeffEval`.
+
+  The new dot theorem composes the AP16BV affine multiplication theorem and a
+  coefficient-level quadratic addition theorem.  It still does not unfold
+  `totalAff`, `translationChoiceSeq`, or `impactDenomAtRank`; it checks only
+  small symbolic algebra over the six semantic sign bits.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bw_walsh_symbolic_vector_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 12.02s
+  peak tree RSS: 4375 MiB
+  minimum available memory: 45788 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bw_walsh_symbolic_vector.json
+  scripts/generated/phase6z6k8ap16bw_walsh_symbolic_vector.md
+  ```
+
+  Decision: accepted.  The next AP16 target is a coefficient-check smoke for
+  one rank/impact that constructs symbolic affine vectors and proves equality
+  to the AP16BS `WalshQuadratic` coefficients without replaying all masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
