@@ -10365,6 +10365,43 @@ Acceptance:
   building the production survivor-catalog profiler/manifest, or to proving a
   stronger semantic compression that reduces the 498 representative shards
   before production emission.
+- [x] Inspect Phase 6Z.6K.8AP.16Z.4 production survivor-catalog path: the
+  current AP.16I profile is a sampled, one-shot diagnostic over seven bounded
+  ranges totaling 20,000 pair-word ranks:
+
+  ```text
+  [0, 5000)
+  [100000, 102500)
+  [1000000, 1002500)
+  [10000000, 10002500)
+  [30000000, 30002500)
+  [60000000, 60002500)
+  [90000000, 90002500)
+  ```
+
+  It produces 7,112 sampled GoodDirection cases, 757 positive-survivor
+  signatures, and 195 positive candidate groups.  AP.16Z then schedules those
+  757 representative signatures into 498 budget-20 shards.  This is useful for
+  Lean architecture measurements, but it is not a production catalog and should
+  not be widened in-place to `[0, numPairWords)` as a single one-shot run.
+
+  The production path should instead be a new checkpointed AP.16I-style census
+  that reuses the proven profiling logic but borrows the operational design of
+  `scripts/run_pair_sign_producer_coverage_census.py`:
+
+  - split the full rank space into bounded windows;
+  - write per-window JSON checkpoints outside the generated source tree, e.g.
+    under `/tmp/cuboctahedron_ap16_positive_survivor_census`;
+  - support `--resume` and `--aggregate-only`;
+  - use top-level worker parallelism with no nested pools;
+  - aggregate only compact source/row/signature/candidate keys into tracked
+    JSON/Markdown;
+  - then feed the aggregate production signature catalog into the AP.16Z
+    manifest planner.
+
+  This should be the next AP.16 implementation step before any more
+  representative-source scaling.  It prevents both OOM risk and the conceptual
+  mistake of treating the representative AP.16I windows as final coverage.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
