@@ -11618,6 +11618,62 @@ Acceptance:
   membership theorem: for every identity-linear `goodDirectionAtRankBool`
   survivor, find the signature and prove source/row facts for its selected
   candidate.
+- [x] Reject Phase 6Z.6K.8AP.16AX raw Boolean membership reduction:
+  I tested the tempting singleton proof route:
+
+  ```lean
+  goodDirectionAtRankBool ⟨100805, hlt⟩ mask = true ->
+    generatedGoodMaskMember mask
+  ```
+
+  by `fin_cases mask` and `simp` unfolding the full translation geometry.  The
+  memory guard kept the attempt safe, but Lean hit heartbeats:
+
+  ```text
+  failed command:
+    python3 scripts/run_memory_guarded.py \
+      --max-tree-rss-mib 12000 \
+      --min-available-mib 4096 \
+      --poll-seconds 0.5 \
+      --json /tmp/cuboctahedron_ap16ax_mask_bool_guard.json \
+      -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+
+  failure:                deterministic timeout at whnf
+  elapsed:                61.58s
+  peak process-tree RSS:  4.071 GiB
+  minimum available mem:  44.93 GiB
+  guard kill:             no
+  ```
+
+  After backing the generated theorem out, the target built again:
+
+  ```text
+  restore command:
+    python3 scripts/run_memory_guarded.py \
+      --max-tree-rss-mib 12000 \
+      --min-available-mib 4096 \
+      --poll-seconds 0.5 \
+      --json /tmp/cuboctahedron_ap16ax_restore_guard.json \
+      -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+
+  result:                 passed
+  elapsed:                2.50s
+  peak process-tree RSS:  3.953 GiB
+  minimum available mem:  45.13 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ax_raw_bool_membership_rejection.json
+  scripts/generated/phase6z6k8ap16ax_raw_bool_membership_rejection.md
+  ```
+
+  Decision: do not prove positive-mask membership by direct reduction of
+  `goodDirectionAtRankBool`.  The production proof must use a compact
+  signature-local membership witness, symbolic denominator-signature theorem,
+  or another small proof-carrying predicate that avoids unfolding
+  `totalAff`/`translationChoiceSeq` across all masks in Lean.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

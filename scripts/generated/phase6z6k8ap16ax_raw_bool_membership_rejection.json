@@ -1,0 +1,30 @@
+{
+  "phase": "6Z.6K.8AP.16AX",
+  "status": "rejected-raw-bool-membership",
+  "date": "2026-06-28",
+  "purpose": "Test whether a singleton positive-survivor signature can close its mask-membership premise by directly reducing goodDirectionAtRankBool over all 64 masks in Lean.",
+  "attempted_change": {
+    "generator": "scripts/generate_ap16l_signature_membership_smoke.py",
+    "generated_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean",
+    "attempted_theorem": "generatedGoodMaskMember_of_bool",
+    "proof_shape": "fin_cases mask; simp [generatedGoodMaskMember, goodDirectionAtRankBool, internalImpactList, impactDenomAtRank, translationSeqAtRankMask, translationBAtRankMask, translationChoiceSeq, totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul]"
+  },
+  "failed_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16ax_mask_bool_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'",
+    "status": "failed",
+    "elapsed_seconds": 61.58,
+    "peak_tree_rss_mib": 4168.69,
+    "min_available_mib": 46007.40,
+    "failure": "deterministic timeout at whnf, maximum number of heartbeats 1200000 reached",
+    "killed_by_guard": false
+  },
+  "restore_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16ax_restore_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'",
+    "status": "passed",
+    "elapsed_seconds": 2.50,
+    "peak_tree_rss_mib": 4048.00,
+    "min_available_mib": 46214.00
+  },
+  "decision": "Do not use direct Lean reduction of goodDirectionAtRankBool as the production positive-mask membership proof. Membership must come from a signature-local table, symbolic denominator-signature theorem, or proof-carrying small predicate whose checking does not unfold the full translation geometry for all masks.",
+  "next": "Design a compact, source-position-aligned membership witness for each positive-survivor signature. It should prove goodDirectionAtRankBool = true implies GoodMaskMember without unfolding totalAff/translationChoiceSeq for all masks in Lean."
+}
