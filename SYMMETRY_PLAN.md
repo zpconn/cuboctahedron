@@ -12502,6 +12502,55 @@ Acceptance:
   bounded/generated denominator-equality facts as a diagnostic, but the plan
   must keep those facts marked non-production until a symbolic equality bridge
   replaces them.
+- [x] Implement Phase 6Z.6K.8AP.16BR bounded Walsh-cover emitter and reject
+  the all-in-one replay shape for default use: AP16BR adds
+  `scripts/generate_ap16br_walsh_cover_smoke.py`, which can emit a diagnostic
+  `WalshImpactSubcubeCover` module for rank `100805` using AP16BP Walsh
+  polynomial bounds plus AP16BL-style bounded denominator equality replay.
+
+  The first version of this route would have emitted all 20 AP16BJ selected
+  subcubes into one replay-backed cover module.  That is intentionally rejected
+  as the default path after the OOM warning: it recreates the same large
+  replay/elaboration shape that earlier AP16 attempts showed can spike memory.
+  The generator is now fail-closed:
+
+  ```text
+  --max-subcubes defaults to 1
+  --max-subcubes > 4 requires --allow-large-cover
+  ```
+
+  Default validation was limited to Python generation, not Lean elaboration:
+
+  ```text
+  python3 -m py_compile scripts/generate_ap16br_walsh_cover_smoke.py
+  python3 scripts/generate_ap16br_walsh_cover_smoke.py
+  ```
+
+  The default bounded output is:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshCoverBoundedSmoke.lean
+  scripts/generated/phase6z6k8ap16br_walsh_cover_bounded_smoke.json
+  scripts/generated/phase6z6k8ap16br_walsh_cover_bounded_smoke.md
+  ```
+
+  It contains one selected subcube, 8 denominator facts, and 6 Walsh terms.
+  The exported cover target is intentionally weaker than the full positive
+  survivor set: its `generatedGoodMaskMember` is the complement of only the
+  selected killed subcube.  This still exercises the
+  `WalshImpactSubcubeCover.goodMaskMember_of_goodDirection` API without trying
+  to prove the all-cover statement in one memory-risky file.
+
+  Decision: accepted only as a bounded emitter/safety checkpoint.  The next
+  production AP16 step must either:
+
+  - split denominator-equality replay into tiny guarded leaves before any
+    multi-subcube diagnostic build; or
+  - preferably replace replay with a symbolic `impactDenomAtRank = poly.eval`
+    equality bridge for each subcube family.
+
+  Do not run the all-20 AP16BR replay cover unless it is first split behind
+  hard memory guards and the operator explicitly asks for that experiment.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
