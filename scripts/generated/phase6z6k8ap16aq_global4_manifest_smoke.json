@@ -1,0 +1,56 @@
+{
+  "build": {
+    "elapsed_seconds": 69.68,
+    "max_tree_rss_mib": 8015,
+    "min_available_mib": 40748,
+    "rss_cap_mib": 16000,
+    "status": "passed"
+  },
+  "candidate_count": 17,
+  "decision": {
+    "notes": [
+      "diagnostic Lean smoke only",
+      "candidate facts are emitted once for all selected shards",
+      "routing modules are thin and import the shared candidate module",
+      "four-shard bounded build passed under RSS guard",
+      "global sharing shows modest source/time amortization but peak RSS grows to about 8 GiB"
+    ],
+    "status": "global-shared-manifest-smoke-emitted"
+  },
+  "group_module": "PositiveSurvivorSharedTop5Global4Group000Smoke",
+  "manifest": "scripts/generated/phase6z6k8ap16am_top5_signature_shard_manifest.json",
+  "mode": "ap16_global_shared_manifest_smoke",
+  "outputs": {
+    "group": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4Group000Smoke.lean",
+    "routing": [
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard001Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard002Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard003Smoke.lean"
+    ],
+    "shared": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4CandidateFactsSmoke.lean"
+  },
+  "phase": "6Z.6K.8AP.16AQ",
+  "positive_mask_facts": 60,
+  "profile": "scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json",
+  "routing_modules": [
+    "PositiveSurvivorSharedTop5Global4RoutingShard000Smoke",
+    "PositiveSurvivorSharedTop5Global4RoutingShard001Smoke",
+    "PositiveSurvivorSharedTop5Global4RoutingShard002Smoke",
+    "PositiveSurvivorSharedTop5Global4RoutingShard003Smoke"
+  ],
+  "schema_version": 1,
+  "shards_emitted": 4,
+  "shared_module": "PositiveSurvivorSharedTop5Global4CandidateFactsSmoke",
+  "signature_count": 6,
+  "source_lines": {
+    "group": 18,
+    "routing_shard_000": 258,
+    "routing_shard_001": 357,
+    "routing_shard_002": 372,
+    "routing_shard_003": 243,
+    "shared_candidate_facts": 11411,
+    "total": 12659
+  },
+  "trusted_as_proof": false
+}

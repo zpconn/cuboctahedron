@@ -11306,6 +11306,56 @@ Acceptance:
   shard slice may amortize high-reuse candidates, but another possibility is a
   deeper candidate-fact factoring that avoids one proof block per positive
   mask.
+- [x] Implement Phase 6Z.6K.8AP.16AQ four-shard global-shared scaling smoke:
+  AP.16AQ reruns the AP.16AP global-shared-candidate layout on the first four
+  AP.16AM manifest shards instead of the first two.
+
+  Emission result:
+
+  ```text
+  represented shards:          4
+  represented signatures:      6
+  positive-mask facts:        60
+  shared candidate groups:    17
+  total Lean source lines: 12,659
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 16000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16aq_top5_global4_group_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedTop5Global4Group000Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build status:             passed
+  elapsed:                  69.68s
+  peak process-tree RSS:     8.015 GiB
+  minimum available memory: 39.79 GiB
+  ```
+
+  Diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16aq_global4_manifest_smoke.json
+  scripts/generated/phase6z6k8ap16aq_global4_manifest_smoke.md
+  ```
+
+  Interpretation: AP.16AQ is accepted as a bounded scaling smoke.  Doubling
+  represented positive-mask facts from 30 to 60 roughly doubles source size but
+  less than doubles wall time.  Peak RSS grows from AP.16AP's 6.17 GiB to
+  about 8.02 GiB.  That is still safe under the 47 GiB machine cap, but it
+  means production cannot simply put hundreds of positive-mask facts into one
+  global shared-candidate module.  Future production emitters need explicit
+  fact-budget/RSS gates, or a deeper candidate-fact theorem that proves
+  candidate facts for a family without one concrete proof block per positive
+  mask.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
