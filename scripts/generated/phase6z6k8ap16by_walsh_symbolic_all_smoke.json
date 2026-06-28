@@ -1,0 +1,79 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BY",
+  "status": "accepted",
+  "rank": 100805,
+  "anchor_mask": 4,
+  "positive_masks": [
+    4,
+    6,
+    11,
+    22,
+    30,
+    31,
+    59,
+    63
+  ],
+  "selected_impacts": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    10
+  ],
+  "impact_count": 7,
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicAllSmoke.lean",
+  "impact_summaries": [
+    {
+      "impact": 1,
+      "normal_max_degree": 0,
+      "vector_max_degree": 1,
+      "expected_terms": 6
+    },
+    {
+      "impact": 2,
+      "normal_max_degree": 1,
+      "vector_max_degree": 1,
+      "expected_terms": 6
+    },
+    {
+      "impact": 4,
+      "normal_max_degree": 1,
+      "vector_max_degree": 1,
+      "expected_terms": 7
+    },
+    {
+      "impact": 5,
+      "normal_max_degree": 1,
+      "vector_max_degree": 1,
+      "expected_terms": 7
+    },
+    {
+      "impact": 6,
+      "normal_max_degree": 1,
+      "vector_max_degree": 1,
+      "expected_terms": 7
+    },
+    {
+      "impact": 8,
+      "normal_max_degree": 1,
+      "vector_max_degree": 1,
+      "expected_terms": 7
+    },
+    {
+      "impact": 10,
+      "normal_max_degree": 1,
+      "vector_max_degree": 1,
+      "expected_terms": 7
+    }
+  ],
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16by_walsh_symbolic_all_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicAllSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 8.01,
+    "max_tree_rss_mib": 4079,
+    "min_available_seen_mib": 46068
+  },
+  "trusted_as_proof": false
+}
