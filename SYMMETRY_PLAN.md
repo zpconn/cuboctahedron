@@ -12725,11 +12725,13 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AP.16BV Walsh symbolic affine algebra:
   AP16BV adds
   `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`.
-  This module defines `WalshAffine`, `WalshAffine.eval`,
-  `WalshQuadratic.coeffEval`, and `WalshAffine.mul`, then proves
+  This module defines `WalshAffine`, `WalshAffine.eval`, and
+  `WalshAffine.mul`, then proves
   `WalshAffine.mul_coeffEval`: multiplying affine Walsh forms into a
   `WalshQuadratic` agrees with pointwise masked multiplication under
-  `coeffEval`.
+  `coeffEval`.  AP16CA later moved `WalshQuadratic.coeffEval` down into the
+  quadratic core so coefficient-level obstruction leaves do not need to import
+  the symbolic algebra module.
 
   Guarded build:
 
@@ -12930,6 +12932,74 @@ Acceptance:
   per-polynomial bridges, a new obstruction surface whose evaluator is
   definitionally coefficient-based, or a smaller structural proof that avoids
   normalizing `WalshPoly.eval` over 22 terms generically.
+- [x] Implement Phase 6Z.6K.8AP.16CA Walsh quadratic coefficient obstruction:
+  AP16CA tested a concrete AP16BY one-polynomial bridge
+  `coeffEval = eval`; both the direct proof and an explicit
+  `Finset.univ : Finset (Fin 22)` enumeration timed out at `whnf` with the
+  default heartbeat limit.  This confirmed that the expensive object is the
+  `WalshPoly.eval` surface itself, not only the generic AP16BZ theorem.
+
+  The accepted pivot moves `WalshQuadratic.coeffEval` from
+  `ImpactSubcubeWalshSymbolic.lean` into
+  `ImpactSubcubeWalshQuadratic.lean` and adds the coefficient-level production
+  surface:
+
+  ```lean
+  WalshQuadratic.boundSum
+  WalshQuadraticSubcubeUpperBound
+  WalshQuadraticSubcubeUpperBound.coeffEval_le_bound
+  WalshQuadraticSubcubeUpperBound.coeffEval_nonpos
+  WalshQuadraticImpactObstruction
+  WalshQuadraticImpactObstruction.nonpos
+  WalshQuadraticImpactObstruction.toImpactSubcubeObstruction
+  ```
+
+  Generated quadratic denominator leaves can now target:
+
+  ```lean
+  impactDenomAtRank ... = poly.coeffEval mask
+  ```
+
+  and erase to the existing `ImpactSubcubeObstruction` API without ever
+  proving `poly.coeffEval mask = poly.toPoly.eval mask`.
+
+  Guarded builds:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic
+  passed
+  elapsed: 4.50s
+  peak tree RSS: 4079 MiB
+  minimum available memory: 46002 MiB
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic
+  passed
+  elapsed: 1.00s
+  peak tree RSS: 792 MiB
+  minimum available memory: 46439 MiB
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicAllSmoke
+  passed
+  elapsed: 14.02s
+  peak tree RSS: 4291 MiB
+  minimum available memory: 44806 MiB
+  ```
+
+  A concurrent build of overlapping Lean targets produced a transient `.olean`
+  write failure; the same targets built serially/through the aggregate target.
+  Continue to use one guarded Lake build at a time for overlapping generated
+  modules.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ca_walsh_quadratic_coeff_obstruction.json
+  scripts/generated/phase6z6k8ap16ca_walsh_quadratic_coeff_obstruction.md
+  ```
+
+  Decision: accepted.  The next step is a generated
+  `WalshQuadraticImpactObstruction` smoke with coefficient-level denominator
+  equality and coefficient upper bounds, not any `WalshPoly.eval` bridge.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

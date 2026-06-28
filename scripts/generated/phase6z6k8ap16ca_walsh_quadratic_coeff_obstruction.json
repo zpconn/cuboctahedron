@@ -1,0 +1,53 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16CA",
+  "status": "accepted",
+  "summary": "Move WalshQuadratic.coeffEval into the quadratic core and add a coefficient-level WalshQuadraticImpactObstruction surface that avoids WalshPoly.eval.",
+  "files_changed": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadratic.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean"
+  ],
+  "new_core_names": [
+    "WalshQuadratic.coeffEval",
+    "WalshQuadratic.boundSum",
+    "WalshQuadraticSubcubeUpperBound",
+    "WalshQuadraticSubcubeUpperBound.coeffEval_le_bound",
+    "WalshQuadraticSubcubeUpperBound.coeffEval_nonpos",
+    "WalshQuadraticImpactObstruction",
+    "WalshQuadraticImpactObstruction.nonpos",
+    "WalshQuadraticImpactObstruction.toImpactSubcubeObstruction"
+  ],
+  "rejected_probe": {
+    "target": "concrete per-impact theorem ap16byImpact1_Expected.coeffEval mask = ap16byImpact1_Expected.eval mask",
+    "result": "rejected",
+    "reason": "Both direct simplification and explicit Finset.univ enumeration timed out at whnf with maxHeartbeats 200000."
+  },
+  "guarded_builds": [
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic",
+      "json": "/tmp/cuboctahedron_ap16ca_quadratic_core_guard.json",
+      "result": "passed",
+      "elapsed_seconds": 4.50,
+      "peak_tree_rss_mib": 4079,
+      "min_available_mib": 46002
+    },
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic",
+      "json": "/tmp/cuboctahedron_ap16ca_symbolic_guard_rerun.json",
+      "result": "passed",
+      "elapsed_seconds": 1.00,
+      "peak_tree_rss_mib": 792,
+      "min_available_mib": 46439
+    },
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicAllSmoke",
+      "json": "/tmp/cuboctahedron_ap16ca_symbolic_all_guard.json",
+      "result": "passed",
+      "elapsed_seconds": 14.02,
+      "peak_tree_rss_mib": 4291,
+      "min_available_mib": 44806
+    }
+  ],
+  "parallelism_note": "A concurrent build of overlapping Lean targets produced a transient .olean write failure. The same targets built serially/through the aggregate target. Avoid parallel Lake invocations that share dependency outputs.",
+  "trusted_as_proof": false,
+  "next_step": "Generate a small WalshQuadraticImpactObstruction smoke that uses coeffEval-denom equality and coefficient upper bounds, without any WalshPoly.eval bridge."
+}

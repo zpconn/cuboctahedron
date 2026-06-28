@@ -44,30 +44,6 @@ def WalshAffine.eval (a : WalshAffine) (mask : SignMask) : Rat :=
   a.d1m1 * SignBit.value mask SignBit.d1m1 +
   a.dm11 * SignBit.value mask SignBit.dm11
 
-def WalshQuadratic.coeffEval (q : WalshQuadratic) (mask : SignMask) : Rat :=
-  q.c +
-  q.y * SignBit.value mask SignBit.y +
-  q.z * SignBit.value mask SignBit.z +
-  q.d111 * SignBit.value mask SignBit.d111 +
-  q.d11m * SignBit.value mask SignBit.d11m +
-  q.d1m1 * SignBit.value mask SignBit.d1m1 +
-  q.dm11 * SignBit.value mask SignBit.dm11 +
-  q.yz * SignBit.value mask SignBit.y * SignBit.value mask SignBit.z +
-  q.y_d111 * SignBit.value mask SignBit.y * SignBit.value mask SignBit.d111 +
-  q.y_d11m * SignBit.value mask SignBit.y * SignBit.value mask SignBit.d11m +
-  q.y_d1m1 * SignBit.value mask SignBit.y * SignBit.value mask SignBit.d1m1 +
-  q.y_dm11 * SignBit.value mask SignBit.y * SignBit.value mask SignBit.dm11 +
-  q.z_d111 * SignBit.value mask SignBit.z * SignBit.value mask SignBit.d111 +
-  q.z_d11m * SignBit.value mask SignBit.z * SignBit.value mask SignBit.d11m +
-  q.z_d1m1 * SignBit.value mask SignBit.z * SignBit.value mask SignBit.d1m1 +
-  q.z_dm11 * SignBit.value mask SignBit.z * SignBit.value mask SignBit.dm11 +
-  q.d111_d11m * SignBit.value mask SignBit.d111 * SignBit.value mask SignBit.d11m +
-  q.d111_d1m1 * SignBit.value mask SignBit.d111 * SignBit.value mask SignBit.d1m1 +
-  q.d111_dm11 * SignBit.value mask SignBit.d111 * SignBit.value mask SignBit.dm11 +
-  q.d11m_d1m1 * SignBit.value mask SignBit.d11m * SignBit.value mask SignBit.d1m1 +
-  q.d11m_dm11 * SignBit.value mask SignBit.d11m * SignBit.value mask SignBit.dm11 +
-  q.d1m1_dm11 * SignBit.value mask SignBit.d1m1 * SignBit.value mask SignBit.dm11
-
 def WalshAffine.mul (a b : WalshAffine) : WalshQuadratic where
   c := a.c * b.c + a.y * b.y + a.z * b.z + a.d111 * b.d111 +
     a.d11m * b.d11m + a.d1m1 * b.d1m1 + a.dm11 * b.dm11
