@@ -10854,6 +10854,73 @@ Acceptance:
   density mapping can safely use parallelism on this machine.  This does not
   resolve the Lean membership theorem gap, but it gives a practical way to
   avoid blindly scheduling expensive catalog work across sparse rank regions.
+- [x] Implement Phase 6Z.6K.8AP.16AI memory-guarded execution wrapper:
+  AP.16AI adds `scripts/run_memory_guarded.py`, an operational safety wrapper
+  for future Lean/Python diagnostics.  It is not proof evidence.  It runs a
+  command in a fresh process group, polls the whole process tree's RSS through
+  `/proc`, polls system `MemAvailable`, and terminates the process group if
+  either the configured tree-RSS cap or available-memory floor is breached.
+
+  Host-side OOM audit before adding the guard:
+
+  ```text
+  ps -eo pid,ppid,stat,%mem,%cpu,rss,vsz,comm,args --sort=-rss
+  free -h
+  ```
+
+  Result:
+
+  ```text
+  no Lean/Python census or build process was running
+  MemAvailable: about 45 GiB
+  largest process: Codex, about 428 MiB RSS
+  ```
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/run_memory_guarded.py
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 1024 \
+    --min-available-mib 1024 \
+    --json /tmp/cuboctahedron_memory_guard_smoke.json \
+    -- python3 -c 'print("guard-smoke-ok")'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 1024 \
+    --min-available-mib 1024 \
+    --poll-seconds 0.1 \
+    --json /tmp/cuboctahedron_memory_guard_alloc_smoke.json \
+    -- python3 -c 'x=[0]*1000000; import time; time.sleep(0.3); print(len(x))'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_memory_guard_lean_smoke.json \
+    -- bash -lc 'ulimit -v 20971520; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingSmoke'
+  ```
+
+  Result:
+
+  ```text
+  guard-smoke-ok
+  allocation smoke: exit=0, elapsed=0.40s, peak tree RSS=17 MiB,
+                    min available memory about 45.6 GiB
+  guarded Lean smoke: exit=0, elapsed=3.00s, peak tree RSS=790 MiB,
+                      min available memory about 45.5 GiB
+  ```
+
+  Operational rule from this point forward: any broad generated Lean build,
+  any long AP.16 positive-survivor census, and any high-worker diagnostic must
+  be run either under this wrapper or under an equivalent hard memory cap
+  (`ulimit -v` plus focused target) with recorded RSS.  Safe parallelism is
+  still encouraged for low-RSS Python diagnostics, but only with an explicit
+  cap/floor and checkpointed output.  This does not advance the proof surface
+  by itself; it prevents future scaling experiments from threatening the
+  47 GiB machine while the AP.16 membership and nonidentity-compression tracks
+  continue.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
