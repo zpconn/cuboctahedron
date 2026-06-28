@@ -1,0 +1,355 @@
+{
+  "calibration": {
+    "base_rss_kib": 3320000,
+    "lines_per_fact": 191.415,
+    "max_jobs": 4,
+    "rss_per_fact_kib": 71905.268,
+    "seconds_per_fact": 1.053
+  },
+  "counts": {
+    "positive_candidate_groups": 195,
+    "total_positive_facts": 7112
+  },
+  "decision": "Use budget 20 as the next bounded emission target unless a focused Lean shard exceeds the RSS/wall projection.  The AP.16X calibration suggests the candidate-facts layer is buildable if shards are capped by positive-mask fact count and compiled with memory-safe parallelism; routing chunks should stay separate and thin.",
+  "input_profile": "scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json",
+  "phase": "6Z.6K.8AP.16Y",
+  "plans": [
+    {
+      "budget": 20,
+      "estimated_peak_rss_per_shard_kib": 4758106,
+      "estimated_serial_wall_hours": 2.079633604336043,
+      "estimated_serial_wall_seconds": 7486.680975609755,
+      "estimated_source_lines": 1361341,
+      "estimated_wall_hours_at_safe_parallelism": 0.5199084010840107,
+      "largest_shard_facts": 20,
+      "safe_parallel_jobs_45gib": 4,
+      "shards": 356,
+      "top_shards": [
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 20,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        }
+      ],
+      "total_facts": 7112
+    },
+    {
+      "budget": 40,
+      "estimated_peak_rss_per_shard_kib": 6196211,
+      "estimated_serial_wall_hours": 2.079633604336043,
+      "estimated_serial_wall_seconds": 7486.680975609755,
+      "estimated_source_lines": 1361341,
+      "estimated_wall_hours_at_safe_parallelism": 0.5199084010840107,
+      "largest_shard_facts": 40,
+      "safe_parallel_jobs_45gib": 4,
+      "shards": 178,
+      "top_shards": [
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 40,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        }
+      ],
+      "total_facts": 7112
+    },
+    {
+      "budget": 60,
+      "estimated_peak_rss_per_shard_kib": 7634317,
+      "estimated_serial_wall_hours": 2.079633604336043,
+      "estimated_serial_wall_seconds": 7486.680975609755,
+      "estimated_source_lines": 1361341,
+      "estimated_wall_hours_at_safe_parallelism": 0.5199084010840107,
+      "largest_shard_facts": 60,
+      "safe_parallel_jobs_45gib": 4,
+      "shards": 119,
+      "top_shards": [
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 60,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        }
+      ],
+      "total_facts": 7112
+    },
+    {
+      "budget": 80,
+      "estimated_peak_rss_per_shard_kib": 9072422,
+      "estimated_serial_wall_hours": 2.079633604336043,
+      "estimated_serial_wall_seconds": 7486.680975609755,
+      "estimated_source_lines": 1361341,
+      "estimated_wall_hours_at_safe_parallelism": 0.5199084010840107,
+      "largest_shard_facts": 80,
+      "safe_parallel_jobs_45gib": 4,
+      "shards": 89,
+      "top_shards": [
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        },
+        {
+          "candidate_parts": 1,
+          "fact_count": 80,
+          "sample_keys": [
+            "ed8a3dc60ca2"
+          ]
+        }
+      ],
+      "total_facts": 7112
+    }
+  ],
+  "trusted_as_proof": false
+}

@@ -10061,6 +10061,44 @@ Acceptance:
   AP.16I catalog that bins candidate facts by positive-mask count and estimates
   candidate-fact module count, routing module count, source size, and wall/RSS
   using the AP.16W/AP.16X measurements.
+- [x] Implement Phase 6Z.6K.8AP.16Y candidate-fact shard planner: AP.16Y adds
+  `scripts/profile_ap16y_candidate_shard_planner.py` and diagnostic outputs
+  `scripts/generated/phase6z6k8ap16y_candidate_shard_plan.json` and
+  `scripts/generated/phase6z6k8ap16y_candidate_shard_plan.md`.  It uses the
+  AP.16X four-signature smoke calibration (41 positive facts, 7,848 shared
+  fact lines, 43.16s wall, 6,268,116 KiB peak RSS) to project shard budgets
+  for the AP.16I positive-candidate catalog.  Validation:
+
+  ```text
+  python3 -m py_compile scripts/profile_ap16y_candidate_shard_planner.py
+  /usr/bin/time -v python3 scripts/profile_ap16y_candidate_shard_planner.py
+  ```
+
+  The planner ran in 0.02s wall time with 17,764 KiB peak RSS.  It plans the
+  current AP.16I representative catalog, not global proof coverage: 195
+  positive candidate groups and 7,112 sampled positive candidate facts.  Its
+  calibration estimates about 191.4 generated Lean lines and 1.053s focused
+  wall time per concrete positive candidate fact in the heavy shared-facts
+  layer.  The candidate-fact projections are:
+
+  ```text
+  budget 20 facts/shard: 356 shards, 1,361,341 lines, 2.080 serial hours,
+                         4.54 GiB/shard, 0.520 hours at 4 jobs
+  budget 40 facts/shard: 178 shards, 1,361,341 lines, 2.080 serial hours,
+                         5.91 GiB/shard, 0.520 hours at 4 jobs
+  budget 60 facts/shard: 119 shards, 1,361,341 lines, 2.080 serial hours,
+                         7.28 GiB/shard, 0.520 hours at 4 jobs
+  budget 80 facts/shard:  89 shards, 1,361,341 lines, 2.080 serial hours,
+                         8.65 GiB/shard, 0.520 hours at 4 jobs
+  ```
+
+  AP.16Y selects budget 20 as the next conservative emission target because it
+  has the same total projected work but the lowest per-shard RSS.  This is only
+  a representative-catalog projection; before any global emission, the same
+  shard-planning logic must be run on the production GoodDirection survivor
+  catalog.  The next bounded Lean step should emit a budget-20 candidate-facts
+  shard plus a thin routing shard and compare measured wall/RSS against this
+  projection.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
