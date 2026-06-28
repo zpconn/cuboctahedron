@@ -1,0 +1,22 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16CB",
+  "status": "accepted",
+  "rank": 100805,
+  "selected_index": 0,
+  "label": "*000**",
+  "impact": 1,
+  "term_count": 6,
+  "bound_sum": "-4/27",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadraticBoundSmoke.lean",
+  "connects_to_impactDenomAtRank": false,
+  "uses_walsh_poly_eval": false,
+  "trusted_as_final_generated_coverage": false,
+  "guarded_build": {
+    "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadraticBoundSmoke",
+    "json": "/tmp/cuboctahedron_ap16cb_quadratic_bound_smoke_guard.json",
+    "result": "passed",
+    "elapsed_seconds": 7.51,
+    "peak_tree_rss_mib": 4062,
+    "min_available_mib": 46026
+  }
+}

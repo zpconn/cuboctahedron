@@ -13000,6 +13000,61 @@ Acceptance:
   Decision: accepted.  The next step is a generated
   `WalshQuadraticImpactObstruction` smoke with coefficient-level denominator
   equality and coefficient upper bounds, not any `WalshPoly.eval` bridge.
+- [x] Implement Phase 6Z.6K.8AP.16CB WalshQuadratic bound smoke:
+  AP16CB adds
+  `scripts/generate_ap16cb_walsh_quadratic_bound_smoke.py` and the generated
+  smoke
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadraticBoundSmoke.lean`.
+  The smoke reuses the AP16BJ selected subcube 0 (`*000**`, impact `1`) and
+  emits a `WalshQuadratic` coefficient record plus a
+  `WalshQuadraticSubcubeUpperBound`.  It proves:
+
+  ```lean
+  theorem generatedQuadratic_nonpos
+      {mask : SignMask} (hmask : generatedCube.Member mask) :
+      generatedPoly.coeffEval mask <= 0
+  ```
+
+  It does not use `WalshPoly.eval`, and it does not yet prove equality with
+  `impactDenomAtRank`.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16cb_quadratic_bound_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadraticBoundSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 7.51s
+  peak tree RSS: 4062 MiB
+  minimum available memory: 46026 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16cb_walsh_quadratic_bound_smoke.json
+  scripts/generated/phase6z6k8ap16cb_walsh_quadratic_bound_smoke.md
+  ```
+
+  Decision: accepted as the coefficient-bound half of the
+  `WalshQuadraticImpactObstruction` path.  The next proof step is the
+  coefficient-level denominator equality bridge:
+
+  ```lean
+  impactDenomAtRank ... = generatedPoly.coeffEval mask
+  ```
+
+  for the same subcube, preferably by reusing AP16BY's symbolic normal/vector
+  records rather than unfolding `totalAff` under every mask branch.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
