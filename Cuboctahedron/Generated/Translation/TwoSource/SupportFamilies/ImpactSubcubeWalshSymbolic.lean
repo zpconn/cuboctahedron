@@ -138,6 +138,57 @@ theorem WalshAffineVec3.dot_coeffEval
   simp [WalshAffineVec3.dot, WalshAffineVec3.eval, Cuboctahedron.dot,
     WalshQuadratic.add_coeffEval, WalshAffine.mul_coeffEval]
 
+/--
+Symbolic coefficient-level impact obstruction.
+
+Generated production leaves should prove the geometric denominator equality
+against symbolic affine normal/vector records:
+
+`impactDenomAtRank ... = dot (normal.eval mask) (vector.eval mask)`.
+
+The reusable algebra in this file then turns a small coefficient equality
+`WalshAffineVec3.dot normal vector = poly` into the `poly.coeffEval` equality
+needed by `WalshQuadraticImpactObstruction`.
+-/
+structure WalshSymbolicQuadraticImpactObstruction
+    (rank : Nat) (Member : SignMask -> Prop) where
+  impact : Impact15
+  not_zero : impact ≠ (0 : Impact15)
+  not_last : impact ≠ lastImpact
+  cube : MaskSubcube
+  member_cube :
+    forall {mask : SignMask}, Member mask -> cube.Member mask
+  normal : WalshAffineVec3
+  vector : WalshAffineVec3
+  poly : WalshQuadratic
+  dot_coefficients : WalshAffineVec3.dot normal vector = poly
+  upper : WalshQuadraticSubcubeUpperBound cube poly
+  denom_dot_eq :
+    forall {mask : SignMask} (hlt : rank < numPairWords),
+      Member mask ->
+        impactDenomAtRank
+          (⟨rank, hlt⟩ : Fin numPairWords) mask impact =
+            Cuboctahedron.dot (normal.eval mask) (vector.eval mask)
+
+def WalshSymbolicQuadraticImpactObstruction.toWalshQuadraticImpactObstruction
+    {rank : Nat} {Member : SignMask -> Prop}
+    (obstruction : WalshSymbolicQuadraticImpactObstruction rank Member) :
+    WalshQuadraticImpactObstruction rank Member where
+  impact := obstruction.impact
+  not_zero := obstruction.not_zero
+  not_last := obstruction.not_last
+  cube := obstruction.cube
+  member_cube := obstruction.member_cube
+  poly := obstruction.poly
+  upper := obstruction.upper
+  denom_eq := by
+    intro mask hlt hmember
+    rw [obstruction.denom_dot_eq hlt hmember]
+    have hdot :=
+      WalshAffineVec3.dot_coeffEval obstruction.normal obstruction.vector mask
+    rw [obstruction.dot_coefficients] at hdot
+    exact hdot.symm
+
 theorem impactSubcubeWalshSymbolic_builds : True := by
   trivial
 

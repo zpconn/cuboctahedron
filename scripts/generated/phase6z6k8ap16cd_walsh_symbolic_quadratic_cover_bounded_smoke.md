@@ -1,0 +1,28 @@
+# Phase 6Z.6K.8AP.16CD Bounded Symbolic WalshQuadratic Cover Smoke
+
+Status: accepted bounded smoke; focused Lean build passed.
+
+- rank: `100805`
+- impact: `1`
+- positive masks: `[4, 6, 11, 22, 30, 31, 59, 63]`
+- interface member masks: `[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]`
+- covered bad masks: `[0, 1, 16, 17, 32, 33, 48, 49]`
+- denominator facts: `8`
+- normal max degree: `0`
+- vector max degree: `1`
+- expected terms: `6`
+- generated Lean file: `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicQuadraticCoverBoundedSmoke.lean`
+
+This smoke validates `WalshSymbolicQuadraticImpactObstruction`.
+It still uses bounded mask replay for the geometric denominator-dot
+equality, so it is diagnostic rather than final production
+compression.
+
+Focused guarded build:
+
+```text
+passed
+elapsed: 17.02s
+peak tree RSS: 4865 MiB
+minimum available memory: 45216 MiB
+```

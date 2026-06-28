@@ -13111,6 +13111,63 @@ Acceptance:
   eight concrete masks.  The production bridge still needs to prove
   coefficient-level equality from symbolic/scaled denominator data, not by
   replaying `impactDenomAtRank` for each mask.
+- [x] Implement Phase 6Z.6K.8AP.16CD bounded symbolic WalshQuadratic cover smoke:
+  AP16CD adds the hand-written symbolic erasure interface in
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`:
+
+  ```lean
+  structure WalshSymbolicQuadraticImpactObstruction
+  def WalshSymbolicQuadraticImpactObstruction.toWalshQuadraticImpactObstruction
+  ```
+
+  The generated smoke
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicQuadraticCoverBoundedSmoke.lean`
+  instantiates this interface for the same rank-100805 selected subcube 0.
+  It carries symbolic affine normal/vector records, proves:
+
+  ```lean
+  WalshAffineVec3.dot generatedNormal generatedVector = generatedPoly
+  ```
+
+  and lets the generic theorem `WalshAffineVec3.dot_coeffEval` turn that
+  symbolic coefficient equality into the coefficient evaluator used by
+  `WalshQuadraticImpactObstruction`.
+
+  Guarded builds:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic
+  passed
+  elapsed: 14.02s
+  peak tree RSS: 4384 MiB
+  minimum available memory: 45769 MiB
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicQuadraticCoverBoundedSmoke
+  passed
+  elapsed: 17.02s
+  peak tree RSS: 4865 MiB
+  minimum available memory: 45216 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16cd_walsh_symbolic_quadratic_cover_bounded_smoke.json
+  scripts/generated/phase6z6k8ap16cd_walsh_symbolic_quadratic_cover_bounded_smoke.md
+  ```
+
+  Decision: accepted as the current best production-shaped interface smoke.
+  The remaining non-production piece is exactly isolated: the generated smoke
+  still proves
+
+  ```lean
+  impactDenomAtRank ... =
+    dot (generatedNormal.eval mask) (generatedVector.eval mask)
+  ```
+
+  by bounded mask replay.  The next step should replace that field with a
+  symbolic/scaled denominator evaluator theorem over a signed prefix/state,
+  while keeping the AP16CD coefficient side unchanged.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
