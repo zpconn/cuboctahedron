@@ -11784,10 +11784,64 @@ Acceptance:
   premise must be closed with compact denominator/signature witnesses rather
   than by reducing `goodDirectionAtRankBool`.
 
-  Next target: generate a closed singleton semantic membership proof proving
+  AP16BA below completes the next bounded target: a closed singleton semantic
+  membership proof proving
   `GoodDirectionAtRank ⟨anchor, hlt⟩ mask -> generatedGoodMaskMember mask` by
   eliminating bad masks with compact nonpositive-denominator witnesses and
   positive masks with source/row facts.
+- [x] Implement Phase 6Z.6K.8AP.16BA closed singleton semantic membership:
+  AP16BA closes AP16AZ's remaining semantic membership premise for the
+  singleton signature at rank `100805`.  The generated module now proves:
+
+  ```lean
+  generatedGoodMaskMember_of_GoodDirection :
+    {mask : SignMask} ->
+    (hlt : 100805 < numPairWords) ->
+    GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask ->
+    generatedGoodMaskMember mask
+
+  generatedSingletonSignatureClosedSemanticAllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 100805 100806
+  ```
+
+  It uses the eight AP16T precomputed positive-mask source/row facts and emits
+  one exact nonpositive-denominator witness for each of the 56 masks that fail
+  GoodDirection.
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16ba_closed_semantic_membership_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 360s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                59.14s
+  peak process-tree RSS:  7.924 GiB
+  minimum available mem:  39.04 GiB
+  guard kill:             no
+  generated Lean lines:   6303
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ba_closed_semantic_membership.json
+  scripts/generated/phase6z6k8ap16ba_closed_semantic_membership.md
+  ```
+
+  Decision: the closed semantic theorem shape is viable and memory-safe for one
+  signature.  The exact per-bad-mask denominator witnesses are too heavy for
+  production at global scale, though: they raise the singleton file from 1,788
+  to 6,303 lines and peak RSS from about 4.8 GiB to about 8.1 GiB.  The next
+  production step should factor bad-mask exclusion by denominator signature,
+  mask tree, or another shared language so each signature family exports one
+  small semantic theorem instead of dozens of rank-local denominator proofs.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -13787,6 +13841,19 @@ semantic classifier.  The next AP16 target is now closing the singleton
 membership premise using compact bad-mask nonpositive-denominator witnesses or
 an equivalent signature-local denominator theorem, not by reducing
 `goodDirectionAtRankBool`.
+
+AP.16BA closes that singleton membership premise.  The generated theorem
+`generatedGoodMaskMember_of_GoodDirection` proves that any semantic
+`GoodDirectionAtRank` mask at rank `100805` is one of the eight positive masks,
+and `generatedSingletonSignatureClosedSemanticAllGoodCoverage` removes the last
+premise from the singleton coverage theorem.  It does so with 56 exact
+nonpositive-denominator witnesses for the bad masks.  The guarded build passed
+in 59.14s with 8,114 MiB peak process-tree RSS and 39,979 MiB minimum available
+memory.  This is a useful proof-shape validation but also a clear scaling
+warning: per-bad-mask denominator witnesses are acceptable for bounded smoke
+proofs, but production needs a shared denominator-signature/mask-tree language
+that proves all bad-mask exclusions for a signature family with one compact
+semantic theorem.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

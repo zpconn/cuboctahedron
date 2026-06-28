@@ -1,0 +1,29 @@
+{
+  "phase": "6Z.6K.8AP.16BA",
+  "status": "accepted-closed-singleton-semantic-membership",
+  "date": "2026-06-28",
+  "target_rank": 100805,
+  "rank_range": [100805, 100806],
+  "positive_masks": [4, 6, 11, 22, 30, 31, 59, 63],
+  "bad_direction_witnesses": 56,
+  "candidate_groups": 6,
+  "generated_lean_lines": 6303,
+  "changed_files": [
+    "scripts/generate_ap16t_precomputed_signature_smoke.py",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorPrecomputedSignatureSmoke.lean"
+  ],
+  "new_theorems": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke.generatedGoodMaskMember_of_GoodDirection",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke.generatedSingletonSignatureClosedSemanticAllGoodCoverage"
+  ],
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16ba_closed_semantic_membership_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 360s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 59.143577643000754,
+    "peak_tree_rss_mib": 8114.32421875,
+    "min_available_seen_mib": 39979.25390625,
+    "rss_cap_mib": 12000.0,
+    "killed_reason": null
+  },
+  "decision": "The closed singleton semantic membership theorem is viable under a 12 GiB guard, but the 56 bad-mask denominator witnesses raise peak RSS to roughly 8 GiB and file size to 6303 lines. This validates the theorem shape while confirming that production must factor bad-mask evidence by denominator signature or another shared language, not emit this per singleton signature at scale."
+}

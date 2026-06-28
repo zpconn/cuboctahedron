@@ -40,10 +40,13 @@ from generate_translation_row_family_smoke import (  # noqa: E402
     case_header_lines_for_family,
 )
 from generate_translation_row_relation_classifier import (  # noqa: E402
+    BadDirectionCase,
     ClassifiedCase,
+    bad_direction_lines,
     case_shape_lines,
     collect_classified_cases,
     lean_case_name,
+    lean_bad_name,
 )
 
 
@@ -80,7 +83,10 @@ def case_name_for_mask(index: int) -> str:
     return lean_case_name(index)
 
 
-def classified_cases_for_signature(rank: int, good_masks: list[int]) -> dict[int, ClassifiedCase]:
+def classified_cases_and_bad_masks_for_signature(
+    rank: int,
+    good_masks: list[int],
+) -> tuple[dict[int, ClassifiedCase], dict[int, BadDirectionCase], dict[str, Any]]:
     classified, _by_rank, stats = collect_classified_cases(rank, 1)
     by_mask = {cc.case.mask: cc for cc in classified}
     missing = [mask for mask in good_masks if mask not in by_mask]
@@ -88,10 +94,13 @@ def classified_cases_for_signature(rank: int, good_masks: list[int]) -> dict[int
         raise SystemExit(
             f"rank {rank} missing classified GoodDirection masks {missing}; stats={stats}"
         )
-    return {
+    rank_cases = _by_rank[rank]
+    if rank_cases.bad_masks is None:
+        raise SystemExit(f"rank {rank} did not produce bad-direction witnesses")
+    return ({
         mask: ClassifiedCase(index, by_mask[mask].case, by_mask[mask].template_id)
         for index, mask in enumerate(good_masks)
-    }
+    }, dict(rank_cases.bad_masks), stats)
 
 
 def emit_candidate_defs(groups: list[dict[str, Any]]) -> tuple[str, dict[str, str]]:
@@ -257,12 +266,52 @@ def emit_all_facts_theorem(good_masks: list[int]) -> list[str]:
     return lines
 
 
+def emit_good_mask_member_of_good_direction(
+    *,
+    anchor: int,
+    good_masks: list[int],
+    bad_masks: dict[int, BadDirectionCase],
+) -> list[str]:
+    good_set = set(good_masks)
+    missing_bad = [mask for mask in range(64) if mask not in good_set and mask not in bad_masks]
+    if missing_bad:
+        raise SystemExit(f"missing bad-direction witnesses for masks {missing_bad}")
+    lines = [
+        "/--",
+        "AP.16BA closed singleton membership theorem.",
+        "",
+        "For this singleton survivor signature, every semantic GoodDirection mask",
+        "is one of the eight positive masks.  Positive branches reduce by the",
+        "`generatedGoodMaskMember` definition; every other mask contradicts",
+        "GoodDirection via a generated nonpositive denominator witness.",
+        "-/",
+        "theorem generatedGoodMaskMember_of_GoodDirection",
+        f"    {{mask : SignMask}} (hlt : {anchor} < numPairWords)",
+        f"    (hgood : GoodDirectionAtRank (⟨{anchor}, hlt⟩ : Fin numPairWords) mask) :",
+        "    generatedGoodMaskMember mask := by",
+        "  fin_cases mask",
+    ]
+    for mask in range(64):
+        if mask in good_set:
+            lines.extend([
+                "  · simp [generatedGoodMaskMember]",
+            ])
+        else:
+            name = lean_bad_name(anchor, mask)
+            lines.extend([
+                f"  · exact False.elim (({name}_notGood hlt) hgood)",
+            ])
+    lines.append("")
+    return lines
+
+
 def emit_module(
     *,
     profile: dict[str, Any],
     signature: dict[str, Any],
     groups: list[dict[str, Any]],
     cases: dict[int, ClassifiedCase],
+    bad_masks: dict[int, BadDirectionCase],
     output: Path,
 ) -> None:
     anchor = int(signature["ranks"][0])
@@ -323,7 +372,18 @@ def emit_module(
                 ctor=mask_to_ctor[mask],
             )
         )
+    for mask in range(64):
+        bad = bad_masks.get(mask)
+        if bad is not None:
+            lines.extend(bad_direction_lines(bad))
     lines.extend(emit_all_facts_theorem(good_masks))
+    lines.extend(
+        emit_good_mask_member_of_good_direction(
+            anchor=anchor,
+            good_masks=good_masks,
+            bad_masks=bad_masks,
+        )
+    )
     lines.extend([
         "private def generatedSignatureClassifier",
         "    (hmask :",
@@ -391,6 +451,19 @@ def emit_module(
         f"    AllTranslationGoodCoverageOnRange {anchor} {hi} :=",
         "  (generatedSemanticSignatureClassifier hmask).to_allGoodCoverage",
         "",
+        "/--",
+        "AP.16BA closed semantic singleton-signature coverage theorem.",
+        "",
+        "This closes AP.16AZ's remaining semantic membership premise for the",
+        "singleton signature at rank `100805`.",
+        "-/",
+        "theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :",
+        f"    AllTranslationGoodCoverageOnRange {anchor} {hi} :=",
+        "  generatedSingletonSignatureSemanticAllGoodCoverage",
+        "    (by",
+        "      intro mask hlt hgood",
+        "      exact generatedGoodMaskMember_of_GoodDirection hlt hgood)",
+        "",
         "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke",
         "",
     ])
@@ -415,17 +488,21 @@ def main() -> None:
         )
     groups = candidate_groups_for_signature(profile, signature)
     good_masks = [int(mask) for mask in signature["good_masks"]]
-    cases = classified_cases_for_signature(args.rank, good_masks)
+    cases, bad_masks, stats = classified_cases_and_bad_masks_for_signature(
+        args.rank, good_masks
+    )
     emit_module(
         profile=profile,
         signature=signature,
         groups=groups,
         cases=cases,
+        bad_masks=bad_masks,
         output=args.output,
     )
     print(
         f"wrote {args.output} for rank {args.rank}, "
-        f"{len(good_masks)} positive masks, {len(groups)} candidate groups"
+        f"{len(good_masks)} positive masks, {len(groups)} candidate groups, "
+        f"{len(bad_masks)} bad-direction witnesses"
     )
 
 

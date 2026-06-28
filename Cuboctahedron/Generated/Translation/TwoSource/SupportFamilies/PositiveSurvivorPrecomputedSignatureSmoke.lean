@@ -1653,6 +1653,4430 @@ private theorem case_000007_signatureFacts :
     generatedCandidateOfNat, case_000007_rank, case_000007_mask] using
       And.intro case_000007_sourcePredicate case_000007_rowProducerApplies
 
+private def rank_000100805_mask_00_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_00_badDirection_mask : SignMask := ⟨0, by decide⟩
+private def rank_000100805_mask_00_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_00_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_00_badDirection_b : Vec3 Rat := { x := (28/9), y := (-116/9), z := (-68/9) }
+private def rank_000100805_mask_00_badDirection_denom : Rat := (-28/9)
+
+private theorem rank_000100805_mask_00_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_00_badDirection_word = some rank_000100805_mask_00_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_00_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_00_badDirection_rank = rank_000100805_mask_00_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_00_badDirection_word rank_000100805_mask_00_badDirection_rank).1
+    rank_000100805_mask_00_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_00_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_00_badDirection_word rank_000100805_mask_00_badDirection_mask = rank_000100805_mask_00_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_00_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_00_badDirection_rank rank_000100805_mask_00_badDirection_mask = rank_000100805_mask_00_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_00_badDirection_unrank]
+  exact rank_000100805_mask_00_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_00_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_00_badDirection_rank rank_000100805_mask_00_badDirection_mask = rank_000100805_mask_00_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_00_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_00_badDirection_b, rank_000100805_mask_00_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_00_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_00_badDirection_rank rank_000100805_mask_00_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_00_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_00_badDirection_seqAtRank, rank_000100805_mask_00_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_00_badDirection_denom, rank_000100805_mask_00_badDirection_seq, rank_000100805_mask_00_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_00_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_00_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_00_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_00_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_00_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_00_badDirection_denom]
+
+private def rank_000100805_mask_01_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_01_badDirection_mask : SignMask := ⟨1, by decide⟩
+private def rank_000100805_mask_01_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_01_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_01_badDirection_b : Vec3 Rat := { x := (28/9), y := (-44/9), z := (-68/9) }
+private def rank_000100805_mask_01_badDirection_denom : Rat := (-28/9)
+
+private theorem rank_000100805_mask_01_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_01_badDirection_word = some rank_000100805_mask_01_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_01_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_01_badDirection_rank = rank_000100805_mask_01_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_01_badDirection_word rank_000100805_mask_01_badDirection_rank).1
+    rank_000100805_mask_01_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_01_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_01_badDirection_word rank_000100805_mask_01_badDirection_mask = rank_000100805_mask_01_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_01_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_01_badDirection_rank rank_000100805_mask_01_badDirection_mask = rank_000100805_mask_01_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_01_badDirection_unrank]
+  exact rank_000100805_mask_01_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_01_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_01_badDirection_rank rank_000100805_mask_01_badDirection_mask = rank_000100805_mask_01_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_01_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_01_badDirection_b, rank_000100805_mask_01_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_01_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_01_badDirection_rank rank_000100805_mask_01_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_01_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_01_badDirection_seqAtRank, rank_000100805_mask_01_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_01_badDirection_denom, rank_000100805_mask_01_badDirection_seq, rank_000100805_mask_01_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_01_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_01_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_01_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_01_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_01_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_01_badDirection_denom]
+
+private def rank_000100805_mask_02_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_02_badDirection_mask : SignMask := ⟨2, by decide⟩
+private def rank_000100805_mask_02_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_02_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_02_badDirection_b : Vec3 Rat := { x := -4, y := (-28/3), z := (-20/3) }
+private def rank_000100805_mask_02_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_02_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_02_badDirection_word = some rank_000100805_mask_02_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_02_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_02_badDirection_rank = rank_000100805_mask_02_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_02_badDirection_word rank_000100805_mask_02_badDirection_rank).1
+    rank_000100805_mask_02_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_02_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_02_badDirection_word rank_000100805_mask_02_badDirection_mask = rank_000100805_mask_02_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_02_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_02_badDirection_rank rank_000100805_mask_02_badDirection_mask = rank_000100805_mask_02_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_02_badDirection_unrank]
+  exact rank_000100805_mask_02_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_02_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_02_badDirection_rank rank_000100805_mask_02_badDirection_mask = rank_000100805_mask_02_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_02_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_02_badDirection_b, rank_000100805_mask_02_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_02_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_02_badDirection_rank rank_000100805_mask_02_badDirection_mask ⟨6, by decide⟩ =
+      rank_000100805_mask_02_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_02_badDirection_seqAtRank, rank_000100805_mask_02_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_02_badDirection_denom, rank_000100805_mask_02_badDirection_seq, rank_000100805_mask_02_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_02_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_02_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_02_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_02_badDirection_mask)
+      (i := ⟨6, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_02_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_02_badDirection_denom]
+
+private def rank_000100805_mask_03_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_03_badDirection_mask : SignMask := ⟨3, by decide⟩
+private def rank_000100805_mask_03_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_03_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_03_badDirection_b : Vec3 Rat := { x := -4, y := (-4/3), z := (-20/3) }
+private def rank_000100805_mask_03_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_03_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_03_badDirection_word = some rank_000100805_mask_03_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_03_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_03_badDirection_rank = rank_000100805_mask_03_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_03_badDirection_word rank_000100805_mask_03_badDirection_rank).1
+    rank_000100805_mask_03_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_03_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_03_badDirection_word rank_000100805_mask_03_badDirection_mask = rank_000100805_mask_03_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_03_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_03_badDirection_rank rank_000100805_mask_03_badDirection_mask = rank_000100805_mask_03_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_03_badDirection_unrank]
+  exact rank_000100805_mask_03_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_03_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_03_badDirection_rank rank_000100805_mask_03_badDirection_mask = rank_000100805_mask_03_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_03_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_03_badDirection_b, rank_000100805_mask_03_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_03_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_03_badDirection_rank rank_000100805_mask_03_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_03_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_03_badDirection_seqAtRank, rank_000100805_mask_03_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_03_badDirection_denom, rank_000100805_mask_03_badDirection_seq, rank_000100805_mask_03_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_03_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_03_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_03_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_03_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_03_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_03_badDirection_denom]
+
+private def rank_000100805_mask_05_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_05_badDirection_mask : SignMask := ⟨5, by decide⟩
+private def rank_000100805_mask_05_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_05_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_05_badDirection_b : Vec3 Rat := { x := (-124/27), y := (-244/27), z := (-124/27) }
+private def rank_000100805_mask_05_badDirection_denom : Rat := (-244/27)
+
+private theorem rank_000100805_mask_05_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_05_badDirection_word = some rank_000100805_mask_05_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_05_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_05_badDirection_rank = rank_000100805_mask_05_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_05_badDirection_word rank_000100805_mask_05_badDirection_rank).1
+    rank_000100805_mask_05_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_05_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_05_badDirection_word rank_000100805_mask_05_badDirection_mask = rank_000100805_mask_05_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_05_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_05_badDirection_rank rank_000100805_mask_05_badDirection_mask = rank_000100805_mask_05_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_05_badDirection_unrank]
+  exact rank_000100805_mask_05_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_05_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_05_badDirection_rank rank_000100805_mask_05_badDirection_mask = rank_000100805_mask_05_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_05_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_05_badDirection_b, rank_000100805_mask_05_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_05_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_05_badDirection_rank rank_000100805_mask_05_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_05_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_05_badDirection_seqAtRank, rank_000100805_mask_05_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_05_badDirection_denom, rank_000100805_mask_05_badDirection_seq, rank_000100805_mask_05_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_05_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_05_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_05_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_05_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_05_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_05_badDirection_denom]
+
+private def rank_000100805_mask_07_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_07_badDirection_mask : SignMask := ⟨7, by decide⟩
+private def rank_000100805_mask_07_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_07_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_07_badDirection_b : Vec3 Rat := { x := (-316/27), y := (-148/27), z := (-100/27) }
+private def rank_000100805_mask_07_badDirection_denom : Rat := (-148/27)
+
+private theorem rank_000100805_mask_07_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_07_badDirection_word = some rank_000100805_mask_07_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_07_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_07_badDirection_rank = rank_000100805_mask_07_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_07_badDirection_word rank_000100805_mask_07_badDirection_rank).1
+    rank_000100805_mask_07_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_07_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_07_badDirection_word rank_000100805_mask_07_badDirection_mask = rank_000100805_mask_07_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_07_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_07_badDirection_rank rank_000100805_mask_07_badDirection_mask = rank_000100805_mask_07_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_07_badDirection_unrank]
+  exact rank_000100805_mask_07_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_07_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_07_badDirection_rank rank_000100805_mask_07_badDirection_mask = rank_000100805_mask_07_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_07_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_07_badDirection_b, rank_000100805_mask_07_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_07_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_07_badDirection_rank rank_000100805_mask_07_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_07_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_07_badDirection_seqAtRank, rank_000100805_mask_07_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_07_badDirection_denom, rank_000100805_mask_07_badDirection_seq, rank_000100805_mask_07_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_07_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_07_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_07_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_07_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_07_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_07_badDirection_denom]
+
+private def rank_000100805_mask_08_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_08_badDirection_mask : SignMask := ⟨8, by decide⟩
+private def rank_000100805_mask_08_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_08_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_08_badDirection_b : Vec3 Rat := { x := (4/3), y := -4, z := (-28/3) }
+private def rank_000100805_mask_08_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_08_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_08_badDirection_word = some rank_000100805_mask_08_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_08_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_08_badDirection_rank = rank_000100805_mask_08_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_08_badDirection_word rank_000100805_mask_08_badDirection_rank).1
+    rank_000100805_mask_08_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_08_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_08_badDirection_word rank_000100805_mask_08_badDirection_mask = rank_000100805_mask_08_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_08_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_08_badDirection_rank rank_000100805_mask_08_badDirection_mask = rank_000100805_mask_08_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_08_badDirection_unrank]
+  exact rank_000100805_mask_08_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_08_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_08_badDirection_rank rank_000100805_mask_08_badDirection_mask = rank_000100805_mask_08_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_08_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_08_badDirection_b, rank_000100805_mask_08_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_08_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_08_badDirection_rank rank_000100805_mask_08_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_08_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_08_badDirection_seqAtRank, rank_000100805_mask_08_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_08_badDirection_denom, rank_000100805_mask_08_badDirection_seq, rank_000100805_mask_08_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_08_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_08_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_08_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_08_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_08_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_08_badDirection_denom]
+
+private def rank_000100805_mask_09_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_09_badDirection_mask : SignMask := ⟨9, by decide⟩
+private def rank_000100805_mask_09_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_09_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_09_badDirection_b : Vec3 Rat := { x := (4/3), y := 4, z := (-28/3) }
+private def rank_000100805_mask_09_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_09_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_09_badDirection_word = some rank_000100805_mask_09_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_09_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_09_badDirection_rank = rank_000100805_mask_09_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_09_badDirection_word rank_000100805_mask_09_badDirection_rank).1
+    rank_000100805_mask_09_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_09_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_09_badDirection_word rank_000100805_mask_09_badDirection_mask = rank_000100805_mask_09_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_09_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_09_badDirection_rank rank_000100805_mask_09_badDirection_mask = rank_000100805_mask_09_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_09_badDirection_unrank]
+  exact rank_000100805_mask_09_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_09_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_09_badDirection_rank rank_000100805_mask_09_badDirection_mask = rank_000100805_mask_09_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_09_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_09_badDirection_b, rank_000100805_mask_09_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_09_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_09_badDirection_rank rank_000100805_mask_09_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_09_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_09_badDirection_seqAtRank, rank_000100805_mask_09_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_09_badDirection_denom, rank_000100805_mask_09_badDirection_seq, rank_000100805_mask_09_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_09_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_09_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_09_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_09_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_09_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_09_badDirection_denom]
+
+private def rank_000100805_mask_10_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_10_badDirection_mask : SignMask := ⟨10, by decide⟩
+private def rank_000100805_mask_10_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_10_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_10_badDirection_b : Vec3 Rat := { x := (-52/9), y := (-4/9), z := (-76/9) }
+private def rank_000100805_mask_10_badDirection_denom : Rat := -4
+
+private theorem rank_000100805_mask_10_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_10_badDirection_word = some rank_000100805_mask_10_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_10_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_10_badDirection_rank = rank_000100805_mask_10_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_10_badDirection_word rank_000100805_mask_10_badDirection_rank).1
+    rank_000100805_mask_10_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_10_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_10_badDirection_word rank_000100805_mask_10_badDirection_mask = rank_000100805_mask_10_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_10_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_10_badDirection_rank rank_000100805_mask_10_badDirection_mask = rank_000100805_mask_10_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_10_badDirection_unrank]
+  exact rank_000100805_mask_10_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_10_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_10_badDirection_rank rank_000100805_mask_10_badDirection_mask = rank_000100805_mask_10_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_10_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_10_badDirection_b, rank_000100805_mask_10_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_10_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_10_badDirection_rank rank_000100805_mask_10_badDirection_mask ⟨8, by decide⟩ =
+      rank_000100805_mask_10_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_10_badDirection_seqAtRank, rank_000100805_mask_10_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_10_badDirection_denom, rank_000100805_mask_10_badDirection_seq, rank_000100805_mask_10_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_10_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_10_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_10_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_10_badDirection_mask)
+      (i := ⟨8, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_10_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_10_badDirection_denom]
+
+private def rank_000100805_mask_12_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_12_badDirection_mask : SignMask := ⟨12, by decide⟩
+private def rank_000100805_mask_12_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_12_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_12_badDirection_b : Vec3 Rat := { x := (-172/27), y := (-220/27), z := (-172/27) }
+private def rank_000100805_mask_12_badDirection_denom : Rat := (-28/3)
+
+private theorem rank_000100805_mask_12_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_12_badDirection_word = some rank_000100805_mask_12_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_12_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_12_badDirection_rank = rank_000100805_mask_12_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_12_badDirection_word rank_000100805_mask_12_badDirection_rank).1
+    rank_000100805_mask_12_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_12_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_12_badDirection_word rank_000100805_mask_12_badDirection_mask = rank_000100805_mask_12_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_12_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_12_badDirection_rank rank_000100805_mask_12_badDirection_mask = rank_000100805_mask_12_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_12_badDirection_unrank]
+  exact rank_000100805_mask_12_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_12_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_12_badDirection_rank rank_000100805_mask_12_badDirection_mask = rank_000100805_mask_12_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_12_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_12_badDirection_b, rank_000100805_mask_12_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_12_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_12_badDirection_rank rank_000100805_mask_12_badDirection_mask ⟨5, by decide⟩ =
+      rank_000100805_mask_12_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_12_badDirection_seqAtRank, rank_000100805_mask_12_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_12_badDirection_denom, rank_000100805_mask_12_badDirection_seq, rank_000100805_mask_12_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_12_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_12_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_12_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_12_badDirection_mask)
+      (i := ⟨5, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_12_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_12_badDirection_denom]
+
+private def rank_000100805_mask_13_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_13_badDirection_mask : SignMask := ⟨13, by decide⟩
+private def rank_000100805_mask_13_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_13_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_13_badDirection_b : Vec3 Rat := { x := (-172/27), y := (-4/27), z := (-172/27) }
+private def rank_000100805_mask_13_badDirection_denom : Rat := (-4/27)
+
+private theorem rank_000100805_mask_13_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_13_badDirection_word = some rank_000100805_mask_13_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_13_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_13_badDirection_rank = rank_000100805_mask_13_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_13_badDirection_word rank_000100805_mask_13_badDirection_rank).1
+    rank_000100805_mask_13_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_13_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_13_badDirection_word rank_000100805_mask_13_badDirection_mask = rank_000100805_mask_13_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_13_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_13_badDirection_rank rank_000100805_mask_13_badDirection_mask = rank_000100805_mask_13_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_13_badDirection_unrank]
+  exact rank_000100805_mask_13_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_13_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_13_badDirection_rank rank_000100805_mask_13_badDirection_mask = rank_000100805_mask_13_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_13_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_13_badDirection_b, rank_000100805_mask_13_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_13_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_13_badDirection_rank rank_000100805_mask_13_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_13_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_13_badDirection_seqAtRank, rank_000100805_mask_13_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_13_badDirection_denom, rank_000100805_mask_13_badDirection_seq, rank_000100805_mask_13_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_13_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_13_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_13_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_13_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_13_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_13_badDirection_denom]
+
+private def rank_000100805_mask_14_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_14_badDirection_mask : SignMask := ⟨14, by decide⟩
+private def rank_000100805_mask_14_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_14_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_14_badDirection_b : Vec3 Rat := { x := (-364/27), y := (-124/27), z := (-148/27) }
+private def rank_000100805_mask_14_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_14_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_14_badDirection_word = some rank_000100805_mask_14_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_14_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_14_badDirection_rank = rank_000100805_mask_14_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_14_badDirection_word rank_000100805_mask_14_badDirection_rank).1
+    rank_000100805_mask_14_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_14_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_14_badDirection_word rank_000100805_mask_14_badDirection_mask = rank_000100805_mask_14_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_14_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_14_badDirection_rank rank_000100805_mask_14_badDirection_mask = rank_000100805_mask_14_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_14_badDirection_unrank]
+  exact rank_000100805_mask_14_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_14_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_14_badDirection_rank rank_000100805_mask_14_badDirection_mask = rank_000100805_mask_14_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_14_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_14_badDirection_b, rank_000100805_mask_14_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_14_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_14_badDirection_rank rank_000100805_mask_14_badDirection_mask ⟨5, by decide⟩ =
+      rank_000100805_mask_14_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_14_badDirection_seqAtRank, rank_000100805_mask_14_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_14_badDirection_denom, rank_000100805_mask_14_badDirection_seq, rank_000100805_mask_14_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_14_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_14_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_14_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_14_badDirection_mask)
+      (i := ⟨5, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_14_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_14_badDirection_denom]
+
+private def rank_000100805_mask_15_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_15_badDirection_mask : SignMask := ⟨15, by decide⟩
+private def rank_000100805_mask_15_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_15_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_15_badDirection_b : Vec3 Rat := { x := (-364/27), y := (92/27), z := (-148/27) }
+private def rank_000100805_mask_15_badDirection_denom : Rat := (-20/9)
+
+private theorem rank_000100805_mask_15_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_15_badDirection_word = some rank_000100805_mask_15_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_15_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_15_badDirection_rank = rank_000100805_mask_15_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_15_badDirection_word rank_000100805_mask_15_badDirection_rank).1
+    rank_000100805_mask_15_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_15_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_15_badDirection_word rank_000100805_mask_15_badDirection_mask = rank_000100805_mask_15_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_15_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_15_badDirection_rank rank_000100805_mask_15_badDirection_mask = rank_000100805_mask_15_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_15_badDirection_unrank]
+  exact rank_000100805_mask_15_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_15_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_15_badDirection_rank rank_000100805_mask_15_badDirection_mask = rank_000100805_mask_15_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_15_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_15_badDirection_b, rank_000100805_mask_15_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_15_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_15_badDirection_rank rank_000100805_mask_15_badDirection_mask ⟨10, by decide⟩ =
+      rank_000100805_mask_15_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_15_badDirection_seqAtRank, rank_000100805_mask_15_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_15_badDirection_denom, rank_000100805_mask_15_badDirection_seq, rank_000100805_mask_15_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_15_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_15_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_15_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_15_badDirection_mask)
+      (i := ⟨10, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_15_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_15_badDirection_denom]
+
+private def rank_000100805_mask_16_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_16_badDirection_mask : SignMask := ⟨16, by decide⟩
+private def rank_000100805_mask_16_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_16_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_16_badDirection_b : Vec3 Rat := { x := (4/27), y := (-236/27), z := (4/27) }
+private def rank_000100805_mask_16_badDirection_denom : Rat := (-4/27)
+
+private theorem rank_000100805_mask_16_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_16_badDirection_word = some rank_000100805_mask_16_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_16_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_16_badDirection_rank = rank_000100805_mask_16_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_16_badDirection_word rank_000100805_mask_16_badDirection_rank).1
+    rank_000100805_mask_16_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_16_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_16_badDirection_word rank_000100805_mask_16_badDirection_mask = rank_000100805_mask_16_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_16_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_16_badDirection_rank rank_000100805_mask_16_badDirection_mask = rank_000100805_mask_16_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_16_badDirection_unrank]
+  exact rank_000100805_mask_16_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_16_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_16_badDirection_rank rank_000100805_mask_16_badDirection_mask = rank_000100805_mask_16_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_16_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_16_badDirection_b, rank_000100805_mask_16_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_16_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_16_badDirection_rank rank_000100805_mask_16_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_16_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_16_badDirection_seqAtRank, rank_000100805_mask_16_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_16_badDirection_denom, rank_000100805_mask_16_badDirection_seq, rank_000100805_mask_16_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_16_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_16_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_16_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_16_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_16_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_16_badDirection_denom]
+
+private def rank_000100805_mask_17_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_17_badDirection_mask : SignMask := ⟨17, by decide⟩
+private def rank_000100805_mask_17_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_17_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_17_badDirection_b : Vec3 Rat := { x := (4/27), y := (-20/27), z := (4/27) }
+private def rank_000100805_mask_17_badDirection_denom : Rat := (-4/27)
+
+private theorem rank_000100805_mask_17_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_17_badDirection_word = some rank_000100805_mask_17_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_17_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_17_badDirection_rank = rank_000100805_mask_17_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_17_badDirection_word rank_000100805_mask_17_badDirection_rank).1
+    rank_000100805_mask_17_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_17_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_17_badDirection_word rank_000100805_mask_17_badDirection_mask = rank_000100805_mask_17_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_17_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_17_badDirection_rank rank_000100805_mask_17_badDirection_mask = rank_000100805_mask_17_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_17_badDirection_unrank]
+  exact rank_000100805_mask_17_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_17_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_17_badDirection_rank rank_000100805_mask_17_badDirection_mask = rank_000100805_mask_17_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_17_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_17_badDirection_b, rank_000100805_mask_17_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_17_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_17_badDirection_rank rank_000100805_mask_17_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_17_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_17_badDirection_seqAtRank, rank_000100805_mask_17_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_17_badDirection_denom, rank_000100805_mask_17_badDirection_seq, rank_000100805_mask_17_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_17_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_17_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_17_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_17_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_17_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_17_badDirection_denom]
+
+private def rank_000100805_mask_18_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_18_badDirection_mask : SignMask := ⟨18, by decide⟩
+private def rank_000100805_mask_18_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_18_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_18_badDirection_b : Vec3 Rat := { x := (-188/27), y := (-140/27), z := (28/27) }
+private def rank_000100805_mask_18_badDirection_denom : Rat := (-44/3)
+
+private theorem rank_000100805_mask_18_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_18_badDirection_word = some rank_000100805_mask_18_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_18_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_18_badDirection_rank = rank_000100805_mask_18_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_18_badDirection_word rank_000100805_mask_18_badDirection_rank).1
+    rank_000100805_mask_18_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_18_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_18_badDirection_word rank_000100805_mask_18_badDirection_mask = rank_000100805_mask_18_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_18_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_18_badDirection_rank rank_000100805_mask_18_badDirection_mask = rank_000100805_mask_18_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_18_badDirection_unrank]
+  exact rank_000100805_mask_18_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_18_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_18_badDirection_rank rank_000100805_mask_18_badDirection_mask = rank_000100805_mask_18_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_18_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_18_badDirection_b, rank_000100805_mask_18_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_18_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_18_badDirection_rank rank_000100805_mask_18_badDirection_mask ⟨8, by decide⟩ =
+      rank_000100805_mask_18_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_18_badDirection_seqAtRank, rank_000100805_mask_18_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_18_badDirection_denom, rank_000100805_mask_18_badDirection_seq, rank_000100805_mask_18_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_18_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_18_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_18_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_18_badDirection_mask)
+      (i := ⟨8, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_18_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_18_badDirection_denom]
+
+private def rank_000100805_mask_19_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_19_badDirection_mask : SignMask := ⟨19, by decide⟩
+private def rank_000100805_mask_19_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_19_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_19_badDirection_b : Vec3 Rat := { x := (-188/27), y := (76/27), z := (28/27) }
+private def rank_000100805_mask_19_badDirection_denom : Rat := (-20/3)
+
+private theorem rank_000100805_mask_19_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_19_badDirection_word = some rank_000100805_mask_19_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_19_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_19_badDirection_rank = rank_000100805_mask_19_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_19_badDirection_word rank_000100805_mask_19_badDirection_rank).1
+    rank_000100805_mask_19_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_19_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_19_badDirection_word rank_000100805_mask_19_badDirection_mask = rank_000100805_mask_19_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_19_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_19_badDirection_rank rank_000100805_mask_19_badDirection_mask = rank_000100805_mask_19_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_19_badDirection_unrank]
+  exact rank_000100805_mask_19_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_19_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_19_badDirection_rank rank_000100805_mask_19_badDirection_mask = rank_000100805_mask_19_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_19_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_19_badDirection_b, rank_000100805_mask_19_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_19_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_19_badDirection_rank rank_000100805_mask_19_badDirection_mask ⟨5, by decide⟩ =
+      rank_000100805_mask_19_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_19_badDirection_seqAtRank, rank_000100805_mask_19_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_19_badDirection_denom, rank_000100805_mask_19_badDirection_seq, rank_000100805_mask_19_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_19_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_19_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_19_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_19_badDirection_mask)
+      (i := ⟨5, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_19_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_19_badDirection_denom]
+
+private def rank_000100805_mask_20_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_20_badDirection_mask : SignMask := ⟨20, by decide⟩
+private def rank_000100805_mask_20_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_20_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_20_badDirection_b : Vec3 Rat := { x := (-68/9), y := (-116/9), z := (28/9) }
+private def rank_000100805_mask_20_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_20_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_20_badDirection_word = some rank_000100805_mask_20_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_20_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_20_badDirection_rank = rank_000100805_mask_20_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_20_badDirection_word rank_000100805_mask_20_badDirection_rank).1
+    rank_000100805_mask_20_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_20_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_20_badDirection_word rank_000100805_mask_20_badDirection_mask = rank_000100805_mask_20_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_20_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_20_badDirection_rank rank_000100805_mask_20_badDirection_mask = rank_000100805_mask_20_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_20_badDirection_unrank]
+  exact rank_000100805_mask_20_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_20_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_20_badDirection_rank rank_000100805_mask_20_badDirection_mask = rank_000100805_mask_20_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_20_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_20_badDirection_b, rank_000100805_mask_20_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_20_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_20_badDirection_rank rank_000100805_mask_20_badDirection_mask ⟨6, by decide⟩ =
+      rank_000100805_mask_20_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_20_badDirection_seqAtRank, rank_000100805_mask_20_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_20_badDirection_denom, rank_000100805_mask_20_badDirection_seq, rank_000100805_mask_20_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_20_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_20_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_20_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_20_badDirection_mask)
+      (i := ⟨6, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_20_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_20_badDirection_denom]
+
+private def rank_000100805_mask_21_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_21_badDirection_mask : SignMask := ⟨21, by decide⟩
+private def rank_000100805_mask_21_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_21_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_21_badDirection_b : Vec3 Rat := { x := (-68/9), y := (-44/9), z := (28/9) }
+private def rank_000100805_mask_21_badDirection_denom : Rat := (-44/9)
+
+private theorem rank_000100805_mask_21_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_21_badDirection_word = some rank_000100805_mask_21_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_21_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_21_badDirection_rank = rank_000100805_mask_21_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_21_badDirection_word rank_000100805_mask_21_badDirection_rank).1
+    rank_000100805_mask_21_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_21_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_21_badDirection_word rank_000100805_mask_21_badDirection_mask = rank_000100805_mask_21_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_21_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_21_badDirection_rank rank_000100805_mask_21_badDirection_mask = rank_000100805_mask_21_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_21_badDirection_unrank]
+  exact rank_000100805_mask_21_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_21_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_21_badDirection_rank rank_000100805_mask_21_badDirection_mask = rank_000100805_mask_21_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_21_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_21_badDirection_b, rank_000100805_mask_21_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_21_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_21_badDirection_rank rank_000100805_mask_21_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_21_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_21_badDirection_seqAtRank, rank_000100805_mask_21_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_21_badDirection_denom, rank_000100805_mask_21_badDirection_seq, rank_000100805_mask_21_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_21_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_21_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_21_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_21_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_21_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_21_badDirection_denom]
+
+private def rank_000100805_mask_23_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_23_badDirection_mask : SignMask := ⟨23, by decide⟩
+private def rank_000100805_mask_23_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_23_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_23_badDirection_b : Vec3 Rat := { x := (-44/3), y := (-4/3), z := 4 }
+private def rank_000100805_mask_23_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_23_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_23_badDirection_word = some rank_000100805_mask_23_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_23_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_23_badDirection_rank = rank_000100805_mask_23_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_23_badDirection_word rank_000100805_mask_23_badDirection_rank).1
+    rank_000100805_mask_23_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_23_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_23_badDirection_word rank_000100805_mask_23_badDirection_mask = rank_000100805_mask_23_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_23_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_23_badDirection_rank rank_000100805_mask_23_badDirection_mask = rank_000100805_mask_23_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_23_badDirection_unrank]
+  exact rank_000100805_mask_23_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_23_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_23_badDirection_rank rank_000100805_mask_23_badDirection_mask = rank_000100805_mask_23_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_23_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_23_badDirection_b, rank_000100805_mask_23_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_23_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_23_badDirection_rank rank_000100805_mask_23_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_23_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_23_badDirection_seqAtRank, rank_000100805_mask_23_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_23_badDirection_denom, rank_000100805_mask_23_badDirection_seq, rank_000100805_mask_23_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_23_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_23_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_23_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_23_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_23_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_23_badDirection_denom]
+
+private def rank_000100805_mask_24_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_24_badDirection_mask : SignMask := ⟨24, by decide⟩
+private def rank_000100805_mask_24_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_24_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_24_badDirection_b : Vec3 Rat := { x := (-44/27), y := (4/27), z := (-44/27) }
+private def rank_000100805_mask_24_badDirection_denom : Rat := (-4/27)
+
+private theorem rank_000100805_mask_24_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_24_badDirection_word = some rank_000100805_mask_24_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_24_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_24_badDirection_rank = rank_000100805_mask_24_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_24_badDirection_word rank_000100805_mask_24_badDirection_rank).1
+    rank_000100805_mask_24_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_24_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_24_badDirection_word rank_000100805_mask_24_badDirection_mask = rank_000100805_mask_24_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_24_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_24_badDirection_rank rank_000100805_mask_24_badDirection_mask = rank_000100805_mask_24_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_24_badDirection_unrank]
+  exact rank_000100805_mask_24_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_24_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_24_badDirection_rank rank_000100805_mask_24_badDirection_mask = rank_000100805_mask_24_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_24_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_24_badDirection_b, rank_000100805_mask_24_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_24_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_24_badDirection_rank rank_000100805_mask_24_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_24_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_24_badDirection_seqAtRank, rank_000100805_mask_24_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_24_badDirection_denom, rank_000100805_mask_24_badDirection_seq, rank_000100805_mask_24_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_24_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_24_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_24_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_24_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_24_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_24_badDirection_denom]
+
+private def rank_000100805_mask_25_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_25_badDirection_mask : SignMask := ⟨25, by decide⟩
+private def rank_000100805_mask_25_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_25_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_25_badDirection_b : Vec3 Rat := { x := (-44/27), y := (220/27), z := (-44/27) }
+private def rank_000100805_mask_25_badDirection_denom : Rat := (-44/9)
+
+private theorem rank_000100805_mask_25_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_25_badDirection_word = some rank_000100805_mask_25_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_25_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_25_badDirection_rank = rank_000100805_mask_25_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_25_badDirection_word rank_000100805_mask_25_badDirection_rank).1
+    rank_000100805_mask_25_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_25_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_25_badDirection_word rank_000100805_mask_25_badDirection_mask = rank_000100805_mask_25_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_25_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_25_badDirection_rank rank_000100805_mask_25_badDirection_mask = rank_000100805_mask_25_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_25_badDirection_unrank]
+  exact rank_000100805_mask_25_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_25_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_25_badDirection_rank rank_000100805_mask_25_badDirection_mask = rank_000100805_mask_25_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_25_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_25_badDirection_b, rank_000100805_mask_25_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_25_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_25_badDirection_rank rank_000100805_mask_25_badDirection_mask ⟨4, by decide⟩ =
+      rank_000100805_mask_25_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_25_badDirection_seqAtRank, rank_000100805_mask_25_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_25_badDirection_denom, rank_000100805_mask_25_badDirection_seq, rank_000100805_mask_25_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_25_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_25_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_25_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_25_badDirection_mask)
+      (i := ⟨4, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_25_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_25_badDirection_denom]
+
+private def rank_000100805_mask_26_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_26_badDirection_mask : SignMask := ⟨26, by decide⟩
+private def rank_000100805_mask_26_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_26_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_26_badDirection_b : Vec3 Rat := { x := (-236/27), y := (100/27), z := (-20/27) }
+private def rank_000100805_mask_26_badDirection_denom : Rat := (-100/27)
+
+private theorem rank_000100805_mask_26_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_26_badDirection_word = some rank_000100805_mask_26_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_26_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_26_badDirection_rank = rank_000100805_mask_26_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_26_badDirection_word rank_000100805_mask_26_badDirection_rank).1
+    rank_000100805_mask_26_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_26_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_26_badDirection_word rank_000100805_mask_26_badDirection_mask = rank_000100805_mask_26_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_26_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_26_badDirection_rank rank_000100805_mask_26_badDirection_mask = rank_000100805_mask_26_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_26_badDirection_unrank]
+  exact rank_000100805_mask_26_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_26_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_26_badDirection_rank rank_000100805_mask_26_badDirection_mask = rank_000100805_mask_26_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_26_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_26_badDirection_b, rank_000100805_mask_26_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_26_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_26_badDirection_rank rank_000100805_mask_26_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_26_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_26_badDirection_seqAtRank, rank_000100805_mask_26_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_26_badDirection_denom, rank_000100805_mask_26_badDirection_seq, rank_000100805_mask_26_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_26_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_26_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_26_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_26_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_26_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_26_badDirection_denom]
+
+private def rank_000100805_mask_27_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_27_badDirection_mask : SignMask := ⟨27, by decide⟩
+private def rank_000100805_mask_27_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_27_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_27_badDirection_b : Vec3 Rat := { x := (-236/27), y := (316/27), z := (-20/27) }
+private def rank_000100805_mask_27_badDirection_denom : Rat := (-20/9)
+
+private theorem rank_000100805_mask_27_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_27_badDirection_word = some rank_000100805_mask_27_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_27_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_27_badDirection_rank = rank_000100805_mask_27_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_27_badDirection_word rank_000100805_mask_27_badDirection_rank).1
+    rank_000100805_mask_27_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_27_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_27_badDirection_word rank_000100805_mask_27_badDirection_mask = rank_000100805_mask_27_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_27_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_27_badDirection_rank rank_000100805_mask_27_badDirection_mask = rank_000100805_mask_27_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_27_badDirection_unrank]
+  exact rank_000100805_mask_27_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_27_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_27_badDirection_rank rank_000100805_mask_27_badDirection_mask = rank_000100805_mask_27_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_27_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_27_badDirection_b, rank_000100805_mask_27_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_27_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_27_badDirection_rank rank_000100805_mask_27_badDirection_mask ⟨4, by decide⟩ =
+      rank_000100805_mask_27_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_27_badDirection_seqAtRank, rank_000100805_mask_27_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_27_badDirection_denom, rank_000100805_mask_27_badDirection_seq, rank_000100805_mask_27_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_27_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_27_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_27_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_27_badDirection_mask)
+      (i := ⟨4, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_27_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_27_badDirection_denom]
+
+private def rank_000100805_mask_28_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_28_badDirection_mask : SignMask := ⟨28, by decide⟩
+private def rank_000100805_mask_28_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_28_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_28_badDirection_b : Vec3 Rat := { x := (-28/3), y := -4, z := (4/3) }
+private def rank_000100805_mask_28_badDirection_denom : Rat := -4
+
+private theorem rank_000100805_mask_28_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_28_badDirection_word = some rank_000100805_mask_28_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_28_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_28_badDirection_rank = rank_000100805_mask_28_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_28_badDirection_word rank_000100805_mask_28_badDirection_rank).1
+    rank_000100805_mask_28_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_28_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_28_badDirection_word rank_000100805_mask_28_badDirection_mask = rank_000100805_mask_28_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_28_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_28_badDirection_rank rank_000100805_mask_28_badDirection_mask = rank_000100805_mask_28_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_28_badDirection_unrank]
+  exact rank_000100805_mask_28_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_28_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_28_badDirection_rank rank_000100805_mask_28_badDirection_mask = rank_000100805_mask_28_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_28_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_28_badDirection_b, rank_000100805_mask_28_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_28_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_28_badDirection_rank rank_000100805_mask_28_badDirection_mask ⟨5, by decide⟩ =
+      rank_000100805_mask_28_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_28_badDirection_seqAtRank, rank_000100805_mask_28_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_28_badDirection_denom, rank_000100805_mask_28_badDirection_seq, rank_000100805_mask_28_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_28_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_28_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_28_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_28_badDirection_mask)
+      (i := ⟨5, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_28_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_28_badDirection_denom]
+
+private def rank_000100805_mask_29_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_29_badDirection_mask : SignMask := ⟨29, by decide⟩
+private def rank_000100805_mask_29_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_29_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def rank_000100805_mask_29_badDirection_b : Vec3 Rat := { x := (-28/3), y := 4, z := (4/3) }
+private def rank_000100805_mask_29_badDirection_denom : Rat := (-92/9)
+
+private theorem rank_000100805_mask_29_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_29_badDirection_word = some rank_000100805_mask_29_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_29_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_29_badDirection_rank = rank_000100805_mask_29_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_29_badDirection_word rank_000100805_mask_29_badDirection_rank).1
+    rank_000100805_mask_29_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_29_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_29_badDirection_word rank_000100805_mask_29_badDirection_mask = rank_000100805_mask_29_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_29_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_29_badDirection_rank rank_000100805_mask_29_badDirection_mask = rank_000100805_mask_29_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_29_badDirection_unrank]
+  exact rank_000100805_mask_29_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_29_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_29_badDirection_rank rank_000100805_mask_29_badDirection_mask = rank_000100805_mask_29_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_29_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_29_badDirection_b, rank_000100805_mask_29_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_29_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_29_badDirection_rank rank_000100805_mask_29_badDirection_mask ⟨6, by decide⟩ =
+      rank_000100805_mask_29_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_29_badDirection_seqAtRank, rank_000100805_mask_29_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_29_badDirection_denom, rank_000100805_mask_29_badDirection_seq, rank_000100805_mask_29_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_29_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_29_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_29_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_29_badDirection_mask)
+      (i := ⟨6, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_29_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_29_badDirection_denom]
+
+private def rank_000100805_mask_32_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_32_badDirection_mask : SignMask := ⟨32, by decide⟩
+private def rank_000100805_mask_32_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_32_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_32_badDirection_b : Vec3 Rat := { x := (76/9), y := (-68/9), z := (-20/9) }
+private def rank_000100805_mask_32_badDirection_denom : Rat := (-76/9)
+
+private theorem rank_000100805_mask_32_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_32_badDirection_word = some rank_000100805_mask_32_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_32_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_32_badDirection_rank = rank_000100805_mask_32_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_32_badDirection_word rank_000100805_mask_32_badDirection_rank).1
+    rank_000100805_mask_32_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_32_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_32_badDirection_word rank_000100805_mask_32_badDirection_mask = rank_000100805_mask_32_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_32_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_32_badDirection_rank rank_000100805_mask_32_badDirection_mask = rank_000100805_mask_32_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_32_badDirection_unrank]
+  exact rank_000100805_mask_32_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_32_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_32_badDirection_rank rank_000100805_mask_32_badDirection_mask = rank_000100805_mask_32_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_32_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_32_badDirection_b, rank_000100805_mask_32_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_32_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_32_badDirection_rank rank_000100805_mask_32_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_32_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_32_badDirection_seqAtRank, rank_000100805_mask_32_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_32_badDirection_denom, rank_000100805_mask_32_badDirection_seq, rank_000100805_mask_32_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_32_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_32_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_32_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_32_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_32_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_32_badDirection_denom]
+
+private def rank_000100805_mask_33_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_33_badDirection_mask : SignMask := ⟨33, by decide⟩
+private def rank_000100805_mask_33_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_33_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_33_badDirection_b : Vec3 Rat := { x := (76/9), y := (4/9), z := (-20/9) }
+private def rank_000100805_mask_33_badDirection_denom : Rat := (-76/9)
+
+private theorem rank_000100805_mask_33_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_33_badDirection_word = some rank_000100805_mask_33_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_33_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_33_badDirection_rank = rank_000100805_mask_33_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_33_badDirection_word rank_000100805_mask_33_badDirection_rank).1
+    rank_000100805_mask_33_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_33_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_33_badDirection_word rank_000100805_mask_33_badDirection_mask = rank_000100805_mask_33_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_33_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_33_badDirection_rank rank_000100805_mask_33_badDirection_mask = rank_000100805_mask_33_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_33_badDirection_unrank]
+  exact rank_000100805_mask_33_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_33_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_33_badDirection_rank rank_000100805_mask_33_badDirection_mask = rank_000100805_mask_33_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_33_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_33_badDirection_b, rank_000100805_mask_33_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_33_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_33_badDirection_rank rank_000100805_mask_33_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_33_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_33_badDirection_seqAtRank, rank_000100805_mask_33_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_33_badDirection_denom, rank_000100805_mask_33_badDirection_seq, rank_000100805_mask_33_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_33_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_33_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_33_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_33_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_33_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_33_badDirection_denom]
+
+private def rank_000100805_mask_34_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_34_badDirection_mask : SignMask := ⟨34, by decide⟩
+private def rank_000100805_mask_34_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_34_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_34_badDirection_b : Vec3 Rat := { x := (4/3), y := -4, z := (-4/3) }
+private def rank_000100805_mask_34_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_34_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_34_badDirection_word = some rank_000100805_mask_34_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_34_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_34_badDirection_rank = rank_000100805_mask_34_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_34_badDirection_word rank_000100805_mask_34_badDirection_rank).1
+    rank_000100805_mask_34_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_34_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_34_badDirection_word rank_000100805_mask_34_badDirection_mask = rank_000100805_mask_34_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_34_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_34_badDirection_rank rank_000100805_mask_34_badDirection_mask = rank_000100805_mask_34_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_34_badDirection_unrank]
+  exact rank_000100805_mask_34_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_34_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_34_badDirection_rank rank_000100805_mask_34_badDirection_mask = rank_000100805_mask_34_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_34_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_34_badDirection_b, rank_000100805_mask_34_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_34_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_34_badDirection_rank rank_000100805_mask_34_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_34_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_34_badDirection_seqAtRank, rank_000100805_mask_34_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_34_badDirection_denom, rank_000100805_mask_34_badDirection_seq, rank_000100805_mask_34_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_34_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_34_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_34_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_34_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_34_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_34_badDirection_denom]
+
+private def rank_000100805_mask_35_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_35_badDirection_mask : SignMask := ⟨35, by decide⟩
+private def rank_000100805_mask_35_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_35_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_35_badDirection_b : Vec3 Rat := { x := (4/3), y := 4, z := (-4/3) }
+private def rank_000100805_mask_35_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_35_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_35_badDirection_word = some rank_000100805_mask_35_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_35_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_35_badDirection_rank = rank_000100805_mask_35_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_35_badDirection_word rank_000100805_mask_35_badDirection_rank).1
+    rank_000100805_mask_35_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_35_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_35_badDirection_word rank_000100805_mask_35_badDirection_mask = rank_000100805_mask_35_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_35_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_35_badDirection_rank rank_000100805_mask_35_badDirection_mask = rank_000100805_mask_35_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_35_badDirection_unrank]
+  exact rank_000100805_mask_35_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_35_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_35_badDirection_rank rank_000100805_mask_35_badDirection_mask = rank_000100805_mask_35_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_35_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_35_badDirection_b, rank_000100805_mask_35_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_35_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_35_badDirection_rank rank_000100805_mask_35_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_35_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_35_badDirection_seqAtRank, rank_000100805_mask_35_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_35_badDirection_denom, rank_000100805_mask_35_badDirection_seq, rank_000100805_mask_35_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_35_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_35_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_35_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_35_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_35_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_35_badDirection_denom]
+
+private def rank_000100805_mask_36_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_36_badDirection_mask : SignMask := ⟨36, by decide⟩
+private def rank_000100805_mask_36_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_36_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_36_badDirection_b : Vec3 Rat := { x := (20/27), y := (-316/27), z := (20/27) }
+private def rank_000100805_mask_36_badDirection_denom : Rat := (-20/27)
+
+private theorem rank_000100805_mask_36_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_36_badDirection_word = some rank_000100805_mask_36_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_36_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_36_badDirection_rank = rank_000100805_mask_36_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_36_badDirection_word rank_000100805_mask_36_badDirection_rank).1
+    rank_000100805_mask_36_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_36_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_36_badDirection_word rank_000100805_mask_36_badDirection_mask = rank_000100805_mask_36_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_36_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_36_badDirection_rank rank_000100805_mask_36_badDirection_mask = rank_000100805_mask_36_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_36_badDirection_unrank]
+  exact rank_000100805_mask_36_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_36_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_36_badDirection_rank rank_000100805_mask_36_badDirection_mask = rank_000100805_mask_36_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_36_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_36_badDirection_b, rank_000100805_mask_36_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_36_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_36_badDirection_rank rank_000100805_mask_36_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_36_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_36_badDirection_seqAtRank, rank_000100805_mask_36_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_36_badDirection_denom, rank_000100805_mask_36_badDirection_seq, rank_000100805_mask_36_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_36_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_36_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_36_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_36_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_36_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_36_badDirection_denom]
+
+private def rank_000100805_mask_37_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_37_badDirection_mask : SignMask := ⟨37, by decide⟩
+private def rank_000100805_mask_37_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_37_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_37_badDirection_b : Vec3 Rat := { x := (20/27), y := (-100/27), z := (20/27) }
+private def rank_000100805_mask_37_badDirection_denom : Rat := (-20/27)
+
+private theorem rank_000100805_mask_37_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_37_badDirection_word = some rank_000100805_mask_37_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_37_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_37_badDirection_rank = rank_000100805_mask_37_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_37_badDirection_word rank_000100805_mask_37_badDirection_rank).1
+    rank_000100805_mask_37_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_37_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_37_badDirection_word rank_000100805_mask_37_badDirection_mask = rank_000100805_mask_37_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_37_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_37_badDirection_rank rank_000100805_mask_37_badDirection_mask = rank_000100805_mask_37_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_37_badDirection_unrank]
+  exact rank_000100805_mask_37_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_37_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_37_badDirection_rank rank_000100805_mask_37_badDirection_mask = rank_000100805_mask_37_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_37_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_37_badDirection_b, rank_000100805_mask_37_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_37_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_37_badDirection_rank rank_000100805_mask_37_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_37_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_37_badDirection_seqAtRank, rank_000100805_mask_37_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_37_badDirection_denom, rank_000100805_mask_37_badDirection_seq, rank_000100805_mask_37_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_37_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_37_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_37_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_37_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_37_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_37_badDirection_denom]
+
+private def rank_000100805_mask_38_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_38_badDirection_mask : SignMask := ⟨38, by decide⟩
+private def rank_000100805_mask_38_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_38_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_38_badDirection_b : Vec3 Rat := { x := (-172/27), y := (-220/27), z := (44/27) }
+private def rank_000100805_mask_38_badDirection_denom : Rat := (-116/9)
+
+private theorem rank_000100805_mask_38_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_38_badDirection_word = some rank_000100805_mask_38_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_38_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_38_badDirection_rank = rank_000100805_mask_38_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_38_badDirection_word rank_000100805_mask_38_badDirection_rank).1
+    rank_000100805_mask_38_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_38_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_38_badDirection_word rank_000100805_mask_38_badDirection_mask = rank_000100805_mask_38_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_38_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_38_badDirection_rank rank_000100805_mask_38_badDirection_mask = rank_000100805_mask_38_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_38_badDirection_unrank]
+  exact rank_000100805_mask_38_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_38_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_38_badDirection_rank rank_000100805_mask_38_badDirection_mask = rank_000100805_mask_38_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_38_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_38_badDirection_b, rank_000100805_mask_38_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_38_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_38_badDirection_rank rank_000100805_mask_38_badDirection_mask ⟨4, by decide⟩ =
+      rank_000100805_mask_38_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_38_badDirection_seqAtRank, rank_000100805_mask_38_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_38_badDirection_denom, rank_000100805_mask_38_badDirection_seq, rank_000100805_mask_38_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_38_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_38_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_38_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_38_badDirection_mask)
+      (i := ⟨4, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_38_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_38_badDirection_denom]
+
+private def rank_000100805_mask_39_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_39_badDirection_mask : SignMask := ⟨39, by decide⟩
+private def rank_000100805_mask_39_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_39_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_39_badDirection_b : Vec3 Rat := { x := (-172/27), y := (-4/27), z := (44/27) }
+private def rank_000100805_mask_39_badDirection_denom : Rat := (-4/27)
+
+private theorem rank_000100805_mask_39_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_39_badDirection_word = some rank_000100805_mask_39_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_39_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_39_badDirection_rank = rank_000100805_mask_39_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_39_badDirection_word rank_000100805_mask_39_badDirection_rank).1
+    rank_000100805_mask_39_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_39_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_39_badDirection_word rank_000100805_mask_39_badDirection_mask = rank_000100805_mask_39_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_39_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_39_badDirection_rank rank_000100805_mask_39_badDirection_mask = rank_000100805_mask_39_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_39_badDirection_unrank]
+  exact rank_000100805_mask_39_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_39_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_39_badDirection_rank rank_000100805_mask_39_badDirection_mask = rank_000100805_mask_39_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_39_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_39_badDirection_b, rank_000100805_mask_39_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_39_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_39_badDirection_rank rank_000100805_mask_39_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_39_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_39_badDirection_seqAtRank, rank_000100805_mask_39_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_39_badDirection_denom, rank_000100805_mask_39_badDirection_seq, rank_000100805_mask_39_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_39_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_39_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_39_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_39_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_39_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_39_badDirection_denom]
+
+private def rank_000100805_mask_40_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_40_badDirection_mask : SignMask := ⟨40, by decide⟩
+private def rank_000100805_mask_40_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_40_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_40_badDirection_b : Vec3 Rat := { x := (20/3), y := (4/3), z := -4 }
+private def rank_000100805_mask_40_badDirection_denom : Rat := (-20/3)
+
+private theorem rank_000100805_mask_40_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_40_badDirection_word = some rank_000100805_mask_40_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_40_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_40_badDirection_rank = rank_000100805_mask_40_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_40_badDirection_word rank_000100805_mask_40_badDirection_rank).1
+    rank_000100805_mask_40_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_40_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_40_badDirection_word rank_000100805_mask_40_badDirection_mask = rank_000100805_mask_40_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_40_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_40_badDirection_rank rank_000100805_mask_40_badDirection_mask = rank_000100805_mask_40_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_40_badDirection_unrank]
+  exact rank_000100805_mask_40_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_40_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_40_badDirection_rank rank_000100805_mask_40_badDirection_mask = rank_000100805_mask_40_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_40_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_40_badDirection_b, rank_000100805_mask_40_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_40_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_40_badDirection_rank rank_000100805_mask_40_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_40_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_40_badDirection_seqAtRank, rank_000100805_mask_40_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_40_badDirection_denom, rank_000100805_mask_40_badDirection_seq, rank_000100805_mask_40_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_40_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_40_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_40_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_40_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_40_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_40_badDirection_denom]
+
+private def rank_000100805_mask_41_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_41_badDirection_mask : SignMask := ⟨41, by decide⟩
+private def rank_000100805_mask_41_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_41_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_41_badDirection_b : Vec3 Rat := { x := (20/3), y := (28/3), z := -4 }
+private def rank_000100805_mask_41_badDirection_denom : Rat := (-20/3)
+
+private theorem rank_000100805_mask_41_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_41_badDirection_word = some rank_000100805_mask_41_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_41_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_41_badDirection_rank = rank_000100805_mask_41_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_41_badDirection_word rank_000100805_mask_41_badDirection_rank).1
+    rank_000100805_mask_41_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_41_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_41_badDirection_word rank_000100805_mask_41_badDirection_mask = rank_000100805_mask_41_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_41_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_41_badDirection_rank rank_000100805_mask_41_badDirection_mask = rank_000100805_mask_41_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_41_badDirection_unrank]
+  exact rank_000100805_mask_41_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_41_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_41_badDirection_rank rank_000100805_mask_41_badDirection_mask = rank_000100805_mask_41_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_41_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_41_badDirection_b, rank_000100805_mask_41_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_41_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_41_badDirection_rank rank_000100805_mask_41_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_41_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_41_badDirection_seqAtRank, rank_000100805_mask_41_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_41_badDirection_denom, rank_000100805_mask_41_badDirection_seq, rank_000100805_mask_41_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_41_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_41_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_41_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_41_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_41_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_41_badDirection_denom]
+
+private def rank_000100805_mask_42_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_42_badDirection_mask : SignMask := ⟨42, by decide⟩
+private def rank_000100805_mask_42_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_42_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_42_badDirection_b : Vec3 Rat := { x := (-4/9), y := (44/9), z := (-28/9) }
+private def rank_000100805_mask_42_badDirection_denom : Rat := (-44/9)
+
+private theorem rank_000100805_mask_42_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_42_badDirection_word = some rank_000100805_mask_42_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_42_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_42_badDirection_rank = rank_000100805_mask_42_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_42_badDirection_word rank_000100805_mask_42_badDirection_rank).1
+    rank_000100805_mask_42_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_42_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_42_badDirection_word rank_000100805_mask_42_badDirection_mask = rank_000100805_mask_42_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_42_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_42_badDirection_rank rank_000100805_mask_42_badDirection_mask = rank_000100805_mask_42_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_42_badDirection_unrank]
+  exact rank_000100805_mask_42_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_42_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_42_badDirection_rank rank_000100805_mask_42_badDirection_mask = rank_000100805_mask_42_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_42_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_42_badDirection_b, rank_000100805_mask_42_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_42_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_42_badDirection_rank rank_000100805_mask_42_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_42_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_42_badDirection_seqAtRank, rank_000100805_mask_42_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_42_badDirection_denom, rank_000100805_mask_42_badDirection_seq, rank_000100805_mask_42_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_42_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_42_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_42_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_42_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_42_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_42_badDirection_denom]
+
+private def rank_000100805_mask_43_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_43_badDirection_mask : SignMask := ⟨43, by decide⟩
+private def rank_000100805_mask_43_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_43_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_43_badDirection_b : Vec3 Rat := { x := (-4/9), y := (116/9), z := (-28/9) }
+private def rank_000100805_mask_43_badDirection_denom : Rat := (-52/9)
+
+private theorem rank_000100805_mask_43_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_43_badDirection_word = some rank_000100805_mask_43_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_43_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_43_badDirection_rank = rank_000100805_mask_43_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_43_badDirection_word rank_000100805_mask_43_badDirection_rank).1
+    rank_000100805_mask_43_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_43_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_43_badDirection_word rank_000100805_mask_43_badDirection_mask = rank_000100805_mask_43_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_43_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_43_badDirection_rank rank_000100805_mask_43_badDirection_mask = rank_000100805_mask_43_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_43_badDirection_unrank]
+  exact rank_000100805_mask_43_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_43_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_43_badDirection_rank rank_000100805_mask_43_badDirection_mask = rank_000100805_mask_43_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_43_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_43_badDirection_b, rank_000100805_mask_43_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_43_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_43_badDirection_rank rank_000100805_mask_43_badDirection_mask ⟨10, by decide⟩ =
+      rank_000100805_mask_43_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_43_badDirection_seqAtRank, rank_000100805_mask_43_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_43_badDirection_denom, rank_000100805_mask_43_badDirection_seq, rank_000100805_mask_43_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_43_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_43_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_43_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_43_badDirection_mask)
+      (i := ⟨10, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_43_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_43_badDirection_denom]
+
+private def rank_000100805_mask_44_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_44_badDirection_mask : SignMask := ⟨44, by decide⟩
+private def rank_000100805_mask_44_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_44_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_44_badDirection_b : Vec3 Rat := { x := (-28/27), y := (-76/27), z := (-28/27) }
+private def rank_000100805_mask_44_badDirection_denom : Rat := (-44/9)
+
+private theorem rank_000100805_mask_44_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_44_badDirection_word = some rank_000100805_mask_44_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_44_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_44_badDirection_rank = rank_000100805_mask_44_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_44_badDirection_word rank_000100805_mask_44_badDirection_rank).1
+    rank_000100805_mask_44_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_44_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_44_badDirection_word rank_000100805_mask_44_badDirection_mask = rank_000100805_mask_44_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_44_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_44_badDirection_rank rank_000100805_mask_44_badDirection_mask = rank_000100805_mask_44_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_44_badDirection_unrank]
+  exact rank_000100805_mask_44_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_44_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_44_badDirection_rank rank_000100805_mask_44_badDirection_mask = rank_000100805_mask_44_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_44_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_44_badDirection_b, rank_000100805_mask_44_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_44_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_44_badDirection_rank rank_000100805_mask_44_badDirection_mask ⟨4, by decide⟩ =
+      rank_000100805_mask_44_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_44_badDirection_seqAtRank, rank_000100805_mask_44_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_44_badDirection_denom, rank_000100805_mask_44_badDirection_seq, rank_000100805_mask_44_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_44_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_44_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_44_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_44_badDirection_mask)
+      (i := ⟨4, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_44_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_44_badDirection_denom]
+
+private def rank_000100805_mask_45_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_45_badDirection_mask : SignMask := ⟨45, by decide⟩
+private def rank_000100805_mask_45_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_45_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_45_badDirection_b : Vec3 Rat := { x := (-28/27), y := (140/27), z := (-28/27) }
+private def rank_000100805_mask_45_badDirection_denom : Rat := (-28/9)
+
+private theorem rank_000100805_mask_45_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_45_badDirection_word = some rank_000100805_mask_45_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_45_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_45_badDirection_rank = rank_000100805_mask_45_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_45_badDirection_word rank_000100805_mask_45_badDirection_rank).1
+    rank_000100805_mask_45_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_45_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_45_badDirection_word rank_000100805_mask_45_badDirection_mask = rank_000100805_mask_45_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_45_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_45_badDirection_rank rank_000100805_mask_45_badDirection_mask = rank_000100805_mask_45_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_45_badDirection_unrank]
+  exact rank_000100805_mask_45_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_45_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_45_badDirection_rank rank_000100805_mask_45_badDirection_mask = rank_000100805_mask_45_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_45_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_45_badDirection_b, rank_000100805_mask_45_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_45_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_45_badDirection_rank rank_000100805_mask_45_badDirection_mask ⟨6, by decide⟩ =
+      rank_000100805_mask_45_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_45_badDirection_seqAtRank, rank_000100805_mask_45_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_45_badDirection_denom, rank_000100805_mask_45_badDirection_seq, rank_000100805_mask_45_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_45_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_45_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_45_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_45_badDirection_mask)
+      (i := ⟨6, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_45_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_45_badDirection_denom]
+
+private def rank_000100805_mask_46_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_46_badDirection_mask : SignMask := ⟨46, by decide⟩
+private def rank_000100805_mask_46_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_46_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_46_badDirection_b : Vec3 Rat := { x := (-220/27), y := (20/27), z := (-4/27) }
+private def rank_000100805_mask_46_badDirection_denom : Rat := (-20/27)
+
+private theorem rank_000100805_mask_46_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_46_badDirection_word = some rank_000100805_mask_46_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_46_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_46_badDirection_rank = rank_000100805_mask_46_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_46_badDirection_word rank_000100805_mask_46_badDirection_rank).1
+    rank_000100805_mask_46_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_46_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_46_badDirection_word rank_000100805_mask_46_badDirection_mask = rank_000100805_mask_46_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_46_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_46_badDirection_rank rank_000100805_mask_46_badDirection_mask = rank_000100805_mask_46_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_46_badDirection_unrank]
+  exact rank_000100805_mask_46_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_46_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_46_badDirection_rank rank_000100805_mask_46_badDirection_mask = rank_000100805_mask_46_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_46_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_46_badDirection_b, rank_000100805_mask_46_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_46_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_46_badDirection_rank rank_000100805_mask_46_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_46_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_46_badDirection_seqAtRank, rank_000100805_mask_46_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_46_badDirection_denom, rank_000100805_mask_46_badDirection_seq, rank_000100805_mask_46_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_46_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_46_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_46_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_46_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_46_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_46_badDirection_denom]
+
+private def rank_000100805_mask_47_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_47_badDirection_mask : SignMask := ⟨47, by decide⟩
+private def rank_000100805_mask_47_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_47_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_47_badDirection_b : Vec3 Rat := { x := (-220/27), y := (236/27), z := (-4/27) }
+private def rank_000100805_mask_47_badDirection_denom : Rat := (-100/9)
+
+private theorem rank_000100805_mask_47_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_47_badDirection_word = some rank_000100805_mask_47_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_47_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_47_badDirection_rank = rank_000100805_mask_47_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_47_badDirection_word rank_000100805_mask_47_badDirection_rank).1
+    rank_000100805_mask_47_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_47_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_47_badDirection_word rank_000100805_mask_47_badDirection_mask = rank_000100805_mask_47_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_47_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_47_badDirection_rank rank_000100805_mask_47_badDirection_mask = rank_000100805_mask_47_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_47_badDirection_unrank]
+  exact rank_000100805_mask_47_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_47_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_47_badDirection_rank rank_000100805_mask_47_badDirection_mask = rank_000100805_mask_47_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_47_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_47_badDirection_b, rank_000100805_mask_47_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_47_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_47_badDirection_rank rank_000100805_mask_47_badDirection_mask ⟨10, by decide⟩ =
+      rank_000100805_mask_47_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_47_badDirection_seqAtRank, rank_000100805_mask_47_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_47_badDirection_denom, rank_000100805_mask_47_badDirection_seq, rank_000100805_mask_47_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_47_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_47_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_47_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_47_badDirection_mask)
+      (i := ⟨10, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_47_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_47_badDirection_denom]
+
+private def rank_000100805_mask_48_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_48_badDirection_mask : SignMask := ⟨48, by decide⟩
+private def rank_000100805_mask_48_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_48_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_48_badDirection_b : Vec3 Rat := { x := (148/27), y := (-92/27), z := (148/27) }
+private def rank_000100805_mask_48_badDirection_denom : Rat := (-148/27)
+
+private theorem rank_000100805_mask_48_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_48_badDirection_word = some rank_000100805_mask_48_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_48_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_48_badDirection_rank = rank_000100805_mask_48_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_48_badDirection_word rank_000100805_mask_48_badDirection_rank).1
+    rank_000100805_mask_48_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_48_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_48_badDirection_word rank_000100805_mask_48_badDirection_mask = rank_000100805_mask_48_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_48_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_48_badDirection_rank rank_000100805_mask_48_badDirection_mask = rank_000100805_mask_48_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_48_badDirection_unrank]
+  exact rank_000100805_mask_48_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_48_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_48_badDirection_rank rank_000100805_mask_48_badDirection_mask = rank_000100805_mask_48_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_48_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_48_badDirection_b, rank_000100805_mask_48_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_48_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_48_badDirection_rank rank_000100805_mask_48_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_48_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_48_badDirection_seqAtRank, rank_000100805_mask_48_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_48_badDirection_denom, rank_000100805_mask_48_badDirection_seq, rank_000100805_mask_48_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_48_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_48_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_48_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_48_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_48_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_48_badDirection_denom]
+
+private def rank_000100805_mask_49_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_49_badDirection_mask : SignMask := ⟨49, by decide⟩
+private def rank_000100805_mask_49_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_49_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_49_badDirection_b : Vec3 Rat := { x := (148/27), y := (124/27), z := (148/27) }
+private def rank_000100805_mask_49_badDirection_denom : Rat := (-148/27)
+
+private theorem rank_000100805_mask_49_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_49_badDirection_word = some rank_000100805_mask_49_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_49_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_49_badDirection_rank = rank_000100805_mask_49_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_49_badDirection_word rank_000100805_mask_49_badDirection_rank).1
+    rank_000100805_mask_49_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_49_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_49_badDirection_word rank_000100805_mask_49_badDirection_mask = rank_000100805_mask_49_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_49_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_49_badDirection_rank rank_000100805_mask_49_badDirection_mask = rank_000100805_mask_49_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_49_badDirection_unrank]
+  exact rank_000100805_mask_49_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_49_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_49_badDirection_rank rank_000100805_mask_49_badDirection_mask = rank_000100805_mask_49_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_49_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_49_badDirection_b, rank_000100805_mask_49_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_49_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_49_badDirection_rank rank_000100805_mask_49_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_49_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_49_badDirection_seqAtRank, rank_000100805_mask_49_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_49_badDirection_denom, rank_000100805_mask_49_badDirection_seq, rank_000100805_mask_49_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_49_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_49_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_49_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_49_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_49_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_49_badDirection_denom]
+
+private def rank_000100805_mask_50_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_50_badDirection_mask : SignMask := ⟨50, by decide⟩
+private def rank_000100805_mask_50_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_50_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_50_badDirection_b : Vec3 Rat := { x := (-44/27), y := (4/27), z := (172/27) }
+private def rank_000100805_mask_50_badDirection_denom : Rat := (-4/27)
+
+private theorem rank_000100805_mask_50_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_50_badDirection_word = some rank_000100805_mask_50_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_50_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_50_badDirection_rank = rank_000100805_mask_50_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_50_badDirection_word rank_000100805_mask_50_badDirection_rank).1
+    rank_000100805_mask_50_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_50_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_50_badDirection_word rank_000100805_mask_50_badDirection_mask = rank_000100805_mask_50_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_50_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_50_badDirection_rank rank_000100805_mask_50_badDirection_mask = rank_000100805_mask_50_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_50_badDirection_unrank]
+  exact rank_000100805_mask_50_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_50_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_50_badDirection_rank rank_000100805_mask_50_badDirection_mask = rank_000100805_mask_50_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_50_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_50_badDirection_b, rank_000100805_mask_50_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_50_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_50_badDirection_rank rank_000100805_mask_50_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_50_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_50_badDirection_seqAtRank, rank_000100805_mask_50_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_50_badDirection_denom, rank_000100805_mask_50_badDirection_seq, rank_000100805_mask_50_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_50_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_50_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_50_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_50_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_50_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_50_badDirection_denom]
+
+private def rank_000100805_mask_51_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_51_badDirection_mask : SignMask := ⟨51, by decide⟩
+private def rank_000100805_mask_51_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_51_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_51_badDirection_b : Vec3 Rat := { x := (-44/27), y := (220/27), z := (172/27) }
+private def rank_000100805_mask_51_badDirection_denom : Rat := -12
+
+private theorem rank_000100805_mask_51_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_51_badDirection_word = some rank_000100805_mask_51_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_51_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_51_badDirection_rank = rank_000100805_mask_51_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_51_badDirection_word rank_000100805_mask_51_badDirection_rank).1
+    rank_000100805_mask_51_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_51_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_51_badDirection_word rank_000100805_mask_51_badDirection_mask = rank_000100805_mask_51_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_51_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_51_badDirection_rank rank_000100805_mask_51_badDirection_mask = rank_000100805_mask_51_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_51_badDirection_unrank]
+  exact rank_000100805_mask_51_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_51_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_51_badDirection_rank rank_000100805_mask_51_badDirection_mask = rank_000100805_mask_51_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_51_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_51_badDirection_b, rank_000100805_mask_51_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_51_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_51_badDirection_rank rank_000100805_mask_51_badDirection_mask ⟨5, by decide⟩ =
+      rank_000100805_mask_51_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_51_badDirection_seqAtRank, rank_000100805_mask_51_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_51_badDirection_denom, rank_000100805_mask_51_badDirection_seq, rank_000100805_mask_51_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_51_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_51_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_51_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_51_badDirection_mask)
+      (i := ⟨5, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_51_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_51_badDirection_denom]
+
+private def rank_000100805_mask_52_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_52_badDirection_mask : SignMask := ⟨52, by decide⟩
+private def rank_000100805_mask_52_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_52_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_52_badDirection_b : Vec3 Rat := { x := (-20/9), y := (-68/9), z := (76/9) }
+private def rank_000100805_mask_52_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_52_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_52_badDirection_word = some rank_000100805_mask_52_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_52_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_52_badDirection_rank = rank_000100805_mask_52_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_52_badDirection_word rank_000100805_mask_52_badDirection_rank).1
+    rank_000100805_mask_52_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_52_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_52_badDirection_word rank_000100805_mask_52_badDirection_mask = rank_000100805_mask_52_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_52_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_52_badDirection_rank rank_000100805_mask_52_badDirection_mask = rank_000100805_mask_52_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_52_badDirection_unrank]
+  exact rank_000100805_mask_52_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_52_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_52_badDirection_rank rank_000100805_mask_52_badDirection_mask = rank_000100805_mask_52_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_52_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_52_badDirection_b, rank_000100805_mask_52_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_52_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_52_badDirection_rank rank_000100805_mask_52_badDirection_mask ⟨4, by decide⟩ =
+      rank_000100805_mask_52_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_52_badDirection_seqAtRank, rank_000100805_mask_52_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_52_badDirection_denom, rank_000100805_mask_52_badDirection_seq, rank_000100805_mask_52_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_52_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_52_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_52_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_52_badDirection_mask)
+      (i := ⟨4, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_52_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_52_badDirection_denom]
+
+private def rank_000100805_mask_53_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_53_badDirection_mask : SignMask := ⟨53, by decide⟩
+private def rank_000100805_mask_53_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_53_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_53_badDirection_b : Vec3 Rat := { x := (-20/9), y := (4/9), z := (76/9) }
+private def rank_000100805_mask_53_badDirection_denom : Rat := (-28/9)
+
+private theorem rank_000100805_mask_53_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_53_badDirection_word = some rank_000100805_mask_53_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_53_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_53_badDirection_rank = rank_000100805_mask_53_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_53_badDirection_word rank_000100805_mask_53_badDirection_rank).1
+    rank_000100805_mask_53_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_53_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_53_badDirection_word rank_000100805_mask_53_badDirection_mask = rank_000100805_mask_53_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_53_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_53_badDirection_rank rank_000100805_mask_53_badDirection_mask = rank_000100805_mask_53_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_53_badDirection_unrank]
+  exact rank_000100805_mask_53_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_53_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_53_badDirection_rank rank_000100805_mask_53_badDirection_mask = rank_000100805_mask_53_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_53_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_53_badDirection_b, rank_000100805_mask_53_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_53_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_53_badDirection_rank rank_000100805_mask_53_badDirection_mask ⟨6, by decide⟩ =
+      rank_000100805_mask_53_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_53_badDirection_seqAtRank, rank_000100805_mask_53_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_53_badDirection_denom, rank_000100805_mask_53_badDirection_seq, rank_000100805_mask_53_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_53_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_53_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_53_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_53_badDirection_mask)
+      (i := ⟨6, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_53_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_53_badDirection_denom]
+
+private def rank_000100805_mask_54_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_54_badDirection_mask : SignMask := ⟨54, by decide⟩
+private def rank_000100805_mask_54_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_54_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_54_badDirection_b : Vec3 Rat := { x := (-28/3), y := -4, z := (28/3) }
+private def rank_000100805_mask_54_badDirection_denom : Rat := -4
+
+private theorem rank_000100805_mask_54_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_54_badDirection_word = some rank_000100805_mask_54_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_54_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_54_badDirection_rank = rank_000100805_mask_54_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_54_badDirection_word rank_000100805_mask_54_badDirection_rank).1
+    rank_000100805_mask_54_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_54_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_54_badDirection_word rank_000100805_mask_54_badDirection_mask = rank_000100805_mask_54_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_54_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_54_badDirection_rank rank_000100805_mask_54_badDirection_mask = rank_000100805_mask_54_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_54_badDirection_unrank]
+  exact rank_000100805_mask_54_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_54_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_54_badDirection_rank rank_000100805_mask_54_badDirection_mask = rank_000100805_mask_54_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_54_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_54_badDirection_b, rank_000100805_mask_54_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_54_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_54_badDirection_rank rank_000100805_mask_54_badDirection_mask ⟨4, by decide⟩ =
+      rank_000100805_mask_54_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_54_badDirection_seqAtRank, rank_000100805_mask_54_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_54_badDirection_denom, rank_000100805_mask_54_badDirection_seq, rank_000100805_mask_54_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_54_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_54_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_54_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_54_badDirection_mask)
+      (i := ⟨4, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_54_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_54_badDirection_denom]
+
+private def rank_000100805_mask_55_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_55_badDirection_mask : SignMask := ⟨55, by decide⟩
+private def rank_000100805_mask_55_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_55_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_55_badDirection_b : Vec3 Rat := { x := (-28/3), y := 4, z := (28/3) }
+private def rank_000100805_mask_55_badDirection_denom : Rat := (-20/3)
+
+private theorem rank_000100805_mask_55_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_55_badDirection_word = some rank_000100805_mask_55_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_55_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_55_badDirection_rank = rank_000100805_mask_55_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_55_badDirection_word rank_000100805_mask_55_badDirection_rank).1
+    rank_000100805_mask_55_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_55_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_55_badDirection_word rank_000100805_mask_55_badDirection_mask = rank_000100805_mask_55_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_55_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_55_badDirection_rank rank_000100805_mask_55_badDirection_mask = rank_000100805_mask_55_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_55_badDirection_unrank]
+  exact rank_000100805_mask_55_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_55_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_55_badDirection_rank rank_000100805_mask_55_badDirection_mask = rank_000100805_mask_55_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_55_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_55_badDirection_b, rank_000100805_mask_55_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_55_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_55_badDirection_rank rank_000100805_mask_55_badDirection_mask ⟨5, by decide⟩ =
+      rank_000100805_mask_55_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_55_badDirection_seqAtRank, rank_000100805_mask_55_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_55_badDirection_denom, rank_000100805_mask_55_badDirection_seq, rank_000100805_mask_55_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_55_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_55_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_55_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_55_badDirection_mask)
+      (i := ⟨5, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_55_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_55_badDirection_denom]
+
+private def rank_000100805_mask_56_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_56_badDirection_mask : SignMask := ⟨56, by decide⟩
+private def rank_000100805_mask_56_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_56_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_56_badDirection_b : Vec3 Rat := { x := (100/27), y := (148/27), z := (100/27) }
+private def rank_000100805_mask_56_badDirection_denom : Rat := (-100/27)
+
+private theorem rank_000100805_mask_56_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_56_badDirection_word = some rank_000100805_mask_56_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_56_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_56_badDirection_rank = rank_000100805_mask_56_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_56_badDirection_word rank_000100805_mask_56_badDirection_rank).1
+    rank_000100805_mask_56_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_56_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_56_badDirection_word rank_000100805_mask_56_badDirection_mask = rank_000100805_mask_56_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_56_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_56_badDirection_rank rank_000100805_mask_56_badDirection_mask = rank_000100805_mask_56_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_56_badDirection_unrank]
+  exact rank_000100805_mask_56_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_56_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_56_badDirection_rank rank_000100805_mask_56_badDirection_mask = rank_000100805_mask_56_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_56_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_56_badDirection_b, rank_000100805_mask_56_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_56_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_56_badDirection_rank rank_000100805_mask_56_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_56_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_56_badDirection_seqAtRank, rank_000100805_mask_56_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_56_badDirection_denom, rank_000100805_mask_56_badDirection_seq, rank_000100805_mask_56_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_56_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_56_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_56_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_56_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_56_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_56_badDirection_denom]
+
+private def rank_000100805_mask_57_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_57_badDirection_mask : SignMask := ⟨57, by decide⟩
+private def rank_000100805_mask_57_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_57_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_57_badDirection_b : Vec3 Rat := { x := (100/27), y := (364/27), z := (100/27) }
+private def rank_000100805_mask_57_badDirection_denom : Rat := (-100/27)
+
+private theorem rank_000100805_mask_57_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_57_badDirection_word = some rank_000100805_mask_57_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_57_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_57_badDirection_rank = rank_000100805_mask_57_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_57_badDirection_word rank_000100805_mask_57_badDirection_rank).1
+    rank_000100805_mask_57_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_57_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_57_badDirection_word rank_000100805_mask_57_badDirection_mask = rank_000100805_mask_57_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_57_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_57_badDirection_rank rank_000100805_mask_57_badDirection_mask = rank_000100805_mask_57_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_57_badDirection_unrank]
+  exact rank_000100805_mask_57_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_57_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_57_badDirection_rank rank_000100805_mask_57_badDirection_mask = rank_000100805_mask_57_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_57_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_57_badDirection_b, rank_000100805_mask_57_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_57_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_57_badDirection_rank rank_000100805_mask_57_badDirection_mask ⟨1, by decide⟩ =
+      rank_000100805_mask_57_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_57_badDirection_seqAtRank, rank_000100805_mask_57_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_57_badDirection_denom, rank_000100805_mask_57_badDirection_seq, rank_000100805_mask_57_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_57_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_57_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_57_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_57_badDirection_mask)
+      (i := ⟨1, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_57_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_57_badDirection_denom]
+
+private def rank_000100805_mask_58_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_58_badDirection_mask : SignMask := ⟨58, by decide⟩
+private def rank_000100805_mask_58_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_58_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_58_badDirection_b : Vec3 Rat := { x := (-92/27), y := (244/27), z := (124/27) }
+private def rank_000100805_mask_58_badDirection_denom : Rat := (-244/27)
+
+private theorem rank_000100805_mask_58_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_58_badDirection_word = some rank_000100805_mask_58_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_58_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_58_badDirection_rank = rank_000100805_mask_58_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_58_badDirection_word rank_000100805_mask_58_badDirection_rank).1
+    rank_000100805_mask_58_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_58_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_58_badDirection_word rank_000100805_mask_58_badDirection_mask = rank_000100805_mask_58_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_58_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_58_badDirection_rank rank_000100805_mask_58_badDirection_mask = rank_000100805_mask_58_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_58_badDirection_unrank]
+  exact rank_000100805_mask_58_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_58_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_58_badDirection_rank rank_000100805_mask_58_badDirection_mask = rank_000100805_mask_58_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_58_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_58_badDirection_b, rank_000100805_mask_58_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_58_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_58_badDirection_rank rank_000100805_mask_58_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_58_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_58_badDirection_seqAtRank, rank_000100805_mask_58_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_58_badDirection_denom, rank_000100805_mask_58_badDirection_seq, rank_000100805_mask_58_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_58_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_58_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_58_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_58_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_58_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_58_badDirection_denom]
+
+private def rank_000100805_mask_60_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_60_badDirection_mask : SignMask := ⟨60, by decide⟩
+private def rank_000100805_mask_60_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_60_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_60_badDirection_b : Vec3 Rat := { x := -4, y := (4/3), z := (20/3) }
+private def rank_000100805_mask_60_badDirection_denom : Rat := (-4/3)
+
+private theorem rank_000100805_mask_60_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_60_badDirection_word = some rank_000100805_mask_60_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_60_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_60_badDirection_rank = rank_000100805_mask_60_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_60_badDirection_word rank_000100805_mask_60_badDirection_rank).1
+    rank_000100805_mask_60_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_60_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_60_badDirection_word rank_000100805_mask_60_badDirection_mask = rank_000100805_mask_60_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_60_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_60_badDirection_rank rank_000100805_mask_60_badDirection_mask = rank_000100805_mask_60_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_60_badDirection_unrank]
+  exact rank_000100805_mask_60_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_60_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_60_badDirection_rank rank_000100805_mask_60_badDirection_mask = rank_000100805_mask_60_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_60_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_60_badDirection_b, rank_000100805_mask_60_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_60_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_60_badDirection_rank rank_000100805_mask_60_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_60_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_60_badDirection_seqAtRank, rank_000100805_mask_60_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_60_badDirection_denom, rank_000100805_mask_60_badDirection_seq, rank_000100805_mask_60_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_60_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_60_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_60_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_60_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_60_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_60_badDirection_denom]
+
+private def rank_000100805_mask_61_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_61_badDirection_mask : SignMask := ⟨61, by decide⟩
+private def rank_000100805_mask_61_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_61_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_61_badDirection_b : Vec3 Rat := { x := -4, y := (28/3), z := (20/3) }
+private def rank_000100805_mask_61_badDirection_denom : Rat := (-76/9)
+
+private theorem rank_000100805_mask_61_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_61_badDirection_word = some rank_000100805_mask_61_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_61_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_61_badDirection_rank = rank_000100805_mask_61_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_61_badDirection_word rank_000100805_mask_61_badDirection_rank).1
+    rank_000100805_mask_61_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_61_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_61_badDirection_word rank_000100805_mask_61_badDirection_mask = rank_000100805_mask_61_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_61_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_61_badDirection_rank rank_000100805_mask_61_badDirection_mask = rank_000100805_mask_61_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_61_badDirection_unrank]
+  exact rank_000100805_mask_61_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_61_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_61_badDirection_rank rank_000100805_mask_61_badDirection_mask = rank_000100805_mask_61_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_61_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_61_badDirection_b, rank_000100805_mask_61_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_61_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_61_badDirection_rank rank_000100805_mask_61_badDirection_mask ⟨6, by decide⟩ =
+      rank_000100805_mask_61_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_61_badDirection_seqAtRank, rank_000100805_mask_61_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_61_badDirection_denom, rank_000100805_mask_61_badDirection_seq, rank_000100805_mask_61_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_61_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_61_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_61_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_61_badDirection_mask)
+      (i := ⟨6, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_61_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_61_badDirection_denom]
+
+private def rank_000100805_mask_62_badDirection_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def rank_000100805_mask_62_badDirection_mask : SignMask := ⟨62, by decide⟩
+private def rank_000100805_mask_62_badDirection_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def rank_000100805_mask_62_badDirection_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def rank_000100805_mask_62_badDirection_b : Vec3 Rat := { x := (-100/9), y := (44/9), z := (68/9) }
+private def rank_000100805_mask_62_badDirection_denom : Rat := (-44/9)
+
+private theorem rank_000100805_mask_62_badDirection_rankWord :
+    rankPairWord? rank_000100805_mask_62_badDirection_word = some rank_000100805_mask_62_badDirection_rank := by
+  decide
+
+private theorem rank_000100805_mask_62_badDirection_unrank :
+    unrankPairWord rank_000100805_mask_62_badDirection_rank = rank_000100805_mask_62_badDirection_word := by
+  exact (rankPairWord?_eq_some_iff_unrank rank_000100805_mask_62_badDirection_word rank_000100805_mask_62_badDirection_rank).1
+    rank_000100805_mask_62_badDirection_rankWord |>.symm
+
+private theorem rank_000100805_mask_62_badDirection_seqChoice :
+    translationChoiceSeq rank_000100805_mask_62_badDirection_word rank_000100805_mask_62_badDirection_mask = rank_000100805_mask_62_badDirection_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem rank_000100805_mask_62_badDirection_seqAtRank :
+    translationSeqAtRankMask rank_000100805_mask_62_badDirection_rank rank_000100805_mask_62_badDirection_mask = rank_000100805_mask_62_badDirection_seq := by
+  rw [translationSeqAtRankMask, rank_000100805_mask_62_badDirection_unrank]
+  exact rank_000100805_mask_62_badDirection_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_62_badDirection_bAtRank :
+    translationBAtRankMask rank_000100805_mask_62_badDirection_rank rank_000100805_mask_62_badDirection_mask = rank_000100805_mask_62_badDirection_b := by
+  rw [translationBAtRankMask, rank_000100805_mask_62_badDirection_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [rank_000100805_mask_62_badDirection_b, rank_000100805_mask_62_badDirection_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem rank_000100805_mask_62_badDirection_denomAtRank :
+    impactDenomAtRank rank_000100805_mask_62_badDirection_rank rank_000100805_mask_62_badDirection_mask ⟨2, by decide⟩ =
+      rank_000100805_mask_62_badDirection_denom := by
+  rw [impactDenomAtRank, rank_000100805_mask_62_badDirection_seqAtRank, rank_000100805_mask_62_badDirection_bAtRank]
+  norm_num [rank_000100805_mask_62_badDirection_denom, rank_000100805_mask_62_badDirection_seq, rank_000100805_mask_62_badDirection_b,
+      impactDenom, impactPlaneNormalQ, copiedNormalQ, preImpactCopyAff,
+      pathPrefixAff, pathPrefixAffNat, impactFace, faceReflectionQ, reflM,
+      reflD, normalQ, offsetQ, matSub, matId, affId, affCompose, scalarMat,
+      outer, dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+private theorem rank_000100805_mask_62_badDirection_notGood
+    (hlt : 100805 < numPairWords) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords)
+      rank_000100805_mask_62_badDirection_mask := by
+  have hrank :
+      (⟨100805, hlt⟩ : Fin numPairWords) = rank_000100805_mask_62_badDirection_rank := by
+    ext
+    rfl
+  apply not_goodDirectionAtRank_of_nonpositive_denom
+      (r := (⟨100805, hlt⟩ : Fin numPairWords))
+      (mask := rank_000100805_mask_62_badDirection_mask)
+      (i := ⟨2, by decide⟩)
+    <;> try decide
+  rw [hrank, rank_000100805_mask_62_badDirection_denomAtRank]
+  norm_num [rank_000100805_mask_62_badDirection_denom]
+
 theorem generatedAllPositiveMaskFacts
     {mask : SignMask}
     (h : generatedGoodMaskMember mask) :
@@ -1719,6 +6143,84 @@ theorem generatedAllPositiveMaskFacts
                 rw [hmask]
                 exact case_000007_signatureFacts
 
+/--
+AP.16BA closed singleton membership theorem.
+
+For this singleton survivor signature, every semantic GoodDirection mask
+is one of the eight positive masks.  Positive branches reduce by the
+`generatedGoodMaskMember` definition; every other mask contradicts
+GoodDirection via a generated nonpositive denominator witness.
+-/
+theorem generatedGoodMaskMember_of_GoodDirection
+    {mask : SignMask} (hlt : 100805 < numPairWords)
+    (hgood : GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask) :
+    generatedGoodMaskMember mask := by
+  fin_cases mask
+  · exact False.elim ((rank_000100805_mask_00_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_01_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_02_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_03_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+  · exact False.elim ((rank_000100805_mask_05_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+  · exact False.elim ((rank_000100805_mask_07_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_08_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_09_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_10_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+  · exact False.elim ((rank_000100805_mask_12_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_13_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_14_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_15_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_16_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_17_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_18_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_19_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_20_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_21_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+  · exact False.elim ((rank_000100805_mask_23_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_24_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_25_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_26_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_27_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_28_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_29_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+  · simp [generatedGoodMaskMember]
+  · exact False.elim ((rank_000100805_mask_32_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_33_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_34_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_35_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_36_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_37_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_38_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_39_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_40_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_41_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_42_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_43_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_44_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_45_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_46_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_47_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_48_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_49_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_50_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_51_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_52_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_53_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_54_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_55_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_56_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_57_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_58_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+  · exact False.elim ((rank_000100805_mask_60_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_61_badDirection_notGood hlt) hgood)
+  · exact False.elim ((rank_000100805_mask_62_badDirection_notGood hlt) hgood)
+  · simp [generatedGoodMaskMember]
+
 private def generatedSignatureClassifier
     (hmask :
       forall {mask : SignMask} (hlt : 100805 < numPairWords),
@@ -1784,5 +6286,18 @@ theorem generatedSingletonSignatureSemanticAllGoodCoverage
           generatedGoodMaskMember mask) :
     AllTranslationGoodCoverageOnRange 100805 100806 :=
   (generatedSemanticSignatureClassifier hmask).to_allGoodCoverage
+
+/--
+AP.16BA closed semantic singleton-signature coverage theorem.
+
+This closes AP.16AZ's remaining semantic membership premise for the
+singleton signature at rank `100805`.
+-/
+theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 100805 100806 :=
+  generatedSingletonSignatureSemanticAllGoodCoverage
+    (by
+      intro mask hlt hgood
+      exact generatedGoodMaskMember_of_GoodDirection hlt hgood)
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke
