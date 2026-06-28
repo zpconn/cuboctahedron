@@ -150,6 +150,51 @@ def WalshImpactObstruction.toImpactSubcubeObstruction
     intro mask hlt hmember
     exact obstruction.nonpos hlt hmember
 
+/--
+A cover by Walsh-certified impact subcubes.  This is the production-facing
+wrapper for generated Walsh-bound leaves: each family supplies a polynomial
+bound plus the still-explicit equality bridge to `impactDenomAtRank`; this
+module erases the result to the existing `ImpactSubcubeCover` and
+`BadMaskCover` APIs.
+-/
+structure WalshImpactSubcubeCover
+    (rank : Nat) (GoodMaskMember : SignMask -> Prop) where
+  Family : Type
+  Member : Family -> SignMask -> Prop
+  obstruction :
+    forall family : Family,
+      WalshImpactObstruction rank (Member family)
+  complete :
+    forall {mask : SignMask},
+      ¬ GoodMaskMember mask ->
+        exists family : Family, Member family mask
+
+def WalshImpactSubcubeCover.toImpactSubcubeCover
+    {rank : Nat} {GoodMaskMember : SignMask -> Prop}
+    (cover : WalshImpactSubcubeCover rank GoodMaskMember) :
+    ImpactSubcubeCover rank GoodMaskMember where
+  Family := cover.Family
+  Member := cover.Member
+  obstruction := fun family =>
+    (cover.obstruction family).toImpactSubcubeObstruction
+  complete := by
+    intro mask hnot
+    exact cover.complete hnot
+
+def WalshImpactSubcubeCover.toBadMaskCover
+    {rank : Nat} {GoodMaskMember : SignMask -> Prop}
+    (cover : WalshImpactSubcubeCover rank GoodMaskMember) :
+    BadMaskCover rank GoodMaskMember :=
+  cover.toImpactSubcubeCover.toBadMaskCover
+
+theorem WalshImpactSubcubeCover.goodMaskMember_of_goodDirection
+    {rank : Nat} {GoodMaskMember : SignMask -> Prop}
+    (cover : WalshImpactSubcubeCover rank GoodMaskMember)
+    {mask : SignMask} (hlt : rank < numPairWords)
+    (hgood : GoodDirectionAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask) :
+    GoodMaskMember mask :=
+  cover.toImpactSubcubeCover.goodMaskMember_of_goodDirection hlt hgood
+
 theorem impactSubcubeWalsh_builds : True := by
   trivial
 

@@ -235,7 +235,8 @@ impact-subcube obstruction core, the Phase 6Z.6K.8AP.16BL bounded
 impact-subcube smoke, the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core, and
 the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke, plus
 the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
-6Z.6K.8AP.16BP all-selected-subcube Walsh-bound smoke.
+6Z.6K.8AP.16BP all-selected-subcube Walsh-bound smoke, through the Phase
+6Z.6K.8AP.16BQ Walsh cover bridge surface.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -786,6 +787,9 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshAllSmoke.lean`
   - `scripts/generated/phase6z6k8ap16bp_walsh_bound_all_smoke.json`
   - `scripts/generated/phase6z6k8ap16bp_walsh_bound_all_smoke.md`
+- Added the Phase 6Z.6K.8AP.16BQ Walsh cover bridge reports:
+  - `scripts/generated/phase6z6k8ap16bq_walsh_cover_bridge.json`
+  - `scripts/generated/phase6z6k8ap16bq_walsh_cover_bridge.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12460,6 +12464,44 @@ Acceptance:
   prove or generate the equality bridge from `impactDenomAtRank` to the
   emitted Walsh polynomial for each selected subcube, without reverting to
   per-mask denominator replay.
+- [x] Implement Phase 6Z.6K.8AP.16BQ Walsh cover bridge surface:
+  AP16BQ extends
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean`
+  with:
+
+  ```lean
+  WalshImpactSubcubeCover
+  WalshImpactSubcubeCover.toImpactSubcubeCover
+  WalshImpactSubcubeCover.toBadMaskCover
+  WalshImpactSubcubeCover.goodMaskMember_of_goodDirection
+  ```
+
+  This is the production-facing erasure layer: generated Walsh leaves can now
+  provide `WalshImpactObstruction` families and erase them into the existing
+  `ImpactSubcubeCover`/`BadMaskCover` API.  The equality bridge to
+  `impactDenomAtRank` remains explicit in `WalshImpactObstruction`, so this
+  does not hide the remaining proof burden.
+
+  Focused guarded build:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalsh \
+             Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshAllSmoke
+  passed; elapsed 20.02s; peak RSS 4.140 GiB; min available 44.861 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bq_walsh_cover_bridge.json
+  scripts/generated/phase6z6k8ap16bq_walsh_cover_bridge.md
+  ```
+
+  Decision: accepted as the bridge surface.  The next AP16BR target is an
+  end-to-end rank-`100805` `WalshImpactSubcubeCover` smoke.  It may use
+  bounded/generated denominator-equality facts as a diagnostic, but the plan
+  must keep those facts marked non-production until a symbolic equality bridge
+  replaces them.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

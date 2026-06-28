@@ -1,0 +1,22 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BQ",
+  "status": "bridge_surface_build_passed",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean",
+  "exports_added": [
+    "WalshImpactSubcubeCover",
+    "WalshImpactSubcubeCover.toImpactSubcubeCover",
+    "WalshImpactSubcubeCover.toBadMaskCover",
+    "WalshImpactSubcubeCover.goodMaskMember_of_goodDirection"
+  ],
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bq_walsh_bridge_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalsh Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshAllSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 20.02,
+    "peak_tree_rss_mib": 4239,
+    "min_available_seen_mib": 45938,
+    "guard_killed": false
+  },
+  "trusted_as_final_generated_coverage": false,
+  "production_decision": "accepted_as_walsh_cover_bridge_surface",
+  "next_step": "Instantiate WalshImpactSubcubeCover for rank 100805 by supplying denominator-equality facts, then replace those facts with a scalable symbolic equality proof."
+}
