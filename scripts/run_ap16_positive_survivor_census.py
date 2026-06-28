@@ -74,6 +74,37 @@ def make_windows(
     return windows
 
 
+def windows_from_manifest(path: Path) -> list[tuple[int, int]]:
+    payload = read_json(path)
+    rows: list[Any]
+    if "batches" in payload:
+        rows = payload["batches"]
+    elif "windows" in payload:
+        rows = payload["windows"]
+    elif "ranges" in payload:
+        rows = payload["ranges"]
+    else:
+        raise ValueError(
+            f"window manifest {path} must contain `batches`, `windows`, or `ranges`"
+        )
+    windows: list[tuple[int, int]] = []
+    for index, row in enumerate(rows):
+        if isinstance(row, dict):
+            raw_range = row.get("range")
+            if raw_range is None and "window" in row:
+                window = row["window"]
+                raw_range = [window["start"], window["end"]]
+        else:
+            raw_range = row
+        if not isinstance(raw_range, list) or len(raw_range) != 2:
+            raise ValueError(f"bad window manifest row {index}: {row!r}")
+        start, end = int(raw_range[0]), int(raw_range[1])
+        if not (0 <= start < end <= NUM_PAIR_WORDS):
+            raise ValueError(f"bad window bounds at row {index}: [{start}, {end})")
+        windows.append((start, end))
+    return windows
+
+
 def scan_window_worker(args: tuple[int, int, int, int, int, str]) -> dict[str, Any]:
     start, end, sample_limit, candidate_gate, signature_gate, phase = args
     t0 = time.monotonic()
@@ -301,6 +332,15 @@ def main() -> None:
     parser.add_argument("--window-size", type=int, default=2_500)
     parser.add_argument("--stride", type=int, default=2_500)
     parser.add_argument("--max-windows", type=int, default=1)
+    parser.add_argument(
+        "--windows-json",
+        type=Path,
+        default=None,
+        help=(
+            "Optional manifest with `batches`, `windows`, or `ranges`; when set, "
+            "rank-start/limit/window-size/stride are ignored."
+        ),
+    )
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--sample-limit", type=int, default=8)
     parser.add_argument("--candidate-gate", type=int, default=2000)
@@ -320,13 +360,18 @@ def main() -> None:
     if args.max_windows is not None and args.max_windows <= 0:
         raise ValueError("--max-windows must be positive")
 
-    windows = make_windows(
-        rank_start=args.rank_start,
-        limit=args.limit,
-        window_size=args.window_size,
-        stride=args.stride,
-        max_windows=args.max_windows,
-    )
+    if args.windows_json is None:
+        windows = make_windows(
+            rank_start=args.rank_start,
+            limit=args.limit,
+            window_size=args.window_size,
+            stride=args.stride,
+            max_windows=args.max_windows,
+        )
+    else:
+        windows = windows_from_manifest(args.windows_json)
+        if args.max_windows is not None:
+            windows = windows[:args.max_windows]
     t0 = time.monotonic()
     payloads = collect_payloads(
         windows=windows,

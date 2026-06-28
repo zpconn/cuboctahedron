@@ -1,0 +1,59 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_ap16ak_manifest_smoke",
+  "counts": {
+    "covered_cases": 0,
+    "good_direction_survivors": 0,
+    "identity_words": 0,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 1000,
+    "not_good_direction_masks": 0,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 0,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "diagnostic only: checkpointed census is not Lean proof",
+      "per-window checkpoints contain detailed AP.16I-style catalogs outside the repo",
+      "tracked aggregate keeps only compact counts and key summaries"
+    ],
+    "status": "checkpointed-census-smoke-complete"
+  },
+  "elapsed_seconds": 0.24913899800048966,
+  "good_direction_cases": 0,
+  "limit": 5000,
+  "max_window_rss_kib": 20012,
+  "mode": "ap16_positive_survivor_census",
+  "phase": "6Z.6K.8AP.16AK",
+  "rank_count_completed": 1000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "stride": 2500,
+  "trusted_as_proof": false,
+  "unique_positive_candidate_groups": 0,
+  "unique_positive_survivor_signatures": 0,
+  "window_count_completed": 1,
+  "window_count_requested": 1,
+  "window_elapsed_seconds": {
+    "max": 0.24250358199969924,
+    "mean": 0.24250358199969924,
+    "p50": 0.24250358199969924,
+    "p95": 0.24250358199969924
+  },
+  "window_size": 2500,
+  "windows": [
+    {
+      "elapsed_seconds": 0.24250358199969924,
+      "good_direction_cases": 0,
+      "max_rss_kib": 20012,
+      "positive_candidate_groups": 0,
+      "positive_survivor_signatures": 0,
+      "range": [
+        22500000,
+        22501000
+      ],
+      "ranks_with_good_direction": 0
+    }
+  ],
+  "workers": 1
+}

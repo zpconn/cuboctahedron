@@ -10997,6 +10997,53 @@ Acceptance:
   - promote the positive-survivor catalog runner to accept an explicit window
     manifest so dense/sparse extraction can be resumed as a single tracked
     production job without broad uncapped rank sweeps.
+- [x] Implement Phase 6Z.6K.8AP.16AK explicit-window manifest support:
+  AP.16AK extends `scripts/run_ap16_positive_survivor_census.py` with a
+  `--windows-json` option.  The manifest may contain `batches`, `windows`, or
+  `ranges`, each with `[start, end]` bounds.  When this option is set,
+  `rank-start`/`limit`/`window-size`/`stride` are ignored, and `--max-windows`
+  truncates the explicit list.  This lets AP.16AJ-style density-prioritized
+  windows be run as one resumable checkpointed job without relying on regular
+  lexical-rank sweeps.
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/run_ap16_positive_survivor_census.py
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 1.0 \
+    --json /tmp/cuboctahedron_ap16ak_manifest_smoke_guard.json \
+    -- python3 scripts/run_ap16_positive_survivor_census.py \
+      --no-resume \
+      --windows-json /tmp/cuboctahedron_ap16ak_sparse_manifest.json \
+      --max-windows 1 \
+      --workers 1 \
+      --checkpoint-dir /tmp/cuboctahedron_ap16ak_manifest_smoke \
+      --json scripts/generated/phase6z6k8ap16ak_manifest_window_smoke.json \
+      --md scripts/generated/phase6z6k8ap16ak_manifest_window_smoke.md \
+      --phase 6Z.6K.8AP.16AK
+  ```
+
+  Result:
+
+  ```text
+  range:                         [22,500,000, 22,501,000)
+  GoodDirection cases:           0
+  positive candidate groups:     0
+  positive survivor signatures:  0
+  worker RSS:                    20,012 KiB
+  guard elapsed:                 1.00s
+  min available memory:          about 45.7 GiB
+  ```
+
+  The guard's tree-RSS sample reported `0 MiB` because this sparse smoke ended
+  between polls; the census worker's own `resource.getrusage` report captured
+  the 20 MiB peak.  For longer dense-window runs, use the AP.16AJ guard
+  settings and rely on both guard telemetry and per-window worker RSS.  This
+  step is still scheduling infrastructure, not proof evidence.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
