@@ -11103,6 +11103,114 @@ Acceptance:
   step should feed this AP.16AL top-5 aggregate into the shared-candidate or
   manifest-driven Lean hierarchy and measure source size/RSS before widening
   beyond sampled windows.
+- [x] Implement Phase 6Z.6K.8AP.16AM materialized top-5 survivor profile:
+  AP.16AM adds `scripts/materialize_ap16_positive_survivor_profile.py`, which
+  merges detailed AP.16I-style per-window checkpoints from `/tmp` into a
+  bounded tracked profile compatible with the AP.16 shared-candidate emitters.
+  The tracked profile remains diagnostic and is not proof evidence.
+
+  Commands:
+
+  ```text
+  python3 -m py_compile scripts/materialize_ap16_positive_survivor_profile.py
+
+  python3 scripts/materialize_ap16_positive_survivor_profile.py \
+    --checkpoint-dir /tmp/cuboctahedron_ap16al_top5_manifest_extraction \
+    --json scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json \
+    --md scripts/generated/phase6z6k8ap16am_top5_materialized_profile.md \
+    --phase 6Z.6K.8AP.16AM
+
+  python3 scripts/profile_ap16z_signature_shard_manifest.py \
+    --profile scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json \
+    --json scripts/generated/phase6z6k8ap16am_top5_signature_shard_manifest.json \
+    --md scripts/generated/phase6z6k8ap16am_top5_signature_shard_manifest.md \
+    --budget 20
+  ```
+
+  Results:
+
+  ```text
+  materialized windows:             5
+  sampled ranks:                5,000
+  GoodDirection cases:          4,342
+  candidate groups:               191
+  survivor signatures:            494
+
+  signature manifest shards:       241
+  representative good-mask facts:  3,612
+  estimated serial wall:          1.056 hours
+  estimated wall at 4 jobs:       0.264 hours
+  estimated peak RSS/shard:       4.538 GiB
+  ```
+
+  Interpretation: the AP.16AL top-5 checkpoint catalog can be transformed into
+  the same profile shape used by the existing shared-candidate emitter.  The
+  budget-20 signature manifest is still too many shards to emit blindly, but
+  it is suitable for bounded shard/group smoke tests and for estimating how
+  the current shared-candidate surface behaves on dense sampled windows.
+- [x] Implement Phase 6Z.6K.8AP.16AN top-5 manifest-driven Lean smoke:
+  AP.16AN updates `scripts/generate_ap16za_signature_manifest_shards.py` so
+  the manifest wrapper passes a `--profile` argument through to the AP.16W
+  shared-candidate/routing emitter.  It then emits the first two AP.16AM
+  top-5 profile shards under a distinct module prefix:
+
+  ```text
+  PositiveSurvivorSharedTop5ManifestCandidateFactsShard000Smoke
+  PositiveSurvivorSharedTop5ManifestCandidateFactsShard001Smoke
+  PositiveSurvivorSharedTop5ManifestRoutingShard000Smoke
+  PositiveSurvivorSharedTop5ManifestRoutingShard001Smoke
+  PositiveSurvivorSharedTop5ManifestGroup000Smoke
+  ```
+
+  Emission summary:
+
+  ```text
+  represented signatures:          3
+  positive-mask facts:            30
+  candidate fact shards:           2
+  routing shards:                  2
+  total Lean source lines:     6,548
+  ```
+
+  A first focused Lake build with the old `ulimit -v 20971520` recipe failed
+  after 99.12s with `failed to create thread`, while the process-tree RSS was
+  only about 3.98 GiB and system memory had about 45 GiB available.  This was
+  a false failure from a too-blunt virtual-memory cap, not an OOM.
+
+  The corrected build removed `ulimit -v` and used the RSS guard:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 16000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16an_top5_manifest_group_lake_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedTop5ManifestGroup000Smoke'
+  ```
+
+  Successful result:
+
+  ```text
+  build status:             passed
+  elapsed:                  38.57s
+  peak process-tree RSS:     5.462 GiB
+  minimum available memory: 43.45 GiB
+  ```
+
+  Diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16an_top5_manifest_group_smoke.json
+  scripts/generated/phase6z6k8ap16an_top5_manifest_group_smoke.md
+  ```
+
+  Interpretation: the density-guided AP.16AL profile can feed the
+  shared-candidate manifest hierarchy and build safely, but the build recipe
+  must use an RSS guard rather than a low virtual-memory `ulimit`.  The next
+  bounded proof-producing step should either emit more AP.16AM shards under
+  this corrected guard to calibrate scaling, or improve the emitter so
+  candidate facts are factored more aggressively before a production profile is
+  attempted.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

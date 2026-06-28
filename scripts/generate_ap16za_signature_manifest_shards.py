@@ -70,6 +70,7 @@ def emit_group_module(
 def run_shard_emitter(
     *,
     shard: dict[str, Any],
+    profile: Path,
     out_dir: Path,
     module_prefix: str,
     label: str,
@@ -85,6 +86,8 @@ def run_shard_emitter(
     cmd = [
         sys.executable,
         str(SCRIPT_DIR / "generate_ap16w_shared_candidate_routing_smoke.py"),
+        "--profile",
+        str(profile),
         "--start-signature",
         str(start),
         "--signatures",
@@ -109,6 +112,16 @@ def run_shard_emitter(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument(
+        "--profile",
+        type=Path,
+        default=None,
+        help=(
+            "Positive-survivor profile to pass to each shard emitter. Defaults "
+            "to the manifest input profile if present, otherwise the AP.16W "
+            "emitter default."
+        ),
+    )
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--limit-shards", type=int, default=2)
     parser.add_argument("--module-prefix", default=DEFAULT_MODULE_PREFIX)
@@ -119,6 +132,11 @@ def main() -> None:
     args = parser.parse_args()
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+    profile = args.profile
+    if profile is None and manifest.get("input_profile"):
+        profile = Path(str(manifest["input_profile"]))
+    if profile is None:
+        profile = Path("scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json")
     shards = manifest.get("shards", [])[:args.limit_shards]
     if not shards:
         raise SystemExit("manifest slice is empty")
@@ -127,6 +145,7 @@ def main() -> None:
     for shard in shards:
         _shared, routing = run_shard_emitter(
             shard=shard,
+            profile=profile,
             out_dir=args.out_dir,
             module_prefix=args.module_prefix,
             label=args.label,
@@ -146,6 +165,7 @@ def main() -> None:
 
     print(json.dumps({
         "label": args.label,
+        "profile": str(profile),
         "shards_emitted": len(shards),
         "routing_modules": routing_modules,
         "group_module": args.group_module,
@@ -155,4 +175,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

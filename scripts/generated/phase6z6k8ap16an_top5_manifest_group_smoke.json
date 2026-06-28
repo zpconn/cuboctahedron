@@ -1,0 +1,50 @@
+{
+  "decision": {
+    "notes": [
+      "diagnostic Lean smoke only: not global proof coverage",
+      "AP.16AL top-5 profile can feed the shared-candidate manifest emitter",
+      "virtual-memory ulimit caused Lean thread-creation failures despite low RSS",
+      "RSS guard without ulimit allowed the bounded group target to build safely"
+    ],
+    "status": "accepted-bounded-top5-manifest-group-smoke"
+  },
+  "emitted": {
+    "candidate_fact_shards": 2,
+    "group_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedTop5ManifestGroup000Smoke",
+    "positive_masks": 30,
+    "routing_shards": 2,
+    "source_lines": {
+      "candidate_fact_shard_000": 2588,
+      "candidate_fact_shard_001": 3328,
+      "group": 17,
+      "routing_shard_000": 258,
+      "routing_shard_001": 357,
+      "total": 6548
+    },
+    "survivor_signatures": 3
+  },
+  "failed_ulimit_build": {
+    "elapsed_seconds": 99.12,
+    "exit_code": 1,
+    "failure": "Lean failed to create thread under ulimit -v 20971520",
+    "max_tree_rss_mib": 3979,
+    "min_available_mib": 46243
+  },
+  "materialized_profile": {
+    "candidate_groups": 191,
+    "good_direction_cases": 4342,
+    "sampled_ranks": 5000,
+    "survivor_signatures": 494,
+    "windows": 5
+  },
+  "mode": "ap16_top5_manifest_group_smoke",
+  "phase": "6Z.6K.8AP.16AN",
+  "successful_build": {
+    "elapsed_seconds": 38.57,
+    "exit_code": 0,
+    "max_tree_rss_mib": 5462,
+    "min_available_mib": 44496,
+    "rss_cap_mib": 16000
+  },
+  "trusted_as_proof": false
+}

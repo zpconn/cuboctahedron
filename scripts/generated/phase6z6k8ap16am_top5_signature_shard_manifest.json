@@ -1,0 +1,2201 @@
+{
+  "calibration": {
+    "base_rss_kib": 3320000,
+    "lines_per_fact": 191.415,
+    "max_jobs": 4,
+    "rss_per_fact_kib": 71905.268,
+    "seconds_per_fact": 1.053
+  },
+  "counts": {
+    "positive_survivor_signatures": 494,
+    "profile_total_good_direction_cases": 4342,
+    "representative_good_mask_facts": 3612,
+    "represented_good_direction_cases": 4342
+  },
+  "decision": "Use the signature manifest with budget 20 for the next bounded group-emitter smoke.  This manifest budgets representative signature GoodDirection masks, not global production proof coverage; the same manifest logic must later run on the production survivor catalog before any final generated API is emitted.",
+  "input_profile": "scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json",
+  "manifest": {
+    "budget_good_masks_per_shard": 20,
+    "estimated_peak_rss_per_shard_kib": 4758106,
+    "estimated_serial_wall_hours": 1.056191869918699,
+    "estimated_serial_wall_seconds": 3802.2907317073164,
+    "estimated_source_lines": 691390,
+    "estimated_wall_hours_at_safe_parallelism": 0.26404796747967474,
+    "largest_shard_good_masks": 20,
+    "safe_parallel_jobs_45gib": 4,
+    "shards": 241
+  },
+  "phase": "6Z.6K.8AP.16Z",
+  "shards": [
+    {
+      "end_signature": 1,
+      "good_mask_facts": 13,
+      "index": 0,
+      "represented_good_direction_cases": 52,
+      "represented_ranks": 4,
+      "signature_count": 1,
+      "start_signature": 0
+    },
+    {
+      "end_signature": 3,
+      "good_mask_facts": 17,
+      "index": 1,
+      "represented_good_direction_cases": 80,
+      "represented_ranks": 10,
+      "signature_count": 2,
+      "start_signature": 1
+    },
+    {
+      "end_signature": 5,
+      "good_mask_facts": 18,
+      "index": 2,
+      "represented_good_direction_cases": 72,
+      "represented_ranks": 9,
+      "signature_count": 2,
+      "start_signature": 3
+    },
+    {
+      "end_signature": 6,
+      "good_mask_facts": 12,
+      "index": 3,
+      "represented_good_direction_cases": 36,
+      "represented_ranks": 3,
+      "signature_count": 1,
+      "start_signature": 5
+    },
+    {
+      "end_signature": 7,
+      "good_mask_facts": 16,
+      "index": 4,
+      "represented_good_direction_cases": 32,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 6
+    },
+    {
+      "end_signature": 8,
+      "good_mask_facts": 16,
+      "index": 5,
+      "represented_good_direction_cases": 32,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 7
+    },
+    {
+      "end_signature": 11,
+      "good_mask_facts": 17,
+      "index": 6,
+      "represented_good_direction_cases": 88,
+      "represented_ranks": 16,
+      "signature_count": 3,
+      "start_signature": 8
+    },
+    {
+      "end_signature": 13,
+      "good_mask_facts": 18,
+      "index": 7,
+      "represented_good_direction_cases": 54,
+      "represented_ranks": 6,
+      "signature_count": 2,
+      "start_signature": 11
+    },
+    {
+      "end_signature": 14,
+      "good_mask_facts": 13,
+      "index": 8,
+      "represented_good_direction_cases": 26,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 13
+    },
+    {
+      "end_signature": 15,
+      "good_mask_facts": 13,
+      "index": 9,
+      "represented_good_direction_cases": 26,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 14
+    },
+    {
+      "end_signature": 16,
+      "good_mask_facts": 13,
+      "index": 10,
+      "represented_good_direction_cases": 26,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 15
+    },
+    {
+      "end_signature": 18,
+      "good_mask_facts": 17,
+      "index": 11,
+      "represented_good_direction_cases": 50,
+      "represented_ranks": 8,
+      "signature_count": 2,
+      "start_signature": 16
+    },
+    {
+      "end_signature": 20,
+      "good_mask_facts": 17,
+      "index": 12,
+      "represented_good_direction_cases": 46,
+      "represented_ranks": 6,
+      "signature_count": 2,
+      "start_signature": 18
+    },
+    {
+      "end_signature": 21,
+      "good_mask_facts": 11,
+      "index": 13,
+      "represented_good_direction_cases": 22,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 20
+    },
+    {
+      "end_signature": 22,
+      "good_mask_facts": 11,
+      "index": 14,
+      "represented_good_direction_cases": 22,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 21
+    },
+    {
+      "end_signature": 23,
+      "good_mask_facts": 11,
+      "index": 15,
+      "represented_good_direction_cases": 22,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 22
+    },
+    {
+      "end_signature": 25,
+      "good_mask_facts": 20,
+      "index": 16,
+      "represented_good_direction_cases": 40,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 23
+    },
+    {
+      "end_signature": 26,
+      "good_mask_facts": 9,
+      "index": 17,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 1,
+      "start_signature": 25
+    },
+    {
+      "end_signature": 27,
+      "good_mask_facts": 16,
+      "index": 18,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 26
+    },
+    {
+      "end_signature": 28,
+      "good_mask_facts": 16,
+      "index": 19,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 27
+    },
+    {
+      "end_signature": 29,
+      "good_mask_facts": 16,
+      "index": 20,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 28
+    },
+    {
+      "end_signature": 31,
+      "good_mask_facts": 16,
+      "index": 21,
+      "represented_good_direction_cases": 32,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 29
+    },
+    {
+      "end_signature": 32,
+      "good_mask_facts": 16,
+      "index": 22,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 31
+    },
+    {
+      "end_signature": 33,
+      "good_mask_facts": 16,
+      "index": 23,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 32
+    },
+    {
+      "end_signature": 34,
+      "good_mask_facts": 16,
+      "index": 24,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 33
+    },
+    {
+      "end_signature": 35,
+      "good_mask_facts": 16,
+      "index": 25,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 34
+    },
+    {
+      "end_signature": 36,
+      "good_mask_facts": 16,
+      "index": 26,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 35
+    },
+    {
+      "end_signature": 37,
+      "good_mask_facts": 16,
+      "index": 27,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 36
+    },
+    {
+      "end_signature": 38,
+      "good_mask_facts": 16,
+      "index": 28,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 37
+    },
+    {
+      "end_signature": 39,
+      "good_mask_facts": 16,
+      "index": 29,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 38
+    },
+    {
+      "end_signature": 40,
+      "good_mask_facts": 16,
+      "index": 30,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 39
+    },
+    {
+      "end_signature": 41,
+      "good_mask_facts": 16,
+      "index": 31,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 40
+    },
+    {
+      "end_signature": 42,
+      "good_mask_facts": 16,
+      "index": 32,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 41
+    },
+    {
+      "end_signature": 44,
+      "good_mask_facts": 14,
+      "index": 33,
+      "represented_good_direction_cases": 28,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 42
+    },
+    {
+      "end_signature": 46,
+      "good_mask_facts": 14,
+      "index": 34,
+      "represented_good_direction_cases": 28,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 44
+    },
+    {
+      "end_signature": 47,
+      "good_mask_facts": 13,
+      "index": 35,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 46
+    },
+    {
+      "end_signature": 48,
+      "good_mask_facts": 13,
+      "index": 36,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 47
+    },
+    {
+      "end_signature": 49,
+      "good_mask_facts": 13,
+      "index": 37,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 48
+    },
+    {
+      "end_signature": 50,
+      "good_mask_facts": 13,
+      "index": 38,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 49
+    },
+    {
+      "end_signature": 51,
+      "good_mask_facts": 13,
+      "index": 39,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 50
+    },
+    {
+      "end_signature": 52,
+      "good_mask_facts": 13,
+      "index": 40,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 51
+    },
+    {
+      "end_signature": 53,
+      "good_mask_facts": 13,
+      "index": 41,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 52
+    },
+    {
+      "end_signature": 54,
+      "good_mask_facts": 13,
+      "index": 42,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 53
+    },
+    {
+      "end_signature": 55,
+      "good_mask_facts": 13,
+      "index": 43,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 54
+    },
+    {
+      "end_signature": 56,
+      "good_mask_facts": 13,
+      "index": 44,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 55
+    },
+    {
+      "end_signature": 57,
+      "good_mask_facts": 13,
+      "index": 45,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 56
+    },
+    {
+      "end_signature": 58,
+      "good_mask_facts": 13,
+      "index": 46,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 57
+    },
+    {
+      "end_signature": 59,
+      "good_mask_facts": 13,
+      "index": 47,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 58
+    },
+    {
+      "end_signature": 60,
+      "good_mask_facts": 13,
+      "index": 48,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 59
+    },
+    {
+      "end_signature": 61,
+      "good_mask_facts": 13,
+      "index": 49,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 60
+    },
+    {
+      "end_signature": 62,
+      "good_mask_facts": 13,
+      "index": 50,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 61
+    },
+    {
+      "end_signature": 63,
+      "good_mask_facts": 13,
+      "index": 51,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 62
+    },
+    {
+      "end_signature": 64,
+      "good_mask_facts": 13,
+      "index": 52,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 63
+    },
+    {
+      "end_signature": 65,
+      "good_mask_facts": 13,
+      "index": 53,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 64
+    },
+    {
+      "end_signature": 66,
+      "good_mask_facts": 13,
+      "index": 54,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 65
+    },
+    {
+      "end_signature": 67,
+      "good_mask_facts": 13,
+      "index": 55,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 66
+    },
+    {
+      "end_signature": 68,
+      "good_mask_facts": 13,
+      "index": 56,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 67
+    },
+    {
+      "end_signature": 69,
+      "good_mask_facts": 13,
+      "index": 57,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 68
+    },
+    {
+      "end_signature": 70,
+      "good_mask_facts": 13,
+      "index": 58,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 69
+    },
+    {
+      "end_signature": 71,
+      "good_mask_facts": 13,
+      "index": 59,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 70
+    },
+    {
+      "end_signature": 72,
+      "good_mask_facts": 13,
+      "index": 60,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 71
+    },
+    {
+      "end_signature": 73,
+      "good_mask_facts": 13,
+      "index": 61,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 72
+    },
+    {
+      "end_signature": 74,
+      "good_mask_facts": 13,
+      "index": 62,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 73
+    },
+    {
+      "end_signature": 75,
+      "good_mask_facts": 13,
+      "index": 63,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 74
+    },
+    {
+      "end_signature": 76,
+      "good_mask_facts": 13,
+      "index": 64,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 75
+    },
+    {
+      "end_signature": 77,
+      "good_mask_facts": 13,
+      "index": 65,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 76
+    },
+    {
+      "end_signature": 78,
+      "good_mask_facts": 13,
+      "index": 66,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 77
+    },
+    {
+      "end_signature": 79,
+      "good_mask_facts": 13,
+      "index": 67,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 78
+    },
+    {
+      "end_signature": 80,
+      "good_mask_facts": 13,
+      "index": 68,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 79
+    },
+    {
+      "end_signature": 81,
+      "good_mask_facts": 13,
+      "index": 69,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 80
+    },
+    {
+      "end_signature": 82,
+      "good_mask_facts": 13,
+      "index": 70,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 81
+    },
+    {
+      "end_signature": 83,
+      "good_mask_facts": 13,
+      "index": 71,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 82
+    },
+    {
+      "end_signature": 84,
+      "good_mask_facts": 13,
+      "index": 72,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 83
+    },
+    {
+      "end_signature": 85,
+      "good_mask_facts": 13,
+      "index": 73,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 84
+    },
+    {
+      "end_signature": 86,
+      "good_mask_facts": 13,
+      "index": 74,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 85
+    },
+    {
+      "end_signature": 87,
+      "good_mask_facts": 13,
+      "index": 75,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 86
+    },
+    {
+      "end_signature": 88,
+      "good_mask_facts": 13,
+      "index": 76,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 87
+    },
+    {
+      "end_signature": 89,
+      "good_mask_facts": 13,
+      "index": 77,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 88
+    },
+    {
+      "end_signature": 90,
+      "good_mask_facts": 13,
+      "index": 78,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 89
+    },
+    {
+      "end_signature": 91,
+      "good_mask_facts": 13,
+      "index": 79,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 90
+    },
+    {
+      "end_signature": 92,
+      "good_mask_facts": 13,
+      "index": 80,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 91
+    },
+    {
+      "end_signature": 93,
+      "good_mask_facts": 13,
+      "index": 81,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 92
+    },
+    {
+      "end_signature": 94,
+      "good_mask_facts": 13,
+      "index": 82,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 93
+    },
+    {
+      "end_signature": 95,
+      "good_mask_facts": 13,
+      "index": 83,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 94
+    },
+    {
+      "end_signature": 96,
+      "good_mask_facts": 13,
+      "index": 84,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 95
+    },
+    {
+      "end_signature": 97,
+      "good_mask_facts": 13,
+      "index": 85,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 96
+    },
+    {
+      "end_signature": 98,
+      "good_mask_facts": 13,
+      "index": 86,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 97
+    },
+    {
+      "end_signature": 99,
+      "good_mask_facts": 13,
+      "index": 87,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 98
+    },
+    {
+      "end_signature": 100,
+      "good_mask_facts": 13,
+      "index": 88,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 99
+    },
+    {
+      "end_signature": 101,
+      "good_mask_facts": 13,
+      "index": 89,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 100
+    },
+    {
+      "end_signature": 102,
+      "good_mask_facts": 13,
+      "index": 90,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 101
+    },
+    {
+      "end_signature": 103,
+      "good_mask_facts": 13,
+      "index": 91,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 102
+    },
+    {
+      "end_signature": 104,
+      "good_mask_facts": 13,
+      "index": 92,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 103
+    },
+    {
+      "end_signature": 105,
+      "good_mask_facts": 13,
+      "index": 93,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 104
+    },
+    {
+      "end_signature": 106,
+      "good_mask_facts": 13,
+      "index": 94,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 105
+    },
+    {
+      "end_signature": 107,
+      "good_mask_facts": 13,
+      "index": 95,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 106
+    },
+    {
+      "end_signature": 108,
+      "good_mask_facts": 13,
+      "index": 96,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 107
+    },
+    {
+      "end_signature": 109,
+      "good_mask_facts": 13,
+      "index": 97,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 108
+    },
+    {
+      "end_signature": 110,
+      "good_mask_facts": 13,
+      "index": 98,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 109
+    },
+    {
+      "end_signature": 111,
+      "good_mask_facts": 13,
+      "index": 99,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 110
+    },
+    {
+      "end_signature": 112,
+      "good_mask_facts": 13,
+      "index": 100,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 111
+    },
+    {
+      "end_signature": 113,
+      "good_mask_facts": 13,
+      "index": 101,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 112
+    },
+    {
+      "end_signature": 114,
+      "good_mask_facts": 13,
+      "index": 102,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 113
+    },
+    {
+      "end_signature": 115,
+      "good_mask_facts": 13,
+      "index": 103,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 114
+    },
+    {
+      "end_signature": 116,
+      "good_mask_facts": 13,
+      "index": 104,
+      "represented_good_direction_cases": 13,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 115
+    },
+    {
+      "end_signature": 118,
+      "good_mask_facts": 19,
+      "index": 105,
+      "represented_good_direction_cases": 25,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 116
+    },
+    {
+      "end_signature": 120,
+      "good_mask_facts": 18,
+      "index": 106,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 118
+    },
+    {
+      "end_signature": 122,
+      "good_mask_facts": 12,
+      "index": 107,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 120
+    },
+    {
+      "end_signature": 123,
+      "good_mask_facts": 12,
+      "index": 108,
+      "represented_good_direction_cases": 12,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 122
+    },
+    {
+      "end_signature": 125,
+      "good_mask_facts": 18,
+      "index": 109,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 123
+    },
+    {
+      "end_signature": 127,
+      "good_mask_facts": 16,
+      "index": 110,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 125
+    },
+    {
+      "end_signature": 129,
+      "good_mask_facts": 18,
+      "index": 111,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 127
+    },
+    {
+      "end_signature": 131,
+      "good_mask_facts": 18,
+      "index": 112,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 129
+    },
+    {
+      "end_signature": 134,
+      "good_mask_facts": 18,
+      "index": 113,
+      "represented_good_direction_cases": 36,
+      "represented_ranks": 6,
+      "signature_count": 3,
+      "start_signature": 131
+    },
+    {
+      "end_signature": 135,
+      "good_mask_facts": 12,
+      "index": 114,
+      "represented_good_direction_cases": 12,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 134
+    },
+    {
+      "end_signature": 136,
+      "good_mask_facts": 12,
+      "index": 115,
+      "represented_good_direction_cases": 12,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 135
+    },
+    {
+      "end_signature": 138,
+      "good_mask_facts": 18,
+      "index": 116,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 136
+    },
+    {
+      "end_signature": 139,
+      "good_mask_facts": 11,
+      "index": 117,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 138
+    },
+    {
+      "end_signature": 140,
+      "good_mask_facts": 11,
+      "index": 118,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 139
+    },
+    {
+      "end_signature": 141,
+      "good_mask_facts": 11,
+      "index": 119,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 140
+    },
+    {
+      "end_signature": 142,
+      "good_mask_facts": 11,
+      "index": 120,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 141
+    },
+    {
+      "end_signature": 143,
+      "good_mask_facts": 11,
+      "index": 121,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 142
+    },
+    {
+      "end_signature": 144,
+      "good_mask_facts": 11,
+      "index": 122,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 143
+    },
+    {
+      "end_signature": 145,
+      "good_mask_facts": 11,
+      "index": 123,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 144
+    },
+    {
+      "end_signature": 146,
+      "good_mask_facts": 11,
+      "index": 124,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 145
+    },
+    {
+      "end_signature": 147,
+      "good_mask_facts": 11,
+      "index": 125,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 146
+    },
+    {
+      "end_signature": 148,
+      "good_mask_facts": 11,
+      "index": 126,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 147
+    },
+    {
+      "end_signature": 149,
+      "good_mask_facts": 11,
+      "index": 127,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 148
+    },
+    {
+      "end_signature": 150,
+      "good_mask_facts": 11,
+      "index": 128,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 149
+    },
+    {
+      "end_signature": 151,
+      "good_mask_facts": 11,
+      "index": 129,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 150
+    },
+    {
+      "end_signature": 152,
+      "good_mask_facts": 11,
+      "index": 130,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 151
+    },
+    {
+      "end_signature": 153,
+      "good_mask_facts": 11,
+      "index": 131,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 152
+    },
+    {
+      "end_signature": 154,
+      "good_mask_facts": 11,
+      "index": 132,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 153
+    },
+    {
+      "end_signature": 155,
+      "good_mask_facts": 11,
+      "index": 133,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 154
+    },
+    {
+      "end_signature": 156,
+      "good_mask_facts": 11,
+      "index": 134,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 155
+    },
+    {
+      "end_signature": 157,
+      "good_mask_facts": 11,
+      "index": 135,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 156
+    },
+    {
+      "end_signature": 158,
+      "good_mask_facts": 11,
+      "index": 136,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 157
+    },
+    {
+      "end_signature": 159,
+      "good_mask_facts": 11,
+      "index": 137,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 158
+    },
+    {
+      "end_signature": 160,
+      "good_mask_facts": 11,
+      "index": 138,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 159
+    },
+    {
+      "end_signature": 161,
+      "good_mask_facts": 11,
+      "index": 139,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 160
+    },
+    {
+      "end_signature": 162,
+      "good_mask_facts": 11,
+      "index": 140,
+      "represented_good_direction_cases": 11,
+      "represented_ranks": 1,
+      "signature_count": 1,
+      "start_signature": 161
+    },
+    {
+      "end_signature": 164,
+      "good_mask_facts": 16,
+      "index": 141,
+      "represented_good_direction_cases": 21,
+      "represented_ranks": 3,
+      "signature_count": 2,
+      "start_signature": 162
+    },
+    {
+      "end_signature": 168,
+      "good_mask_facts": 20,
+      "index": 142,
+      "represented_good_direction_cases": 40,
+      "represented_ranks": 8,
+      "signature_count": 4,
+      "start_signature": 164
+    },
+    {
+      "end_signature": 171,
+      "good_mask_facts": 20,
+      "index": 143,
+      "represented_good_direction_cases": 30,
+      "represented_ranks": 5,
+      "signature_count": 3,
+      "start_signature": 168
+    },
+    {
+      "end_signature": 174,
+      "good_mask_facts": 19,
+      "index": 144,
+      "represented_good_direction_cases": 29,
+      "represented_ranks": 5,
+      "signature_count": 3,
+      "start_signature": 171
+    },
+    {
+      "end_signature": 176,
+      "good_mask_facts": 18,
+      "index": 145,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 174
+    },
+    {
+      "end_signature": 178,
+      "good_mask_facts": 12,
+      "index": 146,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 176
+    },
+    {
+      "end_signature": 180,
+      "good_mask_facts": 18,
+      "index": 147,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 178
+    },
+    {
+      "end_signature": 182,
+      "good_mask_facts": 18,
+      "index": 148,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 180
+    },
+    {
+      "end_signature": 184,
+      "good_mask_facts": 12,
+      "index": 149,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 182
+    },
+    {
+      "end_signature": 186,
+      "good_mask_facts": 18,
+      "index": 150,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 184
+    },
+    {
+      "end_signature": 188,
+      "good_mask_facts": 18,
+      "index": 151,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 186
+    },
+    {
+      "end_signature": 190,
+      "good_mask_facts": 18,
+      "index": 152,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 188
+    },
+    {
+      "end_signature": 192,
+      "good_mask_facts": 12,
+      "index": 153,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 2,
+      "start_signature": 190
+    },
+    {
+      "end_signature": 194,
+      "good_mask_facts": 18,
+      "index": 154,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 192
+    },
+    {
+      "end_signature": 196,
+      "good_mask_facts": 16,
+      "index": 155,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 194
+    },
+    {
+      "end_signature": 198,
+      "good_mask_facts": 16,
+      "index": 156,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 196
+    },
+    {
+      "end_signature": 200,
+      "good_mask_facts": 16,
+      "index": 157,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 198
+    },
+    {
+      "end_signature": 202,
+      "good_mask_facts": 16,
+      "index": 158,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 200
+    },
+    {
+      "end_signature": 205,
+      "good_mask_facts": 20,
+      "index": 159,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 202
+    },
+    {
+      "end_signature": 207,
+      "good_mask_facts": 16,
+      "index": 160,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 205
+    },
+    {
+      "end_signature": 210,
+      "good_mask_facts": 20,
+      "index": 161,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 207
+    },
+    {
+      "end_signature": 213,
+      "good_mask_facts": 20,
+      "index": 162,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 210
+    },
+    {
+      "end_signature": 216,
+      "good_mask_facts": 20,
+      "index": 163,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 213
+    },
+    {
+      "end_signature": 219,
+      "good_mask_facts": 20,
+      "index": 164,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 216
+    },
+    {
+      "end_signature": 222,
+      "good_mask_facts": 20,
+      "index": 165,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 219
+    },
+    {
+      "end_signature": 224,
+      "good_mask_facts": 16,
+      "index": 166,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 222
+    },
+    {
+      "end_signature": 226,
+      "good_mask_facts": 16,
+      "index": 167,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 224
+    },
+    {
+      "end_signature": 228,
+      "good_mask_facts": 16,
+      "index": 168,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 226
+    },
+    {
+      "end_signature": 230,
+      "good_mask_facts": 16,
+      "index": 169,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 228
+    },
+    {
+      "end_signature": 233,
+      "good_mask_facts": 20,
+      "index": 170,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 230
+    },
+    {
+      "end_signature": 236,
+      "good_mask_facts": 20,
+      "index": 171,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 233
+    },
+    {
+      "end_signature": 238,
+      "good_mask_facts": 16,
+      "index": 172,
+      "represented_good_direction_cases": 16,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 236
+    },
+    {
+      "end_signature": 240,
+      "good_mask_facts": 14,
+      "index": 173,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 238
+    },
+    {
+      "end_signature": 242,
+      "good_mask_facts": 14,
+      "index": 174,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 240
+    },
+    {
+      "end_signature": 244,
+      "good_mask_facts": 14,
+      "index": 175,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 242
+    },
+    {
+      "end_signature": 246,
+      "good_mask_facts": 14,
+      "index": 176,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 244
+    },
+    {
+      "end_signature": 248,
+      "good_mask_facts": 14,
+      "index": 177,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 246
+    },
+    {
+      "end_signature": 250,
+      "good_mask_facts": 14,
+      "index": 178,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 248
+    },
+    {
+      "end_signature": 252,
+      "good_mask_facts": 14,
+      "index": 179,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 250
+    },
+    {
+      "end_signature": 254,
+      "good_mask_facts": 14,
+      "index": 180,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 252
+    },
+    {
+      "end_signature": 256,
+      "good_mask_facts": 14,
+      "index": 181,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 254
+    },
+    {
+      "end_signature": 258,
+      "good_mask_facts": 14,
+      "index": 182,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 256
+    },
+    {
+      "end_signature": 260,
+      "good_mask_facts": 14,
+      "index": 183,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 258
+    },
+    {
+      "end_signature": 262,
+      "good_mask_facts": 14,
+      "index": 184,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 260
+    },
+    {
+      "end_signature": 264,
+      "good_mask_facts": 14,
+      "index": 185,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 262
+    },
+    {
+      "end_signature": 266,
+      "good_mask_facts": 14,
+      "index": 186,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 264
+    },
+    {
+      "end_signature": 268,
+      "good_mask_facts": 14,
+      "index": 187,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 266
+    },
+    {
+      "end_signature": 270,
+      "good_mask_facts": 14,
+      "index": 188,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 268
+    },
+    {
+      "end_signature": 272,
+      "good_mask_facts": 14,
+      "index": 189,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 270
+    },
+    {
+      "end_signature": 274,
+      "good_mask_facts": 14,
+      "index": 190,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 272
+    },
+    {
+      "end_signature": 276,
+      "good_mask_facts": 14,
+      "index": 191,
+      "represented_good_direction_cases": 14,
+      "represented_ranks": 2,
+      "signature_count": 2,
+      "start_signature": 274
+    },
+    {
+      "end_signature": 279,
+      "good_mask_facts": 20,
+      "index": 192,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 276
+    },
+    {
+      "end_signature": 282,
+      "good_mask_facts": 18,
+      "index": 193,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 279
+    },
+    {
+      "end_signature": 285,
+      "good_mask_facts": 15,
+      "index": 194,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 282
+    },
+    {
+      "end_signature": 288,
+      "good_mask_facts": 18,
+      "index": 195,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 285
+    },
+    {
+      "end_signature": 291,
+      "good_mask_facts": 18,
+      "index": 196,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 288
+    },
+    {
+      "end_signature": 294,
+      "good_mask_facts": 18,
+      "index": 197,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 291
+    },
+    {
+      "end_signature": 297,
+      "good_mask_facts": 18,
+      "index": 198,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 294
+    },
+    {
+      "end_signature": 300,
+      "good_mask_facts": 18,
+      "index": 199,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 297
+    },
+    {
+      "end_signature": 303,
+      "good_mask_facts": 15,
+      "index": 200,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 300
+    },
+    {
+      "end_signature": 306,
+      "good_mask_facts": 18,
+      "index": 201,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 303
+    },
+    {
+      "end_signature": 309,
+      "good_mask_facts": 18,
+      "index": 202,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 306
+    },
+    {
+      "end_signature": 312,
+      "good_mask_facts": 18,
+      "index": 203,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 309
+    },
+    {
+      "end_signature": 315,
+      "good_mask_facts": 18,
+      "index": 204,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 312
+    },
+    {
+      "end_signature": 319,
+      "good_mask_facts": 18,
+      "index": 205,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 6,
+      "signature_count": 4,
+      "start_signature": 315
+    },
+    {
+      "end_signature": 322,
+      "good_mask_facts": 18,
+      "index": 206,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 319
+    },
+    {
+      "end_signature": 325,
+      "good_mask_facts": 18,
+      "index": 207,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 322
+    },
+    {
+      "end_signature": 328,
+      "good_mask_facts": 18,
+      "index": 208,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 325
+    },
+    {
+      "end_signature": 331,
+      "good_mask_facts": 18,
+      "index": 209,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 328
+    },
+    {
+      "end_signature": 334,
+      "good_mask_facts": 18,
+      "index": 210,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 331
+    },
+    {
+      "end_signature": 337,
+      "good_mask_facts": 15,
+      "index": 211,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 334
+    },
+    {
+      "end_signature": 340,
+      "good_mask_facts": 15,
+      "index": 212,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 4,
+      "signature_count": 3,
+      "start_signature": 337
+    },
+    {
+      "end_signature": 343,
+      "good_mask_facts": 18,
+      "index": 213,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 340
+    },
+    {
+      "end_signature": 346,
+      "good_mask_facts": 17,
+      "index": 214,
+      "represented_good_direction_cases": 17,
+      "represented_ranks": 3,
+      "signature_count": 3,
+      "start_signature": 343
+    },
+    {
+      "end_signature": 350,
+      "good_mask_facts": 20,
+      "index": 215,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 346
+    },
+    {
+      "end_signature": 354,
+      "good_mask_facts": 20,
+      "index": 216,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 350
+    },
+    {
+      "end_signature": 358,
+      "good_mask_facts": 20,
+      "index": 217,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 354
+    },
+    {
+      "end_signature": 362,
+      "good_mask_facts": 20,
+      "index": 218,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 358
+    },
+    {
+      "end_signature": 366,
+      "good_mask_facts": 20,
+      "index": 219,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 362
+    },
+    {
+      "end_signature": 370,
+      "good_mask_facts": 20,
+      "index": 220,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 366
+    },
+    {
+      "end_signature": 374,
+      "good_mask_facts": 20,
+      "index": 221,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 370
+    },
+    {
+      "end_signature": 378,
+      "good_mask_facts": 20,
+      "index": 222,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 374
+    },
+    {
+      "end_signature": 382,
+      "good_mask_facts": 20,
+      "index": 223,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 378
+    },
+    {
+      "end_signature": 386,
+      "good_mask_facts": 20,
+      "index": 224,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 382
+    },
+    {
+      "end_signature": 390,
+      "good_mask_facts": 20,
+      "index": 225,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 386
+    },
+    {
+      "end_signature": 394,
+      "good_mask_facts": 17,
+      "index": 226,
+      "represented_good_direction_cases": 17,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 390
+    },
+    {
+      "end_signature": 399,
+      "good_mask_facts": 18,
+      "index": 227,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 6,
+      "signature_count": 5,
+      "start_signature": 394
+    },
+    {
+      "end_signature": 405,
+      "good_mask_facts": 20,
+      "index": 228,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 8,
+      "signature_count": 6,
+      "start_signature": 399
+    },
+    {
+      "end_signature": 410,
+      "good_mask_facts": 20,
+      "index": 229,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 5,
+      "signature_count": 5,
+      "start_signature": 405
+    },
+    {
+      "end_signature": 415,
+      "good_mask_facts": 18,
+      "index": 230,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 6,
+      "signature_count": 5,
+      "start_signature": 410
+    },
+    {
+      "end_signature": 420,
+      "good_mask_facts": 20,
+      "index": 231,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 5,
+      "signature_count": 5,
+      "start_signature": 415
+    },
+    {
+      "end_signature": 425,
+      "good_mask_facts": 20,
+      "index": 232,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 5,
+      "signature_count": 5,
+      "start_signature": 420
+    },
+    {
+      "end_signature": 433,
+      "good_mask_facts": 20,
+      "index": 233,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 12,
+      "signature_count": 8,
+      "start_signature": 425
+    },
+    {
+      "end_signature": 439,
+      "good_mask_facts": 18,
+      "index": 234,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 6,
+      "signature_count": 6,
+      "start_signature": 433
+    },
+    {
+      "end_signature": 445,
+      "good_mask_facts": 18,
+      "index": 235,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 6,
+      "signature_count": 6,
+      "start_signature": 439
+    },
+    {
+      "end_signature": 451,
+      "good_mask_facts": 18,
+      "index": 236,
+      "represented_good_direction_cases": 18,
+      "represented_ranks": 6,
+      "signature_count": 6,
+      "start_signature": 445
+    },
+    {
+      "end_signature": 461,
+      "good_mask_facts": 20,
+      "index": 237,
+      "represented_good_direction_cases": 21,
+      "represented_ranks": 11,
+      "signature_count": 10,
+      "start_signature": 451
+    },
+    {
+      "end_signature": 473,
+      "good_mask_facts": 20,
+      "index": 238,
+      "represented_good_direction_cases": 24,
+      "represented_ranks": 16,
+      "signature_count": 12,
+      "start_signature": 461
+    },
+    {
+      "end_signature": 490,
+      "good_mask_facts": 20,
+      "index": 239,
+      "represented_good_direction_cases": 20,
+      "represented_ranks": 17,
+      "signature_count": 17,
+      "start_signature": 473
+    },
+    {
+      "end_signature": 494,
+      "good_mask_facts": 4,
+      "index": 240,
+      "represented_good_direction_cases": 4,
+      "represented_ranks": 4,
+      "signature_count": 4,
+      "start_signature": 490
+    }
+  ],
+  "trusted_as_proof": false
+}
