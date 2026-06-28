@@ -227,7 +227,8 @@ Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge, and the Phase
 bounded AP interval smoke, through the Phase 6Z.6K.8AP.12 source-position
 predicate/producer adapter, the Phase 6Z.6K.8AP.16I positive-survivor
 membership profile, the Phase 6Z.6K.8AP.16BF bad-mask cover singleton smoke,
-and the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core.
+the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
+6Z.6K.8AP.16BH bounded weighted-denominator rejection.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -737,6 +738,11 @@ Completed current-work items:
 - Added the Phase 6Z.6K.8AP.16BG denominator-cube core reports:
   - `scripts/generated/phase6z6k8ap16bg_denominator_cube_core.json`
   - `scripts/generated/phase6z6k8ap16bg_denominator_cube_core.md`
+- Added the Phase 6Z.6K.8AP.16BH weighted-denominator cube profiler and
+  reports:
+  - `scripts/profile_ap16bh_denominator_cube_weighted_obstruction.py`
+  - `scripts/generated/phase6z6k8ap16bh_denominator_cube_weighted_profile.json`
+  - `scripts/generated/phase6z6k8ap16bh_denominator_cube_weighted_profile.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12102,6 +12108,46 @@ Acceptance:
   witnesses can keep arithmetic local and opaque.  The next concrete step is a
   generated one-cube smoke that supplies those fields without unfolding the
   weighted denominator globally.
+- [x] Reject Phase 6Z.6K.8AP.16BH simple weighted-denominator cube profile:
+  AP16BH adds
+  `scripts/profile_ap16bh_denominator_cube_weighted_obstruction.py`, a bounded
+  exact profiler for AP16BF's nine Boolean bad-mask cubes.  It searches for
+  common nonpositive impacts and sparse nonnegative integer weights on the 13
+  internal denominators.
+
+  Run:
+
+  ```text
+  python3 scripts/profile_ap16bh_denominator_cube_weighted_obstruction.py \
+    --max-support 3 \
+    --max-weight 8 \
+    --seconds-per-cube 3.0
+  ```
+
+  Result:
+
+  ```text
+  cubes checked:                    9
+  common nonpositive-impact cubes:  0
+  sparse weighted witnesses:        0
+  support cap:                      3
+  weight cap:                       8
+  seconds per cube:                 3.0
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bh_denominator_cube_weighted_profile.json
+  scripts/generated/phase6z6k8ap16bh_denominator_cube_weighted_profile.md
+  ```
+
+  Decision: simple weighted sums of already-materialized denominators do not
+  give the desired one-cube proof at this bound.  The next attempt should move
+  to the stronger sign-form / pseudo-Boolean Farkas certificate shape: prove
+  that no assignment in a cube can make all denominator sign-linear forms
+  positive, rather than trying to find a small nonnegative sum of evaluated
+  denominators.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -14175,6 +14221,14 @@ An attempted singleton-impact constructor was removed because it made Lean
 unfold the full weighted denominator expression; the accepted interface instead
 requires generated cube evidence to provide local `positive_of_good` and
 `nonpos` proofs.  That is the right boundary for the next one-cube smoke.
+
+AP.16BH then profiles the simplest possible use of that boundary: common
+nonpositive impacts or sparse nonnegative weighted sums over the already
+evaluated denominators.  On the AP16BF singleton cubes it finds zero common
+impact cubes and zero sparse witnesses under support <= 3 and weight <= 8.
+This rejects the simple weighted-denominator shortcut and points the next
+attempt to sign-form / pseudo-Boolean Farkas certificates over the cube's sign
+variables.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
