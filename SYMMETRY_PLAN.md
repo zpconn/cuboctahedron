@@ -10228,6 +10228,49 @@ Acceptance:
   final coverage: before the generated public API can rely on this architecture,
   the same manifest/emitter logic must run against the production survivor
   catalog that represents the full translation GoodDirection branch.
+- [x] Implement Phase 6Z.6K.8AP.16Z.1 manifest-driven shard/group emitter:
+  AP.16Z.1 adds `scripts/generate_ap16za_signature_manifest_shards.py`, a thin
+  driver that reads the AP.16Z manifest, delegates each selected shard to the
+  tested shared-candidate emitter, and emits a group module importing only the
+  selected routing shards.  The default smoke emits the first two manifest
+  shards under distinct module names:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestCandidateFactsShard000Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard000Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestCandidateFactsShard001Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard001Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestGroup000Smoke.lean
+  ```
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/generate_ap16za_signature_manifest_shards.py
+  python3 scripts/generate_ap16za_signature_manifest_shards.py --dry-run --limit-shards 2
+  /usr/bin/time -v python3 scripts/generate_ap16za_signature_manifest_shards.py --limit-shards 2
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedManifestGroup000Smoke'
+  ```
+
+  The emitter ran in 1.63s wall time with 29,708 KiB peak RSS.  The capped
+  Lean build passed:
+
+  ```text
+  PositiveSurvivorSharedManifestCandidateFactsShard001Smoke: 14s
+  PositiveSurvivorSharedManifestCandidateFactsShard000Smoke: 20s
+  PositiveSurvivorSharedManifestRoutingShard001Smoke:         1.3s
+  PositiveSurvivorSharedManifestRoutingShard000Smoke:         1.3s
+  PositiveSurvivorSharedManifestGroup000Smoke:                1.1s
+  whole manifest group target: 41.19s wall, 4,953,608 KiB peak RSS
+  ```
+
+  This confirms the manifest-driven hierarchy behaves like the hand-emitted
+  AP.16Y.1/AP.16Y.2 shards: heavy cost is isolated in candidate-facts leaves,
+  routing/group layers are cheap, and the two-shard target stays around 5 GiB
+  peak RSS under the cap.  The next step should be either a slightly larger
+  manifest-driven smoke, such as 4-8 shards, or a production-catalog profiler
+  that creates the same manifest shape for the full GoodDirection survivor
+  branch.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
