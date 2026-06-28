@@ -229,7 +229,9 @@ predicate/producer adapter, the Phase 6Z.6K.8AP.16I positive-survivor
 membership profile, the Phase 6Z.6K.8AP.16BF bad-mask cover singleton smoke,
 the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
 6Z.6K.8AP.16BH bounded weighted-denominator rejection, and the Phase
-6Z.6K.8AP.16BI denominator Walsh-degree profile.
+6Z.6K.8AP.16BI denominator Walsh-degree profile, plus the Phase
+6Z.6K.8AP.16BJ Walsh subcube cover profile and Phase 6Z.6K.8AP.16BK
+impact-subcube obstruction core.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -749,6 +751,13 @@ Completed current-work items:
   - `scripts/profile_ap16bi_denominator_sign_forms.py`
   - `scripts/generated/phase6z6k8ap16bi_denominator_sign_forms.json`
   - `scripts/generated/phase6z6k8ap16bi_denominator_sign_forms.md`
+- Added the Phase 6Z.6K.8AP.16BJ Walsh subcube-cover profiler and reports:
+  - `scripts/profile_ap16bj_walsh_subcube_cover.py`
+  - `scripts/generated/phase6z6k8ap16bj_walsh_subcube_cover.json`
+  - `scripts/generated/phase6z6k8ap16bj_walsh_subcube_cover.md`
+- Added the Phase 6Z.6K.8AP.16BK impact-subcube core reports:
+  - `scripts/generated/phase6z6k8ap16bk_impact_subcube_core.json`
+  - `scripts/generated/phase6z6k8ap16bk_impact_subcube_core.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12181,6 +12190,73 @@ Acceptance:
   bits to auxiliary variables and prove the necessary Boolean/product
   constraints for a cube.  This explains why AP16BH's simple denominator-weight
   route found no small witnesses.
+- [x] Implement Phase 6Z.6K.8AP.16BJ Walsh subcube-cover profile:
+  AP16BJ adds `scripts/profile_ap16bj_walsh_subcube_cover.py`, using the exact
+  quadratic Walsh denominator forms from AP16BI to search for Boolean subcubes
+  on which a single internal impact denominator is nonpositive.  On the
+  rank-`100805` AP16BF singleton, it finds:
+
+  ```text
+  bad masks:                 56
+  killed subcube candidates: 226
+  selected subcubes:         20
+  uncovered masks:           0
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bj_walsh_subcube_cover.json
+  scripts/generated/phase6z6k8ap16bj_walsh_subcube_cover.md
+  ```
+
+  Decision: the first compact non-per-mask bad-mask route is now visible.  The
+  AP16BF bad-mask complement can be covered by 20 exact Walsh-certified
+  Boolean subcubes instead of 56 mask-local denominator witnesses.  This does
+  not prove anything by itself, but it gives the next Lean emitter a real
+  family target.
+- [x] Implement Phase 6Z.6K.8AP.16BK impact-subcube obstruction core:
+  AP16BK adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcube.lean`.
+  It exports:
+
+  ```lean
+  ImpactSubcubeObstruction
+  ImpactSubcubeObstruction.notGood
+  ImpactSubcubeCover
+  ImpactSubcubeCover.toBadMaskCover
+  ImpactSubcubeCover.goodMaskMember_of_goodDirection
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 6000 \
+    --min-available-mib 8192 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bk_impact_subcube_core_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcube 2>&1 | tee /tmp/cuboctahedron_ap16bk_impact_subcube_core_build.log'
+
+  passed
+  elapsed:                13.01s
+  peak process-tree RSS:  3.842 GiB
+  minimum available mem:  45.15 GiB
+  guard kill:             no
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bk_impact_subcube_core.json
+  scripts/generated/phase6z6k8ap16bk_impact_subcube_core.md
+  ```
+
+  Decision: accepted as the theorem surface for AP16BJ-style generated leaves.
+  The next step is AP16BL: emit a one-rank rank-`100805`
+  `ImpactSubcubeCover` smoke proving selected-subcube completeness and exact
+  Walsh/subcube denominator nonpositivity in Lean, then profile whether the
+  selected-subcube count scales globally.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -14269,6 +14345,19 @@ degree-two Walsh terms because the hit-face sign multiplies the affine
 translation vector.  The full Walsh representation validates on all 64 masks.
 Future pseudo-Boolean certificates must therefore be quadratic or use lifted
 product variables, not a plain six-variable affine LP.
+
+AP.16BJ then uses those exact Walsh forms as a real compression coordinate.
+For the rank-`100805` AP16BF singleton, all 56 bad masks are covered by 20
+Boolean subcubes, each with a single internal impact denominator provably
+nonpositive over the whole subcube in the external diagnostic.  AP.16BK adds
+the small Lean theorem surface for this evidence shape:
+`ImpactSubcubeObstruction` proves one subcube contradicts
+`GoodDirectionAtRank`, `ImpactSubcubeCover` proves a finite family of such
+subcubes covers the complement of the positive-survivor predicate, and
+`ImpactSubcubeCover.toBadMaskCover` erases the result to the existing
+`BadMaskCover` API.  The next proof-producing task is to generate the first
+rank-`100805` `ImpactSubcubeCover` smoke whose subcube nonpositivity facts are
+checked by Lean from exact Walsh/subcube bounds, not trusted from JSON.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

@@ -1,0 +1,28 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BK",
+  "name": "impact-subcube obstruction core",
+  "status": "accepted_as_core_interface",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcube.lean",
+  "exports": [
+    "ImpactSubcubeObstruction",
+    "ImpactSubcubeObstruction.notGood",
+    "ImpactSubcubeCover",
+    "ImpactSubcubeCover.toBadMaskCover",
+    "ImpactSubcubeCover.goodMaskMember_of_goodDirection"
+  ],
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 8192 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bk_impact_subcube_core_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcube 2>&1 | tee /tmp/cuboctahedron_ap16bk_impact_subcube_core_build.log'",
+    "result": "passed",
+    "elapsed_seconds": 13.01,
+    "peak_tree_rss_mib": 3934.0,
+    "min_available_seen_mib": 46238.0,
+    "rss_cap_mib": 6000.0,
+    "guard_kill": false
+  },
+  "notes": [
+    "AP16BJ found a compact cover of the rank-100805 bad masks by 20 Boolean subcubes, each killed by one internal impact denominator.",
+    "This Lean core packages that certificate shape as a semantic family-level obstruction and erases it to BadMaskCover.",
+    "The core keeps the exact subcube nonpositivity proof as a generated local field, so generated leaves can avoid global reduction over all masks.",
+    "Next step: emit a one-rank AP16BJ smoke that instantiates ImpactSubcubeCover for rank 100805 and proves each subcube's nonpos fact from exact Walsh/subcube bounds."
+  ]
+}
