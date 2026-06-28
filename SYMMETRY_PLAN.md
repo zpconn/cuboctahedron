@@ -11462,6 +11462,49 @@ Acceptance:
   `AllTranslationGoodCoverageOnRange 0 numPairWords` can erase directly to
   `Translation.KilledBridge`.  The remaining hard work is the generated
   membership theorem, not bridge plumbing.
+- [x] Implement Phase 6Z.6K.8AP.16AU source-position killed bridge adapter:
+  AP.16AU adds the same full-range killed-bridge erasure for the
+  source-position plus row-producer production surface.
+
+  Added theorem adapters:
+
+  ```text
+  SourcePositionRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange
+  SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16au_source_position_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage'
+  ```
+
+  Result:
+
+  ```text
+  build status:             passed
+  elapsed:                   6.51s
+  peak process-tree RSS:     3.882 GiB
+  minimum available memory: 45.14 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16au_source_position_killed_bridge.json
+  scripts/generated/phase6z6k8ap16au_source_position_killed_bridge.md
+  ```
+
+  Interpretation: production translation membership can now target
+  `SourcePositionRowProducerGoodCoverageOnRange 0 numPairWords` directly and
+  erase it to `Translation.KilledBridge`.  This is a better generator target
+  than concrete positive-survivor candidate facts because it preserves the
+  semantic source-position/row-producer abstraction.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

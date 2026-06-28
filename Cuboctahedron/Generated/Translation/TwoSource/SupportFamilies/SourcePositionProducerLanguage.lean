@@ -222,11 +222,23 @@ theorem SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
   SourceRowProducerGoodLanguageOnRange.to_allGoodCoverage
     (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
 
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange
+    (language : SourcePositionRowProducerGoodLanguageOnRange 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.KilledBridge :=
+  SourceRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange
+    (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
+
 theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     {lo hi : Nat}
     (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
     AllTranslationGoodCoverageOnRange lo hi :=
   SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
+    (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.KilledBridge :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange
     (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
 
 theorem sourcePositionProducerLanguage_builds : True := by
