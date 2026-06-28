@@ -1,0 +1,107 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_ap16al_top5_manifest_extraction",
+  "counts": {
+    "covered_cases": 4342,
+    "good_direction_survivors": 4342,
+    "identity_words": 621,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4379,
+    "not_good_direction_masks": 35402,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 39744,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "diagnostic only: checkpointed census is not Lean proof",
+      "per-window checkpoints contain detailed AP.16I-style catalogs outside the repo",
+      "tracked aggregate keeps only compact counts and key summaries"
+    ],
+    "status": "checkpointed-census-smoke-complete"
+  },
+  "elapsed_seconds": 40.420512980999774,
+  "good_direction_cases": 4342,
+  "limit": 5000,
+  "max_window_rss_kib": 27308,
+  "mode": "ap16_positive_survivor_census",
+  "phase": "6Z.6K.8AP.16AL",
+  "rank_count_completed": 5000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "stride": 2500,
+  "trusted_as_proof": false,
+  "unique_positive_candidate_groups": 191,
+  "unique_positive_survivor_signatures": 494,
+  "window_count_completed": 5,
+  "window_count_requested": 5,
+  "window_elapsed_seconds": {
+    "max": 19.002983264999784,
+    "mean": 14.117062003999672,
+    "p50": 13.664642554998863,
+    "p95": 18.25142491279985
+  },
+  "window_size": 2500,
+  "windows": [
+    {
+      "elapsed_seconds": 19.002983264999784,
+      "good_direction_cases": 1465,
+      "max_rss_kib": 26348,
+      "positive_candidate_groups": 74,
+      "positive_survivor_signatures": 131,
+      "range": [
+        0,
+        1000
+      ],
+      "ranks_with_good_direction": 138
+    },
+    {
+      "elapsed_seconds": 15.245191504000104,
+      "good_direction_cases": 863,
+      "max_rss_kib": 24432,
+      "positive_candidate_groups": 53,
+      "positive_survivor_signatures": 71,
+      "range": [
+        6000000,
+        6001000
+      ],
+      "ranks_with_good_direction": 137
+    },
+    {
+      "elapsed_seconds": 13.664642554998863,
+      "good_direction_cases": 721,
+      "max_rss_kib": 24816,
+      "positive_candidate_groups": 83,
+      "positive_survivor_signatures": 116,
+      "range": [
+        54000000,
+        54001000
+      ],
+      "ranks_with_good_direction": 132
+    },
+    {
+      "elapsed_seconds": 11.17956818300081,
+      "good_direction_cases": 711,
+      "max_rss_kib": 27308,
+      "positive_candidate_groups": 63,
+      "positive_survivor_signatures": 79,
+      "range": [
+        44000000,
+        44001000
+      ],
+      "ranks_with_good_direction": 96
+    },
+    {
+      "elapsed_seconds": 11.492924512998798,
+      "good_direction_cases": 582,
+      "max_rss_kib": 25200,
+      "positive_candidate_groups": 51,
+      "positive_survivor_signatures": 97,
+      "range": [
+        3000000,
+        3001000
+      ],
+      "ranks_with_good_direction": 110
+    }
+  ],
+  "workers": 2
+}

@@ -11044,6 +11044,65 @@ Acceptance:
   the 20 MiB peak.  For longer dense-window runs, use the AP.16AJ guard
   settings and rely on both guard telemetry and per-window worker RSS.  This
   step is still scheduling infrastructure, not proof evidence.
+- [x] Implement Phase 6Z.6K.8AP.16AL guarded top-5 manifest extraction:
+  AP.16AL runs the AP.16AJ explicit-window manifest through the AP.16AK
+  manifest-aware census runner for the five densest sampled windows, using two
+  workers and the memory guard.  It emits no Lean and is not proof evidence,
+  but it validates density-guided, manifest-based, memory-safe parallel
+  extraction on the current densest sampled regions.
+
+  Command:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 1.0 \
+    --json /tmp/cuboctahedron_ap16al_top5_guard.json \
+    -- python3 scripts/run_ap16_positive_survivor_census.py \
+      --no-resume \
+      --windows-json scripts/generated/phase6z6k8ap16aj_candidate_extraction_plan.json \
+      --max-windows 5 \
+      --workers 2 \
+      --checkpoint-dir /tmp/cuboctahedron_ap16al_top5_manifest_extraction \
+      --json scripts/generated/phase6z6k8ap16al_top5_manifest_extraction.json \
+      --md scripts/generated/phase6z6k8ap16al_top5_manifest_extraction.md \
+      --phase 6Z.6K.8AP.16AL
+  ```
+
+  Result:
+
+  ```text
+  selected sampled ranks:          5,000
+  selected windows:                    5
+  workers:                             2
+  GoodDirection cases:             4,342
+  positive candidate groups:         191
+  positive survivor signatures:      494
+  max worker RSS:                 27,308 KiB
+  worker mean/p50/p95/max time:   14.12 / 13.66 / 18.25 / 19.00 seconds
+  guard elapsed:                  41.02s
+  guard peak tree RSS:            80.5 MiB
+  min available memory:           about 45.6 GiB
+  ```
+
+  Per-window GoodDirection counts:
+
+  ```text
+  [0, 1000):                    1,465
+  [6,000,000, 6,001,000):         863
+  [54,000,000, 54,001,000):       721
+  [44,000,000, 44,001,000):       711
+  [3,000,000, 3,001,000):         582
+  ```
+
+  Interpretation: the density-guided manifest runner is memory-safe with
+  modest parallelism on dense sampled windows.  The extracted top-5 catalog is
+  also already enough to stress the shared-candidate/manifest Lean emitters
+  more realistically than a sparse window.  The next bounded proof-producing
+  step should feed this AP.16AL top-5 aggregate into the shared-candidate or
+  manifest-driven Lean hierarchy and measure source size/RSS before widening
+  beyond sampled windows.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
