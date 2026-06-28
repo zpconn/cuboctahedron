@@ -10026,6 +10026,41 @@ Acceptance:
   candidate, emit one shared candidate-facts module per bounded candidate
   shard, and measure whether line count and wall time grow closer to candidate
   count than signature count.
+- [x] Implement Phase 6Z.6K.8AP.16X four-signature AP.16W scale smoke: the
+  same `scripts/generate_ap16w_shared_candidate_routing_smoke.py` generator was
+  rerun with `--signatures 4`, intentionally overwriting the AP.16W diagnostic
+  modules.  The two-signature version is preserved in git history; the current
+  checkout now records the larger bounded scale point.  The four-signature
+  smoke covers 41 positive masks across 14 shared candidates.
+
+  Validation:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16w_shared_candidate_routing_smoke.py --signatures 4
+  wc -l Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedCandidateFactsSmoke.lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingSmoke.lean
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 420s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke'
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingSmoke'
+  ```
+
+  The generator ran in 2.03s wall time with 30,396 KiB peak RSS.  The shared
+  candidate-facts module is 7,848 lines, and the routing module is 795 lines.
+  Focused capped builds passed:
+
+  ```text
+  PositiveSurvivorSharedCandidateFactsSmoke: 43.16s wall, 6,268,116 KiB peak RSS
+  PositiveSurvivorSharedRoutingSmoke:         2.38s wall, 3,322,024 KiB peak RSS
+  ```
+
+  AP.16X is accepted as a bounded scaling point.  It confirms the routing
+  layer remains cheap, but the shared candidate-facts layer still scales with
+  concrete positive-mask facts because each fact carries exact sequence,
+  translation-vector, and row-line proofs.  Production should therefore shard
+  the heavy candidate-facts layer by a strict case/line/RSS budget, likely
+  around tens of positive masks per file at first, and keep signature-routing
+  chunks thin.  The next useful AP step is a shard planner over the full
+  AP.16I catalog that bins candidate facts by positive-mask count and estimates
+  candidate-fact module count, routing module count, source size, and wall/RSS
+  using the AP.16W/AP.16X measurements.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
