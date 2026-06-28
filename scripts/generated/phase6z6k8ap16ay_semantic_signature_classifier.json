@@ -1,0 +1,43 @@
+{
+  "phase": "6Z.6K.8AP.16AY",
+  "status": "accepted-semantic-signature-classifier",
+  "date": "2026-06-28",
+  "purpose": "Add a semantic positive-survivor signature classifier surface so generated membership can use GoodDirectionAtRank directly instead of reducing goodDirectionAtRankBool.",
+  "files_changed": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifier.lean",
+    "scripts/generate_ap16l_signature_membership_smoke.py",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean"
+  ],
+  "new_api": [
+    "PositiveSurvivorSignatureClassifierOnRange",
+    "PositiveSurvivorSignatureClassifierOnRange.to_classifier",
+    "PositiveSurvivorSignatureClassifierOnRange.to_allGoodCoverage",
+    "PositiveSurvivorSignatureClassifierOnRange.to_coverage",
+    "PositiveSurvivorSignatureClassifierOnRange.to_killedBridge_of_fullRange",
+    "PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit"
+  ],
+  "generated_smoke_surface": [
+    "generatedSingletonSignatureSemanticSourcePositionCoverage",
+    "generatedSingletonSignatureSemanticAllGoodCoverage"
+  ],
+  "builds": [
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16ay_semantic_signature_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier'",
+      "status": "passed",
+      "elapsed_seconds": 4.00,
+      "peak_tree_rss_mib": 4037,
+      "min_available_mib": 46229
+    },
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke",
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16ay_semantic_signature_smoke_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'",
+      "status": "passed",
+      "elapsed_seconds": 3.50,
+      "peak_tree_rss_mib": 4035,
+      "min_available_mib": 46232
+    }
+  ],
+  "decision": "Use the semantic signature classifier as the next production target. This avoids AP16AX's raw Boolean reduction timeout and lets generated bad-mask exclusions be proved with domain-specific nonpositive-denominator witnesses.",
+  "remaining_gap": "Generate a singleton semantic membership proof: GoodDirectionAtRank at the anchor rank implies the signature's GoodMaskMember, using one nonpositive-denominator contradiction for each bad mask and source/row facts for positive masks."
+}

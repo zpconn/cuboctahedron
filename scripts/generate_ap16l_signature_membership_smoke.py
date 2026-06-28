@@ -211,6 +211,31 @@ private def generatedSignatureClassifier
       intro mask h
       exact h.2)
 
+private def generatedSemanticSignatureClassifier
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    PositiveSurvivorSignatureClassifierOnRange {anchor} {hi} :=
+  PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit
+    {anchor} GeneratedCandidate generatedCandidateOfMask
+    generatedGoodMaskMember generatedSignatureFacts
+    generatedSpec generatedRowProducer generatedKey
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    hmask hfacts
+    (by
+      intro mask h
+      exact h.1)
+    (by
+      intro mask h
+      exact h.2)
+
 /--
 AP.16L singleton signature-membership coverage theorem.
 
@@ -240,6 +265,18 @@ theorem generatedSingletonSignatureSourcePositionCoverage
     SourcePositionRowProducerGoodCoverageOnRange {anchor} {hi} :=
   (generatedSignatureClassifier hmask hfacts).to_coverage
 
+theorem generatedSingletonSignatureSemanticSourcePositionCoverage
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    SourcePositionRowProducerGoodCoverageOnRange {anchor} {hi} :=
+  (generatedSemanticSignatureClassifier hmask hfacts).to_coverage
+
 theorem generatedSingletonSignatureAllGoodCoverage
     (hmask :
       forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
@@ -252,6 +289,19 @@ theorem generatedSingletonSignatureAllGoodCoverage
     AllTranslationGoodCoverageOnRange {anchor} {hi} :=
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     (generatedSingletonSignatureSourcePositionCoverage hmask hfacts)
+
+theorem generatedSingletonSignatureSemanticAllGoodCoverage
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    AllTranslationGoodCoverageOnRange {anchor} {hi} :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    (generatedSingletonSignatureSemanticSourcePositionCoverage hmask hfacts)
 
 theorem generatedPositiveSurvivorSignatureMembershipSmoke_builds : True := by
   trivial

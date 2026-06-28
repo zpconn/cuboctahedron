@@ -231,6 +231,185 @@ def PositiveSurvivorClassifierOnRange.of_singleCandidate
 theorem positiveSurvivorClassifier_builds : True := by
   trivial
 
+/-!
+AP.16AY semantic signature classifier surface.
+
+The Boolean signature classifier below is useful when generated evidence can
+prove a small Boolean membership theorem cheaply.  AP.16AX showed that
+directly reducing `goodDirectionAtRankBool` is too expensive even for one
+singleton signature.  The semantic signature surface therefore keeps the final
+`GoodDirectionAtRank` premise and lets generated membership proofs use
+domain-specific witnesses, such as one nonpositive denominator contradiction
+per bad mask, without unfolding the full Boolean classifier.
+-/
+structure PositiveSurvivorSignatureClassifierOnRange (lo hi : Nat) where
+  Signature : Type
+  BaseCandidate : Type
+  spec : BaseCandidate -> SourcePairPositionSpec
+  rowProducer : BaseCandidate -> SourceIndexStateRowProducer
+  key : BaseCandidate -> SourceIndexStateKey
+  candidateOf : Signature -> SignMask -> BaseCandidate
+  RankMember : Signature -> Nat -> Prop
+  GoodMaskMember : Signature -> SignMask -> Prop
+  firstIndex :
+    forall (signature : Signature) (mask : SignMask),
+      (key (candidateOf signature mask)).firstIndex =
+        (spec (candidateOf signature mask)).first.index
+  secondIndex :
+    forall (signature : Signature) (mask : SignMask),
+      (key (candidateOf signature mask)).secondIndex =
+        (spec (candidateOf signature mask)).second.index
+  support :
+    forall (signature : Signature) (mask : SignMask),
+      (key (candidateOf signature mask)).support =
+        (spec (candidateOf signature mask)).support
+  source :
+    forall {signature : Signature} {rank : Nat} {mask : SignMask},
+      RankMember signature rank ->
+        GoodMaskMember signature mask ->
+          (spec (candidateOf signature mask)).Predicate rank mask
+  rows :
+    forall {signature : Signature} {rank : Nat} {mask : SignMask},
+      RankMember signature rank ->
+        GoodMaskMember signature mask ->
+          (rowProducer (candidateOf signature mask)).Applies
+            (key (candidateOf signature mask)) rank mask
+  complete :
+    forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+      lo <= rank ->
+        rank < hi ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              exists signature : Signature,
+                RankMember signature rank /\ GoodMaskMember signature mask
+
+def PositiveSurvivorSignatureClassifierOnRange.to_classifier
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorSignatureClassifierOnRange lo hi) :
+    PositiveSurvivorClassifierOnRange lo hi where
+  Candidate := classifier.Signature × SignMask
+  spec := fun candidate => classifier.spec
+    (classifier.candidateOf candidate.1 candidate.2)
+  rowProducer := fun candidate => classifier.rowProducer
+    (classifier.candidateOf candidate.1 candidate.2)
+  key := fun candidate => classifier.key
+    (classifier.candidateOf candidate.1 candidate.2)
+  Member := fun candidate rank mask =>
+    classifier.RankMember candidate.1 rank /\
+      candidate.2 = mask /\
+        classifier.GoodMaskMember candidate.1 mask
+  firstIndex := by
+    intro candidate rank mask hmember
+    exact classifier.firstIndex candidate.1 candidate.2
+  secondIndex := by
+    intro candidate rank mask hmember
+    exact classifier.secondIndex candidate.1 candidate.2
+  support := by
+    intro candidate rank mask hmember
+    exact classifier.support candidate.1 candidate.2
+  source := by
+    intro candidate rank mask hmember
+    rcases hmember with ⟨hrank, hmaskEq, hmask⟩
+    simpa [hmaskEq] using classifier.source hrank hmask
+  rows := by
+    intro candidate rank mask hmember
+    rcases hmember with ⟨hrank, hmaskEq, hmask⟩
+    simpa [hmaskEq] using classifier.rows hrank hmask
+  complete := by
+    intro rank mask hlt hlo hhi hM hgood
+    rcases classifier.complete hlt hlo hhi hM hgood with
+      ⟨signature, hrank, hmask⟩
+    exact ⟨(signature, mask), hrank, rfl, hmask⟩
+
+theorem PositiveSurvivorSignatureClassifierOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorSignatureClassifierOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  classifier.to_classifier.to_allGoodCoverage
+
+def PositiveSurvivorSignatureClassifierOnRange.to_coverage
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorSignatureClassifierOnRange lo hi) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi :=
+  classifier.to_classifier.to_coverage
+
+theorem PositiveSurvivorSignatureClassifierOnRange.to_killedBridge_of_fullRange
+    (classifier : PositiveSurvivorSignatureClassifierOnRange 0 numPairWords) :
+    Cuboctahedron.Generated.Translation.KilledBridge :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
+    classifier.to_coverage
+
+def PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit
+    (anchor : Nat)
+    (BaseCandidate : Type)
+    (candidateOfMask : SignMask -> BaseCandidate)
+    (GoodMaskMember Facts : SignMask -> Prop)
+    (spec : BaseCandidate -> SourcePairPositionSpec)
+    (rowProducer : BaseCandidate -> SourceIndexStateRowProducer)
+    (key : BaseCandidate -> SourceIndexStateKey)
+    (hfirst :
+      forall {mask : SignMask},
+        (key (candidateOfMask mask)).firstIndex =
+          (spec (candidateOfMask mask)).first.index)
+    (hsecond :
+      forall {mask : SignMask},
+        (key (candidateOfMask mask)).secondIndex =
+          (spec (candidateOfMask mask)).second.index)
+    (hsupport :
+      forall {mask : SignMask},
+        (key (candidateOfMask mask)).support =
+          (spec (candidateOfMask mask)).support)
+    (hmask :
+      forall {mask : SignMask} (hlt : anchor < numPairWords),
+        GoodDirectionAtRank ⟨anchor, hlt⟩ mask ->
+          GoodMaskMember mask)
+    (hfacts :
+      forall {mask : SignMask},
+        GoodMaskMember mask ->
+          Facts mask)
+    (hsource :
+      forall {mask : SignMask},
+        Facts mask ->
+          (spec (candidateOfMask mask)).Predicate anchor mask)
+    (hrows :
+      forall {mask : SignMask},
+        Facts mask ->
+          (rowProducer (candidateOfMask mask)).Applies
+            (key (candidateOfMask mask)) anchor mask) :
+    PositiveSurvivorSignatureClassifierOnRange anchor (anchor + 1) where
+  Signature := Unit
+  BaseCandidate := BaseCandidate
+  spec := spec
+  rowProducer := rowProducer
+  key := key
+  candidateOf := fun _ mask => candidateOfMask mask
+  RankMember := fun _ rank => rank = anchor
+  GoodMaskMember := fun _ mask => GoodMaskMember mask
+  firstIndex := by
+    intro signature mask
+    exact hfirst
+  secondIndex := by
+    intro signature mask
+    exact hsecond
+  support := by
+    intro signature mask
+    exact hsupport
+  source := by
+    intro signature rank mask hrank hgoodMask
+    subst hrank
+    exact hsource (hfacts hgoodMask)
+  rows := by
+    intro signature rank mask hrank hgoodMask
+    subst hrank
+    exact hrows (hfacts hgoodMask)
+  complete := by
+    intro rank mask hlt hlo hhi hM hgood
+    have hleAnchor : rank <= anchor := Nat.le_of_lt_succ hhi
+    have hrank : rank = anchor := Nat.le_antisymm hleAnchor hlo
+    subst hrank
+    exact ⟨(), rfl, hmask hlt hgood⟩
+
 /--
 Boolean AP.16K classifier surface.
 

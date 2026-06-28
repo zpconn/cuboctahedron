@@ -11674,6 +11674,76 @@ Acceptance:
   signature-local membership witness, symbolic denominator-signature theorem,
   or another small proof-carrying predicate that avoids unfolding
   `totalAff`/`translationChoiceSeq` across all masks in Lean.
+- [x] Implement Phase 6Z.6K.8AP.16AY semantic signature classifier:
+  AP16AY adds the accepted alternative to AP16AX: a signature classifier whose
+  membership premise is semantic `GoodDirectionAtRank`, not
+  `goodDirectionAtRankBool`.  This lets generated membership proofs use
+  domain-specific contradictions, such as one nonpositive denominator witness
+  for each bad mask, without reducing the full Boolean classifier.
+
+  New API:
+
+  ```text
+  PositiveSurvivorSignatureClassifierOnRange
+  PositiveSurvivorSignatureClassifierOnRange.to_classifier
+  PositiveSurvivorSignatureClassifierOnRange.to_allGoodCoverage
+  PositiveSurvivorSignatureClassifierOnRange.to_coverage
+  PositiveSurvivorSignatureClassifierOnRange.to_killedBridge_of_fullRange
+  PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit
+  ```
+
+  The AP16L generator now also emits:
+
+  ```text
+  generatedSingletonSignatureSemanticSourcePositionCoverage
+  generatedSingletonSignatureSemanticAllGoodCoverage
+  ```
+
+  Focused guarded builds:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16ay_semantic_signature_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                4.00s
+  peak process-tree RSS:  3.942 GiB
+  minimum available mem:  45.15 GiB
+  ```
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16ay_semantic_signature_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                3.50s
+  peak process-tree RSS:  3.940 GiB
+  minimum available mem:  45.15 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ay_semantic_signature_classifier.json
+  scripts/generated/phase6z6k8ap16ay_semantic_signature_classifier.md
+  ```
+
+  Next target: generate a closed singleton semantic membership proof proving
+  `GoodDirectionAtRank ⟨anchor, hlt⟩ mask -> generatedGoodMaskMember mask` by
+  eliminating bad masks with compact nonpositive-denominator witnesses and
+  positive masks with source/row facts.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
