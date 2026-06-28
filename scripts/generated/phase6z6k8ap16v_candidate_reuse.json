@@ -1,0 +1,909 @@
+{
+  "counts": {
+    "candidate_good_mask_cases": 7112,
+    "positive_candidate_groups": 195,
+    "positive_survivor_signatures": 757,
+    "signature_good_mask_cases": 7112,
+    "signature_rank_cases": 796,
+    "unique_candidate_sets": 717,
+    "unique_good_mask_sets": 362
+  },
+  "decision": "Candidate reuse is strong enough to reject further per-signature micro-factoring: the next Lean emitter should factor source/row candidate facts into shared modules and leave only compact signature-to-candidate routing in signature chunks.",
+  "histograms": {
+    "candidate_sets": {
+      "0368db52356757ec0b17547e5da4f03913a38726f4b519fb6eccfa4939cc96c3,196ef355e130da5d1edd2529a31a15029688e0bba063d7894534bc7256ac484e,6490d6d1e3ea0f58a55df654a509d9a22b5b46e4e413e4f5daab2efd1517db4c,6f7e27670b3b452c12aee1c30d540652d376cc06a0fda8ecece85f865e8b518e,ae76cdb7409608f0c960b20b747c307640b55ff22e04858462adf4d8c8cea9e7,cc6a7a0d1b815acdfe15378f058a6083929251b2bee19446f9bce4562b4347d1,ece69480c83e204a9dc687f82195b7b4b07d6632a94d6a9156dd7d6f26b4722b": 2,
+      "0368db52356757ec0b17547e5da4f03913a38726f4b519fb6eccfa4939cc96c3,35dd2f7a40c0e62fe928cd23d830f20122ebbd3766e801a66a92cad634e65310,662d9a7f3ea77b576fb54ba4a9f528f3f7df9f5449db40ea9fa3fb95a9239390,da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "077d94cb4e03d0b35225eec960d3d57adf4baed04982313840be3ee6c6bb7821,9dbe22381768fd3df65f50f75aec2ef513be651b48b53a75ccaec9db25f2926a,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "196ef355e130da5d1edd2529a31a15029688e0bba063d7894534bc7256ac484e,3fc3343147f7c1998b8def78d521c7bb19640a6ceea0db8f8d27e31ee5ca6627,6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded,80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521,ab8c66a8a4368db478a9c0a1585613e1294e7a1dd64095b1daf05e55cbd60530": 2,
+      "196ef355e130da5d1edd2529a31a15029688e0bba063d7894534bc7256ac484e,52ca8d97749aebaf0bdcf46ca8d83646d51a93193844e7b11dcce6fdaa419831,6f7e27670b3b452c12aee1c30d540652d376cc06a0fda8ecece85f865e8b518e,cc6a7a0d1b815acdfe15378f058a6083929251b2bee19446f9bce4562b4347d1,d046d8dc2716b9d167b3ab367f02e6f225dcfcc049adf22c44e94cd6053adcf0": 2,
+      "196ef355e130da5d1edd2529a31a15029688e0bba063d7894534bc7256ac484e,6f7e27670b3b452c12aee1c30d540652d376cc06a0fda8ecece85f865e8b518e,cc6a7a0d1b815acdfe15378f058a6083929251b2bee19446f9bce4562b4347d1,f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63": 2,
+      "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b,a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68,da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac,f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63": 2,
+      "2ca5a640e7bdbe20db2afd90c69ab1c156a409688a9d63361182b768e64cdcd8,ab8c66a8a4368db478a9c0a1585613e1294e7a1dd64095b1daf05e55cbd60530,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,d95d7468740418e13c66eea42fc63a83b3e090bdc5216da501a26f6ae6bcdc3e,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "347652b83d2447dadfb0840bff9f0f3c38935a0cbb858d933d5bad7154478848,8a4787ef4987b977a9b9011236ae2fec4d8c9b09be7bb391c14f95a724681f5f,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac,f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777": 2,
+      "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac,f606a03cdf23d2cf0864f591d6e78a13f5b5417ff110adf2367a88e19d8b1a9c": 2,
+      "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,e3d40847b9a9d0736476d468eef787c9b0c9a8d6edff9df82b0f579232732a48,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "8fd6e1defc26638951bc8bafab4087de239c77e6f4ae46f6988ee248291984f4,b5d3c4f3604764f8b140c0bd30b646d65a8eccce5c5dd7e9816a1546f90e8bd2,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "94820b46b2ac11a0714e9c555904b3e67b30707f4823e1e6b4ebece323d5e086,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ece83320493b96e698f2c3c863aebbbb0710fc908c639b61f060f2d5cf1a6e51,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 3,
+      "ac92b6b8fd7f472110de30bddecd3b143706f725a062b61266effee7f19252f2,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,dd2875dae829e109f43be24b5de1602209e416dd46fe6fc59f0cff3b5323f332,df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 2,
+      "ae35ce47550c1a64ed8e6ee9661b6eec254f77e1d6f3aa8843e031e50c845c07,c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac,ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2": 2,
+      "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63,f606a03cdf23d2cf0864f591d6e78a13f5b5417ff110adf2367a88e19d8b1a9c": 2,
+      "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40,e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac,f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63": 2,
+      "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568,ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 3,
+      "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac": 4
+    },
+    "candidates_per_signature": {
+      "1": 22,
+      "10": 5,
+      "11": 1,
+      "2": 32,
+      "3": 36,
+      "4": 84,
+      "5": 162,
+      "6": 187,
+      "7": 135,
+      "8": 73,
+      "9": 20
+    },
+    "good_mask_sets": {
+      "0,4,8,12,13,16,20,22,28,31,45,54,63": 6,
+      "0,9,13,18,22,28,29,30,45,54,63": 6,
+      "10,11,15,16,18,20,26,28,29,30,31,45,47,52,53,61": 12,
+      "7,9,13,15,18,22,23,24,28,31,39,47,55": 11,
+      "8,13,16,18,24,29,30,31,45,47,54,55,63": 6,
+      "8,13,16,22,28,29,30,31,45,47,54,55,63": 6,
+      "8,13,18,24,26,29,30,47,50,54,58,62,63": 6,
+      "8,9,13,16,18,22,24,28,29,30,31,45,47,54,55,63": 30,
+      "8,9,13,16,18,22,24,28,29,30,31,47,55": 8,
+      "8,9,13,16,18,22,28,29,31,45,47,54,63": 8,
+      "8,9,13,16,18,22,28,30,31,45,54,55,63": 8,
+      "8,9,13,16,18,24,28,29,30,47,54,55,63": 8,
+      "8,9,13,16,18,24,28,29,45,62,63": 6,
+      "8,9,13,18,22,24,28,29,31,45,47,54,55": 8,
+      "8,9,13,18,24,28,29,30,31,45,47,54,63": 8,
+      "8,9,16,18,22,24,28,29,30,45,47,55,63": 8,
+      "8,9,16,22,24,29,30,31,45,47,54,55,63": 6,
+      "9,13,16,18,22,24,28,30,31,45,47,54,55": 8,
+      "9,16,18,22,24,28,29,30,31,45,54,55,63": 8,
+      "9,16,22,24,25,29,30,41,45,55,57,61,63": 6
+    },
+    "signatures_per_candidate": {
+      "1": 42,
+      "10": 4,
+      "11": 3,
+      "12": 3,
+      "122": 1,
+      "13": 5,
+      "133": 1,
+      "14": 3,
+      "15": 2,
+      "153": 1,
+      "16": 2,
+      "17": 3,
+      "18": 2,
+      "19": 3,
+      "197": 1,
+      "2": 22,
+      "21": 1,
+      "23": 3,
+      "235": 1,
+      "24": 2,
+      "25": 1,
+      "26": 1,
+      "27": 1,
+      "28": 1,
+      "29": 2,
+      "3": 15,
+      "30": 2,
+      "32": 1,
+      "33": 1,
+      "34": 1,
+      "347": 1,
+      "35": 3,
+      "36": 3,
+      "37": 1,
+      "38": 1,
+      "39": 2,
+      "4": 8,
+      "42": 1,
+      "43": 2,
+      "44": 2,
+      "45": 1,
+      "46": 1,
+      "461": 1,
+      "48": 1,
+      "49": 1,
+      "5": 3,
+      "50": 2,
+      "58": 1,
+      "59": 1,
+      "6": 9,
+      "61": 1,
+      "63": 1,
+      "7": 2,
+      "77": 1,
+      "8": 7,
+      "81": 1,
+      "85": 1,
+      "9": 5
+    }
+  },
+  "input_profile": "scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json",
+  "phase": "6Z.6K.8AP.16V",
+  "projections": {
+    "candidate_to_signature_ratio": 0.2575957727873184,
+    "mean_signatures_per_candidate": 21.702564102564104,
+    "per_signature_modules": 757,
+    "shared_candidate_modules": 195,
+    "signature_to_candidate_reduction": 3.882051282051282
+  },
+  "top_candidates_by_signature_count": [
+    {
+      "case_count": 1316,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 32,
+      "signature_count": 461,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 547,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 23,
+      "signature_count": 347,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 339,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 17,
+      "signature_count": 235,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 497,
+      "key": "196ef355e130da5d1edd2529a31a15029688e0bba063d7894534bc7256ac484e",
+      "mask_count": 18,
+      "signature_count": 197,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "excludedFaceSetSize": 9,
+          "face": "tmpp",
+          "impact": 3,
+          "index": 52,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpp 8",
+          "obligation": "interior:3:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+          "slot": 8
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 271,
+      "key": "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+      "mask_count": 8,
+      "signature_count": 153,
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 283,
+      "key": "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded",
+      "mask_count": 13,
+      "signature_count": 133,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 185,
+      "key": "cc6a7a0d1b815acdfe15378f058a6083929251b2bee19446f9bce4562b4347d1",
+      "mask_count": 20,
+      "signature_count": 122,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 3,
+          "index": 51,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:3:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 107,
+      "key": "6f7e27670b3b452c12aee1c30d540652d376cc06a0fda8ecece85f865e8b518e",
+      "mask_count": 11,
+      "signature_count": 85,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 3,
+          "index": 50,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:3:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 110,
+      "key": "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2",
+      "mask_count": 14,
+      "signature_count": 81,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 93,
+      "key": "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+      "mask_count": 9,
+      "signature_count": 77,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "excludedFaceSetSize": 9,
+          "face": "tmpp",
+          "impact": 1,
+          "index": 26,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpp 8",
+          "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+          "slot": 8
+        },
+        {
+          "dynamic": false,
+          "index": 3,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e83, by decide\u27e9",
+          "obligation": "xpStart:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_neg_var_first"
+      ]
+    },
+    {
+      "case_count": 83,
+      "key": "2486ba1854a0e7f9109e654332d31b7e863bb549a91cc24b7255db0a670ccfd7",
+      "mask_count": 7,
+      "signature_count": 63,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 5,
+          "index": 70,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e85, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:5:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 99,
+      "key": "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e",
+      "mask_count": 13,
+      "signature_count": 61,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 7,
+          "index": 96,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e87, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 86,
+      "key": "347652b83d2447dadfb0840bff9f0f3c38935a0cbb858d933d5bad7154478848",
+      "mask_count": 20,
+      "signature_count": 59,
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 10,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e86, by decide\u27e9",
+          "obligation": "ordering:6"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 61,
+      "key": "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e",
+      "mask_count": 4,
+      "signature_count": 58,
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 77,
+      "key": "cf9962e55a9e720734cce334c9ee24ea4057e05bbe3dcbf91e1eb8ec04227193",
+      "mask_count": 15,
+      "signature_count": 50,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 8,
+          "index": 109,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e88, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 64,
+      "key": "0eee4299a8e08c1343ba3d8afe785ebca0582a547ce7e1b265f8f6bef26ef729",
+      "mask_count": 8,
+      "signature_count": 50,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 5,
+          "index": 70,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e85, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:5:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 66,
+      "key": "2ca5a640e7bdbe20db2afd90c69ab1c156a409688a9d63361182b768e64cdcd8",
+      "mask_count": 15,
+      "signature_count": 49,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 12,
+          "face": "xm",
+          "impact": 12,
+          "index": 162,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e812, by decide\u27e9 Face.xm 1",
+          "obligation": "interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 1
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 71,
+      "key": "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521",
+      "mask_count": 14,
+      "signature_count": 48,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 11,
+          "index": 148,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e811, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 71,
+      "key": "975697e2590729f2383df71679b29def3cf45d1023621e6aa429222b5445b28b",
+      "mask_count": 9,
+      "signature_count": 46,
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 12,
+          "index": 161,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e812, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 92,
+      "key": "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda",
+      "mask_count": 15,
+      "signature_count": 45,
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 10,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e86, by decide\u27e9",
+          "obligation": "ordering:6"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    }
+  ],
+  "trusted_as_proof": false
+}

@@ -9934,6 +9934,43 @@ Acceptance:
   stop micro-factoring per-signature rank facts and instead test a coarser
   shared source/row theorem module or multi-signature shard where candidate
   facts are proved once and many signatures import/apply them.
+- [x] Implement Phase 6Z.6K.8AP.16V candidate-reuse profile: AP.16V adds
+  `scripts/profile_ap16v_candidate_reuse.py` and diagnostic outputs
+  `scripts/generated/phase6z6k8ap16v_candidate_reuse.json` and
+  `scripts/generated/phase6z6k8ap16v_candidate_reuse.md`.  It asks whether
+  AP.16 should continue with per-signature generated fact bundles or move to
+  shared source/row candidate modules plus compact signature-to-candidate
+  routing.  Validation:
+
+  ```text
+  python3 -m py_compile scripts/profile_ap16v_candidate_reuse.py
+  /usr/bin/time -v python3 scripts/profile_ap16v_candidate_reuse.py
+  ```
+
+  The profiler ran in 0.03s wall time with 17,796 KiB peak RSS.  On the
+  AP.16I representative profile it reports:
+
+  ```text
+  positive candidate groups:             195
+  positive survivor signatures:          757
+  total signature-rank cases:            796
+  total signature GoodDirection cases:   7112
+  total candidate GoodDirection cases:   7112
+  unique GoodDirection mask sets:        362
+  unique candidate sets ignoring masks:  717
+  mean signatures per candidate:         21.703
+  signature-to-candidate reduction:      3.882x
+  ```
+
+  The strongest candidate appears in 461 signatures and covers 1,316 sampled
+  GoodDirection cases; the next candidates appear in 347, 235, 197, 153, 133,
+  and 122 signatures.  AP.16V therefore rejects further per-signature
+  micro-factoring as the main production path.  However, the 717 distinct
+  candidate sets show that whole-signature quotienting is still too fragmented.
+  The next AP emitter should prove shared candidate/source-row facts once per
+  positive candidate group, then emit only a thin signature-routing layer that
+  maps each GoodDirection mask in a signature to one already-proved candidate
+  fact.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
