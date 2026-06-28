@@ -10188,6 +10188,46 @@ Acceptance:
   next AP.16 scaling step should generate a shard manifest plus a tiny group
   emitter from the AP.16Y budget plan, still over the representative AP.16I
   catalog, before attempting any production GoodDirection survivor catalog.
+- [x] Implement Phase 6Z.6K.8AP.16Z representative signature shard manifest:
+  AP.16Z adds `scripts/profile_ap16z_signature_shard_manifest.py` and
+  diagnostic outputs
+  `scripts/generated/phase6z6k8ap16z_signature_shard_manifest.json` and
+  `scripts/generated/phase6z6k8ap16z_signature_shard_manifest.md`.  This is
+  not proof evidence.  It adapts the AP.16Y budget model to the current emitter,
+  which selects whole positive-survivor signatures rather than arbitrary
+  positive candidate groups.
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/profile_ap16z_signature_shard_manifest.py
+  /usr/bin/time -v python3 scripts/profile_ap16z_signature_shard_manifest.py
+  ```
+
+  The planner ran in 0.02s wall time with 17,756 KiB peak RSS.  It reports:
+
+  ```text
+  positive_survivor_signatures:        757
+  representative_good_mask_facts:    6,845
+  represented_good_direction_cases:  7,112
+  profile_total_good_direction_cases: 7,112
+  budget_good_masks_per_shard:          20
+  shards:                              498
+  largest_shard_good_masks:             20
+  estimated_source_lines:        1,310,234
+  estimated_serial_wall_hours:        2.002
+  estimated_peak_rss_per_shard: 4,758,106 KiB
+  safe_parallel_jobs_45gib:              4
+  estimated_parallel_wall_hours:       0.500
+  ```
+
+  Shard 000 in the manifest is signatures `[0, 2)` with 19 representative
+  good-mask facts, matching AP.16Y.1.  Shard 001 is signatures `[2, 3)` with
+  11 representative good-mask facts, matching AP.16Y.2.  This is a useful
+  emitter schedule for the representative AP.16I catalog, but it is still not
+  final coverage: before the generated public API can rely on this architecture,
+  the same manifest/emitter logic must run against the production survivor
+  catalog that represents the full translation GoodDirection branch.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
