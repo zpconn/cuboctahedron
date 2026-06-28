@@ -10318,6 +10318,53 @@ Acceptance:
   similarly sized candidate-facts shards.  The next useful scaling step is an
   8-shard manifest smoke or, if we want to avoid more representative source
   churn, a production-survivor catalog profiler.
+- [x] Implement Phase 6Z.6K.8AP.16Z.3 eight-shard manifest-driven smoke:
+  AP.16Z.3 reruns the manifest driver with `--limit-shards 8`, expanding the
+  manifest group to import eight routing shards and adding shards 004-007.
+  Each added shard is a one-signature shard with 11 representative good-mask
+  facts:
+
+  ```text
+  shard004: signature [5, 6), 7 shared candidates
+  shard005: signature [6, 7), 8 shared candidates
+  shard006: signature [7, 8), 7 shared candidates
+  shard007: signature [8, 9), 7 shared candidates
+  ```
+
+  Generation:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16za_signature_manifest_shards.py --limit-shards 8
+  ```
+
+  The emitter ran in 5.11s wall time with 29,712 KiB peak RSS.
+
+  Focused capped build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 480s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedManifestGroup000Smoke'
+  ```
+
+  Result:
+
+  ```text
+  PositiveSurvivorSharedManifestCandidateFactsShard004Smoke: 14s
+  PositiveSurvivorSharedManifestCandidateFactsShard005Smoke: 13s
+  PositiveSurvivorSharedManifestCandidateFactsShard006Smoke: 13s
+  PositiveSurvivorSharedManifestCandidateFactsShard007Smoke: 14s
+  routing shards 004-007: about 1.2-1.3s each
+  PositiveSurvivorSharedManifestGroup000Smoke: 1.1s
+  whole manifest group target: 1:02.92 wall, 4,529,632 KiB peak RSS
+  ```
+
+  This remains in the same 4-5 GiB peak-RSS band as the smaller smokes, and
+  the group layer remains negligible.  It supports memory-safe parallelism over
+  these representative budget-20 shards, subject to the important caveat that
+  production-catalog shards must be profiled before scaling the final generated
+  API.  The next step should now shift from more representative source churn to
+  building the production survivor-catalog profiler/manifest, or to proving a
+  stronger semantic compression that reduces the 498 representative shards
+  before production emission.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
