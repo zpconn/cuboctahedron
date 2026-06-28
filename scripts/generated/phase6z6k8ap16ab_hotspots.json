@@ -1,0 +1,394 @@
+{
+  "decision": {
+    "candidate_gate": 2000,
+    "notes": [
+      "the profile groups only GoodDirection survivors",
+      "denominator-nonpositive masks are intentionally not enumerated",
+      "future Lean evidence should consume a GoodDirection premise and prove positive membership"
+    ],
+    "signature_gate": 2000,
+    "status": "accepted-positive-survivor-membership-profile"
+  },
+  "elapsed_seconds": 137.9888722809992,
+  "good_direction_cases": 499,
+  "jobs": 1,
+  "limit": 250,
+  "max_rss_kib": 27644,
+  "mode": "ap16aa_hotspot_profile",
+  "phase": "6Z.6K.8AP.16AB",
+  "positive_candidate_groups": 41,
+  "positive_survivor_signatures": 43,
+  "primitive_calls": 864647505,
+  "pstats": "/tmp/cuboctahedron_ap16aa_hotspots.pstats",
+  "rank_end": 250,
+  "rank_start": 0,
+  "ranks_with_good_direction": 44,
+  "schema_version": 1,
+  "top_cumulative": [
+    {
+      "calls": 1,
+      "cumulative_seconds": 137.988511807,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/profile_ap16i_positive_survivor_membership.py",
+      "function": "profile",
+      "line": 166,
+      "primitive_calls": 1,
+      "total_seconds": 0.001454762
+    },
+    {
+      "calls": 1,
+      "cumulative_seconds": 137.969444716,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_pair_sign_producer_coverage_smoke.py",
+      "function": "collect_representative_families",
+      "line": 100,
+      "primitive_calls": 1,
+      "total_seconds": 7.559000000000001e-06
+    },
+    {
+      "calls": 1,
+      "cumulative_seconds": 137.969343382,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/profile_source_index_state_fact_production.py",
+      "function": "collect_families_maybe_parallel",
+      "line": 148,
+      "primitive_calls": 1,
+      "total_seconds": 6.258e-06
+    },
+    {
+      "calls": 1,
+      "cumulative_seconds": 137.96933712400002,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_source_index_state_nonenum_smoke.py",
+      "function": "collect_families",
+      "line": 138,
+      "primitive_calls": 1,
+      "total_seconds": 0.017459809
+    },
+    {
+      "calls": 2004,
+      "cumulative_seconds": 85.406527583,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "translation_constraints_py",
+      "line": 883,
+      "primitive_calls": 2004,
+      "total_seconds": 0.467277449
+    },
+    {
+      "calls": 3066,
+      "cumulative_seconds": 81.514777949,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/profile_symbolic_row_extraction_families.py",
+      "function": "classify_choice",
+      "line": 225,
+      "primitive_calls": 3066,
+      "total_seconds": 0.026229954000000003
+    },
+    {
+      "calls": 91988874,
+      "cumulative_seconds": 80.66171100700001,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "forward",
+      "line": 613,
+      "primitive_calls": 91988874,
+      "total_seconds": 19.982520856
+    },
+    {
+      "calls": 11114978,
+      "cumulative_seconds": 80.61844755700001,
+      "file": "~",
+      "function": "<built-in method builtins.sum>",
+      "line": 0,
+      "primitive_calls": 11114978,
+      "total_seconds": 8.508365154
+    },
+    {
+      "calls": 28056,
+      "cumulative_seconds": 62.16626693800001,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "path_prefix_affs",
+      "line": 439,
+      "primitive_calls": 28056,
+      "total_seconds": 0.285221767
+    },
+    {
+      "calls": 30060,
+      "cumulative_seconds": 59.11855721800001,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "translation_impact_time_lin",
+      "line": 858,
+      "primitive_calls": 30060,
+      "total_seconds": 0.052150001
+    },
+    {
+      "calls": 499,
+      "cumulative_seconds": 56.426465141,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_symbolic_row_family_smoke.py",
+      "function": "classify_choice",
+      "line": 207,
+      "primitive_calls": 499,
+      "total_seconds": 0.019954834
+    },
+    {
+      "calls": 756655,
+      "cumulative_seconds": 53.224225178000005,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "mat_mul",
+      "line": 354,
+      "primitive_calls": 756655,
+      "total_seconds": 0.464822375
+    },
+    {
+      "calls": 3026620,
+      "cumulative_seconds": 52.759402803,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 355,
+      "primitive_calls": 3026620,
+      "total_seconds": 1.377929097
+    },
+    {
+      "calls": 3359,
+      "cumulative_seconds": 47.869813382000004,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "translation_needs_farkas",
+      "line": 6686,
+      "primitive_calls": 3359,
+      "total_seconds": 0.013542583
+    },
+    {
+      "calls": 663078,
+      "cumulative_seconds": 46.978844579000004,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "face_reflection",
+      "line": 398,
+      "primitive_calls": 663078,
+      "total_seconds": 0.40313317800000004
+    },
+    {
+      "calls": 1002,
+      "cumulative_seconds": 43.44596535,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "source_terms_for_translation_farkas",
+      "line": 6697,
+      "primitive_calls": 1002,
+      "total_seconds": 0.006374403000000001
+    },
+    {
+      "calls": 3359,
+      "cumulative_seconds": 43.310051641,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "first_bad_translation_impact",
+      "line": 1312,
+      "primitive_calls": 3359,
+      "total_seconds": 0.018727655000000003
+    },
+    {
+      "calls": 22950,
+      "cumulative_seconds": 43.263900455000005,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "impact_denom",
+      "line": 1020,
+      "primitive_calls": 22950,
+      "total_seconds": 0.06496292000000001
+    },
+    {
+      "calls": 22950,
+      "cumulative_seconds": 42.384058216,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "path_prefix_matrices",
+      "line": 432,
+      "primitive_calls": 22950,
+      "total_seconds": 0.24009297000000002
+    },
+    {
+      "calls": 364728,
+      "cumulative_seconds": 35.711098461,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "aff_compose",
+      "line": 403,
+      "primitive_calls": 364728,
+      "total_seconds": 0.24586421700000002
+    }
+  ],
+  "top_total": [
+    {
+      "calls": 91988874,
+      "cumulative_seconds": 80.66171100700001,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "forward",
+      "line": 613,
+      "primitive_calls": 91988874,
+      "total_seconds": 19.982520856
+    },
+    {
+      "calls": 51732146,
+      "cumulative_seconds": 32.653448795,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "_mul",
+      "line": 742,
+      "primitive_calls": 51732146,
+      "total_seconds": 16.392284229
+    },
+    {
+      "calls": 103119455,
+      "cumulative_seconds": 21.641992631,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "_from_coprime_ints",
+      "line": 317,
+      "primitive_calls": 103119455,
+      "total_seconds": 16.007709811
+    },
+    {
+      "calls": 37280835,
+      "cumulative_seconds": 21.361367274000003,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "_add",
+      "line": 710,
+      "primitive_calls": 37280835,
+      "total_seconds": 10.919304739000001
+    },
+    {
+      "calls": 170788313,
+      "cumulative_seconds": 9.04408467,
+      "file": "~",
+      "function": "<built-in method math.gcd>",
+      "line": 0,
+      "primitive_calls": 170788313,
+      "total_seconds": 9.04408467
+    },
+    {
+      "calls": 11114978,
+      "cumulative_seconds": 80.61844755700001,
+      "file": "~",
+      "function": "<built-in method builtins.sum>",
+      "line": 0,
+      "primitive_calls": 11114978,
+      "total_seconds": 8.508365154
+    },
+    {
+      "calls": 131762514,
+      "cumulative_seconds": 7.230085736,
+      "file": "~",
+      "function": "<built-in method __new__ of type object at 0xa43b40>",
+      "line": 0,
+      "primitive_calls": 131762514,
+      "total_seconds": 7.230085736
+    },
+    {
+      "calls": 106556577,
+      "cumulative_seconds": 9.907794486,
+      "file": "~",
+      "function": "<built-in method builtins.isinstance>",
+      "line": 0,
+      "primitive_calls": 106556577,
+      "total_seconds": 6.5877034420000005
+    },
+    {
+      "calls": 28643059,
+      "cumulative_seconds": 7.467673564,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "__new__",
+      "line": 186,
+      "primitive_calls": 28643059,
+      "total_seconds": 5.871805782
+    },
+    {
+      "calls": 7956936,
+      "cumulative_seconds": 28.750492968000003,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 380,
+      "primitive_calls": 7956936,
+      "total_seconds": 4.972250779
+    },
+    {
+      "calls": 11052285,
+      "cumulative_seconds": 17.863184778,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "reverse",
+      "line": 627,
+      "primitive_calls": 11052285,
+      "total_seconds": 4.65827737
+    },
+    {
+      "calls": 27239580,
+      "cumulative_seconds": 21.498361801,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 356,
+      "primitive_calls": 27239580,
+      "total_seconds": 3.4098071720000003
+    },
+    {
+      "calls": 6725854,
+      "cumulative_seconds": 4.441820947,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "_div",
+      "line": 758,
+      "primitive_calls": 6725854,
+      "total_seconds": 2.343303795
+    },
+    {
+      "calls": 7302324,
+      "cumulative_seconds": 3.8979512350000003,
+      "file": "/usr/lib/python3.12/fractions.py",
+      "function": "_sub",
+      "line": 726,
+      "primitive_calls": 7302324,
+      "total_seconds": 2.03185854
+    },
+    {
+      "calls": 14543387,
+      "cumulative_seconds": 3.320091044,
+      "file": "<frozen abc>",
+      "function": "__instancecheck__",
+      "line": 117,
+      "primitive_calls": 14543387,
+      "total_seconds": 1.903392723
+    },
+    {
+      "calls": 14543387,
+      "cumulative_seconds": 1.4166983210000001,
+      "file": "~",
+      "function": "<built-in method _abc._abc_instancecheck>",
+      "line": 0,
+      "primitive_calls": 14543387,
+      "total_seconds": 1.4166902540000001
+    },
+    {
+      "calls": 3026620,
+      "cumulative_seconds": 52.759402803,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 355,
+      "primitive_calls": 3026620,
+      "total_seconds": 1.377929097
+    },
+    {
+      "calls": 9905808,
+      "cumulative_seconds": 7.987096061000001,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 362,
+      "primitive_calls": 9905808,
+      "total_seconds": 1.263240445
+    },
+    {
+      "calls": 2652312,
+      "cumulative_seconds": 29.908865342000002,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 379,
+      "primitive_calls": 2652312,
+      "total_seconds": 1.158372374
+    },
+    {
+      "calls": 7063752,
+      "cumulative_seconds": 5.845191007,
+      "file": "/home/zpconn/code/cuboctahedron/scripts/generate_exact_certificates.py",
+      "function": "<genexpr>",
+      "line": 351,
+      "primitive_calls": 7063752,
+      "total_seconds": 1.051990655
+    }
+  ],
+  "total_calls": 864651515,
+  "total_tt": 135.20574978299996,
+  "trusted_as_proof": false
+}

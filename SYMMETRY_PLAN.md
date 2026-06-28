@@ -10446,6 +10446,67 @@ Acceptance:
   - or build a much smaller production candidate catalog from existing exact
     identity-word/GoodDirection enumeration artifacts if they can be streamed
     without replaying all rank/mask logic in Python.
+- [x] Implement Phase 6Z.6K.8AP.16AB AP.16AA hotspot profile: AP.16AB adds
+  `scripts/profile_ap16aa_hotspots.py`, a tiny `cProfile` wrapper around the
+  exact AP.16I positive-survivor path used by AP.16AA.  It emits only compact
+  diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ab_hotspots.json
+  scripts/generated/phase6z6k8ap16ab_hotspots.md
+  /tmp/cuboctahedron_ap16aa_hotspots.pstats
+  ```
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/profile_ap16aa_hotspots.py
+  /usr/bin/time -v python3 scripts/profile_ap16aa_hotspots.py --limit 250 --jobs 1 --top 20
+  ```
+
+  Result:
+
+  ```text
+  range:                         [0, 250)
+  elapsed:                       2:18.06 wall under cProfile
+  peak RSS:                      28,028 KiB
+  GoodDirection cases:             499
+  positive candidate groups:        41
+  positive survivor signatures:     43
+  total calls:                 864,651,515
+  ```
+
+  Cumulative-time hotspots:
+
+  ```text
+  137.969s  collect_families / collect_representative_families
+   85.407s  translation_constraints_py
+   81.515s  profile_symbolic_row_extraction_families.classify_choice
+   80.662s  fractions.py Fraction arithmetic
+   62.166s  path_prefix_affs
+   59.119s  translation_impact_time_lin
+   56.426s  generate_symbolic_row_family_smoke.classify_choice
+   53.224s  mat_mul
+  ```
+
+  Interpretation: AP.16AA is not OOM-limited; it is CPU-limited by repeated
+  exact `Fraction` matrix/affine computations.  The current collector classifies
+  each identity rank/mask once through the row-relation profiler and then
+  classifies every GoodDirection survivor a second time through the symbolic
+  Lean-smoke classifier to recover `TwoSourceCase` data.  Both paths recompute
+  translation constraints and prefix affine products.  Therefore the next
+  implementation step should not be a bigger census.  It should be an AP.16AC
+  single-pass collector that either:
+
+  - constructs the needed `TwoSourceCase`/source-language/member data directly
+    from the first `profile_classify_choice` result; or
+  - factors both classifiers through one cached exact translation-analysis
+    object per `(rank, mask)` GoodDirection survivor, with prefix affines and
+    translation constraints computed once.
+
+  A separate optimization track may replace Python `Fraction` prefix-affine
+  recomputation with integer/scaled arithmetic, but the immediate low-risk
+  win is to remove the duplicate classifier pass and shared recomputation.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
