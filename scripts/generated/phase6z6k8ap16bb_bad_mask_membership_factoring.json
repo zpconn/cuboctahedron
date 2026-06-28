@@ -1,0 +1,2053 @@
+{
+  "bad_denominator_witnesses": 43832,
+  "decision": {
+    "notes": [
+      "This profiles bad-mask witness grouping only; it emits no Lean.",
+      "Small impact-pattern counts would support a shared denominator-signature membership theorem.",
+      "Large exact-pattern counts would mean exact denominator equality witnesses must be factored further.",
+      "If exact/impact patterns are nearly rank-local, positive-survivor signatures are not the right coordinate for bad-mask exclusion."
+    ],
+    "status": "reject-positive-survivor-signature-bad-mask-factoring"
+  },
+  "multi_rank_same_exact_pattern": 1,
+  "multi_rank_same_impact_pattern": 1,
+  "multi_rank_same_impact_sign_pattern": 1,
+  "multi_rank_signature_count": 32,
+  "phase": "6Z.6K.8AP.16BB",
+  "rank_count": 796,
+  "schema_version": 1,
+  "signature_count": 757,
+  "signature_summaries": [
+    {
+      "bad_mask_count": 56,
+      "case_count": 24,
+      "distinct_exact_patterns": 3,
+      "distinct_impact_patterns": 3,
+      "distinct_impact_sign_patterns": 3,
+      "good_masks": [
+        4,
+        6,
+        11,
+        22,
+        30,
+        31,
+        59,
+        63
+      ],
+      "key": "9c8a88567da24f69d8019b8ada2a84b4de847573f9520de337403a261d3d1836",
+      "rank_count": 3,
+      "sample_first_impact_histogram": {
+        "1": 18,
+        "10": 3,
+        "2": 15,
+        "4": 6,
+        "5": 6,
+        "6": 6,
+        "8": 2
+      },
+      "sample_ranks": [
+        100805,
+        100926,
+        102425
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-28/9",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 6,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 2,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-244/27",
+          "impact": 2,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-148/27",
+          "impact": 2,
+          "mask": 7,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 8,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 9,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        9,
+        13,
+        18,
+        22,
+        24,
+        29,
+        30,
+        31,
+        39,
+        45,
+        54
+      ],
+      "key": "1a2d3b5d48d95e0791284c07c5185ae55ed3b1c2b5174f09ce6d028dffe7faa2",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 12,
+        "12": 3,
+        "2": 12,
+        "4": 8,
+        "6": 3,
+        "7": 9,
+        "9": 6
+      },
+      "sample_ranks": [
+        129,
+        369
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-76/9",
+          "impact": 7,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-100/9",
+          "impact": 7,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-100/9",
+          "impact": 9,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/3",
+          "impact": 6,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 7,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/9",
+          "impact": 7,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/9",
+          "impact": 9,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 12,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        8,
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        54,
+        61,
+        63
+      ],
+      "key": "21528d33c6c44be05c153947d7625b6be2387bbba98d19072e65eb7ebcc72405",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "11": 4,
+        "2": 10,
+        "4": 6,
+        "6": 8,
+        "8": 2,
+        "9": 7
+      },
+      "sample_ranks": [
+        11,
+        29
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-44/9",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 6,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 8,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/9",
+          "impact": 9,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 9,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        4,
+        8,
+        13,
+        16,
+        22,
+        39,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "key": "2db6d2c109d2e80856f133d97013deba9bbc3f2b7b735f3b15f81b3d6c16478e",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 12,
+        "4": 9,
+        "6": 7,
+        "7": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        1937,
+        2021
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4",
+          "impact": 7,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 2,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 4,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 2,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 2,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 4,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 2,
+          "mask": 7,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 7,
+          "mask": 9,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        0,
+        7,
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        47,
+        55
+      ],
+      "key": "51473639dfa5f7633a4c7a743f2d12b688539d71f5f51b0ae76ea4566c234533",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 12,
+        "4": 9,
+        "6": 7,
+        "7": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        498,
+        582
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-68/9",
+          "impact": 6,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 6,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-140/9",
+          "impact": 6,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 2,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 4,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 2,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 4,
+          "mask": 10,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 4,
+          "mask": 11,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        15,
+        16,
+        22,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        57,
+        63
+      ],
+      "key": "539bc0688455e8aeb73d0f4c560f34d663a7319a4ba36cba992727ad6620e3d3",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 12,
+        "4": 9,
+        "6": 7,
+        "7": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        724,
+        808
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        4,
+        11,
+        14,
+        15,
+        20,
+        22,
+        31,
+        43,
+        47,
+        59,
+        63
+      ],
+      "key": "5a720dae462d63e2fb2c341e924b7d8d7b0ed1dcf3297ebd98bf60124f9e5ae8",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 18,
+        "11": 1,
+        "2": 13,
+        "4": 6,
+        "5": 8,
+        "6": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        100800,
+        102420
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-68/27",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/27",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 8,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/3",
+          "impact": 5,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-164/27",
+          "impact": 2,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/9",
+          "impact": 11,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/27",
+          "impact": 2,
+          "mask": 7,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 1,
+          "mask": 8,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        4,
+        8,
+        9,
+        13,
+        22,
+        25,
+        28,
+        29,
+        31,
+        54,
+        63
+      ],
+      "key": "95d7f35dce594b20cb9d6d67a2ec2e5c8ed87b6098d8de60abb620a88928d4f8",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 12,
+        "4": 9,
+        "6": 7,
+        "7": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        2075,
+        2196
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-28/9",
+          "impact": 8,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 2,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 4,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 2,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-196/27",
+          "impact": 2,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 4,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-196/27",
+          "impact": 2,
+          "mask": 7,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 4,
+          "mask": 10,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        9,
+        13,
+        18,
+        22,
+        24,
+        29,
+        30,
+        31,
+        39,
+        45,
+        54
+      ],
+      "key": "a7fe9e83f17a3bd1a3f0ed87659eacfb4abaae1108b6e99c4e3750d61bf79d09",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 12,
+        "11": 4,
+        "2": 12,
+        "4": 8,
+        "6": 8,
+        "8": 2,
+        "9": 7
+      },
+      "sample_ranks": [
+        2441,
+        2459
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-76/9",
+          "impact": 9,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-100/9",
+          "impact": 9,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-100/9",
+          "impact": 11,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/9",
+          "impact": 6,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/9",
+          "impact": 9,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/9",
+          "impact": 9,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/9",
+          "impact": 11,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 6,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        8,
+        13,
+        23,
+        24,
+        29,
+        30,
+        31,
+        54,
+        55,
+        58,
+        63
+      ],
+      "key": "ca9d2ca7932297f31429078bef46d0df64d9ec82fd61e03c5a3dcde88b713377",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 12,
+        "4": 9,
+        "6": 7,
+        "7": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        1312,
+        1433
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 1,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 53,
+      "case_count": 22,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        7,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        61
+      ],
+      "key": "eb9b3f884860f87535e7134432aecad9ab240936f5b4d0aa4355960bf6c95f32",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 12,
+        "4": 9,
+        "6": 7,
+        "7": 4,
+        "8": 3
+      },
+      "sample_ranks": [
+        185,
+        269
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-52/27",
+          "impact": 4,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/27",
+          "impact": 4,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 6,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-140/9",
+          "impact": 6,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 2,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-196/27",
+          "impact": 4,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 2,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-116/9",
+          "impact": 8,
+          "mask": 8,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 55,
+      "case_count": 18,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        0,
+        4,
+        13,
+        18,
+        30,
+        31,
+        45,
+        59,
+        63
+      ],
+      "key": "89738e696d18e032d93292152bcc3fb3fe7e62ea3bd2c6d3e4582e5633c77f5f",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 12,
+        "11": 5,
+        "2": 12,
+        "4": 11,
+        "5": 9,
+        "8": 2,
+        "9": 4
+      },
+      "sample_ranks": [
+        3210,
+        3228
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-44/9",
+          "impact": 2,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/9",
+          "impact": 11,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 2,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 9,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 4,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 4,
+          "mask": 7,
+          "sign": "-"
+        },
+        {
+          "denom": "-28/3",
+          "impact": 5,
+          "mask": 8,
+          "sign": "-"
+        },
+        {
+          "denom": "-52/3",
+          "impact": 5,
+          "mask": 9,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 55,
+      "case_count": 18,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        7,
+        18,
+        22,
+        24,
+        28,
+        29,
+        39,
+        45,
+        56
+      ],
+      "key": "c000546a12c749920d3fd83aeb785730753289cd618517a106e9d54212bdf0a5",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "11": 4,
+        "2": 12,
+        "3": 7,
+        "5": 9,
+        "8": 2,
+        "9": 5
+      },
+      "sample_ranks": [
+        10001261,
+        10001279
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-92/9",
+          "impact": 11,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/9",
+          "impact": 5,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 8,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 8,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 2,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-44/9",
+          "impact": 2,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/9",
+          "impact": 11,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 5,
+          "mask": 8,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 48,
+      "case_count": 16,
+      "distinct_exact_patterns": 1,
+      "distinct_impact_patterns": 1,
+      "distinct_impact_sign_patterns": 1,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "key": "00b6dc7cd6fb22973f5661008f83ce122320e2139b0242d1d414af22b1714bd8",
+      "rank_count": 1,
+      "sample_first_impact_histogram": {
+        "1": 20,
+        "10": 1,
+        "12": 1,
+        "2": 12,
+        "4": 8,
+        "6": 4,
+        "8": 2
+      },
+      "sample_ranks": [
+        857
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 6,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 6,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 8,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 6,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 56,
+      "case_count": 16,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        22,
+        24,
+        30,
+        31,
+        47,
+        57,
+        61,
+        63
+      ],
+      "key": "026aa34aa596e5331ee97a888405ef6fdf8f9f0de858a2bd8b328eb0dd1f1f56",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "11": 2,
+        "2": 14,
+        "4": 10,
+        "6": 6,
+        "7": 4,
+        "8": 4
+      },
+      "sample_ranks": [
+        716,
+        1240
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-68/27",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/27",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/27",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-68/27",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 1,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 1,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 1,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 1,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 48,
+      "case_count": 16,
+      "distinct_exact_patterns": 1,
+      "distinct_impact_patterns": 1,
+      "distinct_impact_sign_patterns": 1,
+      "good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "key": "03896467fb504b8e35a47bdf73bcb318b69579fd7b7cbe1f26a1f47f2215b6d3",
+      "rank_count": 1,
+      "sample_first_impact_histogram": {
+        "1": 20,
+        "11": 1,
+        "2": 12,
+        "3": 8,
+        "5": 4,
+        "7": 2,
+        "9": 1
+      },
+      "sample_ranks": [
+        10001381
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4/3",
+          "impact": 2,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 3,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 11,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 5,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 7,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 9,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 48,
+      "case_count": 16,
+      "distinct_exact_patterns": 1,
+      "distinct_impact_patterns": 1,
+      "distinct_impact_sign_patterns": 1,
+      "good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "key": "0650c828ff7ce49c74cde5f18a3723f4399647afe247cd436779d97f6184078a",
+      "rank_count": 1,
+      "sample_first_impact_histogram": {
+        "1": 20,
+        "11": 1,
+        "2": 12,
+        "3": 8,
+        "5": 4,
+        "7": 2,
+        "9": 1
+      },
+      "sample_ranks": [
+        10001621
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4/3",
+          "impact": 2,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 3,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 11,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 5,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 7,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 7,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 48,
+      "case_count": 16,
+      "distinct_exact_patterns": 1,
+      "distinct_impact_patterns": 1,
+      "distinct_impact_sign_patterns": 1,
+      "good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "key": "08894ea3432474a704bd684ae1d8ea4f4cd0dc7916d035661cf048c3eec6ccec",
+      "rank_count": 1,
+      "sample_first_impact_histogram": {
+        "1": 20,
+        "11": 1,
+        "2": 12,
+        "4": 8,
+        "5": 4,
+        "7": 2,
+        "9": 1
+      },
+      "sample_ranks": [
+        3299
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 11,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 7,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 5,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 7,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 56,
+      "case_count": 16,
+      "distinct_exact_patterns": 2,
+      "distinct_impact_patterns": 2,
+      "distinct_impact_sign_patterns": 2,
+      "good_masks": [
+        4,
+        13,
+        18,
+        20,
+        22,
+        30,
+        31,
+        63
+      ],
+      "key": "1198102eaae929024639f1ed973345c24edc4ec253affdcb730bae346f390e88",
+      "rank_count": 2,
+      "sample_first_impact_histogram": {
+        "1": 16,
+        "10": 2,
+        "2": 14,
+        "4": 10,
+        "6": 6,
+        "7": 5,
+        "9": 3
+      },
+      "sample_ranks": [
+        2142,
+        2256
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4/3",
+          "impact": 10,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-100/27",
+          "impact": 2,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/27",
+          "impact": 4,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-100/27",
+          "impact": 2,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 2,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-116/27",
+          "impact": 4,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-20/27",
+          "impact": 2,
+          "mask": 7,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/9",
+          "impact": 7,
+          "mask": 8,
+          "sign": "-"
+        }
+      ]
+    },
+    {
+      "bad_mask_count": 48,
+      "case_count": 16,
+      "distinct_exact_patterns": 1,
+      "distinct_impact_patterns": 1,
+      "distinct_impact_sign_patterns": 1,
+      "good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "key": "14ec2d374c66f86f17d3a264a9d435ea1ab028df224a6fa5250d86b6cc898025",
+      "rank_count": 1,
+      "sample_first_impact_histogram": {
+        "1": 20,
+        "11": 1,
+        "2": 12,
+        "4": 8,
+        "5": 4,
+        "7": 2,
+        "9": 1
+      },
+      "sample_ranks": [
+        3281
+      ],
+      "sample_witnesses": [
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 0,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 1,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 2,
+          "sign": "-"
+        },
+        {
+          "denom": "-4/3",
+          "impact": 1,
+          "mask": 3,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 9,
+          "mask": 4,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 7,
+          "mask": 5,
+          "sign": "-"
+        },
+        {
+          "denom": "-4",
+          "impact": 5,
+          "mask": 6,
+          "sign": "-"
+        },
+        {
+          "denom": "-12",
+          "impact": 7,
+          "mask": 7,
+          "sign": "-"
+        }
+      ]
+    }
+  ],
+  "source_profile": "scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json",
+  "top_exact_patterns": [
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3192,
+          "signature": "5568689fdccc6d8be95bbc376540d0dcada0574e6130cc95e1266605dec74282"
+        },
+        {
+          "rank": 3234,
+          "signature": "64bf1f7d52fd92de463d6f49e6da488338a98a942cdfa94b574fbab4a5ef9040"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3197,
+          "signature": "0cc580e621a97ac918a2aa59fed0248859ded57ac6d89c9f19a54f97f6b12f4f"
+        },
+        {
+          "rank": 3239,
+          "signature": "1335da0db0a55b221c1290e002fd39b387251804b7ce9a137e3f3506c8fb4adc"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3777,
+          "signature": "c221005e9a33c0b9cc415ded607cf2a3d8ed08e464bb3541822d38e41620f30d"
+        },
+        {
+          "rank": 3537,
+          "signature": "d5fbdc4e6bb39f561194fb155dd9499ae68dc557c9e6c8f05eaf2a31fd65138d"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3150,
+          "signature": "755f778d87c0bb9371f3d28929e3ee7a01355d00e15f7876ed056a4ae12efda3"
+        },
+        {
+          "rank": 3155,
+          "signature": "c11f0e798d1d0d8b94281bffef8812524c0e229f21f9b48d717ebad9f702d29b"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3785,
+          "signature": "60cb0edd09adbdc3e469daa84be8e6bce3e7080b632c28a82028581432ebb9ac"
+        },
+        {
+          "rank": 3780,
+          "signature": "ee20af3479d8b9b64eec84e7520fe6a169738a4a6b9eb75c23cca9bae6e8e262"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 90001983,
+          "signature": "02f75d0c19a308c21ca0d11a37a6044e47ed91c227881f34df3b790df0017820"
+        },
+        {
+          "rank": 90002007,
+          "signature": "02f75d0c19a308c21ca0d11a37a6044e47ed91c227881f34df3b790df0017820"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3874,
+          "signature": "2dd711494d8399e5379ac3793e9ff18166dc62f8e15640e57bb52ce4d611a13a"
+        },
+        {
+          "rank": 3958,
+          "signature": "2dd711494d8399e5379ac3793e9ff18166dc62f8e15640e57bb52ce4d611a13a"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 10001297,
+          "signature": "875131f6f015db6e1bbafc5025cb57ff5b3b435ca638bd4dcf40573fa68757df"
+        },
+        {
+          "rank": 10001255,
+          "signature": "9c28035a6cb87b6462c6b0539ef98f15fbc1bc0048ffefd310360c07c8f0523f"
+        }
+      ]
+    }
+  ],
+  "top_impact_patterns": [
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3192,
+          "signature": "5568689fdccc6d8be95bbc376540d0dcada0574e6130cc95e1266605dec74282"
+        },
+        {
+          "rank": 3234,
+          "signature": "64bf1f7d52fd92de463d6f49e6da488338a98a942cdfa94b574fbab4a5ef9040"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3197,
+          "signature": "0cc580e621a97ac918a2aa59fed0248859ded57ac6d89c9f19a54f97f6b12f4f"
+        },
+        {
+          "rank": 3239,
+          "signature": "1335da0db0a55b221c1290e002fd39b387251804b7ce9a137e3f3506c8fb4adc"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3777,
+          "signature": "c221005e9a33c0b9cc415ded607cf2a3d8ed08e464bb3541822d38e41620f30d"
+        },
+        {
+          "rank": 3537,
+          "signature": "d5fbdc4e6bb39f561194fb155dd9499ae68dc557c9e6c8f05eaf2a31fd65138d"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3874,
+          "signature": "2dd711494d8399e5379ac3793e9ff18166dc62f8e15640e57bb52ce4d611a13a"
+        },
+        {
+          "rank": 3958,
+          "signature": "2dd711494d8399e5379ac3793e9ff18166dc62f8e15640e57bb52ce4d611a13a"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3150,
+          "signature": "755f778d87c0bb9371f3d28929e3ee7a01355d00e15f7876ed056a4ae12efda3"
+        },
+        {
+          "rank": 3155,
+          "signature": "c11f0e798d1d0d8b94281bffef8812524c0e229f21f9b48d717ebad9f702d29b"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3785,
+          "signature": "60cb0edd09adbdc3e469daa84be8e6bce3e7080b632c28a82028581432ebb9ac"
+        },
+        {
+          "rank": 3780,
+          "signature": "ee20af3479d8b9b64eec84e7520fe6a169738a4a6b9eb75c23cca9bae6e8e262"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 90001983,
+          "signature": "02f75d0c19a308c21ca0d11a37a6044e47ed91c227881f34df3b790df0017820"
+        },
+        {
+          "rank": 90002007,
+          "signature": "02f75d0c19a308c21ca0d11a37a6044e47ed91c227881f34df3b790df0017820"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 10001297,
+          "signature": "875131f6f015db6e1bbafc5025cb57ff5b3b435ca638bd4dcf40573fa68757df"
+        },
+        {
+          "rank": 10001255,
+          "signature": "9c28035a6cb87b6462c6b0539ef98f15fbc1bc0048ffefd310360c07c8f0523f"
+        }
+      ]
+    }
+  ],
+  "top_impact_sign_patterns": [
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3192,
+          "signature": "5568689fdccc6d8be95bbc376540d0dcada0574e6130cc95e1266605dec74282"
+        },
+        {
+          "rank": 3234,
+          "signature": "64bf1f7d52fd92de463d6f49e6da488338a98a942cdfa94b574fbab4a5ef9040"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3197,
+          "signature": "0cc580e621a97ac918a2aa59fed0248859ded57ac6d89c9f19a54f97f6b12f4f"
+        },
+        {
+          "rank": 3239,
+          "signature": "1335da0db0a55b221c1290e002fd39b387251804b7ce9a137e3f3506c8fb4adc"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3777,
+          "signature": "c221005e9a33c0b9cc415ded607cf2a3d8ed08e464bb3541822d38e41620f30d"
+        },
+        {
+          "rank": 3537,
+          "signature": "d5fbdc4e6bb39f561194fb155dd9499ae68dc557c9e6c8f05eaf2a31fd65138d"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3874,
+          "signature": "2dd711494d8399e5379ac3793e9ff18166dc62f8e15640e57bb52ce4d611a13a"
+        },
+        {
+          "rank": 3958,
+          "signature": "2dd711494d8399e5379ac3793e9ff18166dc62f8e15640e57bb52ce4d611a13a"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3150,
+          "signature": "755f778d87c0bb9371f3d28929e3ee7a01355d00e15f7876ed056a4ae12efda3"
+        },
+        {
+          "rank": 3155,
+          "signature": "c11f0e798d1d0d8b94281bffef8812524c0e229f21f9b48d717ebad9f702d29b"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 3785,
+          "signature": "60cb0edd09adbdc3e469daa84be8e6bce3e7080b632c28a82028581432ebb9ac"
+        },
+        {
+          "rank": 3780,
+          "signature": "ee20af3479d8b9b64eec84e7520fe6a169738a4a6b9eb75c23cca9bae6e8e262"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 90001983,
+          "signature": "02f75d0c19a308c21ca0d11a37a6044e47ed91c227881f34df3b790df0017820"
+        },
+        {
+          "rank": 90002007,
+          "signature": "02f75d0c19a308c21ca0d11a37a6044e47ed91c227881f34df3b790df0017820"
+        }
+      ]
+    },
+    {
+      "case_count": 2,
+      "sample": [
+        {
+          "rank": 10001297,
+          "signature": "875131f6f015db6e1bbafc5025cb57ff5b3b435ca638bd4dcf40573fa68757df"
+        },
+        {
+          "rank": 10001255,
+          "signature": "9c28035a6cb87b6462c6b0539ef98f15fbc1bc0048ffefd310360c07c8f0523f"
+        }
+      ]
+    }
+  ],
+  "trusted_as_proof": false,
+  "unique_exact_patterns": 784,
+  "unique_impact_patterns": 784,
+  "unique_impact_sign_patterns": 784
+}

@@ -11842,6 +11842,40 @@ Acceptance:
   production step should factor bad-mask exclusion by denominator signature,
   mask tree, or another shared language so each signature family exports one
   small semantic theorem instead of dozens of rank-local denominator proofs.
+- [x] Run Phase 6Z.6K.8AP.16BB bad-mask membership factoring profile:
+  AP16BB checks whether AP16BA's 56 bad-mask denominator witnesses can be
+  shared at the positive-survivor-signature level.  It scans the existing
+  AP16I signature catalog:
+
+  ```text
+  python3 scripts/profile_ap16bb_bad_mask_membership_factoring.py
+  ```
+
+  Results:
+
+  ```text
+  signatures scanned:                         757
+  ranks scanned:                              796
+  bad denominator witnesses represented:      43,832
+  unique mask->impact patterns:               784
+  unique mask->impact/sign patterns:          784
+  unique mask->impact/exact-denominator keys: 784
+  multi-rank signatures:                      32
+  multi-rank signatures with one exact key:   1
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bb_bad_mask_membership_factoring.json
+  scripts/generated/phase6z6k8ap16bb_bad_mask_membership_factoring.md
+  ```
+
+  Decision: positive-survivor signatures are not the right coordinate for
+  factoring bad-mask exclusions.  The bad-mask denominator pattern is almost
+  rank-local in the sampled catalog.  The next factoring attempt should move
+  below this level: denominator forms, mask-tree/Farkas cubes over sign
+  variables, or a direct GoodDirection survivor bitset theorem.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -13854,6 +13888,18 @@ warning: per-bad-mask denominator witnesses are acceptable for bounded smoke
 proofs, but production needs a shared denominator-signature/mask-tree language
 that proves all bad-mask exclusions for a signature family with one compact
 semantic theorem.
+
+AP.16BB profiles that sharing question against the AP16I positive-survivor
+signature catalog.  It scans 757 signatures and 796 identity-linear ranks from
+the sampled windows, representing 43,832 bad denominator witnesses.  The result
+rejects positive-survivor signatures as the bad-mask factoring coordinate:
+there are 784 distinct mask-to-impact patterns and 784 distinct exact
+mask-to-denominator patterns across 796 ranks, and only 1 of the 32 multi-rank
+positive-survivor signatures shares a single exact bad-mask pattern.  The next
+route should therefore be lower-level: a denominator-form/mask-tree theorem, a
+pseudo-Boolean Farkas cube over sign variables, or a direct survivor-bitset
+theorem for `GoodDirectionAtRank`, rather than trying to reuse AP16I positive
+survivor signatures for bad masks.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
