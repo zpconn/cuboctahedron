@@ -1,0 +1,31 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BL",
+  "rank": 100805,
+  "positive_masks": [
+    4,
+    6,
+    11,
+    22,
+    30,
+    31,
+    59,
+    63
+  ],
+  "selected_subcubes": 20,
+  "denom_masks": 56,
+  "denom_facts": 60,
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeSmoke.lean",
+  "trusted_as_proof": false,
+  "status": "bounded_smoke_build_passed",
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bl_impact_subcube_smoke_guard_retry2.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 56.14073918299982,
+    "peak_tree_rss_mib": 7743.26953125,
+    "min_available_seen_mib": 41063.83984375,
+    "rss_cap_mib": 12000.0,
+    "guard_killed": false
+  },
+  "production_decision": "accepted_as_surface_validation_only",
+  "next_step": "Replace per-mask subcube nonpositivity splits with a generic Walsh/subcube bound theorem before scaling."
+}

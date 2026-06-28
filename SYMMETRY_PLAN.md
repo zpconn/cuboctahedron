@@ -230,8 +230,9 @@ membership profile, the Phase 6Z.6K.8AP.16BF bad-mask cover singleton smoke,
 the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
 6Z.6K.8AP.16BH bounded weighted-denominator rejection, and the Phase
 6Z.6K.8AP.16BI denominator Walsh-degree profile, plus the Phase
-6Z.6K.8AP.16BJ Walsh subcube cover profile and Phase 6Z.6K.8AP.16BK
-impact-subcube obstruction core.
+6Z.6K.8AP.16BJ Walsh subcube cover profile, Phase 6Z.6K.8AP.16BK
+impact-subcube obstruction core, and the Phase 6Z.6K.8AP.16BL bounded
+impact-subcube smoke.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -758,6 +759,11 @@ Completed current-work items:
 - Added the Phase 6Z.6K.8AP.16BK impact-subcube core reports:
   - `scripts/generated/phase6z6k8ap16bk_impact_subcube_core.json`
   - `scripts/generated/phase6z6k8ap16bk_impact_subcube_core.md`
+- Added the Phase 6Z.6K.8AP.16BL impact-subcube smoke emitter and reports:
+  - `scripts/generate_ap16bl_impact_subcube_smoke.py`
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeSmoke.lean`
+  - `scripts/generated/phase6z6k8ap16bl_impact_subcube_smoke.json`
+  - `scripts/generated/phase6z6k8ap16bl_impact_subcube_smoke.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12257,6 +12263,45 @@ Acceptance:
   `ImpactSubcubeCover` smoke proving selected-subcube completeness and exact
   Walsh/subcube denominator nonpositivity in Lean, then profile whether the
   selected-subcube count scales globally.
+- [x] Implement Phase 6Z.6K.8AP.16BL impact-subcube smoke:
+  AP16BL adds `scripts/generate_ap16bl_impact_subcube_smoke.py` and the
+  generated proof-carrying smoke
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeSmoke.lean`.
+  The smoke instantiates AP16BK's `ImpactSubcubeCover` theorem surface for
+  rank `100805` using the 20 AP16BJ selected subcubes.  It covers all 56 bad
+  masks and keeps the eight positive-survivor masks as the exact remaining
+  members.
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bl_impact_subcube_smoke_guard_retry2.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeSmoke'
+
+  passed
+  elapsed:                56.14s
+  peak process-tree RSS:  7.562 GiB
+  minimum available mem:  40.101 GiB
+  guard kill:             no
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bl_impact_subcube_smoke.json
+  scripts/generated/phase6z6k8ap16bl_impact_subcube_smoke.md
+  ```
+
+  Decision: accepted as a bounded proof-surface validation only.  This is not
+  production compression: each subcube nonpositivity proof still splits over
+  concrete masks and denominator facts, which would recreate the bad scaling.
+  The next AP16BM target is a generic Walsh/subcube bound theorem proving
+  denominator nonpositivity over a whole Boolean subcube from exact polynomial
+  coefficients and fixed-bit constraints.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
