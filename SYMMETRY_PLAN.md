@@ -10402,6 +10402,50 @@ Acceptance:
   This should be the next AP.16 implementation step before any more
   representative-source scaling.  It prevents both OOM risk and the conceptual
   mistake of treating the representative AP.16I windows as final coverage.
+- [x] Implement Phase 6Z.6K.8AP.16AA checkpointed positive-survivor census
+  smoke: AP.16AA adds `scripts/run_ap16_positive_survivor_census.py`, a
+  resumable AP.16I-style runner with safe defaults.  Per-window detailed
+  checkpoints are written outside the repo under
+  `/tmp/cuboctahedron_ap16_positive_survivor_census`; the tracked aggregate
+  keeps only compact counts and key summaries:
+
+  ```text
+  scripts/generated/phase6z6k8ap16aa_positive_survivor_census.json
+  scripts/generated/phase6z6k8ap16aa_positive_survivor_census.md
+  ```
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/run_ap16_positive_survivor_census.py
+  /usr/bin/time -v python3 scripts/run_ap16_positive_survivor_census.py --no-resume
+  ```
+
+  Default smoke result:
+
+  ```text
+  range:                         [0, 2500)
+  workers:                       1
+  elapsed:                       3:38.31 wall
+  peak RSS:                      33,164 KiB process / 32,012 KiB window
+  GoodDirection cases:           3,415
+  ranks with GoodDirection:        329
+  positive candidate groups:       102
+  positive survivor signatures:    312
+  checkpoint size in /tmp:       641 KiB
+  ```
+
+  This confirms the checkpointed production-catalog architecture is memory-safe
+  and resumable, but it also shows that the raw AP.16I Python scan is far too
+  slow to extrapolate directly to the full 97,297,200-rank production catalog.
+  At this speed, the bottleneck is CPU/runtime rather than memory.  The next
+  step should therefore not be a naive full AP.16AA run.  It should be one of:
+
+  - optimize the GoodDirection survivor scanner before production use;
+  - add coarser semantic pruning/classification before AP.16I-style extraction;
+  - or build a much smaller production candidate catalog from existing exact
+    identity-word/GoodDirection enumeration artifacts if they can be streamed
+    without replaying all rank/mask logic in Python.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
