@@ -10507,6 +10507,71 @@ Acceptance:
   A separate optimization track may replace Python `Fraction` prefix-affine
   recomputation with integer/scaled arithmetic, but the immediate low-risk
   win is to remove the duplicate classifier pass and shared recomputation.
+- [x] Implement Phase 6Z.6K.8AP.16AC single-pass positive-survivor collector:
+  AP.16AC changes `profile_symbolic_row_extraction_families.classify_choice`
+  so covered results carry private in-memory raw data for the word, sequence,
+  translation vector, two source rows, source descriptors, and multipliers.
+  `generate_source_index_state_nonenum_smoke.collect_families` now constructs
+  the existing `TwoSourceCase` directly from that first classifier result
+  instead of calling `generate_symbolic_row_family_smoke.classify_choice` again
+  for every covered GoodDirection survivor.
+
+  Validation:
+
+  ```text
+  python3 -m py_compile \
+    scripts/profile_symbolic_row_extraction_families.py \
+    scripts/generate_source_index_state_nonenum_smoke.py \
+    scripts/profile_ap16aa_hotspots.py
+
+  /usr/bin/time -v python3 scripts/profile_ap16aa_hotspots.py \
+    --limit 250 --jobs 1 --top 20 --phase 6Z.6K.8AP.16AC
+  ```
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ac_hotspots.json
+  scripts/generated/phase6z6k8ap16ac_hotspots.md
+  ```
+
+  Result on the same `[0,250)` profile:
+
+  ```text
+  before AP.16AC: 2:18.06 wall, 864,651,515 calls, 28,028 KiB RSS
+  after  AP.16AC: 1:22.19 wall, 496,575,003 calls, 28,224 KiB RSS
+  ```
+
+  The eliminated hotspot is the second symbolic classifier:
+
+  ```text
+  before: 56.426s generate_symbolic_row_family_smoke.classify_choice
+  after:  absent from top cumulative profile
+  ```
+
+  Remaining AP.16AC hotspots:
+
+  ```text
+  82.080s  profile_symbolic_row_extraction_families.classify_choice
+  48.775s  builtins.sum
+  47.854s  fractions.py Fraction arithmetic
+  43.150s  translation_constraints_py
+  35.230s  translation_needs_farkas
+  33.892s  mat_mul
+  ```
+
+  Interpretation: the single-pass collector is a real low-risk improvement, but
+  the production blocker remains exact `Fraction` arithmetic in prefix affine
+  products and translation constraint construction.  The next AP.16 step should
+  therefore target cached or integer/scaled exact translation analysis:
+
+  - cache `path_prefix_affs`/`path_prefix_matrices` per face sequence inside a
+    rank/mask analysis object;
+  - avoid computing both `translation_needs_farkas` and
+    `translation_constraints_py` through separate paths where one analysis can
+    supply both;
+  - or port the GoodDirection/constraint denominator path to scaled integer
+    arithmetic before attempting a larger checkpointed census.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

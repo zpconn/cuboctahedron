@@ -28,12 +28,12 @@ from generate_source_index_state_smoke import constructor_for_template  # noqa: 
 from generate_symbolic_row_family_smoke import (  # noqa: E402
     SymbolicCase,
     case_header_lines_for_family,
-    classify_choice as lean_classify_choice,
     lean_case_name,
     rows_lines,
 )
 from generate_translation_row_relation_classifier import ClassifiedCase  # noqa: E402
 from generate_translation_two_source_evidence import (  # noqa: E402
+    TwoSourceCase,
     support_lines,
     validate_module_namespace,
 )
@@ -135,6 +135,35 @@ def source_payload_for_surface(result: dict[str, Any], source_key_surface: str) 
     }
 
 
+def case_from_profile_result(rank: int, mask: int, result: dict[str, Any]) -> TwoSourceCase:
+    """Build the existing symbolic `TwoSourceCase` from a covered profile result.
+
+    AP.16AB showed that replaying `generate_symbolic_row_family_smoke.classify_choice`
+    for every covered GoodDirection survivor costs another full exact
+    translation-constraint reconstruction.  The row-relation classifier already
+    computed the same word, sequence, source rows, and multipliers, so AP.16AC
+    reuses that in-memory data.
+    """
+    raw = result.get("raw")
+    if not isinstance(raw, dict):
+        raise ValueError("covered profile result is missing raw TwoSourceCase data")
+    sources = raw["sources"]
+    if len(sources) != 2:
+        raise ValueError(f"expected two sources, got {len(sources)}")
+    return TwoSourceCase(
+        rank=rank,
+        mask=mask,
+        word=list(raw["word"]),
+        seq=list(raw["seq"]),
+        b=tuple(raw["b"]),
+        first_source=sources[0],
+        second_source=sources[1],
+        first_line=tuple(raw["first_line"]),
+        second_line=tuple(raw["second_line"]),
+        multipliers=tuple(raw["multipliers"]),
+    )
+
+
 def collect_families(
     *,
     rank_start: int,
@@ -182,19 +211,13 @@ def collect_families(
                 raise RuntimeError(f"unknown status {status!r}")
             counts["covered_cases"] += 1
 
-            classified = lean_classify_choice(rank, mask)
-            if classified is None:
-                raise RuntimeError(f"Lean classifier failed rank={rank} mask={mask}")
-            _template_source_key, row_key, case, template_id = classified
-            if template_id != result["template_id"]:
-                raise RuntimeError(
-                    f"template mismatch rank={rank} mask={mask}: "
-                    f"{template_id} != {result['template_id']}"
-                )
+            template_id = str(result["template_id"])
             if template_id not in TEMPLATE_TO_SOURCE_INDEX:
                 raise ValueError(f"unsupported template {template_id!r}")
 
             payload = source_payload_for_surface(result, source_key_surface)
+            case = case_from_profile_result(rank, mask, result)
+            row_key = str(result["row_property_key"])
             key = digest_payload(payload)
             indices = tuple(int(i) for i in payload["indices"])
             if len(indices) != 2:

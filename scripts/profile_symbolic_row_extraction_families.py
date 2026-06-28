@@ -323,6 +323,17 @@ def classify_choice(rank: int, mask: int) -> dict[str, Any] | None:
             "multipliers": multipliers_key(multipliers),
             "matches": matches,
         },
+        # In-memory consumers can reuse this to avoid replaying the exact
+        # translation classifier.  Keep JSON-facing summaries on `sample`.
+        "raw": {
+            "word": word,
+            "seq": seq,
+            "b": b,
+            "sources": [term["source"] for term in source_terms],
+            "first_line": first_line,
+            "second_line": second_line,
+            "multipliers": multipliers,
+        },
     }
 
 
