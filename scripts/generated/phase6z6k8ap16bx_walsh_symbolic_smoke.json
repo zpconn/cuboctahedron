@@ -1,0 +1,22 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BX",
+  "status": "accepted",
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicSmoke",
+  "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicSmoke.lean",
+  "purpose": "Check one AP16BS rank/impact denominator coefficient record through the AP16BW symbolic vector/dot algebra without unfolding impactDenomAtRank.",
+  "rank": 100805,
+  "impact": 1,
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bx_walsh_symbolic_smoke_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 3.00,
+    "max_tree_rss_mib": 3986,
+    "min_available_seen_mib": 46231
+  },
+  "accepted_surface": [
+    "ap16bxImpact1_dot_coefficients",
+    "ap16bxImpact1_coeffEval_matches_symbolic_dot"
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "next_step": "Generalize the smoke into a small generator that emits the affine normal/vector coefficient records and expected WalshQuadratic for all selected AP16BS impacts, then prove each coefficient equality by the same symbolic-dot route."
+}

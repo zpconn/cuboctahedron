@@ -797,6 +797,10 @@ Completed current-work items:
 - Added the Phase 6Z.6K.8AP.16BW Walsh symbolic vector/dot reports:
   - `scripts/generated/phase6z6k8ap16bw_walsh_symbolic_vector.json`
   - `scripts/generated/phase6z6k8ap16bw_walsh_symbolic_vector.md`
+- Added the Phase 6Z.6K.8AP.16BX Walsh symbolic coefficient smoke:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicSmoke.lean`
+  - `scripts/generated/phase6z6k8ap16bx_walsh_symbolic_smoke.json`
+  - `scripts/generated/phase6z6k8ap16bx_walsh_symbolic_smoke.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12793,6 +12797,52 @@ Acceptance:
   Decision: accepted.  The next AP16 target is a coefficient-check smoke for
   one rank/impact that constructs symbolic affine vectors and proves equality
   to the AP16BS `WalshQuadratic` coefficients without replaying all masks.
+- [x] Implement Phase 6Z.6K.8AP.16BX Walsh symbolic coefficient smoke:
+  AP16BX adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicSmoke.lean`.
+  The smoke targets AP16BS rank `100805`, impact `1`.  It records the exact
+  affine Walsh pre-impact normal, affine Walsh translation vector, and
+  expected `WalshQuadratic` denominator coefficient record computed externally,
+  then proves the dot product coefficient record matches the expected one via
+  the AP16BW symbolic vector algebra.
+
+  This is not final generated coverage and it still does not prove
+  `impactDenomAtRank = poly.eval`.  Its purpose is narrower and important:
+  it proves the coefficient-check route can be made Lean-checkable without
+  unfolding `totalAff`, `translationChoiceSeq`, or `impactDenomAtRank` under
+  six mask-bit branches.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bx_walsh_symbolic_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 3.00s
+  peak tree RSS: 3986 MiB
+  minimum available memory: 46231 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bx_walsh_symbolic_smoke.json
+  scripts/generated/phase6z6k8ap16bx_walsh_symbolic_smoke.md
+  ```
+
+  Decision: accepted as a bounded coefficient smoke.  The next AP16 target is
+  a small generator that emits the affine normal/vector coefficient records
+  and expected `WalshQuadratic` records for all selected AP16BS impacts, then
+  checks each with the same symbolic-dot proof pattern.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
