@@ -10099,6 +10099,53 @@ Acceptance:
   catalog.  The next bounded Lean step should emit a budget-20 candidate-facts
   shard plus a thin routing shard and compare measured wall/RSS against this
   projection.
+- [x] Implement Phase 6Z.6K.8AP.16Y.1 budget-20 candidate-fact shard smoke:
+  AP.16Y.1 extends `scripts/generate_ap16w_shared_candidate_routing_smoke.py`
+  with module-name parameters and a `--fact-budget` selector, then emits
+  separate shard-named modules:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedCandidateFactsShard000Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingShard000Smoke.lean
+  ```
+
+  Generation command:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16w_shared_candidate_routing_smoke.py \
+    --fact-budget 20 \
+    --label AP.16Y.1 \
+    --shared-module PositiveSurvivorSharedCandidateFactsShard000Smoke \
+    --routing-module PositiveSurvivorSharedRoutingShard000Smoke \
+    --shared-output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedCandidateFactsShard000Smoke.lean \
+    --routing-output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingShard000Smoke.lean
+  ```
+
+  The emitter selected two positive-survivor signatures, 11 shared candidate
+  specs, and 19 concrete positive-mask candidate facts.  It ran in 1.06s wall
+  time with 29,536 KiB peak RSS.
+
+  Focused capped builds:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsShard000Smoke'
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingShard000Smoke'
+  ```
+
+  Results:
+
+  ```text
+  PositiveSurvivorSharedCandidateFactsShard000Smoke: 28.22s wall, 4,999,408 KiB peak RSS
+  PositiveSurvivorSharedRoutingShard000Smoke:         2.28s wall, 3,321,576 KiB peak RSS
+  ```
+
+  This is close to the AP.16Y budget-20 prediction and supports budget-20 as
+  the next memory-safe candidate-facts shard size.  The routing layer remains
+  cheap; the candidate-facts layer is the dominant cost.  Before scaling to
+  multiple shards, the next useful step is to emit a small shard group/root that
+  imports only one or two budget-20 candidate-facts shards plus their routing
+  modules, so the final AP.16 structure can be measured separately from the
+  heavy leaves.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

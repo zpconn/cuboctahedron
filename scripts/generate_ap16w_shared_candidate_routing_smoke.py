@@ -56,6 +56,11 @@ DEFAULT_OUT_DIR = Path(
 )
 DEFAULT_SHARED_OUTPUT = DEFAULT_OUT_DIR / "PositiveSurvivorSharedCandidateFactsSmoke.lean"
 DEFAULT_ROUTING_OUTPUT = DEFAULT_OUT_DIR / "PositiveSurvivorSharedRoutingSmoke.lean"
+DEFAULT_SHARED_MODULE = "PositiveSurvivorSharedCandidateFactsSmoke"
+DEFAULT_ROUTING_MODULE = "PositiveSurvivorSharedRoutingSmoke"
+NAMESPACE_PREFIX = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies"
+)
 
 
 def candidate_ctor(index: int) -> str:
@@ -71,6 +76,27 @@ def selected_signatures(profile: dict[str, Any], count: int) -> list[dict[str, A
     if len(signatures) < count:
         raise SystemExit(f"profile has only {len(signatures)} signatures, need {count}")
     return signatures[:count]
+
+
+def selected_signatures_by_fact_budget(
+    profile: dict[str, Any],
+    budget: int,
+) -> list[dict[str, Any]]:
+    signatures = profile.get("positive_survivor_signature_catalog", [])
+    selected: list[dict[str, Any]] = []
+    total = 0
+    for signature in signatures:
+        fact_count = len(signature.get("good_masks", []))
+        if selected and total + fact_count > budget:
+            break
+        if not selected and fact_count > budget:
+            selected.append(signature)
+            break
+        selected.append(signature)
+        total += fact_count
+    if not selected:
+        raise SystemExit(f"no signatures selected for fact budget {budget}")
+    return selected
 
 
 def classify_signature_cases(
@@ -217,19 +243,21 @@ def emit_shared_module(
     signature_cases: list[tuple[dict[str, Any], dict[int, ClassifiedCase]]],
     profile: dict[str, Any],
     output: Path,
+    shared_namespace: str,
+    label: str,
 ) -> None:
     candidate_defs, _ = emit_candidate_defs(groups)
     lines: list[str] = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
         "",
         "/-!",
-        "Generated AP.16W shared candidate facts smoke.",
+        f"Generated {label} shared candidate facts smoke.",
         "",
         "This module exports reusable source/row candidate facts for a small",
         "multi-signature AP.16 smoke. It is diagnostic only.",
         "-/",
         "",
-        "namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke",
+        f"namespace {shared_namespace}",
         "",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage",
@@ -255,7 +283,7 @@ def emit_shared_module(
             ctor = key_to_ctor[signature["mask_candidates"][str(mask_int)][0]]
             lines.extend(emit_shared_case_fact(cc=cc, group=group, ctor=ctor))
     lines.extend([
-        "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke",
+        f"end {shared_namespace}",
         "",
     ])
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -370,23 +398,27 @@ def emit_routing_module(
     signature_cases: list[tuple[dict[str, Any], dict[int, ClassifiedCase]]],
     key_to_ctor: dict[str, str],
     output: Path,
+    shared_import: str,
+    shared_namespace: str,
+    routing_namespace: str,
+    label: str,
 ) -> None:
     lines: list[str] = [
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke",
+        f"import {shared_import}",
         "",
         "/-!",
-        "Generated AP.16W thin signature-routing smoke.",
+        f"Generated {label} thin signature-routing smoke.",
         "",
         "This module imports shared candidate facts and proves small",
         "per-signature all-Good coverage theorems by routing GoodDirection masks",
         "to those facts. It is diagnostic only.",
         "-/",
         "",
-        "namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingSmoke",
+        f"namespace {routing_namespace}",
         "",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
-        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke",
+        f"open {shared_namespace}",
         "",
         "set_option maxRecDepth 10000",
         "set_option linter.unusedSimpArgs false",
@@ -406,7 +438,7 @@ def emit_routing_module(
         "theorem sharedRoutingSmoke_builds : True := by",
         "  trivial",
         "",
-        "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingSmoke",
+        f"end {routing_namespace}",
         "",
     ])
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -419,10 +451,20 @@ def main() -> None:
     parser.add_argument("--shared-output", type=Path, default=DEFAULT_SHARED_OUTPUT)
     parser.add_argument("--routing-output", type=Path, default=DEFAULT_ROUTING_OUTPUT)
     parser.add_argument("--signatures", type=int, default=2)
+    parser.add_argument("--fact-budget", type=int)
+    parser.add_argument("--shared-module", default=DEFAULT_SHARED_MODULE)
+    parser.add_argument("--routing-module", default=DEFAULT_ROUTING_MODULE)
+    parser.add_argument("--label", default="AP.16W")
     args = parser.parse_args()
 
     profile = json.loads(args.profile.read_text(encoding="utf-8"))
-    signatures = selected_signatures(profile, args.signatures)
+    if args.fact_budget is not None:
+        signatures = selected_signatures_by_fact_budget(profile, args.fact_budget)
+    else:
+        signatures = selected_signatures(profile, args.signatures)
+    shared_namespace = f"{NAMESPACE_PREFIX}.{args.shared_module}"
+    routing_namespace = f"{NAMESPACE_PREFIX}.{args.routing_module}"
+    shared_import = f"{NAMESPACE_PREFIX}.{args.shared_module}"
     signature_cases: list[tuple[dict[str, Any], dict[int, ClassifiedCase]]] = []
     next_index = 0
     groups_by_key: dict[str, dict[str, Any]] = {}
@@ -439,11 +481,17 @@ def main() -> None:
         signature_cases=signature_cases,
         profile=profile,
         output=args.shared_output,
+        shared_namespace=shared_namespace,
+        label=args.label,
     )
     emit_routing_module(
         signature_cases=signature_cases,
         key_to_ctor=key_to_ctor,
         output=args.routing_output,
+        shared_import=shared_import,
+        shared_namespace=shared_namespace,
+        routing_namespace=routing_namespace,
+        label=args.label,
     )
     print(
         f"wrote {args.shared_output} and {args.routing_output}; "
