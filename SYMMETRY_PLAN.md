@@ -11211,6 +11211,47 @@ Acceptance:
   this corrected guard to calibrate scaling, or improve the emitter so
   candidate facts are factored more aggressively before a production profile is
   attempted.
+- [x] Implement Phase 6Z.6K.8AP.16AO top-5 candidate-reuse audit:
+  AP.16AO reruns the AP.16V candidate-reuse profiler on the AP.16AM
+  materialized top-5 profile before widening the AP.16AN emitter.  It emits no
+  Lean and is not proof evidence.
+
+  Command:
+
+  ```text
+  python3 scripts/profile_ap16v_candidate_reuse.py \
+    --profile scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json \
+    --json scripts/generated/phase6z6k8ap16ao_top5_candidate_reuse.json \
+    --md scripts/generated/phase6z6k8ap16ao_top5_candidate_reuse.md
+  ```
+
+  Result:
+
+  ```text
+  positive candidate groups:          191
+  positive survivor signatures:       494
+  signature-to-candidate reduction:   2.586x
+  mean signatures/candidate:         12.497
+  unique good-mask sets:              307
+  unique candidate sets:              465
+  ```
+
+  The top reused candidates are substantial:
+
+  ```text
+  e122fdae7b6c...: 160 signatures, 241 cases
+  ed8a3dc60ca2...: 158 signatures, 492 cases
+  c17ae884e7cf...:  91 signatures, 128 cases
+  73bb1eff54e9...:  90 signatures, 231 cases
+  ```
+
+  Interpretation: AP.16AN proves the materialized top-5 profile can be emitted
+  and checked, but AP.16AO says not to widen the current per-signature
+  manifest-shard strategy blindly.  Candidate reuse is strong enough that the
+  next emitter should make shared candidate facts the primary generated unit
+  and keep signature chunks as thin routing only.  This should reduce source
+  size and prevent the repeated candidate-fact proof work that caused the
+  6,548-line / 30-positive-mask AP.16AN smoke.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
