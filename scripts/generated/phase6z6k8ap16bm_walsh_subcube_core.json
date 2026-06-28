@@ -1,0 +1,39 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BM",
+  "status": "core_and_smoke_build_passed",
+  "core_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean",
+  "smoke_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSmoke.lean",
+  "exports": [
+    "SignBit",
+    "MaskSubcube",
+    "MaskSubcube.Member",
+    "WalshMonomial",
+    "WalshTerm",
+    "WalshPoly",
+    "WalshSubcubeUpperBound",
+    "WalshSubcubeUpperBound.eval_le_bound",
+    "WalshSubcubeUpperBound.eval_nonpos",
+    "WalshImpactObstruction",
+    "WalshImpactObstruction.nonpos",
+    "WalshImpactObstruction.toImpactSubcubeObstruction"
+  ],
+  "core_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bm_walsh_core_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalsh'",
+    "exit_code": 0,
+    "elapsed_seconds": 2.50,
+    "peak_tree_rss_mib": 4035,
+    "min_available_seen_mib": 46093,
+    "guard_killed": false
+  },
+  "smoke_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bm_walsh_smoke_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 2.50,
+    "peak_tree_rss_mib": 3988,
+    "min_available_seen_mib": 46166,
+    "guard_killed": false
+  },
+  "trusted_as_final_generated_coverage": false,
+  "production_decision": "accepted_as_generic_bound_core",
+  "next_step": "Generate one AP16BJ subcube using WalshSubcubeUpperBound for the polynomial bound, then separately address scalable denominator equality to impactDenomAtRank."
+}

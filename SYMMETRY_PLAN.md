@@ -231,8 +231,8 @@ the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
 6Z.6K.8AP.16BH bounded weighted-denominator rejection, and the Phase
 6Z.6K.8AP.16BI denominator Walsh-degree profile, plus the Phase
 6Z.6K.8AP.16BJ Walsh subcube cover profile, Phase 6Z.6K.8AP.16BK
-impact-subcube obstruction core, and the Phase 6Z.6K.8AP.16BL bounded
-impact-subcube smoke.
+impact-subcube obstruction core, the Phase 6Z.6K.8AP.16BL bounded
+impact-subcube smoke, and the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -764,6 +764,11 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeSmoke.lean`
   - `scripts/generated/phase6z6k8ap16bl_impact_subcube_smoke.json`
   - `scripts/generated/phase6z6k8ap16bl_impact_subcube_smoke.md`
+- Added the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core and reports:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean`
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSmoke.lean`
+  - `scripts/generated/phase6z6k8ap16bm_walsh_subcube_core.json`
+  - `scripts/generated/phase6z6k8ap16bm_walsh_subcube_core.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12302,6 +12307,48 @@ Acceptance:
   The next AP16BM target is a generic Walsh/subcube bound theorem proving
   denominator nonpositivity over a whole Boolean subcube from exact polynomial
   coefficients and fixed-bit constraints.
+- [x] Implement Phase 6Z.6K.8AP.16BM Walsh/subcube bound core:
+  AP16BM adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean`
+  and a tiny smoke module
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSmoke.lean`.
+  The core defines the six translation sign bits, Boolean subcubes, quadratic
+  Walsh monomials/terms/polynomials, and `WalshSubcubeUpperBound`.  The key
+  theorem is:
+
+  ```lean
+  WalshSubcubeUpperBound.eval_nonpos :
+    cube.Member mask -> poly.eval mask <= 0
+  ```
+
+  It also packages a polynomial denominator obstruction:
+
+  ```lean
+  WalshImpactObstruction.toImpactSubcubeObstruction
+  ```
+
+  Focused guarded builds:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalsh
+  passed; elapsed 2.50s; peak RSS 3.940 GiB; min available 45.013 GiB
+
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSmoke
+  passed; elapsed 2.50s; peak RSS 3.895 GiB; min available 45.084 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bm_walsh_subcube_core.json
+  scripts/generated/phase6z6k8ap16bm_walsh_subcube_core.md
+  ```
+
+  Decision: accepted as the generic bound surface that AP16BL was missing.
+  The next AP16BN target is a generated one-subcube smoke using
+  `WalshSubcubeUpperBound` for an AP16BJ selected denominator polynomial while
+  isolating the remaining scalable equality bridge from `impactDenomAtRank` to
+  the Walsh polynomial.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
