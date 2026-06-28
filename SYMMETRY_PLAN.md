@@ -11876,6 +11876,45 @@ Acceptance:
   rank-local in the sampled catalog.  The next factoring attempt should move
   below this level: denominator forms, mask-tree/Farkas cubes over sign
   variables, or a direct GoodDirection survivor bitset theorem.
+- [x] Run Phase 6Z.6K.8AP.16BC denominator-signature factoring profile:
+  AP16BC moves one level below AP16BB and groups completed sampled ranks by:
+
+  - GoodDirection survivor bitset;
+  - full denominator sign signature, i.e. one 64-bit positive-mask bitset per
+    internal impact;
+  - denominator sign+zero signature; and
+  - exact denominator table.
+
+  Command:
+
+  ```text
+  python3 scripts/profile_ap16bc_denominator_signature_factoring.py
+  ```
+
+  Results:
+
+  ```text
+  ranks scanned:                         796
+  unique GoodDirection survivor bitsets: 362
+  unique denominator sign signatures:    796
+  unique sign+zero signatures:           796
+  unique exact denominator signatures:   796
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bc_denominator_signature_factoring.json
+  scripts/generated/phase6z6k8ap16bc_denominator_signature_factoring.md
+  ```
+
+  Decision: completed-rank denominator signatures are also mostly rank-local in
+  this sampled catalog.  Survivor bitsets group somewhat better, but not enough
+  to be the main compression layer by themselves.  The next translation
+  compression attempt should stop grouping completed ranks and instead use a
+  symbolic sign-variable proof, mask-tree/Farkas cube proof, or a stronger
+  prefix/state language whose terminal theorem reasons over whole classes of
+  masks before denominator signs are fully rank-specialized.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -13900,6 +13939,17 @@ route should therefore be lower-level: a denominator-form/mask-tree theorem, a
 pseudo-Boolean Farkas cube over sign variables, or a direct survivor-bitset
 theorem for `GoodDirectionAtRank`, rather than trying to reuse AP16I positive
 survivor signatures for bad masks.
+
+AP.16BC tests the next lower completed-rank coordinate: full denominator sign
+signatures.  It is also rejected as a primary compression coordinate.  Across
+the same 796 sampled identity-linear ranks, there are 796 unique denominator
+sign signatures, 796 sign+zero signatures, and 796 exact denominator tables.
+GoodDirection survivor bitsets group better, with 362 unique bitsets, but this
+is still not the kind of collapse needed for the global proof.  The lesson is
+now sharper: completed-rank objects are the wrong place to factor bad-mask
+exclusion.  The next viable translation compression target should reason over
+symbolic sign variables or prefix/state languages before the denominator table
+has specialized all the way down to one rank.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

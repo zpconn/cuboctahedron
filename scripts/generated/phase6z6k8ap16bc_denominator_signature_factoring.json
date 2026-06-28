@@ -1,0 +1,723 @@
+{
+  "decision": {
+    "notes": [
+      "This emits no Lean and is not trusted as proof.",
+      "Survivor-bitset grouping can support a direct GoodDirection membership theorem if it is much smaller than rank count.",
+      "Denominator-signature grouping can support a mask-tree or pseudo-Boolean proof if it is much smaller than rank count."
+    ],
+    "status": "denominator-signatures-still-mostly-rank-local"
+  },
+  "denominator_exact_signature_count": 796,
+  "denominator_sign_signature_count": 796,
+  "denominator_sign_zero_signature_count": 796,
+  "first_bad_histogram": {
+    "1": 11682,
+    "10": 1234,
+    "11": 919,
+    "12": 806,
+    "13": 2,
+    "2": 9414,
+    "3": 1951,
+    "4": 5160,
+    "5": 2885,
+    "6": 3734,
+    "7": 2478,
+    "8": 1914,
+    "9": 1653
+  },
+  "phase": "6Z.6K.8AP.16BC",
+  "rank_count": 796,
+  "sample_rank_summaries": [
+    {
+      "first_bad_histogram": {
+        "1": 20,
+        "10": 1,
+        "12": 1,
+        "2": 12,
+        "4": 8,
+        "6": 4,
+        "8": 2
+      },
+      "good_mask_count": 16,
+      "rank": 0,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0f000fffffff0",
+        "2": "0xaff5aaaff555aff5",
+        "3": "0xaff5aaaff555aff5",
+        "4": "0xcfccf3cff3cf33f3",
+        "5": "0xcfccf3cff3cf33f3"
+      },
+      "survivor_key": "0x80c0a000f1452300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 8,
+        "10": 4,
+        "11": 5,
+        "2": 8,
+        "4": 12,
+        "6": 9,
+        "8": 5
+      },
+      "good_mask_count": 13,
+      "rank": 2,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffffff0fffffff0",
+        "2": "0xfff5affffff5afff",
+        "3": "0xfff5affffff5afff",
+        "4": "0xcfccffcff3ff33f3",
+        "5": "0xcfccffcff3ff33f3"
+      },
+      "survivor_key": "0x80c0800071052300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 8,
+        "10": 4,
+        "11": 5,
+        "2": 8,
+        "4": 12,
+        "6": 9,
+        "8": 5
+      },
+      "good_mask_count": 13,
+      "rank": 3,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0fff0ffffffff",
+        "2": "0xafffaffffff5fff5",
+        "3": "0xafffaffffff5fff5",
+        "4": "0xcfccf3ffffcf33f3",
+        "5": "0xcfccf3ffffcf33f3"
+      },
+      "survivor_key": "0x80c02000d0452300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 20,
+        "10": 1,
+        "12": 1,
+        "2": 12,
+        "4": 8,
+        "6": 4,
+        "8": 2
+      },
+      "good_mask_count": 16,
+      "rank": 5,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0f000fffffff0",
+        "2": "0xaff5aaaff555aff5",
+        "3": "0xaff5aaaff555aff5",
+        "4": "0xcfccf3cff3cf33f3",
+        "5": "0xcfccf3cff3cf33f3"
+      },
+      "survivor_key": "0x80c0a000f1452300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "12": 3,
+        "2": 6,
+        "4": 6,
+        "6": 9,
+        "8": 4,
+        "9": 7
+      },
+      "good_mask_count": 13,
+      "rank": 9,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffff000fffffff0",
+        "2": "0xafffaffffff5fff5",
+        "3": "0xafffaffffff5fff5",
+        "4": "0xffcfffcff3fff3ff",
+        "5": "0xffcfffcff3fff3ff"
+      },
+      "survivor_key": "0x80c02000f1450200"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "11": 4,
+        "2": 10,
+        "4": 6,
+        "6": 8,
+        "8": 2,
+        "9": 7
+      },
+      "good_mask_count": 11,
+      "rank": 11,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffff000fffffff0",
+        "2": "0xafffaaaff555fff5",
+        "3": "0xafffaaaff555fff5",
+        "4": "0xffcff3cff3cff3ff",
+        "5": "0xffcff3cff3cff3ff"
+      },
+      "survivor_key": "0xa040000051450300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "10": 4,
+        "2": 14,
+        "4": 6,
+        "6": 9,
+        "8": 4,
+        "9": 4
+      },
+      "good_mask_count": 7,
+      "rank": 17,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffffff0fffff000",
+        "2": "0xafffaaaff555fff5",
+        "3": "0xafffaaaff555fff5",
+        "4": "0xffcff3cff3cff3ff",
+        "5": "0xffcff3cff3cff3ff"
+      },
+      "survivor_key": "0xa040000001450000"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "10": 4,
+        "2": 14,
+        "4": 6,
+        "6": 9,
+        "8": 4,
+        "9": 4
+      },
+      "good_mask_count": 7,
+      "rank": 24,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffff000fffffff0",
+        "2": "0xaaafaffffff5f555",
+        "3": "0xaaafaffffff5f555",
+        "4": "0xffcff3cff3cff3ff",
+        "5": "0xffcff3cff3cff3ff"
+      },
+      "survivor_key": "0xa000000051400100"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 8,
+        "12": 3,
+        "2": 14,
+        "4": 6,
+        "6": 9,
+        "8": 4,
+        "9": 7
+      },
+      "good_mask_count": 13,
+      "rank": 27,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffffff0fffffff0",
+        "2": "0xafffaaaff555fff5",
+        "3": "0xafffaaaff555fff5",
+        "4": "0xffcff3ffffcff3ff",
+        "5": "0xffcff3ffffcff3ff"
+      },
+      "survivor_key": "0x8080a00071450300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "11": 4,
+        "2": 10,
+        "4": 6,
+        "6": 8,
+        "8": 2,
+        "9": 7
+      },
+      "good_mask_count": 11,
+      "rank": 29,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffff000fffffff0",
+        "2": "0xafffaaaff555fff5",
+        "3": "0xafffaaaff555fff5",
+        "4": "0xffcff3cff3cff3ff",
+        "5": "0xffcff3cff3cff3ff"
+      },
+      "survivor_key": "0xa040000051450300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "12": 3,
+        "2": 6,
+        "4": 6,
+        "6": 9,
+        "8": 4,
+        "9": 7
+      },
+      "good_mask_count": 13,
+      "rank": 30,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0ff00fffffff0",
+        "2": "0xffffafaff5f5ffff",
+        "3": "0xffffafaff5f5ffff",
+        "4": "0xcfcffffffffff3f3",
+        "5": "0xcfcffffffffff3f3"
+      },
+      "survivor_key": "0x8040a000f1042300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "11": 4,
+        "2": 8,
+        "4": 8,
+        "6": 8,
+        "8": 2,
+        "9": 7
+      },
+      "good_mask_count": 11,
+      "rank": 32,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0ff00fffffff0",
+        "2": "0xfff5afaff5f5afff",
+        "3": "0xfff5afaff5f5afff",
+        "4": "0xcfccffcff3ff33f3",
+        "5": "0xcfccffcff3ff33f3"
+      },
+      "survivor_key": "0xc000200031052300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "10": 4,
+        "2": 10,
+        "4": 10,
+        "6": 9,
+        "8": 4,
+        "9": 4
+      },
+      "good_mask_count": 7,
+      "rank": 40,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffffff0fff0ff00",
+        "2": "0xfff5afaff5f5afff",
+        "3": "0xfff5afaff5f5afff",
+        "4": "0xcfccffcff3ff33f3",
+        "5": "0xcfccffcff3ff33f3"
+      },
+      "survivor_key": "0xc000200001002300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 20,
+        "10": 1,
+        "12": 1,
+        "2": 12,
+        "4": 8,
+        "6": 4,
+        "8": 2
+      },
+      "good_mask_count": 16,
+      "rank": 42,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0f000fffffff0",
+        "2": "0xaff5aaaff555aff5",
+        "3": "0xaff5aaaff555aff5",
+        "4": "0xcfccf3cff3cf33f3",
+        "5": "0xcfccf3cff3cf33f3"
+      },
+      "survivor_key": "0x80c0a000f1452300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 8,
+        "10": 4,
+        "11": 5,
+        "2": 14,
+        "4": 6,
+        "6": 9,
+        "8": 5
+      },
+      "good_mask_count": 13,
+      "rank": 44,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffffff0fffffff0",
+        "2": "0xafffaaaff555fff5",
+        "3": "0xafffaaaff555fff5",
+        "4": "0xffcff3ffffcff3ff",
+        "5": "0xffcff3ffffcff3ff"
+      },
+      "survivor_key": "0x8080a00071450300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 8,
+        "10": 4,
+        "11": 5,
+        "2": 14,
+        "4": 6,
+        "6": 9,
+        "8": 5
+      },
+      "good_mask_count": 13,
+      "rank": 45,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffff0f0ffffffff",
+        "2": "0xaff5aaffff55aff5",
+        "3": "0xaff5aaffff55aff5",
+        "4": "0xcfcffffffffff3f3",
+        "5": "0xcfcffffffffff3f3"
+      },
+      "survivor_key": "0x8040a000b0452300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 20,
+        "10": 1,
+        "12": 1,
+        "2": 12,
+        "4": 8,
+        "6": 4,
+        "8": 2
+      },
+      "good_mask_count": 16,
+      "rank": 47,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0f000fffffff0",
+        "2": "0xaff5aaaff555aff5",
+        "3": "0xaff5aaaff555aff5",
+        "4": "0xcfccf3cff3cf33f3",
+        "5": "0xcfccf3cff3cf33f3"
+      },
+      "survivor_key": "0x80c0a000f1452300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "10": 4,
+        "2": 8,
+        "4": 12,
+        "6": 9,
+        "8": 4,
+        "9": 4
+      },
+      "good_mask_count": 7,
+      "rank": 49,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0ff00fffffff0",
+        "2": "0xfff5afaff5f5afff",
+        "3": "0xfff5afaff5f5afff",
+        "4": "0xcccfcffffff3f333",
+        "5": "0xcccfcffffff3f333"
+      },
+      "survivor_key": "0xc000000031012000"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 16,
+        "11": 4,
+        "2": 8,
+        "4": 8,
+        "6": 8,
+        "8": 2,
+        "9": 7
+      },
+      "good_mask_count": 11,
+      "rank": 57,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfff0ff00fffffff0",
+        "2": "0xfff5afaff5f5afff",
+        "3": "0xfff5afaff5f5afff",
+        "4": "0xcfccffcff3ff33f3",
+        "5": "0xcfccffcff3ff33f3"
+      },
+      "survivor_key": "0xc000200031052300"
+    },
+    {
+      "first_bad_histogram": {
+        "1": 8,
+        "12": 3,
+        "2": 8,
+        "4": 12,
+        "6": 9,
+        "8": 4,
+        "9": 7
+      },
+      "good_mask_count": 13,
+      "rank": 59,
+      "sample_impact_positive_bitsets": {
+        "1": "0xfffffff0fffffff0",
+        "2": "0xfff5affffff5afff",
+        "3": "0xfff5affffff5afff",
+        "4": "0xcfccffcff3ff33f3",
+        "5": "0xcfccffcff3ff33f3"
+      },
+      "survivor_key": "0x80c0800071052300"
+    }
+  ],
+  "schema_version": 1,
+  "source_profile": "scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json",
+  "survivor_bitset_count": 362,
+  "top_denominator_exact_signatures": [
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        1002292
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        1719
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        1519
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        1091
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        1009
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        100932
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        3563
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        3199
+      ]
+    }
+  ],
+  "top_denominator_sign_zero_signatures": [
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        101221
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        498
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        582
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        561
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        519
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        101244
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        101784
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        10002324
+      ]
+    }
+  ],
+  "top_denominator_signatures": [
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        101221
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        498
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        582
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        561
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        519
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        101244
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        101784
+      ]
+    },
+    {
+      "rank_count": 1,
+      "sample_ranks": [
+        10002324
+      ]
+    }
+  ],
+  "top_survivor_bitsets": [
+    {
+      "rank_count": 30,
+      "sample_ranks": [
+        0,
+        5,
+        42,
+        47,
+        84,
+        89,
+        810,
+        815,
+        852,
+        857,
+        894,
+        899
+      ]
+    },
+    {
+      "rank_count": 12,
+      "sample_ranks": [
+        3281,
+        3299,
+        3521,
+        3539,
+        3761,
+        3779,
+        10001381,
+        10001399,
+        10001621,
+        10001639,
+        10001861,
+        10001879
+      ]
+    },
+    {
+      "rank_count": 11,
+      "sample_ranks": [
+        131,
+        149,
+        371,
+        389,
+        611,
+        629,
+        10002011,
+        10002029,
+        10002251,
+        10002269,
+        10002491
+      ]
+    },
+    {
+      "rank_count": 8,
+      "sample_ranks": [
+        600,
+        605,
+        837,
+        854,
+        1647,
+        1664,
+        10002480,
+        10002485
+      ]
+    },
+    {
+      "rank_count": 8,
+      "sample_ranks": [
+        120,
+        125,
+        1629,
+        1706,
+        2439,
+        2516,
+        10002000,
+        10002005
+      ]
+    },
+    {
+      "rank_count": 8,
+      "sample_ranks": [
+        360,
+        365,
+        819,
+        896,
+        2457,
+        2474,
+        10002240,
+        10002245
+      ]
+    },
+    {
+      "rank_count": 8,
+      "sample_ranks": [
+        45,
+        62,
+        1623,
+        1700,
+        2154,
+        2159,
+        10001925,
+        10001942
+      ]
+    },
+    {
+      "rank_count": 8,
+      "sample_ranks": [
+        30,
+        87,
+        1512,
+        1517,
+        2433,
+        2510,
+        10001910,
+        10001967
+      ]
+    }
+  ],
+  "trusted_as_proof": false
+}
