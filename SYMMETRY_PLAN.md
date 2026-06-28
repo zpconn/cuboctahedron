@@ -10271,6 +10271,53 @@ Acceptance:
   manifest-driven smoke, such as 4-8 shards, or a production-catalog profiler
   that creates the same manifest shape for the full GoodDirection survivor
   branch.
+- [x] Implement Phase 6Z.6K.8AP.16Z.2 four-shard manifest-driven smoke:
+  AP.16Z.2 reruns the AP.16Z.1 manifest driver with `--limit-shards 4`, using
+  the same module prefix and expanding the existing manifest group to import
+  four routing shards.  It adds:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestCandidateFactsShard002Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard002Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestCandidateFactsShard003Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard003Smoke.lean
+  ```
+
+  Generation:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16za_signature_manifest_shards.py --limit-shards 4
+  ```
+
+  The emitter ran in 2.75s wall time with 29,708 KiB peak RSS.  Shard002 is
+  signature `[3, 4)` with 11 representative good-mask facts and 5 shared
+  candidates; shard003 is signature `[4, 5)` with 11 representative good-mask
+  facts and 5 shared candidates.
+
+  Focused capped build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 360s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedManifestGroup000Smoke'
+  ```
+
+  Result:
+
+  ```text
+  PositiveSurvivorSharedManifestCandidateFactsShard003Smoke: 13s
+  PositiveSurvivorSharedManifestCandidateFactsShard002Smoke: 13s
+  PositiveSurvivorSharedManifestRoutingShard003Smoke:         1.1s
+  PositiveSurvivorSharedManifestRoutingShard002Smoke:         1.1s
+  PositiveSurvivorSharedManifestGroup000Smoke:                1.1s
+  whole manifest group target: 30.59s wall, 4,416,304 KiB peak RSS
+  ```
+
+  This was an incremental build: shard000/shard001 were already compiled from
+  AP.16Z.1, so the measured wall time primarily reflects adding shard002 and
+  shard003 plus expanding the group import surface.  Memory stayed below the
+  prior two-shard peak, which supports memory-safe incremental parallelism for
+  similarly sized candidate-facts shards.  The next useful scaling step is an
+  8-shard manifest smoke or, if we want to avoid more representative source
+  churn, a production-survivor catalog profiler.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
