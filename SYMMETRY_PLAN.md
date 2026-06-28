@@ -806,6 +806,9 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicAllSmoke.lean`
   - `scripts/generated/phase6z6k8ap16by_walsh_symbolic_all_smoke.json`
   - `scripts/generated/phase6z6k8ap16by_walsh_symbolic_all_smoke.md`
+- Added the Phase 6Z.6K.8AP.16BZ generic Walsh eval-bridge rejection:
+  - `scripts/generated/phase6z6k8ap16bz_walsh_generic_eval_bridge_rejection.json`
+  - `scripts/generated/phase6z6k8ap16bz_walsh_generic_eval_bridge_rejection.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12897,6 +12900,36 @@ Acceptance:
   must either derive the affine normal/vector records from a trusted symbolic
   prefix evaluator or check a generated certificate that those records match
   the exact geometry.
+- [x] Reject Phase 6Z.6K.8AP.16BZ generic Walsh evaluator bridge:
+  AP16BZ tested a generic theorem connecting `WalshQuadratic.coeffEval` to the
+  existing `WalshQuadratic.eval`/`WalshQuadratic.toPoly.eval` surface.  The
+  theorem would have been convenient for converting AP16BW symbolic-dot facts
+  into `WalshImpactObstruction` facts.
+
+  The default-heartbeat attempt timed out at `200000` heartbeats.  A scoped
+  `set_option maxHeartbeats 800000` attempt also timed out:
+
+  ```text
+  exit code: 1
+  elapsed: 30.03s
+  peak tree RSS: 4387 MiB
+  minimum available memory: 45664 MiB
+  failure: deterministic timeout at whnf, maxHeartbeats 800000
+  ```
+
+  The theorem was removed and the accepted symbolic module was rebuilt:
+
+  ```text
+  passed
+  elapsed: 11.51s
+  peak tree RSS: 4375 MiB
+  minimum available memory: 45677 MiB
+  ```
+
+  Decision: rejected.  The production path should use concrete
+  per-polynomial bridges, a new obstruction surface whose evaluator is
+  definitionally coefficient-based, or a smaller structural proof that avoids
+  normalizing `WalshPoly.eval` over 22 terms generically.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

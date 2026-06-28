@@ -1,0 +1,23 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BZ",
+  "status": "rejected",
+  "target": "Generic theorem WalshQuadratic.coeffEval_eq_eval",
+  "reason": "The generic coefficient-evaluator to WalshPoly evaluator bridge timed out even after a scoped heartbeat bump to 800000.",
+  "failed_guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bz_walsh_eval_bridge_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic'",
+    "exit_code": 1,
+    "elapsed_seconds": 30.03,
+    "max_tree_rss_mib": 4387,
+    "min_available_seen_mib": 45664,
+    "failure": "deterministic timeout at whnf, maxHeartbeats 800000"
+  },
+  "revert_guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bz_revert_symbolic_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic'",
+    "exit_code": 0,
+    "elapsed_seconds": 11.51,
+    "max_tree_rss_mib": 4375,
+    "min_available_seen_mib": 45677
+  },
+  "trusted_as_final_generated_coverage": false,
+  "next_step": "Use concrete per-polynomial coeffEval-to-toPoly bridges, or refactor WalshQuadratic.eval to expose the coefficient evaluator directly in a new obstruction surface."
+}
