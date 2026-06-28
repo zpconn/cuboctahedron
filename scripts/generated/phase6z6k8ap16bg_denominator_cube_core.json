@@ -1,0 +1,29 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BG",
+  "name": "denominator-cube obstruction core",
+  "status": "accepted_as_core_interface",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/DenominatorCube.lean",
+  "exports": [
+    "InternalImpactWeights",
+    "weightedDenomAtRank",
+    "InternalImpactWeights.Nonnegative",
+    "InternalImpactWeights.PositiveSome",
+    "WeightedDenomCubeObstruction",
+    "WeightedDenomCubeObstruction.notGood"
+  ],
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 8192 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bg_denominator_cube_core_guard_final.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DenominatorCube 2>&1 | tee /tmp/cuboctahedron_ap16bg_denominator_cube_core_build_final.log'",
+    "result": "passed",
+    "elapsed_seconds": 3.0034002239990514,
+    "peak_tree_rss_mib": 3967.0390625,
+    "min_available_seen_mib": 46308.6484375,
+    "rss_cap_mib": 6000.0,
+    "guard_kill": false
+  },
+  "notes": [
+    "The core proves that a family-level nonpositive weighted sum of internal denominators contradicts GoodDirectionAtRank.",
+    "The positive weighted-sum proof is an explicit field, so generated cube/PB/Farkas evidence can keep arithmetic local and opaque.",
+    "A direct singleton impact constructor was tried and rejected because it forced Lean to normalize the 13-term weighted denominator expression.",
+    "Next step: synthesize one nontrivial cube witness that supplies positive_of_good and nonpos without unfolding weightedDenomAtRank globally."
+  ]
+}

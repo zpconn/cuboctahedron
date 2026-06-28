@@ -226,8 +226,8 @@ Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge, and the Phase
 6Z.6K.8AP.3 public all-Good coverage bridge, and the Phase 6Z.6K.8AP.4
 bounded AP interval smoke, through the Phase 6Z.6K.8AP.12 source-position
 predicate/producer adapter, the Phase 6Z.6K.8AP.16I positive-survivor
-membership profile, and the Phase 6Z.6K.8AP.16BF bad-mask cover singleton
-smoke.
+membership profile, the Phase 6Z.6K.8AP.16BF bad-mask cover singleton smoke,
+and the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -734,6 +734,9 @@ Completed current-work items:
 - Added the Phase 6Z.6K.8AP.16BF bad-mask cover smoke reports:
   - `scripts/generated/phase6z6k8ap16bf_bad_mask_cover_smoke.json`
   - `scripts/generated/phase6z6k8ap16bf_bad_mask_cover_smoke.md`
+- Added the Phase 6Z.6K.8AP.16BG denominator-cube core reports:
+  - `scripts/generated/phase6z6k8ap16bg_denominator_cube_core.json`
+  - `scripts/generated/phase6z6k8ap16bg_denominator_cube_core.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12050,6 +12053,55 @@ Acceptance:
   a regression baseline only.  Do not scale this exact generated proof.  The
   next accepted target is a genuine denominator-cube or pseudo-Boolean Farkas
   soundness theorem for one bad cube, followed by one full survivor bitset.
+- [x] Implement Phase 6Z.6K.8AP.16BG denominator-cube obstruction core:
+  AP16BG adds the first reusable denominator-level interface for the AP16BF
+  bad-mask families:
+
+  ```lean
+  InternalImpactWeights
+  weightedDenomAtRank
+  WeightedDenomCubeObstruction
+  WeightedDenomCubeObstruction.notGood
+  ```
+
+  The trusted theorem is small: if generated evidence proves that a weighted
+  sum of internal denominators is nonpositive on a family, and proves that
+  `GoodDirectionAtRank` would make the same weighted sum positive, then that
+  family contradicts `GoodDirectionAtRank`.
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 6000 \
+    --min-available-mib 8192 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bg_denominator_cube_core_guard_final.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DenominatorCube 2>&1 | tee /tmp/cuboctahedron_ap16bg_denominator_cube_core_build_final.log'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                3.00s
+  peak process-tree RSS:  3.874 GiB
+  minimum available mem:  45.22 GiB
+  guard kill:             no
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bg_denominator_cube_core.json
+  scripts/generated/phase6z6k8ap16bg_denominator_cube_core.md
+  ```
+
+  Rejected sub-attempt: a direct singleton-impact constructor was tried and
+  removed because it forced Lean to normalize the full 13-term
+  `weightedDenomAtRank` expression.  The accepted design keeps
+  `positive_of_good` and `nonpos` as generated proof fields, so future cube
+  witnesses can keep arithmetic local and opaque.  The next concrete step is a
+  generated one-cube smoke that supplies those fields without unfolding the
+  weighted denominator globally.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -14115,6 +14167,14 @@ soundness is still discharged by per-mask denominator witnesses.  The next
 production-facing step must replace at least one Boolean cube's per-mask
 witness replay with a genuine denominator-cube or pseudo-Boolean Farkas
 certificate.
+
+AP.16BG adds the denominator-cube obstruction core for that replacement.  It
+packages the reusable contradiction around a weighted sum of the 13 internal
+impact denominators and builds in 3.00s with 3.874 GiB peak process-tree RSS.
+An attempted singleton-impact constructor was removed because it made Lean
+unfold the full weighted denominator expression; the accepted interface instead
+requires generated cube evidence to provide local `positive_of_good` and
+`nonpos` proofs.  That is the right boundary for the next one-cube smoke.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
