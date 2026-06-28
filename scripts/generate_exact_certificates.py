@@ -856,11 +856,19 @@ def strict_lt_constraint(lhs: Lin2Q, rhs: Lin2Q) -> StrictLin2Q:
 
 
 def translation_impact_time_lin(seq: list[str], b: Vec, impact: int) -> Lin2Q:
+    return translation_impact_time_lin_with_prefixes(seq, b, impact, path_prefix_affs(seq))
+
+
+def translation_impact_time_lin_with_prefixes(
+    seq: list[str],
+    b: Vec,
+    impact: int,
+    prefixes: list[Aff],
+) -> Lin2Q:
     if impact == 0:
         return lin2_const(Fraction(0))
     if impact == 14:
         return lin2_const(Fraction(1))
-    prefixes = path_prefix_affs(seq)
     normal_value, offset = impact_plane_normal_offset(seq, prefixes, impact)
     den = dot(normal_value, b)
     if den == 0:
@@ -887,10 +895,13 @@ def translation_constraints_py(seq: list[str], b: Vec) -> list[StrictLin2Q]:
         (Fraction(-1), Fraction(1), Fraction(1)),
         (Fraction(-1), Fraction(-1), Fraction(1)),
     ]
-    impact_times = [translation_impact_time_lin(seq, b, impact) for impact in range(15)]
+    prefixes = path_prefix_affs(seq)
+    impact_times = [
+        translation_impact_time_lin_with_prefixes(seq, b, impact, prefixes)
+        for impact in range(15)
+    ]
     for step in range(14):
         constraints.append(strict_lt_constraint(impact_times[step], impact_times[step + 1]))
-    prefixes = path_prefix_affs(seq)
     for impact in range(1, 15):
         hit = impact_face(seq, impact)
         point = translation_line_point_lin(b, impact_times[impact])
@@ -1018,6 +1029,15 @@ def find_sparse_farkas(
 
 
 def impact_denom(seq: list[str], b: Vec, impact: int) -> Fraction:
+    return impact_denom_with_prefixes(seq, b, impact, path_prefix_matrices(seq))
+
+
+def impact_denom_with_prefixes(
+    seq: list[str],
+    b: Vec,
+    impact: int,
+    prefixes: list[Mat],
+) -> Fraction:
     if impact == 0:
         face = seq[0]
     elif impact < 14:
@@ -1027,7 +1047,7 @@ def impact_denom(seq: list[str], b: Vec, impact: int) -> Fraction:
     prefix_index = max(impact - 1, 0)
     if prefix_index > 13:
         prefix_index = 13
-    prefix = path_prefix_matrices(seq)[prefix_index]
+    prefix = prefixes[prefix_index]
     normal = mat_vec(prefix, vec(FACE_NORMALS[face]))
     return dot(normal, b)
 
@@ -1310,8 +1330,9 @@ def first_axis_zero_index_or_none(word: list[str], axis: Vec) -> int | None:
 
 
 def first_bad_translation_impact(seq: list[str], b: Vec) -> int:
+    prefixes = path_prefix_matrices(seq)
     for impact in range(1, 14):
-        if impact_denom(seq, b, impact) <= 0:
+        if impact_denom_with_prefixes(seq, b, impact, prefixes) <= 0:
             return impact
     raise ValueError("no bad translation impact denominator found")
 

@@ -10572,6 +10572,71 @@ Acceptance:
     supply both;
   - or port the GoodDirection/constraint denominator path to scaled integer
     arithmetic before attempting a larger checkpointed census.
+- [x] Implement Phase 6Z.6K.8AP.16AD local prefix caching for exact
+  translation analysis: AP.16AD adds cached-prefix helper paths in
+  `scripts/generate_exact_certificates.py`:
+
+  ```text
+  impact_denom_with_prefixes
+  translation_impact_time_lin_with_prefixes
+  ```
+
+  `first_bad_translation_impact` now computes `path_prefix_matrices(seq)` once
+  per sequence, and `translation_constraints_py` computes `path_prefix_affs(seq)`
+  once before building all 15 impact-time linear forms and interior
+  constraints.  This does not change the exact arithmetic model; it only avoids
+  recomputing the same rational prefix products.
+
+  Validation:
+
+  ```text
+  python3 -m py_compile \
+    scripts/generate_exact_certificates.py \
+    scripts/profile_symbolic_row_extraction_families.py \
+    scripts/generate_source_index_state_nonenum_smoke.py \
+    scripts/profile_ap16aa_hotspots.py
+
+  /usr/bin/time -v python3 scripts/profile_ap16aa_hotspots.py \
+    --limit 250 --jobs 1 --top 20 \
+    --phase 6Z.6K.8AP.16AD \
+    --json scripts/generated/phase6z6k8ap16ad_hotspots.json \
+    --md scripts/generated/phase6z6k8ap16ad_hotspots.md \
+    --pstats /tmp/cuboctahedron_ap16ad_hotspots.pstats
+  ```
+
+  Result on `[0,250)`:
+
+  ```text
+  AP.16AB baseline:          2:18.06 wall, 864,651,515 calls
+  AP.16AC single-pass:       1:22.19 wall, 496,575,003 calls
+  AP.16AD prefix cached:     0:27.23 wall, 165,145,751 calls
+  peak RSS:                  ~28 MiB throughout
+  ```
+
+  Remaining cumulative hotspots:
+
+  ```text
+  27.124s  profile_symbolic_row_extraction_families.classify_choice
+  16.689s  builtins.sum
+  15.624s  fractions.py Fraction arithmetic
+  13.732s  translation_constraints_py
+   9.750s  translation_needs_farkas
+   9.086s  mat_mul
+  ```
+
+  Interpretation: AP.16AA-style production catalogs are now roughly 5x faster
+  on this smoke than before AP.16AC/AP.16AD, with no memory increase.  The
+  next speedups are no longer duplicate-classifier cleanup; they are either:
+
+  - a sequence-level analysis object that computes `translation_vector`,
+    GoodDirection denominators, constraint rows, source terms, and row-template
+    data in one pass; or
+  - scaled-integer arithmetic for the prefix products and denominator signs,
+    with `Fraction` used only at the final Farkas row/multiplier layer.
+
+  This makes a modest parallel checkpointed census more realistic, but the
+  full production run should still wait for one more timing projection on
+  larger windows after AP.16AD.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
