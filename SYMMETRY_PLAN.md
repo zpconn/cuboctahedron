@@ -232,7 +232,8 @@ the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
 6Z.6K.8AP.16BI denominator Walsh-degree profile, plus the Phase
 6Z.6K.8AP.16BJ Walsh subcube cover profile, Phase 6Z.6K.8AP.16BK
 impact-subcube obstruction core, the Phase 6Z.6K.8AP.16BL bounded
-impact-subcube smoke, and the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core.
+impact-subcube smoke, the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core, and
+the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -769,6 +770,10 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSmoke.lean`
   - `scripts/generated/phase6z6k8ap16bm_walsh_subcube_core.json`
   - `scripts/generated/phase6z6k8ap16bm_walsh_subcube_core.md`
+- Added the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshGeneratedSmoke.lean`
+  - `scripts/generated/phase6z6k8ap16bn_walsh_generated_smoke.json`
+  - `scripts/generated/phase6z6k8ap16bn_walsh_generated_smoke.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12349,6 +12354,44 @@ Acceptance:
   `WalshSubcubeUpperBound` for an AP16BJ selected denominator polynomial while
   isolating the remaining scalable equality bridge from `impactDenomAtRank` to
   the Walsh polynomial.
+- [x] Implement Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound
+  smoke:
+  AP16BN adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshGeneratedSmoke.lean`.
+  It uses AP16BJ's first selected subcube, label `*000**`, at rank `100805`
+  and impact `1`.  The actual six-term Walsh polynomial is bounded over the
+  whole subcube through `WalshSubcubeUpperBound`, with no per-mask
+  nonpositivity replay:
+
+  ```text
+  4
+  + (32/9) z
+  + (104/27) d111
+  + (8/9) d11m
+  + (40/27) d1m1
+  - (8/3) dm11
+  <= -4/27 <= 0
+  ```
+
+  Focused guarded build:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshGeneratedSmoke
+  passed; elapsed 4.50s; peak RSS 3.935 GiB; min available 45.111 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bn_walsh_generated_smoke.json
+  scripts/generated/phase6z6k8ap16bn_walsh_generated_smoke.md
+  ```
+
+  Decision: accepted as the real coefficient-level proof shape.  It is not
+  final evidence because it intentionally does not yet connect
+  `impactDenomAtRank` to the emitted Walsh polynomial.  The next AP16BO target
+  is to automate this one-subcube emitter and design the scalable
+  denominator-equality bridge.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

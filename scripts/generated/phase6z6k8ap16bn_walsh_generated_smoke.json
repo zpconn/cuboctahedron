@@ -1,0 +1,38 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BN",
+  "status": "generated_style_smoke_build_passed",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshGeneratedSmoke.lean",
+  "source_subcube": {
+    "rank": 100805,
+    "label": "*000**",
+    "impact": 1,
+    "fixed_bits": {
+      "z": -1,
+      "d111": -1,
+      "d11m": -1
+    },
+    "external_max_value": "-4/27"
+  },
+  "walsh_terms": [
+    {"vars": [], "coeff": "4", "bound": "4"},
+    {"vars": ["z"], "coeff": "32/9", "bound": "-32/9"},
+    {"vars": ["d111"], "coeff": "104/27", "bound": "-104/27"},
+    {"vars": ["d11m"], "coeff": "8/9", "bound": "-8/9"},
+    {"vars": ["d1m1"], "coeff": "40/27", "bound": "40/27"},
+    {"vars": ["dm11"], "coeff": "-8/3", "bound": "8/3"}
+  ],
+  "bound_sum": "-4/27",
+  "uses_mask_enumeration_for_nonpos": false,
+  "connects_to_impactDenomAtRank": false,
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bn_walsh_generated_smoke_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshGeneratedSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 4.50,
+    "peak_tree_rss_mib": 4029,
+    "min_available_seen_mib": 46194,
+    "guard_killed": false
+  },
+  "trusted_as_final_generated_coverage": false,
+  "production_decision": "accepted_as_generated_style_polynomial_bound_smoke",
+  "next_step": "Automate emission for selected subcubes and add a scalable theorem connecting impactDenomAtRank to the emitted Walsh polynomial."
+}
