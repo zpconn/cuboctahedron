@@ -9971,6 +9971,61 @@ Acceptance:
   positive candidate group, then emit only a thin signature-routing layer that
   maps each GoodDirection mask in a signature to one already-proved candidate
   fact.
+- [x] Implement Phase 6Z.6K.8AP.16W shared-candidate routing smoke: AP.16W
+  adds `scripts/generate_ap16w_shared_candidate_routing_smoke.py` and two
+  generated diagnostic modules:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingSmoke
+  ```
+
+  The generator selects two positive-survivor signatures from the AP.16I
+  profile, covering 19 positive masks across 11 shared source/row candidates.
+  The shared module exports a reusable `GeneratedCandidate` type,
+  `generatedSpec`, `generatedKey`, `generatedRowProducer`, and theorem-valued
+  `CandidateFacts` for the selected rank/mask survivors.  The routing module
+  imports those facts and proves two small all-Good coverage theorems by
+  mapping each positive mask in each signature to an already-proved candidate
+  fact.  This directly tests the AP.16V recommendation: heavy source/row facts
+  live in shared candidate modules, while signature chunks contain only thin
+  mask-to-candidate routing.
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/generate_ap16w_shared_candidate_routing_smoke.py
+  /usr/bin/time -v python3 scripts/generate_ap16w_shared_candidate_routing_smoke.py
+  wc -l Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedCandidateFactsSmoke.lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingSmoke.lean
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedCandidateFactsSmoke'
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSharedRoutingSmoke'
+  ```
+
+  The generator ran in 1.01s wall time with 29,572 KiB peak RSS.  The shared
+  fact module is 3,730 lines; the thin routing module is 387 lines.  The first
+  shared-module build found a generated proof-shape bug (`simp` closed some
+  source-position goals before a trailing `decide`), fixed by using
+  `simp ... <;> decide` and suppressing the corresponding generated-code
+  linters.  The first routing build found the expected split-module privacy
+  issue: it tried to mention private `case_..._mask` definitions from the
+  imported shared module.  The generator now gives exported case-fact theorems
+  literal `SignMask` theorem statements and routing uses those literals.
+
+  Final focused builds passed under the 40 GiB virtual-memory cap:
+
+  ```text
+  PositiveSurvivorSharedCandidateFactsSmoke: 23.14s wall, 4,971,480 KiB peak RSS
+  PositiveSurvivorSharedRoutingSmoke:         2.28s wall, 3,319,792 KiB peak RSS
+  ```
+
+  AP.16W is accepted as the first Lean-checked evidence that the shared
+  candidate-facts plus thin signature-routing architecture works.  It does not
+  solve production coverage yet, because each concrete candidate fact still
+  carries rank/mask-specific sequence/vector/line proofs.  The next AP step
+  should scale AP.16W to a bounded candidate shard: group many signatures by
+  candidate, emit one shared candidate-facts module per bounded candidate
+  shard, and measure whether line count and wall time grow closer to candidate
+  count than signature count.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
