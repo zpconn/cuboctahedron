@@ -11413,6 +11413,55 @@ Acceptance:
   source and row producer facts into `Coverage.TranslationGoodCaseKilled`, then
   into `Translation.KilledBridge`.  It should not import the AP16
   candidate-fact modules and should not replay concrete positive-mask proofs.
+- [x] Implement Phase 6Z.6K.8AP.16AT all-Good killed bridge adapter:
+  AP.16AT adds the missing hand-written erasure from full-range all-Good
+  translation coverage to the public `Translation.KilledBridge` surface.
+
+  Added theorem adapters:
+
+  ```text
+  AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+  SourceRowFactsGoodBridgeOnRange.to_killedBridge_of_fullRange
+  SourceRowPredicateGoodBridgeOnRange.to_killedBridge_of_fullRange
+  SourceRowFactsGoodLanguageOnRange.to_killedBridge_of_fullRange
+  SourceRowPredicateGoodLanguageOnRange.to_killedBridge_of_fullRange
+  SourceRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16at_bridge_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge'
+  ```
+
+  Result:
+
+  ```text
+  build status:             passed
+  elapsed:                  10.01s
+  peak process-tree RSS:     3.969 GiB
+  minimum available memory: 45.07 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16at_all_good_killed_bridge.json
+  scripts/generated/phase6z6k8ap16at_all_good_killed_bridge.md
+  ```
+
+  Interpretation: the core Lean bridge is now ready for the preferred
+  production surface.  A generated full-range
+  `SourceRowProducerGoodLanguageOnRange 0 numPairWords`,
+  `SourceRowPredicateGoodLanguageOnRange 0 numPairWords`, or
+  `AllTranslationGoodCoverageOnRange 0 numPairWords` can erase directly to
+  `Translation.KilledBridge`.  The remaining hard work is the generated
+  membership theorem, not bridge plumbing.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

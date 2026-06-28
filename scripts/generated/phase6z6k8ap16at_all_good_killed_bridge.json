@@ -1,0 +1,24 @@
+{
+  "phase": "6Z.6K.8AP.16AT",
+  "status": "accepted-core-bridge-adapter",
+  "purpose": "Add the missing hand-written adapter from all-GoodDirection translation coverage to the public Translation.KilledBridge surface.",
+  "files_changed": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean"
+  ],
+  "theorems_added": [
+    "AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange",
+    "SourceRowFactsGoodBridgeOnRange.to_killedBridge_of_fullRange",
+    "SourceRowPredicateGoodBridgeOnRange.to_killedBridge_of_fullRange",
+    "SourceRowFactsGoodLanguageOnRange.to_killedBridge_of_fullRange",
+    "SourceRowPredicateGoodLanguageOnRange.to_killedBridge_of_fullRange",
+    "SourceRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange"
+  ],
+  "focused_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16at_bridge_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge'",
+    "status": "passed",
+    "elapsed_seconds": 10.01,
+    "peak_tree_rss_mib": 3969,
+    "min_available_mib": 46152
+  },
+  "decision": "Accepted as a memory-safe core bridge adapter. Production generated membership can now target SourceRowProducerGoodLanguageOnRange 0 numPairWords or any all-Good coverage surface and erase directly to Translation.KilledBridge."
+}

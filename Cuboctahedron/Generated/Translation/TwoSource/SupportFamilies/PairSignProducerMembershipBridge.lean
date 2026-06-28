@@ -389,6 +389,12 @@ theorem AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange
     TranslationGoodCaseKilled.killed
       (coverage r.val (Nat.zero_le r.val) r.isLt r.isLt mask hM) hM
 
+theorem AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (coverage : AllTranslationGoodCoverageOnRange 0 numPairWords) :
+    Translation.KilledBridge := by
+  intro r mask _hclass _hM
+  exact AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange coverage r mask
+
 theorem SourceRowFactsGoodBridge.to_caseKilled
     (bridge : SourceRowFactsGoodBridge)
     (r : Fin numPairWords) (mask : SignMask) :
@@ -402,6 +408,12 @@ theorem SourceRowFactsGoodBridgeOnRange.to_caseKilled_of_fullRange
     TranslationCaseKilled r mask :=
   AllTranslationGoodCoverageOnRange.to_caseKilled_of_fullRange
     (SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage bridge) r mask
+
+theorem SourceRowFactsGoodBridgeOnRange.to_killedBridge_of_fullRange
+    (bridge : SourceRowFactsGoodBridgeOnRange 0 numPairWords) :
+    Translation.KilledBridge :=
+  AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (SourceRowFactsGoodBridgeOnRange.to_allGoodCoverage bridge)
 
 theorem SourceRowPredicateBridge.to_factsBridge
     (bridge : SourceRowPredicateBridge) :
@@ -610,6 +622,30 @@ theorem SourceRowPredicateGoodBridgeOnRange.to_caseKilled_of_fullRange
     TranslationCaseKilled r mask :=
   SourceRowFactsGoodBridgeOnRange.to_caseKilled_of_fullRange
     (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge) r mask
+
+theorem SourceRowPredicateGoodBridgeOnRange.to_killedBridge_of_fullRange
+    (bridge : SourceRowPredicateGoodBridgeOnRange 0 numPairWords) :
+    Translation.KilledBridge :=
+  AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (SourceRowPredicateGoodBridgeOnRange.to_allGoodCoverage bridge)
+
+theorem SourceRowFactsGoodLanguageOnRange.to_killedBridge_of_fullRange
+    (language : SourceRowFactsGoodLanguageOnRange 0 numPairWords) :
+    Translation.KilledBridge :=
+  AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (SourceRowFactsGoodLanguageOnRange.to_allGoodCoverage language)
+
+theorem SourceRowPredicateGoodLanguageOnRange.to_killedBridge_of_fullRange
+    (language : SourceRowPredicateGoodLanguageOnRange 0 numPairWords) :
+    Translation.KilledBridge :=
+  AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (SourceRowPredicateGoodLanguageOnRange.to_allGoodCoverage language)
+
+theorem SourceRowProducerGoodLanguageOnRange.to_killedBridge_of_fullRange
+    (language : SourceRowProducerGoodLanguageOnRange 0 numPairWords) :
+    Translation.KilledBridge :=
+  AllTranslationGoodCoverageOnRange.to_killedBridge_of_fullRange
+    (SourceRowProducerGoodLanguageOnRange.to_allGoodCoverage language)
 
 theorem pairSignProducerMembershipBridge_builds : True := by
   trivial
