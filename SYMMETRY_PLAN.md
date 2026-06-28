@@ -10637,6 +10637,57 @@ Acceptance:
   This makes a modest parallel checkpointed census more realistic, but the
   full production run should still wait for one more timing projection on
   larger windows after AP.16AD.
+- [x] Implement Phase 6Z.6K.8AP.16AE optimized checkpointed-census projection:
+  AP.16AE reruns the checkpointed positive-survivor census after the AP.16AC
+  single-pass collector and AP.16AD prefix caching, using safe parallelism over
+  two independent 2,500-rank windows.
+
+  Command:
+
+  ```text
+  /usr/bin/time -v python3 scripts/run_ap16_positive_survivor_census.py \
+    --no-resume \
+    --limit 5000 \
+    --window-size 2500 \
+    --stride 2500 \
+    --max-windows 2 \
+    --workers 2 \
+    --checkpoint-dir /tmp/cuboctahedron_ap16ae_positive_survivor_census \
+    --json scripts/generated/phase6z6k8ap16ae_positive_survivor_census.json \
+    --md scripts/generated/phase6z6k8ap16ae_positive_survivor_census.md \
+    --phase 6Z.6K.8AP.16AE
+  ```
+
+  Result:
+
+  ```text
+  completed ranks:                  5,000
+  workers:                          2
+  wall time:                        45.41s
+  user CPU:                         64.81s
+  parent max RSS:                   33,356 KiB
+  max per-window RSS:               32,204 KiB
+  GoodDirection cases:              4,693
+  unique positive candidate groups:   125
+  unique positive survivor signatures: 464
+  ```
+
+  Window timing:
+
+  ```text
+  [0, 2500):     45.33s, 3,415 GoodDirection cases, 32,204 KiB RSS
+  [2500, 5000):  19.72s, 1,278 GoodDirection cases, 25,484 KiB RSS
+  ```
+
+  Interpretation: AP.16AC/AP.16AD moved the AP.16AA path from the original
+  `[0,2500)` single-window smoke at `3:38.31` wall to `45.33s` for the same
+  window, a roughly 4.8x practical speedup, with memory still negligible.
+  Two-worker parallelism is memory-safe here.  The remaining production risk is
+  total CPU time over the full rank range and the possibility that later rank
+  windows are denser or slower.  The next step should profile a broader
+  disjoint-window sample under the same optimized runner, with worker count
+  capped by observed per-worker RSS and CPU budget, before any full production
+  catalog attempt.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

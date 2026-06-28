@@ -1,0 +1,71 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_ap16ae_positive_survivor_census",
+  "counts": {
+    "covered_cases": 4693,
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 31168,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "diagnostic only: checkpointed census is not Lean proof",
+      "per-window checkpoints contain detailed AP.16I-style catalogs outside the repo",
+      "tracked aggregate keeps only compact counts and key summaries"
+    ],
+    "status": "checkpointed-census-smoke-complete"
+  },
+  "elapsed_seconds": 45.343569097,
+  "good_direction_cases": 4693,
+  "limit": 5000,
+  "max_window_rss_kib": 32204,
+  "mode": "ap16_positive_survivor_census",
+  "phase": "6Z.6K.8AP.16AE",
+  "rank_count_completed": 5000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "stride": 2500,
+  "trusted_as_proof": false,
+  "unique_positive_candidate_groups": 125,
+  "unique_positive_survivor_signatures": 464,
+  "window_count_completed": 2,
+  "window_count_requested": 2,
+  "window_elapsed_seconds": {
+    "max": 45.32543182399968,
+    "mean": 32.524451703499835,
+    "p50": 32.524451703499835,
+    "p95": 44.04533381194969
+  },
+  "window_size": 2500,
+  "windows": [
+    {
+      "elapsed_seconds": 45.32543182399968,
+      "good_direction_cases": 3415,
+      "max_rss_kib": 32204,
+      "positive_candidate_groups": 102,
+      "positive_survivor_signatures": 312,
+      "range": [
+        0,
+        2500
+      ],
+      "ranks_with_good_direction": 329
+    },
+    {
+      "elapsed_seconds": 19.72347158299999,
+      "good_direction_cases": 1278,
+      "max_rss_kib": 25484,
+      "positive_candidate_groups": 89,
+      "positive_survivor_signatures": 152,
+      "range": [
+        2500,
+        5000
+      ],
+      "ranks_with_good_direction": 158
+    }
+  ],
+  "workers": 2
+}
