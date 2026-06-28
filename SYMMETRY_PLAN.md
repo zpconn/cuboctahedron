@@ -10793,6 +10793,67 @@ Acceptance:
   should run a broader density grid first, then dispatch heavyweight candidate
   extraction only to windows whose density justifies it.  This is a scheduling
   tool, not proof evidence.
+- [x] Implement Phase 6Z.6K.8AP.16AH broad AP.16 density grid: AP.16AH runs
+  the lightweight AP.16AG density mapper on 98 one-thousand-rank windows spaced
+  one million ranks apart, using eight workers.  It still emits no Lean and
+  computes no source/Farkas candidate families.
+
+  Command:
+
+  ```text
+  /usr/bin/time -v python3 scripts/run_ap16_density_map.py \
+    --no-resume \
+    --rank-start 0 \
+    --limit 97001000 \
+    --window-size 1000 \
+    --stride 1000000 \
+    --max-windows 98 \
+    --workers 8 \
+    --checkpoint-dir /tmp/cuboctahedron_ap16ah_density_grid \
+    --json scripts/generated/phase6z6k8ap16ah_density_grid.json \
+    --md scripts/generated/phase6z6k8ap16ah_density_grid.md \
+    --phase 6Z.6K.8AP.16AH
+  ```
+
+  Result:
+
+  ```text
+  sampled ranks:                 98,000
+  sampled windows:                   98
+  workers:                            8
+  wall time:                       18.54s
+  user CPU:                       138.39s
+  parent max RSS:                  24,276 KiB
+  max per-window RSS:              17,548 KiB
+  identity words:                   2,189
+  GoodDirection masks:              7,357
+  ranks with GoodDirection:         1,447
+  window mean/p50/p95/max:        1.39 / 0.86 / 3.92 / 7.31 seconds
+  ```
+
+  Densest sampled windows by GoodDirection mask count:
+
+  ```text
+  [0, 1000):                 1,465
+  [6,000,000, 6,001,000):      863
+  [54,000,000, 54,001,000):    721
+  [44,000,000, 44,001,000):    711
+  [3,000,000, 3,001,000):      582
+  [79,000,000, 79,001,000):    464
+  [84,000,000, 84,001,000):    403
+  [62,000,000, 62,001,000):    262
+  [4,000,000, 4,001,000):      231
+  [10,000,000, 10,001,000):    220
+  ```
+
+  Interpretation: the GoodDirection workload is highly clustered.  This
+  supports an adaptive production plan: first build a cheap full-range density
+  map or a sufficiently fine checkpointed grid; then run the expensive
+  positive-survivor candidate extractor in density-prioritized shards.  Since
+  AP.16AH used eight workers with max per-window RSS under 18 MiB, Python
+  density mapping can safely use parallelism on this machine.  This does not
+  resolve the Lean membership theorem gap, but it gives a practical way to
+  avoid blindly scheduling expensive catalog work across sparse rank regions.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

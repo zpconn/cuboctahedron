@@ -1,0 +1,1682 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_ap16ah_density_grid",
+  "counts": {
+    "good_direction_masks": 7357,
+    "identity_words": 2189,
+    "nonidentity_words": 95811,
+    "not_good_direction_masks": 132739,
+    "pair_words_scanned": 98000,
+    "ranks_with_good_direction": 1447,
+    "translation_sign_assignments": 140096
+  },
+  "decision": {
+    "notes": [
+      "diagnostic only: density map is not Lean proof",
+      "counts identity-linear words and GoodDirection masks only",
+      "does not compute source/Farkas candidate families"
+    ],
+    "status": "density-map-complete"
+  },
+  "densest_windows": [
+    {
+      "elapsed_seconds": 7.230458478999935,
+      "good_direction_masks": 1465,
+      "identity_words": 138,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 862,
+      "not_good_direction_masks": 7367,
+      "pair_words_scanned": 1000,
+      "range": [
+        0,
+        1000
+      ],
+      "ranks_with_good_direction": 138,
+      "translation_sign_assignments": 8832
+    },
+    {
+      "elapsed_seconds": 7.306655415999558,
+      "good_direction_masks": 863,
+      "identity_words": 140,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 860,
+      "not_good_direction_masks": 8097,
+      "pair_words_scanned": 1000,
+      "range": [
+        6000000,
+        6001000
+      ],
+      "ranks_with_good_direction": 137,
+      "translation_sign_assignments": 8960
+    },
+    {
+      "elapsed_seconds": 6.896307667999281,
+      "good_direction_masks": 721,
+      "identity_words": 132,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 868,
+      "not_good_direction_masks": 7727,
+      "pair_words_scanned": 1000,
+      "range": [
+        54000000,
+        54001000
+      ],
+      "ranks_with_good_direction": 132,
+      "translation_sign_assignments": 8448
+    },
+    {
+      "elapsed_seconds": 5.182837592999931,
+      "good_direction_masks": 711,
+      "identity_words": 96,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 904,
+      "not_good_direction_masks": 5433,
+      "pair_words_scanned": 1000,
+      "range": [
+        44000000,
+        44001000
+      ],
+      "ranks_with_good_direction": 96,
+      "translation_sign_assignments": 6144
+    },
+    {
+      "elapsed_seconds": 6.004387614000734,
+      "good_direction_masks": 582,
+      "identity_words": 115,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 885,
+      "not_good_direction_masks": 6778,
+      "pair_words_scanned": 1000,
+      "range": [
+        3000000,
+        3001000
+      ],
+      "ranks_with_good_direction": 110,
+      "translation_sign_assignments": 7360
+    },
+    {
+      "elapsed_seconds": 3.6978557410002395,
+      "good_direction_masks": 464,
+      "identity_words": 67,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 933,
+      "not_good_direction_masks": 3824,
+      "pair_words_scanned": 1000,
+      "range": [
+        79000000,
+        79001000
+      ],
+      "ranks_with_good_direction": 67,
+      "translation_sign_assignments": 4288
+    },
+    {
+      "elapsed_seconds": 3.187089147999359,
+      "good_direction_masks": 403,
+      "identity_words": 58,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 942,
+      "not_good_direction_masks": 3309,
+      "pair_words_scanned": 1000,
+      "range": [
+        84000000,
+        84001000
+      ],
+      "ranks_with_good_direction": 58,
+      "translation_sign_assignments": 3712
+    },
+    {
+      "elapsed_seconds": 2.6345910009986255,
+      "good_direction_masks": 262,
+      "identity_words": 46,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 954,
+      "not_good_direction_masks": 2682,
+      "pair_words_scanned": 1000,
+      "range": [
+        62000000,
+        62001000
+      ],
+      "ranks_with_good_direction": 44,
+      "translation_sign_assignments": 2944
+    },
+    {
+      "elapsed_seconds": 3.4379862240002694,
+      "good_direction_masks": 231,
+      "identity_words": 64,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 936,
+      "not_good_direction_masks": 3865,
+      "pair_words_scanned": 1000,
+      "range": [
+        4000000,
+        4001000
+      ],
+      "ranks_with_good_direction": 62,
+      "translation_sign_assignments": 4096
+    },
+    {
+      "elapsed_seconds": 2.438218663999578,
+      "good_direction_masks": 220,
+      "identity_words": 42,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 958,
+      "not_good_direction_masks": 2468,
+      "pair_words_scanned": 1000,
+      "range": [
+        10000000,
+        10001000
+      ],
+      "ranks_with_good_direction": 42,
+      "translation_sign_assignments": 2688
+    }
+  ],
+  "elapsed_seconds": 18.493917100000544,
+  "limit": 97001000,
+  "masks_per_rank_histogram": {
+    "1": 254,
+    "10": 3,
+    "11": 48,
+    "12": 26,
+    "13": 97,
+    "14": 2,
+    "16": 20,
+    "17": 3,
+    "2": 220,
+    "3": 165,
+    "4": 135,
+    "5": 122,
+    "6": 167,
+    "7": 66,
+    "8": 47,
+    "9": 72
+  },
+  "max_window_rss_kib": 17548,
+  "mode": "ap16_density_map",
+  "phase": "6Z.6K.8AP.16AH",
+  "rank_count_completed": 98000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "stride": 1000000,
+  "trusted_as_proof": false,
+  "window_count_completed": 98,
+  "window_count_requested": 98,
+  "window_elapsed_seconds": {
+    "max": 7.306655415999558,
+    "mean": 1.3937986312040098,
+    "p50": 0.8623801220001042,
+    "p95": 3.9206030188001804
+  },
+  "window_size": 1000,
+  "windows": [
+    {
+      "elapsed_seconds": 7.230458478999935,
+      "good_direction_masks": 1465,
+      "identity_words": 138,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 862,
+      "not_good_direction_masks": 7367,
+      "pair_words_scanned": 1000,
+      "range": [
+        0,
+        1000
+      ],
+      "ranks_with_good_direction": 138,
+      "translation_sign_assignments": 8832
+    },
+    {
+      "elapsed_seconds": 0.2478960720000032,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17352,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        1000000,
+        1001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.6805887170012284,
+      "good_direction_masks": 12,
+      "identity_words": 8,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 992,
+      "not_good_direction_masks": 500,
+      "pair_words_scanned": 1000,
+      "range": [
+        2000000,
+        2001000
+      ],
+      "ranks_with_good_direction": 6,
+      "translation_sign_assignments": 512
+    },
+    {
+      "elapsed_seconds": 6.004387614000734,
+      "good_direction_masks": 582,
+      "identity_words": 115,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 885,
+      "not_good_direction_masks": 6778,
+      "pair_words_scanned": 1000,
+      "range": [
+        3000000,
+        3001000
+      ],
+      "ranks_with_good_direction": 110,
+      "translation_sign_assignments": 7360
+    },
+    {
+      "elapsed_seconds": 3.4379862240002694,
+      "good_direction_masks": 231,
+      "identity_words": 64,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 936,
+      "not_good_direction_masks": 3865,
+      "pair_words_scanned": 1000,
+      "range": [
+        4000000,
+        4001000
+      ],
+      "ranks_with_good_direction": 62,
+      "translation_sign_assignments": 4096
+    },
+    {
+      "elapsed_seconds": 1.2148106160002499,
+      "good_direction_masks": 58,
+      "identity_words": 19,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 981,
+      "not_good_direction_masks": 1158,
+      "pair_words_scanned": 1000,
+      "range": [
+        5000000,
+        5001000
+      ],
+      "ranks_with_good_direction": 19,
+      "translation_sign_assignments": 1216
+    },
+    {
+      "elapsed_seconds": 7.306655415999558,
+      "good_direction_masks": 863,
+      "identity_words": 140,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 860,
+      "not_good_direction_masks": 8097,
+      "pair_words_scanned": 1000,
+      "range": [
+        6000000,
+        6001000
+      ],
+      "ranks_with_good_direction": 137,
+      "translation_sign_assignments": 8960
+    },
+    {
+      "elapsed_seconds": 1.5192088029998558,
+      "good_direction_masks": 101,
+      "identity_words": 25,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 975,
+      "not_good_direction_masks": 1499,
+      "pair_words_scanned": 1000,
+      "range": [
+        7000000,
+        7001000
+      ],
+      "ranks_with_good_direction": 25,
+      "translation_sign_assignments": 1600
+    },
+    {
+      "elapsed_seconds": 0.4330427299992152,
+      "good_direction_masks": 7,
+      "identity_words": 3,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 997,
+      "not_good_direction_masks": 185,
+      "pair_words_scanned": 1000,
+      "range": [
+        8000000,
+        8001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 192
+    },
+    {
+      "elapsed_seconds": 0.7359421929995733,
+      "good_direction_masks": 27,
+      "identity_words": 9,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 991,
+      "not_good_direction_masks": 549,
+      "pair_words_scanned": 1000,
+      "range": [
+        9000000,
+        9001000
+      ],
+      "ranks_with_good_direction": 9,
+      "translation_sign_assignments": 576
+    },
+    {
+      "elapsed_seconds": 2.438218663999578,
+      "good_direction_masks": 220,
+      "identity_words": 42,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 958,
+      "not_good_direction_masks": 2468,
+      "pair_words_scanned": 1000,
+      "range": [
+        10000000,
+        10001000
+      ],
+      "ranks_with_good_direction": 42,
+      "translation_sign_assignments": 2688
+    },
+    {
+      "elapsed_seconds": 2.2934826239998074,
+      "good_direction_masks": 39,
+      "identity_words": 40,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 960,
+      "not_good_direction_masks": 2521,
+      "pair_words_scanned": 1000,
+      "range": [
+        11000000,
+        11001000
+      ],
+      "ranks_with_good_direction": 15,
+      "translation_sign_assignments": 2560
+    },
+    {
+      "elapsed_seconds": 0.3739159689994267,
+      "good_direction_masks": 0,
+      "identity_words": 2,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 998,
+      "not_good_direction_masks": 128,
+      "pair_words_scanned": 1000,
+      "range": [
+        12000000,
+        12001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 128
+    },
+    {
+      "elapsed_seconds": 1.4705162900008872,
+      "good_direction_masks": 0,
+      "identity_words": 24,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 976,
+      "not_good_direction_masks": 1536,
+      "pair_words_scanned": 1000,
+      "range": [
+        13000000,
+        13001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1536
+    },
+    {
+      "elapsed_seconds": 0.25429458399958094,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        14000000,
+        14001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.255768511999122,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        15000000,
+        15001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.5455456099989533,
+      "good_direction_masks": 3,
+      "identity_words": 5,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 995,
+      "not_good_direction_masks": 317,
+      "pair_words_scanned": 1000,
+      "range": [
+        16000000,
+        16001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 320
+    },
+    {
+      "elapsed_seconds": 3.382282059001227,
+      "good_direction_masks": 86,
+      "identity_words": 61,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 939,
+      "not_good_direction_masks": 3818,
+      "pair_words_scanned": 1000,
+      "range": [
+        17000000,
+        17001000
+      ],
+      "ranks_with_good_direction": 37,
+      "translation_sign_assignments": 3904
+    },
+    {
+      "elapsed_seconds": 1.7394524789997377,
+      "good_direction_masks": 0,
+      "identity_words": 30,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 970,
+      "not_good_direction_masks": 1920,
+      "pair_words_scanned": 1000,
+      "range": [
+        18000000,
+        18001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1920
+    },
+    {
+      "elapsed_seconds": 0.3124377540007117,
+      "good_direction_masks": 2,
+      "identity_words": 1,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 999,
+      "not_good_direction_masks": 62,
+      "pair_words_scanned": 1000,
+      "range": [
+        19000000,
+        19001000
+      ],
+      "ranks_with_good_direction": 1,
+      "translation_sign_assignments": 64
+    },
+    {
+      "elapsed_seconds": 0.47532866100118554,
+      "good_direction_masks": 0,
+      "identity_words": 4,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 996,
+      "not_good_direction_masks": 256,
+      "pair_words_scanned": 1000,
+      "range": [
+        20000000,
+        20001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 256
+    },
+    {
+      "elapsed_seconds": 2.216373740999188,
+      "good_direction_masks": 0,
+      "identity_words": 39,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 961,
+      "not_good_direction_masks": 2496,
+      "pair_words_scanned": 1000,
+      "range": [
+        21000000,
+        21001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 2496
+    },
+    {
+      "elapsed_seconds": 1.01538448500105,
+      "good_direction_masks": 24,
+      "identity_words": 15,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 985,
+      "not_good_direction_masks": 936,
+      "pair_words_scanned": 1000,
+      "range": [
+        22000000,
+        22001000
+      ],
+      "ranks_with_good_direction": 4,
+      "translation_sign_assignments": 960
+    },
+    {
+      "elapsed_seconds": 1.2360468490005587,
+      "good_direction_masks": 74,
+      "identity_words": 19,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 981,
+      "not_good_direction_masks": 1142,
+      "pair_words_scanned": 1000,
+      "range": [
+        23000000,
+        23001000
+      ],
+      "ranks_with_good_direction": 19,
+      "translation_sign_assignments": 1216
+    },
+    {
+      "elapsed_seconds": 1.1227230340009555,
+      "good_direction_masks": 21,
+      "identity_words": 17,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 983,
+      "not_good_direction_masks": 1067,
+      "pair_words_scanned": 1000,
+      "range": [
+        24000000,
+        24001000
+      ],
+      "ranks_with_good_direction": 14,
+      "translation_sign_assignments": 1088
+    },
+    {
+      "elapsed_seconds": 2.1005007720013964,
+      "good_direction_masks": 33,
+      "identity_words": 36,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 964,
+      "not_good_direction_masks": 2271,
+      "pair_words_scanned": 1000,
+      "range": [
+        25000000,
+        25001000
+      ],
+      "ranks_with_good_direction": 12,
+      "translation_sign_assignments": 2304
+    },
+    {
+      "elapsed_seconds": 0.3978495599985763,
+      "good_direction_masks": 0,
+      "identity_words": 3,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 997,
+      "not_good_direction_masks": 192,
+      "pair_words_scanned": 1000,
+      "range": [
+        26000000,
+        26001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 192
+    },
+    {
+      "elapsed_seconds": 0.25395948699951987,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        27000000,
+        27001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.8455944229990564,
+      "good_direction_masks": 9,
+      "identity_words": 11,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 989,
+      "not_good_direction_masks": 695,
+      "pair_words_scanned": 1000,
+      "range": [
+        28000000,
+        28001000
+      ],
+      "ranks_with_good_direction": 4,
+      "translation_sign_assignments": 704
+    },
+    {
+      "elapsed_seconds": 0.7765363279995654,
+      "good_direction_masks": 14,
+      "identity_words": 10,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 990,
+      "not_good_direction_masks": 626,
+      "pair_words_scanned": 1000,
+      "range": [
+        29000000,
+        29001000
+      ],
+      "ranks_with_good_direction": 5,
+      "translation_sign_assignments": 640
+    },
+    {
+      "elapsed_seconds": 1.2079072970009292,
+      "good_direction_masks": 0,
+      "identity_words": 19,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 981,
+      "not_good_direction_masks": 1216,
+      "pair_words_scanned": 1000,
+      "range": [
+        30000000,
+        30001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1216
+    },
+    {
+      "elapsed_seconds": 0.47078667399910046,
+      "good_direction_masks": 0,
+      "identity_words": 4,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 996,
+      "not_good_direction_masks": 256,
+      "pair_words_scanned": 1000,
+      "range": [
+        31000000,
+        31001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 256
+    },
+    {
+      "elapsed_seconds": 2.881325812999421,
+      "good_direction_masks": 28,
+      "identity_words": 51,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 949,
+      "not_good_direction_masks": 3236,
+      "pair_words_scanned": 1000,
+      "range": [
+        32000000,
+        32001000
+      ],
+      "ranks_with_good_direction": 23,
+      "translation_sign_assignments": 3264
+    },
+    {
+      "elapsed_seconds": 0.26660581799842475,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        33000000,
+        33001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.5352457890003279,
+      "good_direction_masks": 4,
+      "identity_words": 5,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 995,
+      "not_good_direction_masks": 316,
+      "pair_words_scanned": 1000,
+      "range": [
+        34000000,
+        34001000
+      ],
+      "ranks_with_good_direction": 2,
+      "translation_sign_assignments": 320
+    },
+    {
+      "elapsed_seconds": 2.1135225770012767,
+      "good_direction_masks": 0,
+      "identity_words": 37,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 963,
+      "not_good_direction_masks": 2368,
+      "pair_words_scanned": 1000,
+      "range": [
+        35000000,
+        35001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 2368
+    },
+    {
+      "elapsed_seconds": 0.8791658210011519,
+      "good_direction_masks": 16,
+      "identity_words": 12,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 988,
+      "not_good_direction_masks": 752,
+      "pair_words_scanned": 1000,
+      "range": [
+        36000000,
+        36001000
+      ],
+      "ranks_with_good_direction": 9,
+      "translation_sign_assignments": 768
+    },
+    {
+      "elapsed_seconds": 0.2542713670009107,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        37000000,
+        37001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 1.6799740619990189,
+      "good_direction_masks": 0,
+      "identity_words": 28,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 972,
+      "not_good_direction_masks": 1792,
+      "pair_words_scanned": 1000,
+      "range": [
+        38000000,
+        38001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1792
+    },
+    {
+      "elapsed_seconds": 0.6243099439998332,
+      "good_direction_masks": 10,
+      "identity_words": 7,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 993,
+      "not_good_direction_masks": 438,
+      "pair_words_scanned": 1000,
+      "range": [
+        39000000,
+        39001000
+      ],
+      "ranks_with_good_direction": 6,
+      "translation_sign_assignments": 448
+    },
+    {
+      "elapsed_seconds": 0.571515626999826,
+      "good_direction_masks": 3,
+      "identity_words": 6,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 994,
+      "not_good_direction_masks": 381,
+      "pair_words_scanned": 1000,
+      "range": [
+        40000000,
+        40001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 384
+    },
+    {
+      "elapsed_seconds": 0.2572740849991533,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        41000000,
+        41001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.2626664889994572,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        42000000,
+        42001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.26257038899893814,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        43000000,
+        43001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 5.182837592999931,
+      "good_direction_masks": 711,
+      "identity_words": 96,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 904,
+      "not_good_direction_masks": 5433,
+      "pair_words_scanned": 1000,
+      "range": [
+        44000000,
+        44001000
+      ],
+      "ranks_with_good_direction": 96,
+      "translation_sign_assignments": 6144
+    },
+    {
+      "elapsed_seconds": 1.6230726210014836,
+      "good_direction_masks": 20,
+      "identity_words": 26,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 974,
+      "not_good_direction_masks": 1644,
+      "pair_words_scanned": 1000,
+      "range": [
+        45000000,
+        45001000
+      ],
+      "ranks_with_good_direction": 16,
+      "translation_sign_assignments": 1664
+    },
+    {
+      "elapsed_seconds": 0.8237867329989967,
+      "good_direction_masks": 15,
+      "identity_words": 11,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 989,
+      "not_good_direction_masks": 689,
+      "pair_words_scanned": 1000,
+      "range": [
+        46000000,
+        46001000
+      ],
+      "ranks_with_good_direction": 11,
+      "translation_sign_assignments": 704
+    },
+    {
+      "elapsed_seconds": 2.1090806200008956,
+      "good_direction_masks": 0,
+      "identity_words": 37,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 963,
+      "not_good_direction_masks": 2368,
+      "pair_words_scanned": 1000,
+      "range": [
+        47000000,
+        47001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 2368
+    },
+    {
+      "elapsed_seconds": 0.25903338600073766,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        48000000,
+        48001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.9382325560000027,
+      "good_direction_masks": 5,
+      "identity_words": 13,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 987,
+      "not_good_direction_masks": 827,
+      "pair_words_scanned": 1000,
+      "range": [
+        49000000,
+        49001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 832
+    },
+    {
+      "elapsed_seconds": 2.5762293039988435,
+      "good_direction_masks": 99,
+      "identity_words": 45,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 955,
+      "not_good_direction_masks": 2781,
+      "pair_words_scanned": 1000,
+      "range": [
+        50000000,
+        50001000
+      ],
+      "ranks_with_good_direction": 40,
+      "translation_sign_assignments": 2880
+    },
+    {
+      "elapsed_seconds": 1.1745238009989407,
+      "good_direction_masks": 0,
+      "identity_words": 18,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 982,
+      "not_good_direction_masks": 1152,
+      "pair_words_scanned": 1000,
+      "range": [
+        51000000,
+        51001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1152
+    },
+    {
+      "elapsed_seconds": 0.27441349099899526,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        52000000,
+        52001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.40196834599919384,
+      "good_direction_masks": 0,
+      "identity_words": 3,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 997,
+      "not_good_direction_masks": 192,
+      "pair_words_scanned": 1000,
+      "range": [
+        53000000,
+        53001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 192
+    },
+    {
+      "elapsed_seconds": 6.896307667999281,
+      "good_direction_masks": 721,
+      "identity_words": 132,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 868,
+      "not_good_direction_masks": 7727,
+      "pair_words_scanned": 1000,
+      "range": [
+        54000000,
+        54001000
+      ],
+      "ranks_with_good_direction": 132,
+      "translation_sign_assignments": 8448
+    },
+    {
+      "elapsed_seconds": 0.26192040300156805,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        55000000,
+        55001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 2.167755570000736,
+      "good_direction_masks": 0,
+      "identity_words": 38,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 962,
+      "not_good_direction_masks": 2432,
+      "pair_words_scanned": 1000,
+      "range": [
+        56000000,
+        56001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 2432
+    },
+    {
+      "elapsed_seconds": 1.4483882719996473,
+      "good_direction_masks": 31,
+      "identity_words": 23,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 977,
+      "not_good_direction_masks": 1441,
+      "pair_words_scanned": 1000,
+      "range": [
+        57000000,
+        57001000
+      ],
+      "ranks_with_good_direction": 20,
+      "translation_sign_assignments": 1472
+    },
+    {
+      "elapsed_seconds": 0.7282007089997933,
+      "good_direction_masks": 16,
+      "identity_words": 9,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 991,
+      "not_good_direction_masks": 560,
+      "pair_words_scanned": 1000,
+      "range": [
+        58000000,
+        58001000
+      ],
+      "ranks_with_good_direction": 9,
+      "translation_sign_assignments": 576
+    },
+    {
+      "elapsed_seconds": 0.6730153539992898,
+      "good_direction_masks": 0,
+      "identity_words": 8,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 992,
+      "not_good_direction_masks": 512,
+      "pair_words_scanned": 1000,
+      "range": [
+        59000000,
+        59001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 512
+    },
+    {
+      "elapsed_seconds": 0.2637404819997755,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        60000000,
+        60001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.4107226180003636,
+      "good_direction_masks": 8,
+      "identity_words": 3,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 997,
+      "not_good_direction_masks": 184,
+      "pair_words_scanned": 1000,
+      "range": [
+        61000000,
+        61001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 192
+    },
+    {
+      "elapsed_seconds": 2.6345910009986255,
+      "good_direction_masks": 262,
+      "identity_words": 46,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 954,
+      "not_good_direction_masks": 2682,
+      "pair_words_scanned": 1000,
+      "range": [
+        62000000,
+        62001000
+      ],
+      "ranks_with_good_direction": 44,
+      "translation_sign_assignments": 2944
+    },
+    {
+      "elapsed_seconds": 0.6199821270001848,
+      "good_direction_masks": 4,
+      "identity_words": 7,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 993,
+      "not_good_direction_masks": 444,
+      "pair_words_scanned": 1000,
+      "range": [
+        63000000,
+        63001000
+      ],
+      "ranks_with_good_direction": 4,
+      "translation_sign_assignments": 448
+    },
+    {
+      "elapsed_seconds": 0.4705678030004492,
+      "good_direction_masks": 4,
+      "identity_words": 4,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 996,
+      "not_good_direction_masks": 252,
+      "pair_words_scanned": 1000,
+      "range": [
+        64000000,
+        64001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 256
+    },
+    {
+      "elapsed_seconds": 1.1650171540004521,
+      "good_direction_masks": 17,
+      "identity_words": 18,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 982,
+      "not_good_direction_masks": 1135,
+      "pair_words_scanned": 1000,
+      "range": [
+        65000000,
+        65001000
+      ],
+      "ranks_with_good_direction": 10,
+      "translation_sign_assignments": 1152
+    },
+    {
+      "elapsed_seconds": 0.6093301090004388,
+      "good_direction_masks": 0,
+      "identity_words": 7,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 993,
+      "not_good_direction_masks": 448,
+      "pair_words_scanned": 1000,
+      "range": [
+        66000000,
+        66001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 448
+    },
+    {
+      "elapsed_seconds": 0.30230642900096427,
+      "good_direction_masks": 0,
+      "identity_words": 1,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 999,
+      "not_good_direction_masks": 64,
+      "pair_words_scanned": 1000,
+      "range": [
+        67000000,
+        67001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 64
+    },
+    {
+      "elapsed_seconds": 1.1586743059997389,
+      "good_direction_masks": 0,
+      "identity_words": 18,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 982,
+      "not_good_direction_masks": 1152,
+      "pair_words_scanned": 1000,
+      "range": [
+        68000000,
+        68001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1152
+    },
+    {
+      "elapsed_seconds": 1.691458318999139,
+      "good_direction_masks": 143,
+      "identity_words": 28,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 972,
+      "not_good_direction_masks": 1649,
+      "pair_words_scanned": 1000,
+      "range": [
+        69000000,
+        69001000
+      ],
+      "ranks_with_good_direction": 27,
+      "translation_sign_assignments": 1792
+    },
+    {
+      "elapsed_seconds": 2.731112621999273,
+      "good_direction_masks": 139,
+      "identity_words": 48,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 952,
+      "not_good_direction_masks": 2933,
+      "pair_words_scanned": 1000,
+      "range": [
+        70000000,
+        70001000
+      ],
+      "ranks_with_good_direction": 47,
+      "translation_sign_assignments": 3072
+    },
+    {
+      "elapsed_seconds": 0.26790815700042003,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        71000000,
+        71001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 1.0346000630015624,
+      "good_direction_masks": 16,
+      "identity_words": 15,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 985,
+      "not_good_direction_masks": 944,
+      "pair_words_scanned": 1000,
+      "range": [
+        72000000,
+        72001000
+      ],
+      "ranks_with_good_direction": 9,
+      "translation_sign_assignments": 960
+    },
+    {
+      "elapsed_seconds": 1.060574484999961,
+      "good_direction_masks": 0,
+      "identity_words": 16,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 984,
+      "not_good_direction_masks": 1024,
+      "pair_words_scanned": 1000,
+      "range": [
+        73000000,
+        73001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1024
+    },
+    {
+      "elapsed_seconds": 2.939159090999965,
+      "good_direction_masks": 41,
+      "identity_words": 53,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 947,
+      "not_good_direction_masks": 3351,
+      "pair_words_scanned": 1000,
+      "range": [
+        74000000,
+        74001000
+      ],
+      "ranks_with_good_direction": 24,
+      "translation_sign_assignments": 3392
+    },
+    {
+      "elapsed_seconds": 0.2696859779989609,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        75000000,
+        75001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.7576076820005255,
+      "good_direction_masks": 23,
+      "identity_words": 9,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 991,
+      "not_good_direction_masks": 553,
+      "pair_words_scanned": 1000,
+      "range": [
+        76000000,
+        76001000
+      ],
+      "ranks_with_good_direction": 9,
+      "translation_sign_assignments": 576
+    },
+    {
+      "elapsed_seconds": 0.6657410129992059,
+      "good_direction_masks": 0,
+      "identity_words": 8,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 992,
+      "not_good_direction_masks": 512,
+      "pair_words_scanned": 1000,
+      "range": [
+        77000000,
+        77001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 512
+    },
+    {
+      "elapsed_seconds": 0.7429117539995787,
+      "good_direction_masks": 8,
+      "identity_words": 9,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 991,
+      "not_good_direction_masks": 568,
+      "pair_words_scanned": 1000,
+      "range": [
+        78000000,
+        78001000
+      ],
+      "ranks_with_good_direction": 2,
+      "translation_sign_assignments": 576
+    },
+    {
+      "elapsed_seconds": 3.6978557410002395,
+      "good_direction_masks": 464,
+      "identity_words": 67,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 933,
+      "not_good_direction_masks": 3824,
+      "pair_words_scanned": 1000,
+      "range": [
+        79000000,
+        79001000
+      ],
+      "ranks_with_good_direction": 67,
+      "translation_sign_assignments": 4288
+    },
+    {
+      "elapsed_seconds": 2.8771316460006346,
+      "good_direction_masks": 123,
+      "identity_words": 51,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 949,
+      "not_good_direction_masks": 3141,
+      "pair_words_scanned": 1000,
+      "range": [
+        80000000,
+        80001000
+      ],
+      "ranks_with_good_direction": 37,
+      "translation_sign_assignments": 3264
+    },
+    {
+      "elapsed_seconds": 0.5819369740002003,
+      "good_direction_masks": 0,
+      "identity_words": 6,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 994,
+      "not_good_direction_masks": 384,
+      "pair_words_scanned": 1000,
+      "range": [
+        81000000,
+        81001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 384
+    },
+    {
+      "elapsed_seconds": 0.2685473930014268,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        82000000,
+        82001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 1.5235486260007747,
+      "good_direction_masks": 0,
+      "identity_words": 25,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 975,
+      "not_good_direction_masks": 1600,
+      "pair_words_scanned": 1000,
+      "range": [
+        83000000,
+        83001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1600
+    },
+    {
+      "elapsed_seconds": 3.187089147999359,
+      "good_direction_masks": 403,
+      "identity_words": 58,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 942,
+      "not_good_direction_masks": 3309,
+      "pair_words_scanned": 1000,
+      "range": [
+        84000000,
+        84001000
+      ],
+      "ranks_with_good_direction": 58,
+      "translation_sign_assignments": 3712
+    },
+    {
+      "elapsed_seconds": 1.0597586510011752,
+      "good_direction_masks": 0,
+      "identity_words": 16,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 984,
+      "not_good_direction_masks": 1024,
+      "pair_words_scanned": 1000,
+      "range": [
+        85000000,
+        85001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 1024
+    },
+    {
+      "elapsed_seconds": 0.32038802199895144,
+      "good_direction_masks": 0,
+      "identity_words": 1,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 999,
+      "not_good_direction_masks": 64,
+      "pair_words_scanned": 1000,
+      "range": [
+        86000000,
+        86001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 64
+    },
+    {
+      "elapsed_seconds": 1.3657536559985601,
+      "good_direction_masks": 32,
+      "identity_words": 21,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 979,
+      "not_good_direction_masks": 1312,
+      "pair_words_scanned": 1000,
+      "range": [
+        87000000,
+        87001000
+      ],
+      "ranks_with_good_direction": 17,
+      "translation_sign_assignments": 1344
+    },
+    {
+      "elapsed_seconds": 0.9153664599998592,
+      "good_direction_masks": 7,
+      "identity_words": 13,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 987,
+      "not_good_direction_masks": 825,
+      "pair_words_scanned": 1000,
+      "range": [
+        88000000,
+        88001000
+      ],
+      "ranks_with_good_direction": 3,
+      "translation_sign_assignments": 832
+    },
+    {
+      "elapsed_seconds": 0.26157200499983446,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        89000000,
+        89001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    },
+    {
+      "elapsed_seconds": 0.322439214998667,
+      "good_direction_masks": 0,
+      "identity_words": 1,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 999,
+      "not_good_direction_masks": 64,
+      "pair_words_scanned": 1000,
+      "range": [
+        90000000,
+        90001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 64
+    },
+    {
+      "elapsed_seconds": 0.6673414679989946,
+      "good_direction_masks": 4,
+      "identity_words": 8,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 992,
+      "not_good_direction_masks": 508,
+      "pair_words_scanned": 1000,
+      "range": [
+        91000000,
+        91001000
+      ],
+      "ranks_with_good_direction": 2,
+      "translation_sign_assignments": 512
+    },
+    {
+      "elapsed_seconds": 2.8720541479997337,
+      "good_direction_masks": 15,
+      "identity_words": 54,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 946,
+      "not_good_direction_masks": 3441,
+      "pair_words_scanned": 1000,
+      "range": [
+        92000000,
+        92001000
+      ],
+      "ranks_with_good_direction": 12,
+      "translation_sign_assignments": 3456
+    },
+    {
+      "elapsed_seconds": 0.30622677599967574,
+      "good_direction_masks": 3,
+      "identity_words": 1,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 999,
+      "not_good_direction_masks": 61,
+      "pair_words_scanned": 1000,
+      "range": [
+        93000000,
+        93001000
+      ],
+      "ranks_with_good_direction": 1,
+      "translation_sign_assignments": 64
+    },
+    {
+      "elapsed_seconds": 0.9606791669993981,
+      "good_direction_masks": 14,
+      "identity_words": 14,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 986,
+      "not_good_direction_masks": 882,
+      "pair_words_scanned": 1000,
+      "range": [
+        94000000,
+        94001000
+      ],
+      "ranks_with_good_direction": 6,
+      "translation_sign_assignments": 896
+    },
+    {
+      "elapsed_seconds": 0.9696565369995369,
+      "good_direction_masks": 38,
+      "identity_words": 14,
+      "max_rss_kib": 17544,
+      "nonidentity_words": 986,
+      "not_good_direction_masks": 858,
+      "pair_words_scanned": 1000,
+      "range": [
+        95000000,
+        95001000
+      ],
+      "ranks_with_good_direction": 10,
+      "translation_sign_assignments": 896
+    },
+    {
+      "elapsed_seconds": 2.269141803999446,
+      "good_direction_masks": 39,
+      "identity_words": 41,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 959,
+      "not_good_direction_masks": 2585,
+      "pair_words_scanned": 1000,
+      "range": [
+        96000000,
+        96001000
+      ],
+      "ranks_with_good_direction": 17,
+      "translation_sign_assignments": 2624
+    },
+    {
+      "elapsed_seconds": 0.2469903000001068,
+      "good_direction_masks": 0,
+      "identity_words": 0,
+      "max_rss_kib": 17548,
+      "nonidentity_words": 1000,
+      "not_good_direction_masks": 0,
+      "pair_words_scanned": 1000,
+      "range": [
+        97000000,
+        97001000
+      ],
+      "ranks_with_good_direction": 0,
+      "translation_sign_assignments": 0
+    }
+  ],
+  "workers": 8
+}
