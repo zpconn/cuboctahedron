@@ -12655,6 +12655,54 @@ Acceptance:
   integer/scaled affine data, so Lean checks small coefficient equations
   instead of unfolding `totalAff`/`translationChoiceSeq` through six Boolean
   branches.
+- [x] Implement Phase 6Z.6K.8AP.16BU Walsh quadratic coefficient surface:
+  AP16BU adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadratic.lean`.
+  This small hand-written module defines `WalshQuadratic`, a fixed
+  coefficient-level target for the degree-at-most-two Walsh denominator
+  polynomials measured in AP16BS.  It deliberately avoids unfolding
+  `totalAff`, `translationChoiceSeq`, or `impactDenomAtRank`; future generated
+  equality checkers should prove coefficient facts against this surface.
+
+  The first proof attempt for an expanded `toPoly_eval` theorem used `ring` on
+  a 22-term rational expression and timed out at Lean's default heartbeat
+  limit.  The module was then simplified so `WalshQuadratic.eval` is
+  definitionally `WalshQuadratic.toPoly.eval`, making `toPoly_eval` an `rfl`
+  theorem.  This keeps the coefficient surface cheap and avoids unnecessary
+  algebra normalization.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 6000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bu_walsh_quadratic_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 2.50s
+  peak tree RSS: 4022 MiB
+  minimum available memory: 46057 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bu_walsh_quadratic_core.json
+  scripts/generated/phase6z6k8ap16bu_walsh_quadratic_core.md
+  ```
+
+  Decision: accepted as the next safe target surface.  The next AP16 proof
+  step should not generate tactic proofs that unfold the full translation
+  geometry under mask-bit branches.  It should implement a symbolic or
+  integer/scaled denominator evaluator that produces/checks `WalshQuadratic`
+  coefficients.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

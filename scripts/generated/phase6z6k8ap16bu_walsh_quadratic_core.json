@@ -1,0 +1,16 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BU",
+  "status": "accepted",
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic",
+  "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadratic.lean",
+  "purpose": "Provide a fixed coefficient-level surface for degree-at-most-two Walsh denominator polynomials.",
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bu_walsh_quadratic_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic'",
+    "exit_code": 0,
+    "elapsed_seconds": 2.50,
+    "max_tree_rss_mib": 4022,
+    "min_available_seen_mib": 46057
+  },
+  "trusted_as_final_generated_coverage": false,
+  "next_step": "Use WalshQuadratic as the target for a real symbolic/scaled denominator evaluator; do not return to generated six-bit unfolding proofs."
+}
