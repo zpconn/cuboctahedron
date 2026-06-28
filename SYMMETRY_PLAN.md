@@ -10688,6 +10688,60 @@ Acceptance:
   disjoint-window sample under the same optimized runner, with worker count
   capped by observed per-worker RSS and CPU budget, before any full production
   catalog attempt.
+- [x] Implement Phase 6Z.6K.8AP.16AF optimized disjoint-window census sample:
+  AP.16AF samples five separated 1,000-rank windows with the AP.16AC/AP.16AD
+  optimized path and two safe workers.
+
+  Command:
+
+  ```text
+  /usr/bin/time -v python3 scripts/run_ap16_positive_survivor_census.py \
+    --no-resume \
+    --rank-start 0 \
+    --limit 90001000 \
+    --window-size 1000 \
+    --stride 22500000 \
+    --max-windows 5 \
+    --workers 2 \
+    --checkpoint-dir /tmp/cuboctahedron_ap16af_positive_survivor_census \
+    --json scripts/generated/phase6z6k8ap16af_disjoint_positive_survivor_census.json \
+    --md scripts/generated/phase6z6k8ap16af_disjoint_positive_survivor_census.md \
+    --phase 6Z.6K.8AP.16AF
+  ```
+
+  Result:
+
+  ```text
+  completed sampled ranks:          5,000
+  workers:                          2
+  wall time:                        18.91s
+  user CPU:                         24.66s
+  parent max RSS:                   29,480 KiB
+  max per-window RSS:               25,960 KiB
+  GoodDirection cases:              1,485
+  unique positive candidate groups:    85
+  unique positive survivor signatures: 142
+  ```
+
+  Window variance:
+
+  ```text
+  [0, 1000):             1,465 GoodDirection cases, 18.84s
+  [22,500,000, 22,501,000): 0 GoodDirection cases, 0.24s
+  [45,000,000, 45,001,000): 20 GoodDirection cases, 2.12s
+  [67,500,000, 67,501,000): 0 GoodDirection cases, 3.23s
+  [90,000,000, 90,001,000): 0 GoodDirection cases, 0.33s
+  ```
+
+  Interpretation: rank regions vary dramatically.  The dense early window is
+  not representative of every region, and sparse windows are cheap after the
+  AP.16AD prefix cache.  If the positive-survivor catalog route remains active,
+  production should use checkpointed/adaptive scheduling with worker count based
+  on measured RSS, and it should report dense-window histograms rather than a
+  single uniform extrapolation.  The next useful diagnostic is a density map:
+  many small windows across the full rank range, recording only identity-word
+  and GoodDirection counts plus time, so that any eventual catalog emission is
+  scheduled by observed density rather than lexical-rank assumptions.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
