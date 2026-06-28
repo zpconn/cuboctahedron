@@ -71,21 +71,35 @@ def signature_name(index: int) -> str:
     return f"sig_{index:03d}"
 
 
-def selected_signatures(profile: dict[str, Any], count: int) -> list[dict[str, Any]]:
+def selected_signatures(
+    profile: dict[str, Any],
+    *,
+    start: int,
+    count: int,
+) -> list[dict[str, Any]]:
     signatures = profile.get("positive_survivor_signature_catalog", [])
-    if len(signatures) < count:
-        raise SystemExit(f"profile has only {len(signatures)} signatures, need {count}")
-    return signatures[:count]
+    if start < 0:
+        raise SystemExit(f"start signature must be nonnegative, got {start}")
+    if len(signatures) < start + count:
+        raise SystemExit(
+            f"profile has only {len(signatures)} signatures, need "
+            f"{start + count} for start={start}, count={count}"
+        )
+    return signatures[start:start + count]
 
 
 def selected_signatures_by_fact_budget(
     profile: dict[str, Any],
+    *,
+    start: int,
     budget: int,
 ) -> list[dict[str, Any]]:
     signatures = profile.get("positive_survivor_signature_catalog", [])
+    if start < 0:
+        raise SystemExit(f"start signature must be nonnegative, got {start}")
     selected: list[dict[str, Any]] = []
     total = 0
-    for signature in signatures:
+    for signature in signatures[start:]:
         fact_count = len(signature.get("good_masks", []))
         if selected and total + fact_count > budget:
             break
@@ -451,6 +465,7 @@ def main() -> None:
     parser.add_argument("--shared-output", type=Path, default=DEFAULT_SHARED_OUTPUT)
     parser.add_argument("--routing-output", type=Path, default=DEFAULT_ROUTING_OUTPUT)
     parser.add_argument("--signatures", type=int, default=2)
+    parser.add_argument("--start-signature", type=int, default=0)
     parser.add_argument("--fact-budget", type=int)
     parser.add_argument("--shared-module", default=DEFAULT_SHARED_MODULE)
     parser.add_argument("--routing-module", default=DEFAULT_ROUTING_MODULE)
@@ -459,9 +474,17 @@ def main() -> None:
 
     profile = json.loads(args.profile.read_text(encoding="utf-8"))
     if args.fact_budget is not None:
-        signatures = selected_signatures_by_fact_budget(profile, args.fact_budget)
+        signatures = selected_signatures_by_fact_budget(
+            profile,
+            start=args.start_signature,
+            budget=args.fact_budget,
+        )
     else:
-        signatures = selected_signatures(profile, args.signatures)
+        signatures = selected_signatures(
+            profile,
+            start=args.start_signature,
+            count=args.signatures,
+        )
     shared_namespace = f"{NAMESPACE_PREFIX}.{args.shared_module}"
     routing_namespace = f"{NAMESPACE_PREFIX}.{args.routing_module}"
     shared_import = f"{NAMESPACE_PREFIX}.{args.shared_module}"

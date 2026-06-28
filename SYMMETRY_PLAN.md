@@ -10146,6 +10146,48 @@ Acceptance:
   imports only one or two budget-20 candidate-facts shards plus their routing
   modules, so the final AP.16 structure can be measured separately from the
   heavy leaves.
+- [x] Implement Phase 6Z.6K.8AP.16Y.2 second shard and two-shard group smoke:
+  AP.16Y.2 extends the same emitter with `--start-signature`, emits a second
+  budget-20 shard starting at positive-survivor signature 2, and adds a tiny
+  group/root smoke importing both routing shards:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedCandidateFactsShard001Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingShard001Smoke.lean
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedGroup000Smoke.lean
+  ```
+
+  Generation command:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16w_shared_candidate_routing_smoke.py \
+    --start-signature 2 \
+    --fact-budget 20 \
+    --label AP.16Y.2 \
+    --shared-module PositiveSurvivorSharedCandidateFactsShard001Smoke \
+    --routing-module PositiveSurvivorSharedRoutingShard001Smoke \
+    --shared-output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedCandidateFactsShard001Smoke.lean \
+    --routing-output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingShard001Smoke.lean
+  ```
+
+  The emitter selected one positive-survivor signature, 4 shared candidate
+  specs, and 11 concrete positive-mask candidate facts.  It ran in 0.60s wall
+  time with 29,704 KiB peak RSS.
+
+  Focused capped builds:
+
+  ```text
+  PositiveSurvivorSharedCandidateFactsShard001Smoke: 14.14s wall, 4,240,596 KiB peak RSS
+  PositiveSurvivorSharedRoutingShard001Smoke:         2.28s wall, 3,302,632 KiB peak RSS
+  PositiveSurvivorSharedGroup000Smoke:                2.18s wall, 3,286,404 KiB peak RSS
+  ```
+
+  The group/root layer remains cheap once the heavy candidate-facts leaves are
+  built.  This supports the intended hierarchy: many small candidate-fact
+  shards, thin per-shard routing modules, and balanced group/root imports.  The
+  next AP.16 scaling step should generate a shard manifest plus a tiny group
+  emitter from the AP.16Y budget plan, still over the representative AP.16I
+  catalog, before attempting any production GoodDirection survivor catalog.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
