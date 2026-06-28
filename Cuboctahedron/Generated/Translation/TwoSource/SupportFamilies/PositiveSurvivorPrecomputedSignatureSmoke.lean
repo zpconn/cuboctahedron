@@ -1,0 +1,1755 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+
+/-!
+Generated AP.16T precomputed positive-survivor signature smoke.
+
+This diagnostic module extends AP.16S from one positive mask to every
+positive mask in the singleton survivor signature.  It still leaves
+the Boolean GoodDirection-to-positive-mask theorem as the only explicit
+premise and emits no facts for masks that fail GoodDirection.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke
+
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts
+
+set_option maxRecDepth 10000
+set_option linter.unusedSimpArgs false
+set_option linter.unusedTactic false
+
+private inductive GeneratedCandidate
+  | c000
+  | c001
+  | c002
+  | c003
+  | c004
+  | c005
+deriving DecidableEq, Repr
+
+private def generatedSpec : GeneratedCandidate -> SourcePairPositionSpec
+  | .c000 => {
+      first := SourcePositionSpec.interior ⟨1, by decide⟩ Face.tmmm 5
+      second := SourcePositionSpec.xpStart ⟨0, by decide⟩ }
+  | .c001 => {
+      first := SourcePositionSpec.interior ⟨4, by decide⟩ Face.xm 1
+      second := SourcePositionSpec.xpStart ⟨0, by decide⟩ }
+  | .c002 => {
+      first := SourcePositionSpec.interior ⟨4, by decide⟩ Face.xp 0
+      second := SourcePositionSpec.xpStart ⟨3, by decide⟩ }
+  | .c003 => {
+      first := SourcePositionSpec.interior ⟨13, by decide⟩ Face.xm 1
+      second := SourcePositionSpec.xpStart ⟨0, by decide⟩ }
+  | .c004 => {
+      first := SourcePositionSpec.interior ⟨1, by decide⟩ Face.tmpm 7
+      second := SourcePositionSpec.xpStart ⟨2, by decide⟩ }
+  | .c005 => {
+      first := SourcePositionSpec.interior ⟨1, by decide⟩ Face.tmpp 8
+      second := SourcePositionSpec.xpStart ⟨3, by decide⟩ }
+
+private def generatedKey : GeneratedCandidate -> SourceIndexStateKey
+  | .c000 => {
+      firstIndex := (generatedSpec .c000).first.index
+      secondIndex := (generatedSpec .c000).second.index
+      support := (generatedSpec .c000).support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .c001 => {
+      firstIndex := (generatedSpec .c001).first.index
+      secondIndex := (generatedSpec .c001).second.index
+      support := (generatedSpec .c001).support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .c002 => {
+      firstIndex := (generatedSpec .c002).first.index
+      secondIndex := (generatedSpec .c002).second.index
+      support := (generatedSpec .c002).support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .c003 => {
+      firstIndex := (generatedSpec .c003).first.index
+      secondIndex := (generatedSpec .c003).second.index
+      support := (generatedSpec .c003).support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .c004 => {
+      firstIndex := (generatedSpec .c004).first.index
+      secondIndex := (generatedSpec .c004).second.index
+      support := (generatedSpec .c004).support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .c005 => {
+      firstIndex := (generatedSpec .c005).first.index
+      secondIndex := (generatedSpec .c005).second.index
+      support := (generatedSpec .c005).support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+
+private def generatedRowProducer : GeneratedCandidate -> SourceIndexStateRowProducer
+  | .c000 => {
+      Applies := fun key rank mask =>
+        key = generatedKey .c000 /\
+          key.template.Rows key.support rank mask
+      rowFacts := by
+        intro key rank mask h
+        exact SourceIndexStateRowFacts.of_rows h.2 }
+  | .c001 => {
+      Applies := fun key rank mask =>
+        key = generatedKey .c001 /\
+          key.template.Rows key.support rank mask
+      rowFacts := by
+        intro key rank mask h
+        exact SourceIndexStateRowFacts.of_rows h.2 }
+  | .c002 => {
+      Applies := fun key rank mask =>
+        key = generatedKey .c002 /\
+          key.template.Rows key.support rank mask
+      rowFacts := by
+        intro key rank mask h
+        exact SourceIndexStateRowFacts.of_rows h.2 }
+  | .c003 => {
+      Applies := fun key rank mask =>
+        key = generatedKey .c003 /\
+          key.template.Rows key.support rank mask
+      rowFacts := by
+        intro key rank mask h
+        exact SourceIndexStateRowFacts.of_rows h.2 }
+  | .c004 => {
+      Applies := fun key rank mask =>
+        key = generatedKey .c004 /\
+          key.template.Rows key.support rank mask
+      rowFacts := by
+        intro key rank mask h
+        exact SourceIndexStateRowFacts.of_rows h.2 }
+  | .c005 => {
+      Applies := fun key rank mask =>
+        key = generatedKey .c005 /\
+          key.template.Rows key.support rank mask
+      rowFacts := by
+        intro key rank mask h
+        exact SourceIndexStateRowFacts.of_rows h.2 }
+
+private def generatedCandidateOfNat : Nat -> GeneratedCandidate
+  | 4 => .c000
+  | 6 => .c000
+  | 11 => .c001
+  | 22 => .c002
+  | 30 => .c003
+  | 31 => .c003
+  | 59 => .c004
+  | 63 => .c005
+  | _ => .c000
+
+private def generatedCandidateOfMask (mask : SignMask) : GeneratedCandidate :=
+  generatedCandidateOfNat mask.val
+
+private def generatedGoodMaskMember (mask : SignMask) : Prop :=
+  mask.val = 4 \/
+    mask.val = 6 \/
+    mask.val = 11 \/
+    mask.val = 22 \/
+    mask.val = 30 \/
+    mask.val = 31 \/
+    mask.val = 59 \/
+    mask.val = 63
+
+private def generatedSignatureFacts (mask : SignMask) : Prop :=
+  (generatedSpec (generatedCandidateOfMask mask)).Predicate 100805 mask /\
+    (generatedRowProducer (generatedCandidateOfMask mask)).Applies
+      (generatedKey (generatedCandidateOfMask mask)) 100805 mask
+
+/-- AP.16T positive mask `4`. -/
+private def case_000000_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000000_mask : SignMask := ⟨4, by decide⟩
+private def case_000000_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000000_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmmm
+  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
+private def case_000000_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zm
+  | ⟨7, _⟩ => Face.zp
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def case_000000_b : Vec3 Rat := { x := (-124/27), y := (-460/27), z := (-124/27) }
+private def case_000000_firstLine : StrictLin2 := { a := -1, b := -1, c := (-261/31) }
+private def case_000000_secondLine : StrictLin2 := { a := 1, b := 1, c := 1 }
+
+private theorem case_000000_rankWord :
+    rankPairWord? case_000000_word = some case_000000_rank := by
+  decide
+
+private theorem case_000000_unrank :
+    unrankPairWord case_000000_rank = case_000000_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000000_word case_000000_rank).1
+    case_000000_rankWord |>.symm
+
+private theorem case_000000_seqChoice :
+    translationChoiceSeq case_000000_word case_000000_mask = case_000000_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000000_seqAtRank :
+    translationSeqAtRankMask case_000000_rank case_000000_mask = case_000000_seq := by
+  rw [translationSeqAtRankMask, case_000000_unrank]
+  exact case_000000_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000000_bAtRank :
+    translationBAtRankMask case_000000_rank case_000000_mask = case_000000_b := by
+  rw [translationBAtRankMask, case_000000_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000000_b, case_000000_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000000_firstLine_eq :
+    case_000000_support.firstLine case_000000_seq case_000000_b = case_000000_firstLine := by
+  norm_num [case_000000_firstLine, case_000000_support, case_000000_seq, case_000000_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000000_secondLine_eq :
+    case_000000_support.secondLine case_000000_seq case_000000_b = case_000000_secondLine := by
+  norm_num [case_000000_secondLine, case_000000_support, case_000000_seq, case_000000_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000000_shape :
+    EqEqPosVarFirst case_000000_support case_000000_rank.val case_000000_mask := by
+  intro hlt
+  have hrank : (⟨case_000000_rank.val, hlt⟩ : Fin numPairWords) = case_000000_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask =
+        case_000000_seq := by
+    simpa [hrank] using case_000000_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask =
+        case_000000_b := by
+    simpa [hrank] using case_000000_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000000_support case_000000_rank.val hlt
+          case_000000_mask = case_000000_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000000_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000000_support case_000000_rank.val hlt
+          case_000000_mask = case_000000_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000000_secondLine_eq]
+  have case_000000_sourceChecks :
+      SourceChecks case_000000_support case_000000_rank.val hlt case_000000_mask := by
+    simp [SourceChecks, hseq, case_000000_support,
+      checkTranslationConstraintSource, case_000000_seq, impactFace]
+  have case_000000_rowFirst :
+      EqEqPosRow (FirstLineAt case_000000_support case_000000_rank.val hlt case_000000_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000000_firstLine, EqEqPosRow]
+  have case_000000_fixedSecond :
+      FixedRow (SecondLineAt case_000000_support case_000000_rank.val hlt case_000000_mask)
+        (1) (1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000000_secondLine, FixedRow]
+  exact ⟨case_000000_sourceChecks, case_000000_rowFirst, case_000000_fixedSecond⟩
+
+private theorem case_000000_checkedAtRank :
+    case_000000_support.Checked
+      (translationSeqAtRankMask case_000000_rank case_000000_mask)
+      (translationBAtRankMask case_000000_rank case_000000_mask) :=
+  eqEqPosVarFirst_checkedOn case_000000_support case_000000_rank.val case_000000_rank.isLt
+    case_000000_mask case_000000_shape
+
+private theorem case_000000_supportWitness
+    (hlt : case_000000_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask)
+        (translationBAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask) := by
+  have hrank : (⟨case_000000_rank.val, hlt⟩ : Fin numPairWords) = case_000000_rank := by
+    ext
+    rfl
+  exact ⟨case_000000_support, by simpa [hrank] using case_000000_checkedAtRank⟩
+
+private theorem case_000000_sourcePredicate :
+    (generatedSpec .c000).Predicate case_000000_rank.val case_000000_mask := by
+  intro hlt
+  have hrank : (⟨case_000000_rank.val, hlt⟩ : Fin numPairWords) = case_000000_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask =
+        case_000000_seq := by
+    simpa [hrank] using case_000000_seqAtRank
+  have hshape := case_000000_shape hlt
+  have hfirst : (generatedSpec .c000).first.Holds
+      (translationSeqAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000000_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c000).second.Holds
+      (translationSeqAtRankMask ⟨case_000000_rank.val, hlt⟩ case_000000_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c000).support case_000000_rank.val hlt case_000000_mask := by
+    change SourceChecks case_000000_support case_000000_rank.val hlt case_000000_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000000_rowsForKey :
+    (generatedKey .c000).template.Rows (generatedKey .c000).support
+      case_000000_rank.val case_000000_mask := by
+  change EqEqPosVarFirstRows (generatedKey .c000).support case_000000_rank.val case_000000_mask
+  rw [show (generatedKey .c000).support = case_000000_support by rfl]
+  intro hlt
+  exact (case_000000_shape hlt).2
+
+private theorem case_000000_rowProducerApplies :
+    (generatedRowProducer .c000).Applies (generatedKey .c000)
+      case_000000_rank.val case_000000_mask := by
+  exact ⟨rfl, case_000000_rowsForKey⟩
+
+private theorem case_000000_signatureFacts :
+    generatedSignatureFacts case_000000_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000000_rank, case_000000_mask] using
+      And.intro case_000000_sourcePredicate case_000000_rowProducerApplies
+
+/-- AP.16T positive mask `6`. -/
+private def case_000001_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000001_mask : SignMask := ⟨6, by decide⟩
+private def case_000001_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000001_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmmm
+  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
+private def case_000001_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def case_000001_b : Vec3 Rat := { x := (-316/27), y := (-364/27), z := (-100/27) }
+private def case_000001_firstLine : StrictLin2 := { a := -1, b := -1, c := (-153/79) }
+private def case_000001_secondLine : StrictLin2 := { a := 1, b := 1, c := 1 }
+
+private theorem case_000001_rankWord :
+    rankPairWord? case_000001_word = some case_000001_rank := by
+  decide
+
+private theorem case_000001_unrank :
+    unrankPairWord case_000001_rank = case_000001_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000001_word case_000001_rank).1
+    case_000001_rankWord |>.symm
+
+private theorem case_000001_seqChoice :
+    translationChoiceSeq case_000001_word case_000001_mask = case_000001_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000001_seqAtRank :
+    translationSeqAtRankMask case_000001_rank case_000001_mask = case_000001_seq := by
+  rw [translationSeqAtRankMask, case_000001_unrank]
+  exact case_000001_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000001_bAtRank :
+    translationBAtRankMask case_000001_rank case_000001_mask = case_000001_b := by
+  rw [translationBAtRankMask, case_000001_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000001_b, case_000001_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000001_firstLine_eq :
+    case_000001_support.firstLine case_000001_seq case_000001_b = case_000001_firstLine := by
+  norm_num [case_000001_firstLine, case_000001_support, case_000001_seq, case_000001_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000001_secondLine_eq :
+    case_000001_support.secondLine case_000001_seq case_000001_b = case_000001_secondLine := by
+  norm_num [case_000001_secondLine, case_000001_support, case_000001_seq, case_000001_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000001_shape :
+    EqEqPosVarFirst case_000001_support case_000001_rank.val case_000001_mask := by
+  intro hlt
+  have hrank : (⟨case_000001_rank.val, hlt⟩ : Fin numPairWords) = case_000001_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask =
+        case_000001_seq := by
+    simpa [hrank] using case_000001_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask =
+        case_000001_b := by
+    simpa [hrank] using case_000001_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000001_support case_000001_rank.val hlt
+          case_000001_mask = case_000001_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000001_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000001_support case_000001_rank.val hlt
+          case_000001_mask = case_000001_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000001_secondLine_eq]
+  have case_000001_sourceChecks :
+      SourceChecks case_000001_support case_000001_rank.val hlt case_000001_mask := by
+    simp [SourceChecks, hseq, case_000001_support,
+      checkTranslationConstraintSource, case_000001_seq, impactFace]
+  have case_000001_rowFirst :
+      EqEqPosRow (FirstLineAt case_000001_support case_000001_rank.val hlt case_000001_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000001_firstLine, EqEqPosRow]
+  have case_000001_fixedSecond :
+      FixedRow (SecondLineAt case_000001_support case_000001_rank.val hlt case_000001_mask)
+        (1) (1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000001_secondLine, FixedRow]
+  exact ⟨case_000001_sourceChecks, case_000001_rowFirst, case_000001_fixedSecond⟩
+
+private theorem case_000001_checkedAtRank :
+    case_000001_support.Checked
+      (translationSeqAtRankMask case_000001_rank case_000001_mask)
+      (translationBAtRankMask case_000001_rank case_000001_mask) :=
+  eqEqPosVarFirst_checkedOn case_000001_support case_000001_rank.val case_000001_rank.isLt
+    case_000001_mask case_000001_shape
+
+private theorem case_000001_supportWitness
+    (hlt : case_000001_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask)
+        (translationBAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask) := by
+  have hrank : (⟨case_000001_rank.val, hlt⟩ : Fin numPairWords) = case_000001_rank := by
+    ext
+    rfl
+  exact ⟨case_000001_support, by simpa [hrank] using case_000001_checkedAtRank⟩
+
+private theorem case_000001_sourcePredicate :
+    (generatedSpec .c000).Predicate case_000001_rank.val case_000001_mask := by
+  intro hlt
+  have hrank : (⟨case_000001_rank.val, hlt⟩ : Fin numPairWords) = case_000001_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask =
+        case_000001_seq := by
+    simpa [hrank] using case_000001_seqAtRank
+  have hshape := case_000001_shape hlt
+  have hfirst : (generatedSpec .c000).first.Holds
+      (translationSeqAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000001_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c000).second.Holds
+      (translationSeqAtRankMask ⟨case_000001_rank.val, hlt⟩ case_000001_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c000).support case_000001_rank.val hlt case_000001_mask := by
+    change SourceChecks case_000001_support case_000001_rank.val hlt case_000001_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000001_rowsForKey :
+    (generatedKey .c000).template.Rows (generatedKey .c000).support
+      case_000001_rank.val case_000001_mask := by
+  change EqEqPosVarFirstRows (generatedKey .c000).support case_000001_rank.val case_000001_mask
+  rw [show (generatedKey .c000).support = case_000001_support by rfl]
+  intro hlt
+  exact (case_000001_shape hlt).2
+
+private theorem case_000001_rowProducerApplies :
+    (generatedRowProducer .c000).Applies (generatedKey .c000)
+      case_000001_rank.val case_000001_mask := by
+  exact ⟨rfl, case_000001_rowsForKey⟩
+
+private theorem case_000001_signatureFacts :
+    generatedSignatureFacts case_000001_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000001_rank, case_000001_mask] using
+      And.intro case_000001_sourcePredicate case_000001_rowProducerApplies
+
+/-- AP.16T positive mask `11`. -/
+private def case_000002_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000002_mask : SignMask := ⟨11, by decide⟩
+private def case_000002_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000002_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨4, by decide⟩ Face.xm
+  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
+private def case_000002_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tpmp
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def case_000002_b : Vec3 Rat := { x := (-52/9), y := (68/9), z := (-76/9) }
+private def case_000002_firstLine : StrictLin2 := { a := (-13/15), b := (-13/15), c := (-17/15) }
+private def case_000002_secondLine : StrictLin2 := { a := 1, b := 1, c := 1 }
+
+private theorem case_000002_rankWord :
+    rankPairWord? case_000002_word = some case_000002_rank := by
+  decide
+
+private theorem case_000002_unrank :
+    unrankPairWord case_000002_rank = case_000002_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000002_word case_000002_rank).1
+    case_000002_rankWord |>.symm
+
+private theorem case_000002_seqChoice :
+    translationChoiceSeq case_000002_word case_000002_mask = case_000002_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000002_seqAtRank :
+    translationSeqAtRankMask case_000002_rank case_000002_mask = case_000002_seq := by
+  rw [translationSeqAtRankMask, case_000002_unrank]
+  exact case_000002_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000002_bAtRank :
+    translationBAtRankMask case_000002_rank case_000002_mask = case_000002_b := by
+  rw [translationBAtRankMask, case_000002_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000002_b, case_000002_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000002_firstLine_eq :
+    case_000002_support.firstLine case_000002_seq case_000002_b = case_000002_firstLine := by
+  norm_num [case_000002_firstLine, case_000002_support, case_000002_seq, case_000002_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000002_secondLine_eq :
+    case_000002_support.secondLine case_000002_seq case_000002_b = case_000002_secondLine := by
+  norm_num [case_000002_secondLine, case_000002_support, case_000002_seq, case_000002_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000002_shape :
+    EqEqPosVarFirst case_000002_support case_000002_rank.val case_000002_mask := by
+  intro hlt
+  have hrank : (⟨case_000002_rank.val, hlt⟩ : Fin numPairWords) = case_000002_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask =
+        case_000002_seq := by
+    simpa [hrank] using case_000002_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask =
+        case_000002_b := by
+    simpa [hrank] using case_000002_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000002_support case_000002_rank.val hlt
+          case_000002_mask = case_000002_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000002_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000002_support case_000002_rank.val hlt
+          case_000002_mask = case_000002_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000002_secondLine_eq]
+  have case_000002_sourceChecks :
+      SourceChecks case_000002_support case_000002_rank.val hlt case_000002_mask := by
+    simp [SourceChecks, hseq, case_000002_support,
+      checkTranslationConstraintSource, case_000002_seq, impactFace]
+  have case_000002_rowFirst :
+      EqEqPosRow (FirstLineAt case_000002_support case_000002_rank.val hlt case_000002_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000002_firstLine, EqEqPosRow]
+  have case_000002_fixedSecond :
+      FixedRow (SecondLineAt case_000002_support case_000002_rank.val hlt case_000002_mask)
+        (1) (1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000002_secondLine, FixedRow]
+  exact ⟨case_000002_sourceChecks, case_000002_rowFirst, case_000002_fixedSecond⟩
+
+private theorem case_000002_checkedAtRank :
+    case_000002_support.Checked
+      (translationSeqAtRankMask case_000002_rank case_000002_mask)
+      (translationBAtRankMask case_000002_rank case_000002_mask) :=
+  eqEqPosVarFirst_checkedOn case_000002_support case_000002_rank.val case_000002_rank.isLt
+    case_000002_mask case_000002_shape
+
+private theorem case_000002_supportWitness
+    (hlt : case_000002_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask)
+        (translationBAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask) := by
+  have hrank : (⟨case_000002_rank.val, hlt⟩ : Fin numPairWords) = case_000002_rank := by
+    ext
+    rfl
+  exact ⟨case_000002_support, by simpa [hrank] using case_000002_checkedAtRank⟩
+
+private theorem case_000002_sourcePredicate :
+    (generatedSpec .c001).Predicate case_000002_rank.val case_000002_mask := by
+  intro hlt
+  have hrank : (⟨case_000002_rank.val, hlt⟩ : Fin numPairWords) = case_000002_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask =
+        case_000002_seq := by
+    simpa [hrank] using case_000002_seqAtRank
+  have hshape := case_000002_shape hlt
+  have hfirst : (generatedSpec .c001).first.Holds
+      (translationSeqAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000002_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c001).second.Holds
+      (translationSeqAtRankMask ⟨case_000002_rank.val, hlt⟩ case_000002_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c001).support case_000002_rank.val hlt case_000002_mask := by
+    change SourceChecks case_000002_support case_000002_rank.val hlt case_000002_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000002_rowsForKey :
+    (generatedKey .c001).template.Rows (generatedKey .c001).support
+      case_000002_rank.val case_000002_mask := by
+  change EqEqPosVarFirstRows (generatedKey .c001).support case_000002_rank.val case_000002_mask
+  rw [show (generatedKey .c001).support = case_000002_support by rfl]
+  intro hlt
+  exact (case_000002_shape hlt).2
+
+private theorem case_000002_rowProducerApplies :
+    (generatedRowProducer .c001).Applies (generatedKey .c001)
+      case_000002_rank.val case_000002_mask := by
+  exact ⟨rfl, case_000002_rowsForKey⟩
+
+private theorem case_000002_signatureFacts :
+    generatedSignatureFacts case_000002_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000002_rank, case_000002_mask] using
+      And.intro case_000002_sourcePredicate case_000002_rowProducerApplies
+
+/-- AP.16T positive mask `22`. -/
+private def case_000003_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000003_mask : SignMask := ⟨22, by decide⟩
+private def case_000003_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000003_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨4, by decide⟩ Face.xp
+  second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
+private def case_000003_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tmmp
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tppm
+  | ⟨13, _⟩ => Face.tmpp
+private def case_000003_b : Vec3 Rat := { x := (-44/3), y := (-28/3), z := 4 }
+private def case_000003_firstLine : StrictLin2 := { a := (11/15), b := (11/15), c := (-13/5) }
+private def case_000003_secondLine : StrictLin2 := { a := -1, b := -1, c := 1 }
+
+private theorem case_000003_rankWord :
+    rankPairWord? case_000003_word = some case_000003_rank := by
+  decide
+
+private theorem case_000003_unrank :
+    unrankPairWord case_000003_rank = case_000003_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000003_word case_000003_rank).1
+    case_000003_rankWord |>.symm
+
+private theorem case_000003_seqChoice :
+    translationChoiceSeq case_000003_word case_000003_mask = case_000003_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000003_seqAtRank :
+    translationSeqAtRankMask case_000003_rank case_000003_mask = case_000003_seq := by
+  rw [translationSeqAtRankMask, case_000003_unrank]
+  exact case_000003_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000003_bAtRank :
+    translationBAtRankMask case_000003_rank case_000003_mask = case_000003_b := by
+  rw [translationBAtRankMask, case_000003_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000003_b, case_000003_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000003_firstLine_eq :
+    case_000003_support.firstLine case_000003_seq case_000003_b = case_000003_firstLine := by
+  norm_num [case_000003_firstLine, case_000003_support, case_000003_seq, case_000003_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000003_secondLine_eq :
+    case_000003_support.secondLine case_000003_seq case_000003_b = case_000003_secondLine := by
+  norm_num [case_000003_secondLine, case_000003_support, case_000003_seq, case_000003_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000003_shape :
+    EqEqNegVarFirst case_000003_support case_000003_rank.val case_000003_mask := by
+  intro hlt
+  have hrank : (⟨case_000003_rank.val, hlt⟩ : Fin numPairWords) = case_000003_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask =
+        case_000003_seq := by
+    simpa [hrank] using case_000003_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask =
+        case_000003_b := by
+    simpa [hrank] using case_000003_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000003_support case_000003_rank.val hlt
+          case_000003_mask = case_000003_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000003_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000003_support case_000003_rank.val hlt
+          case_000003_mask = case_000003_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000003_secondLine_eq]
+  have case_000003_sourceChecks :
+      SourceChecks case_000003_support case_000003_rank.val hlt case_000003_mask := by
+    simp [SourceChecks, hseq, case_000003_support,
+      checkTranslationConstraintSource, case_000003_seq, impactFace]
+  have case_000003_rowFirst :
+      EqEqNegRow (FirstLineAt case_000003_support case_000003_rank.val hlt case_000003_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000003_firstLine, EqEqNegRow]
+  have case_000003_fixedSecond :
+      FixedRow (SecondLineAt case_000003_support case_000003_rank.val hlt case_000003_mask)
+        (-1) (-1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000003_secondLine, FixedRow]
+  exact ⟨case_000003_sourceChecks, case_000003_rowFirst, case_000003_fixedSecond⟩
+
+private theorem case_000003_checkedAtRank :
+    case_000003_support.Checked
+      (translationSeqAtRankMask case_000003_rank case_000003_mask)
+      (translationBAtRankMask case_000003_rank case_000003_mask) :=
+  eqEqNegVarFirst_checkedOn case_000003_support case_000003_rank.val case_000003_rank.isLt
+    case_000003_mask case_000003_shape
+
+private theorem case_000003_supportWitness
+    (hlt : case_000003_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask)
+        (translationBAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask) := by
+  have hrank : (⟨case_000003_rank.val, hlt⟩ : Fin numPairWords) = case_000003_rank := by
+    ext
+    rfl
+  exact ⟨case_000003_support, by simpa [hrank] using case_000003_checkedAtRank⟩
+
+private theorem case_000003_sourcePredicate :
+    (generatedSpec .c002).Predicate case_000003_rank.val case_000003_mask := by
+  intro hlt
+  have hrank : (⟨case_000003_rank.val, hlt⟩ : Fin numPairWords) = case_000003_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask =
+        case_000003_seq := by
+    simpa [hrank] using case_000003_seqAtRank
+  have hshape := case_000003_shape hlt
+  have hfirst : (generatedSpec .c002).first.Holds
+      (translationSeqAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000003_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c002).second.Holds
+      (translationSeqAtRankMask ⟨case_000003_rank.val, hlt⟩ case_000003_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c002).support case_000003_rank.val hlt case_000003_mask := by
+    change SourceChecks case_000003_support case_000003_rank.val hlt case_000003_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000003_rowsForKey :
+    (generatedKey .c002).template.Rows (generatedKey .c002).support
+      case_000003_rank.val case_000003_mask := by
+  change EqEqNegVarFirstRows (generatedKey .c002).support case_000003_rank.val case_000003_mask
+  rw [show (generatedKey .c002).support = case_000003_support by rfl]
+  intro hlt
+  exact (case_000003_shape hlt).2
+
+private theorem case_000003_rowProducerApplies :
+    (generatedRowProducer .c002).Applies (generatedKey .c002)
+      case_000003_rank.val case_000003_mask := by
+  exact ⟨rfl, case_000003_rowsForKey⟩
+
+private theorem case_000003_signatureFacts :
+    generatedSignatureFacts case_000003_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000003_rank, case_000003_mask] using
+      And.intro case_000003_sourcePredicate case_000003_rowProducerApplies
+
+/-- AP.16T positive mask `30`. -/
+private def case_000004_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000004_mask : SignMask := ⟨30, by decide⟩
+private def case_000004_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000004_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
+  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
+private def case_000004_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def case_000004_b : Vec3 Rat := { x := (-148/9), y := (-4/9), z := (20/9) }
+private def case_000004_firstLine : StrictLin2 := { a := (-37/33), b := (-37/33), c := (-15/11) }
+private def case_000004_secondLine : StrictLin2 := { a := 1, b := 1, c := 1 }
+
+private theorem case_000004_rankWord :
+    rankPairWord? case_000004_word = some case_000004_rank := by
+  decide
+
+private theorem case_000004_unrank :
+    unrankPairWord case_000004_rank = case_000004_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000004_word case_000004_rank).1
+    case_000004_rankWord |>.symm
+
+private theorem case_000004_seqChoice :
+    translationChoiceSeq case_000004_word case_000004_mask = case_000004_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000004_seqAtRank :
+    translationSeqAtRankMask case_000004_rank case_000004_mask = case_000004_seq := by
+  rw [translationSeqAtRankMask, case_000004_unrank]
+  exact case_000004_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000004_bAtRank :
+    translationBAtRankMask case_000004_rank case_000004_mask = case_000004_b := by
+  rw [translationBAtRankMask, case_000004_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000004_b, case_000004_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000004_firstLine_eq :
+    case_000004_support.firstLine case_000004_seq case_000004_b = case_000004_firstLine := by
+  norm_num [case_000004_firstLine, case_000004_support, case_000004_seq, case_000004_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000004_secondLine_eq :
+    case_000004_support.secondLine case_000004_seq case_000004_b = case_000004_secondLine := by
+  norm_num [case_000004_secondLine, case_000004_support, case_000004_seq, case_000004_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000004_shape :
+    EqEqPosVarFirst case_000004_support case_000004_rank.val case_000004_mask := by
+  intro hlt
+  have hrank : (⟨case_000004_rank.val, hlt⟩ : Fin numPairWords) = case_000004_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask =
+        case_000004_seq := by
+    simpa [hrank] using case_000004_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask =
+        case_000004_b := by
+    simpa [hrank] using case_000004_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000004_support case_000004_rank.val hlt
+          case_000004_mask = case_000004_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000004_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000004_support case_000004_rank.val hlt
+          case_000004_mask = case_000004_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000004_secondLine_eq]
+  have case_000004_sourceChecks :
+      SourceChecks case_000004_support case_000004_rank.val hlt case_000004_mask := by
+    simp [SourceChecks, hseq, case_000004_support,
+      checkTranslationConstraintSource, case_000004_seq, impactFace]
+  have case_000004_rowFirst :
+      EqEqPosRow (FirstLineAt case_000004_support case_000004_rank.val hlt case_000004_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000004_firstLine, EqEqPosRow]
+  have case_000004_fixedSecond :
+      FixedRow (SecondLineAt case_000004_support case_000004_rank.val hlt case_000004_mask)
+        (1) (1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000004_secondLine, FixedRow]
+  exact ⟨case_000004_sourceChecks, case_000004_rowFirst, case_000004_fixedSecond⟩
+
+private theorem case_000004_checkedAtRank :
+    case_000004_support.Checked
+      (translationSeqAtRankMask case_000004_rank case_000004_mask)
+      (translationBAtRankMask case_000004_rank case_000004_mask) :=
+  eqEqPosVarFirst_checkedOn case_000004_support case_000004_rank.val case_000004_rank.isLt
+    case_000004_mask case_000004_shape
+
+private theorem case_000004_supportWitness
+    (hlt : case_000004_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask)
+        (translationBAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask) := by
+  have hrank : (⟨case_000004_rank.val, hlt⟩ : Fin numPairWords) = case_000004_rank := by
+    ext
+    rfl
+  exact ⟨case_000004_support, by simpa [hrank] using case_000004_checkedAtRank⟩
+
+private theorem case_000004_sourcePredicate :
+    (generatedSpec .c003).Predicate case_000004_rank.val case_000004_mask := by
+  intro hlt
+  have hrank : (⟨case_000004_rank.val, hlt⟩ : Fin numPairWords) = case_000004_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask =
+        case_000004_seq := by
+    simpa [hrank] using case_000004_seqAtRank
+  have hshape := case_000004_shape hlt
+  have hfirst : (generatedSpec .c003).first.Holds
+      (translationSeqAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000004_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c003).second.Holds
+      (translationSeqAtRankMask ⟨case_000004_rank.val, hlt⟩ case_000004_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c003).support case_000004_rank.val hlt case_000004_mask := by
+    change SourceChecks case_000004_support case_000004_rank.val hlt case_000004_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000004_rowsForKey :
+    (generatedKey .c003).template.Rows (generatedKey .c003).support
+      case_000004_rank.val case_000004_mask := by
+  change EqEqPosVarFirstRows (generatedKey .c003).support case_000004_rank.val case_000004_mask
+  rw [show (generatedKey .c003).support = case_000004_support by rfl]
+  intro hlt
+  exact (case_000004_shape hlt).2
+
+private theorem case_000004_rowProducerApplies :
+    (generatedRowProducer .c003).Applies (generatedKey .c003)
+      case_000004_rank.val case_000004_mask := by
+  exact ⟨rfl, case_000004_rowsForKey⟩
+
+private theorem case_000004_signatureFacts :
+    generatedSignatureFacts case_000004_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000004_rank, case_000004_mask] using
+      And.intro case_000004_sourcePredicate case_000004_rowProducerApplies
+
+/-- AP.16T positive mask `31`. -/
+private def case_000005_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000005_mask : SignMask := ⟨31, by decide⟩
+private def case_000005_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000005_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
+  second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
+private def case_000005_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tpmm
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tmpp
+private def case_000005_b : Vec3 Rat := { x := (-148/9), y := (68/9), z := (20/9) }
+private def case_000005_firstLine : StrictLin2 := { a := (-37/15), b := (-37/15), c := (-27/5) }
+private def case_000005_secondLine : StrictLin2 := { a := 1, b := 1, c := 1 }
+
+private theorem case_000005_rankWord :
+    rankPairWord? case_000005_word = some case_000005_rank := by
+  decide
+
+private theorem case_000005_unrank :
+    unrankPairWord case_000005_rank = case_000005_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000005_word case_000005_rank).1
+    case_000005_rankWord |>.symm
+
+private theorem case_000005_seqChoice :
+    translationChoiceSeq case_000005_word case_000005_mask = case_000005_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000005_seqAtRank :
+    translationSeqAtRankMask case_000005_rank case_000005_mask = case_000005_seq := by
+  rw [translationSeqAtRankMask, case_000005_unrank]
+  exact case_000005_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000005_bAtRank :
+    translationBAtRankMask case_000005_rank case_000005_mask = case_000005_b := by
+  rw [translationBAtRankMask, case_000005_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000005_b, case_000005_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000005_firstLine_eq :
+    case_000005_support.firstLine case_000005_seq case_000005_b = case_000005_firstLine := by
+  norm_num [case_000005_firstLine, case_000005_support, case_000005_seq, case_000005_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000005_secondLine_eq :
+    case_000005_support.secondLine case_000005_seq case_000005_b = case_000005_secondLine := by
+  norm_num [case_000005_secondLine, case_000005_support, case_000005_seq, case_000005_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000005_shape :
+    EqEqPosVarFirst case_000005_support case_000005_rank.val case_000005_mask := by
+  intro hlt
+  have hrank : (⟨case_000005_rank.val, hlt⟩ : Fin numPairWords) = case_000005_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask =
+        case_000005_seq := by
+    simpa [hrank] using case_000005_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask =
+        case_000005_b := by
+    simpa [hrank] using case_000005_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000005_support case_000005_rank.val hlt
+          case_000005_mask = case_000005_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000005_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000005_support case_000005_rank.val hlt
+          case_000005_mask = case_000005_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000005_secondLine_eq]
+  have case_000005_sourceChecks :
+      SourceChecks case_000005_support case_000005_rank.val hlt case_000005_mask := by
+    simp [SourceChecks, hseq, case_000005_support,
+      checkTranslationConstraintSource, case_000005_seq, impactFace]
+  have case_000005_rowFirst :
+      EqEqPosRow (FirstLineAt case_000005_support case_000005_rank.val hlt case_000005_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000005_firstLine, EqEqPosRow]
+  have case_000005_fixedSecond :
+      FixedRow (SecondLineAt case_000005_support case_000005_rank.val hlt case_000005_mask)
+        (1) (1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000005_secondLine, FixedRow]
+  exact ⟨case_000005_sourceChecks, case_000005_rowFirst, case_000005_fixedSecond⟩
+
+private theorem case_000005_checkedAtRank :
+    case_000005_support.Checked
+      (translationSeqAtRankMask case_000005_rank case_000005_mask)
+      (translationBAtRankMask case_000005_rank case_000005_mask) :=
+  eqEqPosVarFirst_checkedOn case_000005_support case_000005_rank.val case_000005_rank.isLt
+    case_000005_mask case_000005_shape
+
+private theorem case_000005_supportWitness
+    (hlt : case_000005_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask)
+        (translationBAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask) := by
+  have hrank : (⟨case_000005_rank.val, hlt⟩ : Fin numPairWords) = case_000005_rank := by
+    ext
+    rfl
+  exact ⟨case_000005_support, by simpa [hrank] using case_000005_checkedAtRank⟩
+
+private theorem case_000005_sourcePredicate :
+    (generatedSpec .c003).Predicate case_000005_rank.val case_000005_mask := by
+  intro hlt
+  have hrank : (⟨case_000005_rank.val, hlt⟩ : Fin numPairWords) = case_000005_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask =
+        case_000005_seq := by
+    simpa [hrank] using case_000005_seqAtRank
+  have hshape := case_000005_shape hlt
+  have hfirst : (generatedSpec .c003).first.Holds
+      (translationSeqAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000005_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c003).second.Holds
+      (translationSeqAtRankMask ⟨case_000005_rank.val, hlt⟩ case_000005_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c003).support case_000005_rank.val hlt case_000005_mask := by
+    change SourceChecks case_000005_support case_000005_rank.val hlt case_000005_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000005_rowsForKey :
+    (generatedKey .c003).template.Rows (generatedKey .c003).support
+      case_000005_rank.val case_000005_mask := by
+  change EqEqPosVarFirstRows (generatedKey .c003).support case_000005_rank.val case_000005_mask
+  rw [show (generatedKey .c003).support = case_000005_support by rfl]
+  intro hlt
+  exact (case_000005_shape hlt).2
+
+private theorem case_000005_rowProducerApplies :
+    (generatedRowProducer .c003).Applies (generatedKey .c003)
+      case_000005_rank.val case_000005_mask := by
+  exact ⟨rfl, case_000005_rowsForKey⟩
+
+private theorem case_000005_signatureFacts :
+    generatedSignatureFacts case_000005_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000005_rank, case_000005_mask] using
+      And.intro case_000005_sourcePredicate case_000005_rowProducerApplies
+
+/-- AP.16T positive mask `59`. -/
+private def case_000006_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000006_mask : SignMask := ⟨59, by decide⟩
+private def case_000006_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000006_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmpm
+  second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
+private def case_000006_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tmmm
+  | ⟨9, _⟩ => Face.tppp
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def case_000006_b : Vec3 Rat := { x := (-92/27), y := (460/27), z := (124/27) }
+private def case_000006_firstLine : StrictLin2 := { a := 1, b := -1, c := (-145/23) }
+private def case_000006_secondLine : StrictLin2 := { a := -1, b := 1, c := 1 }
+
+private theorem case_000006_rankWord :
+    rankPairWord? case_000006_word = some case_000006_rank := by
+  decide
+
+private theorem case_000006_unrank :
+    unrankPairWord case_000006_rank = case_000006_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000006_word case_000006_rank).1
+    case_000006_rankWord |>.symm
+
+private theorem case_000006_seqChoice :
+    translationChoiceSeq case_000006_word case_000006_mask = case_000006_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000006_seqAtRank :
+    translationSeqAtRankMask case_000006_rank case_000006_mask = case_000006_seq := by
+  rw [translationSeqAtRankMask, case_000006_unrank]
+  exact case_000006_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000006_bAtRank :
+    translationBAtRankMask case_000006_rank case_000006_mask = case_000006_b := by
+  rw [translationBAtRankMask, case_000006_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000006_b, case_000006_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000006_firstLine_eq :
+    case_000006_support.firstLine case_000006_seq case_000006_b = case_000006_firstLine := by
+  norm_num [case_000006_firstLine, case_000006_support, case_000006_seq, case_000006_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000006_secondLine_eq :
+    case_000006_support.secondLine case_000006_seq case_000006_b = case_000006_secondLine := by
+  norm_num [case_000006_secondLine, case_000006_support, case_000006_seq, case_000006_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000006_shape :
+    OppMinusOneVarFirst case_000006_support case_000006_rank.val case_000006_mask := by
+  intro hlt
+  have hrank : (⟨case_000006_rank.val, hlt⟩ : Fin numPairWords) = case_000006_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask =
+        case_000006_seq := by
+    simpa [hrank] using case_000006_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask =
+        case_000006_b := by
+    simpa [hrank] using case_000006_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000006_support case_000006_rank.val hlt
+          case_000006_mask = case_000006_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000006_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000006_support case_000006_rank.val hlt
+          case_000006_mask = case_000006_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000006_secondLine_eq]
+  have case_000006_sourceChecks :
+      SourceChecks case_000006_support case_000006_rank.val hlt case_000006_mask := by
+    simp [SourceChecks, hseq, case_000006_support,
+      checkTranslationConstraintSource, case_000006_seq, impactFace]
+  have case_000006_rowFirst :
+      OppNegRow (FirstLineAt case_000006_support case_000006_rank.val hlt case_000006_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000006_firstLine, OppNegRow]
+  have case_000006_fixedSecond :
+      FixedRow (SecondLineAt case_000006_support case_000006_rank.val hlt case_000006_mask)
+        (-1) (1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000006_secondLine, FixedRow]
+  exact ⟨case_000006_sourceChecks, case_000006_rowFirst, case_000006_fixedSecond⟩
+
+private theorem case_000006_checkedAtRank :
+    case_000006_support.Checked
+      (translationSeqAtRankMask case_000006_rank case_000006_mask)
+      (translationBAtRankMask case_000006_rank case_000006_mask) :=
+  oppMinusOneVarFirst_checkedOn case_000006_support case_000006_rank.val case_000006_rank.isLt
+    case_000006_mask case_000006_shape
+
+private theorem case_000006_supportWitness
+    (hlt : case_000006_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask)
+        (translationBAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask) := by
+  have hrank : (⟨case_000006_rank.val, hlt⟩ : Fin numPairWords) = case_000006_rank := by
+    ext
+    rfl
+  exact ⟨case_000006_support, by simpa [hrank] using case_000006_checkedAtRank⟩
+
+private theorem case_000006_sourcePredicate :
+    (generatedSpec .c004).Predicate case_000006_rank.val case_000006_mask := by
+  intro hlt
+  have hrank : (⟨case_000006_rank.val, hlt⟩ : Fin numPairWords) = case_000006_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask =
+        case_000006_seq := by
+    simpa [hrank] using case_000006_seqAtRank
+  have hshape := case_000006_shape hlt
+  have hfirst : (generatedSpec .c004).first.Holds
+      (translationSeqAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000006_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c004).second.Holds
+      (translationSeqAtRankMask ⟨case_000006_rank.val, hlt⟩ case_000006_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c004).support case_000006_rank.val hlt case_000006_mask := by
+    change SourceChecks case_000006_support case_000006_rank.val hlt case_000006_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000006_rowsForKey :
+    (generatedKey .c004).template.Rows (generatedKey .c004).support
+      case_000006_rank.val case_000006_mask := by
+  change OppMinusOneVarFirstRows (generatedKey .c004).support case_000006_rank.val case_000006_mask
+  rw [show (generatedKey .c004).support = case_000006_support by rfl]
+  intro hlt
+  exact (case_000006_shape hlt).2
+
+private theorem case_000006_rowProducerApplies :
+    (generatedRowProducer .c004).Applies (generatedKey .c004)
+      case_000006_rank.val case_000006_mask := by
+  exact ⟨rfl, case_000006_rowsForKey⟩
+
+private theorem case_000006_signatureFacts :
+    generatedSignatureFacts case_000006_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000006_rank, case_000006_mask] using
+      And.intro case_000006_sourcePredicate case_000006_rowProducerApplies
+
+/-- AP.16T positive mask `63`. -/
+private def case_000007_rank : Fin numPairWords := ⟨100805, by decide⟩
+private def case_000007_mask : SignMask := ⟨63, by decide⟩
+private def case_000007_word : PairWord := ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
+private def case_000007_support : TwoSourceFarkasSupport where
+  first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmpp
+  second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
+private def case_000007_seq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.yp
+  | ⟨3, _⟩ => Face.ym
+  | ⟨4, _⟩ => Face.tmpp
+  | ⟨5, _⟩ => Face.tppm
+  | ⟨6, _⟩ => Face.zp
+  | ⟨7, _⟩ => Face.zm
+  | ⟨8, _⟩ => Face.tppp
+  | ⟨9, _⟩ => Face.tmmm
+  | ⟨10, _⟩ => Face.tpmp
+  | ⟨11, _⟩ => Face.tmpm
+  | ⟨12, _⟩ => Face.tmmp
+  | ⟨13, _⟩ => Face.tpmm
+private def case_000007_b : Vec3 Rat := { x := (-100/9), y := (116/9), z := (68/9) }
+private def case_000007_firstLine : StrictLin2 := { a := 1, b := 1, c := (-67/25) }
+private def case_000007_secondLine : StrictLin2 := { a := -1, b := -1, c := 1 }
+
+private theorem case_000007_rankWord :
+    rankPairWord? case_000007_word = some case_000007_rank := by
+  decide
+
+private theorem case_000007_unrank :
+    unrankPairWord case_000007_rank = case_000007_word := by
+  exact (rankPairWord?_eq_some_iff_unrank case_000007_word case_000007_rank).1
+    case_000007_rankWord |>.symm
+
+private theorem case_000007_seqChoice :
+    translationChoiceSeq case_000007_word case_000007_mask = case_000007_seq := by
+  funext i
+  fin_cases i <;> rfl
+
+private theorem case_000007_seqAtRank :
+    translationSeqAtRankMask case_000007_rank case_000007_mask = case_000007_seq := by
+  rw [translationSeqAtRankMask, case_000007_unrank]
+  exact case_000007_seqChoice
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000007_bAtRank :
+    translationBAtRankMask case_000007_rank case_000007_mask = case_000007_b := by
+  rw [translationBAtRankMask, case_000007_seqAtRank]
+  apply Vec3.ext <;>
+    norm_num [case_000007_b, case_000007_seq,
+      totalAff, totalOrder, composeFaceList, affCompose, faceReflectionQ,
+      reflM, reflD, normalQ, offsetQ, matSub, matId, affId, scalarMat, outer,
+      dot, matMul, matVec, vecAdd, scalarMul
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000007_firstLine_eq :
+    case_000007_support.firstLine case_000007_seq case_000007_b = case_000007_firstLine := by
+  norm_num [case_000007_firstLine, case_000007_support, case_000007_seq, case_000007_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000007_secondLine_eq :
+    case_000007_support.secondLine case_000007_seq case_000007_b = case_000007_secondLine := by
+  norm_num [case_000007_secondLine, case_000007_support, case_000007_seq, case_000007_b,
+      TwoSourceFarkasSupport.firstLine, TwoSourceFarkasSupport.secondLine,
+      translationConstraintSourceLine, xpStartConstraintAt, orderingConstraint,
+      impactInteriorConstraint, nextImpact, impactTimeLin,
+      translationLinePointLin, linDotVec3, Lin2.ltConstraint, Lin2.add,
+      Lin2.scale, Lin2.constOnly, Lin2.y, Lin2.z, impactDenom,
+      impactPlaneNormalQ, impactPlaneOffsetQ, copiedNormalQ, copiedOffsetQ,
+      preImpactCopyAff, pathPrefixAff, pathPrefixAffNat, impactFace,
+      faceReflectionQ, reflM, reflD, normalQ, offsetQ, matSub, matId, affId,
+      affCompose, scalarMat, outer, dot, matMul, matVec, vecAdd, scalarMul,
+      lastImpact
+    ]
+
+set_option maxHeartbeats 1200000 in
+private theorem case_000007_shape :
+    EqEqNegVarFirst case_000007_support case_000007_rank.val case_000007_mask := by
+  intro hlt
+  have hrank : (⟨case_000007_rank.val, hlt⟩ : Fin numPairWords) = case_000007_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask =
+        case_000007_seq := by
+    simpa [hrank] using case_000007_seqAtRank
+  have hb :
+      translationBAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask =
+        case_000007_b := by
+    simpa [hrank] using case_000007_bAtRank
+  have hfirst :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt case_000007_support case_000007_rank.val hlt
+          case_000007_mask = case_000007_firstLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.firstLineAt, hseq, hb, case_000007_firstLine_eq]
+  have hsecond :
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt case_000007_support case_000007_rank.val hlt
+          case_000007_mask = case_000007_secondLine := by
+    simp [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SupportPair.secondLineAt, hseq, hb, case_000007_secondLine_eq]
+  have case_000007_sourceChecks :
+      SourceChecks case_000007_support case_000007_rank.val hlt case_000007_mask := by
+    simp [SourceChecks, hseq, case_000007_support,
+      checkTranslationConstraintSource, case_000007_seq, impactFace]
+  have case_000007_rowFirst :
+      EqEqNegRow (FirstLineAt case_000007_support case_000007_rank.val hlt case_000007_mask) := by
+    rw [FirstLineAt, hfirst]
+    norm_num [case_000007_firstLine, EqEqNegRow]
+  have case_000007_fixedSecond :
+      FixedRow (SecondLineAt case_000007_support case_000007_rank.val hlt case_000007_mask)
+        (-1) (-1) := by
+    rw [SecondLineAt, hsecond]
+    norm_num [case_000007_secondLine, FixedRow]
+  exact ⟨case_000007_sourceChecks, case_000007_rowFirst, case_000007_fixedSecond⟩
+
+private theorem case_000007_checkedAtRank :
+    case_000007_support.Checked
+      (translationSeqAtRankMask case_000007_rank case_000007_mask)
+      (translationBAtRankMask case_000007_rank case_000007_mask) :=
+  eqEqNegVarFirst_checkedOn case_000007_support case_000007_rank.val case_000007_rank.isLt
+    case_000007_mask case_000007_shape
+
+private theorem case_000007_supportWitness
+    (hlt : case_000007_rank.val < numPairWords) :
+    exists support : TwoSourceFarkasSupport,
+      support.Checked
+        (translationSeqAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask)
+        (translationBAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask) := by
+  have hrank : (⟨case_000007_rank.val, hlt⟩ : Fin numPairWords) = case_000007_rank := by
+    ext
+    rfl
+  exact ⟨case_000007_support, by simpa [hrank] using case_000007_checkedAtRank⟩
+
+private theorem case_000007_sourcePredicate :
+    (generatedSpec .c005).Predicate case_000007_rank.val case_000007_mask := by
+  intro hlt
+  have hrank : (⟨case_000007_rank.val, hlt⟩ : Fin numPairWords) = case_000007_rank := by
+    ext
+    rfl
+  have hseq :
+      translationSeqAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask =
+        case_000007_seq := by
+    simpa [hrank] using case_000007_seqAtRank
+  have hshape := case_000007_shape hlt
+  have hfirst : (generatedSpec .c005).first.Holds
+      (translationSeqAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds, hseq, case_000007_seq, impactFace]
+    decide
+  have hsecond : (generatedSpec .c005).second.Holds
+      (translationSeqAtRankMask ⟨case_000007_rank.val, hlt⟩ case_000007_mask) := by
+    simp [generatedSpec, SourcePositionSpec.Holds]
+  have hsourceChecks :
+      SourceChecks (generatedSpec .c005).support case_000007_rank.val hlt case_000007_mask := by
+    change SourceChecks case_000007_support case_000007_rank.val hlt case_000007_mask
+    exact hshape.1
+  exact ⟨hfirst, hsecond, hsourceChecks⟩
+
+private theorem case_000007_rowsForKey :
+    (generatedKey .c005).template.Rows (generatedKey .c005).support
+      case_000007_rank.val case_000007_mask := by
+  change EqEqNegVarFirstRows (generatedKey .c005).support case_000007_rank.val case_000007_mask
+  rw [show (generatedKey .c005).support = case_000007_support by rfl]
+  intro hlt
+  exact (case_000007_shape hlt).2
+
+private theorem case_000007_rowProducerApplies :
+    (generatedRowProducer .c005).Applies (generatedKey .c005)
+      case_000007_rank.val case_000007_mask := by
+  exact ⟨rfl, case_000007_rowsForKey⟩
+
+private theorem case_000007_signatureFacts :
+    generatedSignatureFacts case_000007_mask := by
+  simpa [generatedSignatureFacts, generatedCandidateOfMask,
+    generatedCandidateOfNat, case_000007_rank, case_000007_mask] using
+      And.intro case_000007_sourcePredicate case_000007_rowProducerApplies
+
+theorem generatedAllPositiveMaskFacts
+    {mask : SignMask}
+    (h : generatedGoodMaskMember mask) :
+    generatedSignatureFacts mask := by
+  rcases h with h | h
+  ·
+    have hmask : mask = case_000000_mask := by
+      ext
+      simpa [case_000000_mask] using h
+    rw [hmask]
+    exact case_000000_signatureFacts
+  ·
+    rcases h with h | h
+    ·
+      have hmask : mask = case_000001_mask := by
+        ext
+        simpa [case_000001_mask] using h
+      rw [hmask]
+      exact case_000001_signatureFacts
+    ·
+      rcases h with h | h
+      ·
+        have hmask : mask = case_000002_mask := by
+          ext
+          simpa [case_000002_mask] using h
+        rw [hmask]
+        exact case_000002_signatureFacts
+      ·
+        rcases h with h | h
+        ·
+          have hmask : mask = case_000003_mask := by
+            ext
+            simpa [case_000003_mask] using h
+          rw [hmask]
+          exact case_000003_signatureFacts
+        ·
+          rcases h with h | h
+          ·
+            have hmask : mask = case_000004_mask := by
+              ext
+              simpa [case_000004_mask] using h
+            rw [hmask]
+            exact case_000004_signatureFacts
+          ·
+            rcases h with h | h
+            ·
+              have hmask : mask = case_000005_mask := by
+                ext
+                simpa [case_000005_mask] using h
+              rw [hmask]
+              exact case_000005_signatureFacts
+            ·
+              rcases h with h | h
+              ·
+                have hmask : mask = case_000006_mask := by
+                  ext
+                  simpa [case_000006_mask] using h
+                rw [hmask]
+                exact case_000006_signatureFacts
+              ·
+                have hmask : mask = case_000007_mask := by
+                  ext
+                  simpa [case_000007_mask] using h
+                rw [hmask]
+                exact case_000007_signatureFacts
+
+private def generatedSignatureClassifier
+    (hmask :
+      forall {mask : SignMask} (hlt : 100805 < numPairWords),
+        goodDirectionAtRankBool ⟨100805, hlt⟩ mask = true ->
+          generatedGoodMaskMember mask) :
+    PositiveSurvivorBoolSignatureClassifierOnRange 100805 100806 :=
+  PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit
+    100805 GeneratedCandidate generatedCandidateOfMask
+    generatedGoodMaskMember generatedSignatureFacts
+    generatedSpec generatedRowProducer generatedKey
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    hmask (by intro mask h; exact generatedAllPositiveMaskFacts h)
+    (by intro mask h; exact h.1)
+    (by intro mask h; exact h.2)
+
+/--
+AP.16T singleton-signature coverage theorem.
+
+Positive-survivor signature: `9c8a88567da24f69d8019b8ada2a84b4de847573f9520de337403a261d3d1836`
+Anchor rank: `100805`
+Positive masks: `4, 6, 11, 22, 30, 31, 59, 63`
+Candidate groups: `6`
+-/
+theorem generatedSingletonSignatureAllGoodCoverage
+    (hmask :
+      forall {mask : SignMask} (hlt : 100805 < numPairWords),
+        goodDirectionAtRankBool ⟨100805, hlt⟩ mask = true ->
+          generatedGoodMaskMember mask) :
+    AllTranslationGoodCoverageOnRange 100805 100806 :=
+  (generatedSignatureClassifier hmask).to_allGoodCoverage
+
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke

@@ -225,7 +225,8 @@ design, plus the Phase 6Z.6K.8AP.0 producer membership bridge core and
 Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge, and the Phase
 6Z.6K.8AP.3 public all-Good coverage bridge, and the Phase 6Z.6K.8AP.4
 bounded AP interval smoke, through the Phase 6Z.6K.8AP.12 source-position
-predicate/producer adapter.
+predicate/producer adapter, and the Phase 6Z.6K.8AP.16I positive-survivor
+membership profile.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -472,10 +473,37 @@ Nonidentity caveat:
 | Phase 3: compression profiler | Complete as a tool; current nonidentity and translation gates reject | `scripts/profile_symmetry_compression.py` now has the prefix, bad-direction, survivor, mask-tree, and state-DAG dry-run gates; all current bounded gates are diagnostic-only. |
 | Phase 4: nonidentity family checkers | Partially complete | Semantic adapters now cover bad pair balance, completion-local bad direction, uniform bad direction, uniform no-fixed-axis, and uniform bad-balance witnesses. Larger true prefix templates are still needed. |
 | Phase 5: translation Farkas sharing | Gates added; waiting on survivor compression | `FarkasShapeTransport.lean` exists, and Farkas-shape reuse is real. It should now be applied only to GoodDirection survivor masks, but raw survivor-map grouping is still too large. |
-| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted; Phase 6Z.6K.1 symbolic Lean smoke accepted; Phase 6Z.6K.2 symbolic representative root accepted; Phase 6Z.6K.3 symbolic census runner accepted on representative calibration; Phase 6Z.6K.4 broader disjoint sampling rejects source-agreement as a global family key; Phase 6Z.6K.5 source-parametric row-property quotient implemented and sampled at 24 families; Phase 6Z.6K.6 bounded row-property quotient representative root accepted as memory-safe diagnostic but rejected for global scaling; Phase 6Z.6K.7 row-property membership profile rejects further theorem-surface emission and promotes a state/signature membership bridge; Phase 6Z.6K.8AH pair-sign producer-coverage smoke accepted on representative windows; Phase 6Z.6K.8AI broader producer-coverage scaling profile accepted; Phase 6Z.6K.8AJ resumable producer census accepted as diagnostic infrastructure; Phase 6Z.6K.8AK bounded scaling Lean smoke accepted; Phase 6Z.6K.8AL split group/root smoke accepted; Phase 6Z.6K.8AM larger split-root smoke accepted; Phase 6Z.6K.8AN growth projection accepted; Phase 6Z.6K.8AO production hierarchy design accepted; Phase 6Z.6K.8AP.0 range bridge core accepted; Phase 6Z.6K.8AP.1 good-survivor bridge accepted; Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge accepted; Phase 6Z.6K.8AP.3 public all-Good coverage bridge accepted; Phase 6Z.6K.8AP.4 bounded AP smoke checked but production-rejected; Phase 6Z.6K.8AP.5 catalog erasure accepted; Phase 6Z.6K.8AP.6 catalog smoke accepted; Phase 6Z.6K.8AP.7 membership audit rejects catalog route; Phase 6Z.6K.8AP.8 source/row language bridge accepted as API smoke; Phase 6Z.6K.8AP.9 source-position spec bridge accepted; Phase 6Z.6K.8AP.10 source/row producer language bridge accepted; Phase 6Z.6K.8AP.11 source-position producer language bridge accepted; Phase 6Z.6K.8AP.12 source-position adapters accepted; Phase 6Z.6K.8AP.13 projection audit accepted; Phase 6Z.6K.8AP.14 confirms the membership gap; Phase 6Z.6K.8AP.15 descriptor language bridge accepted; Phase 6Z.6K.8AP.16A facts-to-descriptor adapter accepted; Phase 6Z.6K.8AP.16B producer-membership candidate accepted; Phase 6Z.6K.8AP.16C source-position descriptor adapter accepted; Phase 6Z.6K.8AP.16D/16E direct target/combinators accepted; Phase 6Z.6K.8AP.16F rejected; Phase 6Z.6K.8AP.16G direct obligation profile accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Phase 6Z.6K.2 extends that to a bounded representative root over all 126 symbolic families and all 4,779 representative GoodDirection survivors. Phase 6Z.6K.3 adds a resumable census runner and recovers the same 4,779/126 representative baseline. Phase 6Z.6K.4 covers 63,725/63,725 broader disjoint GoodDirection survivors but projects 130,573 source-agreement-keyed symbolic families, rejecting source agreement as a global key. Phase 6Z.6K.5 keeps the same coverage while collapsing the primary coordinate to 24 row-property-parametric families. Phase 6Z.6K.6 validates a bounded representative root under strict memory controls, but its measured 195.355s worst group means representative-per-case roots cannot scale. Phase 6Z.6K.7 shows the theorem layer is already collapsed to 9 constructors/11 row-property digests on `[0,1000)`; the missing compression is a shared membership bridge for `SourceAgrees` and row predicates. Phase 6Z.6K.8AH confirms that source-language producer facts plus exact row producer facts compose cheaply in Lean over 7,112 representative GoodDirection cases. Phase 6Z.6K.8AI keeps the same route below the scaling gates over 65k sampled ranks: 328 descriptors, 294 source groups, 24 row groups, 318 source+row obligations, and zero source-language validation failures. Phase 6Z.6K.8AJ adds a resumable checkpointed census and confirms the route remains cheap on a 10-window checkpoint run: 247 source+row obligations, zero validation failures, and aggregate-only replay in 0.06s. Phase 6Z.6K.8AK proves the same checkpoint-window producer surface can be emitted as theorem-valued Lean and built in 13.72s at 3.545 GiB RSS; Phase 6Z.6K.8AL proves the same surface can be split into shared source/row modules, bounded descriptor chunks, and a tiny root that builds in 10.50s at 3.343 GiB RSS; Phase 6Z.6K.8AM doubles the sampled window count and still builds the split root in 10.86s at 3.300 GiB RSS with only 315 descriptor families, 298 source groups, and 22 row groups. Phase 6Z.6K.8AN expands the checkpointed census to 39 windows / 97,500 sampled ranks and projects 862 descriptor families, 748 source+row producers, and 14 descriptor chunks, below the current gates. Phase 6Z.6K.8AO projects the production translation producer hierarchy at roughly 58k Lean lines / 2.3 MiB, 14 chunks, 748 producers, about 70 wall seconds at four jobs, and about 3.93 GiB peak RSS. Phase 6Z.6K.8AP.0 adds and checks the theorem adapters from `SourceRowPredicateBridge`/`SourceRowFactsBridge` and their range variants to residual interval coverage and `Translation.KilledBridge`; Phase 6Z.6K.8AP.1 adds GoodDirection-survivor range adapters so generated chunks can target `ResidualTranslationGoodCoverageOnRange` before producing the full killed bridge; Phase 6Z.6K.8AP.2 adds a classifier-free GoodDirection bridge so generated chunks can avoid `translationEarlyFamilyClassOfChoice` entirely and target `AllTranslationGoodCoverageOnRange`; Phase 6Z.6K.8AP.3 connects that all-GoodDirection target to public semantic generated coverage through `AllGoodRankKilled` and `semanticGeneratedCoverageOfAllGoodIntervals`; Phase 6Z.6K.8AP.4 rejects finite rank/mask dispatch after a `[0,16)` smoke took 288.66s and 14,041,472 KiB RSS; Phase 6Z.6K.8AP.7 rejects catalog membership as a production route; Phase 6Z.6K.8AP.8 adds a relation-based `SourceRow*GoodLanguageOnRange` API and empty-range smoke; Phase 6Z.6K.8AP.9 adds generic `SourcePositionSpec`/`SourcePairPositionSpec` lookup and source-fact producers for static and dynamic source positions; Phase 6Z.6K.8AP.10 adds a producer-level `SourceRowProducerGoodLanguageOnRange` API and empty-range smoke, letting future generated modules keep source/row producers private and export only erased all-Good coverage; Phase 6Z.6K.8AP.11 adds a source-position plus row-producer language API that erases semantic `SourcePairPositionSpec.Predicate` membership and row-producer `Applies` evidence to AP.10; Phase 6Z.6K.8AP.15 adds the descriptor-language/direct descriptor-coverage target; Phase 6Z.6K.8AP.16A lets existing source/row facts and language surfaces erase to descriptor coverage; Phase 6Z.6K.8AP.16B selects `source_language_full + row_exact` as the next producer-membership emitter target with 212 projected obligations over 7,112 sampled GoodDirection cases; Phase 6Z.6K.8AP.16C lets source-position row-producer languages erase directly to descriptor coverage and validates the bridge in 10.56s / 3,308,884 KiB; Phase 6Z.6K.8AP.16D/16E add the direct source-position coverage target and generator-facing combinators; Phase 6Z.6K.8AP.16F rejects the generic full-list lookup converse; Phase 6Z.6K.8AP.16G accepts the direct obligation inventory with 195 source+row candidate groups and 212 reusable obligations over 7,112 GoodDirection cases. Full 8AP still needs a nonempty generated Lean smoke that proves source-position predicates directly from `source_language_full`. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
+| Phase 6: semantic translation pivot | Phase 6E/6F complete; Phase 6H/6I rejected; Phase 6J.1/6J.2 rejected; Phase 6K rejected; Phase 6L.0/6L.0A/6L.1/6L.2A complete; Phase 6L.2B/6L.3A rejected; Phase 6M rejected; Phase 6N rejected; Phase 6O rejected; Phase 6P rejected; Phase 6Q complete; Phase 6R complete; Phase 6S rejected; Phase 6T accepted; Phase 6U split audit rejected; Phase 6X accepted on `[0,100000)`; Phase 6Y bounded emitter accepted on `[0,1000)` and shard-scaled on `[0,10000)`; Phase 6Z largest shape accepted but exact row-shape portfolio rejected; Phase 6Z.2 source-pair gate accepted; Phase 6Z.3 high-variation source-pair pilot accepted; Phase 6Z.4 row-relation template profiler accepted on `[0,100000)`; Phase 6Z.5 row-relation theorem schemas complete; Phase 6Z.6A witness-based sharded smoke accepted on `[0,10)`; Phase 6Z.6B external-cache hierarchy accepted on `[0,64)` as telemetry; Phase 6Z.6C semantic killed bridges complete; Phase 6Z.6D census runner complete; Phase 6Z.6D.1 row-template extension accepted on representative calibration; Phase 6Z.6D.2 diamond supplemental; Phase 6Z.6D.3 fixed-window global attempt rejected as too slow/granular; Phase 6Z.6D.4 adaptive planner rejects further global rank sweeps; Phase 6Z.6E first bounded family profiler needed more samples; Phase 6Z.6E.1 representative family profile accepted for Lean smoke; Phase 6Z.6J/6Z.6J.1 D4 transport profiled and rejected near-term; Phase 6Z.6K symbolic row-extraction profile accepted; Phase 6Z.6K.1 symbolic Lean smoke accepted; Phase 6Z.6K.2 symbolic representative root accepted; Phase 6Z.6K.3 symbolic census runner accepted on representative calibration; Phase 6Z.6K.4 broader disjoint sampling rejects source-agreement as a global family key; Phase 6Z.6K.5 source-parametric row-property quotient implemented and sampled at 24 families; Phase 6Z.6K.6 bounded row-property quotient representative root accepted as memory-safe diagnostic but rejected for global scaling; Phase 6Z.6K.7 row-property membership profile rejects further theorem-surface emission and promotes a state/signature membership bridge; Phase 6Z.6K.8AH pair-sign producer-coverage smoke accepted on representative windows; Phase 6Z.6K.8AI broader producer-coverage scaling profile accepted; Phase 6Z.6K.8AJ resumable producer census accepted as diagnostic infrastructure; Phase 6Z.6K.8AK bounded scaling Lean smoke accepted; Phase 6Z.6K.8AL split group/root smoke accepted; Phase 6Z.6K.8AM larger split-root smoke accepted; Phase 6Z.6K.8AN growth projection accepted; Phase 6Z.6K.8AO production hierarchy design accepted; Phase 6Z.6K.8AP.0 range bridge core accepted; Phase 6Z.6K.8AP.1 good-survivor bridge accepted; Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge accepted; Phase 6Z.6K.8AP.3 public all-Good coverage bridge accepted; Phase 6Z.6K.8AP.4 bounded AP smoke checked but production-rejected; Phase 6Z.6K.8AP.5 catalog erasure accepted; Phase 6Z.6K.8AP.6 catalog smoke accepted; Phase 6Z.6K.8AP.7 membership audit rejects catalog route; Phase 6Z.6K.8AP.8 source/row language bridge accepted as API smoke; Phase 6Z.6K.8AP.9 source-position spec bridge accepted; Phase 6Z.6K.8AP.10 source/row producer language bridge accepted; Phase 6Z.6K.8AP.11 source-position producer language bridge accepted; Phase 6Z.6K.8AP.12 source-position adapters accepted; Phase 6Z.6K.8AP.13 projection audit accepted; Phase 6Z.6K.8AP.14 confirms the membership gap; Phase 6Z.6K.8AP.15 descriptor language bridge accepted; Phase 6Z.6K.8AP.16A facts-to-descriptor adapter accepted; Phase 6Z.6K.8AP.16B producer-membership candidate accepted; Phase 6Z.6K.8AP.16C source-position descriptor adapter accepted; Phase 6Z.6K.8AP.16D/16E direct target/combinators accepted; Phase 6Z.6K.8AP.16F rejected; Phase 6Z.6K.8AP.16G direct obligation profile accepted; Phase 6Z.6K.8AP.16H finite-mask direct smoke rejected; Phase 6Z.6K.8AP.16I positive-survivor profile accepted | GoodDirection exactly recovers the old Farkas-needed split with zero bad-direction evidence. Most earlier rank/mask/state and terminal-shape approaches fail bounded gates. Phase 6X proves every `[0,100000)` GoodDirection survivor is handled by computed two-source certificates, with 235 source-support classes. Phase 6Y makes bounded per-case evidence Lean-checkable but direct heavy-shard roots are not memory-safe. Phase 6Z adds the semantic family-coverage API and a real largest-family row-shape theorem covering 11,589 survivors, but the generalized exact row-shape portfolio fragments into 8,970 shapes. Phase 6Z.4 shows the initial semantic row-relation templates cover all 39,710 GoodDirection survivors and all 235 source pairs in the first 100k window, with zero overlap and zero uncovered cases. Phase 6Z.5 proves those template schemas generically in Lean via `SupportPair.Applies`. Phase 6Z.6A/6Z.6B show direct semantic `TranslationGoodCoverageOnRange` leaves can be checked safely through an external cache and shallow groups, but their per-rank witness granularity projects far beyond the 24 CPU-hour budget. Phase 6Z.6C adds semantic killed bridges, semantic interval adapters, and a semantic exhaustive coverage root, so future family evidence no longer has to produce ordinary `TranslationCert`/`NonIdCert` witnesses. Phase 6Z.6D adds a resumable parallel census runner; Phase 6Z.6D.1 adds `axis_b_only` and `exact_two_source_valid`, making calibration cover 63,725/63,725 GoodDirection survivors. Phase 6Z.6D.2 classifies the universal diamond obstruction as supplemental: it covers 63,276/63,725 calibration survivors but leaves 362 fallback cases after sharp row templates. Phase 6Z.6D.3 shows blind fixed-size global rank sweeps are the wrong next compression coordinate: 5k windows are safe but too many, while 100k dense windows are too slow. Phase 6Z.6D.4 observes 429,636 covered GoodDirection survivors with zero uncovered cases, but projects 20.54 mean wall hours and 64.57 p95 wall hours, so it rejects further global rank sweeps. Phase 6Z.6E adds a family-key profiler; Phase 6Z.6E.1 accepts the proof-relevant `template_source` coordinate on 4,779 representative survivors with 123 families and zero uncovered cases. Phase 6Z.6J.1 reduces those representative families only 1.265x under D4. Phase 6Z.6K shows exact row shapes still fragment to 1,641, but source-agreement plus row-property facts collapse to 126 symbolic families with only one row-property-unstable `axis_b_only` family. Phase 6Z.6K.1 confirms the symbolic source/row split is Lean-checkable on three largest stable families plus all four `axis_b_only` row-property subcases. Phase 6Z.6K.2 extends that to a bounded representative root over all 126 symbolic families and all 4,779 representative GoodDirection survivors. Phase 6Z.6K.3 adds a resumable census runner and recovers the same 4,779/126 representative baseline. Phase 6Z.6K.4 covers 63,725/63,725 broader disjoint GoodDirection survivors but projects 130,573 source-agreement-keyed symbolic families, rejecting source agreement as a global key. Phase 6Z.6K.5 keeps the same coverage while collapsing the primary coordinate to 24 row-property-parametric families. Phase 6Z.6K.6 validates a bounded representative root under strict memory controls, but its measured 195.355s worst group means representative-per-case roots cannot scale. Phase 6Z.6K.7 shows the theorem layer is already collapsed to 9 constructors/11 row-property digests on `[0,1000)`; the missing compression is a shared membership bridge for `SourceAgrees` and row predicates. Phase 6Z.6K.8AH confirms that source-language producer facts plus exact row producer facts compose cheaply in Lean over 7,112 representative GoodDirection cases. Phase 6Z.6K.8AI keeps the same route below the scaling gates over 65k sampled ranks: 328 descriptors, 294 source groups, 24 row groups, 318 source+row obligations, and zero source-language validation failures. Phase 6Z.6K.8AJ adds a resumable checkpointed census and confirms the route remains cheap on a 10-window checkpoint run: 247 source+row obligations, zero validation failures, and aggregate-only replay in 0.06s. Phase 6Z.6K.8AK proves the same checkpoint-window producer surface can be emitted as theorem-valued Lean and built in 13.72s at 3.545 GiB RSS; Phase 6Z.6K.8AL proves the same surface can be split into shared source/row modules, bounded descriptor chunks, and a tiny root that builds in 10.50s at 3.343 GiB RSS; Phase 6Z.6K.8AM doubles the sampled window count and still builds the split root in 10.86s at 3.300 GiB RSS with only 315 descriptor families, 298 source groups, and 22 row groups. Phase 6Z.6K.8AN expands the checkpointed census to 39 windows / 97,500 sampled ranks and projects 862 descriptor families, 748 source+row producers, and 14 descriptor chunks, below the current gates. Phase 6Z.6K.8AO projects the production translation producer hierarchy at roughly 58k Lean lines / 2.3 MiB, 14 chunks, 748 producers, about 70 wall seconds at four jobs, and about 3.93 GiB peak RSS. Phase 6Z.6K.8AP.0 adds and checks the theorem adapters from `SourceRowPredicateBridge`/`SourceRowFactsBridge` and their range variants to residual interval coverage and `Translation.KilledBridge`; Phase 6Z.6K.8AP.1 adds GoodDirection-survivor range adapters so generated chunks can target `ResidualTranslationGoodCoverageOnRange` before producing the full killed bridge; Phase 6Z.6K.8AP.2 adds a classifier-free GoodDirection bridge so generated chunks can avoid `translationEarlyFamilyClassOfChoice` entirely and target `AllTranslationGoodCoverageOnRange`; Phase 6Z.6K.8AP.3 connects that all-GoodDirection target to public semantic generated coverage through `AllGoodRankKilled` and `semanticGeneratedCoverageOfAllGoodIntervals`; Phase 6Z.6K.8AP.4 rejects finite rank/mask dispatch after a `[0,16)` smoke took 288.66s and 14,041,472 KiB RSS; Phase 6Z.6K.8AP.7 rejects catalog membership as a production route; Phase 6Z.6K.8AP.8 adds a relation-based `SourceRow*GoodLanguageOnRange` API and empty-range smoke; Phase 6Z.6K.8AP.9 adds generic `SourcePositionSpec`/`SourcePairPositionSpec` lookup and source-fact producers for static and dynamic source positions; Phase 6Z.6K.8AP.10 adds a producer-level `SourceRowProducerGoodLanguageOnRange` API and empty-range smoke, letting future generated modules keep source/row producers private and export only erased all-Good coverage; Phase 6Z.6K.8AP.11 adds a source-position plus row-producer language API that erases semantic `SourcePairPositionSpec.Predicate` membership and row-producer `Applies` evidence to AP.10; Phase 6Z.6K.8AP.15 adds the descriptor-language/direct descriptor-coverage target; Phase 6Z.6K.8AP.16A lets existing source/row facts and language surfaces erase to descriptor coverage; Phase 6Z.6K.8AP.16B selects `source_language_full + row_exact` as the next producer-membership emitter target with 212 projected obligations over 7,112 sampled GoodDirection cases; Phase 6Z.6K.8AP.16C lets source-position row-producer languages erase directly to descriptor coverage and validates the bridge in 10.56s / 3,308,884 KiB; Phase 6Z.6K.8AP.16D/16E add the direct source-position coverage target and generator-facing combinators; Phase 6Z.6K.8AP.16F rejects the generic full-list lookup converse; Phase 6Z.6K.8AP.16G accepts the direct obligation inventory with 195 source+row candidate groups and 212 reusable obligations over 7,112 GoodDirection cases; Phase 6Z.6K.8AP.16I accepts the positive-survivor membership profile with 195 positive candidate groups, 757 positive survivor signatures, zero bad-direction evidence, zero duplicates, and zero ambiguous GoodDirection memberships. Full 8AP now needs a nonempty generated Lean smoke that consumes an explicit `GoodDirectionAtRank` premise and proves positive survivor membership from semantic source-position/signature hypotheses, without branching over non-GoodDirection masks. Signed prefix/state cone pruning, nonidentity axis/sign filters, and integer/scaled arithmetic remain measured support tracks. |
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
-AP.16G accepts the direct AP.16D obligation inventory.
+AP.16G accepts the direct AP.16D obligation inventory.  AP.16H rejects the
+first nonempty direct-coverage smoke attempt because it proves AP membership by
+replaying denominator-nonpositive witnesses for every non-GoodDirection mask in
+the singleton rank.  That recreates the bad-direction evidence burden that the
+GoodDirection refactor was meant to eliminate.  AP.16I then accepts the
+positive-survivor-only diagnostic surface: over the same representative
+windows, 7,112 GoodDirection cases group into 195 positive source/row
+candidates and 757 positive survivor signatures, with zero emitted
+bad-direction evidence, zero duplicate rank/mask memberships, and zero
+ambiguous GoodDirection memberships.  The refreshed AP.16I report projects the
+bounded representative surface at 191 source-language modules, 21 row modules,
+4 candidate chunks, and roughly 15,098 Lean lines.  AP.16J and AP.16K then add
+the positive-survivor classifier and signature-classifier theorem surfaces.
+AP.16L through AP.16Q then build and correct the singleton
+positive-survivor-signature smoke: AP.16Q is the accepted routing surface
+because it allows one survivor signature to route different positive masks to
+different source/row candidates.  AP.16R rejects local `decide` over computed
+source/row arithmetic after a one-mask internal OOM panic.  AP.16S accepts the
+replacement proof shape on one mask: generate precomputed theorem-valued
+sequence/source/line facts for the mask-selected candidate, then derive the
+classifier-facing source predicate and row-producer fact by rewriting through
+those facts.  AP.16T accepts the same proof shape for all eight positive masks
+of the singleton survivor signature and erases the result to
+`AllTranslationGoodCoverageOnRange 100805 100806`, with only the exact
+`goodDirectionAtRankBool -> generatedGoodMaskMember` mask-soundness premise
+left open.  The current next AP step is to factor the repeated precomputed
+facts so this signature-level theorem can scale to many signatures without
+roughly eight copies of the sequence/vector/line proof block per signature.
 AP.16D adds the direct
 `SourcePositionRowProducerGoodCoverageOnRange` target and adapters to all-Good
 and descriptor coverage; AP.16E adds the direct target's empty/concat and
@@ -9421,6 +9449,491 @@ Acceptance:
   source-position spec groups, 21 row groups, and 212 reusable source+row
   obligations, with zero source-language validation failures.  This is
   diagnostic only, but it fixes the next Lean emitter target.
+- [x] Reject Phase 6Z.6K.8AP.16H finite-mask direct coverage smoke:
+  the generator safely found a singleton-rank direct candidate in 3:19.14 wall
+  time and 55,884 KiB peak RSS, but the generated proof had to replay 62
+  denominator-nonpositive witnesses for the non-GoodDirection masks at that one
+  rank.  A focused Lean build of the intermediate module failed after 53.26s
+  and 7,028,900 KiB peak RSS after checking those obstructions; the subsequent
+  adapter-fixed build was stopped by the operator due the same OOM-risk shape.
+  This rejects rank-local `fin_cases mask` negative branches as a production
+  route.
+- [x] Implement Phase 6Z.6K.8AP.16I positive-survivor membership profile:
+  add `scripts/profile_ap16i_positive_survivor_membership.py` and run it with
+  `--jobs 4`.  It accepts the GoodDirection-premised membership surface in
+  3:13.15 wall time with 52,272 KiB peak RSS: 7,112 GoodDirection cases,
+  796 ranks with GoodDirection survivors, 195 positive source/row candidate
+  groups, 757 positive survivor signatures, zero emitted bad-direction
+  evidence, zero duplicate rank/mask memberships, and zero ambiguous
+  GoodDirection memberships.  The bounded representative projection is
+  191 source-language modules, 21 row modules, 4 candidate chunks at
+  64 candidates/chunk, and roughly 15,098 Lean lines.  This is diagnostic
+  only; it selects the next Lean theorem shape.
+- [x] Check Phase 6Z.6K.8AP.16I positive-survivor Lean smoke:
+  add
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean`
+  and build it as a focused target only.  The first two guarded attempts with
+  8 GiB and 16 GiB virtual-memory caps failed before useful elaboration because
+  Lean/Lake could not reserve worker threads, while peak RSS stayed below
+  3.25 GiB.  The accepted command was:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke'
+  ```
+
+  It completed successfully in 2.91s wall time with 3,277,356 KiB peak RSS.
+  After adding the production-facing classifier-shaped theorem
+  `allGoodCoverage_of_positiveSingleCandidateClassifier`, the same focused
+  target was rebuilt with the same 32 GiB virtual-memory cap and completed in
+  8.47s wall time with 3,270,080 KiB peak RSS.
+  This validates the AP.16I theorem surface as a small nonempty smoke: it
+  consumes explicit `GoodDirectionAtRank` premises and erases source-position
+  plus row-producer membership to `AllTranslationGoodCoverageOnRange`, without
+  branching over non-GoodDirection masks.  It is not full generated coverage;
+  the next production step must generate the semantic positive-survivor
+  membership facts that discharge the smoke hypotheses.
+- [x] Implement Phase 6Z.6K.8AP.16I generated positive-survivor smoke:
+  add `scripts/generate_ap16i_positive_membership_smoke.py`, consuming the
+  accepted AP.16I JSON and emitting one representative positive candidate
+  group to
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean`.
+  Python generation took 0.02s wall time with 13,824 KiB peak RSS after the
+  generated smoke was updated to use the classifier-shaped theorem.  The
+  focused Lean command was:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke'
+  ```
+
+  It built successfully in 2.49s wall time with 3,276,728 KiB peak RSS before
+  the classifier-shaped refresh, and in 1.56s wall time with 836,056 KiB peak
+  RSS from the cached `.olean` state after the refresh.  This confirms that the
+  AP.16I theorem surface can be emitted from profiler data as generated Lean
+  without mask-negative branches or bad-direction witnesses.  The generated
+  theorem now assumes a single explicit `hclass` classifier proving that every
+  identity-linear `GoodDirectionAtRank` survivor in the range belongs to the
+  positive source-position/row candidate; source and row facts are then
+  obtained from that candidate predicate.  This keeps the remaining production
+  proof honest: full coverage still requires a semantic proof of `hclass`.
+- [x] Implement Phase 6Z.6K.8AP.16J positive-survivor classifier API and smoke:
+  add
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifier.lean`,
+  defining `PositiveSurvivorClassifierOnRange lo hi`.  This theorem-valued
+  object packages the AP.16J production obligation: every identity-linear
+  `GoodDirectionAtRank` survivor in the range maps to a private positive
+  candidate, and each candidate supplies source-position and row-producer
+  facts.  The classifier erases through
+  `SourcePositionRowProducerGoodCoverageOnRange` to
+  `AllTranslationGoodCoverageOnRange`, and provides `empty`, `concat`, and
+  `of_singleCandidate` constructors for future balanced generated roots.
+  It now also defines `PositiveSurvivorBoolClassifierOnRange`, whose
+  `completeBool` field proves candidate membership from
+  `goodDirectionAtRankBool = true`; the generic
+  `goodDirectionAtRankBool_eq_true_of_goodDirection` theorem lifts semantic
+  `GoodDirectionAtRank` into that Boolean classifier.  This is the preferred
+  AP.16K target for generated compact survivor signatures.
+  Focused build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier'
+  ```
+
+  passed in 9.66s wall time with 3,299,728 KiB peak RSS before the Boolean
+  classifier extension; the refreshed generated-smoke build below rebuilt this
+  module in 3.0s within a 9.46s combined focused build.
+- [x] Implement Phase 6Z.6K.8AP.16J generated classifier smoke:
+  add `scripts/generate_ap16j_positive_classifier_smoke.py`, consuming the
+  refreshed AP.16I JSON and emitting
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifierGeneratedSmoke.lean`.
+  The generated module selects the largest observed positive candidate group
+  and constructs both a private `PositiveSurvivorClassifierOnRange 0 5000`
+  from a semantic `GoodDirectionAtRank` classifier premise and a private
+  `PositiveSurvivorBoolClassifierOnRange 0 5000` from a Boolean
+  `goodDirectionAtRankBool = true` classifier premise.  It checks the
+  classifier objects and erasure paths; it still does not prove full coverage.
+  Python generation took 0.02s wall time with 17,668 KiB peak RSS after adding
+  the Boolean variant.  Focused Lean build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifierGeneratedSmoke'
+  ```
+
+  passed in 3.18s wall time with 3,282,604 KiB peak RSS before the Boolean
+  refresh, and in 9.46s wall time with 3,304,752 KiB peak RSS after the
+  Boolean refresh.  The Boolean theorem
+  `generatedBoolClassifierAllGoodCoverage` is closer to the AP.16K production
+  target: generated chunks can prove the compact Boolean survivor classifier,
+  while the checked generic adapter converts semantic `GoodDirectionAtRank`
+  to `goodDirectionAtRankBool = true`.
+- [x] Refresh Phase 6Z.6K.8AP.16I catalog output for AP.16J:
+  `scripts/profile_ap16i_positive_survivor_membership.py` now emits
+  `positive_candidate_catalog` and `positive_survivor_signature_catalog`, not
+  only the top-eight summaries.  The refreshed memory-safe parallel run:
+
+  ```text
+  /usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py --jobs 4 --sample-limit 8 --candidate-gate 2000 --signature-gate 2000
+  ```
+
+  passed in 3:13.77 wall time with 55,424 KiB peak RSS.  The accepted counts
+  are unchanged: 7,112 GoodDirection cases, 195 positive candidate groups,
+  757 positive survivor signatures, zero bad-direction evidence, zero
+  duplicates, and zero ambiguous GoodDirection memberships.  The refreshed
+  JSON is 1,329,839 bytes and contains all 195 candidate catalog entries and
+  all 757 bounded survivor-signature catalog entries.
+- [x] Implement Phase 6Z.6K.8AP.16K Boolean positive-survivor signature classifier:
+  `PositiveSurvivorClassifier.lean` now adds
+  `PositiveSurvivorBoolSignatureClassifierOnRange`, a production-facing
+  AP.16K theorem surface that factors the remaining Boolean classifier proof
+  into rank-signature membership, GoodDirection-mask membership, and
+  source/row facts.  The generic adapter erases this signature layer to
+  `PositiveSurvivorBoolClassifierOnRange` and then to
+  `AllTranslationGoodCoverageOnRange`; it does not branch over masks that fail
+  GoodDirection.  The generated smoke now also exports
+  `generatedSignatureBoolClassifierAllGoodCoverage`, whose premises are the
+  compact signature obligations rather than the older monolithic `hclass`.
+  The refreshed generator:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16j_positive_classifier_smoke.py
+  ```
+
+  passed in 0.02s wall time with 17,692 KiB peak RSS.  The capped focused
+  Lean check:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifierGeneratedSmoke'
+  ```
+
+  passed in 10.01s wall time with 3,305,400 KiB peak RSS.  This is accepted as
+  the AP.16K signature-classifier API/smoke layer, not as exhaustive
+  membership proof.
+- [x] Implement Phase 6Z.6K.8AP.16L bounded signature-membership constructor:
+  `PositiveSurvivorClassifier.lean` now adds
+  `PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignature`.
+  For a singleton range `[anchor, anchor+1)`, this constructor proves the
+  AP.16K `completeBool` field from rank bounds plus a compact
+  signature-local theorem
+  `goodDirectionAtRankBool ⟨anchor, _⟩ mask = true -> GoodMaskMember mask`.
+  The generated AP.16L smoke
+  `PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` selects anchor rank
+  `100805` from positive-survivor signature
+  `9c8a88567da24f69d8019b8ada2a84b4de847573f9520de337403a261d3d1836`
+  and the catalog positive masks `4,6,11,22,30,31,59,63`.  The generator:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16l_signature_membership_smoke.py
+  ```
+
+  passed in 0.04s wall time with 17,736 KiB peak RSS.  The capped focused
+  Lean check:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  passed in 10.66s wall time with 3,310,912 KiB peak RSS.  This is accepted as
+  the AP.16L singleton signature-membership constructor/smoke.  It narrows the
+  remaining proof to signature-local mask soundness plus source/row facts; it
+  does not yet prove those facts.
+- [x] Implement Phase 6Z.6K.8AP.16M fact-carrying singleton membership surface:
+  `PositiveSurvivorClassifier.lean` now adds
+  `PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureFacts`,
+  whose membership predicate carries source-position and row-producer facts.
+  The AP.16L generator now emits a fact-carrying
+  `generatedSignatureMembership`, so the generated singleton theorem has one
+  compact premise:
+
+  ```lean
+  goodDirectionAtRankBool ⟨100805, _⟩ mask = true ->
+    generatedSignatureMembership mask
+  ```
+
+  instead of separate `hmask`, `hsource`, and `hrows` premises.  The refreshed
+  generator:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16l_signature_membership_smoke.py
+  ```
+
+  passed in 0.04s wall time with 17,540 KiB peak RSS.  The capped focused
+  Lean check:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  passed in 7.85s wall time with 3,314,108 KiB peak RSS.  This is accepted as
+  the AP.16M fact-carrying signature-membership surface.  It narrows the
+  remaining singleton proof to one compact membership theorem.
+- [x] Reject Phase 6Z.6K.8AP.16N direct `decide` membership theorem:
+  a tightly capped diagnostic tried to prove the remaining singleton theorem
+  directly by `decide`:
+
+  ```lean
+  goodDirectionAtRankBool ⟨100805, _⟩ mask = true ->
+    generatedSignatureMembership mask
+  ```
+
+  It failed quickly and safely, not by OOM.  The first attempt failed in 5.23s
+  with 3,275,560 KiB peak RSS because the decided proposition contained a
+  local proof variable; the second attempt failed in 2.72s with 3,277,628 KiB
+  peak RSS because reverting the bound proof required a `Decidable` instance
+  over proof arguments; the third attempt failed in 3.05s with 3,279,896 KiB
+  peak RSS because `generatedSignatureMembership` contains
+  `SourcePairPositionSpec.Predicate`, which is not decidable.  The failed
+  theorem was removed, and the accepted AP.16M smoke was rebuilt successfully
+  in 2.39s with 3,289,200 KiB peak RSS.  Do not use direct `decide` over the
+  fact-carrying source-position membership predicate as the production route.
+- [x] Implement Phase 6Z.6K.8AP.16O singleton theorem-valued fact split:
+  `PositiveSurvivorClassifier.lean` now adds
+  `PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureFactSplit`.
+  The generated singleton smoke splits the remaining membership obligation into
+  a mask theorem and a fact theorem:
+
+  ```lean
+  generatedGoodMaskMember mask
+  generatedSignatureFacts mask :=
+    generatedSpec.Predicate 100805 mask /\
+    generatedRowProducer.Applies generatedKey 100805 mask
+  ```
+
+  The singleton theorem now assumes
+  `goodDirectionAtRankBool -> generatedGoodMaskMember` and
+  `generatedGoodMaskMember -> generatedSignatureFacts` separately.  This keeps
+  the AP.16M fact-carrying surface while avoiding direct `decide` over the
+  non-decidable `SourcePairPositionSpec.Predicate`.  The refreshed generator:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16l_signature_membership_smoke.py
+  ```
+
+  passed in 0.03s wall time with 17,728 KiB peak RSS.  The capped focused Lean
+  check:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 90s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  passed in 9.57s wall time with 3,311,912 KiB peak RSS.  This is accepted as
+  the AP.16O theorem-valued fact split.
+- [x] Reject Phase 6Z.6K.8AP.16P generic singleton source/row `decide`
+  proof: a bounded attempt generated the AP.16O
+  `generatedGoodMaskMember -> generatedSignatureFacts` theorem by splitting
+  only the eight catalog positive masks and then trying to prove source and row
+  facts with local `decide`.  It failed safely under the 32 GiB cap, not by
+  OOM.  The first attempt failed in 7.90s wall time with 3,252,280 KiB peak
+  RSS because direct `decide` over proof-dependent `hlt` variables was not
+  stable.  The refined attempt normalized `hlt` by proof irrelevance and
+  introduced row predicates explicitly, but still failed in 3.56s wall time
+  with 3,263,812 KiB peak RSS: Lean could not synthesize/finish the source
+  predicate decision and row arithmetic decision for the computed
+  `StrictLin2` rows.  The accepted AP.16O generated file was restored and
+  rebuilt:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  passed in 4.17s wall time with 3,265,148 KiB peak RSS.  Do not use generic
+  local `decide` over `SourcePairPositionSpec.Predicate`,
+  `SourceIndexTemplate.Rows`, or computed `StrictLin2` row arithmetic as the
+  AP.16P production route.
+- [x] Implement Phase 6Z.6K.8AP.16Q multi-candidate singleton signature
+  routing: before proving explicit source/row facts, AP.16Q found and fixed a
+  theorem-surface mismatch in AP.16O.  The selected positive survivor signature
+  at anchor rank `100805` has eight positive masks
+  `4,6,11,22,30,31,59,63`, but the AP.16O generated singleton used only the
+  largest candidate group.  The catalog says masks `4` and `6` use that
+  candidate, while masks `11`, `22`, `30`, `31`, `59`, and `63` route to other
+  positive candidate groups.  A one-candidate `generatedSignatureFacts` theorem
+  is therefore not the correct production surface.
+
+  AP.16Q adds the hand-written constructor
+  `PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit`.
+  It keeps the same semantic `GoodDirection`-only public surface, but lets a
+  singleton survivor signature choose `candidateOfMask : SignMask ->
+  BaseCandidate`; source and row facts are then proved for the mask-selected
+  candidate.  The generator now emits a private `GeneratedCandidate` type, a
+  total `generatedCandidateOfMask`, per-candidate source-position specs, keys,
+  and row producers.  It still does not enumerate masks that fail
+  GoodDirection, and it still keeps mask soundness and theorem-valued
+  source/row facts as separate obligations.
+
+  The small hand-written classifier module was checked with:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier'
+  ```
+
+  and passed in 9.62s wall time with 3,309,124 KiB peak RSS.  The refreshed
+  generator:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16l_signature_membership_smoke.py
+  ```
+
+  passed in 0.03s wall time with 17,732 KiB peak RSS.  The first generated
+  multi-candidate smoke exposed only a small definitional-equality proof issue
+  and failed safely in 3.21s wall time with 3,267,360 KiB peak RSS.  After
+  splitting on `generatedCandidateOfMask mask`, the capped focused build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+  ```
+
+  passed in 3.15s wall time with 3,281,300 KiB peak RSS.  AP.16Q is accepted
+  as the corrected singleton signature-routing layer.
+- [x] Reject Phase 6Z.6K.8AP.16R naive explicit singleton source/row fact
+  proof: AP.16R tested whether one concrete positive mask could prove
+  `generatedSignatureFacts` by locally simplifying source membership and then
+  calling `decide` on the row/source checks.  The first attempt failed safely
+  in 6.93s wall time with 3,215,212 KiB peak RSS: the source check lives under
+  `RowRelationTemplates.SourceChecks`, the source-position impact membership
+  remained as an explicit goal, and the row predicate needed the template to be
+  reduced before a decision procedure could apply.  A refined one-mask attempt
+  qualified `SourceChecks`, split the source-position goal, and reduced the
+  row predicate to `EqEqPosVarFirstRows`, but then Lean hit an internal
+  out-of-memory panic in 7.89s wall time with 9,724,656 KiB peak RSS.  The
+  generated smoke was immediately restored by rerunning
+  `scripts/generate_ap16l_signature_membership_smoke.py`, and the restored
+  AP.16Q focused build passed in 2.27s wall time with 3,219,380 KiB peak RSS.
+
+  This rejects the naive AP.16R strategy even for one positive mask.  The next
+  AP.16S route must avoid `decide` over computed row/source arithmetic.  It
+  should generate theorem-valued facts from precomputed sequence/source/line
+  equalities, or add source-specific and row-specific helper lemmas whose
+  proofs are small and reusable.  The proof must still split only positive
+  masks and keep `goodDirectionAtRankBool -> generatedGoodMaskMember` as a
+  separate exact mask-soundness target.
+- [x] Implement Phase 6Z.6K.8AP.16S precomputed source/row fact surface:
+  replace the rejected AP.16R local computation with a generated theorem shape
+  that supplies precomputed `translationSeqAtRankMask`, source-position,
+  `SourceChecks`, `FirstLineAt`, and `SecondLineAt` facts, then derives
+  `generatedSignatureFacts` by rewriting through those facts.  This should be
+  tested first on one positive mask and must stay below the AP.16Q memory
+  envelope before it is allowed to cover all eight positive masks.
+
+  AP.16S adds
+  `scripts/generate_ap16s_precomputed_fact_smoke.py` and the standalone
+  diagnostic module
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedFactSmoke`.
+  The generator classifies exactly rank `100805`, mask `4`, joins the AP.16L
+  positive-survivor signature/source-position candidate with the existing
+  row-relation classifier, and emits a private concrete sequence/vector/line
+  fact bundle.  The public smoke theorem is:
+
+  ```lean
+  theorem generatedPrecomputedFactSmoke :
+      generatedSpec.Predicate case_000000_rank.val case_000000_mask /\
+        generatedRowProducer.Applies generatedKey
+          case_000000_rank.val case_000000_mask
+  ```
+
+  The first capped build attempt with a 16 GiB virtual-memory limit failed
+  safely with Lean's `failed to create thread` diagnostic and only
+  3,241,764 KiB peak RSS, so the cap was raised to the previously used
+  32 GiB limit.  Two proof-shape retries then failed quickly at 3.42 GiB RSS:
+  first on an explicit `interiorExcludedFacesForSlot` membership and support
+  definitional-equality mismatch, then on the missing `SymbolicFacts`
+  namespace for `EqEqPosVarFirstRows`.  After adding explicit source-position
+  holds, a generated support equality, and the `SymbolicFacts` namespace, the
+  focused build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedFactSmoke'
+  ```
+
+  passed in 8.16s wall time with 3,432,844 KiB peak RSS.  The generator itself
+  ran in 0.49s with 29,120 KiB peak RSS.  AP.16S is accepted as a one-mask
+  theorem-valued source/row fact surface.  The next AP.16T target is to emit
+  all positive masks of the same survivor signature through this precomputed
+  path, reusing shared sequence/line helpers where possible and still avoiding
+  finite replay over non-GoodDirection masks.
+- [x] Implement Phase 6Z.6K.8AP.16T singleton-signature precomputed source/row
+  fact surface: AP.16T adds
+  `scripts/generate_ap16t_precomputed_signature_smoke.py` and the standalone
+  diagnostic module
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke`.
+  It targets the same survivor signature
+  `9c8a88567da24f69d8019b8ada2a84b4de847573f9520de337403a261d3d1836`
+  at anchor rank `100805`, covers all eight positive masks
+  `4, 6, 11, 22, 30, 31, 59, 63`, and routes them through six
+  source/row candidates.  The generated theorem:
+
+  ```lean
+  theorem generatedSingletonSignatureAllGoodCoverage
+      (hmask :
+        forall {mask : SignMask} (hlt : 100805 < numPairWords),
+          goodDirectionAtRankBool ⟨100805, hlt⟩ mask = true ->
+            generatedGoodMaskMember mask) :
+      AllTranslationGoodCoverageOnRange 100805 100806
+  ```
+
+  proves the AP.16L/AP.16Q `hfacts` obligation for every positive mask in the
+  signature by generated theorem-valued source/row facts.  It emits no
+  denominator-nonpositive facts for the remaining 56 masks.  The generator ran:
+
+  ```text
+  /usr/bin/time -v python3 scripts/generate_ap16t_precomputed_signature_smoke.py
+  ```
+
+  in 0.50s wall time with 29,392 KiB peak RSS and emitted a 1,742-line Lean
+  module.  A 32 GiB virtual-memory cap reached Lean's `failed to create
+  thread` diagnostic after 1:25 wall time while still only using 3,432,184 KiB
+  peak RSS, so this module family needs the slightly looser 40 GiB virtual
+  cap used below.  After two proof-shape fixes (rank literal reduction in
+  per-mask facts and a correct nested `Or` split for mask membership), the
+  focused build:
+
+  ```text
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 220s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke'
+  ```
+
+  passed in 12.60s wall time with 4,166,392 KiB peak RSS.  AP.16T is accepted
+  as the first nonempty positive-survivor signature-to-all-Good theorem that
+  avoids bad-direction replay and avoids local computed-row `decide`.  The
+  next AP.16U target is not to scale this exact 1,742-line-per-signature shape
+  blindly; instead factor shared rank/sequence/vector facts, measure a
+  multi-signature shard, and decide whether the production unit should be
+  signature leaves, candidate leaves, or shared source/row theorem modules.
+- [x] Implement Phase 6Z.6K.8AP.16U factored singleton-signature smoke:
+  AP.16U adds `scripts/generate_ap16u_factored_signature_smoke.py` and
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorFactoredSignatureSmoke`.
+  It covers the same anchor rank `100805`, positive masks
+  `4, 6, 11, 22, 30, 31, 59, 63`, and six source/row candidates as AP.16T,
+  but emits one shared `generatedRank`, `generatedWord`, `generatedRankWord`,
+  and `generatedUnrank` block instead of repeating the rank/word/unrank facts
+  in every positive-mask case.  The public theorem has the same shape as
+  AP.16T:
+
+  ```lean
+  theorem generatedSingletonSignatureAllGoodCoverage
+      (hmask :
+        forall {mask : SignMask} (hlt : 100805 < numPairWords),
+          goodDirectionAtRankBool ⟨100805, hlt⟩ mask = true ->
+            generatedGoodMaskMember mask) :
+      AllTranslationGoodCoverageOnRange 100805 100806
+  ```
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/generate_ap16u_factored_signature_smoke.py
+  /usr/bin/time -v python3 scripts/generate_ap16u_factored_signature_smoke.py
+  wc -l Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorFactoredSignatureSmoke.lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorPrecomputedSignatureSmoke.lean
+  /usr/bin/time -v bash -lc 'ulimit -v 41943040; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 220s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorFactoredSignatureSmoke'
+  ```
+
+  The generator ran in 0.50s wall time with 29,308 KiB peak RSS.  The
+  factored module is 1,711 lines, compared with 1,755 lines for the current
+  AP.16T module in this checkout.  The focused capped Lean build passed in
+  19.69s wall time with 4,156,164 KiB peak RSS.  AP.16U is accepted as a
+  correctness-preserving factoring smoke, but not promoted as a production
+  compression route: it saves only 44 lines on the singleton signature and does
+  not improve the memory/time envelope.  The next production AP step should
+  stop micro-factoring per-signature rank facts and instead test a coarser
+  shared source/row theorem module or multi-signature shard where candidate
+  facts are proved once and many signatures import/apply them.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -9436,13 +9949,30 @@ Acceptance:
   through AP.16D/AP.16C to descriptor coverage and composed with AP.16E
   `concat` for balanced roots.  After AP.16F, source-position predicates should
   be generated directly from `source_language_full` records or proved with
-  narrow per-source lemmas, not recovered by a generic full-list lookup
-  converse.  After AP.16G, the first nonempty Lean smoke should emit shared
+  narrow per-source lemmas, not recovered by a generic full-list lookup.
+  After the AP.16I classifier-shaped smoke, the preferred immediate target is
+  an AP.16J positive-survivor classifier layer: prove the `hclass` premise for
+  bounded ranges from compact positive-survivor signatures/source-position
+  facts, with no finite replay over masks that fail GoodDirection.
+  After AP.16G, the first nonempty Lean smoke should emit shared
   source-position predicate lemmas from `source_language_full`, shared row
   producer lemmas from `row_exact`, and descriptor chunks that call
   `SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate`, then
-  compose with `concat`.  AP.5 catalogs may remain export boundaries, but not
-  the production membership proof coordinate.
+  compose with `concat`.  After AP.16H, this proof must avoid rank-local
+  negative mask branches: it should prove positive-survivor membership from
+  semantic family/signature hypotheses, or use a compact shared
+  survivor-signature theorem, so that bad-direction masks are discharged only
+  by the generic `feasible -> GoodDirection` bridge and not by generated
+  denominator witnesses.  After AP.16I, the preferred next smoke has an
+  explicit `GoodDirectionAtRank r mask` premise and proves the positive
+  membership direction only: a GoodDirection survivor belongs to exactly one
+  source-position/row candidate group.  It must not `fin_cases mask` over all
+  64 masks at a rank.  A first nonempty smoke module has been added at
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean`;
+  it should be checked only as a focused, timed build after confirming no broad
+  Lean/package build is running.  Do not run broad generated imports for this
+  step.  AP.5 catalogs may remain export boundaries, but not the production
+  membership proof coordinate.
 - [ ] Resume the nonidentity compression track with the translation branch
   no longer dominating the survivor residual.
 - [ ] Implement Phase 6L.4 rank adapter only after semantic coverage passes
@@ -10850,6 +11380,538 @@ that prove `SourcePairPositionSpec.Predicate` directly from
 descriptor chunks that call
 `SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate` before
 erasing through AP.16D/AP.16C.
+
+Phase 6Z.6K.8AP.16H tests that direct AP.16D plan on one nonempty singleton
+rank.  The generator
+
+```text
+scripts/generate_ap16d_direct_coverage_smoke.py
+```
+
+selects rank `101105`, whose GoodDirection masks are exactly `6` and `22`, and
+whose two survivors share one `source_language_full + row_exact` candidate
+(`eq_eq_pos_var_first`, source indices `(23, 0)`).  The bounded parallel
+generation command
+
+```text
+/usr/bin/time -v python3 scripts/generate_ap16d_direct_coverage_smoke.py --jobs 4
+```
+
+is memory-safe: it completed in 3:19.14 wall time, 504.76s user time, 253% CPU,
+and 55,884 KiB peak RSS.  The generated Lean module, however, is not accepted
+as a scalable backend.  To prove the direct coverage theorem by `fin_cases
+mask`, it had to emit 62 private denominator-nonpositive witnesses for the
+non-GoodDirection masks at that singleton rank.  A focused build of the
+intermediate version already failed after 53.26s with 7,028,900 KiB peak RSS,
+after checking all 62 denominator obstructions and then failing in the adapter
+layer.  After adapter fixes, the guarded focused build
+
+```text
+/usr/bin/time -v timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.AP16DDirectCoverageSmoke
+```
+
+was interrupted by the operator before completion because it was following the
+same memory-risk profile.  A host-level process check afterwards found no
+remaining `lake`/`lean` process for that target.
+
+AP.16H is therefore rejected, not promoted.  The reason is conceptual, not just
+an implementation bug: the theorem shape still forces the proof to discharge
+all 62 bad masks for a singleton rank, so it reintroduces generated
+bad-direction evidence inside the membership proof.  The next AP step must be
+positive-survivor membership at a semantic family/signature level: prove that
+every `GoodDirection` survivor in a family maps to one source-position/row
+producer without enumerating bad masks, or add a compact survivor-signature
+lemma whose cost is shared across many ranks.  Do not emit rank-local
+finite-mask negative branches as the production AP.16 backend.
+
+Phase 6Z.6K.8AP.16I adds that positive-survivor membership diagnostic:
+
+```text
+scripts/profile_ap16i_positive_survivor_membership.py
+```
+
+The run
+
+```text
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py --jobs 4 --sample-limit 8 --candidate-gate 2000 --signature-gate 2000
+```
+
+passes in 3:13.15 wall time, 497.83s user time, 257% CPU, and 52,272 KiB peak
+RSS.  It emits no Lean and is not proof, but it checks exactly the shape that
+AP.16H lacked: only masks already satisfying GoodDirection are grouped.  The
+observed representative windows have 7,112 GoodDirection cases across 796
+ranks with GoodDirection survivors; those collapse to 195 positive
+source-language/row candidate groups and 757 positive survivor signatures.
+There are zero duplicate rank/mask memberships, zero ambiguous GoodDirection
+memberships, zero source-language validation failures, and zero emitted
+bad-direction evidence.
+
+The same report makes the next bounded Lean emission shape explicit:
+
+```text
+target:
+  SourcePositionRowProducerGoodCoverageOnRange lo hi
+premises:
+  rank < numPairWords
+  lo <= rank
+  rank < hi
+  totalLinearOfPairWord (unrankPairWord rank) = matId
+  GoodDirectionAtRank rank mask
+membership goal:
+  produce one SourcePairPositionSpec, one SourceIndexStateRowProducer,
+  and one SourceIndexStateKey
+erasure:
+  SourcePositionRowProducerGoodCoverageOnRange.of_coverage
+  SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
+  semanticGeneratedCoverageOfAllGoodIntervals
+bounded projection:
+  191 source-language modules
+  21 row modules
+  4 candidate chunks at 64 candidates/chunk
+  roughly 15,098 Lean lines
+```
+
+The accepted interpretation is narrow but important.  A production Lean smoke
+should not prove `∀ mask : SignMask, ...` by `fin_cases mask` at a rank.  It
+should instead prove a theorem with a `GoodDirectionAtRank r mask` premise:
+from the semantic positive-survivor signature, source-position membership, and
+row producer facts, the survivor belongs to the appropriate source/row
+candidate and is killed by the existing row-template theorem.  Masks failing
+GoodDirection must remain outside the generated evidence path and be handled
+only by the generic feasibility-to-GoodDirection bridge.
+
+The first Lean smoke for this surface is:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean
+```
+
+It intentionally proves only the erasure surface from explicit
+`GoodDirectionAtRank` survivor hypotheses, source-position predicates, and row
+producer membership hypotheses.  It does not enumerate all masks at a rank and
+does not emit denominator-nonpositive witnesses for bad-direction masks.  Two
+too-tight virtual-memory caps, 8 GiB and 16 GiB, failed before meaningful
+checking because Lean/Lake could not reserve worker threads, with RSS below
+3.25 GiB.  The accepted focused command was:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke'
+```
+
+It built successfully in 2.91s wall time with 3,277,356 KiB peak RSS.  This is
+accepted as a theorem-surface smoke and a safe build recipe, not as generated
+coverage.  The next production AP.16 step is to emit or prove the semantic
+positive-survivor membership facts that discharge the smoke hypotheses over
+bounded ranges.
+
+The hand smoke was then strengthened with
+`allGoodCoverage_of_positiveSingleCandidateClassifier`, the production-facing
+surface a generated chunk should use.  Instead of separately assuming source
+and row predicates for every survivor, it assumes one classifier predicate
+`candidate rank mask` and proves source/row membership from that predicate.
+The refreshed focused build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke'
+```
+
+passed in 8.47s wall time with 3,270,080 KiB peak RSS.  This keeps the proof
+surface explicit about the remaining production obligation: prove the
+candidate classifier for all identity-linear GoodDirection survivors in a
+bounded range.
+
+The first generated version of that smoke is emitted by:
+
+```text
+scripts/generate_ap16i_positive_membership_smoke.py
+```
+
+It consumes the AP.16I JSON profile and selects the largest representative
+positive candidate group, with 1,316 observed GoodDirection cases.  The command
+
+```text
+/usr/bin/time -v python3 scripts/generate_ap16i_positive_membership_smoke.py
+```
+
+completed in 0.02s wall time with 13,632 KiB peak RSS and wrote:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean
+```
+
+After fixing the generated import/open surface to match the checked hand
+smoke, the focused build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke'
+```
+
+passed in 2.49s wall time with 3,276,728 KiB peak RSS.  This remains a
+bounded theorem-surface smoke: the generated module assumes the source and row
+membership hypotheses for the candidate group.  Its value is that the
+AP.16I-positive route can now be emitted mechanically from profiler data and
+Lean-checked without reintroducing finite-mask negative branches.  The next
+step is to generate/check the actual source-language and row-exact membership
+facts that discharge those hypotheses.
+
+After the classifier-shaped refresh, the generator emits:
+
+```lean
+private def generatedCandidate (rank : Nat) (mask : SignMask) : Prop :=
+  generatedSpec.Predicate rank mask /\
+    generatedRowProducer.Applies generatedKey rank mask
+```
+
+and the generated theorem has one remaining proof-relevant premise:
+
+```lean
+hclass :
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    0 <= rank ->
+      rank < 5000 ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            generatedCandidate rank mask
+```
+
+The refreshed generator run completed in 0.02s wall time with 13,824 KiB peak
+RSS.  The refreshed focused Lean build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke'
+```
+
+passed in 1.56s wall time with 836,056 KiB peak RSS from the cached `.olean`
+state.  This is not broad-build evidence, but it confirms that the generated
+AP.16I surface is cheap and memory-safe when checked as a focused target.  The
+next phase is AP.16J: generate or prove the semantic positive-survivor
+classifier `hclass` for a bounded range, from compact survivor signatures and
+source-position facts, without replaying masks that fail GoodDirection.
+
+Phase 6Z.6K.8AP.16J adds the classifier object that the next generated
+backend should target:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifier.lean
+```
+
+It defines `PositiveSurvivorClassifierOnRange lo hi`, whose `complete` field
+is exactly the production `hclass` obligation: every identity-linear
+`GoodDirectionAtRank` survivor in the rank range maps to one private positive
+candidate.  Each candidate supplies its source-position spec, row producer,
+key, source predicate proof, and row-producer application.  The classifier
+then erases to `SourcePositionRowProducerGoodCoverageOnRange` and
+`AllTranslationGoodCoverageOnRange`.  It also provides `empty`, `concat`, and
+`of_singleCandidate` constructors, so future generated chunks can be composed
+as a balanced semantic classifier tree rather than as rank/mask replay.
+
+The same module now also defines `PositiveSurvivorBoolClassifierOnRange lo hi`.
+Its `completeBool` field proves candidate membership from
+`goodDirectionAtRankBool = true`, and the checked adapter
+`PositiveSurvivorBoolClassifierOnRange.to_classifier` uses
+`goodDirectionAtRankBool_eq_true_of_goodDirection` to recover the semantic
+`GoodDirectionAtRank` theorem surface.  This is the preferred AP.16K direction:
+generated chunks can prove a compact Boolean survivor classifier, while the
+final proof still consumes semantic `GoodDirectionAtRank` and never enumerates
+masks that fail it.
+
+The focused build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier'
+```
+
+passed in 9.66s wall time with 3,299,728 KiB peak RSS.
+
+The first generated classifier smoke is emitted by:
+
+```text
+scripts/generate_ap16j_positive_classifier_smoke.py
+```
+
+It consumes the AP.16I JSON profile, selects the largest observed positive
+candidate group, and constructs a private
+`PositiveSurvivorClassifierOnRange 0 5000` from one explicit `hclass`
+premise.  This is still not full coverage: it validates the classifier object
+and erasure path, while leaving the semantic positive-survivor classifier as
+the next proof obligation.  The generator completed in 0.02s wall time with
+13,440 KiB peak RSS and wrote:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifierGeneratedSmoke.lean
+```
+
+The focused build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifierGeneratedSmoke'
+```
+
+passed in 3.18s wall time with 3,282,604 KiB peak RSS.
+
+After the Boolean-classifier extension, the same generator emits both the
+semantic classifier theorem and:
+
+```lean
+theorem generatedBoolClassifierAllGoodCoverage
+    (hclass :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                generatedCandidate rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000
+```
+
+The refreshed generator completed in 0.02s wall time with 17,668 KiB peak RSS,
+and the focused build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifierGeneratedSmoke'
+```
+
+passed in 9.46s wall time with 3,304,752 KiB peak RSS.  This confirmed that
+the first Boolean AP.16K-facing surface was cheap and memory-safe as a focused
+target.
+
+AP.16K now strengthens that surface to a signature classifier.  The new
+hand-written structure
+
+```lean
+PositiveSurvivorBoolSignatureClassifierOnRange
+```
+
+splits the remaining generated obligation into compact positive-survivor
+signature membership:
+
+1. a rank belongs to a positive survivor signature;
+2. `goodDirectionAtRankBool = true` implies the mask is one of that signature's
+   positive masks;
+3. the signature/mask pair supplies source-position and row-producer facts.
+
+The generic adapter erases this signature layer to
+`PositiveSurvivorBoolClassifierOnRange` and then to
+`AllTranslationGoodCoverageOnRange`, so the final theorem still consumes the
+semantic GoodDirection surface.  The generated smoke now exports:
+
+```lean
+generatedSignatureBoolClassifierAllGoodCoverage :
+  ... ->
+    AllTranslationGoodCoverageOnRange 0 5000
+```
+
+where the premises are `hcomplete`, `hsource`, and `hrows` for compact
+signature membership, not the old direct `hclass` classifier.  The refreshed
+generator:
+
+```text
+/usr/bin/time -v python3 scripts/generate_ap16j_positive_classifier_smoke.py
+```
+
+passed in 0.02s wall time with 17,692 KiB peak RSS, and the capped focused
+Lean build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifierGeneratedSmoke'
+```
+
+passed in 10.01s wall time with 3,305,400 KiB peak RSS.  This accepts AP.16K as
+the theorem-valued signature-classifier API/smoke layer.  It does not yet prove
+the actual signature membership facts.
+
+The AP.16I profiler was also refreshed to emit full bounded catalogs for this
+next classifier layer: `positive_candidate_catalog` has all 195 positive
+candidate groups, and `positive_survivor_signature_catalog` has all 757
+bounded survivor signatures.  The refreshed run:
+
+```text
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py --jobs 4 --sample-limit 8 --candidate-gate 2000 --signature-gate 2000
+```
+
+passed in 3:13.77 wall time with 55,424 KiB peak RSS.  Counts remain
+unchanged: 7,112 GoodDirection cases, zero bad-direction evidence, zero
+duplicates, and zero ambiguous GoodDirection memberships.  The refreshed JSON
+is 1,329,839 bytes.
+
+AP.16L now adds the singleton-signature constructor:
+
+```lean
+PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignature
+```
+
+For a singleton range `[anchor, anchor+1)`, it proves `completeBool` from
+rank bounds and one compact signature-local mask theorem:
+
+```lean
+goodDirectionAtRankBool ⟨anchor, _⟩ mask = true ->
+  GoodMaskMember mask
+```
+
+The generated AP.16L smoke consumes the refreshed catalog, selects anchor rank
+`100805`, positive survivor signature
+`9c8a88567da24f69d8019b8ada2a84b4de847573f9520de337403a261d3d1836`, and
+catalog masks `4,6,11,22,30,31,59,63`.  The generator:
+
+```text
+/usr/bin/time -v python3 scripts/generate_ap16l_signature_membership_smoke.py
+```
+
+passed in 0.04s wall time with 17,736 KiB peak RSS.  The capped focused Lean
+build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+```
+
+passed in 10.66s wall time with 3,310,912 KiB peak RSS.  This accepts AP.16L
+as a theorem-valued singleton signature-membership construction layer.
+
+AP.16M then changes the singleton signature membership predicate to carry the
+source-position and row-producer facts directly.  The helper:
+
+```lean
+PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureFacts
+```
+
+projects those facts out of membership, so the generated singleton theorem now
+has one compact premise:
+
+```lean
+goodDirectionAtRankBool ⟨100805, _⟩ mask = true ->
+  generatedSignatureMembership mask
+```
+
+The refreshed AP.16L/AP.16M generator:
+
+```text
+/usr/bin/time -v python3 scripts/generate_ap16l_signature_membership_smoke.py
+```
+
+passed in 0.04s wall time with 17,540 KiB peak RSS.  The capped focused Lean
+build:
+
+```text
+/usr/bin/time -v bash -lc 'ulimit -v 33554432; export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 120s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorSignatureMembershipGeneratedSmoke'
+```
+
+passed in 7.85s wall time with 3,314,108 KiB peak RSS.  This accepts AP.16M as
+the fact-carrying singleton membership surface.
+
+AP.16N then tested the most direct possible proof of the remaining singleton
+membership theorem by `decide`.  It is rejected.  The attempts failed quickly
+and safely under the 32 GiB cap:
+
+1. 5.23s wall time / 3,275,560 KiB RSS: Lean rejected `decide` because the
+   expected type contained a local proof variable.
+2. 2.72s wall time / 3,277,628 KiB RSS: `decide +revert` tried to decide over
+   proof arguments and no `Decidable` instance existed.
+3. 3.05s wall time / 3,279,896 KiB RSS: inlining the bound proof left the real
+   blocker, namely that `generatedSignatureMembership` contains
+   `SourcePairPositionSpec.Predicate`, which is not decidable.
+
+The diagnostic theorem was removed, and the accepted AP.16M smoke rebuilt in
+2.39s wall time with 3,289,200 KiB peak RSS.  The direct whole-membership
+`decide` route is therefore not the production route.
+
+AP.16O implements the split that AP.16N exposed as necessary.  The generated
+singleton smoke now separates `generatedGoodMaskMember mask` from
+`generatedSignatureFacts mask`, where the facts contain
+`generatedSpec.Predicate 100805 mask` and
+`generatedRowProducer.Applies generatedKey 100805 mask`.  The helper
+`PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureFactSplit`
+then consumes two small theorem-valued premises rather than trying to decide
+the whole source-position predicate.  The refreshed AP.16O generator passed in
+0.03s wall time with 17,728 KiB peak RSS, and the capped focused Lean build
+passed in 9.57s wall time with 3,311,912 KiB peak RSS.
+
+AP.16P tested whether the AP.16O fact theorem could be generated by splitting
+only the eight catalog positive masks and then using local `decide` for the
+source and row facts.  It is rejected.  The attempt failed safely, first in
+7.90s wall time with 3,252,280 KiB peak RSS on proof-dependent `hlt`
+variables, then in 3.56s wall time with 3,263,812 KiB peak RSS after
+proof-irrelevance normalization because row/source arithmetic over the
+computed `StrictLin2` rows still did not reduce to `isTrue`.  The AP.16O smoke
+was restored and rebuilt in 4.17s wall time with 3,265,148 KiB peak RSS.  The
+next AP.16Q pass first corrected the singleton signature surface itself.  The
+selected survivor signature at anchor rank `100805` has eight positive masks,
+but its catalog map routes them to several positive candidates: masks `4` and
+`6` use the original largest candidate, while masks `11`, `22`, `30`, `31`,
+`59`, and `63` use other candidate groups.  A one-candidate
+`generatedSignatureFacts` premise is therefore too narrow.
+
+AP.16Q adds
+`PositiveSurvivorBoolSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit`
+and refreshes the generator to emit a private candidate type plus
+`generatedCandidateOfMask`.  The hand-written classifier module still builds
+under the capped focused command in 9.62s wall time with 3,309,124 KiB peak
+RSS.  The refreshed generator runs in 0.03s wall time with 17,732 KiB RSS.  A
+first generated multi-candidate smoke failed safely in 3.21s wall time with
+3,267,360 KiB RSS on a small definitional-equality proof; after changing that
+proof to split on `generatedCandidateOfMask mask`, the capped focused build of
+`PositiveSurvivorSignatureMembershipGeneratedSmoke` passed in 3.15s wall time
+with 3,281,300 KiB peak RSS.  AP.16Q is accepted as the correct
+multi-candidate singleton signature-routing layer.
+
+The next AP.16R target is now the explicit source/row fact generator for this
+multi-candidate surface: prove the
+`generatedGoodMaskMember -> generatedSignatureFacts` premise with
+theorem-valued source-position/source-check and row-template facts for the
+mask-selected candidate, reusing the older row-classifier proof shape (`hseq`,
+source lookup, `SourceChecks`, and row facts simplified against concrete
+precomputed equalities).  Keep
+`goodDirectionAtRankBool -> generatedGoodMaskMember` as a separate exact mask
+soundness target.
+
+AP.16R then tested the naive version of that idea on one positive mask.  It is
+rejected.  The first one-mask theorem tried to simplify the source predicate
+and then call `decide`; it failed safely in 6.93s wall time with 3,215,212 KiB
+RSS, leaving explicit source-position/source-check and row-template goals.  A
+refined theorem qualified `RowRelationTemplates.SourceChecks`, split the
+source-position proof, and reduced the row predicate to
+`EqEqPosVarFirstRows`, but still asked Lean to decide the computed row/source
+arithmetic.  That triggered an internal out-of-memory panic in 7.89s wall time
+with 9,724,656 KiB RSS.  The generated file was restored immediately by
+rerunning `scripts/generate_ap16l_signature_membership_smoke.py`, and the
+restored AP.16Q smoke rebuilt in 2.27s wall time with 3,219,380 KiB RSS.
+
+The conclusion is precise: AP.16R should not prove source/row facts by local
+`decide` over computed rows, even for a single mask.  The next AP.16S target
+must generate or cite precomputed theorem-valued facts, such as
+`translationSeqAtRankMask` equalities, source-position/source-check facts, and
+`FirstLineAt`/`SecondLineAt` equalities, then derive the row predicate by
+rewriting through those facts.  This keeps the proof surface semantic while
+avoiding the rational-arithmetic evaluator path that caused the internal OOM.
+
+AP.16S implements and accepts that replacement on one positive mask.  The
+standalone generated module
+`PositiveSurvivorPrecomputedFactSmoke.lean` proves the classifier-facing
+source predicate and row-producer application for rank `100805`, mask `4` from
+private precomputed sequence/vector/line facts.  The capped focused build with
+`ulimit -v 33554432`, `LEAN_NUM_THREADS=1`, and `LAKE_JOBS=1` passed in 8.16s
+wall time with 3,432,844 KiB peak RSS.  A tighter 16 GiB virtual-memory cap is
+too restrictive for this Lean invocation because Lean failed to create a
+thread despite only 3.24 GiB RSS; use the 32 GiB cap for this module family.
+AP.16S is therefore accepted as a safe theorem-valued fact surface for one
+mask.
+
+AP.16T extends that accepted surface to all eight positive masks of the same
+survivor signature.  The generated module
+`PositiveSurvivorPrecomputedSignatureSmoke.lean` proves
+`AllTranslationGoodCoverageOnRange 100805 100806` modulo only the exact
+mask-soundness theorem
+`goodDirectionAtRankBool -> generatedGoodMaskMember`.  It covers masks
+`4, 6, 11, 22, 30, 31, 59, 63`, routes them through six source/row candidates,
+and emits no facts for the 56 non-GoodDirection masks.  The module has 1,742
+Lean lines.  Its focused capped build with `ulimit -v 41943040`,
+`LEAN_NUM_THREADS=1`, and `LAKE_JOBS=1` passed in 12.60s wall time with
+4,166,392 KiB peak RSS.  The tighter 32 GiB virtual-memory cap is too tight
+for this larger generated module because Lean failed to create a thread while
+RSS remained about 3.43 GiB.  AP.16T is accepted, but it is a scaling warning:
+production should factor repeated rank/sequence/vector/line facts before
+emitting many signatures.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

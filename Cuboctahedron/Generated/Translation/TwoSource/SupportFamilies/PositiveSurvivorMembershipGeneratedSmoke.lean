@@ -1,0 +1,73 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke
+
+/-!
+Generated positive-survivor membership smoke for AP.16I.
+
+This file is diagnostic only.  It is generated from
+`scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json` and
+contains one representative positive source-position/row candidate group.
+It assumes a `GoodDirectionAtRank` survivor and does not enumerate masks that
+fail GoodDirection.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke
+
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke
+
+private def generatedSpec : SourcePairPositionSpec where
+  first := SourcePositionSpec.interior ⟨1, by decide⟩ Face.tmmm 5
+  second := SourcePositionSpec.xpStart ⟨0, by decide⟩
+
+private def generatedKey : SourceIndexStateKey where
+  firstIndex := generatedSpec.first.index
+  secondIndex := generatedSpec.second.index
+  support := generatedSpec.support
+  template := SourceIndexTemplate.eqEqPosVarFirst
+
+private def generatedRowProducer : SourceIndexStateRowProducer where
+  Applies := fun key rank mask =>
+    key = generatedKey /\
+      key.template.Rows key.support rank mask
+  rowFacts := by
+    intro key rank mask h
+    exact SourceIndexStateRowFacts.of_rows h.2
+
+private def generatedCandidate (rank : Nat) (mask : SignMask) : Prop :=
+  generatedSpec.Predicate rank mask /\
+    generatedRowProducer.Applies generatedKey rank mask
+
+/--
+Representative generated AP.16I theorem for candidate group `ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac`.
+
+Observed bounded cases in the profile: `1316`.
+This is a theorem-surface smoke only; future production chunks must prove
+the `hclass` classifier from semantic positive-survivor signatures.
+-/
+theorem generatedGroupAllGoodCoverage
+    (hclass :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedCandidate rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  allGoodCoverage_of_positiveSingleCandidateClassifier
+    generatedCandidate generatedSpec generatedRowProducer generatedKey
+    rfl rfl rfl hclass
+    (by
+      intro rank mask h
+      exact h.1)
+    (by
+      intro rank mask h
+      exact h.2)
+
+theorem generatedPositiveSurvivorMembershipSmoke_builds : True := by
+  trivial
+
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipGeneratedSmoke
