@@ -233,7 +233,8 @@ the Phase 6Z.6K.8AP.16BG denominator-cube obstruction core, and the Phase
 6Z.6K.8AP.16BJ Walsh subcube cover profile, Phase 6Z.6K.8AP.16BK
 impact-subcube obstruction core, the Phase 6Z.6K.8AP.16BL bounded
 impact-subcube smoke, the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core, and
-the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke.
+the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke, plus
+the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -774,6 +775,11 @@ Completed current-work items:
   - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshGeneratedSmoke.lean`
   - `scripts/generated/phase6z6k8ap16bn_walsh_generated_smoke.json`
   - `scripts/generated/phase6z6k8ap16bn_walsh_generated_smoke.md`
+- Added the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke:
+  - `scripts/generate_ap16bo_walsh_bound_smoke.py`
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshEmitterSmoke.lean`
+  - `scripts/generated/phase6z6k8ap16bo_walsh_bound_emitter_smoke.json`
+  - `scripts/generated/phase6z6k8ap16bo_walsh_bound_emitter_smoke.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12391,6 +12397,34 @@ Acceptance:
   final evidence because it intentionally does not yet connect
   `impactDenomAtRank` to the emitted Walsh polynomial.  The next AP16BO target
   is to automate this one-subcube emitter and design the scalable
+  denominator-equality bridge.
+- [x] Implement Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke:
+  AP16BO adds `scripts/generate_ap16bo_walsh_bound_smoke.py`, which reads the
+  AP16BJ selected-subcube data, recomputes the exact Walsh polynomial for the
+  selected impact, emits termwise bounds, and generates
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshEmitterSmoke.lean`.
+  The generated smoke matches the AP16BN hand-written proof shape for the
+  first selected subcube and proves polynomial nonpositivity through
+  `WalshSubcubeUpperBound`, without per-mask nonpositivity replay.
+
+  Focused guarded build:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshEmitterSmoke
+  passed; elapsed 3.00s; peak RSS 3.935 GiB; min available 45.153 GiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bo_walsh_bound_emitter_smoke.json
+  scripts/generated/phase6z6k8ap16bo_walsh_bound_emitter_smoke.md
+  ```
+
+  Decision: accepted as the first scripted Walsh-bound emitter.  The next
+  AP16BP target is to emit all 20 selected AP16BJ subcube Walsh-bound
+  obstructions for rank `100805`, still without connecting to
+  `impactDenomAtRank`; after that, AP16BQ should attack the scalable
   denominator-equality bridge.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,

@@ -1,0 +1,23 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BO",
+  "status": "generated_smoke_build_passed",
+  "rank": 100805,
+  "selected_index": 0,
+  "label": "*000**",
+  "impact": 1,
+  "term_count": 6,
+  "bound_sum": "-4/27",
+  "lean_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshEmitterSmoke.lean",
+  "connects_to_impactDenomAtRank": false,
+  "trusted_as_final_generated_coverage": false,
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bo_walsh_emitter_smoke_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshEmitterSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 3.00,
+    "peak_tree_rss_mib": 4029,
+    "min_available_seen_mib": 46237,
+    "guard_killed": false
+  },
+  "production_decision": "accepted_as_first_scripted_walsh_bound_emitter",
+  "next_step": "Scale the emitter to all selected subcubes for the rank-100805 cover, then build a denominator-equality bridge."
+}
