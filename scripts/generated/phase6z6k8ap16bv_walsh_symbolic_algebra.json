@@ -1,0 +1,23 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BV",
+  "status": "accepted",
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic",
+  "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean",
+  "purpose": "Add WalshAffine and prove affine multiplication into WalshQuadratic.coeffEval over the six semantic sign bits.",
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bv_walsh_symbolic_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic'",
+    "exit_code": 0,
+    "elapsed_seconds": 16.02,
+    "max_tree_rss_mib": 4337,
+    "min_available_seen_mib": 45689
+  },
+  "accepted_surface": [
+    "WalshAffine",
+    "WalshAffine.eval",
+    "WalshQuadratic.coeffEval",
+    "WalshAffine.mul",
+    "WalshAffine.mul_coeffEval"
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "next_step": "Add symbolic vector/dot-product combinators and a generated rank-100805 coefficient-check smoke that compares computed denominator coefficients to AP16BS WalshQuadratic data without unfolding totalAff under mask branches."
+}

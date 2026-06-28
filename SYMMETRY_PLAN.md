@@ -790,6 +790,10 @@ Completed current-work items:
 - Added the Phase 6Z.6K.8AP.16BQ Walsh cover bridge reports:
   - `scripts/generated/phase6z6k8ap16bq_walsh_cover_bridge.json`
   - `scripts/generated/phase6z6k8ap16bq_walsh_cover_bridge.md`
+- Added the Phase 6Z.6K.8AP.16BV Walsh symbolic algebra reports:
+  - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`
+  - `scripts/generated/phase6z6k8ap16bv_walsh_symbolic_algebra.json`
+  - `scripts/generated/phase6z6k8ap16bv_walsh_symbolic_algebra.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12703,6 +12707,47 @@ Acceptance:
   geometry under mask-bit branches.  It should implement a symbolic or
   integer/scaled denominator evaluator that produces/checks `WalshQuadratic`
   coefficients.
+- [x] Implement Phase 6Z.6K.8AP.16BV Walsh symbolic affine algebra:
+  AP16BV adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`.
+  This module defines `WalshAffine`, `WalshAffine.eval`,
+  `WalshQuadratic.coeffEval`, and `WalshAffine.mul`, then proves
+  `WalshAffine.mul_coeffEval`: multiplying affine Walsh forms into a
+  `WalshQuadratic` agrees with pointwise masked multiplication under
+  `coeffEval`.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bv_walsh_symbolic_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 16.02s
+  peak tree RSS: 4337 MiB
+  minimum available memory: 45689 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bv_walsh_symbolic_algebra.json
+  scripts/generated/phase6z6k8ap16bv_walsh_symbolic_algebra.md
+  ```
+
+  Decision: accepted as a small symbolic theorem surface.  The next AP16
+  bridge should add symbolic vector/dot-product combinators and a generated
+  rank-100805 coefficient-check smoke that compares computed denominator
+  coefficients to AP16BS `WalshQuadratic` data without unfolding `totalAff`
+  under six mask-bit branches.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
