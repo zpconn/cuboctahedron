@@ -13055,6 +13055,62 @@ Acceptance:
 
   for the same subcube, preferably by reusing AP16BY's symbolic normal/vector
   records rather than unfolding `totalAff` under every mask branch.
+- [x] Implement Phase 6Z.6K.8AP.16CC bounded WalshQuadratic cover smoke:
+  AP16CC adds
+  `scripts/generate_ap16cc_walsh_quadratic_cover_bounded_smoke.py` and the
+  generated smoke
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadraticCoverBoundedSmoke.lean`.
+  It combines:
+
+  - the AP16CB `WalshQuadraticSubcubeUpperBound`;
+  - AP16BL-style exact denominator facts for the eight masks in selected
+    subcube 0;
+  - `WalshQuadraticImpactObstruction`;
+  - erasure through `WalshQuadraticImpactObstruction.toImpactSubcubeObstruction`
+    into the existing `ImpactSubcubeCover` API.
+
+  The focused theorem is:
+
+  ```lean
+  theorem generatedGoodMaskMember_of_GoodDirection_viaQuadraticImpactSubcubes
+      {mask : SignMask} (hlt : 100805 < numPairWords)
+      (hgood : GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask) :
+      generatedGoodMaskMember mask
+  ```
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cc_walsh_quadratic_cover_bounded_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadraticCoverBoundedSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 14.04s
+  peak tree RSS: 4858 MiB
+  minimum available memory: 45184 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16cc_walsh_quadratic_cover_bounded_smoke.json
+  scripts/generated/phase6z6k8ap16cc_walsh_quadratic_cover_bounded_smoke.md
+  ```
+
+  Decision: accepted as a bounded integration smoke for the
+  `WalshQuadraticImpactObstruction` erasure path.  It is not final generated
+  coverage: denominator equality is still proved by bounded mask replay over
+  eight concrete masks.  The production bridge still needs to prove
+  coefficient-level equality from symbolic/scaled denominator data, not by
+  replaying `impactDenomAtRank` for each mask.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
