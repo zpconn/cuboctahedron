@@ -1,0 +1,288 @@
+{
+  "batches": [
+    {
+      "batch": 0,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch000.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 0 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_000_0_1000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch000.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch000.md --phase 6Z.6K.8AP.16AJ.batch000",
+      "density_good_direction_masks": 1465,
+      "density_identity_words": 138,
+      "density_rss_kib": 17544,
+      "density_seconds": 7.230458478999935,
+      "range": [
+        0,
+        1000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 1,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch001.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 6000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_001_6000000_6001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch001.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch001.md --phase 6Z.6K.8AP.16AJ.batch001",
+      "density_good_direction_masks": 863,
+      "density_identity_words": 140,
+      "density_rss_kib": 17548,
+      "density_seconds": 7.306655415999558,
+      "range": [
+        6000000,
+        6001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 2,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch002.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 54000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_002_54000000_54001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch002.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch002.md --phase 6Z.6K.8AP.16AJ.batch002",
+      "density_good_direction_masks": 721,
+      "density_identity_words": 132,
+      "density_rss_kib": 17544,
+      "density_seconds": 6.896307667999281,
+      "range": [
+        54000000,
+        54001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 3,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch003.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 44000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_003_44000000_44001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch003.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch003.md --phase 6Z.6K.8AP.16AJ.batch003",
+      "density_good_direction_masks": 711,
+      "density_identity_words": 96,
+      "density_rss_kib": 17548,
+      "density_seconds": 5.182837592999931,
+      "range": [
+        44000000,
+        44001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 4,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch004.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 3000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_004_3000000_3001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch004.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch004.md --phase 6Z.6K.8AP.16AJ.batch004",
+      "density_good_direction_masks": 582,
+      "density_identity_words": 115,
+      "density_rss_kib": 17544,
+      "density_seconds": 6.004387614000734,
+      "range": [
+        3000000,
+        3001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 5,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch005.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 79000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_005_79000000_79001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch005.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch005.md --phase 6Z.6K.8AP.16AJ.batch005",
+      "density_good_direction_masks": 464,
+      "density_identity_words": 67,
+      "density_rss_kib": 17544,
+      "density_seconds": 3.6978557410002395,
+      "range": [
+        79000000,
+        79001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 6,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch006.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 84000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_006_84000000_84001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch006.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch006.md --phase 6Z.6K.8AP.16AJ.batch006",
+      "density_good_direction_masks": 403,
+      "density_identity_words": 58,
+      "density_rss_kib": 17544,
+      "density_seconds": 3.187089147999359,
+      "range": [
+        84000000,
+        84001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 7,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch007.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 62000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_007_62000000_62001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch007.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch007.md --phase 6Z.6K.8AP.16AJ.batch007",
+      "density_good_direction_masks": 262,
+      "density_identity_words": 46,
+      "density_rss_kib": 17544,
+      "density_seconds": 2.6345910009986255,
+      "range": [
+        62000000,
+        62001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 8,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch008.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 4000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_008_4000000_4001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch008.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch008.md --phase 6Z.6K.8AP.16AJ.batch008",
+      "density_good_direction_masks": 231,
+      "density_identity_words": 64,
+      "density_rss_kib": 17544,
+      "density_seconds": 3.4379862240002694,
+      "range": [
+        4000000,
+        4001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 9,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch009.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 10000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_009_10000000_10001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch009.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch009.md --phase 6Z.6K.8AP.16AJ.batch009",
+      "density_good_direction_masks": 220,
+      "density_identity_words": 42,
+      "density_rss_kib": 17544,
+      "density_seconds": 2.438218663999578,
+      "range": [
+        10000000,
+        10001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 10,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch010.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 69000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_010_69000000_69001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch010.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch010.md --phase 6Z.6K.8AP.16AJ.batch010",
+      "density_good_direction_masks": 143,
+      "density_identity_words": 28,
+      "density_rss_kib": 17544,
+      "density_seconds": 1.691458318999139,
+      "range": [
+        69000000,
+        69001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 11,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch011.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 70000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_011_70000000_70001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch011.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch011.md --phase 6Z.6K.8AP.16AJ.batch011",
+      "density_good_direction_masks": 139,
+      "density_identity_words": 48,
+      "density_rss_kib": 17544,
+      "density_seconds": 2.731112621999273,
+      "range": [
+        70000000,
+        70001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 12,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch012.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 80000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_012_80000000_80001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch012.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch012.md --phase 6Z.6K.8AP.16AJ.batch012",
+      "density_good_direction_masks": 123,
+      "density_identity_words": 51,
+      "density_rss_kib": 17544,
+      "density_seconds": 2.8771316460006346,
+      "range": [
+        80000000,
+        80001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 13,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch013.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 7000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_013_7000000_7001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch013.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch013.md --phase 6Z.6K.8AP.16AJ.batch013",
+      "density_good_direction_masks": 101,
+      "density_identity_words": 25,
+      "density_rss_kib": 17548,
+      "density_seconds": 1.5192088029998558,
+      "range": [
+        7000000,
+        7001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 14,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch014.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 50000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_014_50000000_50001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch014.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch014.md --phase 6Z.6K.8AP.16AJ.batch014",
+      "density_good_direction_masks": 99,
+      "density_identity_words": 45,
+      "density_rss_kib": 17544,
+      "density_seconds": 2.5762293039988435,
+      "range": [
+        50000000,
+        50001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 15,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch015.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 17000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_015_17000000_17001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch015.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch015.md --phase 6Z.6K.8AP.16AJ.batch015",
+      "density_good_direction_masks": 86,
+      "density_identity_words": 61,
+      "density_rss_kib": 17544,
+      "density_seconds": 3.382282059001227,
+      "range": [
+        17000000,
+        17001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 16,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch016.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 23000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_016_23000000_23001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch016.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch016.md --phase 6Z.6K.8AP.16AJ.batch016",
+      "density_good_direction_masks": 74,
+      "density_identity_words": 19,
+      "density_rss_kib": 17544,
+      "density_seconds": 1.2360468490005587,
+      "range": [
+        23000000,
+        23001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 17,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch017.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 5000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_017_5000000_5001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch017.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch017.md --phase 6Z.6K.8AP.16AJ.batch017",
+      "density_good_direction_masks": 58,
+      "density_identity_words": 19,
+      "density_rss_kib": 17544,
+      "density_seconds": 1.2148106160002499,
+      "range": [
+        5000000,
+        5001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 18,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch018.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 74000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_018_74000000_74001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch018.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch018.md --phase 6Z.6K.8AP.16AJ.batch018",
+      "density_good_direction_masks": 41,
+      "density_identity_words": 53,
+      "density_rss_kib": 17548,
+      "density_seconds": 2.939159090999965,
+      "range": [
+        74000000,
+        74001000
+      ],
+      "trusted_as_proof": false
+    },
+    {
+      "batch": 19,
+      "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 1.0 --json /tmp/cuboctahedron_ap16aj_memory_guard_batch019.json -- python3 scripts/run_ap16_positive_survivor_census.py --no-resume --rank-start 96000000 --limit 1000 --window-size 1000 --stride 1000 --max-windows 1 --workers 1 --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_019_96000000_96001000 --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch019.json --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch019.md --phase 6Z.6K.8AP.16AJ.batch019",
+      "density_good_direction_masks": 39,
+      "density_identity_words": 41,
+      "density_rss_kib": 17548,
+      "density_seconds": 2.269141803999446,
+      "range": [
+        96000000,
+        96001000
+      ],
+      "trusted_as_proof": false
+    }
+  ],
+  "decision": {
+    "notes": [
+      "diagnostic scheduling only: not Lean proof evidence",
+      "uses one guarded command per sampled density window",
+      "does not imply the sampled windows cover all pair-word ranks",
+      "run selected commands only after confirming no broad Lean build is active"
+    ],
+    "status": "candidate-extraction-plan-complete"
+  },
+  "density_json": "scripts/generated/phase6z6k8ap16ah_density_grid.json",
+  "guard": {
+    "max_tree_rss_mib": 12000,
+    "min_available_mib": 4096,
+    "poll_seconds": 1.0
+  },
+  "mode": "ap16_candidate_extraction_plan",
+  "phase": "6Z.6K.8AP.16AJ",
+  "schema_version": 1,
+  "selected_density_good_direction_masks": 6825,
+  "selected_density_identity_words": 1288,
+  "selected_rank_count": 20000,
+  "selected_window_count": 20,
+  "trusted_as_proof": false,
+  "workers_per_batch": 1
+}

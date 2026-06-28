@@ -10921,6 +10921,82 @@ Acceptance:
   by itself; it prevents future scaling experiments from threatening the
   47 GiB machine while the AP.16 membership and nonidentity-compression tracks
   continue.
+- [x] Implement Phase 6Z.6K.8AP.16AJ density-guided candidate-extraction
+  planner: AP.16AJ adds `scripts/plan_ap16_candidate_extraction.py`, a
+  scheduling tool that consumes an AP.16 density-map aggregate and emits a
+  prioritized manifest of guarded one-window positive-survivor extraction
+  commands.  It emits no Lean and is not proof evidence.
+
+  Planner command:
+
+  ```text
+  python3 scripts/plan_ap16_candidate_extraction.py \
+    --top-windows 20 \
+    --workers 1 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096
+  ```
+
+  Planner result:
+
+  ```text
+  scripts/generated/phase6z6k8ap16aj_candidate_extraction_plan.json
+  scripts/generated/phase6z6k8ap16aj_candidate_extraction_plan.md
+
+  selected sampled windows:             20
+  selected sampled ranks:           20,000
+  selected density GoodDirection:     6,825
+  densest selected window:         [0, 1000), 1,465 GoodDirection masks
+  weakest selected top-20 window:  [96,000,000, 96,001,000), 39 GoodDirection masks
+  ```
+
+  Guarded calibration run for the second densest sampled window:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 1.0 \
+    --json /tmp/cuboctahedron_ap16aj_memory_guard_batch001.json \
+    -- python3 scripts/run_ap16_positive_survivor_census.py \
+      --no-resume \
+      --rank-start 6000000 \
+      --limit 1000 \
+      --window-size 1000 \
+      --stride 1000 \
+      --max-windows 1 \
+      --workers 1 \
+      --checkpoint-dir /tmp/cuboctahedron_ap16aj_positive_survivor_extraction/batch_001_6000000_6001000 \
+      --json scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch001.json \
+      --md scripts/generated/phase6z6k8ap16aj_positive_survivor_extraction_batch001.md \
+      --phase 6Z.6K.8AP.16AJ.batch001
+  ```
+
+  Calibration result:
+
+  ```text
+  range:                         [6,000,000, 6,001,000)
+  GoodDirection cases:           863
+  ranks with GoodDirection:      137
+  positive candidate groups:      53
+  positive survivor signatures:   71
+  worker elapsed:                14.95s
+  worker RSS:                    24,128 KiB
+  guard elapsed:                 16.01s
+  guard peak tree RSS:           48.6 MiB
+  min available memory:          about 45.6 GiB
+  ```
+
+  Interpretation: density-guided candidate extraction is operationally safe
+  for small batches under the guard, and the extracted dense window still has a
+  modest candidate/signature count.  This is a scheduler/calibration result,
+  not final coverage.  The next proof-oriented AP.16 step should either:
+
+  - consume a bounded set of these density-guided extraction batches through
+    the existing shared-candidate/manifest Lean emitters; or
+  - promote the positive-survivor catalog runner to accept an explicit window
+    manifest so dense/sparse extraction can be resumed as a single tracked
+    production job without broad uncapped rank sweeps.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
