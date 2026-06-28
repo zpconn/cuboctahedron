@@ -1,0 +1,1365 @@
+{
+  "average_cubes_per_rank": 8.641959798994975,
+  "average_cubes_per_signature": 8.644649933949802,
+  "cube_count_histogram": {
+    "10": 44,
+    "11": 12,
+    "5": 21,
+    "6": 32,
+    "7": 49,
+    "8": 107,
+    "9": 97
+  },
+  "cube_fixed_count_histogram": {
+    "1": 256,
+    "2": 1809,
+    "3": 866,
+    "4": 10
+  },
+  "decision": {
+    "notes": [
+      "This is a Boolean cube cover only; Lean still needs semantic denominator-cube/Farkas proofs for each cube family.",
+      "Small cube counts support formalizing a mask-tree or denominator-cube proof layer."
+    ],
+    "status": "promising-mask-cube-cover"
+  },
+  "max_cube_count": 11,
+  "phase": "6Z.6K.8AP.16BD",
+  "rank_count": 796,
+  "schema_version": 1,
+  "signature_count": 757,
+  "survivor_bitset_count": 362,
+  "top_survivor_bitsets": [
+    {
+      "cube_count": 10,
+      "good_mask_count": 16,
+      "rank_count": 30,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*0*1*0"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        857
+      ],
+      "signature_count": 30,
+      "survivor_bitset": "0x80c0a000f1452300"
+    },
+    {
+      "cube_count": 10,
+      "good_mask_count": 16,
+      "rank_count": 12,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*0*1*0"
+        }
+      ],
+      "sample_good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "sample_ranks": [
+        10001381
+      ],
+      "signature_count": 12,
+      "survivor_bitset": "0x2030a000f4158c00"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 11,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0***0"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0*0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "111***"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "***011"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1**01"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**1*10"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1***0*"
+        }
+      ],
+      "sample_good_masks": [
+        7,
+        9,
+        13,
+        15,
+        18,
+        22,
+        23,
+        24,
+        28,
+        31,
+        39,
+        47,
+        55
+      ],
+      "sample_ranks": [
+        611
+      ],
+      "signature_count": 11,
+      "survivor_bitset": "0x0080808091c4a280"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0*0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**1*10"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "111***"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*0*1*0"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "sample_ranks": [
+        10002005
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x00c0a000b1442300"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0***0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1**01"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "111***"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**101*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**010*"
+        }
+      ],
+      "sample_good_masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "sample_ranks": [
+        2457
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x00c0a000d1452200"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**1*10"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*110**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*0*1*0"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "sample_ranks": [
+        1623
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x8040a000b0452300"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1****0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0***11"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00*1**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**010*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**101*"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        45,
+        47,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        10001924
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x8080a00071450300"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1**01"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*110**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**010*"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        2394
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x80c02000d0452300"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1***0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0***11"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*01**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*0*1*0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**101*"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        59
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x80c0800071052300"
+    },
+    {
+      "cube_count": 11,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1***0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1****0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "111***"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        47,
+        55
+      ],
+      "sample_ranks": [
+        1664
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x00808000f1452300"
+    },
+    {
+      "cube_count": 11,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0*0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**1*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**0*"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        18,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "sample_ranks": [
+        10001910
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x8040a000f1042300"
+    },
+    {
+      "cube_count": 11,
+      "good_mask_count": 13,
+      "rank_count": 8,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0***0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        }
+      ],
+      "sample_good_masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        9
+      ],
+      "signature_count": 8,
+      "survivor_bitset": "0x80c02000f1450200"
+    },
+    {
+      "cube_count": 8,
+      "good_mask_count": 4,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "11****"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "00****"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1*0***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**10**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***10*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0*1*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1****0"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0**1"
+        }
+      ],
+      "sample_good_masks": [
+        16,
+        30,
+        31,
+        47
+      ],
+      "sample_ranks": [
+        3874,
+        3958,
+        4554
+      ],
+      "signature_count": 4,
+      "survivor_bitset": "0x00008000c0010000"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 4,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "11****"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "00****"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1*0***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "0***1*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**10**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1***0*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**01**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1****0"
+        }
+      ],
+      "sample_good_masks": [
+        16,
+        28,
+        29,
+        47
+      ],
+      "sample_ranks": [
+        10000075,
+        10000249,
+        10000729
+      ],
+      "signature_count": 4,
+      "survivor_bitset": "0x0000800030010000"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 11,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "11****"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***01*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*1*1*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1****0"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1*0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**010*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        22,
+        23,
+        24,
+        28,
+        29,
+        45,
+        47
+      ],
+      "sample_ranks": [
+        10002027
+      ],
+      "signature_count": 6,
+      "survivor_bitset": "0x0000a00031c12300"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0**1*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1***00"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*110**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*1**01"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**1*10"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***01*"
+        }
+      ],
+      "sample_good_masks": [
+        0,
+        4,
+        8,
+        12,
+        13,
+        16,
+        20,
+        22,
+        28,
+        31,
+        45,
+        54,
+        63
+      ],
+      "sample_ranks": [
+        2388
+      ],
+      "signature_count": 6,
+      "survivor_bitset": "0x8040200090513111"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "***100"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00**1*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*01**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        13,
+        16,
+        18,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        2475
+      ],
+      "signature_count": 6,
+      "survivor_bitset": "0x80c0a000e1052100"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1**0**"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***01*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "***100"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00*1**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*0**1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "11**0*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "1*1**0"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        9,
+        16,
+        22,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        635
+      ],
+      "signature_count": 6,
+      "survivor_bitset": "0x80c0a000e1410300"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1****0"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***01*"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "00*1**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "**0*01"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0***11"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "***100"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*0**1*"
+        }
+      ],
+      "sample_good_masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "sample_ranks": [
+        641
+      ],
+      "signature_count": 6,
+      "survivor_bitset": "0xa280220063410200"
+    },
+    {
+      "cube_count": 9,
+      "good_mask_count": 13,
+      "rank_count": 6,
+      "sample_cubes": [
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "1***0*"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "*00***"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "***0*1"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0*01**"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "*0**10"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "0***11"
+        },
+        {
+          "covers": 8,
+          "fixed_count": 3,
+          "pattern": "***100"
+        },
+        {
+          "covers": 16,
+          "fixed_count": 2,
+          "pattern": "**0*0*"
+        }
+      ],
+      "sample_good_masks": [
+        8,
+        13,
+        18,
+        24,
+        26,
+        29,
+        30,
+        47,
+        50,
+        54,
+        58,
+        62,
+        63
+      ],
+      "sample_ranks": [
+        1527
+      ],
+      "signature_count": 6,
+      "survivor_bitset": "0xc444800065042100"
+    }
+  ],
+  "trusted_as_proof": false
+}

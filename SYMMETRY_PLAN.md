@@ -11915,6 +11915,44 @@ Acceptance:
   symbolic sign-variable proof, mask-tree/Farkas cube proof, or a stronger
   prefix/state language whose terminal theorem reasons over whole classes of
   masks before denominator signs are fully rank-specialized.
+- [x] Run Phase 6Z.6K.8AP.16BD survivor-bitset cube-cover profile:
+  AP16BD asks whether each GoodDirection survivor bitset has a small Boolean
+  cube cover of its complement.  This is not proof yet, but it measures the
+  shape a denominator-cube/Farkas mask-tree theorem would need to cover.
+
+  Command:
+
+  ```text
+  python3 scripts/profile_ap16bd_survivor_bitset_cube_cover.py
+  ```
+
+  Results:
+
+  ```text
+  unique survivor bitsets:       362
+  signatures represented:        757
+  ranks represented:             796
+  max greedy cube count:         11
+  average cubes per signature:   8.64
+  average cubes per rank:        8.64
+  cube-count histogram:          {5: 21, 6: 32, 7: 49, 8: 107, 9: 97, 10: 44, 11: 12}
+  cube fixed-count histogram:    {1: 256, 2: 1809, 3: 866, 4: 10}
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bd_survivor_bitset_cube_cover.json
+  scripts/generated/phase6z6k8ap16bd_survivor_bitset_cube_cover.md
+  ```
+
+  Decision: this is the first promising bad-mask compression coordinate after
+  AP16BA.  The bad-mask complement of each survivor bitset is small as a
+  Boolean mask tree.  The next Lean target should formalize a semantic
+  denominator-cube/Farkas proof for one cube, then one survivor bitset, before
+  scaling.  The Boolean cube cover itself is only a candidate partition; Lean
+  still needs exact denominator-cube witnesses showing that every mask in a bad
+  cube contradicts `GoodDirectionAtRank`.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -13950,6 +13988,16 @@ now sharper: completed-rank objects are the wrong place to factor bad-mask
 exclusion.  The next viable translation compression target should reason over
 symbolic sign variables or prefix/state languages before the denominator table
 has specialized all the way down to one rank.
+
+AP.16BD then checks whether the bad-mask complement of each survivor bitset is
+small as a Boolean cube tree.  This is promising: across 362 unique survivor
+bitsets from the AP16I sample, the greedy complement cover uses at most 11
+cubes and averages 8.64 cubes per represented rank/signature.  Most cubes fix
+only one, two, or three of the six sign bits.  This does not prove any
+geometric fact yet, but it gives the next concrete Lean target: formalize a
+denominator-cube or pseudo-Boolean Farkas theorem that proves a whole cube of
+masks cannot satisfy `GoodDirectionAtRank`, then test it on one survivor
+bitset before broader generation.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
