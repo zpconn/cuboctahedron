@@ -1,0 +1,27 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BF",
+  "name": "bad-mask cover singleton smoke",
+  "status": "accepted_as_bounded_interface_smoke",
+  "rank": 100805,
+  "positive_masks": 8,
+  "bad_masks": 56,
+  "bad_cube_families": 9,
+  "generated_file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorPrecomputedSignatureSmoke.lean",
+  "generator": "scripts/generate_ap16t_precomputed_signature_smoke.py",
+  "generated_lean_lines": 7555,
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 9000 --min-available-mib 8192 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16bf_bad_mask_cover_smoke_guard_fixed2.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke 2>&1 | tee /tmp/cuboctahedron_ap16bf_bad_mask_cover_smoke_build_fixed2.log'",
+    "result": "passed",
+    "elapsed_seconds": 60.16807489400162,
+    "peak_tree_rss_mib": 8074.953125,
+    "min_available_seen_mib": 40042.328125,
+    "rss_cap_mib": 9000.0,
+    "guard_kill": false
+  },
+  "notes": [
+    "Instantiates BadMaskCover for the rank-100805 singleton survivor bitset using the AP16BD greedy Boolean cube complement cover.",
+    "Uses existing per-mask nonpositive-denominator witnesses inside cube soundness as a regression baseline.",
+    "Confirms that BadMaskCover composes with the AP16AZ semantic precomputed signature theorem to close AllTranslationGoodCoverageOnRange 100805 100806.",
+    "Does not yet prove denominator-cube or pseudo-Boolean Farkas soundness for a whole cube; that remains the next compression step."
+  ]
+}

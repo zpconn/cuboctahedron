@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover
 
 /-!
 Generated AP.16T precomputed positive-survivor signature smoke.
@@ -6221,6 +6221,1258 @@ theorem generatedGoodMaskMember_of_GoodDirection
   · exact False.elim ((rank_000100805_mask_62_badDirection_notGood hlt) hgood)
   · simp [generatedGoodMaskMember]
 
+private inductive GeneratedBadCube
+  | b000
+  | b001
+  | b002
+  | b003
+  | b004
+  | b005
+  | b006
+  | b007
+  | b008
+deriving DecidableEq, Repr
+
+private def generatedBadCubeMember : GeneratedBadCube -> SignMask -> Prop
+  | .b000, mask =>
+      mask.val = 32 \/
+    mask.val = 33 \/
+    mask.val = 34 \/
+    mask.val = 35 \/
+    mask.val = 36 \/
+    mask.val = 37 \/
+    mask.val = 38 \/
+    mask.val = 39 \/
+    mask.val = 40 \/
+    mask.val = 41 \/
+    mask.val = 42 \/
+    mask.val = 43 \/
+    mask.val = 44 \/
+    mask.val = 45 \/
+    mask.val = 46 \/
+    mask.val = 47 -- cube 10****
+  | .b001, mask =>
+      mask.val = 16 \/
+    mask.val = 17 \/
+    mask.val = 20 \/
+    mask.val = 21 \/
+    mask.val = 24 \/
+    mask.val = 25 \/
+    mask.val = 28 \/
+    mask.val = 29 \/
+    mask.val = 48 \/
+    mask.val = 49 \/
+    mask.val = 52 \/
+    mask.val = 53 \/
+    mask.val = 56 \/
+    mask.val = 57 \/
+    mask.val = 60 \/
+    mask.val = 61 -- cube *1**0*
+  | .b002, mask =>
+      mask.val = 0 \/
+    mask.val = 1 \/
+    mask.val = 2 \/
+    mask.val = 3 \/
+    mask.val = 16 \/
+    mask.val = 17 \/
+    mask.val = 18 \/
+    mask.val = 19 \/
+    mask.val = 32 \/
+    mask.val = 33 \/
+    mask.val = 34 \/
+    mask.val = 35 \/
+    mask.val = 48 \/
+    mask.val = 49 \/
+    mask.val = 50 \/
+    mask.val = 51 -- cube **00**
+  | .b003, mask =>
+      mask.val = 8 \/
+    mask.val = 9 \/
+    mask.val = 12 \/
+    mask.val = 13 \/
+    mask.val = 24 \/
+    mask.val = 25 \/
+    mask.val = 28 \/
+    mask.val = 29 \/
+    mask.val = 40 \/
+    mask.val = 41 \/
+    mask.val = 44 \/
+    mask.val = 45 \/
+    mask.val = 56 \/
+    mask.val = 57 \/
+    mask.val = 60 \/
+    mask.val = 61 -- cube **1*0*
+  | .b004, mask =>
+      mask.val = 1 \/
+    mask.val = 3 \/
+    mask.val = 5 \/
+    mask.val = 7 \/
+    mask.val = 17 \/
+    mask.val = 19 \/
+    mask.val = 21 \/
+    mask.val = 23 \/
+    mask.val = 33 \/
+    mask.val = 35 \/
+    mask.val = 37 \/
+    mask.val = 39 \/
+    mask.val = 49 \/
+    mask.val = 51 \/
+    mask.val = 53 \/
+    mask.val = 55 -- cube **0**1
+  | .b005, mask =>
+      mask.val = 32 \/
+    mask.val = 34 \/
+    mask.val = 36 \/
+    mask.val = 38 \/
+    mask.val = 40 \/
+    mask.val = 42 \/
+    mask.val = 44 \/
+    mask.val = 46 \/
+    mask.val = 48 \/
+    mask.val = 50 \/
+    mask.val = 52 \/
+    mask.val = 54 \/
+    mask.val = 56 \/
+    mask.val = 58 \/
+    mask.val = 60 \/
+    mask.val = 62 -- cube 1****0
+  | .b006, mask =>
+      mask.val = 0 \/
+    mask.val = 2 \/
+    mask.val = 8 \/
+    mask.val = 10 \/
+    mask.val = 16 \/
+    mask.val = 18 \/
+    mask.val = 24 \/
+    mask.val = 26 \/
+    mask.val = 32 \/
+    mask.val = 34 \/
+    mask.val = 40 \/
+    mask.val = 42 \/
+    mask.val = 48 \/
+    mask.val = 50 \/
+    mask.val = 56 \/
+    mask.val = 58 -- cube ***0*0
+  | .b007, mask =>
+      mask.val = 12 \/
+    mask.val = 13 \/
+    mask.val = 14 \/
+    mask.val = 15 \/
+    mask.val = 44 \/
+    mask.val = 45 \/
+    mask.val = 46 \/
+    mask.val = 47 -- cube *011**
+  | .b008, mask =>
+      mask.val = 16 \/
+    mask.val = 17 \/
+    mask.val = 18 \/
+    mask.val = 19 \/
+    mask.val = 24 \/
+    mask.val = 25 \/
+    mask.val = 26 \/
+    mask.val = 27 -- cube 01*0**
+
+private theorem generatedBadCube_notGood
+    {cube : GeneratedBadCube} {mask : SignMask}
+    (hlt : 100805 < numPairWords)
+    (hmember : generatedBadCubeMember cube mask) :
+    ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask := by
+  cases cube
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_32_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_32_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_32_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_33_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_33_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_33_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_34_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_34_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_34_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_35_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_35_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_35_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_36_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_36_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_36_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_37_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_37_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_37_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_38_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_38_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_38_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_39_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_39_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_39_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_40_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_40_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_40_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_41_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_41_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_41_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_42_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_42_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_42_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_43_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_43_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_43_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_44_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_44_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_44_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_45_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_45_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_45_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_46_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_46_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_46_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_47_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_47_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_47_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_16_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_16_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_16_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_17_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_17_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_17_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_20_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_20_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_20_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_21_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_21_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_21_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_24_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_24_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_24_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_25_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_25_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_25_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_28_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_28_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_28_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_29_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_29_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_29_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_48_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_48_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_48_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_49_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_49_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_49_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_52_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_52_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_52_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_53_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_53_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_53_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_56_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_56_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_56_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_57_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_57_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_57_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_60_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_60_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_60_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_61_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_61_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_61_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_00_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_00_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_00_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_01_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_01_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_01_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_02_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_02_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_02_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_03_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_03_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_03_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_16_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_16_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_16_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_17_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_17_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_17_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_18_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_18_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_18_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_19_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_19_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_19_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_32_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_32_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_32_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_33_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_33_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_33_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_34_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_34_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_34_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_35_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_35_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_35_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_48_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_48_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_48_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_49_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_49_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_49_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_50_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_50_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_50_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_51_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_51_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_51_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_08_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_08_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_08_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_09_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_09_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_09_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_12_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_12_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_12_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_13_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_13_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_13_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_24_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_24_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_24_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_25_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_25_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_25_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_28_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_28_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_28_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_29_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_29_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_29_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_40_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_40_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_40_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_41_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_41_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_41_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_44_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_44_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_44_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_45_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_45_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_45_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_56_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_56_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_56_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_57_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_57_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_57_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_60_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_60_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_60_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_61_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_61_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_61_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_01_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_01_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_01_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_03_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_03_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_03_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_05_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_05_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_05_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_07_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_07_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_07_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_17_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_17_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_17_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_19_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_19_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_19_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_21_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_21_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_21_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_23_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_23_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_23_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_33_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_33_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_33_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_35_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_35_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_35_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_37_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_37_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_37_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_39_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_39_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_39_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_49_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_49_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_49_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_51_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_51_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_51_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_53_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_53_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_53_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_55_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_55_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_55_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_32_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_32_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_32_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_34_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_34_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_34_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_36_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_36_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_36_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_38_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_38_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_38_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_40_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_40_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_40_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_42_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_42_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_42_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_44_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_44_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_44_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_46_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_46_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_46_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_48_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_48_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_48_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_50_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_50_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_50_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_52_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_52_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_52_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_54_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_54_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_54_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_56_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_56_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_56_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_58_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_58_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_58_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_60_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_60_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_60_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_62_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_62_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_62_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_00_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_00_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_00_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_02_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_02_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_02_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_08_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_08_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_08_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_10_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_10_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_10_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_16_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_16_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_16_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_18_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_18_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_18_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_24_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_24_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_24_badDirection_notGood hlt
+                ·
+                  rcases hmember_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail
+                  ·
+                    have hmask : mask = rank_000100805_mask_26_badDirection_mask := by
+                      ext
+                      simpa [rank_000100805_mask_26_badDirection_mask] using h
+                    rw [hmask]
+                    exact rank_000100805_mask_26_badDirection_notGood hlt
+                  ·
+                    rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                    ·
+                      have hmask : mask = rank_000100805_mask_32_badDirection_mask := by
+                        ext
+                        simpa [rank_000100805_mask_32_badDirection_mask] using h
+                      rw [hmask]
+                      exact rank_000100805_mask_32_badDirection_notGood hlt
+                    ·
+                      rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                      ·
+                        have hmask : mask = rank_000100805_mask_34_badDirection_mask := by
+                          ext
+                          simpa [rank_000100805_mask_34_badDirection_mask] using h
+                        rw [hmask]
+                        exact rank_000100805_mask_34_badDirection_notGood hlt
+                      ·
+                        rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                        ·
+                          have hmask : mask = rank_000100805_mask_40_badDirection_mask := by
+                            ext
+                            simpa [rank_000100805_mask_40_badDirection_mask] using h
+                          rw [hmask]
+                          exact rank_000100805_mask_40_badDirection_notGood hlt
+                        ·
+                          rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                          ·
+                            have hmask : mask = rank_000100805_mask_42_badDirection_mask := by
+                              ext
+                              simpa [rank_000100805_mask_42_badDirection_mask] using h
+                            rw [hmask]
+                            exact rank_000100805_mask_42_badDirection_notGood hlt
+                          ·
+                            rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                            ·
+                              have hmask : mask = rank_000100805_mask_48_badDirection_mask := by
+                                ext
+                                simpa [rank_000100805_mask_48_badDirection_mask] using h
+                              rw [hmask]
+                              exact rank_000100805_mask_48_badDirection_notGood hlt
+                            ·
+                              rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                              ·
+                                have hmask : mask = rank_000100805_mask_50_badDirection_mask := by
+                                  ext
+                                  simpa [rank_000100805_mask_50_badDirection_mask] using h
+                                rw [hmask]
+                                exact rank_000100805_mask_50_badDirection_notGood hlt
+                              ·
+                                rcases hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                ·
+                                  have hmask : mask = rank_000100805_mask_56_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_56_badDirection_mask] using h
+                                  rw [hmask]
+                                  exact rank_000100805_mask_56_badDirection_notGood hlt
+                                ·
+                                  have hmask : mask = rank_000100805_mask_58_badDirection_mask := by
+                                    ext
+                                    simpa [rank_000100805_mask_58_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail_tail
+                                  rw [hmask]
+                                  exact rank_000100805_mask_58_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_12_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_12_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_12_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_13_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_13_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_13_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_14_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_14_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_14_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_15_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_15_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_15_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_44_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_44_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_44_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_45_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_45_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_45_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_46_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_46_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_46_badDirection_notGood hlt
+                ·
+                  have hmask : mask = rank_000100805_mask_47_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_47_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail
+                  rw [hmask]
+                  exact rank_000100805_mask_47_badDirection_notGood hlt
+  · simp [generatedBadCubeMember] at hmember
+    rcases hmember with h | hmember_tail
+    ·
+      have hmask : mask = rank_000100805_mask_16_badDirection_mask := by
+        ext
+        simpa [rank_000100805_mask_16_badDirection_mask] using h
+      rw [hmask]
+      exact rank_000100805_mask_16_badDirection_notGood hlt
+    ·
+      rcases hmember_tail with h | hmember_tail_tail
+      ·
+        have hmask : mask = rank_000100805_mask_17_badDirection_mask := by
+          ext
+          simpa [rank_000100805_mask_17_badDirection_mask] using h
+        rw [hmask]
+        exact rank_000100805_mask_17_badDirection_notGood hlt
+      ·
+        rcases hmember_tail_tail with h | hmember_tail_tail_tail
+        ·
+          have hmask : mask = rank_000100805_mask_18_badDirection_mask := by
+            ext
+            simpa [rank_000100805_mask_18_badDirection_mask] using h
+          rw [hmask]
+          exact rank_000100805_mask_18_badDirection_notGood hlt
+        ·
+          rcases hmember_tail_tail_tail with h | hmember_tail_tail_tail_tail
+          ·
+            have hmask : mask = rank_000100805_mask_19_badDirection_mask := by
+              ext
+              simpa [rank_000100805_mask_19_badDirection_mask] using h
+            rw [hmask]
+            exact rank_000100805_mask_19_badDirection_notGood hlt
+          ·
+            rcases hmember_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail
+            ·
+              have hmask : mask = rank_000100805_mask_24_badDirection_mask := by
+                ext
+                simpa [rank_000100805_mask_24_badDirection_mask] using h
+              rw [hmask]
+              exact rank_000100805_mask_24_badDirection_notGood hlt
+            ·
+              rcases hmember_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail
+              ·
+                have hmask : mask = rank_000100805_mask_25_badDirection_mask := by
+                  ext
+                  simpa [rank_000100805_mask_25_badDirection_mask] using h
+                rw [hmask]
+                exact rank_000100805_mask_25_badDirection_notGood hlt
+              ·
+                rcases hmember_tail_tail_tail_tail_tail_tail with h | hmember_tail_tail_tail_tail_tail_tail_tail
+                ·
+                  have hmask : mask = rank_000100805_mask_26_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_26_badDirection_mask] using h
+                  rw [hmask]
+                  exact rank_000100805_mask_26_badDirection_notGood hlt
+                ·
+                  have hmask : mask = rank_000100805_mask_27_badDirection_mask := by
+                    ext
+                    simpa [rank_000100805_mask_27_badDirection_mask] using hmember_tail_tail_tail_tail_tail_tail_tail
+                  rw [hmask]
+                  exact rank_000100805_mask_27_badDirection_notGood hlt
+
+private theorem generatedBadCube_complete
+    {mask : SignMask}
+    (hnot : ¬ generatedGoodMaskMember mask) :
+    exists cube : GeneratedBadCube, generatedBadCubeMember cube mask := by
+  fin_cases mask
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b003, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b001, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b008, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b003, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b003, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b005, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b005, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b003, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b000, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b007, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b005, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b005, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b004, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b003, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b006, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+  · exact ⟨.b005, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b003, by simp [generatedBadCubeMember]⟩
+  · exact ⟨.b005, by simp [generatedBadCubeMember]⟩
+  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))
+
+private def generatedBadMaskCover :
+    BadMaskCover 100805 generatedGoodMaskMember where
+  BadFamily := GeneratedBadCube
+  Member := generatedBadCubeMember
+  notGood := by
+    intro family mask hlt hmember
+    exact generatedBadCube_notGood hlt hmember
+  complete := by
+    intro mask hnot
+    exact generatedBadCube_complete hnot
+
+/-- AP.16BF membership theorem via the bad-mask cover interface. -/
+theorem generatedGoodMaskMember_of_GoodDirection_viaCover
+    {mask : SignMask} (hlt : 100805 < numPairWords)
+    (hgood : GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask) :
+    generatedGoodMaskMember mask :=
+  generatedBadMaskCover.goodMaskMember_of_goodDirection hlt hgood
+
 private def generatedSignatureClassifier
     (hmask :
       forall {mask : SignMask} (hlt : 100805 < numPairWords),
@@ -6298,6 +7550,6 @@ theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :
   generatedSingletonSignatureSemanticAllGoodCoverage
     (by
       intro mask hlt hgood
-      exact generatedGoodMaskMember_of_GoodDirection hlt hgood)
+      exact generatedGoodMaskMember_of_GoodDirection_viaCover hlt hgood)
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke

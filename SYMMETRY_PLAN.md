@@ -225,8 +225,9 @@ design, plus the Phase 6Z.6K.8AP.0 producer membership bridge core and
 Phase 6Z.6K.8AP.2 classifier-free GoodDirection bridge, and the Phase
 6Z.6K.8AP.3 public all-Good coverage bridge, and the Phase 6Z.6K.8AP.4
 bounded AP interval smoke, through the Phase 6Z.6K.8AP.12 source-position
-predicate/producer adapter, and the Phase 6Z.6K.8AP.16I positive-survivor
-membership profile.
+predicate/producer adapter, the Phase 6Z.6K.8AP.16I positive-survivor
+membership profile, and the Phase 6Z.6K.8AP.16BF bad-mask cover singleton
+smoke.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -730,6 +731,9 @@ Completed current-work items:
   - `scripts/profile_ap16d_direct_coverage_obligations.py`
   - `scripts/generated/phase6z6k8ap16g_direct_coverage_obligations.json`
   - `scripts/generated/phase6z6k8ap16g_direct_coverage_obligations.md`
+- Added the Phase 6Z.6K.8AP.16BF bad-mask cover smoke reports:
+  - `scripts/generated/phase6z6k8ap16bf_bad_mask_cover_smoke.json`
+  - `scripts/generated/phase6z6k8ap16bf_bad_mask_cover_smoke.md`
 - Added `scripts/design_pair_sign_producer_hierarchy.py`.
 - Generated the Phase 6Z.6K.8AO hierarchy reports:
   - `scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json`
@@ -12000,6 +12004,52 @@ Acceptance:
   bitset using AP16BD's cube cover, first with existing per-mask denominator
   witnesses as a regression baseline and then with a genuine denominator-cube
   Farkas witness for at least one cube.
+- [x] Implement Phase 6Z.6K.8AP.16BF bad-mask cover singleton smoke:
+  AP16BF updates the rank-`100805` precomputed signature smoke to instantiate
+  `BadMaskCover` with the AP16BD greedy Boolean cube cover of the bad-mask
+  complement.  The singleton has eight positive masks, 56 bad masks, and nine
+  bad-cube families.  The generated module now proves the AP16AZ semantic
+  membership premise through
+  `generatedGoodMaskMember_of_GoodDirection_viaCover`, and closes:
+
+  ```lean
+  generatedSingletonSignatureClosedSemanticAllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 100805 100806
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 8192 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16bf_bad_mask_cover_smoke_guard_fixed2.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke 2>&1 | tee /tmp/cuboctahedron_ap16bf_bad_mask_cover_smoke_build_fixed2.log'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                60.17s
+  peak process-tree RSS:  7.886 GiB
+  minimum available mem:  39.10 GiB
+  guard kill:             no
+  generated Lean lines:   7555
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bf_bad_mask_cover_smoke.json
+  scripts/generated/phase6z6k8ap16bf_bad_mask_cover_smoke.md
+  ```
+
+  Decision: the erased `BadMaskCover` API composes with the semantic
+  precomputed signature route.  The current implementation still proves cube
+  soundness by enumerating per-mask nonpositive-denominator witnesses, so it is
+  a regression baseline only.  Do not scale this exact generated proof.  The
+  next accepted target is a genuine denominator-cube or pseudo-Boolean Farkas
+  soundness theorem for one bad cube, followed by one full survivor bitset.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -14055,6 +14105,16 @@ contradicts `GoodDirectionAtRank`.  The module builds quickly and contains no
 generated data.  It gives the next generated smoke a clean target: instantiate
 `BadMaskCover` for one AP16BD cube cover, then replace per-mask cube soundness
 with true denominator-cube/Farkas soundness.
+
+AP.16BF performs that first instantiation on the rank `100805` singleton
+signature.  The generated proof closes the AP16AZ semantic theorem through a
+nine-family Boolean cube cover of the 56 bad masks, and the guarded focused
+build passes in 60.17s with 7.886 GiB peak process-tree RSS.  This accepts the
+erased cover interface but rejects scaling the baseline implementation: cube
+soundness is still discharged by per-mask denominator witnesses.  The next
+production-facing step must replace at least one Boolean cube's per-mask
+witness replay with a genuine denominator-cube or pseudo-Boolean Farkas
+certificate.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic

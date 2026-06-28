@@ -36,6 +36,10 @@ from generate_ap16s_precomputed_fact_smoke import (  # noqa: E402
     candidate_group_for_mask,
     select_signature_containing_rank_mask,
 )
+from profile_ap16bd_survivor_bitset_cube_cover import (  # noqa: E402
+    bitset_for_masks,
+    greedy_cover,
+)
 from generate_translation_row_family_smoke import (  # noqa: E402
     case_header_lines_for_family,
 )
@@ -81,6 +85,10 @@ def candidate_ctor(index: int) -> str:
 
 def case_name_for_mask(index: int) -> str:
     return lean_case_name(index)
+
+
+def bad_cube_ctor(index: int) -> str:
+    return f"b{index:03d}"
 
 
 def classified_cases_and_bad_masks_for_signature(
@@ -305,6 +313,130 @@ def emit_good_mask_member_of_good_direction(
     return lines
 
 
+def emit_bad_cube_cover(
+    *,
+    anchor: int,
+    good_masks: list[int],
+    bad_masks: dict[int, BadDirectionCase],
+) -> list[str]:
+    good_set = set(good_masks)
+    cover = greedy_cover(bitset_for_masks(good_masks))
+    cube_masks: list[tuple[str, str, list[int]]] = []
+    for index, cube in enumerate(cover):
+        members = cube[2] & ~bitset_for_masks(good_masks)
+        masks = [mask for mask in range(64) if members & (1 << mask)]
+        if not masks:
+            raise SystemExit(f"cube {cube[4]} covers no bad masks")
+        if any(mask in good_set for mask in masks):
+            raise SystemExit(f"cube {cube[4]} contains a good mask")
+        if any(mask not in bad_masks for mask in masks):
+            raise SystemExit(f"cube {cube[4]} contains mask without bad witness")
+        cube_masks.append((bad_cube_ctor(index), cube[4], masks))
+
+    covered = sorted({mask for _ctor, _label, masks in cube_masks for mask in masks})
+    expected = sorted(mask for mask in range(64) if mask not in good_set)
+    if covered != expected:
+        raise SystemExit(f"cube cover mismatch: {covered} != {expected}")
+
+    ctors = "\n  | ".join(ctor for ctor, _label, _masks in cube_masks)
+    lines = [
+        "private inductive GeneratedBadCube",
+        f"  | {ctors}",
+        "deriving DecidableEq, Repr",
+        "",
+        "private def generatedBadCubeMember : GeneratedBadCube -> SignMask -> Prop",
+    ]
+    for ctor, label, masks in cube_masks:
+        lines.extend([
+            f"  | .{ctor}, mask =>",
+            f"      {mask_member_expr(masks)} -- cube {label}",
+        ])
+    lines.append("")
+
+    def prove_not_good(mask: int, indent: str, hyp: str = "h") -> list[str]:
+        bad_name = lean_bad_name(anchor, mask)
+        return [
+            f"{indent}have hmask : mask = {bad_name}_mask := by",
+            f"{indent}  ext",
+            f"{indent}  simpa [{bad_name}_mask] using {hyp}",
+            f"{indent}rw [hmask]",
+            f"{indent}exact {bad_name}_notGood hlt",
+        ]
+
+    def split_member_cases(masks: list[int], indent: str, hyp: str = "hmember") -> list[str]:
+        if len(masks) == 1:
+            return prove_not_good(masks[0], indent, hyp)
+        tail_hyp = f"{hyp}_tail"
+        return [
+            f"{indent}rcases {hyp} with h | {tail_hyp}",
+            f"{indent}·",
+            *prove_not_good(masks[0], indent + "  "),
+            f"{indent}·",
+            *split_member_cases(masks[1:], indent + "  ", tail_hyp),
+        ]
+
+    lines.extend([
+        "private theorem generatedBadCube_notGood",
+        "    {cube : GeneratedBadCube} {mask : SignMask}",
+        f"    (hlt : {anchor} < numPairWords)",
+        "    (hmember : generatedBadCubeMember cube mask) :",
+        f"    ¬ GoodDirectionAtRank (⟨{anchor}, hlt⟩ : Fin numPairWords) mask := by",
+        "  cases cube",
+    ])
+    for ctor, _label, masks in cube_masks:
+        lines.extend([
+            f"  · simp [generatedBadCubeMember] at hmember",
+            *split_member_cases(masks, "    "),
+        ])
+    lines.append("")
+
+    lines.extend([
+        "private theorem generatedBadCube_complete",
+        "    {mask : SignMask}",
+        "    (hnot : ¬ generatedGoodMaskMember mask) :",
+        "    exists cube : GeneratedBadCube, generatedBadCubeMember cube mask := by",
+        "  fin_cases mask",
+    ])
+    mask_to_cube = {
+        mask: ctor
+        for ctor, _label, masks in cube_masks
+        for mask in masks
+    }
+    for mask in range(64):
+        if mask in good_set:
+            lines.extend([
+                "  · exact False.elim (hnot (by simp [generatedGoodMaskMember]))",
+            ])
+        else:
+            ctor = mask_to_cube[mask]
+            lines.extend([
+                f"  · exact ⟨.{ctor}, by simp [generatedBadCubeMember]⟩",
+            ])
+    lines.append("")
+
+    lines.extend([
+        "private def generatedBadMaskCover :",
+        f"    BadMaskCover {anchor} generatedGoodMaskMember where",
+        "  BadFamily := GeneratedBadCube",
+        "  Member := generatedBadCubeMember",
+        "  notGood := by",
+        "    intro family mask hlt hmember",
+        "    exact generatedBadCube_notGood hlt hmember",
+        "  complete := by",
+        "    intro mask hnot",
+        "    exact generatedBadCube_complete hnot",
+        "",
+        "/-- AP.16BF membership theorem via the bad-mask cover interface. -/",
+        "theorem generatedGoodMaskMember_of_GoodDirection_viaCover",
+        f"    {{mask : SignMask}} (hlt : {anchor} < numPairWords)",
+        f"    (hgood : GoodDirectionAtRank (⟨{anchor}, hlt⟩ : Fin numPairWords) mask) :",
+        "    generatedGoodMaskMember mask :=",
+        "  generatedBadMaskCover.goodMaskMember_of_goodDirection hlt hgood",
+        "",
+    ])
+    return lines
+
+
 def emit_module(
     *,
     profile: dict[str, Any],
@@ -328,7 +460,7 @@ def emit_module(
         for mask in good_masks
     }
     lines: list[str] = [
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover",
         "",
         "/-!",
         "Generated AP.16T precomputed positive-survivor signature smoke.",
@@ -379,6 +511,13 @@ def emit_module(
     lines.extend(emit_all_facts_theorem(good_masks))
     lines.extend(
         emit_good_mask_member_of_good_direction(
+            anchor=anchor,
+            good_masks=good_masks,
+            bad_masks=bad_masks,
+        )
+    )
+    lines.extend(
+        emit_bad_cube_cover(
             anchor=anchor,
             good_masks=good_masks,
             bad_masks=bad_masks,
@@ -462,7 +601,7 @@ def emit_module(
         "  generatedSingletonSignatureSemanticAllGoodCoverage",
         "    (by",
         "      intro mask hlt hgood",
-        "      exact generatedGoodMaskMember_of_GoodDirection hlt hgood)",
+        "      exact generatedGoodMaskMember_of_GoodDirection_viaCover hlt hgood)",
         "",
         "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke",
         "",
