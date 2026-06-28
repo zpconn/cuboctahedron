@@ -12551,6 +12551,58 @@ Acceptance:
 
   Do not run the all-20 AP16BR replay cover unless it is first split behind
   hard memory guards and the operator explicitly asks for that experiment.
+- [x] Implement Phase 6Z.6K.8AP.16BS symbolic Walsh equality profile:
+  AP16BS adds `scripts/profile_ap16bs_walsh_symbolic_equality.py` and reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16bs_walsh_symbolic_equality_profile.json
+  scripts/generated/phase6z6k8ap16bs_walsh_symbolic_equality_profile.md
+  ```
+
+  Validation:
+
+  ```text
+  python3 -m py_compile scripts/profile_ap16bs_walsh_symbolic_equality.py
+  /usr/bin/time -v python3 scripts/profile_ap16bs_walsh_symbolic_equality.py
+  ```
+
+  Result:
+
+  ```text
+  elapsed:       0.86s
+  peak RSS:      30,072 KiB
+  selected impacts for the AP16BJ cover: [1, 2, 4, 5, 6, 8, 10]
+  replay unique rank-denominator masks: 56
+  replay subcube mask/impact equalities: 82
+  symbolic selected-impact equality theorems: 7
+  symbolic all-internal-impact equality theorems: 13
+  Walsh validation failures: 0
+  ```
+
+  The selected-impact polynomials are tiny:
+
+  ```text
+  impact 1:  6 terms, max degree 1
+  impact 2:  6 terms, max degree 2
+  impacts 4,5,6,8,10: 7 terms each, max degree 2
+  ```
+
+  Decision: AP16BS confirms the production bridge should prove denominator
+  equality once per selected impact, not once per concrete mask/subcube.  The
+  next Lean-facing AP16 step should introduce a generated theorem surface of
+  the form:
+
+  ```lean
+  theorem impact_01_walsh_eq
+      (mask : SignMask) (hlt : 100805 < numPairWords) :
+      impactDenomAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask ⟨1, by decide⟩ =
+        impact01WalshPoly.eval mask
+  ```
+
+  and similarly for impacts `2,4,5,6,8,10`, then have every selected subcube
+  reuse those seven facts.  This is still rank-specific smoke data, but it
+  attacks the actual OOM source: heavy replay of concrete rank/mask
+  denominator facts.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
