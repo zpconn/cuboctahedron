@@ -1,0 +1,29 @@
+{
+  "phase": "6Z.6K.8AP.16AZ",
+  "status": "accepted-semantic-precomputed-signature-surface",
+  "date": "2026-06-28",
+  "target_rank": 100805,
+  "rank_range": [100805, 100806],
+  "positive_masks": [4, 6, 11, 22, 30, 31, 59, 63],
+  "candidate_groups": 6,
+  "changed_files": [
+    "scripts/generate_ap16t_precomputed_signature_smoke.py",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorPrecomputedSignatureSmoke.lean"
+  ],
+  "new_theorems": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke.generatedSingletonSignatureSemanticAllGoodCoverage"
+  ],
+  "new_private_defs": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke.generatedSemanticSignatureClassifier"
+  ],
+  "build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/cuboctahedron_ap16az_semantic_precomputed_signature_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 220s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke'",
+    "exit_code": 0,
+    "elapsed_seconds": 22.029220543998235,
+    "peak_tree_rss_mib": 4887.48046875,
+    "min_available_seen_mib": 45152.421875,
+    "rss_cap_mib": 12000.0,
+    "killed_reason": null
+  },
+  "decision": "Keep the AP16T Boolean-premised theorem for regression, but use the AP16AZ semantic-premised theorem as the production target. The remaining membership premise should be closed with compact denominator/signature witnesses instead of raw goodDirectionAtRankBool reduction."
+}

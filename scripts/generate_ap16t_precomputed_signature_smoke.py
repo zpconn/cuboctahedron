@@ -6,9 +6,12 @@ produce theorem-valued source/row facts by rewriting through precomputed
 sequence/vector/line equalities.  AP.16T scales that exact proof shape to every
 positive mask of the same signature.
 
-The generated module still leaves the cheap mask-soundness theorem explicit:
-`goodDirectionAtRankBool = true -> generatedGoodMaskMember mask`.  It does not
-emit bad-direction witnesses for the 56 masks that fail GoodDirection.
+The generated module still leaves mask-soundness explicit.  It exports both
+the older Boolean-premised surface,
+`goodDirectionAtRankBool = true -> generatedGoodMaskMember mask`, and the
+semantic AP.16AY surface,
+`GoodDirectionAtRank -> generatedGoodMaskMember mask`.  It does not emit
+bad-direction witnesses for the 56 masks that fail GoodDirection.
 """
 
 from __future__ import annotations
@@ -282,9 +285,9 @@ def emit_module(
         "Generated AP.16T precomputed positive-survivor signature smoke.",
         "",
         "This diagnostic module extends AP.16S from one positive mask to every",
-        "positive mask in the singleton survivor signature.  It still leaves",
-        "the Boolean GoodDirection-to-positive-mask theorem as the only explicit",
-        "premise and emits no facts for masks that fail GoodDirection.",
+        "positive mask in the singleton survivor signature.  It leaves the",
+        "GoodDirection-to-positive-mask theorem explicit and emits no facts for",
+        "masks that fail GoodDirection.",
         "-/",
         "",
         "namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke",
@@ -339,6 +342,23 @@ def emit_module(
         "    (by intro mask h; exact h.1)",
         "    (by intro mask h; exact h.2)",
         "",
+        "private def generatedSemanticSignatureClassifier",
+        "    (hmask :",
+        f"      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),",
+        f"        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->",
+        "          generatedGoodMaskMember mask) :",
+        f"    PositiveSurvivorSignatureClassifierOnRange {anchor} {hi} :=",
+        "  PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit",
+        f"    {anchor} GeneratedCandidate generatedCandidateOfMask",
+        "    generatedGoodMaskMember generatedSignatureFacts",
+        "    generatedSpec generatedRowProducer generatedKey",
+        "    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)",
+        "    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)",
+        "    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)",
+        "    hmask (by intro mask h; exact generatedAllPositiveMaskFacts h)",
+        "    (by intro mask h; exact h.1)",
+        "    (by intro mask h; exact h.2)",
+        "",
         "/--",
         "AP.16T singleton-signature coverage theorem.",
         "",
@@ -354,6 +374,22 @@ def emit_module(
         "          generatedGoodMaskMember mask) :",
         f"    AllTranslationGoodCoverageOnRange {anchor} {hi} :=",
         "  (generatedSignatureClassifier hmask).to_allGoodCoverage",
+        "",
+        "/--",
+        "AP.16AZ semantic singleton-signature coverage theorem.",
+        "",
+        "This is the same precomputed positive-mask fact surface as AP.16T, but",
+        "it targets the AP.16AY semantic classifier directly.  The remaining",
+        "membership premise can be closed with domain-specific nonpositive",
+        "denominator witnesses instead of reducing `goodDirectionAtRankBool`.",
+        "-/",
+        "theorem generatedSingletonSignatureSemanticAllGoodCoverage",
+        "    (hmask :",
+        f"      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),",
+        f"        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->",
+        "          generatedGoodMaskMember mask) :",
+        f"    AllTranslationGoodCoverageOnRange {anchor} {hi} :=",
+        "  (generatedSemanticSignatureClassifier hmask).to_allGoodCoverage",
         "",
         "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke",
         "",

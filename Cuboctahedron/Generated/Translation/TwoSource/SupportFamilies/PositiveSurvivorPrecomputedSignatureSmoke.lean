@@ -4,9 +4,9 @@ import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSur
 Generated AP.16T precomputed positive-survivor signature smoke.
 
 This diagnostic module extends AP.16S from one positive mask to every
-positive mask in the singleton survivor signature.  It still leaves
-the Boolean GoodDirection-to-positive-mask theorem as the only explicit
-premise and emits no facts for masks that fail GoodDirection.
+positive mask in the singleton survivor signature.  It leaves the
+GoodDirection-to-positive-mask theorem explicit and emits no facts for
+masks that fail GoodDirection.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke
@@ -1736,6 +1736,23 @@ private def generatedSignatureClassifier
     (by intro mask h; exact h.1)
     (by intro mask h; exact h.2)
 
+private def generatedSemanticSignatureClassifier
+    (hmask :
+      forall {mask : SignMask} (hlt : 100805 < numPairWords),
+        GoodDirectionAtRank ⟨100805, hlt⟩ mask ->
+          generatedGoodMaskMember mask) :
+    PositiveSurvivorSignatureClassifierOnRange 100805 100806 :=
+  PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit
+    100805 GeneratedCandidate generatedCandidateOfMask
+    generatedGoodMaskMember generatedSignatureFacts
+    generatedSpec generatedRowProducer generatedKey
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    (by intro mask; cases generatedCandidateOfMask mask <;> rfl)
+    hmask (by intro mask h; exact generatedAllPositiveMaskFacts h)
+    (by intro mask h; exact h.1)
+    (by intro mask h; exact h.2)
+
 /--
 AP.16T singleton-signature coverage theorem.
 
@@ -1751,5 +1768,21 @@ theorem generatedSingletonSignatureAllGoodCoverage
           generatedGoodMaskMember mask) :
     AllTranslationGoodCoverageOnRange 100805 100806 :=
   (generatedSignatureClassifier hmask).to_allGoodCoverage
+
+/--
+AP.16AZ semantic singleton-signature coverage theorem.
+
+This is the same precomputed positive-mask fact surface as AP.16T, but
+it targets the AP.16AY semantic classifier directly.  The remaining
+membership premise can be closed with domain-specific nonpositive
+denominator witnesses instead of reducing `goodDirectionAtRankBool`.
+-/
+theorem generatedSingletonSignatureSemanticAllGoodCoverage
+    (hmask :
+      forall {mask : SignMask} (hlt : 100805 < numPairWords),
+        GoodDirectionAtRank ⟨100805, hlt⟩ mask ->
+          generatedGoodMaskMember mask) :
+    AllTranslationGoodCoverageOnRange 100805 100806 :=
+  (generatedSemanticSignatureClassifier hmask).to_allGoodCoverage
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke

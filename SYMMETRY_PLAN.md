@@ -11739,6 +11739,50 @@ Acceptance:
   scripts/generated/phase6z6k8ap16ay_semantic_signature_classifier.json
   scripts/generated/phase6z6k8ap16ay_semantic_signature_classifier.md
   ```
+- [x] Implement Phase 6Z.6K.8AP.16AZ semantic precomputed signature surface:
+  AP16AZ lifts the AP16T precomputed positive-mask facts onto the AP16AY
+  semantic classifier.  The generated module
+  `PositiveSurvivorPrecomputedSignatureSmoke.lean` now keeps the older
+  Boolean-premised theorem for regression and additionally exports:
+
+  ```lean
+  generatedSingletonSignatureSemanticAllGoodCoverage :
+    (forall {mask : SignMask} (hlt : 100805 < numPairWords),
+      GoodDirectionAtRank ⟨100805, hlt⟩ mask ->
+        generatedGoodMaskMember mask) ->
+    AllTranslationGoodCoverageOnRange 100805 100806
+  ```
+
+  Focused guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/cuboctahedron_ap16az_semantic_precomputed_signature_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 220s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke'
+  ```
+
+  ```text
+  result:                 passed
+  elapsed:                22.03s
+  peak process-tree RSS:  4.773 GiB
+  minimum available mem:  44.09 GiB
+  guard kill:             no
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16az_semantic_precomputed_signature_surface.json
+  scripts/generated/phase6z6k8ap16az_semantic_precomputed_signature_surface.md
+  ```
+
+  Decision: keep the AP16T Boolean theorem as a regression surface, but use the
+  AP16AZ semantic theorem as the production target.  The remaining membership
+  premise must be closed with compact denominator/signature witnesses rather
+  than by reducing `goodDirectionAtRankBool`.
 
   Next target: generate a closed singleton semantic membership proof proving
   `GoodDirectionAtRank ⟨anchor, hlt⟩ mask -> generatedGoodMaskMember mask` by
@@ -13722,6 +13766,27 @@ for this larger generated module because Lean failed to create a thread while
 RSS remained about 3.43 GiB.  AP.16T is accepted, but it is a scaling warning:
 production should factor repeated rank/sequence/vector/line facts before
 emitting many signatures.
+
+AP.16AZ updates the same generated module to expose the accepted AP16AY
+semantic classifier surface as well:
+
+```lean
+generatedSingletonSignatureSemanticAllGoodCoverage :
+  (forall {mask : SignMask} (hlt : 100805 < numPairWords),
+    GoodDirectionAtRank ⟨100805, hlt⟩ mask ->
+      generatedGoodMaskMember mask) ->
+  AllTranslationGoodCoverageOnRange 100805 100806
+```
+
+This keeps AP16T's Boolean-premised theorem as a regression surface while
+making the semantic theorem the production target.  The memory-guarded focused
+build of `PositiveSurvivorPrecomputedSignatureSmoke` passed in 22.03s wall time
+with 4,887 MiB peak process-tree RSS and 45,152 MiB minimum available memory.
+This confirms the precomputed positive-mask facts compose cleanly with the
+semantic classifier.  The next AP16 target is now closing the singleton
+membership premise using compact bad-mask nonpositive-denominator witnesses or
+an equivalent signature-local denominator theorem, not by reducing
+`goodDirectionAtRankBool`.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
