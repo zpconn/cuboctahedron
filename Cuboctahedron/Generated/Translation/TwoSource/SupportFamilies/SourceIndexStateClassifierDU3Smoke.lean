@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9D.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9E.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -2277,6 +2277,134 @@ def ClassifierKey.toSourceIndexStateKey :
       support := fam_124_support
       template := SourceIndexTemplate.oppMinusOneVarFirst }
 
+def ClassifierKey.toFin :
+    ClassifierKey -> Fin 125
+  | .k000 => ⟨0, by decide⟩
+  | .k001 => ⟨1, by decide⟩
+  | .k002 => ⟨2, by decide⟩
+  | .k003 => ⟨3, by decide⟩
+  | .k004 => ⟨4, by decide⟩
+  | .k005 => ⟨5, by decide⟩
+  | .k006 => ⟨6, by decide⟩
+  | .k007 => ⟨7, by decide⟩
+  | .k008 => ⟨8, by decide⟩
+  | .k009 => ⟨9, by decide⟩
+  | .k010 => ⟨10, by decide⟩
+  | .k011 => ⟨11, by decide⟩
+  | .k012 => ⟨12, by decide⟩
+  | .k013 => ⟨13, by decide⟩
+  | .k014 => ⟨14, by decide⟩
+  | .k015 => ⟨15, by decide⟩
+  | .k016 => ⟨16, by decide⟩
+  | .k017 => ⟨17, by decide⟩
+  | .k018 => ⟨18, by decide⟩
+  | .k019 => ⟨19, by decide⟩
+  | .k020 => ⟨20, by decide⟩
+  | .k021 => ⟨21, by decide⟩
+  | .k022 => ⟨22, by decide⟩
+  | .k023 => ⟨23, by decide⟩
+  | .k024 => ⟨24, by decide⟩
+  | .k025 => ⟨25, by decide⟩
+  | .k026 => ⟨26, by decide⟩
+  | .k027 => ⟨27, by decide⟩
+  | .k028 => ⟨28, by decide⟩
+  | .k029 => ⟨29, by decide⟩
+  | .k030 => ⟨30, by decide⟩
+  | .k031 => ⟨31, by decide⟩
+  | .k032 => ⟨32, by decide⟩
+  | .k033 => ⟨33, by decide⟩
+  | .k034 => ⟨34, by decide⟩
+  | .k035 => ⟨35, by decide⟩
+  | .k036 => ⟨36, by decide⟩
+  | .k037 => ⟨37, by decide⟩
+  | .k038 => ⟨38, by decide⟩
+  | .k039 => ⟨39, by decide⟩
+  | .k040 => ⟨40, by decide⟩
+  | .k041 => ⟨41, by decide⟩
+  | .k042 => ⟨42, by decide⟩
+  | .k043 => ⟨43, by decide⟩
+  | .k044 => ⟨44, by decide⟩
+  | .k045 => ⟨45, by decide⟩
+  | .k046 => ⟨46, by decide⟩
+  | .k047 => ⟨47, by decide⟩
+  | .k048 => ⟨48, by decide⟩
+  | .k049 => ⟨49, by decide⟩
+  | .k050 => ⟨50, by decide⟩
+  | .k051 => ⟨51, by decide⟩
+  | .k052 => ⟨52, by decide⟩
+  | .k053 => ⟨53, by decide⟩
+  | .k054 => ⟨54, by decide⟩
+  | .k055 => ⟨55, by decide⟩
+  | .k056 => ⟨56, by decide⟩
+  | .k057 => ⟨57, by decide⟩
+  | .k058 => ⟨58, by decide⟩
+  | .k059 => ⟨59, by decide⟩
+  | .k060 => ⟨60, by decide⟩
+  | .k061 => ⟨61, by decide⟩
+  | .k062 => ⟨62, by decide⟩
+  | .k063 => ⟨63, by decide⟩
+  | .k064 => ⟨64, by decide⟩
+  | .k065 => ⟨65, by decide⟩
+  | .k066 => ⟨66, by decide⟩
+  | .k067 => ⟨67, by decide⟩
+  | .k068 => ⟨68, by decide⟩
+  | .k069 => ⟨69, by decide⟩
+  | .k070 => ⟨70, by decide⟩
+  | .k071 => ⟨71, by decide⟩
+  | .k072 => ⟨72, by decide⟩
+  | .k073 => ⟨73, by decide⟩
+  | .k074 => ⟨74, by decide⟩
+  | .k075 => ⟨75, by decide⟩
+  | .k076 => ⟨76, by decide⟩
+  | .k077 => ⟨77, by decide⟩
+  | .k078 => ⟨78, by decide⟩
+  | .k079 => ⟨79, by decide⟩
+  | .k080 => ⟨80, by decide⟩
+  | .k081 => ⟨81, by decide⟩
+  | .k082 => ⟨82, by decide⟩
+  | .k083 => ⟨83, by decide⟩
+  | .k084 => ⟨84, by decide⟩
+  | .k085 => ⟨85, by decide⟩
+  | .k086 => ⟨86, by decide⟩
+  | .k087 => ⟨87, by decide⟩
+  | .k088 => ⟨88, by decide⟩
+  | .k089 => ⟨89, by decide⟩
+  | .k090 => ⟨90, by decide⟩
+  | .k091 => ⟨91, by decide⟩
+  | .k092 => ⟨92, by decide⟩
+  | .k093 => ⟨93, by decide⟩
+  | .k094 => ⟨94, by decide⟩
+  | .k095 => ⟨95, by decide⟩
+  | .k096 => ⟨96, by decide⟩
+  | .k097 => ⟨97, by decide⟩
+  | .k098 => ⟨98, by decide⟩
+  | .k099 => ⟨99, by decide⟩
+  | .k100 => ⟨100, by decide⟩
+  | .k101 => ⟨101, by decide⟩
+  | .k102 => ⟨102, by decide⟩
+  | .k103 => ⟨103, by decide⟩
+  | .k104 => ⟨104, by decide⟩
+  | .k105 => ⟨105, by decide⟩
+  | .k106 => ⟨106, by decide⟩
+  | .k107 => ⟨107, by decide⟩
+  | .k108 => ⟨108, by decide⟩
+  | .k109 => ⟨109, by decide⟩
+  | .k110 => ⟨110, by decide⟩
+  | .k111 => ⟨111, by decide⟩
+  | .k112 => ⟨112, by decide⟩
+  | .k113 => ⟨113, by decide⟩
+  | .k114 => ⟨114, by decide⟩
+  | .k115 => ⟨115, by decide⟩
+  | .k116 => ⟨116, by decide⟩
+  | .k117 => ⟨117, by decide⟩
+  | .k118 => ⟨118, by decide⟩
+  | .k119 => ⟨119, by decide⟩
+  | .k120 => ⟨120, by decide⟩
+  | .k121 => ⟨121, by decide⟩
+  | .k122 => ⟨122, by decide⟩
+  | .k123 => ⟨123, by decide⟩
+  | .k124 => ⟨124, by decide⟩
+
 /-- Finite catalog view of the generated classifier keys.
 
 This is the preferred input shape for generated source/row membership
@@ -2411,6 +2539,10 @@ def classifierSourceIndexKeyAt (i : Fin 125) : SourceIndexStateKey :=
   if i.val = 123 then ClassifierKey.k123.toSourceIndexStateKey else
   if i.val = 124 then ClassifierKey.k124.toSourceIndexStateKey else
   ClassifierKey.k000.toSourceIndexStateKey
+
+theorem classifierSourceIndexKeyAt_toFin (key : ClassifierKey) :
+    classifierSourceIndexKeyAt key.toFin = key.toSourceIndexStateKey := by
+  cases key <;> rfl
 
 def ClassifierKey.Matches
     (key : ClassifierKey) (r : Nat) (mask : SignMask) : Prop :=
@@ -3840,6 +3972,88 @@ theorem classifierAllGoodCoverage_of_sourceIndexPredicateCatalog
       SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
     AllTranslationGoodCoverageOnRange 0 5000 :=
   SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage hcomplete
+
+theorem sourceIndexFactsCatalog_of_classifierKey_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000 := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  have hlookup := classifierSourceIndexKeyAt_toFin key
+  exact ⟨key.toFin, by simpa [hlookup] using hsource,
+    by simpa [hlookup] using hrows⟩
+
+theorem sourceIndexFactsCatalog_of_classifierKey_source_row_bool
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000 :=
+  sourceIndexFactsCatalog_of_classifierKey_source_row
+    (fun hlt hlo hhi hM hgood =>
+      hcomplete hlt hlo hhi hM
+        (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
+
+theorem sourceIndexPredicateCatalog_of_classifierKey_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourcePredicate
+                    key.toSourceIndexStateKey.firstIndex
+                    key.toSourceIndexStateKey.secondIndex
+                    key.toSourceIndexStateKey.support rank mask /\
+                    key.toSourceIndexStateKey.template.Rows
+                      key.toSourceIndexStateKey.support rank mask) :
+    SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000 := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  have hlookup := classifierSourceIndexKeyAt_toFin key
+  exact ⟨key.toFin, by simpa [hlookup] using hsource,
+    by simpa [hlookup] using hrows⟩
+
+theorem sourceIndexPredicateCatalog_of_classifierKey_source_row_bool
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourcePredicate
+                    key.toSourceIndexStateKey.firstIndex
+                    key.toSourceIndexStateKey.secondIndex
+                    key.toSourceIndexStateKey.support rank mask /\
+                    key.toSourceIndexStateKey.template.Rows
+                      key.toSourceIndexStateKey.support rank mask) :
+    SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000 :=
+  sourceIndexPredicateCatalog_of_classifierKey_source_row
+    (fun hlt hlo hhi hM hgood =>
+      hcomplete hlt hlo hhi hM
+        (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
 
 theorem fam_000_goodKilled
     {r : Nat} {hlt : r < numPairWords} {mask : SignMask}

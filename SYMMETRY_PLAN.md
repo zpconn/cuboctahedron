@@ -16204,6 +16204,61 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9d_classifier_catalog_bridge_smoke.md
   scripts/generated/phase6z6k8ap16du9d_classifier_catalog_bridge_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9E key-to-catalog adapter:
+  DU.9E adds the reverse bridge between the existing `ClassifierKey`
+  existential target and the new finite catalog target:
+
+  ```lean
+  def ClassifierKey.toFin : ClassifierKey -> Fin 125
+
+  theorem classifierSourceIndexKeyAt_toFin (key : ClassifierKey) :
+      classifierSourceIndexKeyAt key.toFin = key.toSourceIndexStateKey
+
+  theorem sourceIndexFactsCatalog_of_classifierKey_source_row
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                  exists key : ClassifierKey,
+                    SourceIndexStateSourceFacts
+                      key.toSourceIndexStateKey rank mask /\
+                      SourceIndexStateRowFacts
+                        key.toSourceIndexStateKey rank mask) :
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+
+  theorem sourceIndexFactsCatalog_of_classifierKey_source_row_bool
+      (hcomplete : ... goodDirectionAtRankBool = true -> exists key, ...) :
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+
+  theorem sourceIndexPredicateCatalog_of_classifierKey_source_row
+      (hcomplete : ... GoodDirectionAtRank ... -> exists key, sourcePredicate /\ rows) :
+      SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+
+  theorem sourceIndexPredicateCatalog_of_classifierKey_source_row_bool
+      (hcomplete : ... goodDirectionAtRankBool = true -> exists key, sourcePredicate /\ rows) :
+      SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+  ```
+
+  This keeps both proof routes available: future generated evidence may prove
+  the generic catalog theorem directly, or it may prove the older
+  existential-`ClassifierKey` source/row theorem and erase it through
+  `ClassifierKey.toFin`.  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  exit=0, elapsed=7.00s, peak_tree_rss=4210 MiB, min_available=45887 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9e_classifier_key_catalog_adapter_smoke.json
+  scripts/generated/phase6z6k8ap16du9e_classifier_key_catalog_adapter_smoke.md
+  scripts/generated/phase6z6k8ap16du9e_classifier_key_catalog_adapter_guard.json
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D:
