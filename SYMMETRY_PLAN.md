@@ -537,10 +537,13 @@ bounded coordinate is `template_source_indices_row_property`: `template` alone,
 `source_indices` alone, `template_source_indices`, source skeletons, and full
 sources are all still ambiguous, but adding the row-property digest determines
 the selected key across all 4,693 GoodDirection cases in `[0,5000)`.
-Therefore the next DU.9 proof target should prove or generate this
-template/source-index/row-property selector theorem and then derive source/row
-facts theorem-valuedly; it should not carry full row/source arithmetic through
-`decide`.
+The follow-up selector smoke exposes this coordinate in Lean as 12
+`RowPropertyDigest` constructors plus `selectorCoordinateOfKey` and
+`selectorCoordinateAt`; its focused guarded build passed in 3.02s at 4.06 GiB
+peak tree RSS. Therefore the next DU.9 proof target should prove or generate
+this template/source-index/row-property selector theorem from identity-linear
+`GoodDirectionAtRank` and then derive source/row facts theorem-valuedly; it
+should not carry full row/source arithmetic through `decide`.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16401,6 +16404,54 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9h_source_index_state_selector_audit.json
   scripts/generated/phase6z6k8ap16du9h_source_index_state_selector_audit.md
+  ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9H selector-coordinate Lean smoke:
+  DU.9H now has a Lean-visible selector surface for the deterministic
+  coordinate found above.  The generated module:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9HSmoke.lean
+  ```
+
+  imports the public bounded classifier key catalog, defines 12
+  `RowPropertyDigest` constructors, defines:
+
+  ```lean
+  structure SelectorCoordinate where
+    template : SourceIndexTemplate
+    firstIndex : Nat
+    secondIndex : Nat
+    rowProperty : RowPropertyDigest
+
+  def rowPropertyDigestOfKey : ClassifierKey -> RowPropertyDigest
+  def selectorCoordinateOfKey : ClassifierKey -> SelectorCoordinate
+  def selectorCoordinateAt : Fin 125 -> SelectorCoordinate
+
+  theorem selectorCoordinateAt_toFin (key : ClassifierKey) :
+    selectorCoordinateAt key.toFin = selectorCoordinateOfKey key
+  ```
+
+  The first generated attempt failed safely under the guard because the module
+  used field notation for helper functions attached outside the defining
+  namespace of `ClassifierKey`; peak RSS was about 4.014 GiB.  The generator was
+  changed to use ordinary function names, and the focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke
+  exit=0, elapsed=3.02s, peak_tree_rss=4059 MiB, min_available=46152 MiB
+  ```
+
+  This is still infrastructure, not bounded classifier completeness.  It gives
+  the next theorem a small target: prove `selectorCoordinateOfKey key` from
+  identity-linear `GoodDirectionAtRank`, then recover the public catalog key and
+  theorem-valued source/row facts without reducing row arithmetic.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke.json
+  scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke.md
+  scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke_guard.json
   ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by

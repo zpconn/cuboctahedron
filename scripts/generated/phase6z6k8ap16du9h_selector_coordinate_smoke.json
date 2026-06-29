@@ -1,0 +1,19 @@
+{
+  "decision": {
+    "notes": [
+      "This is infrastructure only, not bounded classifier completeness.",
+      "No concrete rank/mask examples are emitted.",
+      "No row/source arithmetic is reduced in the generated theorem surface."
+    ],
+    "status": "selector-coordinate-smoke-emitted"
+  },
+  "family_count": 125,
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9HSmoke.lean",
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke",
+  "phase": "6Z.6K.8AP.16DU.9H.selector",
+  "rank_end": 5000,
+  "rank_start": 0,
+  "row_property_digest_count": 12,
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
