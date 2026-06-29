@@ -28200,3 +28200,87 @@ a small generated/source-fact-producer smoke that proves
 `SourceSkeletonStateFacts` for one or two 9EK multi-index quotient groups from
 semantic skeleton/row-normal-form premises, without emitting concrete
 source-index-family production coverage.
+
+### Phase 6Z.6K.8AP.16DU.9EM checkpoint: support variation inside skeleton groups
+
+Phase 6Z.6K.8AP.16DU.9EM adds
+`scripts/profile_source_skeleton_support_variation.py`, a diagnostic that
+recovers one real representative case per concrete family and measures what
+still varies inside each `template_source_skeletons_row` quotient group:
+concrete supports, source-agreement signatures, integer-scaled row forms, and
+exact row shapes.
+
+Command:
+
+```bash
+python3 scripts/profile_source_skeleton_support_variation.py \
+  --input scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+  --input scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+  --input scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json \
+  --json scripts/generated/phase6z6k8ap16du9em_source_skeleton_support_variation.json \
+  --md scripts/generated/phase6z6k8ap16du9em_source_skeleton_support_variation.md \
+  --top-limit 12
+```
+
+Result:
+
+- Skeleton groups: `138`
+- Groups with multiple concrete supports: `112`
+- Groups with multiple exact row shapes: `100`
+- Max supports per group: `20`
+- Max exact row shapes per group: `20`
+
+Support variation distribution:
+
+| Support signatures per group | Groups |
+| ---: | ---: |
+| `1` | `26` |
+| `2` | `27` |
+| `3` | `14` |
+| `4` | `12` |
+| `5` | `10` |
+| `6` | `14` |
+| `7` | `11` |
+| `8` | `6` |
+| `9` | `3` |
+| `10` | `4` |
+| `11` | `5` |
+| `12` | `3` |
+| `16` | `1` |
+| `20` | `2` |
+
+Exact row-shape variation distribution:
+
+| Exact row shapes per group | Groups |
+| ---: | ---: |
+| `1` | `38` |
+| `2` | `16` |
+| `3` | `12` |
+| `4` | `15` |
+| `5` | `10` |
+| `6` | `13` |
+| `7` | `13` |
+| `8` | `4` |
+| `9` | `1` |
+| `10` | `9` |
+| `11` | `4` |
+| `16` | `1` |
+| `20` | `2` |
+
+Decision: `SourceSkeletonStateKey` is a useful migration surface, but it is
+still too concrete for production because it carries
+`support : TwoSourceFarkasSupport`.  In the sampled data, support variation
+tracks source-index variation closely, and exact row-shape variation remains
+large in most groups.  The production theorem surface should therefore move one
+more level up:
+
+```text
+sourceSkeletonFacts + rowNormalFormFacts + sourceNormalFormFacts
+  -> RowPropertyParametricCovered r mask
+```
+
+where `rowNormalFormFacts` should be stated in integer/scaled row-normal-form
+terms when possible.  The next profiler should test whether adding minimal
+row-normal-form/source-normal-form data collapses the `138` skeleton groups into
+a stable family set, rather than trying to emit `SourceSkeletonStateKey`
+families keyed by concrete `support`.
