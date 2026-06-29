@@ -1,0 +1,2018 @@
+{
+  "case_count": 63642,
+  "concrete_family_count": 649,
+  "decision": {
+    "notes": [
+      "coarser quotient counts are not proof of soundness",
+      "low group counts identify theorem surfaces worth formalizing"
+    ],
+    "status": "diagnostic-only"
+  },
+  "mode": "source_index_state_classifier_quotient_profile",
+  "phase": "6Z.6K.8AP.16DU.9EJ",
+  "reports": [
+    "scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json",
+    "scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json",
+    "scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json"
+  ],
+  "schema_version": 1,
+  "surfaces": [
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_concrete_case_count": 0,
+      "multi_concrete_group_count": 0,
+      "quotient_group_count": 649,
+      "surface": "concrete",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "key": "0e55a80df4382d8982b7717360943a4f6b3ccddfa251af3534244736b030e86a",
+          "payload": {
+            "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "key": "62ce6a306986c3a2f50240720f81da86f19b9c44476683b9dc67c837758e4f49",
+          "payload": {
+            "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "key": "66a29ca0e404d99c8873fec66212ee7a62608ffe3597485c7c35524d2e8598a6",
+          "payload": {
+            "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "key": "b76af6daf653925665d2146d75858effa2c44427d83230621d98b5c1e77cf74a",
+          "payload": {
+            "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "key": "d73b9dafcb614083e014cd4a34a64b62f748e3edab62a7ce8418d68c4a45f413",
+          "payload": {
+            "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "key": "c34d11f7ccbece5922d5bc413b05197a0d46f02ee9874a38410502e086ea7176",
+          "payload": {
+            "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1182,
+              "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "source_indices": [
+                51,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "key": "646683784f6ec195a076d4fa179378fd4fcd67a418882cad8b411ef76498c495",
+          "payload": {
+            "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 987,
+          "concrete_family_count": 1,
+          "key": "ccbfc2c69e93d2e9ca0e59d5d060581b4f402f86104f9b6101e7d01fe6df23e2",
+          "payload": {
+            "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 987,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_concrete_case_count": 0,
+      "multi_concrete_group_count": 0,
+      "quotient_group_count": 649,
+      "surface": "template_source_indices_row",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "key": "523c811edc5e7f0bb4e12f4e6859535c9a27fcf0ee93d5fafb986b3701892d12",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              23,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "key": "91a6928ff94eadfee3ba033700d9c49ea1c1f476cafb635e9b82749624f0c0a8",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_indices": [
+              24,
+              1
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "key": "fb27656b5ed226d094391717987e78ed6f8ef7aa8d90893b0a3e1203ce857694",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+            "source_indices": [
+              25,
+              2
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "key": "8e87cc3772643bfb1cc9cc6b99d158525de11a291bdafdc3d9fab6430bbeb123",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              52,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "key": "fa9df383e60cb70322391c3ed62a3cbc2d41a04c57d10a9dd9f2b7e8cb6446d9",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              70,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "key": "5b184425e49fd684118706ed078314c71b1ecb3e041388077d2c40a5a07e5f62",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_indices": [
+              51,
+              1
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1182,
+              "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "source_indices": [
+                51,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "key": "9eb355815d5d8451437a93eba38fa98be594f6a5b575bcb873099921f5d596ea",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+            "source_indices": [
+              0,
+              5
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 987,
+          "concrete_family_count": 1,
+          "key": "4da7952a6dcf5107049ecc6bc8d665b82831a100253d52c8b0102eaee359cf35",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              83,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 987,
+              "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "source_indices": [
+                83,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 11573,
+      "largest_group_concrete_families": 4,
+      "multi_concrete_case_count": 63498,
+      "multi_concrete_group_count": 112,
+      "quotient_group_count": 138,
+      "surface": "template_source_skeletons_row",
+      "top_groups": [
+        {
+          "case_count": 11573,
+          "concrete_family_count": 4,
+          "key": "3e680075e7cd9fe7ee2b24e068c82fdb1ccb68e2558e843208b7222519463872",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 350,
+              "key": "253616397651d8f80158fbe86ee50967575a66461ada0d125e0613286400ab08",
+              "source_indices": [
+                19,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 51,
+              "key": "9c314735fc70994884564418e32f5c67b4d27e4bbebc86ecc37b5cc2bc62d19b",
+              "source_indices": [
+                18,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "key": "fc0daa3209f5382b631a145fbf664a727a3a37e5d2d10d4ba934e626b7bca6f9",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+            "source_skeletons": [
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 984,
+              "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "source_indices": [
+                0,
+                9
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 885,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 4784,
+          "concrete_family_count": 4,
+          "key": "c69dd01957d9e3f9cf0b875456aa88c9eb2f875cb887b13d33b1f45858197e0e",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 127,
+              "key": "9ba40caf7983058fd327b8f7def34c56f08874b7c9a94e2be8a80117420c21fe",
+              "source_indices": [
+                18,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 33,
+              "key": "1babba4293b26f73503f8912ad2f35f25811b42dc4f7e01762a401eecfb968fe",
+              "source_indices": [
+                28,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 3770,
+          "concrete_family_count": 5,
+          "key": "4d860982f4d611192df4ec1d02dd63138a366d4464a5e1a3d65d8c839bcde9f0",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_skeletons": [
+              "{\"impact\": \"3\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 490,
+              "key": "5ce6f9de0fc1f89ea90ae3bd4121a7848296c126f24dc188e8849d653e2cf8e5",
+              "source_indices": [
+                44,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 323,
+              "key": "c1e85dac279cfc02fb049d4bca261672cd6f4af9ecb2c273ce85c6df2761f361",
+              "source_indices": [
+                48,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "key": "42111e8dd699918990ce17f42eb279d9b01e814d3fdab27052ffd7b6c01963a2",
+          "payload": {
+            "row_property": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+            "source_skeletons": [
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "opp_1m_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 525,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 422,
+              "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "source_indices": [
+                1,
+                10
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 348,
+              "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "source_indices": [
+                1,
+                13
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 2799,
+          "concrete_family_count": 4,
+          "key": "fa1d9ca6d578c07447ef3d9b6ad3fab5ee09a45e8a4f659cc6692c9099218601",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 18,
+              "key": "08e35d272e47978efc8be8886836b94b6ee4ae3992a64927e83744b32c671fd8",
+              "source_indices": [
+                29,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 8,
+              "key": "4027b4377b913bb18052b9307cb115e8bd00563155a60a65e47244cf1205cf50",
+              "source_indices": [
+                19,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 2405,
+          "concrete_family_count": 8,
+          "key": "17b02e3ba9f86417ce5d9ca61af68d954fe7538dca1be327f48036c737375007",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_skeletons": [
+              "{\"impact\": \"5\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 289,
+              "key": "6c990a21072d9be01e76f5e48cf3bae020db3499e8e1156b9acc6b94211167aa",
+              "source_indices": [
+                75,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 225,
+              "key": "64137fd85d07e72250bd3c13a57ebd6713eb6d8cf66dcee0974b219399f65cd5",
+              "source_indices": [
+                71,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "key": "188071debabe4d32a9294dc0438e8648e2508d52a8535aa472aae4423869edcf",
+          "payload": {
+            "row_property": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+            "source_skeletons": [
+              "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "opp_m1_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 291,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 250,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 227,
+              "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "source_indices": [
+                2,
+                10
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 29662,
+      "largest_group_concrete_families": 103,
+      "multi_concrete_case_count": 63636,
+      "multi_concrete_group_count": 28,
+      "quotient_group_count": 33,
+      "surface": "template_source_kinds_row",
+      "top_groups": [
+        {
+          "case_count": 29662,
+          "concrete_family_count": 103,
+          "key": "3db14cfc46472c3083d7b7a34ca63486c8260cbf6cf84faa5076ebe1c9fd9ac2",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_kinds": [
+              "interior",
+              "xpStart"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 11643,
+          "concrete_family_count": 90,
+          "key": "bcfd78bae0f087c90b0d857965bc259cb8df15e150940782bae92d6a9b62dd82",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_kinds": [
+              "interior",
+              "xpStart"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 1182,
+              "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "source_indices": [
+                51,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 500,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "key": "90b62e8732add328fddda99c3c4b31735425ec24de10e14caf6e1c3948382229",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+            "source_kinds": [
+              "xpStart",
+              "ordering"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 984,
+              "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "source_indices": [
+                0,
+                9
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 885,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 6687,
+          "concrete_family_count": 75,
+          "key": "5caf1ef8bf3c31ba5b3277c9a833cadc18a2dab534edb7ce9c7e9b8263aafd23",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+            "source_kinds": [
+              "interior",
+              "xpStart"
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 670,
+              "key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+              "source_indices": [
+                50,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 352,
+              "key": "55dc0b022ed838da98d5af92317f536411fa922dd51317ade78b8c8354b71d73",
+              "source_indices": [
+                70,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "key": "fa78270c846fa3838dc86ea8c88fc309bcd90b40ff5d40884ad0af0609e31afd",
+          "payload": {
+            "row_property": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+            "source_kinds": [
+              "xpStart",
+              "ordering"
+            ],
+            "template": "opp_1m_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 525,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 422,
+              "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "source_indices": [
+                1,
+                10
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 348,
+              "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "source_indices": [
+                1,
+                13
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "key": "b835d1e929a0122a69456bbb0bbfabbce01f3683575729cdaaba652f1eb155a0",
+          "payload": {
+            "row_property": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+            "source_kinds": [
+              "xpStart",
+              "ordering"
+            ],
+            "template": "opp_m1_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 291,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 250,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 227,
+              "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "source_indices": [
+                2,
+                10
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 1717,
+          "concrete_family_count": 53,
+          "key": "9a3437dfa302701b89663c0567144da521c3e6719c0c78acac02cebb6db6d9c6",
+          "payload": {
+            "row_property": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+            "source_kinds": [
+              "interior",
+              "xpStart"
+            ],
+            "template": "eq_eq_neg_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 530,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 174,
+              "key": "35ba1dd429e6eafdc4ad00a9555d646f41cb0893f1aa2e82caa9d7733f48ae96",
+              "source_indices": [
+                57,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 148,
+              "key": "533366cd8cfa9b73ace5726cef1f7c9d1d36b5c4454b2b934a260ec9804b968e",
+              "source_indices": [
+                49,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 617,
+          "concrete_family_count": 10,
+          "key": "1ed108263b1bcc6afef0306acab7b21458e7f2c5d96f71a91fa8df277c061920",
+          "payload": {
+            "row_property": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+            "source_kinds": [
+              "xpStart",
+              "ordering"
+            ],
+            "template": "eq_eq_neg_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 129,
+              "key": "dfb204b58b12cb629f96ed728c46f085099c4abd09a79b28db61c2fd81435bc2",
+              "source_indices": [
+                3,
+                9
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "case_count": 121,
+              "key": "528b0624732053da7c91dc90d6c1fed9083253786a9dc7c40d92fc5edb96fbe7",
+              "source_indices": [
+                3,
+                15
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "case_count": 86,
+              "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+              "source_indices": [
+                3,
+                11
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 29662,
+      "largest_group_concrete_families": 103,
+      "multi_concrete_case_count": 63638,
+      "multi_concrete_group_count": 22,
+      "quotient_group_count": 25,
+      "surface": "template_row",
+      "top_groups": [
+        {
+          "case_count": 29662,
+          "concrete_family_count": 103,
+          "key": "de265919187b4ec6ae40f1c73590334c7985d8c80e45d0ad63146e6ee9948f19",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 11643,
+          "concrete_family_count": 90,
+          "key": "68d84780eb084399b7ac6daaaa326800101a9056fb62b110e900588c485ebc04",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "template": "opp_1m_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 1182,
+              "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "source_indices": [
+                51,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 500,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "key": "c9fbf8a0f59f0cfedcd5b9601a90c59724fd7310ba2caa3efb00ac4983637895",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 984,
+              "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "source_indices": [
+                0,
+                9
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 885,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 6687,
+          "concrete_family_count": 75,
+          "key": "696d37647f44044b412f8a9d3d6869fba8a4b543c0ac24cfc3c3516919255b6c",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+            "template": "opp_m1_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 670,
+              "key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+              "source_indices": [
+                50,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 352,
+              "key": "55dc0b022ed838da98d5af92317f536411fa922dd51317ade78b8c8354b71d73",
+              "source_indices": [
+                70,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "key": "5a8838f379bef346b28364cec98d314b11f8a5c411685e920af60936ffae8ea3",
+          "payload": {
+            "row_property": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+            "template": "opp_1m_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 525,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 422,
+              "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "source_indices": [
+                1,
+                10
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 348,
+              "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "source_indices": [
+                1,
+                13
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "key": "e176cd17ddbae7ada5c19600aa34793c472aa5f63ad87afd701e2ca39d4893fe",
+          "payload": {
+            "row_property": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+            "template": "opp_m1_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 291,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 250,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 227,
+              "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "source_indices": [
+                2,
+                10
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 1717,
+          "concrete_family_count": 53,
+          "key": "b133ec59103044e50da12d5dc8c1a9a64ad26915647ef4c938e11c98f808273c",
+          "payload": {
+            "row_property": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+            "template": "eq_eq_neg_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 530,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 174,
+              "key": "35ba1dd429e6eafdc4ad00a9555d646f41cb0893f1aa2e82caa9d7733f48ae96",
+              "source_indices": [
+                57,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 148,
+              "key": "533366cd8cfa9b73ace5726cef1f7c9d1d36b5c4454b2b934a260ec9804b968e",
+              "source_indices": [
+                49,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 617,
+          "concrete_family_count": 10,
+          "key": "c64eac0a92092163102be64b724c333ea1f4a6c4971525418098408984604b79",
+          "payload": {
+            "row_property": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+            "template": "eq_eq_neg_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 129,
+              "key": "dfb204b58b12cb629f96ed728c46f085099c4abd09a79b28db61c2fd81435bc2",
+              "source_indices": [
+                3,
+                9
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "case_count": 121,
+              "key": "528b0624732053da7c91dc90d6c1fed9083253786a9dc7c40d92fc5edb96fbe7",
+              "source_indices": [
+                3,
+                15
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "case_count": 86,
+              "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+              "source_indices": [
+                3,
+                11
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 29662,
+      "largest_group_concrete_families": 103,
+      "multi_concrete_case_count": 63638,
+      "multi_concrete_group_count": 22,
+      "quotient_group_count": 25,
+      "surface": "row",
+      "top_groups": [
+        {
+          "case_count": 29662,
+          "concrete_family_count": 103,
+          "key": "86b2c7b036b7fdc29bf317b8cab272e6d15a71afb6f6023d3b74e4caea63fb0e",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 11643,
+          "concrete_family_count": 90,
+          "key": "91e6c8d67dae587cc376b74c1125d756d6f13c53f4d83b33644a6e6de008e58a",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 1182,
+              "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "source_indices": [
+                51,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 500,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "key": "7d84067f8ccbb0690dc8705202ceb3433820c008d817d80d6dbfdfb9d0f8527a",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 984,
+              "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "source_indices": [
+                0,
+                9
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 885,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 6687,
+          "concrete_family_count": 75,
+          "key": "232f3e4c5142f22c007a51756b20ca49c2cefeca1ae9e93e9fef86d9e185fceb",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 670,
+              "key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+              "source_indices": [
+                50,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 352,
+              "key": "55dc0b022ed838da98d5af92317f536411fa922dd51317ade78b8c8354b71d73",
+              "source_indices": [
+                70,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "key": "257d5f89574033edc5c252da42e2fe796a92785e7a1398333404ce8add716854",
+          "payload": {
+            "row_property": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 525,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 422,
+              "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "source_indices": [
+                1,
+                10
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 348,
+              "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "source_indices": [
+                1,
+                13
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "key": "c4765b9bb7b5863b671e13546350782e0eaf84e1c3f8f1020726aee49f1342f2",
+          "payload": {
+            "row_property": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 291,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 250,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 227,
+              "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "source_indices": [
+                2,
+                10
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 1717,
+          "concrete_family_count": 53,
+          "key": "07313073942b400717e435f8bb6f0a7c88e9856ae20327a5908182c30623dd93",
+          "payload": {
+            "row_property": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 530,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 174,
+              "key": "35ba1dd429e6eafdc4ad00a9555d646f41cb0893f1aa2e82caa9d7733f48ae96",
+              "source_indices": [
+                57,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 148,
+              "key": "533366cd8cfa9b73ace5726cef1f7c9d1d36b5c4454b2b934a260ec9804b968e",
+              "source_indices": [
+                49,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 617,
+          "concrete_family_count": 10,
+          "key": "0e372e8f8d98ce825c25705e2ab34cc72cd34d960cc855a972ed4be317b6add0",
+          "payload": {
+            "row_property": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 129,
+              "key": "dfb204b58b12cb629f96ed728c46f085099c4abd09a79b28db61c2fd81435bc2",
+              "source_indices": [
+                3,
+                9
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "case_count": 121,
+              "key": "528b0624732053da7c91dc90d6c1fed9083253786a9dc7c40d92fc5edb96fbe7",
+              "source_indices": [
+                3,
+                15
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            },
+            {
+              "case_count": 86,
+              "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+              "source_indices": [
+                3,
+                11
+              ],
+              "template_id": "eq_eq_neg_var_second"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "largest_group_cases": 29662,
+      "largest_group_concrete_families": 103,
+      "multi_concrete_case_count": 63642,
+      "multi_concrete_group_count": 11,
+      "quotient_group_count": 11,
+      "surface": "template",
+      "top_groups": [
+        {
+          "case_count": 29662,
+          "concrete_family_count": 103,
+          "key": "2669574e59369a39fbdd2a32e2735bdd71c7f5248547a699977563d3a0740454",
+          "payload": {
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 11163,
+              "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "source_indices": [
+                23,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 2726,
+              "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "source_indices": [
+                52,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            },
+            {
+              "case_count": 1600,
+              "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "source_indices": [
+                70,
+                0
+              ],
+              "template_id": "eq_eq_pos_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 11643,
+          "concrete_family_count": 90,
+          "key": "da0dbee41f7e315136a1969b4c199deab52f27e7b34d0d1dccff20f78634c839",
+          "payload": {
+            "template": "opp_1m_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 4611,
+              "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "source_indices": [
+                24,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 1182,
+              "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "source_indices": [
+                51,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            },
+            {
+              "case_count": 500,
+              "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "source_indices": [
+                83,
+                1
+              ],
+              "template_id": "opp_1m_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "key": "e7bd0a1010c7116e1dda1dcb23fd35c6d336440a43cb35e05416584fc50016a3",
+          "payload": {
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 1051,
+              "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "source_indices": [
+                0,
+                5
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 984,
+              "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "source_indices": [
+                0,
+                9
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            },
+            {
+              "case_count": 885,
+              "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "source_indices": [
+                0,
+                15
+              ],
+              "template_id": "eq_eq_pos_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 6687,
+          "concrete_family_count": 75,
+          "key": "b1fd93522824040b683ec1fb0c9a97e585724253fd6baebd809278bf01366a07",
+          "payload": {
+            "template": "opp_m1_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 2770,
+              "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "source_indices": [
+                25,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 670,
+              "key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+              "source_indices": [
+                50,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            },
+            {
+              "case_count": 352,
+              "key": "55dc0b022ed838da98d5af92317f536411fa922dd51317ade78b8c8354b71d73",
+              "source_indices": [
+                70,
+                2
+              ],
+              "template_id": "opp_m1_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "key": "7edb322a03e1a5e1358e25a37fda02846820af6d40207b10fae6868a12d88803",
+          "payload": {
+            "template": "opp_1m_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 525,
+              "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "source_indices": [
+                1,
+                15
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 422,
+              "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "source_indices": [
+                1,
+                10
+              ],
+              "template_id": "opp_1m_var_second"
+            },
+            {
+              "case_count": 348,
+              "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "source_indices": [
+                1,
+                13
+              ],
+              "template_id": "opp_1m_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "key": "c4025619ee82a790743689b3753c99023b96d42a5990e2b73b7733341c77efa3",
+          "payload": {
+            "template": "opp_m1_var_second"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 291,
+              "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "source_indices": [
+                2,
+                15
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 250,
+              "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "source_indices": [
+                2,
+                13
+              ],
+              "template_id": "opp_m1_var_second"
+            },
+            {
+              "case_count": 227,
+              "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "source_indices": [
+                2,
+                10
+              ],
+              "template_id": "opp_m1_var_second"
+            }
+          ]
+        },
+        {
+          "case_count": 1717,
+          "concrete_family_count": 53,
+          "key": "e234cfb2b473491ad908be1f532932ef0e03aec7899eadc442653f31c65ae4a9",
+          "payload": {
+            "template": "eq_eq_neg_var_first"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 530,
+              "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "source_indices": [
+                26,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 174,
+              "key": "35ba1dd429e6eafdc4ad00a9555d646f41cb0893f1aa2e82caa9d7733f48ae96",
+              "source_indices": [
+                57,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            },
+            {
+              "case_count": 148,
+              "key": "533366cd8cfa9b73ace5726cef1f7c9d1d36b5c4454b2b934a260ec9804b968e",
+              "source_indices": [
+                49,
+                3
+              ],
+              "template_id": "eq_eq_neg_var_first"
+            }
+          ]
+        },
+        {
+          "case_count": 700,
+          "concrete_family_count": 220,
+          "key": "57d9a2bc8bc52cd738e34f466f66616bdfe9708adb7758c9463138951d8a7ebb",
+          "payload": {
+            "template": "exact_two_source_valid"
+          },
+          "sample_concrete_families": [
+            {
+              "case_count": 46,
+              "key": "82aa0d98b7cef15220c3a464ece976f08f51eb905961b89423a834e0af031984",
+              "source_indices": [
+                16,
+                6
+              ],
+              "template_id": "exact_two_source_valid"
+            },
+            {
+              "case_count": 44,
+              "key": "876b4ebdae3a9f651dbe2fa4e72ad43897e026d08b506e33f27f08de461a7bf7",
+              "source_indices": [
+                5,
+                8
+              ],
+              "template_id": "exact_two_source_valid"
+            },
+            {
+              "case_count": 26,
+              "key": "306a816070cddb61d5394b667f69658abcdea40b8a3af58f343858e3bb49efab",
+              "source_indices": [
+                178,
+                5
+              ],
+              "template_id": "exact_two_source_valid"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "trusted_as_proof": false
+}

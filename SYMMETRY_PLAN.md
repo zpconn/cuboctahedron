@@ -28025,3 +28025,57 @@ source-index/state key until either:
 2. we add a stronger semantic quotient that reduces the new-key rate, likely by
    grouping source-index/state keys by row-normal forms, source skeleton classes,
    or a state-DAG language rather than by concrete source indices.
+
+### Phase 6Z.6K.8AP.16DU.9EJ checkpoint: quotient-surface profile
+
+Phase 6Z.6K.8AP.16DU.9EJ adds
+`scripts/profile_classifier_census_quotients.py`, a diagnostic-only profiler
+that reads checkpointed classifier census reports and groups the concrete
+families under coarser quotient surfaces.  It asks whether the observed family
+growth is mostly caused by concrete source indices.
+
+Command:
+
+```bash
+python3 scripts/profile_classifier_census_quotients.py \
+  --input scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+  --input scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+  --input scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json \
+  --json scripts/generated/phase6z6k8ap16du9ej_classifier_census_quotients.json \
+  --md scripts/generated/phase6z6k8ap16du9ej_classifier_census_quotients.md \
+  --top-limit 8
+```
+
+Result over the `649` concrete families and `63,642` sampled GoodDirection
+cases:
+
+| Surface | Groups | Multi-family groups | Largest concrete families |
+| --- | ---: | ---: | ---: |
+| `concrete` | `649` | `0` | `1` |
+| `template_source_indices_row` | `649` | `0` | `1` |
+| `template_source_skeletons_row` | `138` | `112` | `4` |
+| `template_source_kinds_row` | `33` | `28` | `103` |
+| `template_row` | `25` | `22` | `103` |
+| `row` | `25` | `22` | `103` |
+| `template` | `11` | `11` | `103` |
+
+Decision: promote a stronger quotient as the next proof-surface candidate.
+This diagnostic shows that concrete source indices are responsible for most of
+the observed family fragmentation: keeping template, source skeletons, and row
+property collapses `649` concrete families to `138` groups, while preserving
+more geometric information than the very coarse `template_row`/`row` surfaces.
+
+The next Lean/profiler target should not emit production modules keyed by
+concrete source indices.  Instead, it should test whether a
+`template_source_skeletons_row` semantic theorem can prove coverage for all
+concrete source-index instances in a quotient group.  The core missing proof
+obligation is a source-transport/family theorem:
+
+```text
+same source skeletons + same row property + same template
+  -> source rows satisfy the same semantic row-template contradiction
+```
+
+If that theorem surface is too weak, refine the quotient by adding only the
+minimal row-normal-form data needed for sound transport, rather than returning
+to raw source indices.
