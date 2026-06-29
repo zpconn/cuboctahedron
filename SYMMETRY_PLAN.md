@@ -14727,6 +14727,45 @@ Acceptance:
 
   Until one of those is implemented, do not scale AP16DC beyond the accepted
   rank-100805 smoke.
+- [x] Implement Phase 6Z.6K.8AP.16DG rank-101105 normal-complexity diagnostic:
+  AP16DG reruns the existing AP16CF symbolic impact-normal recurrence profiler
+  for the AP16DF rejected rank:
+
+  ```text
+  python3 scripts/profile_ap16cf_symbolic_impact_normal_recurrence.py \
+    --rank 101105 \
+    --mask 6 \
+    --report scripts/generated/phase6z6k8ap16dg_rank101105_symbolic_impact_normal_profile.json
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dg_rank101105_symbolic_impact_normal_profile.json
+  scripts/generated/phase6z6k8ap16dg_rank101105_symbolic_impact_normal_profile.md
+  ```
+
+  Result:
+
+  ```text
+  status: accepted_profile
+  construction uses mask interpolation: false
+  all normal matches against AP16BY: true
+  all dot products match AP16BY expected polynomials: true
+  all exact mask evaluations match: true
+  selected normal terms: at most one nonzero affine term per axis
+  selected dot terms: 6 or 7
+  selected dot max degree: at most 2
+  ```
+
+  Decision: accepted diagnostic.  This explains AP16DF more sharply: the
+  memory failure is not caused by large generated normal/vector coefficients.
+  The coefficients are small.  The failure comes from the proof shape in
+  `generatedNormal_eval_eq_compact`, which expands `pairPrefixLinearNat` and
+  six mask bits for each selected impact.  The next fix should be a shared
+  normal-recurrence proof/checker that establishes the compact normal equality
+  from small symbolic records, without replaying the full prefix-linear
+  recurrence inside every generated impact module.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
