@@ -533,7 +533,9 @@ DU.9CU adds a reusable trace-certificate nonpositivity bridge so future
 weighted-cube leaves can transport a scaled integer polynomial inequality to
 `weightedDirectWalshDotAtRank <= 0` with one theorem call instead of repeating
 the local coefficient-evaluation rewrite pattern.  Its focused guarded build
-passed in 13.04s at 4.063 GiB peak tree RSS.  This is a useful constant-factor
+passed in 13.04s at 4.063 GiB peak tree RSS.  DU.9CV then patches one
+generated-style cube leaf to use that theorem; its focused guarded build
+passed in 20.54s at 4.736 GiB peak tree RSS.  This is a useful constant-factor
 bridge, not a reason to revive rank-local weighted-cube chains as the main
 coverage strategy.
 DU.9F adds the candidate-catalog facts adapter for the equivalent
@@ -25287,6 +25289,67 @@ Decision:
   and DU.9CR still costs about 70 seconds per rank-local chain.  The main
   translation proof must still use the GoodDirection/classifier/source-language
   membership route or a stronger pseudo-Boolean/global-template theorem.
+
+### Phase 6Z.6K.8AP.16DU.9CV checkpoint: one cube consumes the trace nonpositivity bridge
+
+Phase 6Z.6K.8AP.16DU.9CV validates the DU.9CU theorem as a generated-consumer
+target by patching one existing generated-style cube leaf:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertDotDataScaledChainCube00Smoke.lean
+```
+
+The old local proof manually transported the scaled polynomial inequality:
+
+```lean
+have hcoeff := cube00TraceCert.coeffEval_eq_weightedDirect mask
+have hnonpos := cube00ScaledPoly_coeffEval_nonpos_on_cube hmask
+rw [hcoeff] at hnonpos
+exact hnonpos
+```
+
+The leaf now uses the reusable theorem:
+
+```lean
+exact cube00TraceCert.weightedDirect_nonpos_of_scaled_intEval_nonpos
+  (by norm_num [cube00ScaledPoly])
+  (cube00ScaledPoly_intEval_nonpos_on_cube hmask)
+```
+
+Guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cv_trace_nonpos_consumer_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotDataScaledChainCube00Smoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               20.54s
+peak tree RSS:         4736 MiB
+minimum MemAvailable:  45026 MiB
+RSS cap:               6144 MiB
+```
+
+Decision:
+
+- Accept the DU.9CU theorem shape as a valid target for future fallback
+  weighted-cube emitters.
+- This patch reduces repeated proof script boilerplate in the generated cube
+  leaf, but the build still imports and checks the shared Data target.  It
+  should be treated as emitter cleanup and local constant-factor improvement,
+  not as a full-scale production backend.
+- Next strategic work remains the classifier/source-language membership proof
+  or a stronger pseudo-Boolean/global-template theorem that prevents most
+  weighted-cube leaves from being generated at all.
 
 ## Explicit Non-Goals
 

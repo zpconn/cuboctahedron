@@ -128,10 +128,9 @@ theorem cube00WeightedDirect_nonpos_on_cube
     {mask : SignMask} (hmask : cube00Cube.Member mask) :
     DenominatorCube.weightedDirectWalshDotAtRank
         Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainDataSmoke.generatedRank mask cube00Weights <= 0 := by
-  have hcoeff := cube00TraceCert.coeffEval_eq_weightedDirect mask
-  have hnonpos := cube00ScaledPoly_coeffEval_nonpos_on_cube hmask
-  rw [hcoeff] at hnonpos
-  exact hnonpos
+  exact cube00TraceCert.weightedDirect_nonpos_of_scaled_intEval_nonpos
+    (by norm_num [cube00ScaledPoly])
+    (cube00ScaledPoly_intEval_nonpos_on_cube hmask)
 
 theorem dotDataScaledChainCube00Smoke_builds : True := by
   trivial
