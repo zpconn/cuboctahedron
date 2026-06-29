@@ -27401,3 +27401,73 @@ not another single-window profile.  It is either:
 Do not promote this diagnostic to proof coverage.  Full completion still
 requires Lean-checked membership/family theorems, interval/rank coverage, and
 the final `Generated.rank_complete`/semantic exhaustive coverage root.
+
+### Phase 6Z.6K.8AP.16DU.9EA checkpoint: multi-window classifier Lean smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9EA extends the classifier smoke emitter so it can consume
+either an old contiguous-window profile or a new multi-window aggregate profile.
+The emitter now accepts:
+
+```text
+--jobs
+--source-key-surface
+```
+
+and, when the profile has a `ranges` field, recomputes and merges families over
+those disjoint windows using the same `collect_families_maybe_parallel` and
+`merge_families` path as the profiler.  It records the collection ranges and
+counts in its JSON/Markdown output.  The generated module also now emits:
+
+```lean
+set_option maxRecDepth 10000
+```
+
+because the first 200-family attempt reached Lean's default recursion depth in
+the generated `classifierSourceIndexKeyAt` chain.  This was an elaboration-shape
+limit, not an OOM: the failed attempt peaked at `4296 MiB` RSS.
+
+Generation command:
+
+```bash
+python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du9dz_classifier_multiwindow_profile.json \
+  --family-count 200 \
+  --jobs 4 \
+  --phase 6Z.6K.8AP.16DU.9EA \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierMultiWindowSmoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9ea_multiwindow_classifier_smoke.json \
+  --md scripts/generated/phase6z6k8ap16du9ea_multiwindow_classifier_smoke.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierMultiWindowSmoke
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ea_multiwindow_classifier_smoke_guard.json \
+  -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 timeout 360s \
+    lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierMultiWindowSmoke
+```
+
+Result:
+
+- Exit: `0`
+- Selected merged families: `200` of `405`
+- Selected GoodDirection cases represented by those families: `38762`
+- Generated Lean lines: `7676`
+- Elapsed: `8.51s`
+- Peak tree RSS: `4550.68 MiB`
+- Minimum available memory observed: `45446.91 MiB`
+
+Decision: accepted as bounded Lean evidence for the merged multi-window
+classifier surface.  This is still not global coverage and does not prove that
+all sampled GoodDirection survivors are covered by the selected 200 families;
+it checks that a large theorem-valued descriptor/classifier catalog drawn from
+mixed windows can elaborate and build comfortably under the 8 GiB guard.  The
+next production-relevant stress test should either emit all `405` merged
+families from the same profile, or split the catalog into group modules before
+trying all families if the single-module recursion/catalog shape becomes
+awkward.  Keep avoiding concrete rank/mask replay.

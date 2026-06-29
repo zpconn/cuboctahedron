@@ -20,10 +20,13 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from generate_source_index_state_nonenum_smoke import (  # noqa: E402
     TEMPLATE_TO_SOURCE_INDEX,
-    collect_families,
     family_summary,
     write_json,
     write_text,
+)
+from profile_source_index_state_fact_production import (  # noqa: E402
+    collect_families_maybe_parallel,
+    merge_families,
 )
 from generate_translation_two_source_evidence import (  # noqa: E402
     support_lines,
@@ -68,6 +71,44 @@ def select_families(families: list[Any], family_count: int) -> list[Any]:
             f"--family-count {family_count} exceeds collected family count {len(families)}"
         )
     return families[:family_count]
+
+
+def collect_profile_families(
+    profile: dict[str, Any],
+    *,
+    jobs: int,
+    source_key_surface: str,
+) -> tuple[list[Any], dict[str, int], list[list[int]]]:
+    if "ranges" in profile:
+        ranges = [[int(start), int(end)] for start, end in profile["ranges"]]
+        if not ranges:
+            raise ValueError("profile ranges must be nonempty")
+        parts = []
+        for start, end in ranges:
+            if end < start:
+                raise ValueError(f"profile range [{start}, {end}) is invalid")
+            parts.append(
+                collect_families_maybe_parallel(
+                    rank_start=start,
+                    limit=end - start,
+                    jobs=jobs,
+                    source_key_surface=source_key_surface,
+                )
+            )
+        families, counts = merge_families(parts)
+        return families, counts, ranges
+
+    rank_start = int(profile["rank_start"])
+    rank_end = int(profile["rank_end"])
+    if rank_end < rank_start:
+        raise ValueError("profile rank_end is before rank_start")
+    families, counts = collect_families_maybe_parallel(
+        rank_start=rank_start,
+        limit=rank_end - rank_start,
+        jobs=jobs,
+        source_key_surface=source_key_surface,
+    )
+    return families, counts, [[rank_start, rank_end]]
 
 
 def descriptor_lines(index: int, family: Any) -> list[str]:
@@ -656,6 +697,7 @@ def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage",
         "",
         "set_option linter.unusedVariables false",
+        "set_option maxRecDepth 10000",
         "",
     ]
     for index, family in enumerate(selected):
@@ -672,6 +714,10 @@ def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str
 
 
 def markdown(payload: dict[str, Any]) -> str:
+    if len(payload["collection_ranges"]) == 1:
+        selection_scope = f"`[{payload['rank_start']}, {payload['rank_end']})`"
+    else:
+        selection_scope = f"`{payload['collection_ranges']}`"
     lines = [
         f"# Phase {payload['phase']} Source-Index/State Classifier Smoke",
         "",
@@ -680,7 +726,9 @@ def markdown(payload: dict[str, Any]) -> str:
         "without concrete rank/mask replay.",
         "",
         f"- Selected families: `{payload['selected_family_count']}`",
-        f"- Rank window used for selection: `[{payload['rank_start']}, {payload['rank_end']})`",
+        f"- Selection scope: {selection_scope}",
+        f"- Source key surface: `{payload['source_key_surface']}`",
+        f"- Jobs used for collection: `{payload['jobs']}`",
         f"- Lean module: `{payload['lean_module']}`",
         "",
         "## Selected Families",
@@ -706,14 +754,24 @@ def build_payload(
     family_count: int,
     phase: str,
     collected_family_count: int,
+    collection_ranges: list[list[int]],
+    collection_counts: dict[str, int],
+    source_key_surface: str,
+    jobs: int,
 ) -> dict[str, Any]:
     selected_cases = sum(family.count for family in selected)
+    rank_start = min(start for start, _end in collection_ranges)
+    rank_end = max(end for _start, end in collection_ranges)
     return {
         "schema_version": 1,
         "phase": phase,
         "trusted_as_proof": False,
-        "rank_start": int(profile["rank_start"]),
-        "rank_end": int(profile["rank_end"]),
+        "rank_start": rank_start,
+        "rank_end": rank_end,
+        "collection_ranges": collection_ranges,
+        "collection_counts": collection_counts,
+        "source_key_surface": source_key_surface,
+        "jobs": jobs,
         "requested_family_count": family_count,
         "collected_family_count": collected_family_count,
         "selected_family_count": len(selected),
@@ -736,6 +794,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--profile-json", type=Path, default=DEFAULT_PROFILE)
     parser.add_argument("--family-count", type=int, default=5)
+    parser.add_argument("--jobs", type=int, default=1)
+    parser.add_argument("--source-key-surface", default="kind_impact")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
@@ -745,15 +805,17 @@ def main() -> None:
 
     namespace = validate_module_namespace(args.namespace)
     profile = read_json(args.profile_json)
-    rank_start = int(profile["rank_start"])
-    rank_end = int(profile["rank_end"])
-    if rank_end < rank_start:
-        raise ValueError("profile rank_end is before rank_start")
-    families, _counts = collect_families(
-        rank_start=rank_start,
-        limit=rank_end - rank_start,
+    if args.jobs <= 0:
+        raise ValueError("--jobs must be positive")
+    families, counts, ranges = collect_profile_families(
+        profile,
+        jobs=args.jobs,
+        source_key_surface=args.source_key_surface,
     )
-    expected_count = int(profile.get("source_index_state_family_count", len(families)))
+    expected_count = int(profile.get(
+        "source_index_state_family_count",
+        profile.get("family_count", len(families)),
+    ))
     if len(families) != expected_count:
         raise RuntimeError(
             f"collected {len(families)} families, profile expected {expected_count}"
@@ -770,6 +832,10 @@ def main() -> None:
         family_count=args.family_count,
         phase=args.phase,
         collected_family_count=len(families),
+        collection_ranges=ranges,
+        collection_counts=counts,
+        source_key_surface=args.source_key_surface,
+        jobs=args.jobs,
     )
     write_json(args.json, payload)
     write_text(args.md, markdown(payload))

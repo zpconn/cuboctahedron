@@ -1,0 +1,7266 @@
+{
+  "collected_family_count": 405,
+  "collection_counts": {
+    "covered_cases": 39338,
+    "good_direction_survivors": 39338,
+    "identity_words": 6130,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 168870,
+    "not_good_direction_masks": 352982,
+    "pair_words_scanned": 175000,
+    "translation_sign_assignments": 392320,
+    "uncovered_cases": 0
+  },
+  "collection_ranges": [
+    [
+      0,
+      25000
+    ],
+    [
+      100000,
+      125000
+    ],
+    [
+      1000000,
+      1025000
+    ],
+    [
+      10000000,
+      10025000
+    ],
+    [
+      30000000,
+      30025000
+    ],
+    [
+      60000000,
+      60025000
+    ],
+    [
+      90000000,
+      90025000
+    ]
+  ],
+  "decision": {
+    "notes": [
+      "no concrete rank/mask examples are emitted",
+      "no bounded replay proof is emitted",
+      "the module is a semantic classifier smoke, not global coverage"
+    ],
+    "status": "classifier-smoke-emitted"
+  },
+  "jobs": 4,
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierMultiWindowSmoke.lean",
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierMultiWindowSmoke",
+  "phase": "6Z.6K.8AP.16DU.9EA",
+  "rank_end": 90025000,
+  "rank_start": 0,
+  "requested_family_count": 200,
+  "schema_version": 1,
+  "selected_case_count": 38762,
+  "selected_families": [
+    {
+      "cases": 7024,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 8,
+          "rank": 0
+        },
+        {
+          "mask": 9,
+          "rank": 0
+        },
+        {
+          "mask": 16,
+          "rank": 0
+        },
+        {
+          "mask": 18,
+          "rank": 0
+        },
+        {
+          "mask": 24,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        23,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 3023,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 0
+        },
+        {
+          "mask": 55,
+          "rank": 0
+        },
+        {
+          "mask": 54,
+          "rank": 2
+        },
+        {
+          "mask": 55,
+          "rank": 2
+        },
+        {
+          "mask": 54,
+          "rank": 3
+        }
+      ],
+      "source_indices": [
+        24,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 2667,
+      "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 16,
+          "rank": 10000075
+        },
+        {
+          "mask": 16,
+          "rank": 10000083
+        },
+        {
+          "mask": 16,
+          "rank": 10000085
+        },
+        {
+          "mask": 16,
+          "rank": 10000142
+        },
+        {
+          "mask": 16,
+          "rank": 10000160
+        }
+      ],
+      "source_indices": [
+        52,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 1573,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 3
+        },
+        {
+          "mask": 45,
+          "rank": 5
+        },
+        {
+          "mask": 47,
+          "rank": 5
+        },
+        {
+          "mask": 61,
+          "rank": 24
+        },
+        {
+          "mask": 45,
+          "rank": 42
+        }
+      ],
+      "source_indices": [
+        25,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 1182,
+      "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 10000009
+        },
+        {
+          "mask": 29,
+          "rank": 10000051
+        },
+        {
+          "mask": 29,
+          "rank": 10000075
+        },
+        {
+          "mask": 29,
+          "rank": 10000145
+        },
+        {
+          "mask": 29,
+          "rank": 10000158
+        }
+      ],
+      "source_indices": [
+        51,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 1075,
+      "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 8220
+        },
+        {
+          "mask": 29,
+          "rank": 8220
+        },
+        {
+          "mask": 13,
+          "rank": 8222
+        },
+        {
+          "mask": 29,
+          "rank": 8222
+        },
+        {
+          "mask": 13,
+          "rank": 8244
+        }
+      ],
+      "source_indices": [
+        70,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 845,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 0
+        },
+        {
+          "mask": 31,
+          "rank": 0
+        },
+        {
+          "mask": 63,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        83,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 720,
+      "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 129
+        },
+        {
+          "mask": 31,
+          "rank": 129
+        },
+        {
+          "mask": 13,
+          "rank": 177
+        },
+        {
+          "mask": 22,
+          "rank": 177
+        },
+        {
+          "mask": 13,
+          "rank": 315
+        }
+      ],
+      "source_indices": [
+        0,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 668,
+      "key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 10000009
+        },
+        {
+          "mask": 47,
+          "rank": 10000051
+        },
+        {
+          "mask": 47,
+          "rank": 10000075
+        },
+        {
+          "mask": 47,
+          "rank": 10000083
+        },
+        {
+          "mask": 47,
+          "rank": 10000152
+        }
+      ],
+      "source_indices": [
+        50,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 591,
+      "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 7,
+          "rank": 498
+        },
+        {
+          "mask": 23,
+          "rank": 501
+        },
+        {
+          "mask": 7,
+          "rank": 519
+        },
+        {
+          "mask": 7,
+          "rank": 561
+        },
+        {
+          "mask": 7,
+          "rank": 582
+        }
+      ],
+      "source_indices": [
+        0,
+        10
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 569,
+      "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 123
+        },
+        {
+          "mask": 22,
+          "rank": 123
+        },
+        {
+          "mask": 13,
+          "rank": 125
+        },
+        {
+          "mask": 22,
+          "rank": 125
+        },
+        {
+          "mask": 29,
+          "rank": 125
+        }
+      ],
+      "source_indices": [
+        0,
+        13
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 534,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 60
+        },
+        {
+          "mask": 22,
+          "rank": 62
+        },
+        {
+          "mask": 29,
+          "rank": 62
+        },
+        {
+          "mask": 31,
+          "rank": 62
+        },
+        {
+          "mask": 13,
+          "rank": 65
+        }
+      ],
+      "source_indices": [
+        0,
+        11
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 513,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 0
+        },
+        {
+          "mask": 29,
+          "rank": 0
+        },
+        {
+          "mask": 13,
+          "rank": 2
+        },
+        {
+          "mask": 29,
+          "rank": 2
+        },
+        {
+          "mask": 13,
+          "rank": 5
+        }
+      ],
+      "source_indices": [
+        0,
+        7
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 490,
+      "key": "5651cb30a48af7c1f0528abbffbbcf4eb1954a09872946c492757538dfa5516f",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 600
+        },
+        {
+          "mask": 55,
+          "rank": 600
+        },
+        {
+          "mask": 47,
+          "rank": 605
+        },
+        {
+          "mask": 55,
+          "rank": 605
+        },
+        {
+          "mask": 22,
+          "rank": 657
+        }
+      ],
+      "source_indices": [
+        0,
+        12
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 489,
+      "key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 810
+        },
+        {
+          "mask": 30,
+          "rank": 810
+        },
+        {
+          "mask": 31,
+          "rank": 810
+        },
+        {
+          "mask": 55,
+          "rank": 810
+        },
+        {
+          "mask": 30,
+          "rank": 812
+        }
+      ],
+      "source_indices": [
+        109,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 489,
+      "key": "b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 617
+        },
+        {
+          "mask": 13,
+          "rank": 624
+        },
+        {
+          "mask": 22,
+          "rank": 630
+        },
+        {
+          "mask": 30,
+          "rank": 630
+        },
+        {
+          "mask": 22,
+          "rank": 635
+        }
+      ],
+      "source_indices": [
+        96,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 482,
+      "key": "158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 8,
+          "rank": 147
+        },
+        {
+          "mask": 9,
+          "rank": 147
+        },
+        {
+          "mask": 16,
+          "rank": 387
+        },
+        {
+          "mask": 18,
+          "rank": 387
+        },
+        {
+          "mask": 8,
+          "rank": 501
+        }
+      ],
+      "source_indices": [
+        0,
+        14
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 468,
+      "key": "6d2e4128c784627b01fdf6513ed433ec6ab2c1c8a0fcf082c21e14a67526bbd1",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 857
+        },
+        {
+          "mask": 54,
+          "rank": 857
+        },
+        {
+          "mask": 63,
+          "rank": 857
+        },
+        {
+          "mask": 47,
+          "rank": 869
+        },
+        {
+          "mask": 55,
+          "rank": 869
+        }
+      ],
+      "source_indices": [
+        161,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 466,
+      "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 25,
+          "rank": 10347
+        },
+        {
+          "mask": 27,
+          "rank": 10347
+        },
+        {
+          "mask": 29,
+          "rank": 10347
+        },
+        {
+          "mask": 27,
+          "rank": 10349
+        },
+        {
+          "mask": 61,
+          "rank": 10349
+        }
+      ],
+      "source_indices": [
+        0,
+        9
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 435,
+      "key": "1b2f2002758c280a9b4957a255b1ec03b9e18b94f1bf0534886c497a37096b40",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 3179
+        },
+        {
+          "mask": 63,
+          "rank": 3180
+        },
+        {
+          "mask": 29,
+          "rank": 3182
+        },
+        {
+          "mask": 63,
+          "rank": 3182
+        },
+        {
+          "mask": 63,
+          "rank": 3190
+        }
+      ],
+      "source_indices": [
+        70,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 407,
+      "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 633
+        },
+        {
+          "mask": 63,
+          "rank": 633
+        },
+        {
+          "mask": 25,
+          "rank": 639
+        },
+        {
+          "mask": 25,
+          "rank": 641
+        },
+        {
+          "mask": 61,
+          "rank": 641
+        }
+      ],
+      "source_indices": [
+        83,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 400,
+      "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 7,
+          "rank": 137
+        },
+        {
+          "mask": 7,
+          "rank": 185
+        },
+        {
+          "mask": 7,
+          "rank": 251
+        },
+        {
+          "mask": 7,
+          "rank": 263
+        },
+        {
+          "mask": 7,
+          "rank": 269
+        }
+      ],
+      "source_indices": [
+        26,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 377,
+      "key": "5ce6f9de0fc1f89ea90ae3bd4121a7848296c126f24dc188e8849d653e2cf8e5",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 1002155
+        },
+        {
+          "mask": 30,
+          "rank": 1002263
+        },
+        {
+          "mask": 27,
+          "rank": 1002294
+        },
+        {
+          "mask": 30,
+          "rank": 1002294
+        },
+        {
+          "mask": 31,
+          "rank": 1002297
+        }
+      ],
+      "source_indices": [
+        44,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 374,
+      "key": "543a6aac574fbc8f87f647071bfc51e2f4a1daa9ec1d367591e28ba1e285ed86",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 11,
+          "rank": 100805
+        },
+        {
+          "mask": 15,
+          "rank": 100836
+        },
+        {
+          "mask": 15,
+          "rank": 100892
+        },
+        {
+          "mask": 11,
+          "rank": 100926
+        },
+        {
+          "mask": 11,
+          "rank": 101197
+        }
+      ],
+      "source_indices": [
+        58,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 372,
+      "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 27
+        },
+        {
+          "mask": 54,
+          "rank": 59
+        },
+        {
+          "mask": 55,
+          "rank": 59
+        },
+        {
+          "mask": 28,
+          "rank": 84
+        },
+        {
+          "mask": 45,
+          "rank": 89
+        }
+      ],
+      "source_indices": [
+        1,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 354,
+      "key": "dbcf419ae9e07ff307f82ab76c38130544ba6f8432769e038bdb3f3cb3d892f1",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 854
+        },
+        {
+          "mask": 31,
+          "rank": 1004
+        },
+        {
+          "mask": 55,
+          "rank": 1242
+        },
+        {
+          "mask": 63,
+          "rank": 1242
+        },
+        {
+          "mask": 31,
+          "rank": 1514
+        }
+      ],
+      "source_indices": [
+        135,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 318,
+      "key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 25,
+          "rank": 903
+        },
+        {
+          "mask": 57,
+          "rank": 955
+        },
+        {
+          "mask": 25,
+          "rank": 990
+        },
+        {
+          "mask": 25,
+          "rank": 992
+        },
+        {
+          "mask": 61,
+          "rank": 992
+        }
+      ],
+      "source_indices": [
+        1,
+        10
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 303,
+      "key": "9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 5
+        },
+        {
+          "mask": 45,
+          "rank": 47
+        },
+        {
+          "mask": 54,
+          "rank": 62
+        },
+        {
+          "mask": 63,
+          "rank": 62
+        },
+        {
+          "mask": 45,
+          "rank": 80
+        }
+      ],
+      "source_indices": [
+        148,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 302,
+      "key": "49dc29bc5a3a346e57575f61d2b4fdb2f12956835c68063381b703d6ac1f887b",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 630
+        },
+        {
+          "mask": 31,
+          "rank": 639
+        },
+        {
+          "mask": 30,
+          "rank": 714
+        },
+        {
+          "mask": 31,
+          "rank": 714
+        },
+        {
+          "mask": 31,
+          "rank": 840
+        }
+      ],
+      "source_indices": [
+        162,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 283,
+      "key": "afb6a580ee2a6d0cd0d0a77e1ccb0fd523ff02e15a3aff1701e4e411c260c991",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 11,
+          "rank": 100800
+        },
+        {
+          "mask": 15,
+          "rank": 100800
+        },
+        {
+          "mask": 15,
+          "rank": 100802
+        },
+        {
+          "mask": 31,
+          "rank": 100802
+        },
+        {
+          "mask": 15,
+          "rank": 100860
+        }
+      ],
+      "source_indices": [
+        63,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 252,
+      "key": "55dc0b022ed838da98d5af92317f536411fa922dd51317ade78b8c8354b71d73",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 18541
+        },
+        {
+          "mask": 28,
+          "rank": 18603
+        },
+        {
+          "mask": 28,
+          "rank": 18629
+        },
+        {
+          "mask": 28,
+          "rank": 20181
+        },
+        {
+          "mask": 28,
+          "rank": 20205
+        }
+      ],
+      "source_indices": [
+        70,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 242,
+      "key": "e470bcfe67776ccff91b9310da8cf2fb8505cf06227f913f178d91f750eac4f1",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 22680
+        },
+        {
+          "mask": 29,
+          "rank": 22680
+        },
+        {
+          "mask": 13,
+          "rank": 22682
+        },
+        {
+          "mask": 29,
+          "rank": 22682
+        },
+        {
+          "mask": 13,
+          "rank": 22683
+        }
+      ],
+      "source_indices": [
+        57,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 238,
+      "key": "cb6f6bc2af727b7b07a1a5f93b6bb4b547714996ae906018ac0e2560d8102162",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 60
+        },
+        {
+          "mask": 30,
+          "rank": 60
+        },
+        {
+          "mask": 29,
+          "rank": 65
+        },
+        {
+          "mask": 30,
+          "rank": 72
+        },
+        {
+          "mask": 29,
+          "rank": 78
+        }
+      ],
+      "source_indices": [
+        175,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 237,
+      "key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 2
+        },
+        {
+          "mask": 54,
+          "rank": 42
+        },
+        {
+          "mask": 55,
+          "rank": 42
+        },
+        {
+          "mask": 55,
+          "rank": 44
+        },
+        {
+          "mask": 63,
+          "rank": 630
+        }
+      ],
+      "source_indices": [
+        1,
+        13
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 228,
+      "key": "0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 86
+        },
+        {
+          "mask": 55,
+          "rank": 86
+        },
+        {
+          "mask": 45,
+          "rank": 87
+        },
+        {
+          "mask": 47,
+          "rank": 87
+        },
+        {
+          "mask": 22,
+          "rank": 120
+        }
+      ],
+      "source_indices": [
+        122,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 221,
+      "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 39,
+          "rank": 149
+        },
+        {
+          "mask": 47,
+          "rank": 149
+        },
+        {
+          "mask": 45,
+          "rank": 185
+        },
+        {
+          "mask": 47,
+          "rank": 185
+        },
+        {
+          "mask": 7,
+          "rank": 209
+        }
+      ],
+      "source_indices": [
+        183,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 219,
+      "key": "8a4f0d011c71c3855f0555c3626724c8b000efab7f757f1019e23747d7b7642b",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 61,
+          "rank": 17
+        },
+        {
+          "mask": 54,
+          "rank": 30
+        },
+        {
+          "mask": 45,
+          "rank": 32
+        },
+        {
+          "mask": 45,
+          "rank": 40
+        },
+        {
+          "mask": 28,
+          "rank": 131
+        }
+      ],
+      "source_indices": [
+        1,
+        12
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 196,
+      "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 9
+        },
+        {
+          "mask": 55,
+          "rank": 9
+        },
+        {
+          "mask": 28,
+          "rank": 60
+        },
+        {
+          "mask": 54,
+          "rank": 87
+        },
+        {
+          "mask": 54,
+          "rank": 603
+        }
+      ],
+      "source_indices": [
+        1,
+        14
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 195,
+      "key": "173645791fcf6158993df04a06cad8e6c9277a4a5116eeeae8320100bc7ad399",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 850
+        },
+        {
+          "mask": 28,
+          "rank": 854
+        },
+        {
+          "mask": 29,
+          "rank": 854
+        },
+        {
+          "mask": 28,
+          "rank": 855
+        },
+        {
+          "mask": 29,
+          "rank": 855
+        }
+      ],
+      "source_indices": [
+        1,
+        11
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 192,
+      "key": "eec6cea09d6d89c03f3c4577319600781c82fe093551478e4074800b6ef59c13",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 3
+        },
+        {
+          "mask": 13,
+          "rank": 45
+        },
+        {
+          "mask": 55,
+          "rank": 149
+        },
+        {
+          "mask": 47,
+          "rank": 389
+        },
+        {
+          "mask": 22,
+          "rank": 633
+        }
+      ],
+      "source_indices": [
+        136,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 191,
+      "key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 27
+        },
+        {
+          "mask": 47,
+          "rank": 27
+        },
+        {
+          "mask": 28,
+          "rank": 59
+        },
+        {
+          "mask": 45,
+          "rank": 84
+        },
+        {
+          "mask": 47,
+          "rank": 84
+        }
+      ],
+      "source_indices": [
+        2,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 187,
+      "key": "4fda77f1bb3ebbed92f40e150884471b84d123e5b2d9d45e0eaff7690fb57cc9",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 3
+        },
+        {
+          "mask": 28,
+          "rank": 5
+        },
+        {
+          "mask": 28,
+          "rank": 11
+        },
+        {
+          "mask": 61,
+          "rank": 11
+        },
+        {
+          "mask": 28,
+          "rank": 29
+        }
+      ],
+      "source_indices": [
+        109,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 184,
+      "key": "bcaa49bdf67db120feb9ad4dda9a69450799ee1076adb235c86f602b449e273d",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 39,
+          "rank": 131
+        },
+        {
+          "mask": 47,
+          "rank": 131
+        },
+        {
+          "mask": 55,
+          "rank": 131
+        },
+        {
+          "mask": 39,
+          "rank": 144
+        },
+        {
+          "mask": 45,
+          "rank": 179
+        }
+      ],
+      "source_indices": [
+        0,
+        16
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 181,
+      "key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 990
+        },
+        {
+          "mask": 47,
+          "rank": 990
+        },
+        {
+          "mask": 26,
+          "rank": 1440
+        },
+        {
+          "mask": 30,
+          "rank": 1514
+        },
+        {
+          "mask": 30,
+          "rank": 1517
+        }
+      ],
+      "source_indices": [
+        2,
+        10
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 174,
+      "key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 0
+        },
+        {
+          "mask": 47,
+          "rank": 0
+        },
+        {
+          "mask": 47,
+          "rank": 2
+        },
+        {
+          "mask": 28,
+          "rank": 44
+        },
+        {
+          "mask": 45,
+          "rank": 630
+        }
+      ],
+      "source_indices": [
+        2,
+        13
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 164,
+      "key": "35ba1dd429e6eafdc4ad00a9555d646f41cb0893f1aa2e82caa9d7733f48ae96",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 14,
+          "rank": 100800
+        },
+        {
+          "mask": 22,
+          "rank": 100805
+        },
+        {
+          "mask": 22,
+          "rank": 100860
+        },
+        {
+          "mask": 22,
+          "rank": 100862
+        },
+        {
+          "mask": 6,
+          "rank": 100865
+        }
+      ],
+      "source_indices": [
+        57,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 164,
+      "key": "4c72072d32d9dd31f185019209d6ca8aa3959da9f2b28659eab68975586f92ef",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 50,
+          "rank": 1872
+        },
+        {
+          "mask": 58,
+          "rank": 1872
+        },
+        {
+          "mask": 50,
+          "rank": 1878
+        },
+        {
+          "mask": 58,
+          "rank": 1878
+        },
+        {
+          "mask": 31,
+          "rank": 3467
+        }
+      ],
+      "source_indices": [
+        97,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 163,
+      "key": "7a65f29590123bf426961881b2f8d72a554244ebd7db1928e6211cc43dbd193d",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1275
+        },
+        {
+          "mask": 63,
+          "rank": 1275
+        },
+        {
+          "mask": 28,
+          "rank": 1289
+        },
+        {
+          "mask": 31,
+          "rank": 1289
+        },
+        {
+          "mask": 31,
+          "rank": 1430
+        }
+      ],
+      "source_indices": [
+        83,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 162,
+      "key": "c1e85dac279cfc02fb049d4bca261672cd6f4af9ecb2c273ce85c6df2761f361",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 103824
+        },
+        {
+          "mask": 13,
+          "rank": 103829
+        },
+        {
+          "mask": 13,
+          "rank": 109664
+        },
+        {
+          "mask": 13,
+          "rank": 109802
+        },
+        {
+          "mask": 13,
+          "rank": 109892
+        }
+      ],
+      "source_indices": [
+        48,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 159,
+      "key": "001142d72c22dac0fd41e429a47c6f32d0f7456e0dce2c45057120b7f77f0162",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 57
+        },
+        {
+          "mask": 28,
+          "rank": 261
+        },
+        {
+          "mask": 29,
+          "rank": 261
+        },
+        {
+          "mask": 28,
+          "rank": 323
+        },
+        {
+          "mask": 28,
+          "rank": 603
+        }
+      ],
+      "source_indices": [
+        162,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 148,
+      "key": "533366cd8cfa9b73ace5726cef1f7c9d1d36b5c4454b2b934a260ec9804b968e",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 20,
+          "rank": 10000347
+        },
+        {
+          "mask": 45,
+          "rank": 10000597
+        },
+        {
+          "mask": 6,
+          "rank": 10001042
+        },
+        {
+          "mask": 10,
+          "rank": 10001064
+        },
+        {
+          "mask": 6,
+          "rank": 10001267
+        }
+      ],
+      "source_indices": [
+        49,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 148,
+      "key": "ab516b7ad129e4f1cee4b2c8ec44af498c782ec815a52eb4bd0cc2b1e0c25814",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 1207
+        },
+        {
+          "mask": 30,
+          "rank": 1207
+        },
+        {
+          "mask": 30,
+          "rank": 1795
+        },
+        {
+          "mask": 22,
+          "rank": 1910
+        },
+        {
+          "mask": 30,
+          "rank": 1910
+        }
+      ],
+      "source_indices": [
+        149,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 142,
+      "key": "c05b3d59255e1cb9689a33957c160b34cf7f5fb51fa9849d03bfcac29208d36a",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 602
+        },
+        {
+          "mask": 29,
+          "rank": 1916
+        },
+        {
+          "mask": 13,
+          "rank": 2399
+        },
+        {
+          "mask": 45,
+          "rank": 2399
+        },
+        {
+          "mask": 28,
+          "rank": 3236
+        }
+      ],
+      "source_indices": [
+        135,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 137,
+      "key": "3b759ab3163ba9496a7005928678cb5a209032fa5b627ee33ba282b0bdd0155e",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 9
+        },
+        {
+          "mask": 62,
+          "rank": 40
+        },
+        {
+          "mask": 30,
+          "rank": 1004
+        },
+        {
+          "mask": 30,
+          "rank": 1007
+        },
+        {
+          "mask": 26,
+          "rank": 2502
+        }
+      ],
+      "source_indices": [
+        2,
+        12
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 134,
+      "key": "e668d65886e9e5a322e49bde53aff82a78282617526ce8979ad65d248a06ba90",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 62,
+          "rank": 3190
+        },
+        {
+          "mask": 30,
+          "rank": 3195
+        },
+        {
+          "mask": 30,
+          "rank": 3199
+        },
+        {
+          "mask": 30,
+          "rank": 3230
+        },
+        {
+          "mask": 30,
+          "rank": 3237
+        }
+      ],
+      "source_indices": [
+        71,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 131,
+      "key": "3deda5bfda7dd10dab177ab07d85e4bec5bae07344e932072d7bcd7ef986f363",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 1890
+        },
+        {
+          "mask": 31,
+          "rank": 1892
+        },
+        {
+          "mask": 31,
+          "rank": 1908
+        },
+        {
+          "mask": 31,
+          "rank": 1910
+        },
+        {
+          "mask": 31,
+          "rank": 2070
+        }
+      ],
+      "source_indices": [
+        84,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 131,
+      "key": "46754c731c77c053bab64c67da53dcc1b5f174fe3ff8b9895806bf6c39f4d95a",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 120
+        },
+        {
+          "mask": 28,
+          "rank": 125
+        },
+        {
+          "mask": 28,
+          "rank": 147
+        },
+        {
+          "mask": 28,
+          "rank": 149
+        },
+        {
+          "mask": 28,
+          "rank": 185
+        }
+      ],
+      "source_indices": [
+        96,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 130,
+      "key": "64137fd85d07e72250bd3c13a57ebd6713eb6d8cf66dcee0974b219399f65cd5",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 13458
+        },
+        {
+          "mask": 31,
+          "rank": 13463
+        },
+        {
+          "mask": 31,
+          "rank": 13509
+        },
+        {
+          "mask": 31,
+          "rank": 13511
+        },
+        {
+          "mask": 31,
+          "rank": 13527
+        }
+      ],
+      "source_indices": [
+        71,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 130,
+      "key": "7fe8664000b678c1cae44375641f0292e55e71c867a7c3d094d7f96ecfb3277a",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 21,
+          "rank": 6831
+        },
+        {
+          "mask": 23,
+          "rank": 6831
+        },
+        {
+          "mask": 31,
+          "rank": 6831
+        },
+        {
+          "mask": 15,
+          "rank": 6833
+        },
+        {
+          "mask": 31,
+          "rank": 6967
+        }
+      ],
+      "source_indices": [
+        1,
+        9
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 130,
+      "key": "34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 840
+        },
+        {
+          "mask": 47,
+          "rank": 840
+        },
+        {
+          "mask": 47,
+          "rank": 842
+        },
+        {
+          "mask": 13,
+          "rank": 850
+        },
+        {
+          "mask": 45,
+          "rank": 852
+        }
+      ],
+      "source_indices": [
+        2,
+        11
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 124,
+      "key": "96da7bf37914b164ca484ce81cc9db786995bfe2c87b149569e6b9118f6c2c45",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 10,
+          "rank": 3335
+        },
+        {
+          "mask": 11,
+          "rank": 3335
+        },
+        {
+          "mask": 31,
+          "rank": 3774
+        },
+        {
+          "mask": 29,
+          "rank": 3777
+        },
+        {
+          "mask": 30,
+          "rank": 4179
+        }
+      ],
+      "source_indices": [
+        123,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 120,
+      "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 3
+        },
+        {
+          "mask": 63,
+          "rank": 45
+        },
+        {
+          "mask": 63,
+          "rank": 60
+        },
+        {
+          "mask": 63,
+          "rank": 78
+        },
+        {
+          "mask": 39,
+          "rank": 129
+        }
+      ],
+      "source_indices": [
+        1,
+        7
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 119,
+      "key": "1f4f8742fa2970d296e3fbf12e541c66c254d7c7dd433859bf0e6d97828c2309",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 611
+        },
+        {
+          "mask": 55,
+          "rank": 611
+        },
+        {
+          "mask": 47,
+          "rank": 629
+        },
+        {
+          "mask": 55,
+          "rank": 629
+        },
+        {
+          "mask": 31,
+          "rank": 870
+        }
+      ],
+      "source_indices": [
+        110,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 113,
+      "key": "548ef76c4ca70a698bc32c47af5db80f61529e06e13bb8e3a7091ea372d4cad6",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 30
+        },
+        {
+          "mask": 47,
+          "rank": 30
+        },
+        {
+          "mask": 30,
+          "rank": 1259
+        },
+        {
+          "mask": 45,
+          "rank": 1260
+        },
+        {
+          "mask": 47,
+          "rank": 1260
+        }
+      ],
+      "source_indices": [
+        2,
+        14
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 108,
+      "key": "4295d2e8233f5dbac79b0d712f2b60b2c1f9bbb4a65b79e19eb3b7beac461229",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 89
+        },
+        {
+          "mask": 47,
+          "rank": 1289
+        },
+        {
+          "mask": 47,
+          "rank": 1862
+        },
+        {
+          "mask": 47,
+          "rank": 3209
+        },
+        {
+          "mask": 47,
+          "rank": 3281
+        }
+      ],
+      "source_indices": [
+        161,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 108,
+      "key": "1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 447
+        },
+        {
+          "mask": 30,
+          "rank": 447
+        },
+        {
+          "mask": 28,
+          "rank": 602
+        },
+        {
+          "mask": 63,
+          "rank": 1091
+        },
+        {
+          "mask": 28,
+          "rank": 1916
+        }
+      ],
+      "source_indices": [
+        162,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 104,
+      "key": "cb8990495e80e4e83ff3dd6dbc52d2311080437714265957a3e06912a1fb84fc",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 32
+        },
+        {
+          "mask": 28,
+          "rank": 842
+        },
+        {
+          "mask": 31,
+          "rank": 842
+        },
+        {
+          "mask": 31,
+          "rank": 850
+        },
+        {
+          "mask": 28,
+          "rank": 859
+        }
+      ],
+      "source_indices": [
+        175,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 101,
+      "key": "5b8f1619d9cedeebccbff7692bcab9431eb53ed757cb015fe838ebbaead6de0b",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 86
+        },
+        {
+          "mask": 45,
+          "rank": 602
+        },
+        {
+          "mask": 47,
+          "rank": 602
+        },
+        {
+          "mask": 45,
+          "rank": 659
+        },
+        {
+          "mask": 47,
+          "rank": 800
+        }
+      ],
+      "source_indices": [
+        1,
+        16
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 100,
+      "key": "5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 45
+        },
+        {
+          "mask": 28,
+          "rank": 47
+        },
+        {
+          "mask": 28,
+          "rank": 78
+        },
+        {
+          "mask": 28,
+          "rank": 80
+        },
+        {
+          "mask": 28,
+          "rank": 89
+        }
+      ],
+      "source_indices": [
+        2,
+        7
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 96,
+      "key": "29c667e5aa818ea6f1b958dd1d1050e310d4a3d40eb8ec4a842957f47cc4fc73",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 603
+        },
+        {
+          "mask": 45,
+          "rank": 1257
+        },
+        {
+          "mask": 63,
+          "rank": 1440
+        },
+        {
+          "mask": 63,
+          "rank": 1442
+        },
+        {
+          "mask": 28,
+          "rank": 1880
+        }
+      ],
+      "source_indices": [
+        136,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 93,
+      "key": "843502ed659adec3e8be559efd41763a66b8f79a231413413bfc62074b30741b",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 57,
+          "rank": 800
+        },
+        {
+          "mask": 63,
+          "rank": 800
+        },
+        {
+          "mask": 57,
+          "rank": 1091
+        },
+        {
+          "mask": 45,
+          "rank": 1247
+        },
+        {
+          "mask": 47,
+          "rank": 1721
+        }
+      ],
+      "source_indices": [
+        148,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 91,
+      "key": "dfb204b58b12cb629f96ed728c46f085099c4abd09a79b28db61c2fd81435bc2",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 24,
+          "rank": 14747
+        },
+        {
+          "mask": 30,
+          "rank": 15147
+        },
+        {
+          "mask": 30,
+          "rank": 15158
+        },
+        {
+          "mask": 30,
+          "rank": 15173
+        },
+        {
+          "mask": 30,
+          "rank": 15207
+        }
+      ],
+      "source_indices": [
+        3,
+        9
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 89,
+      "key": "7a15080fd1fc18351ab493b05ba7ccdff63eef25273e8bd050bd328d075d5e21",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 62
+        },
+        {
+          "mask": 28,
+          "rank": 609
+        },
+        {
+          "mask": 45,
+          "rank": 855
+        },
+        {
+          "mask": 63,
+          "rank": 1249
+        },
+        {
+          "mask": 63,
+          "rank": 1257
+        }
+      ],
+      "source_indices": [
+        122,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 86,
+      "key": "528b0624732053da7c91dc90d6c1fed9083253786a9dc7c40d92fc5edb96fbe7",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1002
+        },
+        {
+          "mask": 28,
+          "rank": 1007
+        },
+        {
+          "mask": 63,
+          "rank": 1512
+        },
+        {
+          "mask": 28,
+          "rank": 1517
+        },
+        {
+          "mask": 47,
+          "rank": 9459
+        }
+      ],
+      "source_indices": [
+        3,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 84,
+      "key": "f2123d967d3bca62f1ff837920fc1806de378f16cfc5fa69b53f9039ee8077e4",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 13524
+        },
+        {
+          "mask": 30,
+          "rank": 13553
+        },
+        {
+          "mask": 29,
+          "rank": 13589
+        },
+        {
+          "mask": 30,
+          "rank": 15123
+        },
+        {
+          "mask": 30,
+          "rank": 15150
+        }
+      ],
+      "source_indices": [
+        70,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 84,
+      "key": "20b4b594e0f93bbabd757b188e89b67be0876cf1adc21a25d55495b8be4cd92e",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 9450
+        },
+        {
+          "mask": 13,
+          "rank": 9452
+        },
+        {
+          "mask": 13,
+          "rank": 9474
+        },
+        {
+          "mask": 13,
+          "rank": 9480
+        },
+        {
+          "mask": 13,
+          "rank": 9497
+        }
+      ],
+      "source_indices": [
+        93,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 83,
+      "key": "1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 0
+        },
+        {
+          "mask": 28,
+          "rank": 9
+        },
+        {
+          "mask": 28,
+          "rank": 30
+        },
+        {
+          "mask": 28,
+          "rank": 42
+        },
+        {
+          "mask": 22,
+          "rank": 714
+        }
+      ],
+      "source_indices": [
+        167,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 81,
+      "key": "20fc82814fcebdb1adf633ddccb969d4d6f323da4756cfd7c23a75b8c199c099",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 18501
+        },
+        {
+          "mask": 15,
+          "rank": 18519
+        },
+        {
+          "mask": 15,
+          "rank": 18587
+        },
+        {
+          "mask": 15,
+          "rank": 18768
+        },
+        {
+          "mask": 15,
+          "rank": 18897
+        }
+      ],
+      "source_indices": [
+        76,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 81,
+      "key": "263257ba21a1e6e04af5639767b991cfc0f48dc3b97de72f91e098802a4844fd",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 102554
+        },
+        {
+          "mask": 63,
+          "rank": 102554
+        },
+        {
+          "mask": 63,
+          "rank": 103325
+        },
+        {
+          "mask": 31,
+          "rank": 103340
+        },
+        {
+          "mask": 31,
+          "rank": 103344
+        }
+      ],
+      "source_indices": [
+        47,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 79,
+      "key": "47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 44
+        },
+        {
+          "mask": 45,
+          "rank": 641
+        },
+        {
+          "mask": 45,
+          "rank": 724
+        },
+        {
+          "mask": 47,
+          "rank": 724
+        },
+        {
+          "mask": 57,
+          "rank": 790
+        }
+      ],
+      "source_indices": [
+        184,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 78,
+      "key": "1d541f124fdc98e8359dbed4c921475f339905d1cad066ae7a7e52d1924c1179",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 1279
+        },
+        {
+          "mask": 29,
+          "rank": 1304
+        },
+        {
+          "mask": 29,
+          "rank": 1402
+        },
+        {
+          "mask": 29,
+          "rank": 1637
+        },
+        {
+          "mask": 29,
+          "rank": 1647
+        }
+      ],
+      "source_indices": [
+        84,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 76,
+      "key": "158087fcd37f43ff33edbd05b69db351daf9816e0760425b2eb50ee9216b27c2",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 13500
+        },
+        {
+          "mask": 29,
+          "rank": 13502
+        },
+        {
+          "mask": 29,
+          "rank": 13505
+        },
+        {
+          "mask": 61,
+          "rank": 13553
+        },
+        {
+          "mask": 61,
+          "rank": 13587
+        }
+      ],
+      "source_indices": [
+        77,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 76,
+      "key": "903e53e3f7ca517f328604cd621f97ff82b162882819c100d04a427cf482d21e",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 43,
+          "rank": 101076
+        },
+        {
+          "mask": 59,
+          "rank": 101203
+        },
+        {
+          "mask": 43,
+          "rank": 101778
+        },
+        {
+          "mask": 63,
+          "rank": 102480
+        },
+        {
+          "mask": 63,
+          "rank": 102487
+        }
+      ],
+      "source_indices": [
+        69,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 76,
+      "key": "c8b92bcd746e06f1f2b35c1e3dbadef9e7ef6930201f8191f247b057c4d97b93",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1019979
+        },
+        {
+          "mask": 61,
+          "rank": 1020000
+        },
+        {
+          "mask": 63,
+          "rank": 1020015
+        },
+        {
+          "mask": 63,
+          "rank": 1020032
+        },
+        {
+          "mask": 63,
+          "rank": 1020042
+        }
+      ],
+      "source_indices": [
+        94,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 76,
+      "key": "d38a5ee77d916f57e0cca04b5d777803404965c3d25cde6923349cf446475122",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 10010280
+        },
+        {
+          "mask": 30,
+          "rank": 10010282
+        },
+        {
+          "mask": 30,
+          "rank": 10010285
+        },
+        {
+          "mask": 62,
+          "rank": 10010411
+        },
+        {
+          "mask": 62,
+          "rank": 10010421
+        }
+      ],
+      "source_indices": [
+        78,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 75,
+      "key": "5821ff1cad55248e9ee59f757ebac2cd722d5baba34cd6b5f66f5fc37d71d27d",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 7475
+        },
+        {
+          "mask": 45,
+          "rank": 7551
+        },
+        {
+          "mask": 45,
+          "rank": 7559
+        },
+        {
+          "mask": 15,
+          "rank": 10011
+        },
+        {
+          "mask": 29,
+          "rank": 16311
+        }
+      ],
+      "source_indices": [
+        97,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 74,
+      "key": "361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 654
+        },
+        {
+          "mask": 30,
+          "rank": 716
+        },
+        {
+          "mask": 30,
+          "rank": 790
+        },
+        {
+          "mask": 30,
+          "rank": 827
+        },
+        {
+          "mask": 30,
+          "rank": 854
+        }
+      ],
+      "source_indices": [
+        84,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 69,
+      "key": "29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 65
+        },
+        {
+          "mask": 63,
+          "rank": 72
+        },
+        {
+          "mask": 28,
+          "rank": 2432
+        },
+        {
+          "mask": 28,
+          "rank": 2433
+        },
+        {
+          "mask": 30,
+          "rank": 10892
+        }
+      ],
+      "source_indices": [
+        3,
+        11
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 67,
+      "key": "5d85f2c1f23a39967e3cd089528e1b5251544b747b784d0b34619c531128b92d",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 8223
+        },
+        {
+          "mask": 28,
+          "rank": 8237
+        },
+        {
+          "mask": 28,
+          "rank": 8249
+        },
+        {
+          "mask": 28,
+          "rank": 8285
+        },
+        {
+          "mask": 28,
+          "rank": 8309
+        }
+      ],
+      "source_indices": [
+        71,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 63,
+      "key": "3f4f49151f480469b752cbda4f36d37919288da266b8f02fb0a5c1a9d4bc8e1b",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 10005033
+        },
+        {
+          "mask": 28,
+          "rank": 10005035
+        },
+        {
+          "mask": 28,
+          "rank": 10005041
+        },
+        {
+          "mask": 28,
+          "rank": 10005047
+        },
+        {
+          "mask": 12,
+          "rank": 10005054
+        }
+      ],
+      "source_indices": [
+        79,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 63,
+      "key": "55594f267ec68a2d7effc051b3a625593136d3a8903b855d06a4886966dbdfc2",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 18496
+        },
+        {
+          "mask": 29,
+          "rank": 18541
+        },
+        {
+          "mask": 29,
+          "rank": 18549
+        },
+        {
+          "mask": 29,
+          "rank": 18551
+        },
+        {
+          "mask": 29,
+          "rank": 18559
+        }
+      ],
+      "source_indices": [
+        71,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 63,
+      "key": "68ca43ad6da1bf21837ad43de8916779d8c9b7674f02fd42c9fb46275e56520c",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 602
+        },
+        {
+          "mask": 63,
+          "rank": 903
+        },
+        {
+          "mask": 63,
+          "rank": 905
+        },
+        {
+          "mask": 30,
+          "rank": 1916
+        },
+        {
+          "mask": 30,
+          "rank": 2399
+        }
+      ],
+      "source_indices": [
+        136,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 62,
+      "key": "323821661c9a96d8517395d7e2ed673c7ac9f6e241d41aa3d6f0c54b617725bc",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 992
+        },
+        {
+          "mask": 45,
+          "rank": 1017
+        },
+        {
+          "mask": 63,
+          "rank": 1510
+        },
+        {
+          "mask": 63,
+          "rank": 1529
+        },
+        {
+          "mask": 29,
+          "rank": 2495
+        }
+      ],
+      "source_indices": [
+        110,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 61,
+      "key": "3a68db823e3ef8c4a98812fd192baa9639a65f71318383b97cc6603e5261f0c9",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 3465
+        },
+        {
+          "mask": 59,
+          "rank": 8457
+        },
+        {
+          "mask": 63,
+          "rank": 9453
+        },
+        {
+          "mask": 28,
+          "rank": 9536
+        },
+        {
+          "mask": 59,
+          "rank": 10347
+        }
+      ],
+      "source_indices": [
+        3,
+        13
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 60,
+      "key": "3c44231cc1af8934c73ab9eb42337f5296972af30c98905c6664e173469df457",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 714
+        },
+        {
+          "mask": 63,
+          "rank": 3864
+        },
+        {
+          "mask": 30,
+          "rank": 9899
+        },
+        {
+          "mask": 30,
+          "rank": 10979
+        },
+        {
+          "mask": 28,
+          "rank": 12359
+        }
+      ],
+      "source_indices": [
+        149,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 60,
+      "key": "429f67e86b5e2b117910d87608a2db32b48f40a35c792b4acf398b0947b1195e",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 2514
+        },
+        {
+          "mask": 28,
+          "rank": 3752
+        },
+        {
+          "mask": 30,
+          "rank": 9497
+        },
+        {
+          "mask": 29,
+          "rank": 16352
+        },
+        {
+          "mask": 29,
+          "rank": 16374
+        }
+      ],
+      "source_indices": [
+        109,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 59,
+      "key": "96b2befe815713eb1405e2ed5322c7ed566364e61b1db132e586bfe00f5cbe45",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 20,
+          "rank": 1934
+        },
+        {
+          "mask": 12,
+          "rank": 2018
+        },
+        {
+          "mask": 15,
+          "rank": 9807
+        },
+        {
+          "mask": 15,
+          "rank": 9863
+        },
+        {
+          "mask": 28,
+          "rank": 16055
+        }
+      ],
+      "source_indices": [
+        3,
+        10
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 58,
+      "key": "1720c5c6897de884a3f69d37a00482f5017602df26b88e99a3a0e35b3b08aa9f",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 444
+        },
+        {
+          "mask": 63,
+          "rank": 1302
+        },
+        {
+          "mask": 28,
+          "rank": 1529
+        },
+        {
+          "mask": 28,
+          "rank": 2250
+        },
+        {
+          "mask": 30,
+          "rank": 3329
+        }
+      ],
+      "source_indices": [
+        149,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 58,
+      "key": "a19e2cdc6a8b74a0cbe3fdf50ce56ab4f893d2b76a3b06911b2a7f594028fb60",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 23043
+        },
+        {
+          "mask": 28,
+          "rank": 23045
+        },
+        {
+          "mask": 28,
+          "rank": 23067
+        },
+        {
+          "mask": 28,
+          "rank": 23069
+        },
+        {
+          "mask": 28,
+          "rank": 23307
+        }
+      ],
+      "source_indices": [
+        48,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 54,
+      "key": "0c0e4ba6e28fbb5874ffec38e757ce56802f082962201133f6dc0141b060a995",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 3527
+        },
+        {
+          "mask": 45,
+          "rank": 3599
+        },
+        {
+          "mask": 45,
+          "rank": 5807
+        },
+        {
+          "mask": 13,
+          "rank": 6293
+        },
+        {
+          "mask": 43,
+          "rank": 8465
+        }
+      ],
+      "source_indices": [
+        171,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 53,
+      "key": "db68a14c074edb744fab08556d2d2441f01c202e494cbc2220c2912d941ee576",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1519
+        },
+        {
+          "mask": 28,
+          "rank": 9946
+        },
+        {
+          "mask": 28,
+          "rank": 9991
+        },
+        {
+          "mask": 28,
+          "rank": 10011
+        },
+        {
+          "mask": 28,
+          "rank": 10035
+        }
+      ],
+      "source_indices": [
+        96,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 52,
+      "key": "481c7323fda36e8ef4929813929eecc89d2ea51c29714e570b34eccef32656a1",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 2150
+        },
+        {
+          "mask": 30,
+          "rank": 2150
+        },
+        {
+          "mask": 30,
+          "rank": 2157
+        },
+        {
+          "mask": 29,
+          "rank": 2204
+        },
+        {
+          "mask": 30,
+          "rank": 2342
+        }
+      ],
+      "source_indices": [
+        83,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 52,
+      "key": "4d5bf70423567c2e7433ceccdc7938df76413ba090a96b126de74f17eead2669",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 2130
+        },
+        {
+          "mask": 13,
+          "rank": 2135
+        },
+        {
+          "mask": 22,
+          "rank": 2370
+        },
+        {
+          "mask": 22,
+          "rank": 2375
+        },
+        {
+          "mask": 30,
+          "rank": 15752
+        }
+      ],
+      "source_indices": [
+        131,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 52,
+      "key": "d0af45d9a8435c39b37b0e34a5322ab0c9a6bf6180b8dd0b14e72c8df865579e",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 7419
+        },
+        {
+          "mask": 47,
+          "rank": 7419
+        },
+        {
+          "mask": 47,
+          "rank": 7467
+        },
+        {
+          "mask": 47,
+          "rank": 7469
+        },
+        {
+          "mask": 28,
+          "rank": 18551
+        }
+      ],
+      "source_indices": [
+        2,
+        9
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 51,
+      "key": "2331829ae5f9c9473447cdc0d7e31e8e2c9371e462f2a7f75cdaa02627990bfb",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 870
+        },
+        {
+          "mask": 13,
+          "rank": 882
+        },
+        {
+          "mask": 13,
+          "rank": 888
+        },
+        {
+          "mask": 22,
+          "rank": 1680
+        },
+        {
+          "mask": 22,
+          "rank": 1692
+        }
+      ],
+      "source_indices": [
+        115,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 50,
+      "key": "1afd926769caf85b6cb8fda2a1c4e48332f30dcd4d0662289f18b8a8db4e4b81",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1000
+        },
+        {
+          "mask": 63,
+          "rank": 1019
+        },
+        {
+          "mask": 30,
+          "rank": 2470
+        },
+        {
+          "mask": 30,
+          "rank": 2474
+        },
+        {
+          "mask": 30,
+          "rank": 2475
+        }
+      ],
+      "source_indices": [
+        110,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 48,
+      "key": "147d32d3e6369b719c07fd7542de34216dd48db412037fcc9097fce80947ce1c",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 2070
+        },
+        {
+          "mask": 63,
+          "rank": 2075
+        },
+        {
+          "mask": 63,
+          "rank": 2130
+        },
+        {
+          "mask": 63,
+          "rank": 2142
+        },
+        {
+          "mask": 63,
+          "rank": 2148
+        }
+      ],
+      "source_indices": [
+        95,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 47,
+      "key": "816fb1690bf595f3f53f759dcd2f42cc8ce6594c546823c5f917337a089f58d5",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 26,
+          "rank": 3270
+        },
+        {
+          "mask": 30,
+          "rank": 3270
+        },
+        {
+          "mask": 30,
+          "rank": 3272
+        },
+        {
+          "mask": 26,
+          "rank": 3275
+        },
+        {
+          "mask": 30,
+          "rank": 3275
+        }
+      ],
+      "source_indices": [
+        119,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 45,
+      "key": "36774daab8bf1184499c77271b19f7a40035f8aa1467fac74fb482afca1d3ed8",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 17,
+          "rank": 1002155
+        },
+        {
+          "mask": 17,
+          "rank": 1002263
+        },
+        {
+          "mask": 17,
+          "rank": 1002294
+        },
+        {
+          "mask": 17,
+          "rank": 1004735
+        },
+        {
+          "mask": 17,
+          "rank": 1005395
+        }
+      ],
+      "source_indices": [
+        172,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 45,
+      "key": "969bdd36c0ff690c62a0b53d598d08baaaffcf117b705925f574eaf39d9931f0",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 3
+        },
+        {
+          "mask": 22,
+          "rank": 24
+        },
+        {
+          "mask": 30,
+          "rank": 24
+        },
+        {
+          "mask": 29,
+          "rank": 45
+        },
+        {
+          "mask": 13,
+          "rank": 49
+        }
+      ],
+      "source_indices": [
+        105,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 44,
+      "key": "876b4ebdae3a9f651dbe2fa4e72ad43897e026d08b506e33f27f08de461a7bf7",
+      "row_property_key": "aeb5b4e539b04433effdc099c3a62c28f12d5e963fb5870e318adafb13279290",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 10002017
+        },
+        {
+          "mask": 13,
+          "rank": 10002143
+        },
+        {
+          "mask": 13,
+          "rank": 10002149
+        },
+        {
+          "mask": 7,
+          "rank": 10002203
+        },
+        {
+          "mask": 13,
+          "rank": 10002237
+        }
+      ],
+      "source_indices": [
+        5,
+        8
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 43,
+      "key": "62f5ae522c0e7133d5843c313ca60aeae4e0b20c912d1f80286ac540b2b6eb8a",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 55,
+          "rank": 5
+        },
+        {
+          "mask": 47,
+          "rank": 47
+        },
+        {
+          "mask": 54,
+          "rank": 635
+        },
+        {
+          "mask": 55,
+          "rank": 635
+        },
+        {
+          "mask": 45,
+          "rank": 1277
+        }
+      ],
+      "source_indices": [
+        147,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 41,
+      "key": "1d429d67ee13df82ba88a3e685c5f449bb51da67ccfb2381ebb6429b3b02fd2e",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 26,
+          "rank": 4170
+        },
+        {
+          "mask": 30,
+          "rank": 4170
+        },
+        {
+          "mask": 26,
+          "rank": 4175
+        },
+        {
+          "mask": 30,
+          "rank": 4175
+        },
+        {
+          "mask": 26,
+          "rank": 4181
+        }
+      ],
+      "source_indices": [
+        106,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 40,
+      "key": "698bc5fc0b761af936d02e66853f313943632c3c9abf425807a742b732b440f1",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 837
+        },
+        {
+          "mask": 30,
+          "rank": 872
+        },
+        {
+          "mask": 30,
+          "rank": 894
+        },
+        {
+          "mask": 30,
+          "rank": 2472
+        },
+        {
+          "mask": 28,
+          "rank": 8541
+        }
+      ],
+      "source_indices": [
+        168,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 39,
+      "key": "895c2baafbaba02fc34253ea987dd1fac572ea9b8a962724c3ba918b83b7b00d",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 5939
+        },
+        {
+          "mask": 28,
+          "rank": 8427
+        },
+        {
+          "mask": 29,
+          "rank": 13529
+        },
+        {
+          "mask": 29,
+          "rank": 15147
+        },
+        {
+          "mask": 45,
+          "rank": 16019
+        }
+      ],
+      "source_indices": [
+        123,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 39,
+      "key": "732724005282d4387337f79bf119043fd74b925fa54d0b31d6bae3d0c4f9294c",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 7427
+        },
+        {
+          "mask": 15,
+          "rank": 7437
+        },
+        {
+          "mask": 28,
+          "rank": 7439
+        },
+        {
+          "mask": 15,
+          "rank": 7494
+        },
+        {
+          "mask": 15,
+          "rank": 7551
+        }
+      ],
+      "source_indices": [
+        97,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 38,
+      "key": "533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 12,
+          "rank": 875
+        },
+        {
+          "mask": 20,
+          "rank": 1685
+        },
+        {
+          "mask": 28,
+          "rank": 15810
+        },
+        {
+          "mask": 28,
+          "rank": 17632
+        },
+        {
+          "mask": 60,
+          "rank": 17637
+        }
+      ],
+      "source_indices": [
+        3,
+        12
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 38,
+      "key": "4c6ff9165c9b0df23d40bbb5ff34c1a7b846bc771a0a38da6434f7fa604e061a",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 888
+        },
+        {
+          "mask": 54,
+          "rank": 888
+        },
+        {
+          "mask": 55,
+          "rank": 897
+        },
+        {
+          "mask": 54,
+          "rank": 899
+        },
+        {
+          "mask": 45,
+          "rank": 1698
+        }
+      ],
+      "source_indices": [
+        121,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 38,
+      "key": "79089357fe2a7330c14fe99d945a21a58606b251d89bb36df66626486216add2",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 11,
+          "rank": 3534
+        },
+        {
+          "mask": 45,
+          "rank": 22551
+        },
+        {
+          "mask": 47,
+          "rank": 22551
+        },
+        {
+          "mask": 45,
+          "rank": 22652
+        },
+        {
+          "mask": 47,
+          "rank": 22652
+        }
+      ],
+      "source_indices": [
+        107,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 38,
+      "key": "2148e47a5cafb40577af7d8217985a915183086bbd7a7e8d7a1f4b29c1f584ed",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 51,
+          "rank": 1019476
+        },
+        {
+          "mask": 59,
+          "rank": 1019476
+        },
+        {
+          "mask": 51,
+          "rank": 1019477
+        },
+        {
+          "mask": 59,
+          "rank": 1019477
+        },
+        {
+          "mask": 59,
+          "rank": 1019746
+        }
+      ],
+      "source_indices": [
+        76,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 37,
+      "key": "261b107818d73610bf19cd2422ad5a5a15aa2db118565d49f769d88fe7dd9116",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1217
+        },
+        {
+          "mask": 28,
+          "rank": 1805
+        },
+        {
+          "mask": 30,
+          "rank": 8531
+        },
+        {
+          "mask": 30,
+          "rank": 11621
+        },
+        {
+          "mask": 30,
+          "rank": 11783
+        }
+      ],
+      "source_indices": [
+        162,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 37,
+      "key": "f58e8057dc1ef59724f47203d7b7cee139d6b386b440a531b6e8043e0830769d",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 633
+        },
+        {
+          "mask": 31,
+          "rank": 1007
+        },
+        {
+          "mask": 30,
+          "rank": 1275
+        },
+        {
+          "mask": 31,
+          "rank": 1517
+        },
+        {
+          "mask": 29,
+          "rank": 3155
+        }
+      ],
+      "source_indices": [
+        141,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 36,
+      "key": "532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 24
+        },
+        {
+          "mask": 28,
+          "rank": 49
+        },
+        {
+          "mask": 28,
+          "rank": 86
+        },
+        {
+          "mask": 28,
+          "rank": 87
+        },
+        {
+          "mask": 28,
+          "rank": 137
+        }
+      ],
+      "source_indices": [
+        84,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 36,
+      "key": "8e5b49839275e24bfc22394bfae18eee901fa2b74ea5e8ec55a311c844a24234",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 1016529
+        },
+        {
+          "mask": 61,
+          "rank": 1016529
+        },
+        {
+          "mask": 25,
+          "rank": 1018140
+        },
+        {
+          "mask": 59,
+          "rank": 1018140
+        },
+        {
+          "mask": 25,
+          "rank": 1018145
+        }
+      ],
+      "source_indices": [
+        120,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 36,
+      "key": "cef979f926b1ef7b5e3a24b79cf5f7690874d0f5a634700e4c34e4d5cbd42d9e",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 4319
+        },
+        {
+          "mask": 45,
+          "rank": 4559
+        },
+        {
+          "mask": 47,
+          "rank": 4559
+        },
+        {
+          "mask": 15,
+          "rank": 4679
+        },
+        {
+          "mask": 47,
+          "rank": 4955
+        }
+      ],
+      "source_indices": [
+        170,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 34,
+      "key": "2aa04a3f1c0161cddde4e21a8863c0aac8e84249606d7a160e9c70dbbf46c954",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 3467
+        },
+        {
+          "mask": 61,
+          "rank": 3507
+        },
+        {
+          "mask": 29,
+          "rank": 3519
+        },
+        {
+          "mask": 29,
+          "rank": 3537
+        },
+        {
+          "mask": 31,
+          "rank": 3597
+        }
+      ],
+      "source_indices": [
+        103,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 34,
+      "key": "a8779ef21d07f80a863f92a4d0b3a9e5785baca760e90b9f12ba91df5af57a50",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 603
+        },
+        {
+          "mask": 30,
+          "rank": 1917
+        },
+        {
+          "mask": 30,
+          "rank": 2433
+        },
+        {
+          "mask": 30,
+          "rank": 9537
+        },
+        {
+          "mask": 28,
+          "rank": 9834
+        }
+      ],
+      "source_indices": [
+        135,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 33,
+      "key": "cf5366200f297cbeca3798128ccc225f8b0f70a7f0dffe7a8a4ceaca806f93f2",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 2441
+        },
+        {
+          "mask": 30,
+          "rank": 2441
+        },
+        {
+          "mask": 29,
+          "rank": 2459
+        },
+        {
+          "mask": 30,
+          "rank": 2459
+        },
+        {
+          "mask": 30,
+          "rank": 8987
+        }
+      ],
+      "source_indices": [
+        175,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 31,
+      "key": "9ba40caf7983058fd327b8f7def34c56f08874b7c9a94e2be8a80117420c21fe",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 11,
+          "rank": 60017164
+        },
+        {
+          "mask": 11,
+          "rank": 60017318
+        },
+        {
+          "mask": 11,
+          "rank": 60017326
+        },
+        {
+          "mask": 11,
+          "rank": 60017329
+        },
+        {
+          "mask": 11,
+          "rank": 60017446
+        }
+      ],
+      "source_indices": [
+        18,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 30,
+      "key": "61aa251701456fbb0bece3b5f02f752aeb17216d8fa047e5114685764c27ddf2",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 3153
+        },
+        {
+          "mask": 63,
+          "rank": 3167
+        },
+        {
+          "mask": 60,
+          "rank": 3190
+        },
+        {
+          "mask": 63,
+          "rank": 3192
+        },
+        {
+          "mask": 63,
+          "rank": 3195
+        }
+      ],
+      "source_indices": [
+        92,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 29,
+      "key": "73391194a66e8c5b4e880d8b90a77046ab6d292e539995c3d002a7b106c57fec",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 21,
+          "rank": 1002297
+        },
+        {
+          "mask": 61,
+          "rank": 1002299
+        },
+        {
+          "mask": 17,
+          "rank": 1005537
+        },
+        {
+          "mask": 17,
+          "rank": 1005538
+        },
+        {
+          "mask": 17,
+          "rank": 1005539
+        }
+      ],
+      "source_indices": [
+        146,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 28,
+      "key": "83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3",
+      "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 209
+        },
+        {
+          "mask": 31,
+          "rank": 790
+        },
+        {
+          "mask": 63,
+          "rank": 1346
+        },
+        {
+          "mask": 31,
+          "rank": 1402
+        },
+        {
+          "mask": 59,
+          "rank": 1564
+        }
+      ],
+      "source_indices": [
+        44,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 28,
+      "key": "a02d5c27ca39f94ae9a29d687a9fd7ef4063e2ef040d65d9c9daeaa44c4de680",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 15,
+          "rank": 6839
+        },
+        {
+          "mask": 30,
+          "rank": 12521
+        },
+        {
+          "mask": 28,
+          "rank": 16119
+        },
+        {
+          "mask": 30,
+          "rank": 16127
+        },
+        {
+          "mask": 30,
+          "rank": 17619
+        }
+      ],
+      "source_indices": [
+        123,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 27,
+      "key": "ed8397442052302556e623cd5a480d5c9621992433177d7c10154cbb74fad150",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 13589
+        },
+        {
+          "mask": 30,
+          "rank": 16679
+        },
+        {
+          "mask": 30,
+          "rank": 17513
+        },
+        {
+          "mask": 63,
+          "rank": 104990
+        },
+        {
+          "mask": 20,
+          "rank": 105364
+        }
+      ],
+      "source_indices": [
+        3,
+        14
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 26,
+      "key": "87c4038868c025df4ca5e5f6a307d16624bd420c2804fffb8b570cc1c95b14a6",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 1019656
+        },
+        {
+          "mask": 54,
+          "rank": 1019709
+        },
+        {
+          "mask": 12,
+          "rank": 10005153
+        },
+        {
+          "mask": 30,
+          "rank": 10005159
+        },
+        {
+          "mask": 12,
+          "rank": 10005174
+        }
+      ],
+      "source_indices": [
+        104,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 26,
+      "key": "a2fbb31fbbeeefd08afff7a3908b400e2e1214a38a3130e20bb6b23ace12b601",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 2202
+        },
+        {
+          "mask": 63,
+          "rank": 2340
+        },
+        {
+          "mask": 63,
+          "rank": 9528
+        },
+        {
+          "mask": 45,
+          "rank": 16518
+        },
+        {
+          "mask": 30,
+          "rank": 20220
+        }
+      ],
+      "source_indices": [
+        157,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 26,
+      "key": "306a816070cddb61d5394b667f69658abcdea40b8a3af58f343858e3bb49efab",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 62,
+          "rank": 10005443
+        },
+        {
+          "mask": 23,
+          "rank": 10006139
+        },
+        {
+          "mask": 23,
+          "rank": 10006559
+        },
+        {
+          "mask": 6,
+          "rank": 10006835
+        },
+        {
+          "mask": 6,
+          "rank": 10006895
+        }
+      ],
+      "source_indices": [
+        178,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 26,
+      "key": "82aa0d98b7cef15220c3a464ece976f08f51eb905961b89423a834e0af031984",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1007003
+        },
+        {
+          "mask": 28,
+          "rank": 1007483
+        },
+        {
+          "mask": 60,
+          "rank": 1007514
+        },
+        {
+          "mask": 28,
+          "rank": 1007868
+        },
+        {
+          "mask": 61,
+          "rank": 1007873
+        }
+      ],
+      "source_indices": [
+        16,
+        6
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 26,
+      "key": "98f34a24fee401abc9d8a05812ca4225642fe808b561eb8ba99ef65310fca610",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 12,
+          "rank": 10007429
+        },
+        {
+          "mask": 25,
+          "rank": 10010411
+        },
+        {
+          "mask": 25,
+          "rank": 10010813
+        },
+        {
+          "mask": 56,
+          "rank": 10010813
+        },
+        {
+          "mask": 56,
+          "rank": 10010847
+        }
+      ],
+      "source_indices": [
+        177,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 26,
+      "key": "761dc9499a87ec31338360a64ad84cb878d4d7d480a3adbe57558b7563495a13",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 1279
+        },
+        {
+          "mask": 13,
+          "rank": 1304
+        },
+        {
+          "mask": 13,
+          "rank": 1803
+        },
+        {
+          "mask": 13,
+          "rank": 1865
+        },
+        {
+          "mask": 47,
+          "rank": 112770
+        }
+      ],
+      "source_indices": [
+        94,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 25,
+      "key": "2e61f303b2c7a8a819b88eaf1af07b9b746a2bc56f767e5565061626860801be",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 8400
+        },
+        {
+          "mask": 28,
+          "rank": 8405
+        },
+        {
+          "mask": 28,
+          "rank": 8411
+        },
+        {
+          "mask": 28,
+          "rank": 8459
+        },
+        {
+          "mask": 28,
+          "rank": 8465
+        }
+      ],
+      "source_indices": [
+        105,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 25,
+      "key": "ed3ac5ebe0f22e996ccdc49444bcb4d4f654d18f000f93ba9045dde9248c9980",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1872
+        },
+        {
+          "mask": 63,
+          "rank": 1878
+        },
+        {
+          "mask": 63,
+          "rank": 1880
+        },
+        {
+          "mask": 61,
+          "rank": 22725
+        },
+        {
+          "mask": 28,
+          "rank": 113480
+        }
+      ],
+      "source_indices": [
+        122,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 23,
+      "key": "c86d5f78ead3788d4d966f9088f2e8edd3bf1b8168c045981a10937fb62179b6",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1004
+        },
+        {
+          "mask": 28,
+          "rank": 1514
+        },
+        {
+          "mask": 61,
+          "rank": 11337
+        },
+        {
+          "mask": 28,
+          "rank": 114404
+        },
+        {
+          "mask": 28,
+          "rank": 114914
+        }
+      ],
+      "source_indices": [
+        136,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 23,
+      "key": "e6ecc14cf76933734aba08afe610bc685156b5d6e354da396c37a2db9099cd91",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 1232
+        },
+        {
+          "mask": 30,
+          "rank": 2462
+        },
+        {
+          "mask": 30,
+          "rank": 3809
+        },
+        {
+          "mask": 30,
+          "rank": 3950
+        },
+        {
+          "mask": 30,
+          "rank": 22052
+        }
+      ],
+      "source_indices": [
+        2,
+        16
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "cases": 22,
+      "key": "491ab65e3856052d89136c84270aec642ba2db00cb1703515fd03cb363c985d6",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 3653
+        },
+        {
+          "mask": 26,
+          "rank": 7469
+        },
+        {
+          "mask": 30,
+          "rank": 7469
+        },
+        {
+          "mask": 26,
+          "rank": 22229
+        },
+        {
+          "mask": 30,
+          "rank": 22229
+        }
+      ],
+      "source_indices": [
+        132,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 22,
+      "key": "75e98d2c542afd61a6c6486d1b6b074792edce1fb08c39198f5ce0411f1d9a86",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 11,
+          "rank": 4181
+        },
+        {
+          "mask": 45,
+          "rank": 7437
+        },
+        {
+          "mask": 45,
+          "rank": 10079
+        },
+        {
+          "mask": 24,
+          "rank": 10347
+        },
+        {
+          "mask": 45,
+          "rank": 12539
+        }
+      ],
+      "source_indices": [
+        133,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 22,
+      "key": "b94b0068fbf0a1a1e792d25a42dc8c3a5df1e29b9ba015d7a9d6674c84fce0cb",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 3411
+        },
+        {
+          "mask": 31,
+          "rank": 5799
+        },
+        {
+          "mask": 29,
+          "rank": 7419
+        },
+        {
+          "mask": 58,
+          "rank": 9405
+        },
+        {
+          "mask": 26,
+          "rank": 10347
+        }
+      ],
+      "source_indices": [
+        145,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 22,
+      "key": "5719f1cb445c3857a4e02a857afbadbdf33a000c7ca5e68c983d5afffb99860d",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1652
+        },
+        {
+          "mask": 31,
+          "rank": 1652
+        },
+        {
+          "mask": 28,
+          "rank": 1677
+        },
+        {
+          "mask": 31,
+          "rank": 1677
+        },
+        {
+          "mask": 28,
+          "rank": 4882
+        }
+      ],
+      "source_indices": [
+        175,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 21,
+      "key": "cf9cbe2c15aa09aabf915c541c19cc86ecc196268fd5f52694f99016a8a1de37",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 25,
+          "rank": 10015337
+        },
+        {
+          "mask": 25,
+          "rank": 10015377
+        },
+        {
+          "mask": 25,
+          "rank": 10015433
+        },
+        {
+          "mask": 25,
+          "rank": 10015607
+        },
+        {
+          "mask": 25,
+          "rank": 10015613
+        }
+      ],
+      "source_indices": [
+        77,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 21,
+      "key": "e22d34bd0c03bfe6d95d801bcc8f23d799b2437efb4a47ddd1a990cec25e64b5",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 3182
+        },
+        {
+          "mask": 28,
+          "rank": 3192
+        },
+        {
+          "mask": 28,
+          "rank": 3197
+        },
+        {
+          "mask": 63,
+          "rank": 9482
+        },
+        {
+          "mask": 63,
+          "rank": 9492
+        }
+      ],
+      "source_indices": [
+        116,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 20,
+      "key": "bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5",
+      "row_property_key": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 251
+        },
+        {
+          "mask": 5,
+          "rank": 561
+        },
+        {
+          "mask": 63,
+          "rank": 748
+        },
+        {
+          "mask": 59,
+          "rank": 1025
+        },
+        {
+          "mask": 15,
+          "rank": 4955
+        }
+      ],
+      "source_indices": [
+        44,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 20,
+      "key": "fb49a410fd5a886a52e89177722bda08bf8e67a70ce75c4406d38f7950c4e05c",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 7,
+          "rank": 10002017
+        },
+        {
+          "mask": 7,
+          "rank": 10002329
+        },
+        {
+          "mask": 13,
+          "rank": 10002467
+        },
+        {
+          "mask": 13,
+          "rank": 10002491
+        },
+        {
+          "mask": 13,
+          "rank": 10002509
+        }
+      ],
+      "source_indices": [
+        5,
+        8
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 20,
+      "key": "d4e65bfbc9e67385f31f52e017e32313a9a2ca70d91dc9c9d5f4086405a5ad02",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 3195
+        },
+        {
+          "mask": 28,
+          "rank": 3537
+        },
+        {
+          "mask": 28,
+          "rank": 3648
+        },
+        {
+          "mask": 28,
+          "rank": 3711
+        },
+        {
+          "mask": 28,
+          "rank": 3732
+        }
+      ],
+      "source_indices": [
+        79,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 20,
+      "key": "d79c8b5563ba0a99551f11e53d3b2ce8569d004d2fca3f3f689f22ef7d9c11b9",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 9594
+        },
+        {
+          "mask": 28,
+          "rank": 15897
+        },
+        {
+          "mask": 28,
+          "rank": 16013
+        },
+        {
+          "mask": 28,
+          "rank": 111017
+        },
+        {
+          "mask": 28,
+          "rank": 111029
+        }
+      ],
+      "source_indices": [
+        105,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 18,
+      "key": "0e7dbb3527981a6ab57856a1e2d6cceaddf9ec980e41f31fb1317d472dda98ea",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 15767
+        },
+        {
+          "mask": 29,
+          "rank": 15777
+        },
+        {
+          "mask": 29,
+          "rank": 1007970
+        },
+        {
+          "mask": 31,
+          "rank": 1007972
+        },
+        {
+          "mask": 29,
+          "rank": 1007973
+        }
+      ],
+      "source_indices": [
+        110,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 18,
+      "key": "4c80d6d47a288b82736f6b0fc75612d8a4fe3591ce9d2cd2095462fb71689fcd",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 61,
+          "rank": 3777
+        },
+        {
+          "mask": 26,
+          "rank": 4179
+        },
+        {
+          "mask": 26,
+          "rank": 4182
+        },
+        {
+          "mask": 30,
+          "rank": 4182
+        },
+        {
+          "mask": 31,
+          "rank": 7434
+        }
+      ],
+      "source_indices": [
+        129,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 17,
+      "key": "7659a13ad32f460ad82d3854a24dec02c246f9199e2b5034f1f0eccddebb8b43",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 605
+        },
+        {
+          "mask": 29,
+          "rank": 1919
+        },
+        {
+          "mask": 28,
+          "rank": 2157
+        },
+        {
+          "mask": 28,
+          "rank": 9572
+        },
+        {
+          "mask": 28,
+          "rank": 103863
+        }
+      ],
+      "source_indices": [
+        142,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 17,
+      "key": "6e00befec663a240ed810da0b71168fa5b7db247c7948f1eeca4cc91b07023cc",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 2397
+        },
+        {
+          "mask": 28,
+          "rank": 15750
+        },
+        {
+          "mask": 28,
+          "rank": 15839
+        },
+        {
+          "mask": 28,
+          "rank": 17613
+        },
+        {
+          "mask": 31,
+          "rank": 22653
+        }
+      ],
+      "source_indices": [
+        143,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 16,
+      "key": "791bde5f13376c14e6042c151b82330109e8588c0c31a5af92154edcabe5b913",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1005
+        },
+        {
+          "mask": 28,
+          "rank": 1515
+        },
+        {
+          "mask": 31,
+          "rank": 22635
+        },
+        {
+          "mask": 31,
+          "rank": 103887
+        },
+        {
+          "mask": 31,
+          "rank": 106617
+        }
+      ],
+      "source_indices": [
+        135,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 16,
+      "key": "e6e682a4ecd0f5eecaf3c3ac447963401507be28a03636a4bb1cb0c3ee235c21",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 9812
+        },
+        {
+          "mask": 31,
+          "rank": 22667
+        },
+        {
+          "mask": 31,
+          "rank": 107081
+        },
+        {
+          "mask": 31,
+          "rank": 107087
+        },
+        {
+          "mask": 30,
+          "rank": 123212
+        }
+      ],
+      "source_indices": [
+        109,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 16,
+      "key": "e961b9316695bc002c28cc16be8a7fea5187ee62bc03f4555161e67856737127",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 22729
+        },
+        {
+          "mask": 20,
+          "rank": 22811
+        },
+        {
+          "mask": 20,
+          "rank": 22817
+        },
+        {
+          "mask": 20,
+          "rank": 22827
+        },
+        {
+          "mask": 20,
+          "rank": 22865
+        }
+      ],
+      "source_indices": [
+        58,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 15,
+      "key": "a69cfe6ad1368ef7300e79a82ff9c35f64a4345c54ad6c36b20f507965dee9a6",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 3401
+        },
+        {
+          "mask": 28,
+          "rank": 116801
+        },
+        {
+          "mask": 28,
+          "rank": 1019701
+        },
+        {
+          "mask": 28,
+          "rank": 1019713
+        },
+        {
+          "mask": 28,
+          "rank": 1019719
+        }
+      ],
+      "source_indices": [
+        97,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 15,
+      "key": "003e34d9b1c2c0d577abfc83a8752fec4e46ef12171f8e687555919a151ff09d",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 103320
+        },
+        {
+          "mask": 61,
+          "rank": 103320
+        },
+        {
+          "mask": 45,
+          "rank": 103332
+        },
+        {
+          "mask": 61,
+          "rank": 103332
+        },
+        {
+          "mask": 45,
+          "rank": 103338
+        }
+      ],
+      "source_indices": [
+        111,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 15,
+      "key": "5b2be228cf08e108185cda86b6474f35baaf1379ed857383d3fb65bb18a83507",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 105840
+        },
+        {
+          "mask": 61,
+          "rank": 105840
+        },
+        {
+          "mask": 45,
+          "rank": 105846
+        },
+        {
+          "mask": 61,
+          "rank": 105846
+        },
+        {
+          "mask": 45,
+          "rank": 105924
+        }
+      ],
+      "source_indices": [
+        98,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 15,
+      "key": "30ec9eaa33b87b60a1df0ed4f0d5ee1a76841a2b9ee6076bae5dbc127f539617",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1428
+        },
+        {
+          "mask": 63,
+          "rank": 114828
+        },
+        {
+          "mask": 24,
+          "rank": 10000140
+        },
+        {
+          "mask": 24,
+          "rank": 10001310
+        },
+        {
+          "mask": 22,
+          "rank": 10001855
+        }
+      ],
+      "source_indices": [
+        148,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 14,
+      "key": "3d2a5efe8041f08a7986b4f35985a129d9c4deb28dda006b8d176cea42560ec6",
+      "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 10002017
+        },
+        {
+          "mask": 22,
+          "rank": 10002089
+        },
+        {
+          "mask": 22,
+          "rank": 10002203
+        },
+        {
+          "mask": 22,
+          "rank": 10002324
+        },
+        {
+          "mask": 22,
+          "rank": 10002329
+        }
+      ],
+      "source_indices": [
+        70,
+        4
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 14,
+      "key": "754f03a95dbb2ca9bdd6f9531138c4e159060575e5c98909e8a5e5c97b3ebae0",
+      "row_property_key": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 10003184
+        },
+        {
+          "mask": 63,
+          "rank": 10003192
+        },
+        {
+          "mask": 63,
+          "rank": 10003313
+        },
+        {
+          "mask": 63,
+          "rank": 10003374
+        },
+        {
+          "mask": 63,
+          "rank": 10003496
+        }
+      ],
+      "source_indices": [
+        70,
+        4
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 14,
+      "key": "142dae550154b1dfe3967f30398443f72e4fe33fb09f37cee022c5de74a0052f",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 9773
+        },
+        {
+          "mask": 30,
+          "rank": 9837
+        },
+        {
+          "mask": 30,
+          "rank": 9863
+        },
+        {
+          "mask": 30,
+          "rank": 9894
+        },
+        {
+          "mask": 58,
+          "rank": 10607
+        }
+      ],
+      "source_indices": [
+        78,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 14,
+      "key": "80a1bd8823e230092ab8df8cf6113d13599779e9e0e325e10ed17eb9fd3989d9",
+      "row_property_key": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 8231
+        },
+        {
+          "mask": 28,
+          "rank": 8279
+        },
+        {
+          "mask": 28,
+          "rank": 15761
+        },
+        {
+          "mask": 20,
+          "rank": 15774
+        },
+        {
+          "mask": 28,
+          "rank": 15794
+        }
+      ],
+      "source_indices": [
+        3,
+        16
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_neg_var_second"
+    },
+    {
+      "cases": 14,
+      "key": "08410201c2e202e94055183e75c0171f89dc7eb37514cae29808f8c2b5d3b440",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 61,
+          "rank": 21867
+        },
+        {
+          "mask": 28,
+          "rank": 1016418
+        },
+        {
+          "mask": 28,
+          "rank": 1016507
+        },
+        {
+          "mask": 28,
+          "rank": 1016709
+        },
+        {
+          "mask": 28,
+          "rank": 1017189
+        }
+      ],
+      "source_indices": [
+        82,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 14,
+      "key": "47bf519d7e4aa39bce06cc7eeadf53ab56fab5d3e36067dd57c2cdb04b9f321f",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 1,
+          "rank": 10005549
+        },
+        {
+          "mask": 1,
+          "rank": 10005612
+        },
+        {
+          "mask": 8,
+          "rank": 10010304
+        },
+        {
+          "mask": 24,
+          "rank": 10010807
+        },
+        {
+          "mask": 8,
+          "rank": 10016627
+        }
+      ],
+      "source_indices": [
+        173,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 14,
+      "key": "695c9d1590d57d60a46a2ee1ce554fea1c60bf3ca7cedad47243865095c16f2a",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 20,
+          "rank": 6831
+        },
+        {
+          "mask": 15,
+          "rank": 7553
+        },
+        {
+          "mask": 61,
+          "rank": 20532
+        },
+        {
+          "mask": 47,
+          "rank": 21552
+        },
+        {
+          "mask": 61,
+          "rank": 21552
+        }
+      ],
+      "source_indices": [
+        144,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 14,
+      "key": "9754b2786571c16b6760a195368719e564e4b4548e69645e7c61136efaf434fe",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 15755
+        },
+        {
+          "mask": 28,
+          "rank": 15777
+        },
+        {
+          "mask": 28,
+          "rank": 15834
+        },
+        {
+          "mask": 14,
+          "rank": 105984
+        },
+        {
+          "mask": 14,
+          "rank": 107582
+        }
+      ],
+      "source_indices": [
+        169,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 13,
+      "key": "b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9",
+      "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 357
+        },
+        {
+          "mask": 22,
+          "rank": 413
+        },
+        {
+          "mask": 6,
+          "rank": 519
+        },
+        {
+          "mask": 56,
+          "rank": 955
+        },
+        {
+          "mask": 28,
+          "rank": 1117
+        }
+      ],
+      "source_indices": [
+        44,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 13,
+      "key": "d34f450392d37e3ea7b427145ce12d0ba57d7292af860a2b9a35aa056a536569",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 102500
+        },
+        {
+          "mask": 31,
+          "rank": 103772
+        },
+        {
+          "mask": 31,
+          "rank": 104474
+        },
+        {
+          "mask": 31,
+          "rank": 107600
+        },
+        {
+          "mask": 31,
+          "rank": 108872
+        }
+      ],
+      "source_indices": [
+        148,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 13,
+      "key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "sample_members": [
+        {
+          "mask": 51,
+          "rank": 90008079
+        },
+        {
+          "mask": 51,
+          "rank": 90008199
+        },
+        {
+          "mask": 49,
+          "rank": 90009018
+        },
+        {
+          "mask": 49,
+          "rank": 90009020
+        },
+        {
+          "mask": 49,
+          "rank": 90009081
+        }
+      ],
+      "source_indices": [
+        0,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 13,
+      "key": "a1730915b3d8e4c10bbf1beca4fccc3718ca8c8055d5cab5f63c8f7310e6845f",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 5799
+        },
+        {
+          "mask": 28,
+          "rank": 9573
+        },
+        {
+          "mask": 28,
+          "rank": 9575
+        },
+        {
+          "mask": 28,
+          "rank": 15881
+        },
+        {
+          "mask": 28,
+          "rank": 15887
+        }
+      ],
+      "source_indices": [
+        118,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 13,
+      "key": "abbe34a3920de43d61c8db2f02963a669fb66332c2bea41fe331ddc1268ecafe",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 60,
+          "rank": 10005047
+        },
+        {
+          "mask": 63,
+          "rank": 10005075
+        },
+        {
+          "mask": 28,
+          "rank": 10005161
+        },
+        {
+          "mask": 28,
+          "rank": 10005167
+        },
+        {
+          "mask": 28,
+          "rank": 10005179
+        }
+      ],
+      "source_indices": [
+        92,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 12,
+      "key": "f7c70fb6d398feb77b041e962d0e3fef58e3384d527a67a84fbf2c6258ad290c",
+      "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 113757
+        },
+        {
+          "mask": 22,
+          "rank": 113813
+        },
+        {
+          "mask": 6,
+          "rank": 113919
+        },
+        {
+          "mask": 56,
+          "rank": 114355
+        },
+        {
+          "mask": 28,
+          "rank": 114517
+        }
+      ],
+      "source_indices": [
+        57,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 12,
+      "key": "49243da00e500c8af48520a337603e011b83329bf0364d8a89dc7a9fbb3e9ebf",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 20,
+          "rank": 22745
+        },
+        {
+          "mask": 28,
+          "rank": 22817
+        },
+        {
+          "mask": 20,
+          "rank": 22859
+        },
+        {
+          "mask": 28,
+          "rank": 22889
+        },
+        {
+          "mask": 28,
+          "rank": 22943
+        }
+      ],
+      "source_indices": [
+        66,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 12,
+      "key": "032978664a2fb95408217f5f92fc2ea3d5585c6fe4f91793c9fceda432a6ee97",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 15782
+        },
+        {
+          "mask": 30,
+          "rank": 15807
+        },
+        {
+          "mask": 31,
+          "rank": 110222
+        },
+        {
+          "mask": 31,
+          "rank": 110232
+        },
+        {
+          "mask": 31,
+          "rank": 110246
+        }
+      ],
+      "source_indices": [
+        117,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 11,
+      "key": "0dc0115859f63fc8032ef82a9be647feb5a7e7abb42d7fe635ed9e1933ad8229",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 10847
+        },
+        {
+          "mask": 28,
+          "rank": 16067
+        },
+        {
+          "mask": 28,
+          "rank": 111195
+        },
+        {
+          "mask": 28,
+          "rank": 124247
+        },
+        {
+          "mask": 53,
+          "rank": 1016531
+        }
+      ],
+      "source_indices": [
+        131,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 11,
+      "key": "8cee0d6d22494cfef07e639f2f8101e1a940b0a83fae4b876952365613b515c5",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 1428
+        },
+        {
+          "mask": 13,
+          "rank": 1719
+        },
+        {
+          "mask": 13,
+          "rank": 3207
+        },
+        {
+          "mask": 47,
+          "rank": 20940
+        },
+        {
+          "mask": 13,
+          "rank": 114828
+        }
+      ],
+      "source_indices": [
+        156,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 11,
+      "key": "cac8d44e6938ab3b957464e751fed9c7880d0a5093987a2538659e44354dc9e3",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 10907
+        },
+        {
+          "mask": 30,
+          "rank": 15137
+        },
+        {
+          "mask": 30,
+          "rank": 107087
+        },
+        {
+          "mask": 31,
+          "rank": 110172
+        },
+        {
+          "mask": 30,
+          "rank": 124307
+        }
+      ],
+      "source_indices": [
+        131,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 10,
+      "key": "d9e96a1a0f5127736d30d3c180075850bbeb215a5d57543ee78e64c8b7268d90",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 60,
+          "rank": 1007866
+        },
+        {
+          "mask": 60,
+          "rank": 1007878
+        },
+        {
+          "mask": 60,
+          "rank": 1007899
+        },
+        {
+          "mask": 60,
+          "rank": 1007919
+        },
+        {
+          "mask": 58,
+          "rank": 1014069
+        }
+      ],
+      "source_indices": [
+        51,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 10,
+      "key": "dd193a21ab942c2c9dc699bf18754b7ff8f85bf72f7dacd37e9d51aa49b3f66b",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 3594
+        },
+        {
+          "mask": 15,
+          "rank": 13584
+        },
+        {
+          "mask": 15,
+          "rank": 14448
+        },
+        {
+          "mask": 15,
+          "rank": 16674
+        },
+        {
+          "mask": 45,
+          "rank": 16674
+        }
+      ],
+      "source_indices": [
+        143,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"10\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 10,
+      "key": "bfbf81b9049e022f1be952dd879722c1ca0a85cf89486afd5ac8b67712c38ea7",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 10005095
+        },
+        {
+          "mask": 12,
+          "rank": 10005591
+        },
+        {
+          "mask": 54,
+          "rank": 10005961
+        },
+        {
+          "mask": 6,
+          "rank": 10006139
+        },
+        {
+          "mask": 6,
+          "rank": 10008179
+        }
+      ],
+      "source_indices": [
+        59,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 10,
+      "key": "ddd60cf4610224ed30e7bc92b5b29cda15854306f0fd5aa7b2b2f03e7ddb15c2",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 59,
+          "rank": 10015613
+        },
+        {
+          "mask": 63,
+          "rank": 10017679
+        },
+        {
+          "mask": 25,
+          "rank": 10017987
+        },
+        {
+          "mask": 55,
+          "rank": 10019260
+        },
+        {
+          "mask": 59,
+          "rank": 10019409
+        }
+      ],
+      "source_indices": [
+        60,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 10,
+      "key": "3c8adc1f90f693fb34f7c58b4b7b5392cb77c7b2207f03ace1b9eeeb86273510",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 24,
+          "rank": 10023935
+        },
+        {
+          "mask": 24,
+          "rank": 10023979
+        },
+        {
+          "mask": 23,
+          "rank": 10024253
+        },
+        {
+          "mask": 23,
+          "rank": 10024343
+        },
+        {
+          "mask": 23,
+          "rank": 10024374
+        }
+      ],
+      "source_indices": [
+        95,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 10,
+      "key": "c7ecaa84912e11bf981f33a9429149f9aabf3ad114bccc532cfcca21be76d3b9",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 812
+        },
+        {
+          "mask": 28,
+          "rank": 827
+        },
+        {
+          "mask": 63,
+          "rank": 882
+        },
+        {
+          "mask": 28,
+          "rank": 114212
+        },
+        {
+          "mask": 28,
+          "rank": 114227
+        }
+      ],
+      "source_indices": [
+        106,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 10,
+      "key": "06178f226b91c5dc66569704243eb46e675f6a96a5da266da8b72c225ac18867",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 1622
+        },
+        {
+          "mask": 28,
+          "rank": 1637
+        },
+        {
+          "mask": 63,
+          "rank": 1692
+        },
+        {
+          "mask": 28,
+          "rank": 115022
+        },
+        {
+          "mask": 28,
+          "rank": 115037
+        }
+      ],
+      "source_indices": [
+        107,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 10,
+      "key": "7abcf9034a03a9130f798cb8e2292e61d92d40b407f87773f017676e1f2c0788",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 27,
+          "rank": 22099
+        },
+        {
+          "mask": 24,
+          "rank": 22122
+        },
+        {
+          "mask": 24,
+          "rank": 10001322
+        },
+        {
+          "mask": 15,
+          "rank": 10001612
+        },
+        {
+          "mask": 15,
+          "rank": 10001621
+        }
+      ],
+      "source_indices": [
+        95,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 9,
+      "key": "faf63347c7518a5cc22aea93ba3de544023b93bec0e0607cf96e2b74be7aa298",
+      "row_property_key": "67d04282e1a33e89975ad13a686bad42feaddc86b524d2cd9631411d556dce4c",
+      "sample_members": [
+        {
+          "mask": 56,
+          "rank": 1494
+        },
+        {
+          "mask": 24,
+          "rank": 1771
+        },
+        {
+          "mask": 6,
+          "rank": 1958
+        },
+        {
+          "mask": 22,
+          "rank": 2268
+        },
+        {
+          "mask": 58,
+          "rank": 15015
+        }
+      ],
+      "source_indices": [
+        44,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "axis_a_only"
+    },
+    {
+      "cases": 9,
+      "key": "47176201eb0b3d5d695e4244013e6e3072f3da7cbf82ab9c7d8a5a13674701e1",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 3737
+        },
+        {
+          "mask": 28,
+          "rank": 117137
+        },
+        {
+          "mask": 30,
+          "rank": 1005004
+        },
+        {
+          "mask": 30,
+          "rank": 1005005
+        },
+        {
+          "mask": 61,
+          "rank": 1016418
+        }
+      ],
+      "source_indices": [
+        149,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 9,
+      "key": "6ade7828e8d5d72c5ee0c38c52cf8a3823a27f7b579d0f6dc24ce9371fc231fa",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "sample_members": [
+        {
+          "mask": 31,
+          "rank": 107606
+        },
+        {
+          "mask": 31,
+          "rank": 109886
+        },
+        {
+          "mask": 28,
+          "rank": 1020117
+        },
+        {
+          "mask": 22,
+          "rank": 10004010
+        },
+        {
+          "mask": 22,
+          "rank": 10004012
+        }
+      ],
+      "source_indices": [
+        122,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 9,
+      "key": "c77e11269d6d07fb295c8089c075aea00c7008452aaf613cf50c0662a8aba661",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "sample_members": [
+        {
+          "mask": 62,
+          "rank": 10005639
+        },
+        {
+          "mask": 25,
+          "rank": 10007679
+        },
+        {
+          "mask": 25,
+          "rank": 10007682
+        },
+        {
+          "mask": 29,
+          "rank": 10007682
+        },
+        {
+          "mask": 8,
+          "rank": 10009299
+        }
+      ],
+      "source_indices": [
+        130,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 9,
+      "key": "fd627295acb922a5146e6fd3bd425d7ce2a2103d5a0db86e339b897f1168188c",
+      "row_property_key": "2ece82a8542ee8b547cc4c3729c7bc2e022f538d062acf19c827583faa66536f",
+      "sample_members": [
+        {
+          "mask": 18,
+          "rank": 60017863
+        },
+        {
+          "mask": 16,
+          "rank": 60018859
+        },
+        {
+          "mask": 16,
+          "rank": 60019039
+        },
+        {
+          "mask": 18,
+          "rank": 60023533
+        },
+        {
+          "mask": 18,
+          "rank": 60024259
+        }
+      ],
+      "source_indices": [
+        16,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "exact_two_source_valid"
+    },
+    {
+      "cases": 9,
+      "key": "0ecaa87684a0c92fd960150153069bd51d9b48ef31194d140b5a7072c33c704c",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 1262
+        },
+        {
+          "mask": 63,
+          "rank": 1270
+        },
+        {
+          "mask": 15,
+          "rank": 112790
+        },
+        {
+          "mask": 63,
+          "rank": 114662
+        },
+        {
+          "mask": 63,
+          "rank": 114670
+        }
+      ],
+      "source_indices": [
+        130,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 9,
+      "key": "fe6dcb0e1d5af6cc7f6e5b61abf78e5a6c655ce793a9a24af1459862db39f388",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 57
+        },
+        {
+          "mask": 13,
+          "rank": 3199
+        },
+        {
+          "mask": 47,
+          "rank": 103946
+        },
+        {
+          "mask": 45,
+          "rank": 113457
+        },
+        {
+          "mask": 13,
+          "rank": 116599
+        }
+      ],
+      "source_indices": [
+        120,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"8\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 9,
+      "key": "d4e6a10a6c98aa97de3a72a43de3d189f27ffb319d7424cdfd38bbd9d356ffc4",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "sample_members": [
+        {
+          "mask": 30,
+          "rank": 112142
+        },
+        {
+          "mask": 30,
+          "rank": 112150
+        },
+        {
+          "mask": 30,
+          "rank": 112167
+        },
+        {
+          "mask": 30,
+          "rank": 112310
+        },
+        {
+          "mask": 30,
+          "rank": 112382
+        }
+      ],
+      "source_indices": [
+        91,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    }
+  ],
+  "selected_family_count": 200,
+  "source_key_surface": "kind_impact",
+  "trusted_as_proof": false
+}
