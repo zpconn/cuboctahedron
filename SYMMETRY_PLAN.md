@@ -24195,6 +24195,86 @@ Decision:
   family/template theorem that checks the weighted coefficient equalities
   directly.
 
+### Phase 6Z.6K.8AP.16DU.9CL checkpoint: one-coefficient dot proof accepted as telemetry
+
+Phase 6Z.6K.8AP.16DU.9CL tests the next smaller proof target after DU.9CK.
+Instead of proving the full 22-field
+`weightedQuadraticFromDotData ... = cube00ScaledPoly.toQuadratic`, the smoke
+proves only the constant coefficient equality:
+
+```lean
+(weightedQuadraticFromDotData generatedDot cube00Weights).c =
+  (cube00ScaledPoly.toQuadratic).c
+```
+
+The module still imports the DU.9CI traced-normal Data module and unfolds only
+the nonzero support dot records `[1, 2, 8]`.
+
+Files:
+
+```text
+scripts/emit_ap16du9cl_dotpoly_one_coeff_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffSmoke.lean
+scripts/generated/phase6z6k8ap16du9cl_dotpoly_one_coeff_smoke.json
+scripts/generated/phase6z6k8ap16du9cl_dotpoly_one_coeff_smoke.md
+scripts/generated/phase6z6k8ap16du9cl_dotpoly_one_coeff_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cl_dotpoly_one_coeff_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cl_dotpoly_one_coeff_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffSmoke.lean
+wc -l scripts/emit_ap16du9cl_dotpoly_one_coeff_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffSmoke.lean
+```
+
+The forbidden-token scan was clean.  The generated script has `168` lines and
+the generated Lean module has `65` lines.
+
+Focused guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cl_dotpoly_one_coeff_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               7.51s
+Lean target time:      4.9s
+peak tree RSS:         4018 MiB
+minimum MemAvailable:  46086 MiB
+RSS cap:               8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CJ all-dot full equality:       13.55s, 4176 MiB
+DU.9CK support-only full equality:  14.10s, 4115 MiB
+DU.9CL one coefficient only:         7.51s, 4018 MiB
+```
+
+Decision:
+
+- Accept DU.9CL as evidence that coefficient-local proof targets are cheaper
+  than the full `WalshQuadratic.ext` proof.
+- Do not scale naive one-theorem-per-field splitting as production evidence:
+  `22 * 4.9s` would be slower than the current cube proof.
+- Next optimization surface: add a reusable coefficient-certificate bridge
+  that checks the 22 scaled coefficient equalities by small integer facts
+  without recomputing the whole weighted dot polynomial in each field proof.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
