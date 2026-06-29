@@ -303,6 +303,73 @@ theorem translationVectorWalshOfChoice_eval
     WalshAffineVec3.add_eval, WalshAffineVec3.const_eval,
     translationPrefixWalshVectorNat_eval]
 
+def translationPrefixWalshStep
+    (w : PairWord) (n : Nat) (hn : n < 13)
+    (pref : WalshAffineVec3) : WalshAffineVec3 :=
+  let i : WordIndex := ⟨n, hn⟩
+  let prefixM := pairPrefixLinearNat w n
+  let pair := w.get i
+  WalshAffineVec3.add pref
+    (WalshAffineVec3.smulConst (signedCoeffWalshAt w i)
+      (matVec prefixM (pairReflectionDeltaQ pair)))
+
+theorem translationPrefixWalshVectorNat_succ
+    (w : PairWord) (n : Nat) (hn : n < 13) :
+    translationPrefixWalshVectorNat w (n + 1) =
+      translationPrefixWalshStep w n hn
+        (translationPrefixWalshVectorNat w n) := by
+  simp [translationPrefixWalshVectorNat, translationPrefixWalshStep, hn]
+
+/--
+A proof-carrying trace for a generated Walsh translation vector.
+
+Generated leaves should be able to provide normalized prefix vectors and prove
+small local step equalities.  This structure packages those local facts; the
+generic theorems below then connect the final generated vector to
+`translationVectorWalshOfChoice` without unfolding the whole 13-step recurrence
+at once.
+-/
+structure TranslationWalshVectorTrace
+    (w : PairWord) (final : WalshAffineVec3) where
+  pref : Nat -> WalshAffineVec3
+  zero_eq : pref 0 = WalshAffineVec3.zero
+  step_eq :
+    forall n : Nat, forall hn : n < 13,
+      pref (n + 1) = translationPrefixWalshStep w n hn (pref n)
+  final_eq :
+    final =
+      WalshAffineVec3.add (pref 13)
+        (WalshAffineVec3.const
+          (matVec (pairPrefixLinearNat w 13) (pairReflectionDeltaQ PairId.x)))
+
+theorem TranslationWalshVectorTrace.prefix_eq
+    {w : PairWord} {final : WalshAffineVec3}
+    (trace : TranslationWalshVectorTrace w final) :
+    forall n : Nat, n <= 13 ->
+      trace.pref n = translationPrefixWalshVectorNat w n := by
+  intro n hn
+  induction n with
+  | zero =>
+      simpa [translationPrefixWalshVectorNat] using trace.zero_eq
+  | succ n ih =>
+      have hnlt : n < 13 := by omega
+      calc
+        trace.pref (n + 1)
+            = translationPrefixWalshStep w n hnlt (trace.pref n) :=
+              trace.step_eq n hnlt
+        _ = translationPrefixWalshStep w n hnlt
+              (translationPrefixWalshVectorNat w n) := by
+              rw [ih (by omega)]
+        _ = translationPrefixWalshVectorNat w (n + 1) :=
+              (translationPrefixWalshVectorNat_succ w n hnlt).symm
+
+theorem TranslationWalshVectorTrace.final_eq_translationVectorWalsh
+    {w : PairWord} {final : WalshAffineVec3}
+    (trace : TranslationWalshVectorTrace w final) :
+    final = translationVectorWalshOfChoice w := by
+  rw [trace.final_eq, trace.prefix_eq 13 (by norm_num)]
+  simp [translationVectorWalshOfChoice]
+
 theorem translationWalshVector_builds : True := by
   trivial
 

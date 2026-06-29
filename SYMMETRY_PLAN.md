@@ -236,7 +236,10 @@ impact-subcube smoke, the Phase 6Z.6K.8AP.16BM Walsh/subcube bound core, and
 the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke, plus
 the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
 6Z.6K.8AP.16BP all-selected-subcube Walsh-bound smoke, through the Phase
-6Z.6K.8AP.16BQ Walsh cover bridge surface.
+6Z.6K.8AP.16BQ Walsh cover bridge surface.  The current Walsh-vector path now
+also includes AP16CJ's reusable translation-vector recurrence and AP16CL's
+trace bridge, after rejecting raw `decide` against the recurrence as too
+reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -13504,6 +13507,94 @@ Acceptance:
   checked normalized recurrence trace, and the smoke/production leaves should
   use `translationVectorWalshOfChoice_eval` to erase those facts to
   `translationVectorOfChoice`.
+- [x] Implement Phase 6Z.6K.8AP.16CL Walsh-vector trace bridge:
+  AP16CL extends
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TranslationWalshVector.lean`
+  with a proof-carrying trace surface:
+
+  ```lean
+  def translationPrefixWalshStep
+      (w : PairWord) (n : Nat) (hn : n < 13)
+      (pref : WalshAffineVec3) : WalshAffineVec3
+
+  theorem translationPrefixWalshVectorNat_succ
+      (w : PairWord) (n : Nat) (hn : n < 13) :
+      translationPrefixWalshVectorNat w (n + 1) =
+        translationPrefixWalshStep w n hn
+          (translationPrefixWalshVectorNat w n)
+
+  structure TranslationWalshVectorTrace
+      (w : PairWord) (final : WalshAffineVec3) where
+    pref : Nat -> WalshAffineVec3
+    zero_eq : pref 0 = WalshAffineVec3.zero
+    step_eq :
+      forall n : Nat, forall hn : n < 13,
+        pref (n + 1) = translationPrefixWalshStep w n hn (pref n)
+    final_eq :
+      final =
+        WalshAffineVec3.add (pref 13)
+          (WalshAffineVec3.const
+            (matVec (pairPrefixLinearNat w 13) (pairReflectionDeltaQ PairId.x)))
+
+  theorem TranslationWalshVectorTrace.prefix_eq
+      {w : PairWord} {final : WalshAffineVec3}
+      (trace : TranslationWalshVectorTrace w final) :
+      forall n : Nat, n <= 13 ->
+        trace.pref n = translationPrefixWalshVectorNat w n
+
+  theorem TranslationWalshVectorTrace.final_eq_translationVectorWalsh
+      {w : PairWord} {final : WalshAffineVec3}
+      (trace : TranslationWalshVectorTrace w final) :
+      final = translationVectorWalshOfChoice w
+  ```
+
+  This is the accepted replacement for the rejected raw equality check
+  `generatedVector = translationVectorWalshOfChoice generatedWord := by
+  decide`.  Generated leaves can now emit a compact sequence of normalized
+  prefix vectors plus local step equalities; the generic theorem composes those
+  facts into the final Walsh-vector equality without asking Lean to normalize
+  the whole 13-step recurrence in one expression.
+
+  A first implementation attempt used the identifier `prefix` in a helper and
+  trace field; Lean parses `prefix` as a notation keyword, so the accepted
+  surface uses `pref`.
+
+  Guarded builds:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cl_translation_walsh_trace_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cl_compact_denom_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke'
+  ```
+
+  Results:
+
+  ```text
+  TranslationWalshVector passed
+  elapsed: 3.00s
+  peak tree RSS: 4091 MiB
+  minimum available memory: 46147 MiB
+
+  CompactDenomSmoke passed
+  elapsed: 1.00s on cached rerun
+  peak tree RSS: 795 MiB
+  minimum available memory: 46591 MiB
+  ```
+
+  Decision: accepted.  The next concrete AP16 target is a tiny generated trace
+  smoke for the rank-`100805` vector fixture, using
+  `TranslationWalshVectorTrace.final_eq_translationVectorWalsh` to discharge
+  the AP16CI vector premise.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
