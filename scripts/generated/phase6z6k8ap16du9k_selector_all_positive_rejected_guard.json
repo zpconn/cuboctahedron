@@ -1,0 +1,15 @@
+{
+  "available_floor_mib": 2048.0,
+  "command": [
+    "bash",
+    "-lc",
+    "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9KSlice"
+  ],
+  "elapsed_seconds": 8.02,
+  "exit_code": -15,
+  "killed_reason": "process-tree RSS 8910 MiB exceeded 6500 MiB cap",
+  "max_tree_rss_mib": 8910.0,
+  "min_available_seen_mib": 41232.0,
+  "note": "Recorded from the guarded all-positive-survivor DU.9K slice attempt before regenerating the file as a one-survivor lookup-only smoke.",
+  "rss_cap_mib": 6500.0
+}

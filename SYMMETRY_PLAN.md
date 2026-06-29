@@ -16537,6 +16537,74 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9k_selector_catalog_bridge_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9K selector-coordinate slice smoke:
+  DU.9K then tested the selector-coordinate bridge on a concrete nonempty
+  slice.  Rank `0` is identity-linear and has 16 GoodDirection survivor masks,
+  48 not-GoodDirection masks, and 6 local source-index/state families.
+
+  Three increasingly smaller proof shapes were measured:
+
+  1. A full `[0,1)` `SelectorCoordinateFactsGoodCatalogOnRange` proof replayed
+     all 48 bad-direction masks and was killed by the guard:
+
+     ```text
+     exit=-15, elapsed=34.14s, peak_tree_rss=7876 MiB,
+     cap=6500 MiB
+     ```
+
+  2. An all-positive-survivor version, with bad-direction replay removed, still
+     crossed the guard:
+
+     ```text
+     exit=-15, elapsed=8.02s, peak_tree_rss=8910 MiB,
+     cap=6500 MiB
+     ```
+
+  3. A one-survivor public source/row-fact attempt stayed memory-safe but failed
+     semantically: the global `ClassifierKey.k000.toSourceIndexStateKey` points
+     to the classifier module's private support definition, while the slice
+     rebuilt an identical local support value.  Lean will not identify those
+     by definitional equality:
+
+     ```text
+     exit=1, elapsed=7.01s, peak_tree_rss=4170 MiB
+     ```
+
+  The accepted smoke therefore proves the smaller lookup-only statement for one
+  positive survivor:
+
+  ```lean
+  inductive SelectorPositiveMask : SignMask -> Prop
+
+  theorem selectorPositiveLookup
+      {mask : SignMask} (hmask : SelectorPositiveMask mask) :
+      ∃ key : ClassifierKey,
+        keyOfSelectorCoordinate? (selectorCoordAt 0 mask) = some key
+  ```
+
+  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9KSlice
+  exit=0, elapsed=6.00s, peak_tree_rss=4162 MiB, min_available=46030 MiB
+  ```
+
+  Decision: selector lookup is cheap and viable, but selector leaves must not
+  rebuild source/row facts against local support copies.  The next production
+  route needs either a shared public source/row producer bridge for the existing
+  classifier catalog or support exposure that lets generated leaves target the
+  exact public `SourceIndexStateKey` values without private-support mismatch.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9k_selector_catalog_slice.json
+  scripts/generated/phase6z6k8ap16du9k_selector_catalog_slice.md
+  scripts/generated/phase6z6k8ap16du9k_selector_catalog_slice_guard.json
+  scripts/generated/phase6z6k8ap16du9k_selector_all_positive_rejected_guard.json
+  scripts/generated/phase6z6k8ap16du9k_selector_positive_slice_guard.json
+  scripts/generated/phase6z6k8ap16du9k_selector_lookup_slice_guard.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:
@@ -16606,15 +16674,25 @@ Acceptance:
   ```
 
   followed by `classifierCompletenessOnIdentityRange_of_key_source_row`.
-  However, the preferred next proof-producing step is now a catalog/language
-  emitter keyed by `template_source_indices_row_property`, targeting either
-  `classifierSourceIndexKeyAt` or `generatedCandidateKeyAt`, followed by
-  `classifierAllGoodCoverage_of_sourceIndexFactsCatalog`,
+  DU.9K shows that a local selector-coordinate leaf cannot simply rebuild
+  source/row facts and erase them to `ClassifierKey.toSourceIndexStateKey`,
+  because the classifier catalog's supports are private definitions while the
+  leaf's supports are local copies.  The preferred next proof-producing step
+  is therefore not another local-support selector leaf.  It is one of:
+
+  1. expose/publicly share source/row producer facts for the existing
+     `classifierSourceIndexKeyAt` catalog, so selector leaves can point to the
+     exact public `SourceIndexStateKey` values;
+  2. generate a candidate catalog with public support values from the start and
+     target `generatedCandidateKeyAt`; or
+  3. add a compact trace/source-position lemma whose type mentions only the
+     reusable source-index/state family and whose proof does not reconstruct
+     private classifier supports.
+
+  Only after that bridge exists should a bounded selector-coordinate emitter
+  target `classifierAllGoodCoverage_of_sourceIndexFactsCatalog`,
   `classifierAllGoodCoverage_of_sourceIndexPredicateCatalog`, or
   `generatedCandidateCatalogAllGoodCoverage_viaFactsCatalog`.
-  If the direct descriptor predicate is still too hard, add a compact
-  trace/source-position lemma whose type mentions only the reusable
-  source-index/state family, not concrete rank/mask examples.
 - [ ] Implement Phase 6Z.6K.8AP.16 production source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

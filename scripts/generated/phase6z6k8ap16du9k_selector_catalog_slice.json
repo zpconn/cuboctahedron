@@ -1,0 +1,38 @@
+{
+  "counts": {
+    "covered_cases": 16,
+    "good_direction_survivors": 16,
+    "identity_words": 1,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 0,
+    "not_good_direction_masks": 48,
+    "pair_words_scanned": 1,
+    "translation_sign_assignments": 64,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "This is a tiny proof-producing smoke, not production coverage.",
+      "It exercises selector-coordinate key recovery on a capped positive-survivor subset.",
+      "A full catalog smoke with bad-direction replay is recorded separately as memory-rejected.",
+      "An all-positive-survivor smoke for rank 0 was also memory-rejected under the same guard.",
+      "A one-survivor public source/row-fact smoke exposed a private-support mismatch.",
+      "The final route still needs a compact production coordinate emitter plus a public shared source/row producer bridge."
+    ],
+    "status": "selector-positive-slice-emitted"
+  },
+  "emitted_positive_survivors": 1,
+  "global_key_count": 1,
+  "global_keys_touched": [
+    0
+  ],
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9KSlice.lean",
+  "local_family_count": 6,
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9KSlice",
+  "phase": "6Z.6K.8AP.16DU.9K.selector_positive_slice",
+  "rank_end": 1,
+  "rank_start": 0,
+  "schema_version": 1,
+  "total_positive_survivors": 16,
+  "trusted_as_proof": false
+}
