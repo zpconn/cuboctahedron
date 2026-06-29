@@ -240,7 +240,8 @@ the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
 also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
 bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
 denominator trace consumers, AP16CR's reusable compact-denominator bridge, and
-AP16CP's multi-fixture trace import smoke,
+AP16CS's compact-denominator consumer emitter, plus AP16CP's multi-fixture
+trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
@@ -13929,6 +13930,53 @@ Acceptance:
   consumers.  The next AP16 target should make the trace/denominator emitter
   produce leaves against this bridge theorem rather than hand-writing
   denominator-consumer modules.
+- [x] Implement Phase 6Z.6K.8AP.16CS compact-denominator consumer emitter:
+  AP16CS adds
+
+  ```text
+  scripts/generate_ap16cq_compact_denom_consumer_smoke.py
+  ```
+
+  The emitter consumes an existing AP16CM/AP16CO Walsh-vector trace fixture and
+  writes a compact-denominator consumer module that targets AP16CR's
+  `impactDenomAtRank_wordImpact_eq_walshDot` bridge.  Its default fixture is
+  the rank-`101105`, mask-`6`, impact-`0` smoke:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke.lean
+  ```
+
+  Current scope: this first emitter supports the constant-normal impact-`0`
+  pattern already validated by AP16CN/AP16CQ.  Wider impact support should come
+  from a generated symbolic-normal trace proof rather than from local
+  denominator replay.
+
+  Guarded build after regenerating the Lean file:
+
+  ```text
+  python3 scripts/generate_ap16cq_compact_denom_consumer_smoke.py
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cs_compact_denom_consumer_emitter_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 6.51s
+  peak tree RSS: 3955 MiB
+  minimum available memory: 46128 MiB
+  ```
+
+  Decision: accepted as a memory-safe generated compact-denominator consumer
+  smoke.  The next AP16 target should either add generated symbolic-normal
+  trace support for nonzero impacts, or connect this script to a small manifest
+  of impact-`0` positive-survivor fixtures.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

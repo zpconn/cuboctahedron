@@ -2,11 +2,10 @@ import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcu
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke
 
 /-!
-AP16CQ compact-denominator symbolic smoke for the second Walsh trace fixture.
+Generated AP16CQ compact-denominator consumer for rank `101105`.
 
-This repeats the AP16CN consumer pattern for rank `101105`, but it consumes the
-public Walsh vector trace theorem from the reusable emitter instead of replaying
-the generated vector proof locally.
+The module consumes an existing Walsh-vector trace fixture and closes one
+compact denominator equality via `impactDenomAtRank_wordImpact_eq_walshDot`.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke
@@ -107,7 +106,7 @@ theorem generatedDenomDotCompact_mask6 :
     (generatedNormal_eval_eq_compact generatedMask6)
     generatedVector_mask6_eq_translationVector
 
-theorem compactDenomRank101105Smoke_builds : True := by
+theorem compactDenomGeneratedSmoke_builds : True := by
   trivial
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke
