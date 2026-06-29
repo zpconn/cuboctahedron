@@ -597,6 +597,22 @@ one compact-Walsh cover/root per rank.  The next production translation move
 must be a stronger shared membership theorem over selector/source-state
 coordinates, or another semantic theorem that avoids rank-local positive-mask
 cover proofs.
+DU.9R adds the range-parametric selector-coordinate erasure layer that future
+production shards need.  The older DU.9H adapter was hard-coded to `[0,5000)`;
+DU.9R exposes the same semantic target for arbitrary `lo hi` ranges:
+
+```lean
+SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi
+
+SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog
+SelectorCoordinateFactsGoodCatalogOnRangeFor.to_allGoodCoverage
+```
+
+This does not solve membership by itself, but it removes an avoidable
+hard-coded smoke-range assumption from the next emitter target.  Future
+generated selector-membership chunks can now export per-range
+`SelectorCoordinateFactsGoodCatalogOnRangeFor` theorems and erase them directly
+to `AllTranslationGoodCoverageOnRange lo hi`.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -17121,6 +17137,50 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9q_compact_cover_reuse_profile.json
   scripts/generated/phase6z6k8ap16du9q_compact_cover_reuse_profile.md
   ```
+- [x] Add Phase 6Z.6K.8AP.16DU.9R selector-coordinate range adapter:
+  DU.9R factors the existing DU.9H fixed `[0,5000)` selector-coordinate
+  erasure into a range-parametric theorem surface for production shards:
+
+  ```lean
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9RRangeAdapter
+
+  SelectorCoordinateFactsGoodCatalogOnRangeFor
+    (coordAt : Nat -> SignMask -> SelectorCoordinate)
+    (lo hi : Nat) : Prop
+
+  SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi ->
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt lo hi
+
+  SelectorCoordinateFactsGoodCatalogOnRangeFor.to_allGoodCoverage :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi ->
+      AllTranslationGoodCoverageOnRange lo hi
+  ```
+
+  The first focused build failed quickly and safely because the new file had
+  not opened the existing `MembershipBridge`/`PairSignProducerMembershipBridge`
+  namespaces, so Lean treated the catalog identifiers as auto-implicit
+  variables.  After adding the same bridge opens used by DU.9H, the focused
+  build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9RRangeAdapter
+
+  first attempt:
+    exit=1, elapsed=7.00s
+    reason: missing bridge namespace opens
+
+  retry:
+    exit=0, elapsed=1.97s
+  ```
+
+  Decision: DU.9R is accepted as bridge infrastructure.  It emits no concrete
+  membership evidence and does not prove production coverage by itself; it
+  makes the next selector-membership emitter target range-parametric and keeps
+  final exported theorem surfaces semantic.
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:
