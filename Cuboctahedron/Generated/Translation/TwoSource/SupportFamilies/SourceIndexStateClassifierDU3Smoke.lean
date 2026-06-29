@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.6.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.7.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -2172,6 +2172,12 @@ theorem classifierApplies_of_bool
     ClassifierApplies r mask := by
   simpa [classifierAppliesBool] using of_decide_eq_true h
 
+theorem classifierAppliesBool_eq_true_of_applies
+    {r : Nat} {mask : SignMask}
+    (h : ClassifierApplies r mask) :
+    classifierAppliesBool r mask = true := by
+  simpa [classifierAppliesBool] using decide_eq_true h
+
 /-- AP16DU bridge target for this bounded classifier surface. -/
 abbrev classifierCompletenessOnIdentityRange : Prop :=
   RowPropertyMembershipCoverageOnIdentityRange classifierFamily 0 5000
@@ -2190,6 +2196,20 @@ theorem classifierCompletenessOnIdentityRange_of_bool
   exact classifierApplies_of_bool
     (hcomplete hlt hlo hhi hM
       (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
+
+theorem classifierCompletenessOnIdentityRange_of_prop
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                ClassifierApplies rank mask) :
+    classifierCompletenessOnIdentityRange :=
+  classifierCompletenessOnIdentityRange_of_bool (fun hlt hlo hhi hM hgood =>
+    classifierAppliesBool_eq_true_of_applies
+      (hcomplete hlt hlo hhi hM hgood))
 
 theorem classifierAllGoodCoverage
     (hcomplete : classifierCompletenessOnIdentityRange) :

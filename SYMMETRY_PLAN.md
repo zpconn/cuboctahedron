@@ -15947,15 +15947,69 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_guard.json
   scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_guard.md
   ```
-- [ ] Implement Phase 6Z.6K.8AP.16DU.7 actual classifier Boolean completeness
-  theorem:
-  prove or emit the bounded `[0,5000)` Boolean completeness theorem required by
-  `classifierCompletenessOnIdentityRange_of_bool`: arbitrary identity-linear
+- [x] Implement Phase 6Z.6K.8AP.16DU.7 classifier Prop/Bool bridge:
+  DU.7 keeps the computable Boolean classifier surface from DU.6, but adds the
+  reverse erasure theorem so future membership generators can prove
+  Prop-level classifier membership and only convert to Bool at the final
+  AP16DU boundary:
+
+  ```lean
+  theorem classifierAppliesBool_eq_true_of_applies
+      {r : Nat} {mask : SignMask}
+      (h : ClassifierApplies r mask) :
+      classifierAppliesBool r mask = true
+
+  theorem classifierCompletenessOnIdentityRange_of_prop
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                  ClassifierApplies rank mask) :
+      classifierCompletenessOnIdentityRange
+  ```
+
+  This does not prove the full classifier-completeness theorem yet.  It is a
+  proof-surface improvement: generated source-position/source-state membership
+  can now target `ClassifierApplies rank mask` instead of forcing direct
+  reduction of `classifierAppliesBool`.
+
+  Commands:
+
+  ```text
+  python3 scripts/generate_source_index_state_classifier_smoke.py --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json --family-count 125 --phase 6Z.6K.8AP.16DU.7 --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean --json scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_smoke.json --md scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_smoke.md --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+  python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6500 --poll-seconds 1 --json scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build: passed
+  generated Lean size: 2967 lines
+  elapsed: 8.00s
+  peak process-tree RSS: 4038.29 MiB
+  min available memory observed: 46086.60 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_smoke.json
+  scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_smoke.md
+  scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_guard.json
+  scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_guard.md
+  ```
+- [ ] Implement Phase 6Z.6K.8AP.16DU.8 actual classifier completeness theorem:
+  prove or emit the bounded `[0,5000)` Prop-level completeness theorem required
+  by `classifierCompletenessOnIdentityRange_of_prop`: arbitrary identity-linear
   `goodDirectionAtRankBool = true` translation survivors must satisfy
-  `classifierAppliesBool rank mask = true`.  This is now the hard AP16DU proof
+  `ClassifierApplies rank mask`.  This remains the hard AP16DU proof
   obligation.  It must avoid `fin_cases mask`/all-mask replay, avoid singleton
   positive-survivor signatures, stay under the established guarded build cap,
-  and keep the theorem type semantic/Boolean rather than certificate-valued.
+  and keep the theorem type semantic rather than certificate-valued.
   If the direct descriptor predicate is still too hard, add a compact
   trace/source-position lemma whose type mentions only the reusable
   source-index/state family, not concrete rank/mask examples.
