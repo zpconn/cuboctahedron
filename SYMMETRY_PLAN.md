@@ -14899,6 +14899,39 @@ Acceptance:
   `--emit`, but only for this exact five-signature batch and only followed by a
   serial AP16DI-style guarded build.  Do not commit generated Lean from a failed
   or unbuilt AP16DJ emission.
+- [x] Implement Phase 6Z.6K.8AP.16DJ serial guarded runner plan:
+  AP16DJ adds the guard runner:
+
+  ```text
+  scripts/run_ap16dj_serial_guarded.py
+  ```
+
+  The runner can optionally call the AP16DJ batch emitter with `--emit`, then
+  builds the target list one module at a time through
+  `scripts/run_memory_guarded.py`.  The first accepted use is plan-only:
+
+  ```text
+  python3 scripts/run_ap16dj_serial_guarded.py \
+    --plan-only \
+    --json scripts/generated/phase6z6k8ap16dj_serial_guard_plan.json
+  ```
+
+  Result:
+
+  ```text
+  status: plan_only
+  emitted_before_build: false
+  target_count: 51
+  process-tree RSS cap: 5000 MiB
+  minimum MemAvailable floor: 12000 MiB
+  per-target timeout: 600s
+  ```
+
+  Decision: accepted as operational safety scaffolding.  The next AP16DJ step
+  is allowed to run `scripts/run_ap16dj_serial_guarded.py --emit`, but only if
+  system memory is idle and the runner is permitted to stop on the first target
+  exceeding the guard.  Broad `lake build` remains forbidden for this generated
+  batch.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
