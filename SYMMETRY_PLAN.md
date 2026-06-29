@@ -13274,6 +13274,54 @@ Acceptance:
   theorem that its evaluated dot product equals `impactDenomAtRank`.  That
   theorem should replace AP16CD's bounded mask replay while keeping the
   existing `WalshSymbolicQuadraticImpactObstruction` erasure API.
+- [x] Implement Phase 6Z.6K.8AP.16CG translation-vector recurrence bridge in
+  Lean:
+  AP16CG adds the hand-written module
+  `Cuboctahedron/Search/TranslationRecurrence.lean`.  This is proof code, not
+  diagnostic output.  It proves:
+
+  ```lean
+  theorem faceReflectionQ_b_faceOfPairSign
+  theorem pathPrefixAffNat_b_eq_translationPrefixVectorNat
+  theorem translationBAtRankMask_eq_translationVectorOfChoice
+  ```
+
+  The last theorem connects the public generated-coverage direction
+  `translationBAtRankMask r mask`, previously defined through
+  `(totalAff ...).b`, to the compact pair-word recurrence
+  `translationVectorOfChoice (unrankPairWord r) mask`.  This removes one
+  reason generated leaves had to unfold `totalAff` rank-by-rank.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cg_translation_recurrence_bridge_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Search.TranslationRecurrence'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 3.50s
+  peak tree RSS: 4044 MiB
+  minimum available memory: 46008 MiB
+  ```
+
+  Decision: accepted as a small, reusable theorem bridge.  It does not yet
+  prove the full AP16CD denominator equality, but it gives the Lean side a
+  general way to use the AP16CE symbolic vector recurrence without replaying
+  total affine products for each rank/mask.
+
+  Next proof-engineering target: add the matching copied-normal recurrence
+  bridge, reusing the existing `pathPrefixAffNat_M_eq_pairPrefixLinearNat`
+  theorem and the AP16CF normal recurrence shape.  Then assemble a theorem for
+  `impactDenomAtRank` in terms of the compact vector and copied-normal
+  recurrences.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
