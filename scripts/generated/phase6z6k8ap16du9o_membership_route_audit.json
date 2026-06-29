@@ -1,0 +1,100 @@
+{
+  "input_manifest": "scripts/generated/phase6z6k8ap16du9m_microshards_all42.json",
+  "missing_compact_cover_ranks": [
+    0,
+    2,
+    3
+  ],
+  "phase": "6Z.6K.8AP.16DU.9O",
+  "positive_survivor_count": 42,
+  "rank_end": 4,
+  "rank_start": 0,
+  "rank_status": [
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank0Smoke.lean",
+      "good_mask_count": 16,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank": 0,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank0SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": false,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank0SplitSmoke.lean",
+      "split_trace_root_exists": false
+    },
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank2Smoke.lean",
+      "good_mask_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank": 2,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank2SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": false,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank2SplitSmoke.lean",
+      "split_trace_root_exists": false
+    },
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank3Smoke.lean",
+      "good_mask_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "rank": 3,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank3SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": false,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank3SplitSmoke.lean",
+      "split_trace_root_exists": false
+    }
+  ],
+  "ranks_with_positive_survivors": [
+    0,
+    2,
+    3
+  ],
+  "recommended_next_step": "Generate compact-Walsh GoodDirection-to-good-mask cover modules for the missing ranks, then emit a bounded membership root that maps each good-mask disjunction into the combined DU9M SelectorPositiveCase constructors.",
+  "rejected_route": "Do not prove membership by fin_cases over all 64 masks with rank-local denominator replay; AP16H already showed that route recreates the bad-direction evidence burden.",
+  "trusted_as_proof": false
+}

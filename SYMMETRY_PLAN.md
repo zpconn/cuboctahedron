@@ -574,6 +574,16 @@ to `TranslationGoodCaseKilled`.  The focused guarded root build passed in
 3.00s at 3.678 GiB peak tree RSS.  This deliberately still stops short of full
 bounded all-Good coverage; the remaining bridge is exactly the
 GoodDirection-to-positive-language membership theorem.
+DU.9O audits that membership route before emitting more Lean.  For the
+bounded `[0,4)` microshard range, the positive language contains 42 survivors
+on ranks `0`, `2`, and `3`, but none of those ranks currently has the compact
+Walsh GoodDirection-to-good-mask cover stack (`SplitSmoke`,
+`SelectedImpactsSmoke`, or `CompactDenomCover...Smoke`).  The next safe proof
+step is therefore to generate compact-Walsh cover modules for ranks `0`, `2`,
+and `3`, then map the resulting good-mask disjunctions to the DU.9N combined
+`SelectorPositiveCase` constructors.  The audit explicitly rejects the
+tempting all-64-mask `fin_cases` replay route because AP.16H already showed it
+recreates the bad-direction evidence burden.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16746,6 +16756,40 @@ Acceptance:
 
   ```text
   scripts/generated/phase6z6k8ap16du9n_micro_all_guard.json
+  ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9O membership route audit:
+  DU.9O adds `scripts/audit_du9o_membership_route.py`, a tiny planning audit
+  for the remaining bounded membership bridge.  It reads the DU.9M manifest,
+  records the exact positive selector language for `[0,4)`, and checks whether
+  the compact-Walsh GoodDirection-to-good-mask cover stack already exists for
+  the ranks that have positive survivors.
+
+  Result:
+
+  ```text
+  rank 0: 16 good masks, compact cover missing, split trace missing
+  rank 2: 13 good masks, compact cover missing, split trace missing
+  rank 3: 13 good masks, compact cover missing, split trace missing
+  ```
+
+  Decision: do not attempt a hand-written all-mask membership proof.  The
+  next DU.9 step should generate compact-Walsh cover modules for ranks `0`,
+  `2`, and `3`, then emit a bounded membership root:
+
+  ```lean
+  GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+    SourceIndexStateSelectorDU9LMicro.SelectorPositiveCase rank mask
+  ```
+
+  followed by DU.9N's `selectorPositiveGoodKilled` erasure.  This preserves
+  the GoodDirection-only strategy and avoids replaying raw bad-direction
+  denominator witnesses for every non-survivor mask.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9o_membership_route_audit.json
+  scripts/generated/phase6z6k8ap16du9o_membership_route_audit.md
   ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
