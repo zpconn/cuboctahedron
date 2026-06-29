@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.3.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.6.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -1779,17 +1779,417 @@ def classifierFamily : RowPropertyMembershipFamily where
 theorem classifierKillsOn : classifierFamily.KillsOn :=
   classifierFamily.killsOn
 
-/--
-AP16DU.4 bridge target for this bounded classifier surface.
+/-- Decidable classifier membership for the generated descriptor family. -/
+instance instDecidableClassifierApplies (r : Nat) (mask : SignMask) :
+    Decidable (ClassifierApplies r mask) := by
+  by_cases h000 : fam_000_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam000 h000)
+  by_cases h001 : fam_001_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam001 h001)
+  by_cases h002 : fam_002_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam002 h002)
+  by_cases h003 : fam_003_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam003 h003)
+  by_cases h004 : fam_004_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam004 h004)
+  by_cases h005 : fam_005_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam005 h005)
+  by_cases h006 : fam_006_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam006 h006)
+  by_cases h007 : fam_007_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam007 h007)
+  by_cases h008 : fam_008_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam008 h008)
+  by_cases h009 : fam_009_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam009 h009)
+  by_cases h010 : fam_010_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam010 h010)
+  by_cases h011 : fam_011_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam011 h011)
+  by_cases h012 : fam_012_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam012 h012)
+  by_cases h013 : fam_013_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam013 h013)
+  by_cases h014 : fam_014_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam014 h014)
+  by_cases h015 : fam_015_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam015 h015)
+  by_cases h016 : fam_016_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam016 h016)
+  by_cases h017 : fam_017_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam017 h017)
+  by_cases h018 : fam_018_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam018 h018)
+  by_cases h019 : fam_019_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam019 h019)
+  by_cases h020 : fam_020_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam020 h020)
+  by_cases h021 : fam_021_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam021 h021)
+  by_cases h022 : fam_022_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam022 h022)
+  by_cases h023 : fam_023_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam023 h023)
+  by_cases h024 : fam_024_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam024 h024)
+  by_cases h025 : fam_025_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam025 h025)
+  by_cases h026 : fam_026_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam026 h026)
+  by_cases h027 : fam_027_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam027 h027)
+  by_cases h028 : fam_028_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam028 h028)
+  by_cases h029 : fam_029_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam029 h029)
+  by_cases h030 : fam_030_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam030 h030)
+  by_cases h031 : fam_031_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam031 h031)
+  by_cases h032 : fam_032_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam032 h032)
+  by_cases h033 : fam_033_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam033 h033)
+  by_cases h034 : fam_034_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam034 h034)
+  by_cases h035 : fam_035_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam035 h035)
+  by_cases h036 : fam_036_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam036 h036)
+  by_cases h037 : fam_037_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam037 h037)
+  by_cases h038 : fam_038_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam038 h038)
+  by_cases h039 : fam_039_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam039 h039)
+  by_cases h040 : fam_040_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam040 h040)
+  by_cases h041 : fam_041_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam041 h041)
+  by_cases h042 : fam_042_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam042 h042)
+  by_cases h043 : fam_043_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam043 h043)
+  by_cases h044 : fam_044_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam044 h044)
+  by_cases h045 : fam_045_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam045 h045)
+  by_cases h046 : fam_046_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam046 h046)
+  by_cases h047 : fam_047_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam047 h047)
+  by_cases h048 : fam_048_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam048 h048)
+  by_cases h049 : fam_049_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam049 h049)
+  by_cases h050 : fam_050_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam050 h050)
+  by_cases h051 : fam_051_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam051 h051)
+  by_cases h052 : fam_052_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam052 h052)
+  by_cases h053 : fam_053_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam053 h053)
+  by_cases h054 : fam_054_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam054 h054)
+  by_cases h055 : fam_055_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam055 h055)
+  by_cases h056 : fam_056_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam056 h056)
+  by_cases h057 : fam_057_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam057 h057)
+  by_cases h058 : fam_058_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam058 h058)
+  by_cases h059 : fam_059_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam059 h059)
+  by_cases h060 : fam_060_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam060 h060)
+  by_cases h061 : fam_061_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam061 h061)
+  by_cases h062 : fam_062_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam062 h062)
+  by_cases h063 : fam_063_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam063 h063)
+  by_cases h064 : fam_064_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam064 h064)
+  by_cases h065 : fam_065_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam065 h065)
+  by_cases h066 : fam_066_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam066 h066)
+  by_cases h067 : fam_067_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam067 h067)
+  by_cases h068 : fam_068_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam068 h068)
+  by_cases h069 : fam_069_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam069 h069)
+  by_cases h070 : fam_070_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam070 h070)
+  by_cases h071 : fam_071_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam071 h071)
+  by_cases h072 : fam_072_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam072 h072)
+  by_cases h073 : fam_073_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam073 h073)
+  by_cases h074 : fam_074_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam074 h074)
+  by_cases h075 : fam_075_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam075 h075)
+  by_cases h076 : fam_076_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam076 h076)
+  by_cases h077 : fam_077_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam077 h077)
+  by_cases h078 : fam_078_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam078 h078)
+  by_cases h079 : fam_079_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam079 h079)
+  by_cases h080 : fam_080_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam080 h080)
+  by_cases h081 : fam_081_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam081 h081)
+  by_cases h082 : fam_082_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam082 h082)
+  by_cases h083 : fam_083_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam083 h083)
+  by_cases h084 : fam_084_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam084 h084)
+  by_cases h085 : fam_085_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam085 h085)
+  by_cases h086 : fam_086_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam086 h086)
+  by_cases h087 : fam_087_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam087 h087)
+  by_cases h088 : fam_088_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam088 h088)
+  by_cases h089 : fam_089_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam089 h089)
+  by_cases h090 : fam_090_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam090 h090)
+  by_cases h091 : fam_091_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam091 h091)
+  by_cases h092 : fam_092_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam092 h092)
+  by_cases h093 : fam_093_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam093 h093)
+  by_cases h094 : fam_094_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam094 h094)
+  by_cases h095 : fam_095_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam095 h095)
+  by_cases h096 : fam_096_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam096 h096)
+  by_cases h097 : fam_097_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam097 h097)
+  by_cases h098 : fam_098_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam098 h098)
+  by_cases h099 : fam_099_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam099 h099)
+  by_cases h100 : fam_100_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam100 h100)
+  by_cases h101 : fam_101_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam101 h101)
+  by_cases h102 : fam_102_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam102 h102)
+  by_cases h103 : fam_103_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam103 h103)
+  by_cases h104 : fam_104_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam104 h104)
+  by_cases h105 : fam_105_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam105 h105)
+  by_cases h106 : fam_106_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam106 h106)
+  by_cases h107 : fam_107_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam107 h107)
+  by_cases h108 : fam_108_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam108 h108)
+  by_cases h109 : fam_109_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam109 h109)
+  by_cases h110 : fam_110_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam110 h110)
+  by_cases h111 : fam_111_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam111 h111)
+  by_cases h112 : fam_112_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam112 h112)
+  by_cases h113 : fam_113_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam113 h113)
+  by_cases h114 : fam_114_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam114 h114)
+  by_cases h115 : fam_115_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam115 h115)
+  by_cases h116 : fam_116_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam116 h116)
+  by_cases h117 : fam_117_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam117 h117)
+  by_cases h118 : fam_118_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam118 h118)
+  by_cases h119 : fam_119_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam119 h119)
+  by_cases h120 : fam_120_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam120 h120)
+  by_cases h121 : fam_121_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam121 h121)
+  by_cases h122 : fam_122_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam122 h122)
+  by_cases h123 : fam_123_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam123 h123)
+  by_cases h124 : fam_124_desc.Applies r mask
+  · exact isTrue (ClassifierApplies.fam124 h124)
+  · exact isFalse (by
+      intro h
+      cases h with
+      | fam000 h => exact h000 h
+      | fam001 h => exact h001 h
+      | fam002 h => exact h002 h
+      | fam003 h => exact h003 h
+      | fam004 h => exact h004 h
+      | fam005 h => exact h005 h
+      | fam006 h => exact h006 h
+      | fam007 h => exact h007 h
+      | fam008 h => exact h008 h
+      | fam009 h => exact h009 h
+      | fam010 h => exact h010 h
+      | fam011 h => exact h011 h
+      | fam012 h => exact h012 h
+      | fam013 h => exact h013 h
+      | fam014 h => exact h014 h
+      | fam015 h => exact h015 h
+      | fam016 h => exact h016 h
+      | fam017 h => exact h017 h
+      | fam018 h => exact h018 h
+      | fam019 h => exact h019 h
+      | fam020 h => exact h020 h
+      | fam021 h => exact h021 h
+      | fam022 h => exact h022 h
+      | fam023 h => exact h023 h
+      | fam024 h => exact h024 h
+      | fam025 h => exact h025 h
+      | fam026 h => exact h026 h
+      | fam027 h => exact h027 h
+      | fam028 h => exact h028 h
+      | fam029 h => exact h029 h
+      | fam030 h => exact h030 h
+      | fam031 h => exact h031 h
+      | fam032 h => exact h032 h
+      | fam033 h => exact h033 h
+      | fam034 h => exact h034 h
+      | fam035 h => exact h035 h
+      | fam036 h => exact h036 h
+      | fam037 h => exact h037 h
+      | fam038 h => exact h038 h
+      | fam039 h => exact h039 h
+      | fam040 h => exact h040 h
+      | fam041 h => exact h041 h
+      | fam042 h => exact h042 h
+      | fam043 h => exact h043 h
+      | fam044 h => exact h044 h
+      | fam045 h => exact h045 h
+      | fam046 h => exact h046 h
+      | fam047 h => exact h047 h
+      | fam048 h => exact h048 h
+      | fam049 h => exact h049 h
+      | fam050 h => exact h050 h
+      | fam051 h => exact h051 h
+      | fam052 h => exact h052 h
+      | fam053 h => exact h053 h
+      | fam054 h => exact h054 h
+      | fam055 h => exact h055 h
+      | fam056 h => exact h056 h
+      | fam057 h => exact h057 h
+      | fam058 h => exact h058 h
+      | fam059 h => exact h059 h
+      | fam060 h => exact h060 h
+      | fam061 h => exact h061 h
+      | fam062 h => exact h062 h
+      | fam063 h => exact h063 h
+      | fam064 h => exact h064 h
+      | fam065 h => exact h065 h
+      | fam066 h => exact h066 h
+      | fam067 h => exact h067 h
+      | fam068 h => exact h068 h
+      | fam069 h => exact h069 h
+      | fam070 h => exact h070 h
+      | fam071 h => exact h071 h
+      | fam072 h => exact h072 h
+      | fam073 h => exact h073 h
+      | fam074 h => exact h074 h
+      | fam075 h => exact h075 h
+      | fam076 h => exact h076 h
+      | fam077 h => exact h077 h
+      | fam078 h => exact h078 h
+      | fam079 h => exact h079 h
+      | fam080 h => exact h080 h
+      | fam081 h => exact h081 h
+      | fam082 h => exact h082 h
+      | fam083 h => exact h083 h
+      | fam084 h => exact h084 h
+      | fam085 h => exact h085 h
+      | fam086 h => exact h086 h
+      | fam087 h => exact h087 h
+      | fam088 h => exact h088 h
+      | fam089 h => exact h089 h
+      | fam090 h => exact h090 h
+      | fam091 h => exact h091 h
+      | fam092 h => exact h092 h
+      | fam093 h => exact h093 h
+      | fam094 h => exact h094 h
+      | fam095 h => exact h095 h
+      | fam096 h => exact h096 h
+      | fam097 h => exact h097 h
+      | fam098 h => exact h098 h
+      | fam099 h => exact h099 h
+      | fam100 h => exact h100 h
+      | fam101 h => exact h101 h
+      | fam102 h => exact h102 h
+      | fam103 h => exact h103 h
+      | fam104 h => exact h104 h
+      | fam105 h => exact h105 h
+      | fam106 h => exact h106 h
+      | fam107 h => exact h107 h
+      | fam108 h => exact h108 h
+      | fam109 h => exact h109 h
+      | fam110 h => exact h110 h
+      | fam111 h => exact h111 h
+      | fam112 h => exact h112 h
+      | fam113 h => exact h113 h
+      | fam114 h => exact h114 h
+      | fam115 h => exact h115 h
+      | fam116 h => exact h116 h
+      | fam117 h => exact h117 h
+      | fam118 h => exact h118 h
+      | fam119 h => exact h119 h
+      | fam120 h => exact h120 h
+      | fam121 h => exact h121 h
+      | fam122 h => exact h122 h
+      | fam123 h => exact h123 h
+      | fam124 h => exact h124 h
+    )
 
-The remaining proof-producing obligation is exactly the `hcomplete` premise:
-every identity-linear GoodDirection survivor in `[0,5000)` must satisfy one of
-the 125 source-index/state descriptor families in `classifierFamily`.  Once a
-future generated/computable classifier proves that membership fact, this theorem
-erases it directly to the public all-GoodDirection coverage surface.
--/
+/-- Boolean classifier surface for AP16DU membership-completeness emitters. -/
+def classifierAppliesBool (r : Nat) (mask : SignMask) : Bool :=
+  decide (ClassifierApplies r mask)
+
+theorem classifierApplies_of_bool
+    {r : Nat} {mask : SignMask}
+    (h : classifierAppliesBool r mask = true) :
+    ClassifierApplies r mask := by
+  simpa [classifierAppliesBool] using of_decide_eq_true h
+
+/-- AP16DU bridge target for this bounded classifier surface. -/
 abbrev classifierCompletenessOnIdentityRange : Prop :=
   RowPropertyMembershipCoverageOnIdentityRange classifierFamily 0 5000
+
+theorem classifierCompletenessOnIdentityRange_of_bool
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                classifierAppliesBool rank mask = true) :
+    classifierCompletenessOnIdentityRange := by
+  intro rank hlt mask hlo hhi hM hgood
+  exact classifierApplies_of_bool
+    (hcomplete hlt hlo hhi hM
+      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
 
 theorem classifierAllGoodCoverage
     (hcomplete : classifierCompletenessOnIdentityRange) :
@@ -1797,6 +2197,19 @@ theorem classifierAllGoodCoverage
   intro rank hlo hhi hlt mask hM
   exact classifierFamily.identityRangeKills
     hcomplete rank hlt mask hlo hhi hM
+
+theorem classifierAllGoodCoverage_of_bool
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                classifierAppliesBool rank mask = true) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  classifierAllGoodCoverage
+    (classifierCompletenessOnIdentityRange_of_bool hcomplete)
 
 theorem fam_000_goodKilled
     {r : Nat} {hlt : r < numPairWords} {mask : SignMask}

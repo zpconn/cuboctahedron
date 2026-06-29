@@ -116,6 +116,81 @@ def classifier_lines(selected: list[Any]) -> list[str]:
         "theorem classifierKillsOn : classifierFamily.KillsOn :=",
         "  classifierFamily.killsOn",
         "",
+        "/-- Decidable classifier membership for the generated descriptor family. -/",
+        "instance instDecidableClassifierApplies (r : Nat) (mask : SignMask) :",
+        "    Decidable (ClassifierApplies r mask) := by",
+    ])
+    for index, _family in enumerate(selected):
+        name = family_name(index)
+        ctor = ctor_name(index)
+        hname = f"h{index:03d}"
+        lines.extend([
+            f"  by_cases {hname} : {name}_desc.Applies r mask",
+            f"  · exact isTrue (ClassifierApplies.{ctor} {hname})",
+        ])
+    lines.extend([
+        "  · exact isFalse (by",
+        "      intro h",
+        "      cases h with",
+    ])
+    for index, _family in enumerate(selected):
+        ctor = ctor_name(index)
+        hname = f"h{index:03d}"
+        lines.extend([
+            f"      | {ctor} h => exact {hname} h",
+        ])
+    lines.extend([
+        "    )",
+        "",
+        "/-- Boolean classifier surface for AP16DU membership-completeness emitters. -/",
+        "def classifierAppliesBool (r : Nat) (mask : SignMask) : Bool :=",
+        "  decide (ClassifierApplies r mask)",
+        "",
+        "theorem classifierApplies_of_bool",
+        "    {r : Nat} {mask : SignMask}",
+        "    (h : classifierAppliesBool r mask = true) :",
+        "    ClassifierApplies r mask := by",
+        "  simpa [classifierAppliesBool] using of_decide_eq_true h",
+        "",
+        "/-- AP16DU bridge target for this bounded classifier surface. -/",
+        "abbrev classifierCompletenessOnIdentityRange : Prop :=",
+        "  RowPropertyMembershipCoverageOnIdentityRange classifierFamily 0 5000",
+        "",
+        "theorem classifierCompletenessOnIdentityRange_of_bool",
+        "    (hcomplete :",
+        "      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),",
+        "        0 <= rank ->",
+        "          rank < 5000 ->",
+        "            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =",
+        "                (matId : Mat3 Rat) ->",
+        "              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->",
+        "                classifierAppliesBool rank mask = true) :",
+        "    classifierCompletenessOnIdentityRange := by",
+        "  intro rank hlt mask hlo hhi hM hgood",
+        "  exact classifierApplies_of_bool",
+        "    (hcomplete hlt hlo hhi hM",
+        "      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))",
+        "",
+        "theorem classifierAllGoodCoverage",
+        "    (hcomplete : classifierCompletenessOnIdentityRange) :",
+        "    AllTranslationGoodCoverageOnRange 0 5000 := by",
+        "  intro rank hlo hhi hlt mask hM",
+        "  exact classifierFamily.identityRangeKills",
+        "    hcomplete rank hlt mask hlo hhi hM",
+        "",
+        "theorem classifierAllGoodCoverage_of_bool",
+        "    (hcomplete :",
+        "      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),",
+        "        0 <= rank ->",
+        "          rank < 5000 ->",
+        "            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =",
+        "                (matId : Mat3 Rat) ->",
+        "              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->",
+        "                classifierAppliesBool rank mask = true) :",
+        "    AllTranslationGoodCoverageOnRange 0 5000 :=",
+        "  classifierAllGoodCoverage",
+        "    (classifierCompletenessOnIdentityRange_of_bool hcomplete)",
+        "",
     ])
     for index, family in enumerate(selected):
         name = family_name(index)
@@ -134,6 +209,7 @@ def classifier_lines(selected: list[Any]) -> list[str]:
 def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str]:
     lines = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
         "",
         "/-!",
         "Generated GoodDirection-only source-index/state classifier smoke.",
@@ -147,6 +223,7 @@ def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str
         "",
         "open Cuboctahedron.Generated.Coverage",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "",
         "set_option linter.unusedVariables false",

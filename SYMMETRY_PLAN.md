@@ -15892,17 +15892,73 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du5_classifier_completeness_route_audit.json
   scripts/generated/phase6z6k8ap16du5_classifier_completeness_route_audit.md
   ```
-- [ ] Implement Phase 6Z.6K.8AP.16DU.6 actual source-index/state classifier
-  completeness theorem:
-  prove or emit the bounded `[0,5000)` `classifierCompletenessOnIdentityRange`
-  theorem: arbitrary identity-linear `GoodDirectionAtRank` translation
-  survivors must belong to one of the 125 AP16DU.3 descriptor families.  This
-  is the hard AP16DU proof obligation.  It must avoid `fin_cases mask`/
-  all-mask replay, avoid singleton positive-survivor signatures, stay under the
-  established guarded build cap, and keep the theorem type semantic rather than
-  certificate-valued.  If the direct descriptor predicate is still too hard,
-  add a compact trace/source-position lemma whose type mentions only the
-  reusable source-index/state family, not concrete rank/mask examples.
+- [x] Implement Phase 6Z.6K.8AP.16DU.6 computable classifier Boolean bridge:
+  DU.6 upgrades the generated source-index/state classifier surface with a
+  computable Boolean membership target:
+
+  ```lean
+  def classifierAppliesBool (r : Nat) (mask : SignMask) : Bool
+
+  theorem classifierCompletenessOnIdentityRange_of_bool
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                  classifierAppliesBool rank mask = true) :
+      classifierCompletenessOnIdentityRange
+
+  theorem classifierAllGoodCoverage_of_bool ... :
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  To keep this bridge computable, DU.6 also adds explicit `Decidable`
+  instances for `SourceIndexStateFamilyDescriptor.SourceMatches` and
+  `SourceIndexStateFamilyDescriptor.Applies` instead of relying on
+  `Classical.propDecidable`.  The generator now emits the Boolean bridge
+  directly, so the checked file is reproducible from
+  `scripts/generate_source_index_state_classifier_smoke.py`.
+
+  Commands:
+
+  ```text
+  python3 scripts/generate_source_index_state_classifier_smoke.py --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json --family-count 125 --phase 6Z.6K.8AP.16DU.6 --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean --json scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_smoke.json --md scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_smoke.md --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+  python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6500 --poll-seconds 1 --json scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build: passed
+  generated Lean size: 2967 lines
+  elapsed: 6.02s
+  peak process-tree RSS: 4041.16 MiB
+  min available memory observed: 46111.91 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_smoke.json
+  scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_smoke.md
+  scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_guard.json
+  scripts/generated/phase6z6k8ap16du6_classifier_bool_bridge_guard.md
+  ```
+- [ ] Implement Phase 6Z.6K.8AP.16DU.7 actual classifier Boolean completeness
+  theorem:
+  prove or emit the bounded `[0,5000)` Boolean completeness theorem required by
+  `classifierCompletenessOnIdentityRange_of_bool`: arbitrary identity-linear
+  `goodDirectionAtRankBool = true` translation survivors must satisfy
+  `classifierAppliesBool rank mask = true`.  This is now the hard AP16DU proof
+  obligation.  It must avoid `fin_cases mask`/all-mask replay, avoid singleton
+  positive-survivor signatures, stay under the established guarded build cap,
+  and keep the theorem type semantic/Boolean rather than certificate-valued.
+  If the direct descriptor predicate is still too hard, add a compact
+  trace/source-position lemma whose type mentions only the reusable
+  source-index/state family, not concrete rank/mask examples.
 - [ ] Implement Phase 6Z.6K.8AP.16 production source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

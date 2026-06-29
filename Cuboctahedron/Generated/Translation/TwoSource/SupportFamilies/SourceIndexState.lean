@@ -280,6 +280,17 @@ instance instDecidableSourceIndexStateSourcePredicate
           some support.second /\
         SourceChecks support r hlt mask) (fun _ => inferInstance)
 
+instance instDecidableSourceIndexStateFamilyDescriptorSourceMatches
+    (desc : SourceIndexStateFamilyDescriptor)
+    (r : Nat) (mask : SignMask) :
+    Decidable (desc.SourceMatches r mask) := by
+  simpa [SourceIndexStateFamilyDescriptor.SourceMatches,
+    SourceIndexStateSourcePredicate] using
+    (inferInstance :
+      Decidable
+        (SourceIndexStateSourcePredicate
+          desc.firstIndex desc.secondIndex desc.support r mask))
+
 theorem SourceIndexStateSourceFacts.of_sourcePredicate
     {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
     {firstIndex secondIndex : Nat} {support : TwoSourceFarkasSupport}
@@ -442,6 +453,13 @@ instance instDecidableSourceIndexTemplateRows
     (r : Nat) (mask : SignMask) :
     Decidable (template.Rows support r mask) := by
   cases template <;> unfold SourceIndexTemplate.Rows <;> infer_instance
+
+instance instDecidableSourceIndexStateFamilyDescriptorApplies
+    (desc : SourceIndexStateFamilyDescriptor)
+    (r : Nat) (mask : SignMask) :
+    Decidable (desc.Applies r mask) := by
+  unfold SourceIndexStateFamilyDescriptor.Applies
+  infer_instance
 
 structure SourceIndexStateRowProducer where
   Applies : SourceIndexStateKey -> Nat -> SignMask -> Prop
