@@ -23461,6 +23461,47 @@ Decision:
   `WalshAffineVec3.dot` coefficient checker that avoids `norm_num` over all
   affine definitions.
 
+### Phase 6Z.6K.8AP.16DU.9BY checkpoint: Walsh dot coefficient facts accepted
+
+Phase 6Z.6K.8AP.16DU.9BY adds the hand-written coefficient API selected by
+DU.9BX:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WalshDotCoefficientFacts.lean
+```
+
+The module defines named coefficient formulas for:
+
+- `WalshAffine.mul_*` for all 22 quadratic coefficients of a product of two
+  affine Walsh forms;
+- `WalshAffineVec3.dot_*` for all 22 quadratic coefficients of a vector dot
+  product; and
+- `WalshAffineVec3.dot_eq_of_coeffs`, which reconstructs
+  `WalshAffineVec3.dot a b = q` from those 22 coefficient equations.
+
+Focused guarded check:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WalshDotCoefficientFacts
+exit = 0
+elapsed = 3.00s
+peak tree RSS = 4065 MiB
+min MemAvailable = 46131 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept this as the next generated-emitter target.  Future dot-data modules
+  should prove 22 small coefficient equations against `dot_*` formulas, then
+  call `WalshAffineVec3.dot_eq_of_coeffs`, instead of proving a full dot
+  equality by unfolding `WalshAffineVec3.dot` and `WalshAffine.mul` in every
+  field goal.
+- The next smoke should modify the DU.9BW emitter for one or all dot
+  equalities to use `WalshDotCoefficientFacts.lean`, then compare Data/root
+  build time against DU.9BW's current `42.66s` Data and `103.76s` root.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
