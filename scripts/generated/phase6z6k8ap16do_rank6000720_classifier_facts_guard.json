@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 20000.0,
+  "command": [
+    "bash",
+    "-lc",
+    "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.CompactWalshBatchClassifierFactsRank6000720Smoke"
+  ],
+  "elapsed_seconds": 10.514684247005789,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4794064,
+  "max_tree_rss_mib": 4681.703125,
+  "min_available_seen_kib": 46484136,
+  "min_available_seen_mib": 45394.6640625,
+  "rss_cap_mib": 5600.0
+}
