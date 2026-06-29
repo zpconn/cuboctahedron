@@ -23821,6 +23821,89 @@ Decision:
   then compare direct-vs-trace guarded builds before changing the Data-chain
   emitters.
 
+### Phase 6Z.6K.8AP.16DU.9CF/9CG checkpoint: trace normal proof wins on a nontrivial prefix
+
+Phase 6Z.6K.8AP.16DU.9CF/9CG generalizes the DU.9CC and DU.9CE emitters to
+accept an impact index, preserving the existing index-`0` output names and
+emitting distinct `IdxNN` modules for nonzero indexes.  It then compares the
+direct generated-normal proof with the `ImpactNormalWalshTrace` proof at
+rank `6000745`, impact index `7`.
+
+Changed emitters:
+
+```text
+scripts/emit_ap16du9cc_trace_cert_normal_micro_smoke.py
+scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py
+```
+
+Generated index-`7` modules:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertNormalMicroIdx07Smoke.lean
+  WeightedDenomCubeRank6000745TraceCertNormalTraceMicroIdx07Smoke.lean
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cc_trace_cert_normal_micro_smoke.py scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cc_trace_cert_normal_micro_smoke.py \
+  scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalMicroIdx07Smoke.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalTraceMicroIdx07Smoke.lean
+```
+
+Both checks passed; the forbidden-word scan was empty.
+
+Focused guarded Lake builds:
+
+```text
+direct target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalMicroIdx07Smoke
+exit = 0
+elapsed = 20.04s
+peak tree RSS = 4151 MiB
+min MemAvailable = 45972 MiB
+rss cap = 8192 MiB
+
+trace target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceMicroIdx07Smoke
+exit = 0
+elapsed = 3.00s
+peak tree RSS = 4071 MiB
+min MemAvailable = 46133 MiB
+rss cap = 8192 MiB
+```
+
+Because Lake target cache warmth can distort small timing comparisons, both
+files were also typechecked fresh with `lake env lean ... -o /tmp/... -i
+/tmp/...` under the same guard:
+
+```text
+direct fresh typecheck:
+  exit = 0
+  elapsed = 14.02s
+  peak tree RSS = 4088 MiB
+  min MemAvailable = 46109 MiB
+
+trace fresh typecheck:
+  exit = 0
+  elapsed = 2.51s
+  peak tree RSS = 4012 MiB
+  min MemAvailable = 46192 MiB
+```
+
+Decision:
+
+- Accept the trace-style normal proof as a real constant-factor improvement
+  for nontrivial prefix matrices.
+- The DU.9CE index-`0` result remains valid: the trace wrapper is slightly
+  slower when the prefix is trivial.  Production emitters should use the trace
+  surface for nonzero impacts and may keep direct proofs for index `0`.
+- Next, adapt the Data-chain emitter to use `ImpactNormalWalshVectorTrace`
+  for generated normals, but test only a single small cube first under the 8
+  GiB guard.  Do not jump to the full DU.9BZ root.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

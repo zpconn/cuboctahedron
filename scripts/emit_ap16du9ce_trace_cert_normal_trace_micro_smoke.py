@@ -41,12 +41,16 @@ DEFAULT_REPORT = Path(
 )
 
 
-def module_name() -> str:
-    return f"{BASE_MODULE}.{BASE_NAME}Smoke"
+def name_suffix(index: int) -> str:
+    return "" if index == 0 else f"Idx{index:02d}"
 
 
-def lean_path() -> Path:
-    return BASE_DIR / f"{BASE_NAME}Smoke.lean"
+def module_name(index: int) -> str:
+    return f"{BASE_MODULE}.{BASE_NAME}{name_suffix(index)}Smoke"
+
+
+def lean_path(index: int) -> Path:
+    return BASE_DIR / f"{BASE_NAME}{name_suffix(index)}Smoke.lean"
 
 
 def mat_entry(matrix: object, row: int, col: int) -> Fraction:
@@ -73,9 +77,8 @@ def emit_mat3(name: str, matrix: object) -> list[str]:
     return lines
 
 
-def build_module(*, rank: int, trace_module: str, namespace: str) -> str:
+def build_module(*, rank: int, trace_module: str, namespace: str, index: int) -> str:
     word = exact.pair_word_at_rank(rank)
-    index = 0
     pair_id = word[index]
     prefix_m = exact.prefix_matrices(word)[index]
     normal_name = f"generatedNormal{index:02d}"
@@ -85,8 +88,15 @@ def build_module(*, rank: int, trace_module: str, namespace: str) -> str:
     prefix_defs = ", ".join([
         prefix_name,
         "pairPrefixLinearNat",
-        "matId",
         "generatedWord",
+        "canonicalNormalQ",
+        "matMul",
+        "matId",
+        "reflM",
+        "matSub",
+        "scalarMat",
+        "outer",
+        "dot",
     ])
     normal_defs = ", ".join([
         normal_name,
@@ -178,6 +188,7 @@ def build_module(*, rank: int, trace_module: str, namespace: str) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
+    parser.add_argument("--index", type=int, default=0)
     parser.add_argument("--trace-module", default=DEFAULT_TRACE_MODULE)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
@@ -185,10 +196,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    namespace = module_name()
-    path = lean_path()
+    namespace = module_name(args.index)
+    path = lean_path(args.index)
     path.write_text(
-        build_module(rank=args.rank, trace_module=args.trace_module, namespace=namespace),
+        build_module(
+            rank=args.rank,
+            trace_module=args.trace_module,
+            namespace=namespace,
+            index=args.index,
+        ),
         encoding="utf-8",
     )
 
@@ -197,7 +213,7 @@ def main() -> None:
         "trusted_as_proof": False,
         "trusted_as_final_generated_coverage": False,
         "rank": args.rank,
-        "normal_index": 0,
+        "normal_index": args.index,
         "trace_module": args.trace_module,
         "module": namespace,
         "path": str(path),
@@ -209,7 +225,7 @@ def main() -> None:
             "# Phase 6Z.6K.8AP.16DU.9CE Normal Trace Micro Smoke",
             "",
             f"- rank: `{args.rank}`",
-            "- normal index: `0`",
+            f"- normal index: `{args.index}`",
             f"- module: `{namespace}`",
             f"- path: `{path}`",
             "",
