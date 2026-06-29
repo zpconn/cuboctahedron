@@ -22382,6 +22382,91 @@ Decision:
   The coefficient certificate should be the bridge between external exact
   polynomial computation and Lean-checked `weightedDenomAtRank` obstruction.
 
+### Phase 6Z.6K.8AP.16DU.9BJ checkpoint: scaled weighted coefficient core accepted
+
+Phase 6Z.6K.8AP.16DU.9BJ adds the hand-written Lean core for the DU.9BI
+integer-scaled coefficient-certificate surface:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedCoeffCertificate.lean
+```
+
+The module defines:
+
+```lean
+SignBit.intValue
+ScaledWalshQuadratic
+ScaledWalshQuadratic.coeffRat
+ScaledWalshQuadratic.toQuadratic
+ScaledWalshQuadratic.intEval
+ScaledWalshQuadratic.coeffEval_eq_intEval_div
+ScaledWalshQuadratic.coeffEval_nonpos_of_intEval_nonpos
+```
+
+This is the reusable bridge from a generated integer coefficient record and a
+positive scale to the existing rational `WalshQuadratic.coeffEval` surface.
+Generated leaves can now prove integer facts of the form:
+
+```lean
+q.intEval mask <= 0
+```
+
+and convert them to:
+
+```lean
+q.toQuadratic.coeffEval mask <= 0
+```
+
+without replaying the translation Walsh recurrence or doing rank-local
+rational coefficient reconstruction.
+
+The first focused build used the 8 GiB memory guard but failed on deterministic
+heartbeats, not memory:
+
+```text
+scripts/generated/phase6z6k8ap16du9bj_weighted_coeff_certificate_core_guard.json
+exit = 1
+elapsed = 17.05s
+peak tree RSS = 4062 MiB
+min MemAvailable = 46071 MiB
+reason = heartbeat timeout in the coefficient-evaluation bridge
+```
+
+After adding a local `set_option maxHeartbeats 0` to this small reusable core,
+the same focused target built within the guard:
+
+```text
+scripts/generated/phase6z6k8ap16du9bj_weighted_coeff_certificate_core_guard_retry1.json
+exit = 0
+elapsed = 18.54s
+peak tree RSS = 4323 MiB
+min MemAvailable = 45861 MiB
+rss cap = 8192 MiB
+```
+
+Forbidden-term scan for the new Lean file:
+
+```text
+rg -n "sorry|admit|native_decide|unsafe|axiom" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedCoeffCertificate.lean
+```
+
+produced no matches.
+
+Decision:
+
+- Accept `ScaledWalshQuadratic` as the bounded, reusable coefficient
+  certificate core for weighted denominator obstruction leaves.
+- Future generated leaves should emit scaled integer coefficients and prove
+  integer nonpositivity facts, then use
+  `ScaledWalshQuadratic.coeffEval_nonpos_of_intEval_nonpos` to obtain the
+  rational Walsh result.
+- This does **not** yet solve the coefficient-equality bridge from external
+  weighted Walsh coefficients to `weightedDirectWalshDotAtRank`; it only
+  establishes the safe arithmetic surface that such generated certificates
+  should target.
+- Do not reintroduce rank-local recurrence replay inside generated leaves.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
