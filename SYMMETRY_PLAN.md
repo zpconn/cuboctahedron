@@ -23969,6 +23969,98 @@ Decision:
   record Data, first cube, last cube, and root times separately.  Do not use
   uncapped parallel Lake for that chain.
 
+### Phase 6Z.6K.8AP.16DU.9CI checkpoint: trace-normal full chain accepted as telemetry, cube cost remains dominant
+
+Phase 6Z.6K.8AP.16DU.9CI scales DU.9CH from one cube to the full bounded
+rank-`6000745` DU.9BW cube chain while preserving the serial import topology.
+This is still telemetry only, not final generated coverage.
+
+Files:
+
+```text
+scripts/emit_ap16du9ci_trace_cert_normaltrace_chain_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainDataSmoke.lean
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainCube00Smoke.lean
+  ...
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainCube10Smoke.lean
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainSmoke.lean
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9ci_trace_cert_normaltrace_chain_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9ci_trace_cert_normaltrace_chain_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalTraceDataChain*Smoke.lean
+```
+
+Both checks passed; the forbidden-word scan was empty.
+
+Focused guarded builds:
+
+```text
+Data target:
+  target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainDataSmoke
+  exit = 0
+  elapsed = 12.52s
+  peak tree RSS = 4720 MiB
+  min MemAvailable = 45083 MiB
+
+Cube00 target:
+  target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainCube00Smoke
+  exit = 0
+  elapsed = 11.52s
+  peak tree RSS = 4185 MiB
+  min MemAvailable = 45977 MiB
+
+Cube10 chain target:
+  target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainCube10Smoke
+  exit = 0
+  elapsed = 102.33s
+  peak tree RSS = 4202 MiB
+  min MemAvailable = 45980 MiB
+
+Root target:
+  target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainSmoke
+  exit = 0
+  elapsed = 2.50s
+  peak tree RSS = 3765 MiB
+  min MemAvailable = 46257 MiB
+```
+
+Comparison to DU.9BW:
+
+```text
+DU.9BW Data module:     42.66s, 5985 MiB
+DU.9CI Data module:     12.52s, 4720 MiB
+
+DU.9BW cube00:          11.51s, 4202 MiB
+DU.9CI cube00:          11.52s, 4185 MiB
+
+DU.9BW full root smoke: 103.76s, 4217 MiB
+DU.9CI serialized path: 12.52s + 11.52s + 102.33s + 2.50s
+```
+
+Decision:
+
+- Accept DU.9CI as proof that trace-normal Data generation is substantially
+  faster and memory-safe in the full bounded chain.
+- Do not treat DU.9CI as a production scaling solution by itself.  Once Data
+  cost drops, the repeated per-cube `cubeXXDotPoly_eq` and polynomial
+  nonpositivity proofs dominate.  The serialized full chain remains around two
+  minutes for one rank fixture.
+- The next optimization surface is per-cube proof cost: either share/transport
+  `weightedQuadraticFromDotData generatedDot weights = scaledPoly` facts by
+  cube family, replace `norm_num` over all 13 dot polynomials with small
+  integer coefficient certificates, or move to a stronger semantic template
+  that avoids one weighted-cube theorem per cube.
+- Continue using the trace-normal Data surface for any future rank-local
+  weighted-cube telemetry, but do not scale rank-local cube chains as final
+  coverage.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
