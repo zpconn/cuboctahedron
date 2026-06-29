@@ -27471,3 +27471,62 @@ next production-relevant stress test should either emit all `405` merged
 families from the same profile, or split the catalog into group modules before
 trying all families if the single-module recursion/catalog shape becomes
 awkward.  Keep avoiding concrete rank/mask replay.
+
+### Phase 6Z.6K.8AP.16DU.9EB checkpoint: all sampled source-index/state families build
+
+Phase 6Z.6K.8AP.16DU.9EB emits every merged source-index/state family from the
+seven-window diagnostic into one theorem-valued classifier smoke module.  This
+stress test is deliberately still sampled: it does not claim global coverage
+over all ranks or masks, and it does not introduce proof-carrying evidence for
+individual ranks.  Its purpose is to check whether the full sampled family
+catalog can elaborate and build below the memory guard when exported as a
+semantic classifier surface.
+
+Generation command:
+
+```bash
+python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du9dz_classifier_multiwindow_profile.json \
+  --family-count 405 \
+  --jobs 4 \
+  --phase 6Z.6K.8AP.16DU.9EB \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierMultiWindowAllSmoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9eb_multiwindow_classifier_all_smoke.json \
+  --md scripts/generated/phase6z6k8ap16du9eb_multiwindow_classifier_all_smoke.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierMultiWindowAllSmoke
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9eb_multiwindow_classifier_all_smoke_guard.json \
+  -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 timeout 420s \
+    lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierMultiWindowAllSmoke
+```
+
+Result:
+
+- Exit: `0`
+- Selected merged families: `405` of `405`
+- Selected GoodDirection cases represented by those families: `39338`
+- Generated Lean lines: `15056`
+- Elapsed: `22.07s`
+- Peak tree RSS: `5442.46 MiB`
+- Minimum available memory observed: `44354.59 MiB`
+
+Decision: accepted as the strongest current sampled-family Lean smoke.  The
+single module remains comfortably below the 8 GiB per-process guard, so the
+source-index/state classifier surface is not itself an immediate OOM path at
+this sampled scale.  It also confirms that the `maxRecDepth 10000` mitigation is
+enough for the current generated chain shape.
+
+Do not interpret this as proof coverage.  The next production-relevant work is
+to estimate the full global source-index/state family count and source size
+with a resumable, memory-guarded profiler before emitting production modules.
+If the projected global catalog is too large, the plan must move up another
+semantic level: row-normal-form families, signed-prefix cone languages, or a
+state-DAG root.  We should not return to per-rank or per-mask replay.
