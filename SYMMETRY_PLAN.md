@@ -24538,6 +24538,109 @@ Decision:
   coefficient certificate or shared template/family proof so each cube does
   not normalize all 22 rational field goals independently.
 
+### Phase 6Z.6K.8AP.16DU.9CO checkpoint: scaled one-coefficient proof is neutral
+
+Phase 6Z.6K.8AP.16DU.9CO tests whether clearing the denominator of the
+constant coefficient proof materially improves the DU.9CM coefficient-formula
+path.  The generated theorem proves only the constant coefficient for the same
+rank-`6000745` cube-`0` fixture, but it first multiplies both sides by the
+cube coefficient scale before `norm_num`:
+
+```lean
+private theorem cube00DotPoly_c_eq :
+    (weightedQuadraticFromDotData data.generatedDot cube00Weights).c =
+      (cube00ScaledPoly.toQuadratic).c := by
+  rw [weightedQuadraticFromDotData_c]
+  apply (mul_right_inj' (show ((9 : Nat) : Rat) ≠ 0 by norm_num)).mp
+  norm_num [...]
+```
+
+Files:
+
+```text
+scripts/emit_ap16du9co_dotpoly_one_coeff_scaled_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffScaledSmoke.lean
+scripts/generated/phase6z6k8ap16du9co_dotpoly_one_coeff_scaled_smoke.json
+scripts/generated/phase6z6k8ap16du9co_dotpoly_one_coeff_scaled_smoke.md
+scripts/generated/phase6z6k8ap16du9co_dotpoly_one_coeff_scaled_guard.json
+scripts/generated/phase6z6k8ap16du9co_dotpoly_one_coeff_scaled_lean_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9co_dotpoly_one_coeff_scaled_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9co_dotpoly_one_coeff_scaled_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffScaledSmoke.lean
+wc -l scripts/emit_ap16du9co_dotpoly_one_coeff_scaled_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffScaledSmoke.lean
+```
+
+The Python compile passed.  The forbidden-token scan returned no matches.  The
+script has `171` lines and the generated Lean smoke has `67` lines.
+
+Focused guarded build, intentionally capped below the usual 8 GiB guard after
+an OOM concern:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9co_dotpoly_one_coeff_scaled_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffScaledSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               6.51s
+Lean target time:      4.2s
+peak tree RSS:         3942 MiB
+minimum MemAvailable:  46227 MiB
+RSS cap:               6144 MiB
+```
+
+Direct import-aware Lean check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9co_dotpoly_one_coeff_scaled_lean_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffScaledSmoke.lean
+
+exit code:             0
+elapsed:               2.01s
+peak tree RSS:         3938 MiB
+minimum MemAvailable:  46261 MiB
+RSS cap:               6144 MiB
+```
+
+Comparison:
+
+```text
+DU.9CL one coefficient by direct unfold:     7.51s guarded, 4.9s target
+DU.9CM one coefficient by formula:           2.01s direct Lean, 1.3s target
+DU.9CO scaled one coefficient by formula:    2.01s direct Lean, 4.2s target
+```
+
+Decision:
+
+- Accept DU.9CO as a memory-safe denominator-clearing smoke, not as a
+  production breakthrough.  Peak memory stayed flat under 4 GiB, but direct
+  proof time did not improve over DU.9CM.
+- Do not spend more time on one-coefficient denominator clearing unless a
+  full-field integer-certificate design needs the same local lemma.
+- Next useful step remains a full integer/template certificate path that
+  avoids 22 independent rational `norm_num` coefficient equalities, rather
+  than another local rearrangement of the same rational goal.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
