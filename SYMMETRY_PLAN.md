@@ -24061,6 +24061,67 @@ Decision:
   weighted-cube telemetry, but do not scale rank-local cube chains as final
   coverage.
 
+### Phase 6Z.6K.8AP.16DU.9CJ checkpoint: cube dot-polynomial equality is the bottleneck
+
+Phase 6Z.6K.8AP.16DU.9CJ isolates the cube-local proof
+
+```lean
+weightedQuadraticFromDotData generatedDot weights = scaledPoly.toQuadratic
+```
+
+for DU.9CI cube `0`.  It imports the traced-normal DU.9CI Data module and
+omits cube membership, scaled-polynomial nonpositivity, and trace-certificate
+transport.
+
+Files:
+
+```text
+scripts/emit_ap16du9cj_dotpoly_only_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertDotPolyOnlySmoke.lean
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cj_dotpoly_only_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cj_dotpoly_only_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOnlySmoke.lean
+```
+
+Both checks passed; the forbidden-word scan was empty.
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyOnlySmoke
+exit = 0
+elapsed = 13.55s
+peak tree RSS = 4176 MiB
+min MemAvailable = 45966 MiB
+rss cap = 8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CI full cube00:          11.52s, 4185 MiB
+DU.9CJ dot-poly-only cube00: 13.55s, 4176 MiB
+```
+
+Decision:
+
+- The per-cube bottleneck is the generated dot-polynomial equality proof, not
+  normal generation, trace-certificate transport, or cube membership.
+- Further optimizing generated normals will not move the full-chain runtime
+  much unless the cube equality proof is also replaced.
+- Next optimization surface: replace `cubeXXDotPoly_eq`'s large
+  `norm_num [weightedQuadraticFromDotData, generatedDot00, ..., generatedDot12]`
+  proof with a small checked integer coefficient certificate or a shared
+  family/template theorem for repeated weight/support shapes.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
