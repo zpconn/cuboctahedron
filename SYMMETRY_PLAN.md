@@ -17782,6 +17782,98 @@ Acceptance:
   Decision: DU.9Z.1 is accepted as a convenience bridge.  It does not change
   the remaining membership/completeness burden, but it reduces the amount of
   root glue future generated selector chunks need to export.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AA existential source/row row-property root:
+  DU.9AA adds the bounded smoke module
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9AARowPropertyAllGood
+  ```
+
+  and strengthens `RowPropertyAllGoodBridge` with:
+
+  ```lean
+  RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row :
+    ... ->
+      RowPropertyParametricCoverageOnIdentityRange lo hi
+  ```
+
+  This is the smallest semantic bridge for selector-positive generated leaves:
+  a leaf can keep its selector coordinate and lookup implementation private and
+  export only
+
+  ```lean
+  exists key : SourceIndexStateKey,
+    SourceIndexStateSourceFacts key rank mask /\
+      SourceIndexStateRowFacts key rank mask
+  ```
+
+  for every GoodDirection member in its range.  DU.9AA proves the real bounded
+  `[0,4)` all-Good root through this existential row-property path:
+
+  ```lean
+  rowPropertyCoverage0_1 :
+    RowPropertyParametricCoverageOnIdentityRange 0 1
+
+  rowPropertyCoverage2_3 :
+    RowPropertyParametricCoverageOnIdentityRange 2 3
+
+  rowPropertyCoverage3_4 :
+    RowPropertyParametricCoverageOnIdentityRange 3 4
+
+  allGoodCoverage0_4 :
+    AllTranslationGoodCoverageOnRange 0 4
+  ```
+
+  Rank `1` is still discharged by the existing row-relation classifier window;
+  ranks `0`, `2`, and `3` use the DU.9P compact membership theorem only as
+  bounded smoke input.  No deterministic selector-key table is exposed in the
+  public theorem type.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      RowPropertyAllGoodBridge.lean
+    exit=0
+    elapsed=7.92s
+    max_rss=3258408 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      RowPropertyAllGoodBridge
+    exit=0
+    elapsed=2.17s
+    max_rss=3305400 KiB
+
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9AARowPropertyAllGood.lean
+    first attempt:
+      exit=1
+      elapsed=1.76s
+      max_rss=3342728 KiB
+      reason=dependent file saw stale RowPropertyAllGoodBridge .olean before
+             the new constructor was built
+    retry after refreshing bridge .olean:
+      exit=0
+      elapsed=1.55s
+      max_rss=3342316 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9AARowPropertyAllGood
+    exit=0
+    elapsed=2.20s
+    max_rss=3365052 KiB
+  ```
+
+  Decision: DU.9AA is accepted as proof-producing bridge smoke.  The preferred
+  generated all-Good leaf target is now even smaller: emit semantic existential
+  source/row facts for GoodDirection members, erase them through
+  `RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row`, and then
+  through DU.9V to `AllTranslationGoodCoverageOnRange`.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
@@ -17797,6 +17889,17 @@ Acceptance:
   ```lean
   SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
   ```
+
+  With DU.9AA, an equivalent row-property target is now also acceptable:
+
+  ```lean
+  RowPropertyParametricCoverageOnIdentityRange 0 5000
+
+  AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  provided it is proved from semantic source/row facts for GoodDirection
+  members, not from rank-local compact-cover replay.
 
   This remains the hard AP16DU proof obligation.  It must avoid `fin_cases
   mask`/all-mask replay, avoid singleton positive-survivor signatures, stay

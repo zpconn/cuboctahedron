@@ -86,6 +86,30 @@ theorem RowPropertyParametricCoverageOnIdentityRange.of_keyAt_source_row
   rcases hcomplete hlt hlo hhi hM hgood with ⟨hsource, hrows⟩
   exact SourceIndexStateKey.covered_of_source_row hsource hrows
 
+/--
+Build direct row-property coverage from existential source/row facts.
+
+This is the lightest bridge for selector-positive generated leaves: the
+generated module may keep its coordinate lookup private and export only that
+some source-index key has the required source and row facts.
+-/
+theorem RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : SourceIndexStateKey,
+                  SourceIndexStateSourceFacts key rank mask /\
+                    SourceIndexStateRowFacts key rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact SourceIndexStateKey.covered_of_source_row hsource hrows
+
 /-- Erase a named row-property membership family to the public all-Good range target. -/
 theorem RowPropertyMembershipCoverageOnIdentityRange.to_allGoodCoverage
     {family : RowPropertyMembershipFamily} {lo hi : Nat}
