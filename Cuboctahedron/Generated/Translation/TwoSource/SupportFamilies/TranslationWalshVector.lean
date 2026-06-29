@@ -313,6 +313,22 @@ def translationPrefixWalshStep
     (WalshAffineVec3.smulConst (signedCoeffWalshAt w i)
       (matVec prefixM (pairReflectionDeltaQ pair)))
 
+def translationPrefixWalshStepAt
+    (w : PairWord) (i : WordIndex)
+    (pref : WalshAffineVec3) : WalshAffineVec3 :=
+  let prefixM := pairPrefixLinearNat w i.val
+  let pair := w.get i
+  WalshAffineVec3.add pref
+    (WalshAffineVec3.smulConst (signedCoeffWalshAt w i)
+      (matVec prefixM (pairReflectionDeltaQ pair)))
+
+theorem translationPrefixWalshStep_eq_stepAt
+    (w : PairWord) (n : Nat) (hn : n < 13)
+    (pref : WalshAffineVec3) :
+    translationPrefixWalshStep w n hn pref =
+      translationPrefixWalshStepAt w ⟨n, hn⟩ pref := by
+  rfl
+
 theorem translationPrefixWalshVectorNat_succ
     (w : PairWord) (n : Nat) (hn : n < 13) :
     translationPrefixWalshVectorNat w (n + 1) =
@@ -334,8 +350,8 @@ structure TranslationWalshVectorTrace
   pref : Nat -> WalshAffineVec3
   zero_eq : pref 0 = WalshAffineVec3.zero
   step_eq :
-    forall n : Nat, forall hn : n < 13,
-      pref (n + 1) = translationPrefixWalshStep w n hn (pref n)
+    forall i : WordIndex,
+      pref (i.val + 1) = translationPrefixWalshStepAt w i (pref i.val)
   final_eq :
     final =
       WalshAffineVec3.add (pref 13)
@@ -356,7 +372,9 @@ theorem TranslationWalshVectorTrace.prefix_eq
       calc
         trace.pref (n + 1)
             = translationPrefixWalshStep w n hnlt (trace.pref n) :=
-              trace.step_eq n hnlt
+              by
+                rw [translationPrefixWalshStep_eq_stepAt]
+                exact trace.step_eq ⟨n, hnlt⟩
         _ = translationPrefixWalshStep w n hnlt
               (translationPrefixWalshVectorNat w n) := by
               rw [ih (by omega)]
