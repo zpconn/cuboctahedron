@@ -13322,6 +13322,59 @@ Acceptance:
   theorem and the AP16CF normal recurrence shape.  Then assemble a theorem for
   `impactDenomAtRank` in terms of the compact vector and copied-normal
   recurrences.
+- [x] Implement Phase 6Z.6K.8AP.16CH internal-impact normal/denominator
+  recurrence bridge in Lean:
+  AP16CH extends `Cuboctahedron/Search/TranslationRecurrence.lean` with:
+
+  ```lean
+  theorem normalQ_faceOfPairSign
+  theorem normalQ_translationChoiceSeq_afterStart
+  theorem impactPlaneNormalQ_wordImpact_translationChoiceSeq
+  theorem impactDenomAtRank_wordImpact_eq_compact
+  ```
+
+  The final theorem proves that every internal impact denominator for a ranked
+  translation choice is definitionally reducible to the compact pair-word data:
+
+  ```lean
+  impactDenomAtRank r mask (wordImpact i)
+    =
+  dot
+    (matVec (pairPrefixLinearNat (unrankPairWord r) i.val)
+      (scalarMul (signedCoeffAt (unrankPairWord r) mask i)
+        (canonicalNormalQ ((unrankPairWord r).get i))))
+    (translationVectorOfChoice (unrankPairWord r) mask)
+  ```
+
+  This is the Lean counterpart of the AP16CE/AP16CF diagnostic recurrences.
+  It gives generated AP16CD-style leaves a semantic theorem for internal
+  impacts, instead of forcing bounded `impactDenomAtRank` mask replay.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16ch_translation_normal_denominator_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Search.TranslationRecurrence'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 5.51s
+  peak tree RSS: 4065 MiB
+  minimum available memory: 45979 MiB
+  ```
+
+  Decision: accepted as the internal-impact denominator bridge needed by the
+  Walsh symbolic obstruction path.  The remaining generated-leaf work is to
+  prove that a concrete `WalshAffineVec3` normal/vector record equals the two
+  compact expressions in this theorem, then rewrite
+  `impactDenomAtRank_wordImpact_eq_compact` instead of replaying all masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

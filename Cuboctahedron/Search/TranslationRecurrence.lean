@@ -21,6 +21,24 @@ theorem faceReflectionQ_b_faceOfPairSign
       canonicalNormalQ, canonicalOffsetQ, faceOfPairSign, normalQ, offsetQ,
       dot, scalarMul]
 
+theorem normalQ_faceOfPairSign
+    (p : PairId) (positive : Bool) :
+    normalQ (faceOfPairSign p positive) =
+      scalarMul (if positive then (1 : Rat) else -1)
+        (canonicalNormalQ p) := by
+  cases p <;> cases positive <;>
+    apply Vec3.ext <;>
+    norm_num [faceOfPairSign, normalQ, canonicalNormalQ, scalarMul]
+
+theorem normalQ_translationChoiceSeq_afterStart
+    (w : PairWord) (mask : SignMask) (i : WordIndex) :
+    normalQ (translationChoiceSeq w mask (afterStart i)) =
+      scalarMul (signedCoeffAt w mask i)
+        (canonicalNormalQ (w.get i)) := by
+  have hne : afterStart i ≠ (0 : Step14) := afterStart_ne_zero i
+  simp [translationChoiceSeq, hne, signedCoeffAt,
+    normalQ_faceOfPairSign]
+
 theorem pathPrefixAffNat_b_eq_translationPrefixVectorNat
     (w : PairWord) (mask : SignMask) :
     forall n : Nat, n <= 13 ->
@@ -92,6 +110,36 @@ theorem translationBAtRankMask_eq_translationVectorOfChoice
   apply Vec3.ext <;>
     simp [affCompose, hPrefix, hM, hStartFace, hStartDelta, vecAdd] <;>
     ring
+
+theorem impactPlaneNormalQ_wordImpact_translationChoiceSeq
+    (w : PairWord) (mask : SignMask) (i : WordIndex) :
+    impactPlaneNormalQ (translationChoiceSeq w mask) (wordImpact i) =
+      matVec (pairPrefixLinearNat w i.val)
+        (scalarMul (signedCoeffAt w mask i)
+          (canonicalNormalQ (w.get i))) := by
+  have hPrefixM :
+      (pathPrefixAffNat (translationChoiceSeq w mask) i.val).M =
+        pairPrefixLinearNat w i.val :=
+    pathPrefixAffNat_M_eq_pairPrefixLinearNat
+      (seq := translationChoiceSeq w mask) (w := w)
+      (translationChoiceSeq_pair_matches w mask) i.val (by omega)
+  have hSub : (wordImpact i).val - 1 = i.val := by
+    simp [wordImpact, afterStart]
+  unfold impactPlaneNormalQ copiedNormalQ preImpactCopyAff
+  rw [impactFace_wordImpact, hSub, hPrefixM,
+    normalQ_translationChoiceSeq_afterStart]
+
+theorem impactDenomAtRank_wordImpact_eq_compact
+    (r : Fin numPairWords) (mask : SignMask) (i : WordIndex) :
+    impactDenomAtRank r mask (wordImpact i) =
+      dot
+        (matVec (pairPrefixLinearNat (unrankPairWord r) i.val)
+          (scalarMul (signedCoeffAt (unrankPairWord r) mask i)
+            (canonicalNormalQ ((unrankPairWord r).get i))))
+        (translationVectorOfChoice (unrankPairWord r) mask) := by
+  unfold impactDenomAtRank impactDenom translationSeqAtRankMask
+  rw [translationBAtRankMask_eq_translationVectorOfChoice]
+  rw [impactPlaneNormalQ_wordImpact_translationChoiceSeq]
 
 theorem translationRecurrence_builds : True := by
   trivial
