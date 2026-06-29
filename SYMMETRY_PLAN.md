@@ -21356,6 +21356,73 @@ Decision:
 - This does not solve the heavy GoodDirection-membership proof by itself; it
   prevents that proof from being multiplied into every semantic row leaf.
 
+### Phase 6Z.6K.8AP.16DU.9AV checkpoint: split member/semantic smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9AV validates the DU.9AU bridge on the bounded `[0,1)`
+fixture with three separate modules:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  RowPropertyMemberBridgeSemanticRangeSmoke.lean
+  RowPropertyMemberBridgeMembershipRangeSmoke.lean
+  RowPropertyMemberBridgeRangeSmoke.lean
+```
+
+The semantic half proves:
+
+```lean
+theorem semanticCoverage0_1 :
+  RowPropertyMemberSemanticCoverageOnIdentityRange SelectorMember 0 1
+```
+
+It imports `RowPropertySemanticSelectorBridge` and the DU.9L selector-positive
+microshards, but it does **not** import compact-Walsh denominator cover modules.
+
+The membership half proves:
+
+```lean
+theorem membershipCoverage0_1 :
+  GoodMaskMembershipOnIdentityRange SelectorMember 0 1
+```
+
+It is the only side of this smoke that imports the compact GoodDirection
+membership proof for rank `0`.
+
+The root composes both facts:
+
+```lean
+theorem allGoodCoverage0_1 :
+  AllTranslationGoodCoverageOnRange 0 1
+```
+
+Guarded builds:
+
+```text
+RowPropertyMemberBridgeSemanticRangeSmoke:
+  exit = 0, elapsed = 3.50s, peak RSS = 3933 MiB
+
+RowPropertyMemberBridgeMembershipRangeSmoke:
+  exit = 0, elapsed = 3.00s, peak RSS = 3854 MiB
+
+RowPropertyMemberBridgeRangeSmoke:
+  exit = 0, elapsed = 3.00s, peak RSS = 3870 MiB
+```
+
+Decision:
+
+- Accept the separated member/semantic proof layout for the next generator
+  revision.
+- Production semantic row shards should target
+  `RowPropertyMemberSemanticCoverageOnIdentityRange` and should not import
+  compact-Walsh denominator-cover roots.
+- Production GoodDirection membership shards should target
+  `GoodMaskMembershipOnIdentityRange`; they may be heavy, but they can be
+  built and cached independently instead of being multiplied through every
+  semantic row leaf.
+- The next scaling task is generator support for this split layout over a
+  nontrivial bounded range or a production-like singleton rank, while keeping
+  semantic shards below the 8 GiB guard.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
