@@ -1,0 +1,85 @@
+{
+  "decision": "Endpoint bridge work is complete enough for the bounded AP16DU classifier. The next useful work must prove the semantic membership theorem itself, preferably by a shared source-index/state family classifier, not by adding more endpoint wrappers.",
+  "equivalent_endpoint_targets": [
+    "SourceIndexStateDescriptorGoodCoverageOnRange 0 5000",
+    "RowPropertyParametricCoverageOnIdentityRange 0 5000",
+    "AllTranslationGoodCoverageOnRange 0 5000",
+    "SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000",
+    "SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000"
+  ],
+  "missing_surfaces": [],
+  "rejected_next_moves": [
+    "Do not add more all-Good/descriptor wrapper theorems unless a generated emitter actually needs a different premise shape.",
+    "Do not prove membership by fin_cases over all masks or by replaying bad-direction masks.",
+    "Do not scale DU.9P compact-Walsh rank-local membership covers as production evidence.",
+    "Do not build a giant rank/mask table of classifier keys in Lean.",
+    "Do not run broad lake builds; use focused guarded checks only."
+  ],
+  "selected_remaining_obligation": {
+    "lean": "forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),\n  0 <= rank ->\n    rank < 5000 ->\n      totalLinearOfPairWord (unrankPairWord \u27e8rank, hlt\u27e9) =\n          (matId : Mat3 Rat) ->\n        GoodDirectionAtRank \u27e8rank, hlt\u27e9 mask ->\n          exists key : ClassifierKey,\n            SourceIndexStateSourceFacts\n              key.toSourceIndexStateKey rank mask /\\\n            SourceIndexStateRowFacts\n              key.toSourceIndexStateKey rank mask",
+    "name": "semantic_classifier_key_source_row_membership"
+  },
+  "status": "accepted-surfaces-present",
+  "surfaces": [
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "name": "classifier facts catalog to allGood",
+      "needle": "classifierAllGoodCoverage_of_sourceIndexFactsCatalog",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "name": "classifier predicate catalog to allGood",
+      "needle": "classifierAllGoodCoverage_of_sourceIndexPredicateCatalog",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "name": "classifier facts catalog to descriptor",
+      "needle": "classifierDescriptorCoverage_of_sourceIndexFactsCatalog",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "name": "classifier predicate catalog to descriptor",
+      "needle": "classifierDescriptorCoverage_of_sourceIndexPredicateCatalog",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "name": "classifier key facts to descriptor",
+      "needle": "classifierDescriptorCoverage_of_key_source_row",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "name": "classifier key predicates to descriptor",
+      "needle": "classifierDescriptorCoverage_of_key_source_predicate",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9RRangeAdapter.lean",
+      "name": "selector catalog to allGood",
+      "needle": "SelectorCoordinateFactsGoodCatalogOnRangeFor.to_allGoodCoverage",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9RRangeAdapter.lean",
+      "name": "selector catalog to descriptor",
+      "needle": "SelectorCoordinateFactsGoodCatalogOnRangeFor.to_descriptorCoverage",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyAllGoodBridge.lean",
+      "name": "row-property existential source/row",
+      "needle": "RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row",
+      "present": true
+    },
+    {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+      "name": "descriptor coverage to allGood",
+      "needle": "SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage",
+      "present": true
+    }
+  ]
+}

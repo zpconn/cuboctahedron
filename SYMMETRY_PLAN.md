@@ -18287,6 +18287,53 @@ Acceptance:
   infrastructure.  It does not solve classifier completeness by itself, but it
   ensures the production selector-coordinate path can terminate at descriptor
   coverage without extra root glue or certificate-valued exports.
+- [x] Run Phase 6Z.6K.8AP.16DU.9AI membership surface audit:
+  DU.9AI adds a small reproducible audit:
+
+  ```text
+  scripts/audit_ap16du9ai_membership_surface.py
+  ```
+
+  The audit checks that the current bounded classifier/selector/row-property
+  modules expose every endpoint bridge needed by the AP16DU descriptor target.
+  It is planning telemetry only, not proof evidence.
+
+  Result:
+
+  ```text
+  status: accepted-surfaces-present
+  missing expected surfaces: 0
+  selected remaining obligation: semantic_classifier_key_source_row_membership
+  ```
+
+  The selected remaining theorem shape is:
+
+  ```lean
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    0 <= rank ->
+      rank < 5000 ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists key : ClassifierKey,
+              SourceIndexStateSourceFacts
+                key.toSourceIndexStateKey rank mask /\
+              SourceIndexStateRowFacts
+                key.toSourceIndexStateKey rank mask
+  ```
+
+  Decision: endpoint bridge work is complete enough for the bounded AP16DU
+  classifier.  The next useful work must prove the semantic membership theorem
+  itself, preferably by a shared source-index/state family classifier.  Do not
+  add more all-Good/descriptor wrapper theorems unless a generated emitter
+  actually needs a different premise shape.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9ai_membership_surface_audit.json
+  scripts/generated/phase6z6k8ap16du9ai_membership_surface_audit.md
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
