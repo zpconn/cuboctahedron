@@ -1,0 +1,40 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16DF",
+  "status": "rejected_guarded_build_memory_cap",
+  "trusted_as_final_generated_coverage": false,
+  "rank100805_cover_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke",
+  "rank101105_cover": {
+    "rank": 101105,
+    "mask": 6,
+    "good_masks": [
+      6,
+      22
+    ],
+    "selected_subcubes": 11,
+    "selected_word_impacts": [
+      1,
+      3,
+      5,
+      6,
+      7,
+      8,
+      11
+    ],
+    "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank101105Smoke.lean",
+    "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank101105Smoke"
+  },
+  "rank101105_walsh_cover": "scripts/generated/phase6z6k8ap16df_rank101105_walsh_subcube_cover.json",
+  "rank101105_selected_subcubes": 11,
+  "rank101105_uncovered_count": 0,
+  "root_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke.lean",
+  "root_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke",
+  "guarded_build": {
+    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/ap16df_two_signature_cover_build.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke'",
+    "result": "killed_by_memory_guard",
+    "elapsed_seconds": 492.42,
+    "peak_tree_rss_mib": 7002.96,
+    "min_available_mib": 42898.13
+  },
+  "generated_lean_artifacts_committed": false,
+  "rejection_reason": "The two-signature root forced a slow rank-101105 selected-impact proof to exceed the 7000 MiB process-tree cap. The generated Lean artifacts were removed to keep the package buildable; reports remain diagnostic only."
+}

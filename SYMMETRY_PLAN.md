@@ -14661,6 +14661,72 @@ Acceptance:
   namespaces, and a root that imports the cover modules.  Build those pieces
   serially with memory guards; do not jump to the 20-signature sample until the
   two-signature shard is checked.
+- [x] Reject Phase 6Z.6K.8AP.16DF two-signature compact cover smoke:
+  AP16DF adds a generator:
+
+  ```text
+  scripts/generate_ap16df_two_signature_compact_cover_smoke.py
+  ```
+
+  It attempted to compose the accepted rank-100805 AP16DC cover with a new
+  rank-101105 cover.  The exact external Walsh-cover profile for rank 101105
+  succeeded:
+
+  ```text
+  selected subcubes: 11
+  uncovered masks: 0
+  good masks: [6, 22]
+  selected word-impact indices: [1,3,5,6,7,8,11]
+  ```
+
+  Generated diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16df_rank101105_walsh_subcube_cover.json
+  scripts/generated/phase6z6k8ap16df_rank101105_walsh_subcube_cover.md
+  scripts/generated/phase6z6k8ap16df_rank101105_selected_impacts_manifest.json
+  scripts/generated/phase6z6k8ap16df_rank101105_compact_walsh_cover_smoke.json
+  scripts/generated/phase6z6k8ap16df_rank101105_compact_walsh_cover_smoke.md
+  scripts/generated/phase6z6k8ap16df_two_signature_compact_cover_smoke.json
+  scripts/generated/phase6z6k8ap16df_two_signature_compact_cover_smoke.md
+  ```
+
+  The generated Lean artifacts were intentionally removed after the focused
+  guarded build failed, so they are not imported by the package.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16df_two_signature_cover_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke'
+  ```
+
+  Result:
+
+  ```text
+  killed by memory guard
+  elapsed: 492.42s
+  peak tree RSS: 7002.96 MiB
+  minimum available memory: 42898.13 MiB
+  ```
+
+  Decision: rejected.  This did not threaten the machine because the guard
+  terminated the process at 7 GiB RSS, but it proves that AP16DC cannot scale
+  by simply generating/importing fresh selected-impact compact denominator
+  modules per survivor signature.  The culprit is the six-bit symbolic normal
+  proof path for nonzero impacts.  Next work should either:
+
+  1. replace selected-impact compact-denominator normal proofs with a shared
+     symbolic theorem that avoids six-bit per-impact `norm_num`, or
+  2. shift the compact Walsh cover to use reusable impact-normal trace fixtures
+     keyed by `(word prefix state, impact)` instead of per-rank modules.
+
+  Until one of those is implemented, do not scale AP16DC beyond the accepted
+  rank-100805 smoke.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
