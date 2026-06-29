@@ -23,11 +23,16 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from generate_ap16cm_walsh_vector_trace_smoke import build_lean as build_trace_lean  # noqa: E402
 from generate_ap16cq_compact_denom_consumer_smoke import write_manifest_batch  # noqa: E402
 from generate_ap16dc_compact_walsh_cover_smoke import (  # noqa: E402
     emit_lean as emit_cover_lean,
     write_report as write_cover_report,
+)
+from generate_ap16dk_split_walsh_vector_trace_smoke import (  # noqa: E402
+    emit_data as emit_trace_data,
+    emit_final as emit_trace_final,
+    emit_root as emit_trace_root,
+    emit_step as emit_trace_step,
 )
 from generate_ap16bl_impact_subcube_smoke import selected_subcubes  # noqa: E402
 from generate_ap16bo_walsh_bound_smoke import term_bound  # noqa: E402
@@ -62,12 +67,50 @@ def rank_suffix(rank: int) -> str:
     return f"Rank{rank}"
 
 
+def trace_stem(rank: int) -> str:
+    return f"ImpactSubcubeWalshVectorTrace{rank_suffix(rank)}Split"
+
+
 def trace_namespace(rank: int) -> str:
-    return f"{BASE_NS}.ImpactSubcubeWalshVectorTrace{rank_suffix(rank)}Smoke"
+    return f"{BASE_NS}.{trace_stem(rank)}Smoke"
 
 
 def trace_lean(rank: int) -> Path:
-    return BASE_DIR / f"ImpactSubcubeWalshVectorTrace{rank_suffix(rank)}Smoke.lean"
+    return BASE_DIR / f"{trace_stem(rank)}Smoke.lean"
+
+
+def trace_data_lean(rank: int) -> Path:
+    return BASE_DIR / f"{trace_stem(rank)}DataSmoke.lean"
+
+
+def trace_step_lean(rank: int, index: int) -> Path:
+    return BASE_DIR / f"{trace_stem(rank)}Step{index:02d}Smoke.lean"
+
+
+def trace_final_lean(rank: int) -> Path:
+    return BASE_DIR / f"{trace_stem(rank)}FinalSmoke.lean"
+
+
+def trace_target_paths(rank: int) -> list[tuple[str, Path]]:
+    return [
+        ("trace_data", trace_data_lean(rank)),
+        *[
+            (f"trace_step_{index:02d}", trace_step_lean(rank, index))
+            for index in range(13)
+        ],
+        ("trace_final", trace_final_lean(rank)),
+        ("trace", trace_lean(rank)),
+    ]
+
+
+def emit_split_trace(rank: int) -> list[Path]:
+    stem = trace_stem(rank)
+    namespace = trace_namespace(rank)
+    paths = [emit_trace_data(rank, namespace, stem)]
+    paths.extend(emit_trace_step(rank, namespace, stem, index) for index in range(13))
+    paths.append(emit_trace_final(namespace, stem))
+    paths.append(emit_trace_root(namespace, stem))
+    return paths
 
 
 def impact_namespace(rank: int, impact: int) -> str:
@@ -199,9 +242,7 @@ def selected_data_from_forms(
 def emit_signature(entry: dict[str, Any], source_by_rank: dict[int, dict[str, Any]]) -> dict[str, Any]:
     rank = int(entry["rank"])
     anchor_mask = int(entry["anchor_mask"])
-    trace_path = trace_lean(rank)
-    trace_path.parent.mkdir(parents=True, exist_ok=True)
-    trace_path.write_text(build_trace_lean(rank, trace_namespace(rank)), encoding="utf-8")
+    trace_paths = emit_split_trace(rank)
 
     cover_payload = write_cover_profile(source_by_rank, rank)
     manifest = manifest_for_entry(entry)
@@ -255,6 +296,7 @@ def emit_signature(entry: dict[str, Any], source_by_rank: dict[int, dict[str, An
         all_data=all_data,
         manifest=manifest,
     )
+    cover_payload["emitted_trace_lean"] = [str(path) for path in trace_paths]
     cover_payload["emitted_lean"] = str(cover_path)
     return cover_payload
 
@@ -295,7 +337,8 @@ def planned_targets(entries: list[dict[str, Any]]) -> list[dict[str, str]]:
     targets: list[dict[str, str]] = []
     for entry in entries:
         rank = int(entry["rank"])
-        targets.append({"kind": "trace", "module": module_from_path(trace_lean(rank))})
+        for kind, path in trace_target_paths(rank):
+            targets.append({"kind": kind, "module": module_from_path(path)})
         for impact in entry["selected_word_impacts"]:
             targets.append({
                 "kind": "selected_impact",
@@ -381,6 +424,7 @@ def main() -> None:
         "status": "emitted_pending_guarded_build" if args.emit else "dry_run",
         "trusted_as_proof": False,
         "trusted_as_final_generated_coverage": False,
+        "trace_layout": "split",
         "plan": str(args.plan),
         "source": str(args.source),
         "emitted_lean": bool(args.emit),

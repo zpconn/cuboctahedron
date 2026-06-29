@@ -1,0 +1,333 @@
+{
+  "anchor_mask": 14,
+  "bad_mask_count": 58,
+  "candidate_count": 261,
+  "good_masks": [
+    14,
+    17,
+    23,
+    31,
+    46,
+    62
+  ],
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "rank": 6000480,
+  "sample_index": 2,
+  "selected": [
+    {
+      "fixed_bits": {
+        "d11m": -1,
+        "dm11": -1,
+        "y": -1
+      },
+      "impact": 8,
+      "label": "0**0*0",
+      "masks": [
+        0,
+        2,
+        4,
+        6,
+        16,
+        18,
+        20,
+        22
+      ],
+      "max_value": "-52/27"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "dm11": 1,
+        "z": -1
+      },
+      "impact": 1,
+      "label": "*00**1",
+      "masks": [
+        32,
+        33,
+        40,
+        41,
+        48,
+        49,
+        56,
+        57
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": 1,
+        "z": -1
+      },
+      "impact": 10,
+      "label": "*011**",
+      "masks": [
+        12,
+        13,
+        28,
+        29,
+        44,
+        45,
+        60,
+        61
+      ],
+      "max_value": "-116/27"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d1m1": 1,
+        "z": 1
+      },
+      "impact": 5,
+      "label": "*10*1*",
+      "masks": [
+        18,
+        19,
+        26,
+        27,
+        50,
+        51,
+        58,
+        59
+      ],
+      "max_value": "-28/9"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "dm11": 1,
+        "y": 1,
+        "z": 1
+      },
+      "impact": 4,
+      "label": "111**1",
+      "masks": [
+        39,
+        47,
+        55,
+        63
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d1m1": -1,
+        "z": -1
+      },
+      "impact": 1,
+      "label": "*00*0*",
+      "masks": [
+        0,
+        1,
+        8,
+        9,
+        32,
+        33,
+        40,
+        41
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d1m1": 1,
+        "z": -1
+      },
+      "impact": 10,
+      "label": "*01*1*",
+      "masks": [
+        20,
+        21,
+        28,
+        29,
+        52,
+        53,
+        60,
+        61
+      ],
+      "max_value": "-52/27"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": -1,
+        "d1m1": -1,
+        "y": 1
+      },
+      "impact": 2,
+      "label": "1*100*",
+      "masks": [
+        5,
+        7,
+        37,
+        39
+      ],
+      "max_value": "-28/9"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": -1,
+        "d1m1": -1,
+        "z": 1
+      },
+      "impact": 10,
+      "label": "*1000*",
+      "masks": [
+        2,
+        3,
+        34,
+        35
+      ],
+      "max_value": "-4/27"
+    },
+    {
+      "fixed_bits": {
+        "d1m1": 1,
+        "dm11": -1,
+        "y": -1
+      },
+      "impact": 8,
+      "label": "0***10",
+      "masks": [
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30
+      ],
+      "max_value": "-20/27"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": 1,
+        "y": 1,
+        "z": 1
+      },
+      "impact": 5,
+      "label": "1101**",
+      "masks": [
+        11,
+        27,
+        43,
+        59
+      ],
+      "max_value": "-20/9"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": -1,
+        "dm11": 1,
+        "y": -1,
+        "z": 1
+      },
+      "impact": 7,
+      "label": "0110*1",
+      "masks": [
+        38,
+        54
+      ],
+      "max_value": "-20/9"
+    },
+    {
+      "fixed_bits": {
+        "d1m1": -1,
+        "dm11": 1,
+        "y": -1,
+        "z": -1
+      },
+      "impact": 1,
+      "label": "00**01",
+      "masks": [
+        32,
+        36,
+        40,
+        44
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d1m1": -1,
+        "dm11": 1,
+        "y": -1
+      },
+      "impact": 1,
+      "label": "0*0*01",
+      "masks": [
+        32,
+        34,
+        40,
+        42
+      ],
+      "max_value": "-28/9"
+    },
+    {
+      "fixed_bits": {
+        "d11m": 1,
+        "d1m1": 1,
+        "dm11": -1,
+        "z": -1
+      },
+      "impact": 10,
+      "label": "*0*110",
+      "masks": [
+        24,
+        25,
+        28,
+        29
+      ],
+      "max_value": "-4/27"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": 1,
+        "dm11": -1,
+        "z": 1
+      },
+      "impact": 5,
+      "label": "*101*0",
+      "masks": [
+        10,
+        11,
+        26,
+        27
+      ],
+      "max_value": "-44/9"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d1m1": -1,
+        "dm11": -1,
+        "y": 1,
+        "z": 1
+      },
+      "impact": 2,
+      "label": "111*00",
+      "masks": [
+        7,
+        15
+      ],
+      "max_value": "-4"
+    }
+  ],
+  "selected_count": 17,
+  "signature_key": "14931975d9969f8baedfb61cd70a614da7ff1aca4c62cbf1d52e38a65a42ae93",
+  "trusted_as_proof": false,
+  "uncovered_count": 0,
+  "uncovered_masks": [],
+  "walsh_validated": true,
+  "walsh_validation_failures": []
+}

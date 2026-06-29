@@ -1,6 +1,1790 @@
 {
-  "emitted_lean": false,
-  "emitted_signature_reports": [],
+  "emitted_lean": true,
+  "emitted_signature_reports": [
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 51,
+      "candidate_count": 197,
+      "emitted_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000745Smoke.lean",
+      "emitted_trace_lean": [
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitDataSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep00Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep01Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep02Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep03Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep04Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep05Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep06Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep07Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep08Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep09Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep10Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep11Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitStep12Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitFinalSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745SplitSmoke.lean"
+      ],
+      "good_masks": [
+        8,
+        13,
+        16,
+        22,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "phase": "Phase 6Z.6K.8AP.16DJ",
+      "rank": 6000745,
+      "sample_index": 0,
+      "selected": [
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "d1m1": -1
+          },
+          "impact": 1,
+          "label": "**000*",
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            32,
+            33,
+            34,
+            35
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "d1m1": 1
+          },
+          "impact": 5,
+          "label": "**011*",
+          "masks": [
+            24,
+            25,
+            26,
+            27,
+            56,
+            57,
+            58,
+            59
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "dm11": 1
+          },
+          "impact": 1,
+          "label": "**00*1",
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": -1,
+            "dm11": 1
+          },
+          "impact": 1,
+          "label": "**0*01",
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "dm11": 1,
+            "y": -1,
+            "z": -1
+          },
+          "impact": 4,
+          "label": "001**1",
+          "masks": [
+            36,
+            44,
+            52,
+            60
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 2,
+          "label": "011*0*",
+          "masks": [
+            6,
+            14,
+            38,
+            46
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "y": 1,
+            "z": -1
+          },
+          "impact": 8,
+          "label": "1010**",
+          "masks": [
+            5,
+            21,
+            37,
+            53
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": -1,
+            "d1m1": 1,
+            "dm11": -1,
+            "y": 1
+          },
+          "impact": 10,
+          "label": "1**010",
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "d1m1": -1,
+            "dm11": -1,
+            "z": 1
+          },
+          "impact": 11,
+          "label": "*1*100",
+          "masks": [
+            10,
+            11,
+            14,
+            15
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 2,
+          "label": "0*1*00",
+          "masks": [
+            4,
+            6,
+            12,
+            14
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": -1,
+            "y": 1
+          },
+          "impact": 8,
+          "label": "1*100*",
+          "masks": [
+            5,
+            7,
+            37,
+            39
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "dm11": -1,
+            "y": 1
+          },
+          "impact": 5,
+          "label": "1*01*0",
+          "masks": [
+            9,
+            11,
+            25,
+            27
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "dm11": -1,
+            "z": -1
+          },
+          "impact": 8,
+          "label": "*010*0",
+          "masks": [
+            4,
+            5,
+            20,
+            21
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": 1,
+            "dm11": -1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "*10*10",
+          "masks": [
+            18,
+            19,
+            26,
+            27
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "y": -1
+          },
+          "impact": 4,
+          "label": "0*1111",
+          "masks": [
+            60,
+            62
+          ],
+          "max_value": "-4"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "z": -1
+          },
+          "impact": 4,
+          "label": "*01111",
+          "masks": [
+            60,
+            61
+          ],
+          "max_value": "-4"
+        }
+      ],
+      "selected_count": 16,
+      "signature_key": "e378237f035fcae538ecad3cc2d5941db625afefe9429d3bf3e387b9fab5595b",
+      "trusted_as_proof": false,
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true,
+      "walsh_validation_failures": []
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 53,
+      "candidate_count": 212,
+      "emitted_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000625Smoke.lean",
+      "emitted_trace_lean": [
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitDataSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep00Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep01Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep02Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep03Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep04Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep05Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep06Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep07Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep08Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep09Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep10Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep11Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitStep12Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitFinalSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000625SplitSmoke.lean"
+      ],
+      "good_masks": [
+        8,
+        9,
+        13,
+        20,
+        22,
+        29,
+        31,
+        45,
+        47,
+        55,
+        63
+      ],
+      "phase": "Phase 6Z.6K.8AP.16DJ",
+      "rank": 6000625,
+      "sample_index": 1,
+      "selected": [
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "d1m1": -1
+          },
+          "impact": 1,
+          "label": "**000*",
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            32,
+            33,
+            34,
+            35
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "d1m1": 1
+          },
+          "impact": 5,
+          "label": "**011*",
+          "masks": [
+            24,
+            25,
+            26,
+            27,
+            56,
+            57,
+            58,
+            59
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "dm11": 1
+          },
+          "impact": 1,
+          "label": "**00*1",
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": -1,
+            "dm11": 1
+          },
+          "impact": 1,
+          "label": "**0*01",
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_value": "-44/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": 1,
+            "dm11": -1
+          },
+          "impact": 5,
+          "label": "**0*10",
+          "masks": [
+            16,
+            17,
+            18,
+            19,
+            24,
+            25,
+            26,
+            27
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "dm11": 1,
+            "y": -1,
+            "z": -1
+          },
+          "impact": 4,
+          "label": "001**1",
+          "masks": [
+            36,
+            44,
+            52,
+            60
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 2,
+          "label": "011*0*",
+          "masks": [
+            6,
+            14,
+            38,
+            46
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": -1,
+            "y": 1
+          },
+          "impact": 7,
+          "label": "1*100*",
+          "masks": [
+            5,
+            7,
+            37,
+            39
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "d1m1": -1,
+            "dm11": -1,
+            "z": 1
+          },
+          "impact": 11,
+          "label": "*1*100",
+          "masks": [
+            10,
+            11,
+            14,
+            15
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 7,
+          "label": "0**110",
+          "masks": [
+            24,
+            26,
+            28,
+            30
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": -1,
+            "d1m1": 1,
+            "dm11": -1,
+            "y": 1
+          },
+          "impact": 10,
+          "label": "1**010",
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-44/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "z": -1
+          },
+          "impact": 11,
+          "label": "*01*11",
+          "masks": [
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": -1,
+            "y": -1
+          },
+          "impact": 2,
+          "label": "0*100*",
+          "masks": [
+            4,
+            6,
+            36,
+            38
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": -1,
+            "y": -1
+          },
+          "impact": 10,
+          "label": "0*110*",
+          "masks": [
+            12,
+            14,
+            44,
+            46
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "dm11": 1,
+            "y": -1
+          },
+          "impact": 10,
+          "label": "0*11*1",
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": 1,
+            "dm11": 1,
+            "y": -1
+          },
+          "impact": 4,
+          "label": "0*1011",
+          "masks": [
+            52,
+            54
+          ],
+          "max_value": "-4"
+        }
+      ],
+      "selected_count": 16,
+      "signature_key": "7640df3ffbdd5cb8abd2cc411e36800321a232d79d0e1fdd322db7ba84d65463",
+      "trusted_as_proof": false,
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true,
+      "walsh_validation_failures": []
+    },
+    {
+      "anchor_mask": 14,
+      "bad_mask_count": 58,
+      "candidate_count": 261,
+      "emitted_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000480Smoke.lean",
+      "emitted_trace_lean": [
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitDataSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep00Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep01Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep02Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep03Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep04Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep05Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep06Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep07Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep08Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep09Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep10Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep11Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitStep12Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitFinalSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000480SplitSmoke.lean"
+      ],
+      "good_masks": [
+        14,
+        17,
+        23,
+        31,
+        46,
+        62
+      ],
+      "phase": "Phase 6Z.6K.8AP.16DJ",
+      "rank": 6000480,
+      "sample_index": 2,
+      "selected": [
+        {
+          "fixed_bits": {
+            "d11m": -1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 8,
+          "label": "0**0*0",
+          "masks": [
+            0,
+            2,
+            4,
+            6,
+            16,
+            18,
+            20,
+            22
+          ],
+          "max_value": "-52/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "dm11": 1,
+            "z": -1
+          },
+          "impact": 1,
+          "label": "*00**1",
+          "masks": [
+            32,
+            33,
+            40,
+            41,
+            48,
+            49,
+            56,
+            57
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "z": -1
+          },
+          "impact": 10,
+          "label": "*011**",
+          "masks": [
+            12,
+            13,
+            28,
+            29,
+            44,
+            45,
+            60,
+            61
+          ],
+          "max_value": "-116/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": 1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "*10*1*",
+          "masks": [
+            18,
+            19,
+            26,
+            27,
+            50,
+            51,
+            58,
+            59
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "dm11": 1,
+            "y": 1,
+            "z": 1
+          },
+          "impact": 4,
+          "label": "111**1",
+          "masks": [
+            39,
+            47,
+            55,
+            63
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": -1,
+            "z": -1
+          },
+          "impact": 1,
+          "label": "*00*0*",
+          "masks": [
+            0,
+            1,
+            8,
+            9,
+            32,
+            33,
+            40,
+            41
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": 1,
+            "z": -1
+          },
+          "impact": 10,
+          "label": "*01*1*",
+          "masks": [
+            20,
+            21,
+            28,
+            29,
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_value": "-52/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": -1,
+            "y": 1
+          },
+          "impact": 2,
+          "label": "1*100*",
+          "masks": [
+            5,
+            7,
+            37,
+            39
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "d1m1": -1,
+            "z": 1
+          },
+          "impact": 10,
+          "label": "*1000*",
+          "masks": [
+            2,
+            3,
+            34,
+            35
+          ],
+          "max_value": "-4/27"
+        },
+        {
+          "fixed_bits": {
+            "d1m1": 1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 8,
+          "label": "0***10",
+          "masks": [
+            16,
+            18,
+            20,
+            22,
+            24,
+            26,
+            28,
+            30
+          ],
+          "max_value": "-20/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "y": 1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "1101**",
+          "masks": [
+            11,
+            27,
+            43,
+            59
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "dm11": 1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 7,
+          "label": "0110*1",
+          "masks": [
+            38,
+            54
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d1m1": -1,
+            "dm11": 1,
+            "y": -1,
+            "z": -1
+          },
+          "impact": 1,
+          "label": "00**01",
+          "masks": [
+            32,
+            36,
+            40,
+            44
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": -1,
+            "dm11": 1,
+            "y": -1
+          },
+          "impact": 1,
+          "label": "0*0*01",
+          "masks": [
+            32,
+            34,
+            40,
+            42
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": -1,
+            "z": -1
+          },
+          "impact": 10,
+          "label": "*0*110",
+          "masks": [
+            24,
+            25,
+            28,
+            29
+          ],
+          "max_value": "-4/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "dm11": -1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "*101*0",
+          "masks": [
+            10,
+            11,
+            26,
+            27
+          ],
+          "max_value": "-44/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "dm11": -1,
+            "y": 1,
+            "z": 1
+          },
+          "impact": 2,
+          "label": "111*00",
+          "masks": [
+            7,
+            15
+          ],
+          "max_value": "-4"
+        }
+      ],
+      "selected_count": 17,
+      "signature_key": "14931975d9969f8baedfb61cd70a614da7ff1aca4c62cbf1d52e38a65a42ae93",
+      "trusted_as_proof": false,
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true,
+      "walsh_validation_failures": []
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 58,
+      "candidate_count": 228,
+      "emitted_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000720Smoke.lean",
+      "emitted_trace_lean": [
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitDataSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep00Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep01Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep02Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep03Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep04Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep05Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep06Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep07Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep08Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep09Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep10Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep11Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitStep12Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitFinalSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000720SplitSmoke.lean"
+      ],
+      "good_masks": [
+        8,
+        16,
+        30,
+        47,
+        55,
+        63
+      ],
+      "phase": "Phase 6Z.6K.8AP.16DJ",
+      "rank": 6000720,
+      "sample_index": 3,
+      "selected": [
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "dm11": -1,
+            "y": 1
+          },
+          "impact": 9,
+          "label": "1*1**0",
+          "masks": [
+            5,
+            7,
+            13,
+            15,
+            21,
+            23,
+            29,
+            31
+          ],
+          "max_value": "-44/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "z": -1
+          },
+          "impact": 11,
+          "label": "*011**",
+          "masks": [
+            12,
+            13,
+            28,
+            29,
+            44,
+            45,
+            60,
+            61
+          ],
+          "max_value": "-92/27"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "dm11": -1,
+            "y": 1
+          },
+          "impact": 9,
+          "label": "1**1*0",
+          "masks": [
+            9,
+            11,
+            13,
+            15,
+            25,
+            27,
+            29,
+            31
+          ],
+          "max_value": "-76/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "0101**",
+          "masks": [
+            10,
+            26,
+            42,
+            58
+          ],
+          "max_value": "-44/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 8,
+          "label": "0110**",
+          "masks": [
+            6,
+            22,
+            38,
+            54
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "dm11": 1,
+            "y": -1
+          },
+          "impact": 9,
+          "label": "0*00*1",
+          "masks": [
+            32,
+            34,
+            48,
+            50
+          ],
+          "max_value": "-44/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "y": 1,
+            "z": -1
+          },
+          "impact": 1,
+          "label": "1000**",
+          "masks": [
+            1,
+            17,
+            33,
+            49
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": -1,
+            "dm11": 1,
+            "y": 1
+          },
+          "impact": 1,
+          "label": "1*0*01",
+          "masks": [
+            33,
+            35,
+            41,
+            43
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "dm11": 1,
+            "y": -1,
+            "z": -1
+          },
+          "impact": 4,
+          "label": "001**1",
+          "masks": [
+            36,
+            44,
+            52,
+            60
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "dm11": 1,
+            "y": -1,
+            "z": -1
+          },
+          "impact": 4,
+          "label": "00*1*1",
+          "masks": [
+            40,
+            44,
+            56,
+            60
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "dm11": -1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "010**0",
+          "masks": [
+            2,
+            10,
+            18,
+            26
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 8,
+          "label": "0*10*0",
+          "masks": [
+            4,
+            6,
+            20,
+            22
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "dm11": 1,
+            "y": -1
+          },
+          "impact": 4,
+          "label": "0*11*1",
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_value": "-4"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "d1m1": 1,
+            "y": -1
+          },
+          "impact": 5,
+          "label": "0*011*",
+          "masks": [
+            24,
+            26,
+            56,
+            58
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 2,
+          "label": "0*1*00",
+          "masks": [
+            4,
+            6,
+            12,
+            14
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "dm11": 1,
+            "y": 1,
+            "z": -1
+          },
+          "impact": 1,
+          "label": "100**1",
+          "masks": [
+            33,
+            41,
+            49,
+            57
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "d1m1": -1,
+            "y": 1
+          },
+          "impact": 1,
+          "label": "1*000*",
+          "masks": [
+            1,
+            3,
+            33,
+            35
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "dm11": 1,
+            "y": 1
+          },
+          "impact": 1,
+          "label": "1*00*1",
+          "masks": [
+            33,
+            35,
+            49,
+            51
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "d1m1": -1,
+            "z": -1
+          },
+          "impact": 1,
+          "label": "*0000*",
+          "masks": [
+            0,
+            1,
+            32,
+            33
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "z": -1
+          },
+          "impact": 11,
+          "label": "*01*11",
+          "masks": [
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_value": "-44/27"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "d1m1": 1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "*1011*",
+          "masks": [
+            26,
+            27,
+            58,
+            59
+          ],
+          "max_value": "-68/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": 1,
+            "dm11": -1,
+            "z": 1
+          },
+          "impact": 5,
+          "label": "*10*10",
+          "masks": [
+            18,
+            19,
+            26,
+            27
+          ],
+          "max_value": "-4"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": -1,
+            "z": 1
+          },
+          "impact": 2,
+          "label": "*1100*",
+          "masks": [
+            6,
+            7,
+            38,
+            39
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": -1,
+            "y": 1,
+            "z": -1
+          },
+          "impact": 5,
+          "label": "10100*",
+          "masks": [
+            5,
+            37
+          ],
+          "max_value": "-4/9"
+        }
+      ],
+      "selected_count": 24,
+      "signature_key": "98a1a30835c91bc602d3d34204b1af71497ee3b77231d944c7815f74e780a7ba",
+      "trusted_as_proof": false,
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true,
+      "walsh_validation_failures": []
+    },
+    {
+      "anchor_mask": 5,
+      "bad_mask_count": 52,
+      "candidate_count": 205,
+      "emitted_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000662Smoke.lean",
+      "emitted_trace_lean": [
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitDataSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep00Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep01Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep02Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep03Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep04Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep05Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep06Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep07Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep08Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep09Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep10Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep11Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitStep12Smoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitFinalSmoke.lean",
+        "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000662SplitSmoke.lean"
+      ],
+      "good_masks": [
+        5,
+        13,
+        16,
+        18,
+        20,
+        28,
+        29,
+        30,
+        31,
+        45,
+        62,
+        63
+      ],
+      "phase": "Phase 6Z.6K.8AP.16DJ",
+      "rank": 6000662,
+      "sample_index": 4,
+      "selected": [
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "d1m1": -1
+          },
+          "impact": 1,
+          "label": "**000*",
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            32,
+            33,
+            34,
+            35
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "d1m1": 1
+          },
+          "impact": 5,
+          "label": "**011*",
+          "masks": [
+            24,
+            25,
+            26,
+            27,
+            56,
+            57,
+            58,
+            59
+          ],
+          "max_value": "-4"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": -1,
+            "dm11": 1
+          },
+          "impact": 1,
+          "label": "**00*1",
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d11m": 1,
+            "dm11": -1
+          },
+          "impact": 5,
+          "label": "**01*0",
+          "masks": [
+            8,
+            9,
+            10,
+            11,
+            24,
+            25,
+            26,
+            27
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": -1,
+            "d1m1": -1,
+            "dm11": 1
+          },
+          "impact": 1,
+          "label": "**0*01",
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "dm11": 1,
+            "y": -1,
+            "z": -1
+          },
+          "impact": 4,
+          "label": "001**1",
+          "masks": [
+            36,
+            44,
+            52,
+            60
+          ],
+          "max_value": "-4/3"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "y": -1,
+            "z": 1
+          },
+          "impact": 2,
+          "label": "011*0*",
+          "masks": [
+            6,
+            14,
+            38,
+            46
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "y": 1,
+            "z": 1
+          },
+          "impact": 11,
+          "label": "1110**",
+          "masks": [
+            7,
+            23,
+            39,
+            55
+          ],
+          "max_value": "-44/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": -1,
+            "d1m1": 1,
+            "dm11": -1,
+            "y": 1
+          },
+          "impact": 8,
+          "label": "1**010",
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-28/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d1m1": -1,
+            "dm11": -1,
+            "y": -1
+          },
+          "impact": 2,
+          "label": "0*1*00",
+          "masks": [
+            4,
+            6,
+            12,
+            14
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "dm11": 1,
+            "y": 1
+          },
+          "impact": 11,
+          "label": "1*10*1",
+          "masks": [
+            37,
+            39,
+            53,
+            55
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": -1,
+            "d1m1": 1,
+            "z": 1
+          },
+          "impact": 11,
+          "label": "*1101*",
+          "masks": [
+            22,
+            23,
+            54,
+            55
+          ],
+          "max_value": "-20/9"
+        },
+        {
+          "fixed_bits": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": -1,
+            "z": 1
+          },
+          "impact": 2,
+          "label": "*1110*",
+          "masks": [
+            14,
+            15,
+            46,
+            47
+          ],
+          "max_value": "-4/9"
+        },
+        {
+          "fixed_bits": {
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "z": -1
+          },
+          "impact": 10,
+          "label": "*0*111",
+          "masks": [
+            56,
+            57,
+            60,
+            61
+          ],
+          "max_value": "-28/9"
+        }
+      ],
+      "selected_count": 14,
+      "signature_key": "9ab594e6d07945124cb858792883096aecc8e47eae7402cd7254e2adce8df4b1",
+      "trusted_as_proof": false,
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true,
+      "walsh_validation_failures": []
+    }
+  ],
   "entries": [
     {
       "anchor_mask": 8,
@@ -144,11 +1928,71 @@
   "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomBatchSmoke",
   "schema_version": 1,
   "source": "scripts/generated/phase6z6k8ap16dd_compact_walsh_cover_scaling.json",
-  "status": "dry_run",
+  "status": "emitted_pending_guarded_build",
   "targets": [
     {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitFinalSmoke"
+    },
+    {
       "kind": "trace",
-      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745Smoke"
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitSmoke"
     },
     {
       "kind": "selected_impact",
@@ -194,8 +2038,68 @@
       "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000745Smoke"
     },
     {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitFinalSmoke"
+    },
+    {
       "kind": "trace",
-      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625Smoke"
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000625SplitSmoke"
     },
     {
       "kind": "selected_impact",
@@ -241,8 +2145,68 @@
       "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000625Smoke"
     },
     {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitFinalSmoke"
+    },
+    {
       "kind": "trace",
-      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480Smoke"
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000480SplitSmoke"
     },
     {
       "kind": "selected_impact",
@@ -288,8 +2252,68 @@
       "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000480Smoke"
     },
     {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitFinalSmoke"
+    },
+    {
       "kind": "trace",
-      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720Smoke"
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000720SplitSmoke"
     },
     {
       "kind": "selected_impact",
@@ -335,8 +2359,68 @@
       "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000720Smoke"
     },
     {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitFinalSmoke"
+    },
+    {
       "kind": "trace",
-      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662Smoke"
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000662SplitSmoke"
     },
     {
       "kind": "selected_impact",
@@ -386,6 +2470,7 @@
       "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomBatchSmoke"
     }
   ],
+  "trace_layout": "split",
   "trusted_as_final_generated_coverage": false,
   "trusted_as_proof": false
 }
