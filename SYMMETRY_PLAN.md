@@ -17365,6 +17365,67 @@ Acceptance:
   emitter can target a small semantic range-catalog theorem and let DU.9R erase
   it, rather than exporting raw compact-cover data or rank-local all-Good
   roots.
+- [x] Add Phase 6Z.6K.8AP.16DU.9T lookup/key selector-catalog smoke:
+  DU.9T checks the closest theorem shape to the existing DU.9L generated
+  micro-shards.  DU.9R.2 added a constructor that consumes:
+
+  ```lean
+  keyOfSelectorCoordinate? (coordAt rank mask) = some key
+  SourceIndexStateSourceFacts key.toSourceIndexStateKey rank mask
+  SourceIndexStateRowFacts key.toSourceIndexStateKey rank mask
+  ```
+
+  DU.9T proves the production-shaped catalog over the real nonempty bounded
+  range `[0,1)` using that lookup/source/row surface:
+
+  ```lean
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9TKeyAtSmoke
+
+  coordAt0_1 :
+    Nat -> SignMask -> SelectorCoordinate
+
+  selectorCatalog0_1_lookup :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt0_1 0 1
+
+  selectorCatalog0_1_lookup_sourceIndexFacts :
+    SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 1
+
+  selectorCatalog0_1_lookup_allGood :
+    AllTranslationGoodCoverageOnRange 0 1
+  ```
+
+  The first attempt failed quickly because the file used invalid namespace
+  alias syntax (`namespace X := ...`).  After replacing those aliases with
+  explicit names, the focused serial build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9TKeyAtSmoke
+
+  first attempt:
+    exit=1, elapsed=2.15s
+    reason: invalid namespace alias syntax, unresolved names
+
+  retry:
+    exit=0, elapsed=2.36s
+
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9TKeyAtSmoke.lean
+    exit=0
+    elapsed=1.59s
+    max_rss=3278444 KiB
+  ```
+
+  Decision: DU.9T is accepted as the preferred bounded smoke for the
+  selector-membership bridge.  It proves that generated positive-survivor
+  shards can expose only lookup/source/row facts and let DU.9R build the public
+  range catalog.  Like DU.9S, it remains bounded evidence; the production
+  blocker is still the shared-family proof of
+  `GoodDirectionAtRank -> lookup/source/row facts` over large ranges without
+  rank-local compact covers.
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:

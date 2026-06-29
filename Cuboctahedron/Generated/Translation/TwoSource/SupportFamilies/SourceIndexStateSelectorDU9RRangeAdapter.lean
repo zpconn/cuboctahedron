@@ -114,6 +114,37 @@ theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.of_classifierKey_source_row
   rw [hcoord]
   exact selectorCoordinateSourceRowFacts_of_key hsource hrows
 
+/--
+Build a selector-coordinate catalog from the exact selector lookup plus
+source/row facts.
+
+This matches the existing DU.9L micro-shard surface, where generated positive
+cases already expose `keyOfSelectorCoordinate? (coordAt rank mask) = some key`.
+-/
+theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.of_lookup_source_row
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  keyOfSelectorCoordinate? (coordAt rank mask) = some key /\
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                  SourceIndexStateRowFacts
+                    key.toSourceIndexStateKey rank mask) :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with
+    ⟨key, hlookup, hsource, hrows⟩
+  unfold SelectorCoordinateSourceRowFacts
+  rw [hlookup]
+  exact ⟨hsource, hrows⟩
+
 /-- Erase a range-parametric selector-coordinate catalog to source/row facts. -/
 theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog
     {coordAt : Nat -> SignMask -> SelectorCoordinate}
