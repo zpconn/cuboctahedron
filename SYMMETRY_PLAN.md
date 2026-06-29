@@ -28396,3 +28396,43 @@ proof obligation is not another quotient profiler; it is an algebraic
 template-language bridge proving that identity-linear GoodDirection cases
 satisfy `RowPropertyParametricCovered` without emitting concrete
 source-index/support/row-shape families.
+
+### Phase 6Z.6K.8AP.16DU.9EP checkpoint: first-class template membership
+
+Phase 6Z.6K.8AP.16DU.9EP extends
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean`
+with the generator-facing predicate:
+
+```lean
+def TemplateWitnessFor
+    (template : SourceIndexTemplate) (r : Nat) (mask : SignMask) : Prop :=
+  exists support : TwoSourceFarkasSupport,
+    SourceAgrees support r mask /\ template.Rows support r mask
+
+def TemplateLanguageMember (r : Nat) (mask : SignMask) : Prop :=
+  exists template : SourceIndexTemplate, TemplateWitnessFor template r mask
+```
+
+and the erasure theorems:
+
+- `TemplateWitnessFor.to_templateLanguageWitness`
+- `TemplateLanguageMember.to_templateLanguageWitness`
+- `TemplateLanguageCoverageOnIdentityRange.single_member`
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:02.09`, `max_rss_kb=3272708`.
+
+Decision: the next translation bridge should target `TemplateLanguageMember`
+under the identity-linear GoodDirection hypotheses.  This keeps the concrete
+support private to the proof and makes the low-count coordinate explicit: one
+of the existing `SourceIndexTemplate` row templates applies.  It is still not a
+complete algebraic proof of membership; it is the Lean-checked theorem surface
+that a future algebraic source/template recurrence must prove.  Production
+generation should not introduce another row-template enum or fall back to
+support-index catalogs.
