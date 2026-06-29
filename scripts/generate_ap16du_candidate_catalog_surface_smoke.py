@@ -303,6 +303,45 @@ theorem generatedCandidateCatalogAllGoodCoverage_viaRowProperty
     (generatedCandidateRowPropertyCoverage hcomplete)
 
 /--
+AP16DU.9AC semantic row-property erasure adapter.
+
+This is the final-shape premise: generated coverage proves membership from
+`GoodDirectionAtRank` directly, without routing through
+`goodDirectionAtRankBool`.
+-/
+theorem generatedCandidateRowPropertyCoverage_semantic
+    (hcomplete :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange {lo} {hi} := by
+  apply RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with
+    ⟨candidate, hmember⟩
+  exact ⟨generatedKey candidate, generatedCandidateSourceFacts hmember,
+    generatedCandidateRowFacts hmember⟩
+
+theorem generatedCandidateCatalogAllGoodCoverage_viaRowProperty_semantic
+    (hcomplete :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    AllTranslationGoodCoverageOnRange {lo} {hi} :=
+  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+    (generatedCandidateRowPropertyCoverage_semantic hcomplete)
+
+/--
 AP16DU.1 catalog-facts adapter for the selected candidate catalog.
 
 This exposes the same candidate-completeness premise as a finite
@@ -388,6 +427,7 @@ def write_reports(
                 "validates the multi-candidate classifier theorem surface",
                 "validates erasure to SourceRowFactsGoodCatalogOnRange",
                 "validates erasure through RowPropertyParametricCoverageOnIdentityRange",
+                "validates a semantic GoodDirectionAtRank row-property premise",
                 "does not prove the catalog-completeness premise",
                 "does not import rank-local singleton candidate-facts shards",
                 "does not enumerate masks that fail GoodDirection",
@@ -425,7 +465,9 @@ def write_reports(
         "`AllTranslationGoodCoverageOnRange` and through",
         "`RowPropertyParametricCoverageOnIdentityRange` and",
         "`SourceRowFactsGoodCatalogOnRange`, without rank-local singleton facts",
-        "or bad-direction evidence.",
+        "or bad-direction evidence.  It also emits a semantic",
+        "`GoodDirectionAtRank` row-property erasure surface for the final",
+        "coverage theorem shape.",
     ]
     md_path.write_text("\n".join(md) + "\n", encoding="utf-8")
 

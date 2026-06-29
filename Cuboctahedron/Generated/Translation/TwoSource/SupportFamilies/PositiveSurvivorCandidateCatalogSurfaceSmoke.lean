@@ -2415,6 +2415,45 @@ theorem generatedCandidateCatalogAllGoodCoverage_viaRowProperty
     (generatedCandidateRowPropertyCoverage hcomplete)
 
 /--
+AP16DU.9AC semantic row-property erasure adapter.
+
+This is the final-shape premise: generated coverage proves membership from
+`GoodDirectionAtRank` directly, without routing through
+`goodDirectionAtRankBool`.
+-/
+theorem generatedCandidateRowPropertyCoverage_semantic
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange 0 5000 := by
+  apply RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with
+    ⟨candidate, hmember⟩
+  exact ⟨generatedKey candidate, generatedCandidateSourceFacts hmember,
+    generatedCandidateRowFacts hmember⟩
+
+theorem generatedCandidateCatalogAllGoodCoverage_viaRowProperty_semantic
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+    (generatedCandidateRowPropertyCoverage_semantic hcomplete)
+
+/--
 AP16DU.1 catalog-facts adapter for the selected candidate catalog.
 
 This exposes the same candidate-completeness premise as a finite

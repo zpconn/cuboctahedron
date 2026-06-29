@@ -18,4 +18,6 @@ multi-candidate catalog erases both directly to
 `AllTranslationGoodCoverageOnRange` and through
 `RowPropertyParametricCoverageOnIdentityRange` and
 `SourceRowFactsGoodCatalogOnRange`, without rank-local singleton facts
-or bad-direction evidence.
+or bad-direction evidence.  It also emits a semantic
+`GoodDirectionAtRank` row-property erasure surface for the final
+coverage theorem shape.

@@ -17936,6 +17936,54 @@ Acceptance:
   not reduce the open proof obligation, but it confirms that the existing
   candidate-catalog route can target the new row-property public API without
   key-table exports or rank-local singleton facts.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AC semantic GoodDirection row-property surface:
+  DU.9AC extends the same reproducible emitter again, this time adding the
+  final-shape semantic premise:
+
+  ```lean
+  generatedCandidateRowPropertyCoverage_semantic :
+    (forall {rank mask} (hlt : rank < numPairWords),
+      0 <= rank ->
+        rank < 5000 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              exists candidate : GeneratedCandidate,
+                generatedMember candidate rank mask) ->
+      RowPropertyParametricCoverageOnIdentityRange 0 5000
+
+  generatedCandidateCatalogAllGoodCoverage_viaRowProperty_semantic :
+    ... ->
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  This avoids routing the future proof through
+  `goodDirectionAtRankBool = true`.  The older Boolean theorem remains useful
+  for compatibility with existing Boolean profilers, but DU.9AC is the theorem
+  surface to target for final proof-producing generated membership.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      PositiveSurvivorCandidateCatalogSurfaceSmoke.lean
+    exit=0
+    elapsed=5.77s
+    max_rss=3437312 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      PositiveSurvivorCandidateCatalogSurfaceSmoke
+    exit=0
+    elapsed=3.97s
+    max_rss=3485444 KiB
+  ```
+
+  Decision: DU.9AC is accepted as the preferred catalog-surface API.  The open
+  task is now sharper: prove the semantic `hcomplete` premise for meaningful
+  ranges using state/signature membership, then erase directly to
+  row-property/all-Good coverage.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:

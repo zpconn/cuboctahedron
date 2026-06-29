@@ -5,6 +5,7 @@
       "validates the multi-candidate classifier theorem surface",
       "validates erasure to SourceRowFactsGoodCatalogOnRange",
       "validates erasure through RowPropertyParametricCoverageOnIdentityRange",
+      "validates a semantic GoodDirectionAtRank row-property premise",
       "does not prove the catalog-completeness premise",
       "does not import rank-local singleton candidate-facts shards",
       "does not enumerate masks that fail GoodDirection"
