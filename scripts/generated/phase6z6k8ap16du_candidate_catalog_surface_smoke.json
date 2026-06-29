@@ -3,6 +3,7 @@
   "decision": {
     "notes": [
       "validates the multi-candidate classifier theorem surface",
+      "validates erasure to SourceRowFactsGoodCatalogOnRange",
       "does not prove the catalog-completeness premise",
       "does not import rank-local singleton candidate-facts shards",
       "does not enumerate masks that fail GoodDirection"
@@ -16,7 +17,7 @@
     "theorem_premise": "hcomplete"
   },
   "observed_good_direction_cases": 4693,
-  "phase": "6Z.6K.8AP.16DU.0",
+  "phase": "6Z.6K.8AP.16DU.9F",
   "range": [
     0,
     5000

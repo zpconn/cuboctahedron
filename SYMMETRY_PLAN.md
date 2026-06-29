@@ -16259,12 +16259,68 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9e_classifier_key_catalog_adapter_smoke.md
   scripts/generated/phase6z6k8ap16du9e_classifier_key_catalog_adapter_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9F candidate-catalog facts adapter:
+  DU.9F extends the existing `PositiveSurvivorCandidateCatalogSurfaceSmoke`
+  route so the selected 125 AP16DU candidate groups also expose the finite
+  source/row-facts catalog API:
+
+  ```lean
+  private def GeneratedCandidate.toFin : GeneratedCandidate -> Fin 125
+
+  private def generatedCandidateKeyAt (i : Fin 125) :
+      SourceIndexStateKey
+
+  private theorem generatedCandidateKeyAt_toFin
+      (candidate : GeneratedCandidate) :
+      generatedCandidateKeyAt candidate.toFin = generatedKey candidate
+
+  theorem generatedCandidateSourceRowFactsCatalog
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                  exists candidate : GeneratedCandidate,
+                    generatedMember candidate rank mask) :
+      SourceRowFactsGoodCatalogOnRange generatedCandidateKeyAt 0 5000
+
+  theorem generatedCandidateCatalogAllGoodCoverage_viaFactsCatalog
+      (hcomplete : ... goodDirectionAtRankBool = true ->
+          exists candidate, generatedMember candidate rank mask) :
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  This does not prove the hard candidate-completeness premise yet.  It
+  verifies that the candidate route can now erase through the same finite
+  source/row catalog API as the `ClassifierKey` route, while keeping the
+  candidate data private.  Source facts are derived from
+  `SourcePairPositionSpec.sourceFacts`; row facts are derived from the
+  candidate's `SourceIndexStateRowProducer.rowFacts`.
+
+  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke
+  exit=0, elapsed=4.00s, peak_tree_rss=4121 MiB, min_available=46017 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_smoke.json
+  scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_smoke.md
+  scripts/generated/phase6z6k8ap16du9f_candidate_catalog_facts_adapter_guard.json
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
-  DU.9D:
+  DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
 
   ```lean
   SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+
+  SourceRowFactsGoodCatalogOnRange generatedCandidateKeyAt 0 5000
   ```
 
   or, if source/row predicates remain cheaper than fact records:
@@ -16296,9 +16352,11 @@ Acceptance:
 
   followed by `classifierCompletenessOnIdentityRange_of_key_source_row`.
   However, the preferred next proof-producing step is now a catalog/language
-  emitter for `classifierSourceIndexKeyAt`, followed by
-  `classifierAllGoodCoverage_of_sourceIndexFactsCatalog` or
-  `classifierAllGoodCoverage_of_sourceIndexPredicateCatalog`.
+  emitter for either `classifierSourceIndexKeyAt` or
+  `generatedCandidateKeyAt`, followed by
+  `classifierAllGoodCoverage_of_sourceIndexFactsCatalog`,
+  `classifierAllGoodCoverage_of_sourceIndexPredicateCatalog`, or
+  `generatedCandidateCatalogAllGoodCoverage_viaFactsCatalog`.
   If the direct descriptor predicate is still too hard, add a compact
   trace/source-position lemma whose type mentions only the reusable
   source-index/state family, not concrete rank/mask examples.

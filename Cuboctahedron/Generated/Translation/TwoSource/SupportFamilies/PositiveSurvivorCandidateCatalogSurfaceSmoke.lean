@@ -1,11 +1,12 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
 
 /-!
-Generated AP16DU.0 positive-survivor candidate-catalog surface smoke.
+Generated AP16DU.9F positive-survivor candidate-catalog facts adapter.
 
 This file is diagnostic only.  It validates the multi-candidate catalog
-classifier surface selected by AP16DT.  The generated theorem still assumes the
-catalog-completeness premise; it does not prove final coverage.
+classifier surface selected by AP16DT and erases it through the finite
+source/row-facts catalog API.  The generated theorems still assume the
+catalog-completeness premise; they do not prove final coverage.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke
@@ -2028,9 +2029,294 @@ private def generatedRowProducer : GeneratedCandidate -> SourceIndexStateRowProd
         intro key rank mask h
         exact SourceIndexStateRowFacts.of_rows h.2 }
 
+private def GeneratedCandidate.toFin : GeneratedCandidate -> Fin 125
+  | .c000 => ⟨0, by decide⟩
+  | .c001 => ⟨1, by decide⟩
+  | .c002 => ⟨2, by decide⟩
+  | .c003 => ⟨3, by decide⟩
+  | .c004 => ⟨4, by decide⟩
+  | .c005 => ⟨5, by decide⟩
+  | .c006 => ⟨6, by decide⟩
+  | .c007 => ⟨7, by decide⟩
+  | .c008 => ⟨8, by decide⟩
+  | .c009 => ⟨9, by decide⟩
+  | .c010 => ⟨10, by decide⟩
+  | .c011 => ⟨11, by decide⟩
+  | .c012 => ⟨12, by decide⟩
+  | .c013 => ⟨13, by decide⟩
+  | .c014 => ⟨14, by decide⟩
+  | .c015 => ⟨15, by decide⟩
+  | .c016 => ⟨16, by decide⟩
+  | .c017 => ⟨17, by decide⟩
+  | .c018 => ⟨18, by decide⟩
+  | .c019 => ⟨19, by decide⟩
+  | .c020 => ⟨20, by decide⟩
+  | .c021 => ⟨21, by decide⟩
+  | .c022 => ⟨22, by decide⟩
+  | .c023 => ⟨23, by decide⟩
+  | .c024 => ⟨24, by decide⟩
+  | .c025 => ⟨25, by decide⟩
+  | .c026 => ⟨26, by decide⟩
+  | .c027 => ⟨27, by decide⟩
+  | .c028 => ⟨28, by decide⟩
+  | .c029 => ⟨29, by decide⟩
+  | .c030 => ⟨30, by decide⟩
+  | .c031 => ⟨31, by decide⟩
+  | .c032 => ⟨32, by decide⟩
+  | .c033 => ⟨33, by decide⟩
+  | .c034 => ⟨34, by decide⟩
+  | .c035 => ⟨35, by decide⟩
+  | .c036 => ⟨36, by decide⟩
+  | .c037 => ⟨37, by decide⟩
+  | .c038 => ⟨38, by decide⟩
+  | .c039 => ⟨39, by decide⟩
+  | .c040 => ⟨40, by decide⟩
+  | .c041 => ⟨41, by decide⟩
+  | .c042 => ⟨42, by decide⟩
+  | .c043 => ⟨43, by decide⟩
+  | .c044 => ⟨44, by decide⟩
+  | .c045 => ⟨45, by decide⟩
+  | .c046 => ⟨46, by decide⟩
+  | .c047 => ⟨47, by decide⟩
+  | .c048 => ⟨48, by decide⟩
+  | .c049 => ⟨49, by decide⟩
+  | .c050 => ⟨50, by decide⟩
+  | .c051 => ⟨51, by decide⟩
+  | .c052 => ⟨52, by decide⟩
+  | .c053 => ⟨53, by decide⟩
+  | .c054 => ⟨54, by decide⟩
+  | .c055 => ⟨55, by decide⟩
+  | .c056 => ⟨56, by decide⟩
+  | .c057 => ⟨57, by decide⟩
+  | .c058 => ⟨58, by decide⟩
+  | .c059 => ⟨59, by decide⟩
+  | .c060 => ⟨60, by decide⟩
+  | .c061 => ⟨61, by decide⟩
+  | .c062 => ⟨62, by decide⟩
+  | .c063 => ⟨63, by decide⟩
+  | .c064 => ⟨64, by decide⟩
+  | .c065 => ⟨65, by decide⟩
+  | .c066 => ⟨66, by decide⟩
+  | .c067 => ⟨67, by decide⟩
+  | .c068 => ⟨68, by decide⟩
+  | .c069 => ⟨69, by decide⟩
+  | .c070 => ⟨70, by decide⟩
+  | .c071 => ⟨71, by decide⟩
+  | .c072 => ⟨72, by decide⟩
+  | .c073 => ⟨73, by decide⟩
+  | .c074 => ⟨74, by decide⟩
+  | .c075 => ⟨75, by decide⟩
+  | .c076 => ⟨76, by decide⟩
+  | .c077 => ⟨77, by decide⟩
+  | .c078 => ⟨78, by decide⟩
+  | .c079 => ⟨79, by decide⟩
+  | .c080 => ⟨80, by decide⟩
+  | .c081 => ⟨81, by decide⟩
+  | .c082 => ⟨82, by decide⟩
+  | .c083 => ⟨83, by decide⟩
+  | .c084 => ⟨84, by decide⟩
+  | .c085 => ⟨85, by decide⟩
+  | .c086 => ⟨86, by decide⟩
+  | .c087 => ⟨87, by decide⟩
+  | .c088 => ⟨88, by decide⟩
+  | .c089 => ⟨89, by decide⟩
+  | .c090 => ⟨90, by decide⟩
+  | .c091 => ⟨91, by decide⟩
+  | .c092 => ⟨92, by decide⟩
+  | .c093 => ⟨93, by decide⟩
+  | .c094 => ⟨94, by decide⟩
+  | .c095 => ⟨95, by decide⟩
+  | .c096 => ⟨96, by decide⟩
+  | .c097 => ⟨97, by decide⟩
+  | .c098 => ⟨98, by decide⟩
+  | .c099 => ⟨99, by decide⟩
+  | .c100 => ⟨100, by decide⟩
+  | .c101 => ⟨101, by decide⟩
+  | .c102 => ⟨102, by decide⟩
+  | .c103 => ⟨103, by decide⟩
+  | .c104 => ⟨104, by decide⟩
+  | .c105 => ⟨105, by decide⟩
+  | .c106 => ⟨106, by decide⟩
+  | .c107 => ⟨107, by decide⟩
+  | .c108 => ⟨108, by decide⟩
+  | .c109 => ⟨109, by decide⟩
+  | .c110 => ⟨110, by decide⟩
+  | .c111 => ⟨111, by decide⟩
+  | .c112 => ⟨112, by decide⟩
+  | .c113 => ⟨113, by decide⟩
+  | .c114 => ⟨114, by decide⟩
+  | .c115 => ⟨115, by decide⟩
+  | .c116 => ⟨116, by decide⟩
+  | .c117 => ⟨117, by decide⟩
+  | .c118 => ⟨118, by decide⟩
+  | .c119 => ⟨119, by decide⟩
+  | .c120 => ⟨120, by decide⟩
+  | .c121 => ⟨121, by decide⟩
+  | .c122 => ⟨122, by decide⟩
+  | .c123 => ⟨123, by decide⟩
+  | .c124 => ⟨124, by decide⟩
+
+private def generatedCandidateKeyAt (i : Fin 125) : SourceIndexStateKey :=
+  if i.val = 0 then generatedKey .c000 else
+  if i.val = 1 then generatedKey .c001 else
+  if i.val = 2 then generatedKey .c002 else
+  if i.val = 3 then generatedKey .c003 else
+  if i.val = 4 then generatedKey .c004 else
+  if i.val = 5 then generatedKey .c005 else
+  if i.val = 6 then generatedKey .c006 else
+  if i.val = 7 then generatedKey .c007 else
+  if i.val = 8 then generatedKey .c008 else
+  if i.val = 9 then generatedKey .c009 else
+  if i.val = 10 then generatedKey .c010 else
+  if i.val = 11 then generatedKey .c011 else
+  if i.val = 12 then generatedKey .c012 else
+  if i.val = 13 then generatedKey .c013 else
+  if i.val = 14 then generatedKey .c014 else
+  if i.val = 15 then generatedKey .c015 else
+  if i.val = 16 then generatedKey .c016 else
+  if i.val = 17 then generatedKey .c017 else
+  if i.val = 18 then generatedKey .c018 else
+  if i.val = 19 then generatedKey .c019 else
+  if i.val = 20 then generatedKey .c020 else
+  if i.val = 21 then generatedKey .c021 else
+  if i.val = 22 then generatedKey .c022 else
+  if i.val = 23 then generatedKey .c023 else
+  if i.val = 24 then generatedKey .c024 else
+  if i.val = 25 then generatedKey .c025 else
+  if i.val = 26 then generatedKey .c026 else
+  if i.val = 27 then generatedKey .c027 else
+  if i.val = 28 then generatedKey .c028 else
+  if i.val = 29 then generatedKey .c029 else
+  if i.val = 30 then generatedKey .c030 else
+  if i.val = 31 then generatedKey .c031 else
+  if i.val = 32 then generatedKey .c032 else
+  if i.val = 33 then generatedKey .c033 else
+  if i.val = 34 then generatedKey .c034 else
+  if i.val = 35 then generatedKey .c035 else
+  if i.val = 36 then generatedKey .c036 else
+  if i.val = 37 then generatedKey .c037 else
+  if i.val = 38 then generatedKey .c038 else
+  if i.val = 39 then generatedKey .c039 else
+  if i.val = 40 then generatedKey .c040 else
+  if i.val = 41 then generatedKey .c041 else
+  if i.val = 42 then generatedKey .c042 else
+  if i.val = 43 then generatedKey .c043 else
+  if i.val = 44 then generatedKey .c044 else
+  if i.val = 45 then generatedKey .c045 else
+  if i.val = 46 then generatedKey .c046 else
+  if i.val = 47 then generatedKey .c047 else
+  if i.val = 48 then generatedKey .c048 else
+  if i.val = 49 then generatedKey .c049 else
+  if i.val = 50 then generatedKey .c050 else
+  if i.val = 51 then generatedKey .c051 else
+  if i.val = 52 then generatedKey .c052 else
+  if i.val = 53 then generatedKey .c053 else
+  if i.val = 54 then generatedKey .c054 else
+  if i.val = 55 then generatedKey .c055 else
+  if i.val = 56 then generatedKey .c056 else
+  if i.val = 57 then generatedKey .c057 else
+  if i.val = 58 then generatedKey .c058 else
+  if i.val = 59 then generatedKey .c059 else
+  if i.val = 60 then generatedKey .c060 else
+  if i.val = 61 then generatedKey .c061 else
+  if i.val = 62 then generatedKey .c062 else
+  if i.val = 63 then generatedKey .c063 else
+  if i.val = 64 then generatedKey .c064 else
+  if i.val = 65 then generatedKey .c065 else
+  if i.val = 66 then generatedKey .c066 else
+  if i.val = 67 then generatedKey .c067 else
+  if i.val = 68 then generatedKey .c068 else
+  if i.val = 69 then generatedKey .c069 else
+  if i.val = 70 then generatedKey .c070 else
+  if i.val = 71 then generatedKey .c071 else
+  if i.val = 72 then generatedKey .c072 else
+  if i.val = 73 then generatedKey .c073 else
+  if i.val = 74 then generatedKey .c074 else
+  if i.val = 75 then generatedKey .c075 else
+  if i.val = 76 then generatedKey .c076 else
+  if i.val = 77 then generatedKey .c077 else
+  if i.val = 78 then generatedKey .c078 else
+  if i.val = 79 then generatedKey .c079 else
+  if i.val = 80 then generatedKey .c080 else
+  if i.val = 81 then generatedKey .c081 else
+  if i.val = 82 then generatedKey .c082 else
+  if i.val = 83 then generatedKey .c083 else
+  if i.val = 84 then generatedKey .c084 else
+  if i.val = 85 then generatedKey .c085 else
+  if i.val = 86 then generatedKey .c086 else
+  if i.val = 87 then generatedKey .c087 else
+  if i.val = 88 then generatedKey .c088 else
+  if i.val = 89 then generatedKey .c089 else
+  if i.val = 90 then generatedKey .c090 else
+  if i.val = 91 then generatedKey .c091 else
+  if i.val = 92 then generatedKey .c092 else
+  if i.val = 93 then generatedKey .c093 else
+  if i.val = 94 then generatedKey .c094 else
+  if i.val = 95 then generatedKey .c095 else
+  if i.val = 96 then generatedKey .c096 else
+  if i.val = 97 then generatedKey .c097 else
+  if i.val = 98 then generatedKey .c098 else
+  if i.val = 99 then generatedKey .c099 else
+  if i.val = 100 then generatedKey .c100 else
+  if i.val = 101 then generatedKey .c101 else
+  if i.val = 102 then generatedKey .c102 else
+  if i.val = 103 then generatedKey .c103 else
+  if i.val = 104 then generatedKey .c104 else
+  if i.val = 105 then generatedKey .c105 else
+  if i.val = 106 then generatedKey .c106 else
+  if i.val = 107 then generatedKey .c107 else
+  if i.val = 108 then generatedKey .c108 else
+  if i.val = 109 then generatedKey .c109 else
+  if i.val = 110 then generatedKey .c110 else
+  if i.val = 111 then generatedKey .c111 else
+  if i.val = 112 then generatedKey .c112 else
+  if i.val = 113 then generatedKey .c113 else
+  if i.val = 114 then generatedKey .c114 else
+  if i.val = 115 then generatedKey .c115 else
+  if i.val = 116 then generatedKey .c116 else
+  if i.val = 117 then generatedKey .c117 else
+  if i.val = 118 then generatedKey .c118 else
+  if i.val = 119 then generatedKey .c119 else
+  if i.val = 120 then generatedKey .c120 else
+  if i.val = 121 then generatedKey .c121 else
+  if i.val = 122 then generatedKey .c122 else
+  if i.val = 123 then generatedKey .c123 else
+  if i.val = 124 then generatedKey .c124 else
+  generatedKey .c124
+
+private theorem generatedCandidateKeyAt_toFin
+    (candidate : GeneratedCandidate) :
+    generatedCandidateKeyAt candidate.toFin = generatedKey candidate := by
+  cases candidate <;> rfl
+
 private def generatedMember (candidate : GeneratedCandidate) (rank : Nat) (mask : SignMask) : Prop :=
   (generatedSpec candidate).Predicate rank mask /\
     (generatedRowProducer candidate).Applies (generatedKey candidate) rank mask
+
+private theorem generatedCandidateSourceFacts
+    {candidate : GeneratedCandidate} {rank : Nat} {mask : SignMask}
+    (hmember : generatedMember candidate rank mask) :
+    SourceIndexStateSourceFacts (generatedKey candidate) rank mask := by
+  have hfirst :
+      (generatedKey candidate).firstIndex =
+        (generatedSpec candidate).first.index := by
+    cases candidate <;> rfl
+  have hsecond :
+      (generatedKey candidate).secondIndex =
+        (generatedSpec candidate).second.index := by
+    cases candidate <;> rfl
+  have hsupport :
+      (generatedKey candidate).support =
+        (generatedSpec candidate).support := by
+    cases candidate <;> rfl
+  exact (generatedSpec candidate).sourceFacts
+    hfirst hsecond hsupport hmember.1
+
+private theorem generatedCandidateRowFacts
+    {candidate : GeneratedCandidate} {rank : Nat} {mask : SignMask}
+    (hmember : generatedMember candidate rank mask) :
+    SourceIndexStateRowFacts (generatedKey candidate) rank mask :=
+  (generatedRowProducer candidate).rowFacts hmember.2
 
 private def generatedCatalogClassifier
     (hcomplete :
@@ -2066,7 +2352,7 @@ private def generatedCatalogClassifier
   completeBool := hcomplete
 
 /--
-AP16DU.0 surface theorem for the selected candidate catalog.
+AP16DU.9F surface theorem for the selected candidate catalog.
 
 The selected chunk has `125` candidate groups out of
 `195` and accounts for
@@ -2085,6 +2371,51 @@ theorem generatedCandidateCatalogAllGoodCoverage
                   generatedMember candidate rank mask) :
     AllTranslationGoodCoverageOnRange 0 5000 :=
   (generatedCatalogClassifier hcomplete).to_allGoodCoverage
+
+/--
+AP16DU.1 catalog-facts adapter for the selected candidate catalog.
+
+This exposes the same candidate-completeness premise as a finite
+`SourceRowFactsGoodCatalogOnRange` theorem, which is the current public
+source-index coverage API.  The generated candidate data remains private and
+is immediately erased to source/row facts.
+-/
+theorem generatedCandidateSourceRowFactsCatalog
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    SourceRowFactsGoodCatalogOnRange generatedCandidateKeyAt 0 5000 := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM
+      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood) with
+    ⟨candidate, hmember⟩
+  refine ⟨candidate.toFin, ?_, ?_⟩
+  · have hlookup := generatedCandidateKeyAt_toFin candidate
+    have hsource := generatedCandidateSourceFacts hmember
+    simpa [hlookup] using hsource
+  · have hlookup := generatedCandidateKeyAt_toFin candidate
+    have hrows := generatedCandidateRowFacts hmember
+    simpa [hlookup] using hrows
+
+theorem generatedCandidateCatalogAllGoodCoverage_viaFactsCatalog
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage
+    (generatedCandidateSourceRowFactsCatalog hcomplete)
 
 theorem candidateCatalogSurfaceSmoke_builds : True := by
   trivial

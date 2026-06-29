@@ -88,6 +88,8 @@ def emit_candidate_catalog_module(
     spec_cases: list[str] = []
     key_cases: list[str] = []
     row_cases: list[str] = []
+    to_fin_cases: list[str] = []
+    key_at_cases: list[str] = []
 
     for index, group in enumerate(candidates):
         ctor = candidate_ctor(index)
@@ -114,6 +116,12 @@ def emit_candidate_catalog_module(
         intro key rank mask h
         exact SourceIndexStateRowFacts.of_rows h.2 }}"""
         )
+        to_fin_cases.append(
+            f"  | .{ctor} => ⟨{index}, by decide⟩"
+        )
+        key_at_cases.append(
+            f"  if i.val = {index} then generatedKey .{ctor} else"
+        )
 
     observed_cases = int(
         plan.get("range_audit_payload", {}).get(
@@ -125,11 +133,12 @@ def emit_candidate_catalog_module(
     text = f"""import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
 
 /-!
-Generated AP16DU.0 positive-survivor candidate-catalog surface smoke.
+Generated AP16DU.9F positive-survivor candidate-catalog facts adapter.
 
 This file is diagnostic only.  It validates the multi-candidate catalog
-classifier surface selected by AP16DT.  The generated theorem still assumes the
-catalog-completeness premise; it does not prove final coverage.
+classifier surface selected by AP16DT and erases it through the finite
+source/row-facts catalog API.  The generated theorems still assume the
+catalog-completeness premise; they do not prove final coverage.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke
@@ -156,9 +165,46 @@ private def generatedKey : GeneratedCandidate -> SourceIndexStateKey
 private def generatedRowProducer : GeneratedCandidate -> SourceIndexStateRowProducer
 {chr(10).join(row_cases)}
 
+private def GeneratedCandidate.toFin : GeneratedCandidate -> Fin {len(candidates)}
+{chr(10).join(to_fin_cases)}
+
+private def generatedCandidateKeyAt (i : Fin {len(candidates)}) : SourceIndexStateKey :=
+{chr(10).join(key_at_cases)}
+  generatedKey .{candidate_ctor(len(candidates) - 1)}
+
+private theorem generatedCandidateKeyAt_toFin
+    (candidate : GeneratedCandidate) :
+    generatedCandidateKeyAt candidate.toFin = generatedKey candidate := by
+  cases candidate <;> rfl
+
 private def generatedMember (candidate : GeneratedCandidate) (rank : Nat) (mask : SignMask) : Prop :=
   (generatedSpec candidate).Predicate rank mask /\\
     (generatedRowProducer candidate).Applies (generatedKey candidate) rank mask
+
+private theorem generatedCandidateSourceFacts
+    {{candidate : GeneratedCandidate}} {{rank : Nat}} {{mask : SignMask}}
+    (hmember : generatedMember candidate rank mask) :
+    SourceIndexStateSourceFacts (generatedKey candidate) rank mask := by
+  have hfirst :
+      (generatedKey candidate).firstIndex =
+        (generatedSpec candidate).first.index := by
+    cases candidate <;> rfl
+  have hsecond :
+      (generatedKey candidate).secondIndex =
+        (generatedSpec candidate).second.index := by
+    cases candidate <;> rfl
+  have hsupport :
+      (generatedKey candidate).support =
+        (generatedSpec candidate).support := by
+    cases candidate <;> rfl
+  exact (generatedSpec candidate).sourceFacts
+    hfirst hsecond hsupport hmember.1
+
+private theorem generatedCandidateRowFacts
+    {{candidate : GeneratedCandidate}} {{rank : Nat}} {{mask : SignMask}}
+    (hmember : generatedMember candidate rank mask) :
+    SourceIndexStateRowFacts (generatedKey candidate) rank mask :=
+  (generatedRowProducer candidate).rowFacts hmember.2
 
 private def generatedCatalogClassifier
     (hcomplete :
@@ -194,7 +240,7 @@ private def generatedCatalogClassifier
   completeBool := hcomplete
 
 /--
-AP16DU.0 surface theorem for the selected candidate catalog.
+AP16DU.9F surface theorem for the selected candidate catalog.
 
 The selected chunk has `{len(candidates)}` candidate groups out of
 `{plan["profile_summary"]["positive_candidate_groups"]}` and accounts for
@@ -213,6 +259,51 @@ theorem generatedCandidateCatalogAllGoodCoverage
                   generatedMember candidate rank mask) :
     AllTranslationGoodCoverageOnRange {lo} {hi} :=
   (generatedCatalogClassifier hcomplete).to_allGoodCoverage
+
+/--
+AP16DU.1 catalog-facts adapter for the selected candidate catalog.
+
+This exposes the same candidate-completeness premise as a finite
+`SourceRowFactsGoodCatalogOnRange` theorem, which is the current public
+source-index coverage API.  The generated candidate data remains private and
+is immediately erased to source/row facts.
+-/
+theorem generatedCandidateSourceRowFactsCatalog
+    (hcomplete :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    SourceRowFactsGoodCatalogOnRange generatedCandidateKeyAt {lo} {hi} := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM
+      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood) with
+    ⟨candidate, hmember⟩
+  refine ⟨candidate.toFin, ?_, ?_⟩
+  · have hlookup := generatedCandidateKeyAt_toFin candidate
+    have hsource := generatedCandidateSourceFacts hmember
+    simpa [hlookup] using hsource
+  · have hlookup := generatedCandidateKeyAt_toFin candidate
+    have hrows := generatedCandidateRowFacts hmember
+    simpa [hlookup] using hrows
+
+theorem generatedCandidateCatalogAllGoodCoverage_viaFactsCatalog
+    (hcomplete :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    AllTranslationGoodCoverageOnRange {lo} {hi} :=
+  SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage
+    (generatedCandidateSourceRowFactsCatalog hcomplete)
 
 theorem candidateCatalogSurfaceSmoke_builds : True := by
   trivial
@@ -240,7 +331,7 @@ def write_reports(
     )
     payload = {
         "schema_version": 1,
-        "phase": "6Z.6K.8AP.16DU.0",
+        "phase": "6Z.6K.8AP.16DU.9F",
         "mode": "candidate_catalog_surface_smoke",
         "trusted_as_proof": False,
         "lean_output": str(output),
@@ -253,6 +344,7 @@ def write_reports(
             "status": "surface-smoke-generated",
             "notes": [
                 "validates the multi-candidate classifier theorem surface",
+                "validates erasure to SourceRowFactsGoodCatalogOnRange",
                 "does not prove the catalog-completeness premise",
                 "does not import rank-local singleton candidate-facts shards",
                 "does not enumerate masks that fail GoodDirection",
@@ -270,10 +362,11 @@ def write_reports(
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     md = [
-        "# Phase 6Z.6K.8AP.16DU.0 candidate-catalog surface smoke",
+        "# Phase 6Z.6K.8AP.16DU.9F candidate-catalog facts adapter",
         "",
         "This report is not proof evidence.  It records a generated Lean surface",
-        "for the AP16DT candidate-catalog classifier route.",
+        "for the AP16DT candidate-catalog classifier route and the DU.9F",
+        "facts-catalog erasure adapter.",
         "",
         f"- Status: `{payload['decision']['status']}`",
         f"- Lean output: `{output}`",
@@ -283,10 +376,12 @@ def write_reports(
         f"- Profiled GoodDirection cases represented by chunk: `{observed_cases}`",
         f"- Total candidate groups in AP16I profile: `{payload['total_candidate_groups']}`",
         "",
-        "The generated theorem still takes `hcomplete` as a premise.  The next",
-        "phase must prove that premise; this smoke only validates that the",
-        "multi-candidate catalog erases to `AllTranslationGoodCoverageOnRange`",
-        "without rank-local singleton facts or bad-direction evidence.",
+        "The generated theorems still take `hcomplete` as a premise.  The next",
+        "phase must prove that premise; this smoke validates that the",
+        "multi-candidate catalog erases both directly to",
+        "`AllTranslationGoodCoverageOnRange` and through",
+        "`SourceRowFactsGoodCatalogOnRange`, without rank-local singleton facts",
+        "or bad-direction evidence.",
     ]
     md_path.write_text("\n".join(md) + "\n", encoding="utf-8")
 
