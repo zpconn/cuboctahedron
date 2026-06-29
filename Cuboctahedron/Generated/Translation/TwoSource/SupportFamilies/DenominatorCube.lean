@@ -1,4 +1,4 @@
-import Cuboctahedron.Search.TranslationGoodDirection
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover
 
 /-!
 AP.16BG denominator-cube obstruction core.
@@ -120,6 +120,47 @@ theorem WeightedDenomCubeObstruction.notGood
           (⟨rank, hlt⟩ : Fin numPairWords) mask obstruction.weights :=
     obstruction.positive_of_good hlt hmember hgood
   exact (not_lt_of_ge (obstruction.nonpos hlt hmember)) hweighted_pos
+
+/--
+A proof-valued cover of all masks outside a positive survivor set by weighted
+denominator obstructions.
+
+This is the denominator-Farkas analogue of `ImpactSubcubeCover`, but its leaves
+can prove a whole mask family impossible by a nonnegative linear combination of
+internal impact denominators instead of selecting one common bad impact.
+-/
+structure WeightedDenomCubeCover
+    (rank : Nat) (GoodMaskMember : SignMask -> Prop) where
+  Family : Type
+  Member : Family -> SignMask -> Prop
+  obstruction :
+    forall family : Family,
+      WeightedDenomCubeObstruction rank (Member family)
+  complete :
+    forall {mask : SignMask},
+      ¬ GoodMaskMember mask ->
+        exists family : Family, Member family mask
+
+def WeightedDenomCubeCover.toBadMaskCover
+    {rank : Nat} {GoodMaskMember : SignMask -> Prop}
+    (cover : WeightedDenomCubeCover rank GoodMaskMember) :
+    PositiveSurvivorClassifier.BadMaskCover rank GoodMaskMember where
+  BadFamily := cover.Family
+  Member := cover.Member
+  notGood := by
+    intro family mask hlt hmember
+    exact (cover.obstruction family).notGood hlt hmember
+  complete := by
+    intro mask hnot
+    exact cover.complete hnot
+
+theorem WeightedDenomCubeCover.goodMaskMember_of_goodDirection
+    {rank : Nat} {GoodMaskMember : SignMask -> Prop}
+    (cover : WeightedDenomCubeCover rank GoodMaskMember)
+    {mask : SignMask} (hlt : rank < numPairWords)
+    (hgood : GoodDirectionAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask) :
+    GoodMaskMember mask :=
+  cover.toBadMaskCover.goodMaskMember_of_goodDirection hlt hgood
 
 theorem denominatorCube_builds : True := by
   trivial

@@ -21601,6 +21601,82 @@ Decision:
 - Future memory experiments on this route must stay under guarded focused
   builds; do not run a broad package build containing these diagnostic modules.
 
+### Phase 6Z.6K.8AP.16DU.9AY checkpoint: weighted denominator cover bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9AY adds the missing proof-valued cover wrapper around
+the existing weighted-denominator contradiction core:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/DenominatorCube.lean
+```
+
+Before this checkpoint, `DenominatorCube.lean` could prove that a generated
+mask family was not `GoodDirectionAtRank` when a nonnegative weighted sum of
+the 13 internal impact denominators was forced nonpositive.  It did not expose
+the erased production surface needed by membership emitters.
+
+The new wrapper is:
+
+```lean
+structure WeightedDenomCubeCover
+    (rank : Nat) (GoodMaskMember : SignMask -> Prop) where
+  Family : Type
+  Member : Family -> SignMask -> Prop
+  obstruction :
+    forall family : Family,
+      WeightedDenomCubeObstruction rank (Member family)
+  complete :
+    forall {mask : SignMask},
+      ¬ GoodMaskMember mask ->
+        exists family : Family, Member family mask
+
+def WeightedDenomCubeCover.toBadMaskCover :
+  BadMaskCover rank GoodMaskMember
+
+theorem WeightedDenomCubeCover.goodMaskMember_of_goodDirection :
+  GoodDirectionAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask ->
+    GoodMaskMember mask
+```
+
+This gives the next GoodDirection-membership emitter a smaller target than
+importing compact-Walsh rank-cover roots.  Generated leaves can now prove a
+family-level weighted denominator obstruction, erase it to `BadMaskCover`, and
+then get the desired positive-survivor membership theorem from the existing
+generic `BadMaskCover.goodMaskMember_of_goodDirection`.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ay_denominator_cube_cover_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DenominatorCube
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 7.04s
+peak RSS = 3939 MiB
+minimum available memory seen = 46200 MiB
+```
+
+Decision:
+
+- Accept `WeightedDenomCubeCover` as the next production-facing
+  GoodDirection-membership target.
+- Do not use it by reducing a giant Boolean checker or by replaying per-mask
+  denominator equalities.  The intended generated proof is family-level:
+  a small number of weighted denominator/cube/Farkas families cover the
+  complement of the positive survivor predicate.
+- The next step is a profiler/emitter for rank `6000745` that attempts to
+  replace compact-Walsh membership with `WeightedDenomCubeCover` families and
+  measures family count, generated source size, and focused build RSS before
+  scaling.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
