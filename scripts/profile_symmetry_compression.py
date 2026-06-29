@@ -9097,6 +9097,8 @@ class TranslationLiftedPbSearchProfiler(TranslationSurvivorProfiler):
         self.bad_cube_leaf_histogram: Counter[int] = Counter()
         self.survivor_farkas_leaf_histogram: Counter[int] = Counter()
         self.canonical_transform_tie_histogram: Counter[int] = Counter()
+        self.truncated = False
+        self.truncation_reason: str | None = None
         self.total_bad_cube_leaves = 0
         self.total_survivor_farkas_leaves = 0
         self.total_point_bad_cube_leaves = 0

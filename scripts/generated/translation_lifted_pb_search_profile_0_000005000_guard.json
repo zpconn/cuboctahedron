@@ -1,0 +1,21 @@
+{
+  "available_floor_mib": 8192.0,
+  "command": [
+    "python3",
+    "scripts/profile_symmetry_compression.py",
+    "--dry-run",
+    "--translation-lifted-pb-search",
+    "--limit",
+    "5000",
+    "--output",
+    "scripts/generated/translation_lifted_pb_search_profile_0_000005000.json"
+  ],
+  "elapsed_seconds": 42.54481201899762,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 67668,
+  "max_tree_rss_mib": 66.08203125,
+  "min_available_seen_kib": 47707912,
+  "min_available_seen_mib": 46589.7578125,
+  "rss_cap_mib": 2048.0
+}

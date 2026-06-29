@@ -25149,6 +25149,73 @@ Next useful direction:
   symbolic sign variables, or a source-language theorem that proves the
   survivor classifier before denominator tables specialize to completed ranks.
 
+### Phase 6Z.6K.8AP.16DU.9CT checkpoint: lifted pseudo-Boolean profile repaired and still rejected
+
+Phase 6Z.6K.8AP.16DU.9CT repairs an old diagnostic route before deciding
+whether to revive it.  The existing lifted pseudo-Boolean profiler crashed
+because `TranslationLiftedPbSearchProfiler.payload` expected `self.truncated`,
+but the profiler never initialized that field.  The fix is deliberately tiny:
+initialize `self.truncated := False` and `self.truncation_reason := None` in
+the profiler constructor.  This is diagnostic tooling only; no proof code was
+changed.
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/profile_symmetry_compression.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/profile_symmetry_compression.py
+```
+
+The Python compile passed, and the forbidden-token scan returned no matches.
+
+Guarded replay:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 2048 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/translation_lifted_pb_search_profile_0_000005000_guard.json \
+  -- python3 scripts/profile_symmetry_compression.py \
+     --dry-run \
+     --translation-lifted-pb-search \
+     --limit 5000 \
+     --output scripts/generated/translation_lifted_pb_search_profile_0_000005000.json
+```
+
+Result:
+
+```text
+exit code:                         0
+elapsed:                           42.54s
+peak tree RSS:                     66 MiB
+minimum MemAvailable:              46589 MiB
+pair words scanned:                5,000
+identity-linear words:             487
+GoodDirection survivor masks:      4,693
+canonical lifted problems:         67
+canonical survivor bitsets:        55
+total bad-cube leaves:             5,202
+unique bad-cube certificate shapes:630
+point bad-cube fallback ratio:     0.281
+unique survivor Farkas shapes:     2,057
+unique survivor leaf obligations:  2,065
+planned heavy Lean leaves:         2,695
+accepted for Phase 6L.2B:          False
+```
+
+Decision:
+
+- The lifted pseudo-Boolean route is now runnable and memory-safe as a
+  profiler.
+- It is still rejected as a production backend in this shape.  Even the first
+  5,000 ranks produce 2,695 planned heavy leaves, above the hard 2,000-leaf
+  gate, and this is before scaling to the full rank space.
+- Do not emit Lean evidence from raw lifted-PB problem/cube/shape leaves.
+  Any pseudo-Boolean route must use a stronger global theorem/template that
+  avoids one leaf per canonical lifted problem plus survivor Farkas shape.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
