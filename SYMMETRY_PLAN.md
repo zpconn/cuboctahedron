@@ -22245,6 +22245,81 @@ Decision:
 - Continue avoiding compact-Walsh rank-cover imports in production-weighted
   cube leaves; the accepted path is theorem-valued, trace-free, and guarded.
 
+### Phase 6Z.6K.8AP.16DU.9BH checkpoint: naive direct weighted-cube obstruction rejected
+
+Phase 6Z.6K.8AP.16DU.9BH attempted the obvious next smoke: one generated
+module combining:
+
+- DU.9BF's compact quadratic nonpositivity proof for rank `6000745`, cube
+  `***00*`, support `[1,2,8]`, weights `[2,1,1]`;
+- DU.9BG's
+  `weightedDenomAtRank_eq_weightedDirectWalshDotAtRank`;
+- `weightedDenomAtRank_pos_of_goodDirection`;
+- `WeightedDenomCubeObstruction.notGood`.
+
+The attempted module was deliberately removed from the Lean tree after the
+guarded smoke showed that the missing coefficient equality still has the wrong
+memory shape when proved by direct recurrence normalization.  The failure was
+not a machine crash; the memory guard terminated the process safely.
+
+Rejected guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bh_weighted_direct_obstruction_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745DirectWalshObstructionSmoke
+```
+
+Result:
+
+```text
+exit = 241
+elapsed = 25.54s
+peak tree RSS = 6882 MiB
+minimum MemAvailable = 45720 MiB
+reason = process-tree RSS exceeded the 6144 MiB cap
+```
+
+Follow-up API revalidation for the retained DU.9BG bridge:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bh_weighted_direct_bridge_revalidation_guard_retry2.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDirectWalshDenominator
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 4.01s
+peak tree RSS = 6359 MiB
+minimum MemAvailable = 45976 MiB
+```
+
+Decision:
+
+- Reject the naive direct recurrence-normalized proof of
+  `weightedDirectWalshDotAtRank = generatedPoly.coeffEval` as a production
+  proof surface, even for a single cube.
+- Keep DU.9BG's weighted denominator bridge.  It remains useful, but generated
+  production leaves need a **prechecked coefficient witness** or a smaller
+  integer-normalized equality checker for the weighted direct Walsh polynomial,
+  not direct recurrence replay.
+- The next route should generate coefficient-level equality certificates:
+  compare compact integer coefficient records against precomputed weighted
+  Walsh coefficients, then have Lean check only the coefficient record
+  equality and cube nonpositivity.  Do not unfold
+  `translationVectorWalshOfChoice` inside generated weighted-cube leaves.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -22334,3 +22409,7 @@ Decision:
 - Do not unfold `maskBitForPair` in compact Walsh vertex proofs.  DU.9BF shows
   this prevents Lean from using the fixed/free bit hypotheses and leaves large
   quotient/modulus goals.
+- Do not prove weighted direct-Walsh polynomial equality in generated leaves by
+  unfolding `translationVectorWalshOfChoice` or
+  `translationPrefixWalshVectorNat`; DU.9BH crossed the 6 GiB guard for a
+  single cube.

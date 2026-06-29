@@ -19,7 +19,7 @@ namespace DenominatorCube
 
 open PositiveSurvivorClassifier.ImpactSubcube
 
-private def directWalshDotAtRank
+def directWalshDotAtRank
     (r : Fin numPairWords) (mask : SignMask) (i : WordIndex) : Rat :=
   Cuboctahedron.dot
     ((impactNormalWalshAt (unrankPairWord r) i).eval mask)
