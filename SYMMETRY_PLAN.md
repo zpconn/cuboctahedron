@@ -26585,3 +26585,44 @@ descriptor coverage and still erase to the preferred source-row facts bridge.
 The remaining real blocker is unchanged: prove descriptor/source-row membership
 from identity-linear `GoodDirectionAtRank` without per-survivor Farkas leaves
 or bad-direction mask witnesses.
+
+### Phase 6Z.6K.8AP.16DU.9DM checkpoint: compact selector-catalog window rejected by guard
+
+Phase 6Z.6K.8AP.16DU.9DM attempted a bounded `[0,3)` selector-catalog smoke
+using the older compact GoodDirection membership route:
+
+- rank `0` via DU.9P rank-0 compact membership and selector shard 0;
+- rank `2` via DU.9P rank-2 compact membership and selector shard 1;
+- rank `1` by contradiction from the nonidentity linear part.
+
+The experimental Lean module was removed after the guarded build exceeded the
+memory cap.  The failure is recorded in:
+
+- Report:
+  `scripts/generated/phase6z6k8ap16du9dm_selector_catalog_window_rejected.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9dm_selector_catalog_window_guard.json`
+
+Guarded build attempted:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dm_selector_catalog_window_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9SWindow000000000_000000003Smoke
+```
+
+Result:
+
+- Exit: `-15`
+- Elapsed: `15.53s`
+- Peak tree RSS: `11267 MiB`
+- Minimum available memory observed: `45565 MiB`
+
+Decision: rejected.  Even the tiny `[0,3)` compact-membership
+selector-catalog root can exceed the 8 GiB safety cap because it imports the
+rank-local compact Walsh membership stack.  Do not scale this path.  The next
+membership bridge must avoid rank-local compact denominator roots and derive
+descriptor/source-row membership through a lighter semantic family theorem.
