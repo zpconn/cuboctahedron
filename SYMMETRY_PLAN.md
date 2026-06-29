@@ -246,7 +246,8 @@ consumer root and manifest-batch smoke, AP16CX's GoodDirection-to-compact-dot
 positivity bridge, AP16CY's rank-wide compact-denominator consumer theorem,
 AP16CZ's compact-denominator subcube obstruction smoke, AP16DA's
 `BadMaskCover` erasure smoke, AP16DB's rank-100805 selected-impact compact
-denominator root, plus AP16CP's
+denominator root, and AP16DC's all-20 compact-denominator Walsh subcube cover
+smoke, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14506,6 +14507,61 @@ Acceptance:
   20-subcube cover smoke.  Before scaling beyond a small bounded cover, improve
   the nonzero-impact normal proof generator or shard selected impacts so slow
   proofs do not dominate the final build.
+- [x] Implement Phase 6Z.6K.8AP.16DC compact-denominator all-subcube Walsh
+  cover smoke:
+  AP16DC adds a new generator:
+
+  ```text
+  scripts/generate_ap16dc_compact_walsh_cover_smoke.py
+  ```
+
+  It consumes the AP16BJ 20-subcube cover and AP16DB selected-impact compact
+  denominator modules, then emits a production-shaped bounded smoke:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke.lean
+  ```
+
+  The generated module proves the rank-100805 positive-survivor membership
+  consequence by composing:
+
+  ```text
+  compact denominator dot equality
+    -> WalshSymbolicQuadraticImpactObstruction
+    -> ImpactSubcubeCover
+    -> GoodDirectionAtRank implies generatedGoodMaskMember
+  ```
+
+  Unlike AP16BR/AP16CD, the denominator bridge does not replay finite masks.
+  The only finite mask split remaining is the small cover-completeness proof
+  for the rank-100805 smoke's 64 masks.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16dc_compact_walsh_cover_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 17.54s
+  peak tree RSS: 4396 MiB
+  minimum available memory: 45741 MiB
+  ```
+
+  Decision: accepted as the first all-selected-subcube compact-denominator
+  `ImpactSubcubeCover` smoke.  The next scaling work should keep this theorem
+  surface, but reduce selected-impact proof cost and replace bounded
+  rank-100805 cover completeness with a shared survivor-signature membership
+  theorem before attempting production coverage.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
