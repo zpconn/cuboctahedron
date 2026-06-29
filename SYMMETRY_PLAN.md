@@ -241,7 +241,8 @@ also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
 bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
 denominator trace consumers, AP16CR's reusable compact-denominator bridge,
 AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
-symbolic-normal nonzero-impact consumer smoke, plus AP16CP's
+symbolic-normal nonzero-impact consumer smoke, AP16CV's shallow consumer
+root smoke, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14091,6 +14092,55 @@ Acceptance:
   small manifest of positive-survivor impact/source fixtures or add a shallow
   group/root smoke over the generated compact-denominator consumers before
   attempting any larger membership bridge.
+- [x] Implement Phase 6Z.6K.8AP.16CV shallow compact-denominator consumer
+  root smoke:
+  AP16CV adds
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomAllSmoke.lean
+  ```
+
+  This root imports only the three current compact-denominator consumer smoke
+  modules:
+
+  ```text
+  ImpactSubcubeWalshSymbolicCompactDenomSmoke.lean
+  ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke.lean
+  ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact01Smoke.lean
+  ```
+
+  and references their exported `compactDenomGeneratedSmoke_builds` theorems.
+  It performs no rank/mask replay and no denominator arithmetic at the root.
+  The purpose is to validate the import-composition shape before connecting
+  compact denominator consumers to the next positive-survivor membership
+  bridge.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cv_compact_denom_all_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomAllSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 8.51s
+  peak tree RSS: 3803 MiB
+  minimum available memory: 46166 MiB
+  ```
+
+  Decision: accepted as a memory-safe shallow root over the current generated
+  compact-denominator consumers.  The next AP16 target should use a small
+  manifest to generate multiple impact/source fixtures through this same
+  emitter route, or connect one compact denominator equality to the positive
+  survivor membership premise without enumerating non-GoodDirection masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
