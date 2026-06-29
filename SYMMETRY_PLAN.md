@@ -21889,6 +21889,63 @@ Decision:
   pseudo-Boolean cube bound, or another small per-cube theorem whose imports
   stop at the hand-written weighted-denominator core.
 
+### Phase 6Z.6K.8AP.16DU.9BC checkpoint: trace-free direct Walsh denominator bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9BC adds a small hand-written bridge:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  DirectWalshDenominator.lean
+```
+
+The key theorem is:
+
+```lean
+theorem impactDenomAtRank_wordImpact_eq_directWalshDot
+    (r : Fin numPairWords) (mask : SignMask) (i : WordIndex) :
+    impactDenomAtRank r mask (wordImpact i) =
+      Cuboctahedron.dot
+        ((impactNormalWalshAt (unrankPairWord r) i).eval mask)
+        ((translationVectorWalshOfChoice (unrankPairWord r)).eval mask)
+```
+
+This is the direct replacement for the rejected DU.9BB import path.  It
+connects an internal impact denominator to the generic Walsh normal and
+generic Walsh translation vector for the actual pair word, without importing
+any rank-specific split trace module.
+
+The first guarded build attempt failed cheaply because the new file omitted
+the explicit `TranslationWalshVector` import.  The corrected retry passed:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bc_direct_walsh_bridge_guard_retry1.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DirectWalshDenominator
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.00s
+peak RSS = 3881 MiB
+minimum available memory seen = 46296 MiB
+```
+
+Decision:
+
+- Accept `DirectWalshDenominator.lean` as the next denominator-equality
+  backend for weighted-cube proof experiments.
+- Do not import the old rank-specific split traces for this purpose.
+- The next bounded Lean smoke should retry the DU.9BA one-cube obstruction
+  using `impactDenomAtRank_wordImpact_eq_directWalshDot` and direct generated
+  Walsh/cube arithmetic instead of `ImpactSubcubeWalshSymbolicCompactDenom*`
+  trace consumers.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
