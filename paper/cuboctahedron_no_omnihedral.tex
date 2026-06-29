@@ -53,17 +53,18 @@ The Lean development handles this finite problem by exact rational arithmetic
 and proof-carrying obstruction certificates.  Non-identity return maps are
 eliminated by forced-axis obstructions.  Translation return maps reduce to
 strict two-variable linear systems; these are eliminated by GoodDirection
-arguments, Farkas certificates, and Walsh sign-polynomial subcube bounds.
-External programs may propose certificates and families, but the finite
-enumeration, certificate soundness, and coverage statements are checked in
-Lean.
+arguments, Farkas certificates, Walsh sign-polynomial subcube bounds, and a
+semantic descriptor layer for families of two-source contradictions.  External
+programs may propose certificates and families, but the finite enumeration,
+certificate soundness, and coverage statements are checked in Lean.
 
 At the time of this draft, the public Lean theorem proves the final billiard
 statement conditionally from a complete generated coverage witness.  The
 geometry, unfolding bridge, pair-word enumeration, certificate checkers,
-GoodDirection theorem, Farkas soundness, Walsh denominator infrastructure, and
-coverage assembly interfaces are formalized.  The remaining publication step is
-to expose full Lean-checked generated coverage over all ranks and sign masks.
+GoodDirection theorem, Farkas soundness, Walsh denominator infrastructure,
+Boolean GoodDirection equivalence, descriptor-family adapters, and coverage
+assembly interfaces are formalized.  The remaining publication step is to
+expose full Lean-checked generated coverage over all ranks and sign masks.
 \end{abstract}
 
 \tableofcontents
@@ -197,8 +198,10 @@ If \(M=I\), the return map is a translation.  The starting point is
 \(y,z\).  A feasible orbit would give a point satisfying all these
 inequalities.  Bad-direction cases contradict a general positivity condition
 on internal crossing denominators.  The remaining cases are killed by Farkas
-certificates or by Walsh subcube bounds that prove one of those denominators is
-nonpositive on an entire family of masks.
+certificates, by Walsh subcube bounds that prove one of those denominators is
+nonpositive on an entire family of masks, or by descriptor-level family
+theorems that identify the two geometric rows responsible for the
+contradiction.
 
 Thus every possible started unfolded itinerary is impossible.  The unfolding
 reduction then contradicts the assumed billiard orbit.
@@ -214,11 +217,16 @@ The current public Lean theorem is conditional on complete generated coverage:
 \end{gathered}
 \]
 In words, if Lean is given a complete generated coverage witness, the already
-formalized geometry and unfolding bridge prove the billiard theorem.  The newer
-preferred generated interface is
-\texttt{SemanticExhaustiveGeneratedCoverage}, which asks generated files to
-prove compact impossibility theorems rather than exposing large arrays of raw
-certificate data.
+formalized geometry and unfolding bridge prove the billiard theorem.  The
+preferred completion path is semantic: generated files should prove compact
+impossibility theorems over ranges and families rather than expose large arrays
+of raw certificate data.  The latest infrastructure includes a Boolean
+GoodDirection bridge and a descriptor-family bridge.  Here ``Boolean'' means a
+finite true/false checker proved equivalent to the corresponding mathematical
+predicate; it is not an unchecked computation.  The descriptor-family bridge
+packages the source rows and row-template identity for a two-source Farkas
+contradiction and then erases that package back to the semantic coverage
+interface used by the conditional theorem.
 
 \paragraph{Repository.}
 The formalization is available at
@@ -227,7 +235,7 @@ The formalization is available at
 \]
 and this draft refers to repository commit
 \[
-  \texttt{99b65dab0c5631ba20df13de7f07162c45613dac}.
+  \texttt{dff526e891279a0faf6ca83520a47ac4d45981b0}.
 \]
 The current axiom report for the conditional public theorem is produced by
 \[
@@ -249,8 +257,9 @@ The contribution is threefold.
 \item We develop exact certificate checkers and reusable certificate families
   for the two affine-return cases: non-identity linear part and translation.
   The translation branch includes strict two-dimensional Farkas certificates,
-  GoodDirection reduction, two-source supports, symmetry transport, and Walsh
-  sign-polynomial infrastructure for denominator subcube arguments.
+  GoodDirection reduction, two-source supports, symmetry transport, Walsh
+  sign-polynomial infrastructure for denominator subcube arguments, and a
+  descriptor-level coverage language for compact generated families.
 \end{enumerate}
 
 \section{The Coordinate Model}
@@ -398,10 +407,13 @@ unfolded linear part is not the identity is impossible.
 \end{proposition}
 
 The current generated architecture also includes parametric non-identity
-families and computable classifiers.  A classifier first removes broad
-families such as bad-direction and bad-pair-balance cases by exact Boolean
-checks whose soundness is proved in Lean.  Residual ranks are then handled by
-generated interval coverage.
+families and computable classifiers.  Here a classifier means an exact
+decision procedure that assigns a rank to a previously proved family.  It
+first removes broad families such as bad-direction cases and bad-pair-balance
+cases; the latter are cases in which the forced signed face choices cannot
+match the required one-hit-per-face condition.  The decisions are Boolean
+checks, meaning finite true/false computations, and their soundness is proved
+in Lean.  Residual ranks are then handled by generated interval coverage.
 
 \section{The Translation Case}
 
@@ -477,6 +489,33 @@ generated Farkas certificate.  It is eliminated by the general theorem.  The
 generated translation evidence only needs to cover the surviving
 \texttt{GoodDirection} masks.
 
+\subsection{Boolean GoodDirection}
+
+For generated interval proofs it is useful to have a computable version of the
+same predicate.  The proof therefore defines
+\[
+\texttt{goodDirectionAtRankBool}(r,m),
+\]
+a Boolean value obtained by checking the thirteen internal denominator
+inequalities for the rank \(r\) and sign mask \(m\).  A Boolean value is just a
+truth value, \texttt{true} or \texttt{false}; the point of this definition is
+not to replace the mathematical predicate by computation, but to give Lean a
+small finite object that can be used by generated classifiers.
+
+The latest development proves both directions:
+\[
+\texttt{GoodDirectionAtRank}(r,m)
+\quad\Longleftrightarrow\quad
+\texttt{goodDirectionAtRankBool}(r,m)=\texttt{true}.
+\]
+The forward direction was already enough to show that feasible orbits satisfy
+the Boolean check.  The new converse is a finite case split over the thirteen
+internal impacts.  It does not unfold the rank-specific denominator arithmetic;
+it only says that if the finite list of positivity checks is true, then each
+of the thirteen positivity inequalities holds.  This equivalence lets a
+generated file use whichever surface is smaller: a semantic
+\texttt{GoodDirectionAtRank} hypothesis or its Boolean counterpart.
+
 \subsection{Two-source supports}
 
 Many current translation survivors are killed by very small contradictions.  A
@@ -486,6 +525,45 @@ weights needed to make the \(y,z\)-coefficients cancel.  The helper module
 leaf stores a \texttt{TwoSourceFarkasSupport}; Lean reconstructs the two
 constraints, checks the Farkas arithmetic, and obtains a semantic theorem that
 the case is impossible.
+
+\subsection{Descriptor families}
+
+The newest translation-family layer packages two-source arguments at a more
+semantic level.  A \emph{descriptor} is a small record containing three pieces
+of data:
+\begin{enumerate}[leftmargin=2em]
+\item the two indices of the geometric constraint rows in the generated
+  constraint-source list;
+\item the two-source support naming the geometric origins of those rows;
+\item a row template, meaning a reusable algebraic pattern showing how those
+  two rows combine into a contradiction.
+\end{enumerate}
+For example, a descriptor may say that one row comes from a triangular-face
+interior condition at the first internal impact, the other from the starting
+square \(X_+\), and that the two rows fit a template in which one row has a
+fixed positive variable pattern and the other has the opposite fixed pattern.
+The exact names of the templates are implementation details; mathematically,
+each template is a short rational linear-algebra lemma.
+
+The descriptor predicate has two obligations.  First, the named source indices
+must really select the stated geometric rows for the rank and mask under
+consideration.  Second, those rows must satisfy the template's algebraic
+conditions.  Once both obligations are proved, Lean obtains the same semantic
+conclusion as before: the corresponding GoodDirection translation case is
+impossible.
+
+This layer is important for publication-quality generated coverage because it
+separates three tasks that were previously intertwined.  External generation
+may choose a descriptor family.  Lean checks that the descriptor applies to the
+particular ranks and masks in the interval.  The hand-written bridge then
+converts descriptor coverage into the public theorem
+\[
+\texttt{AllTranslationGoodCoverageOnRange}(l,h),
+\]
+which says that every identity-linear GoodDirection survivor in the half-open
+rank range \([l,h)\) is killed.  Thus the public proof surface remains a
+mathematical coverage statement rather than a listing of case-local
+arithmetic.
 
 \section{Walsh Sign Polynomials}
 
@@ -608,6 +686,28 @@ module \texttt{Generated/ExhaustiveCoverage.lean} contains adapters from such
 interval theorems to the global coverage structures used by the conditional
 main theorem.
 
+The translation side now has a particularly compact semantic target.  For a
+rank interval \([l,h)\), the theorem
+\[
+\texttt{AllTranslationGoodCoverageOnRange}(l,h)
+\]
+asserts that every rank in the interval whose pair word has identity linear
+part, and every sign mask satisfying GoodDirection, is eliminated.  The
+general GoodDirection theorem then handles the remaining masks: if a feasible
+translation orbit existed, it would necessarily be a GoodDirection mask.  In
+this way the generated translation theorem is allowed to focus only on the
+survivors of a general geometric positivity test.
+
+The descriptor-language adapters give several equivalent ways to prove this
+same interval theorem.  A generated file may prove a descriptor coverage
+statement directly from semantic GoodDirection hypotheses, or it may prove the
+Boolean version using \texttt{goodDirectionAtRankBool}.  Lean-proved adapters
+then convert either version to the same public interval theorem.  This
+flexibility is useful because some generated shards, meaning small generated
+files covering separate pieces of the finite range, are naturally expressed as
+Boolean classifiers, while the final mathematical theorem is stated in terms
+of ordinary propositions.
+
 \section{Trusted Boundary and Generated Evidence}
 
 The trusted part of the proof consists of:
@@ -619,7 +719,10 @@ The trusted part of the proof consists of:
 \item soundness theorems for translation, Farkas, source-Farkas, and
   two-source certificates;
 \item GoodDirection necessity for feasible translation orbits;
+\item the equivalence between GoodDirection and its finite Boolean checker;
 \item Walsh sign-polynomial and symbolic denominator soundness theorems;
+\item descriptor-family adapters from source rows and row templates to
+  semantic translation coverage;
 \item generated coverage theorems whose types state that every finite case is
   killed.
 \end{itemize}
@@ -631,9 +734,10 @@ used in the final proof.
 
 At the present snapshot, the active public generated surface is deliberately
 small.  \texttt{Generated/AllGenerated.lean} imports the computable-classifier
-bridge and a public evidence marker, avoiding older all-in-one generated
-imports that caused memory pressure.  The current public evidence marker records
-a bounded interval,
+bridge and a public evidence marker.  A marker is a small Lean module recording
+which generated-evidence root is currently exposed to the main project.  This
+avoids older all-in-one generated imports that caused memory pressure.  The
+current marker records a bounded interval,
 \[
 [0,8),
 \]
@@ -643,6 +747,20 @@ whose proof-carrying root is outside the default Lake source tree at
 \]
 This demonstrates the public interval shape but is not the final exhaustive
 coverage theorem over all \(97{,}297{,}200\) pair-word ranks.
+
+Subsequent checked test modules have strengthened the translation-family
+interface.  In particular, the file
+\[
+\texttt{SourceIndexStateDescriptorLanguage.lean}
+\]
+now proves adapters between semantic and Boolean GoodDirection coverage,
+between descriptor coverage and source-row coverage, and from descriptor
+coverage to \texttt{AllTranslationGoodCoverageOnRange}.  A generated classifier
+test module packages \(125\) descriptor families selected from the rank window
+\([0,5000)\), and the focused guarded build of that test completed within an
+8 GiB memory guard.  These tests are not global coverage, but they show that
+the current public theorem surface can be fed by compact descriptor families
+rather than by replaying one rank-mask proof at a time.
 
 \section{Formal Statement}
 
@@ -665,7 +783,13 @@ There are also branch-level conditional theorems:
 &\texttt{conditional\_no\_unfolded\_omni\_starting\_xp}.
 \end{align*}
 The newer semantic route proves analogous results from
-\texttt{SemanticExhaustiveGeneratedCoverage}.
+\texttt{SemanticExhaustiveGeneratedCoverage}.  On the translation branch, the
+principal semantic input is interval coverage of GoodDirection survivors,
+\[
+\texttt{AllTranslationGoodCoverageOnRange}(l,h),
+\]
+which can now be obtained from descriptor-family coverage in either the
+semantic or Boolean GoodDirection form.
 
 \section{Reproducibility}
 
@@ -720,10 +844,15 @@ Pair-word unranking & \texttt{unrankPairWord} \\
 Number of pair words & \texttt{numPairWords} \\
 Translation sign mask & \texttt{SignMask} \\
 GoodDirection predicate & \texttt{GoodDirectionAtRank} \\
+GoodDirection Boolean checker & \texttt{goodDirectionAtRankBool} \\
 Strict linear row & \texttt{StrictLin2} \\
 Farkas certificate & \texttt{FarkasCert} \\
 Farkas checker & \texttt{checkFarkas} \\
 Two-source support & \texttt{TwoSourceFarkasSupport} \\
+Descriptor family & \texttt{SourceIndexStateFamilyDescriptor} \\
+Descriptor coverage & \texttt{SourceIndexStateDescriptorGoodCoverageOnRange} \\
+Boolean descriptor coverage & \texttt{SourceIndexStateDescriptorBoolCoverageOnRange} \\
+Translation GoodDirection interval coverage & \texttt{AllTranslationGoodCoverageOnRange} \\
 Walsh subcube & \texttt{MaskSubcube} \\
 Walsh quadratic record & \texttt{WalshQuadratic} \\
 Conditional main theorem & \texttt{conditional\_cuboctahedron\_no\_omnihedral} \\
@@ -758,6 +887,8 @@ The final generated evidence theorem should provide, at minimum:
 \item translation killed coverage over all ranks and sign masks with \(M=I\);
 \item a GoodDirection adapter showing that generated translation evidence only
   needs to cover masks satisfying the GoodDirection necessary condition;
+\item descriptor or source-row family coverage proving
+  \texttt{AllTranslationGoodCoverageOnRange} over the required intervals;
 \item interval composition over \([0,\texttt{numPairWords})\);
 \item optional symmetry transport, with Lean-checked orbit coverage, wherever
   symmetry is used for compression.
@@ -765,6 +896,34 @@ The final generated evidence theorem should provide, at minimum:
 The preferred public target is semantic coverage: generated roots should expose
 small theorems of impossibility over intervals and families, not large public
 tables of raw certificates.
+
+\section{Current Diagnostic Checkpoints}
+
+The following checkpoints are useful for understanding the present state of
+the generated-evidence pipeline.  They are not part of the theorem unless their
+claims are reflected in Lean-checked coverage imported by the final root.
+
+\begin{center}
+\begin{tabular}{p{0.58\linewidth}r}
+\toprule
+Checkpoint & Value \\
+\midrule
+GoodDirection survivors in ranks \([0,100000)\) covered by the diagnostic
+row-relation census & \(39{,}710\) \\
+Calibration-window GoodDirection survivors covered after the expanded
+row-template catalog & \(63{,}725\) \\
+Representative symbolic row-family survivors & \(4{,}779\) \\
+Representative symbolic row families & \(126\) \\
+Descriptor classifier families selected from ranks \([0,5000)\) & \(125\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The last checkpoint is the most recent proof-interface test.  It demonstrates
+that descriptor families can be used to feed
+\texttt{AllTranslationGoodCoverageOnRange} through Lean-checked adapters,
+including the Boolean GoodDirection route, without exposing the underlying
+rank-mask arithmetic as the public theorem interface.
 
 \begin{thebibliography}{9}
 
