@@ -19669,7 +19669,7 @@ subcubes covers the complement of the positive-survivor predicate, and
 rank-`100805` `ImpactSubcubeCover` smoke whose subcube nonpositivity facts are
 checked by Lean from exact Walsh/subcube bounds, not trusted from JSON.
 
-AP.16BL adds a tiny downstream all-Good erasure bridge for row-property
+Phase 6Z.6K.8AP.16DU.9V adds a tiny downstream all-Good erasure bridge for row-property
 membership families:
 
 ```text
