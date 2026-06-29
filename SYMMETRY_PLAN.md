@@ -28346,3 +28346,53 @@ piece is a source/template-language theorem deriving those facts generically
 from the translation recurrence rather than from concrete support/row-shape
 keys.  Do not emit production Lean keyed by `template_source_skeletons_*`,
 `template_support_*`, `integer_scaled`, or `exact_row_shape`.
+
+### Phase 6Z.6K.8AP.16DU.9EO checkpoint: template-language coverage surface
+
+Phase 6Z.6K.8AP.16DU.9EO adds
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean`.
+This is a tiny Lean façade over the already-checked row-property quotient and
+all-good erasure APIs.  It deliberately introduces no generated data and no new
+certificate format.  Its purpose is to lock the production translation target
+onto theorem-valued template-language coverage:
+
+```lean
+abbrev TemplateLanguageWitness (r : Nat) (mask : SignMask) : Prop :=
+  RowPropertyParametricCovered r mask
+
+abbrev TemplateLanguageCoverageOnIdentityRange (lo hi : Nat) : Prop :=
+  RowPropertyParametricCoverageOnIdentityRange lo hi
+```
+
+The module also exposes:
+
+- `TemplateLanguageWitness.kills`
+- `TemplateLanguageCoverageOnIdentityRange.empty`
+- `TemplateLanguageCoverageOnIdentityRange.single`
+- `TemplateLanguageCoverageOnIdentityRange.concat`
+- `TemplateLanguageCoverageOnIdentityRange.to_allGoodCoverage`
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:01.83`, `max_rss_kb=3278016`.
+
+Safety note: this checkpoint followed an OOM warning.  A host process audit
+showed no active Lean/Python build or profiler process and approximately
+`45 GiB` available memory.  Future work should continue to use the memory-safe
+pattern validated here: narrow single-module checks first, no broad `lake build`
+unless a bounded leaf/root strategy has already passed RSS gates.
+
+Decision: this is now the accepted generated theorem surface for the
+translation GoodDirection branch.  Future generated or hand-written work should
+prove `TemplateLanguageCoverageOnIdentityRange lo hi` directly, then erase to
+`AllTranslationGoodCoverageOnRange` via
+`TemplateLanguageCoverageOnIdentityRange.to_allGoodCoverage`.  The next real
+proof obligation is not another quotient profiler; it is an algebraic
+template-language bridge proving that identity-linear GoodDirection cases
+satisfy `RowPropertyParametricCovered` without emitting concrete
+source-index/support/row-shape families.
