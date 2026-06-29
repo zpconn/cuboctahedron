@@ -16791,6 +16791,49 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9o_membership_route_audit.json
   scripts/generated/phase6z6k8ap16du9o_membership_route_audit.md
   ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9P compact-cover emission plan:
+  DU.9P profiles the compact-Walsh membership route for exactly the ranks
+  identified by DU.9O (`0`, `2`, and `3`).  The profiles are generator
+  telemetry only, not proof evidence; the proof obligation remains Lean-side:
+
+  ```lean
+  GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+    SourceIndexStateSelectorDU9LMicro.SelectorPositiveCase rank mask
+  ```
+
+  Profile result:
+
+  ```text
+  rank 0: 16 good masks, 48 bad masks, 17 selected subcubes, zero uncovered
+  rank 2: 13 good masks, 51 bad masks, 21 selected subcubes, zero uncovered
+  rank 3: 13 good masks, 51 bad masks, 21 selected subcubes, zero uncovered
+  ```
+
+  The aggregate emission plan projects `75` focused Lean targets for all three
+  ranks: split traces, selected-impact compact denominator consumers, selected
+  roots, and cover leaves.  To avoid another OOM-prone scale jump, the next
+  proof-producing move is rank `0` only under a strict serial memory guard:
+
+  ```text
+  max_tree_rss_mib=5000
+  min_available_mib=12000
+  LEAN_NUM_THREADS=1
+  LAKE_JOBS=1
+  ```
+
+  Rejected routes remain rejected: no all-mask `fin_cases` membership proof,
+  no monolithic compact-Walsh trace module, and no broad `lake build` before
+  the rank-0 stack passes the guard.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9p_rank0_walsh_subcube_cover.json
+  scripts/generated/phase6z6k8ap16du9p_rank2_walsh_subcube_cover.json
+  scripts/generated/phase6z6k8ap16du9p_rank3_walsh_subcube_cover.json
+  scripts/generated/phase6z6k8ap16du9p_compact_cover_emission_plan.json
+  scripts/generated/phase6z6k8ap16du9p_compact_cover_emission_plan.md
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:

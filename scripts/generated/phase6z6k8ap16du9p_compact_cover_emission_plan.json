@@ -1,0 +1,250 @@
+{
+  "accepted_for_lean_emission": true,
+  "input_manifest": "scripts/generated/phase6z6k8ap16du9m_microshards_all42.json",
+  "memory_guard": {
+    "lake_jobs": 1,
+    "lean_num_threads": 1,
+    "max_tree_rss_mib": 5000,
+    "min_available_mib": 12000,
+    "note": "Do not run broad lake build for this slice.  Check individual targets serially through scripts/run_memory_guarded.py."
+  },
+  "next_safe_emission": {
+    "lean_target_budget": 25,
+    "rank": 0,
+    "reason": "Emit and guard-check the first rank only before producing the remaining bounded DU9P membership modules."
+  },
+  "phase": "6Z.6K.8AP.16DU.9P",
+  "positive_survivor_count": 42,
+  "rank_end": 4,
+  "rank_plans": [
+    {
+      "accepted_for_next_emission": true,
+      "anchor_mask": 8,
+      "bad_mask_count": 48,
+      "candidate_count": 201,
+      "expected_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "good_mask_count": 16,
+      "good_masks_match_du9m": true,
+      "internal_impacts": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12
+      ],
+      "profile": "scripts/generated/phase6z6k8ap16du9p_rank0_walsh_subcube_cover.json",
+      "profile_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "projected_lean_targets": {
+        "cover_targets": 1,
+        "selected_impact_targets": 7,
+        "selected_impacts_root_targets": 1,
+        "split_trace_targets": 16,
+        "total": 25
+      },
+      "rank": 0,
+      "selected_count": 17,
+      "selected_mask_total": 76,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true
+    },
+    {
+      "accepted_for_next_emission": true,
+      "anchor_mask": 8,
+      "bad_mask_count": 51,
+      "candidate_count": 173,
+      "expected_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "good_mask_count": 13,
+      "good_masks_match_du9m": true,
+      "internal_impacts": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10,
+        11
+      ],
+      "profile": "scripts/generated/phase6z6k8ap16du9p_rank2_walsh_subcube_cover.json",
+      "profile_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "projected_lean_targets": {
+        "cover_targets": 1,
+        "selected_impact_targets": 7,
+        "selected_impacts_root_targets": 1,
+        "split_trace_targets": 16,
+        "total": 25
+      },
+      "rank": 2,
+      "selected_count": 21,
+      "selected_mask_total": 79,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        10
+      ],
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true
+    },
+    {
+      "accepted_for_next_emission": true,
+      "anchor_mask": 8,
+      "bad_mask_count": 51,
+      "candidate_count": 173,
+      "expected_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "good_mask_count": 13,
+      "good_masks_match_du9m": true,
+      "internal_impacts": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10,
+        11
+      ],
+      "profile": "scripts/generated/phase6z6k8ap16du9p_rank3_walsh_subcube_cover.json",
+      "profile_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "projected_lean_targets": {
+        "cover_targets": 1,
+        "selected_impact_targets": 7,
+        "selected_impacts_root_targets": 1,
+        "split_trace_targets": 16,
+        "total": 25
+      },
+      "rank": 3,
+      "selected_count": 21,
+      "selected_mask_total": 79,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        10
+      ],
+      "uncovered_count": 0,
+      "uncovered_masks": [],
+      "walsh_validated": true
+    }
+  ],
+  "rank_start": 0,
+  "ranks": [
+    0,
+    2,
+    3
+  ],
+  "rejected_routes": [
+    "all-mask fin_cases membership proof",
+    "single monolithic compact-Walsh trace module",
+    "broad lake build before rank-0 guard passes"
+  ],
+  "total_projected_lean_targets_for_all_ranks": 75,
+  "trusted_as_proof": false
+}
