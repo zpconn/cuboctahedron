@@ -19,6 +19,36 @@ set_option maxHeartbeats 0
 def SignBit.intValue (mask : SignMask) (bit : SignBit) : Int :=
   if maskBitForPair mask bit.toPairId then 1 else -1
 
+@[ext]
+theorem WalshQuadratic.ext
+    {q r : WalshQuadratic}
+    (hc : q.c = r.c)
+    (hy : q.y = r.y)
+    (hz : q.z = r.z)
+    (hd111 : q.d111 = r.d111)
+    (hd11m : q.d11m = r.d11m)
+    (hd1m1 : q.d1m1 = r.d1m1)
+    (hdm11 : q.dm11 = r.dm11)
+    (hyz : q.yz = r.yz)
+    (hy_d111 : q.y_d111 = r.y_d111)
+    (hy_d11m : q.y_d11m = r.y_d11m)
+    (hy_d1m1 : q.y_d1m1 = r.y_d1m1)
+    (hy_dm11 : q.y_dm11 = r.y_dm11)
+    (hz_d111 : q.z_d111 = r.z_d111)
+    (hz_d11m : q.z_d11m = r.z_d11m)
+    (hz_d1m1 : q.z_d1m1 = r.z_d1m1)
+    (hz_dm11 : q.z_dm11 = r.z_dm11)
+    (hd111_d11m : q.d111_d11m = r.d111_d11m)
+    (hd111_d1m1 : q.d111_d1m1 = r.d111_d1m1)
+    (hd111_dm11 : q.d111_dm11 = r.d111_dm11)
+    (hd11m_d1m1 : q.d11m_d1m1 = r.d11m_d1m1)
+    (hd11m_dm11 : q.d11m_dm11 = r.d11m_dm11)
+    (hd1m1_dm11 : q.d1m1_dm11 = r.d1m1_dm11) :
+    q = r := by
+  cases q
+  cases r
+  simp_all
+
 /-- A Walsh quadratic whose rational coefficients are all divided by `scale`. -/
 structure ScaledWalshQuadratic where
   scale : Nat

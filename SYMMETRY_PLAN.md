@@ -22701,6 +22701,88 @@ Decision:
   by mask enumeration and not by unfolding `translationVectorWalshOfChoice` in
   every generated obstruction leaf.
 
+### Phase 6Z.6K.8AP.16DU.9BN checkpoint: quadratic ext accepted; direct coefficient unfold rejected
+
+Phase 6Z.6K.8AP.16DU.9BN adds a reusable extensionality theorem to the scaled
+coefficient core:
+
+```lean
+@[ext]
+theorem WalshQuadratic.ext ...
+```
+
+This is a cheap helper for future generated coefficient-equality certificates:
+once a leaf has a compact way to prove the 22 coefficient field equalities, it
+can turn those equalities into a `WalshQuadratic` equality without mask
+enumeration.
+
+Focused validation of the helper:
+
+```text
+rg -n "sorry|admit|native_decide|unsafe|axiom" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedCoeffCertificate.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bn_weighted_coeff_ext_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedCoeffCertificate
+```
+
+Result:
+
+```text
+forbidden-term scan = no matches
+exit = 0
+elapsed = 22.04s
+peak tree RSS = 4292 MiB
+min MemAvailable = 45829 MiB
+rss cap = 8192 MiB
+```
+
+DU.9BN also tested the tempting direct coefficient-identity route with a
+diagnostic one-field Lean smoke:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745CoeffIdentityCFieldSmoke.lean
+```
+
+That file attempted to prove only the constant coefficient equality:
+
+```lean
+(weightedDirectWalshQuadraticAtRank generatedRank generatedWeights).c =
+  generatedScaledPoly.toQuadratic.c
+```
+
+by unfolding `weightedDirectWalshQuadraticAtRank`,
+`translationVectorWalshOfChoice`, and the 13-step Walsh prefix recurrence for
+rank `6000745`.
+
+Guarded result:
+
+```text
+scripts/generated/phase6z6k8ap16du9bn_coeff_identity_c_field_guard.json
+exit = -15
+elapsed = 10.51s
+peak tree RSS = 8280 MiB
+killed_reason = process-tree RSS 8280 MiB exceeded 8192 MiB cap
+min MemAvailable = 41878 MiB
+```
+
+The diagnostic Lean file was removed from the build tree after the rejected
+run; the guard log is retained as evidence.
+
+Decision:
+
+- Keep `WalshQuadratic.ext`.
+- Reject direct rank-local coefficient unfolding as a production equality
+  bridge, even for a single coefficient field.
+- The equality bridge must use generated trace/coefficient witnesses or a
+  smaller state certificate that proves coefficient fields without unfolding
+  `translationVectorWalshOfChoice` or `translationPrefixWalshVectorNat` inside
+  each weighted-cube obstruction leaf.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -22794,3 +22876,6 @@ Decision:
   unfolding `translationVectorWalshOfChoice` or
   `translationPrefixWalshVectorNat`; DU.9BH crossed the 6 GiB guard for a
   single cube.
+- Do not prove generated coefficient identity by directly unfolding
+  `weightedDirectWalshQuadraticAtRank` at a concrete rank; DU.9BN crossed the
+  8 GiB guard while proving only the constant coefficient for rank `6000745`.
