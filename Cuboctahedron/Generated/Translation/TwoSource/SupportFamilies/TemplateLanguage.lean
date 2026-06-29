@@ -164,6 +164,33 @@ theorem TemplateLanguageCoverageOnIdentityRange.single_source_rows
       TemplateLanguageMember.of_source_rows
         (template := template) (support := support) hsource hrows)
 
+/--
+Range constructor from existential source/row facts.
+
+This is the intended production theorem shape for generated range or
+state-language modules: for each identity-linear GoodDirection case in the
+range, prove that some private support realizes one of the 11 row templates.
+-/
+theorem TemplateLanguageCoverageOnIdentityRange.of_source_rows
+    {lo hi : Nat}
+    (h :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists template : SourceIndexTemplate,
+                  exists support : TwoSourceFarkasSupport,
+                    SourceAgrees support rank mask /\
+                      template.Rows support rank mask) :
+    TemplateLanguageCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  let ⟨template, support, hsource, hrows⟩ := h hlt hlo hhi hM hgood
+  exact TemplateLanguageMember.to_templateLanguageWitness
+    (TemplateLanguageMember.of_source_rows
+      (template := template) (support := support) hsource hrows)
+
 /-- Concatenate adjacent template-language coverage ranges. -/
 theorem TemplateLanguageCoverageOnIdentityRange.concat
     {lo mid hi : Nat}

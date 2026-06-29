@@ -28482,3 +28482,43 @@ granularity problem.  Its role is to make erasure explicit: any future
 algebraic family theorem should prove the existential source/template row facts
 over a range or state language, then erase immediately to
 `TemplateLanguageCoverageOnIdentityRange` without exporting support tables.
+
+### Phase 6Z.6K.8AP.16DU.9ER checkpoint: range-level source/row erasure
+
+Phase 6Z.6K.8AP.16DU.9ER extends
+`TemplateLanguage.lean` with the range-level constructor:
+
+```lean
+theorem TemplateLanguageCoverageOnIdentityRange.of_source_rows
+    {lo hi : Nat}
+    (h :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists template : SourceIndexTemplate,
+                  exists support : TwoSourceFarkasSupport,
+                    SourceAgrees support rank mask /\
+                      template.Rows support rank mask) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:02.59`, `max_rss_kb=3278200`.
+
+Decision: this is the preferred production bridge for translation
+GoodDirection chunks.  Generated range/state-language modules should prove the
+existential source/template row facts for all cases in their semantic range,
+then call `TemplateLanguageCoverageOnIdentityRange.of_source_rows`.  Singleton
+constructors remain smoke/fallback tools only.  The next substantive task is to
+find a compressed algebraic recurrence or state-language proof of that
+existential over large ranges, with no rank/mask table and no support-index
+catalog as the primary coordinate.
