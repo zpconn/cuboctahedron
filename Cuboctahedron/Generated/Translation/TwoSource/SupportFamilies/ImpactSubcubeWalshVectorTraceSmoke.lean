@@ -1,7 +1,7 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector
 
 /-!
-Generated AP16CM Walsh-vector trace smoke.
+Generated AP16CM Walsh-vector trace fixture `ImpactSubcubeWalshVectorTraceSmoke`.
 
 This file proves the rank-100805 generated Walsh translation vector by
 checking local prefix-step equalities against `TranslationWalshVectorTrace`,

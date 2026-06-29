@@ -35,6 +35,10 @@ DEFAULT_LEAN = Path(
     "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
     "ImpactSubcubeWalshVectorTraceSmoke.lean"
 )
+DEFAULT_NAMESPACE = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "ImpactSubcubeWalshVectorTraceSmoke"
+)
 
 WalshAffine = dict[tuple[int, ...], Fraction]
 WalshVec3 = list[WalshAffine]
@@ -147,23 +151,24 @@ def trace_norm_defs(prefix_indices: list[int], *, include_step: bool, include_fi
     return ", ".join(names)
 
 
-def build_lean(rank: int) -> str:
+def build_lean(rank: int, namespace: str = DEFAULT_NAMESPACE) -> str:
     word = exact.pair_word_at_rank(rank)
     prefixes = symbolic_translation_prefixes(word)
     final = symbolic_translation_final(word, prefixes)
+    short_name = namespace.rsplit(".", 1)[-1]
 
     lines: list[str] = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector",
         "",
         "/-!",
-        "Generated AP16CM Walsh-vector trace smoke.",
+        f"Generated AP16CM Walsh-vector trace fixture `{short_name}`.",
         "",
-        "This file proves the rank-100805 generated Walsh translation vector by",
+        f"This file proves the rank-{rank} generated Walsh translation vector by",
         "checking local prefix-step equalities against `TranslationWalshVectorTrace`,",
         "rather than reducing the full 13-step recurrence in one equality.",
         "-/",
         "",
-        "namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke",
+        f"namespace {namespace}",
         "",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
@@ -263,7 +268,7 @@ def build_lean(rank: int) -> str:
         "theorem walshVectorTraceSmoke_builds : True := by",
         "  trivial",
         "",
-        "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke",
+        f"end {namespace}",
         "",
     ])
     return "\n".join(lines)
@@ -273,10 +278,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
     parser.add_argument("--lean", type=Path, default=DEFAULT_LEAN)
+    parser.add_argument(
+        "--namespace",
+        default=DEFAULT_NAMESPACE,
+        help="Fully-qualified Lean namespace for the generated fixture.",
+    )
     args = parser.parse_args()
 
     args.lean.parent.mkdir(parents=True, exist_ok=True)
-    args.lean.write_text(build_lean(args.rank), encoding="utf-8")
+    args.lean.write_text(build_lean(args.rank, args.namespace), encoding="utf-8")
     print(f"wrote {args.lean}")
 
 
