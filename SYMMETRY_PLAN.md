@@ -17874,6 +17874,68 @@ Acceptance:
   source/row facts for GoodDirection members, erase them through
   `RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row`, and then
   through DU.9V to `AllTranslationGoodCoverageOnRange`.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AB candidate-catalog row-property erasure surface:
+  DU.9AB updates the reproducible AP16DU candidate-catalog smoke emitter:
+
+  ```text
+  scripts/generate_ap16du_candidate_catalog_surface_smoke.py
+  ```
+
+  so that regenerated catalog smoke modules also expose the DU.9AA
+  row-property erasure route.  The regenerated bounded surface is still:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    PositiveSurvivorCandidateCatalogSurfaceSmoke
+  ```
+
+  with the prior range-audit-selected `125` candidate groups for `[0,5000)`.
+  It now contains:
+
+  ```lean
+  generatedCandidateRowPropertyCoverage :
+    hcomplete ->
+      RowPropertyParametricCoverageOnIdentityRange 0 5000
+
+  generatedCandidateCatalogAllGoodCoverage_viaRowProperty :
+    hcomplete ->
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  alongside the older direct classifier and facts-catalog erasures.  The
+  theorem still takes `hcomplete` as a premise; this remains a surface smoke,
+  not final coverage evidence.
+
+  Reproduction command:
+
+  ```text
+  python3 scripts/generate_ap16du_candidate_catalog_surface_smoke.py \
+    --range-audit \
+      scripts/generated/phase6z6k8ap16du_candidate_chunk_range_coverage.json
+  ```
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      PositiveSurvivorCandidateCatalogSurfaceSmoke.lean
+    exit=0
+    elapsed=6.30s
+    max_rss=3429520 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      PositiveSurvivorCandidateCatalogSurfaceSmoke
+    exit=0
+    elapsed=4.47s
+    max_rss=3495888 KiB
+  ```
+
+  Decision: DU.9AB is accepted as reproducible bridge-surface work.  It does
+  not reduce the open proof obligation, but it confirms that the existing
+  candidate-catalog route can target the new row-property public API without
+  key-table exports or rank-local singleton facts.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:

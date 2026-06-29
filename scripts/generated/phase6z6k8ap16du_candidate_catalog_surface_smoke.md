@@ -16,5 +16,6 @@ The generated theorems still take `hcomplete` as a premise.  The next
 phase must prove that premise; this smoke validates that the
 multi-candidate catalog erases both directly to
 `AllTranslationGoodCoverageOnRange` and through
+`RowPropertyParametricCoverageOnIdentityRange` and
 `SourceRowFactsGoodCatalogOnRange`, without rank-local singleton facts
 or bad-direction evidence.

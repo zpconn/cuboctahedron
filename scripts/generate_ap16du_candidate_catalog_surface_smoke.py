@@ -131,6 +131,7 @@ def emit_candidate_catalog_module(
     )
     chunk_size = plan["candidate_catalog_route"]["chunk_size"]
     text = f"""import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
 
 /-!
 Generated AP16DU.9F positive-survivor candidate-catalog facts adapter.
@@ -148,6 +149,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositio
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
 
 set_option linter.unusedVariables false
 
@@ -261,6 +263,46 @@ theorem generatedCandidateCatalogAllGoodCoverage
   (generatedCatalogClassifier hcomplete).to_allGoodCoverage
 
 /--
+AP16DU.9AB row-property erasure adapter for the selected candidate catalog.
+
+This is the same candidate-completeness premise as
+`generatedCandidateCatalogAllGoodCoverage`, but it erases through the
+existential source/row bridge instead of constructing a finite key catalog.
+-/
+theorem generatedCandidateRowPropertyCoverage
+    (hcomplete :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange {lo} {hi} := by
+  apply RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM
+      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood) with
+    ⟨candidate, hmember⟩
+  exact ⟨generatedKey candidate, generatedCandidateSourceFacts hmember,
+    generatedCandidateRowFacts hmember⟩
+
+theorem generatedCandidateCatalogAllGoodCoverage_viaRowProperty
+    (hcomplete :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    AllTranslationGoodCoverageOnRange {lo} {hi} :=
+  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+    (generatedCandidateRowPropertyCoverage hcomplete)
+
+/--
 AP16DU.1 catalog-facts adapter for the selected candidate catalog.
 
 This exposes the same candidate-completeness premise as a finite
@@ -345,6 +387,7 @@ def write_reports(
             "notes": [
                 "validates the multi-candidate classifier theorem surface",
                 "validates erasure to SourceRowFactsGoodCatalogOnRange",
+                "validates erasure through RowPropertyParametricCoverageOnIdentityRange",
                 "does not prove the catalog-completeness premise",
                 "does not import rank-local singleton candidate-facts shards",
                 "does not enumerate masks that fail GoodDirection",
@@ -380,6 +423,7 @@ def write_reports(
         "phase must prove that premise; this smoke validates that the",
         "multi-candidate catalog erases both directly to",
         "`AllTranslationGoodCoverageOnRange` and through",
+        "`RowPropertyParametricCoverageOnIdentityRange` and",
         "`SourceRowFactsGoodCatalogOnRange`, without rank-local singleton facts",
         "or bad-direction evidence.",
     ]

@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
 
 /-!
 Generated AP16DU.9F positive-survivor candidate-catalog facts adapter.
@@ -16,6 +17,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositio
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
 
 set_option linter.unusedVariables false
 
@@ -2371,6 +2373,46 @@ theorem generatedCandidateCatalogAllGoodCoverage
                   generatedMember candidate rank mask) :
     AllTranslationGoodCoverageOnRange 0 5000 :=
   (generatedCatalogClassifier hcomplete).to_allGoodCoverage
+
+/--
+AP16DU.9AB row-property erasure adapter for the selected candidate catalog.
+
+This is the same candidate-completeness premise as
+`generatedCandidateCatalogAllGoodCoverage`, but it erases through the
+existential source/row bridge instead of constructing a finite key catalog.
+-/
+theorem generatedCandidateRowPropertyCoverage
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange 0 5000 := by
+  apply RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM
+      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood) with
+    ⟨candidate, hmember⟩
+  exact ⟨generatedKey candidate, generatedCandidateSourceFacts hmember,
+    generatedCandidateRowFacts hmember⟩
+
+theorem generatedCandidateCatalogAllGoodCoverage_viaRowProperty
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists candidate : GeneratedCandidate,
+                  generatedMember candidate rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+    (generatedCandidateRowPropertyCoverage hcomplete)
 
 /--
 AP16DU.1 catalog-facts adapter for the selected candidate catalog.
