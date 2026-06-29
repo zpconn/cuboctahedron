@@ -22538,6 +22538,82 @@ Decision:
 - Future scaling should first generate many such coefficient records and
   separately prove a small, exact coefficient-identity certificate format.
 
+### Phase 6Z.6K.8AP.16DU.9BL checkpoint: scaled coefficient cover smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9BL scales DU.9BK from one selected weighted cube to the
+entire DU.9BI selected rank-`6000745` weighted-cube cover.
+
+Emitter:
+
+```text
+scripts/emit_ap16du9bl_scaled_coeff_cover_smoke.py
+```
+
+Generated Lean:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745ScaledCoeffCoverSmoke.lean
+```
+
+The emitter consumes:
+
+```text
+scripts/generated/phase6z6k8ap16du9bi_weighted_coeff_certificate_profile.json
+```
+
+and emits all 11 scaled integer coefficient records from the accepted DU.9BI
+profile.  For each cube, Lean proves:
+
+```lean
+cubeXXPoly.intEval mask <= 0
+cubeXXPoly.toQuadratic.coeffEval mask <= 0
+```
+
+where the second theorem is again obtained through
+`ScaledWalshQuadratic.coeffEval_nonpos_of_intEval_nonpos`.
+
+Focused validation:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9bl_scaled_coeff_cover_smoke.py
+python3 scripts/emit_ap16du9bl_scaled_coeff_cover_smoke.py
+
+rg -n "sorry|admit|native_decide|unsafe|axiom" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745ScaledCoeffCoverSmoke.lean \
+  scripts/emit_ap16du9bl_scaled_coeff_cover_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bl_scaled_coeff_cover_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745ScaledCoeffCoverSmoke
+```
+
+Result:
+
+```text
+generated Lean size = 814 lines
+forbidden-term scan = no matches
+exit = 0
+elapsed = 11.54s
+peak tree RSS = 4121 MiB
+min MemAvailable = 45993 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept the scaled coefficient nonpositivity surface at the selected-cover
+  size.  It stays within essentially the same memory band as the one-cube
+  smoke and avoids the rejected compact-denominator trace path.
+- The production blocker is now sharply isolated: we need a small
+  coefficient-identity certificate format connecting the generated
+  `ScaledWalshQuadratic` record to `weightedDirectWalshDotAtRank`.
+- Do not scale more weighted covers until that identity bridge is designed and
+  benchmarked; otherwise the proof would only show nonpositivity of generated
+  polynomials, not of the actual weighted denominators.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
