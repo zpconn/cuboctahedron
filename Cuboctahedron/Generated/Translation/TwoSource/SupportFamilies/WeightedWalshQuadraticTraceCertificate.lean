@@ -1,3 +1,4 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedCoeffCertificate
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadratic
 
 /-!
@@ -253,6 +254,30 @@ theorem WeightedWalshQuadraticTraceCertificate.coeffEval_eq_weightedDirect
     poly.coeffEval mask = weightedDirectWalshDotAtRank r mask weights := by
   rw [← cert.quadratic_eq]
   exact weightedDirectWalshQuadraticAtRank_coeffEval r mask weights
+
+theorem WeightedWalshQuadraticTraceCertificate.weightedDirect_nonpos_of_coeffEval_nonpos
+    {r : Fin numPairWords}
+    {weights : InternalImpactWeights}
+    {poly : WalshQuadratic}
+    (cert : WeightedWalshQuadraticTraceCertificate r weights poly)
+    {mask : SignMask}
+    (hpoly : poly.coeffEval mask <= 0) :
+    weightedDirectWalshDotAtRank r mask weights <= 0 := by
+  have hcoeff := cert.coeffEval_eq_weightedDirect mask
+  rw [hcoeff] at hpoly
+  exact hpoly
+
+theorem WeightedWalshQuadraticTraceCertificate.weightedDirect_nonpos_of_scaled_intEval_nonpos
+    {r : Fin numPairWords}
+    {weights : InternalImpactWeights}
+    {q : ScaledWalshQuadratic}
+    (cert : WeightedWalshQuadraticTraceCertificate r weights q.toQuadratic)
+    (hscale : 0 < q.scale)
+    {mask : SignMask}
+    (hint : q.intEval mask <= 0) :
+    weightedDirectWalshDotAtRank r mask weights <= 0 :=
+  cert.weightedDirect_nonpos_of_coeffEval_nonpos
+    (q.coeffEval_nonpos_of_intEval_nonpos hscale hint)
 
 theorem weightedWalshQuadraticTraceCertificate_builds : True := by
   trivial

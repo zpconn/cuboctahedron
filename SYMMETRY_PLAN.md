@@ -529,6 +529,13 @@ key-membership premise to `classifierCompletenessOnIdentityRange` and
 DU.9C further weakens the production membership target to source facts plus
 row facts for a public `ClassifierKey`, matching the existing producer-language
 architecture; its guarded build passed in 7.00s at 4.164 GiB peak tree RSS.
+DU.9CU adds a reusable trace-certificate nonpositivity bridge so future
+weighted-cube leaves can transport a scaled integer polynomial inequality to
+`weightedDirectWalshDotAtRank <= 0` with one theorem call instead of repeating
+the local coefficient-evaluation rewrite pattern.  Its focused guarded build
+passed in 13.04s at 4.063 GiB peak tree RSS.  This is a useful constant-factor
+bridge, not a reason to revive rank-local weighted-cube chains as the main
+coverage strategy.
 DU.9F adds the candidate-catalog facts adapter for the equivalent
 `generatedCandidateKeyAt` catalog target.  DU.9G rejects rank-prefix,
 mask-only, and singleton-signature membership routes.  DU.9H then audits the
@@ -25215,6 +25222,71 @@ Decision:
 - Do not emit Lean evidence from raw lifted-PB problem/cube/shape leaves.
   Any pseudo-Boolean route must use a stronger global theorem/template that
   avoids one leaf per canonical lifted problem plus survivor Farkas shape.
+
+### Phase 6Z.6K.8AP.16DU.9CU checkpoint: trace nonpositivity bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9CU adds a small reusable theorem layer around the
+accepted trace-certificate route.  Generated weighted-cube modules repeatedly
+proved the same final transport step:
+
+```lean
+scaled integer polynomial nonpositive on the cube
+  -> scaled Walsh quadratic coefficient evaluation nonpositive
+  -> weightedDirectWalshDotAtRank rank mask weights <= 0
+```
+
+The first step is cube-specific and remains generated.  The second and third
+steps should not be repeated in every cube leaf.  DU.9CU therefore adds:
+
+```lean
+theorem WeightedWalshQuadraticTraceCertificate.weightedDirect_nonpos_of_coeffEval_nonpos
+
+theorem WeightedWalshQuadraticTraceCertificate.weightedDirect_nonpos_of_scaled_intEval_nonpos
+```
+
+to:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean
+```
+
+The new theorems combine the existing
+`WeightedWalshQuadraticTraceCertificate.coeffEval_eq_weightedDirect` bridge
+with the existing `ScaledWalshQuadratic.coeffEval_nonpos_of_intEval_nonpos`
+integer-sign theorem.
+
+Guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cu_trace_nonpos_bridge_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticTraceCertificate
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               13.04s
+peak tree RSS:         4063 MiB
+minimum MemAvailable:  46028 MiB
+RSS cap:               6144 MiB
+```
+
+Decision:
+
+- Accept DU.9CU as reusable generated-facing theorem infrastructure.
+- It shortens future fallback weighted-cube leaves and reduces repeated proof
+  boilerplate.
+- It is not a strategic compression breakthrough.  DU.9CS already showed that
+  actual weighted-cube scaled polynomials do not reuse strongly across ranks,
+  and DU.9CR still costs about 70 seconds per rank-local chain.  The main
+  translation proof must still use the GoodDirection/classifier/source-language
+  membership route or a stronger pseudo-Boolean/global-template theorem.
 
 ## Explicit Non-Goals
 
