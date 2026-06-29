@@ -25866,6 +25866,73 @@ scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract.md
 scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract_guard.json
 ```
 
+### Phase 6Z.6K.8AP.16DU.9DD checkpoint: candidate catalog surface builds under guard
+
+Phase 6Z.6K.8AP.16DU.9DD focused-builds the existing candidate catalog
+surface:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke
+```
+
+The important theorem in that module is the semantic erasure path:
+
+```lean
+generatedCandidateCatalogAllGoodCoverage_viaRowProperty_semantic
+```
+
+It still assumes the catalog-completeness premise; this checkpoint only proves
+that the Lean bridge/catalog layer itself is not the current memory or build
+blocker.
+
+Guarded command:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dd_candidate_catalog_surface_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke
+```
+
+Result:
+
+```text
+exit_code:          0
+killed_reason:      null
+elapsed_seconds:    4.01
+max_tree_rss_mib:   822.48
+min_available_mib:  46487.20
+```
+
+Decision:
+
+- Accepted as a bridge-layer sanity check.
+- Do not spend more time adding erasure adapters for this surface.  They
+  already exist and build safely.
+- The next production-relevant generator must prove the semantic catalog
+  completeness premise:
+
+  ```lean
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists candidate : GeneratedCandidate,
+              generatedMember candidate rank mask
+  ```
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9dd_candidate_catalog_surface.md
+scripts/generated/phase6z6k8ap16du9dd_candidate_catalog_surface_guard.json
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
