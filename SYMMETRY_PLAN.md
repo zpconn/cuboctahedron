@@ -21946,6 +21946,64 @@ Decision:
   Walsh/cube arithmetic instead of `ImpactSubcubeWalshSymbolicCompactDenom*`
   trace consumers.
 
+### Phase 6Z.6K.8AP.16DU.9BD checkpoint: direct one-mask proof accepted, but not scalable
+
+Phase 6Z.6K.8AP.16DU.9BD adds the first proof-producing consumer of
+`DirectWalshDenominator.lean`:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745DirectOneMaskSmoke.lean
+```
+
+The module proves one concrete denominator nonpositivity fact for
+rank `6000745`, mask `24`, and internal impact `5`, using the trace-free
+direct Walsh denominator bridge:
+
+```lean
+theorem generatedDenom5_mask24_nonpos :
+    impactDenomAtRank generatedRank generatedMask24
+        (wordImpact selectedWordImpactIndex) <= 0
+```
+
+The first build attempt was memory-safe but failed because the raw pair-word
+indices did not simplify.  The second attempt added local `[simp]` word-get
+facts, stayed memory-safe, but still failed because `WalshAffineVec3.zero` was
+not unfolded in the final arithmetic goal.  The accepted retry added that
+unfolding and passed:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bd_direct_one_mask_guard_retry2.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745DirectOneMaskSmoke
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 47.64s
+peak RSS = 5482 MiB
+minimum available memory seen = 44710 MiB
+```
+
+Decision:
+
+- Accept the direct Walsh bridge as a trusted, memory-safe denominator
+  equality route.
+- Reject direct unfolding/simplification of `translationVectorWalshOfChoice`
+  as a scalable generated proof style.  Even one concrete mask takes roughly
+  48 seconds.
+- The next route should keep the DU.9BC theorem as the semantic bridge, but
+  generated leaves must provide a small precomputed Walsh polynomial or
+  cleared-integer pseudo-Boolean certificate for the weighted sum.  Lean should
+  check the small polynomial/certificate, not replay the full 13-step Walsh
+  recurrence for each mask or cube.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -22025,3 +22083,7 @@ Decision:
   the backend for `WeightedDenomCubeCover` production leaves.  DU.9BB shows
   that even a one-cube rank-`6000745` smoke crosses the 8 GiB focused-build
   guard through that path.
+- Do not scale direct per-mask unfolding of `translationVectorWalshOfChoice`
+  as generated proof evidence.  DU.9BD proves the route is memory-safe for one
+  mask but far too slow for production coverage without precomputed compact
+  polynomial or integer certificates.
