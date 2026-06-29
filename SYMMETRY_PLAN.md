@@ -21677,6 +21677,62 @@ Decision:
   measures family count, generated source size, and focused build RSS before
   scaling.
 
+### Phase 6Z.6K.8AP.16DU.9AZ checkpoint: weighted denominator positivity core accepted
+
+Phase 6Z.6K.8AP.16DU.9AZ strengthens `DenominatorCube.lean` with a generic
+positivity theorem:
+
+```lean
+theorem weightedDenomAtRank_pos_of_goodDirection
+    (hlt : rank < numPairWords)
+    (hNonneg : weights.Nonnegative)
+    (hPos : weights.PositiveSome)
+    (hgood : GoodDirectionAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask) :
+    0 < weightedDenomAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask weights
+```
+
+This means generated weighted-denominator leaves no longer need to re-prove
+the positivity side of a Farkas/cube obstruction.  They only need to provide:
+
+1. nonnegative weights;
+2. at least one positive weight;
+3. a family-level proof that the weighted denominator sum is nonpositive on
+   the bad-mask family.
+
+The first proof attempt used `nlinarith` without importing it and failed
+quickly.  The second helper attempt was also rejected because it relied on
+unsuitable positivity automation.  The accepted version imports only the
+narrow `Mathlib.Tactic.Linarith` module and uses `linarith` after naming each
+weighted denominator term.
+
+Guarded accepted build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9az_weighted_denom_pos_guard_retry2.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DenominatorCube
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 4.01s
+peak RSS = 4030 MiB
+minimum available memory seen = 46146 MiB
+```
+
+Decision:
+
+- Accept this theorem as a reusable core lemma for the next
+  `WeightedDenomCubeCover` emitter.
+- It is still a semantic proof surface, not data.  The next profiler must find
+  a small family cover for the complement of the positive survivor set; the
+  theorem only removes one repeated proof obligation from those families.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
