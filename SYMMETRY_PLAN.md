@@ -24641,6 +24641,119 @@ Decision:
   avoids 22 independent rational `norm_num` coefficient equalities, rather
   than another local rearrangement of the same rational goal.
 
+### Phase 6Z.6K.8AP.16DU.9CP checkpoint: cube-eval proof rejected
+
+Phase 6Z.6K.8AP.16DU.9CP tests a more semantic cube-local target than DU.9CN:
+instead of proving all 22 coefficients of
+`weightedQuadraticFromDotData ...` agree with `ScaledWalshQuadratic.toQuadratic`,
+the generated smoke proves only that the evaluated dot polynomial is
+nonpositive on the selected cube.  The intended benefit was to avoid unused
+coefficient equalities and bridge directly through the existing integer
+`ScaledWalshQuadratic.intEval` nonpositivity theorem.
+
+The generated proof shape:
+
+```lean
+private theorem cube00DotPoly_coeffEval_eq_scaled_on_cube
+    {mask : SignMask} (hmask : cube00Cube.Member mask) :
+    (weightedQuadraticFromDotData data.generatedDot cube00Weights).coeffEval mask =
+      cube00ScaledPoly.toQuadratic.coeffEval mask := by
+  -- fixed-bit facts from hmask
+  rw [weightedQuadraticFromDotData_eq_coeffs]
+  -- case split only over the cube's free sign bits
+  norm_num [...]
+
+theorem cube00DotPoly_coeffEval_nonpos_on_cube
+    {mask : SignMask} (hmask : cube00Cube.Member mask) :
+    (weightedQuadraticFromDotData data.generatedDot cube00Weights).coeffEval mask <= 0 := by
+  rw [cube00DotPoly_coeffEval_eq_scaled_on_cube hmask]
+  exact cube00ScaledPoly_coeffEval_nonpos_on_cube hmask
+```
+
+Files:
+
+```text
+scripts/emit_ap16du9cp_dotpoly_cube_eval_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyCubeEvalSmoke.lean
+scripts/generated/phase6z6k8ap16du9cp_dotpoly_cube_eval_smoke.json
+scripts/generated/phase6z6k8ap16du9cp_dotpoly_cube_eval_smoke.md
+scripts/generated/phase6z6k8ap16du9cp_dotpoly_cube_eval_guard.json
+scripts/generated/phase6z6k8ap16du9cp_dotpoly_cube_eval_lean_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cp_dotpoly_cube_eval_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cp_dotpoly_cube_eval_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyCubeEvalSmoke.lean
+wc -l scripts/emit_ap16du9cp_dotpoly_cube_eval_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyCubeEvalSmoke.lean
+```
+
+The Python compile passed.  The forbidden-token scan returned no matches.  The
+script has `200` lines and the generated Lean smoke has `118` lines.
+
+Focused guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cp_dotpoly_cube_eval_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyCubeEvalSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               13.53s
+Lean target time:      11s
+peak tree RSS:         4145 MiB
+minimum MemAvailable:  45971 MiB
+RSS cap:               6144 MiB
+```
+
+Direct import-aware Lean check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cp_dotpoly_cube_eval_lean_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyCubeEvalSmoke.lean
+
+exit code:             0
+elapsed:               8.01s
+peak tree RSS:         4078 MiB
+minimum MemAvailable:  46106 MiB
+RSS cap:               6144 MiB
+```
+
+Comparison:
+
+```text
+DU.9CN full flat formula equality:     7.51s direct Lean, 4009 MiB
+DU.9CP cube-eval semantic inequality:  8.01s direct Lean, 4078 MiB
+```
+
+Decision:
+
+- Reject DU.9CP as the production route.  It is memory-safe, but the cube
+  free-bit case split plus `coeffEval` normalization is slightly slower than
+  proving the full flat coefficient equality once.
+- Keep the generated smoke as regression evidence that cube-eval targets are
+  not automatically cheaper than coefficient equality.
+- The next optimization should not be "evaluate on masks" unless it uses a
+  stronger integer/template theorem that avoids both the 22-field rational
+  equality and the per-free-bit `coeffEval` case split.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
