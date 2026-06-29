@@ -1,13 +1,11 @@
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshCompactDenomBridge
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke
-import Cuboctahedron.Search.TranslationRecurrence
 
 /-!
-Generated AP.16CI compact-denominator symbolic smoke.
+Generated AP16CQ compact-denominator consumer for rank `100805`.
 
-This keeps the AP16CD rank/impact/vector data, but replaces the bounded
-mask-by-mask `impactDenomAtRank` replay with the compact recurrence theorem
-`impactDenomAtRank_wordImpact_eq_compact`.
+The module consumes an existing Walsh-vector trace fixture and closes one
+compact denominator equality via `impactDenomAtRank_wordImpact_eq_walshDot`.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke
@@ -19,22 +17,14 @@ set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedTactic false
 
--- rank 100805, selected subcube 0, label *000**, impact 1
-private def generatedRank : Fin numPairWords := ⟨100805, by decide⟩
+private abbrev generatedRank : Fin numPairWords :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedRank
 
-private def generatedWord : PairWord :=
-  ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z,
-      PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1,
-      PairId.d11m, PairId.dm11], by decide⟩
+private abbrev generatedWord : PairWord :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedWord
 
-private theorem generatedRankWord :
-    rankPairWord? generatedWord = some generatedRank := by
-  decide
-
-private theorem generatedUnrank :
-    unrankPairWord generatedRank = generatedWord := by
-  exact (rankPairWord?_eq_some_iff_unrank generatedWord generatedRank).1
-    generatedRankWord |>.symm
+private abbrev generatedVector : WalshAffineVec3 :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector
 
 private def generatedMask0 : SignMask := ⟨0, by decide⟩
 
@@ -70,52 +60,6 @@ private def generatedNormal : WalshAffineVec3 where
   y := generatedNormal_y
   z := generatedNormal_z
 
-private def generatedVector_x : WalshAffine where
-  c := -4
-  y := 0
-  z := -32/9
-  d111 := -104/27
-  d11m := -8/9
-  d1m1 := -40/27
-  dm11 := 8/3
-
-private def generatedVector_y : WalshAffine where
-  c := 0
-  y := 4
-  z := 16/9
-  d111 := -56/27
-  d11m := 40/9
-  d1m1 := 56/27
-  dm11 := 8/3
-
-private def generatedVector_z : WalshAffine where
-  c := 0
-  y := 0
-  z := 4/9
-  d111 := 40/27
-  d11m := -8/9
-  d1m1 := 104/27
-  dm11 := 8/3
-
-private def generatedVector : WalshAffineVec3 where
-  x := generatedVector_x
-  y := generatedVector_y
-  z := generatedVector_z
-
-private abbrev traceSmokeGeneratedWord : PairWord :=
-  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedWord
-
-private abbrev traceSmokeGeneratedVector : WalshAffineVec3 :=
-  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector
-
-private theorem generatedWord_eq_traceSmokeGeneratedWord :
-    generatedWord = traceSmokeGeneratedWord := by
-  rfl
-
-private theorem generatedVector_eq_traceSmokeGeneratedVector :
-    generatedVector = traceSmokeGeneratedVector := by
-  rfl
-
 private def firstWordImpactIndex : WordIndex := ⟨0, by decide⟩
 
 private theorem generatedWord_get_first :
@@ -138,52 +82,31 @@ private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
         { x := (-1 : Rat), y := 0, z := 0 } := by
     rw [generatedFirstSignedCoeff mask, generatedWord_get_first]
     apply Vec3.ext <;>
-      norm_num [firstWordImpactIndex, generatedWord, pairPrefixLinearNat,
-        canonicalNormalQ, scalarMul, matVec, matId]
+      norm_num [firstWordImpactIndex, pairPrefixLinearNat, canonicalNormalQ,
+        scalarMul, matVec, matId]
   rw [hCompact]
   apply Vec3.ext <;>
     norm_num [generatedNormal, generatedNormal_x, generatedNormal_y,
       generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,
       firstWordImpactIndex]
 
-private theorem generatedDenomDotCompact_mask0_of_vector_x
-    (hVectorX :
-      (generatedVector.eval generatedMask0).x =
-        (translationVectorOfChoice generatedWord generatedMask0).x)
-    (hlt : 100805 < numPairWords) :
-    impactDenomAtRank (⟨100805, hlt⟩ : Fin numPairWords) generatedMask0
-        (wordImpact firstWordImpactIndex) =
-      Cuboctahedron.dot (generatedNormal.eval generatedMask0)
-        (generatedVector.eval generatedMask0) := by
-  have hrank : (⟨100805, hlt⟩ : Fin numPairWords) = generatedRank := by
-    ext
-    rfl
-  rw [hrank, impactDenomAtRank_wordImpact_eq_compact, generatedUnrank,
-    ← generatedNormal_eval_eq_compact]
-  simp [generatedNormal, generatedNormal_x, generatedNormal_y,
-    generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,
-    Cuboctahedron.dot]
-  simpa [generatedVector, generatedVector_x, WalshAffineVec3.eval,
-    WalshAffine.eval] using (congrArg Neg.neg hVectorX).symm
-
-private theorem generatedVectorX_mask0_eq_translationVector :
-    (generatedVector.eval generatedMask0).x =
-      (translationVectorOfChoice generatedWord generatedMask0).x := by
-  rw [generatedVector_eq_traceSmokeGeneratedVector,
-    generatedWord_eq_traceSmokeGeneratedWord]
-  exact congrArg Vec3.x
-    (Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector_eval_eq_translationVector
-      generatedMask0)
+private theorem generatedVector_mask0_eq_translationVector :
+    generatedVector.eval generatedMask0 =
+      translationVectorOfChoice generatedWord generatedMask0 :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector_eval_eq_translationVector
+    generatedMask0
 
 theorem generatedDenomDotCompact_mask0 :
     impactDenomAtRank generatedRank generatedMask0
         (wordImpact firstWordImpactIndex) =
       Cuboctahedron.dot (generatedNormal.eval generatedMask0)
-        (generatedVector.eval generatedMask0) :=
-  generatedDenomDotCompact_mask0_of_vector_x
-    generatedVectorX_mask0_eq_translationVector (by decide)
+        (generatedVector.eval generatedMask0) := by
+  exact impactDenomAtRank_wordImpact_eq_walshDot
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedUnrank_builds
+    (generatedNormal_eval_eq_compact generatedMask0)
+    generatedVector_mask0_eq_translationVector
 
-theorem compactDenomSmoke_builds : True := by
+theorem compactDenomGeneratedSmoke_builds : True := by
   trivial
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke

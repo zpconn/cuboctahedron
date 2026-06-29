@@ -239,9 +239,9 @@ the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
 6Z.6K.8AP.16BQ Walsh cover bridge surface.  The current Walsh-vector path now
 also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
 bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
-denominator trace consumers, AP16CR's reusable compact-denominator bridge, and
-AP16CS's compact-denominator consumer emitter, plus AP16CP's multi-fixture
-trace import smoke,
+denominator trace consumers, AP16CR's reusable compact-denominator bridge,
+AP16CS/AP16CT compact-denominator consumer emitter checks, plus AP16CP's
+multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
@@ -13977,6 +13977,50 @@ Acceptance:
   smoke.  The next AP16 target should either add generated symbolic-normal
   trace support for nonzero impacts, or connect this script to a small manifest
   of impact-`0` positive-survivor fixtures.
+- [x] Implement Phase 6Z.6K.8AP.16CT script-backed original compact
+  denominator smoke:
+  AP16CT reruns `scripts/generate_ap16cq_compact_denom_consumer_smoke.py` on
+  the earlier rank-`100805`, mask-`0`, impact-`0` fixture:
+
+  ```text
+  python3 scripts/generate_ap16cq_compact_denom_consumer_smoke.py \
+    --rank 100805 \
+    --mask 0 \
+    --trace-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke \
+    --lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomSmoke.lean \
+    --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke
+  ```
+
+  This replaces the original hand-written AP16CN consumer body with the same
+  AP16CR bridge-backed generated shape used by AP16CS.  Both current compact
+  denominator consumers are now script outputs rather than manually copied
+  vector/denominator boilerplate.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16ct_compact_denom_consumer_emitter_100805_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 3.50s
+  peak tree RSS: 3849 MiB
+  minimum available memory: 46020 MiB
+  ```
+
+  Decision: accepted.  The trace-vector plus compact-denominator pipeline now
+  has two generated rank fixtures and two generated denominator consumers.  The
+  next AP16 target should broaden the emitter beyond constant impact-`0`
+  normals by adding symbolic-normal trace support, or use an explicit manifest
+  to batch only impact-`0` cases while that support is developed.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
