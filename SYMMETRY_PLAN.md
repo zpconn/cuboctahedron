@@ -23186,6 +23186,85 @@ Decision:
   safety while keeping each heavy Lean process close to the one-cube memory
   band.
 
+### Phase 6Z.6K.8AP.16DU.9BU checkpoint: chained all-cube trace certificates accepted
+
+Phase 6Z.6K.8AP.16DU.9BU implements the DU.9BT follow-up: keep the same
+weighted trace-certificate proof surface, but replace the monolithic all-cube
+module with a source-level chain.
+
+New emitter:
+
+```text
+scripts/emit_ap16du9bu_trace_cert_chain_smoke.py
+```
+
+Generated topology:
+
+```text
+WeightedDenomCubeRank6000745TraceCertChainDataSmoke
+WeightedDenomCubeRank6000745TraceCertChainCube00Smoke imports Data
+WeightedDenomCubeRank6000745TraceCertChainCube01Smoke imports Cube00
+...
+WeightedDenomCubeRank6000745TraceCertChainCube10Smoke imports Cube09
+WeightedDenomCubeRank6000745TraceCertChainSmoke imports Cube10
+```
+
+Generated report:
+
+```text
+scripts/generated/phase6z6k8ap16du9bu_trace_cert_chain_smoke.json
+scripts/generated/phase6z6k8ap16du9bu_trace_cert_chain_smoke.md
+```
+
+The generated files contain 625 lines in the shared Data module, roughly
+124-138 lines per cube module, and a 10-line root.  The forbidden-term scan
+found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Focused guarded root build:
+
+```text
+scripts/generated/phase6z6k8ap16du9bu_trace_cert_chain_root_guard.json
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertChainSmoke
+exit = 0
+elapsed = 588.48s
+peak tree RSS = 5583 MiB
+min MemAvailable = 44234 MiB
+rss cap = 8192 MiB
+```
+
+Observed per-module timings:
+
+```text
+Data = 32s
+Cube00 = 50s
+Cube01 = 50s
+Cube02 = 49s
+Cube03 = 50s
+Cube04 = 50s
+Cube05 = 50s
+Cube06 = 50s
+Cube07 = 50s
+Cube08 = 49s
+Cube09 = 50s
+Cube10 = 49s
+Root = 1.1s
+```
+
+Decision:
+
+- Accept chained per-cube trace-certificate topology as memory safe for the
+  all-11-cube rank-`6000745` cover.
+- Keep this topology, not DU.9BT's monolithic module shape, for any further
+  weighted trace-certificate scaling.
+- Do not confuse memory safety with production viability: `~50s` per cube is
+  still too slow for full-scale generated coverage unless the number of such
+  cubes is tiny or the per-cube polynomial equality proof is made much cheaper.
+- The next optimization target is the per-cube `Poly_eq` proof.  It should be
+  replaced or shortened by a smaller proof-carrying coefficient identity format,
+  ideally checking scaled integer coefficient equations rather than unfolding
+  `weightedQuadraticFromAffineData` and all Walsh affine multiplication in each
+  cube module.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
