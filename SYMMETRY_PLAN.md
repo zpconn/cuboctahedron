@@ -23050,6 +23050,93 @@ Decision:
   for rank `6000745`, instantiate the DU.9BO certificate for one selected
   weighted cube, and build the resulting leaf cold under the 8 GiB guard.
 
+### Phase 6Z.6K.8AP.16DU.9BS checkpoint: trace-certificate one-cube proof accepted
+
+Phase 6Z.6K.8AP.16DU.9BS adds the first generated proof-producing smoke that
+combines the accepted pieces from DU.9BJ through DU.9BR:
+
+1. a chained rank-`6000745` Walsh vector trace root from DU.9BR;
+2. a weighted trace-certificate instance using the DU.9BO API;
+3. a DU.9BI/DU.9BJ scaled integer Walsh quadratic coefficient certificate;
+4. a DU.9BJ cube nonpositivity proof; and
+5. the DU.9BG bridge from weighted direct Walsh dots to translation
+   denominator obstruction.
+
+New emitter:
+
+```text
+scripts/emit_ap16du9bs_trace_cert_one_cube_smoke.py
+```
+
+Generated module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertOneCubeSmoke
+```
+
+Generated report:
+
+```text
+scripts/generated/phase6z6k8ap16du9bs_trace_cert_one_cube_smoke.json
+scripts/generated/phase6z6k8ap16du9bs_trace_cert_one_cube_smoke.md
+```
+
+The selected cube is the first DU.9BI rank-`6000745` weighted cube:
+
+```text
+cube index = 0
+cube label = ***00*
+support = [1, 2, 8]
+weights = [2, 1, 1]
+```
+
+The first guarded build attempt did not OOM, but failed elaboration:
+
+```text
+scripts/generated/phase6z6k8ap16du9bs_trace_cert_one_cube_guard.json
+exit = 1
+elapsed = 65.63s
+peak tree RSS was below the 8 GiB guard
+```
+
+The errors were proof-surface issues, not memory failures: the generated
+polynomial equality left `ScaledWalshQuadratic.coeffRat` stuck, and the final
+statement used an unqualified `weightedDirectWalshDotAtRank`.  The emitter now
+unfolds `ScaledWalshQuadratic.coeffRat` in the polynomial equality proof and
+qualifies the direct weighted-dot theorem target.
+
+Final retry guarded build:
+
+```text
+scripts/generated/phase6z6k8ap16du9bs_trace_cert_one_cube_guard_retry3.json
+exit = 0
+elapsed = 62.15s
+peak tree RSS = 6040 MiB
+min MemAvailable = 43754 MiB
+rss cap = 8192 MiB
+```
+
+The accepted generated file still reports a local linter warning about
+`tac1 <;> tac2` versus `(tac1; tac2)` in a generated normal-equality proof.
+An attempted simplification of that proof template showed that `simp` alone is
+not strong enough for the later normal equations, so the known-good template is
+kept for now.
+
+Forbidden-term scan over the new emitter and generated smoke found no
+`sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision:
+
+- Accept the trace-certificate proof shape for a single weighted cube.
+- Keep the chained dependency graph as mandatory for trace-certificate leaves;
+  the same proof shape should not be emitted with sibling trace dependencies.
+- The next scale test should cover all 11 DU.9BI selected weighted cubes for
+  rank `6000745` using chained traces and the same certificate surface, while
+  preserving the 8 GiB focused-build guard.
+- Treat the current one-cube timing as a warning: `~63s` for one cube is still
+  too expensive for production unless the all-cube leaf shares enough trace and
+  polynomial facts to reduce per-cube overhead.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
