@@ -28079,3 +28079,80 @@ same source skeletons + same row property + same template
 If that theorem surface is too weak, refine the quotient by adding only the
 minimal row-normal-form data needed for sound transport, rather than returning
 to raw source indices.
+
+### Phase 6Z.6K.8AP.16DU.9EK checkpoint: source-skeleton obligations
+
+Phase 6Z.6K.8AP.16DU.9EK adds
+`scripts/profile_source_skeleton_quotient_obligations.py`, a checkpoint-only
+diagnostic that groups the same 9EE/9EF/9EH classifier census families by the
+promising `template_source_skeletons_row` quotient and measures what concrete
+source-index variation remains inside those groups.
+
+Command:
+
+```bash
+python3 scripts/profile_source_skeleton_quotient_obligations.py \
+  --input scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+  --input scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+  --input scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json \
+  --json scripts/generated/phase6z6k8ap16du9ek_source_skeleton_obligations.json \
+  --md scripts/generated/phase6z6k8ap16du9ek_source_skeleton_obligations.md \
+  --top-limit 12
+```
+
+Result over the same `649` concrete families and `63,642` sampled
+GoodDirection cases:
+
+- Source-skeleton quotient groups: `138`
+- Groups with multiple source-index pairs: `112`
+- Cases in multi-source-index-pair groups: `63,498`
+- Max source-index pairs per group: `20`
+- Median source-index pairs per group: `4.0`
+
+Distribution:
+
+| Source-index pairs per group | Groups |
+| ---: | ---: |
+| `1` | `26` |
+| `2` | `27` |
+| `3` | `13` |
+| `4` | `13` |
+| `5` | `9` |
+| `6` | `14` |
+| `7` | `12` |
+| `8` | `6` |
+| `9` | `2` |
+| `10` | `4` |
+| `11` | `6` |
+| `12` | `2` |
+| `13` | `1` |
+| `16` | `1` |
+| `20` | `2` |
+
+Decision: keep the source-skeleton quotient as the next theorem-surface
+candidate, but do not treat it as production-ready by itself.  It is doing real
+compression (`649 -> 138` groups), yet the dominant sampled mass still contains
+many concrete source-index positions per group.  Therefore the next Lean work
+must prove a semantic source-skeleton bridge, not just generate smaller keys.
+
+The intended proof surface should look like:
+
+```text
+sourceSkeletonFacts + rowNormalFormFacts
+  -> RowPropertyParametricCovered r mask
+```
+
+rather than:
+
+```text
+firstIndex + secondIndex + sourceFacts + rowFacts
+  -> RowPropertyParametricCovered r mask
+```
+
+The open proof obligation is to replace the current
+`SourceIndexStateKey.SourceMatches` dependence on `listGet?` positions with a
+position-free semantic statement: for example, "there exists an xp-start source
+with index 0" or "there exists an interior source for impact 1 whose extracted
+row has this normal form."  If that bridge cannot determine `SourceChecks` and
+the row predicates, refine the quotient with minimal row-normal-form/source
+normal-form data before returning to concrete source indices.
