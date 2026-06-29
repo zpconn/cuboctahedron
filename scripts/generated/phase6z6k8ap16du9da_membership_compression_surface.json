@@ -1,0 +1,714 @@
+{
+  "cases_by_template": {
+    "axis_a_only": 27,
+    "eq_eq_neg_var_first": 102,
+    "eq_eq_neg_var_second": 14,
+    "eq_eq_pos_var_first": 2046,
+    "eq_eq_pos_var_second": 738,
+    "opp_1m_var_first": 894,
+    "opp_1m_var_second": 287,
+    "opp_m1_var_first": 439,
+    "opp_m1_var_second": 146
+  },
+  "coordinate_reports": [
+    {
+      "coordinate": "descriptor",
+      "largest_rank_class": 4,
+      "top_examples": [
+        {
+          "key": "01fd106d9eddeb6ce3c6ef52613958480b8e23fe9475b5cb9b51135349928a6d",
+          "rank_count": 4,
+          "sample_ranks": [
+            3898,
+            3940,
+            4674,
+            4950
+          ]
+        },
+        {
+          "key": "d72f96137d45da63087deb0bbb440b177ee277ec6b195fca692d67e3e88ec739",
+          "rank_count": 3,
+          "sample_ranks": [
+            3874,
+            3958,
+            4554
+          ]
+        },
+        {
+          "key": "2b5a839cf18f04c9f7a93396695330e8763182360dddb92b2f0aaef4964971d3",
+          "rank_count": 2,
+          "sample_ranks": [
+            1312,
+            1433
+          ]
+        },
+        {
+          "key": "2fa004d80405b5de08c78effaafbd5bebce87aea14040bef6578382abc6da199",
+          "rank_count": 2,
+          "sample_ranks": [
+            129,
+            369
+          ]
+        },
+        {
+          "key": "2fedfab8eb4d31b94c6aeda84fe97bb3a9c71bb3575ce2623629a3977804abe5",
+          "rank_count": 2,
+          "sample_ranks": [
+            2441,
+            2459
+          ]
+        },
+        {
+          "key": "5a5cfed2bfa2c6f7010286dbc9be14ea3c7969d0a7d4ebe08d725595ea691995",
+          "rank_count": 2,
+          "sample_ranks": [
+            1304,
+            1865
+          ]
+        }
+      ],
+      "top_rank_maps": [
+        {
+          "count": 4,
+          "key": "01fd106d9eddeb6ce3c6ef52613958480b8e23fe9475b5cb9b51135349928a6d"
+        },
+        {
+          "count": 3,
+          "key": "d72f96137d45da63087deb0bbb440b177ee277ec6b195fca692d67e3e88ec739"
+        },
+        {
+          "count": 2,
+          "key": "b19b162d924508e37ad67d847b1b2b01e7b962792afe8d18972e7fdab13c43dc"
+        },
+        {
+          "count": 2,
+          "key": "2fa004d80405b5de08c78effaafbd5bebce87aea14040bef6578382abc6da199"
+        },
+        {
+          "count": 2,
+          "key": "cb14981162f01dd2fce71ba37c61b296fba21f23c88b9aefb247929fb0ba71b5"
+        },
+        {
+          "count": 2,
+          "key": "d516ff03638d6ee68beffea1245216c4908c50d8095b5c0c31b379914ac1554f"
+        },
+        {
+          "count": 2,
+          "key": "c379e689b663ae031b2ae510395dde4277701172e948b5eae035f245c479f2f3"
+        },
+        {
+          "count": 2,
+          "key": "61d56c48d62131debc8f0559f3c00036214bbbaf4791b38bed9353b8d1085f98"
+        },
+        {
+          "count": 2,
+          "key": "d0a908528702feeff1996d8f93f612038cebb8e4a21384c9fbe01382eb7e94d9"
+        },
+        {
+          "count": 2,
+          "key": "cb43fa2a9be34da16738dfa03dcfabbcaf230eaf81fbc32932e7762047a30183"
+        },
+        {
+          "count": 2,
+          "key": "9e00f84daf185a49ad035a1e2e260c6f1a6705adce6703160b73d328b5e58ae4"
+        },
+        {
+          "count": 2,
+          "key": "fb4f57f7593bea05ca815b06ca29fe663d20db8985451a110e37e38d063ef701"
+        }
+      ],
+      "unique_rank_maps": 464
+    },
+    {
+      "coordinate": "template_source_indices_row_property",
+      "largest_rank_class": 4,
+      "top_examples": [
+        {
+          "key": "bf6b0e9f79c737c7e542bdcdbe6b0a03164d723b579df8022aefd91c246a4b6a",
+          "rank_count": 4,
+          "sample_ranks": [
+            3898,
+            3940,
+            4674,
+            4950
+          ]
+        },
+        {
+          "key": "47cb6d32f3e628ea3a062fbed0d369765dcfc897ca9cc131855752f93964e161",
+          "rank_count": 3,
+          "sample_ranks": [
+            3874,
+            3958,
+            4554
+          ]
+        },
+        {
+          "key": "124ded22532b899fe047ceb78c1203ae074af2c8078e22a07f9f7829042a1f0c",
+          "rank_count": 2,
+          "sample_ranks": [
+            2070,
+            2382
+          ]
+        },
+        {
+          "key": "1e9d2b2e2a618780d63f0d0115a1a50e3a753f2bbb24f742a3b8c047f66ff678",
+          "rank_count": 2,
+          "sample_ranks": [
+            2075,
+            2196
+          ]
+        },
+        {
+          "key": "3627c04ca6849b5558d10b1653b700a0e7cf0ae49246b481347ffb2631cb57c7",
+          "rank_count": 2,
+          "sample_ranks": [
+            498,
+            582
+          ]
+        },
+        {
+          "key": "4dac3750d0dbc8ece4d4f2169f585189c317d4a3a57b559ca4de12f1662ed097",
+          "rank_count": 2,
+          "sample_ranks": [
+            11,
+            29
+          ]
+        }
+      ],
+      "top_rank_maps": [
+        {
+          "count": 4,
+          "key": "bf6b0e9f79c737c7e542bdcdbe6b0a03164d723b579df8022aefd91c246a4b6a"
+        },
+        {
+          "count": 3,
+          "key": "47cb6d32f3e628ea3a062fbed0d369765dcfc897ca9cc131855752f93964e161"
+        },
+        {
+          "count": 2,
+          "key": "4dac3750d0dbc8ece4d4f2169f585189c317d4a3a57b559ca4de12f1662ed097"
+        },
+        {
+          "count": 2,
+          "key": "9207e31a331e367a35bf7b872a1dfb5f6f4ccf0737739543f4d304aa7860d73c"
+        },
+        {
+          "count": 2,
+          "key": "7fba6a2b7c267bf34b1fd0ae2b1676236d0c377fe770de3427fee374b03def90"
+        },
+        {
+          "count": 2,
+          "key": "fda15ae61b120304e5c1886d9225f627ccd1ba332cab1c1849dc5ae80242d473"
+        },
+        {
+          "count": 2,
+          "key": "dbd194ecd86f25e39fb94c341b9e435542d12223453dfab78b9a14ae58842c06"
+        },
+        {
+          "count": 2,
+          "key": "3627c04ca6849b5558d10b1653b700a0e7cf0ae49246b481347ffb2631cb57c7"
+        },
+        {
+          "count": 2,
+          "key": "8b58f29423e811a869983af7fa4320f345e7096efed33c3d6ec5cd581a5310a1"
+        },
+        {
+          "count": 2,
+          "key": "98e144391016fbf69e8392e05813ac4953b73bd900180027c6fbbc8776c8efea"
+        },
+        {
+          "count": 2,
+          "key": "5da996b8378e85ef133654794c8dee84b36aee32e65516a9c8b968961a53fe83"
+        },
+        {
+          "count": 2,
+          "key": "5eb9fa1da0aabccc2cfa1f9a664dc1b6cbba9dc72d3de604da6b422b73f3615d"
+        }
+      ],
+      "unique_rank_maps": 464
+    },
+    {
+      "coordinate": "template_source_indices",
+      "largest_rank_class": 4,
+      "top_examples": [
+        {
+          "key": "39d0b788bfd89c047f5ff850bc0beaaa702247d2ccbeb56dc53f69bd3b96a949",
+          "rank_count": 4,
+          "sample_ranks": [
+            3898,
+            3940,
+            4674,
+            4950
+          ]
+        },
+        {
+          "key": "f291052480209be160199205faa2fb66f0295d7d221bb381c1f8adfb13567e08",
+          "rank_count": 3,
+          "sample_ranks": [
+            3874,
+            3958,
+            4554
+          ]
+        },
+        {
+          "key": "284ea4646c4fd142805807a2b94cb3c0547b537ea17a29ce97196e612b708814",
+          "rank_count": 2,
+          "sample_ranks": [
+            263,
+            377
+          ]
+        },
+        {
+          "key": "2d56244a4e8c41a486374050fc29b9fda90ab9df711c856fc59ce995a6d921d2",
+          "rank_count": 2,
+          "sample_ranks": [
+            2142,
+            2256
+          ]
+        },
+        {
+          "key": "37d892d6ba682c8c2497eb635ba9a6202690348ed0d3e0c49a47525327fbc608",
+          "rank_count": 2,
+          "sample_ranks": [
+            716,
+            1240
+          ]
+        },
+        {
+          "key": "3a051e8a523fd2a38f97bbef0fb399b5e1e5b38204f34d6be192a3fccb8f121b",
+          "rank_count": 2,
+          "sample_ranks": [
+            2070,
+            2382
+          ]
+        }
+      ],
+      "top_rank_maps": [
+        {
+          "count": 4,
+          "key": "39d0b788bfd89c047f5ff850bc0beaaa702247d2ccbeb56dc53f69bd3b96a949"
+        },
+        {
+          "count": 3,
+          "key": "f291052480209be160199205faa2fb66f0295d7d221bb381c1f8adfb13567e08"
+        },
+        {
+          "count": 2,
+          "key": "e4a506436d7281c83d015fd469fb703471413a928e8d4712647f28ce761eff76"
+        },
+        {
+          "count": 2,
+          "key": "bf6eaf76b25ed2b158e864ce1af922a2ce475223ed61cf77839c288f570fbff2"
+        },
+        {
+          "count": 2,
+          "key": "c4fb0fe376e958c8ca2b4a0dda135d151aee13cdc0e2420dd20e4c4e87e89351"
+        },
+        {
+          "count": 2,
+          "key": "5a794b50f591388ec0e0d39b4fc97ccc46ffc3ff6c006caf884ce535bef42190"
+        },
+        {
+          "count": 2,
+          "key": "284ea4646c4fd142805807a2b94cb3c0547b537ea17a29ce97196e612b708814"
+        },
+        {
+          "count": 2,
+          "key": "5547863a36707cadd7d4d42c265028f41a29f7c6100d928145a34e63b4c781d6"
+        },
+        {
+          "count": 2,
+          "key": "8a7ccfab8335971f619846498beb6a16fd695e80ca4cff714950261fe6faa572"
+        },
+        {
+          "count": 2,
+          "key": "37d892d6ba682c8c2497eb635ba9a6202690348ed0d3e0c49a47525327fbc608"
+        },
+        {
+          "count": 2,
+          "key": "40f320134c963297640eae6eff56ba3004e88a1b8474b5526374c36e5ee74838"
+        },
+        {
+          "count": 2,
+          "key": "6f184b87dc85868ccfb3e823d661387edde87b404e91e084ba4111440c01b992"
+        }
+      ],
+      "unique_rank_maps": 464
+    },
+    {
+      "coordinate": "template",
+      "largest_rank_class": 4,
+      "top_examples": [
+        {
+          "key": "d385ea5cab6799241faef4b9d73e40d0dabee6ec8ca972836e970a1e2fcb4ce0",
+          "rank_count": 4,
+          "sample_ranks": [
+            3898,
+            3940,
+            4674,
+            4950
+          ]
+        },
+        {
+          "key": "30ec4470ae3e7b1b1f8a7a36f1a094da4bc0551bbaca9eac8a1293e31abc3d05",
+          "rank_count": 3,
+          "sample_ranks": [
+            3874,
+            3958,
+            4554
+          ]
+        },
+        {
+          "key": "01798d7b68c36ebbeaca4f8a254674224a0be62a3394fa99ca4f1f9f7da1639a",
+          "rank_count": 2,
+          "sample_ranks": [
+            129,
+            369
+          ]
+        },
+        {
+          "key": "053a02e494798a9bf40d930fbb7d2faafdaeea05868a77678a03c24f73a96abb",
+          "rank_count": 2,
+          "sample_ranks": [
+            1304,
+            1865
+          ]
+        },
+        {
+          "key": "0b99d558247f56310b9bcd329390c79f09cfa6250c5e3157e3ded1090b4eadf5",
+          "rank_count": 2,
+          "sample_ranks": [
+            1279,
+            1803
+          ]
+        },
+        {
+          "key": "13323e3cbfabf9c0a02d115cb393f3b3f27f620bebd02401c41f8bb9542d1cdd",
+          "rank_count": 2,
+          "sample_ranks": [
+            11,
+            29
+          ]
+        }
+      ],
+      "top_rank_maps": [
+        {
+          "count": 4,
+          "key": "d385ea5cab6799241faef4b9d73e40d0dabee6ec8ca972836e970a1e2fcb4ce0"
+        },
+        {
+          "count": 3,
+          "key": "30ec4470ae3e7b1b1f8a7a36f1a094da4bc0551bbaca9eac8a1293e31abc3d05"
+        },
+        {
+          "count": 2,
+          "key": "13323e3cbfabf9c0a02d115cb393f3b3f27f620bebd02401c41f8bb9542d1cdd"
+        },
+        {
+          "count": 2,
+          "key": "01798d7b68c36ebbeaca4f8a254674224a0be62a3394fa99ca4f1f9f7da1639a"
+        },
+        {
+          "count": 2,
+          "key": "4644b6a33e20ad7c756665254ff323b255f97c7a47d2ad0219108f1bfac48ba2"
+        },
+        {
+          "count": 2,
+          "key": "a4e1c645898fd6b78db876a9546bc28908db2af364cfe4b8e6e2120991f42051"
+        },
+        {
+          "count": 2,
+          "key": "b9effca907767e9e8638e0b61ce382b7b620ed76f512d9924c0c5ec01bb35f89"
+        },
+        {
+          "count": 2,
+          "key": "456196c48f8f326727cc7290f72ad53c76fbcca4c20e42605e4095bb1092a75c"
+        },
+        {
+          "count": 2,
+          "key": "49ad9ed19bee3c5efe554dc3a67102f7a00dc799bdeb51da520b47fcebe651e4"
+        },
+        {
+          "count": 2,
+          "key": "c3949d63bc0c3e13b2cd1bb83283a7aeaa787635dc347379390274285828861a"
+        },
+        {
+          "count": 2,
+          "key": "4ed7dfe7c5821ea709ae8e949b8a7dd158285d72394673785410d584ad81331c"
+        },
+        {
+          "count": 2,
+          "key": "c0d93a8f513b54d31ec10448eed9a4bd13f76c316de41e68404f8399665b0339"
+        }
+      ],
+      "unique_rank_maps": 460
+    }
+  ],
+  "counts": {
+    "covered_cases": 4693,
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 31168,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "next_step": "Generate a small bounded membership smoke that proves the descriptor coordinate from identity-linear plus GoodDirection for selected families, then measure Lean build cost.",
+    "notes": [
+      "This emits no Lean and is not proof evidence.",
+      "Concrete GoodDirection survivor replay remains the baseline to avoid.",
+      "Rank-map signatures are diagnostic only; production proof should prefer semantic descriptor/source-state theorems.",
+      "A small family count is useful only if Lean can prove membership without listing each concrete member."
+    ],
+    "status": "family-surface-promising"
+  },
+  "families_per_identity_rank_histogram": {
+    "1": 6,
+    "10": 2,
+    "11": 1,
+    "2": 10,
+    "3": 20,
+    "4": 47,
+    "5": 103,
+    "6": 129,
+    "7": 98,
+    "8": 57,
+    "9": 14
+  },
+  "good_direction_survivors": 4693,
+  "good_masks_per_identity_rank_histogram": {
+    "1": 4,
+    "11": 83,
+    "12": 6,
+    "13": 119,
+    "16": 32,
+    "2": 12,
+    "3": 8,
+    "4": 11,
+    "5": 8,
+    "6": 18,
+    "7": 95,
+    "8": 79,
+    "9": 12
+  },
+  "identity_rank_count": 487,
+  "largest_rank_family_map_class": 4,
+  "limit": 5000,
+  "mode": "membership_compression_surface_profile",
+  "nonidentity_rank_count": 4513,
+  "not_good_direction_masks": 26475,
+  "phase": "6Z.6K.8AP.16DU.9DA",
+  "rank_end": 5000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "source_index_state_family_count": 125,
+  "top_family_keys": [
+    {
+      "count": 1237,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199"
+    },
+    {
+      "count": 519,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217"
+    },
+    {
+      "count": 304,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07"
+    },
+    {
+      "count": 271,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085"
+    },
+    {
+      "count": 152,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261"
+    },
+    {
+      "count": 93,
+      "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db"
+    },
+    {
+      "count": 81,
+      "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494"
+    },
+    {
+      "count": 76,
+      "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9"
+    },
+    {
+      "count": 75,
+      "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41"
+    },
+    {
+      "count": 73,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112"
+    },
+    {
+      "count": 70,
+      "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986"
+    },
+    {
+      "count": 69,
+      "key": "b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231"
+    }
+  ],
+  "top_good_mask_bitsets": [
+    {
+      "count": 24,
+      "key": "0x80c0a000f1452300"
+    },
+    {
+      "count": 6,
+      "key": "0x80c0800071052300"
+    },
+    {
+      "count": 6,
+      "key": "0x80c02000d0452300"
+    },
+    {
+      "count": 6,
+      "key": "0x80c02000f1450200"
+    },
+    {
+      "count": 6,
+      "key": "0x8080a00071450300"
+    },
+    {
+      "count": 6,
+      "key": "0x8040a000f1042300"
+    },
+    {
+      "count": 6,
+      "key": "0x8040a000b0452300"
+    },
+    {
+      "count": 6,
+      "key": "0x00c0a000b1442300"
+    },
+    {
+      "count": 6,
+      "key": "0x0080808091c4a280"
+    },
+    {
+      "count": 6,
+      "key": "0x00c0a000d1452200"
+    },
+    {
+      "count": 6,
+      "key": "0x00808000f1452300"
+    },
+    {
+      "count": 6,
+      "key": "0x80c0a000e1410300"
+    }
+  ],
+  "top_rank_family_map_examples": [
+    {
+      "key": "1329f6aa15ed4489920f80977afdb11d364154216a7158f8b385fd0647b22550",
+      "rank_count": 4,
+      "sample_ranks": [
+        3898,
+        3940,
+        4674,
+        4950
+      ]
+    },
+    {
+      "key": "3124003279b87faca249a5371335bfa76a939346622c358530602a013bf6df00",
+      "rank_count": 3,
+      "sample_ranks": [
+        3874,
+        3958,
+        4554
+      ]
+    },
+    {
+      "key": "0631780dce47cd18ca68830ea015d3fdc794f85b7836223a865cc53da4296e15",
+      "rank_count": 2,
+      "sample_ranks": [
+        1312,
+        1433
+      ]
+    },
+    {
+      "key": "0fe99afdcc6d08617d90aae102c0730b3eb04584b9f75859d67170d2c7a471fc",
+      "rank_count": 2,
+      "sample_ranks": [
+        2075,
+        2196
+      ]
+    },
+    {
+      "key": "13237504c7bafb59510db76fb0fa87aa0fe29e46b20a5479707b8b37bcd3af5c",
+      "rank_count": 2,
+      "sample_ranks": [
+        129,
+        369
+      ]
+    },
+    {
+      "key": "1b26967764e34ba940b72ac9134d6e0fa455b230d32b2803512352be96f06525",
+      "rank_count": 2,
+      "sample_ranks": [
+        654,
+        1215
+      ]
+    }
+  ],
+  "top_rank_family_maps": [
+    {
+      "count": 4,
+      "key": "1329f6aa15ed4489920f80977afdb11d364154216a7158f8b385fd0647b22550"
+    },
+    {
+      "count": 3,
+      "key": "3124003279b87faca249a5371335bfa76a939346622c358530602a013bf6df00"
+    },
+    {
+      "count": 2,
+      "key": "cf6b1213bf7e6724026176f23324f87e75b1cfff804669439320fddf5f824dcd"
+    },
+    {
+      "count": 2,
+      "key": "13237504c7bafb59510db76fb0fa87aa0fe29e46b20a5479707b8b37bcd3af5c"
+    },
+    {
+      "count": 2,
+      "key": "d1b3f9ef171952ea9a2aae7968fccee115f8c4ebffaae525960faecba21d9e09"
+    },
+    {
+      "count": 2,
+      "key": "6d09ad70899d9cdf2e2133bb72dd6e2726bb92d4ab705067ebb21dbe9238ec77"
+    },
+    {
+      "count": 2,
+      "key": "f44309848472df4d2f072caeb2967ef5ca6345fe450a5e7a50ab44a7309e6260"
+    },
+    {
+      "count": 2,
+      "key": "37aba3984fc2e93fc96c9792a4909f0d44cdd2c966c537a43468c96b0619c248"
+    },
+    {
+      "count": 2,
+      "key": "1b26967764e34ba940b72ac9134d6e0fa455b230d32b2803512352be96f06525"
+    },
+    {
+      "count": 2,
+      "key": "f23caf2a3a881e158a08434e3b7a0aafb120d8f265e0b73650de39ecd76a4ad6"
+    },
+    {
+      "count": 2,
+      "key": "57433a3c57e08092e4a348d9b828ae28547ce41d1ceb9dbaaf674c619ae7ff2b"
+    },
+    {
+      "count": 2,
+      "key": "db56474bf24d05b7a9b57c6e88b5b231ac75832450c5af2137f51b1f4aa811b0"
+    }
+  ],
+  "trusted_as_proof": false,
+  "unique_good_mask_bitsets": 226,
+  "unique_rank_family_maps": 464
+}

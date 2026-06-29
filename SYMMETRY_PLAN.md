@@ -25579,6 +25579,86 @@ Reports:
 scripts/generated/phase6z6k8ap16du9cz_semantic_range_generated_nonexact_guard.json
 ```
 
+### Phase 6Z.6K.8AP.16DU.9DA checkpoint: membership compression surface profiled
+
+Phase 6Z.6K.8AP.16DU.9DA adds a memory-guarded planning profiler:
+
+```text
+scripts/profile_ap16du9da_membership_compression_surface.py
+```
+
+The profiler emits no Lean and is not proof evidence.  It reuses the exact
+bounded source-index/state collector for `[0,5000)` and asks whether the
+remaining membership theorem
+
+```lean
+identity-linear + GoodDirectionAtRank -> source-index/state classifier applies
+```
+
+can be factored by rank maps, GoodDirection mask bitsets, or semantic
+source-index/state families.
+
+Guarded run:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py --max-tree-rss-mib 2048
+    --min-available-mib 8192 --poll-seconds 0.5
+    --json scripts/generated/phase6z6k8ap16du9da_membership_compression_surface_guard.json
+    -- python3 scripts/profile_ap16du9da_membership_compression_surface.py
+       --rank-start 0 --limit 5000
+
+exit=0
+elapsed=157.70s
+peak process-tree RSS=62.83 MiB
+min available memory observed=46624.70 MiB
+```
+
+Results:
+
+```text
+status:                         family-surface-promising
+identity ranks:                 487
+nonidentity ranks:              4,513
+GoodDirection survivors:        4,693
+not-GoodDirection masks:        26,475
+source-index/state families:    125
+unique GoodDirection bitsets:   226
+unique rank -> family maps:     464
+largest rank-family-map class:  4
+```
+
+Coordinate rank-map compression remains poor:
+
+```text
+descriptor:                              464 unique rank maps
+template_source_indices_row_property:    464 unique rank maps
+template_source_indices:                 464 unique rank maps
+template:                                460 unique rank maps
+```
+
+Decision:
+
+- Do not emit a rank-family-map membership proof.  Even after collapsing to
+  semantic descriptor coordinates, the rank maps are almost rank-local
+  (`464` maps over `487` identity ranks).
+- The 125 source-index/state families are still the right bounded proof
+  surface, but only if Lean proves family membership from semantic
+  source-index/state facts and `GoodDirectionAtRank`, not from a table of
+  concrete rank/mask memberships.
+- The next proof-producing step should be a small bounded membership smoke
+  that proves the descriptor coordinate from identity-linear plus
+  `GoodDirectionAtRank` for selected source-index/state families, then measures
+  Lean build cost before scaling.
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9da_membership_compression_surface.json
+scripts/generated/phase6z6k8ap16du9da_membership_compression_surface.md
+scripts/generated/phase6z6k8ap16du9da_membership_compression_surface_guard.json
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

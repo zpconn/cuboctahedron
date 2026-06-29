@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 8192.0,
+  "command": [
+    "python3",
+    "scripts/profile_ap16du9da_membership_compression_surface.py",
+    "--rank-start",
+    "0",
+    "--limit",
+    "5000"
+  ],
+  "elapsed_seconds": 157.69970583100803,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 64336,
+  "max_tree_rss_mib": 62.828125,
+  "min_available_seen_kib": 47743692,
+  "min_available_seen_mib": 46624.69921875,
+  "rss_cap_mib": 2048.0
+}
