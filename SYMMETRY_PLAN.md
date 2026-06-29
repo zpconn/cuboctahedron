@@ -22078,6 +22078,92 @@ Decision:
   pseudo-Boolean certificate, rather than by replaying the full Walsh
   recurrence or using only absolute-value term bounds.
 
+### Phase 6Z.6K.8AP.16DU.9BF checkpoint: compact quadratic vertex smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9BF adds a generated proof-producing smoke for the
+first DU.9BA selected cube whose termwise bound was too loose:
+
+```text
+scripts/generate_ap16du9bf_weighted_quadratic_vertex_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745QuadraticVertexSmoke.lean
+```
+
+The generated Lean module imports only the lightweight quadratic Walsh core:
+
+```lean
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshQuadratic
+```
+
+It defines the precomputed weighted Walsh quadratic for rank `6000745`,
+selected cube `0` (`***00*`), with support `[1,2,8]` and weights `[2,1,1]`,
+and proves:
+
+```lean
+theorem generatedPoly_nonpos_on_cube
+    {mask : SignMask} (hmask : generatedCube.Member mask) :
+    generatedPoly.coeffEval mask <= 0
+```
+
+The proof splits only the four free cube bits and does not unfold the
+translation recurrence, rank traces, or `translationVectorWalshOfChoice`.
+This is not yet a full weighted-denominator obstruction because it deliberately
+does not connect `generatedPoly.coeffEval` to `weightedDenomAtRank`; it validates
+the compact cube-maximum proof surface that DU.9BE identified as necessary.
+
+Generation:
+
+```text
+python3 -m py_compile scripts/generate_ap16du9bf_weighted_quadratic_vertex_smoke.py
+python3 scripts/generate_ap16du9bf_weighted_quadratic_vertex_smoke.py
+```
+
+The first guarded build failed in 12.51s with peak tree RSS 4028 MiB because
+the generated tactic unfolded `maskBitForPair`, destroying the fixed/free bit
+hypotheses.  The generator was corrected to leave `maskBitForPair` opaque in
+the simplification set.
+
+Accepted guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bf_weighted_quadratic_vertex_guard_retry1.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745QuadraticVertexSmoke
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 4.01s
+peak tree RSS = 4066 MiB
+minimum MemAvailable = 46146 MiB
+```
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9bf_weighted_quadratic_vertex_smoke.json
+scripts/generated/phase6z6k8ap16du9bf_weighted_quadratic_vertex_smoke.md
+scripts/generated/phase6z6k8ap16du9bf_weighted_quadratic_vertex_guard.json
+scripts/generated/phase6z6k8ap16du9bf_weighted_quadratic_vertex_guard_retry1.json
+```
+
+Decision:
+
+- Accept compact quadratic vertex splitting as the replacement for naive
+  termwise bounds on termwise-too-loose cubes.
+- Keep the generated polynomial-only theorem separate from geometric
+  denominator equality until the next step adds a small weighted-polynomial
+  equality bridge.
+- Do not include `maskBitForPair` in the generated simplification set for
+  these vertex proofs; fixed/free bit hypotheses simplify the expression only
+  when the bit accessor remains opaque.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -22164,3 +22250,6 @@ Decision:
 - Do not rely on naive termwise Walsh cube upper bounds as the full
   weighted-cube proof method.  DU.9BE shows they are useful for some small
   cubes but too loose for the whole accepted DU.9BA cover.
+- Do not unfold `maskBitForPair` in compact Walsh vertex proofs.  DU.9BF shows
+  this prevents Lean from using the fixed/free bit hypotheses and leaves large
+  quotient/modulus goals.

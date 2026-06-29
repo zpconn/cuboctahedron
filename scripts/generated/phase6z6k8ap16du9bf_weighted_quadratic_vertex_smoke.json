@@ -1,0 +1,21 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16DU.9BF",
+  "rank": 6000745,
+  "selected_index": 0,
+  "label": "***00*",
+  "support": [
+    1,
+    2,
+    8
+  ],
+  "weights": [
+    2,
+    1,
+    1
+  ],
+  "nonzero_terms": 14,
+  "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745QuadraticVertexSmoke.lean",
+  "trusted_as_proof": false,
+  "status": "generated_and_guard_build_passed",
+  "guard_build": "scripts/generated/phase6z6k8ap16du9bf_weighted_quadratic_vertex_guard_retry1.json"
+}
