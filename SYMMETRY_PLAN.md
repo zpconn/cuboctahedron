@@ -16493,6 +16493,50 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9j_selector_lookup_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9K selector-coordinate catalog bridge:
+  DU.9K turns the DU.9H/DU.9J selector lookup into a generator-facing
+  theorem surface.  The generated selector module now defines:
+
+  ```lean
+  def SelectorCoordinateSourceRowFacts
+      (coord : SelectorCoordinate) (rank : Nat) (mask : SignMask) : Prop
+
+  abbrev SelectorCoordinateFactsGoodCatalogOnRange
+      (coordAt : Nat -> SignMask -> SelectorCoordinate)
+      (lo hi : Nat) : Prop
+
+  theorem SelectorCoordinateFactsGoodCatalogOnRange.to_sourceIndexFactsCatalog
+      {coordAt : Nat -> SignMask -> SelectorCoordinate}
+      (catalog :
+        SelectorCoordinateFactsGoodCatalogOnRange coordAt 0 5000) :
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+
+  theorem SelectorCoordinateFactsGoodCatalogOnRange.to_allGoodCoverage
+      {coordAt : Nat -> SignMask -> SelectorCoordinate}
+      (catalog :
+        SelectorCoordinateFactsGoodCatalogOnRange coordAt 0 5000) :
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  This is still not the hard bounded classifier-completeness proof.  It
+  narrows the next emitter target: generate a compact `coordAt` function and
+  prove facts for the key recovered by `keyOfSelectorCoordinate? coord`, then
+  the new bridge erases that evidence through the existing finite source/row
+  catalog and all-Good coverage APIs.  It avoids a full 125-by-125 injectivity
+  theorem, avoids all-mask replay, and exports only semantic coverage.
+
+  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke
+  exit=0, elapsed=8.00s, peak_tree_rss=4142 MiB, min_available=46015 MiB
+  ```
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9k_selector_catalog_bridge_guard.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:

@@ -18,6 +18,12 @@ catalog.
 - `keyOfSelectorCoordinate?` is a lightweight generated lookup.
 - `keyOfSelectorCoordinate?_selectorCoordinateOfKey` recognizes every
   generated classifier key without a 125-by-125 injectivity proof.
+- `SelectorCoordinateFactsGoodCatalogOnRange.to_sourceIndexFactsCatalog`
+  erases selector-coordinate membership proofs to the existing finite
+  source/row catalog API.
+- `SelectorCoordinateFactsGoodCatalogOnRange.to_allGoodCoverage` erases
+  the same selector-coordinate target directly to bounded all-Good
+  translation coverage.
 
 The next theorem should prove this coordinate from identity-linear
 `GoodDirectionAtRank`, then use the coordinate to recover a public
