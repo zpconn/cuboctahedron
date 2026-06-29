@@ -1,0 +1,256 @@
+{
+  "decision": {
+    "notes": [
+      "This is bounded telemetry, not final generated coverage.",
+      "The generated leaves are GoodDirection-only and do not replay bad-direction masks.",
+      "All emitted leaves passed serial guarded builds.",
+      "Do not compose a broad root until membership-theorem or additional bounded-window telemetry is available."
+    ],
+    "status": "microshards-emitted-and-guarded"
+  },
+  "emitted_survivors": 42,
+  "global_key_count": 12,
+  "global_keys_touched": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    14,
+    25,
+    31,
+    32,
+    35,
+    41,
+    78
+  ],
+  "limit": 4,
+  "local_family_count": 12,
+  "max_survivors_per_shard": 16,
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro",
+  "out_dir": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9LMicro",
+  "phase": "6Z.6K.8AP.16DU.9M",
+  "rank_end": 4,
+  "rank_start": 0,
+  "schema_version": 1,
+  "shard_count": 3,
+  "guarded_builds": [
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard000",
+      "exit_code": 0,
+      "elapsed_seconds": 19.01807176999864,
+      "max_tree_rss_mib": 5261.578125,
+      "guard_json": "scripts/generated/phase6z6k8ap16du9m_microshard000_guard.json"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard001",
+      "exit_code": 0,
+      "elapsed_seconds": 18.029848561003746,
+      "max_tree_rss_mib": 5325.859375,
+      "guard_json": "scripts/generated/phase6z6k8ap16du9m_shard001_guard.json"
+    },
+    {
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard002",
+      "exit_code": 0,
+      "elapsed_seconds": 13.012232867004059,
+      "max_tree_rss_mib": 4952.12109375,
+      "guard_json": "scripts/generated/phase6z6k8ap16du9m_shard002_guard.json"
+    }
+  ],
+  "shards": [
+    {
+      "case_count": 16,
+      "cases": [
+        {
+          "mask": 8,
+          "rank": 0
+        },
+        {
+          "mask": 9,
+          "rank": 0
+        },
+        {
+          "mask": 13,
+          "rank": 0
+        },
+        {
+          "mask": 16,
+          "rank": 0
+        },
+        {
+          "mask": 18,
+          "rank": 0
+        },
+        {
+          "mask": 22,
+          "rank": 0
+        },
+        {
+          "mask": 24,
+          "rank": 0
+        },
+        {
+          "mask": 28,
+          "rank": 0
+        },
+        {
+          "mask": 29,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 0
+        },
+        {
+          "mask": 31,
+          "rank": 0
+        },
+        {
+          "mask": 45,
+          "rank": 0
+        },
+        {
+          "mask": 47,
+          "rank": 0
+        },
+        {
+          "mask": 54,
+          "rank": 0
+        },
+        {
+          "mask": 55,
+          "rank": 0
+        },
+        {
+          "mask": 63,
+          "rank": 0
+        }
+      ],
+      "index": 0,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard000",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9LMicro/Shard000.lean"
+    },
+    {
+      "case_count": 16,
+      "cases": [
+        {
+          "mask": 8,
+          "rank": 2
+        },
+        {
+          "mask": 9,
+          "rank": 2
+        },
+        {
+          "mask": 13,
+          "rank": 2
+        },
+        {
+          "mask": 16,
+          "rank": 2
+        },
+        {
+          "mask": 18,
+          "rank": 2
+        },
+        {
+          "mask": 24,
+          "rank": 2
+        },
+        {
+          "mask": 28,
+          "rank": 2
+        },
+        {
+          "mask": 29,
+          "rank": 2
+        },
+        {
+          "mask": 30,
+          "rank": 2
+        },
+        {
+          "mask": 47,
+          "rank": 2
+        },
+        {
+          "mask": 54,
+          "rank": 2
+        },
+        {
+          "mask": 55,
+          "rank": 2
+        },
+        {
+          "mask": 63,
+          "rank": 2
+        },
+        {
+          "mask": 8,
+          "rank": 3
+        },
+        {
+          "mask": 9,
+          "rank": 3
+        },
+        {
+          "mask": 13,
+          "rank": 3
+        }
+      ],
+      "index": 1,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard001",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9LMicro/Shard001.lean"
+    },
+    {
+      "case_count": 10,
+      "cases": [
+        {
+          "mask": 16,
+          "rank": 3
+        },
+        {
+          "mask": 18,
+          "rank": 3
+        },
+        {
+          "mask": 22,
+          "rank": 3
+        },
+        {
+          "mask": 28,
+          "rank": 3
+        },
+        {
+          "mask": 30,
+          "rank": 3
+        },
+        {
+          "mask": 31,
+          "rank": 3
+        },
+        {
+          "mask": 45,
+          "rank": 3
+        },
+        {
+          "mask": 54,
+          "rank": 3
+        },
+        {
+          "mask": 55,
+          "rank": 3
+        },
+        {
+          "mask": 63,
+          "rank": 3
+        }
+      ],
+      "index": 2,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard002",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9LMicro/Shard002.lean"
+    }
+  ],
+  "total_good_direction_survivors": 42,
+  "trusted_as_proof": false
+}

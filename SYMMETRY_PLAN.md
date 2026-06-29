@@ -559,6 +559,14 @@ survivors passed under the 6.5 GiB guard, with the full 16-survivor shard at
 15.02s and 5.136 GiB peak tree RSS.  This reopens a bounded micro-shard emitter
 as a viable next experiment, provided it remains GoodDirection-only and does
 not replay the 48 bad-direction masks.
+DU.9M adds that persistent bounded micro-shard emitter and checks all 42
+GoodDirection survivors in `[0,4)` as three GoodDirection-only leaves.  The
+serial guarded builds passed at 19.02s / 5.262 GiB, 18.03s / 5.326 GiB, and
+13.01s / 4.952 GiB respectively.  This confirms the public-support path can
+scale beyond one rank, but it is still only positive-case telemetry: a
+membership theorem from identity-linear `GoodDirectionAtRank` to the emitted
+`SelectorPositiveCase` language remains the next proof obligation before this
+can erase to bounded all-Good coverage.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16654,6 +16662,37 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9l_microshard_scaling.json
   scripts/generated/phase6z6k8ap16du9l_microshard_scaling.md
+  ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9M persistent selector micro-shard emitter:
+  DU.9M adds `scripts/generate_ap16du9l_selector_microshards.py`, which emits
+  persistent GoodDirection-only selector micro-shard leaves.  The generated
+  leaves prove selector lookup and public source/row facts for an explicit
+  `SelectorPositiveCase` language, while avoiding all bad-direction replay.
+
+  The bounded `[0,4)` run contains 42 GoodDirection survivors and emitted all
+  42 as three leaves of at most 16 positive cases:
+
+  ```text
+  Shard000: 16 cases, exit=0, elapsed=19.02s, peak_tree_rss=5262 MiB
+  Shard001: 16 cases, exit=0, elapsed=18.03s, peak_tree_rss=5326 MiB
+  Shard002: 10 cases, exit=0, elapsed=13.01s, peak_tree_rss=4952 MiB
+  ```
+
+  Decision: the public-support selector/source-row path now scales across a
+  small multi-rank window under the 6.5 GiB guard.  It remains telemetry rather
+  than bounded coverage, because the generated leaves do not yet prove that
+  every identity-linear GoodDirection mask in the interval belongs to
+  `SelectorPositiveCase`.  The next proof step is a membership theorem or a
+  generated membership leaf for this positive-case language.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9m_microshards_all42.json
+  scripts/generated/phase6z6k8ap16du9m_microshards_all42.md
+  scripts/generated/phase6z6k8ap16du9m_microshard000_guard.json
+  scripts/generated/phase6z6k8ap16du9m_shard001_guard.json
+  scripts/generated/phase6z6k8ap16du9m_shard002_guard.json
   ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
