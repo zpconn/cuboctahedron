@@ -17691,6 +17691,55 @@ Acceptance:
   future emitter target is now either DU.9R selector-coordinate facts or DU.9X
   source-index-state key facts, whichever has the smaller generated membership
   proof for a given family.
+- [x] Add Phase 6Z.6K.8AP.16DU.9Z selector lookup to row-property adapter:
+  DU.9Z adds the downstream selector-specific bridge:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9ZRowPropertyAdapter
+  ```
+
+  It defines:
+
+  ```lean
+  sourceKeyOfSelectorCoordinate? :
+    SelectorCoordinate -> SourceIndexStateKey
+
+  rowPropertyCoverage_of_selectorLookup_source_row :
+    ... ->
+      RowPropertyParametricCoverageOnIdentityRange lo hi
+  ```
+
+  This keeps `RowPropertyAllGoodBridge` low in the import graph while giving
+  selector-based generated shards the direct row-property route.  If a shard
+  proves `keyOfSelectorCoordinate? (coordAt rank mask) = some key` plus
+  source/row facts for that key, it no longer has to export a
+  `SourceRowFactsGoodCatalogOnRange`; it can export row-property coverage and
+  erase through DU.9V.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9ZRowPropertyAdapter.lean
+    exit=0
+    elapsed=3.86s
+    max_rss=3246176 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9ZRowPropertyAdapter
+    exit=0
+    elapsed=2.27s
+    max_rss=3287720 KiB
+  ```
+
+  Decision: DU.9Z is accepted as selector-specific bridge infrastructure.  The
+  remaining hard theorem is still membership/completeness over meaningful
+  ranges, but generated shards now have both public export paths:
+  selector-coordinate catalogs through DU.9R, or direct row-property coverage
+  through DU.9Z/DU.9X/DU.9V.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
