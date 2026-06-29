@@ -23137,6 +23137,55 @@ Decision:
   too expensive for production unless the all-cube leaf shares enough trace and
   polynomial facts to reduce per-cube overhead.
 
+### Phase 6Z.6K.8AP.16DU.9BT checkpoint: monolithic all-cube trace certificate rejected
+
+Phase 6Z.6K.8AP.16DU.9BT tests the obvious scale-up from DU.9BS: put all
+11 selected DU.9BI rank-`6000745` weighted cubes in one generated module while
+sharing the chained trace root and generated impact normals.
+
+New reproducibility emitter:
+
+```text
+scripts/emit_ap16du9bt_trace_cert_cover_smoke.py
+```
+
+Generated report:
+
+```text
+scripts/generated/phase6z6k8ap16du9bt_trace_cert_cover_smoke.json
+scripts/generated/phase6z6k8ap16du9bt_trace_cert_cover_smoke.md
+```
+
+The generated Lean file had 1,870 lines and passed the forbidden-term scan, but
+the focused guarded build crossed the 8 GiB cap:
+
+```text
+scripts/generated/phase6z6k8ap16du9bt_trace_cert_cover_guard.json
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoverSmoke
+exit = -15
+elapsed = 72.15s
+killed reason = process-tree RSS 8214 MiB exceeded 8192 MiB cap
+peak tree RSS = 8215 MiB
+min MemAvailable = 40547 MiB
+rss cap = 8192 MiB
+```
+
+The generated `.lean` artifact is intentionally not retained under
+`Cuboctahedron/Generated`: it is a broad-build hazard.  The emitter and guard
+telemetry are enough to reproduce the negative result.
+
+Decision:
+
+- Reject the monolithic all-cube trace-certificate module shape.
+- Do not accumulate many weighted trace certificates and polynomial equality
+  proofs in a single generated file.
+- Keep DU.9BS as the safe unit size for this proof surface.
+- The next scale test should shard by cube with a source-level dependency chain,
+  e.g. `Cube00`, `Cube01 imports Cube00`, ..., `Cube10 imports Cube09`, then a
+  tiny root importing `Cube10`.  This should preserve cold-build scheduler
+  safety while keeping each heavy Lean process close to the one-cube memory
+  band.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

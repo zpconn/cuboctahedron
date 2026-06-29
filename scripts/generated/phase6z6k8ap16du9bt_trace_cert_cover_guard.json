@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 8192.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoverSmoke"
+  ],
+  "elapsed_seconds": 72.15260642700014,
+  "exit_code": -15,
+  "killed_reason": "process-tree RSS 8214 MiB exceeded 8192 MiB cap",
+  "max_tree_rss_kib": 8411860,
+  "max_tree_rss_mib": 8214.70703125,
+  "min_available_seen_kib": 41520228,
+  "min_available_seen_mib": 40547.09765625,
+  "rss_cap_mib": 8192.0
+}
