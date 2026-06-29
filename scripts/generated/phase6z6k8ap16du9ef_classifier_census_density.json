@@ -1,0 +1,769 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_source_index_state_classifier_census_9ef",
+  "counts": {
+    "covered_cases": 7110,
+    "good_direction_survivors": 7110,
+    "identity_words": 1507,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 48493,
+    "not_good_direction_masks": 89338,
+    "pair_words_scanned": 50000,
+    "translation_sign_assignments": 96448,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "merged family count is within the current diagnostic gate",
+      "diagnostic only: checkpoints and reports are not proof"
+    ],
+    "status": "accepted-scaling-candidate"
+  },
+  "elapsed_seconds": 50.51445879600942,
+  "family_count": 218,
+  "family_gate": 1000,
+  "good_direction_cases": 7110,
+  "max_worker_rss_kib": 28340,
+  "mode": "source_index_state_classifier_checkpointed_census",
+  "phase": "6Z.6K.8AP.16DU.9EF",
+  "ranges": [
+    [
+      25000,
+      30000
+    ],
+    [
+      50000,
+      55000
+    ],
+    [
+      250000,
+      255000
+    ],
+    [
+      500000,
+      505000
+    ],
+    [
+      2000000,
+      2005000
+    ],
+    [
+      5000000,
+      5005000
+    ],
+    [
+      15000000,
+      15005000
+    ],
+    [
+      20000000,
+      20005000
+    ],
+    [
+      40000000,
+      40005000
+    ],
+    [
+      80000000,
+      80005000
+    ]
+  ],
+  "rank_count": 50000,
+  "schema_version": 1,
+  "source_key_surface": "kind_impact",
+  "top_families": [
+    {
+      "case_count": 2096,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 26,
+          "rank": 25009
+        },
+        {
+          "mask": 24,
+          "rank": 25045
+        },
+        {
+          "mask": 26,
+          "rank": 25069
+        }
+      ],
+      "source_indices": [
+        23,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 656,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 6,
+          "rank": 25112
+        },
+        {
+          "mask": 6,
+          "rank": 25114
+        },
+        {
+          "mask": 22,
+          "rank": 25152
+        }
+      ],
+      "source_indices": [
+        24,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 363,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "samples": [
+        {
+          "mask": 37,
+          "rank": 25009
+        },
+        {
+          "mask": 37,
+          "rank": 25069
+        },
+        {
+          "mask": 37,
+          "rank": 25164
+        }
+      ],
+      "source_indices": [
+        25,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 321,
+      "key": "e470bcfe67776ccff91b9310da8cf2fb8505cf06227f913f178d91f750eac4f1",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 21,
+          "rank": 25069
+        },
+        {
+          "mask": 21,
+          "rank": 25164
+        },
+        {
+          "mask": 21,
+          "rank": 25198
+        }
+      ],
+      "source_indices": [
+        57,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 178,
+      "key": "588fe16c86cf6a98946836a2befeeefdd72ea33c46cce0941fcd0c5f978fd876",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 15,
+          "rank": 50148
+        },
+        {
+          "mask": 15,
+          "rank": 50150
+        },
+        {
+          "mask": 11,
+          "rank": 50153
+        }
+      ],
+      "source_indices": [
+        57,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 155,
+      "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 28,
+          "rank": 27720
+        },
+        {
+          "mask": 28,
+          "rank": 27722
+        },
+        {
+          "mask": 28,
+          "rank": 27725
+        }
+      ],
+      "source_indices": [
+        70,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 153,
+      "key": "6ac34213b41a243a648a12b2ff9d527fd69857c0d5aa52ec8f112eb3ddc7bc93",
+      "row_property_key": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "samples": [
+        {
+          "mask": 11,
+          "rank": 5000202
+        },
+        {
+          "mask": 11,
+          "rank": 5000880
+        },
+        {
+          "mask": 15,
+          "rank": 5000880
+        }
+      ],
+      "source_indices": [
+        2,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "case_count": 151,
+      "key": "c1e85dac279cfc02fb049d4bca261672cd6f4af9ecb2c273ce85c6df2761f361",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 29,
+          "rank": 27551
+        },
+        {
+          "mask": 29,
+          "rank": 27569
+        },
+        {
+          "mask": 13,
+          "rank": 27720
+        }
+      ],
+      "source_indices": [
+        48,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 118,
+      "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 29610
+        },
+        {
+          "mask": 14,
+          "rank": 29610
+        },
+        {
+          "mask": 15,
+          "rank": 29610
+        }
+      ],
+      "source_indices": [
+        0,
+        9
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 87,
+      "key": "5ce6f9de0fc1f89ea90ae3bd4121a7848296c126f24dc188e8849d653e2cf8e5",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 31,
+          "rank": 2000333
+        },
+        {
+          "mask": 28,
+          "rank": 2000344
+        },
+        {
+          "mask": 28,
+          "rank": 2000345
+        }
+      ],
+      "source_indices": [
+        44,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"3\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 73,
+      "key": "9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 5,
+          "rank": 25114
+        },
+        {
+          "mask": 37,
+          "rank": 25114
+        },
+        {
+          "mask": 5,
+          "rank": 25198
+        }
+      ],
+      "source_indices": [
+        148,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 73,
+      "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "samples": [
+        {
+          "mask": 28,
+          "rank": 27540
+        },
+        {
+          "mask": 22,
+          "rank": 27545
+        },
+        {
+          "mask": 63,
+          "rank": 27747
+        }
+      ],
+      "source_indices": [
+        1,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "case_count": 68,
+      "key": "49dc29bc5a3a346e57575f61d2b4fdb2f12956835c68063381b703d6ac1f887b",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 31,
+          "rank": 50400
+        },
+        {
+          "mask": 31,
+          "rank": 50409
+        },
+        {
+          "mask": 30,
+          "rank": 50790
+        }
+      ],
+      "source_indices": [
+        162,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 68,
+      "key": "fac79fe0bbad64b65dacccd4efea0bed4916683dd9a748acf14d725c8c3f75eb",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "samples": [
+        {
+          "mask": 49,
+          "rank": 5000940
+        },
+        {
+          "mask": 49,
+          "rank": 5000942
+        },
+        {
+          "mask": 53,
+          "rank": 5000950
+        }
+      ],
+      "source_indices": [
+        1,
+        5
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "case_count": 67,
+      "key": "0cd8e79d91255df274ab110ea60b7f4a61b38b5823b887ec54c4cfbea416040a",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 53,
+          "rank": 5000202
+        },
+        {
+          "mask": 57,
+          "rank": 5001362
+        },
+        {
+          "mask": 57,
+          "rank": 5001387
+        }
+      ],
+      "source_indices": [
+        61,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"4\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 62,
+      "key": "1d541f124fdc98e8359dbed4c921475f339905d1cad066ae7a7e52d1924c1179",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 63,
+          "rank": 28982
+        },
+        {
+          "mask": 63,
+          "rank": 28990
+        },
+        {
+          "mask": 63,
+          "rank": 28999
+        }
+      ],
+      "source_indices": [
+        84,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 61,
+      "key": "c0fde59d238eddaad4fbff82b72e77959cba57a58de0074b2a08f35c2f7cc24d",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 28,
+          "rank": 27723
+        },
+        {
+          "mask": 28,
+          "rank": 27744
+        },
+        {
+          "mask": 45,
+          "rank": 27760
+        }
+      ],
+      "source_indices": [
+        79,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"5\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 60,
+      "key": "1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 26036
+        },
+        {
+          "mask": 54,
+          "rank": 27729
+        },
+        {
+          "mask": 55,
+          "rank": 27729
+        }
+      ],
+      "source_indices": [
+        1,
+        14
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "case_count": 57,
+      "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "samples": [
+        {
+          "mask": 53,
+          "rank": 26098
+        },
+        {
+          "mask": 53,
+          "rank": 26980
+        },
+        {
+          "mask": 53,
+          "rank": 27460
+        }
+      ],
+      "source_indices": [
+        26,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "case_count": 57,
+      "key": "4295d2e8233f5dbac79b0d712f2b60b2c1f9bbb4a65b79e19eb3b7beac461229",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 47,
+          "rank": 27809
+        },
+        {
+          "mask": 47,
+          "rank": 27851
+        },
+        {
+          "mask": 47,
+          "rank": 27899
+        }
+      ],
+      "source_indices": [
+        161,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"12\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    }
+  ],
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "elapsed_seconds": 50.50494878499012,
+      "family_count": 119,
+      "good_direction_cases": 3244,
+      "identity_words": 429,
+      "max_rss_kib": 28340,
+      "range": [
+        25000,
+        30000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 119
+    },
+    {
+      "elapsed_seconds": 27.508692292001797,
+      "family_count": 71,
+      "good_direction_cases": 1630,
+      "identity_words": 232,
+      "max_rss_kib": 24884,
+      "range": [
+        50000,
+        55000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 71
+    },
+    {
+      "elapsed_seconds": 1.2252822759910487,
+      "family_count": 0,
+      "good_direction_cases": 0,
+      "identity_words": 0,
+      "max_rss_kib": 19508,
+      "range": [
+        250000,
+        255000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 0
+    },
+    {
+      "elapsed_seconds": 10.892086134001147,
+      "family_count": 39,
+      "good_direction_cases": 421,
+      "identity_words": 102,
+      "max_rss_kib": 22196,
+      "range": [
+        500000,
+        505000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 39
+    },
+    {
+      "elapsed_seconds": 11.295633368004928,
+      "family_count": 27,
+      "good_direction_cases": 262,
+      "identity_words": 124,
+      "max_rss_kib": 21812,
+      "range": [
+        2000000,
+        2005000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 27
+    },
+    {
+      "elapsed_seconds": 25.545435398991685,
+      "family_count": 102,
+      "good_direction_cases": 1253,
+      "identity_words": 241,
+      "max_rss_kib": 24116,
+      "range": [
+        5000000,
+        5005000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 102
+    },
+    {
+      "elapsed_seconds": 5.875583319997531,
+      "family_count": 0,
+      "good_direction_cases": 0,
+      "identity_words": 70,
+      "max_rss_kib": 21812,
+      "range": [
+        15000000,
+        15005000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 0
+    },
+    {
+      "elapsed_seconds": 9.442477161996067,
+      "family_count": 0,
+      "good_direction_cases": 0,
+      "identity_words": 125,
+      "max_rss_kib": 21812,
+      "range": [
+        20000000,
+        20005000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 0
+    },
+    {
+      "elapsed_seconds": 2.300642260001041,
+      "family_count": 2,
+      "good_direction_cases": 3,
+      "identity_words": 16,
+      "max_rss_kib": 24884,
+      "range": [
+        40000000,
+        40005000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 2
+    },
+    {
+      "elapsed_seconds": 14.512967714996194,
+      "family_count": 53,
+      "good_direction_cases": 297,
+      "identity_words": 168,
+      "max_rss_kib": 22004,
+      "range": [
+        80000000,
+        80005000
+      ],
+      "rank_count": 5000,
+      "unique_family_keys": 53
+    }
+  ],
+  "workers": 4
+}

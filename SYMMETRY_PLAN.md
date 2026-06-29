@@ -27771,3 +27771,98 @@ next diagnostic tier.  The next step should either:
 
 Do not emit production Lean from this catalog until the projected full family
 count, source size, and checked-module build time are under the accepted budget.
+
+### Phase 6Z.6K.8AP.16DU.9EF checkpoint: density-aware checkpoint extension
+
+Phase 6Z.6K.8AP.16DU.9EF adds a smaller density-aware extension to the
+checkpointed classifier census.  The goal is to sample rank gaps not covered by
+9EE without committing to a full scan.  The selected windows cover early dense,
+middle, and late sparse regions.
+
+Guarded run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 30000 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9ef_classifier_census_density_guard.json \
+  -- timeout 300s python3 scripts/run_source_index_state_classifier_census.py \
+    --phase 6Z.6K.8AP.16DU.9EF \
+    --ranges 25000:30000,50000:55000,250000:255000,500000:505000,2000000:2005000,5000000:5005000,15000000:15005000,20000000:20005000,40000000:40005000,80000000:80005000 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_9ef \
+    --json scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+    --md scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.md \
+    --family-gate 1000 \
+    --top-limit 20
+```
+
+Result:
+
+- Exit: `0`
+- Sampled ranks: `50000`
+- GoodDirection cases: `7110`
+- Merged families: `218`
+- Elapsed: `51.05s`
+- Peak tree RSS: `124 MiB`
+- Minimum available memory observed: `46578 MiB`
+
+Window summary:
+
+| Range | Identity | GoodDirection | Families |
+| --- | ---: | ---: | ---: |
+| `[25000,30000)` | `429` | `3244` | `119` |
+| `[50000,55000)` | `232` | `1630` | `71` |
+| `[250000,255000)` | `0` | `0` | `0` |
+| `[500000,505000)` | `102` | `421` | `39` |
+| `[2000000,2005000)` | `124` | `262` | `27` |
+| `[5000000,5005000)` | `241` | `1253` | `102` |
+| `[15000000,15005000)` | `70` | `0` | `0` |
+| `[20000000,20005000)` | `125` | `0` | `0` |
+| `[40000000,40005000)` | `16` | `3` | `2` |
+| `[80000000,80005000)` | `168` | `297` | `53` |
+
+Aggregate-only replay:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1024 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ef_classifier_census_density_aggregate_guard.json \
+  -- timeout 60s python3 scripts/run_source_index_state_classifier_census.py \
+    --phase 6Z.6K.8AP.16DU.9EF \
+    --ranges 25000:30000,50000:55000,250000:255000,500000:505000,2000000:2005000,5000000:5005000,15000000:15005000,20000000:20005000,40000000:40005000,80000000:80005000 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_9ef \
+    --aggregate-only \
+    --json scripts/generated/phase6z6k8ap16du9ef_classifier_census_density_aggregate.json \
+    --md scripts/generated/phase6z6k8ap16du9ef_classifier_census_density_aggregate.md \
+    --family-gate 1000 \
+    --top-limit 20
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `0.50s`
+- Peak tree RSS: `0 MiB`
+- Minimum available memory observed: `46639 MiB`
+
+Overlap with the 9EE seven-window checkpoint catalog:
+
+- 9EE families: `405`
+- 9EF families: `218`
+- Overlap: `153`
+- New 9EF families not in 9EE: `65`
+- Union over 9EE and 9EF: `470`
+- 9EF family reuse fraction: about `70.18%`
+
+Decision: accepted as a useful density-aware diagnostic.  Family growth is
+moderate rather than explosive on these additional windows, and checkpointed
+profiling remains safely below memory limits.  However, the new windows still
+add nontrivial family keys, so the current source-index/state key has not yet
+shown saturation.  Before production Lean emission, we need a broader
+checkpointed growth curve or a stronger quotient that can explain and bound the
+remaining family-key growth.
