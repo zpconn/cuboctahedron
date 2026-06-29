@@ -23,9 +23,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from generate_source_index_state_bounded_coverage import (  # noqa: E402
-    WindowData,
-    collect_window,
+from profile_source_index_state_fact_production import (  # noqa: E402
+    collect_families_maybe_parallel,
 )
 
 
@@ -48,6 +47,12 @@ class CandidateResult:
     notes: list[str]
 
 
+@dataclass
+class ClassifierProfileData:
+    families: list[Any]
+    counts: dict[str, int]
+
+
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
@@ -58,15 +63,18 @@ def write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def current_replay_candidate(data: WindowData) -> CandidateResult:
-    concrete = len(data.covered) + len(data.bad_masks) + len(data.nonidentity)
+def current_replay_candidate(data: ClassifierProfileData) -> CandidateResult:
+    covered = int(data.counts.get("covered_cases", 0))
+    not_good = int(data.counts.get("not_good_direction_masks", 0))
+    nonidentity = int(data.counts.get("nonidentity_words_skipped", 0))
+    concrete = covered + not_good + nonidentity
     return CandidateResult(
         name="bounded_replay_current",
         status="rejected",
         theorem_obligations=concrete,
-        concrete_survivor_branches=len(data.covered),
-        concrete_bad_direction_branches=len(data.bad_masks),
-        concrete_nonidentity_branches=len(data.nonidentity),
+        concrete_survivor_branches=covered,
+        concrete_bad_direction_branches=not_good,
+        concrete_nonidentity_branches=nonidentity,
         requires_new_lean_classifier=False,
         requires_good_direction_premise=False,
         notes=[
@@ -78,7 +86,7 @@ def current_replay_candidate(data: WindowData) -> CandidateResult:
 
 
 def good_direction_classifier_candidate(
-    data: WindowData,
+    data: ClassifierProfileData,
     *,
     max_rule_count: int,
 ) -> CandidateResult:
@@ -118,7 +126,7 @@ def good_direction_classifier_candidate(
     )
 
 
-def template_only_candidate(data: WindowData) -> CandidateResult:
+def template_only_candidate(data: ClassifierProfileData) -> CandidateResult:
     templates = sorted({family.template_id for family in data.families})
     return CandidateResult(
         name="template_only_classifier",
@@ -137,7 +145,7 @@ def template_only_candidate(data: WindowData) -> CandidateResult:
     )
 
 
-def top_families(data: WindowData, *, limit: int) -> list[dict[str, Any]]:
+def top_families(data: ClassifierProfileData, *, limit: int) -> list[dict[str, Any]]:
     rows = []
     for family in data.families[:limit]:
         rows.append({
@@ -162,8 +170,14 @@ def profile_window(
     limit: int,
     max_rule_count: int,
     top_limit: int,
+    jobs: int,
 ) -> dict[str, Any]:
-    data = collect_window(rank_start=rank_start, limit=limit)
+    families, counts = collect_families_maybe_parallel(
+        rank_start=rank_start,
+        limit=limit,
+        jobs=jobs,
+    )
+    data = ClassifierProfileData(families=families, counts=counts)
     candidates = [
         current_replay_candidate(data),
         good_direction_classifier_candidate(data, max_rule_count=max_rule_count),
@@ -179,14 +193,15 @@ def profile_window(
         "rank_start": rank_start,
         "rank_end": rank_start + limit,
         "limit": limit,
+        "jobs": jobs,
         "max_rule_count": max_rule_count,
         "counts": data.counts,
-        "identity_rank_count": len(data.identity_ranks),
-        "nonidentity_rank_count": len(data.nonidentity),
+        "identity_rank_count": int(data.counts.get("identity_words", 0)),
+        "nonidentity_rank_count": int(data.counts.get("nonidentity_words_skipped", 0)),
         "source_index_state_family_count": len(data.families),
         "largest_family_cases": data.families[0].count if data.families else 0,
-        "covered_case_count": len(data.covered),
-        "not_good_case_count": len(data.bad_masks),
+        "covered_case_count": int(data.counts.get("covered_cases", 0)),
+        "not_good_case_count": int(data.counts.get("not_good_direction_masks", 0)),
         "candidate_results": [asdict(candidate) for candidate in candidates],
         "accepted_candidates": accepted,
         "decision": {
@@ -212,6 +227,7 @@ def markdown(report: dict[str, Any]) -> str:
         "",
         f"- Status: `{report['decision']['status']}`",
         f"- Rank window: `[{report['rank_start']}, {report['rank_end']})`",
+        f"- Jobs: `{report['jobs']}`",
         f"- Pair words scanned: `{counts['pair_words_scanned']}`",
         f"- Identity words: `{counts['identity_words']}`",
         f"- Nonidentity words: `{report['nonidentity_rank_count']}`",
@@ -259,6 +275,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rank-start", type=int, default=0)
     parser.add_argument("--limit", type=int, default=25)
+    parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--max-rule-count", type=int, default=25)
     parser.add_argument("--top-limit", type=int, default=12)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
@@ -270,12 +287,14 @@ def main() -> None:
         limit=args.limit,
         max_rule_count=args.max_rule_count,
         top_limit=args.top_limit,
+        jobs=args.jobs,
     )
     write_json(args.json, report)
     write_text(args.md, markdown(report))
     print(json.dumps({
         "status": report["decision"]["status"],
         "rank_window": [report["rank_start"], report["rank_end"]],
+        "jobs": report["jobs"],
         "families": report["source_index_state_family_count"],
         "covered_cases": report["covered_case_count"],
         "not_good_cases": report["not_good_case_count"],

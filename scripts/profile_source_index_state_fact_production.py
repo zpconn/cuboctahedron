@@ -139,6 +139,13 @@ def merge_families(parts: list[tuple[list[Family], dict[str, int]]]) -> tuple[li
                 )
                 merged[family.key] = current
             current.members.extend(family.members)
+    for family in merged.values():
+        family.members.sort(
+            key=lambda member: (
+                member.symbolic.case.rank,
+                member.symbolic.case.mask,
+            )
+        )
     return (
         sorted(merged.values(), key=lambda item: (-item.count, item.template_id, item.key)),
         dict(counts),

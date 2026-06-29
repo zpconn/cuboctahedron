@@ -1,0 +1,29 @@
+{
+  "available_floor_mib": 16384.0,
+  "command": [
+    "python3",
+    "scripts/profile_source_index_state_computable_classifier.py",
+    "--rank-start",
+    "0",
+    "--limit",
+    "10000",
+    "--jobs",
+    "4",
+    "--max-rule-count",
+    "300",
+    "--top-limit",
+    "20",
+    "--json",
+    "scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_10000.json",
+    "--md",
+    "scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_10000.md"
+  ],
+  "elapsed_seconds": 46.08475855299912,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 138232,
+  "max_tree_rss_mib": 134.9921875,
+  "min_available_seen_kib": 47426044,
+  "min_available_seen_mib": 46314.49609375,
+  "rss_cap_mib": 4096.0
+}

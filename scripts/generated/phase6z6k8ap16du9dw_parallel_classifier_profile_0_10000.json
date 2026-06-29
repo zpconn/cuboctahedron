@@ -1,0 +1,704 @@
+{
+  "accepted_candidates": [
+    "source_index_state_good_direction_classifier"
+  ],
+  "candidate_results": [
+    {
+      "concrete_bad_direction_branches": 39179,
+      "concrete_nonidentity_branches": 9288,
+      "concrete_survivor_branches": 6389,
+      "name": "bounded_replay_current",
+      "notes": [
+        "This is the rejected Phase 6Z.6K.8I proof surface.",
+        "It scales with concrete survivors plus bad-direction masks.",
+        "It should not be used for production generated coverage."
+      ],
+      "requires_good_direction_premise": false,
+      "requires_new_lean_classifier": false,
+      "status": "rejected",
+      "theorem_obligations": 54856
+    },
+    {
+      "concrete_bad_direction_branches": 0,
+      "concrete_nonidentity_branches": 0,
+      "concrete_survivor_branches": 0,
+      "name": "source_index_state_good_direction_classifier",
+      "notes": [
+        "This surface removes concrete bad-direction contradictions from generated coverage.",
+        "The final theorem should consume a GoodDirection premise and prove only GoodDirection cases.",
+        "The next Lean smoke should prove a reflected descriptor classifier, not per-rank/mask membership."
+      ],
+      "requires_good_direction_premise": true,
+      "requires_new_lean_classifier": true,
+      "status": "accepted-next-smoke",
+      "theorem_obligations": 146
+    },
+    {
+      "concrete_bad_direction_branches": 0,
+      "concrete_nonidentity_branches": 0,
+      "concrete_survivor_branches": 0,
+      "name": "template_only_classifier",
+      "notes": [
+        "Template id alone is too coarse: source indices and source checks are part of Applies.",
+        "Keep template-only as a rejected lower bound, not a Lean target.",
+        "template_count=9"
+      ],
+      "requires_good_direction_premise": true,
+      "requires_new_lean_classifier": true,
+      "status": "rejected",
+      "theorem_obligations": 9
+    }
+  ],
+  "counts": {
+    "covered_cases": 6389,
+    "good_direction_survivors": 6389,
+    "identity_words": 712,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 9288,
+    "not_good_direction_masks": 39179,
+    "pair_words_scanned": 10000,
+    "translation_sign_assignments": 45568,
+    "uncovered_cases": 0
+  },
+  "covered_case_count": 6389,
+  "decision": {
+    "notes": [
+      "This report emits no Lean and is not trusted as proof.",
+      "The accepted surface, if any, is only a target for the next Lean smoke.",
+      "Production coverage must not revive bounded replay."
+    ],
+    "status": "accepted-next-smoke"
+  },
+  "identity_rank_count": 712,
+  "jobs": 4,
+  "largest_family_cases": 1709,
+  "limit": 10000,
+  "max_rule_count": 300,
+  "nonidentity_rank_count": 9288,
+  "not_good_case_count": 39179,
+  "rank_end": 10000,
+  "rank_start": 0,
+  "source_index_state_family_count": 146,
+  "top_families": [
+    {
+      "cases": 1709,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "sample_members": [
+        {
+          "mask": 8,
+          "rank": 0
+        },
+        {
+          "mask": 9,
+          "rank": 0
+        },
+        {
+          "mask": 16,
+          "rank": 0
+        },
+        {
+          "mask": 18,
+          "rank": 0
+        },
+        {
+          "mask": 24,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 668,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "sample_members": [
+        {
+          "mask": 54,
+          "rank": 0
+        },
+        {
+          "mask": 55,
+          "rank": 0
+        },
+        {
+          "mask": 54,
+          "rank": 2
+        },
+        {
+          "mask": 55,
+          "rank": 2
+        },
+        {
+          "mask": 54,
+          "rank": 3
+        }
+      ],
+      "source_indices": [
+        24,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 426,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+      "sample_members": [
+        {
+          "mask": 45,
+          "rank": 3
+        },
+        {
+          "mask": 45,
+          "rank": 5
+        },
+        {
+          "mask": 47,
+          "rank": 5
+        },
+        {
+          "mask": 61,
+          "rank": 24
+        },
+        {
+          "mask": 45,
+          "rank": 42
+        }
+      ],
+      "source_indices": [
+        25,
+        2
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "cases": 346,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 0
+        },
+        {
+          "mask": 29,
+          "rank": 0
+        },
+        {
+          "mask": 13,
+          "rank": 2
+        },
+        {
+          "mask": 29,
+          "rank": 2
+        },
+        {
+          "mask": 13,
+          "rank": 5
+        }
+      ],
+      "source_indices": [
+        0,
+        7
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 161,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 0
+        },
+        {
+          "mask": 31,
+          "rank": 0
+        },
+        {
+          "mask": 63,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 128,
+      "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 8220
+        },
+        {
+          "mask": 29,
+          "rank": 8220
+        },
+        {
+          "mask": 13,
+          "rank": 8222
+        },
+        {
+          "mask": 29,
+          "rank": 8222
+        },
+        {
+          "mask": 13,
+          "rank": 8244
+        }
+      ],
+      "source_indices": [
+        70,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 127,
+      "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+      "sample_members": [
+        {
+          "mask": 7,
+          "rank": 498
+        },
+        {
+          "mask": 23,
+          "rank": 501
+        },
+        {
+          "mask": 7,
+          "rank": 519
+        },
+        {
+          "mask": 7,
+          "rank": 561
+        },
+        {
+          "mask": 7,
+          "rank": 582
+        }
+      ],
+      "source_indices": [
+        0,
+        10
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 125,
+      "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 129
+        },
+        {
+          "mask": 31,
+          "rank": 129
+        },
+        {
+          "mask": 13,
+          "rank": 177
+        },
+        {
+          "mask": 22,
+          "rank": 177
+        },
+        {
+          "mask": 13,
+          "rank": 315
+        }
+      ],
+      "source_indices": [
+        0,
+        15
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 116,
+      "key": "1b2f2002758c280a9b4957a255b1ec03b9e18b94f1bf0534886c497a37096b40",
+      "sample_members": [
+        {
+          "mask": 29,
+          "rank": 3179
+        },
+        {
+          "mask": 63,
+          "rank": 3180
+        },
+        {
+          "mask": 29,
+          "rank": 3182
+        },
+        {
+          "mask": 63,
+          "rank": 3182
+        },
+        {
+          "mask": 63,
+          "rank": 3190
+        }
+      ],
+      "source_indices": [
+        70,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 95,
+      "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+      "sample_members": [
+        {
+          "mask": 13,
+          "rank": 123
+        },
+        {
+          "mask": 22,
+          "rank": 123
+        },
+        {
+          "mask": 13,
+          "rank": 125
+        },
+        {
+          "mask": 22,
+          "rank": 125
+        },
+        {
+          "mask": 29,
+          "rank": 125
+        }
+      ],
+      "source_indices": [
+        0,
+        13
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 91,
+      "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+      "sample_members": [
+        {
+          "mask": 7,
+          "rank": 137
+        },
+        {
+          "mask": 7,
+          "rank": 185
+        },
+        {
+          "mask": 7,
+          "rank": 251
+        },
+        {
+          "mask": 7,
+          "rank": 263
+        },
+        {
+          "mask": 7,
+          "rank": 269
+        }
+      ],
+      "source_indices": [
+        26,
+        3
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "cases": 83,
+      "key": "5651cb30a48af7c1f0528abbffbbcf4eb1954a09872946c492757538dfa5516f",
+      "sample_members": [
+        {
+          "mask": 47,
+          "rank": 600
+        },
+        {
+          "mask": 55,
+          "rank": 600
+        },
+        {
+          "mask": 47,
+          "rank": 605
+        },
+        {
+          "mask": 55,
+          "rank": 605
+        },
+        {
+          "mask": 22,
+          "rank": 657
+        }
+      ],
+      "source_indices": [
+        0,
+        12
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 82,
+      "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 633
+        },
+        {
+          "mask": 63,
+          "rank": 633
+        },
+        {
+          "mask": 25,
+          "rank": 639
+        },
+        {
+          "mask": 25,
+          "rank": 641
+        },
+        {
+          "mask": 61,
+          "rank": 641
+        }
+      ],
+      "source_indices": [
+        83,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "cases": 81,
+      "key": "158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158",
+      "sample_members": [
+        {
+          "mask": 8,
+          "rank": 147
+        },
+        {
+          "mask": 9,
+          "rank": 147
+        },
+        {
+          "mask": 16,
+          "rank": 387
+        },
+        {
+          "mask": 18,
+          "rank": 387
+        },
+        {
+          "mask": 8,
+          "rank": 501
+        }
+      ],
+      "source_indices": [
+        0,
+        14
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 78,
+      "key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 810
+        },
+        {
+          "mask": 30,
+          "rank": 810
+        },
+        {
+          "mask": 31,
+          "rank": 810
+        },
+        {
+          "mask": 55,
+          "rank": 810
+        },
+        {
+          "mask": 30,
+          "rank": 812
+        }
+      ],
+      "source_indices": [
+        109,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 74,
+      "key": "b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 617
+        },
+        {
+          "mask": 13,
+          "rank": 624
+        },
+        {
+          "mask": 22,
+          "rank": 630
+        },
+        {
+          "mask": 30,
+          "rank": 630
+        },
+        {
+          "mask": 22,
+          "rank": 635
+        }
+      ],
+      "source_indices": [
+        96,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "cases": 73,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+      "sample_members": [
+        {
+          "mask": 22,
+          "rank": 60
+        },
+        {
+          "mask": 22,
+          "rank": 62
+        },
+        {
+          "mask": 29,
+          "rank": 62
+        },
+        {
+          "mask": 31,
+          "rank": 62
+        },
+        {
+          "mask": 13,
+          "rank": 65
+        }
+      ],
+      "source_indices": [
+        0,
+        11
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "cases": 72,
+      "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+      "sample_members": [
+        {
+          "mask": 28,
+          "rank": 27
+        },
+        {
+          "mask": 54,
+          "rank": 59
+        },
+        {
+          "mask": 55,
+          "rank": 59
+        },
+        {
+          "mask": 28,
+          "rank": 84
+        },
+        {
+          "mask": 45,
+          "rank": 89
+        }
+      ],
+      "source_indices": [
+        1,
+        15
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 72,
+      "key": "be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede",
+      "sample_members": [
+        {
+          "mask": 63,
+          "rank": 3
+        },
+        {
+          "mask": 63,
+          "rank": 45
+        },
+        {
+          "mask": 63,
+          "rank": 60
+        },
+        {
+          "mask": 63,
+          "rank": 78
+        },
+        {
+          "mask": 39,
+          "rank": 129
+        }
+      ],
+      "source_indices": [
+        1,
+        7
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "cases": 67,
+      "key": "e668d65886e9e5a322e49bde53aff82a78282617526ce8979ad65d248a06ba90",
+      "sample_members": [
+        {
+          "mask": 62,
+          "rank": 3190
+        },
+        {
+          "mask": 30,
+          "rank": 3195
+        },
+        {
+          "mask": 30,
+          "rank": 3199
+        },
+        {
+          "mask": 30,
+          "rank": 3230
+        },
+        {
+          "mask": 30,
+          "rank": 3237
+        }
+      ],
+      "source_indices": [
+        71,
+        2
+      ],
+      "template_id": "opp_m1_var_first"
+    }
+  ]
+}

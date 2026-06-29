@@ -27142,3 +27142,83 @@ below the 300-family gate, so the Boolean classifier membership surface still
 looks plausible.  The serial runtime is the new bottleneck: before profiling
 larger windows, add a memory-safe parallel mode for this classifier diagnostic
 instead of running longer serial sweeps.
+
+### Phase 6Z.6K.8AP.16DU.9DW checkpoint: parallel classifier profiler accepted
+
+Phase 6Z.6K.8AP.16DU.9DW makes the no-Lean source-index/state computable
+classifier diagnostic jobs-aware.  The profiler now reuses the
+`collect_families_maybe_parallel` worker pool from the source-index/state fact
+production profiler and reports the worker count in JSON and Markdown.  The
+family merge step also sorts merged members by `(rank, mask)`, keeping sampled
+report rows deterministic across parallel workers.
+
+This is diagnostic only and emits no Lean.  It is not trusted as proof.  The
+point is to make larger profiling windows practical without broad Lean builds
+or any OOM-prone generated source emission.
+
+Parallel parity smoke:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 16384 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_1000_guard.json \
+  -- python3 scripts/profile_source_index_state_computable_classifier.py \
+    --rank-start 0 \
+    --limit 1000 \
+    --jobs 4 \
+    --max-rule-count 100 \
+    --top-limit 12 \
+    --json scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_1000.json \
+    --md scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_1000.md
+```
+
+Result:
+
+- Exit: `0`
+- Status: `accepted-next-smoke`
+- Rank window: `[0,1000)`
+- Jobs: `4`
+- GoodDirection survivors: `1465`
+- Source-index/state families: `74`
+- Elapsed: `7.00s`
+- Peak tree RSS: `115.74 MiB`
+- Minimum available memory observed: `46346 MiB`
+
+Parallel scaling smoke:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 16384 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_10000_guard.json \
+  -- python3 scripts/profile_source_index_state_computable_classifier.py \
+    --rank-start 0 \
+    --limit 10000 \
+    --jobs 4 \
+    --max-rule-count 300 \
+    --top-limit 20 \
+    --json scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_10000.json \
+    --md scripts/generated/phase6z6k8ap16du9dw_parallel_classifier_profile_0_10000.md
+```
+
+Result:
+
+- Exit: `0`
+- Status: `accepted-next-smoke`
+- Rank window: `[0,10000)`
+- Jobs: `4`
+- GoodDirection survivors: `6389`
+- Source-index/state families: `146`
+- Elapsed: `46.08s`
+- Peak tree RSS: `134.99 MiB`
+- Minimum available memory observed: `46314 MiB`
+
+Decision: accepted.  The parallel profiler reproduces the serial `[0,10000)`
+family count (`146`) while reducing wall time from `240.27s` to `46.08s` and
+staying under `135 MiB` peak RSS.  Future classifier diagnostics should use
+bounded Python parallelism under `scripts/run_memory_guarded.py`.  Do not run
+broad or parallel Lean builds on this path until a generated theorem surface has
+passed a small guarded smoke.
