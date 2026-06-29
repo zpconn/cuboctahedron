@@ -22894,16 +22894,93 @@ reason = killed by memory guard before the import path could complete
 
 Decision:
 
-- Reject importing rank-wide split trace roots as dependencies of production
-  weighted-cube obstruction leaves.
-- Do not raise the cap for this path: the dependency crossed 18 GiB RSS almost
-  immediately and would reintroduce the same OOM risk that the weighted
-  coefficient route was designed to avoid.
+- Reject cold builds of rank-wide split trace roots whose step modules are
+  independent siblings in the Lake dependency graph.
+- Do not raise the cap for the sibling-parallel path: the dependency crossed
+  18 GiB RSS almost immediately and would reintroduce the same OOM risk that
+  the weighted coefficient route was designed to avoid.
 - Keep the DU.9BO API, but require future trace witnesses to be smaller than
-  the rank-wide split root.  The next experiment should profile individual
-  trace data/step modules, or generate a new per-coefficient/per-impact witness
-  surface whose exported theorem has a small type and whose own focused build
-  stays below the 8 GiB guard.
+  the cold sibling-parallel root.  The next experiment should profile
+  individual trace data/step modules and then try a chained/serial dependency
+  layout whose cold root build cannot schedule all step proofs at once.
+
+### Phase 6Z.6K.8AP.16DU.9BQ checkpoint: serial trace-step build accepted
+
+Phase 6Z.6K.8AP.16DU.9BQ refined the DU.9BP rejection by building the
+rank-`6000745` split trace modules one at a time under the same 8 GiB guard,
+then retrying the aggregate root after every dependency was already compiled.
+
+Focused guarded builds:
+
+```text
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_data_guard.json
+exit = 0, elapsed = 2.00s, peak tree RSS = 802 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step00_guard.json
+exit = 0, elapsed = 5.51s, peak tree RSS = 3900 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step01_guard.json
+exit = 0, elapsed = 2.50s, peak tree RSS = 4013 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step02_guard.json
+exit = 0, elapsed = 2.50s, peak tree RSS = 4006 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step03_guard.json
+exit = 0, elapsed = 2.50s, peak tree RSS = 4006 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step04_guard.json
+exit = 0, elapsed = 2.50s, peak tree RSS = 3994 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step05_guard.json
+exit = 0, elapsed = 3.00s, peak tree RSS = 4036 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step06_guard.json
+exit = 0, elapsed = 3.51s, peak tree RSS = 4021 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step07_guard.json
+exit = 0, elapsed = 5.02s, peak tree RSS = 4076 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step08_guard.json
+exit = 0, elapsed = 9.53s, peak tree RSS = 4216 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step09_guard.json
+exit = 0, elapsed = 9.52s, peak tree RSS = 4182 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step10_guard.json
+exit = 0, elapsed = 9.51s, peak tree RSS = 4226 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step11_guard.json
+exit = 0, elapsed = 9.56s, peak tree RSS = 4218 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_step12_guard.json
+exit = 0, elapsed = 9.52s, peak tree RSS = 4215 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_final_guard.json
+exit = 0, elapsed = 9.54s, peak tree RSS = 4214 MiB
+
+scripts/generated/phase6z6k8ap16du9bq_rank6000745_trace_root_after_serial_deps_guard.json
+exit = 0, elapsed = 2.51s, peak tree RSS = 3654 MiB
+```
+
+Interpretation:
+
+- The trace data module is cheap.
+- Each step/final proof is individually memory-safe, with the later steps
+  stabilizing around 4.2 GiB RSS.
+- The aggregate root is also memory-safe once the sibling step proofs are
+  already compiled.
+- The DU.9BP spike was therefore caused by the cold sibling dependency graph,
+  not by the root theorem type or by importing compiled step `.olean` files.
+
+Decision:
+
+- Keep the trace-root idea alive, but only behind a memory-safe build topology.
+- The next generated trace experiment should emit a chained dependency layout:
+  `Step00` imports data, `Step01` imports `Step00`, ..., `Final` imports
+  `Step12`, and the root imports only `Final`.  A cold guarded build of that
+  chained root must remain under the 8 GiB cap.
+- Production generated evidence must not rely on manual prebuilding of sibling
+  steps; the source dependency graph itself must enforce the safe order.
 
 ## Explicit Non-Goals
 
@@ -23001,6 +23078,8 @@ Decision:
 - Do not prove generated coefficient identity by directly unfolding
   `weightedDirectWalshQuadraticAtRank` at a concrete rank; DU.9BN crossed the
   8 GiB guard while proving only the constant coefficient for rank `6000745`.
-- Do not import rank-wide split Walsh-vector trace roots as weighted
-  trace-certificate dependencies; DU.9BP crossed 18.7 GiB RSS under the 8 GiB
-  focused-build guard before completing.
+- Do not use cold sibling-parallel rank-wide split Walsh-vector trace roots as
+  weighted trace-certificate dependencies; DU.9BP crossed 18.7 GiB RSS under
+  the 8 GiB focused-build guard.  DU.9BQ shows the same pieces are safe when
+  built serially, so future emitters should encode that order in the import
+  graph rather than depending on manual prebuilds.

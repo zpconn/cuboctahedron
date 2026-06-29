@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 8192.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitStep07Smoke"
+  ],
+  "elapsed_seconds": 5.017074001007131,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4174008,
+  "max_tree_rss_mib": 4076.1796875,
+  "min_available_seen_kib": 47190628,
+  "min_available_seen_mib": 46084.59765625,
+  "rss_cap_mib": 8192.0
+}
