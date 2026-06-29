@@ -19669,6 +19669,41 @@ subcubes covers the complement of the positive-survivor predicate, and
 rank-`100805` `ImpactSubcubeCover` smoke whose subcube nonpositivity facts are
 checked by Lean from exact Walsh/subcube bounds, not trusted from JSON.
 
+AP.16BL adds a tiny downstream all-Good erasure bridge for row-property
+membership families:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyAllGoodBridge.lean
+```
+
+This file deliberately imports below the existing membership/source-index
+stack to avoid an import cycle.  It exposes two theorem surfaces:
+
+```lean
+RowPropertyMembershipCoverageOnIdentityRange.to_allGoodCoverage
+RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+```
+
+The first erases a named row-property membership family to
+`AllTranslationGoodCoverageOnRange`; the second lets a future generated
+chunk prove direct parametric row-property coverage and erase it to the same
+public all-Good target.  This does not prove any new generated membership
+facts, and it does not change the open AP.16BK/BJ task of checking exact
+Walsh/subcube nonpositivity.  It does, however, give future emitters a small
+semantic theorem target that avoids exporting certificate data or replaying
+rank/mask checkers.
+
+Focused validation was memory-safe:
+
+```text
+/usr/bin/time -v lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyAllGoodBridge.lean
+/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
+```
+
+The direct Lean check passed in 5.40s with 3,204,004 KiB max RSS.  The focused
+Lake build passed in 2.07s with 3,240,896 KiB max RSS.  No broad package build
+or parallel Lean build was run at this checkpoint.
+
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
 prefix/mask-cube bad-direction emitter, including the common-impact variant.
