@@ -16834,6 +16834,60 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9p_compact_cover_emission_plan.json
   scripts/generated/phase6z6k8ap16du9p_compact_cover_emission_plan.md
   ```
+- [x] Emit and guard-check Phase 6Z.6K.8AP.16DU.9P rank-0 compact-cover stack:
+  DU.9P rank 0 uses `scripts/prepare_du9p_compact_walsh_rank_slice.py` to
+  translate the accepted DU.9P rank-0 compact-Walsh profile into the existing
+  AP16DJ split-trace batch schema.  The first guarded build was memory-safe
+  but failed on the default Lean heartbeat limit in the generated split trace
+  step/final proofs:
+
+  ```text
+  exit=1, elapsed=72.09s, peak_tree_rss=4297 MiB, min_available=45830 MiB
+  failed targets:
+    ImpactSubcubeWalshVectorTraceRank0SplitStep12Smoke
+    ImpactSubcubeWalshVectorTraceRank0SplitFinalSmoke
+  reason:
+    max heartbeats 200000 reached
+  ```
+
+  The split-trace emitter now adds `set_option maxHeartbeats 0` to the
+  generated trace modules.  After regenerating rank 0, the same focused guarded
+  root first passed through the legacy AP16DJ batch-root path:
+
+  ```text
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      ImpactSubcubeWalshSymbolicCompactDenomBatchSmoke
+  exit=0, elapsed=92.15s, peak_tree_rss=4316 MiB, min_available=45880 MiB
+  ```
+
+  To avoid clobbering AP16DJ's existing five-rank smoke root, the AP16DJ batch
+  emitter now accepts a root override.  DU.9P rank 0 was regenerated under its
+  own root and guard-checked successfully:
+
+  ```text
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      ImpactSubcubeWalshSymbolicCompactDenomDU9PRank0BatchSmoke
+  exit=0, elapsed=3.00s, peak_tree_rss=1239 MiB, min_available=46409 MiB
+  ```
+
+  Decision: rank-0 compact-Walsh membership evidence is accepted as a bounded
+  Lean-checked slice.  The next scale step may emit ranks `2` and `3`, but it
+  must keep the same strict serial guard and should avoid broad `lake build`.
+  The observed rank-0 source footprint is small (`188K` for the cover leaf and
+  mostly `4K`-`16K` split/impact leaves), so the next risk is proof complexity,
+  not source size.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9p_rank0_compact_walsh_rank_slice_prep.json
+  scripts/generated/phase6z6k8ap16du9p_rank0_compact_walsh_batch_generation.json
+  scripts/generated/phase6z6k8ap16du9p_rank0_batch_root_guard.json
+  scripts/generated/phase6z6k8ap16du9p_rank0_batch_root_guard_retry1.json
+  scripts/generated/phase6z6k8ap16du9p_rank0_du9p_root_guard.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:

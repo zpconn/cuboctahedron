@@ -301,7 +301,12 @@ def emit_signature(entry: dict[str, Any], source_by_rank: dict[int, dict[str, An
     return cover_payload
 
 
-def write_root(entries: list[dict[str, Any]]) -> None:
+def write_root(
+    entries: list[dict[str, Any]],
+    *,
+    root_lean: Path = ROOT_LEAN,
+    root_namespace: str = ROOT_NS,
+) -> None:
     imports = [f"import {module_from_path(cover_lean(int(entry['rank'])))}" for entry in entries]
     lines = [
         *imports,
@@ -314,7 +319,7 @@ def write_root(entries: list[dict[str, Any]]) -> None:
         "AP16DI memory guard.",
         "-/",
         "",
-        f"namespace {ROOT_NS}",
+        f"namespace {root_namespace}",
         "",
     ]
     for entry in entries:
@@ -340,14 +345,18 @@ def write_root(entries: list[dict[str, Any]]) -> None:
     lines.extend([
         "  trivial",
         "",
-        f"end {ROOT_NS}",
+        f"end {root_namespace}",
         "",
     ])
-    ROOT_LEAN.parent.mkdir(parents=True, exist_ok=True)
-    ROOT_LEAN.write_text("\n".join(lines), encoding="utf-8")
+    root_lean.parent.mkdir(parents=True, exist_ok=True)
+    root_lean.write_text("\n".join(lines), encoding="utf-8")
 
 
-def planned_targets(entries: list[dict[str, Any]]) -> list[dict[str, str]]:
+def planned_targets(
+    entries: list[dict[str, Any]],
+    *,
+    root_lean: Path = ROOT_LEAN,
+) -> list[dict[str, str]]:
     targets: list[dict[str, str]] = []
     for entry in entries:
         rank = int(entry["rank"])
@@ -364,7 +373,7 @@ def planned_targets(entries: list[dict[str, Any]]) -> list[dict[str, str]]:
             "module": module_from_path(selected_root_lean(rank)),
         })
         targets.append({"kind": "cover", "module": module_from_path(cover_lean(rank))})
-    targets.append({"kind": "batch_root", "module": module_from_path(ROOT_LEAN)})
+    targets.append({"kind": "batch_root", "module": module_from_path(root_lean)})
     return targets
 
 
@@ -412,6 +421,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument("--root-lean", type=Path, default=ROOT_LEAN)
+    parser.add_argument("--root-namespace", type=str, default=ROOT_NS)
     parser.add_argument(
         "--emit",
         action="store_true",
@@ -430,7 +441,11 @@ def main() -> None:
     if args.emit:
         for entry in entries:
             emitted_payloads.append(emit_signature(entry, source_by_rank))
-        write_root(entries)
+        write_root(
+            entries,
+            root_lean=args.root_lean,
+            root_namespace=args.root_namespace,
+        )
 
     payload = {
         "phase": "Phase 6Z.6K.8AP.16DJ",
@@ -444,9 +459,9 @@ def main() -> None:
         "emitted_lean": bool(args.emit),
         "entries": entries,
         "emitted_signature_reports": emitted_payloads,
-        "root_lean": str(ROOT_LEAN),
-        "root_module": module_from_path(ROOT_LEAN),
-        "targets": planned_targets(entries),
+        "root_lean": str(args.root_lean),
+        "root_module": module_from_path(args.root_lean),
+        "targets": planned_targets(entries, root_lean=args.root_lean),
     }
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -60,6 +60,7 @@ def prelude(namespace: str) -> list[str]:
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
         "",
+        "set_option maxHeartbeats 0",
         "set_option maxRecDepth 10000",
         "set_option linter.unusedSimpArgs false",
         "set_option linter.unusedTactic false",
