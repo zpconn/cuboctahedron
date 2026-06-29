@@ -24754,6 +24754,152 @@ Decision:
   stronger integer/template theorem that avoids both the 22-field rational
   equality and the per-free-bit `coeffEval` case split.
 
+### Phase 6Z.6K.8AP.16DU.9CQ checkpoint: scaled coefficient theorem accepted
+
+Phase 6Z.6K.8AP.16DU.9CQ adds a reusable theorem that proves equality with a
+`ScaledWalshQuadratic.toQuadratic` from integer-scaled coefficient equalities:
+
+```lean
+theorem ScaledWalshQuadratic.toQuadratic_eq_of_scaled_coeffs
+    (q : ScaledWalshQuadratic) (hscale : 0 < q.scale)
+    {p : WalshQuadratic}
+    (hc : p.c * (q.scale : Rat) = (q.c : Rat))
+    ...
+    (hd1m1_dm11 : p.d1m1_dm11 * (q.scale : Rat) = (q.d1m1_dm11 : Rat)) :
+    p = q.toQuadratic
+```
+
+The generated smoke reuses the DU.9CN flat coefficient formula, but each
+generated arithmetic goal has the integer-scaled shape `field * scale = int`
+instead of unfolding `ScaledWalshQuadratic.coeffRat` and proving
+`field = int / scale`.
+
+Generated proof shape:
+
+```lean
+private theorem cube00DotPoly_eq :
+    weightedQuadraticFromDotData data.generatedDot cube00Weights =
+      cube00ScaledPoly.toQuadratic := by
+  rw [weightedQuadraticFromDotData_eq_coeffs]
+  apply ScaledWalshQuadratic.toQuadratic_eq_of_scaled_coeffs cube00ScaledPoly
+    (by norm_num [cube00ScaledPoly]) <;>
+    norm_num [weightedQuadraticFromDotDataCoeffs,
+      weightedQuadraticFromDotDataCoeff, data.generatedDot,
+      cube00Weights, cube00ScaledPoly, ...]
+```
+
+Files:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedCoeffCertificate.lean
+scripts/emit_ap16du9cq_dotpoly_full_scaled_formula_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullScaledFormulaSmoke.lean
+scripts/generated/phase6z6k8ap16du9cq_scaled_coeff_core_guard.json
+scripts/generated/phase6z6k8ap16du9cq_dotpoly_full_scaled_formula_smoke.json
+scripts/generated/phase6z6k8ap16du9cq_dotpoly_full_scaled_formula_smoke.md
+scripts/generated/phase6z6k8ap16du9cq_dotpoly_full_scaled_formula_guard.json
+scripts/generated/phase6z6k8ap16du9cq_dotpoly_full_scaled_formula_lean_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cq_dotpoly_full_scaled_formula_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedCoeffCertificate.lean \
+  scripts/emit_ap16du9cq_dotpoly_full_scaled_formula_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullScaledFormulaSmoke.lean
+wc -l scripts/emit_ap16du9cq_dotpoly_full_scaled_formula_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullScaledFormulaSmoke.lean
+```
+
+The Python compile passed.  The forbidden-token scan returned no matches.  The
+script has `179` lines and the generated Lean smoke has `81` lines.
+
+Focused guarded core build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cq_scaled_coeff_core_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedCoeffCertificate
+```
+
+Core result:
+
+```text
+exit code:             0
+elapsed:               18.52s
+Lean target time:      17s
+peak tree RSS:         4341 MiB
+minimum MemAvailable:  45803 MiB
+RSS cap:               6144 MiB
+```
+
+Generated full-scaled-formula build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cq_dotpoly_full_scaled_formula_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyFullScaledFormulaSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               18.03s
+Lean target time:      6.1s
+peak tree RSS:         4749 MiB
+minimum MemAvailable:  45038 MiB
+RSS cap:               6144 MiB
+```
+
+Direct import-aware Lean check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cq_dotpoly_full_scaled_formula_lean_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullScaledFormulaSmoke.lean
+
+exit code:             0
+elapsed:               6.51s
+peak tree RSS:         4048 MiB
+minimum MemAvailable:  46136 MiB
+RSS cap:               6144 MiB
+```
+
+Comparison:
+
+```text
+DU.9CN full flat rational formula:     7.51s direct Lean, 4009 MiB
+DU.9CP cube-eval semantic inequality:  8.01s direct Lean, 4078 MiB
+DU.9CQ full scaled formula:            6.51s direct Lean, 4048 MiB
+```
+
+Decision:
+
+- Accept DU.9CQ as a real, reusable local improvement.  It cuts the
+  generated full coefficient proof by roughly 13 percent without increasing
+  peak memory materially.
+- This is still not enough by itself for production-scale coverage.  A
+  6-7 second per-cube proof remains too expensive if many cubes survive.
+- Keep the theorem as the preferred equality bridge for any future
+  coefficient-style generated leaves, but continue looking for family/template
+  compression that reduces the number of leaves rather than only shaving the
+  per-leaf constant.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

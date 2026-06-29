@@ -105,6 +105,88 @@ def ScaledWalshQuadratic.toQuadratic
   d11m_dm11 := q.coeffRat q.d11m_dm11
   d1m1_dm11 := q.coeffRat q.d1m1_dm11
 
+theorem rat_eq_div_of_mul_eq_nat_scale
+    {scale : Nat} (hscale : 0 < scale) {a : Rat} {n : Int}
+    (h : a * (scale : Rat) = (n : Rat)) :
+    a = (n : Rat) / (scale : Rat) := by
+  have hs : (scale : Rat) ≠ 0 := by
+    exact_mod_cast (ne_of_gt hscale)
+  apply (mul_right_inj' hs).mp
+  rw [mul_comm (scale : Rat) a, h]
+  field_simp [hs]
+
+theorem ScaledWalshQuadratic.toQuadratic_eq_of_scaled_coeffs
+    (q : ScaledWalshQuadratic) (hscale : 0 < q.scale)
+    {p : WalshQuadratic}
+    (hc : p.c * (q.scale : Rat) = (q.c : Rat))
+    (hy : p.y * (q.scale : Rat) = (q.y : Rat))
+    (hz : p.z * (q.scale : Rat) = (q.z : Rat))
+    (hd111 : p.d111 * (q.scale : Rat) = (q.d111 : Rat))
+    (hd11m : p.d11m * (q.scale : Rat) = (q.d11m : Rat))
+    (hd1m1 : p.d1m1 * (q.scale : Rat) = (q.d1m1 : Rat))
+    (hdm11 : p.dm11 * (q.scale : Rat) = (q.dm11 : Rat))
+    (hyz : p.yz * (q.scale : Rat) = (q.yz : Rat))
+    (hy_d111 : p.y_d111 * (q.scale : Rat) = (q.y_d111 : Rat))
+    (hy_d11m : p.y_d11m * (q.scale : Rat) = (q.y_d11m : Rat))
+    (hy_d1m1 : p.y_d1m1 * (q.scale : Rat) = (q.y_d1m1 : Rat))
+    (hy_dm11 : p.y_dm11 * (q.scale : Rat) = (q.y_dm11 : Rat))
+    (hz_d111 : p.z_d111 * (q.scale : Rat) = (q.z_d111 : Rat))
+    (hz_d11m : p.z_d11m * (q.scale : Rat) = (q.z_d11m : Rat))
+    (hz_d1m1 : p.z_d1m1 * (q.scale : Rat) = (q.z_d1m1 : Rat))
+    (hz_dm11 : p.z_dm11 * (q.scale : Rat) = (q.z_dm11 : Rat))
+    (hd111_d11m : p.d111_d11m * (q.scale : Rat) = (q.d111_d11m : Rat))
+    (hd111_d1m1 : p.d111_d1m1 * (q.scale : Rat) = (q.d111_d1m1 : Rat))
+    (hd111_dm11 : p.d111_dm11 * (q.scale : Rat) = (q.d111_dm11 : Rat))
+    (hd11m_d1m1 : p.d11m_d1m1 * (q.scale : Rat) = (q.d11m_d1m1 : Rat))
+    (hd11m_dm11 : p.d11m_dm11 * (q.scale : Rat) = (q.d11m_dm11 : Rat))
+    (hd1m1_dm11 : p.d1m1_dm11 * (q.scale : Rat) = (q.d1m1_dm11 : Rat)) :
+    p = q.toQuadratic := by
+  apply WalshQuadratic.ext
+  · change p.c = (q.c : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hc
+  · change p.y = (q.y : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hy
+  · change p.z = (q.z : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hz
+  · change p.d111 = (q.d111 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd111
+  · change p.d11m = (q.d11m : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd11m
+  · change p.d1m1 = (q.d1m1 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd1m1
+  · change p.dm11 = (q.dm11 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hdm11
+  · change p.yz = (q.yz : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hyz
+  · change p.y_d111 = (q.y_d111 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hy_d111
+  · change p.y_d11m = (q.y_d11m : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hy_d11m
+  · change p.y_d1m1 = (q.y_d1m1 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hy_d1m1
+  · change p.y_dm11 = (q.y_dm11 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hy_dm11
+  · change p.z_d111 = (q.z_d111 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hz_d111
+  · change p.z_d11m = (q.z_d11m : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hz_d11m
+  · change p.z_d1m1 = (q.z_d1m1 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hz_d1m1
+  · change p.z_dm11 = (q.z_dm11 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hz_dm11
+  · change p.d111_d11m = (q.d111_d11m : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd111_d11m
+  · change p.d111_d1m1 = (q.d111_d1m1 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd111_d1m1
+  · change p.d111_dm11 = (q.d111_dm11 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd111_dm11
+  · change p.d11m_d1m1 = (q.d11m_d1m1 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd11m_d1m1
+  · change p.d11m_dm11 = (q.d11m_dm11 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd11m_dm11
+  · change p.d1m1_dm11 = (q.d1m1_dm11 : Rat) / (q.scale : Rat)
+    exact rat_eq_div_of_mul_eq_nat_scale hscale hd1m1_dm11
+
 def ScaledWalshQuadratic.intEval
     (q : ScaledWalshQuadratic) (mask : SignMask) : Int :=
   q.c +
