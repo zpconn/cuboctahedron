@@ -1,0 +1,1102 @@
+{
+  "candidate_key_count": 125,
+  "case_count": 4693,
+  "decision": {
+    "notes": [
+      "all GoodDirection survivors in this window share a long initial pair-word prefix",
+      "rank-prefix splitting remains candidate-ambiguous after that prefix",
+      "mask-only splitting remains candidate-ambiguous for the high-mass masks",
+      "next proof route should target source-index/state or source-position trace predicates"
+    ],
+    "status": "reject-prefix-and-mask-only-membership"
+  },
+  "mask_rows": [
+    {
+      "candidate_key_count": 53,
+      "case_count": 306,
+      "mask": 63
+    },
+    {
+      "candidate_key_count": 35,
+      "case_count": 275,
+      "mask": 13
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 269,
+      "mask": 16
+    },
+    {
+      "candidate_key_count": 52,
+      "case_count": 266,
+      "mask": 30
+    },
+    {
+      "candidate_key_count": 39,
+      "case_count": 261,
+      "mask": 31
+    },
+    {
+      "candidate_key_count": 39,
+      "case_count": 261,
+      "mask": 47
+    },
+    {
+      "candidate_key_count": 10,
+      "case_count": 258,
+      "mask": 18
+    },
+    {
+      "candidate_key_count": 53,
+      "case_count": 257,
+      "mask": 28
+    },
+    {
+      "candidate_key_count": 27,
+      "case_count": 247,
+      "mask": 22
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 247,
+      "mask": 24
+    },
+    {
+      "candidate_key_count": 43,
+      "case_count": 244,
+      "mask": 45
+    },
+    {
+      "candidate_key_count": 36,
+      "case_count": 243,
+      "mask": 29
+    },
+    {
+      "candidate_key_count": 8,
+      "case_count": 178,
+      "mask": 9
+    },
+    {
+      "candidate_key_count": 23,
+      "case_count": 178,
+      "mask": 54
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 178,
+      "mask": 8
+    },
+    {
+      "candidate_key_count": 26,
+      "case_count": 178,
+      "mask": 55
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 81,
+      "mask": 20
+    },
+    {
+      "candidate_key_count": 14,
+      "case_count": 81,
+      "mask": 26
+    },
+    {
+      "candidate_key_count": 21,
+      "case_count": 62,
+      "mask": 61
+    },
+    {
+      "candidate_key_count": 17,
+      "case_count": 61,
+      "mask": 15
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 47,
+      "mask": 4
+    },
+    {
+      "candidate_key_count": 8,
+      "case_count": 47,
+      "mask": 58
+    },
+    {
+      "candidate_key_count": 14,
+      "case_count": 34,
+      "mask": 11
+    },
+    {
+      "candidate_key_count": 5,
+      "case_count": 30,
+      "mask": 7
+    },
+    {
+      "candidate_key_count": 5,
+      "case_count": 30,
+      "mask": 57
+    },
+    {
+      "candidate_key_count": 9,
+      "case_count": 28,
+      "mask": 10
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 28,
+      "mask": 52
+    },
+    {
+      "candidate_key_count": 3,
+      "case_count": 28,
+      "mask": 12
+    },
+    {
+      "candidate_key_count": 12,
+      "case_count": 28,
+      "mask": 50
+    },
+    {
+      "candidate_key_count": 8,
+      "case_count": 27,
+      "mask": 59
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 27,
+      "mask": 5
+    },
+    {
+      "candidate_key_count": 3,
+      "case_count": 26,
+      "mask": 0
+    },
+    {
+      "candidate_key_count": 8,
+      "case_count": 26,
+      "mask": 62
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 20,
+      "mask": 39
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 20,
+      "mask": 25
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 20,
+      "mask": 23
+    },
+    {
+      "candidate_key_count": 5,
+      "case_count": 20,
+      "mask": 53
+    },
+    {
+      "candidate_key_count": 4,
+      "case_count": 20,
+      "mask": 41
+    },
+    {
+      "candidate_key_count": 3,
+      "case_count": 10,
+      "mask": 37
+    },
+    {
+      "candidate_key_count": 5,
+      "case_count": 8,
+      "mask": 21
+    },
+    {
+      "candidate_key_count": 4,
+      "case_count": 8,
+      "mask": 51
+    },
+    {
+      "candidate_key_count": 3,
+      "case_count": 6,
+      "mask": 60
+    },
+    {
+      "candidate_key_count": 3,
+      "case_count": 6,
+      "mask": 2
+    },
+    {
+      "candidate_key_count": 4,
+      "case_count": 6,
+      "mask": 6
+    },
+    {
+      "candidate_key_count": 3,
+      "case_count": 6,
+      "mask": 56
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 1,
+      "mask": 42
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 1,
+      "mask": 43
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 1,
+      "mask": 27
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 1,
+      "mask": 36
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 1,
+      "mask": 48
+    },
+    {
+      "candidate_key_count": 1,
+      "case_count": 1,
+      "mask": 14
+    }
+  ],
+  "mode": "candidate_membership_structure_audit",
+  "phase": "6Z.6K.8AP.16DU.9G",
+  "prefix_rows": [
+    {
+      "ambiguous_prefix_count": 1,
+      "length": 1,
+      "max_candidate_keys_per_prefix": 125,
+      "prefix_candidate_groups": 125,
+      "prefix_count": 1,
+      "top_prefixes": [
+        {
+          "case_count": 4693,
+          "prefix": [
+            "x"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 1,
+      "length": 2,
+      "max_candidate_keys_per_prefix": 125,
+      "prefix_candidate_groups": 125,
+      "prefix_count": 1,
+      "top_prefixes": [
+        {
+          "case_count": 4693,
+          "prefix": [
+            "x",
+            "y"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 1,
+      "length": 3,
+      "max_candidate_keys_per_prefix": 125,
+      "prefix_candidate_groups": 125,
+      "prefix_count": 1,
+      "top_prefixes": [
+        {
+          "case_count": 4693,
+          "prefix": [
+            "x",
+            "y",
+            "y"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 1,
+      "length": 4,
+      "max_candidate_keys_per_prefix": 125,
+      "prefix_candidate_groups": 125,
+      "prefix_count": 1,
+      "top_prefixes": [
+        {
+          "case_count": 4693,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 2,
+      "length": 5,
+      "max_candidate_keys_per_prefix": 103,
+      "prefix_candidate_groups": 187,
+      "prefix_count": 2,
+      "top_prefixes": [
+        {
+          "case_count": 3504,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z"
+          ]
+        },
+        {
+          "case_count": 1189,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 6,
+      "length": 6,
+      "max_candidate_keys_per_prefix": 73,
+      "prefix_candidate_groups": 374,
+      "prefix_count": 6,
+      "top_prefixes": [
+        {
+          "case_count": 876,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111"
+          ]
+        },
+        {
+          "case_count": 876,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "dm11"
+          ]
+        },
+        {
+          "case_count": 876,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 876,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d1m1"
+          ]
+        },
+        {
+          "case_count": 856,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d111"
+          ]
+        },
+        {
+          "case_count": 333,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d11m"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 24,
+      "length": 7,
+      "max_candidate_keys_per_prefix": 43,
+      "prefix_candidate_groups": 706,
+      "prefix_count": 24,
+      "top_prefixes": [
+        {
+          "case_count": 360,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111"
+          ]
+        },
+        {
+          "case_count": 360,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "dm11",
+            "dm11"
+          ]
+        },
+        {
+          "case_count": 360,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d11m",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 360,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d1m1",
+            "d1m1"
+          ]
+        },
+        {
+          "case_count": 258,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d111",
+            "z"
+          ]
+        },
+        {
+          "case_count": 224,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d111",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 190,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d11m",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 187,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d111",
+            "d1m1"
+          ]
+        }
+      ]
+    },
+    {
+      "ambiguous_prefix_count": 70,
+      "length": 8,
+      "max_candidate_keys_per_prefix": 28,
+      "prefix_candidate_groups": 1164,
+      "prefix_count": 70,
+      "top_prefixes": [
+        {
+          "case_count": 138,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "d111",
+            "d111",
+            "d11m",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d111",
+            "d111",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "dm11",
+            "dm11",
+            "d111"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d11m",
+            "d11m",
+            "d1m1"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "dm11",
+            "dm11",
+            "d1m1"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "dm11",
+            "dm11",
+            "d11m"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d11m",
+            "d11m",
+            "d111"
+          ]
+        },
+        {
+          "case_count": 120,
+          "prefix": [
+            "x",
+            "y",
+            "y",
+            "z",
+            "z",
+            "d1m1",
+            "d1m1",
+            "d11m"
+          ]
+        }
+      ]
+    }
+  ],
+  "range": [
+    0,
+    5000
+  ],
+  "schema_version": 1,
+  "top_candidates": [
+    {
+      "candidate_key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "case_count": 1237,
+      "mask_count": 27,
+      "masks": [
+        0,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        12,
+        13,
+        16,
+        18,
+        20,
+        21,
+        22,
+        24,
+        25,
+        26,
+        28,
+        36,
+        37,
+        41,
+        48,
+        50,
+        52,
+        53,
+        56,
+        60
+      ]
+    },
+    {
+      "candidate_key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "case_count": 519,
+      "mask_count": 20,
+      "masks": [
+        2,
+        6,
+        10,
+        11,
+        18,
+        22,
+        23,
+        26,
+        27,
+        39,
+        42,
+        43,
+        50,
+        51,
+        54,
+        55,
+        58,
+        59,
+        62,
+        63
+      ]
+    },
+    {
+      "candidate_key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "case_count": 304,
+      "mask_count": 13,
+      "masks": [
+        5,
+        9,
+        13,
+        15,
+        37,
+        39,
+        41,
+        45,
+        47,
+        57,
+        59,
+        61,
+        63
+      ]
+    },
+    {
+      "candidate_key": "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+      "case_count": 271,
+      "mask_count": 8,
+      "masks": [
+        5,
+        13,
+        29,
+        37,
+        41,
+        45,
+        57,
+        61
+      ]
+    },
+    {
+      "candidate_key": "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded",
+      "case_count": 152,
+      "mask_count": 13,
+      "masks": [
+        7,
+        13,
+        15,
+        22,
+        23,
+        29,
+        30,
+        31,
+        47,
+        55,
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "candidate_key": "56e7d27d308d8a0dda2c573a668290ba0c4bbba86804ecfdf80e2c5baa7b15fc",
+      "case_count": 93,
+      "mask_count": 23,
+      "masks": [
+        0,
+        8,
+        9,
+        10,
+        11,
+        13,
+        16,
+        18,
+        20,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        54,
+        55,
+        61,
+        63
+      ]
+    },
+    {
+      "candidate_key": "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2",
+      "case_count": 81,
+      "mask_count": 12,
+      "masks": [
+        13,
+        15,
+        22,
+        25,
+        28,
+        29,
+        30,
+        31,
+        45,
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "candidate_key": "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda",
+      "case_count": 76,
+      "mask_count": 15,
+      "masks": [
+        0,
+        7,
+        8,
+        9,
+        15,
+        16,
+        18,
+        23,
+        29,
+        30,
+        31,
+        39,
+        47,
+        55,
+        63
+      ]
+    },
+    {
+      "candidate_key": "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63",
+      "case_count": 75,
+      "mask_count": 25,
+      "masks": [
+        2,
+        8,
+        9,
+        11,
+        13,
+        16,
+        18,
+        20,
+        21,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        50,
+        52,
+        53,
+        54,
+        55,
+        58,
+        61,
+        63
+      ]
+    },
+    {
+      "candidate_key": "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295",
+      "case_count": 73,
+      "mask_count": 18,
+      "masks": [
+        8,
+        9,
+        11,
+        13,
+        16,
+        18,
+        22,
+        24,
+        26,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        54,
+        55,
+        63
+      ]
+    },
+    {
+      "candidate_key": "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+      "case_count": 70,
+      "mask_count": 5,
+      "masks": [
+        7,
+        15,
+        47,
+        55,
+        63
+      ]
+    },
+    {
+      "candidate_key": "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e",
+      "case_count": 69,
+      "mask_count": 12,
+      "masks": [
+        11,
+        13,
+        22,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        59,
+        63
+      ]
+    },
+    {
+      "candidate_key": "347652b83d2447dadfb0840bff9f0f3c38935a0cbb858d933d5bad7154478848",
+      "case_count": 62,
+      "mask_count": 14,
+      "masks": [
+        9,
+        13,
+        15,
+        25,
+        28,
+        29,
+        30,
+        31,
+        45,
+        50,
+        54,
+        55,
+        57,
+        61
+      ]
+    },
+    {
+      "candidate_key": "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e",
+      "case_count": 61,
+      "mask_count": 4,
+      "masks": [
+        15,
+        31,
+        39,
+        63
+      ]
+    },
+    {
+      "candidate_key": "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c",
+      "case_count": 61,
+      "mask_count": 23,
+      "masks": [
+        8,
+        10,
+        11,
+        15,
+        16,
+        20,
+        22,
+        23,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        50,
+        52,
+        53,
+        54,
+        55,
+        58,
+        61,
+        63
+      ]
+    },
+    {
+      "candidate_key": "cf9962e55a9e720734cce334c9ee24ea4057e05bbe3dcbf91e1eb8ec04227193",
+      "case_count": 59,
+      "mask_count": 15,
+      "masks": [
+        10,
+        15,
+        22,
+        23,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        59,
+        61,
+        63
+      ]
+    },
+    {
+      "candidate_key": "660d810ea640db50b3fdeff98bf54a04ba52d9f08947b25179ce7fc1fa6cb546",
+      "case_count": 57,
+      "mask_count": 20,
+      "masks": [
+        8,
+        9,
+        10,
+        11,
+        16,
+        18,
+        20,
+        22,
+        26,
+        28,
+        30,
+        31,
+        45,
+        47,
+        50,
+        52,
+        53,
+        55,
+        58,
+        61
+      ]
+    },
+    {
+      "candidate_key": "0eee4299a8e08c1343ba3d8afe785ebca0582a547ce7e1b265f8f6bef26ef729",
+      "case_count": 55,
+      "mask_count": 8,
+      "masks": [
+        13,
+        15,
+        21,
+        28,
+        29,
+        31,
+        61,
+        63
+      ]
+    },
+    {
+      "candidate_key": "077d94cb4e03d0b35225eec960d3d57adf4baed04982313840be3ee6c6bb7821",
+      "case_count": 48,
+      "mask_count": 1,
+      "masks": [
+        31
+      ]
+    },
+    {
+      "candidate_key": "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2",
+      "case_count": 48,
+      "mask_count": 15,
+      "masks": [
+        10,
+        11,
+        13,
+        18,
+        22,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        50,
+        54,
+        55,
+        63
+      ]
+    }
+  ],
+  "trusted_as_proof": false,
+  "unique_rank_mask_count": 4693
+}

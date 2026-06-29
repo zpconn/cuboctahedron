@@ -16313,6 +16313,42 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_smoke.md
   scripts/generated/phase6z6k8ap16du9f_candidate_catalog_facts_adapter_guard.json
   ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9G candidate-membership structure audit:
+  DU.9G records why the remaining bounded `hcomplete` theorem should not be
+  attacked by plain rank-prefix splitting or mask-only splitting.  On the
+  `[0,5000)` window:
+
+  ```text
+  candidate cases:        4693
+  unique rank/mask pairs: 4693
+  candidate keys:         125
+  ```
+
+  Prefix ambiguity remains high even after the shared initial pair-word
+  prefix:
+
+  ```text
+  prefix length 1: prefixes=1, ambiguous=1, max_keys=125
+  prefix length 4: prefixes=1, ambiguous=1, max_keys=125
+  prefix length 6: prefixes=6, ambiguous=6, max_keys=73
+  prefix length 8: prefixes=70, ambiguous=70, max_keys=28
+  ```
+
+  Mask-only splitting is also rejected: high-mass masks still map to many
+  candidate keys (`mask 63` has 306 cases across 53 keys; `mask 28` has 257
+  cases across 53 keys; `mask 30` has 266 cases across 52 keys).
+
+  Decision: do not build the bounded membership proof from rank prefixes,
+  mask cubes, or singleton signatures.  The next proof-producing route must
+  use source-index/state or source-position trace predicates that carry the
+  actual two-row reason.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9g_candidate_membership_structure_audit.json
+  scripts/generated/phase6z6k8ap16du9g_candidate_membership_structure_audit.md
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
