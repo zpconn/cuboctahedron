@@ -257,6 +257,10 @@ modules in one root still crossed the 7 GiB guard and was manually interrupted
 on retry before an OOM-risk run.  Scaling must therefore compose smaller
 semantic theorem surfaces or share selected-impact facts across roots, not
 import many full compact-denominator selected-impact modules at once.
+AP16DI adds a serial guarded AP16DF runner so any retry builds selected-impact
+leaves one at a time under a 5 GiB cap before attempting roots.  This is
+operational safety tooling only, but it is now the required route for any
+future AP16DF-style experiment.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from

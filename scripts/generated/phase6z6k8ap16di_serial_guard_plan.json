@@ -1,0 +1,67 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DF leaf/root build plan",
+  "phase": "Phase 6Z.6K.8AP.16DI",
+  "results": [],
+  "rss_cap_mib": 5000,
+  "status": "plan_only",
+  "targets": [
+    {
+      "kind": "existing_rank100805_cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke"
+    },
+    {
+      "kind": "rank101105_trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact01Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact03Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact05Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact6",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact06Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact07Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact08Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impact",
+      "label": "rank101105_mask6_impact11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact11Smoke"
+    },
+    {
+      "kind": "rank101105_selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105SelectedImpactsSmoke"
+    },
+    {
+      "kind": "rank101105_cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank101105Smoke"
+    },
+    {
+      "kind": "two_signature_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke"
+    }
+  ],
+  "timeout_seconds": 240,
+  "trusted_as_final_generated_coverage": false
+}
