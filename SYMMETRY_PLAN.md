@@ -16888,6 +16888,42 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9p_rank0_batch_root_guard_retry1.json
   scripts/generated/phase6z6k8ap16du9p_rank0_du9p_root_guard.json
   ```
+- [x] Emit and guard-check Phase 6Z.6K.8AP.16DU.9P rank-2 compact-cover stack:
+  Rank 2 follows the rank-0 root-override workflow.  The first guarded build
+  was memory-safe but rejected the cover leaf because one generated subcube
+  fixed all six sign bits and the shared cube emitter still emitted a redundant
+  wildcard branch:
+
+  ```text
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      ImpactSubcubeWalshSymbolicCompactDenomDU9PRank2BatchSmoke
+  first attempt:
+    exit=1, elapsed=95.14s, peak_tree_rss=4331 MiB, min_available=45813 MiB
+    failed target: ImpactSubcubeWalshSymbolicCompactDenomCoverRank2Smoke
+    reason: redundant alternative in generatedCube.fixed
+  ```
+
+  The shared Walsh cube emitter now omits `| _ => none` when all six sign bits
+  are fixed.  After regenerating rank 2, the same DU.9P-specific root passed:
+
+  ```text
+  retry:
+    exit=0, elapsed=17.01s, peak_tree_rss=4326 MiB, min_available=45778 MiB
+  ```
+
+  Decision: rank-2 compact-Walsh membership evidence is accepted as a bounded
+  Lean-checked slice.  The next scale step is rank `3`, still one rank at a
+  time under the 5 GiB serial guard.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9p_rank2_compact_walsh_rank_slice_prep.json
+  scripts/generated/phase6z6k8ap16du9p_rank2_compact_walsh_batch_generation.json
+  scripts/generated/phase6z6k8ap16du9p_rank2_du9p_root_guard.json
+  scripts/generated/phase6z6k8ap16du9p_rank2_du9p_root_guard_retry1.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:

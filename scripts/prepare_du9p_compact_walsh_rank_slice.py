@@ -18,7 +18,6 @@ from typing import Any
 
 
 DEFAULT_RANK = 0
-DEFAULT_OUTPUT_PREFIX = Path("scripts/generated/phase6z6k8ap16du9p_rank0")
 
 
 def profile_path(rank: int) -> Path:
@@ -159,16 +158,19 @@ def write_markdown(report: dict[str, Any], path: Path) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
-    parser.add_argument("--output-prefix", type=Path, default=DEFAULT_OUTPUT_PREFIX)
+    parser.add_argument("--output-prefix", type=Path)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    plan, source, report = build_payloads(args.rank, args.output_prefix)
-    plan_path = args.output_prefix.with_name(args.output_prefix.name + "_compact_walsh_batch_plan.json")
-    source_path = args.output_prefix.with_name(args.output_prefix.name + "_compact_walsh_batch_source.json")
-    report_path = args.output_prefix.with_name(args.output_prefix.name + "_compact_walsh_rank_slice_prep.json")
+    output_prefix = args.output_prefix or Path(
+        f"scripts/generated/phase6z6k8ap16du9p_rank{args.rank}"
+    )
+    plan, source, report = build_payloads(args.rank, output_prefix)
+    plan_path = output_prefix.with_name(output_prefix.name + "_compact_walsh_batch_plan.json")
+    source_path = output_prefix.with_name(output_prefix.name + "_compact_walsh_batch_source.json")
+    report_path = output_prefix.with_name(output_prefix.name + "_compact_walsh_rank_slice_prep.json")
     for path, payload in [(plan_path, plan), (source_path, source), (report_path, report)]:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

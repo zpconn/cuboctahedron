@@ -165,7 +165,8 @@ def emit_cube(label: str) -> list[str]:
         if name in fixed:
             value = "false" if fixed[name] < 0 else "true"
             lines.append(f"    | {BIT_TO_LEAN[name]} => some {value}")
-    lines.append("    | _ => none")
+    if len(fixed) < len(VAR_NAMES):
+        lines.append("    | _ => none")
     return lines
 
 
