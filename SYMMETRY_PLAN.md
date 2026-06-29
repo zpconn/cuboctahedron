@@ -24900,6 +24900,131 @@ Decision:
   compression that reduces the number of leaves rather than only shaving the
   per-leaf constant.
 
+### Phase 6Z.6K.8AP.16DU.9CR checkpoint: scaled dot-data chain accepted
+
+Phase 6Z.6K.8AP.16DU.9CR validates the DU.9CQ scaled-coefficient bridge across
+the full rank-`6000745` weighted-cube set.  It reuses the accepted traced-normal
+shared Data module from DU.9CI:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataChainDataSmoke
+```
+
+and emits only the 11 serial cube modules plus a tiny root:
+
+```text
+WeightedDenomCubeRank6000745TraceCertDotDataScaledChainCube00Smoke.lean
+...
+WeightedDenomCubeRank6000745TraceCertDotDataScaledChainCube10Smoke.lean
+WeightedDenomCubeRank6000745TraceCertDotDataScaledChainSmoke.lean
+```
+
+Each cube keeps the trace-certificate theorem surface:
+
+```lean
+DenominatorCube.weightedDirectWalshDotAtRank generatedRank mask cubeWeights <= 0
+```
+
+but proves its `poly_eq` through the DU.9CQ theorem:
+
+```lean
+rw [weightedQuadraticFromDotData_eq_coeffs]
+apply ScaledWalshQuadratic.toQuadratic_eq_of_scaled_coeffs cubeXXScaledPoly
+  (by norm_num [cubeXXScaledPoly]) <;>
+  norm_num [weightedQuadraticFromDotDataCoeffs,
+    weightedQuadraticFromDotDataCoeff, data.generatedDot,
+    cubeXXWeights, cubeXXScaledPoly, ...]
+```
+
+Files:
+
+```text
+scripts/emit_ap16du9cr_trace_cert_dotdata_scaled_chain_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotDataScaledChainCube00Smoke.lean
+...
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotDataScaledChainCube10Smoke.lean
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotDataScaledChainSmoke.lean
+scripts/generated/phase6z6k8ap16du9cr_trace_cert_dotdata_scaled_chain_smoke.json
+scripts/generated/phase6z6k8ap16du9cr_trace_cert_dotdata_scaled_chain_smoke.md
+scripts/generated/phase6z6k8ap16du9cr_trace_cert_dotdata_scaled_chain_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cr_trace_cert_dotdata_scaled_chain_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cr_trace_cert_dotdata_scaled_chain_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies \
+  -g 'WeightedDenomCubeRank6000745TraceCertDotDataScaledChain*Smoke.lean'
+wc -l scripts/emit_ap16du9cr_trace_cert_dotdata_scaled_chain_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotDataScaledChain*Smoke.lean
+```
+
+The Python compile passed.  The forbidden-token scan returned no matches.  The
+script has `214` lines.  The generated chain plus root has `1637` Lean lines
+(`1851` total including the script).
+
+Focused guarded final-root build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6144 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cr_trace_cert_dotdata_scaled_chain_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotDataScaledChainSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               69.67s
+peak tree RSS:         4151 MiB
+minimum MemAvailable:  46025 MiB
+RSS cap:               6144 MiB
+```
+
+Per-cube target times from the guarded build:
+
+```text
+Cube00: 7.7s
+Cube01: 6.3s
+Cube02: 5.7s
+Cube03: 6.2s
+Cube04: 6.0s
+Cube05: 5.7s
+Cube06: 5.7s
+Cube07: 5.9s
+Cube08: 5.7s
+Cube09: 5.0s
+Cube10: 5.8s
+Root:   1.2s
+```
+
+Comparison:
+
+```text
+DU.9BW dot-data full root:        103.76s, 4217 MiB
+DU.9CI traced-normal Cube10 path: 102.33s, 4202 MiB
+DU.9CR scaled dot-data root:       69.67s, 4151 MiB
+```
+
+Decision:
+
+- Accept DU.9CR as the current best rank-local weighted-cube trace chain.  It
+  preserves the memory-safe serial import topology and cuts the 11-cube
+  chain by roughly one third against the previous best comparable run.
+- This still does not solve full-scale coverage if many rank-local weighted
+  cube chains are needed.  The per-rank fixture remains about 70 seconds even
+  after local proof engineering.
+- Production still needs family/template compression to reduce the number of
+  such chains.  DU.9CR should be treated as the preferred fallback surface for
+  residual weighted-cube leaves, not as the main proof strategy.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
