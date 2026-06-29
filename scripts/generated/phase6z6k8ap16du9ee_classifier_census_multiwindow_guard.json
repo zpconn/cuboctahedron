@@ -1,0 +1,31 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "timeout",
+    "600s",
+    "python3",
+    "scripts/run_source_index_state_classifier_census.py",
+    "--ranges",
+    "0:25000,100000:125000,1000000:1025000,10000000:10025000,30000000:30025000,60000000:60025000,90000000:90025000",
+    "--workers",
+    "4",
+    "--checkpoint-dir",
+    "/tmp/cuboctahedron_source_index_state_classifier_census_9ee",
+    "--json",
+    "scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json",
+    "--md",
+    "scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.md",
+    "--family-gate",
+    "1000",
+    "--top-limit",
+    "20"
+  ],
+  "elapsed_seconds": 200.23428990200046,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 200428,
+  "max_tree_rss_mib": 195.73046875,
+  "min_available_seen_kib": 47616748,
+  "min_available_seen_mib": 46500.73046875,
+  "rss_cap_mib": 4096.0
+}

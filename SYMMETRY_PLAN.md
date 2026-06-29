@@ -27681,3 +27681,93 @@ compact and checkpoints can be replayed without rescanning.  The next larger
 diagnostic should keep this shape: guarded Python-only windows, small worker
 count, checkpoint directory outside generated source, and no Lean emission until
 family-count/source-size projections are clearly under budget.
+
+### Phase 6Z.6K.8AP.16DU.9EE checkpoint: seven-window checkpointed census
+
+Phase 6Z.6K.8AP.16DU.9EE reruns the same seven disjoint windows used by the
+9DZ/9EB classifier scaling diagnostics through the new checkpointed census
+runner.  This confirms that the compact checkpoint path reproduces the sampled
+family catalog without retaining all concrete members in memory.
+
+Guarded run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 30000 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow_guard.json \
+  -- timeout 600s python3 scripts/run_source_index_state_classifier_census.py \
+    --ranges 0:25000,100000:125000,1000000:1025000,10000000:10025000,30000000:30025000,60000000:60025000,90000000:90025000 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_9ee \
+    --json scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+    --md scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.md \
+    --family-gate 1000 \
+    --top-limit 20
+```
+
+Result:
+
+- Exit: `0`
+- Sampled ranks: `175000`
+- GoodDirection cases: `39338`
+- Merged families: `405`
+- Elapsed: `200.23s`
+- Peak tree RSS: `195.73 MiB`
+- Minimum available memory observed: `46500.73 MiB`
+
+Window summary:
+
+| Range | Identity | GoodDirection | Families |
+| --- | ---: | ---: | ---: |
+| `[0,25000)` | `1423` | `11527` | `177` |
+| `[100000,125000)` | `1603` | `13079` | `185` |
+| `[1000000,1025000)` | `512` | `2678` | `104` |
+| `[10000000,10025000)` | `1434` | `11889` | `283` |
+| `[30000000,30025000)` | `686` | `0` | `0` |
+| `[60000000,60025000)` | `318` | `115` | `32` |
+| `[90000000,90025000)` | `154` | `50` | `15` |
+
+Aggregate-only replay refreshed the report label after adding the generator
+`--phase` option, without rescanning ranks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1024 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow_aggregate_guard.json \
+  -- timeout 60s python3 scripts/run_source_index_state_classifier_census.py \
+    --phase 6Z.6K.8AP.16DU.9EE \
+    --ranges 0:25000,100000:125000,1000000:1025000,10000000:10025000,30000000:30025000,60000000:60025000,90000000:90025000 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_9ee \
+    --aggregate-only \
+    --json scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow_aggregate.json \
+    --md scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow_aggregate.md \
+    --family-gate 1000 \
+    --top-limit 20
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `0.51s`
+- Peak tree RSS: `1.69 MiB`
+- Minimum available memory observed: `46641.80 MiB`
+
+Decision: accepted as the production profiler shape for larger classifier
+catalog estimation.  It reproduces the prior seven-window catalog (`405`
+families over `39,338` sampled GoodDirection cases) while using only compact
+checkpoints and less than `200 MiB` tree RSS under four Python workers.  This
+does not prove coverage, but it removes the all-or-nothing memory risk from the
+next diagnostic tier.  The next step should either:
+
+1. run additional checkpointed windows chosen to estimate global family growth
+   in dense, medium, and sparse rank regions; or
+2. if family growth accelerates, stop profiling rank windows and move to a
+   stronger semantic quotient such as row-normal-form/state-DAG coverage.
+
+Do not emit production Lean from this catalog until the projected full family
+count, source size, and checked-module build time are under the accepted budget.

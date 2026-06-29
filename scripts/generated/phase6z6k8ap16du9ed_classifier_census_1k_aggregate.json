@@ -18,13 +18,13 @@
     ],
     "status": "accepted-scaling-candidate"
   },
-  "elapsed_seconds": 0.0004277359985280782,
+  "elapsed_seconds": 0.0004231709899613634,
   "family_count": 74,
   "family_gate": 1000,
   "good_direction_cases": 1465,
   "max_worker_rss_kib": 22188,
   "mode": "source_index_state_classifier_checkpointed_census",
-  "phase": "6Z.6K.8AP.16DU.9EC",
+  "phase": "6Z.6K.8AP.16DU.9ED",
   "ranges": [
     [
       0,

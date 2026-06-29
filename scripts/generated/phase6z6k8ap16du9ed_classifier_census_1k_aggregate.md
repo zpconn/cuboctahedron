@@ -1,4 +1,4 @@
-# Phase 6Z.6K.8AP.16DU.9EC Checkpointed Classifier Census
+# Phase 6Z.6K.8AP.16DU.9ED Checkpointed Classifier Census
 
 This diagnostic is not trusted as proof and emits no Lean. It runs the
 source-index/state GoodDirection classifier in checkpointed windows and

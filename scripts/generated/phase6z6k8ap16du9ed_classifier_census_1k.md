@@ -1,4 +1,4 @@
-# Phase 6Z.6K.8AP.16DU.9EC Checkpointed Classifier Census
+# Phase 6Z.6K.8AP.16DU.9ED Checkpointed Classifier Census
 
 This diagnostic is not trusted as proof and emits no Lean. It runs the
 source-index/state GoodDirection classifier in checkpointed windows and
@@ -11,7 +11,7 @@ aggregates only compact family keys/counts.
 - GoodDirection cases: `1465`
 - Merged families: `74`
 - Family gate: `1000`
-- Elapsed seconds: `11.73`
+- Elapsed seconds: `0.00`
 - Max worker RSS KiB: `22188`
 - Checkpoint dir: `/tmp/cuboctahedron_source_index_state_classifier_census_1k`
 

@@ -227,6 +227,7 @@ def collect_payloads(
 def aggregate_payload(
     *,
     payloads: list[dict[str, Any]],
+    phase: str,
     ranges: list[tuple[int, int]],
     workers: int,
     checkpoint_dir: Path,
@@ -293,7 +294,7 @@ def aggregate_payload(
     return {
         "schema_version": 1,
         "mode": "source_index_state_classifier_checkpointed_census",
-        "phase": "6Z.6K.8AP.16DU.9EC",
+        "phase": phase,
         "trusted_as_proof": False,
         "source_key_surface": source_key_surface,
         "ranges": [list(item) for item in ranges],
@@ -317,7 +318,7 @@ def aggregate_payload(
 
 def markdown(payload: dict[str, Any]) -> str:
     lines = [
-        "# Phase 6Z.6K.8AP.16DU.9EC Checkpointed Classifier Census",
+        f"# Phase {payload['phase']} Checkpointed Classifier Census",
         "",
         "This diagnostic is not trusted as proof and emits no Lean. It runs the",
         "source-index/state GoodDirection classifier in checkpointed windows and",
@@ -388,6 +389,7 @@ def main() -> None:
     parser.add_argument("--sample-limit", type=int, default=3)
     parser.add_argument("--top-limit", type=int, default=20)
     parser.add_argument("--family-gate", type=int, default=1000)
+    parser.add_argument("--phase", default="6Z.6K.8AP.16DU.9EC")
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=None)
     args = parser.parse_args()
@@ -409,6 +411,7 @@ def main() -> None:
     )
     payload = aggregate_payload(
         payloads=payloads,
+        phase=args.phase,
         ranges=ranges,
         workers=args.workers,
         checkpoint_dir=args.checkpoint_dir,
