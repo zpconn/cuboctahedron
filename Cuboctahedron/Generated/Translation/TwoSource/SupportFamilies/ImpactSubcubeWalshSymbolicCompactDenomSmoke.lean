@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke
 import Cuboctahedron.Search.TranslationRecurrence
 
 /-!
@@ -101,6 +102,20 @@ private def generatedVector : WalshAffineVec3 where
   y := generatedVector_y
   z := generatedVector_z
 
+private abbrev traceSmokeGeneratedWord : PairWord :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedWord
+
+private abbrev traceSmokeGeneratedVector : WalshAffineVec3 :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector
+
+private theorem generatedWord_eq_traceSmokeGeneratedWord :
+    generatedWord = traceSmokeGeneratedWord := by
+  rfl
+
+private theorem generatedVector_eq_traceSmokeGeneratedVector :
+    generatedVector = traceSmokeGeneratedVector := by
+  rfl
+
 private def firstWordImpactIndex : WordIndex := ⟨0, by decide⟩
 
 private theorem generatedWord_get_first :
@@ -150,6 +165,23 @@ private theorem generatedDenomDotCompact_mask0_of_vector_x
     Cuboctahedron.dot]
   simpa [generatedVector, generatedVector_x, WalshAffineVec3.eval,
     WalshAffine.eval] using (congrArg Neg.neg hVectorX).symm
+
+private theorem generatedVectorX_mask0_eq_translationVector :
+    (generatedVector.eval generatedMask0).x =
+      (translationVectorOfChoice generatedWord generatedMask0).x := by
+  rw [generatedVector_eq_traceSmokeGeneratedVector,
+    generatedWord_eq_traceSmokeGeneratedWord]
+  exact congrArg Vec3.x
+    (Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector_eval_eq_translationVector
+      generatedMask0)
+
+theorem generatedDenomDotCompact_mask0 :
+    impactDenomAtRank generatedRank generatedMask0
+        (wordImpact firstWordImpactIndex) =
+      Cuboctahedron.dot (generatedNormal.eval generatedMask0)
+        (generatedVector.eval generatedMask0) :=
+  generatedDenomDotCompact_mask0_of_vector_x
+    generatedVectorX_mask0_eq_translationVector (by decide)
 
 theorem compactDenomSmoke_builds : True := by
   trivial

@@ -16,10 +16,12 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvi
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedTactic false
+set_option linter.unreachableTactic false
+set_option linter.unnecessarySeqFocus false
 
-private def generatedRank : Fin numPairWords := ⟨100805, by decide⟩
+def generatedRank : Fin numPairWords := ⟨100805, by decide⟩
 
-private def generatedWord : PairWord :=
+def generatedWord : PairWord :=
   ⟨#[PairId.x, PairId.y, PairId.y, PairId.dm11, PairId.d11m, PairId.z, PairId.z, PairId.d111, PairId.d111, PairId.d1m1, PairId.d1m1, PairId.d11m, PairId.dm11], by decide⟩
 
 private theorem generatedRankWord :
@@ -648,7 +650,7 @@ private def generatedPref13 : WalshAffineVec3 where
   y := generatedPref13_y
   z := generatedPref13_z
 
-private def generatedVector_x : WalshAffine where
+def generatedVector_x : WalshAffine where
   c := -4
   y := 0
   z := -32/9
@@ -657,7 +659,7 @@ private def generatedVector_x : WalshAffine where
   d1m1 := -40/27
   dm11 := 8/3
 
-private def generatedVector_y : WalshAffine where
+def generatedVector_y : WalshAffine where
   c := 0
   y := 4
   z := 16/9
@@ -666,7 +668,7 @@ private def generatedVector_y : WalshAffine where
   d1m1 := 56/27
   dm11 := 8/3
 
-private def generatedVector_z : WalshAffine where
+def generatedVector_z : WalshAffine where
   c := 0
   y := 0
   z := 4/9
@@ -675,7 +677,7 @@ private def generatedVector_z : WalshAffine where
   d1m1 := 104/27
   dm11 := 8/3
 
-private def generatedVector : WalshAffineVec3 where
+def generatedVector : WalshAffineVec3 where
   x := generatedVector_x
   y := generatedVector_y
   z := generatedVector_z

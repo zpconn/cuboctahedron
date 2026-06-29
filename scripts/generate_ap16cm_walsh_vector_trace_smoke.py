@@ -171,10 +171,12 @@ def build_lean(rank: int) -> str:
         "set_option maxRecDepth 10000",
         "set_option linter.unusedSimpArgs false",
         "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "set_option linter.unnecessarySeqFocus false",
         "",
-        f"private def generatedRank : Fin numPairWords := ⟨{rank}, by decide⟩",
+        f"def generatedRank : Fin numPairWords := ⟨{rank}, by decide⟩",
         "",
-        "private def generatedWord : PairWord :=",
+        "def generatedWord : PairWord :=",
         f"  {emit_pair_word(word)}",
         "",
         "private theorem generatedRankWord :",
@@ -194,7 +196,11 @@ def build_lean(rank: int) -> str:
         lines.extend(emit_walsh_vec(f"generatedPref{index:02d}", prefix))
         lines.append("")
 
-    lines.extend(emit_walsh_vec("generatedVector", final))
+    vector_lines = emit_walsh_vec("generatedVector", final)
+    lines.extend([
+        line.replace("private def generatedVector", "def generatedVector")
+        for line in vector_lines
+    ])
     lines.append("")
     lines.extend(emit_prefix_dispatch(len(prefixes)))
     lines.append("")
