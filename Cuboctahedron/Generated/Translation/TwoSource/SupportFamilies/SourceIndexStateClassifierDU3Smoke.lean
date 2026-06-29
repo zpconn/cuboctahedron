@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9B.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9C.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -2912,6 +2912,15 @@ theorem classifierApplies_of_key_matches
           SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
           fam_124_desc] using h)
 
+theorem ClassifierKey.matches_of_source_row
+    {key : ClassifierKey} {r : Nat} {mask : SignMask}
+    (hsource :
+      SourceIndexStateSourceFacts key.toSourceIndexStateKey r mask)
+    (hrows : SourceIndexStateRowFacts key.toSourceIndexStateKey r mask) :
+    key.Matches r mask :=
+  SourceIndexStateKey.matches_of_source_row hsource hrows
+
+
 def classifierFamily : RowPropertyMembershipFamily where
   Applies := ClassifierApplies
   covered := by
@@ -3617,6 +3626,24 @@ theorem classifierCompletenessOnIdentityRange_of_key
     let ⟨key, hkey⟩ := hcomplete hlt hlo hhi hM hgood
     classifierApplies_of_key_matches hkey)
 
+theorem classifierCompletenessOnIdentityRange_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    classifierCompletenessOnIdentityRange :=
+  classifierCompletenessOnIdentityRange_of_key (fun hlt hlo hhi hM hgood =>
+    let ⟨key, hsource, hrows⟩ := hcomplete hlt hlo hhi hM hgood
+    ⟨key, key.matches_of_source_row hsource hrows⟩)
+
 theorem classifierAllGoodCoverage
     (hcomplete : classifierCompletenessOnIdentityRange) :
     AllTranslationGoodCoverageOnRange 0 5000 := by
@@ -3649,6 +3676,23 @@ theorem classifierAllGoodCoverage_of_key
     AllTranslationGoodCoverageOnRange 0 5000 :=
   classifierAllGoodCoverage
     (classifierCompletenessOnIdentityRange_of_key hcomplete)
+
+theorem classifierAllGoodCoverage_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  classifierAllGoodCoverage
+    (classifierCompletenessOnIdentityRange_of_key_source_row hcomplete)
 
 theorem fam_000_goodKilled
     {r : Nat} {hlt : r < numPairWords} {mask : SignMask}

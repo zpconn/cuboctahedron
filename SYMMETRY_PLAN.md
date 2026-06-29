@@ -526,6 +526,9 @@ DU.9B adds the checked key-completion adapters from that existential
 key-membership premise to `classifierCompletenessOnIdentityRange` and
 `AllTranslationGoodCoverageOnRange`; its guarded build passed in 10.01s at
 4.184 GiB peak tree RSS.
+DU.9C further weakens the production membership target to source facts plus
+row facts for a public `ClassifierKey`, matching the existing producer-language
+architecture; its guarded build passed in 7.00s at 4.164 GiB peak tree RSS.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16118,6 +16121,52 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9b_classifier_key_completion_bridge_smoke.md
   scripts/generated/phase6z6k8ap16du9b_classifier_key_completion_bridge_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9C classifier-key source/row bridge:
+  DU.9C adds a source/row-fact surface over the public `ClassifierKey`:
+
+  ```lean
+  theorem ClassifierKey.matches_of_source_row
+      {key : ClassifierKey} {r : Nat} {mask : SignMask}
+      (hsource :
+        SourceIndexStateSourceFacts key.toSourceIndexStateKey r mask)
+      (hrows :
+        SourceIndexStateRowFacts key.toSourceIndexStateKey r mask) :
+      key.Matches r mask
+
+  theorem classifierCompletenessOnIdentityRange_of_key_source_row
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                  exists key : ClassifierKey,
+                    SourceIndexStateSourceFacts
+                      key.toSourceIndexStateKey rank mask /\
+                      SourceIndexStateRowFacts
+                        key.toSourceIndexStateKey rank mask) :
+      classifierCompletenessOnIdentityRange
+  ```
+
+  This is now the preferred final DU.9 generator target because it matches the
+  existing producer-language architecture: generated evidence may prove source
+  facts and row facts for a public classifier key, while the hand-written Lean
+  bridge handles descriptor matching, `ClassifierApplies`, and all-Good
+  coverage.  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  exit=0, elapsed=7.00s, peak_tree_rss=4164 MiB, min_available=45935 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9c_classifier_source_row_bridge_smoke.json
+  scripts/generated/phase6z6k8ap16du9c_classifier_source_row_bridge_smoke.md
+  scripts/generated/phase6z6k8ap16du9c_classifier_source_row_bridge_guard.json
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level completeness theorem required
   by `classifierCompletenessOnIdentityRange_of_prop`: arbitrary identity-linear
@@ -16126,7 +16175,7 @@ Acceptance:
   obligation.  It must avoid `fin_cases mask`/all-mask replay, avoid singleton
   positive-survivor signatures, stay under the established guarded build cap,
   and keep the theorem type semantic rather than certificate-valued.
-  After DU.9A, the preferred next shape is:
+  After DU.9A/DU.9B/DU.9C, the preferred next shape is:
 
   ```lean
   forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
@@ -16135,11 +16184,14 @@ Acceptance:
         totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
             (matId : Mat3 Rat) ->
           goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
-            exists key : ClassifierKey, key.Matches rank mask
+            exists key : ClassifierKey,
+              SourceIndexStateSourceFacts
+                key.toSourceIndexStateKey rank mask /\
+                SourceIndexStateRowFacts
+                  key.toSourceIndexStateKey rank mask
   ```
 
-  followed by `classifierApplies_of_key_matches` and
-  `classifierCompletenessOnIdentityRange_of_prop`.
+  followed by `classifierCompletenessOnIdentityRange_of_key_source_row`.
   If the direct descriptor predicate is still too hard, add a compact
   trace/source-position lemma whose type mentions only the reusable
   source-index/state family, not concrete rank/mask examples.
