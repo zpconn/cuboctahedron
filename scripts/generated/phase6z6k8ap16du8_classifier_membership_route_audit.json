@@ -1,0 +1,62 @@
+{
+  "accepted_route": {
+    "family_obligations": 125,
+    "name": "source_index_state_prop_membership",
+    "preferred_lemma_shape": "source-index/state language membership: identity-linear + GoodDirection implies one reusable descriptor family applies",
+    "reason": "DU.7 lets the next proof target Prop-level ClassifierApplies, so the generator can prove a semantic descriptor-language membership theorem and erase to Bool only at the boundary.",
+    "required_theorem": "forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords), 0 <= rank -> rank < 5000 -> totalLinearOfPairWord (unrankPairWord \u27e8rank, hlt\u27e9) = (matId : Mat3 Rat) -> goodDirectionAtRankBool \u27e8rank, hlt\u27e9 mask = true -> ClassifierApplies rank mask",
+    "status": "selected-next-implementation"
+  },
+  "bounded_window": {
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "not_good_direction_masks": 26475,
+    "rank_end": 5000,
+    "rank_start": 0,
+    "source_index_state_families": 125,
+    "translation_sign_assignments": 31168
+  },
+  "decision": {
+    "notes": [
+      "DU.8 should prove Prop-level ClassifierApplies, not direct Bool membership.",
+      "The proof still must be semantic; this audit does not prove coverage.",
+      "The next Lean emitter should avoid rank-local survivor signatures and all-mask replay."
+    ],
+    "status": "selected-prop-membership-route"
+  },
+  "inputs": {
+    "du7_smoke": "scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_smoke.json",
+    "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+    "profile": "scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json"
+  },
+  "lean_scan": {
+    "classifier_applies_constructors": 125,
+    "has_bool_bridge": true,
+    "has_bool_of_prop": true,
+    "has_prop_bridge": true
+  },
+  "mode": "classifier_membership_route_audit",
+  "phase": "6Z.6K.8AP.16DU.8",
+  "rejected_routes": [
+    {
+      "estimated_obligations": 31168,
+      "name": "direct_bool_decide_on_range",
+      "reason": "Would ask Lean to reduce goodDirectionAtRankBool and classifierAppliesBool over every identity rank/mask in the bounded window.",
+      "status": "rejected"
+    },
+    {
+      "estimated_obligations": 4693,
+      "name": "concrete_good_survivor_replay",
+      "reason": "Avoids bad-direction masks but still emits one membership branch for each concrete GoodDirection survivor.",
+      "status": "rejected"
+    },
+    {
+      "estimated_obligations": 35681,
+      "name": "old_bounded_replay_current",
+      "reason": "Already rejected by DU.5 because it includes bad-direction and nonidentity branches.",
+      "status": "rejected"
+    }
+  ],
+  "schema_version": 1,
+  "trusted_as_proof": false
+}

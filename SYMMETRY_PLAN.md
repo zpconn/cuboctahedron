@@ -16002,7 +16002,38 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_guard.json
   scripts/generated/phase6z6k8ap16du7_classifier_prop_bridge_guard.md
   ```
-- [ ] Implement Phase 6Z.6K.8AP.16DU.8 actual classifier completeness theorem:
+- [x] Run Phase 6Z.6K.8AP.16DU.8 classifier membership route audit:
+  DU.8 records the selected theorem route after the DU.7 Prop/Bool bridge.  It
+  rejects the old proof surfaces again in the current DU context:
+
+  ```text
+  direct Bool decision over identity rank/masks: rejected, 31168 obligations
+  concrete GoodDirection survivor replay: rejected, 4693 obligations
+  old bounded replay: rejected, 35681 obligations
+  selected route: source_index_state_prop_membership
+  selected family obligations: 125
+  ```
+
+  Required next theorem:
+
+  ```text
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    0 <= rank ->
+      rank < 5000 ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+            ClassifierApplies rank mask
+  ```
+
+  New audit script and reports:
+
+  ```text
+  scripts/audit_ap16du8_classifier_membership_route.py
+  scripts/generated/phase6z6k8ap16du8_classifier_membership_route_audit.json
+  scripts/generated/phase6z6k8ap16du8_classifier_membership_route_audit.md
+  ```
+- [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level completeness theorem required
   by `classifierCompletenessOnIdentityRange_of_prop`: arbitrary identity-linear
   `goodDirectionAtRankBool = true` translation survivors must satisfy
