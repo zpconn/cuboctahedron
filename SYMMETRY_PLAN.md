@@ -21423,6 +21423,82 @@ Decision:
   nontrivial bounded range or a production-like singleton rank, while keeping
   semantic shards below the 8 GiB guard.
 
+### Phase 6Z.6K.8AP.16DU.9AW checkpoint: generated split layout accepted on `[0,4)`
+
+Phase 6Z.6K.8AP.16DU.9AW adds a deterministic bounded emitter:
+
+```text
+scripts/generate_ap16du9aw_split_member_range_smoke.py
+```
+
+It reads the already checked DU.9L selector microshards and emits three split
+modules for the `[0,4)` fixture:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  RowPropertyMemberBridgeSemanticRangeGeneratedSmoke.lean
+  RowPropertyMemberBridgeMembershipRangeGeneratedSmoke.lean
+  RowPropertyMemberBridgeRangeGeneratedSmoke.lean
+```
+
+The generated semantic module proves:
+
+```lean
+theorem semanticCoverage0_1 :
+  RowPropertyMemberSemanticCoverageOnIdentityRange SelectorMember 0 1
+
+theorem semanticCoverage2_4 :
+  RowPropertyMemberSemanticCoverageOnIdentityRange SelectorMember 2 4
+```
+
+and intentionally does not import compact-Walsh denominator-cover modules.  The
+generated membership module proves the corresponding
+`GoodMaskMembershipOnIdentityRange` facts, and the generated root composes both
+sides plus the existing rank-`1` classifier theorem into:
+
+```lean
+theorem allGoodCoverage0_4 :
+  AllTranslationGoodCoverageOnRange 0 4
+```
+
+Emitter run:
+
+```bash
+python3 scripts/generate_ap16du9aw_split_member_range_smoke.py
+```
+
+Output:
+
+```text
+wrote split DU.9AW smoke modules with 42 selector cases
+```
+
+Guarded builds:
+
+```text
+RowPropertyMemberBridgeSemanticRangeGeneratedSmoke:
+  exit = 0, elapsed = 7.01s, peak RSS = 3925 MiB
+
+RowPropertyMemberBridgeMembershipRangeGeneratedSmoke:
+  exit = 0, elapsed = 2.52s, peak RSS = 3705 MiB
+
+RowPropertyMemberBridgeRangeGeneratedSmoke:
+  exit = 0, elapsed = 2.50s, peak RSS = 3722 MiB
+```
+
+Decision:
+
+- Accept the generated split member/semantic/root layout as the replacement for
+  the old all-in-one semantic range emitter.
+- The next scale-up should not enlarge the exact-rational row proofs
+  indiscriminately.  It should first retarget the production-like singleton
+  rank `6000745` to this split layout:
+  - keep its semantic row module independent of compact-Walsh imports;
+  - keep or improve the GoodDirection membership proof as a separately guarded
+    artifact;
+  - compare semantic-only RSS against the rejected DU.9AT all-in-one 8 GiB
+    failure.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
