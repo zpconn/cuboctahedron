@@ -567,6 +567,13 @@ scale beyond one rank, but it is still only positive-case telemetry: a
 membership theorem from identity-linear `GoodDirectionAtRank` to the emitted
 `SelectorPositiveCase` language remains the next proof obligation before this
 can erase to bounded all-Good coverage.
+DU.9N adds the micro-shard root erasure: the combined positive selector
+language now proves `selectorPositiveSourceRowFacts` and
+`selectorPositiveGoodKilled`, so every emitted positive survivor can be erased
+to `TranslationGoodCaseKilled`.  The focused guarded root build passed in
+3.00s at 3.678 GiB peak tree RSS.  This deliberately still stops short of full
+bounded all-Good coverage; the remaining bridge is exactly the
+GoodDirection-to-positive-language membership theorem.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16693,6 +16700,52 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9m_microshard000_guard.json
   scripts/generated/phase6z6k8ap16du9m_shard001_guard.json
   scripts/generated/phase6z6k8ap16du9m_shard002_guard.json
+  ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9N selector micro-shard root erasure:
+  DU.9N adds a tiny root module for the persistent DU.9M microshards:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    SourceIndexStateSelectorDU9LMicro/All.lean
+  ```
+
+  The root defines a combined `SelectorPositiveCase` language over the three
+  DU.9M leaves and proves:
+
+  ```lean
+  selectorPositiveSourceRowFacts :
+    SelectorPositiveCase rank mask ->
+      exists key : SourceIndexStateKey,
+        SourceIndexStateSourceFacts key rank mask /\
+          SourceIndexStateRowFacts key rank mask
+
+  selectorPositiveGoodKilled :
+    SelectorPositiveCase rank mask ->
+      TranslationGoodCaseKilled ⟨rank, hlt⟩ mask
+  ```
+
+  This erases the public selector/source-row facts to the semantic killed
+  target without replaying the old translation certificate checker and without
+  proving any bad-direction masks.  The focused guarded build passed:
+
+  ```text
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9LMicro.All
+  exit=0, elapsed=3.00s, peak_tree_rss=3678 MiB, min_available=46302 MiB
+  ```
+
+  Decision: DU.9M's emitted positive cases are now connected to the semantic
+  coverage target.  This is still not full bounded coverage: the remaining
+  proof obligation is membership, namely that every identity-linear
+  `GoodDirectionAtRank` case in the bounded interval belongs to the combined
+  `SelectorPositiveCase` language.  That next bridge must stay
+  GoodDirection-only and avoid all-mask bad-direction replay.
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9n_micro_all_guard.json
   ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
