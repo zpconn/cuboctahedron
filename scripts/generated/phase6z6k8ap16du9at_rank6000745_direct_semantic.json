@@ -1,0 +1,25 @@
+{
+  "decision": {
+    "notes": [
+      "local SourceIndexStateKey records avoid the bounded global classifier catalog",
+      "the generated Lean module is proof-producing",
+      "Python counts only guide emission and are not proof evidence"
+    ],
+    "status": "direct-local-key-semantic-rank-smoke-emitted"
+  },
+  "good_direction_survivors": 13,
+  "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticRank6000745Smoke.lean",
+  "local_family_count": 9,
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRank6000745Smoke",
+  "phase": "6Z.6K.8AP.16DU.9AT",
+  "rank": 6000745,
+  "schema_version": 1,
+  "template_counts": {
+    "eqEqPosVarFirst": 2,
+    "eqEqPosVarSecond": 2,
+    "oppMinusOneVarFirst": 1,
+    "oppOneMinusVarFirst": 3,
+    "oppOneMinusVarSecond": 1
+  },
+  "trusted_as_proof": false
+}

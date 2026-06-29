@@ -21230,6 +21230,71 @@ Current strategic assessment:
   blocker, but full generated coverage still requires a separate low-count
   nonidentity family path.
 
+### Phase 6Z.6K.8AP.16DU.9AT checkpoint: direct local-key semantic rank smoke rejected
+
+Phase 6Z.6K.8AP.16DU.9AT tested a production-like rank outside the bounded
+`[0,5000)` selector/classifier catalog:
+
+```text
+rank = 6000745
+GoodDirection survivors = 13
+local source-index families = 9
+```
+
+The first attempt to reuse the DU.9L selector microshard generator failed
+honestly: three of the rank-local family keys were absent from the bounded
+global classifier catalog.  That is useful evidence that a small bounded
+catalog cannot be treated as production coverage.
+
+A direct local-key semantic smoke was then emitted.  It bypassed the bounded
+global catalog by defining local `SourceIndexStateKey` records, proving the
+local `SourceIndexStateSourceFacts` / `SourceIndexStateRowFacts`, and importing
+the existing compact-Walsh GoodDirection cover for rank `6000745`.
+
+The focused guarded build was deliberately stopped by the memory guard:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9at_rank6000745_direct_semantic_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRank6000745Smoke
+```
+
+Result:
+
+```text
+exit_code = -15
+killed_reason = process-tree RSS 8516 MiB exceeded 8192 MiB cap
+elapsed = 10.01s
+peak RSS = 8516.7 MiB
+minimum available memory seen = 45587 MiB
+```
+
+This was not a machine-threatening OOM; the guard killed the build while the
+system still had ample free memory.  It is nevertheless a decisive scaling
+warning.  The direct local-key semantic leaf still asks Lean to import the
+compact rank cover and re-prove exact rational row equalities for a
+production-like word.  That recreates the same `Rat`/`norm_num` memory pressure
+we are trying to remove from production generated evidence.
+
+Decision:
+
+- Retire this exact-rational direct local-key rank smoke as a production route.
+- Keep its generator and guard report only as diagnostic evidence.
+- Archive the generated Lean file outside `Cuboctahedron/` so normal package
+  builds cannot accidentally try to compile it.
+- The next translation step must move row/source correctness to a cheaper
+  semantic proof surface:
+  - either integer/projective row facts whose checking avoids unfolded `Rat`
+    reduction;
+  - or source-row/template facts proved once per symbolic state, with generated
+    leaves applying those facts rather than recomputing `translationBAtRankMask`
+    and `translationConstraintSourceLine`;
+  - and a GoodDirection membership bridge that does not import a heavy
+    compact-Walsh rank cover into each production leaf.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -21292,3 +21357,7 @@ Current strategic assessment:
   batch until that exact batch has been generated and built serially under the
   AP16DI guard.  The AP16DJ eight-signature dry run is explicitly rejected at
   the current gate because it would require 81 serial Lean targets.
+- Do not scale DU.9AT-style direct local-key semantic rank leaves that import
+  compact-Walsh rank covers and recompute exact rational row equalities.  The
+  rank `6000745` smoke hit the 8 GiB focused-build guard in about 10 seconds
+  with only 13 GoodDirection survivors.
