@@ -21733,6 +21733,92 @@ Decision:
   a small family cover for the complement of the positive survivor set; the
   theorem only removes one repeated proof obligation from those families.
 
+### Phase 6Z.6K.8AP.16DU.9BA checkpoint: witnessable weighted-cube profiler accepted
+
+Phase 6Z.6K.8AP.16DU.9BA adds a standalone exact external profiler:
+
+```text
+scripts/profile_ap16du9ba_weighted_cube_rank.py
+```
+
+This profiler deliberately does not depend on the older positive-survivor
+signature profile.  That older path was too narrow for the production-like
+rank `6000745`; attempting to reuse it through
+`profile_ap16bh_denominator_cube_weighted_obstruction.py` failed immediately
+because the stored survivor-signature profile did not contain
+`rank = 6000745, mask = 8`.
+
+The new profiler reconstructs the exact data for one rank directly:
+
+- `pair_word_at_rank rank`;
+- all 64 translation masks;
+- exact impact denominators;
+- the `GoodDirection` mask set;
+- sparse weighted-denominator witnesses for Boolean cubes in the complement.
+
+This is telemetry only; it is not proof evidence and it does not get imported
+by Lean.
+
+For rank `6000745`, the exact word is:
+
+```text
+x d1m1 d1m1 dm11 d111 d111 dm11 d11m d11m y z y z
+```
+
+The profiler found:
+
+```text
+GoodDirection masks = 13
+non-GoodDirection masks = 51
+```
+
+The old order of operations, "cover first, find witnesses later", is rejected
+for this rank.  With `max-support = 4`, `max-weight = 12`, and a two-second
+per-cube search cap, the greedy Boolean cover produced 11 bad-mask cubes but
+only 9 had sparse weighted witnesses.  Two broad cubes remained uncovered:
+
+```text
+***01*
+***0*1
+```
+
+Increasing the old cover-first search to `max-support = 6`, `max-weight = 24`,
+and a 20-second per-cube cap still left the same two broad cubes uncovered.
+The important diagnostic is that this is a family-selection problem, not a
+failure of the weighted-denominator obstruction itself: smaller subcubes of
+those broad cubes do have witnesses.
+
+The accepted route is therefore "find witnessable cubes first, then greedily
+cover".  With the same small support/weight bounds and only 0.2 seconds per
+candidate cube, the profiler found:
+
+```text
+witnessable candidate cubes = 303
+selected witnessable cubes = 11
+uncovered bad masks = 0
+elapsed = 13.282s
+```
+
+The selected cubes and witnesses are recorded in:
+
+```text
+scripts/generated/phase6z6k8ap16du9ba_rank6000745_weighted_cube_profile_v2.json
+scripts/generated/phase6z6k8ap16du9ba_rank6000745_weighted_cube_profile_v2.md
+```
+
+Decision:
+
+- Accept witnessable-first weighted cube selection as the next
+  GoodDirection-membership evidence route for production-like ranks.
+- Reject cover-first cube selection for this route; it can choose cubes that
+  are too broad for the currently available sparse weighted-denominator
+  witnesses.
+- The next Lean step must be a tiny bounded smoke: prove one selected
+  weighted cube for rank `6000745` through `WeightedDenomCubeCover`, under the
+  usual guarded focused build.  If that one-cube smoke is memory-safe, scale
+  only to the 11 selected cubes for the same rank.  Do not import compact-Walsh
+  membership roots or emit a global root for this test.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -21804,3 +21890,7 @@ Decision:
   semantic half is acceptable, but the membership half hit 14.7 GiB through
   the batch root and up to 31.2 GiB through the rank-specific root under the
   same focused guard.
+- Do not scale cover-first weighted cube selection.  DU.9BA shows that it can
+  select broad Boolean cubes that are not discharged by the sparse weighted
+  denominator witness search even though the same bad masks are coverable by
+  smaller witnessable cubes.
