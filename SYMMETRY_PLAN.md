@@ -26123,3 +26123,81 @@ forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
 without proving or importing any per-bad-mask denominator contradictions.  The
 first bounded emitter should start with one already-profiled identity window
 and group survivors by descriptor/state family rather than by rank/mask.
+
+### Phase 6Z.6K.8AP.16DU.9DF checkpoint: survivor-only descriptor smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9DF implements the split recommended by the DU.9DE
+result.  Instead of proving full `GoodDirectionAtRank -> descriptor` by
+contradicting every non-GoodDirection mask locally, it proves only the
+descriptor side from an explicit survivor-mask language premise.
+
+Artifacts:
+
+- Generator:
+  `scripts/generate_rank0_survivor_only_descriptor_smoke.py`
+- Generated Lean:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SemanticSurvivorOnlyRank0Smoke.lean`
+- Reports:
+  `scripts/generated/phase6z6k8ap16du9df_rank0_survivor_only_descriptor.json`
+  and
+  `scripts/generated/phase6z6k8ap16du9df_rank0_survivor_only_descriptor.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9df_rank0_survivor_only_descriptor_guard.json`
+
+The emitted theorem is:
+
+```lean
+theorem rank0DescriptorGoodCoverage_of_survivorMask
+    (hsurvivor :
+      forall {mask : SignMask},
+        GoodDirectionAtRank (⟨0, by decide⟩ : Fin numPairWords) mask ->
+          Rank0SurvivorMask mask) :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 1
+```
+
+and it erases through:
+
+```lean
+theorem rank0AllGoodCoverage_of_survivorMask
+    (hsurvivor :
+      forall {mask : SignMask},
+        GoodDirectionAtRank (⟨0, by decide⟩ : Fin numPairWords) mask ->
+          Rank0SurvivorMask mask) :
+    AllTranslationGoodCoverageOnRange 0 1
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9df_rank0_survivor_only_descriptor_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SemanticSurvivorOnlyRank0Smoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `17.03s`
+- Peak tree RSS: `5318.04 MiB`
+- Minimum available memory observed: `43917.44 MiB`
+
+Decision: accepted as the next production-shaped diagnostic.  It is materially
+cheaper than DU.9DE because it avoids all 48 local bad-mask denominator proofs
+and checks only the 16 positive survivor descriptor/apply witnesses.
+
+Updated scaling decomposition:
+
+1. Prove `GoodDirectionAtRank -> SurvivorLanguage` by a separate compact,
+   non-rank-local method.
+2. Prove `SurvivorLanguage -> exists desc, desc.Applies rank mask` by
+   descriptor/state family leaves like DU.9DF.
+3. Compose both into `SourceIndexStateDescriptorGoodCoverageOnRange` and then
+   `AllTranslationGoodCoverageOnRange`.
+
+The next emitter should generalize DU.9DF from rank 0 to a bounded identity
+window, but it should continue to leave the `GoodDirection -> survivor
+language` theorem explicit.  That lets us profile descriptor-family scaling
+independently from the harder survivor-language membership proof.
