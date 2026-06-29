@@ -23670,6 +23670,68 @@ Decision:
   - proving dot-data equalities from precomputed compact integer identities
     rather than many local `Rat`/`norm_num` reductions.
 
+### Phase 6Z.6K.8AP.16DU.9CC checkpoint: generated-normal proof cost measured
+
+Phase 6Z.6K.8AP.16DU.9CC isolates the generated unfolded-normal proof that is
+shared by both DU.9CA and DU.9CB:
+
+```text
+scripts/emit_ap16du9cc_trace_cert_normal_micro_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertNormalMicroSmoke.lean
+```
+
+The generated Lean module contains the same rank-`6000745` word alias and the
+same first unfolded normal as DU.9CA/DU.9CB, but no dot polynomial or
+weighted-cube certificate.
+
+Cheap/static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cc_trace_cert_normal_micro_smoke.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cc_trace_cert_normal_micro_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalMicroSmoke.lean
+```
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalMicroSmoke
+exit = 0
+elapsed = 5.51s
+peak tree RSS = 4052 MiB
+min MemAvailable = 46071 MiB
+rss cap = 8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CC normal-only micro:             5.51s, 4052 MiB
+DU.9CB normal + old-dot micro:        8.01s, 4075 MiB
+DU.9CA normal + coefficient-dot micro: 10.01s, 4041 MiB
+```
+
+Decision:
+
+- The generated normal proof is a significant part of the current trace-data
+  cost, but not the only cost.  The old-dot proof adds about `2.5s` in this
+  one-dot fixture; coefficient-dot adds more.
+- Do not split normal proofs mechanically just to reduce local file size.  The
+  full DU.9BW Data target is already safe, and splitting would likely add
+  serial import overhead similar to DU.9BX.
+- The next real normal-side optimization should revisit the accepted AP16CF
+  symbolic impact-normal recurrence profile and port enough of that recurrence
+  into Lean to prove generated normal facts by small step theorems rather than
+  by unfolding `impactNormalWalshAt`, `pairPrefixLinearNat`, `reflM`, and
+  matrix arithmetic at each impact.
+- Keep this as a proof-engineering optimization only.  It does not solve the
+  global coverage problem by itself; it lowers the constant for trace-certificate
+  leaves if those remain part of the eventual backend.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
