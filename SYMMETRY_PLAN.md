@@ -13168,6 +13168,64 @@ Acceptance:
   by bounded mask replay.  The next step should replace that field with a
   symbolic/scaled denominator evaluator theorem over a signed prefix/state,
   while keeping the AP16CD coefficient side unchanged.
+- [x] Implement Phase 6Z.6K.8AP.16CE symbolic translation-vector recurrence
+  profile:
+  AP16CE adds
+  `scripts/profile_ap16ce_symbolic_translation_vector_recurrence.py` and the
+  diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16ce_symbolic_translation_vector_recurrence.json
+  scripts/generated/phase6z6k8ap16ce_symbolic_translation_vector_recurrence.md
+  ```
+
+  The profile computes the translation direction `b(mask)` from the exact
+  recurrence
+
+  ```text
+  b = sum_i sign_i(mask) * pref[i] * DCAN[word[i]]
+      + pref[13] * DCAN["x"]
+  ```
+
+  as an affine Walsh vector over the six translation sign bits.  This
+  construction does not use mask interpolation.  It is validated externally
+  against:
+
+  - the AP16BY interpolated symbolic vector for every AP16BS selected impact;
+  - the exact `translation_vector` evaluator on all 64 masks.
+
+  Result:
+
+  ```text
+  status: accepted_profile
+  rank: 100805
+  selected impacts: [1, 2, 4, 5, 6, 8, 10]
+  construction uses mask interpolation: false
+  validation replays all 64 masks externally: true
+  all AP16BY vector matches: true
+  all exact mask evaluations match: true
+  mismatch count: 0
+  ```
+
+  The vector coefficients are affine and compact:
+
+  ```text
+  x: 6 terms, max degree 1
+  y: 6 terms, max degree 1
+  z: 5 terms, max degree 1
+  ```
+
+  Decision: accepted as a diagnostic checkpoint showing that the translation
+  direction half of AP16CD's denominator equality can be generated from a
+  symbolic recurrence instead of 64-mask interpolation.  This is still not
+  final proof evidence: the profile validation uses external 64-mask replay,
+  and no Lean theorem yet connects the recurrence to `impactDenomAtRank`.
+
+  Next proof-engineering target: extend the same recurrence style to symbolic
+  pre-impact normals, then replace the AP16CD bounded denominator replay with
+  a Lean-checked symbolic/scaled denominator evaluator theorem.  Keep the
+  AP16CD coefficient side (`WalshAffineVec3.dot` and
+  `WalshQuadraticImpactObstruction`) unchanged.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

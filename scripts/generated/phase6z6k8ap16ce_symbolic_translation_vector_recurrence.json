@@ -1,0 +1,109 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16CE",
+  "status": "accepted_profile",
+  "rank": 100805,
+  "anchor_mask": 4,
+  "pair_word": [
+    "x",
+    "y",
+    "y",
+    "dm11",
+    "d11m",
+    "z",
+    "z",
+    "d111",
+    "d111",
+    "d1m1",
+    "d1m1",
+    "d11m",
+    "dm11"
+  ],
+  "selected_impacts": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    10
+  ],
+  "construction": "symbolic pair-word recurrence for translation vector",
+  "uses_mask_interpolation_for_construction": false,
+  "validation_uses_64_mask_replay": true,
+  "trusted_as_proof": false,
+  "vector_summary": [
+    {
+      "axis": "x",
+      "nonzero_terms": 6,
+      "max_degree": 1,
+      "terms": {
+        "1": "-4",
+        "z": "-32/9",
+        "d111": "-104/27",
+        "d11m": "-8/9",
+        "d1m1": "-40/27",
+        "dm11": "8/3"
+      }
+    },
+    {
+      "axis": "y",
+      "nonzero_terms": 6,
+      "max_degree": 1,
+      "terms": {
+        "y": "4",
+        "z": "16/9",
+        "d111": "-56/27",
+        "d11m": "40/9",
+        "d1m1": "56/27",
+        "dm11": "8/3"
+      }
+    },
+    {
+      "axis": "z",
+      "nonzero_terms": 5,
+      "max_degree": 1,
+      "terms": {
+        "z": "4/9",
+        "d111": "40/27",
+        "d11m": "-8/9",
+        "d1m1": "104/27",
+        "dm11": "8/3"
+      }
+    }
+  ],
+  "impact_matches": [
+    {
+      "impact": 1,
+      "matches_ap16by_interpolated_vector": true
+    },
+    {
+      "impact": 2,
+      "matches_ap16by_interpolated_vector": true
+    },
+    {
+      "impact": 4,
+      "matches_ap16by_interpolated_vector": true
+    },
+    {
+      "impact": 5,
+      "matches_ap16by_interpolated_vector": true
+    },
+    {
+      "impact": 6,
+      "matches_ap16by_interpolated_vector": true
+    },
+    {
+      "impact": 8,
+      "matches_ap16by_interpolated_vector": true
+    },
+    {
+      "impact": 10,
+      "matches_ap16by_interpolated_vector": true
+    }
+  ],
+  "all_ap16by_vector_matches": true,
+  "all_exact_mask_evaluations_match": true,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "next_step": "Extend the same recurrence style to symbolic pre-impact normals, then replace AP16CD bounded denominator replay with a Lean-checked symbolic/scaled denominator evaluator."
+}
