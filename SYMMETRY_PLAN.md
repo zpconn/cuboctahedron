@@ -26529,3 +26529,59 @@ SourceRowFactsGoodBridgeOnRange lo hi
 
 from identity-linear `GoodDirectionAtRank`, avoiding both bad-direction mask
 proofs and per-survivor Farkas leaves.
+
+### Phase 6Z.6K.8AP.16DU.9DL checkpoint: descriptor coverage erases to source-row facts
+
+Phase 6Z.6K.8AP.16DU.9DL adds a small hand-written bridge cleanup:
+
+- Lean module changed:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean`
+- Smoke simplified:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceRowFactsBridgeFromSurvivorWindowSmoke.lean`
+- Report:
+  `scripts/generated/phase6z6k8ap16du9dl_descriptor_to_facts_bridge.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9dl_descriptor_to_facts_bridge_guard.json`
+
+New theorem surfaces:
+
+```lean
+theorem SourceIndexStateDescriptorGoodLanguageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi
+
+theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi
+```
+
+The DU.9DJ smoke now derives `SourceRowFactsGoodBridgeOnRange 0 3` by applying
+`SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge` to the DU.9DG
+descriptor coverage theorem, instead of manually reconstructing source and row
+facts from a descriptor witness.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dl_descriptor_to_facts_bridge_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowFactsBridgeFromSurvivorWindowSmoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `39.63s`
+- Peak tree RSS: `7126.21 MiB`
+- Minimum available memory observed: `43076.22 MiB`
+
+Decision: accepted as a bridge cleanup.  Future generated modules can target
+descriptor coverage and still erase to the preferred source-row facts bridge.
+The remaining real blocker is unchanged: prove descriptor/source-row membership
+from identity-linear `GoodDirectionAtRank` without per-survivor Farkas leaves
+or bad-direction mask witnesses.

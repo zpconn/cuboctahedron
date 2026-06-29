@@ -14,7 +14,6 @@ adapter.
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowFactsBridgeFromSurvivorWindowSmoke
 
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
-open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SemanticSurvivorOnlyWindow000000000_000000003Smoke
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowFactsBridgeWindowSmoke
@@ -29,24 +28,9 @@ theorem windowSourceRowFactsBridge_of_survivor
             GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
               WindowSurvivor rank mask) :
     SourceRowFactsGoodBridgeOnRange 0 3 := by
-  intro rank mask hlt hlo hhi hM hgood
-  rcases windowDescriptorGoodCoverage_of_survivor hsurvivor
-      hlt hlo hhi hM hgood with
-    ⟨desc, happ⟩
-  refine ⟨descriptorToKey desc, ?_, ?_⟩
-  · exact
-      SourceIndexStateSourceFacts.of_sourcePredicate
-        (key := descriptorToKey desc)
-        (firstIndex := desc.firstIndex)
-        (secondIndex := desc.secondIndex)
-        (support := desc.support)
-        rfl rfl rfl
-        (sourcePredicate_of_descriptor_applies happ)
-  · exact
-      SourceIndexStateRowFacts.of_rows
-        (key := descriptorToKey desc)
-        (by
-          simpa [descriptorToKey] using rows_of_descriptor_applies happ)
+  exact
+    SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge
+      (windowDescriptorGoodCoverage_of_survivor hsurvivor)
 
 theorem windowAllGoodCoverage_of_survivor_via_sourceRowFacts
     (hsurvivor :

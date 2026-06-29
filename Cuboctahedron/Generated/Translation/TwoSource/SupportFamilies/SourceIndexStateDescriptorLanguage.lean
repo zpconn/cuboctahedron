@@ -165,6 +165,13 @@ theorem SourceIndexStateDescriptorGoodLanguageOnRange.to_bridge
   SourceRowPredicateGoodLanguageOnRange.to_bridge
     (SourceIndexStateDescriptorGoodLanguageOnRange.to_predicateLanguage language)
 
+theorem SourceIndexStateDescriptorGoodLanguageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorGoodLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
+    (SourceIndexStateDescriptorGoodLanguageOnRange.to_bridge language)
+
 theorem SourceIndexStateDescriptorGoodLanguageOnRange.to_allGoodCoverage
     {lo hi : Nat}
     (language : SourceIndexStateDescriptorGoodLanguageOnRange lo hi) :
@@ -177,6 +184,13 @@ theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_bridge
     (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
     SourceRowPredicateGoodBridgeOnRange lo hi :=
   SourceIndexStateDescriptorGoodLanguageOnRange.to_bridge
+    (SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage coverage)
+
+theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourceIndexStateDescriptorGoodLanguageOnRange.to_factsBridge
     (SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage coverage)
 
 theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage
