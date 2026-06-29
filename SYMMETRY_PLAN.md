@@ -21819,6 +21819,76 @@ Decision:
   only to the 11 selected cubes for the same rank.  Do not import compact-Walsh
   membership roots or emit a global root for this test.
 
+### Phase 6Z.6K.8AP.16DU.9BB checkpoint: one-cube weighted-cover import path rejected
+
+Phase 6Z.6K.8AP.16DU.9BB tested the smallest honest Lean consumer of the
+DU.9BA weighted-cube idea.  The diagnostic module was:
+
+```text
+scripts/generated/diagnostics/phase6z6k8ap16du9bb/WeightedDenomCubeRank6000745OneCubeSmoke.lean
+```
+
+It targeted only one selected DU.9BA cube for rank `6000745`:
+
+```text
+cube = **011*
+masks = 24,25,26,27,56,57,58,59
+witness = impact 5 with weight 1
+```
+
+The test deliberately used a local complement predicate for just this cube,
+so it did not claim full rank coverage.  It exercised:
+
+- `WeightedDenomCubeCover`;
+- `weightedDenomAtRank_pos_of_goodDirection`;
+- one denominator nonpositivity proof for the selected cube.
+
+The attempted nonpositivity proof reused the existing generated
+rank-`6000745` split compact-denominator equality:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  ImpactSubcubeWalshSymbolicCompactDenomRank6000745Impact04Smoke
+```
+
+That import path is rejected.  The guarded focused build was stopped before it
+could endanger the machine:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bb_one_cube_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745OneCubeSmoke
+```
+
+Result:
+
+```text
+exit = -15
+elapsed = 10.01s
+peak RSS = 8279 MiB
+minimum available memory seen = 45184 MiB
+killed reason = process-tree RSS exceeded 8192 MiB cap
+```
+
+Decision:
+
+- Reject the existing split compact-denominator equality modules as the
+  nonpositivity proof backend for weighted-cube covers, even for a single cube
+  on a production-like rank.
+- Keep the DU.9BA external witnessable-cube selection result: it is still a
+  useful exact profiler result, and it found an 11-cube cover of all 51 bad
+  masks for rank `6000745`.
+- The next proof-producing attempt must avoid importing the rank split trace.
+  It should prove weighted-cube nonpositivity from a much smaller generated
+  symbolic/integer certificate for the weighted sum itself: for example a
+  direct Walsh polynomial for the weighted denominator sum, a cleared-integer
+  pseudo-Boolean cube bound, or another small per-cube theorem whose imports
+  stop at the hand-written weighted-denominator core.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -21894,3 +21964,7 @@ Decision:
   select broad Boolean cubes that are not discharged by the sparse weighted
   denominator witness search even though the same bad masks are coverable by
   smaller witnessable cubes.
+- Do not import the generated rank split compact-denominator trace modules as
+  the backend for `WeightedDenomCubeCover` production leaves.  DU.9BB shows
+  that even a one-cube rank-`6000745` smoke crosses the 8 GiB focused-build
+  guard through that path.
