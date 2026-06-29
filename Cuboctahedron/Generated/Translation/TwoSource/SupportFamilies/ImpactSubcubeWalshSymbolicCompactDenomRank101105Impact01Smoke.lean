@@ -90,29 +90,42 @@ private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
     <;> simp [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval, SignBit.value, SignBit.toPairId, signedCoeffAt, signedPositiveAt, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, countPairBeforeNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]
     <;> norm_num [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval, SignBit.value, SignBit.toPairId, signedCoeffAt, signedPositiveAt, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, countPairBeforeNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]
 
-private theorem generatedVector_mask6_eq_translationVector :
-    generatedVector.eval generatedMask6 =
-      translationVectorOfChoice generatedWord generatedMask6 :=
+private theorem generatedVector_eq_translationVector (mask : SignMask) :
+    generatedVector.eval mask =
+      translationVectorOfChoice generatedWord mask :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedVector_eval_eq_translationVector
-    generatedMask6
+    mask
+
+theorem generatedDenomDotCompact (mask : SignMask) :
+    impactDenomAtRank generatedRank mask
+        (wordImpact firstWordImpactIndex) =
+      Cuboctahedron.dot (generatedNormal.eval mask)
+        (generatedVector.eval mask) := by
+  exact impactDenomAtRank_wordImpact_eq_walshDot
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedUnrank_builds
+    (generatedNormal_eval_eq_compact mask)
+    (generatedVector_eq_translationVector mask)
 
 theorem generatedDenomDotCompact_mask6 :
     impactDenomAtRank generatedRank generatedMask6
         (wordImpact firstWordImpactIndex) =
       Cuboctahedron.dot (generatedNormal.eval generatedMask6)
-        (generatedVector.eval generatedMask6) := by
-  exact impactDenomAtRank_wordImpact_eq_walshDot
-    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedUnrank_builds
-    (generatedNormal_eval_eq_compact generatedMask6)
-    generatedVector_mask6_eq_translationVector
+        (generatedVector.eval generatedMask6) :=
+  generatedDenomDotCompact generatedMask6
+
+theorem generatedDotPositive_of_goodDirection
+    {mask : SignMask} (hgood : GoodDirectionAtRank generatedRank mask) :
+    0 < Cuboctahedron.dot (generatedNormal.eval mask)
+      (generatedVector.eval mask) :=
+  walshDot_pos_of_goodDirection
+    (generatedDenomDotCompact mask)
+    hgood
 
 theorem generatedDotPositive_mask6_of_goodDirection
     (hgood : GoodDirectionAtRank generatedRank generatedMask6) :
     0 < Cuboctahedron.dot (generatedNormal.eval generatedMask6)
       (generatedVector.eval generatedMask6) :=
-  walshDot_pos_of_goodDirection
-    generatedDenomDotCompact_mask6
-    hgood
+  generatedDotPositive_of_goodDirection hgood
 
 theorem compactDenomGeneratedSmoke_builds : True := by
   trivial

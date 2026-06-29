@@ -243,7 +243,8 @@ denominator trace consumers, AP16CR's reusable compact-denominator bridge,
 AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
 symbolic-normal nonzero-impact consumer smoke, AP16CV/AP16CW's shallow
 consumer root and manifest-batch smoke, AP16CX's GoodDirection-to-compact-dot
-positivity bridge, plus AP16CP's
+positivity bridge, AP16CY's rank-wide compact-denominator consumer theorem,
+plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14255,6 +14256,64 @@ Acceptance:
   positivity theorems inside a small positive-survivor membership smoke, proving
   at least one `generatedGoodMaskMember` implication from semantic denominator
   signatures rather than from Boolean replay over all masks.
+- [x] Implement Phase 6Z.6K.8AP.16CY rank-wide compact-denominator consumer
+  theorem:
+  AP16CY updates the compact-denominator emitter so each generated consumer
+  exports a rank-wide theorem
+
+  ```lean
+  generatedDenomDotCompact (mask : SignMask)
+  generatedDotPositive_of_goodDirection
+  ```
+
+  while preserving the older mask-specific wrappers
+
+  ```lean
+  generatedDenomDotCompact_mask*
+  generatedDotPositive_mask*_of_goodDirection
+  ```
+
+  The important change is that generated compact-denominator consumers no
+  longer prove only one point-mask equality.  When the imported vector trace
+  proves `generatedVector_eval_eq_translationVector` for all masks and the
+  generated symbolic normal proof is also mask-parametric, the consumer now
+  exposes the exact denominator/dot equality for arbitrary `SignMask`.  This is
+  the right shape for the next cube/family proof: a future
+  `WalshSymbolicQuadraticImpactObstruction` smoke can consume the theorem for
+  every member of a Boolean subcube without replaying `totalAff` or enumerating
+  all masks.
+
+  The old bounded Walsh cover was inspected during this checkpoint.  It already
+  exports a semantic `generatedGoodMaskMember_of_GoodDirection...` theorem, but
+  its completeness proof still uses `fin_cases mask` over all 64 masks.  It
+  remains useful as a diagnostic reference only; it is not the production
+  membership route.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cy_compact_root_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomAllSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 24.10s
+  peak tree RSS: 4079 MiB
+  minimum available memory: 46001 MiB
+  ```
+
+  Decision: accepted.  The next AP16 target should instantiate one compact
+  denominator consumer as a nonpoint subcube/family obstruction, ideally through
+  `WalshSymbolicQuadraticImpactObstruction` or a similarly erased adapter, and
+  then use `BadMaskCover.goodMaskMember_of_goodDirection` to derive positive
+  survivor membership without mask replay.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

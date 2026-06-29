@@ -96,29 +96,42 @@ private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
       generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,
       firstWordImpactIndex, selectedWordImpactIndex]
 
-private theorem generatedVector_mask0_eq_translationVector :
-    generatedVector.eval generatedMask0 =
-      translationVectorOfChoice generatedWord generatedMask0 :=
+private theorem generatedVector_eq_translationVector (mask : SignMask) :
+    generatedVector.eval mask =
+      translationVectorOfChoice generatedWord mask :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedVector_eval_eq_translationVector
-    generatedMask0
+    mask
+
+theorem generatedDenomDotCompact (mask : SignMask) :
+    impactDenomAtRank generatedRank mask
+        (wordImpact firstWordImpactIndex) =
+      Cuboctahedron.dot (generatedNormal.eval mask)
+        (generatedVector.eval mask) := by
+  exact impactDenomAtRank_wordImpact_eq_walshDot
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedUnrank_builds
+    (generatedNormal_eval_eq_compact mask)
+    (generatedVector_eq_translationVector mask)
 
 theorem generatedDenomDotCompact_mask0 :
     impactDenomAtRank generatedRank generatedMask0
         (wordImpact firstWordImpactIndex) =
       Cuboctahedron.dot (generatedNormal.eval generatedMask0)
-        (generatedVector.eval generatedMask0) := by
-  exact impactDenomAtRank_wordImpact_eq_walshDot
-    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedUnrank_builds
-    (generatedNormal_eval_eq_compact generatedMask0)
-    generatedVector_mask0_eq_translationVector
+        (generatedVector.eval generatedMask0) :=
+  generatedDenomDotCompact generatedMask0
+
+theorem generatedDotPositive_of_goodDirection
+    {mask : SignMask} (hgood : GoodDirectionAtRank generatedRank mask) :
+    0 < Cuboctahedron.dot (generatedNormal.eval mask)
+      (generatedVector.eval mask) :=
+  walshDot_pos_of_goodDirection
+    (generatedDenomDotCompact mask)
+    hgood
 
 theorem generatedDotPositive_mask0_of_goodDirection
     (hgood : GoodDirectionAtRank generatedRank generatedMask0) :
     0 < Cuboctahedron.dot (generatedNormal.eval generatedMask0)
       (generatedVector.eval generatedMask0) :=
-  walshDot_pos_of_goodDirection
-    generatedDenomDotCompact_mask0
-    hgood
+  generatedDotPositive_of_goodDirection hgood
 
 theorem compactDenomGeneratedSmoke_builds : True := by
   trivial
