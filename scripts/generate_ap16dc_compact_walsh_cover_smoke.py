@@ -51,6 +51,10 @@ DEFAULT_LEAN = Path(
     "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
     "ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke.lean"
 )
+DEFAULT_NAMESPACE = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke"
+)
 DEFAULT_REPORT = Path(
     "scripts/generated/phase6z6k8ap16dc_compact_walsh_cover_smoke.json"
 )
@@ -265,6 +269,7 @@ def emit_complete(
 def emit_lean(
     *,
     rank: int,
+    namespace: str,
     good_masks: list[int],
     subcubes: list[dict[str, Any]],
     all_data: list[dict[str, Any]],
@@ -285,7 +290,7 @@ def emit_lean(
         "bounded per-mask replay.",
         "-/",
         "",
-        "namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke",
+        f"namespace {namespace}",
         "",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
@@ -323,7 +328,7 @@ def emit_lean(
     lines.extend(emit_complete(rank=rank, good_masks=good_masks, subcubes=subcubes))
     lines.extend([
         "",
-        "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke",
+        f"end {namespace}",
         "",
     ])
     return "\n".join(lines)
@@ -393,6 +398,7 @@ def main() -> None:
     parser.add_argument("--cover", type=Path, default=DEFAULT_COVER)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--lean-output", type=Path, default=DEFAULT_LEAN)
+    parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     args = parser.parse_args()
 
@@ -420,6 +426,7 @@ def main() -> None:
     args.lean_output.write_text(
         emit_lean(
             rank=args.rank,
+            namespace=args.namespace,
             good_masks=good_masks,
             subcubes=subcubes,
             all_data=all_data,

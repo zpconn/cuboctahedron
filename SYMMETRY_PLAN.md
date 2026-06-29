@@ -14615,6 +14615,52 @@ Acceptance:
   step should generate a bounded multi-signature AP16DC-style shard with shared
   imports and per-signature compact covers, while keeping Lean builds guarded
   and serial until selected-impact proof costs are reduced.
+- [x] Implement Phase 6Z.6K.8AP.16DE AP16DC reusable namespace unblocker:
+  AP16DE parameterizes the AP16DC compact Walsh-cover emitter namespace:
+
+  ```text
+  scripts/generate_ap16dc_compact_walsh_cover_smoke.py --namespace ...
+  ```
+
+  The existing default still emits:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke
+  ```
+
+  This is a small but necessary production-shaping change: bounded
+  multi-signature AP16DC-style shards need each signature cover module to live
+  in its own namespace so a root can import them together without theorem-name
+  collisions.
+
+  Regression command:
+
+  ```text
+  python3 scripts/generate_ap16dc_compact_walsh_cover_smoke.py
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16dc_namespace_param_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 6.01s
+  peak tree RSS: 802 MiB
+  minimum available memory: 46532 MiB
+  ```
+
+  Decision: accepted.  The next AP16DE/DF work can generate a tiny
+  two-signature shard by creating per-rank trace fixtures, per-rank selected
+  compact-denominator manifests, per-signature cover modules with unique
+  namespaces, and a root that imports the cover modules.  Build those pieces
+  serially with memory guards; do not jump to the 20-signature sample until the
+  two-signature shard is checked.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
