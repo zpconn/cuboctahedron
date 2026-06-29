@@ -27530,3 +27530,79 @@ with a resumable, memory-guarded profiler before emitting production modules.
 If the projected global catalog is too large, the plan must move up another
 semantic level: row-normal-form families, signed-prefix cone languages, or a
 state-DAG root.  We should not return to per-rank or per-mask replay.
+
+### Phase 6Z.6K.8AP.16DU.9EC checkpoint: checkpointed classifier census runner
+
+Phase 6Z.6K.8AP.16DU.9EC adds
+`scripts/run_source_index_state_classifier_census.py`, a diagnostic-only,
+checkpointed runner for the source-index/state GoodDirection classifier.  The
+runner is intended to make future larger profiles restartable and memory-safe:
+
+- each window writes an atomic compact JSON checkpoint;
+- checkpoints store family keys, counts, source metadata, row-property keys, and
+  tiny samples, not full concrete member lists;
+- `--aggregate-only` rebuilds aggregate JSON/Markdown reports from checkpoints
+  without rescanning ranks;
+- top-level `--workers` parallelism is supported, but each worker scans one
+  window serially, avoiding nested process pools;
+- the output remains diagnostic and is not proof evidence.
+
+Tiny guarded smoke command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 2048 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ec_classifier_census_tiny_guard.json \
+  -- python3 scripts/run_source_index_state_classifier_census.py \
+    --ranges 0:100,100000:100100 \
+    --workers 2 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_tiny \
+    --json scripts/generated/phase6z6k8ap16du9ec_classifier_census_tiny.json \
+    --md scripts/generated/phase6z6k8ap16du9ec_classifier_census_tiny.md \
+    --family-gate 1000 \
+    --top-limit 10
+```
+
+Result:
+
+- Exit: `0`
+- Sampled ranks: `200`
+- GoodDirection cases: `360`
+- Merged families: `33`
+- Elapsed: `4.50s`
+- Peak tree RSS: `65 MiB`
+- Minimum available memory observed: `46604 MiB`
+
+Aggregate-only guarded replay:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1024 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ec_classifier_census_tiny_aggregate_guard.json \
+  -- python3 scripts/run_source_index_state_classifier_census.py \
+    --ranges 0:100,100000:100100 \
+    --workers 2 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_tiny \
+    --aggregate-only \
+    --json scripts/generated/phase6z6k8ap16du9ec_classifier_census_tiny_aggregate.json \
+    --md scripts/generated/phase6z6k8ap16du9ec_classifier_census_tiny_aggregate.md \
+    --family-gate 1000 \
+    --top-limit 10
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `0.50s`
+- Peak tree RSS: `2 MiB`
+- Minimum available memory observed: `46632 MiB`
+
+Decision: accepted as diagnostic infrastructure.  The next larger profile
+should be run only through this runner, under `run_memory_guarded.py`, with a
+small worker count and a checkpoint directory outside generated source.  If a
+profile begins trending toward high family counts or source size, stop and move
+to a stronger semantic quotient rather than forcing Lean emission.

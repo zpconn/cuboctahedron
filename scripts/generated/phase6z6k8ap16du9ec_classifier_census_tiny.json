@@ -1,0 +1,353 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_source_index_state_classifier_census_tiny",
+  "counts": {
+    "covered_cases": 360,
+    "good_direction_survivors": 360,
+    "identity_words": 30,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 170,
+    "not_good_direction_masks": 1560,
+    "pair_words_scanned": 200,
+    "translation_sign_assignments": 1920,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "merged family count is within the current diagnostic gate",
+      "diagnostic only: checkpoints and reports are not proof"
+    ],
+    "status": "accepted-scaling-candidate"
+  },
+  "elapsed_seconds": 4.308077099994989,
+  "family_count": 33,
+  "family_gate": 1000,
+  "good_direction_cases": 360,
+  "max_worker_rss_kib": 21712,
+  "mode": "source_index_state_classifier_checkpointed_census",
+  "phase": "6Z.6K.8AP.16DU.9EC",
+  "ranges": [
+    [
+      0,
+      100
+    ],
+    [
+      100000,
+      100100
+    ]
+  ],
+  "rank_count": 200,
+  "schema_version": 1,
+  "source_key_surface": "kind_impact",
+  "top_families": [
+    {
+      "case_count": 122,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 8,
+          "rank": 0
+        },
+        {
+          "mask": 9,
+          "rank": 0
+        },
+        {
+          "mask": 16,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        23,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 54,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 0
+        },
+        {
+          "mask": 31,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        83,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 31,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 0
+        },
+        {
+          "mask": 29,
+          "rank": 0
+        },
+        {
+          "mask": 13,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        0,
+        7
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 24,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 54,
+          "rank": 0
+        },
+        {
+          "mask": 55,
+          "rank": 0
+        },
+        {
+          "mask": 54,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        24,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 23,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 60
+        },
+        {
+          "mask": 22,
+          "rank": 62
+        },
+        {
+          "mask": 29,
+          "rank": 62
+        }
+      ],
+      "source_indices": [
+        0,
+        11
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 16,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "samples": [
+        {
+          "mask": 45,
+          "rank": 3
+        },
+        {
+          "mask": 45,
+          "rank": 5
+        },
+        {
+          "mask": 47,
+          "rank": 5
+        }
+      ],
+      "source_indices": [
+        25,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 7,
+      "key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+      "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "samples": [
+        {
+          "mask": 28,
+          "rank": 27
+        },
+        {
+          "mask": 54,
+          "rank": 59
+        },
+        {
+          "mask": 55,
+          "rank": 59
+        }
+      ],
+      "source_indices": [
+        1,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "case_count": 6,
+      "key": "969bdd36c0ff690c62a0b53d598d08baaaffcf117b705925f574eaf39d9931f0",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 30,
+          "rank": 3
+        },
+        {
+          "mask": 22,
+          "rank": 24
+        },
+        {
+          "mask": 30,
+          "rank": 24
+        }
+      ],
+      "source_indices": [
+        105,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"7\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 6,
+      "key": "9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 54,
+          "rank": 5
+        },
+        {
+          "mask": 45,
+          "rank": 47
+        },
+        {
+          "mask": 54,
+          "rank": 62
+        }
+      ],
+      "source_indices": [
+        148,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 6,
+      "key": "cb6f6bc2af727b7b07a1a5f93b6bb4b547714996ae906018ac0e2560d8102162",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 29,
+          "rank": 60
+        },
+        {
+          "mask": 30,
+          "rank": 60
+        },
+        {
+          "mask": 29,
+          "rank": 65
+        }
+      ],
+      "source_indices": [
+        175,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    }
+  ],
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "elapsed_seconds": 4.301609461006592,
+      "family_count": 33,
+      "good_direction_cases": 360,
+      "identity_words": 30,
+      "max_rss_kib": 21712,
+      "range": [
+        0,
+        100
+      ],
+      "rank_count": 100,
+      "unique_family_keys": 33
+    },
+    {
+      "elapsed_seconds": 0.025570627010893077,
+      "family_count": 0,
+      "good_direction_cases": 0,
+      "identity_words": 0,
+      "max_rss_kib": 19408,
+      "range": [
+        100000,
+        100100
+      ],
+      "rank_count": 100,
+      "unique_family_keys": 0
+    }
+  ],
+  "workers": 2
+}
