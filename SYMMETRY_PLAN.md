@@ -13375,6 +13375,59 @@ Acceptance:
   prove that a concrete `WalshAffineVec3` normal/vector record equals the two
   compact expressions in this theorem, then rewrite
   `impactDenomAtRank_wordImpact_eq_compact` instead of replaying all masks.
+- [x] Implement Phase 6Z.6K.8AP.16CI compact-denominator generated smoke:
+  AP16CI adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomSmoke.lean`.
+
+  This file keeps the AP16CD rank/impact/vector fixture
+  (`rank = 100805`, impact `1`) but no longer proves the denominator equality
+  by unfolding `impactDenomAtRank` for each bounded mask.  Instead it proves a
+  conditional generated adapter:
+
+  ```lean
+  private theorem generatedDenomDotCompact_mask0_of_vector_x
+      (hVectorX :
+        (generatedVector.eval generatedMask0).x =
+          (translationVectorOfChoice generatedWord generatedMask0).x)
+      (hlt : 100805 < numPairWords) :
+      impactDenomAtRank (⟨100805, hlt⟩ : Fin numPairWords) generatedMask0
+          (wordImpact firstWordImpactIndex) =
+        Cuboctahedron.dot (generatedNormal.eval generatedMask0)
+          (generatedVector.eval generatedMask0)
+  ```
+
+  The proof uses `impactDenomAtRank_wordImpact_eq_compact`, proves the first
+  copied normal reduces to `(-1,0,0)`, and then reduces the dot-product claim
+  to the x-coordinate of the generated Walsh vector.  This isolates the
+  remaining generated-vector equality obligation instead of mixing it with
+  denominator geometry.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16ci_compact_denom_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 2.50s
+  peak tree RSS: 4052 MiB
+  minimum available memory: 46004 MiB
+  ```
+
+  Decision: accepted as a memory-safe conditional AP16CD replacement smoke.
+  It does not yet prove the generated Walsh vector recurrence itself.  The
+  next proof-engineering target is AP16CJ: prove the generated
+  `WalshAffineVec3` vector component equals `translationVectorOfChoice` using a
+  compact, reusable recurrence/evaluation lemma, not by unfolding `totalAff`
+  and not by bounded mask replay.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
