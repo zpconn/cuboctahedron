@@ -270,6 +270,27 @@ theorem generatedCube_notGood
     |>.toImpactSubcubeObstruction
     |>.notGood hlt hmember
 
+private def generatedGoodMaskMember (mask : SignMask) : Prop :=
+  ¬ generatedCube.Member mask
+
+private def generatedBadMaskCover :
+    BadMaskCover 100805 generatedGoodMaskMember where
+  BadFamily := Unit
+  Member := fun _ mask => generatedCube.Member mask
+  notGood := by
+    intro family mask hlt hmember
+    exact generatedCube_notGood hlt hmember
+  complete := by
+    intro mask hnot
+    exact ⟨(), by
+      simpa [generatedGoodMaskMember] using hnot⟩
+
+theorem generatedGoodMaskMember_of_GoodDirection
+    {mask : SignMask} (hlt : 100805 < numPairWords)
+    (hgood : GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask) :
+    generatedGoodMaskMember mask :=
+  generatedBadMaskCover.goodMaskMember_of_goodDirection hlt hgood
+
 theorem compactDenomSubcubeSmoke_builds : True := by
   trivial
 

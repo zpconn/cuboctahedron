@@ -244,7 +244,8 @@ AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
 symbolic-normal nonzero-impact consumer smoke, AP16CV/AP16CW's shallow
 consumer root and manifest-batch smoke, AP16CX's GoodDirection-to-compact-dot
 positivity bridge, AP16CY's rank-wide compact-denominator consumer theorem,
-AP16CZ's compact-denominator subcube obstruction smoke, plus AP16CP's
+AP16CZ's compact-denominator subcube obstruction smoke, AP16DA's
+`BadMaskCover` erasure smoke, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14394,6 +14395,61 @@ Acceptance:
   subcube obstructions into an actual `BadMaskCover` for a bounded positive
   survivor set, proving `generatedGoodMaskMember` from
   `GoodDirectionAtRank` without enumerating all 64 masks.
+- [x] Implement Phase 6Z.6K.8AP.16DA compact subcube `BadMaskCover` erasure:
+  AP16DA extends the AP16CZ smoke with a one-family `BadMaskCover`.  The
+  bounded positive set is the complement of the generated nonpoint subcube:
+
+  ```lean
+  generatedGoodMaskMember mask := ¬ generatedCube.Member mask
+  ```
+
+  and the cover exports:
+
+  ```lean
+  generatedGoodMaskMember_of_GoodDirection :
+    GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask ->
+      generatedGoodMaskMember mask
+  ```
+
+  This is not yet the full rank-100805 survivor signature, but it validates the
+  complete erased proof shape:
+
+  ```text
+  compact denominator equality
+    -> subcube denominator nonpositivity
+    -> not GoodDirection on the bad family
+    -> BadMaskCover.goodMaskMember_of_goodDirection
+    -> positive membership theorem
+  ```
+
+  No `fin_cases mask` or bad-direction mask enumeration is used in this
+  erasure step.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16da_badmaskcover_subcube_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSubcubeSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 5.51s
+  peak tree RSS: 4059 MiB
+  minimum available memory: 46135 MiB
+  ```
+
+  Decision: accepted as the first classifier-free GoodDirection-to-membership
+  bridge using compact denominator evidence.  The next AP16 target should
+  generalize the smoke from one complement-style subcube to a small generated
+  set of subcube obstructions whose complement is an actual positive survivor
+  signature.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
