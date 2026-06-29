@@ -1,12 +1,13 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage
 
 /-!
 Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8K.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9AF.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -15,6 +16,7 @@ open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage
 
 set_option linter.unusedVariables false
 
@@ -4011,6 +4013,30 @@ theorem sourceIndexFactsCatalog_of_classifierKey_source_row_bool
     (fun hlt hlo hhi hM hgood =>
       hcomplete hlt hlo hhi hM
         (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
+
+theorem classifierDescriptorCoverage_of_sourceIndexFactsCatalog
+    (hcomplete :
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 5000 :=
+  SourceRowFactsGoodBridgeOnRange.to_descriptorCoverage
+    (SourceRowFactsGoodCatalogOnRange.to_bridge hcomplete)
+
+theorem classifierDescriptorCoverage_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 5000 :=
+  classifierDescriptorCoverage_of_sourceIndexFactsCatalog
+    (sourceIndexFactsCatalog_of_classifierKey_source_row hcomplete)
 
 theorem sourceIndexPredicateCatalog_of_classifierKey_source_row
     (hcomplete :

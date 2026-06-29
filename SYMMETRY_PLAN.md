@@ -18085,6 +18085,87 @@ Acceptance:
   uncapped shell/Lake parallelism.  For proof-heavy Lean targets, keep
   `LEAN_NUM_THREADS=1` and `LAKE_JOBS=1` inside each guarded child unless a
   focused benchmark shows a higher setting is safe.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AF classifier-to-descriptor endpoint bridge:
+  DU.9AF updates the reproducible source-index/state classifier smoke emitter:
+
+  ```text
+  scripts/generate_source_index_state_classifier_smoke.py
+  ```
+
+  so the bounded 125-family classifier surface exposes the exact descriptor
+  endpoint that AP16DU is now targeting.  The regenerated module
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateClassifierDU3Smoke
+  ```
+
+  imports `SourceIndexStateDescriptorLanguage` and adds:
+
+  ```lean
+  theorem classifierDescriptorCoverage_of_sourceIndexFactsCatalog
+      (hcomplete :
+        SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+      SourceIndexStateDescriptorGoodCoverageOnRange 0 5000
+
+  theorem classifierDescriptorCoverage_of_key_source_row
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                  exists key : ClassifierKey,
+                    SourceIndexStateSourceFacts
+                      key.toSourceIndexStateKey rank mask /\
+                      SourceIndexStateRowFacts
+                        key.toSourceIndexStateKey rank mask) :
+      SourceIndexStateDescriptorGoodCoverageOnRange 0 5000
+  ```
+
+  This is still not the hard classifier-completeness theorem.  It removes one
+  remaining wrapper gap: future generated evidence that proves source/row
+  facts for a public classifier key can now erase directly to descriptor
+  coverage, then to all-Good coverage, without going through a certificate
+  surface or a local support copy.
+
+  Commands:
+
+  ```text
+  python3 scripts/generate_source_index_state_classifier_smoke.py \
+    --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json \
+    --family-count 125 \
+    --phase 6Z.6K.8AP.16DU.9AF \
+    --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean \
+    --json scripts/generated/phase6z6k8ap16du9af_classifier_descriptor_bridge_smoke.json \
+    --md scripts/generated/phase6z6k8ap16du9af_classifier_descriptor_bridge_smoke.md \
+    --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+
+  python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 12000 \
+    --poll-seconds 1 \
+    --json scripts/generated/phase6z6k8ap16du9af_classifier_descriptor_bridge_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build: passed
+  elapsed: 14.01s
+  peak process-tree RSS: 4205.58 MiB
+  min available memory observed: 45915.83 MiB
+  ```
+
+  Decision: DU.9AF is accepted as descriptor-endpoint bridge infrastructure.
+  The next proof-producing work is still the actual semantic membership
+  theorem over meaningful ranges, but it can now target either descriptor
+  coverage directly or classifier-key source/row facts with no additional
+  endpoint glue.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
