@@ -1,0 +1,142 @@
+{
+  "budgets": {
+    "production_cpu_budget_hours": 24.0,
+    "production_memory_budget_gib": 45.0,
+    "production_wall_budget_hours": 6.0,
+    "singleton_smoke_cap_mib": 5000.0
+  },
+  "decision": {
+    "notes": [
+      "split source/row producer hierarchy remains the only accepted production route",
+      "rank-local singleton classifier-facts route is accepted only as bounded smoke",
+      "next Lean proof target is range/state membership over the producer hierarchy"
+    ],
+    "status": "accepted-production-route-audit"
+  },
+  "growth_projection": {
+    "an_status": "accepted-growth-projection",
+    "estimated_descriptor_families": 862,
+    "estimated_source_row_producers": 748,
+    "observed_descriptor_families": 401,
+    "observed_good_direction_cases": 10402,
+    "observed_source_row_producers": 396
+  },
+  "inputs": {
+    "an_json": "scripts/generated/phase6z6k8an_pair_sign_producer_growth_projection.json",
+    "ao_json": "scripts/generated/phase6z6k8ao_pair_sign_producer_hierarchy_design.json",
+    "guard_jsons": [
+      "scripts/generated/phase6z6k8ap16do_compact_walsh_batch_classifier_guard.json",
+      "scripts/generated/phase6z6k8ap16do_rank6000745_classifier_facts_guard.json",
+      "scripts/generated/phase6z6k8ap16do_rank6000625_classifier_facts_guard.json",
+      "scripts/generated/phase6z6k8ap16do_rank6000480_classifier_facts_guard.json",
+      "scripts/generated/phase6z6k8ap16do_rank6000720_classifier_facts_guard.json",
+      "scripts/generated/phase6z6k8ap16do_rank6000662_classifier_facts_guard.json",
+      "scripts/generated/phase6z6k8ap16dq_five_rank_sparse_root_guard.json"
+    ]
+  },
+  "mode": "ap16dr_translation_production_route_audit",
+  "next_required_slice": {
+    "acceptance_gate": [
+      "nonempty GoodDirection coverage over a meaningful bounded range",
+      "exports semantic all-Good coverage or source-position row-producer coverage",
+      "focused guarded Lean build below 6500 MiB RSS",
+      "updated projection still under 5-6 wall hours / 24 CPU-hours"
+    ],
+    "must_import": [
+      "shared source producer module",
+      "shared row producer module",
+      "bounded membership chunk(s)"
+    ],
+    "must_not_use": [
+      "one theorem per raw rank",
+      "one theorem per raw mask",
+      "rank-local candidate-facts shards as the production coordinate",
+      "packed blobs or large Boolean reductions",
+      "native_decide, unsafe, sorry, admit, custom axioms"
+    ],
+    "phase": "6Z.6K.8AP.16DS",
+    "preferred_range_kind": "bounded sampled production-style range with multiple ranks",
+    "target": "SourcePositionRowProducerGoodCoverageOnRange lo hi"
+  },
+  "producer_hierarchy": {
+    "ao_status": "accepted-production-hierarchy-design",
+    "projected_chunks": 14,
+    "projected_cpu_seconds": 58,
+    "projected_descriptor_families": 862,
+    "projected_peak_rss_gib": 3.9339065551757812,
+    "projected_row_groups": 26,
+    "projected_source_groups": 722,
+    "projected_source_row_producers": 748,
+    "projected_source_size_kib": 2362,
+    "projected_total_lines": 57827,
+    "projected_wall_seconds": 70,
+    "within_budget": true
+  },
+  "schema_version": 1,
+  "singleton_smoke": {
+    "exceeds_singleton_smoke_cap": true,
+    "guard_results": [
+      {
+        "elapsed_seconds": 6.005834734001837,
+        "exit_code": 0,
+        "max_tree_rss_mib": 4043.53515625,
+        "min_available_seen_mib": 46128.88671875,
+        "path": "scripts/generated/phase6z6k8ap16do_compact_walsh_batch_classifier_guard.json",
+        "rss_cap_mib": 4800.0
+      },
+      {
+        "elapsed_seconds": 2.5034539089974714,
+        "exit_code": 0,
+        "max_tree_rss_mib": 4094.50390625,
+        "min_available_seen_mib": 46115.87109375,
+        "path": "scripts/generated/phase6z6k8ap16do_rank6000745_classifier_facts_guard.json",
+        "rss_cap_mib": 5600.0
+      },
+      {
+        "elapsed_seconds": 15.024500274004822,
+        "exit_code": 0,
+        "max_tree_rss_mib": 5127.2890625,
+        "min_available_seen_mib": 44664.03515625,
+        "path": "scripts/generated/phase6z6k8ap16do_rank6000625_classifier_facts_guard.json",
+        "rss_cap_mib": 5600.0
+      },
+      {
+        "elapsed_seconds": 2.5025987069966504,
+        "exit_code": 0,
+        "max_tree_rss_mib": 3773.484375,
+        "min_available_seen_mib": 46242.49609375,
+        "path": "scripts/generated/phase6z6k8ap16do_rank6000480_classifier_facts_guard.json",
+        "rss_cap_mib": 5600.0
+      },
+      {
+        "elapsed_seconds": 10.514684247005789,
+        "exit_code": 0,
+        "max_tree_rss_mib": 4681.703125,
+        "min_available_seen_mib": 45394.6640625,
+        "path": "scripts/generated/phase6z6k8ap16do_rank6000720_classifier_facts_guard.json",
+        "rss_cap_mib": 5600.0
+      },
+      {
+        "elapsed_seconds": 16.02709705899906,
+        "exit_code": 0,
+        "max_tree_rss_mib": 5175.265625,
+        "min_available_seen_mib": 44570.55859375,
+        "path": "scripts/generated/phase6z6k8ap16do_rank6000662_classifier_facts_guard.json",
+        "rss_cap_mib": 5600.0
+      },
+      {
+        "elapsed_seconds": 3.004547061995254,
+        "exit_code": 0,
+        "max_tree_rss_mib": 4103.27734375,
+        "min_available_seen_mib": 46124.796875,
+        "path": "scripts/generated/phase6z6k8ap16dq_five_rank_sparse_root_guard.json",
+        "rss_cap_mib": 6500.0
+      }
+    ],
+    "max_guard_rss_mib": 5175.265625,
+    "max_singleton_classifier_facts_rss_mib": 5175.265625,
+    "production_decision": "rejected-for-production",
+    "reason": "rank-local candidate facts prove real singleton coverage but are not the production compression coordinate; two singleton classifier-facts modules exceed the old 5 GiB smoke cap"
+  },
+  "trusted_as_proof": false
+}
