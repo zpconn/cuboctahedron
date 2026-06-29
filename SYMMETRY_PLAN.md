@@ -16453,6 +16453,46 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke.md
   scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9J selector lookup theorem:
+  DU.9J makes the selector coordinate proof-usable without expanding a full
+  all-pairs injectivity proof.  A first attempt added:
+
+  ```lean
+  theorem selectorCoordinateOfKey_injective :
+      Function.Injective selectorCoordinateOfKey
+  ```
+
+  but the generated 125-by-125 case proof hit Lean's deterministic heartbeat
+  limit after 64s while remaining memory-safe (`peak_tree_rss=4703 MiB`,
+  `min_available=45456 MiB`).  This rejects the direct pairwise-injectivity
+  proof shape for the guarded smoke.
+
+  The accepted replacement is a generated lookup theorem:
+
+  ```lean
+  def keyOfSelectorCoordinate? (coord : SelectorCoordinate) :
+      Option ClassifierKey
+
+  theorem keyOfSelectorCoordinate?_selectorCoordinateOfKey
+      (key : ClassifierKey) :
+      keyOfSelectorCoordinate? (selectorCoordinateOfKey key) = some key
+  ```
+
+  It is weaker than full injectivity but is the direction future generated
+  selector witnesses need: once a generated proof has produced a coordinate
+  known to be `selectorCoordinateOfKey key`, it can recover that key without
+  row/source arithmetic.  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke
+  exit=0, elapsed=6.00s, peak_tree_rss=4244 MiB, min_available=45931 MiB
+  ```
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9j_selector_lookup_guard.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:

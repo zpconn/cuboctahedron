@@ -137,6 +137,28 @@ def module_lines(namespace: str, families: list[Any]) -> list[str]:
         "    selectorCoordinateAt key.toFin = selectorCoordinateOfKey key := by",
         "  cases key <;> rfl",
         "",
+        "/-- Lightweight generated lookup by DU.9H selector coordinate. -/",
+        "def keyOfSelectorCoordinate? (coord : SelectorCoordinate) : Option ClassifierKey :=",
+    ])
+    for index, _family in enumerate(families):
+        lines.append(
+            f"  if coord = selectorCoordinateOfKey ClassifierKey.{key_ctor(index)} then "
+            f"some ClassifierKey.{key_ctor(index)} else"
+        )
+    lines.extend([
+        "  none",
+        "",
+        "/-- The selector lookup recognizes every generated classifier key.",
+        "",
+        "This is intentionally weaker than a full pairwise injectivity theorem: the",
+        "all-pairs proof expands to 15,625 cases and timed out under the guarded",
+        "smoke.  The lookup theorem is the proof-usable direction needed by",
+        "future generated selector witnesses. -/",
+        "theorem keyOfSelectorCoordinate?_selectorCoordinateOfKey",
+        "    (key : ClassifierKey) :",
+        "    keyOfSelectorCoordinate? (selectorCoordinateOfKey key) = some key := by",
+        "  cases key <;> rfl",
+        "",
         "/-- Smoke theorem: every generated classifier key has a public selector coordinate. -/",
         "theorem selectorCoordinateSmoke_builds : True := by",
         "  trivial",
@@ -162,6 +184,13 @@ def markdown(payload: dict[str, Any]) -> str:
         "## Coordinate",
         "",
         "`template + firstIndex + secondIndex + rowPropertyDigest`",
+        "",
+        "## Lean Surface",
+        "",
+        "- `selectorCoordinateAt_toFin` relates finite catalog indices to keys.",
+        "- `keyOfSelectorCoordinate?` is a lightweight generated lookup.",
+        "- `keyOfSelectorCoordinate?_selectorCoordinateOfKey` recognizes every",
+        "  generated classifier key without a 125-by-125 injectivity proof.",
         "",
         "The next theorem should prove this coordinate from identity-linear",
         "`GoodDirectionAtRank`, then use the coordinate to recover a public",

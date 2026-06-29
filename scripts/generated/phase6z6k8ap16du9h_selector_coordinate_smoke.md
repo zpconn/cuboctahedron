@@ -12,6 +12,13 @@ catalog.
 
 `template + firstIndex + secondIndex + rowPropertyDigest`
 
+## Lean Surface
+
+- `selectorCoordinateAt_toFin` relates finite catalog indices to keys.
+- `keyOfSelectorCoordinate?` is a lightweight generated lookup.
+- `keyOfSelectorCoordinate?_selectorCoordinateOfKey` recognizes every
+  generated classifier key without a 125-by-125 injectivity proof.
+
 The next theorem should prove this coordinate from identity-linear
 `GoodDirectionAtRank`, then use the coordinate to recover a public
 catalog key and theorem-valued source/row facts.

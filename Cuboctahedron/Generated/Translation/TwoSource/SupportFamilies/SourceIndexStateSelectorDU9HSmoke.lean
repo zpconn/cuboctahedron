@@ -305,6 +305,146 @@ theorem selectorCoordinateAt_toFin (key : ClassifierKey) :
     selectorCoordinateAt key.toFin = selectorCoordinateOfKey key := by
   cases key <;> rfl
 
+/-- Lightweight generated lookup by DU.9H selector coordinate. -/
+def keyOfSelectorCoordinate? (coord : SelectorCoordinate) : Option ClassifierKey :=
+  if coord = selectorCoordinateOfKey ClassifierKey.k000 then some ClassifierKey.k000 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k001 then some ClassifierKey.k001 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k002 then some ClassifierKey.k002 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k003 then some ClassifierKey.k003 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k004 then some ClassifierKey.k004 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k005 then some ClassifierKey.k005 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k006 then some ClassifierKey.k006 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k007 then some ClassifierKey.k007 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k008 then some ClassifierKey.k008 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k009 then some ClassifierKey.k009 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k010 then some ClassifierKey.k010 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k011 then some ClassifierKey.k011 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k012 then some ClassifierKey.k012 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k013 then some ClassifierKey.k013 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k014 then some ClassifierKey.k014 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k015 then some ClassifierKey.k015 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k016 then some ClassifierKey.k016 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k017 then some ClassifierKey.k017 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k018 then some ClassifierKey.k018 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k019 then some ClassifierKey.k019 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k020 then some ClassifierKey.k020 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k021 then some ClassifierKey.k021 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k022 then some ClassifierKey.k022 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k023 then some ClassifierKey.k023 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k024 then some ClassifierKey.k024 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k025 then some ClassifierKey.k025 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k026 then some ClassifierKey.k026 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k027 then some ClassifierKey.k027 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k028 then some ClassifierKey.k028 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k029 then some ClassifierKey.k029 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k030 then some ClassifierKey.k030 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k031 then some ClassifierKey.k031 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k032 then some ClassifierKey.k032 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k033 then some ClassifierKey.k033 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k034 then some ClassifierKey.k034 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k035 then some ClassifierKey.k035 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k036 then some ClassifierKey.k036 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k037 then some ClassifierKey.k037 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k038 then some ClassifierKey.k038 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k039 then some ClassifierKey.k039 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k040 then some ClassifierKey.k040 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k041 then some ClassifierKey.k041 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k042 then some ClassifierKey.k042 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k043 then some ClassifierKey.k043 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k044 then some ClassifierKey.k044 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k045 then some ClassifierKey.k045 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k046 then some ClassifierKey.k046 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k047 then some ClassifierKey.k047 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k048 then some ClassifierKey.k048 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k049 then some ClassifierKey.k049 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k050 then some ClassifierKey.k050 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k051 then some ClassifierKey.k051 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k052 then some ClassifierKey.k052 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k053 then some ClassifierKey.k053 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k054 then some ClassifierKey.k054 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k055 then some ClassifierKey.k055 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k056 then some ClassifierKey.k056 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k057 then some ClassifierKey.k057 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k058 then some ClassifierKey.k058 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k059 then some ClassifierKey.k059 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k060 then some ClassifierKey.k060 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k061 then some ClassifierKey.k061 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k062 then some ClassifierKey.k062 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k063 then some ClassifierKey.k063 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k064 then some ClassifierKey.k064 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k065 then some ClassifierKey.k065 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k066 then some ClassifierKey.k066 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k067 then some ClassifierKey.k067 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k068 then some ClassifierKey.k068 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k069 then some ClassifierKey.k069 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k070 then some ClassifierKey.k070 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k071 then some ClassifierKey.k071 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k072 then some ClassifierKey.k072 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k073 then some ClassifierKey.k073 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k074 then some ClassifierKey.k074 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k075 then some ClassifierKey.k075 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k076 then some ClassifierKey.k076 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k077 then some ClassifierKey.k077 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k078 then some ClassifierKey.k078 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k079 then some ClassifierKey.k079 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k080 then some ClassifierKey.k080 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k081 then some ClassifierKey.k081 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k082 then some ClassifierKey.k082 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k083 then some ClassifierKey.k083 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k084 then some ClassifierKey.k084 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k085 then some ClassifierKey.k085 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k086 then some ClassifierKey.k086 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k087 then some ClassifierKey.k087 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k088 then some ClassifierKey.k088 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k089 then some ClassifierKey.k089 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k090 then some ClassifierKey.k090 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k091 then some ClassifierKey.k091 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k092 then some ClassifierKey.k092 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k093 then some ClassifierKey.k093 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k094 then some ClassifierKey.k094 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k095 then some ClassifierKey.k095 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k096 then some ClassifierKey.k096 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k097 then some ClassifierKey.k097 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k098 then some ClassifierKey.k098 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k099 then some ClassifierKey.k099 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k100 then some ClassifierKey.k100 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k101 then some ClassifierKey.k101 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k102 then some ClassifierKey.k102 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k103 then some ClassifierKey.k103 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k104 then some ClassifierKey.k104 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k105 then some ClassifierKey.k105 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k106 then some ClassifierKey.k106 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k107 then some ClassifierKey.k107 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k108 then some ClassifierKey.k108 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k109 then some ClassifierKey.k109 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k110 then some ClassifierKey.k110 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k111 then some ClassifierKey.k111 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k112 then some ClassifierKey.k112 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k113 then some ClassifierKey.k113 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k114 then some ClassifierKey.k114 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k115 then some ClassifierKey.k115 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k116 then some ClassifierKey.k116 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k117 then some ClassifierKey.k117 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k118 then some ClassifierKey.k118 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k119 then some ClassifierKey.k119 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k120 then some ClassifierKey.k120 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k121 then some ClassifierKey.k121 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k122 then some ClassifierKey.k122 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k123 then some ClassifierKey.k123 else
+  if coord = selectorCoordinateOfKey ClassifierKey.k124 then some ClassifierKey.k124 else
+  none
+
+/-- The selector lookup recognizes every generated classifier key.
+
+This is intentionally weaker than a full pairwise injectivity theorem: the
+all-pairs proof expands to 15,625 cases and timed out under the guarded
+smoke.  The lookup theorem is the proof-usable direction needed by
+future generated selector witnesses. -/
+theorem keyOfSelectorCoordinate?_selectorCoordinateOfKey
+    (key : ClassifierKey) :
+    keyOfSelectorCoordinate? (selectorCoordinateOfKey key) = some key := by
+  cases key <;> rfl
+
 /-- Smoke theorem: every generated classifier key has a public selector coordinate. -/
 theorem selectorCoordinateSmoke_builds : True := by
   trivial
