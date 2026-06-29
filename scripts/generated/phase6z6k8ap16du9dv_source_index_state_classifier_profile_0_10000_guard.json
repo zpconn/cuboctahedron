@@ -1,0 +1,27 @@
+{
+  "available_floor_mib": 16384.0,
+  "command": [
+    "python3",
+    "scripts/profile_source_index_state_computable_classifier.py",
+    "--rank-start",
+    "0",
+    "--limit",
+    "10000",
+    "--max-rule-count",
+    "300",
+    "--top-limit",
+    "20",
+    "--json",
+    "scripts/generated/phase6z6k8ap16du9dv_source_index_state_classifier_profile_0_10000.json",
+    "--md",
+    "scripts/generated/phase6z6k8ap16du9dv_source_index_state_classifier_profile_0_10000.md"
+  ],
+  "elapsed_seconds": 240.2743160760001,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 81692,
+  "max_tree_rss_mib": 79.77734375,
+  "min_available_seen_kib": 43858148,
+  "min_available_seen_mib": 42830.22265625,
+  "rss_cap_mib": 8192.0
+}

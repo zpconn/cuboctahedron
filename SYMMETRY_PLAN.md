@@ -27098,3 +27098,47 @@ Decision: accepted.  This is a small maintainability win for the production
 emitter: future Boolean descriptor classifier shards can use the generic bridge
 constructors and keep local generated proofs focused on the actual membership
 premise.
+
+### Phase 6Z.6K.8AP.16DU.9DV checkpoint: 10k classifier scaling profile accepted
+
+Phase 6Z.6K.8AP.16DU.9DV runs the no-Lean source-index/state computable
+classifier diagnostic on `[0,10000)` under the memory guard.  This does not emit
+proof code and is not trusted as proof; it is a scaling gate for the Boolean
+classifier membership premise.
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9dv_source_index_state_classifier_profile_0_10000_guard.json \
+  -- python3 scripts/profile_source_index_state_computable_classifier.py \
+    --rank-start 0 \
+    --limit 10000 \
+    --max-rule-count 300 \
+    --top-limit 20 \
+    --json scripts/generated/phase6z6k8ap16du9dv_source_index_state_classifier_profile_0_10000.json \
+    --md scripts/generated/phase6z6k8ap16du9dv_source_index_state_classifier_profile_0_10000.md
+```
+
+Result:
+
+- Exit: `0`
+- Status: `accepted-next-smoke`
+- Rank window: `[0,10000)`
+- Identity words: `712`
+- GoodDirection survivors: `6389`
+- Not-GoodDirection masks: `39179`
+- Source-index/state families: `146`
+- Largest family: `1709`
+- Elapsed: `240.27s`
+- Peak tree RSS: `79.78 MiB`
+- Minimum available memory observed: `42830.22 MiB`
+
+Decision: accepted as a scaling diagnostic.  The family count remains well
+below the 300-family gate, so the Boolean classifier membership surface still
+looks plausible.  The serial runtime is the new bottleneck: before profiling
+larger windows, add a memory-safe parallel mode for this classifier diagnostic
+instead of running longer serial sweeps.
