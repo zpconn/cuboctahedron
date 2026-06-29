@@ -25728,6 +25728,56 @@ scripts/generated/phase6z6k8ap16du9db_selected_family_membership_route.json
 scripts/generated/phase6z6k8ap16du9db_selected_family_membership_route.md
 ```
 
+### Phase 6Z.6K.8AP.16DU.9DB Boolean-smoke checkpoint: singleton Boolean membership rejected
+
+After the route audit, a tiny compact-free Boolean smoke was attempted for
+rank `0`:
+
+```lean
+goodDirectionAtRankBool rank mask = true ->
+  classifierAppliesBool rank mask = true
+```
+
+The attempted module intentionally imported only the existing DU3 classifier
+surface and did **not** import compact-Walsh GoodDirection membership shards.
+It was run under the focused memory guard:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9db_bool_smoke_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU9DBBoolSmoke
+```
+
+Result:
+
+```text
+exit_code:          1
+killed_reason:      null
+elapsed_seconds:    13.02
+max_tree_rss_mib:   4029.44
+min_available_mib:  46117.52
+```
+
+The failure is useful but negative: it was not an OOM, and it was not a guard
+kill.  Ordinary `decide` got stuck in every `fin_cases mask` branch at the
+Boolean comparison involving `goodDirectionAtRankBool`.  This confirms that
+even the singleton Boolean-membership route is the wrong production surface.
+The proof-producing route must instead expose semantic
+source-position/source-row facts directly, or add a new theorem that derives
+the selector coordinate from `GoodDirectionAtRank` without reducing
+rank-local Boolean membership tables.
+
+Report:
+
+```text
+scripts/generated/phase6z6k8ap16du9db_bool_smoke.md
+scripts/generated/phase6z6k8ap16du9db_bool_smoke_guard.json
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
