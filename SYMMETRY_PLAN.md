@@ -15772,14 +15772,68 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json
   scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.md
   ```
-- [ ] Implement Phase 6Z.6K.8AP.16DU.3 source-index/state classifier Lean smoke:
-  instantiate a nonempty bounded classifier/coverage theorem for `[0,5000)`
-  from the 125 source-index/state families identified by DU.2.  The proof must
-  consume a `GoodDirectionAtRank` or `goodDirectionAtRankBool = true` premise,
-  avoid all-mask replay and bad-direction evidence, and avoid one
-  singleton-heavy signature/rank anchor per rank.  This is the first AP16DU
-  step that can count as a genuine nonempty production-style membership
-  theorem if it proves the classifier completeness premise in Lean.
+- [x] Implement Phase 6Z.6K.8AP.16DU.3 source-index/state classifier Lean smoke:
+  AP16DU.3 emits a nonempty bounded source-index/state classifier surface for
+  `[0,5000)` from the 125 source-index/state families identified by DU.2.  The
+  generated module packages those families into a `RowPropertyMembershipFamily`
+  surface and exposes per-family semantic `TranslationGoodCaseKilled` theorem
+  entry points from the descriptor `Applies` premise.  It deliberately emits no
+  concrete rank/mask examples, no bounded replay proof, and no bad-direction
+  evidence.
+
+  Generated Lean:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean
+  ```
+
+  Commands:
+
+  ```text
+  python3 scripts/generate_source_index_state_classifier_smoke.py --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json --family-count 125 --phase 6Z.6K.8AP.16DU.3 --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean --json scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_smoke.json --md scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_smoke.md --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+  python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6500 --poll-seconds 1 --json scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke'
+  ```
+
+  Result:
+
+  ```text
+  status: classifier-smoke-emitted
+  selected source-index/state families: 125
+  selected GoodDirection cases represented by those families: 4693
+  generated Lean size: 2533 lines
+  build: passed
+  elapsed: 15.04s
+  peak process-tree RSS: 4038.43 MiB
+  min available memory observed: 46077.05 MiB
+  ```
+
+  This is accepted as a nonempty semantic classifier-surface smoke.  It does
+  not yet prove the AP16DU.0 catalog `hcomplete` premise or final all-Good
+  coverage over arbitrary GoodDirection survivors in `[0,5000)`.  The next
+  step is AP16DU.4: prove or emit the actual source-index/state classifier
+  completeness bridge from arbitrary identity-linear `GoodDirectionAtRank`
+  survivors to one of these 125 descriptor families, without rank/mask replay.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_smoke.json
+  scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_smoke.md
+  scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_guard.json
+  scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_guard.md
+  ```
+- [ ] Implement Phase 6Z.6K.8AP.16DU.4 source-index/state classifier
+  completeness bridge:
+  prove or emit the bounded `[0,5000)` theorem that arbitrary
+  identity-linear `GoodDirectionAtRank` translation survivors belong to one of
+  the 125 AP16DU.3 descriptor families.  This bridge must target semantic
+  coverage directly, not an ordinary `TranslationCert`; it must avoid
+  `fin_cases mask`/all-mask replay, avoid singleton positive-survivor
+  signatures, and stay under the established guarded build cap.  If the direct
+  predicate is still too hard, add a compact trace/source-position lemma whose
+  type mentions only the reusable source-index/state family, not concrete
+  rank/mask examples.
 - [ ] Implement Phase 6Z.6K.8AP.16 production source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
