@@ -18,21 +18,20 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{remark}[theorem]{Remark}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\Z}{\mathbb{Z}}
-\newcommand{\Lean}{Lean~4}
-\newcommand{\mathlib}{mathlib}
-\newcommand{\Faces}{\mathcal F}
-\newcommand{\Pairs}{\mathcal P}
-\newcommand{\rank}{\operatorname{rank}}
-\newcommand{\unrank}{\operatorname{unrank}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\Pcal}{\mathcal P}
 \newcommand{\dotp}{\mathbin{\cdot}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\relint}{\operatorname{relint}}
 
-\title{A Formal Proof that the Cuboctahedron Has No Nonsingular Omnihedral Periodic Billiard Orbit}
+\title{The Cuboctahedron Has No Nonsingular Omnihedral Periodic Billiard Orbit}
 \author{Zach Conn}
 \date{\today}
 
@@ -41,230 +40,85 @@
 \maketitle
 
 \begin{abstract}
-We give a formal proof strategy for the theorem that the cuboctahedron admits
-no nonsingular periodic billiard orbit touching each face exactly once in one
-period.  The geometric proof is short in outline: unfold the billiard path to a
-straight line, enumerate the possible face orders, and show that each order is
-incompatible with the resulting exact affine return map.  The difficulty is
-that the finite enumeration contains nearly one hundred million opposite-face
-orders and more than one hundred fifty million signed translation cases.
-
-The Lean development handles this finite problem by exact rational arithmetic
-and proof-carrying obstruction certificates.  Non-identity return maps are
-eliminated by forced-axis obstructions.  Translation return maps reduce to
-strict two-variable linear systems; these are eliminated by GoodDirection
-arguments, Farkas certificates, Walsh sign-polynomial subcube bounds, and a
-semantic descriptor layer for families of two-source contradictions.  External
-programs may propose certificates and families, but the finite enumeration,
-certificate soundness, and coverage statements are checked in Lean.
-
-At the time of this draft, the public Lean theorem proves the final billiard
-statement conditionally from a complete generated coverage witness.  The
-geometry, unfolding bridge, pair-word enumeration, certificate checkers,
-GoodDirection theorem, Farkas soundness, Walsh denominator infrastructure,
-Boolean GoodDirection equivalence, descriptor-family adapters, and coverage
-assembly interfaces are formalized.  The remaining publication step is to
-expose full Lean-checked generated coverage over all ranks and sign masks.
+We prove that the cuboctahedron has no nonsingular periodic billiard orbit
+which visits each face exactly once in one period.  The proof uses the
+classical unfolding construction: a billiard trajectory with a prescribed face
+itinerary is replaced by a straight line in a reflected development of the
+polyhedron.  This converts the problem into an exact finite obstruction
+problem for affine reflection products.  The non-translation products are
+ruled out by forced-axis obstructions.  The translation products reduce to
+systems of strict linear inequalities in two variables and are ruled out by
+Farkas certificates, positive-denominator obstructions, and sign-polynomial
+families.  The exhaustive finite verification is large, and the authoritative
+proof of that verification is the accompanying Lean formalization in the
+GitHub repository.
 \end{abstract}
-
-\tableofcontents
 
 \section{Introduction}
 
-A polyhedral billiard orbit is a piecewise-linear path inside a polyhedron
-which reflects specularly from faces.  At a nonsingular impact, the incoming and
-outgoing directions make equal angles with the face plane; singular impacts, at
-edges or vertices, are excluded.  An orbit is \emph{omnihedral} if, during one
-period, it visits every face of the polyhedron exactly once.
+The motion of a billiard particle in a polyhedron is simple locally and subtle
+globally.  The particle moves along straight line segments, and whenever it
+hits a face it reflects by the usual equal-angle law.  Singular hits at edges
+or vertices are excluded in the present paper.  We study the following
+face-covering question.
 
-This paper concerns the cuboctahedron.  The cuboctahedron has fourteen faces:
-six squares and eight equilateral triangles.  It is one of the Archimedean
-solids, and more specifically the rectification of the cube and the
-octahedron.  Thus it is a natural test case immediately beyond the Platonic
-solids: it retains a large symmetry group and regular faces, but it has two
-different face types.  The theorem under formalization is negative.
+\begin{definition}
+Let \(P\subset\R^3\) be a polyhedron with face set \(\F\).  A periodic billiard
+orbit in \(P\) is \emph{omnihedral} if, during one period, it meets every face
+of \(P\) exactly once.  It is \emph{nonsingular} if every impact point lies in
+the relative interior of the face it meets.
+\end{definition}
+
+The cuboctahedron has fourteen faces: six squares and eight triangles.  It is
+one of the Archimedean solids, and may be obtained by rectifying either the
+cube or the octahedron.  Its symmetry makes it a natural test object for
+questions about highly constrained billiard itineraries.  The main result is a
+negative one.
 
 \begin{theorem}[Main theorem]
-The cuboctahedron has no nonsingular periodic billiard orbit which touches each
-of its fourteen faces exactly once per period.
+The cuboctahedron has no nonsingular periodic billiard orbit which meets each
+of its fourteen faces exactly once in one period.
 \end{theorem}
 
-The proof is intended to be a formal proof rather than a numerical search.  The
-search space is finite but large: after normalizing the starting face, there
-are \(97{,}297{,}200\) possible opposite-face pair words, and
-\(157{,}957{,}632\) translation sign assignments in the identity-linear branch.
-The central engineering problem is therefore not merely to discover obstructions
-but to represent them in a form that \Lean can check within realistic memory
-and compilation constraints.
+The result should be viewed against the broader background of polygonal and
+polyhedral billiards.  In rational polygonal billiards, the unfolding
+construction leads to translation surfaces and a rich theory of periodic
+directions; see for example Masur's theorem on closed trajectories
+\cite{masur} and the density result of Boshernitzan, Galperin, Kruger, and
+Troubetzkoy \cite{boshernitzan}.  By contrast, even elementary-looking
+questions about periodic trajectories can remain difficult: the existence of a
+periodic billiard orbit in every triangle is a famous open problem.
 
-\subsection*{Mathematical context and significance}
+In higher-dimensional polyhedra the situation is still less rigidly organized.
+The singular set is a graph rather than a finite set of vertices, unfoldings
+develop in three-dimensional space, and the usual compact translation-surface
+picture is no longer available.  Work such as that of Cekic, Georgiev, and
+Mukherjee on polyhedral billiards and almost periodic control illustrates that
+even avoiding neighborhoods of the singular set can require delicate analysis
+\cite{cekic-georgiev-mukherjee}.
 
-The unfolding method used here is classical in billiards: instead of reflecting
-the moving particle, one reflects the table, so that the billiard path becomes
-a straight line in a reflected development of the domain.  In planar polygonal
-billiards this construction leads to the theory of rational billiards and
-translation surfaces; in that setting Masur proved the abundance of periodic
-directions for rational polygons, and Boshernitzan, Galperin, Krueger, and
-Troubetzkoy strengthened the picture by proving density of periodic points for
-rational polygons \cite{masur,boshernitzan}.  At the same time, even the
-apparently elementary question of whether every triangle has a periodic
-billiard orbit remains a major open problem.  Billiards are therefore a place
-where simple reflection laws produce unexpectedly delicate global questions.
+The omnihedral condition imposes a different kind of rigidity.  It asks for a
+periodic trajectory that gives a minimal tour of the face set.  Such
+trajectories are not unreasonable in highly symmetric settings: Bedaride and
+Rao prove that the regular \(n\)-simplex has a period \(n+1\) billiard orbit
+meeting each face once \cite{bedaride-rao}.  The cuboctahedron is close in
+spirit to the Platonic solids, but has two face types.  The theorem says that
+this mixture is already enough to obstruct an omnihedral orbit.
 
-Polyhedral billiards are harder than planar polygonal billiards in several
-ways.  The singular set is not a finite set of vertices but a graph of edges
-and vertices, the reflected copies live in three-dimensional space, and the
-unfolding does not reduce the problem to the same compact translation-surface
-picture.  Recent work on polyhedral billiards, such as the study of periodic
-tubes avoiding edge neighborhoods by Cekic, Georgiev, and Mukherjee
-\cite{cekic-georgiev-mukherjee}, illustrates that even controlling families of
-periodic trajectories away from the nonsmooth boundary is a subtle problem.
-
-The omnihedral condition isolates a particularly rigid class of periodic
-orbits.  It asks for a shortest possible global tour of the face set: every
-face must be hit, and no face may be repeated in the period.  In regular
-simplices, such orbits exist; Bedaride and Rao prove, in all dimensions, a
-period \(n+1\) billiard trajectory in the regular \(n\)-simplex that hits each
-face once \cite{bedaride-rao}.  For highly symmetric polyhedra, it is therefore
-natural to ask whether there are analogous face-covering periodic trajectories.
-The cuboctahedron is a compelling next case because it is almost as symmetric
-as the cube and octahedron from which it is derived, but its mixture of square
-and triangular faces introduces new combinatorics.  A negative result says that
-large symmetry and regular faces do not, by themselves, force the existence of
-an omnihedral billiard orbit.
-
-The formalization is also mathematically significant as a proof style.  The
-theorem is not proved by drawing a single clever impossible picture.  Instead,
-it is proved by reducing the geometry to a finite exact decision problem and
-then making every step of that decision problem proof-carrying.  The result is
-a human mathematical argument whose large finite component is checked rather
-than trusted.
-
-\subsection*{Why a direct proof is hard}
-
-There is a tempting direct attack.  Choose an order of the fourteen faces,
-unfold the cuboctahedron along that order, and ask whether a straight line can
-cross the unfolded copies in the prescribed sequence while remaining in the
-relative interiors of the faces.  If this fails for every order, the theorem is
-proved.
-
-The difficulty is scale.  Even after cyclically starting on \(X_+\) and
-forgetting signs inside opposite face-pairs, there are \(97{,}297{,}200\)
-valid pair words.  In the translation branch, each identity-linear pair word
-has \(64\) sign masks.  A direct proof that writes down and checks one
-geometric calculation per signed itinerary would be unreadable on paper and
-unbuildable as a formal proof.
-
-There is a second difficulty: most individual cases are not hard for the same
-reason.  Some fail because the affine return map has no compatible axis.  Some
-fail because the forced direction crosses a face from the wrong side.  Some
-fail only after reducing to a two-variable system of strict inequalities.
-Among those, many contradictions use the same algebraic shape but with
-different coefficients.  A useful proof must therefore expose structure across
-families of cases, not merely enumerate cases.
-
-Finally, a computer search is not a proof unless the connection between the
-search and the theorem is itself checked.  It is easy for a program to say
-``all cases passed''; it is much harder to produce evidence that a proof
-assistant can verify without rerunning an enormous untrusted search.  This is
-why the formal development emphasizes rank/unrank enumeration, soundness
-theorems for certificate checkers, semantic family theorems, interval coverage,
-and exact rational arithmetic.
-
-\subsection*{Proof at a glance}
-
-Here is the proof in its human form.  Suppose, for contradiction, that a
-nonsingular omnihedral period-14 orbit exists.  Rotate the period so that its
-first impact is on the square face \(X_+\).  Unfold the cuboctahedron across
-the fourteen hit faces.  The original broken billiard path becomes a straight
-line, and the sequence of fourteen reflections becomes a single affine return
-map
+\paragraph{Proof artifact.}
+The present article is a human-readable account of the proof.  The complete
+finite verification is not reproduced as printed tables.  The real proof
+artifact, including the exhaustive rational certificates used in the finite
+case analysis, is the Lean formalization at
 \[
-A(p)=Mp+b.
+  \url{https://github.com/zpconn/cuboctahedron}.
 \]
+This paper avoids formalization-specific notation except where this repository
+is mentioned as the authoritative checked source for the finite verification.
 
-The started orbit determines a valid opposite-face pair word.  Since every
-valid pair word has a Lean-checked rank, it is enough to rule out each rank.
-There are two cases.
+\section{The Cuboctahedron}
 
-If \(M\ne I\), the straight line must be compatible with a nontrivial affine
-isometry.  This forces an axis, or proves that no such axis exists.  The
-non-identity certificate checks this forced situation and shows that the
-candidate either fails to exist, starts outside \(X_+\), crosses in the wrong
-direction, hits the wrong face, or leaves a required face interior.
-
-If \(M=I\), the return map is a translation.  The starting point is
-\((1,y,z)\), and the itinerary conditions are strict linear inequalities in
-\(y,z\).  A feasible orbit would give a point satisfying all these
-inequalities.  Bad-direction cases contradict a general positivity condition
-on internal crossing denominators.  The remaining cases are killed by Farkas
-certificates, by Walsh subcube bounds that prove one of those denominators is
-nonpositive on an entire family of masks, or by descriptor-level family
-theorems that identify the two geometric rows responsible for the
-contradiction.
-
-Thus every possible started unfolded itinerary is impossible.  The unfolding
-reduction then contradicts the assumed billiard orbit.
-
-\paragraph{Formal status.}
-The current public Lean theorem is conditional on complete generated coverage:
-\[
-\begin{gathered}
-\texttt{Cuboctahedron.conditional\_cuboctahedron\_no\_omnihedral} \\
-\texttt{(coverage : ExhaustiveGeneratedCoverage) :} \\
-\texttt{\quad \textasciitilde{} exists o : BilliardOrbit14,}\\
-\texttt{\quad\quad o.Nonsingular /\ o.Periodic /\ o.TouchesEachFaceExactlyOnce.}
-\end{gathered}
-\]
-In words, if Lean is given a complete generated coverage witness, the already
-formalized geometry and unfolding bridge prove the billiard theorem.  The
-preferred completion path is semantic: generated files should prove compact
-impossibility theorems over ranges and families rather than expose large arrays
-of raw certificate data.  The latest infrastructure includes a Boolean
-GoodDirection bridge and a descriptor-family bridge.  Here ``Boolean'' means a
-finite true/false checker proved equivalent to the corresponding mathematical
-predicate; it is not an unchecked computation.  The descriptor-family bridge
-packages the source rows and row-template identity for a two-source Farkas
-contradiction and then erases that package back to the semantic coverage
-interface used by the conditional theorem.
-
-\paragraph{Repository.}
-The formalization is available at
-\[
-  \url{https://github.com/zpconn/cuboctahedron}
-\]
-and this draft refers to repository commit
-\[
-  \texttt{dff526e891279a0faf6ca83520a47ac4d45981b0}.
-\]
-The current axiom report for the conditional public theorem is produced by
-\[
-  \texttt{lake env lean Cuboctahedron/PrintConditionalAxioms.lean}.
-\]
-When the unconditional generated coverage root is installed, the final
-verification target is expected to be
-\[
-  \texttt{lean Cuboctahedron/PrintAxioms.lean}.
-\]
-
-\paragraph{Contribution.}
-The contribution is threefold.
-\begin{enumerate}[leftmargin=2em]
-\item We formalize the exact rational geometry of the cuboctahedron, including
-  faces, interiors, reflections, and unfolding into straight-line conditions.
-\item We formalize a complete finite enumeration of started omnihedral
-  opposite-face pair words by rank and unrank functions checked in Lean.
-\item We develop exact certificate checkers and reusable certificate families
-  for the two affine-return cases: non-identity linear part and translation.
-  The translation branch includes strict two-dimensional Farkas certificates,
-  GoodDirection reduction, two-source supports, symmetry transport, Walsh
-  sign-polynomial infrastructure for denominator subcube arguments, and a
-  descriptor-level coverage language for compact generated families.
-\end{enumerate}
-
-\section{The Coordinate Model}
-
-We use the standard coordinate model
+We use the following rational coordinate model.  Let
 \[
 P=\{(x,y,z)\in\R^3:
  |x|\le 1,\ |y|\le 1,\ |z|\le 1,\
@@ -279,651 +133,414 @@ Z_\pm:\ \pm z=1,
 and the triangular faces are
 \[
 T_{\epsilon_1\epsilon_2\epsilon_3}:
-  \epsilon_1x+\epsilon_2y+\epsilon_3z=2,
-  \qquad \epsilon_i\in\{\pm1\}.
+\epsilon_1x+\epsilon_2y+\epsilon_3z=2,
+\qquad \epsilon_i\in\{\pm1\}.
 \]
+Thus the face set has \(6+8=14\) elements.
 
-Every face is represented by a rational normal vector \(n\in\Q^3\) and a
-rational offset \(c\in\Q\), so that the face plane is \(n\dotp p=c\).  Reflection
-in that face is the affine map
+Each face \(F\) lies in a plane
 \[
-r_F(p)=p-2\frac{n\dotp p-c}{n\dotp n}n.
+n_F\dotp p=c_F
 \]
-For the cuboctahedron model above, all coefficients in these reflections are
-rational.  Thus the formalized reflection maps live in a small exact affine
-space over \(\Q\), represented in Lean by rational \(3\times 3\) matrices and
-rational vectors.
-
-\begin{remark}
-The proof deliberately avoids floating point.  External scripts may profile,
-search, or generate candidate data, but the checked objects reduce to exact
-integer and rational equalities or inequalities inside Lean.
-\end{remark}
-
-\section{Unfolding Billiard Orbits}
-
-The standard unfolding construction replaces a reflected billiard path by a
-straight line through reflected copies of the polyhedron.  For a proposed
-itinerary
+with \(n_F\in\Q^3\) and \(c_F\in\Q\).  Reflection in this plane is the affine
+map
 \[
-F_0,F_1,\ldots,F_{13},
+r_F(p)
+  =p-2\,\frac{n_F\dotp p-c_F}{n_F\dotp n_F}\,n_F.
 \]
-we compose the corresponding affine reflections and obtain an affine return map
+All coefficients in these reflection maps are rational.
+
+\begin{definition}
+Two faces are \emph{opposite} if they have parallel supporting planes and
+opposite outward normals.  The cuboctahedron has seven opposite-face pairs:
+three square pairs and four triangular pairs.
+\end{definition}
+
+The opposite-face pairs are useful because opposite faces have the same linear
+reflection part.  They differ only in the affine translation term.
+
+\section{Unfolding}
+
+We recall the standard unfolding construction in the special form needed here.
+Let
 \[
-A(p)=Mp+b.
+F_0,F_1,\ldots,F_{13}
 \]
-A periodic billiard orbit with this itinerary can exist only if the unfolded
-straight line is compatible with \(A\).  The formalization records this
-compatibility as \texttt{UnfoldedFeasible}.
-
-Since an omnihedral orbit touches every face once, a period can be cyclically
-reindexed to start at a chosen square face.  We choose \(X_+\), called
-\texttt{Face.xp} in the Lean development.
-
-\begin{proposition}[Unfolding reduction, formalized]
-If a nonsingular omnihedral period-14 billiard orbit exists in the
-cuboctahedron, then there is a started face sequence
+be a proposed ordered list of faces.  Reflect the polyhedron successively in
+these faces.  The original billiard path in \(P\) becomes a straight line in
+the reflected development.  The product of the fourteen affine reflections is
+an affine map
 \[
-F_0=X_+,\quad F_1,\ldots,F_{13}
+A(p)=Mp+b,
 \]
-which is omnihedral and admits an unfolded feasible straight-line witness.
-\end{proposition}
+where \(M\in\operatorname{O}(3)\) and \(b\in\R^3\).  In the cuboctahedron
+model above, \(M\) and \(b\) are rational whenever the faces are specified.
 
-In Lean this bridge is used in
-\texttt{conditional\_cuboctahedron\_no\_omnihedral}.  The theorem first rotates
-the orbit to start at \texttt{Face.xp}, then applies
-\texttt{billiard\_implies\_unfolded}, and finally invokes the no-started
-unfolded-itinerary theorem supplied by generated coverage.
-
-\section{Finite Enumeration of Itineraries}
-
-Opposite faces have the same linear reflection part.  Therefore the proof first
-records only which opposite face-pair is hit.  Let the pair set be
+\begin{lemma}[Unfolding criterion]
+Suppose a nonsingular billiard orbit in \(P\) meets the faces
+\(F_0,\ldots,F_{13}\) in that cyclic order.  Then there is a straight line
 \[
-\Pairs=\{x,y,z,d_{111},d_{11-},d_{1-1},d_{-11}\},
+\ell(t)=p+tv
 \]
-where \(x,y,z\) denote the three square opposite-pairs and the four \(d\)'s
-denote the four triangular opposite-pairs.
+in the unfolded development such that:
+\begin{enumerate}[leftmargin=2em]
+\item \(\ell\) crosses the unfolded copy of \(F_i\) at the \(i\)-th impact;
+\item every crossing lies in the relative interior of the corresponding face;
+\item the affine return map \(A\) carries the line to itself and preserves its
+  direction, so \(Mv=v\).
+\end{enumerate}
+Conversely, such an unfolded straight-line witness folds to a nonsingular
+billiard orbit with the given itinerary.
+\end{lemma}
 
-After fixing \(F_0=X_+\), a valid pair word has length \(13\) and contains
+\begin{proof}
+At each impact, instead of reflecting the velocity vector across the face, one
+reflects the next copy of the polyhedron across that face.  The reflected
+outgoing segment becomes the continuation of the incoming segment.  Repeating
+this at all impacts turns the broken billiard trajectory into one straight
+line.  Nonsingularity is exactly the assertion that the crossing points remain
+in relative face interiors.  Periodicity says that after the fourteen
+reflections the developed line is identified with its translate by the affine
+return map; hence the direction is fixed by the linear part.  The construction
+is reversible because reflecting the copies back folds the straight line into
+a path satisfying the equal-angle reflection law.
+\end{proof}
+
+\begin{lemma}[Starting-face normalization]
+If a nonsingular omnihedral period-14 orbit exists in the cuboctahedron, then
+one exists whose first face is \(X_+\).
+\end{lemma}
+
+\begin{proof}
+An omnihedral period contains every face exactly once, so some cyclic shift of
+the period begins on \(X_+\).  Cyclically reindexing a periodic orbit does not
+change the geometric path, its nonsingularity, or the one-hit-per-face
+property.
+\end{proof}
+
+Thus it is enough to rule out started unfolded witnesses, meaning unfolded
+straight-line witnesses whose first face is \(X_+\).
+
+\section{The Finite Search Space}
+
+After fixing \(F_0=X_+\), we first forget signs and remember only opposite-face
+pairs.  The remaining thirteen entries must contain:
 \[
-x\text{ once},\qquad
-y\text{ twice},\qquad
-z\text{ twice},
+\text{the }X\text{-pair once},\qquad
+\text{the }Y\text{- and }Z\text{-pairs twice each},
 \]
-and each of the four triangular opposite-pairs twice.  Thus the number of valid
-pair words is
+and each of the four triangular opposite-face pairs twice.  Hence the number
+of opposite-pair words is
 \[
 \frac{13!}{2^6}=97{,}297{,}200.
 \]
 
-The Lean development proves rank/unrank theorems for these pair words.  A rank
-is an element of \(\{0,\ldots,N-1\}\), where \(N=97{,}297{,}200\), and
-\(\unrank(r)\) is the corresponding valid pair word.  Conversely, every valid
-pair word is shown to occur at its rank.  Consequently, a theorem quantified
-over \texttt{Fin numPairWords} is a theorem over the complete finite itinerary
-space, not over a list trusted from an external search program.
+\begin{definition}
+A \emph{pair word} is such a length-13 word in the seven opposite-face pairs,
+after the initial face \(X_+\) has been fixed.  A \emph{signed lift} of a pair
+word is a choice of the actual face in each opposite pair, compatible with the
+requirement that every face is used exactly once.
+\end{definition}
 
-\subsection{Sign masks}
+For a fixed pair word \(w\), the linear part \(M(w)\) of the return map depends
+only on \(w\), not on the signed lift, because opposite faces have the same
+linear reflection.  This gives the basic dichotomy.
 
-A pair word forgets which face inside each opposite pair is hit.  In the
-translation branch, those choices are represented by a six-bit sign mask.  The
-initial \(x\)-face has already been fixed as \(X_+\), and the remaining six
-opposite-pairs each contribute one binary choice.  Thus every identity-linear
-pair word has \(64\) possible translation sign masks.
+\begin{definition}
+A pair word is of \emph{non-translation type} if \(M(w)\ne I\).  It is of
+\emph{translation type} if \(M(w)=I\).
+\end{definition}
 
-The proof splits each pair word according to the linear part \(M\) of the
-unfolded affine return map:
+The finite enumeration has the following sizes:
 \[
-M\ne I\qquad\text{or}\qquad M=I.
+\begin{array}{lr}
+\text{pair words} & 97{,}297{,}200,\\
+\text{non-translation pair words} & 94{,}829{,}112,\\
+\text{translation pair words} & 2{,}468{,}088.
+\end{array}
 \]
-The two cases use different obstructions.
+In the translation case there are six independent sign choices after the
+started face is fixed, so the number of signed translation cases is
+\[
+2{,}468{,}088\cdot 64=157{,}957{,}632.
+\]
 
-\section{The Non-Identity Case}
+\section{The Non-Translation Case}
 
-Assume \(M\ne I\).  Then a compatible periodic unfolded line is highly
-constrained by the affine map \(p\mapsto Mp+b\).  Its direction must be a
-nonzero fixed direction of \(M\), and the possible axis of the affine return is
-determined by exact linear conditions.  In many cases, even the signed face
-sequence and starting point are forced.
+Assume \(M\ne I\).  If an unfolded line \(\ell(t)=p+tv\) is compatible with
+the affine return map \(A(p)=Mp+b\), then \(Mv=v\).  Thus \(v\) lies in the
+fixed subspace of \(M\).  Moreover, the line itself is constrained by the
+condition that \(A\ell=\ell\).  For the reflection products arising here, this
+forces a unique axis or proves that no such axis exists.
 
-The certificate type \texttt{NonIdCert} packages this forced data together with
-one of several failure modes.  Typical failures include:
-\begin{itemize}[leftmargin=2em]
-\item no nonzero fixed direction exists;
-\item the required crossing direction has the wrong sign;
-\item the forced signed sequence is not omnihedral;
-\item the forced axis misses the relative interior of \(X_+\);
-\item the candidate hits the wrong face first;
-\item an impact lies outside the required face interior.
-\end{itemize}
-The checker \texttt{checkNonIdCert} verifies the exact data, and the soundness
-theorem proves that a passing certificate rules out any real unfolded feasible
-orbit realizing the corresponding pair word.
+\begin{lemma}[Forced-axis lemma]
+Let \(A(p)=Mp+b\) be the return map of a started itinerary with \(M\ne I\).
+If the itinerary has an unfolded periodic straight-line witness, then the
+direction of that witness is a nonzero fixed vector of \(M\), and the starting
+point lies on the affine axis determined by \(A\).
+\end{lemma}
 
-\begin{proposition}[Non-identity obstruction interface]
-Given complete generated non-identity coverage, every valid pair word whose
-unfolded linear part is not the identity is impossible.
+\begin{proof}
+By the unfolding criterion the return map carries the developed line to itself
+and preserves the direction, so \(Mv=v\).  The condition \(A(p+tv)\in
+\{p+sv:s\in\R\}\) for all \(t\) is equivalent to
+\[
+(I-M)p=b-\lambda v
+\]
+for some real \(\lambda\).  Once a fixed direction \(v\) is specified, this is
+a linear system for \(p\) and \(\lambda\).  Therefore either no compatible
+axis exists, or all compatible starting points lie on the affine solution set
+of this system.  In the non-identity cases of the cuboctahedron enumeration,
+the relevant solution set is either empty or the forced axis used in the
+certificate verification.
+\end{proof}
+
+The forced axis must still pass several geometric tests.  It must meet the
+relative interior of \(X_+\), cross subsequent unfolded faces from the correct
+side, hit the prescribed face before any other face, and remain in the
+relative interiors of the prescribed faces.
+
+\begin{proposition}[Non-translation finite verification]
+No started unfolded omnihedral witness realizes a non-translation pair word.
 \end{proposition}
 
-The current generated architecture also includes parametric non-identity
-families and computable classifiers.  Here a classifier means an exact
-decision procedure that assigns a rank to a previously proved family.  It
-first removes broad families such as bad-direction cases and bad-pair-balance
-cases; the latter are cases in which the forced signed face choices cannot
-match the required one-hit-per-face condition.  The decisions are Boolean
-checks, meaning finite true/false computations, and their soundness is proved
-in Lean.  Residual ranks are then handled by generated interval coverage.
+\begin{proof}
+For each non-translation pair word, the finite verification supplies one of
+the following rational certificates:
+\begin{enumerate}[leftmargin=2em]
+\item the fixed subspace of \(M\) contains no nonzero direction compatible with
+  a line witness;
+\item the forced axis does not meet the relative interior of \(X_+\);
+\item the forced crossing direction has the wrong sign at some impact;
+\item the forced signed lift is not omnihedral;
+\item the first hit in the developed polyhedron is not the prescribed face;
+\item a prescribed impact point lies outside the relative interior of its face.
+\end{enumerate}
+Each certificate is checked by rational linear algebra and rational strict
+inequality arithmetic.  The forced-axis lemma shows that these certificates
+cover all possible unfolded witnesses for the corresponding pair word.  The
+finite list covers all \(94{,}829{,}112\) non-translation pair words.
+\end{proof}
 
 \section{The Translation Case}
 
-Assume \(M=I\).  Then the affine return map is a pure translation,
+Assume \(M=I\).  Then the affine return map is a translation
 \[
 A(p)=p+b.
 \]
-The starting point on \(X_+\) has the form
+When \(b\ne 0\), an invariant unfolded line must have direction parallel to
+\(b\).  Degenerate cases with \(b=0\), if they occur in the enumeration, are
+included in the same finite verification below.  For the nondegenerate
+translation cases, the starting point on \(X_+\) has the form
 \[
 p_0=(1,y,z).
 \]
-For a fixed pair word and sign mask, the requirements that the unfolded line
-cross the prescribed faces in the prescribed order and through the relative
-interiors of the copied faces become strict linear inequalities in \(y,z\).
+For a fixed signed itinerary, all crossing and face-interior conditions become
+strict linear inequalities in the two variables \(y,z\).
 
-\subsection{Strict linear constraints}
+\subsection{Positive denominators}
 
-Lean stores a strict two-variable rational linear inequality as a triple
-\((a,b,c)\in\Q^3\), interpreted as
+Let \(H_i\) be the \(i\)-th unfolded face plane, written
 \[
-ay+bz<c.
+u_i\dotp p=d_i.
 \]
-The module \texttt{LinearConstraints.lean} contains this language and its
-elementary exact arithmetic.  A translation certificate supplies, or
-reconstructs from named geometric sources, a finite list of such inequalities.
-
-\subsection{Farkas certificates}
-
-The translation obstruction uses Farkas-style infeasibility certificates.  In
-the present two-dimensional strict setting, a Farkas certificate is a finite
-list of pairs
+The time at which the line \(p_0+tb\) reaches this plane is
 \[
-(i_j,q_j),
+t_i=\frac{d_i-u_i\dotp p_0}{u_i\dotp b}.
 \]
-where \(i_j\) indexes an inequality and \(q_j\in\Q\) is a multiplier.  Lean
-checks:
-\begin{enumerate}[leftmargin=2em]
-\item every \(i_j\) is a valid row index;
-\item every \(q_j\) is nonnegative;
-\item at least one \(q_j\) is positive;
-\item after scaling and summing the selected rows, the \(y\)- and
-  \(z\)-coefficients are both zero;
-\item the summed right-hand side is nonpositive.
-\end{enumerate}
-If all rows held at some \((y,z)\), then the positive weighted sum would imply
+For the internal crossings to occur in the prescribed forward order, the
+denominators \(u_i\dotp b\) must have the prescribed positive sign.
+
+\begin{lemma}[Positive-denominator condition]
+Every feasible translation-type unfolded witness has
 \[
-0<c\le 0,
+u_i\dotp b>0
 \]
-which is impossible.  The theorem
-\texttt{checkFarkas\_sound} formalizes this argument.
+for each internal impact \(i=1,\ldots,13\), after the itinerary has been
+oriented by the started face.
+\end{lemma}
 
-The development also uses \emph{source-indexed} Farkas certificates.  Instead
-of merely naming row numbers, a source-indexed certificate names the geometric
-origin of a row, for example an \(X_+\)-start interior condition or an interior
-condition at a specified impact.  Lean reconstructs the ordinary row list from
-these sources and then invokes the same Farkas checker.
+\begin{proof}
+The crossing times increase along the oriented unfolded line.  In the chosen
+normalization, the numerator records the signed distance from the current
+point to the next unfolded face plane, and the denominator records the rate at
+which the line crosses that plane.  A nonpositive denominator would either
+prevent the line from reaching the required plane in forward time or make the
+crossing occur from the wrong side.  Thus each internal denominator is
+positive.
+\end{proof}
 
-\subsection{GoodDirection}
+Consequently, any signed itinerary with a nonpositive internal denominator is
+impossible before considering the remaining face-interior inequalities.
 
-Before applying full Farkas evidence, the translation branch removes cases
-whose crossing directions are already impossible.  For an internal impact, the
-formula for the crossing time contains a rational denominator.  A physically
-possible translation orbit must have all such internal denominators positive.
-The predicate \texttt{GoodDirection} states precisely this positivity
-condition.
+\subsection{Linear inequalities}
 
-\begin{proposition}[GoodDirection necessity]
-Every feasible translation unfolded orbit satisfies \texttt{GoodDirection}.
+After the positive-denominator conditions are imposed, the statement that the
+\(i\)-th impact lies in the relative interior of the required face is a finite
+collection of inequalities of the form
+\[
+a y + c z + e >0,
+\qquad a,c,e\in\Q.
+\]
+The starting point conditions on \(X_+\), the ordering conditions, and the
+interior conditions at all subsequent impacts are all of this form.  Thus each
+signed translation case gives a strict rational linear system in \((y,z)\).
+
+\begin{definition}
+A strict rational two-variable system is a finite set
+\[
+\mathcal S=\{a_j y+c_j z+e_j>0:1\le j\le N\},
+\qquad a_j,c_j,e_j\in\Q.
+\]
+It is feasible if there are real numbers \(y,z\) satisfying every inequality.
+\end{definition}
+
+\begin{lemma}[Farkas certificate for strict two-variable systems]
+Let \(\mathcal S\) be as above.  Suppose there are rational numbers
+\(q_j\ge 0\), not all zero, such that
+\[
+\sum_j q_j a_j=0,\qquad
+\sum_j q_j c_j=0,\qquad
+\sum_j q_j e_j\le 0.
+\]
+Then \(\mathcal S\) is infeasible.
+\end{lemma}
+
+\begin{proof}
+If \(y,z\) satisfied all inequalities, then for every \(j\) with \(q_j>0\),
+\[
+q_j(a_j y+c_j z+e_j)>0,
+\]
+and for every \(j\) with \(q_j=0\) the corresponding contribution is zero.
+Since at least one multiplier is positive, summing gives
+\[
+0<\sum_j q_j(a_j y+c_j z+e_j)
+  =\Big(\sum_j q_j a_j\Big)y
+   +\Big(\sum_j q_j c_j\Big)z
+   +\sum_j q_j e_j
+  \le 0,
+\]
+a contradiction.
+\end{proof}
+
+Many signed translation cases are ruled out by certificates involving only two
+rows of the system.  In such a case, the certificate records the two geometric
+sources of the rows and a rational identity showing that the two inequalities
+combine as in the lemma.  Families of cases often share the same row pattern,
+even when the numerical constants vary.
+
+\subsection{Sign-polynomial families}
+
+There is another useful structure in the translation branch.  For a fixed pair
+word, the six remaining sign choices may be encoded by variables
+\[
+s_1,\ldots,s_6\in\{1,-1\}.
+\]
+A function of these sign choices can be expanded in the Walsh basis: constants,
+single signs \(s_i\), products \(s_i s_j\), and higher products.  In this
+problem, the denominator functions needed for the positive-denominator
+condition have degree at most two.
+
+\begin{lemma}[Quadratic sign dependence]
+For a fixed translation-type pair word, each internal denominator
+\(u_i\dotp b\), as a function of the six sign choices, is a rational
+polynomial of degree at most two in the variables \(s_1,\ldots,s_6\).
+\end{lemma}
+
+\begin{proof}
+The copied normal \(u_i\) of an unfolded impact plane depends affinely on the
+sign choices: it is a constant vector plus a rational linear combination of
+the sign variables.  The translation vector \(b\) has the same affine
+dependence.  Their dot product is therefore the dot product of two affine
+sign-vector expressions, and hence has degree at most two.
+\end{proof}
+
+A subcube is obtained by fixing some of the signs and leaving the rest free.
+If a quadratic sign polynomial is nonpositive on a subcube, then every signed
+itinerary in that subcube violates the positive-denominator condition.
+
+\begin{lemma}[Subcube obstruction]
+Let \(D(s_1,\ldots,s_6)\) be an internal denominator.  If
+\[
+D(s_1,\ldots,s_6)\le 0
+\]
+for every sign assignment in a subcube, then no feasible unfolded witness has
+a sign mask in that subcube.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the positive-denominator condition.
+\end{proof}
+
+\begin{proposition}[Translation finite verification]
+No started unfolded omnihedral witness realizes a translation-type signed
+itinerary.
 \end{proposition}
 
-Consequently, a sign mask that violates \texttt{GoodDirection} needs no
-generated Farkas certificate.  It is eliminated by the general theorem.  The
-generated translation evidence only needs to cover the surviving
-\texttt{GoodDirection} masks.
-
-\subsection{Boolean GoodDirection}
-
-For generated interval proofs it is useful to have a computable version of the
-same predicate.  The proof therefore defines
-\[
-\texttt{goodDirectionAtRankBool}(r,m),
-\]
-a Boolean value obtained by checking the thirteen internal denominator
-inequalities for the rank \(r\) and sign mask \(m\).  A Boolean value is just a
-truth value, \texttt{true} or \texttt{false}; the point of this definition is
-not to replace the mathematical predicate by computation, but to give Lean a
-small finite object that can be used by generated classifiers.
-
-The latest development proves both directions:
-\[
-\texttt{GoodDirectionAtRank}(r,m)
-\quad\Longleftrightarrow\quad
-\texttt{goodDirectionAtRankBool}(r,m)=\texttt{true}.
-\]
-The forward direction was already enough to show that feasible orbits satisfy
-the Boolean check.  The new converse is a finite case split over the thirteen
-internal impacts.  It does not unfold the rank-specific denominator arithmetic;
-it only says that if the finite list of positivity checks is true, then each
-of the thirteen positivity inequalities holds.  This equivalence lets a
-generated file use whichever surface is smaller: a semantic
-\texttt{GoodDirectionAtRank} hypothesis or its Boolean counterpart.
-
-\subsection{Two-source supports}
-
-Many current translation survivors are killed by very small contradictions.  A
-two-source Farkas support names two geometric rows and supplies the rational
-weights needed to make the \(y,z\)-coefficients cancel.  The helper module
-\texttt{TwoSourceFarkas.lean} packages this common proof shape.  A generated
-leaf stores a \texttt{TwoSourceFarkasSupport}; Lean reconstructs the two
-constraints, checks the Farkas arithmetic, and obtains a semantic theorem that
-the case is impossible.
-
-\subsection{Descriptor families}
-
-The newest translation-family layer packages two-source arguments at a more
-semantic level.  A \emph{descriptor} is a small record containing three pieces
-of data:
+\begin{proof}
+The finite verification considers every translation-type pair word and every
+one of its \(64\) sign masks.  For each signed itinerary it supplies one of
+the following rational obstructions:
 \begin{enumerate}[leftmargin=2em]
-\item the two indices of the geometric constraint rows in the generated
-  constraint-source list;
-\item the two-source support naming the geometric origins of those rows;
-\item a row template, meaning a reusable algebraic pattern showing how those
-  two rows combine into a contradiction.
+\item an internal denominator is nonpositive;
+\item a subcube sign-polynomial certificate proves that an internal
+  denominator is nonpositive for the whole family containing the sign mask;
+\item a Farkas certificate proves that the associated strict linear system in
+  \(y,z\) is infeasible;
+\item a two-row template certificate proves the same infeasibility by naming
+  the two geometric inequalities whose nonnegative rational combination gives
+  a contradiction.
 \end{enumerate}
-For example, a descriptor may say that one row comes from a triangular-face
-interior condition at the first internal impact, the other from the starting
-square \(X_+\), and that the two rows fit a template in which one row has a
-fixed positive variable pattern and the other has the opposite fixed pattern.
-The exact names of the templates are implementation details; mathematically,
-each template is a short rational linear-algebra lemma.
+The soundness of these certificate types is given by the preceding lemmas.
+The exhaustive certificate list covers all \(157{,}957{,}632\) signed
+translation cases.
+\end{proof}
 
-The descriptor predicate has two obligations.  First, the named source indices
-must really select the stated geometric rows for the rank and mask under
-consideration.  Second, those rows must satisfy the template's algebraic
-conditions.  Once both obligations are proved, Lean obtains the same semantic
-conclusion as before: the corresponding GoodDirection translation case is
-impossible.
+\section{Completion of the Proof}
 
-This layer is important for publication-quality generated coverage because it
-separates three tasks that were previously intertwined.  External generation
-may choose a descriptor family.  Lean checks that the descriptor applies to the
-particular ranks and masks in the interval.  The hand-written bridge then
-converts descriptor coverage into the public theorem
-\[
-\texttt{AllTranslationGoodCoverageOnRange}(l,h),
-\]
-which says that every identity-linear GoodDirection survivor in the half-open
-rank range \([l,h)\) is killed.  Thus the public proof surface remains a
-mathematical coverage statement rather than a listing of case-local
-arithmetic.
+\begin{theorem}
+There is no started unfolded omnihedral witness for the cuboctahedron.
+\end{theorem}
 
-\section{Walsh Sign Polynomials}
+\begin{proof}
+Let a started unfolded omnihedral witness be given, and let \(w\) be its
+opposite-face pair word.  If \(M(w)\ne I\), the non-translation finite
+verification rules it out.  If \(M(w)=I\), the witness determines one of the
+six-bit signed lifts of \(w\), and the translation finite verification rules
+that out.  These two cases exhaust all pair words.
+\end{proof}
 
-The Walsh infrastructure is a compact way to reason about all \(64\) sign masks
-for a fixed pair word without branching over all masks in Lean.  Here ``Walsh''
-means an exact sign-polynomial language over six variables.  Each sign bit is
-viewed as a value in \(\{1,-1\}\), rather than as a Boolean.
+\begin{proof}[Proof of the main theorem]
+Suppose, for contradiction, that the cuboctahedron has a nonsingular
+omnihedral periodic billiard orbit.  By the starting-face normalization, cyclic
+reindexing gives such an orbit beginning on \(X_+\).  By the unfolding
+criterion, this orbit gives a started unfolded omnihedral witness.  The
+previous theorem says that no such witness exists, a contradiction.
+\end{proof}
 
-Let
-\[
-s_y,s_z,s_{111},s_{11-},s_{1-1},s_{-11}\in\{1,-1\}
-\]
-be the six sign variables.  A Walsh monomial is a product of zero, one, or two
-of these variables in the denominator path, and a Walsh polynomial is a
-rational linear combination of such monomials.  This is not a numerical
-approximation; it is exact rational algebra.
+\section{Comments on the Exhaustive Verification}
 
-\subsection{Subcubes}
+The proof above contains a large finite theorem: every admissible itinerary is
+covered by one of the rational obstruction certificates.  The point of the
+accompanying proof artifact is to make this theorem checkable rather than
+trusting a numerical search.
 
-A subcube fixes some sign variables and leaves the others free.  For example,
-\[
-s_y=1,\qquad s_{111}=-1
-\]
-with the other four variables free describes \(16\) masks.  A Walsh subcube
-obstruction proves that an internal denominator is nonpositive for every mask
-in such a subcube.  Since \texttt{GoodDirection} requires that denominator to
-be positive, all masks in the subcube are impossible.
+Only exact arithmetic is used.  The reflections, affine products, rank
+enumeration, sign choices, denominator tests, Farkas multipliers, and
+sign-polynomial bounds all have rational coefficients.  There are no
+floating-point tolerances or numerical approximations in the finite
+verification.
 
-The basic Lean structures are:
-\begin{center}
-\begin{tabular}{ll}
-\toprule
-Concept & Lean name \\
-\midrule
-Sign variable & \texttt{SignBit} \\
-Boolean subcube & \texttt{MaskSubcube} \\
-Walsh monomial & \texttt{WalshMonomial} \\
-Walsh polynomial & \texttt{WalshPoly} \\
-Subcube upper bound & \texttt{WalshSubcubeUpperBound} \\
-Denominator obstruction & \texttt{WalshImpactObstruction} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-A \texttt{WalshSubcubeUpperBound} contains one rational upper bound per term,
-proofs that each term is below its bound on the subcube, and a proof that the
-sum of the bounds is nonpositive.  The hand-written theorem then proves that
-the whole polynomial is nonpositive on the subcube.
-
-\subsection{Quadratic coefficient records}
-
-The current denominator path uses the compact record \texttt{WalshQuadratic}.
-It stores the \(22\) possible coefficients of a degree-at-most-two sign
-polynomial:
-\[
-1,\quad 6\text{ one-bit monomials},\quad 15\text{ two-bit monomials}.
-\]
-The degree bound is structural.  The copied impact normal is affine in the sign
-bits, and the translation vector is affine in the sign bits.  The denominator
-is a dot product of these two affine expressions, hence has degree at most two.
-
-Using a fixed coefficient record avoids asking Lean to unfold a generic
-polynomial sum for every generated case.  The corresponding upper-bound object
-\texttt{WalshQuadraticSubcubeUpperBound} proves nonpositivity slot-by-slot over
-the \(22\) coefficients.
-
-\subsection{Symbolic denominator bridge}
-
-The important trust question is why the Walsh expression is the same as the
-geometric denominator.  The symbolic bridge avoids a \(64\)-case Boolean split.
-The structure \texttt{WalshAffine} represents an affine sign expression, and
-\texttt{WalshAffineVec3} represents a vector of such expressions.  The module
-\texttt{TranslationWalshVector.lean} mirrors the ordinary exact translation
-recurrence, producing a Walsh-affine translation vector.  The module
-\texttt{ImpactSubcubeWalshSymbolic.lean} proves that the dot product of a
-Walsh-affine impact normal with the Walsh-affine translation vector evaluates
-to the claimed \texttt{WalshQuadratic}.  Finally,
-\texttt{ImpactSubcubeWalshCompactDenomBridge.lean} connects this dot product
-back to \texttt{impactDenomAtRank}.
-
-The resulting trusted path is:
-\[
-\begin{gathered}
-\text{Walsh-affine recurrence for normal and translation vector}\\
-\Longrightarrow \text{exact quadratic dot-product coefficients}\\
-\Longrightarrow \text{subcube upper bound}\\
-\Longrightarrow \text{denominator}\le 0\\
-\Longrightarrow \neg\texttt{GoodDirection}.
-\end{gathered}
-\]
-External scripts may propose coefficients, subcubes, and bounds, but Lean
-checks the recurrence equalities, coefficient equalities, subcube membership,
-and nonpositivity proof.
-
-\section{Symmetry and Semantic Coverage}
-
-The cuboctahedron has \(48\) signed coordinate symmetries when
-orientation-reversing symmetries are included.  After fixing the first face to
-be \(X_+\), only the subgroup preserving that face remains available.  This
-started-face symmetry group has \(8\) elements: it swaps \(y\) and \(z\) and
-independently flips their signs.
-
-Symmetry is used only as a compression mechanism.  A symmetry-reduced proof
-must still prove, in Lean, that:
+The exhaustive verification has three conceptual layers:
 \begin{enumerate}[leftmargin=2em]
-\item the symmetry transports faces, interiors, reflections, and feasibility
-  conditions correctly;
-\item every raw case belongs to a symmetry orbit with a chosen representative;
-\item the obstruction theorem for the representative transports to the raw
-  case.
+\item a bijective enumeration of the \(97{,}297{,}200\) pair words;
+\item soundness proofs for each type of rational obstruction certificate;
+\item a coverage proof showing that every pair word, and every required sign
+  mask in the translation case, is assigned a sound obstruction.
 \end{enumerate}
-Thus symmetry never replaces exhaustive coverage; it only reduces the amount of
-generated evidence needed to obtain it.
-
-The public generated interface is semantic.  Rather than requiring public
-modules to expose all raw certificate data, generated coverage should expose
-theorems whose conclusions are case impossibility statements.  Interval
-coverage packages these theorems over half-open rank ranges \([l,h)\).  The
-module \texttt{Generated/ExhaustiveCoverage.lean} contains adapters from such
-interval theorems to the global coverage structures used by the conditional
-main theorem.
-
-The translation side now has a particularly compact semantic target.  For a
-rank interval \([l,h)\), the theorem
-\[
-\texttt{AllTranslationGoodCoverageOnRange}(l,h)
-\]
-asserts that every rank in the interval whose pair word has identity linear
-part, and every sign mask satisfying GoodDirection, is eliminated.  The
-general GoodDirection theorem then handles the remaining masks: if a feasible
-translation orbit existed, it would necessarily be a GoodDirection mask.  In
-this way the generated translation theorem is allowed to focus only on the
-survivors of a general geometric positivity test.
-
-The descriptor-language adapters give several equivalent ways to prove this
-same interval theorem.  A generated file may prove a descriptor coverage
-statement directly from semantic GoodDirection hypotheses, or it may prove the
-Boolean version using \texttt{goodDirectionAtRankBool}.  Lean-proved adapters
-then convert either version to the same public interval theorem.  This
-flexibility is useful because some generated shards, meaning small generated
-files covering separate pieces of the finite range, are naturally expressed as
-Boolean classifiers, while the final mathematical theorem is stated in terms
-of ordinary propositions.
-
-\section{Trusted Boundary and Generated Evidence}
-
-The trusted part of the proof consists of:
-\begin{itemize}[leftmargin=2em]
-\item the exact coordinate model of the cuboctahedron;
-\item the reflection and unfolding theorems;
-\item the rank/unrank enumeration of valid pair words;
-\item soundness theorems for non-identity certificates;
-\item soundness theorems for translation, Farkas, source-Farkas, and
-  two-source certificates;
-\item GoodDirection necessity for feasible translation orbits;
-\item the equivalence between GoodDirection and its finite Boolean checker;
-\item Walsh sign-polynomial and symbolic denominator soundness theorems;
-\item descriptor-family adapters from source rows and row templates to
-  semantic translation coverage;
-\item generated coverage theorems whose types state that every finite case is
-  killed.
-\end{itemize}
-
-External Python and legacy C++ programs are outside the trusted boundary.  They
-may discover patterns, emit candidate certificates, or produce diagnostics.
-They may be wrong.  Lean must check every certificate or family theorem that is
-used in the final proof.
-
-At the present snapshot, the active public generated surface is deliberately
-small.  \texttt{Generated/AllGenerated.lean} imports the computable-classifier
-bridge and a public evidence marker.  A marker is a small Lean module recording
-which generated-evidence root is currently exposed to the main project.  This
-avoids older all-in-one generated imports that caused memory pressure.  The
-current marker records a bounded interval,
-\[
-[0,8),
-\]
-whose proof-carrying root is outside the default Lake source tree at
-\[
-\texttt{evidence/public\_interval\_shards/Shard000000000\_000000008/VerifiedRoot.lean}.
-\]
-This demonstrates the public interval shape but is not the final exhaustive
-coverage theorem over all \(97{,}297{,}200\) pair-word ranks.
-
-Subsequent checked test modules have strengthened the translation-family
-interface.  In particular, the file
-\[
-\texttt{SourceIndexStateDescriptorLanguage.lean}
-\]
-now proves adapters between semantic and Boolean GoodDirection coverage,
-between descriptor coverage and source-row coverage, and from descriptor
-coverage to \texttt{AllTranslationGoodCoverageOnRange}.  A generated classifier
-test module packages \(125\) descriptor families selected from the rank window
-\([0,5000)\), and the focused guarded build of that test completed within an
-8 GiB memory guard.  These tests are not global coverage, but they show that
-the current public theorem surface can be fed by compact descriptor families
-rather than by replaying one rank-mask proof at a time.
-
-\section{Formal Statement}
-
-The final theorem is expected to have the shape
-\[
-\texttt{\textasciitilde{} exists o : BilliardOrbit14,}
-\]
-\[
-\texttt{\quad o.Nonsingular /\ o.Periodic /\ o.TouchesEachFaceExactlyOnce.}
-\]
-The current public theorem is the conditional version:
-\[
-\texttt{conditional\_cuboctahedron\_no\_omnihedral}
-  : \texttt{ExhaustiveGeneratedCoverage}\to \text{the above conclusion}.
-\]
-There are also branch-level conditional theorems:
-\begin{align*}
-&\texttt{conditional\_generated\_nonidentity\_complete},\\
-&\texttt{conditional\_generated\_translation\_complete},\\
-&\texttt{conditional\_no\_unfolded\_omni\_starting\_xp}.
-\end{align*}
-The newer semantic route proves analogous results from
-\texttt{SemanticExhaustiveGeneratedCoverage}.  On the translation branch, the
-principal semantic input is interval coverage of GoodDirection survivors,
-\[
-\texttt{AllTranslationGoodCoverageOnRange}(l,h),
-\]
-which can now be obtained from descriptor-family coverage in either the
-semantic or Boolean GoodDirection form.
-
-\section{Reproducibility}
-
-For the current conditional proof surface, the expected verification commands
-are:
-\begin{verbatim}
-lake build
-grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
-lake env lean Cuboctahedron/PrintConditionalAxioms.lean
-\end{verbatim}
-The final unconditional proof should replace the last line by
-\begin{verbatim}
-lean Cuboctahedron/PrintAxioms.lean
-\end{verbatim}
-once the final theorem and full generated coverage root are present.
-
-\section{Statement on AI Use}
-
-The use of AI formal-methods agents was central to this project.  The author
-developed the mathematical plan and directed the proof-engineering process.
-AI agents were used to build Lean scaffolding, implement exact certificate
-checkers, generate and refine proof infrastructure, search for compression
-strategies, and maintain the large generated-evidence pipeline.  The trusted
-mathematical artifact remains the Lean-checked proof: external conversations,
-scripts, diagnostics, and generated suggestions are not trusted unless their
-claims are checked by Lean.
-
-\section{Acknowledgments}
-
-The author thanks the Lean and \mathlib communities for the theorem prover and
-library infrastructure that make this project possible.  Further
-acknowledgments for discussions, hardware, and tool support will be added in a
-later revision.
-
-\appendix
-
-\section{Lean Names}
-
-\begin{center}
-\begin{tabular}{ll}
-\toprule
-Paper concept & Lean name \\
-\midrule
-Period-14 billiard orbit & \texttt{BilliardOrbit14} \\
-Face sequence & \texttt{Step14 -> Face} \\
-Omnihedral sequence & \texttt{IsOmniSeq} \\
-Started sequence at \(X_+\) & \texttt{StartsXp} \\
-Unfolded feasibility & \texttt{UnfoldedFeasible} \\
-Pair word & \texttt{PairWord} \\
-Valid pair word & \texttt{ValidPairWord} \\
-Pair-word unranking & \texttt{unrankPairWord} \\
-Number of pair words & \texttt{numPairWords} \\
-Translation sign mask & \texttt{SignMask} \\
-GoodDirection predicate & \texttt{GoodDirectionAtRank} \\
-GoodDirection Boolean checker & \texttt{goodDirectionAtRankBool} \\
-Strict linear row & \texttt{StrictLin2} \\
-Farkas certificate & \texttt{FarkasCert} \\
-Farkas checker & \texttt{checkFarkas} \\
-Two-source support & \texttt{TwoSourceFarkasSupport} \\
-Descriptor family & \texttt{SourceIndexStateFamilyDescriptor} \\
-Descriptor coverage & \texttt{SourceIndexStateDescriptorGoodCoverageOnRange} \\
-Boolean descriptor coverage & \texttt{SourceIndexStateDescriptorBoolCoverageOnRange} \\
-Translation GoodDirection interval coverage & \texttt{AllTranslationGoodCoverageOnRange} \\
-Walsh subcube & \texttt{MaskSubcube} \\
-Walsh quadratic record & \texttt{WalshQuadratic} \\
-Conditional main theorem & \texttt{conditional\_cuboctahedron\_no\_omnihedral} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\section{Raw Search Counts}
-
-The following counts are useful as orientation.  The proof does not trust them
-unless they are reflected in Lean-checked coverage.
-
-\begin{center}
-\begin{tabular}{lr}
-\toprule
-Quantity & Count \\
-\midrule
-Valid pair words & \(97{,}297{,}200\) \\
-Non-identity pair words & \(94{,}829{,}112\) \\
-Identity-linear pair words & \(2{,}468{,}088\) \\
-Translation sign assignments & \(157{,}957{,}632\) \\
-Valid omnihedral orbits found & \(0\) \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\section{Generated Evidence Roadmap}
-
-The final generated evidence theorem should provide, at minimum:
-\begin{enumerate}[leftmargin=2em]
-\item non-identity killed coverage over all ranks with \(M\ne I\);
-\item translation killed coverage over all ranks and sign masks with \(M=I\);
-\item a GoodDirection adapter showing that generated translation evidence only
-  needs to cover masks satisfying the GoodDirection necessary condition;
-\item descriptor or source-row family coverage proving
-  \texttt{AllTranslationGoodCoverageOnRange} over the required intervals;
-\item interval composition over \([0,\texttt{numPairWords})\);
-\item optional symmetry transport, with Lean-checked orbit coverage, wherever
-  symmetry is used for compression.
-\end{enumerate}
-The preferred public target is semantic coverage: generated roots should expose
-small theorems of impossibility over intervals and families, not large public
-tables of raw certificates.
-
-\section{Current Diagnostic Checkpoints}
-
-The following checkpoints are useful for understanding the present state of
-the generated-evidence pipeline.  They are not part of the theorem unless their
-claims are reflected in Lean-checked coverage imported by the final root.
-
-\begin{center}
-\begin{tabular}{p{0.58\linewidth}r}
-\toprule
-Checkpoint & Value \\
-\midrule
-GoodDirection survivors in ranks \([0,100000)\) covered by the diagnostic
-row-relation census & \(39{,}710\) \\
-Calibration-window GoodDirection survivors covered after the expanded
-row-template catalog & \(63{,}725\) \\
-Representative symbolic row-family survivors & \(4{,}779\) \\
-Representative symbolic row families & \(126\) \\
-Descriptor classifier families selected from ranks \([0,5000)\) & \(125\) \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-The last checkpoint is the most recent proof-interface test.  It demonstrates
-that descriptor families can be used to feed
-\texttt{AllTranslationGoodCoverageOnRange} through Lean-checked adapters,
-including the Boolean GoodDirection route, without exposing the underlying
-rank-mask arithmetic as the public theorem interface.
+This is the part for which the GitHub formalization is the real proof.  The
+printed article explains why such certificates prove the theorem; the
+formalization checks that the certificates exist for every finite case.
 
 \begin{thebibliography}{9}
 
@@ -954,17 +571,11 @@ M. Cekic, B. Georgiev, and M. Mukherjee,
 Polyhedral billiards, eigenfunction concentration and almost periodic control,
 \emph{Communications in Mathematical Physics} 383 (2021), 377--405.
 
-\bibitem{lean4}
+\bibitem{lean}
 L. de Moura and S. Ullrich,
 The Lean 4 theorem prover and programming language,
 in \emph{Automated Deduction -- CADE 28},
 Lecture Notes in Computer Science 12699, Springer, 2021, pp. 625--635.
-
-\bibitem{mathlib}
-The mathlib Community,
-The Lean mathematical library,
-in \emph{Proceedings of the 9th ACM SIGPLAN International Conference on
-Certified Programs and Proofs}, 2020, pp. 367--381.
 
 \end{thebibliography}
 
