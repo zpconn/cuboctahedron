@@ -1,0 +1,523 @@
+{
+  "candidate_key_match": true,
+  "candidate_keys_extra_in_signature_route": [],
+  "candidate_keys_from_signatures": 125,
+  "candidate_keys_missing_from_signature_route": [],
+  "decision": {
+    "notes": [
+      "candidate catalog covers the profiled range exactly when read through the signature catalog",
+      "positive survivor signatures remain nearly rank-local in this bounded range",
+      "do not prove hcomplete by emitting one rank/signature anchor per signature",
+      "next proof route should use a reusable source-position/state or compact-trace membership bridge"
+    ],
+    "status": "rejected-rank-local-signature-route"
+  },
+  "mask_candidate_entries": 4507,
+  "mode": "candidate_completeness_route_audit",
+  "next_required_proof": {
+    "recommended_coordinate": "source-position/state membership bridge, not singleton signature anchors",
+    "target": "hcomplete for PositiveSurvivorCandidateCatalogSurfaceSmoke"
+  },
+  "non_singleton_signature_count": 20,
+  "phase": "6Z.6K.8AP.16DU.1",
+  "profiled_good_direction_cases": 4693,
+  "range": [
+    0,
+    5000
+  ],
+  "range_candidate_count": 125,
+  "range_rank_count": 487,
+  "represented_cases_from_signatures": 4693,
+  "schema_version": 1,
+  "signature_count": 464,
+  "singleton_case_fraction": 0.9224376731301939,
+  "singleton_case_mass": 4329,
+  "singleton_signature_count": 444,
+  "singleton_signature_fraction": 0.9568965517241379,
+  "top_signatures": [
+    {
+      "candidate_key_count": 7,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        9,
+        13,
+        18,
+        22,
+        24,
+        29,
+        30,
+        31,
+        39,
+        45,
+        54
+      ],
+      "sample_ranks": [
+        129,
+        369
+      ],
+      "signature": "1a2d3b5d48d95e0791284c07c5185ae55ed3b1c2b5174f09ce6d028dffe7faa2"
+    },
+    {
+      "candidate_key_count": 4,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        8,
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        54,
+        61,
+        63
+      ],
+      "sample_ranks": [
+        11,
+        29
+      ],
+      "signature": "21528d33c6c44be05c153947d7625b6be2387bbba98d19072e65eb7ebcc72405"
+    },
+    {
+      "candidate_key_count": 5,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        4,
+        8,
+        13,
+        16,
+        22,
+        39,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        1937,
+        2021
+      ],
+      "signature": "2db6d2c109d2e80856f133d97013deba9bbc3f2b7b735f3b15f81b3d6c16478e"
+    },
+    {
+      "candidate_key_count": 5,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        0,
+        7,
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        47,
+        55
+      ],
+      "sample_ranks": [
+        498,
+        582
+      ],
+      "signature": "51473639dfa5f7633a4c7a743f2d12b688539d71f5f51b0ae76ea4566c234533"
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        15,
+        16,
+        22,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        57,
+        63
+      ],
+      "sample_ranks": [
+        724,
+        808
+      ],
+      "signature": "539bc0688455e8aeb73d0f4c560f34d663a7319a4ba36cba992727ad6620e3d3"
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        4,
+        8,
+        9,
+        13,
+        22,
+        25,
+        28,
+        29,
+        31,
+        54,
+        63
+      ],
+      "sample_ranks": [
+        2075,
+        2196
+      ],
+      "signature": "95d7f35dce594b20cb9d6d67a2ec2e5c8ed87b6098d8de60abb620a88928d4f8"
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        9,
+        13,
+        18,
+        22,
+        24,
+        29,
+        30,
+        31,
+        39,
+        45,
+        54
+      ],
+      "sample_ranks": [
+        2441,
+        2459
+      ],
+      "signature": "a7fe9e83f17a3bd1a3f0ed87659eacfb4abaae1108b6e99c4e3750d61bf79d09"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        8,
+        13,
+        23,
+        24,
+        29,
+        30,
+        31,
+        54,
+        55,
+        58,
+        63
+      ],
+      "sample_ranks": [
+        1312,
+        1433
+      ],
+      "signature": "ca9d2ca7932297f31429078bef46d0df64d9ec82fd61e03c5a3dcde88b713377"
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 22,
+      "good_mask_count": 11,
+      "rank_count": 2,
+      "sample_good_masks": [
+        7,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        61
+      ],
+      "sample_ranks": [
+        185,
+        269
+      ],
+      "signature": "eb9b3f884860f87535e7134432aecad9ab240936f5b4d0aa4355960bf6c95f32"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 18,
+      "good_mask_count": 9,
+      "rank_count": 2,
+      "sample_good_masks": [
+        0,
+        4,
+        13,
+        18,
+        30,
+        31,
+        45,
+        59,
+        63
+      ],
+      "sample_ranks": [
+        3210,
+        3228
+      ],
+      "signature": "89738e696d18e032d93292152bcc3fb3fe7e62ea3bd2c6d3e4582e5633c77f5f"
+    },
+    {
+      "candidate_key_count": 7,
+      "case_count": 16,
+      "good_mask_count": 16,
+      "rank_count": 1,
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        857
+      ],
+      "signature": "00b6dc7cd6fb22973f5661008f83ce122320e2139b0242d1d414af22b1714bd8"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 8,
+      "rank_count": 2,
+      "sample_good_masks": [
+        22,
+        24,
+        30,
+        31,
+        47,
+        57,
+        61,
+        63
+      ],
+      "sample_ranks": [
+        716,
+        1240
+      ],
+      "signature": "026aa34aa596e5331ee97a888405ef6fdf8f9f0de858a2bd8b328eb0dd1f1f56"
+    },
+    {
+      "candidate_key_count": 9,
+      "case_count": 16,
+      "good_mask_count": 16,
+      "rank_count": 1,
+      "sample_good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "sample_ranks": [
+        3299
+      ],
+      "signature": "08894ea3432474a704bd684ae1d8ea4f4cd0dc7916d035661cf048c3eec6ccec"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 8,
+      "rank_count": 2,
+      "sample_good_masks": [
+        4,
+        13,
+        18,
+        20,
+        22,
+        30,
+        31,
+        63
+      ],
+      "sample_ranks": [
+        2142,
+        2256
+      ],
+      "signature": "1198102eaae929024639f1ed973345c24edc4ec253affdcb730bae346f390e88"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 16,
+      "rank_count": 1,
+      "sample_good_masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "sample_ranks": [
+        3281
+      ],
+      "signature": "14ec2d374c66f86f17d3a264a9d435ea1ab028df224a6fa5250d86b6cc898025"
+    },
+    {
+      "candidate_key_count": 9,
+      "case_count": 16,
+      "good_mask_count": 16,
+      "rank_count": 1,
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        2519
+      ],
+      "signature": "287440b096c1cb54e2a3a155787036687726a7d8cecc571989766dc0f58afbed"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 16,
+      "rank_count": 1,
+      "sample_good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "sample_ranks": [
+        0
+      ],
+      "signature": "2fe6d7a894edaefe94cc5f3776e00a5067c9108b71a9c7a9d3190affdee5bfab"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 8,
+      "rank_count": 2,
+      "sample_good_masks": [
+        7,
+        13,
+        15,
+        22,
+        24,
+        28,
+        29,
+        45
+      ],
+      "sample_ranks": [
+        263,
+        377
+      ],
+      "signature": "342c56af25299e8f6067c4e1121f44fed063ffd6aabd3348d980e05ace516896"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 8,
+      "rank_count": 2,
+      "sample_good_masks": [
+        4,
+        9,
+        12,
+        13,
+        22,
+        29,
+        31,
+        63
+      ],
+      "sample_ranks": [
+        2070,
+        2382
+      ],
+      "signature": "40c1794738d0ccf7a1269f68d07b3375f215fb0a38172f382eb7cd9610c1692b"
+    },
+    {
+      "candidate_key_count": 6,
+      "case_count": 16,
+      "good_mask_count": 8,
+      "rank_count": 2,
+      "sample_good_masks": [
+        7,
+        13,
+        22,
+        23,
+        24,
+        28,
+        30,
+        54
+      ],
+      "sample_ranks": [
+        137,
+        449
+      ],
+      "signature": "44ea86a41ba10689c5b82fa577de97effefe08237a272415313b2e4e9fe968b4"
+    }
+  ],
+  "trusted_as_proof": false
+}
