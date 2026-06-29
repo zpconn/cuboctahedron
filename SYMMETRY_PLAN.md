@@ -27606,3 +27606,78 @@ should be run only through this runner, under `run_memory_guarded.py`, with a
 small worker count and a checkpoint directory outside generated source.  If a
 profile begins trending toward high family counts or source size, stop and move
 to a stronger semantic quotient rather than forcing Lean emission.
+
+### Phase 6Z.6K.8AP.16DU.9ED checkpoint: 1k checkpointed classifier census
+
+Phase 6Z.6K.8AP.16DU.9ED runs the new checkpointed classifier census over the
+first `1,000` ranks in four `250`-rank windows with two top-level workers.  This
+is still diagnostic only, but it verifies the checkpointed runner on a
+nontrivial multi-window contiguous sample while staying far below the memory
+guard.
+
+Guarded run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 2048 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ed_classifier_census_1k_guard.json \
+  -- timeout 120s python3 scripts/run_source_index_state_classifier_census.py \
+    --contiguous \
+    --rank-start 0 \
+    --limit 1000 \
+    --chunk-size 250 \
+    --workers 2 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_1k \
+    --json scripts/generated/phase6z6k8ap16du9ed_classifier_census_1k.json \
+    --md scripts/generated/phase6z6k8ap16du9ed_classifier_census_1k.md \
+    --family-gate 1000 \
+    --top-limit 15
+```
+
+Result:
+
+- Exit: `0`
+- Sampled ranks: `1000`
+- GoodDirection cases: `1465`
+- Merged families: `74`
+- Elapsed: `12.01s`
+- Peak tree RSS: `69.97 MiB`
+- Minimum available memory observed: `46597.99 MiB`
+
+Aggregate-only replay:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1024 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ed_classifier_census_1k_aggregate_guard.json \
+  -- timeout 30s python3 scripts/run_source_index_state_classifier_census.py \
+    --contiguous \
+    --rank-start 0 \
+    --limit 1000 \
+    --chunk-size 250 \
+    --workers 2 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_1k \
+    --aggregate-only \
+    --json scripts/generated/phase6z6k8ap16du9ed_classifier_census_1k_aggregate.json \
+    --md scripts/generated/phase6z6k8ap16du9ed_classifier_census_1k_aggregate.md \
+    --family-gate 1000 \
+    --top-limit 15
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `0.50s`
+- Peak tree RSS: `0.75 MiB`
+- Minimum available memory observed: `46630.54 MiB`
+
+Decision: accepted as the first bounded run for the checkpointed classifier
+census.  It shows the runner's memory profile is tiny because aggregate data is
+compact and checkpoints can be replayed without rescanning.  The next larger
+diagnostic should keep this shape: guarded Python-only windows, small worker
+count, checkpoint directory outside generated source, and no Lean emission until
+family-count/source-size projections are clearly under budget.

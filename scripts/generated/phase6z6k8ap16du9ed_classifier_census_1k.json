@@ -1,0 +1,511 @@
+{
+  "checkpoint_dir": "/tmp/cuboctahedron_source_index_state_classifier_census_1k",
+  "counts": {
+    "covered_cases": 1465,
+    "good_direction_survivors": 1465,
+    "identity_words": 138,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 862,
+    "not_good_direction_masks": 7367,
+    "pair_words_scanned": 1000,
+    "translation_sign_assignments": 8832,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "merged family count is within the current diagnostic gate",
+      "diagnostic only: checkpoints and reports are not proof"
+    ],
+    "status": "accepted-scaling-candidate"
+  },
+  "elapsed_seconds": 11.732863341996563,
+  "family_count": 74,
+  "family_gate": 1000,
+  "good_direction_cases": 1465,
+  "max_worker_rss_kib": 22188,
+  "mode": "source_index_state_classifier_checkpointed_census",
+  "phase": "6Z.6K.8AP.16DU.9EC",
+  "ranges": [
+    [
+      0,
+      250
+    ],
+    [
+      250,
+      500
+    ],
+    [
+      500,
+      750
+    ],
+    [
+      750,
+      1000
+    ]
+  ],
+  "rank_count": 1000,
+  "schema_version": 1,
+  "source_key_surface": "kind_impact",
+  "top_families": [
+    {
+      "case_count": 421,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 8,
+          "rank": 0
+        },
+        {
+          "mask": 9,
+          "rank": 0
+        },
+        {
+          "mask": 16,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        23,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 134,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 54,
+          "rank": 0
+        },
+        {
+          "mask": 55,
+          "rank": 0
+        },
+        {
+          "mask": 54,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        24,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 128,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 0
+        },
+        {
+          "mask": 31,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        83,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 102,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+      "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "samples": [
+        {
+          "mask": 45,
+          "rank": 3
+        },
+        {
+          "mask": 45,
+          "rank": 5
+        },
+        {
+          "mask": 47,
+          "rank": 5
+        }
+      ],
+      "source_indices": [
+        25,
+        2
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 79,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 0
+        },
+        {
+          "mask": 29,
+          "rank": 0
+        },
+        {
+          "mask": 13,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        0,
+        7
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 44,
+      "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+      "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "samples": [
+        {
+          "mask": 28,
+          "rank": 633
+        },
+        {
+          "mask": 63,
+          "rank": 633
+        },
+        {
+          "mask": 25,
+          "rank": 639
+        }
+      ],
+      "source_indices": [
+        83,
+        1
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"6\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 30,
+      "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 123
+        },
+        {
+          "mask": 22,
+          "rank": 123
+        },
+        {
+          "mask": 13,
+          "rank": 125
+        }
+      ],
+      "source_indices": [
+        0,
+        13
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 29,
+      "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 129
+        },
+        {
+          "mask": 31,
+          "rank": 129
+        },
+        {
+          "mask": 13,
+          "rank": 177
+        }
+      ],
+      "source_indices": [
+        0,
+        15
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 23,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 60
+        },
+        {
+          "mask": 22,
+          "rank": 62
+        },
+        {
+          "mask": 29,
+          "rank": 62
+        }
+      ],
+      "source_indices": [
+        0,
+        11
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 22,
+      "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+      "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "samples": [
+        {
+          "mask": 7,
+          "rank": 137
+        },
+        {
+          "mask": 7,
+          "rank": 185
+        }
+      ],
+      "source_indices": [
+        26,
+        3
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"1\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:3\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_neg_var_first"
+    },
+    {
+      "case_count": 22,
+      "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 7,
+          "rank": 498
+        }
+      ],
+      "source_indices": [
+        0,
+        10
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 21,
+      "key": "a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 39,
+          "rank": 149
+        },
+        {
+          "mask": 47,
+          "rank": 149
+        },
+        {
+          "mask": 45,
+          "rank": 185
+        }
+      ],
+      "source_indices": [
+        183,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"13\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 20,
+      "key": "158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158",
+      "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "samples": [
+        {
+          "mask": 8,
+          "rank": 147
+        },
+        {
+          "mask": 9,
+          "rank": 147
+        }
+      ],
+      "source_indices": [
+        0,
+        14
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+        "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 19,
+      "key": "9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 54,
+          "rank": 5
+        },
+        {
+          "mask": 45,
+          "rank": 47
+        },
+        {
+          "mask": 54,
+          "rank": 62
+        }
+      ],
+      "source_indices": [
+        148,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"11\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 19,
+      "key": "0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981",
+      "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "samples": [
+        {
+          "mask": 54,
+          "rank": 86
+        },
+        {
+          "mask": 55,
+          "rank": 86
+        },
+        {
+          "mask": 45,
+          "rank": 87
+        }
+      ],
+      "source_indices": [
+        122,
+        0
+      ],
+      "source_skeletons": [
+        "{\"impact\": \"9\", \"kind\": \"interior\"}",
+        "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    }
+  ],
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "elapsed_seconds": 6.156173137991573,
+      "family_count": 41,
+      "good_direction_cases": 499,
+      "identity_words": 44,
+      "max_rss_kib": 22188,
+      "range": [
+        0,
+        250
+      ],
+      "rank_count": 250,
+      "unique_family_keys": 41
+    },
+    {
+      "elapsed_seconds": 2.992121371993562,
+      "family_count": 24,
+      "good_direction_cases": 216,
+      "identity_words": 23,
+      "max_rss_kib": 21612,
+      "range": [
+        250,
+        500
+      ],
+      "rank_count": 250,
+      "unique_family_keys": 24
+    },
+    {
+      "elapsed_seconds": 4.063047895004274,
+      "family_count": 42,
+      "good_direction_cases": 300,
+      "identity_words": 31,
+      "max_rss_kib": 21804,
+      "range": [
+        500,
+        750
+      ],
+      "rank_count": 250,
+      "unique_family_keys": 42
+    },
+    {
+      "elapsed_seconds": 5.5553627379995305,
+      "family_count": 46,
+      "good_direction_cases": 450,
+      "identity_words": 40,
+      "max_rss_kib": 22188,
+      "range": [
+        750,
+        1000
+      ],
+      "rank_count": 250,
+      "unique_family_keys": 46
+    }
+  ],
+  "workers": 2
+}
