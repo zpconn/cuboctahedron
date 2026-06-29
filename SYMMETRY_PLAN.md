@@ -24404,6 +24404,140 @@ Decision:
   measure whether a single extensional proof using the shared field formulas
   beats the current `weightedQuadraticFromDotData` unfold.
 
+### Phase 6Z.6K.8AP.16DU.9CN checkpoint: full flat coefficient formula accepted
+
+Phase 6Z.6K.8AP.16DU.9CN extends DU.9CM from one coefficient to all 22
+`WalshQuadratic` fields.  The reusable core now exposes:
+
+```lean
+def weightedQuadraticFromDotDataCoeff
+def weightedQuadraticFromDotDataCoeffs
+
+theorem weightedQuadraticFromDotData_eq_coeffs
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) :
+    weightedQuadraticFromDotData dotPoly weights =
+      weightedQuadraticFromDotDataCoeffs dotPoly weights
+```
+
+The generated smoke rewrites by `weightedQuadraticFromDotData_eq_coeffs` and
+then proves the 22 flat coefficient equalities against
+`cube00ScaledPoly.toQuadratic`.
+
+Files:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean
+scripts/emit_ap16du9cn_dotpoly_full_formula_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullFormulaSmoke.lean
+scripts/generated/phase6z6k8ap16du9cn_coeff_record_core_guard.json
+scripts/generated/phase6z6k8ap16du9cn_dotpoly_full_formula_smoke.json
+scripts/generated/phase6z6k8ap16du9cn_dotpoly_full_formula_smoke.md
+scripts/generated/phase6z6k8ap16du9cn_dotpoly_full_formula_guard.json
+scripts/generated/phase6z6k8ap16du9cn_dotpoly_full_formula_lean_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cn_dotpoly_full_formula_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean \
+  scripts/emit_ap16du9cn_dotpoly_full_formula_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullFormulaSmoke.lean
+wc -l scripts/emit_ap16du9cn_dotpoly_full_formula_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullFormulaSmoke.lean
+```
+
+The forbidden-token scan was clean.  The generated script has `180` lines and
+the generated Lean smoke has `80` lines.
+
+Focused guarded core build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cn_coeff_record_core_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticTraceCertificate
+```
+
+Core result:
+
+```text
+exit code:             0
+elapsed:               5.01s
+Lean target time:      3.4s
+peak tree RSS:         4046 MiB
+minimum MemAvailable:  46073 MiB
+RSS cap:               8192 MiB
+```
+
+Generated full-formula build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cn_dotpoly_full_formula_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyFullFormulaSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               20.53s
+Lean target time:      7.1s
+peak tree RSS:         4709 MiB
+minimum MemAvailable:  45060 MiB
+RSS cap:               8192 MiB
+```
+
+The elapsed time includes rebuilding the traced-normal Data module after the
+core dependency changed.  Direct import-aware Lean check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cn_dotpoly_full_formula_lean_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyFullFormulaSmoke.lean
+
+exit code:             0
+elapsed:               7.51s
+peak tree RSS:         4009 MiB
+minimum MemAvailable:  46144 MiB
+RSS cap:               8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CI full cube00:                 11.52s, 4185 MiB
+DU.9CJ all-dot dot-poly-only:       13.55s, 4176 MiB
+DU.9CK support-only full equality:  14.10s, 4115 MiB
+DU.9CN full flat formula equality:   7.51s, 4009 MiB direct Lean
+```
+
+Decision:
+
+- Accept the flat coefficient formula as a real production-direction
+  improvement.  It centralizes the nested weighted-sum algebra and cuts the
+  full cube-local dot-polynomial equality cost substantially.
+- This is not yet sufficient for full proof scale: a 7-8 second per-cube
+  proof still leaves too much build time if many cubes survive.
+- Next optimization surface: replace the generated 22-field `norm_num`
+  equality against `ScaledWalshQuadratic.toQuadratic` with an integer
+  coefficient certificate or shared template/family proof so each cube does
+  not normalize all 22 rational field goals independently.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

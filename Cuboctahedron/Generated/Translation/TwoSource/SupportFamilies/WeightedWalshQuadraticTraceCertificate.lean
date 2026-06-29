@@ -124,6 +124,61 @@ theorem weightedQuadraticFromDotData_c
   simp [WalshQuadratic.add, WalshQuadratic.scale]
   ring
 
+def weightedQuadraticFromDotDataCoeff
+    (field : WalshQuadratic -> Rat)
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) : Rat :=
+  weights.w1 * field (dotPoly ⟨0, by decide⟩) +
+    weights.w2 * field (dotPoly ⟨1, by decide⟩) +
+    weights.w3 * field (dotPoly ⟨2, by decide⟩) +
+    weights.w4 * field (dotPoly ⟨3, by decide⟩) +
+    weights.w5 * field (dotPoly ⟨4, by decide⟩) +
+    weights.w6 * field (dotPoly ⟨5, by decide⟩) +
+    weights.w7 * field (dotPoly ⟨6, by decide⟩) +
+    weights.w8 * field (dotPoly ⟨7, by decide⟩) +
+    weights.w9 * field (dotPoly ⟨8, by decide⟩) +
+    weights.w10 * field (dotPoly ⟨9, by decide⟩) +
+    weights.w11 * field (dotPoly ⟨10, by decide⟩) +
+    weights.w12 * field (dotPoly ⟨11, by decide⟩) +
+    weights.w13 * field (dotPoly ⟨12, by decide⟩)
+
+def weightedQuadraticFromDotDataCoeffs
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) : WalshQuadratic where
+  c := weightedQuadraticFromDotDataCoeff (fun q => q.c) dotPoly weights
+  y := weightedQuadraticFromDotDataCoeff (fun q => q.y) dotPoly weights
+  z := weightedQuadraticFromDotDataCoeff (fun q => q.z) dotPoly weights
+  d111 := weightedQuadraticFromDotDataCoeff (fun q => q.d111) dotPoly weights
+  d11m := weightedQuadraticFromDotDataCoeff (fun q => q.d11m) dotPoly weights
+  d1m1 := weightedQuadraticFromDotDataCoeff (fun q => q.d1m1) dotPoly weights
+  dm11 := weightedQuadraticFromDotDataCoeff (fun q => q.dm11) dotPoly weights
+  yz := weightedQuadraticFromDotDataCoeff (fun q => q.yz) dotPoly weights
+  y_d111 := weightedQuadraticFromDotDataCoeff (fun q => q.y_d111) dotPoly weights
+  y_d11m := weightedQuadraticFromDotDataCoeff (fun q => q.y_d11m) dotPoly weights
+  y_d1m1 := weightedQuadraticFromDotDataCoeff (fun q => q.y_d1m1) dotPoly weights
+  y_dm11 := weightedQuadraticFromDotDataCoeff (fun q => q.y_dm11) dotPoly weights
+  z_d111 := weightedQuadraticFromDotDataCoeff (fun q => q.z_d111) dotPoly weights
+  z_d11m := weightedQuadraticFromDotDataCoeff (fun q => q.z_d11m) dotPoly weights
+  z_d1m1 := weightedQuadraticFromDotDataCoeff (fun q => q.z_d1m1) dotPoly weights
+  z_dm11 := weightedQuadraticFromDotDataCoeff (fun q => q.z_dm11) dotPoly weights
+  d111_d11m := weightedQuadraticFromDotDataCoeff (fun q => q.d111_d11m) dotPoly weights
+  d111_d1m1 := weightedQuadraticFromDotDataCoeff (fun q => q.d111_d1m1) dotPoly weights
+  d111_dm11 := weightedQuadraticFromDotDataCoeff (fun q => q.d111_dm11) dotPoly weights
+  d11m_d1m1 := weightedQuadraticFromDotDataCoeff (fun q => q.d11m_d1m1) dotPoly weights
+  d11m_dm11 := weightedQuadraticFromDotDataCoeff (fun q => q.d11m_dm11) dotPoly weights
+  d1m1_dm11 := weightedQuadraticFromDotDataCoeff (fun q => q.d1m1_dm11) dotPoly weights
+
+theorem weightedQuadraticFromDotData_eq_coeffs
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) :
+    weightedQuadraticFromDotData dotPoly weights =
+      weightedQuadraticFromDotDataCoeffs dotPoly weights := by
+  unfold weightedQuadraticFromDotData weightedQuadraticFromDotDataCoeffs
+    weightedQuadraticFromDotDataCoeff
+  simp [WalshQuadratic.add, WalshQuadratic.scale]
+  repeat' constructor <;> ring_nf
+  all_goals simp
+
 theorem weightedQuadraticFromAffineData_eq_fromDotData
     {normal : WordIndex -> WalshAffineVec3}
     {vector : WalshAffineVec3}
