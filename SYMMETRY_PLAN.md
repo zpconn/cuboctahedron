@@ -613,6 +613,13 @@ hard-coded smoke-range assumption from the next emitter target.  Future
 generated selector-membership chunks can now export per-range
 `SelectorCoordinateFactsGoodCatalogOnRangeFor` theorems and erase them directly
 to `AllTranslationGoodCoverageOnRange lo hi`.
+DU.9R.1 then adds tiny generic constructors for that range-catalog target:
+`SelectorCoordinateFactsGoodCatalogOnRangeFor.empty` and
+`SelectorCoordinateFactsGoodCatalogOnRangeFor.single`.  These are Prop-level
+Nat-interval combinators, not generated data; the singleton constructor is the
+shape future generated singleton or micro-range leaves can use to avoid
+rewriting `rank = r` by hand.  DU.9R still builds as a focused target, and
+DU.9S continues to build on top of it.
 DU.9S exercises that range-parametric target on a real nonempty bounded
 GoodDirection rank.  It proves
 `SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt0_1 0 1` by composing the
@@ -17191,6 +17198,50 @@ Acceptance:
   membership evidence and does not prove production coverage by itself; it
   makes the next selector-membership emitter target range-parametric and keeps
   final exported theorem surfaces semantic.
+- [x] Add Phase 6Z.6K.8AP.16DU.9R.1 selector-catalog constructors:
+  DU.9R.1 adds two small constructor theorems for future generated
+  selector-catalog chunks:
+
+  ```lean
+  SelectorCoordinateFactsGoodCatalogOnRangeFor.empty
+
+  SelectorCoordinateFactsGoodCatalogOnRangeFor.single
+  ```
+
+  These are Prop-level interval conveniences only.  They do not introduce
+  generated data, raw certificates, or Boolean checker reduction.  The
+  singleton constructor packages the common production-leaf shape:
+
+  ```lean
+  (forall {mask} (hlt : rank < numPairWords),
+    totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) = matId ->
+      GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+        SelectorCoordinateSourceRowFacts (coordAt rank mask) rank mask)
+    ->
+      SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt rank (rank + 1)
+  ```
+
+  Focused checks:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9RRangeAdapter
+    exit=0, elapsed=5.93s
+
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9SRangeSmoke
+    exit=0, elapsed=1.94s
+
+  wc -l:
+    SourceIndexStateSelectorDU9RRangeAdapter.lean = 97 lines
+    SourceIndexStateSelectorDU9SRangeSmoke.lean = 60 lines
+  ```
+
+  Decision: DU.9R.1 is accepted as bridge infrastructure.  It makes the next
+  generated range-catalog leaves smaller and less ad hoc, but it does not
+  change the production blocker: the proof-producing emitter still needs a
+  shared GoodDirection-to-selector-coordinate membership theorem over large
+  ranges.
 - [x] Add Phase 6Z.6K.8AP.16DU.9S range-parametric selector-catalog smoke:
   DU.9S proves the new DU.9R production-shaped target on the real nonempty
   bounded range `[0,1)`.

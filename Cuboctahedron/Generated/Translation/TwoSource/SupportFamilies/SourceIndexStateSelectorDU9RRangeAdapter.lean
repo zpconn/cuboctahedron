@@ -31,6 +31,31 @@ abbrev SelectorCoordinateFactsGoodCatalogOnRangeFor
           GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
             SelectorCoordinateSourceRowFacts (coordAt rank mask) rank mask
 
+/-- Empty range constructor for generated selector-coordinate catalogs. -/
+theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.empty
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    {lo hi : Nat}
+    (h : hi <= lo) :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi := by
+  intro rank _mask _hlt hlo hhi _hM _hgood
+  omega
+
+/-- Singleton range constructor for generated selector-coordinate catalogs. -/
+theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.single
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    {rank : Nat}
+    (h :
+      forall {mask : SignMask} (hlt : rank < numPairWords),
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            SelectorCoordinateSourceRowFacts (coordAt rank mask) rank mask) :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt rank (rank + 1) := by
+  intro rank' mask hlt hlo hhi hM hgood
+  have hrank : rank' = rank := by omega
+  subst rank'
+  exact h hlt hM hgood
+
 /-- Erase a range-parametric selector-coordinate catalog to source/row facts. -/
 theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog
     {coordAt : Nat -> SignMask -> SelectorCoordinate}
