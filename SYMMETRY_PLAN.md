@@ -26035,3 +26035,91 @@ scripts/generated/phase6z6k8ap16du9dd_candidate_catalog_surface_guard.json
   built serially, so future emitters should encode that order in the import
   graph rather than depending on manual prebuilds.  DU.9BR provides the
   accepted chained import topology.
+
+### Phase 6Z.6K.8AP.16DU.9DE checkpoint: rank-0 semantic hcomplete smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9DE implements and guard-checks the first direct
+semantic `hcomplete` diagnostic for the current generated-coverage API:
+
+- Generator:
+  `scripts/generate_rank0_semantic_hcomplete_smoke.py`
+- Generated Lean:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SemanticHCompleteRank0Smoke.lean`
+- Reports:
+  `scripts/generated/phase6z6k8ap16du9de_rank0_semantic_hcomplete.json`
+  and
+  `scripts/generated/phase6z6k8ap16du9de_rank0_semantic_hcomplete.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9de_rank0_semantic_hcomplete_guard.json`
+
+The emitted theorem is the exact semantic surface the remaining production
+generator should target:
+
+```lean
+theorem rank0DescriptorGoodCoverage :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 1
+```
+
+and it erases through:
+
+```lean
+theorem rank0AllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 0 1
+```
+
+The proof covers rank interval `[0,1)` by splitting the 64 masks.  The 16
+GoodDirection survivors are mapped to broad `SourceIndexStateFamilyDescriptor`
+values whose `Applies` predicates are checked with existing source-index/state
+and row-template machinery.  The 48 non-GoodDirection masks are used only to
+contradict the local `GoodDirectionAtRank` hypothesis for this diagnostic; they
+are not exported as production coverage evidence.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9de_rank0_semantic_hcomplete_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SemanticHCompleteRank0Smoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `51.63s`
+- Peak tree RSS: `7508.37 MiB`
+- Minimum available memory observed: `41049.17 MiB`
+
+Decision: accepted as a bounded proof-shape diagnostic.  This confirms the
+Prop-level descriptor coverage API can express a complete GoodDirection
+membership obligation without compact-membership roots, Boolean membership
+theorems, packed blobs, or raw translation certificates.
+
+Important production lesson: do **not** scale the local bad-direction half of
+this smoke.  The smoke spends substantial memory proving 48 concrete
+nonpositive denominator facts, and it is acceptable only because `[0,1)` is
+tiny.  Production coverage must instead assume `GoodDirectionAtRank` and prove
+that every such survivor belongs to a semantic descriptor/state/signature
+family.  Bad-direction masks should remain outside generated positive-survivor
+evidence.
+
+Next proof-engineering target: emit a range-level semantic descriptor
+membership generator that proves, for a bounded window, only the survivor-side
+obligation
+
+```lean
+forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+  lo <= rank ->
+  rank < hi ->
+    totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+        (matId : Mat3 Rat) ->
+      GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+        exists desc : SourceIndexStateFamilyDescriptor,
+          desc.Applies rank mask
+```
+
+without proving or importing any per-bad-mask denominator contradictions.  The
+first bounded emitter should start with one already-profiled identity window
+and group survivors by descriptor/state family rather than by rank/mask.
