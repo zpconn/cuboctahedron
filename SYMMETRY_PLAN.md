@@ -26902,3 +26902,67 @@ Decision: accepted.  The manual DU.9DQ smoke is now generator-native for this
 window pattern.  This still leaves the production membership theorem as the
 main blocker: generated windows must prove the survivor membership premise by
 safe semantic family facts, not by compact rank-local denominator roots.
+
+### Phase 6Z.6K.8AP.16DU.9DS checkpoint: classifier emitter Boolean descriptor surface accepted
+
+Phase 6Z.6K.8AP.16DU.9DS updates
+`scripts/generate_source_index_state_classifier_smoke.py` so the
+source-index/state classifier smoke emits direct Boolean descriptor coverage
+adapters:
+
+```lean
+theorem classifierDescriptorBoolCoverage_of_key_source_row_bool :
+    ... ->
+    SourceIndexStateDescriptorBoolCoverageOnRange 0 5000
+
+theorem classifierDescriptorBoolCoverage_of_key_source_predicate_bool :
+    ... ->
+    SourceIndexStateDescriptorBoolCoverageOnRange 0 5000
+```
+
+The first theorem erases `SourceIndexStateSourceFacts` plus
+`SourceIndexStateRowFacts` directly through
+`SourceIndexStateKey.matches_of_source_row`.  The second theorem erases the
+source-predicate shape directly into
+`SourceIndexStateFamilyDescriptor.Applies`.  Both consume
+`goodDirectionAtRankBool = true`, so generated shards can target the Boolean
+GoodDirection surface without first converting through the heavier semantic
+`GoodDirectionAtRank` premise.
+
+Generation command:
+
+```bash
+python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json \
+  --family-count 125 \
+  --phase 6Z.6K.8AP.16DU.9DS \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9ds_classifier_descriptor_bool_surface.json \
+  --md scripts/generated/phase6z6k8ap16du9ds_classifier_descriptor_bool_surface.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ds_classifier_descriptor_bool_surface_guard.json \
+  -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 timeout 240s \
+    lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `10.01s`
+- Peak tree RSS: `4263.55 MiB`
+- Minimum available memory observed: `45809.98 MiB`
+
+Decision: accepted.  The classifier smoke now has the same Boolean descriptor
+surface as the survivor-window emitter.  The next useful step is to build the
+safe semantic survivor-membership premise that feeds this Boolean descriptor
+surface without reviving compact rank-local denominator roots or any giant
+Boolean reduction.
