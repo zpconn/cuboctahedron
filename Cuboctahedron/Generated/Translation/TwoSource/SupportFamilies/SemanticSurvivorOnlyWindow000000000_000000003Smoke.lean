@@ -5014,6 +5014,45 @@ theorem windowAllGoodCoverage_of_survivor
   SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage
     (windowDescriptorGoodCoverage_of_survivor hsurvivor)
 
+theorem windowDescriptorBoolCoverage_of_survivor
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    SourceIndexStateDescriptorBoolCoverageOnRange 0 3 :=
+  SourceIndexStateDescriptorGoodCoverageOnRange.to_boolCoverage
+    (windowDescriptorGoodCoverage_of_survivor hsurvivor)
+
+theorem windowSourceRowFactsBridge_of_survivor_via_bool
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    SourceRowFactsGoodBridgeOnRange 0 3 :=
+  SourceIndexStateDescriptorBoolCoverageOnRange.to_factsBridge
+    (windowDescriptorBoolCoverage_of_survivor hsurvivor)
+
+theorem windowAllGoodCoverage_of_survivor_via_bool
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    AllTranslationGoodCoverageOnRange 0 3 :=
+  SourceIndexStateDescriptorBoolCoverageOnRange.to_allGoodCoverage
+    (windowDescriptorBoolCoverage_of_survivor hsurvivor)
+
 theorem semanticSurvivorOnlyWindowSmoke_builds : True := by
   trivial
 

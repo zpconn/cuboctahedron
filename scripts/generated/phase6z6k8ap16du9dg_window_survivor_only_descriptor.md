@@ -9,6 +9,7 @@ window from an explicit survivor-language premise.
 - Nonidentity words: `1`
 - GoodDirection survivors: `29`
 - Bad-direction masks proved locally: `0`
+- Boolean descriptor adapter emitted: `yes`
 - Decision: `emitted-window-survivor-only-descriptor-smoke`
 
 | Rank | Mask | Template | Source indices |

@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 16384.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SemanticSurvivorOnlyWindow000000000_000000003Smoke"
+  ],
+  "elapsed_seconds": 28.57016291799664,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 6177828,
+  "max_tree_rss_mib": 6033.03515625,
+  "min_available_seen_kib": 44169240,
+  "min_available_seen_mib": 43134.0234375,
+  "rss_cap_mib": 8192.0
+}

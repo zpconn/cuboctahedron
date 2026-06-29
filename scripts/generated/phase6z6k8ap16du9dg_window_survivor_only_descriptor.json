@@ -12,7 +12,8 @@
       "diagnostic only",
       "descriptor side only",
       "survivor membership premise explicit",
-      "contains no bad-direction or nonidentity local proof blocks"
+      "contains no bad-direction or nonidentity local proof blocks",
+      "emits semantic and Boolean descriptor coverage adapters"
     ],
     "status": "emitted-window-survivor-only-descriptor-smoke"
   },
