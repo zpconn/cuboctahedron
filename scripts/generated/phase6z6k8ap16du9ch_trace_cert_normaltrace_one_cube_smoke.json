@@ -1,0 +1,11 @@
+{
+  "cube_index": 0,
+  "cube_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeCube00Smoke",
+  "cube_path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeCube00Smoke.lean",
+  "data_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeDataSmoke",
+  "phase": "Phase 6Z.6K.8AP.16DU.9CH",
+  "rank": 6000745,
+  "trace_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745ChainSplitSmoke",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

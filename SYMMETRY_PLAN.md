@@ -23904,6 +23904,71 @@ Decision:
   for generated normals, but test only a single small cube first under the 8
   GiB guard.  Do not jump to the full DU.9BZ root.
 
+### Phase 6Z.6K.8AP.16DU.9CH checkpoint: trace-normal Data-chain one-cube smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9CH ports the DU.9CG normal-trace proof style into the
+accepted DU.9BW dot-data chain topology, but only for cube `0`.  The goal is
+to test whether generated Data modules can replace direct
+`impactNormalWalshAt` normal proofs with `ImpactNormalWalshVectorTrace` before
+scaling to a chain or root.
+
+Files:
+
+```text
+scripts/emit_ap16du9ch_trace_cert_normaltrace_one_cube_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeDataSmoke.lean
+  WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeCube00Smoke.lean
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9ch_trace_cert_normaltrace_one_cube_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9ch_trace_cert_normaltrace_one_cube_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeDataSmoke.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeCube00Smoke.lean
+```
+
+Both checks passed; the forbidden-word scan was empty.
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceDataOneCubeCube00Smoke
+exit = 0
+elapsed = 26.07s
+peak tree RSS = 4751 MiB
+min MemAvailable = 45037 MiB
+rss cap = 8192 MiB
+
+Lake reported:
+  Data module = 13s
+  cube00      = 10s
+```
+
+Comparison to DU.9BW:
+
+```text
+DU.9BW Data module: 42.66s, 5985 MiB
+DU.9BW cube00:      11.51s, 4202 MiB
+
+DU.9CH Data+cube00 guarded build: 26.07s, 4751 MiB
+```
+
+Decision:
+
+- Accept the trace-normal Data-chain route as a real improvement over DU.9BW's
+  direct-normal Data module for this rank fixture.
+- The cube proof cost is essentially unchanged; the win is concentrated in
+  Data-module normal generation.
+- Next safe scaling step: emit the same trace-normal Data module with the full
+  DU.9BW cube chain, but build serially through the AP16DI-style guard and
+  record Data, first cube, last cube, and root times separately.  Do not use
+  uncapped parallel Lake for that chain.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
