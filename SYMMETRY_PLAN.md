@@ -14562,6 +14562,59 @@ Acceptance:
   surface, but reduce selected-impact proof cost and replace bounded
   rank-100805 cover completeness with a shared survivor-signature membership
   theorem before attempting production coverage.
+- [x] Implement Phase 6Z.6K.8AP.16DD compact Walsh-cover scaling sampler:
+  AP16DD adds a diagnostic-only sampler:
+
+  ```text
+  scripts/profile_ap16dd_compact_walsh_cover_scaling.py
+  ```
+
+  It samples materialized positive-survivor signatures from:
+
+  ```text
+  scripts/generated/phase6z6k8ap16am_top5_materialized_profile.json
+  ```
+
+  For each sampled signature it reruns the AP16BJ exact Walsh subcube-cover
+  search on one representative `(rank, mask)`, then reports how many compact
+  AP16DC-style subcube obstructions would be needed.  This is not proof data;
+  it is a scaling gate before generating more Lean.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dd_compact_walsh_cover_scaling.json
+  scripts/generated/phase6z6k8ap16dd_compact_walsh_cover_scaling.md
+  ```
+
+  Smoke and full sampled run:
+
+  ```text
+  /usr/bin/time -v python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py --limit 5
+  /usr/bin/time -v python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py --limit 20
+  ```
+
+  Result for the 20-signature sample:
+
+  ```text
+  sampled signatures: 20
+  uncovered signatures: 0
+  selected subcubes: min 14, mean 18.60, max 24, total 372
+  candidate subcubes: min 173, mean 217.25, max 277
+  bad masks per signature: min 48, mean 54.0, max 60
+  selected word-impact union: [0,1,2,3,4,5,6,7,8,9,10,11]
+  selected word-impacts per signature: exactly 7
+  elapsed: 30.17s
+  peak RSS: 32.94 MiB
+  ```
+
+  Decision: accepted as a low-memory scaling diagnostic.  It supports scaling
+  the AP16DC theorem surface from one smoke signature to bounded multi-signature
+  shards, but it also shows that selected impacts vary across signatures and
+  cover all first twelve word positions in the sample.  The next implementation
+  step should generate a bounded multi-signature AP16DC-style shard with shared
+  imports and per-signature compact covers, while keeping Lean builds guarded
+  and serial until selected-impact proof costs are reduced.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
