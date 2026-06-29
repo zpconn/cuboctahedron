@@ -73,6 +73,16 @@ theorem TemplateLanguageMember.of_source_rows
     TemplateLanguageMember r mask :=
   ⟨template, support, hsource, hrows⟩
 
+/-- Build template-language membership from existing source-index/state facts. -/
+theorem TemplateLanguageMember.of_sourceIndexState_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    TemplateLanguageMember r mask :=
+  TemplateLanguageMember.of_source_rows
+    (template := key.template) (support := key.support)
+    hsource.sourceChecks hrows.rows
+
 /-- Template-tagged membership erases to the row-property quotient witness. -/
 theorem TemplateLanguageMember.to_templateLanguageWitness
     {r : Nat} {mask : SignMask}
@@ -190,6 +200,31 @@ theorem TemplateLanguageCoverageOnIdentityRange.of_source_rows
   exact TemplateLanguageMember.to_templateLanguageWitness
     (TemplateLanguageMember.of_source_rows
       (template := template) (support := support) hsource hrows)
+
+/--
+Range constructor from existing source-index/state fact producers.
+
+This is the direct migration path for current generated source/row fact
+modules: keep `keyAt` private, prove source facts and row facts for that key,
+and export only `TemplateLanguageCoverageOnIdentityRange`.
+-/
+theorem TemplateLanguageCoverageOnIdentityRange.of_keyAt_source_row
+    {keyAt : Nat -> SignMask -> SourceIndexStateKey}
+    {lo hi : Nat}
+    (h :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                SourceIndexStateSourceFacts (keyAt rank mask) rank mask /\
+                  SourceIndexStateRowFacts (keyAt rank mask) rank mask) :
+    TemplateLanguageCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  rcases h hlt hlo hhi hM hgood with ⟨hsource, hrows⟩
+  exact TemplateLanguageMember.to_templateLanguageWitness
+    (TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows)
 
 /-- Concatenate adjacent template-language coverage ranges. -/
 theorem TemplateLanguageCoverageOnIdentityRange.concat

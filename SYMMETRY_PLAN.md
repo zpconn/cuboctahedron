@@ -28522,3 +28522,49 @@ constructors remain smoke/fallback tools only.  The next substantive task is to
 find a compressed algebraic recurrence or state-language proof of that
 existential over large ranges, with no rank/mask table and no support-index
 catalog as the primary coordinate.
+
+### Phase 6Z.6K.8AP.16DU.9ES checkpoint: source-index fact migration bridge
+
+Phase 6Z.6K.8AP.16DU.9ES extends
+`TemplateLanguage.lean` with a direct migration path from the existing
+source-index/state fact producer API into the accepted template-language target:
+
+```lean
+theorem TemplateLanguageMember.of_sourceIndexState_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    TemplateLanguageMember r mask
+
+theorem TemplateLanguageCoverageOnIdentityRange.of_keyAt_source_row
+    {keyAt : Nat -> SignMask -> SourceIndexStateKey}
+    {lo hi : Nat}
+    (h :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                SourceIndexStateSourceFacts (keyAt rank mask) rank mask /\
+                  SourceIndexStateRowFacts (keyAt rank mask) rank mask) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:05.25`, `max_rss_kb=3263848`.
+
+Decision: current source/row fact producer work can now be routed into
+`TemplateLanguageCoverageOnIdentityRange` without going through the older
+catalog-membership surface.  This is a migration bridge, not the final
+compression theorem: production still needs a compressed proof of the
+`keyAt` source/row facts over large ranges or state languages.  The important
+gain is that the public output remains the accepted template-language coverage
+theorem, while `keyAt` and concrete supports can stay private inside generated
+modules.
