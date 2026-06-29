@@ -18011,6 +18011,22 @@ Acceptance:
   provided it is proved from semantic source/row facts for GoodDirection
   members, not from rank-local compact-cover replay.
 
+  The existing descriptor-language bridge is even closer to the profiled
+  non-enumerative route:
+
+  ```lean
+  SourceIndexStateDescriptorGoodCoverageOnRange 0 5000
+
+  SourceIndexStateDescriptorGoodLanguageOnRange 0 5000
+  ```
+
+  `SourceIndexStateDescriptorLanguage.lean` already erases these targets to
+  `AllTranslationGoodCoverageOnRange`.  Therefore the next proof-producing
+  emitter should not add another wrapper.  It should prove that every
+  identity-linear `GoodDirectionAtRank` case in a bounded range has some
+  `SourceIndexStateFamilyDescriptor` whose broad `desc.Applies rank mask`
+  predicate holds.
+
   This remains the hard AP16DU proof obligation.  It must avoid `fin_cases
   mask`/all-mask replay, avoid singleton positive-survivor signatures, stay
   under the established guarded build cap, and keep the exported theorem type
