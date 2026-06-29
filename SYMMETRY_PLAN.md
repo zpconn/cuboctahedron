@@ -613,6 +613,16 @@ hard-coded smoke-range assumption from the next emitter target.  Future
 generated selector-membership chunks can now export per-range
 `SelectorCoordinateFactsGoodCatalogOnRangeFor` theorems and erase them directly
 to `AllTranslationGoodCoverageOnRange lo hi`.
+DU.9S exercises that range-parametric target on a real nonempty bounded
+GoodDirection rank.  It proves
+`SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt0_1 0 1` by composing the
+rank-0 compact GoodDirection membership theorem from DU.9P with the DU.9L
+shard-0 selector-coordinate source/row facts, then erases it through DU.9R to
+`AllTranslationGoodCoverageOnRange 0 1`.  The file is only 60 lines and checks
+directly with `lake env lean` in 2.11s at 3,316,756 KiB max RSS.  This is still
+bounded smoke, but it validates the exact theorem surface production shards
+should export; the remaining hard work is a shared theorem/emitter that proves
+this catalog target over large ranges without rank-local compact covers.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -17181,6 +17191,66 @@ Acceptance:
   membership evidence and does not prove production coverage by itself; it
   makes the next selector-membership emitter target range-parametric and keeps
   final exported theorem surfaces semantic.
+- [x] Add Phase 6Z.6K.8AP.16DU.9S range-parametric selector-catalog smoke:
+  DU.9S proves the new DU.9R production-shaped target on the real nonempty
+  bounded range `[0,1)`.
+
+  ```lean
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9SRangeSmoke
+
+  coordAt0_1 :
+    Nat -> SignMask -> SelectorCoordinate
+
+  selectorCatalog0_1 :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt0_1 0 1
+
+  selectorCatalog0_1_sourceIndexFacts :
+    SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 1
+
+  selectorCatalog0_1_allGood :
+    AllTranslationGoodCoverageOnRange 0 1
+  ```
+
+  The proof composes:
+
+  - DU.9P's `rank0_selectorPositive_of_GoodDirection`, which uses compact
+    Walsh membership to turn semantic `GoodDirectionAtRank` into membership in
+    the rank-0 positive selector language;
+  - DU.9L shard 0's `selectorPositiveSourceRowFacts`, which gives
+    `SelectorCoordinateSourceRowFacts` for the selected coordinate;
+  - DU.9R's range-parametric erasure to the public all-Good coverage surface.
+
+  Focused checks:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9SRangeSmoke
+
+  first attempt:
+    exit=1, elapsed=6.10s
+    reason: missing bridge namespace opens and a stale Nat lemma name
+
+  retry:
+    exit=0, elapsed=2.05s
+
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9SRangeSmoke.lean
+    exit=0
+    elapsed=2.11s
+    max_rss=3316756 KiB
+
+  wc -l:
+    SourceIndexStateSelectorDU9SRangeSmoke.lean = 60 lines
+  ```
+
+  Decision: DU.9S is accepted as proof-producing bridge smoke.  It is not a
+  scalable coverage backend by itself, but it confirms that the next production
+  emitter can target a small semantic range-catalog theorem and let DU.9R erase
+  it, rather than exporting raw compact-cover data or rank-local all-Good
+  roots.
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:
