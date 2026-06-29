@@ -21499,6 +21499,108 @@ Decision:
   - compare semantic-only RSS against the rejected DU.9AT all-in-one 8 GiB
     failure.
 
+### Phase 6Z.6K.8AP.16DU.9AX checkpoint: split production-like rank smoke rejected on membership
+
+Phase 6Z.6K.8AP.16DU.9AX retargeted the production-like rank `6000745` to
+the DU.9AU/DU.9AW split layout.  The generated artifacts are now diagnostic
+only and live outside the Lean library tree:
+
+```text
+scripts/generated/diagnostics/phase6z6k8ap16du9ax/
+  RowPropertyMemberBridgeSemanticRank6000745Smoke.lean
+  RowPropertyMemberBridgeMembershipRank6000745Smoke.lean
+  RowPropertyMemberBridgeRank6000745Smoke.lean
+```
+
+The generator is:
+
+```text
+scripts/generate_ap16du9ax_split_direct_rank_smoke.py
+```
+
+and its default output path is also diagnostic, so rerunning it cannot
+accidentally put these heavy smoke files back under `Cuboctahedron/`.
+
+The semantic half is the useful positive result.  It defines local
+`SourceIndexStateKey` records and row/source facts for the rank-local
+GoodDirection survivors, proves:
+
+```lean
+theorem semanticCoverage :
+  RowPropertyMemberSemanticCoverageOnIdentityRange Member rank (rank + 1)
+```
+
+and intentionally does not import compact-Walsh denominator-cover modules.
+
+Guarded semantic build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ax_rank6000745_split_semantic_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyMemberBridgeSemanticRank6000745Smoke
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 20.59s
+peak RSS = 5113 MiB
+minimum available memory seen = 44813 MiB
+```
+
+The membership half is the decisive negative result.  The first version
+imported the five-rank compact-Walsh batch root and was stopped by the guard:
+
+```text
+exit = -15
+elapsed = 6.51s
+peak RSS = 14732 MiB
+killed_reason = process-tree RSS 14732 MiB exceeded 8192 MiB cap
+```
+
+The generator was then patched to import only the rank-specific cover:
+
+```lean
+ImpactSubcubeWalshSymbolicCompactDenomCoverRank6000745Smoke
+```
+
+but that still exceeded the same guard.  Two guarded attempts were stopped:
+
+```text
+rank-specific attempt 1:
+  exit = -15
+  elapsed = 7.51s
+  peak RSS = 8220 MiB
+
+rank-specific attempt 2:
+  exit = -15
+  elapsed = 6.55s
+  peak RSS = 31235 MiB
+```
+
+The rerun spike is especially important: even a rank-specific compact-Walsh
+membership import can load or replay enough exact-rational denominator-cover
+state to become an OOM risk.  Raising the memory cap would only mask the
+problem and would not scale to production.
+
+Decision:
+
+- Accept the split semantic theorem surface as the right production shape.
+- Reject compact-Walsh GoodDirection-to-member imports as the production
+  membership route for production-like ranks.
+- Keep DU.9AX only as diagnostic evidence and keep its generated Lean files
+  outside `Cuboctahedron/`.
+- The next production membership route must prove GoodDirection-to-member
+  through a smaller semantic classifier, integer/projective denominator facts,
+  or source/state language theorem.  It must not import per-rank compact-Walsh
+  cover roots into generated coverage chunks.
+- Future memory experiments on this route must stay under guarded focused
+  builds; do not run a broad package build containing these diagnostic modules.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -21565,3 +21667,8 @@ Decision:
   compact-Walsh rank covers and recompute exact rational row equalities.  The
   rank `6000745` smoke hit the 8 GiB focused-build guard in about 10 seconds
   with only 13 GoodDirection survivors.
+- Do not scale DU.9AX-style split roots if their membership half imports
+  compact-Walsh denominator-cover modules, even rank-specific ones.  The
+  semantic half is acceptable, but the membership half hit 14.7 GiB through
+  the batch root and up to 31.2 GiB through the rank-specific root under the
+  same focused guard.

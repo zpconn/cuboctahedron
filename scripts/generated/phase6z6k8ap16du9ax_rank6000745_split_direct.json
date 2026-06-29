@@ -1,0 +1,11 @@
+{
+  "good_direction_survivors": 13,
+  "local_family_count": 9,
+  "membership_module": "scripts/generated/diagnostics/phase6z6k8ap16du9ax/RowPropertyMemberBridgeMembershipRank6000745Smoke.lean",
+  "phase": "6Z.6K.8AP.16DU.9AX",
+  "rank": 6000745,
+  "root_module": "scripts/generated/diagnostics/phase6z6k8ap16du9ax/RowPropertyMemberBridgeRank6000745Smoke.lean",
+  "schema_version": 1,
+  "semantic_module": "scripts/generated/diagnostics/phase6z6k8ap16du9ax/RowPropertyMemberBridgeSemanticRank6000745Smoke.lean",
+  "trusted_as_proof": false
+}
