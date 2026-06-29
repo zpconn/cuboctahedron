@@ -1,0 +1,28 @@
+{
+  "command_count": 2,
+  "commands_file": "/tmp/cubo_guard_parallel_smoke.txt",
+  "completed": 2,
+  "elapsed_seconds": 0.40143671100668143,
+  "failed": 0,
+  "jobs_requested": 2,
+  "launch_available_mib": 12512.0,
+  "max_tree_rss_mib_per_job": 512.0,
+  "min_available_mib_per_job": 12000.0,
+  "min_available_seen_mib": 46693.9375,
+  "peak_active_jobs": 2,
+  "results": [
+    {
+      "command": "python3 -c \"print(1)\"",
+      "elapsed_since_start_seconds": 0.40140843999688514,
+      "exit_code": 0,
+      "index": 0
+    },
+    {
+      "command": "python3 -c \"print(2)\"",
+      "elapsed_since_start_seconds": 0.4014297819958301,
+      "exit_code": 0,
+      "index": 1
+    }
+  ],
+  "skipped": 0
+}

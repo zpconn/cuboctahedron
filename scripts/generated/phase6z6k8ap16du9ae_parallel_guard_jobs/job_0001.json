@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 12000.0,
+  "command": [
+    "bash",
+    "-lc",
+    "python3 -c \"print(2)\""
+  ],
+  "elapsed_seconds": 0.20075874800386373,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 576,
+  "max_tree_rss_mib": 0.5625,
+  "min_available_seen_kib": 47811820,
+  "min_available_seen_mib": 46691.23046875,
+  "rss_cap_mib": 512.0
+}

@@ -18039,6 +18039,52 @@ Acceptance:
   descriptor coverage theorem is usable and cheap.  It does not solve
   production membership because the bounded proof still depends on DU.9P's
   rank-local compact membership facts.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AE memory-safe parallel guard runner:
+  DU.9AE responds to the OOM risk in later shard checks by adding a general
+  guarded parallel runner:
+
+  ```text
+  scripts/run_memory_guarded_parallel.py
+  ```
+
+  The runner reads one shell command per line from a command file, launches at
+  most `--jobs` children, wraps every child in the existing
+  `scripts/run_memory_guarded.py`, and waits to launch new work unless
+  `MemAvailable` is above a configurable launch floor.  This is operational
+  safety tooling only, not proof evidence.  Its purpose is to make future
+  shard checks parallel only when memory-safe, while preserving the existing
+  per-process RSS caps and whole-process-group termination behavior.
+
+  Smoke commands:
+
+  ```text
+  python3 -m py_compile scripts/run_memory_guarded_parallel.py
+
+  python3 scripts/run_memory_guarded_parallel.py \
+    --commands /tmp/cubo_guard_parallel_smoke.txt \
+    --jobs 2 \
+    --max-tree-rss-mib 512 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.2 \
+    --json scripts/generated/phase6z6k8ap16du9ae_parallel_guard_smoke.json \
+    --job-json-dir scripts/generated/phase6z6k8ap16du9ae_parallel_guard_jobs
+  ```
+
+  Result:
+
+  ```text
+  completed: 2/2
+  failed: 0
+  peak active jobs: 2
+  elapsed: 0.40s
+  min available memory observed: 46693.94 MiB
+  ```
+
+  Decision: DU.9AE is accepted as safety infrastructure.  Future parallel
+  generated checks should use this runner, or an equivalent guard, instead of
+  uncapped shell/Lake parallelism.  For proof-heavy Lean targets, keep
+  `LEAN_NUM_THREADS=1` and `LAKE_JOBS=1` inside each guarded child unless a
+  focused benchmark shows a higher setting is safe.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
