@@ -17014,6 +17014,65 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9p_compact_membership_bridge_guard.json
   scripts/generated/phase6z6k8ap16du9p_compact_membership_bridge_guard_retry1.json
   ```
+- [x] Add and guard-check Phase 6Z.6K.8AP.16DU.9P bounded all-Good root:
+  The DU.9P compact membership bridge is now composed into a bounded
+  `AllTranslationGoodCoverageOnRange 0 4` theorem:
+
+  ```lean
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9PCompactAllGood
+
+  rank0_allGoodKilled : AllTranslationGoodRankKilled 0
+  rank1_allGoodKilled : AllTranslationGoodRankKilled 1
+  rank2_allGoodKilled : AllTranslationGoodRankKilled 2
+  rank3_allGoodKilled : AllTranslationGoodRankKilled 3
+
+  allGoodCoverage0_4 : AllTranslationGoodCoverageOnRange 0 4
+  ```
+
+  Ranks `0`, `2`, and `3` use the compact membership bridge plus DU.9N's
+  selector-positive semantic erasure.  Rank `1` reuses the existing generated
+  row-relation window:
+
+  ```lean
+  Cuboctahedron.Generated.Translation.TwoSource.RowRelationClassifier.
+    Window000000001_000000002.rowRelationClassifierGoodCoverage
+  ```
+
+  rather than recomputing the non-identity linear part inside the new root.
+  This keeps the bounded all-Good theorem as interval composition over
+  already-checked semantic leaves.
+
+  Guard history:
+
+  ```text
+  first attempt:
+    exit=1, elapsed=7.02s, peak_tree_rss=3953 MiB
+    reason: stale namespace open and arbitrary-Fin-proof `decide` statement
+
+  second attempt:
+    exit=1, elapsed=3.00s, peak_tree_rss=3975 MiB
+    reason: raw rank-1 `decide` got stuck under `unrankPairWord`
+
+  final attempt:
+    exit=0, elapsed=23.02s, peak_tree_rss=4595 MiB, min_available=45592 MiB
+  ```
+
+  Decision: the bounded `[0,4)` translation GoodDirection route is now
+  checked end-to-end at the all-Good coverage surface.  This is still not
+  production coverage, but it demonstrates the intended proof shape:
+  compact Walsh membership for positive survivors, existing nonidentity
+  singleton coverage for empty/nonidentity ranks, and Prop-level interval
+  composition through `CoversInterval`.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9p_compact_allgood_root_guard.json
+  scripts/generated/phase6z6k8ap16du9p_compact_allgood_root_guard_retry1.json
+  scripts/generated/phase6z6k8ap16du9p_compact_allgood_root_guard_retry2.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:
