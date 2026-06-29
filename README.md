@@ -253,13 +253,20 @@ This matters because bad-direction cases no longer need generated
 certificates. They are eliminated by a general theorem. Generated translation
 evidence only has to handle the surviving `GoodDirection` cases.
 
+A current compact way to kill a surviving translation case is called a
+**two-source Farkas certificate**. This is not a new mathematical principle.
+It means that the contradiction uses only two chosen inequalities from the
+linear system. A **source** is just the origin of one inequality, such as a
+condition saying that the starting point is inside `Face.xp` or that a later
+hit is inside the intended face.
+
 ```mermaid
 flowchart TD
     A["translation pair word + sign mask"]
     B{"GoodDirection?"}
     C["impossible by general Lean theorem"]
     D["needs linear-inequality contradiction"]
-    E["two-source Farkas / row-relation family"]
+    E["small checked linear contradiction"]
     A --> B
     B -- "no" --> C
     B -- "yes" --> D --> E
@@ -280,6 +287,11 @@ still available. We may use only symmetries that keep `Face.xp` fixed. This
 remaining started-face symmetry group has 8 elements: swap `y` and `z`, and
 independently flip the signs of `y` and `z`. This is the symmetry group of the
 square starting face.
+
+A **canonical representative** is the one member that the proof chooses from a
+collection of symmetric cases. It is like saying "prove the left-handed copy,
+then transport the proof to the right-handed copy by symmetry," except that
+Lean checks the transport instead of trusting the phrase "by symmetry."
 
 ```mermaid
 flowchart TD
@@ -322,8 +334,14 @@ saying "case 100 fails, case 101 fails, case 102 fails," a family theorem says
 
 Some translation survivors are killed by very small Farkas contradictions. A
 **Farkas support** is the small set of inequalities used in such a
-contradiction. In the current two-source backend, a support often consists of
-just two inequalities.
+contradiction. In the current two-source work, a support often consists of just
+two inequalities.
+
+The current translation pipeline often uses a **two-source support**, meaning
+that the support names two constraint sources. Each source says where an
+inequality came from: for example, "the start point lies in the square face" or
+"the seventh hit lies in this triangular face." The generator may find the
+support, but Lean still checks the emitted support.
 
 A **row-relation template** is a reusable algebraic pattern saying that two
 rows of the linear inequality system always combine into a contradiction for a
@@ -331,7 +349,7 @@ whole family of cases. The word "row" just means one inequality in the system.
 
 A **symbolic row family** is a collection of cases that share the same
 proof-relevant row pattern, even if the raw numbers differ. A symbolic family
-root is a generated Lean module that proves coverage for such families over
+module is a generated Lean file that proves coverage for such families over
 some range or sample.
 
 These terms are engineering vocabulary for one idea:
@@ -339,6 +357,34 @@ These terms are engineering vocabulary for one idea:
 ```text
 Find one exact reason that rules out many proposed orbits, then make Lean check
 that the reason really applies to all of them.
+```
+
+The generated proof surface now uses a few more names:
+
+- A **semantic theorem** is a theorem whose statement says the case is
+  impossible. It does not expose the raw certificate data as the public
+  interface.
+- An **interval theorem** proves a predicate for every rank in a half-open
+  range `[lo, hi)`, meaning all ranks `r` with `lo <= r` and `r < hi`.
+- A **classifier** is an exact Boolean decision procedure that sorts a rank, or
+  a rank plus sign mask, into a known easy family or into the remaining cases
+  that need a Farkas contradiction. Lean proves that the Boolean answer is
+  sound.
+- A **residual case** is a case left over after the classifier has removed the
+  broad easy families. Residual does not mean mysterious; it just means "still
+  needs another checked reason."
+- A **public root** is the small Lean module imported by the main project.
+  Large generated proof files may live outside that root and be checked
+  separately.
+- A **shard** is one such generated proof file or directory covering a small
+  piece of the full range.
+
+These names are all ways of keeping the trusted statement small:
+
+```text
+prove impossibility for ranges and families,
+compose those range proofs into complete coverage,
+then use the already-checked geometry bridge to reach the billiard theorem.
 ```
 
 ## The Systems Problem
@@ -370,7 +416,7 @@ flowchart TD
     B["hundreds of millions of finite cases"]
     C["certificates for why cases fail"]
     D["Lean must check the certificates"]
-    E["generated source and compiled proof artifacts"]
+    E["generated source and compiled proof files"]
     F["consumer hardware limits"]
 
     A --> B --> C --> D --> E --> F
@@ -378,11 +424,13 @@ flowchart TD
 
 A naive formalization would emit one Lean proof or one Lean certificate for
 each case. That is trustworthy in principle and unusable in practice: the
-source tree becomes enormous, elaboration becomes slow, and memory usage can
-explode. Other apparently compact approaches also failed. Packed byte strings
-made source files smaller, but Lean still had to decode and check them. Giant
-Boolean checkers moved the burden into kernel reduction. Splitting into small
-chunks helped only until even the smallest meaningful chunk was too expensive.
+source tree becomes enormous, Lean spends too long translating source text into
+internal proof objects, and memory usage can explode. Other apparently compact
+approaches also failed. Packed byte strings made source files smaller, but Lean
+still had to decode and check them. Giant Boolean checkers moved the burden
+into Lean's small trusted checker, which then had to evaluate enormous
+expressions. Splitting into small chunks helped only until even the smallest
+meaningful chunk was too expensive.
 
 So the project became a systems problem:
 
@@ -403,11 +451,17 @@ with an out-of-memory error.
 That is why the proof architecture emphasizes:
 
 - exact rational and integer arithmetic, never floating point;
-- small reusable soundness theorems instead of one-off giant reductions;
+- small reusable soundness theorems instead of one-off giant checked
+  computations;
 - semantic family theorems instead of raw per-case certificate arrays;
 - generated roots that expose compact theorem statements;
-- smoke tests on the heaviest expected generated leaves before scaling;
-- bounded memory profiles and external build caches for generated evidence;
+- interval theorems for ranges of ranks, so coverage can be composed without
+  unfolding one giant table;
+- computable classifiers, so generated files can use exact Boolean checks
+  without asking Lean to search through statements of the form "there exists a
+  certificate";
+- small trial builds on the heaviest expected generated files before scaling;
+- bounded memory profiles and external directories of compiled evidence;
 - rank/unrank coverage so compression never replaces exhaustiveness.
 
 The evolution looks like this:
@@ -418,26 +472,26 @@ flowchart TD
     B["one certificate per case"]
     C["packed blobs / byte lists"]
     D["structured certificate literals"]
-    E["proof-carrying local facts"]
+    E["local Lean proofs"]
     F["shared semantic families"]
-    G["row-property and symmetry-aware coverage"]
+    G["interval, classifier, and symmetry-aware coverage"]
     H["final compact coverage theorem"]
 
     A --> B
     B -->|"too much source"| C
-    C -->|"too much Lean reduction"| D
+    C -->|"too much expression evaluation"| D
     D -->|"still too local"| E
-    E -->|"works in smoke tests"| F
+    E -->|"works in small trial builds"| F
     F --> G --> H
 ```
 
 This is the unusual character of the project: the mathematical proof and the
 build system are entangled. A proof strategy is not viable just because it is
-logically correct. It also has to compile, cache, and replay on real hardware.
-The current row-property and two-source Farkas work is an example of that
+logically correct. It also has to compile and replay on real hardware.
+The current row-relation and two-source Farkas work is an example of that
 pressure: it is not just looking for nicer mathematics, but for theorem shapes
-that let one checked argument cover many cases without making Lean materialize
-millions of near-duplicate proof terms.
+that let one checked argument cover many cases without making Lean build
+millions of near-duplicate proof objects.
 
 The trusted boundary remains the same throughout. Profilers and generators may
 measure, discover, compress, and emit. They may be wrong. Lean must still check
@@ -445,7 +499,7 @@ the final family theorem and the final coverage theorem.
 
 ## Proof Architecture
 
-The final proof has four layers.
+The final proof has four mathematical layers and one generated-evidence layer.
 
 <img width="6000" height="3390" alt="proof strategy overview" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
 
@@ -457,7 +511,7 @@ flowchart TD
     D["Case split by the unfolded linear part M"]
     E["Non-identity certificates and families"]
     F["Translation GoodDirection theorem"]
-    G["Translation Farkas certificates and families"]
+    G["Translation Farkas supports and families"]
     H["Generated coverage: every rank/mask is killed"]
     I["No unfolded omnihedral orbit starting at Face.xp"]
     J["No cuboctahedron omnihedral billiard orbit"]
@@ -467,6 +521,29 @@ flowchart TD
     D --> F --> G --> H
     H --> I --> J
 ```
+
+In Lean there are two closely related ways to package the last generated layer.
+
+`ExhaustiveGeneratedCoverage` is the older direct package: it says that every
+non-identity rank and every translation rank/mask pair has a checked
+certificate.
+
+`SemanticExhaustiveGeneratedCoverage` is the preferred completion path. It says
+directly that every such case is killed. "Killed" here means "proved
+impossible." This lets generated files expose compact family and interval
+theorems instead of public arrays of certificate data.
+
+`Cuboctahedron/Generated/ExhaustiveCoverage.lean` contains the adapters from
+generated interval coverage to these two packages. In particular, the
+`Public*Intervals` structures say:
+
+```text
+non-identity residual ranks are covered on [0, numPairWords)
+translation GoodDirection survivors are covered on [0, numPairWords)
+```
+
+Once Lean has those two interval facts, the conditional theorem can use the
+ordinary rank/unrank enumeration to cover every started itinerary.
 
 Another way to view the trusted boundary:
 
@@ -509,7 +586,8 @@ The intended exhaustive argument is:
 6. In the identity branch, every possible signed face choice is represented by
    one of 64 sign masks.
 7. Bad-direction masks are impossible by the general `GoodDirection` theorem.
-8. GoodDirection masks are killed by Lean-checked Farkas or family evidence.
+8. GoodDirection masks are killed by Lean-checked Farkas supports or family
+   evidence.
 9. Symmetry may reduce the amount of generated evidence only when Lean proves
    that representatives cover all symmetric raw cases.
 
@@ -530,12 +608,34 @@ theorem Cuboctahedron.conditional_cuboctahedron_no_omnihedral
 ```
 
 In plain language: if Lean is given a complete generated coverage witness, the
-rest of the proof already reaches the real billiard theorem.
+rest of the proof already reaches the real billiard theorem. A **bridge** here
+means a Lean theorem that converts one proof shape into another: complete
+generated coverage goes in, the billiard theorem comes out.
 
-The newer generated API also defines `SemanticExhaustiveGeneratedCoverage`.
+The newer generated interface also defines `SemanticExhaustiveGeneratedCoverage`.
 That is the current completion path: generated files should expose compact
 semantic theorems saying cases are impossible, not huge public arrays of raw
 certificates.
+
+The active public generated surface is intentionally small. The module
+`Cuboctahedron/Generated/AllGenerated.lean` imports the computable-classifier
+bridge and the public-evidence marker. A marker is a small Lean module that
+records the active generated-evidence shape and, for bounded evidence, where
+the checked root lives. This public surface deliberately avoids the old
+all-in-one generated import that pulled in many heavy experiments and could run
+out of memory during broad builds.
+
+The current public evidence marker is bounded, not exhaustive:
+
+```text
+current interval: ranks [0, 8)
+recorded root: evidence/public_interval_shards/Shard000000000_000000008/VerifiedRoot.lean
+```
+
+That root is a small generated proof interval. It demonstrates the current
+public-interval shape, but it is not the final coverage theorem over all
+`97,297,200` pair-word ranks. The full proof still needs generated interval
+coverage over `[0, numPairWords)`.
 
 Recent diagnostics support the current translation-family direction:
 
@@ -543,7 +643,7 @@ Recent diagnostics support the current translation-family direction:
   were covered by row-relation templates in the diagnostic census;
 - calibration windows covered `63,725` GoodDirection survivors with zero
   uncovered cases after the expanded row-template catalog;
-- a representative symbolic row-family root covered `4,779` survivors using
+- a representative symbolic row-family module covered `4,779` survivors using
   `126` symbolic families, but broader sampling is still needed before full
   generated emission.
 
@@ -566,10 +666,27 @@ the corresponding Lean coverage.
   infrastructure.
 - `Cuboctahedron/Generated/Coverage/SymmetryTransport.lean`: semantic symmetry
   transport adapters.
+- `Cuboctahedron/Generated/Coverage/Interval.lean`: the small theorem language
+  for proving coverage on rank ranges `[lo, hi)`.
+- `Cuboctahedron/Generated/Coverage/ComputableClassifiers.lean`: exact Boolean
+  classifiers and their soundness bridges.
+- `Cuboctahedron/Generated/Coverage/TranslationSurvivors.lean`: the adapter
+  from GoodDirection-only translation evidence to ordinary translation
+  impossibility.
 - `Cuboctahedron/Generated/ExhaustiveCoverage.lean`: generated coverage
   assembly types, including semantic coverage.
+- `Cuboctahedron/Generated/NonIdentity/Coverage/All.lean`: public interval
+  target for non-identity residual ranks.
+- `Cuboctahedron/Generated/Translation/Coverage/All.lean`: public interval
+  target for translation Farkas and GoodDirection coverage.
 - `Cuboctahedron/Generated/Translation/TwoSource/*`: current two-source
-  Farkas and support-family backend.
+  Farkas and support-family generator/checker interface.
+- `Cuboctahedron/Generated/PublicEvidence/*`: lightweight marker modules for
+  externally checked public interval evidence.
+- `evidence/public_interval_shards/*`: generated proof shards kept outside the
+  default Lake package source tree.
+- `Cuboctahedron/Generated/AllGenerated.lean`: memory-safe all-in-one import
+  for the active generated public surface.
 - `Cuboctahedron/ConditionalTheorem.lean`: the conditional bridge from complete
   coverage to the billiard theorem.
 
