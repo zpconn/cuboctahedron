@@ -26359,3 +26359,58 @@ or else demonstrate that an additional symbolic state predicate is needed.
 If that route fails, the fallback should be a symbolic Walsh/state-language
 bridge: 16BI shows denominator signs can be degree-2 Walsh forms, so affine
 mask-cube proofs are not expressive enough.
+
+### Phase 6Z.6K.8AP.16DU.9DI checkpoint: source-row facts bridge adapter accepted
+
+Phase 6Z.6K.8AP.16DU.9DI adds a tiny hand-written adapter smoke for the
+accepted DU.9DH theorem surface:
+
+- Lean module:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceRowFactsBridgeWindowSmoke.lean`
+- Report:
+  `scripts/generated/phase6z6k8ap16du9di_source_row_facts_bridge_window.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9di_source_row_facts_bridge_window_guard.json`
+
+The smoke contains no generated certificate data.  It proves that a generated
+source/row facts bridge for the DU.9DG window is immediately enough for both
+descriptor coverage and all-Good translation coverage:
+
+```lean
+theorem windowDescriptorCoverage_of_sourceRowFactsBridge
+    (bridge : SourceRowFactsGoodBridgeOnRange 0 3) :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 3
+
+theorem windowAllGoodCoverage_of_sourceRowFactsBridge
+    (bridge : SourceRowFactsGoodBridgeOnRange 0 3) :
+    AllTranslationGoodCoverageOnRange 0 3
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9di_source_row_facts_bridge_window_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowFactsBridgeWindowSmoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `8.01s`
+- Peak tree RSS: `3868.77 MiB`
+- Minimum available memory observed: `46087.96 MiB`
+
+Decision: accepted.  This is the cleanest next generated target:
+
+```lean
+SourceRowFactsGoodBridgeOnRange lo hi
+```
+
+Production emitters should target that bridge directly and then erase through
+the hand-written adapters.  They should not emit `WindowSurvivor` constructors
+as the final public route, and they should not revive bad-direction mask
+proofs.
