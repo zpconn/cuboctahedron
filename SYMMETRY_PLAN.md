@@ -522,6 +522,10 @@ RSS under a 6.5 GiB cap.  The remaining DU.9 obligation is now the bounded
 key-membership theorem from arbitrary identity-linear GoodDirection survivors
 to `exists key : ClassifierKey, key.Matches rank mask`, followed by key
 erasure to `ClassifierApplies`.
+DU.9B adds the checked key-completion adapters from that existential
+key-membership premise to `classifierCompletenessOnIdentityRange` and
+`AllTranslationGoodCoverageOnRange`; its guarded build passed in 10.01s at
+4.184 GiB peak tree RSS.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16075,6 +16079,44 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9a_classifier_key_bridge_smoke.json
   scripts/generated/phase6z6k8ap16du9a_classifier_key_bridge_smoke.md
   scripts/generated/phase6z6k8ap16du9a_classifier_key_bridge_guard.json
+  ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9B key-completion coverage adapters:
+  DU.9B extends the same bounded classifier smoke with key-based completion
+  adapters:
+
+  ```lean
+  theorem classifierCompletenessOnIdentityRange_of_key
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                  exists key : ClassifierKey, key.Matches rank mask) :
+      classifierCompletenessOnIdentityRange
+
+  theorem classifierAllGoodCoverage_of_key
+      (hcomplete : ... same key-membership premise ...) :
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  This means the final DU.9 membership generator only needs to prove the
+  existential key-membership theorem; the conversion to `ClassifierApplies`
+  and all-Good semantic coverage is now hand-checked by Lean.  The focused
+  guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  exit=0, elapsed=10.01s, peak_tree_rss=4184 MiB, min_available=45922 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9b_classifier_key_completion_bridge_smoke.json
+  scripts/generated/phase6z6k8ap16du9b_classifier_key_completion_bridge_smoke.md
+  scripts/generated/phase6z6k8ap16du9b_classifier_key_completion_bridge_guard.json
   ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level completeness theorem required

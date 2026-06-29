@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9A.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9B.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -3603,6 +3603,20 @@ theorem classifierCompletenessOnIdentityRange_of_prop
     classifierAppliesBool_eq_true_of_applies
       (hcomplete hlt hlo hhi hM hgood))
 
+theorem classifierCompletenessOnIdentityRange_of_key
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : ClassifierKey, key.Matches rank mask) :
+    classifierCompletenessOnIdentityRange :=
+  classifierCompletenessOnIdentityRange_of_prop (fun hlt hlo hhi hM hgood =>
+    let ⟨key, hkey⟩ := hcomplete hlt hlo hhi hM hgood
+    classifierApplies_of_key_matches hkey)
+
 theorem classifierAllGoodCoverage
     (hcomplete : classifierCompletenessOnIdentityRange) :
     AllTranslationGoodCoverageOnRange 0 5000 := by
@@ -3622,6 +3636,19 @@ theorem classifierAllGoodCoverage_of_bool
     AllTranslationGoodCoverageOnRange 0 5000 :=
   classifierAllGoodCoverage
     (classifierCompletenessOnIdentityRange_of_bool hcomplete)
+
+theorem classifierAllGoodCoverage_of_key
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : ClassifierKey, key.Matches rank mask) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  classifierAllGoodCoverage
+    (classifierCompletenessOnIdentityRange_of_key hcomplete)
 
 theorem fam_000_goodKilled
     {r : Nat} {hlt : r < numPairWords} {mask : SignMask}
