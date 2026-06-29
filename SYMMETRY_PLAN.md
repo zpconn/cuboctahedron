@@ -16956,6 +16956,64 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9p_rank3_compact_walsh_batch_generation.json
   scripts/generated/phase6z6k8ap16du9p_rank3_du9p_root_guard.json
   ```
+- [x] Add and guard-check Phase 6Z.6K.8AP.16DU.9P compact membership bridge:
+  The bounded compact cover roots for ranks `0`, `2`, and `3` are now wired
+  into the DU.9L selector-positive language by:
+
+  ```lean
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9PCompactMembership
+
+  rank0_selectorPositive_of_GoodDirection :
+    GoodDirectionAtRank ⟨0, hlt⟩ mask ->
+      SourceIndexStateSelectorDU9LMicro.SelectorPositiveCase 0 mask
+
+  rank2_selectorPositive_of_GoodDirection :
+    GoodDirectionAtRank ⟨2, hlt⟩ mask ->
+      SourceIndexStateSelectorDU9LMicro.SelectorPositiveCase 2 mask
+
+  rank3_selectorPositive_of_GoodDirection :
+    GoodDirectionAtRank ⟨3, hlt⟩ mask ->
+      SourceIndexStateSelectorDU9LMicro.SelectorPositiveCase 3 mask
+  ```
+
+  The same module composes those membership bridges with DU.9N's semantic
+  erasure theorem:
+
+  ```lean
+  rank0_goodKilled_of_GoodDirection
+  rank2_goodKilled_of_GoodDirection
+  rank3_goodKilled_of_GoodDirection
+  ```
+
+  The first guarded build failed quickly and safely because the file used an
+  invalid namespace-alias syntax; after replacing those aliases with ordinary
+  opened/full names, the focused build passed:
+
+  ```text
+  command:
+    lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9PCompactMembership
+  exit=0
+  elapsed=3.01s
+  peak_tree_rss=3724 MiB
+  min_available=46314 MiB
+  ```
+
+  Decision: the bounded `[0,4)` GoodDirection membership gap is closed for the
+  three ranks with positive survivors.  This is still bounded smoke evidence,
+  not production coverage, but it validates the intended low-cost bridge:
+  compact Walsh proves GoodDirection membership in the positive mask set;
+  finite selector glue maps that set to DU.9L; DU.9N erases DU.9L to
+  `TranslationGoodCaseKilled`.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9p_compact_membership_bridge_guard.json
+  scripts/generated/phase6z6k8ap16du9p_compact_membership_bridge_guard_retry1.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:
