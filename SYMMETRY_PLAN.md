@@ -21295,6 +21295,67 @@ Decision:
   - and a GoodDirection membership bridge that does not import a heavy
     compact-Walsh rank cover into each production leaf.
 
+### Phase 6Z.6K.8AP.16DU.9AU checkpoint: separated member/semantic bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9AU adds the small hand-written module:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyMemberBridge.lean
+```
+
+This module provides the production-shaped split that DU.9AT needed:
+
+```lean
+GoodMaskMembershipOnIdentityRange Member lo hi
+RowPropertyMemberSemanticCoverageOnIdentityRange Member lo hi
+```
+
+and combines them into the existing public surfaces:
+
+```lean
+RowPropertyParametricCoverageOnIdentityRange lo hi
+AllTranslationGoodCoverageOnRange lo hi
+```
+
+The point of the split is operational, not mathematical: generated
+GoodDirection-membership shards can own the compact-denominator or
+GoodDirection-cover proof, while generated semantic row shards can own only
+the `Member -> RowPropertyParametricCovered` proof.  The semantic row shard no
+longer has to import the compact-Walsh rank-cover module or re-run denominator
+cover proofs.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9au_member_bridge_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyMemberBridge
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 2.50s
+peak RSS = 4017 MiB
+minimum available memory seen = 46170 MiB
+```
+
+Decision:
+
+- Accept `RowPropertyMemberBridge` as the next translation production surface.
+- Next generator work should emit two independent artifacts for bounded ranges:
+  - a `Member` predicate and `GoodMaskMembershipOnIdentityRange Member lo hi`;
+  - a semantic row artifact proving
+    `RowPropertyMemberSemanticCoverageOnIdentityRange Member lo hi`.
+- The all-Good root should compose those two theorem surfaces with
+  `RowPropertyMemberSemanticCoverageOnIdentityRange.to_allGoodCoverage`.
+- This does not solve the heavy GoodDirection-membership proof by itself; it
+  prevents that proof from being multiplied into every semantic row leaf.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
