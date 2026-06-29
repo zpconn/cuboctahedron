@@ -17643,6 +17643,54 @@ Acceptance:
   production emitter target further: prove source/row facts for one
   source-index-state key selector, then compose with DU.9X/DU.9V/DU.9W.  It
   still does not solve the hard membership theorem itself.
+- [x] Add Phase 6Z.6K.8AP.16DU.9Y row-property bridge smoke:
+  DU.9Y validates the DU.9X route on the real nonempty range `[0,1)`:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9YRowPropertySmoke
+  ```
+
+  The smoke defines a small `sourceKeyAt0_1` selector by looking up the
+  existing DU.9L selector coordinate, proves source/row facts for the selected
+  `SourceIndexStateKey` using the rank-0 compact membership theorem from
+  DU.9P, and then derives:
+
+  ```lean
+  rowPropertyCoverage0_1 :
+    RowPropertyParametricCoverageOnIdentityRange 0 1
+
+  rowPropertyCoverage0_1_allGood :
+    AllTranslationGoodCoverageOnRange 0 1
+  ```
+
+  This confirms that generated shards do not have to route through
+  selector-coordinate erasure when they can expose source-index-state keys
+  directly.  It still uses rank-0 compact membership as bounded smoke input,
+  so it is not a scalable coverage backend by itself.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9YRowPropertySmoke.lean
+    exit=0
+    elapsed=3.18s
+    max_rss=3337776 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9YRowPropertySmoke
+    exit=0
+    elapsed=2.17s
+    max_rss=3355144 KiB
+  ```
+
+  Decision: DU.9Y is accepted as proof-producing bridge smoke.  The preferred
+  future emitter target is now either DU.9R selector-coordinate facts or DU.9X
+  source-index-state key facts, whichever has the smaller generated membership
+  proof for a given family.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
