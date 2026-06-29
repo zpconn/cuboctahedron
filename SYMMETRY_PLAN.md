@@ -559,6 +559,10 @@ in 3.01s at 3.664 GiB peak RSS. DU.9AO expands the helper to all eight
 non-axis row templates and extends the smoke with rank `0` / mask `13`, which
 uses the `eqEqPosVarSecond` semantic adapter; the helper builds in 7.00s at
 3.205 GiB peak RSS and the two-template smoke builds in 4.01s at 3.282 GiB
+peak RSS. DU.9AP then adds
+`RowPairSemantic.exists_nonaxis_of_source_row`, the generated-shard-facing
+existential bridge from public source/row facts to some semantic row-role
+payload for any non-axis, non-exact template; it builds in 7.01s at 3.587 GiB
 peak RSS. Therefore the next DU.9 proof target should scale this
 semantic-membership proof shape from hand-picked cases to a bounded
 `SemanticRowMembershipLanguageOnRange` theorem from identity-linear
@@ -18642,6 +18646,53 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9ao_row_property_semantic_nonaxis_guard.json
   scripts/generated/phase6z6k8ap16du9ao_row_property_semantic_case_smoke_guard.json
+  ```
+
+- [x] Add Phase 6Z.6K.8AP.16DU.9AP non-axis semantic existence bridge:
+  DU.9AP adds the generator-facing existential version of the non-axis
+  semantic adapter:
+
+  ```lean
+  theorem RowPairSemantic.exists_nonaxis_of_source_row
+  ```
+
+  Given public `SourceIndexStateSourceFacts` and
+  `SourceIndexStateRowFacts` for a key whose template is not `axisAOnly`,
+  not `axisBOnly`, and not `exactTwoSourceValid`, this theorem returns:
+
+  ```lean
+  ∃ firstRole secondRole,
+    RowTemplateSemantic key.template firstRole secondRole ∧
+      RowPairSemantic firstRole secondRole key.support rank mask
+  ```
+
+  This is the surface a generated bounded range shard should use: it no
+  longer needs to preselect row roles in the theorem statement when the key
+  template is one of the eight non-axis templates.  Axis templates still need
+  an orientation witness, because their row predicate stores only a negative
+  product, not which line has the positive coefficient.  `exactTwoSourceValid`
+  also remains outside the row-role vocabulary by design.
+
+  Guarded build:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemantic
+  exit=0
+  elapsed=7.01s
+  peak process-tree RSS=3586.73 MiB
+  min available memory observed=46319.74 MiB
+  ```
+
+  Decision: DU.9AP is accepted as the reusable bridge from existing
+  source/row-fact shards into the DU.9AM semantic language.  The next proof
+  target is a bounded `[0,1)` or positive-shard
+  `SemanticRowMembershipLanguageOnRange` built from `GoodDirectionAtRank` via
+  the existing rank-0 positive-language membership theorem.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9ap_row_property_semantic_exists_nonaxis_guard.json
   ```
 
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:

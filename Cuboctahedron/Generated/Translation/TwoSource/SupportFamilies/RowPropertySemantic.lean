@@ -463,6 +463,65 @@ theorem RowPairSemantic.of_oppMinusOneVarSecond_source_row
   exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
     by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
 
+/--
+Recover semantic row roles from the older source/row-fact surface whenever the
+key uses one of the eight non-axis row templates.
+
+Axis templates need one additional orientation fact: their row predicate stores
+only that the relevant coefficient product is negative, while
+`RowTemplateSemantic` records which row is positive and which is negative.
+`exactTwoSourceValid` is also intentionally outside the row-role vocabulary.
+-/
+theorem RowPairSemantic.exists_nonaxis_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask)
+    (hnotAxisA : key.template ≠ SourceIndexTemplate.axisAOnly)
+    (hnotAxisB : key.template ≠ SourceIndexTemplate.axisBOnly)
+    (hnotExact : key.template ≠ SourceIndexTemplate.exactTwoSourceValid) :
+    ∃ firstRole secondRole : RowRole,
+      RowTemplateSemantic key.template firstRole secondRole /\
+        RowPairSemantic firstRole secondRole key.support r mask := by
+  cases htemplate : key.template with
+  | eqEqPosVarFirst =>
+      exact ⟨.eqEqPos, .fixedPP,
+        by simpa [htemplate] using RowTemplateSemantic.eqEqPosVarFirst,
+        RowPairSemantic.of_eqEqPosVarFirst_source_row hsource htemplate hrows⟩
+  | eqEqPosVarSecond =>
+      exact ⟨.fixedPP, .eqEqPos,
+        by simpa [htemplate] using RowTemplateSemantic.eqEqPosVarSecond,
+        RowPairSemantic.of_eqEqPosVarSecond_source_row hsource htemplate hrows⟩
+  | eqEqNegVarFirst =>
+      exact ⟨.eqEqNeg, .fixedMM,
+        by simpa [htemplate] using RowTemplateSemantic.eqEqNegVarFirst,
+        RowPairSemantic.of_eqEqNegVarFirst_source_row hsource htemplate hrows⟩
+  | eqEqNegVarSecond =>
+      exact ⟨.fixedMM, .eqEqNeg,
+        by simpa [htemplate] using RowTemplateSemantic.eqEqNegVarSecond,
+        RowPairSemantic.of_eqEqNegVarSecond_source_row hsource htemplate hrows⟩
+  | oppOneMinusVarFirst =>
+      exact ⟨.oppPos, .fixedPM,
+        by simpa [htemplate] using RowTemplateSemantic.oppOneMinusVarFirst,
+        RowPairSemantic.of_oppOneMinusVarFirst_source_row hsource htemplate hrows⟩
+  | oppOneMinusVarSecond =>
+      exact ⟨.fixedPM, .oppPos,
+        by simpa [htemplate] using RowTemplateSemantic.oppOneMinusVarSecond,
+        RowPairSemantic.of_oppOneMinusVarSecond_source_row hsource htemplate hrows⟩
+  | oppMinusOneVarFirst =>
+      exact ⟨.oppNeg, .fixedMP,
+        by simpa [htemplate] using RowTemplateSemantic.oppMinusOneVarFirst,
+        RowPairSemantic.of_oppMinusOneVarFirst_source_row hsource htemplate hrows⟩
+  | oppMinusOneVarSecond =>
+      exact ⟨.fixedMP, .oppNeg,
+        by simpa [htemplate] using RowTemplateSemantic.oppMinusOneVarSecond,
+        RowPairSemantic.of_oppMinusOneVarSecond_source_row hsource htemplate hrows⟩
+  | axisAOnly =>
+      exact False.elim (hnotAxisA htemplate)
+  | axisBOnly =>
+      exact False.elim (hnotAxisB htemplate)
+  | exactTwoSourceValid =>
+      exact False.elim (hnotExact htemplate)
+
 theorem rowPropertySemantic_builds : True := by
   trivial
 
