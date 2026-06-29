@@ -23553,6 +23553,58 @@ Decision:
   the full root; the many small coefficient goals may cost more than DU.9BW's
   coarser dot-data proof.
 
+### Phase 6Z.6K.8AP.16DU.9CA checkpoint: one-dot coefficient microtarget accepted
+
+Phase 6Z.6K.8AP.16DU.9CA implements the safe DU.9BZ preflight requested after
+the OOM warning:
+
+```text
+scripts/emit_ap16du9ca_trace_cert_coeff_dot_micro_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertCoeffDotMicroSmoke.lean
+```
+
+The generated Lean module contains only:
+
+- the rank-`6000745` generated word/vector aliases;
+- one generated unfolded normal (`index = 0`);
+- one generated dot polynomial; and
+- one coefficient-level proof using `WalshAffineVec3.dot_eq_of_coeffs`.
+
+Cheap/static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9ca_trace_cert_coeff_dot_micro_smoke.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9ca_trace_cert_coeff_dot_micro_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertCoeffDotMicroSmoke.lean
+```
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotMicroSmoke
+exit = 0
+elapsed = 10.01s
+peak tree RSS = 4041 MiB
+min MemAvailable = 46081 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept DU.9CA as a memory-safe one-dot coefficient-proof preflight.
+- Do not extrapolate directly from this to the full DU.9BZ Data/root modules:
+  one-dot elapsed time includes import/replay overhead, and thirteen separate
+  coefficient-dot proofs may still be slower than DU.9BW's coarser proof.
+- Next, generate an apples-to-apples one-dot DU.9BW-style microtarget with the
+  same one normal and one dot polynomial but the old
+  `apply WalshQuadratic.ext <;> norm_num [WalshAffineVec3.dot, ...]` proof.
+  Compare that guarded result with DU.9CA before deciding whether to run the
+  full DU.9BZ Data target.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
