@@ -28436,3 +28436,49 @@ complete algebraic proof of membership; it is the Lean-checked theorem surface
 that a future algebraic source/template recurrence must prove.  Production
 generation should not introduce another row-template enum or fall back to
 support-index catalogs.
+
+### Phase 6Z.6K.8AP.16DU.9EQ checkpoint: source/row erasure constructor
+
+Phase 6Z.6K.8AP.16DU.9EQ extends
+`TemplateLanguage.lean` with constructor theorems that let generated leaves keep
+the concrete support private while exporting only the accepted
+template-language coverage surface:
+
+```lean
+theorem TemplateLanguageMember.of_source_rows
+    {template : SourceIndexTemplate}
+    {support : TwoSourceFarkasSupport} {r : Nat} {mask : SignMask}
+    (hsource : SourceAgrees support r mask)
+    (hrows : template.Rows support r mask) :
+    TemplateLanguageMember r mask
+
+theorem TemplateLanguageCoverageOnIdentityRange.single_source_rows
+    {rank : Nat}
+    (h :
+      forall {mask : SignMask} (hlt : rank < numPairWords),
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists template : SourceIndexTemplate,
+              exists support : TwoSourceFarkasSupport,
+                SourceAgrees support rank mask /\
+                  template.Rows support rank mask) :
+    TemplateLanguageCoverageOnIdentityRange rank (rank + 1)
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:04.08`, `max_rss_kb=3280208`.
+
+Decision: `single_source_rows` is the lowest acceptable generated-leaf fallback
+for the template-language route.  It is still not production-compressed by
+itself, because a singleton source/row proof per rank would repeat the old
+granularity problem.  Its role is to make erasure explicit: any future
+algebraic family theorem should prove the existential source/template row facts
+over a range or state language, then erase immediately to
+`TemplateLanguageCoverageOnIdentityRange` without exporting support tables.

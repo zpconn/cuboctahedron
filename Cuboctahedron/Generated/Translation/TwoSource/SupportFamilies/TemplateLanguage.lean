@@ -64,6 +64,15 @@ but leaves the concrete support private to the proof.
 def TemplateLanguageMember (r : Nat) (mask : SignMask) : Prop :=
   exists template : SourceIndexTemplate, TemplateWitnessFor template r mask
 
+/-- Build template-language membership from source agreement and row facts. -/
+theorem TemplateLanguageMember.of_source_rows
+    {template : SourceIndexTemplate}
+    {support : TwoSourceFarkasSupport} {r : Nat} {mask : SignMask}
+    (hsource : SourceAgrees support r mask)
+    (hrows : template.Rows support r mask) :
+    TemplateLanguageMember r mask :=
+  ⟨template, support, hsource, hrows⟩
+
 /-- Template-tagged membership erases to the row-property quotient witness. -/
 theorem TemplateLanguageMember.to_templateLanguageWitness
     {r : Nat} {mask : SignMask}
@@ -128,6 +137,32 @@ theorem TemplateLanguageCoverageOnIdentityRange.single_member
   TemplateLanguageCoverageOnIdentityRange.single
     (fun hlt hM hgood =>
       TemplateLanguageMember.to_templateLanguageWitness (h hlt hM hgood))
+
+/--
+Singleton constructor from existential source/row facts.
+
+This is the smallest generated-leaf shape still compatible with the
+template-language target.  The generated theorem proves that some template and
+some private support have the semantic source and row facts; this constructor
+erases those details before the public coverage theorem leaves the module.
+-/
+theorem TemplateLanguageCoverageOnIdentityRange.single_source_rows
+    {rank : Nat}
+    (h :
+      forall {mask : SignMask} (hlt : rank < numPairWords),
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists template : SourceIndexTemplate,
+              exists support : TwoSourceFarkasSupport,
+                SourceAgrees support rank mask /\
+                  template.Rows support rank mask) :
+    TemplateLanguageCoverageOnIdentityRange rank (rank + 1) :=
+  TemplateLanguageCoverageOnIdentityRange.single_member
+    (fun hlt hM hgood =>
+      let ⟨template, support, hsource, hrows⟩ := h hlt hM hgood
+      TemplateLanguageMember.of_source_rows
+        (template := template) (support := support) hsource hrows)
 
 /-- Concatenate adjacent template-language coverage ranges. -/
 theorem TemplateLanguageCoverageOnIdentityRange.concat
