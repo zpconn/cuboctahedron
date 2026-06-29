@@ -28156,3 +28156,47 @@ with index 0" or "there exists an interior source for impact 1 whose extracted
 row has this normal form."  If that bridge cannot determine `SourceChecks` and
 the row predicates, refine the quotient with minimal row-normal-form/source
 normal-form data before returning to concrete source indices.
+
+### Phase 6Z.6K.8AP.16DU.9EL checkpoint: source-skeleton Lean surface
+
+Phase 6Z.6K.8AP.16DU.9EL adds the first non-smoke Lean API for the
+source-skeleton theorem surface:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  SourceSkeletonState.lean
+```
+
+The module defines:
+
+- `SourceSkeleton`, with constructors for `xpStart`, `ordering`, and
+  `interior` sources.
+- `SourceSkeleton.Matches`, intentionally forgetting concrete ordering-source
+  indices.
+- `SourceSkeletonStateKey`, which carries source skeletons, the concrete
+  two-source support, and a row-template tag, but no `firstIndex` or
+  `secondIndex`.
+- `SourceSkeletonStateFacts`, the position-free semantic facts needed to prove
+  row-property coverage.
+- `SourceSkeletonStateKey.covered_of_facts` and
+  `SourceSkeletonStateKey.goodKilled_of_facts`, which compose those facts into
+  `RowPropertyParametricCovered` and `TranslationGoodCaseKilled`.
+- `SourceSkeletonStateFacts.of_sourceIndexStateFacts`, a migration adapter from
+  the older concrete source-index facts.
+
+Validation:
+
+```bash
+timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceSkeletonState.lean
+```
+
+Result: passed in `1.8375s`.
+
+Decision: this is the correct next Lean hook.  It does not yet prove
+GoodDirection membership for a skeleton quotient group, but it removes
+`listGet?` positions from the target theorem surface.  The next step should be
+a small generated/source-fact-producer smoke that proves
+`SourceSkeletonStateFacts` for one or two 9EK multi-index quotient groups from
+semantic skeleton/row-normal-form premises, without emitting concrete
+source-index-family production coverage.
