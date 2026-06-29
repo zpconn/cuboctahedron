@@ -548,12 +548,13 @@ Farkas facts. DU.9AK adds that vocabulary to Lean as `RowRole`,
 `SourceIndexTemplate.rows_of_semantic`, building in 3.00s at 3.732 GiB peak RSS.
 DU.9AL adds direct source/key bridges from semantic row roles to
 `SourceIndexStateRowFacts`, `key.Matches`, and `RowPropertyParametricCovered`,
-building in 3.00s at 3.987 GiB peak RSS. Therefore the next DU.9 proof target
-should prove or generate this
-template/source-index/semantic-row-property selector theorem from
-identity-linear `GoodDirectionAtRank` and then derive source/row facts
-theorem-valuedly; it should not carry full row/source arithmetic through
-`decide` or compare opaque hashes.
+building in 3.00s at 3.987 GiB peak RSS. DU.9AM then adds a semantic
+row-membership range language and erases it to descriptor/all-Good coverage,
+building in 5.00s at 3.330 GiB peak RSS. Therefore the next DU.9 proof target
+should prove or generate a bounded `SemanticRowMembershipLanguageOnRange`
+theorem from identity-linear `GoodDirectionAtRank`, source-index facts, and
+semantic row roles; it should not carry full row/source arithmetic through
+`decide`, compare opaque hashes, or replay compact certificates.
 DU.9L resolves the private-support mismatch found in the first selector slice:
 the bounded classifier generator now emits public support/descriptor values,
 `SourceIndexStateClassifierDU3Smoke` rebuilds in 12.01s at 4.293 GiB peak tree
@@ -18467,6 +18468,58 @@ Acceptance:
 
   ```text
   scripts/generated/phase6z6k8ap16du9al_row_property_semantic_bridge_guard.json
+  ```
+
+- [x] Add Phase 6Z.6K.8AP.16DU.9AM semantic row-membership language bridge:
+  DU.9AM adds a small theorem-valued range language:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticLanguage.lean
+  ```
+
+  The new surface lets generated chunks prove, for every identity-linear
+  `GoodDirectionAtRank` survivor in a range, that there exists a
+  `SourceIndexStateKey` together with two semantic `RowRole`s satisfying:
+
+  ```lean
+  SourceIndexStateSourceFacts key rank mask
+  RowTemplateSemantic key.template firstRole secondRole
+  RowPairSemantic firstRole secondRole key.support rank mask
+  ```
+
+  It then erases that semantic membership language to the existing public
+  coverage targets:
+
+  ```lean
+  theorem SemanticRowMembershipLanguageOnRange.to_descriptorCoverage
+  theorem SemanticRowMembershipLanguageOnRange.to_allGoodCoverage
+  ```
+
+  This keeps the generator-facing obligation semantic and Prop-level: source
+  facts plus row-role semantics are enough to reach descriptor/all-Good
+  coverage, with no opaque digest comparison, no per-rank compact certificate
+  replay, and no finite-mask bad-direction evidence.
+
+  Guarded build:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticLanguage
+  exit=0
+  elapsed=5.00s
+  peak process-tree RSS=3330 MiB
+  min available memory observed=46365 MiB
+  ```
+
+  Decision: DU.9AM is accepted as the preferred final bridge surface for the
+  next generated bounded classifier-completeness smoke.  The next
+  proof-producing step should emit or hand-write a tiny nonempty
+  `SemanticRowMembershipLanguageOnRange` instance over a bounded range and let
+  this module erase it to `AllTranslationGoodCoverageOnRange`.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9am_row_property_semantic_language_guard.json
   ```
 
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
