@@ -98,6 +98,53 @@ def classifier_lines(selected: list[Any]) -> list[str]:
         )
     lines.extend([
         "",
+        "/-- Public key index for the generated classifier families. -/",
+        "inductive ClassifierKey",
+    ])
+    for index, _family in enumerate(selected):
+        lines.append(f"  | k{index:03d}")
+    lines.extend([
+        "deriving DecidableEq, Repr",
+        "",
+        "def ClassifierKey.toSourceIndexStateKey :",
+        "    ClassifierKey -> SourceIndexStateKey",
+    ])
+    for index, family in enumerate(selected):
+        key_ctor = f"k{index:03d}"
+        name = family_name(index)
+        template_ctor = TEMPLATE_TO_SOURCE_INDEX[family.template_id]
+        lines.extend([
+            f"  | .{key_ctor} => {{",
+            f"      firstIndex := {family.source_indices[0]}",
+            f"      secondIndex := {family.source_indices[1]}",
+            f"      support := {name}_support",
+            f"      template := SourceIndexTemplate.{template_ctor} }}",
+        ])
+    lines.extend([
+        "",
+        "def ClassifierKey.Matches",
+        "    (key : ClassifierKey) (r : Nat) (mask : SignMask) : Prop :=",
+        "  key.toSourceIndexStateKey.Matches r mask",
+        "",
+        "theorem classifierApplies_of_key_matches",
+        "    {key : ClassifierKey} {r : Nat} {mask : SignMask}",
+        "    (h : key.Matches r mask) :",
+        "    ClassifierApplies r mask := by",
+        "  cases key with",
+    ])
+    for index, _family in enumerate(selected):
+        ctor = ctor_name(index)
+        key_ctor = f"k{index:03d}"
+        name = family_name(index)
+        lines.extend([
+            f"  | {key_ctor} =>",
+            f"      exact ClassifierApplies.{ctor} (by",
+            f"        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,",
+            f"          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,",
+            f"          {name}_desc] using h)",
+        ])
+    lines.extend([
+        "",
         "def classifierFamily : RowPropertyMembershipFamily where",
         "  Applies := ClassifierApplies",
         "  covered := by",

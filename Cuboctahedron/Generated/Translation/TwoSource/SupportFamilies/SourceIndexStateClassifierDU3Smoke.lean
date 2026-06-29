@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.7.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9A.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -1519,6 +1519,1398 @@ inductive ClassifierApplies : Nat -> SignMask -> Prop
   | fam122 {r : Nat} {mask : SignMask} (h : fam_122_desc.Applies r mask) : ClassifierApplies r mask
   | fam123 {r : Nat} {mask : SignMask} (h : fam_123_desc.Applies r mask) : ClassifierApplies r mask
   | fam124 {r : Nat} {mask : SignMask} (h : fam_124_desc.Applies r mask) : ClassifierApplies r mask
+
+/-- Public key index for the generated classifier families. -/
+inductive ClassifierKey
+  | k000
+  | k001
+  | k002
+  | k003
+  | k004
+  | k005
+  | k006
+  | k007
+  | k008
+  | k009
+  | k010
+  | k011
+  | k012
+  | k013
+  | k014
+  | k015
+  | k016
+  | k017
+  | k018
+  | k019
+  | k020
+  | k021
+  | k022
+  | k023
+  | k024
+  | k025
+  | k026
+  | k027
+  | k028
+  | k029
+  | k030
+  | k031
+  | k032
+  | k033
+  | k034
+  | k035
+  | k036
+  | k037
+  | k038
+  | k039
+  | k040
+  | k041
+  | k042
+  | k043
+  | k044
+  | k045
+  | k046
+  | k047
+  | k048
+  | k049
+  | k050
+  | k051
+  | k052
+  | k053
+  | k054
+  | k055
+  | k056
+  | k057
+  | k058
+  | k059
+  | k060
+  | k061
+  | k062
+  | k063
+  | k064
+  | k065
+  | k066
+  | k067
+  | k068
+  | k069
+  | k070
+  | k071
+  | k072
+  | k073
+  | k074
+  | k075
+  | k076
+  | k077
+  | k078
+  | k079
+  | k080
+  | k081
+  | k082
+  | k083
+  | k084
+  | k085
+  | k086
+  | k087
+  | k088
+  | k089
+  | k090
+  | k091
+  | k092
+  | k093
+  | k094
+  | k095
+  | k096
+  | k097
+  | k098
+  | k099
+  | k100
+  | k101
+  | k102
+  | k103
+  | k104
+  | k105
+  | k106
+  | k107
+  | k108
+  | k109
+  | k110
+  | k111
+  | k112
+  | k113
+  | k114
+  | k115
+  | k116
+  | k117
+  | k118
+  | k119
+  | k120
+  | k121
+  | k122
+  | k123
+  | k124
+deriving DecidableEq, Repr
+
+def ClassifierKey.toSourceIndexStateKey :
+    ClassifierKey -> SourceIndexStateKey
+  | .k000 => {
+      firstIndex := 23
+      secondIndex := 0
+      support := fam_000_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k001 => {
+      firstIndex := 24
+      secondIndex := 1
+      support := fam_001_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k002 => {
+      firstIndex := 25
+      secondIndex := 2
+      support := fam_002_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k003 => {
+      firstIndex := 0
+      secondIndex := 7
+      support := fam_003_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k004 => {
+      firstIndex := 83
+      secondIndex := 0
+      support := fam_004_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k005 => {
+      firstIndex := 0
+      secondIndex := 15
+      support := fam_005_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k006 => {
+      firstIndex := 83
+      secondIndex := 1
+      support := fam_006_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k007 => {
+      firstIndex := 0
+      secondIndex := 10
+      support := fam_007_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k008 => {
+      firstIndex := 0
+      secondIndex := 13
+      support := fam_008_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k009 => {
+      firstIndex := 0
+      secondIndex := 11
+      support := fam_009_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k010 => {
+      firstIndex := 26
+      secondIndex := 3
+      support := fam_010_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k011 => {
+      firstIndex := 96
+      secondIndex := 0
+      support := fam_011_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k012 => {
+      firstIndex := 1
+      secondIndex := 10
+      support := fam_012_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k013 => {
+      firstIndex := 0
+      secondIndex := 12
+      support := fam_013_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k014 => {
+      firstIndex := 1
+      secondIndex := 7
+      support := fam_014_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k015 => {
+      firstIndex := 109
+      secondIndex := 0
+      support := fam_015_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k016 => {
+      firstIndex := 0
+      secondIndex := 14
+      support := fam_016_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k017 => {
+      firstIndex := 70
+      secondIndex := 1
+      support := fam_017_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k018 => {
+      firstIndex := 84
+      secondIndex := 0
+      support := fam_018_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k019 => {
+      firstIndex := 1
+      secondIndex := 15
+      support := fam_019_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k020 => {
+      firstIndex := 162
+      secondIndex := 0
+      support := fam_020_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k021 => {
+      firstIndex := 148
+      secondIndex := 0
+      support := fam_021_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k022 => {
+      firstIndex := 161
+      secondIndex := 0
+      support := fam_022_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k023 => {
+      firstIndex := 2
+      secondIndex := 7
+      support := fam_023_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k024 => {
+      firstIndex := 71
+      secondIndex := 2
+      support := fam_024_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k025 => {
+      firstIndex := 136
+      secondIndex := 0
+      support := fam_025_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k026 => {
+      firstIndex := 122
+      secondIndex := 0
+      support := fam_026_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k027 => {
+      firstIndex := 0
+      secondIndex := 16
+      support := fam_027_support
+      template := SourceIndexTemplate.eqEqPosVarSecond }
+  | .k028 => {
+      firstIndex := 175
+      secondIndex := 0
+      support := fam_028_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k029 => {
+      firstIndex := 183
+      secondIndex := 0
+      support := fam_029_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k030 => {
+      firstIndex := 135
+      secondIndex := 0
+      support := fam_030_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k031 => {
+      firstIndex := 1
+      secondIndex := 13
+      support := fam_031_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k032 => {
+      firstIndex := 109
+      secondIndex := 1
+      support := fam_032_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k033 => {
+      firstIndex := 2
+      secondIndex := 15
+      support := fam_033_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k034 => {
+      firstIndex := 110
+      secondIndex := 0
+      support := fam_034_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k035 => {
+      firstIndex := 2
+      secondIndex := 13
+      support := fam_035_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k036 => {
+      firstIndex := 1
+      secondIndex := 11
+      support := fam_036_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k037 => {
+      firstIndex := 1
+      secondIndex := 12
+      support := fam_037_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k038 => {
+      firstIndex := 84
+      secondIndex := 2
+      support := fam_038_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k039 => {
+      firstIndex := 175
+      secondIndex := 1
+      support := fam_039_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k040 => {
+      firstIndex := 1
+      secondIndex := 16
+      support := fam_040_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k041 => {
+      firstIndex := 167
+      secondIndex := 0
+      support := fam_041_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k042 => {
+      firstIndex := 1
+      secondIndex := 14
+      support := fam_042_support
+      template := SourceIndexTemplate.oppOneMinusVarSecond }
+  | .k043 => {
+      firstIndex := 83
+      secondIndex := 2
+      support := fam_043_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k044 => {
+      firstIndex := 162
+      secondIndex := 1
+      support := fam_044_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k045 => {
+      firstIndex := 184
+      secondIndex := 1
+      support := fam_045_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k046 => {
+      firstIndex := 97
+      secondIndex := 0
+      support := fam_046_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k047 => {
+      firstIndex := 96
+      secondIndex := 1
+      support := fam_047_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k048 => {
+      firstIndex := 2
+      secondIndex := 11
+      support := fam_048_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k049 => {
+      firstIndex := 95
+      secondIndex := 0
+      support := fam_049_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k050 => {
+      firstIndex := 161
+      secondIndex := 1
+      support := fam_050_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k051 => {
+      firstIndex := 84
+      secondIndex := 1
+      support := fam_051_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k052 => {
+      firstIndex := 92
+      secondIndex := 1
+      support := fam_052_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k053 => {
+      firstIndex := 106
+      secondIndex := 0
+      support := fam_053_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k054 => {
+      firstIndex := 115
+      secondIndex := 0
+      support := fam_054_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k055 => {
+      firstIndex := 149
+      secondIndex := 0
+      support := fam_055_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k056 => {
+      firstIndex := 122
+      secondIndex := 1
+      support := fam_056_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k057 => {
+      firstIndex := 2
+      secondIndex := 10
+      support := fam_057_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k058 => {
+      firstIndex := 2
+      secondIndex := 12
+      support := fam_058_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k059 => {
+      firstIndex := 121
+      secondIndex := 0
+      support := fam_059_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k060 => {
+      firstIndex := 136
+      secondIndex := 1
+      support := fam_060_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k061 => {
+      firstIndex := 148
+      secondIndex := 1
+      support := fam_061_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k062 => {
+      firstIndex := 135
+      secondIndex := 1
+      support := fam_062_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k063 => {
+      firstIndex := 44
+      secondIndex := 5
+      support := fam_063_support
+      template := SourceIndexTemplate.axisAOnly }
+  | .k064 => {
+      firstIndex := 83
+      secondIndex := 3
+      support := fam_064_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k065 => {
+      firstIndex := 84
+      secondIndex := 3
+      support := fam_065_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k066 => {
+      firstIndex := 147
+      secondIndex := 0
+      support := fam_066_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k067 => {
+      firstIndex := 119
+      secondIndex := 0
+      support := fam_067_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k068 => {
+      firstIndex := 123
+      secondIndex := 0
+      support := fam_068_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k069 => {
+      firstIndex := 141
+      secondIndex := 0
+      support := fam_069_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k070 => {
+      firstIndex := 162
+      secondIndex := 2
+      support := fam_070_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k071 => {
+      firstIndex := 2
+      secondIndex := 14
+      support := fam_071_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k072 => {
+      firstIndex := 44
+      secondIndex := 5
+      support := fam_072_support
+      template := SourceIndexTemplate.axisAOnly }
+  | .k073 => {
+      firstIndex := 110
+      secondIndex := 1
+      support := fam_073_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k074 => {
+      firstIndex := 110
+      secondIndex := 2
+      support := fam_074_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k075 => {
+      firstIndex := 136
+      secondIndex := 2
+      support := fam_075_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k076 => {
+      firstIndex := 149
+      secondIndex := 1
+      support := fam_076_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k077 => {
+      firstIndex := 103
+      secondIndex := 0
+      support := fam_077_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k078 => {
+      firstIndex := 105
+      secondIndex := 0
+      support := fam_078_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k079 => {
+      firstIndex := 79
+      secondIndex := 2
+      support := fam_079_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k080 => {
+      firstIndex := 44
+      secondIndex := 5
+      support := fam_080_support
+      template := SourceIndexTemplate.axisAOnly }
+  | .k081 => {
+      firstIndex := 170
+      secondIndex := 1
+      support := fam_081_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k082 => {
+      firstIndex := 175
+      secondIndex := 2
+      support := fam_082_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k083 => {
+      firstIndex := 44
+      secondIndex := 5
+      support := fam_083_support
+      template := SourceIndexTemplate.axisAOnly }
+  | .k084 => {
+      firstIndex := 175
+      secondIndex := 3
+      support := fam_084_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k085 => {
+      firstIndex := 3
+      secondIndex := 11
+      support := fam_085_support
+      template := SourceIndexTemplate.eqEqNegVarSecond }
+  | .k086 => {
+      firstIndex := 3
+      secondIndex := 15
+      support := fam_086_support
+      template := SourceIndexTemplate.eqEqNegVarSecond }
+  | .k087 => {
+      firstIndex := 129
+      secondIndex := 0
+      support := fam_087_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k088 => {
+      firstIndex := 131
+      secondIndex := 0
+      support := fam_088_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k089 => {
+      firstIndex := 168
+      secondIndex := 1
+      support := fam_089_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k090 => {
+      firstIndex := 94
+      secondIndex := 1
+      support := fam_090_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k091 => {
+      firstIndex := 2
+      secondIndex := 16
+      support := fam_091_support
+      template := SourceIndexTemplate.oppMinusOneVarSecond }
+  | .k092 => {
+      firstIndex := 142
+      secondIndex := 1
+      support := fam_092_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k093 => {
+      firstIndex := 156
+      secondIndex := 1
+      support := fam_093_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k094 => {
+      firstIndex := 106
+      secondIndex := 1
+      support := fam_094_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k095 => {
+      firstIndex := 116
+      secondIndex := 1
+      support := fam_095_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k096 => {
+      firstIndex := 107
+      secondIndex := 2
+      support := fam_096_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k097 => {
+      firstIndex := 135
+      secondIndex := 2
+      support := fam_097_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k098 => {
+      firstIndex := 122
+      secondIndex := 2
+      support := fam_098_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k099 => {
+      firstIndex := 162
+      secondIndex := 3
+      support := fam_099_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k100 => {
+      firstIndex := 135
+      secondIndex := 3
+      support := fam_100_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k101 => {
+      firstIndex := 136
+      secondIndex := 3
+      support := fam_101_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k102 => {
+      firstIndex := 3
+      secondIndex := 12
+      support := fam_102_support
+      template := SourceIndexTemplate.eqEqNegVarSecond }
+  | .k103 => {
+      firstIndex := 3
+      secondIndex := 10
+      support := fam_103_support
+      template := SourceIndexTemplate.eqEqNegVarSecond }
+  | .k104 => {
+      firstIndex := 171
+      secondIndex := 0
+      support := fam_104_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k105 => {
+      firstIndex := 157
+      secondIndex := 0
+      support := fam_105_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k106 => {
+      firstIndex := 130
+      secondIndex := 1
+      support := fam_106_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k107 => {
+      firstIndex := 120
+      secondIndex := 1
+      support := fam_107_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k108 => {
+      firstIndex := 149
+      secondIndex := 2
+      support := fam_108_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k109 => {
+      firstIndex := 109
+      secondIndex := 2
+      support := fam_109_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k110 => {
+      firstIndex := 129
+      secondIndex := 2
+      support := fam_110_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k111 => {
+      firstIndex := 149
+      secondIndex := 3
+      support := fam_111_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k112 => {
+      firstIndex := 97
+      secondIndex := 3
+      support := fam_112_support
+      template := SourceIndexTemplate.eqEqNegVarFirst }
+  | .k113 => {
+      firstIndex := 3
+      secondIndex := 13
+      support := fam_113_support
+      template := SourceIndexTemplate.eqEqNegVarSecond }
+  | .k114 => {
+      firstIndex := 3
+      secondIndex := 7
+      support := fam_114_support
+      template := SourceIndexTemplate.eqEqNegVarSecond }
+  | .k115 => {
+      firstIndex := 155
+      secondIndex := 0
+      support := fam_115_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k116 => {
+      firstIndex := 132
+      secondIndex := 0
+      support := fam_116_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k117 => {
+      firstIndex := 133
+      secondIndex := 0
+      support := fam_117_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k118 => {
+      firstIndex := 107
+      secondIndex := 0
+      support := fam_118_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k119 => {
+      firstIndex := 145
+      secondIndex := 0
+      support := fam_119_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k120 => {
+      firstIndex := 143
+      secondIndex := 0
+      support := fam_120_support
+      template := SourceIndexTemplate.eqEqPosVarFirst }
+  | .k121 => {
+      firstIndex := 128
+      secondIndex := 1
+      support := fam_121_support
+      template := SourceIndexTemplate.oppOneMinusVarFirst }
+  | .k122 => {
+      firstIndex := 148
+      secondIndex := 2
+      support := fam_122_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k123 => {
+      firstIndex := 143
+      secondIndex := 2
+      support := fam_123_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+  | .k124 => {
+      firstIndex := 96
+      secondIndex := 2
+      support := fam_124_support
+      template := SourceIndexTemplate.oppMinusOneVarFirst }
+
+def ClassifierKey.Matches
+    (key : ClassifierKey) (r : Nat) (mask : SignMask) : Prop :=
+  key.toSourceIndexStateKey.Matches r mask
+
+theorem classifierApplies_of_key_matches
+    {key : ClassifierKey} {r : Nat} {mask : SignMask}
+    (h : key.Matches r mask) :
+    ClassifierApplies r mask := by
+  cases key with
+  | k000 =>
+      exact ClassifierApplies.fam000 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_000_desc] using h)
+  | k001 =>
+      exact ClassifierApplies.fam001 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_001_desc] using h)
+  | k002 =>
+      exact ClassifierApplies.fam002 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_002_desc] using h)
+  | k003 =>
+      exact ClassifierApplies.fam003 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_003_desc] using h)
+  | k004 =>
+      exact ClassifierApplies.fam004 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_004_desc] using h)
+  | k005 =>
+      exact ClassifierApplies.fam005 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_005_desc] using h)
+  | k006 =>
+      exact ClassifierApplies.fam006 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_006_desc] using h)
+  | k007 =>
+      exact ClassifierApplies.fam007 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_007_desc] using h)
+  | k008 =>
+      exact ClassifierApplies.fam008 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_008_desc] using h)
+  | k009 =>
+      exact ClassifierApplies.fam009 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_009_desc] using h)
+  | k010 =>
+      exact ClassifierApplies.fam010 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_010_desc] using h)
+  | k011 =>
+      exact ClassifierApplies.fam011 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_011_desc] using h)
+  | k012 =>
+      exact ClassifierApplies.fam012 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_012_desc] using h)
+  | k013 =>
+      exact ClassifierApplies.fam013 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_013_desc] using h)
+  | k014 =>
+      exact ClassifierApplies.fam014 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_014_desc] using h)
+  | k015 =>
+      exact ClassifierApplies.fam015 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_015_desc] using h)
+  | k016 =>
+      exact ClassifierApplies.fam016 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_016_desc] using h)
+  | k017 =>
+      exact ClassifierApplies.fam017 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_017_desc] using h)
+  | k018 =>
+      exact ClassifierApplies.fam018 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_018_desc] using h)
+  | k019 =>
+      exact ClassifierApplies.fam019 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_019_desc] using h)
+  | k020 =>
+      exact ClassifierApplies.fam020 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_020_desc] using h)
+  | k021 =>
+      exact ClassifierApplies.fam021 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_021_desc] using h)
+  | k022 =>
+      exact ClassifierApplies.fam022 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_022_desc] using h)
+  | k023 =>
+      exact ClassifierApplies.fam023 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_023_desc] using h)
+  | k024 =>
+      exact ClassifierApplies.fam024 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_024_desc] using h)
+  | k025 =>
+      exact ClassifierApplies.fam025 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_025_desc] using h)
+  | k026 =>
+      exact ClassifierApplies.fam026 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_026_desc] using h)
+  | k027 =>
+      exact ClassifierApplies.fam027 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_027_desc] using h)
+  | k028 =>
+      exact ClassifierApplies.fam028 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_028_desc] using h)
+  | k029 =>
+      exact ClassifierApplies.fam029 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_029_desc] using h)
+  | k030 =>
+      exact ClassifierApplies.fam030 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_030_desc] using h)
+  | k031 =>
+      exact ClassifierApplies.fam031 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_031_desc] using h)
+  | k032 =>
+      exact ClassifierApplies.fam032 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_032_desc] using h)
+  | k033 =>
+      exact ClassifierApplies.fam033 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_033_desc] using h)
+  | k034 =>
+      exact ClassifierApplies.fam034 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_034_desc] using h)
+  | k035 =>
+      exact ClassifierApplies.fam035 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_035_desc] using h)
+  | k036 =>
+      exact ClassifierApplies.fam036 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_036_desc] using h)
+  | k037 =>
+      exact ClassifierApplies.fam037 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_037_desc] using h)
+  | k038 =>
+      exact ClassifierApplies.fam038 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_038_desc] using h)
+  | k039 =>
+      exact ClassifierApplies.fam039 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_039_desc] using h)
+  | k040 =>
+      exact ClassifierApplies.fam040 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_040_desc] using h)
+  | k041 =>
+      exact ClassifierApplies.fam041 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_041_desc] using h)
+  | k042 =>
+      exact ClassifierApplies.fam042 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_042_desc] using h)
+  | k043 =>
+      exact ClassifierApplies.fam043 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_043_desc] using h)
+  | k044 =>
+      exact ClassifierApplies.fam044 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_044_desc] using h)
+  | k045 =>
+      exact ClassifierApplies.fam045 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_045_desc] using h)
+  | k046 =>
+      exact ClassifierApplies.fam046 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_046_desc] using h)
+  | k047 =>
+      exact ClassifierApplies.fam047 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_047_desc] using h)
+  | k048 =>
+      exact ClassifierApplies.fam048 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_048_desc] using h)
+  | k049 =>
+      exact ClassifierApplies.fam049 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_049_desc] using h)
+  | k050 =>
+      exact ClassifierApplies.fam050 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_050_desc] using h)
+  | k051 =>
+      exact ClassifierApplies.fam051 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_051_desc] using h)
+  | k052 =>
+      exact ClassifierApplies.fam052 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_052_desc] using h)
+  | k053 =>
+      exact ClassifierApplies.fam053 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_053_desc] using h)
+  | k054 =>
+      exact ClassifierApplies.fam054 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_054_desc] using h)
+  | k055 =>
+      exact ClassifierApplies.fam055 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_055_desc] using h)
+  | k056 =>
+      exact ClassifierApplies.fam056 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_056_desc] using h)
+  | k057 =>
+      exact ClassifierApplies.fam057 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_057_desc] using h)
+  | k058 =>
+      exact ClassifierApplies.fam058 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_058_desc] using h)
+  | k059 =>
+      exact ClassifierApplies.fam059 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_059_desc] using h)
+  | k060 =>
+      exact ClassifierApplies.fam060 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_060_desc] using h)
+  | k061 =>
+      exact ClassifierApplies.fam061 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_061_desc] using h)
+  | k062 =>
+      exact ClassifierApplies.fam062 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_062_desc] using h)
+  | k063 =>
+      exact ClassifierApplies.fam063 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_063_desc] using h)
+  | k064 =>
+      exact ClassifierApplies.fam064 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_064_desc] using h)
+  | k065 =>
+      exact ClassifierApplies.fam065 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_065_desc] using h)
+  | k066 =>
+      exact ClassifierApplies.fam066 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_066_desc] using h)
+  | k067 =>
+      exact ClassifierApplies.fam067 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_067_desc] using h)
+  | k068 =>
+      exact ClassifierApplies.fam068 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_068_desc] using h)
+  | k069 =>
+      exact ClassifierApplies.fam069 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_069_desc] using h)
+  | k070 =>
+      exact ClassifierApplies.fam070 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_070_desc] using h)
+  | k071 =>
+      exact ClassifierApplies.fam071 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_071_desc] using h)
+  | k072 =>
+      exact ClassifierApplies.fam072 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_072_desc] using h)
+  | k073 =>
+      exact ClassifierApplies.fam073 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_073_desc] using h)
+  | k074 =>
+      exact ClassifierApplies.fam074 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_074_desc] using h)
+  | k075 =>
+      exact ClassifierApplies.fam075 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_075_desc] using h)
+  | k076 =>
+      exact ClassifierApplies.fam076 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_076_desc] using h)
+  | k077 =>
+      exact ClassifierApplies.fam077 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_077_desc] using h)
+  | k078 =>
+      exact ClassifierApplies.fam078 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_078_desc] using h)
+  | k079 =>
+      exact ClassifierApplies.fam079 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_079_desc] using h)
+  | k080 =>
+      exact ClassifierApplies.fam080 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_080_desc] using h)
+  | k081 =>
+      exact ClassifierApplies.fam081 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_081_desc] using h)
+  | k082 =>
+      exact ClassifierApplies.fam082 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_082_desc] using h)
+  | k083 =>
+      exact ClassifierApplies.fam083 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_083_desc] using h)
+  | k084 =>
+      exact ClassifierApplies.fam084 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_084_desc] using h)
+  | k085 =>
+      exact ClassifierApplies.fam085 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_085_desc] using h)
+  | k086 =>
+      exact ClassifierApplies.fam086 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_086_desc] using h)
+  | k087 =>
+      exact ClassifierApplies.fam087 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_087_desc] using h)
+  | k088 =>
+      exact ClassifierApplies.fam088 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_088_desc] using h)
+  | k089 =>
+      exact ClassifierApplies.fam089 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_089_desc] using h)
+  | k090 =>
+      exact ClassifierApplies.fam090 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_090_desc] using h)
+  | k091 =>
+      exact ClassifierApplies.fam091 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_091_desc] using h)
+  | k092 =>
+      exact ClassifierApplies.fam092 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_092_desc] using h)
+  | k093 =>
+      exact ClassifierApplies.fam093 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_093_desc] using h)
+  | k094 =>
+      exact ClassifierApplies.fam094 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_094_desc] using h)
+  | k095 =>
+      exact ClassifierApplies.fam095 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_095_desc] using h)
+  | k096 =>
+      exact ClassifierApplies.fam096 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_096_desc] using h)
+  | k097 =>
+      exact ClassifierApplies.fam097 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_097_desc] using h)
+  | k098 =>
+      exact ClassifierApplies.fam098 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_098_desc] using h)
+  | k099 =>
+      exact ClassifierApplies.fam099 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_099_desc] using h)
+  | k100 =>
+      exact ClassifierApplies.fam100 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_100_desc] using h)
+  | k101 =>
+      exact ClassifierApplies.fam101 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_101_desc] using h)
+  | k102 =>
+      exact ClassifierApplies.fam102 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_102_desc] using h)
+  | k103 =>
+      exact ClassifierApplies.fam103 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_103_desc] using h)
+  | k104 =>
+      exact ClassifierApplies.fam104 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_104_desc] using h)
+  | k105 =>
+      exact ClassifierApplies.fam105 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_105_desc] using h)
+  | k106 =>
+      exact ClassifierApplies.fam106 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_106_desc] using h)
+  | k107 =>
+      exact ClassifierApplies.fam107 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_107_desc] using h)
+  | k108 =>
+      exact ClassifierApplies.fam108 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_108_desc] using h)
+  | k109 =>
+      exact ClassifierApplies.fam109 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_109_desc] using h)
+  | k110 =>
+      exact ClassifierApplies.fam110 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_110_desc] using h)
+  | k111 =>
+      exact ClassifierApplies.fam111 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_111_desc] using h)
+  | k112 =>
+      exact ClassifierApplies.fam112 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_112_desc] using h)
+  | k113 =>
+      exact ClassifierApplies.fam113 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_113_desc] using h)
+  | k114 =>
+      exact ClassifierApplies.fam114 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_114_desc] using h)
+  | k115 =>
+      exact ClassifierApplies.fam115 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_115_desc] using h)
+  | k116 =>
+      exact ClassifierApplies.fam116 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_116_desc] using h)
+  | k117 =>
+      exact ClassifierApplies.fam117 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_117_desc] using h)
+  | k118 =>
+      exact ClassifierApplies.fam118 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_118_desc] using h)
+  | k119 =>
+      exact ClassifierApplies.fam119 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_119_desc] using h)
+  | k120 =>
+      exact ClassifierApplies.fam120 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_120_desc] using h)
+  | k121 =>
+      exact ClassifierApplies.fam121 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_121_desc] using h)
+  | k122 =>
+      exact ClassifierApplies.fam122 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_122_desc] using h)
+  | k123 =>
+      exact ClassifierApplies.fam123 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_123_desc] using h)
+  | k124 =>
+      exact ClassifierApplies.fam124 (by
+        simpa [ClassifierKey.Matches, ClassifierKey.toSourceIndexStateKey,
+          SourceIndexStateKey.Matches, SourceIndexStateKey.toDescriptor,
+          fam_124_desc] using h)
 
 def classifierFamily : RowPropertyMembershipFamily where
   Applies := ClassifierApplies
