@@ -18,6 +18,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProdu
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage
 
 /-- Range-parametric selector-coordinate catalog target for generated shards. -/
 abbrev SelectorCoordinateFactsGoodCatalogOnRangeFor
@@ -172,6 +173,16 @@ theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.to_allGoodCoverage
     AllTranslationGoodCoverageOnRange lo hi :=
   SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage
     (SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog catalog)
+
+/-- Erase a range-parametric selector-coordinate catalog to descriptor coverage. -/
+theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.to_descriptorCoverage
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    {lo hi : Nat}
+    (catalog : SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi :=
+  SourceRowFactsGoodBridgeOnRange.to_descriptorCoverage
+    (SourceRowFactsGoodCatalogOnRange.to_bridge
+      (SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog catalog))
 
 /-- Compatibility wrapper for the original fixed DU.9H smoke target. -/
 theorem SelectorCoordinateFactsGoodCatalogOnRange.to_rangeFor

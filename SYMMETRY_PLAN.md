@@ -18239,6 +18239,54 @@ Acceptance:
   The actual remaining proof obligation remains the semantic membership
   theorem; DU.9AF/DU.9AG make sure that whichever membership form is cheaper
   can feed the same descriptor coverage endpoint.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AH selector-coordinate descriptor erasure:
+  DU.9AH extends the range-parametric selector-coordinate adapter:
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9RRangeAdapter
+  ```
+
+  with:
+
+  ```lean
+  theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.to_descriptorCoverage
+      {coordAt : Nat -> SignMask -> SelectorCoordinate}
+      {lo hi : Nat}
+      (catalog : SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi) :
+      SourceIndexStateDescriptorGoodCoverageOnRange lo hi
+  ```
+
+  This keeps selector-based generated shards aligned with the same descriptor
+  endpoint as the classifier-key and candidate-catalog routes.  A future shard
+  may now prove selector lookup/source/row facts, export only
+  `SelectorCoordinateFactsGoodCatalogOnRangeFor`, and erase directly to
+  `SourceIndexStateDescriptorGoodCoverageOnRange`.
+
+  Focused guarded checks:
+
+  ```text
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9RRangeAdapter
+  exit=0
+  elapsed=7.03s
+  peak process-tree RSS=4216.80 MiB
+  min available memory observed=46005.63 MiB
+
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9SRangeSmoke
+  exit=0
+  elapsed=49.06s
+  peak process-tree RSS=5343.74 MiB
+  min available memory observed=44323.22 MiB
+  ```
+
+  Decision: DU.9AH is accepted as selector descriptor-endpoint bridge
+  infrastructure.  It does not solve classifier completeness by itself, but it
+  ensures the production selector-coordinate path can terminate at descriptor
+  coverage without extra root glue or certificate-valued exports.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
