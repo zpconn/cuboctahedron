@@ -1,0 +1,620 @@
+{
+  "decision": {
+    "notes": [
+      "This emits no Lean and is not trusted as proof.",
+      "The result is a scaling diagnostic for the DU.9H selector coordinate."
+    ],
+    "status": "accepted-sampled-selector-coordinate"
+  },
+  "jobs": 4,
+  "mode": "selector_coordinate_window_profile",
+  "phase": "6Z.6K.8AP.16DU.9I",
+  "requested_windows": [
+    [
+      0,
+      1000
+    ],
+    [
+      100000,
+      1000
+    ],
+    [
+      1000000,
+      1000
+    ],
+    [
+      6000000,
+      1000
+    ],
+    [
+      12000000,
+      1000
+    ],
+    [
+      24000000,
+      1000
+    ],
+    [
+      48000000,
+      1000
+    ],
+    [
+      72000000,
+      1000
+    ],
+    [
+      96000000,
+      1000
+    ]
+  ],
+  "schema_version": 1,
+  "total_case_count": 2537,
+  "total_family_count": 205,
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "accepted": true,
+      "case_count": 1465,
+      "counts": {
+        "covered_cases": 1465,
+        "good_direction_survivors": 1465,
+        "identity_words": 138,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 862,
+        "not_good_direction_masks": 7367,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 8832,
+        "uncovered_cases": 0
+      },
+      "family_count": 74,
+      "limit": 1000,
+      "rank_end": 1000,
+      "rank_start": 0,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 1,
+          "coordinate_count": 72,
+          "deterministic": false,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 3,
+          "name": "template_source_indices",
+          "top_ambiguous": [
+            {
+              "case_count": 9,
+              "coordinate": "('axis_a_only', (44, 5))",
+              "key_count": 3
+            }
+          ]
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 1,
+          "coordinate_count": 72,
+          "deterministic": false,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 3,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": [
+            {
+              "case_count": 9,
+              "coordinate": "('axis_a_only', (44, 5), ('interior', 3, 'xp'), ('ordering', None))",
+              "key_count": 3
+            }
+          ]
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 74,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 133,
+      "counts": {
+        "covered_cases": 133,
+        "good_direction_survivors": 133,
+        "identity_words": 22,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 978,
+        "not_good_direction_masks": 1275,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 1408,
+        "uncovered_cases": 0
+      },
+      "family_count": 29,
+      "limit": 1000,
+      "rank_end": 101000,
+      "rank_start": 100000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 29,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 29,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 29,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 0,
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 0,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 1000,
+        "not_good_direction_masks": 0,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 0,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "limit": 1000,
+      "rank_end": 1001000,
+      "rank_start": 1000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 863,
+      "counts": {
+        "covered_cases": 863,
+        "good_direction_survivors": 863,
+        "identity_words": 140,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 860,
+        "not_good_direction_masks": 8097,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 8960,
+        "uncovered_cases": 0
+      },
+      "family_count": 53,
+      "limit": 1000,
+      "rank_end": 6001000,
+      "rank_start": 6000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 53,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 53,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 53,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 0,
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 2,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 998,
+        "not_good_direction_masks": 128,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 128,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "limit": 1000,
+      "rank_end": 12001000,
+      "rank_start": 12000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 21,
+      "counts": {
+        "covered_cases": 21,
+        "good_direction_survivors": 21,
+        "identity_words": 17,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 983,
+        "not_good_direction_masks": 1067,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 1088,
+        "uncovered_cases": 0
+      },
+      "family_count": 16,
+      "limit": 1000,
+      "rank_end": 24001000,
+      "rank_start": 24000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 16,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 16,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 16,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 0,
+      "counts": {
+        "covered_cases": 0,
+        "good_direction_survivors": 0,
+        "identity_words": 0,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 1000,
+        "not_good_direction_masks": 0,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 0,
+        "uncovered_cases": 0
+      },
+      "family_count": 0,
+      "limit": 1000,
+      "rank_end": 48001000,
+      "rank_start": 48000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 0,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 0,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 16,
+      "counts": {
+        "covered_cases": 16,
+        "good_direction_survivors": 16,
+        "identity_words": 15,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 985,
+        "not_good_direction_masks": 944,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 960,
+        "uncovered_cases": 0
+      },
+      "family_count": 14,
+      "limit": 1000,
+      "rank_end": 72001000,
+      "rank_start": 72000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 14,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices",
+          "top_ambiguous": []
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 14,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": []
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 14,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    },
+    {
+      "accepted": true,
+      "case_count": 39,
+      "counts": {
+        "covered_cases": 39,
+        "good_direction_survivors": 39,
+        "identity_words": 41,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 959,
+        "not_good_direction_masks": 2585,
+        "pair_words_scanned": 1000,
+        "translation_sign_assignments": 2624,
+        "uncovered_cases": 0
+      },
+      "family_count": 19,
+      "limit": 1000,
+      "rank_end": 96001000,
+      "rank_start": 96000000,
+      "reports": {
+        "template_source_indices": {
+          "ambiguous_coordinate_count": 1,
+          "coordinate_count": 18,
+          "deterministic": false,
+          "fields": [
+            "template",
+            "source_indices"
+          ],
+          "max_keys_per_coordinate": 2,
+          "name": "template_source_indices",
+          "top_ambiguous": [
+            {
+              "case_count": 5,
+              "coordinate": "('exact_two_source_valid', (15, 6))",
+              "key_count": 2
+            }
+          ]
+        },
+        "template_source_indices_full_sources": {
+          "ambiguous_coordinate_count": 1,
+          "coordinate_count": 18,
+          "deterministic": false,
+          "fields": [
+            "template",
+            "source_indices",
+            "first_source",
+            "second_source"
+          ],
+          "max_keys_per_coordinate": 2,
+          "name": "template_source_indices_full_sources",
+          "top_ambiguous": [
+            {
+              "case_count": 5,
+              "coordinate": "('exact_two_source_valid', (15, 6), ('ordering', None), ('ordering', None))",
+              "key_count": 2
+            }
+          ]
+        },
+        "template_source_indices_row_property": {
+          "ambiguous_coordinate_count": 0,
+          "coordinate_count": 19,
+          "deterministic": true,
+          "fields": [
+            "template",
+            "source_indices",
+            "row_property"
+          ],
+          "max_keys_per_coordinate": 1,
+          "name": "template_source_indices_row_property",
+          "top_ambiguous": []
+        }
+      }
+    }
+  ]
+}

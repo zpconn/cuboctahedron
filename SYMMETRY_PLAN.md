@@ -17457,6 +17457,59 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9i_selector_coordinate_windows.json
   scripts/generated/phase6z6k8ap16du9i_selector_coordinate_windows.md
   ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9U broad selector-coordinate window profile:
+  DU.9U reruns the DU.9I selector-coordinate profiler on nine 1,000-rank
+  windows spread across the full rank range, still using memory-safe Python
+  parallelism:
+
+  ```text
+  /usr/bin/time -v python3 scripts/profile_ap16du9i_selector_coordinate_windows.py \
+    --jobs 4 \
+    --windows \
+      0:1000,100000:1000,1000000:1000,6000000:1000,12000000:1000,\
+      24000000:1000,48000000:1000,72000000:1000,96000000:1000 \
+    --json scripts/generated/phase6z6k8ap16du9u_selector_coordinate_broad_windows.json \
+    --md scripts/generated/phase6z6k8ap16du9u_selector_coordinate_broad_windows.md
+  ```
+
+  The run passed safely:
+
+  ```text
+  status=accepted-sampled-selector-coordinate
+  windows=9
+  total_good_direction_cases=2537
+  elapsed=19.18s
+  max_rss=26012 KiB
+  ```
+
+  Window summary:
+
+  ```text
+  [0,1000):             1465 cases, 74 families, selector deterministic
+  [100000,101000):       133 cases, 29 families, selector deterministic
+  [1000000,1001000):       0 cases,  0 families, vacuous
+  [6000000,6001000):     863 cases, 53 families, selector deterministic
+  [12000000,12001000):     0 cases,  0 families, vacuous
+  [24000000,24001000):    21 cases, 16 families, selector deterministic
+  [48000000,48001000):     0 cases,  0 families, vacuous
+  [72000000,72001000):    16 cases, 14 families, selector deterministic
+  [96000000,96001000):    39 cases, 19 families, selector deterministic
+  ```
+
+  In the first and last nonempty sampled windows, the coarser
+  `template_source_indices` and
+  `template_source_indices_full_sources` coordinates still have one ambiguous
+  coordinate, while `template_source_indices_row_property` remains
+  deterministic.  This supports DU.9H's row-property-refined coordinate as the
+  current production target, but it remains diagnostic only: it does not prove
+  coverage and does not replace the required Lean membership theorem.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9u_selector_coordinate_broad_windows.json
+  scripts/generated/phase6z6k8ap16du9u_selector_coordinate_broad_windows.md
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
