@@ -302,7 +302,8 @@ def emit_lean(
         "set_option linter.unusedTactic false",
         "set_option linter.unreachableTactic false",
         "",
-        "private def generatedGoodMaskMember (mask : SignMask) : Prop :=",
+        "/-- Public positive-survivor mask predicate for this generated rank fixture. -/",
+        "def generatedGoodMaskMember (mask : SignMask) : Prop :=",
         f"  {mask_member_expr(good_masks)}",
         "",
     ])

@@ -316,8 +316,22 @@ def write_root(entries: list[dict[str, Any]]) -> None:
         "",
         f"namespace {ROOT_NS}",
         "",
-        "theorem batchCompactWalshCoverSmoke_builds : True := by",
     ]
+    for entry in entries:
+        rank = int(entry["rank"])
+        ns = cover_namespace(rank)
+        lines.extend([
+            f"theorem rank{rank}_goodMaskMember_of_GoodDirection",
+            f"    {{mask : SignMask}} (hlt : {rank} < numPairWords)",
+            f"    (hgood : GoodDirectionAtRank (⟨{rank}, hlt⟩ : Fin numPairWords) mask) :",
+            f"    {ns}.generatedGoodMaskMember mask :=",
+            f"  {ns}.generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes",
+            "    hlt hgood",
+            "",
+        ])
+    lines.extend([
+        "theorem batchCompactWalshCoverSmoke_builds : True := by",
+    ])
     for entry in entries:
         rank = int(entry["rank"])
         lines.append(

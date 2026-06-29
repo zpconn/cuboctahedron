@@ -15127,6 +15127,64 @@ Acceptance:
   coverage.  Keep AP16DF/AP16DJ-style generated modules on the serial AP16DI
   guard path, with `LEAN_NUM_THREADS=1`, `LAKE_JOBS=1`, a 5 GiB process-tree
   RSS cap, and no broad package imports.
+- [x] Implement Phase 6Z.6K.8AP.16DL public GoodDirection-to-good-mask batch
+  surface:
+  AP16DL changes the compact Walsh cover emitter so each generated cover leaf
+  exposes its rank-local positive-survivor predicate:
+
+  ```lean
+  def generatedGoodMaskMember (mask : SignMask) : Prop
+  ```
+
+  rather than keeping that predicate private.  The AP16DJ five-signature batch
+  root now re-exports one theorem per generated rank:
+
+  ```lean
+  theorem rank6000480_goodMaskMember_of_GoodDirection
+      {mask : SignMask} (hlt : 6000480 < numPairWords)
+      (hgood : GoodDirectionAtRank (⟨6000480, hlt⟩ : Fin numPairWords) mask) :
+      ...CoverRank6000480Smoke.generatedGoodMaskMember mask
+  ```
+
+  and similarly for ranks `6000745`, `6000625`, `6000720`, and `6000662`.
+  This is still bounded smoke evidence, not final generated coverage.  Its
+  purpose is to remove the private-predicate wall before the next
+  source/row-language classifier step: downstream modules can now consume the
+  compact Walsh positive-survivor predicates semantically instead of treating
+  the batch root as only a `True` build smoke.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 5000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16dl_batch_public_goodmask_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomBatchSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 83.11s
+  peak process-tree RSS: 4430 MiB
+  minimum MemAvailable seen: 45526 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dl_batch_public_goodmask_guard.json
+  scripts/generated/phase6z6k8ap16dl_batch_public_goodmask_guard.md
+  ```
+
+  Decision: accepted as a small semantic export layer over the bounded AP16DJ
+  batch.  The next AP16 target should connect one of these public good-mask
+  predicates to the source-position/row producer classifier surface, producing
+  a nonempty positive-survivor membership theorem without `fin_cases mask`
+  replay over masks that fail `GoodDirection`.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

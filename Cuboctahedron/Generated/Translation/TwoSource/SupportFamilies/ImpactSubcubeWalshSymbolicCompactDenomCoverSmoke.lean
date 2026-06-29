@@ -20,7 +20,8 @@ set_option linter.unusedSimpArgs false
 set_option linter.unusedTactic false
 set_option linter.unreachableTactic false
 
-private def generatedGoodMaskMember (mask : SignMask) : Prop :=
+/-- Public positive-survivor mask predicate for this generated rank fixture. -/
+def generatedGoodMaskMember (mask : SignMask) : Prop :=
   mask.val = 4 \/
     mask.val = 6 \/
     mask.val = 11 \/
