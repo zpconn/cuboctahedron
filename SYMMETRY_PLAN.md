@@ -27222,3 +27222,50 @@ staying under `135 MiB` peak RSS.  Future classifier diagnostics should use
 bounded Python parallelism under `scripts/run_memory_guarded.py`.  Do not run
 broad or parallel Lean builds on this path until a generated theorem surface has
 passed a small guarded smoke.
+
+### Phase 6Z.6K.8AP.16DU.9DX checkpoint: 25k parallel classifier scaling accepted
+
+Phase 6Z.6K.8AP.16DU.9DX runs the jobs-aware source-index/state computable
+classifier diagnostic over a modest larger window, `[0,25000)`.  This remains a
+Python-only profiling run: it emits no Lean, produces no trusted proof, and is
+guarded against memory growth.
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 16384 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9dx_parallel_classifier_profile_0_25000_guard.json \
+  -- python3 scripts/profile_source_index_state_computable_classifier.py \
+    --rank-start 0 \
+    --limit 25000 \
+    --jobs 4 \
+    --max-rule-count 300 \
+    --top-limit 20 \
+    --json scripts/generated/phase6z6k8ap16du9dx_parallel_classifier_profile_0_25000.json \
+    --md scripts/generated/phase6z6k8ap16du9dx_parallel_classifier_profile_0_25000.md
+```
+
+Result:
+
+- Exit: `0`
+- Status: `accepted-next-smoke`
+- Rank window: `[0,25000)`
+- Jobs: `4`
+- Identity words: `1423`
+- GoodDirection survivors: `11527`
+- Not-GoodDirection masks: `79545`
+- Source-index/state families: `177`
+- Largest family: `3036`
+- Elapsed: `72.06s`
+- Peak tree RSS: `160.59 MiB`
+- Minimum available memory observed: `46296.13 MiB`
+
+Decision: accepted as a bounded scaling point.  Compared with the `[0,10000)`
+checkpoint, the profiled rank count grows by `2.5x`, but source-index/state
+families grow only from `146` to `177`.  Memory remains tiny relative to the
+45 GiB safe budget.  The next diagnostic, if needed, may scale further using
+the same guard and four workers, but only as a Python profiler run; do not
+start a broad Lean build or generated-source emission from this result.
