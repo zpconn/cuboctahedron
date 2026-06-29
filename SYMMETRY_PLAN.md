@@ -26481,3 +26481,51 @@ GoodDirectionAtRank r mask -> WindowSurvivor r mask
 
 or, preferably, a direct proof of `SourceRowFactsGoodBridgeOnRange lo hi` that
 does not route through `WindowSurvivor` at all.
+
+### Phase 6Z.6K.8AP.16DU.9DK checkpoint: survivor mask-tree does not compress the bridge
+
+Phase 6Z.6K.8AP.16DU.9DK runs the existing exact survivor mask-tree profiler
+on the same `[0,3)` DU.9DG/DU.9DJ window:
+
+- JSON:
+  `scripts/generated/phase6z6k8ap16du9dk_survivor_mask_tree_tiny.json`
+- Report:
+  `scripts/generated/phase6z6k8ap16du9dk_survivor_mask_tree_tiny.md`
+
+Command:
+
+```bash
+python3 scripts/profile_symmetry_compression.py \
+  --dry-run \
+  --translation-survivor-mask-tree \
+  --limit 3 \
+  --max-lean-leaves 2000 \
+  --warn-lean-leaves 1000 \
+  --max-distinct-tracked 10000 \
+  --sample-limit 20 \
+  --progress-interval 0
+```
+
+Result:
+
+- Pair words scanned: `3`
+- Identity-linear words: `2`
+- Translation sign assignments: `128`
+- GoodDirection survivor masks: `29`
+- Denominator-nonpositive masks: `99`
+- Total mask-tree leaves: `29`
+- Bad-cube leaves: `0`
+- Farkas leaves: `29`
+- Planned heavy Lean leaves: `29`
+
+Decision: rejected as the next proof-producing route.  The profiler is safe
+and exact, but it gives one Farkas leaf per GoodDirection survivor on this
+window, so it does not solve the missing membership bridge.  The next step
+should continue toward a direct semantic theorem:
+
+```lean
+SourceRowFactsGoodBridgeOnRange lo hi
+```
+
+from identity-linear `GoodDirectionAtRank`, avoiding both bad-direction mask
+proofs and per-survivor Farkas leaves.

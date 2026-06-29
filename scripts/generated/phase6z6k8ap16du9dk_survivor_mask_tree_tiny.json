@@ -1,0 +1,513 @@
+{
+  "actual_counts": {
+    "bad_direction_generated_evidence": 0,
+    "denominator_nonpositive_masks": 99,
+    "good_direction_survivor_masks": 29,
+    "identity_linear_words": 2,
+    "nonidentity_words_skipped": 1,
+    "pair_words_scanned": 3,
+    "translation_sign_assignments": 128,
+    "zero_translation_vector_masks": 0
+  },
+  "complete": false,
+  "decision": {
+    "accepted_for_phase_6h": true,
+    "notes": [
+      "This mode profiles mask-tree compression after GoodDirection.",
+      "It uses exact truth tables because denominator polynomials may be quadratic.",
+      "If signature-tree or leaf obligations remain above the gate, proceed to Phase 6I."
+    ],
+    "planned_lean_heavy_leaves_exact": 29,
+    "planned_lean_heavy_leaves_lower_bound": 29,
+    "status": "profile",
+    "within_warning_gate": true
+  },
+  "elapsed_seconds": 0.3040189029998146,
+  "expected_counts": {
+    "identity_linear_words": 2468088,
+    "pair_words": 97297200,
+    "translation_sign_assignments": 157957632
+  },
+  "mask_tree": {
+    "max_masks_in_bad_cube": 0,
+    "max_survivors_in_farkas_leaf": 1,
+    "max_survivors_per_farkas_leaf_histogram": {
+      "1": 2
+    },
+    "max_tree_depth": 4,
+    "max_tree_leaves": 16,
+    "total_bad_cube_leaves": 0,
+    "total_branch_nodes": 27,
+    "total_farkas_leaves": 29,
+    "total_point_farkas_leaves": 0,
+    "total_tree_leaves": 29,
+    "tree_depth_histogram": {
+      "4": 2
+    },
+    "tree_leaf_histogram": {
+      "13": 1,
+      "16": 1
+    },
+    "unique_bad_cube_leaf_shapes": {
+      "cap": 10000,
+      "count": 0,
+      "exact": true,
+      "lower_bound": 0,
+      "samples": []
+    },
+    "unique_farkas_leaf_shapes": {
+      "cap": 10000,
+      "count": 29,
+      "exact": true,
+      "lower_bound": 29,
+      "samples": [
+        "F:69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb:cube=0001000100010001:survivors=0000000000010000",
+        "F:1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6:cube=0004000400040004:survivors=0000000000040000",
+        "F:7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3:cube=0000050000000500:survivors=0000000000000100",
+        "F:4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506:cube=0500000005000000:survivors=0000000001000000",
+        "F:247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00:cube=0000000000500050:survivors=0000000000400000",
+        "F:34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f:cube=0050005000000000:survivors=0040000000000000",
+        "F:64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432:cube=1000100010001000:survivors=0000000010000000",
+        "F:c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439:cube=4000400040004000:survivors=0000000040000000",
+        "F:e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8:cube=0000000000000a0a:survivors=0000000000000200",
+        "F:b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379:cube=000000000000a0a0:survivors=0000000000002000",
+        "F:768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5:cube=0000222200000000:survivors=0000200000000000",
+        "F:ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb:cube=0000888800000000:survivors=0000800000000000",
+        "F:07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292:cube=0000000022220000:survivors=0000000020000000",
+        "F:03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df:cube=0000000088880000:survivors=0000000080000000",
+        "F:04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b:cube=00aa000000000000:survivors=0080000000000000",
+        "F:b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103:cube=aa00000000000000:survivors=8000000000000000",
+        "F:b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536:cube=0001000100010001:survivors=0000000000010000",
+        "F:055ca6f8ab10d788d5621ab70c345861a6c2ca2cd34476a49f47ee38e414ec98:cube=0004000400040004:survivors=0000000000040000",
+        "F:9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5:cube=0000050000000500:survivors=0000000000000100",
+        "F:68d2b97cf80a51999607c982e109f5f1b670b917e5149fae08062ff34334cf7c:cube=0500000005000000:survivors=0000000001000000"
+      ]
+    },
+    "unique_signature_leaf_obligations": {
+      "cap": 10000,
+      "count": 29,
+      "exact": true,
+      "lower_bound": 29,
+      "samples": [
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb:cube=0001000100010001:survivors=0000000000010000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6:cube=0004000400040004:survivors=0000000000040000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3:cube=0000050000000500:survivors=0000000000000100",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506:cube=0500000005000000:survivors=0000000001000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00:cube=0000000000500050:survivors=0000000000400000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f:cube=0050005000000000:survivors=0040000000000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432:cube=1000100010001000:survivors=0000000010000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439:cube=4000400040004000:survivors=0000000040000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8:cube=0000000000000a0a:survivors=0000000000000200",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379:cube=000000000000a0a0:survivors=0000000000002000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5:cube=0000222200000000:survivors=0000200000000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb:cube=0000888800000000:survivors=0000800000000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292:cube=0000000022220000:survivors=0000000020000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df:cube=0000000088880000:survivors=0000000080000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b:cube=00aa000000000000:survivors=0080000000000000",
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|F:b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103:cube=aa00000000000000:survivors=8000000000000000",
+        "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2|F:b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536:cube=0001000100010001:survivors=0000000000010000",
+        "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2|F:055ca6f8ab10d788d5621ab70c345861a6c2ca2cd34476a49f47ee38e414ec98:cube=0004000400040004:survivors=0000000000040000",
+        "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2|F:9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5:cube=0000050000000500:survivors=0000000000000100",
+        "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2|F:68d2b97cf80a51999607c982e109f5f1b670b917e5149fae08062ff34334cf7c:cube=0500000005000000:survivors=0000000001000000"
+      ]
+    },
+    "unique_signature_tree_obligations": {
+      "cap": 10000,
+      "count": 2,
+      "exact": true,
+      "lower_bound": 2,
+      "samples": [
+        "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|S0(S2(S3(S1(F:69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb:cube=0001000100010001:survivors=0000000000010000,F:1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6:cube=0004000400040004:survivors=0000000000040000),S4(F:7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3:cube=0000050000000500:survivors=0000000000000100,F:4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506:cube=0500000005000000:survivors=0000000001000000)),S3(S5(F:247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00:cube=0000000000500050:survivors=0000000000400000,F:34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f:cube=0050005000000000:survivors=0040000000000000),S1(F:64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432:cube=1000100010001000:survivors=0000000010000000,F:c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439:cube=4000400040004000:survivors=0000000040000000))),S4(S5(S2(F:e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8:cube=0000000000000a0a:survivors=0000000000000200,F:b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379:cube=000000000000a0a0:survivors=0000000000002000),S1(F:768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5:cube=0000222200000000:survivors=0000200000000000,F:ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb:cube=0000888800000000:survivors=0000800000000000)),S5(S1(F:07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292:cube=0000000022220000:survivors=0000000020000000,F:03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df:cube=0000000088880000:survivors=0000000080000000),S3(F:04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b:cube=00aa000000000000:survivors=0080000000000000,F:b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103:cube=aa00000000000000:survivors=8000000000000000))))",
+        "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2|S0(S2(S3(S1(F:b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536:cube=0001000100010001:survivors=0000000000010000,F:055ca6f8ab10d788d5621ab70c345861a6c2ca2cd34476a49f47ee38e414ec98:cube=0004000400040004:survivors=0000000000040000),S4(F:9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5:cube=0000050000000500:survivors=0000000000000100,F:68d2b97cf80a51999607c982e109f5f1b670b917e5149fae08062ff34334cf7c:cube=0500000005000000:survivors=0000000001000000)),S1(F:ff370235d6577eb6183608b42a7386c211d28f2408119a1af8d12ef0a42bc63e:cube=1010101010101010:survivors=0000000010000000,S3(F:77d3b025bc7ac9524d435a5eb811ce213f6dd46b12cf2bd0744a6a70c5cfff3a:cube=0040004000400040:survivors=0040000000000000,F:94e210d097c55cfc5c7d633944a837c04dd1a303fb1b68001346282d70f2e46c:cube=4000400040004000:survivors=0000000040000000))),S1(S2(F:df6afc9fba993b4238621b8c1fc1db5952f1d0e835a197714060fff91b4d42a3:cube=0202020202020202:survivors=0000000000000200,S4(F:da4b3b02fd148a1091448ef343c56feda2c67d06e7fd3bb233e165a0a14ce1bc:cube=0000202000002020:survivors=0000000000002000,F:ef52ab50738bf7971d130666b3119eb107562601c5cf7c82358eaa98a08a35b9:cube=2020000020200000:survivors=0000000020000000)),S3(F:de8ff9938cbec1c1485fae6f42c8a9eebd9b4ece124bcc459f912d24df6e9b12:cube=0088008800880088:survivors=0080000000000000,S4(F:38fae83067ab9d86bcbac803e04209c46be17d33aed349f35abddc8f0c9184e6:cube=0000880000008800:survivors=0000800000000000,F:85cfdb546b0252e21c054ce04a689e3882861b59e2024e11de652fdc2e9c9df1:cube=8800000088000000:survivors=8000000000000000))))"
+      ]
+    },
+    "unique_structural_tree_shapes": {
+      "cap": 10000,
+      "count": 2,
+      "exact": true,
+      "lower_bound": 2,
+      "samples": [
+        "S0(S2(S3(S1(F:69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb:cube=0001000100010001:survivors=0000000000010000,F:1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6:cube=0004000400040004:survivors=0000000000040000),S4(F:7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3:cube=0000050000000500:survivors=0000000000000100,F:4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506:cube=0500000005000000:survivors=0000000001000000)),S3(S5(F:247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00:cube=0000000000500050:survivors=0000000000400000,F:34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f:cube=0050005000000000:survivors=0040000000000000),S1(F:64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432:cube=1000100010001000:survivors=0000000010000000,F:c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439:cube=4000400040004000:survivors=0000000040000000))),S4(S5(S2(F:e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8:cube=0000000000000a0a:survivors=0000000000000200,F:b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379:cube=000000000000a0a0:survivors=0000000000002000),S1(F:768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5:cube=0000222200000000:survivors=0000200000000000,F:ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb:cube=0000888800000000:survivors=0000800000000000)),S5(S1(F:07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292:cube=0000000022220000:survivors=0000000020000000,F:03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df:cube=0000000088880000:survivors=0000000080000000),S3(F:04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b:cube=00aa000000000000:survivors=0080000000000000,F:b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103:cube=aa00000000000000:survivors=8000000000000000))))",
+        "S0(S2(S3(S1(F:b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536:cube=0001000100010001:survivors=0000000000010000,F:055ca6f8ab10d788d5621ab70c345861a6c2ca2cd34476a49f47ee38e414ec98:cube=0004000400040004:survivors=0000000000040000),S4(F:9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5:cube=0000050000000500:survivors=0000000000000100,F:68d2b97cf80a51999607c982e109f5f1b670b917e5149fae08062ff34334cf7c:cube=0500000005000000:survivors=0000000001000000)),S1(F:ff370235d6577eb6183608b42a7386c211d28f2408119a1af8d12ef0a42bc63e:cube=1010101010101010:survivors=0000000010000000,S3(F:77d3b025bc7ac9524d435a5eb811ce213f6dd46b12cf2bd0744a6a70c5cfff3a:cube=0040004000400040:survivors=0040000000000000,F:94e210d097c55cfc5c7d633944a837c04dd1a303fb1b68001346282d70f2e46c:cube=4000400040004000:survivors=0000000040000000))),S1(S2(F:df6afc9fba993b4238621b8c1fc1db5952f1d0e835a197714060fff91b4d42a3:cube=0202020202020202:survivors=0000000000000200,S4(F:da4b3b02fd148a1091448ef343c56feda2c67d06e7fd3bb233e165a0a14ce1bc:cube=0000202000002020:survivors=0000000000002000,F:ef52ab50738bf7971d130666b3119eb107562601c5cf7c82358eaa98a08a35b9:cube=2020000020200000:survivors=0000000020000000)),S3(F:de8ff9938cbec1c1485fae6f42c8a9eebd9b4ece124bcc459f912d24df6e9b12:cube=0088008800880088:survivors=0080000000000000,S4(F:38fae83067ab9d86bcbac803e04209c46be17d33aed349f35abddc8f0c9184e6:cube=0000880000008800:survivors=0000800000000000,F:85cfdb546b0252e21c054ce04a689e3882861b59e2024e11de652fdc2e9c9df1:cube=8800000088000000:survivors=8000000000000000))))"
+      ]
+    }
+  },
+  "mode": "translation-survivor-mask-tree-profile",
+  "options": {
+    "branch": "translation",
+    "denominator_model": "exact 64-mask truth tables; no linearity assumption",
+    "emits_bad_direction_evidence": false,
+    "good_direction_impacts": "1..13",
+    "max_lean_leaves": 2000,
+    "progress_interval": 0,
+    "symmetry": "started-face D4",
+    "warn_lean_leaves": 1000
+  },
+  "profile_limit": 3,
+  "schema_version": 1,
+  "survivors": {
+    "canonical_survivor_cases": {
+      "cap": 10000,
+      "count": 29,
+      "exact": true,
+      "lower_bound": 29,
+      "samples": [
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#8",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#9",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#13",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#16",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#18",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#22",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#24",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#28",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#29",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#30",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#31",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#45",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#47",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#54",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#55",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11#63",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1#8",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1#9",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1#13",
+        "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1#16"
+      ]
+    },
+    "denominator_degree_histogram": {
+      "1": 2,
+      "2": 24
+    },
+    "farkas_shape_reuse": {
+      "max_reuse": 1,
+      "shape_count": 29,
+      "shared_shape_count": 0
+    },
+    "samples": [
+      {
+        "canonical_mask": 8,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 8,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 9,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 9,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 13,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 13,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 16,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 16,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 18,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 18,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 22,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 22,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 24,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 24,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 28,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 28,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 29,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 29,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 30,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 30,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 31,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 31,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 45,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 45,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 47,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 47,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 54,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 54,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 55,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 55,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 63,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11",
+        "denominator_signature_digest": "3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6",
+        "mask": 63,
+        "mask_tree_digest": "841431397cb6936f764b3e6ccd856ee7e41c641f664764ff23ed719188731be3",
+        "mask_tree_leaves": 16,
+        "max_denominator_degree": 2,
+        "rank": 0,
+        "shape_digest": "b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,d1m1,dm11,dm11"
+      },
+      {
+        "canonical_mask": 8,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1",
+        "denominator_signature_digest": "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2",
+        "mask": 8,
+        "mask_tree_digest": "ea364b8575b02e8c7a82b649c312c052a453d24526db90176834e20c27a09df8",
+        "mask_tree_leaves": 13,
+        "max_denominator_degree": 2,
+        "rank": 2,
+        "shape_digest": "9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1"
+      },
+      {
+        "canonical_mask": 9,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1",
+        "denominator_signature_digest": "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2",
+        "mask": 9,
+        "mask_tree_digest": "ea364b8575b02e8c7a82b649c312c052a453d24526db90176834e20c27a09df8",
+        "mask_tree_leaves": 13,
+        "max_denominator_degree": 2,
+        "rank": 2,
+        "shape_digest": "df6afc9fba993b4238621b8c1fc1db5952f1d0e835a197714060fff91b4d42a3",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1"
+      },
+      {
+        "canonical_mask": 13,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1",
+        "denominator_signature_digest": "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2",
+        "mask": 13,
+        "mask_tree_digest": "ea364b8575b02e8c7a82b649c312c052a453d24526db90176834e20c27a09df8",
+        "mask_tree_leaves": 13,
+        "max_denominator_degree": 2,
+        "rank": 2,
+        "shape_digest": "da4b3b02fd148a1091448ef343c56feda2c67d06e7fd3bb233e165a0a14ce1bc",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1"
+      },
+      {
+        "canonical_mask": 16,
+        "canonical_word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1",
+        "denominator_signature_digest": "c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2",
+        "mask": 16,
+        "mask_tree_digest": "ea364b8575b02e8c7a82b649c312c052a453d24526db90176834e20c27a09df8",
+        "mask_tree_leaves": 13,
+        "max_denominator_degree": 2,
+        "rank": 2,
+        "shape_digest": "b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536",
+        "sym_id": 0,
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,dm11,d1m1"
+      }
+    ],
+    "survivor_density": 0.2265625,
+    "survivor_mask_histogram": {
+      "13": 1,
+      "16": 1
+    },
+    "unique_denominator_signatures": {
+      "cap": 10000,
+      "count": 2,
+      "exact": true,
+      "lower_bound": 2,
+      "samples": [
+        "1:0:4;4:8/3;8:8/3;16:8/3;32:-8/3|2:0:4;5:8/3;9:8/3;17:-8/3;33:8/3|3:0:4;5:8/3;9:8/3;17:-8/3;33:8/3|4:0:4;6:8/3;10:-8/3;18:8/3;34:8/3|5:0:4;6:8/3;10:-8/3;18:8/3;34:8/3|6:0:8;4:4;5:4;6:4;12:8/3;20:8/3;36:8/3|7:0:8;4:4;5:4;6:4;12:8/3;20:8/3;36:8/3|8:0:8;8:4;9:4;10:-4;12:8/3;24:-8/3;40:-8/3|9:0:8;8:4;9:4;10:-4;12:8/3;24:-8/3;40:-8/3|10:0:8;16:4;17:-4;18:4;20:8/3;24:-8/3;48:-8/3|11:0:8;16:4;17:-4;18:4;20:8/3;24:-8/3;48:-8/3|12:0:8;32:-4;33:4;34:4;36:8/3;40:-8/3;48:-8/3|13:0:8;32:-4;33:4;34:4;36:8/3;40:-8/3;48:-8/3",
+        "1:0:4;4:8/3;8:8/3;16:8/3;32:-8/9|2:0:4;5:8/3;9:8/3;17:-8/3;33:8/9|3:0:4;5:8/3;9:8/3;17:-8/3;33:8/9|4:0:4;6:8/3;10:-8/3;18:8/3;34:40/9|5:0:4;6:8/3;10:-8/3;18:8/3;34:40/9|6:0:8;4:4;5:4;6:4;12:8/3;20:8/3;36:40/9|7:0:8;4:4;5:4;6:4;12:8/3;20:8/3;36:40/9|8:0:8;8:4;9:4;10:-4;12:8/3;24:-8/3;40:-40/9|9:0:8;8:4;9:4;10:-4;12:8/3;24:-8/3;40:-40/9|10:0:8;16:4;17:-4;18:4;20:8/3;24:-8/3;48:8/3|11:0:8;32:-4/3;33:4/3;34:20/3;36:40/9;40:-40/9;48:8/3|12:0:8;32:-4/3;33:4/3;34:20/3;36:40/9;40:-40/9;48:8/3|13:0:8;16:4;17:-4;18:4;20:8/3;24:-8/3;48:8/3"
+      ]
+    },
+    "unique_normalized_farkas_shapes": {
+      "cap": 10000,
+      "count": 29,
+      "exact": true,
+      "lower_bound": 29,
+      "samples": [
+        "7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3",
+        "e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8",
+        "b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379",
+        "69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb",
+        "1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6",
+        "247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00",
+        "4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506",
+        "64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432",
+        "07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292",
+        "c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439",
+        "03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df",
+        "768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5",
+        "ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb",
+        "34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f",
+        "04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b",
+        "b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103",
+        "9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5",
+        "df6afc9fba993b4238621b8c1fc1db5952f1d0e835a197714060fff91b4d42a3",
+        "da4b3b02fd148a1091448ef343c56feda2c67d06e7fd3bb233e165a0a14ce1bc",
+        "b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536"
+      ]
+    },
+    "unique_survivor_bitsets": {
+      "cap": 10000,
+      "count": 2,
+      "exact": true,
+      "lower_bound": 2,
+      "samples": [
+        "9277591158291505920",
+        "9277555971767739136"
+      ]
+    },
+    "unique_survivor_shape_maps": {
+      "cap": 10000,
+      "count": 2,
+      "exact": true,
+      "lower_bound": 2,
+      "samples": [
+        "sig=3e75b692f8ad4b3cf5947d66a5b1697c2692507c745e93c789f22dd7828800c6|survivors=9277591158291505920|8:7e35b6f74d527bbb196f628e54fd5e0485a3f104109936959e9d35e7fa379ec3|9:e392262e2fda69134c4849bfb61e15380b2f428185586ec54c382e7cf75116e8|13:b2a7333d591335edbbf6cf63fd7d2427a8b63ecebae0385bef8069d445fed379|16:69e2b2525a430a188016e55275f86fa6bfbb09dc5573d74e1aee130e682379fb|18:1c99d4132e2b9e880a05179e964df9846b727efed8b57dfd63513149446df0c6|22:247bf403f92a821ad68562ece99ecf41ffd10c8fc51c7624e16bace9df024a00|24:4761a253af73dbf301f6e08ac28c0f79c343e0d85398dd333c5c8221dc640506|28:64857692bd06c2c486da4be752acf27fc880aa858cfbe32b593b6ee4e0242432|29:07e842001e6bc92ac7aee4da9c1548f7906663bf23496218562caad7203d4292|30:c3eb079851e0f93dc032eb7b8e6a2ce43609e04f50035fc05e9ba1e113c17439|31:03e09255b6d40a2b90e24882561b9866e6ac0250a350f8072ea8be94af36b0df|45:768d412fda38e62d6d121af52726d50f0b72a71dff25e3162bcd295f70399de5|47:ead03a65a11c523541e5010bffb5fe10cae113059af76654ee4e3510e482ebbb|54:34891f739cc8f3f110e4a866b2011afe2a3ad92e2169c1553c32d4fd0599319f|55:04aa28aab1408632a49640acddebef6e8400d0f856b2e39de21d6ebc9c620c5b|63:b2000f2cb18d551ca899d99b9af3d85d1eec39b2d53d1578fde4b0a94da35103",
+        "sig=c6eba3bcf4275f1a55e5e53a50fb310f732bdd18efaa54d367ed06639be5d9c2|survivors=9277555971767739136|8:9c3f51358a65aa9e2d4f4fa675260e1b4fa09f9d141cb8a8a22dfe6221c206c5|9:df6afc9fba993b4238621b8c1fc1db5952f1d0e835a197714060fff91b4d42a3|13:da4b3b02fd148a1091448ef343c56feda2c67d06e7fd3bb233e165a0a14ce1bc|16:b82afea32cd6bba544de2e8726129b05bdad664421d934619d8f300873904536|18:055ca6f8ab10d788d5621ab70c345861a6c2ca2cd34476a49f47ee38e414ec98|24:68d2b97cf80a51999607c982e109f5f1b670b917e5149fae08062ff34334cf7c|28:ff370235d6577eb6183608b42a7386c211d28f2408119a1af8d12ef0a42bc63e|29:ef52ab50738bf7971d130666b3119eb107562601c5cf7c82358eaa98a08a35b9|30:94e210d097c55cfc5c7d633944a837c04dd1a303fb1b68001346282d70f2e46c|47:38fae83067ab9d86bcbac803e04209c46be17d33aed349f35abddc8f0c9184e6|54:77d3b025bc7ac9524d435a5eb811ce213f6dd46b12cf2bd0744a6a70c5cfff3a|55:de8ff9938cbec1c1485fae6f42c8a9eebd9b4ece124bcc459f912d24df6e9b12|63:85cfdb546b0252e21c054ce04a689e3882861b59e2024e11de652fdc2e9c9df1"
+      ]
+    }
+  },
+  "trusted_as_proof": false
+}
