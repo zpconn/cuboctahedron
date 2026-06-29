@@ -1,0 +1,4787 @@
+{
+  "case_count": 63642,
+  "concrete_family_count": 649,
+  "decision": {
+    "notes": [
+      "low group counts are only theorem-surface candidates",
+      "surfaces carrying exact supports are expected to be too concrete",
+      "the preferred production surface should minimize group count without hiding multiple semantic obligations in one proof"
+    ],
+    "status": "diagnostic-only"
+  },
+  "mode": "normal_form_quotient_surface_profile",
+  "phase": "6Z.6K.8AP.16DU.9EN",
+  "reports": [
+    "scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json",
+    "scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json",
+    "scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json"
+  ],
+  "schema_version": 1,
+  "surfaces": [
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 649,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 0,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 0,
+      "multi_family_group_count": 0,
+      "surface": "concrete",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "d98feac812846f3f70b6e0d1285a93d3bb2fca975d12e5761ffdcfaff422e404",
+          "payload": {
+            "family": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ddf0d31c6bcea48ba386c8d6328bbefe4f9f6a8ff8e501c406bfb6a115928233",
+          "payload": {
+            "family": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "d80474fe69d4063fe74dad3bd0295e5a8fc8d7e343ae1d81910101d2cad01f6b",
+          "payload": {
+            "family": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "d4dc24c6d7e9cb98481d8b7791151296b447e7a43cecb1e6d5594d738e6c353f",
+          "payload": {
+            "family": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "514f7d266d062a506e0f0117def58a16083c311b1d1775ba8e17552dab2cb198",
+          "payload": {
+            "family": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "27feef436f110797fc4553612fb3c11f380f50b6aaab5e3e225441b3936d68b7",
+          "payload": {
+            "family": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "13d2146f8120484d215551f78ce507abd2cf805dd12c820738d418d7fee342ea",
+          "payload": {
+            "family": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 987,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "977525a5f5ea2337a30326b76e6d7dd2cf1b93b2abb81e18ad5b0923e564ed7e",
+          "payload": {
+            "family": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261"
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 649,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 0,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 0,
+      "multi_family_group_count": 0,
+      "surface": "template_source_indices_row",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "523c811edc5e7f0bb4e12f4e6859535c9a27fcf0ee93d5fafb986b3701892d12",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              23,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "91a6928ff94eadfee3ba033700d9c49ea1c1f476cafb635e9b82749624f0c0a8",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_indices": [
+              24,
+              1
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "fb27656b5ed226d094391717987e78ed6f8ef7aa8d90893b0a3e1203ce857694",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+            "source_indices": [
+              25,
+              2
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "8e87cc3772643bfb1cc9cc6b99d158525de11a291bdafdc3d9fab6430bbeb123",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              52,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "fa9df383e60cb70322391c3ed62a3cbc2d41a04c57d10a9dd9f2b7e8cb6446d9",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              70,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "5b184425e49fd684118706ed078314c71b1ecb3e041388077d2c40a5a07e5f62",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_indices": [
+              51,
+              1
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9eb355815d5d8451437a93eba38fa98be594f6a5b575bcb873099921f5d596ea",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+            "source_indices": [
+              0,
+              5
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 987,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "4da7952a6dcf5107049ecc6bc8d665b82831a100253d52c8b0102eaee359cf35",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_indices": [
+              83,
+              0
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 138,
+      "groups_with_multiple_exact_row_shapes": 100,
+      "groups_with_multiple_integer_scaled": 100,
+      "groups_with_multiple_supports": 112,
+      "largest_group_cases": 11573,
+      "largest_group_concrete_families": 4,
+      "multi_family_case_count": 63498,
+      "multi_family_group_count": 112,
+      "surface": "template_source_skeletons_row",
+      "top_groups": [
+        {
+          "case_count": 11573,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 4,
+          "integer_scaled_count": 4,
+          "key": "3e680075e7cd9fe7ee2b24e068c82fdb1ccb68e2558e843208b7222519463872",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            },
+            {
+              "case_count": 350,
+              "family_key": "253616397651d8f80158fbe86ee50967575a66461ada0d125e0613286400ab08",
+              "sample": {
+                "mask": 34,
+                "rank": 95000493
+              },
+              "source_indices": [
+                19,
+                0
+              ]
+            },
+            {
+              "case_count": 51,
+              "family_key": "9c314735fc70994884564418e32f5c67b4d27e4bbebc86ecc37b5cc2bc62d19b",
+              "sample": {
+                "mask": 53,
+                "rank": 45000184
+              },
+              "source_indices": [
+                18,
+                0
+              ]
+            },
+            {
+              "case_count": 9,
+              "family_key": "30574aa8b68c7f76dfe0fe00ac99e515b1da356a1e453fc0d533915f95a992eb",
+              "sample": {
+                "mask": 10,
+                "rank": 45003885
+              },
+              "source_indices": [
+                27,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "exact_row_shape_count": 10,
+          "integer_scaled_count": 10,
+          "key": "fc0daa3209f5382b631a145fbf664a727a3a37e5d2d10d4ba934e626b7bca6f9",
+          "payload": {
+            "row_property": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+            "source_skeletons": [
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            },
+            {
+              "case_count": 984,
+              "family_key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "sample": {
+                "mask": 25,
+                "rank": 10347
+              },
+              "source_indices": [
+                0,
+                9
+              ]
+            },
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 808,
+              "family_key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+              "sample": {
+                "mask": 7,
+                "rank": 498
+              },
+              "source_indices": [
+                0,
+                10
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 11,
+          "template_count": 1
+        },
+        {
+          "case_count": 4784,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 4,
+          "integer_scaled_count": 4,
+          "key": "c69dd01957d9e3f9cf0b875456aa88c9eb2f875cb887b13d33b1f45858197e0e",
+          "payload": {
+            "row_property": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            },
+            {
+              "case_count": 127,
+              "family_key": "9ba40caf7983058fd327b8f7def34c56f08874b7c9a94e2be8a80117420c21fe",
+              "sample": {
+                "mask": 11,
+                "rank": 60017164
+              },
+              "source_indices": [
+                18,
+                1
+              ]
+            },
+            {
+              "case_count": 33,
+              "family_key": "1babba4293b26f73503f8912ad2f35f25811b42dc4f7e01762a401eecfb968fe",
+              "sample": {
+                "mask": 52,
+                "rank": 60017316
+              },
+              "source_indices": [
+                28,
+                1
+              ]
+            },
+            {
+              "case_count": 13,
+              "family_key": "06c8415f5d7c5fc41ae54043881bc7345fda2507a2111692c8b8b59b1b91b8c1",
+              "sample": {
+                "mask": 12,
+                "rank": 80000553
+              },
+              "source_indices": [
+                19,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 3770,
+          "concrete_family_count": 5,
+          "exact_row_shape_count": 4,
+          "integer_scaled_count": 4,
+          "key": "4d860982f4d611192df4ec1d02dd63138a366d4464a5e1a3d65d8c839bcde9f0",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_skeletons": [
+              "{\"impact\": \"3\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            },
+            {
+              "case_count": 490,
+              "family_key": "5ce6f9de0fc1f89ea90ae3bd4121a7848296c126f24dc188e8849d653e2cf8e5",
+              "sample": {
+                "mask": 30,
+                "rank": 1002155
+              },
+              "source_indices": [
+                44,
+                0
+              ]
+            },
+            {
+              "case_count": 323,
+              "family_key": "c1e85dac279cfc02fb049d4bca261672cd6f4af9ecb2c273ce85c6df2761f361",
+              "sample": {
+                "mask": 13,
+                "rank": 103824
+              },
+              "source_indices": [
+                48,
+                0
+              ]
+            },
+            {
+              "case_count": 124,
+              "family_key": "11fd61431707d9eb48ba7fef3f79055330042c31527208dfc6f63e01fa08b57b",
+              "sample": {
+                "mask": 30,
+                "rank": 1501751
+              },
+              "source_indices": [
+                47,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 5,
+          "template_count": 1
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "exact_row_shape_count": 11,
+          "integer_scaled_count": 11,
+          "key": "42111e8dd699918990ce17f42eb279d9b01e814d3fdab27052ffd7b6c01963a2",
+          "payload": {
+            "row_property": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+            "source_skeletons": [
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "opp_1m_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 525,
+              "family_key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "sample": {
+                "mask": 28,
+                "rank": 27
+              },
+              "source_indices": [
+                1,
+                15
+              ]
+            },
+            {
+              "case_count": 422,
+              "family_key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "sample": {
+                "mask": 25,
+                "rank": 903
+              },
+              "source_indices": [
+                1,
+                10
+              ]
+            },
+            {
+              "case_count": 348,
+              "family_key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "sample": {
+                "mask": 28,
+                "rank": 2
+              },
+              "source_indices": [
+                1,
+                13
+              ]
+            },
+            {
+              "case_count": 333,
+              "family_key": "8a4f0d011c71c3855f0555c3626724c8b000efab7f757f1019e23747d7b7642b",
+              "sample": {
+                "mask": 61,
+                "rank": 17
+              },
+              "source_indices": [
+                1,
+                12
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 11,
+          "template_count": 1
+        },
+        {
+          "case_count": 2799,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 4,
+          "integer_scaled_count": 4,
+          "key": "fa1d9ca6d578c07447ef3d9b6ad3fab5ee09a45e8a4f659cc6692c9099218601",
+          "payload": {
+            "row_property": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            },
+            {
+              "case_count": 18,
+              "family_key": "08e35d272e47978efc8be8886836b94b6ee4ae3992a64927e83744b32c671fd8",
+              "sample": {
+                "mask": 1,
+                "rank": 80000873
+              },
+              "source_indices": [
+                29,
+                2
+              ]
+            },
+            {
+              "case_count": 8,
+              "family_key": "4027b4377b913bb18052b9307cb115e8bd00563155a60a65e47244cf1205cf50",
+              "sample": {
+                "mask": 16,
+                "rank": 60018293
+              },
+              "source_indices": [
+                19,
+                2
+              ]
+            },
+            {
+              "case_count": 3,
+              "family_key": "c4a66fa4117bbd362e8c34eadefa8f758648b6c855104ee467cccca894051f92",
+              "sample": {
+                "mask": 58,
+                "rank": 80000975
+              },
+              "source_indices": [
+                18,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 2405,
+          "concrete_family_count": 8,
+          "exact_row_shape_count": 6,
+          "integer_scaled_count": 6,
+          "key": "17b02e3ba9f86417ce5d9ca61af68d954fe7538dca1be327f48036c737375007",
+          "payload": {
+            "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+            "source_skeletons": [
+              "{\"impact\": \"5\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            },
+            {
+              "case_count": 289,
+              "family_key": "6c990a21072d9be01e76f5e48cf3bae020db3499e8e1156b9acc6b94211167aa",
+              "sample": {
+                "mask": 16,
+                "rank": 97002360
+              },
+              "source_indices": [
+                75,
+                0
+              ]
+            },
+            {
+              "case_count": 225,
+              "family_key": "64137fd85d07e72250bd3c13a57ebd6713eb6d8cf66dcee0974b219399f65cd5",
+              "sample": {
+                "mask": 31,
+                "rank": 13458
+              },
+              "source_indices": [
+                71,
+                0
+              ]
+            },
+            {
+              "case_count": 122,
+              "family_key": "c0fde59d238eddaad4fbff82b72e77959cba57a58de0074b2a08f35c2f7cc24d",
+              "sample": {
+                "mask": 28,
+                "rank": 27723
+              },
+              "source_indices": [
+                79,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 8,
+          "template_count": 1
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "exact_row_shape_count": 11,
+          "integer_scaled_count": 11,
+          "key": "188071debabe4d32a9294dc0438e8648e2508d52a8535aa472aae4423869edcf",
+          "payload": {
+            "row_property": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+            "source_skeletons": [
+              "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "opp_m1_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 291,
+              "family_key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "sample": {
+                "mask": 45,
+                "rank": 27
+              },
+              "source_indices": [
+                2,
+                15
+              ]
+            },
+            {
+              "case_count": 250,
+              "family_key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "sample": {
+                "mask": 45,
+                "rank": 0
+              },
+              "source_indices": [
+                2,
+                13
+              ]
+            },
+            {
+              "case_count": 227,
+              "family_key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "sample": {
+                "mask": 45,
+                "rank": 990
+              },
+              "source_indices": [
+                2,
+                10
+              ]
+            },
+            {
+              "case_count": 226,
+              "family_key": "d408d5d4c9bece61021f27e5f7188616d3bb78feb08cd55de4c318ad8757be11",
+              "sample": {
+                "mask": 26,
+                "rank": 78122
+              },
+              "source_indices": [
+                2,
+                8
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 11,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 616,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 33,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 3830,
+      "multi_family_group_count": 33,
+      "surface": "template_source_skeletons_integer_scaled",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "2f9c6c77583874a7cb127697d2457378b68dc5aecbb109f872ac6390f57c2c68",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                -3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ff620a137284bdf2073248688702e23ab65b5d26193c4d7322b80401c035492e",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "7bfefed358463f73229842f11bf8723307dc4f2bb5657a14f2283a7aa9478b11",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                13,
+                -13,
+                -71
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                -1,
+                1,
+                1
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9174b6b7cdb52331ade909b819dfa845b0247d78dece3e2ab7677f33a00f1415",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -7,
+                -7,
+                -37
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"3\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1619,
+          "concrete_family_count": 2,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "97759e38b0977ce9dfd6902bd83c0ce67de5277abfdc8ddba1640bb97d3c4b7a",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                1,
+                1,
+                1
+              ],
+              "multipliers": [
+                3,
+                14
+              ],
+              "second_line": [
+                -3,
+                -3,
+                -10
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 734,
+              "family_key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "sample": {
+                "mask": 22,
+                "rank": 60
+              },
+              "source_indices": [
+                0,
+                11
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 2,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ce7c98efed9ee92246a747fbebcbcadb43a47deb47ada45438a95273d996685a",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -19,
+                -19,
+                -49
+              ],
+              "multipliers": [
+                21,
+                19
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"5\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "79e5c6a4f98454235e8269a4b53cef48daf19d33364692ed0e170baebc23cc08",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -259,
+                259,
+                -649
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"3\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "a8a1eacabc03ba0112065ea8a8f2109c4186fb71bf6f1ccdf9688039ef28f1eb",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                1,
+                1,
+                1
+              ],
+              "multipliers": [
+                71,
+                210
+              ],
+              "second_line": [
+                -71,
+                -71,
+                -150
+              ]
+            },
+            "source_skeletons": [
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 616,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 33,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 3830,
+      "multi_family_group_count": 33,
+      "surface": "template_source_skeletons_exact_row_shape",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "c58694d627d4d5c623d14594b87baab56898610d4b91ce4ce3395d543c386314",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-25/3;second=1|1|1"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "e7f00c08c228a0389ddf7d4723b450008a588fba0896dafffa3114dc858d3b1e",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-25/3;second=1|-1|1"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "5f33bbad0ba787c86922f6a8d6281374c7c5c15193357396c1b191570c996142",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "-1",
+                "-71/13"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "-1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=1|-1|-71/13;second=-1|1|1"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"1\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:2\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "7d953ac4963b426dded54f93140db9f99d304f2c8ee56ca754a7237fd3bb4e2f",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-37/7"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-37/7;second=1|1|1"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"3\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1619,
+          "concrete_family_count": 2,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ba68798ed978541ed8f05ad870dcdc40737aff9f03aff3e521eed04c6f764cc8",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "multipliers": [
+                "3/14",
+                "1"
+              ],
+              "second_line": [
+                "-3/14",
+                "-3/14",
+                "-5/7"
+              ],
+              "shape": "w=3/14|1;first=1|1|1;second=-3/14|-3/14|-5/7"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 734,
+              "family_key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "sample": {
+                "mask": 22,
+                "rank": 60
+              },
+              "source_indices": [
+                0,
+                11
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 2,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9a4804c789e454bed6d5f0823de3ca80e8b3b7c6bea4d110ef00c13a9e95f128",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-19/21",
+                "-19/21",
+                "-7/3"
+              ],
+              "multipliers": [
+                "1",
+                "19/21"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|19/21;first=-19/21|-19/21|-7/3;second=1|1|1"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"5\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "39ff233071dc904d497c60000dc83d30c455409dd66ac4f825f668b8725fe08c",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-649/259"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-649/259;second=1|-1|1"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"3\", \"kind\": \"interior\"}",
+              "{\"impact\": \"index:1\", \"kind\": \"xpStart\"}"
+            ],
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "bf3d2d9c72400e275ad3eb5da136ee64071708eaadd1bfe10c56f52331e2fce1",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "multipliers": [
+                "71/210",
+                "1"
+              ],
+              "second_line": [
+                "-71/210",
+                "-71/210",
+                "-5/7"
+              ],
+              "shape": "w=71/210|1;first=1|1|1;second=-71/210|-71/210|-5/7"
+            },
+            "source_skeletons": [
+              "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}",
+              "{\"impact\": \"none\", \"kind\": \"ordering\"}"
+            ],
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 649,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 0,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 0,
+      "multi_family_group_count": 0,
+      "surface": "template_support_integer_scaled",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "70d4169f203e56ce32b0c0a3f0074546115f71ae3b661185b0a9ac566f509a54",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                -3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"tmmm\",\"impact\":1,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "0b34d0304a158107a53a57735f0bd568c693766a4c6f75498349625a7cb4aac4",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"tmmp\",\"impact\":1,\"kind\":\"interior\"},{\"index\":1,\"kind\":\"xpStart\"}]",
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "1b64f5569dc6f0ae721c5abbfb599ab19b9db76ddf005ed10310cd7518f559de",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                13,
+                -13,
+                -71
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                -1,
+                1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"tmpm\",\"impact\":1,\"kind\":\"interior\"},{\"index\":2,\"kind\":\"xpStart\"}]",
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ffd62e95128e0957bc8d9e214e54e6d5e206d8e61e59f507efbb192d79a21e3d",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -7,
+                -7,
+                -37
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"tmpp\",\"impact\":3,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "319c86e47e5cfa70a2bf0e5aa6e1fe0d2eef005312925946d7e68e6174556875",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -19,
+                -19,
+                -49
+              ],
+              "multipliers": [
+                21,
+                19
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"xp\",\"impact\":5,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "a3958e1f1141024a528e36e2869ba6f88a07b1de1c11525a5e6fc2b5f9e53b7b",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -259,
+                259,
+                -649
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"tmpm\",\"impact\":3,\"kind\":\"interior\"},{\"index\":1,\"kind\":\"xpStart\"}]",
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9aa538faa9a9a0c7522c296a36d9b0ca82ff513372b9b31d6d70d61a79314dfc",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                1,
+                1,
+                1
+              ],
+              "multipliers": [
+                71,
+                210
+              ],
+              "second_line": [
+                -71,
+                -71,
+                -150
+              ]
+            },
+            "support": "[{\"index\":0,\"kind\":\"xpStart\"},{\"kind\":\"ordering\",\"step\":1}]",
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 987,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "fdf65184d43d46248cdb84e090a447272c9af95a7f68700759d908d499b434ec",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -1,
+                -1,
+                -1
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "support": "[{\"face\":\"xp\",\"impact\":6,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 649,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 0,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 0,
+      "multi_family_group_count": 0,
+      "surface": "template_support_exact_row_shape",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9691fc328d1d2d3593d3fed5a34d2f4caebef55e5b75d666bf254348ff525112",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-25/3;second=1|1|1"
+            },
+            "support": "[{\"face\":\"tmmm\",\"impact\":1,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "2796554c8a94593d2d451d9a8d4c80c7e9683568a9cc3fa4a4d2550526abc19a",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-25/3;second=1|-1|1"
+            },
+            "support": "[{\"face\":\"tmmp\",\"impact\":1,\"kind\":\"interior\"},{\"index\":1,\"kind\":\"xpStart\"}]",
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "0175583b17da4640777971ef7dd5a50050e6ae7056fc50f0848722dc68abb747",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "-1",
+                "-71/13"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "-1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=1|-1|-71/13;second=-1|1|1"
+            },
+            "support": "[{\"face\":\"tmpm\",\"impact\":1,\"kind\":\"interior\"},{\"index\":2,\"kind\":\"xpStart\"}]",
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "a975d50b5b7eb3bb707d424385c654dff9381161eac952dbad245898716a4195",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-37/7"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-37/7;second=1|1|1"
+            },
+            "support": "[{\"face\":\"tmpp\",\"impact\":3,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "98ba4a4d4e37a4c0c028adbca2196f1cacdac384fb7966b1b7aa51ddcc963f66",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-19/21",
+                "-19/21",
+                "-7/3"
+              ],
+              "multipliers": [
+                "1",
+                "19/21"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|19/21;first=-19/21|-19/21|-7/3;second=1|1|1"
+            },
+            "support": "[{\"face\":\"xp\",\"impact\":5,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "4c81e8e3936d9ab0e4f1947279e92f9f36edd616c3247a0ab8e13cbb325534dd",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-649/259"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-649/259;second=1|-1|1"
+            },
+            "support": "[{\"face\":\"tmpm\",\"impact\":3,\"kind\":\"interior\"},{\"index\":1,\"kind\":\"xpStart\"}]",
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1051,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ad8bc1960529fafb30842d063824bcef78f785286ef86738f94979173ab85420",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "multipliers": [
+                "71/210",
+                "1"
+              ],
+              "second_line": [
+                "-71/210",
+                "-71/210",
+                "-5/7"
+              ],
+              "shape": "w=71/210|1;first=1|1|1;second=-71/210|-71/210|-5/7"
+            },
+            "support": "[{\"index\":0,\"kind\":\"xpStart\"},{\"kind\":\"ordering\",\"step\":1}]",
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 987,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "0e3e9cccd364aede5378daf640245ec2cf30c257ab9cf0c8b879409f6ea9ae5d",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-1"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-1;second=1|1|1"
+            },
+            "support": "[{\"face\":\"xp\",\"impact\":6,\"kind\":\"interior\"},{\"index\":0,\"kind\":\"xpStart\"}]",
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 583,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 40,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 6539,
+      "multi_family_group_count": 40,
+      "surface": "template_integer_scaled",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "7ccefde25865119c72570ee6735a419b5ee9041de232d16290842083370a0cb2",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                -3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "c2f010666bb3906cad1a80e709791af3ea2f1e675cda46443ce451cfb464ee6a",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            },
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "cba00244ffb5e312e661c981d8af39ea4c916a5244e593f5a76c31467be02ead",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                13,
+                -13,
+                -71
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                -1,
+                1,
+                1
+              ]
+            },
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "f9ad4904823150942d24b5e70348f0f5a7b508aee1dcde8f41f4940064815bd8",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -7,
+                -7,
+                -37
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1907,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "2e39d59937210e67a975b3895f4dc5e47f091d4f58cf9ecb12f7d1b906039a92",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -1,
+                -1,
+                -1
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            },
+            {
+              "case_count": 661,
+              "family_key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+              "sample": {
+                "mask": 22,
+                "rank": 810
+              },
+              "source_indices": [
+                109,
+                0
+              ]
+            },
+            {
+              "case_count": 203,
+              "family_key": "4c72072d32d9dd31f185019209d6ca8aa3959da9f2b28659eab68975586f92ef",
+              "sample": {
+                "mask": 50,
+                "rank": 1872
+              },
+              "source_indices": [
+                97,
+                0
+              ]
+            },
+            {
+              "case_count": 56,
+              "family_key": "944b3494f9d332274b543defaaf2597a3e7b80f0ebdf9d34c1cbf7fab3b07a72",
+              "sample": {
+                "mask": 16,
+                "rank": 97004880
+              },
+              "source_indices": [
+                90,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 3,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 1619,
+          "concrete_family_count": 2,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9302f915d31b16fc2847c0106e28465fe38a617568846080ca0d601f37a03efc",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                1,
+                1,
+                1
+              ],
+              "multipliers": [
+                3,
+                14
+              ],
+              "second_line": [
+                -3,
+                -3,
+                -10
+              ]
+            },
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 734,
+              "family_key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "sample": {
+                "mask": 22,
+                "rank": 60
+              },
+              "source_indices": [
+                0,
+                11
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 2,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "4771d3cb57d2d82da14c33a4e9d0a6a5a36bdf03c180a8c11ba47a86846e9bfa",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -19,
+                -19,
+                -49
+              ],
+              "multipliers": [
+                21,
+                19
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "3be29d14aaf5136be69b323d9addeda752b485f282acfd6101245e9873716082",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -259,
+                259,
+                -649
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            },
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 583,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 40,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 6539,
+      "multi_family_group_count": 40,
+      "surface": "template_exact_row_shape",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "547b1e771af37cf3ba4934e289e333190e6eba00b7286fb7882e5900c1e60e80",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-25/3;second=1|1|1"
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "ec33331e0bb5e5b0ecf294637f26d422ef80989f602cee0ade5a0064b020d111",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-25/3;second=1|-1|1"
+            },
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "5a55b8a65048c0453ccc30d773c0a243edae0d7c5fedce62daf44f26df5b6004",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "-1",
+                "-71/13"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "-1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=1|-1|-71/13;second=-1|1|1"
+            },
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "9b7a0f2c7c12fddf87a6fa594fd27ebf1e0a63472c128581f4ce4a22850b1081",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-37/7"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-37/7;second=1|1|1"
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1907,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "2eb9b38516dc988511e153f5c082d4431879a4e4c38c6a5fe30c47630c60be3c",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-1"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-1;second=1|1|1"
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            },
+            {
+              "case_count": 661,
+              "family_key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+              "sample": {
+                "mask": 22,
+                "rank": 810
+              },
+              "source_indices": [
+                109,
+                0
+              ]
+            },
+            {
+              "case_count": 203,
+              "family_key": "4c72072d32d9dd31f185019209d6ca8aa3959da9f2b28659eab68975586f92ef",
+              "sample": {
+                "mask": 50,
+                "rank": 1872
+              },
+              "source_indices": [
+                97,
+                0
+              ]
+            },
+            {
+              "case_count": 56,
+              "family_key": "944b3494f9d332274b543defaaf2597a3e7b80f0ebdf9d34c1cbf7fab3b07a72",
+              "sample": {
+                "mask": 16,
+                "rank": 97004880
+              },
+              "source_indices": [
+                90,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 3,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 1619,
+          "concrete_family_count": 2,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "0bae0568441701665696f2b81dbfdd664676e2b5372d106c4ca765eed51e85d8",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "multipliers": [
+                "3/14",
+                "1"
+              ],
+              "second_line": [
+                "-3/14",
+                "-3/14",
+                "-5/7"
+              ],
+              "shape": "w=3/14|1;first=1|1|1;second=-3/14|-3/14|-5/7"
+            },
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 734,
+              "family_key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "sample": {
+                "mask": 22,
+                "rank": 60
+              },
+              "source_indices": [
+                0,
+                11
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 2,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "d296c86d9d76f736ac9200e28ec0ddae8ba73312bf828970999476577c22c4f2",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-19/21",
+                "-19/21",
+                "-7/3"
+              ],
+              "multipliers": [
+                "1",
+                "19/21"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|19/21;first=-19/21|-19/21|-7/3;second=1|1|1"
+            },
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "f13ce5fb03f3a09ab4b93bf8b4589449756034a091701b404a41575696a00a9e",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-649/259"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-649/259;second=1|-1|1"
+            },
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 583,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 40,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 6539,
+      "multi_family_group_count": 40,
+      "surface": "integer_scaled",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "8973e3dce2dfb541b9166f370d7ccf5dd90019b0c0e2dbf4d1819eebd27ccdd5",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                -3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "e0c98a7a001caef57a0c89eb623904456156f242b5ef89ed665dd1271b9cfcb9",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -3,
+                3,
+                -25
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "562e5b7b143560d4005817751730661bb6622077d09e97e30a4b8be9b298a977",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                13,
+                -13,
+                -71
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                -1,
+                1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "37f359d944161f646db0cf5cf08b78bcb5af8d4abe53b8032016f444bdd94f4b",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -7,
+                -7,
+                -37
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1907,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "5cf210a6748a2856fdc2ea9dfc19bf25523c20bfda98419e72fe0651315256d6",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -1,
+                -1,
+                -1
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            },
+            {
+              "case_count": 661,
+              "family_key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+              "sample": {
+                "mask": 22,
+                "rank": 810
+              },
+              "source_indices": [
+                109,
+                0
+              ]
+            },
+            {
+              "case_count": 203,
+              "family_key": "4c72072d32d9dd31f185019209d6ca8aa3959da9f2b28659eab68975586f92ef",
+              "sample": {
+                "mask": 50,
+                "rank": 1872
+              },
+              "source_indices": [
+                97,
+                0
+              ]
+            },
+            {
+              "case_count": 56,
+              "family_key": "944b3494f9d332274b543defaaf2597a3e7b80f0ebdf9d34c1cbf7fab3b07a72",
+              "sample": {
+                "mask": 16,
+                "rank": 97004880
+              },
+              "source_indices": [
+                90,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 3,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 1619,
+          "concrete_family_count": 2,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "415ffb80b5a5c2ad679345c42fb2ba7d60e3fe0816d8aadfa2672c2a61d2b9a8",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                1,
+                1,
+                1
+              ],
+              "multipliers": [
+                3,
+                14
+              ],
+              "second_line": [
+                -3,
+                -3,
+                -10
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 734,
+              "family_key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "sample": {
+                "mask": 22,
+                "rank": 60
+              },
+              "source_indices": [
+                0,
+                11
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 2,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "d958369f716ae404696b3ef1f7cf5c8ccba7b18b1214d47e8211d4abb360a2e3",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -19,
+                -19,
+                -49
+              ],
+              "multipliers": [
+                21,
+                19
+              ],
+              "second_line": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "f96b552baeb162d5a4f579e6284a3358e06b6a5f1dde734fdcfadefd655b4baa",
+          "payload": {
+            "integer_scaled": {
+              "first_line": [
+                -259,
+                259,
+                -649
+              ],
+              "multipliers": [
+                1,
+                1
+              ],
+              "second_line": [
+                1,
+                -1,
+                1
+              ]
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 583,
+      "groups_with_multiple_exact_row_shapes": 0,
+      "groups_with_multiple_integer_scaled": 0,
+      "groups_with_multiple_supports": 40,
+      "largest_group_cases": 11163,
+      "largest_group_concrete_families": 1,
+      "multi_family_case_count": 6539,
+      "multi_family_group_count": 40,
+      "surface": "exact_row_shape",
+      "top_groups": [
+        {
+          "case_count": 11163,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "4f7e10e50941c7dc7cf53b653bf9451d16b0d24a99889c5cefbb2977287030d9",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-25/3;second=1|1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 4611,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "05b7ce5deaed7bf06b29cceb54ae544511c89a3473dd19e52a1dd54e06ce2cd2",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-25/3"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-25/3;second=1|-1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2770,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "45be781c4b36b3e1b56cf5e41577b2a674134f85f4e4321f3a19a872391a207b",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "-1",
+                "-71/13"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "-1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=1|-1|-71/13;second=-1|1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 2726,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "36de2e28042d5966c28fed22b27049770e62ab7bfdaa425c4560c09195db9ba7",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-37/7"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-37/7;second=1|1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1907,
+          "concrete_family_count": 4,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "4882d4789638085fdb2fa2e99be04988a51efd9c24b7dc2f27aef39c77c69773",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "-1",
+                "-1"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|-1|-1;second=1|1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            },
+            {
+              "case_count": 661,
+              "family_key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+              "sample": {
+                "mask": 22,
+                "rank": 810
+              },
+              "source_indices": [
+                109,
+                0
+              ]
+            },
+            {
+              "case_count": 203,
+              "family_key": "4c72072d32d9dd31f185019209d6ca8aa3959da9f2b28659eab68975586f92ef",
+              "sample": {
+                "mask": 50,
+                "rank": 1872
+              },
+              "source_indices": [
+                97,
+                0
+              ]
+            },
+            {
+              "case_count": 56,
+              "family_key": "944b3494f9d332274b543defaaf2597a3e7b80f0ebdf9d34c1cbf7fab3b07a72",
+              "sample": {
+                "mask": 16,
+                "rank": 97004880
+              },
+              "source_indices": [
+                90,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 3,
+          "support_count": 4,
+          "template_count": 1
+        },
+        {
+          "case_count": 1619,
+          "concrete_family_count": 2,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "14b3798fbdd9d4e358ec3e74d79f60d54b71194d8d45ba3340cdf1366692be15",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "multipliers": [
+                "3/14",
+                "1"
+              ],
+              "second_line": [
+                "-3/14",
+                "-3/14",
+                "-5/7"
+              ],
+              "shape": "w=3/14|1;first=1|1|1;second=-3/14|-3/14|-5/7"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 734,
+              "family_key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+              "sample": {
+                "mask": 22,
+                "rank": 60
+              },
+              "source_indices": [
+                0,
+                11
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 2,
+          "template_count": 1
+        },
+        {
+          "case_count": 1600,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "dbf6378890c05fbb05dc5c954a50705576735d6831de9da5a0d71a387bc977b1",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-19/21",
+                "-19/21",
+                "-7/3"
+              ],
+              "multipliers": [
+                "1",
+                "19/21"
+              ],
+              "second_line": [
+                "1",
+                "1",
+                "1"
+              ],
+              "shape": "w=1|19/21;first=-19/21|-19/21|-7/3;second=1|1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        },
+        {
+          "case_count": 1182,
+          "concrete_family_count": 1,
+          "exact_row_shape_count": 1,
+          "integer_scaled_count": 1,
+          "key": "97917d7f87b08403158823aa4f6486610bac45a8a969c85e81ad7c42fffd058e",
+          "payload": {
+            "exact_row_shape": {
+              "first_line": [
+                "-1",
+                "1",
+                "-649/259"
+              ],
+              "multipliers": [
+                "1",
+                "1"
+              ],
+              "second_line": [
+                "1",
+                "-1",
+                "1"
+              ],
+              "shape": "w=1|1;first=-1|1|-649/259;second=1|-1|1"
+            }
+          },
+          "sample_families": [
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 1,
+          "template_count": 1
+        }
+      ]
+    },
+    {
+      "case_count": 63642,
+      "concrete_family_count": 649,
+      "group_count": 11,
+      "groups_with_multiple_exact_row_shapes": 11,
+      "groups_with_multiple_integer_scaled": 11,
+      "groups_with_multiple_supports": 11,
+      "largest_group_cases": 29662,
+      "largest_group_concrete_families": 103,
+      "multi_family_case_count": 63642,
+      "multi_family_group_count": 11,
+      "surface": "template",
+      "top_groups": [
+        {
+          "case_count": 29662,
+          "concrete_family_count": 103,
+          "exact_row_shape_count": 79,
+          "integer_scaled_count": 79,
+          "key": "2669574e59369a39fbdd2a32e2735bdd71c7f5248547a699977563d3a0740454",
+          "payload": {
+            "template": "eq_eq_pos_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 11163,
+              "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+              "sample": {
+                "mask": 8,
+                "rank": 0
+              },
+              "source_indices": [
+                23,
+                0
+              ]
+            },
+            {
+              "case_count": 2726,
+              "family_key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+              "sample": {
+                "mask": 16,
+                "rank": 10000075
+              },
+              "source_indices": [
+                52,
+                0
+              ]
+            },
+            {
+              "case_count": 1600,
+              "family_key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+              "sample": {
+                "mask": 13,
+                "rank": 8220
+              },
+              "source_indices": [
+                70,
+                0
+              ]
+            },
+            {
+              "case_count": 987,
+              "family_key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+              "sample": {
+                "mask": 22,
+                "rank": 0
+              },
+              "source_indices": [
+                83,
+                0
+              ]
+            }
+          ],
+          "source_skeleton_count": 13,
+          "support_count": 102,
+          "template_count": 1
+        },
+        {
+          "case_count": 11643,
+          "concrete_family_count": 90,
+          "exact_row_shape_count": 78,
+          "integer_scaled_count": 78,
+          "key": "da0dbee41f7e315136a1969b4c199deab52f27e7b34d0d1dccff20f78634c839",
+          "payload": {
+            "template": "opp_1m_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 4611,
+              "family_key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+              "sample": {
+                "mask": 54,
+                "rank": 0
+              },
+              "source_indices": [
+                24,
+                1
+              ]
+            },
+            {
+              "case_count": 1182,
+              "family_key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+              "sample": {
+                "mask": 29,
+                "rank": 10000009
+              },
+              "source_indices": [
+                51,
+                1
+              ]
+            },
+            {
+              "case_count": 500,
+              "family_key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494",
+              "sample": {
+                "mask": 28,
+                "rank": 633
+              },
+              "source_indices": [
+                83,
+                1
+              ]
+            },
+            {
+              "case_count": 460,
+              "family_key": "1b2f2002758c280a9b4957a255b1ec03b9e18b94f1bf0534886c497a37096b40",
+              "sample": {
+                "mask": 29,
+                "rank": 3179
+              },
+              "source_indices": [
+                70,
+                1
+              ]
+            }
+          ],
+          "source_skeleton_count": 13,
+          "support_count": 88,
+          "template_count": 1
+        },
+        {
+          "case_count": 7287,
+          "concrete_family_count": 11,
+          "exact_row_shape_count": 10,
+          "integer_scaled_count": 10,
+          "key": "e7bd0a1010c7116e1dda1dcb23fd35c6d336440a43cb35e05416584fc50016a3",
+          "payload": {
+            "template": "eq_eq_pos_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 1051,
+              "family_key": "5a7bc75cc83ab481f567c1fea822ff0f6431fdaadc9c1d966e8fece2b028c2cd",
+              "sample": {
+                "mask": 51,
+                "rank": 90008079
+              },
+              "source_indices": [
+                0,
+                5
+              ]
+            },
+            {
+              "case_count": 984,
+              "family_key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+              "sample": {
+                "mask": 25,
+                "rank": 10347
+              },
+              "source_indices": [
+                0,
+                9
+              ]
+            },
+            {
+              "case_count": 885,
+              "family_key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+              "sample": {
+                "mask": 22,
+                "rank": 129
+              },
+              "source_indices": [
+                0,
+                15
+              ]
+            },
+            {
+              "case_count": 808,
+              "family_key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+              "sample": {
+                "mask": 7,
+                "rank": 498
+              },
+              "source_indices": [
+                0,
+                10
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 11,
+          "template_count": 1
+        },
+        {
+          "case_count": 6687,
+          "concrete_family_count": 75,
+          "exact_row_shape_count": 70,
+          "integer_scaled_count": 70,
+          "key": "b1fd93522824040b683ec1fb0c9a97e585724253fd6baebd809278bf01366a07",
+          "payload": {
+            "template": "opp_m1_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 2770,
+              "family_key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+              "sample": {
+                "mask": 45,
+                "rank": 3
+              },
+              "source_indices": [
+                25,
+                2
+              ]
+            },
+            {
+              "case_count": 670,
+              "family_key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+              "sample": {
+                "mask": 47,
+                "rank": 10000009
+              },
+              "source_indices": [
+                50,
+                2
+              ]
+            },
+            {
+              "case_count": 352,
+              "family_key": "55dc0b022ed838da98d5af92317f536411fa922dd51317ade78b8c8354b71d73",
+              "sample": {
+                "mask": 28,
+                "rank": 18541
+              },
+              "source_indices": [
+                70,
+                2
+              ]
+            },
+            {
+              "case_count": 294,
+              "family_key": "7433b2a15909335ccd180e1408e8d45a6390240f4fa1d0e1b8ab5aeee48f5be5",
+              "sample": {
+                "mask": 29,
+                "rank": 501561
+              },
+              "source_indices": [
+                44,
+                2
+              ]
+            }
+          ],
+          "source_skeleton_count": 13,
+          "support_count": 74,
+          "template_count": 1
+        },
+        {
+          "case_count": 3032,
+          "concrete_family_count": 11,
+          "exact_row_shape_count": 11,
+          "integer_scaled_count": 11,
+          "key": "7edb322a03e1a5e1358e25a37fda02846820af6d40207b10fae6868a12d88803",
+          "payload": {
+            "template": "opp_1m_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 525,
+              "family_key": "07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851",
+              "sample": {
+                "mask": 28,
+                "rank": 27
+              },
+              "source_indices": [
+                1,
+                15
+              ]
+            },
+            {
+              "case_count": 422,
+              "family_key": "d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab",
+              "sample": {
+                "mask": 25,
+                "rank": 903
+              },
+              "source_indices": [
+                1,
+                10
+              ]
+            },
+            {
+              "case_count": 348,
+              "family_key": "bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a",
+              "sample": {
+                "mask": 28,
+                "rank": 2
+              },
+              "source_indices": [
+                1,
+                13
+              ]
+            },
+            {
+              "case_count": 333,
+              "family_key": "8a4f0d011c71c3855f0555c3626724c8b000efab7f757f1019e23747d7b7642b",
+              "sample": {
+                "mask": 61,
+                "rank": 17
+              },
+              "source_indices": [
+                1,
+                12
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 11,
+          "template_count": 1
+        },
+        {
+          "case_count": 2044,
+          "concrete_family_count": 11,
+          "exact_row_shape_count": 11,
+          "integer_scaled_count": 11,
+          "key": "c4025619ee82a790743689b3753c99023b96d42a5990e2b73b7733341c77efa3",
+          "payload": {
+            "template": "opp_m1_var_second"
+          },
+          "sample_families": [
+            {
+              "case_count": 291,
+              "family_key": "5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d",
+              "sample": {
+                "mask": 45,
+                "rank": 27
+              },
+              "source_indices": [
+                2,
+                15
+              ]
+            },
+            {
+              "case_count": 250,
+              "family_key": "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232",
+              "sample": {
+                "mask": 45,
+                "rank": 0
+              },
+              "source_indices": [
+                2,
+                13
+              ]
+            },
+            {
+              "case_count": 227,
+              "family_key": "f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2",
+              "sample": {
+                "mask": 45,
+                "rank": 990
+              },
+              "source_indices": [
+                2,
+                10
+              ]
+            },
+            {
+              "case_count": 226,
+              "family_key": "d408d5d4c9bece61021f27e5f7188616d3bb78feb08cd55de4c318ad8757be11",
+              "sample": {
+                "mask": 26,
+                "rank": 78122
+              },
+              "source_indices": [
+                2,
+                8
+              ]
+            }
+          ],
+          "source_skeleton_count": 1,
+          "support_count": 11,
+          "template_count": 1
+        },
+        {
+          "case_count": 1717,
+          "concrete_family_count": 53,
+          "exact_row_shape_count": 53,
+          "integer_scaled_count": 53,
+          "key": "e234cfb2b473491ad908be1f532932ef0e03aec7899eadc442653f31c65ae4a9",
+          "payload": {
+            "template": "eq_eq_neg_var_first"
+          },
+          "sample_families": [
+            {
+              "case_count": 530,
+              "family_key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986",
+              "sample": {
+                "mask": 7,
+                "rank": 137
+              },
+              "source_indices": [
+                26,
+                3
+              ]
+            },
+            {
+              "case_count": 174,
+              "family_key": "35ba1dd429e6eafdc4ad00a9555d646f41cb0893f1aa2e82caa9d7733f48ae96",
+              "sample": {
+                "mask": 14,
+                "rank": 100800
+              },
+              "source_indices": [
+                57,
+                3
+              ]
+            },
+            {
+              "case_count": 148,
+              "family_key": "533366cd8cfa9b73ace5726cef1f7c9d1d36b5c4454b2b934a260ec9804b968e",
+              "sample": {
+                "mask": 20,
+                "rank": 10000347
+              },
+              "source_indices": [
+                49,
+                3
+              ]
+            },
+            {
+              "case_count": 102,
+              "family_key": "f2123d967d3bca62f1ff837920fc1806de378f16cfc5fa69b53f9039ee8077e4",
+              "sample": {
+                "mask": 28,
+                "rank": 13524
+              },
+              "source_indices": [
+                70,
+                3
+              ]
+            }
+          ],
+          "source_skeleton_count": 13,
+          "support_count": 53,
+          "template_count": 1
+        },
+        {
+          "case_count": 700,
+          "concrete_family_count": 220,
+          "exact_row_shape_count": 219,
+          "integer_scaled_count": 219,
+          "key": "57d9a2bc8bc52cd738e34f466f66616bdfe9708adb7758c9463138951d8a7ebb",
+          "payload": {
+            "template": "exact_two_source_valid"
+          },
+          "sample_families": [
+            {
+              "case_count": 46,
+              "family_key": "82aa0d98b7cef15220c3a464ece976f08f51eb905961b89423a834e0af031984",
+              "sample": {
+                "mask": 28,
+                "rank": 1007003
+              },
+              "source_indices": [
+                16,
+                6
+              ]
+            },
+            {
+              "case_count": 44,
+              "family_key": "876b4ebdae3a9f651dbe2fa4e72ad43897e026d08b506e33f27f08de461a7bf7",
+              "sample": {
+                "mask": 13,
+                "rank": 10002017
+              },
+              "source_indices": [
+                5,
+                8
+              ]
+            },
+            {
+              "case_count": 26,
+              "family_key": "306a816070cddb61d5394b667f69658abcdea40b8a3af58f343858e3bb49efab",
+              "sample": {
+                "mask": 62,
+                "rank": 10005443
+              },
+              "source_indices": [
+                178,
+                5
+              ]
+            },
+            {
+              "case_count": 26,
+              "family_key": "98f34a24fee401abc9d8a05812ca4225642fe808b561eb8ba99ef65310fca610",
+              "sample": {
+                "mask": 12,
+                "rank": 10007429
+              },
+              "source_indices": [
+                177,
+                5
+              ]
+            }
+          ],
+          "source_skeleton_count": 16,
+          "support_count": 178,
+          "template_count": 1
+        }
+      ]
+    }
+  ],
+  "trusted_as_proof": false
+}

@@ -28284,3 +28284,65 @@ terms when possible.  The next profiler should test whether adding minimal
 row-normal-form/source-normal-form data collapses the `138` skeleton groups into
 a stable family set, rather than trying to emit `SourceSkeletonStateKey`
 families keyed by concrete `support`.
+
+### Phase 6Z.6K.8AP.16DU.9EN checkpoint: normal-form quotient surfaces
+
+Phase 6Z.6K.8AP.16DU.9EN adds
+`scripts/profile_normal_form_quotient_surfaces.py`, a diagnostic that compares
+candidate source/row normal-form quotient surfaces.  It reconstructs one real
+representative case per concrete source-index/state family and groups those
+representatives by surfaces such as source skeleton plus integer-scaled row
+form, exact row shape, or concrete support plus row form.
+
+Command:
+
+```bash
+python3 scripts/profile_normal_form_quotient_surfaces.py \
+  --input scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+  --input scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+  --input scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json \
+  --json scripts/generated/phase6z6k8ap16du9en_normal_form_quotients.json \
+  --md scripts/generated/phase6z6k8ap16du9en_normal_form_quotients.md \
+  --top-limit 8
+```
+
+Result over `649` concrete families / `63,642` sampled GoodDirection cases:
+
+| Surface | Groups | Multi-family groups | Largest concrete families |
+| --- | ---: | ---: | ---: |
+| `concrete` | `649` | `0` | `1` |
+| `template_source_indices_row` | `649` | `0` | `1` |
+| `template_source_skeletons_row` | `138` | `112` | `4` |
+| `template_source_skeletons_integer_scaled` | `616` | `33` | `1` |
+| `template_source_skeletons_exact_row_shape` | `616` | `33` | `1` |
+| `template_support_integer_scaled` | `649` | `0` | `1` |
+| `template_support_exact_row_shape` | `649` | `0` | `1` |
+| `template_integer_scaled` | `583` | `40` | `1` |
+| `template_exact_row_shape` | `583` | `40` | `1` |
+| `integer_scaled` | `583` | `40` | `1` |
+| `exact_row_shape` | `583` | `40` | `1` |
+| `template` | `11` | `11` | `103` |
+
+Decision: reject row-normal-form keys as the primary production compression
+coordinate.  Adding integer-scaled or exact row forms almost destroys the
+compression gained by source skeletons (`138 -> 616` groups), while row-form
+only surfaces still have `583` groups.  This means row-normal forms are useful
+as local facts, but not as family keys.
+
+The remaining promising low-count surface is the generic row-template surface
+(`11` template families).  To be production-credible, the next Lean/profiler
+slice must avoid enumerating row forms and instead prove a more algebraic
+semantic bridge:
+
+```text
+GoodDirection + identity-linear + template-language predicate
+  -> exists semantic two-source support satisfying RowPropertyParametricCovered
+```
+
+or, better, a direct template theorem that avoids carrying
+`TwoSourceFarkasSupport` as generated data.  The old row-relation templates
+already prove that template-specific row facts imply contradiction; the missing
+piece is a source/template-language theorem deriving those facts generically
+from the translation recurrence rather than from concrete support/row-shape
+keys.  Do not emit production Lean keyed by `template_source_skeletons_*`,
+`template_support_*`, `integer_scaled`, or `exact_row_shape`.
