@@ -262,8 +262,9 @@ theorem surfaces or share selected-impact facts across roots; AP16DI is
 operational safety tooling and is now the required route for any future
 AP16DF-style experiment.  AP16DJ is the next bounded scaling gate: it plans a
 five-signature compact-cover batch with 51 serial Lean targets under the same
-5 GiB RSS cap, and rejects an eight-signature batch as too large for the next
-safe smoke.
+5 GiB RSS cap, rejects an eight-signature batch as too large for the next safe
+smoke, and now has a dry-run batch-emitter scaffold whose `--emit` mode must be
+run only under the AP16DI serial guard.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -14854,6 +14855,50 @@ Acceptance:
   consume the AP16DJ batch manifest, emit only those five signatures, and build
   every generated target serially under the AP16DI guard.  Do not use broad
   package builds for this step.
+- [x] Implement Phase 6Z.6K.8AP.16DJ batch-emitter dry run:
+  AP16DJ also adds the dry-run-first batch emitter:
+
+  ```text
+  scripts/generate_ap16dj_compact_walsh_batch.py
+  ```
+
+  By default, it consumes:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dj_compact_walsh_batch_plan.json
+  ```
+
+  and writes only a generation/report manifest.  It does not emit Lean unless
+  called with `--emit`.
+
+  Dry-run command:
+
+  ```text
+  python3 scripts/generate_ap16dj_compact_walsh_batch.py
+  ```
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dj_compact_walsh_batch_generation.json
+  scripts/generated/phase6z6k8ap16dj_compact_walsh_batch_generation.md
+  ```
+
+  Dry-run result:
+
+  ```text
+  status: dry_run
+  signatures: 5
+  planned guarded targets: 51
+  root module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      ImpactSubcubeWalshSymbolicCompactDenomBatchSmoke
+  ```
+
+  Decision: accepted as generator scaffolding only.  The next step may run
+  `--emit`, but only for this exact five-signature batch and only followed by a
+  serial AP16DI-style guarded build.  Do not commit generated Lean from a failed
+  or unbuilt AP16DJ emission.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
