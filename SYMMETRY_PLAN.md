@@ -22164,6 +22164,87 @@ Decision:
   these vertex proofs; fixed/free bit hypotheses simplify the expression only
   when the bit accessor remains opaque.
 
+### Phase 6Z.6K.8AP.16DU.9BG checkpoint: weighted direct Walsh bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9BG adds the small hand-written bridge promised by
+DU.9BF:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDirectWalshDenominator.lean
+```
+
+The module imports only the denominator-cube obstruction core and the
+trace-free direct Walsh denominator bridge:
+
+```lean
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DenominatorCube
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.DirectWalshDenominator
+```
+
+It defines:
+
+```lean
+def weightedDirectWalshDotAtRank
+    (r : Fin numPairWords) (mask : SignMask)
+    (weights : InternalImpactWeights) : Rat
+```
+
+and proves:
+
+```lean
+theorem weightedDenomAtRank_eq_weightedDirectWalshDotAtRank
+    (r : Fin numPairWords) (mask : SignMask)
+    (weights : InternalImpactWeights) :
+    weightedDenomAtRank r mask weights =
+      weightedDirectWalshDotAtRank r mask weights
+```
+
+This packages the 13 single-denominator direct Walsh rewrites into one
+weighted-denominator theorem.  It is intentionally still trace-free: it does
+not import rank-specific compact-Walsh denominator-cover modules and it does
+not replay the translation-vector recurrence in generated leaves.  Future
+weighted-cube leaves can now target a compact generated polynomial and then
+use this bridge to connect back to `weightedDenomAtRank`.
+
+Guarded build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bg_weighted_direct_walsh_guard_retry5.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDirectWalshDenominator
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 2.50s
+peak tree RSS = 3997 MiB
+minimum MemAvailable = 46198 MiB
+```
+
+Diagnostics:
+
+```text
+scripts/generated/phase6z6k8ap16du9bg_weighted_direct_walsh_guard*.json
+```
+
+Decision:
+
+- Accept `WeightedDirectWalshDenominator.lean` as the reusable semantic bridge
+  from weighted internal denominator sums to weighted direct Walsh dot sums.
+- Keep the next production smoke focused on one DU.9BA weighted cube: prove
+  compact polynomial equality/nonpositivity locally, then combine it with
+  `weightedDenomAtRank_eq_weightedDirectWalshDotAtRank` and
+  `weightedDenomAtRank_pos_of_goodDirection`.
+- Continue avoiding compact-Walsh rank-cover imports in production-weighted
+  cube leaves; the accepted path is theorem-valued, trace-free, and guarded.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
