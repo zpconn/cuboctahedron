@@ -543,8 +543,11 @@ The follow-up selector smoke exposes this coordinate in Lean as 12
 peak tree RSS. DU.9AJ then reconstructs the hidden row-property payloads and
 finds 12 digests, zero recomputation mismatches, and zero nonsemantic payloads:
 the digest is exactly a compact semantic row payload of row roles plus weighted
-Farkas facts. Therefore the next DU.9 proof target should prove or generate
-this template/source-index/semantic-row-property selector theorem from
+Farkas facts. DU.9AK adds that vocabulary to Lean as `RowRole`,
+`RowPairSemantic`, `RowTemplateSemantic`, and
+`SourceIndexTemplate.rows_of_semantic`, building in 3.00s at 3.732 GiB peak RSS.
+Therefore the next DU.9 proof target should prove or generate this
+template/source-index/semantic-row-property selector theorem from
 identity-linear `GoodDirectionAtRank` and then derive source/row facts
 theorem-valuedly; it should not carry full row/source arithmetic through
 `decide` or compare opaque hashes.
@@ -18373,6 +18376,55 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9aj_row_property_semantics_audit.json
   scripts/generated/phase6z6k8ap16du9aj_row_property_semantics_audit.md
+  ```
+
+
+- [x] Add Phase 6Z.6K.8AP.16DU.9AK semantic row-property Lean surface:
+  DU.9AK adds a small hand-written Lean module:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemantic.lean
+  ```
+
+  It replaces the opaque row-property digest as a theorem target with explicit
+  semantic row roles:
+
+  ```lean
+  inductive RowRole
+  def RowRole.Holds : RowRole -> StrictLin2 -> Prop
+  def RowPairSemantic : RowRole -> RowRole -> TwoSourceFarkasSupport -> Nat -> SignMask -> Prop
+  inductive RowTemplateSemantic : SourceIndexTemplate -> RowRole -> RowRole -> Prop
+  theorem SourceIndexTemplate.rows_of_semantic :
+    RowTemplateSemantic template firstRole secondRole ->
+      RowPairSemantic firstRole secondRole support r mask ->
+        template.Rows support r mask
+  ```
+
+  This is not classifier completeness yet.  It is the missing vocabulary for
+  generated membership chunks to prove semantic row-property facts without
+  comparing digest hashes.  The module covers the fixed, eq/eq, opp, and
+  axis-only row roles observed in DU.9AJ, with room for axis-B variants.
+
+  Guarded build:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemantic
+  exit=0
+  elapsed=3.00s
+  peak process-tree RSS=3732.19 MiB
+  min available memory observed=46301.75 MiB
+  ```
+
+  Decision: DU.9AK is accepted as the semantic row-property API.  The next
+  AP16DU proof-producing step should use `RowTemplateSemantic` plus source-index
+  state facts to build `SourceIndexStateRowFacts`, `SourceIndexStateKey.Matches`,
+  or descriptor coverage.  It should still avoid rank-local compact membership
+  replay and should not resurrect opaque digest comparisons as proof evidence.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9ak_row_property_semantic_guard.json
   ```
 
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
