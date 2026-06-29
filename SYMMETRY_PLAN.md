@@ -546,7 +546,10 @@ the digest is exactly a compact semantic row payload of row roles plus weighted
 Farkas facts. DU.9AK adds that vocabulary to Lean as `RowRole`,
 `RowPairSemantic`, `RowTemplateSemantic`, and
 `SourceIndexTemplate.rows_of_semantic`, building in 3.00s at 3.732 GiB peak RSS.
-Therefore the next DU.9 proof target should prove or generate this
+DU.9AL adds direct source/key bridges from semantic row roles to
+`SourceIndexStateRowFacts`, `key.Matches`, and `RowPropertyParametricCovered`,
+building in 3.00s at 3.987 GiB peak RSS. Therefore the next DU.9 proof target
+should prove or generate this
 template/source-index/semantic-row-property selector theorem from
 identity-linear `GoodDirectionAtRank` and then derive source/row facts
 theorem-valuedly; it should not carry full row/source arithmetic through
@@ -18425,6 +18428,45 @@ Acceptance:
 
   ```text
   scripts/generated/phase6z6k8ap16du9ak_row_property_semantic_guard.json
+  ```
+
+
+- [x] Add Phase 6Z.6K.8AP.16DU.9AL semantic row-property source/key bridge:
+  DU.9AL strengthens `RowPropertySemantic.lean` with direct bridge theorems:
+
+  ```lean
+  theorem SourceIndexStateRowFacts.of_semantic
+  theorem SourceIndexStateKey.matches_of_source_semantic
+  theorem SourceIndexStateKey.covered_of_source_semantic
+  ```
+
+  These theorems turn semantic row roles plus a `RowTemplateSemantic` witness
+  into `SourceIndexStateRowFacts`, and combine those row facts with existing
+  `SourceIndexStateSourceFacts` to produce `key.Matches` or
+  `RowPropertyParametricCovered`.  This is the generator-facing theorem shape
+  for the next membership emitter: prove source facts and row-role semantics,
+  not opaque digest equality and not full per-rank compact membership replay.
+
+  Guarded build:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemantic
+  exit=0
+  elapsed=3.00s
+  peak process-tree RSS=3986.88 MiB
+  min available memory observed=46220.39 MiB
+  ```
+
+  Decision: DU.9AL is accepted as the preferred small Lean bridge from semantic
+  row-property membership to existing classifier/descriptor coverage surfaces.
+  The next proof-producing work should generate a tiny bounded smoke whose
+  hypothesis is a semantic selector row-role membership theorem and whose
+  conclusion is descriptor coverage through these bridges.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9al_row_property_semantic_bridge_guard.json
   ```
 
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:

@@ -16,6 +16,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowRelationTemplates
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotient
 
 /-- Compact semantic roles observed in two-source row-property payloads. -/
 inductive RowRole
@@ -241,6 +242,41 @@ theorem SourceIndexTemplate.rows_of_semantic
       exact axisBOnlyRows_of_semantic_pos_neg hsem
   | axisBOnlyNegPos =>
       exact axisBOnlyRows_of_semantic_neg_pos hsem
+
+theorem SourceIndexStateRowFacts.of_semantic
+    {key : SourceIndexStateKey}
+    {firstRole secondRole : RowRole}
+    {r : Nat} {mask : SignMask}
+    (hcompat :
+      RowTemplateSemantic key.template firstRole secondRole)
+    (hsem : RowPairSemantic firstRole secondRole key.support r mask) :
+    SourceIndexStateRowFacts key r mask :=
+  SourceIndexStateRowFacts.of_rows
+    (SourceIndexTemplate.rows_of_semantic hcompat hsem)
+
+theorem SourceIndexStateKey.matches_of_source_semantic
+    {key : SourceIndexStateKey}
+    {firstRole secondRole : RowRole}
+    {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hcompat :
+      RowTemplateSemantic key.template firstRole secondRole)
+    (hsem : RowPairSemantic firstRole secondRole key.support r mask) :
+    key.Matches r mask :=
+  key.matches_of_source_row hsource
+    (SourceIndexStateRowFacts.of_semantic hcompat hsem)
+
+theorem SourceIndexStateKey.covered_of_source_semantic
+    {key : SourceIndexStateKey}
+    {firstRole secondRole : RowRole}
+    {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hcompat :
+      RowTemplateSemantic key.template firstRole secondRole)
+    (hsem : RowPairSemantic firstRole secondRole key.support r mask) :
+    RowPropertyParametricCovered r mask :=
+  key.covered_of_source_row hsource
+    (SourceIndexStateRowFacts.of_semantic hcompat hsem)
 
 theorem rowPropertySemantic_builds : True := by
   trivial
