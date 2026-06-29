@@ -86,6 +86,13 @@ theorem PositiveSurvivorClassifierOnRange.to_allGoodCoverage
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     classifier.to_coverage
 
+theorem PositiveSurvivorClassifierOnRange.to_bridge
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorClassifierOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_bridge
+    classifier.to_coverage
+
 theorem PositiveSurvivorClassifierOnRange.to_killedBridge_of_fullRange
     (classifier : PositiveSurvivorClassifierOnRange 0 numPairWords) :
     Cuboctahedron.Generated.Translation.KilledBridge :=
@@ -328,6 +335,12 @@ theorem PositiveSurvivorSignatureClassifierOnRange.to_allGoodCoverage
     AllTranslationGoodCoverageOnRange lo hi :=
   classifier.to_classifier.to_allGoodCoverage
 
+theorem PositiveSurvivorSignatureClassifierOnRange.to_bridge
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorSignatureClassifierOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  classifier.to_classifier.to_bridge
+
 def PositiveSurvivorSignatureClassifierOnRange.to_coverage
     {lo hi : Nat}
     (classifier : PositiveSurvivorSignatureClassifierOnRange lo hi) :
@@ -481,6 +494,12 @@ theorem PositiveSurvivorBoolClassifierOnRange.to_allGoodCoverage
     (classifier : PositiveSurvivorBoolClassifierOnRange lo hi) :
     AllTranslationGoodCoverageOnRange lo hi :=
   classifier.to_classifier.to_allGoodCoverage
+
+theorem PositiveSurvivorBoolClassifierOnRange.to_bridge
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorBoolClassifierOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  classifier.to_classifier.to_bridge
 
 def PositiveSurvivorBoolClassifierOnRange.to_coverage
     {lo hi : Nat}
@@ -646,6 +665,12 @@ theorem PositiveSurvivorBoolSignatureClassifierOnRange.to_allGoodCoverage
     (classifier : PositiveSurvivorBoolSignatureClassifierOnRange lo hi) :
     AllTranslationGoodCoverageOnRange lo hi :=
   classifier.to_boolClassifier.to_allGoodCoverage
+
+theorem PositiveSurvivorBoolSignatureClassifierOnRange.to_bridge
+    {lo hi : Nat}
+    (classifier : PositiveSurvivorBoolSignatureClassifierOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  classifier.to_boolClassifier.to_bridge
 
 def PositiveSurvivorBoolSignatureClassifierOnRange.to_coverage
     {lo hi : Nat}

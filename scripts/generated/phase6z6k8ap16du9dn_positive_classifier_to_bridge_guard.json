@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 16384.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier"
+  ],
+  "elapsed_seconds": 11.51525902299909,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4174408,
+  "max_tree_rss_mib": 4076.5703125,
+  "min_available_seen_kib": 47181260,
+  "min_available_seen_mib": 46075.44921875,
+  "rss_cap_mib": 8192.0
+}

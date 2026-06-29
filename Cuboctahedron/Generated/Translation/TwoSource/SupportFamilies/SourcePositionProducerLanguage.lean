@@ -235,6 +235,13 @@ theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
   SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
     (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
 
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_bridge
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_bridge
+    (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
+
 theorem SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange
     (coverage : SourcePositionRowProducerGoodCoverageOnRange 0 numPairWords) :
     Cuboctahedron.Generated.Translation.KilledBridge :=
