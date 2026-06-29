@@ -15864,7 +15864,35 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du4_classifier_bridge_guard.json
   scripts/generated/phase6z6k8ap16du4_classifier_bridge_guard.md
   ```
-- [ ] Implement Phase 6Z.6K.8AP.16DU.5 actual source-index/state classifier
+- [x] Run Phase 6Z.6K.8AP.16DU.5 classifier-completeness route audit:
+  DU.5 records the exact proof route left after the DU.4 bridge surface and
+  rejects the tempting fallback routes that would recreate previous failures.
+  The selected target is:
+
+  ```lean
+  SourceIndexStateClassifierDU3Smoke.classifierCompletenessOnIdentityRange
+  ```
+
+  Route decision:
+
+  ```text
+  selected route: source_index_state_classifier_completeness
+  accepted obligations: 125 source-index/state family obligations
+  old bounded replay: rejected, 35681 concrete obligations
+  positive-survivor singletons: rejected, 4693 concrete survivor branches
+  positive signature route: rejected, 464 signatures with 444 singleton/rank-local
+  not-GoodDirection masks avoided: 26475
+  nonidentity branches avoided: 4513
+  ```
+
+  New audit script and reports:
+
+  ```text
+  scripts/audit_ap16du5_classifier_completeness_route.py
+  scripts/generated/phase6z6k8ap16du5_classifier_completeness_route_audit.json
+  scripts/generated/phase6z6k8ap16du5_classifier_completeness_route_audit.md
+  ```
+- [ ] Implement Phase 6Z.6K.8AP.16DU.6 actual source-index/state classifier
   completeness theorem:
   prove or emit the bounded `[0,5000)` `classifierCompletenessOnIdentityRange`
   theorem: arbitrary identity-linear `GoodDirectionAtRank` translation

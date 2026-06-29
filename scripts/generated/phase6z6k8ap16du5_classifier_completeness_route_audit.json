@@ -1,0 +1,86 @@
+{
+  "counts": {
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "largest_family_cases": 1237,
+    "nonidentity_words": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "positive_signature_count": 464,
+    "singleton_positive_signatures": 444,
+    "singleton_signature_case_mass": 4329,
+    "source_index_state_families": 125,
+    "translation_sign_assignments": 31168
+  },
+  "decision": {
+    "erasure": "SourceIndexStateClassifierDU3Smoke.classifierAllGoodCoverage",
+    "notes": [
+      "This audit emits no Lean and is not trusted as proof.",
+      "It records the proof route selected for AP16DU.5.",
+      "Do not revive old bounded replay, positive-survivor singleton, or rank-local signature routes."
+    ],
+    "selected_route": "source_index_state_classifier_completeness",
+    "status": "accepted-next-proof-target",
+    "target": "SourceIndexStateClassifierDU3Smoke.classifierCompletenessOnIdentityRange"
+  },
+  "mode": "classifier_completeness_route_audit",
+  "phase": "6Z.6K.8AP.16DU.5",
+  "range": [
+    0,
+    5000
+  ],
+  "routes": [
+    {
+      "concrete_bad_direction_branches": 26475,
+      "concrete_nonidentity_branches": 4513,
+      "concrete_survivor_branches": 4693,
+      "name": "old_bounded_replay",
+      "notes": [
+        "Revives the rejected bounded replay surface.",
+        "Includes not-GoodDirection masks and nonidentity ranks.",
+        "This is the proof shape that caused large RSS spikes."
+      ],
+      "obligations": 35681,
+      "status": "rejected"
+    },
+    {
+      "concrete_bad_direction_branches": 0,
+      "concrete_nonidentity_branches": 0,
+      "concrete_survivor_branches": 4693,
+      "name": "positive_survivor_singletons",
+      "notes": [
+        "Avoids bad-direction masks but still emits concrete survivor branches.",
+        "It is a bounded diagnostic route, not a production proof route."
+      ],
+      "obligations": 4693,
+      "status": "rejected"
+    },
+    {
+      "concrete_bad_direction_branches": 0,
+      "concrete_nonidentity_branches": 0,
+      "concrete_survivor_branches": 4329,
+      "name": "positive_signature_route",
+      "notes": [
+        "444 of 464 signatures are singleton/rank-local.",
+        "This recreates the rank-local anchor problem under a different key."
+      ],
+      "obligations": 464,
+      "status": "rejected"
+    },
+    {
+      "concrete_bad_direction_branches": 0,
+      "concrete_nonidentity_branches": 0,
+      "concrete_survivor_branches": 0,
+      "name": "source_index_state_classifier_completeness",
+      "notes": [
+        "This is the AP16DU.5 target.",
+        "Prove classifierCompletenessOnIdentityRange for the AP16DU.3 classifierFamily.",
+        "The theorem must derive ClassifierApplies from identity-linear GoodDirection assumptions."
+      ],
+      "obligations": 125,
+      "status": "accepted-next-proof-target"
+    }
+  ],
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
