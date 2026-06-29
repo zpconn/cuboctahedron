@@ -27316,3 +27316,88 @@ profiling to map density before any production Lean emission.  The next
 profiler should sample several disjoint windows and aggregate family keys so we
 can estimate global source-index/state family count without relying on rank
 prefix behavior.
+
+### Phase 6Z.6K.8AP.16DU.9DZ checkpoint: multi-window classifier profile accepted
+
+Phase 6Z.6K.8AP.16DU.9DZ adds a dedicated multi-window profiler for the current
+`kind_impact` source-index/state GoodDirection classifier surface:
+
+```text
+scripts/profile_source_index_state_classifier_windows.py
+```
+
+This is a diagnostic only.  It emits no Lean, is not proof evidence, and does
+not replace the need for Lean-checked family membership and coverage theorems.
+Its purpose is to avoid overfitting to the initial rank prefix by merging family
+keys across disjoint sampled windows before any production theorem emission.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 16384 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9dz_classifier_multiwindow_profile_guard.json \
+  -- python3 scripts/profile_source_index_state_classifier_windows.py \
+    --jobs 4 \
+    --family-gate 1000 \
+    --top-limit 20 \
+    --json scripts/generated/phase6z6k8ap16du9dz_classifier_multiwindow_profile.json \
+    --md scripts/generated/phase6z6k8ap16du9dz_classifier_multiwindow_profile.md
+```
+
+Sampled windows:
+
+```text
+[0,25000)
+[100000,125000)
+[1000000,1025000)
+[10000000,10025000)
+[30000000,30025000)
+[60000000,60025000)
+[90000000,90025000)
+```
+
+Result:
+
+- Exit: `0`
+- Status: `accepted-scaling-candidate`
+- Jobs per window: `4`
+- Sampled ranks: `175000`
+- GoodDirection survivors: `39338`
+- Merged source-index/state families: `405`
+- Template ids: `11`
+- Source-index pairs: `362`
+- Largest family: `7024`
+- Elapsed: `301.64s`
+- Peak tree RSS: `619.33 MiB`
+- Minimum available memory observed: `46148.14 MiB`
+
+Window growth:
+
+| Range | Identity | GoodDirection | Families | Cumulative families |
+| --- | ---: | ---: | ---: | ---: |
+| `[0,25000)` | `1423` | `11527` | `177` | `177` |
+| `[100000,125000)` | `1603` | `13079` | `185` | `207` |
+| `[1000000,1025000)` | `512` | `2678` | `104` | `240` |
+| `[10000000,10025000)` | `1434` | `11889` | `283` | `372` |
+| `[30000000,30025000)` | `686` | `0` | `0` | `372` |
+| `[60000000,60025000)` | `318` | `115` | `32` | `398` |
+| `[90000000,90025000)` | `154` | `50` | `15` | `405` |
+
+Decision: accepted as a stronger scaling diagnostic.  The current classifier
+key does not collapse to a tiny fixed catalog, but it also does not explode on
+these mixed-density samples: two dense initial-ish windows contribute most
+families, while later windows are sparse.  The next production-relevant gate is
+not another single-window profile.  It is either:
+
+1. a larger resumable global/density-aware profiler that estimates full
+   source-index/state family count and source size without Lean emission; or
+2. a bounded Lean smoke over a merged multi-window family set proving that
+   generated `SourceIndexStateDescriptorBoolCoverageOnRange`/all-Good coverage
+   can be assembled from reusable family facts without per-rank replay.
+
+Do not promote this diagnostic to proof coverage.  Full completion still
+requires Lean-checked membership/family theorems, interval/rank coverage, and
+the final `Generated.rank_complete`/semantic exhaustive coverage root.
