@@ -16167,15 +16167,63 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9c_classifier_source_row_bridge_smoke.md
   scripts/generated/phase6z6k8ap16du9c_classifier_source_row_bridge_guard.json
   ```
+- [x] Implement Phase 6Z.6K.8AP.16DU.9D classifier catalog-erasure bridge:
+  DU.9D exposes the bounded 125-family classifier as a finite generic catalog:
+
+  ```lean
+  def classifierSourceIndexKeyAt (i : Fin 125) : SourceIndexStateKey
+
+  theorem classifierAllGoodCoverage_of_sourceIndexFactsCatalog
+      (hcomplete :
+        SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+      AllTranslationGoodCoverageOnRange 0 5000
+
+  theorem classifierAllGoodCoverage_of_sourceIndexPredicateCatalog
+      (hcomplete :
+        SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  This lets the next generated membership module target the generic catalog
+  APIs directly, then immediately erase the private catalog to semantic
+  all-Good coverage.  It avoids both the `ClassifierApplies` constructor chain
+  and any need for a certificate-valued public theorem.  The first attempt
+  generated a numeric `Fin 125` pattern match and Lean correctly rejected it
+  as non-exhaustive; DU.9D switched to a total `if i.val = k` catalog with a
+  harmless final default.  The focused guarded build passed:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+  exit=0, elapsed=5.00s, peak_tree_rss=4265 MiB, min_available=45845 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9d_classifier_catalog_bridge_smoke.json
+  scripts/generated/phase6z6k8ap16du9d_classifier_catalog_bridge_smoke.md
+  scripts/generated/phase6z6k8ap16du9d_classifier_catalog_bridge_guard.json
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
-  prove or emit the bounded `[0,5000)` Prop-level completeness theorem required
-  by `classifierCompletenessOnIdentityRange_of_prop`: arbitrary identity-linear
-  `goodDirectionAtRankBool = true` translation survivors must satisfy
-  `ClassifierApplies rank mask`.  This remains the hard AP16DU proof
-  obligation.  It must avoid `fin_cases mask`/all-mask replay, avoid singleton
-  positive-survivor signatures, stay under the established guarded build cap,
-  and keep the theorem type semantic rather than certificate-valued.
-  After DU.9A/DU.9B/DU.9C, the preferred next shape is:
+  prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
+  DU.9D:
+
+  ```lean
+  SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+  ```
+
+  or, if source/row predicates remain cheaper than fact records:
+
+  ```lean
+  SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000
+  ```
+
+  This remains the hard AP16DU proof obligation.  It must avoid `fin_cases
+  mask`/all-mask replay, avoid singleton positive-survivor signatures, stay
+  under the established guarded build cap, and keep the exported theorem type
+  semantic rather than certificate-valued.
+  The older classifier-constructor target is still available through
+  DU.9A/DU.9B/DU.9C:
 
   ```lean
   forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
@@ -16192,6 +16240,10 @@ Acceptance:
   ```
 
   followed by `classifierCompletenessOnIdentityRange_of_key_source_row`.
+  However, the preferred next proof-producing step is now a catalog/language
+  emitter for `classifierSourceIndexKeyAt`, followed by
+  `classifierAllGoodCoverage_of_sourceIndexFactsCatalog` or
+  `classifierAllGoodCoverage_of_sourceIndexPredicateCatalog`.
   If the direct descriptor predicate is still too hard, add a compact
   trace/source-position lemma whose type mentions only the reusable
   source-index/state family, not concrete rank/mask examples.

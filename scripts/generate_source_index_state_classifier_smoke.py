@@ -32,19 +32,19 @@ from generate_translation_two_source_evidence import (  # noqa: E402
 
 
 DEFAULT_PROFILE = Path(
-    "scripts/generated/phase6z6k8j_source_index_state_classifier_profile_0_1000.json"
+    "scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json"
 )
 DEFAULT_OUT = Path(
     "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
-    "SourceIndexStateClassifierSmoke.lean"
+    "SourceIndexStateClassifierDU3Smoke.lean"
 )
 DEFAULT_JSON = Path(
-    "scripts/generated/phase6z6k8k_source_index_state_classifier_smoke.json"
+    "scripts/generated/phase6z6k8ap16du9d_classifier_catalog_bridge_smoke.json"
 )
 DEFAULT_MD = DEFAULT_JSON.with_suffix(".md")
 DEFAULT_NAMESPACE = (
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
-    "SourceIndexStateClassifierSmoke"
+    "SourceIndexStateClassifierDU3Smoke"
 )
 
 
@@ -120,6 +120,24 @@ def classifier_lines(selected: list[Any]) -> list[str]:
             f"      support := {name}_support",
             f"      template := SourceIndexTemplate.{template_ctor} }}",
         ])
+    lines.extend([
+        "",
+        "/-- Finite catalog view of the generated classifier keys.",
+        "",
+        "This is the preferred input shape for generated source/row membership",
+        "chunks: the generated proof can target the generic",
+        "`SourceRowFactsGoodCatalogOnRange` or",
+        "`SourceRowPredicateGoodCatalogOnRange` APIs, then erase the concrete",
+        "catalog immediately through the small theorems below. -/",
+        f"def classifierSourceIndexKeyAt (i : Fin {len(selected)}) : SourceIndexStateKey :=",
+    ])
+    indent = "  "
+    for index, _family in enumerate(selected):
+        lines.append(
+            f"{indent}if i.val = {index} then "
+            f"ClassifierKey.k{index:03d}.toSourceIndexStateKey else"
+        )
+    lines.append(f"{indent}ClassifierKey.k000.toSourceIndexStateKey")
     lines.extend([
         "",
         "def ClassifierKey.Matches",
@@ -328,6 +346,18 @@ def classifier_lines(selected: list[Any]) -> list[str]:
         "    AllTranslationGoodCoverageOnRange 0 5000 :=",
         "  classifierAllGoodCoverage",
         "    (classifierCompletenessOnIdentityRange_of_key_source_row hcomplete)",
+        "",
+        "theorem classifierAllGoodCoverage_of_sourceIndexFactsCatalog",
+        "    (hcomplete :",
+        "      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :",
+        "    AllTranslationGoodCoverageOnRange 0 5000 :=",
+        "  SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage hcomplete",
+        "",
+        "theorem classifierAllGoodCoverage_of_sourceIndexPredicateCatalog",
+        "    (hcomplete :",
+        "      SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :",
+        "    AllTranslationGoodCoverageOnRange 0 5000 :=",
+        "  SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage hcomplete",
         "",
     ])
     for index, family in enumerate(selected):

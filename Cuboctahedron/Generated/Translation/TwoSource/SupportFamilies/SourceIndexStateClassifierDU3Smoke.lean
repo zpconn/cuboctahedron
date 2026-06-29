@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9C.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9D.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -2277,6 +2277,141 @@ def ClassifierKey.toSourceIndexStateKey :
       support := fam_124_support
       template := SourceIndexTemplate.oppMinusOneVarFirst }
 
+/-- Finite catalog view of the generated classifier keys.
+
+This is the preferred input shape for generated source/row membership
+chunks: the generated proof can target the generic
+`SourceRowFactsGoodCatalogOnRange` or
+`SourceRowPredicateGoodCatalogOnRange` APIs, then erase the concrete
+catalog immediately through the small theorems below. -/
+def classifierSourceIndexKeyAt (i : Fin 125) : SourceIndexStateKey :=
+  if i.val = 0 then ClassifierKey.k000.toSourceIndexStateKey else
+  if i.val = 1 then ClassifierKey.k001.toSourceIndexStateKey else
+  if i.val = 2 then ClassifierKey.k002.toSourceIndexStateKey else
+  if i.val = 3 then ClassifierKey.k003.toSourceIndexStateKey else
+  if i.val = 4 then ClassifierKey.k004.toSourceIndexStateKey else
+  if i.val = 5 then ClassifierKey.k005.toSourceIndexStateKey else
+  if i.val = 6 then ClassifierKey.k006.toSourceIndexStateKey else
+  if i.val = 7 then ClassifierKey.k007.toSourceIndexStateKey else
+  if i.val = 8 then ClassifierKey.k008.toSourceIndexStateKey else
+  if i.val = 9 then ClassifierKey.k009.toSourceIndexStateKey else
+  if i.val = 10 then ClassifierKey.k010.toSourceIndexStateKey else
+  if i.val = 11 then ClassifierKey.k011.toSourceIndexStateKey else
+  if i.val = 12 then ClassifierKey.k012.toSourceIndexStateKey else
+  if i.val = 13 then ClassifierKey.k013.toSourceIndexStateKey else
+  if i.val = 14 then ClassifierKey.k014.toSourceIndexStateKey else
+  if i.val = 15 then ClassifierKey.k015.toSourceIndexStateKey else
+  if i.val = 16 then ClassifierKey.k016.toSourceIndexStateKey else
+  if i.val = 17 then ClassifierKey.k017.toSourceIndexStateKey else
+  if i.val = 18 then ClassifierKey.k018.toSourceIndexStateKey else
+  if i.val = 19 then ClassifierKey.k019.toSourceIndexStateKey else
+  if i.val = 20 then ClassifierKey.k020.toSourceIndexStateKey else
+  if i.val = 21 then ClassifierKey.k021.toSourceIndexStateKey else
+  if i.val = 22 then ClassifierKey.k022.toSourceIndexStateKey else
+  if i.val = 23 then ClassifierKey.k023.toSourceIndexStateKey else
+  if i.val = 24 then ClassifierKey.k024.toSourceIndexStateKey else
+  if i.val = 25 then ClassifierKey.k025.toSourceIndexStateKey else
+  if i.val = 26 then ClassifierKey.k026.toSourceIndexStateKey else
+  if i.val = 27 then ClassifierKey.k027.toSourceIndexStateKey else
+  if i.val = 28 then ClassifierKey.k028.toSourceIndexStateKey else
+  if i.val = 29 then ClassifierKey.k029.toSourceIndexStateKey else
+  if i.val = 30 then ClassifierKey.k030.toSourceIndexStateKey else
+  if i.val = 31 then ClassifierKey.k031.toSourceIndexStateKey else
+  if i.val = 32 then ClassifierKey.k032.toSourceIndexStateKey else
+  if i.val = 33 then ClassifierKey.k033.toSourceIndexStateKey else
+  if i.val = 34 then ClassifierKey.k034.toSourceIndexStateKey else
+  if i.val = 35 then ClassifierKey.k035.toSourceIndexStateKey else
+  if i.val = 36 then ClassifierKey.k036.toSourceIndexStateKey else
+  if i.val = 37 then ClassifierKey.k037.toSourceIndexStateKey else
+  if i.val = 38 then ClassifierKey.k038.toSourceIndexStateKey else
+  if i.val = 39 then ClassifierKey.k039.toSourceIndexStateKey else
+  if i.val = 40 then ClassifierKey.k040.toSourceIndexStateKey else
+  if i.val = 41 then ClassifierKey.k041.toSourceIndexStateKey else
+  if i.val = 42 then ClassifierKey.k042.toSourceIndexStateKey else
+  if i.val = 43 then ClassifierKey.k043.toSourceIndexStateKey else
+  if i.val = 44 then ClassifierKey.k044.toSourceIndexStateKey else
+  if i.val = 45 then ClassifierKey.k045.toSourceIndexStateKey else
+  if i.val = 46 then ClassifierKey.k046.toSourceIndexStateKey else
+  if i.val = 47 then ClassifierKey.k047.toSourceIndexStateKey else
+  if i.val = 48 then ClassifierKey.k048.toSourceIndexStateKey else
+  if i.val = 49 then ClassifierKey.k049.toSourceIndexStateKey else
+  if i.val = 50 then ClassifierKey.k050.toSourceIndexStateKey else
+  if i.val = 51 then ClassifierKey.k051.toSourceIndexStateKey else
+  if i.val = 52 then ClassifierKey.k052.toSourceIndexStateKey else
+  if i.val = 53 then ClassifierKey.k053.toSourceIndexStateKey else
+  if i.val = 54 then ClassifierKey.k054.toSourceIndexStateKey else
+  if i.val = 55 then ClassifierKey.k055.toSourceIndexStateKey else
+  if i.val = 56 then ClassifierKey.k056.toSourceIndexStateKey else
+  if i.val = 57 then ClassifierKey.k057.toSourceIndexStateKey else
+  if i.val = 58 then ClassifierKey.k058.toSourceIndexStateKey else
+  if i.val = 59 then ClassifierKey.k059.toSourceIndexStateKey else
+  if i.val = 60 then ClassifierKey.k060.toSourceIndexStateKey else
+  if i.val = 61 then ClassifierKey.k061.toSourceIndexStateKey else
+  if i.val = 62 then ClassifierKey.k062.toSourceIndexStateKey else
+  if i.val = 63 then ClassifierKey.k063.toSourceIndexStateKey else
+  if i.val = 64 then ClassifierKey.k064.toSourceIndexStateKey else
+  if i.val = 65 then ClassifierKey.k065.toSourceIndexStateKey else
+  if i.val = 66 then ClassifierKey.k066.toSourceIndexStateKey else
+  if i.val = 67 then ClassifierKey.k067.toSourceIndexStateKey else
+  if i.val = 68 then ClassifierKey.k068.toSourceIndexStateKey else
+  if i.val = 69 then ClassifierKey.k069.toSourceIndexStateKey else
+  if i.val = 70 then ClassifierKey.k070.toSourceIndexStateKey else
+  if i.val = 71 then ClassifierKey.k071.toSourceIndexStateKey else
+  if i.val = 72 then ClassifierKey.k072.toSourceIndexStateKey else
+  if i.val = 73 then ClassifierKey.k073.toSourceIndexStateKey else
+  if i.val = 74 then ClassifierKey.k074.toSourceIndexStateKey else
+  if i.val = 75 then ClassifierKey.k075.toSourceIndexStateKey else
+  if i.val = 76 then ClassifierKey.k076.toSourceIndexStateKey else
+  if i.val = 77 then ClassifierKey.k077.toSourceIndexStateKey else
+  if i.val = 78 then ClassifierKey.k078.toSourceIndexStateKey else
+  if i.val = 79 then ClassifierKey.k079.toSourceIndexStateKey else
+  if i.val = 80 then ClassifierKey.k080.toSourceIndexStateKey else
+  if i.val = 81 then ClassifierKey.k081.toSourceIndexStateKey else
+  if i.val = 82 then ClassifierKey.k082.toSourceIndexStateKey else
+  if i.val = 83 then ClassifierKey.k083.toSourceIndexStateKey else
+  if i.val = 84 then ClassifierKey.k084.toSourceIndexStateKey else
+  if i.val = 85 then ClassifierKey.k085.toSourceIndexStateKey else
+  if i.val = 86 then ClassifierKey.k086.toSourceIndexStateKey else
+  if i.val = 87 then ClassifierKey.k087.toSourceIndexStateKey else
+  if i.val = 88 then ClassifierKey.k088.toSourceIndexStateKey else
+  if i.val = 89 then ClassifierKey.k089.toSourceIndexStateKey else
+  if i.val = 90 then ClassifierKey.k090.toSourceIndexStateKey else
+  if i.val = 91 then ClassifierKey.k091.toSourceIndexStateKey else
+  if i.val = 92 then ClassifierKey.k092.toSourceIndexStateKey else
+  if i.val = 93 then ClassifierKey.k093.toSourceIndexStateKey else
+  if i.val = 94 then ClassifierKey.k094.toSourceIndexStateKey else
+  if i.val = 95 then ClassifierKey.k095.toSourceIndexStateKey else
+  if i.val = 96 then ClassifierKey.k096.toSourceIndexStateKey else
+  if i.val = 97 then ClassifierKey.k097.toSourceIndexStateKey else
+  if i.val = 98 then ClassifierKey.k098.toSourceIndexStateKey else
+  if i.val = 99 then ClassifierKey.k099.toSourceIndexStateKey else
+  if i.val = 100 then ClassifierKey.k100.toSourceIndexStateKey else
+  if i.val = 101 then ClassifierKey.k101.toSourceIndexStateKey else
+  if i.val = 102 then ClassifierKey.k102.toSourceIndexStateKey else
+  if i.val = 103 then ClassifierKey.k103.toSourceIndexStateKey else
+  if i.val = 104 then ClassifierKey.k104.toSourceIndexStateKey else
+  if i.val = 105 then ClassifierKey.k105.toSourceIndexStateKey else
+  if i.val = 106 then ClassifierKey.k106.toSourceIndexStateKey else
+  if i.val = 107 then ClassifierKey.k107.toSourceIndexStateKey else
+  if i.val = 108 then ClassifierKey.k108.toSourceIndexStateKey else
+  if i.val = 109 then ClassifierKey.k109.toSourceIndexStateKey else
+  if i.val = 110 then ClassifierKey.k110.toSourceIndexStateKey else
+  if i.val = 111 then ClassifierKey.k111.toSourceIndexStateKey else
+  if i.val = 112 then ClassifierKey.k112.toSourceIndexStateKey else
+  if i.val = 113 then ClassifierKey.k113.toSourceIndexStateKey else
+  if i.val = 114 then ClassifierKey.k114.toSourceIndexStateKey else
+  if i.val = 115 then ClassifierKey.k115.toSourceIndexStateKey else
+  if i.val = 116 then ClassifierKey.k116.toSourceIndexStateKey else
+  if i.val = 117 then ClassifierKey.k117.toSourceIndexStateKey else
+  if i.val = 118 then ClassifierKey.k118.toSourceIndexStateKey else
+  if i.val = 119 then ClassifierKey.k119.toSourceIndexStateKey else
+  if i.val = 120 then ClassifierKey.k120.toSourceIndexStateKey else
+  if i.val = 121 then ClassifierKey.k121.toSourceIndexStateKey else
+  if i.val = 122 then ClassifierKey.k122.toSourceIndexStateKey else
+  if i.val = 123 then ClassifierKey.k123.toSourceIndexStateKey else
+  if i.val = 124 then ClassifierKey.k124.toSourceIndexStateKey else
+  ClassifierKey.k000.toSourceIndexStateKey
+
 def ClassifierKey.Matches
     (key : ClassifierKey) (r : Nat) (mask : SignMask) : Prop :=
   key.toSourceIndexStateKey.Matches r mask
@@ -3693,6 +3828,18 @@ theorem classifierAllGoodCoverage_of_key_source_row
     AllTranslationGoodCoverageOnRange 0 5000 :=
   classifierAllGoodCoverage
     (classifierCompletenessOnIdentityRange_of_key_source_row hcomplete)
+
+theorem classifierAllGoodCoverage_of_sourceIndexFactsCatalog
+    (hcomplete :
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage hcomplete
+
+theorem classifierAllGoodCoverage_of_sourceIndexPredicateCatalog
+    (hcomplete :
+      SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  SourceRowPredicateGoodCatalogOnRange.to_allGoodCoverage hcomplete
 
 theorem fam_000_goodKilled
     {r : Nat} {hlt : r < numPairWords} {mask : SignMask}
