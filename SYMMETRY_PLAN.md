@@ -18746,6 +18746,70 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9aq_row_property_semantic_range_smoke_guard.json
   ```
 
+- [x] Add Phase 6Z.6K.8AP.16DU.9AR reusable semantic selector bridge and `[2,4)` range smoke:
+  DU.9AR factors the DU.9AQ helper code into a reusable selector-to-semantic
+  bridge:
+
+  ```lean
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticSelectorBridge.SemanticFactsLanguage
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticSelectorBridge.semanticFacts_of_shard000_key
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticSelectorBridge.semanticFacts_of_shard001_key
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticSelectorBridge.semanticFacts_of_shard002_key
+  ```
+
+  It then adds a second bounded proof-producing semantic range:
+
+  ```lean
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRange2_4Smoke.semanticLanguage2_4 :
+    SemanticRowMembershipLanguageOnRange 2 4
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRange2_4Smoke.allGoodCoverage2_4 :
+    AllTranslationGoodCoverageOnRange 2 4
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRange2_4Smoke.allGoodCoverage0_4 :
+    AllTranslationGoodCoverageOnRange 0 4
+  ```
+
+  The `[2,4)` proof uses DU.9P's compact GoodDirection membership for ranks
+  `2` and `3`, DU.9L shard 1 and shard 2 source/row facts, and DU.9AP's
+  non-axis semantic existence theorem.  The `[0,4)` root composes the
+  previously checked `[0,1)` semantic range, the existing rank-1
+  nonidentity/row-relation contradiction, and the new `[2,4)` semantic range.
+
+  Guarded builds:
+
+  ```text
+  command=lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticSelectorBridge.lean
+  exit=0
+  elapsed=6.51s
+  peak process-tree RSS=3536 MiB
+  min available memory observed=46387 MiB
+
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRange2_4Smoke
+  exit=0
+  elapsed=4.02s
+  peak process-tree RSS=5986 MiB
+  min available memory observed=46062 MiB
+  ```
+
+  A first focused Lake build with a 6.5 GiB cap stopped at 6.701 GiB while
+  materializing dependencies; the same target succeeded with an 8 GiB cap.
+  This is still far below the 45 GiB safety budget and confirms that future
+  focused Lake builds for this layer should use an 8 GiB guard unless their
+  measured dependency set is already materialized.
+
+  Decision: DU.9AR is accepted as the reusable semantic selector bridge and
+  as the first multi-rank semantic range smoke.  The next production step is
+  to emit selector-positive semantic range shards mechanically from DU.9L
+  constructor/key tables, rather than hand-writing shard cases.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9ar_row_property_semantic_selector_bridge_guard.json
+  scripts/generated/phase6z6k8ap16du9ar_row_property_semantic_range2_4_guard.json
+  ```
+
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
