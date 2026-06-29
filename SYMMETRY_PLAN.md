@@ -25659,6 +25659,75 @@ scripts/generated/phase6z6k8ap16du9da_membership_compression_surface.md
 scripts/generated/phase6z6k8ap16du9da_membership_compression_surface_guard.json
 ```
 
+### Phase 6Z.6K.8AP.16DU.9DB checkpoint: selected-family membership route audited
+
+Phase 6Z.6K.8AP.16DU.9DB adds a route audit:
+
+```text
+scripts/audit_ap16du9db_selected_family_membership_route.py
+```
+
+This audit is not proof evidence.  It asks whether the next selected-family
+membership smoke can be production-relevant, or whether it would secretly
+reuse the same rank-local compact membership path that DU.9DA rejected.
+
+Results:
+
+```text
+status:                         blocked-on-semantic-membership-theorem
+identity ranks:                 487
+GoodDirection survivors:        4,693
+source-index/state families:    125
+unique rank-family maps:        464
+largest rank-family-map class:  4
+```
+
+File scan:
+
+```text
+RowPropertySemanticLanguage.lean:               no compact membership; semantic surface present
+SourceIndexStateSelectorDU9RRangeAdapter.lean:  no compact membership; semantic surface present
+RowPropertySemanticRangeGeneratedSmoke.lean:    uses compact rank-local membership
+RowPropertySemanticCaseSmoke.lean:              no compact membership; semantic source/row facts only
+SourceIndexStateSelectorDU9YRowPropertySmoke:   uses compact rank-local membership
+```
+
+Decision:
+
+- Reusing the current generated semantic range smoke is rejected for production,
+  because it still proves `GoodDirection -> selected case` through
+  rank-local compact selector-positive theorems.
+- A selected-family smoke is production-relevant only if it proves the
+  semantic target directly, with no compact-membership imports:
+
+  ```lean
+  forall {rank mask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) = matId ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            exists key,
+              coordAt rank mask = selectorCoordinateOfKey key /\
+              SourceIndexStateSourceFacts
+                key.toSourceIndexStateKey rank mask /\
+              SourceIndexStateRowFacts
+                key.toSourceIndexStateKey rank mask
+  ```
+
+- The intended erasure adapter is
+  `SelectorCoordinateFactsGoodCatalogOnRangeFor.of_classifierKey_source_row`.
+- The next proof-producing module must be a tiny semantic
+  selector/source-row membership theorem for one reusable source-index/state
+  family or source-position language, with compact membership syntactically
+  absent.
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9db_selected_family_membership_route.json
+scripts/generated/phase6z6k8ap16du9db_selected_family_membership_route.md
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

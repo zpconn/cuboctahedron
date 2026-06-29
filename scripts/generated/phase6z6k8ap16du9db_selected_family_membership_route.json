@@ -1,0 +1,116 @@
+{
+  "accepted_target": {
+    "adapter": "SelectorCoordinateFactsGoodCatalogOnRangeFor.of_classifierKey_source_row",
+    "name": "semantic_selector_source_row_membership",
+    "notes": [
+      "This target can erase to all-Good coverage without compact membership.",
+      "A first smoke should prove this for a tiny semantic sublanguage, not by rank/mask replay."
+    ],
+    "required_theorem_shape": "forall {rank mask} (hlt : rank < numPairWords), lo <= rank -> rank < hi -> totalLinearOfPairWord (unrankPairWord \u27e8rank,hlt\u27e9) = matId -> GoodDirectionAtRank \u27e8rank,hlt\u27e9 mask -> exists key, coordAt rank mask = selectorCoordinateOfKey key /\\ SourceIndexStateSourceFacts key.toSourceIndexStateKey rank mask /\\ SourceIndexStateRowFacts key.toSourceIndexStateKey rank mask",
+    "status": "selected-next-proof-target"
+  },
+  "decision": {
+    "next_step": "Implement a small semantic selector/source-row membership theorem for one reusable source-index/state family or source-position language, with no import of compact membership modules.",
+    "notes": [
+      "This emits no Lean and is not proof evidence.",
+      "The current nonempty smokes remain useful regressions but still rely on compact rank-local membership.",
+      "The next proof-producing module must make compact membership imports syntactically absent."
+    ],
+    "status": "blocked-on-semantic-membership-theorem"
+  },
+  "file_scans": {
+    "generated_range_smoke": {
+      "compact_hits": [
+        "SourceIndexStateSelectorDU9PCompactMembership",
+        "rank\\d+_selectorPositive_of_GoodDirection"
+      ],
+      "exists": true,
+      "has_semantic_target_surface": true,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticRangeGeneratedSmoke.lean",
+      "semantic_hits": [
+        "SemanticRowMembershipLanguageOnRange"
+      ],
+      "uses_compact_membership": true
+    },
+    "row_property_case_smoke": {
+      "compact_hits": [],
+      "exists": true,
+      "has_semantic_target_surface": true,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticCaseSmoke.lean",
+      "semantic_hits": [
+        "SourceIndexStateSourceFacts",
+        "SourceIndexStateRowFacts"
+      ],
+      "uses_compact_membership": false
+    },
+    "row_property_smoke": {
+      "compact_hits": [
+        "SourceIndexStateSelectorDU9PCompactMembership",
+        "rank\\d+_selectorPositive_of_GoodDirection"
+      ],
+      "exists": true,
+      "has_semantic_target_surface": false,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9YRowPropertySmoke.lean",
+      "semantic_hits": [],
+      "uses_compact_membership": true
+    },
+    "selector_range_adapter": {
+      "compact_hits": [],
+      "exists": true,
+      "has_semantic_target_surface": true,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9RRangeAdapter.lean",
+      "semantic_hits": [
+        "SelectorCoordinateFactsGoodCatalogOnRangeFor\\.of_classifierKey_source_row",
+        "SelectorCoordinateFactsGoodCatalogOnRangeFor\\.of_lookup_source_row",
+        "SelectorCoordinateFactsGoodCatalogOnRangeFor\\.of_keyAt_source_row",
+        "SourceIndexStateSourceFacts",
+        "SourceIndexStateRowFacts"
+      ],
+      "uses_compact_membership": false
+    },
+    "semantic_language": {
+      "compact_hits": [],
+      "exists": true,
+      "has_semantic_target_surface": true,
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticLanguage.lean",
+      "semantic_hits": [
+        "SemanticRowMembershipLanguageOnRange",
+        "SourceIndexStateSourceFacts"
+      ],
+      "uses_compact_membership": false
+    }
+  },
+  "mode": "selected_family_membership_route_audit",
+  "phase": "6Z.6K.8AP.16DU.9DB",
+  "profile": "scripts/generated/phase6z6k8ap16du9da_membership_compression_surface.json",
+  "profile_summary": {
+    "good_direction_survivors": 4693,
+    "identity_rank_count": 487,
+    "largest_rank_family_map_class": 4,
+    "source_index_state_family_count": 125,
+    "unique_rank_family_maps": 464
+  },
+  "rejected_routes": [
+    {
+      "name": "reuse_generated_range_smoke",
+      "reason": "The existing generated semantic range smoke proves membership through rank-local compact selector-positive theorems.",
+      "status": "rejected",
+      "uses_compact_membership": true
+    },
+    {
+      "identity_rank_count": 487,
+      "name": "rank_family_map_membership",
+      "reason": "DU.9DA shows rank->family maps are almost rank-local, so this would encode a table rather than a semantic theorem.",
+      "status": "rejected",
+      "unique_rank_family_maps": 464
+    },
+    {
+      "name": "selected_family_with_compact_membership",
+      "reason": "A selected-family smoke is not production-relevant if the GoodDirection-to-membership implication is imported from compact-Walsh rank-local covers.",
+      "status": "rejected",
+      "uses_compact_membership": true
+    }
+  ],
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
