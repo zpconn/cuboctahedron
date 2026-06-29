@@ -239,7 +239,8 @@ the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
 6Z.6K.8AP.16BQ Walsh cover bridge surface.  The current Walsh-vector path now
 also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
 bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
-denominator trace consumers, and AP16CP's multi-fixture trace import smoke,
+denominator trace consumers, AP16CR's reusable compact-denominator bridge, and
+AP16CP's multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
@@ -13877,6 +13878,57 @@ Acceptance:
   consumer.  The next AP16 target should factor this consumer pattern into an
   emitter or reusable helper so additional trace fixtures can close compact
   denominator equalities without copying local normal boilerplate.
+- [x] Implement Phase 6Z.6K.8AP.16CR reusable compact denominator bridge:
+  AP16CR adds
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshCompactDenomBridge.lean
+  ```
+
+  with the reusable theorem:
+
+  ```lean
+  theorem impactDenomAtRank_wordImpact_eq_walshDot
+      (hunrank : unrankPairWord r = w)
+      (hnormal : normal.eval mask = ...)
+      (hvector : vector.eval mask = translationVectorOfChoice w mask) :
+      impactDenomAtRank r mask (wordImpact i) =
+        Cuboctahedron.dot (normal.eval mask) (vector.eval mask)
+  ```
+
+  This packages the common compact-denominator proof shape for generated
+  Walsh trace consumers.  The rank-`101105` AP16CQ smoke now calls this theorem
+  directly, so future generated consumers need only supply:
+
+  - the rank-to-word equality;
+  - the compact Walsh normal equality;
+  - the Walsh vector trace equality.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cr_compact_denom_bridge_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 8.01s
+  peak tree RSS: 4055 MiB
+  minimum available memory: 45999 MiB
+  ```
+
+  Decision: accepted as the reusable denominator bridge for AP16 trace
+  consumers.  The next AP16 target should make the trace/denominator emitter
+  produce leaves against this bridge theorem rather than hand-writing
+  denominator-consumer modules.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

@@ -1,6 +1,5 @@
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolic
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshCompactDenomBridge
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke
-import Cuboctahedron.Search.TranslationRecurrence
 
 /-!
 AP16CQ compact-denominator symbolic smoke for the second Walsh trace fixture.
@@ -103,10 +102,10 @@ theorem generatedDenomDotCompact_mask6 :
         (wordImpact firstWordImpactIndex) =
       Cuboctahedron.dot (generatedNormal.eval generatedMask6)
         (generatedVector.eval generatedMask6) := by
-  rw [impactDenomAtRank_wordImpact_eq_compact,
-    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedUnrank_builds,
-    ← generatedNormal_eval_eq_compact]
-  rw [generatedVector_mask6_eq_translationVector]
+  exact impactDenomAtRank_wordImpact_eq_walshDot
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedUnrank_builds
+    (generatedNormal_eval_eq_compact generatedMask6)
+    generatedVector_mask6_eq_translationVector
 
 theorem compactDenomRank101105Smoke_builds : True := by
   trivial
