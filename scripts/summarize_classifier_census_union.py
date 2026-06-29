@@ -62,6 +62,7 @@ def report_families(report: dict[str, Any]) -> tuple[set[str], Counter[str], dic
 
 def summarize(
     *,
+    phase: str,
     reports: list[Path],
     top_limit: int,
     line_per_family_numerator: int | None,
@@ -118,7 +119,7 @@ def summarize(
     return {
         "schema_version": 1,
         "mode": "source_index_state_classifier_census_union",
-        "phase": "6Z.6K.8AP.16DU.9EG",
+        "phase": phase,
         "trusted_as_proof": False,
         "reports": rows,
         "report_count": len(reports),
@@ -141,7 +142,7 @@ def summarize(
 
 def markdown(payload: dict[str, Any]) -> str:
     lines = [
-        "# Phase 6Z.6K.8AP.16DU.9EG Classifier Census Union",
+        f"# Phase {payload['phase']} Classifier Census Union",
         "",
         "This diagnostic is not trusted as proof. It summarizes family-key growth",
         "across checkpointed source-index/state classifier census reports.",
@@ -205,11 +206,13 @@ def main() -> None:
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=None)
     parser.add_argument("--top-limit", type=int, default=20)
+    parser.add_argument("--phase", default="6Z.6K.8AP.16DU.9EG")
     parser.add_argument("--line-per-family-numerator", type=int, default=None)
     parser.add_argument("--line-per-family-denominator", type=int, default=None)
     args = parser.parse_args()
 
     payload = summarize(
+        phase=args.phase,
         reports=args.input,
         top_limit=args.top_limit,
         line_per_family_numerator=args.line_per_family_numerator,

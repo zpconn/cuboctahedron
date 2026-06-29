@@ -27907,3 +27907,121 @@ decision gate should be a broader checkpointed growth curve with more
 strategically chosen windows, or a stronger semantic quotient if new-key growth
 continues at this rate.  This remains diagnostic only and cannot substitute for
 Lean-checked exhaustive coverage.
+
+### Phase 6Z.6K.8AP.16DU.9EH checkpoint: broader stratified checkpointed census
+
+Phase 6Z.6K.8AP.16DU.9EH runs a broader stratified checkpointed classifier
+census over twenty `5,000`-rank windows (`100,000` sampled ranks total).  The
+windows were chosen to cover additional early, middle, and late regions not
+covered by 9EE/9EF.
+
+Guarded run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 30000 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified_guard.json \
+  -- timeout 480s python3 scripts/run_source_index_state_classifier_census.py \
+    --phase 6Z.6K.8AP.16DU.9EH \
+    --ranges 75000:80000,150000:155000,175000:180000,750000:755000,1500000:1505000,3000000:3005000,7500000:7505000,12500000:12505000,17500000:17505000,25000000:25005000,35000000:35005000,45000000:45005000,55000000:55005000,65000000:65005000,70000000:70005000,75000000:75005000,85000000:85005000,90025000:90030000,95000000:95005000,97000000:97005000 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_9eh \
+    --json scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json \
+    --md scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.md \
+    --family-gate 1000 \
+    --top-limit 20
+```
+
+Result:
+
+- Exit: `0`
+- Sampled ranks: `100000`
+- GoodDirection cases: `17194`
+- Merged families: `427`
+- Elapsed: `148.36s`
+- Peak tree RSS: `134 MiB`
+- Minimum available memory observed: `46575 MiB`
+
+Notable dense windows:
+
+| Range | Identity | GoodDirection | Families |
+| --- | ---: | ---: | ---: |
+| `[1500000,1505000)` | `482` | `3735` | `119` |
+| `[3000000,3005000)` | `463` | `2922` | `87` |
+| `[7500000,7505000)` | `238` | `1825` | `133` |
+| `[97000000,97005000)` | `694` | `3567` | `110` |
+
+Aggregate-only replay:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1024 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified_aggregate_guard.json \
+  -- timeout 60s python3 scripts/run_source_index_state_classifier_census.py \
+    --phase 6Z.6K.8AP.16DU.9EH \
+    --ranges 75000:80000,150000:155000,175000:180000,750000:755000,1500000:1505000,3000000:3005000,7500000:7505000,12500000:12505000,17500000:17505000,25000000:25005000,35000000:35005000,45000000:45005000,55000000:55005000,65000000:65005000,70000000:70005000,75000000:75005000,85000000:85005000,90025000:90030000,95000000:95005000,97000000:97005000 \
+    --workers 4 \
+    --checkpoint-dir /tmp/cuboctahedron_source_index_state_classifier_census_9eh \
+    --aggregate-only \
+    --json scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified_aggregate.json \
+    --md scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified_aggregate.md \
+    --family-gate 1000 \
+    --top-limit 20
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `0.50s`
+- Peak tree RSS: `1 MiB`
+- Minimum available memory observed: `46653 MiB`
+
+Decision: accepted as another memory-safe diagnostic, but not as evidence of
+saturation.  The run is cheap and restartable, yet it still contributes many
+families.  It should feed the union-growth gate below.
+
+### Phase 6Z.6K.8AP.16DU.9EI checkpoint: expanded union summary
+
+Phase 6Z.6K.8AP.16DU.9EI reruns the classifier census union summarizer over
+the 9EE, 9EF, and 9EH checkpointed reports.
+
+Command:
+
+```bash
+python3 scripts/summarize_classifier_census_union.py \
+  --phase 6Z.6K.8AP.16DU.9EI \
+  --input scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+  --input scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+  --input scripts/generated/phase6z6k8ap16du9eh_classifier_census_stratified.json \
+  --json scripts/generated/phase6z6k8ap16du9ei_classifier_census_union.json \
+  --md scripts/generated/phase6z6k8ap16du9ei_classifier_census_union.md \
+  --top-limit 20 \
+  --line-per-family-numerator 15056 \
+  --line-per-family-denominator 405
+```
+
+Result:
+
+- Reports summarized: `3`
+- Sampled ranks: `325000`
+- GoodDirection cases: `63642`
+- Union families: `649`
+- Diagnostic projected Lean lines at the 9EB smoke ratio: `24127`
+- 9EH families: `427`
+- 9EH new families beyond 9EE+9EF: `179`
+- 9EH reuse fraction: `58.08%`
+
+Decision: diagnostic route remains memory-safe but not yet production-accepted.
+The sampled union is still small enough that source size would not be a problem
+at this scale, but 9EH added `179` new family keys, substantially more than the
+9EF extension.  This argues against emitting production Lean from the current
+source-index/state key until either:
+
+1. a larger checkpointed growth curve shows clear saturation; or
+2. we add a stronger semantic quotient that reduces the new-key rate, likely by
+   grouping source-index/state keys by row-normal forms, source skeleton classes,
+   or a state-DAG language rather than by concrete source indices.
