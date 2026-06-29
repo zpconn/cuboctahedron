@@ -682,6 +682,28 @@ proof-relevant row pattern, even if the raw numbers differ. A symbolic family
 module is a generated Lean file that proves coverage for such families over
 some range or sample.
 
+A **source-position / row-producer** proof is the current preferred shape for
+many translation families. Instead of exposing a raw row number or a raw
+certificate, it says:
+
+```text
+this geometric source position supplies this inequality,
+this reusable row producer proves the needed row-template facts,
+therefore this GoodDirection survivor is impossible.
+```
+
+This is deliberately more semantic than a rank/mask table. The source position
+can name things like an `xpStart` constraint, an ordering constraint, or an
+interior constraint at a particular impact. The row producer then supplies the
+exact row relation needed by the two-source Farkas theorem.
+
+A **positive-survivor classifier** is the next layer above that. It only tries
+to classify identity-linear masks that already satisfy `GoodDirection`; masks
+that fail `GoodDirection` are handled by the general theorem, not by generated
+negative evidence. The classifier maps a surviving rank/mask pair to a compact
+source-position and row-producer reason, and the generic Lean adapters erase
+that reason to the public `AllTranslationGoodCoverageOnRange` target.
+
 These terms are engineering vocabulary for one idea:
 
 ```text
@@ -700,6 +722,10 @@ The generated proof surface now uses a few more names:
   a rank plus sign mask, into a known easy family or into the remaining cases
   that need a Farkas contradiction. Lean proves that the Boolean answer is
   sound.
+- An **all-Good coverage theorem** proves translation impossibility only for
+  identity-linear `GoodDirection` survivors. Lean then turns it into ordinary
+  translation coverage using the theorem `translation feasible ->
+  GoodDirection`.
 - A **residual case** is a case left over after the classifier has removed the
   broad easy families. Residual does not mean mysterious; it just means "still
   needs another checked reason."
@@ -865,15 +891,25 @@ theorems instead of public arrays of certificate data.
 
 `Cuboctahedron/Generated/ExhaustiveCoverage.lean` contains the adapters from
 generated interval coverage to these two packages. In particular, the
-`Public*Intervals` structures say:
+`Public*Intervals` structures package several proof shapes:
 
 ```text
 non-identity residual ranks are covered on [0, numPairWords)
+translation residual/Farkas ranks are covered on [0, numPairWords)
 translation GoodDirection survivors are covered on [0, numPairWords)
 ```
 
-Once Lean has those two interval facts, the conditional theorem can use the
-ordinary rank/unrank enumeration to cover every started itinerary.
+The newest and cleanest translation route is
+`PublicAllGoodSemanticCoverageIntervals`. Its translation field targets
+`AllGoodRankKilled`: for every identity-linear rank and every mask, if the mask
+is a `GoodDirection` survivor, the generated semantic evidence kills it. The
+adapter `semanticGeneratedCoverageOfAllGoodIntervals` then recovers ordinary
+translation coverage. This keeps generated files from having to emit negative
+evidence for masks that fail `GoodDirection`.
+
+Once Lean has the full non-identity interval fact and the full translation
+all-Good interval fact, the conditional theorem can use the ordinary
+rank/unrank enumeration to cover every started itinerary.
 
 Another way to view the trusted boundary:
 
@@ -974,11 +1010,33 @@ Recent diagnostics support the current translation-family direction:
 - calibration windows covered `63,725` GoodDirection survivors with zero
   uncovered cases after the expanded row-template catalog;
 - a representative symbolic row-family module covered `4,779` survivors using
-  `126` symbolic families, but broader sampling is still needed before full
-  generated emission.
+  `126` symbolic families;
+- source/row producer profiling over `39` windows and `97,500` sampled ranks
+  projected a production translation hierarchy of roughly `58k` Lean lines,
+  `14` chunks, and a peak RSS under about `4 GiB`;
+- the positive-survivor membership profile found `195` positive candidate
+  groups and `757` positive survivor signatures, with zero bad-direction
+  evidence, zero duplicates, and zero ambiguous GoodDirection memberships;
+- the direct signature-completeness route was rejected because most bounded
+  signatures were singleton or rank-local, while a source-index/state
+  GoodDirection classifier on `[0, 5000)` covered `4,693` GoodDirection
+  survivors with `125` families and avoided tens of thousands of irrelevant
+  non-GoodDirection or bounded-replay branches;
+- the compact Walsh denominator trace path now has split-trace modules for
+  representative ranks, avoiding the monolithic memory spike; a five-rank
+  singleton all-Good surface has been checked under serial memory guards, but
+  the heavy singleton root is intentionally not imported as the production
+  path.
 
 These are promising diagnostics, not proof. The final step is to emit and check
-the corresponding Lean coverage.
+the corresponding Lean coverage over the full `[0, numPairWords)` range.
+
+Just as important, several tempting routes are now marked as diagnostic or
+rejected: raw singleton rank/mask leaves, packed blobs, finite mask dispatch,
+catalog-only membership, broad symmetry compression, and blind global rank
+sweeps all ran into proof-size, memory, or theorem-shape limits. The active
+direction is semantic family evidence that exports small all-Good interval
+theorems.
 
 ## Important Files
 
@@ -1015,6 +1073,13 @@ the corresponding Lean coverage.
   target for translation Farkas and GoodDirection coverage.
 - `Cuboctahedron/Generated/Translation/TwoSource/*`: current two-source
   Farkas and support-family generator/checker interface.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean`:
+  source-position plus row-producer coverage APIs for GoodDirection survivors.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifier.lean`:
+  semantic and Boolean classifier surfaces for GoodDirection survivors.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexState*.lean`:
+  source-index/state descriptor, selector, and classifier smoke surfaces used
+  by the current translation membership experiments.
 - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean`:
   basic Walsh sign-polynomial and subcube obstruction language.
 - `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadratic.lean`:
