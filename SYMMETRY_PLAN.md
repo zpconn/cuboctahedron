@@ -16453,6 +16453,37 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke.md
   scripts/generated/phase6z6k8ap16du9h_selector_coordinate_smoke_guard.json
   ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
+  DU.9I checks whether the DU.9H selector coordinate remains deterministic on
+  disjoint sampled windows using memory-safe Python parallelism.  The run:
+
+  ```text
+  /usr/bin/time -v python3 scripts/profile_ap16du9i_selector_coordinate_windows.py --jobs 4
+  ```
+
+  passed in 19.41s wall time with four workers and tiny Python RSS.  It
+  represented 2,461 GoodDirection cases across four 1,000-rank windows:
+
+  ```text
+  [0,1000):          1465 cases, 74 families, selector deterministic
+  [100000,101000):    133 cases, 29 families, selector deterministic
+  [1000000,1001000):    0 cases,  0 families, vacuous
+  [6000000,6001000):  863 cases, 53 families, selector deterministic
+  ```
+
+  In the first window, `template_source_indices` and
+  `template_source_indices_full_sources` each still have one ambiguous
+  coordinate, while `template_source_indices_row_property` has zero ambiguous
+  coordinates.  In the later nonempty sampled windows, the coarser source-index
+  coordinate happens to be deterministic, but the row-property refinement is
+  the stable target selected by the full bounded `[0,5000)` audit.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9i_selector_coordinate_windows.json
+  scripts/generated/phase6z6k8ap16du9i_selector_coordinate_windows.md
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
