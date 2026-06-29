@@ -22467,6 +22467,77 @@ Decision:
   should target.
 - Do not reintroduce rank-local recurrence replay inside generated leaves.
 
+### Phase 6Z.6K.8AP.16DU.9BK checkpoint: scaled coefficient smoke accepted
+
+Phase 6Z.6K.8AP.16DU.9BK adds the first generated-style consumer of the DU.9BJ
+scaled coefficient core:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745ScaledCoeffSmoke.lean
+```
+
+The smoke uses the first DU.9BI rank-`6000745` weighted cube:
+
+```text
+cube index = 0
+label = ***00*
+fixed bits = d11m=false, d1m1=false
+free bits = y, z, d111, dm11
+scale = 9
+```
+
+It emits a `ScaledWalshQuadratic` integer coefficient record and proves:
+
+```lean
+generatedScaledPoly_intEval_nonpos_on_cube :
+  generatedScaledPoly.intEval mask <= 0
+
+generatedScaledPoly_coeffEval_nonpos_on_cube :
+  generatedScaledPoly.toQuadratic.coeffEval mask <= 0
+```
+
+The second theorem is obtained through
+`ScaledWalshQuadratic.coeffEval_nonpos_of_intEval_nonpos`, so the generated
+proof surface now validates the intended integer-to-rational sign bridge on a
+real weighted cube without importing the rejected trace/recurrent
+denominator-cover path.
+
+Focused validation:
+
+```text
+rg -n "sorry|admit|native_decide|unsafe|axiom" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745ScaledCoeffSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bk_scaled_coeff_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745ScaledCoeffSmoke
+```
+
+Result:
+
+```text
+forbidden-term scan = no matches
+exit = 0
+elapsed = 5.01s
+peak tree RSS = 4052 MiB
+min MemAvailable = 46132 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept scaled integer coefficient nonpositivity as a Lean-checkable,
+  memory-safe generated proof surface for individual weighted cubes.
+- The next missing production step is still the coefficient-equality bridge:
+  generated records must be connected to `weightedDirectWalshDotAtRank`
+  without unfolding `translationVectorWalshOfChoice` or importing compact
+  denominator trace modules.
+- Future scaling should first generate many such coefficient records and
+  separately prove a small, exact coefficient-identity certificate format.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
