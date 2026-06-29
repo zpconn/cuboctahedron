@@ -23732,6 +23732,50 @@ Decision:
   global coverage problem by itself; it lowers the constant for trace-certificate
   leaves if those remain part of the eventual backend.
 
+### Phase 6Z.6K.8AP.16DU.9CD checkpoint: generic impact-normal trace core accepted
+
+Phase 6Z.6K.8AP.16DU.9CD adds the hand-written normal-side trace surface that
+DU.9CC made worth testing:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactNormalWalshTrace.lean
+```
+
+The module defines:
+
+- `impactNormalWalshFromPrefix`, a compact normal constructor from a generated
+  prefix matrix;
+- `ImpactNormalWalshTrace`, a one-impact proof-carrying wrapper with separate
+  `prefix_eq` and `normal_eq_from_prefix` fields;
+- `ImpactNormalWalshVectorTrace`, the `WordIndex -> WalshAffineVec3` version
+  expected by weighted trace certificates; and
+- semantic bridge theorems proving each trace exports
+  `normal = impactNormalWalshAt w i`.
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactNormalWalshTrace
+exit = 0
+elapsed = 7.51s
+peak tree RSS = 4015 MiB
+min MemAvailable = 46103 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept DU.9CD as generic infrastructure.  It contains no generated case data
+  and no banned proof features.
+- This does not yet prove the generated normal facts faster.  It only exposes a
+  smaller target for the next emitter.
+- Next, generate a one-normal DU.9CE smoke that uses
+  `ImpactNormalWalshTrace`: provide a generated prefix matrix, prove
+  `prefixM = pairPrefixLinearNat generatedWord 0`, prove the generated normal
+  equals `impactNormalWalshFromPrefix generatedWord 0 prefixM`, and compare
+  its guarded build time to DU.9CC's direct normal proof (`5.51s`).
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
