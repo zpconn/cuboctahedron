@@ -1,0 +1,506 @@
+{
+  "decision": {
+    "notes": [
+      "family-key union is diagnostic and not proof",
+      "use this to choose whether to profile more windows or strengthen the quotient"
+    ],
+    "status": "diagnostic-only"
+  },
+  "good_direction_cases": 46448,
+  "line_per_family_denominator": 405,
+  "line_per_family_numerator": 15056,
+  "mode": "source_index_state_classifier_census_union",
+  "phase": "6Z.6K.8AP.16DU.9EG",
+  "projected_lines_for_union_family_count": 17473,
+  "report_count": 2,
+  "reports": [
+    {
+      "cumulative_family_count": 405,
+      "family_count": 405,
+      "good_direction_cases": 39338,
+      "new_family_count": 405,
+      "phase": "6Z.6K.8AP.16DU.9EE",
+      "rank_count": 175000,
+      "report": "scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json",
+      "reuse_fraction": 0.0,
+      "reused_family_count": 0
+    },
+    {
+      "cumulative_family_count": 470,
+      "family_count": 218,
+      "good_direction_cases": 7110,
+      "new_family_count": 65,
+      "phase": "6Z.6K.8AP.16DU.9EF",
+      "rank_count": 50000,
+      "report": "scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json",
+      "reuse_fraction": 0.7018348623853211,
+      "reused_family_count": 153
+    }
+  ],
+  "sampled_rank_count": 225000,
+  "schema_version": 1,
+  "top_families": [
+    {
+      "case_count": 9120,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "samples": [
+        {
+          "mask": 8,
+          "rank": 0
+        },
+        {
+          "mask": 9,
+          "rank": 0
+        },
+        {
+          "mask": 16,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 3679,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "samples": [
+        {
+          "mask": 54,
+          "rank": 0
+        },
+        {
+          "mask": 55,
+          "rank": 0
+        },
+        {
+          "mask": 54,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        24,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 2667,
+      "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+      "samples": [
+        {
+          "mask": 16,
+          "rank": 10000075
+        },
+        {
+          "mask": 16,
+          "rank": 10000083
+        },
+        {
+          "mask": 16,
+          "rank": 10000085
+        }
+      ],
+      "source_indices": [
+        52,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 1936,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07",
+      "samples": [
+        {
+          "mask": 45,
+          "rank": 3
+        },
+        {
+          "mask": 45,
+          "rank": 5
+        },
+        {
+          "mask": 47,
+          "rank": 5
+        }
+      ],
+      "source_indices": [
+        25,
+        2
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 1230,
+      "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 8220
+        },
+        {
+          "mask": 29,
+          "rank": 8220
+        },
+        {
+          "mask": 13,
+          "rank": 8222
+        }
+      ],
+      "source_indices": [
+        70,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 1182,
+      "key": "9f4f7bfe2ac84d1949052e300152b837f4b3538eca7f9eec8220a75bd448ef6a",
+      "samples": [
+        {
+          "mask": 29,
+          "rank": 10000009
+        },
+        {
+          "mask": 29,
+          "rank": 10000051
+        },
+        {
+          "mask": 29,
+          "rank": 10000075
+        }
+      ],
+      "source_indices": [
+        51,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_count": 857,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 0
+        },
+        {
+          "mask": 30,
+          "rank": 0
+        },
+        {
+          "mask": 31,
+          "rank": 0
+        }
+      ],
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 752,
+      "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 129
+        },
+        {
+          "mask": 31,
+          "rank": 129
+        },
+        {
+          "mask": 13,
+          "rank": 177
+        }
+      ],
+      "source_indices": [
+        0,
+        15
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 670,
+      "key": "b013663a1b1967d4fc59a926c8eb3f2d4507da5b08254dbe22289393330ce359",
+      "samples": [
+        {
+          "mask": 47,
+          "rank": 10000009
+        },
+        {
+          "mask": 47,
+          "rank": 10000051
+        },
+        {
+          "mask": 47,
+          "rank": 10000075
+        }
+      ],
+      "source_indices": [
+        50,
+        2
+      ],
+      "template_id": "opp_m1_var_first"
+    },
+    {
+      "case_count": 624,
+      "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 123
+        },
+        {
+          "mask": 22,
+          "rank": 123
+        },
+        {
+          "mask": 13,
+          "rank": 125
+        }
+      ],
+      "source_indices": [
+        0,
+        13
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 600,
+      "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9",
+      "samples": [
+        {
+          "mask": 7,
+          "rank": 498
+        },
+        {
+          "mask": 23,
+          "rank": 501
+        },
+        {
+          "mask": 7,
+          "rank": 519
+        }
+      ],
+      "source_indices": [
+        0,
+        10
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 584,
+      "key": "bca7e0c225d3475d3fec6a618eb400eebeda2f6fba0b1933b5a00ba928ece1a3",
+      "samples": [
+        {
+          "mask": 25,
+          "rank": 10347
+        },
+        {
+          "mask": 27,
+          "rank": 10347
+        },
+        {
+          "mask": 29,
+          "rank": 10347
+        }
+      ],
+      "source_indices": [
+        0,
+        9
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 577,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 60
+        },
+        {
+          "mask": 22,
+          "rank": 62
+        },
+        {
+          "mask": 29,
+          "rank": 62
+        }
+      ],
+      "source_indices": [
+        0,
+        11
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 563,
+      "key": "e470bcfe67776ccff91b9310da8cf2fb8505cf06227f913f178d91f750eac4f1",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 22680
+        },
+        {
+          "mask": 29,
+          "rank": 22680
+        },
+        {
+          "mask": 13,
+          "rank": 22682
+        }
+      ],
+      "source_indices": [
+        57,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 518,
+      "key": "5651cb30a48af7c1f0528abbffbbcf4eb1954a09872946c492757538dfa5516f",
+      "samples": [
+        {
+          "mask": 47,
+          "rank": 600
+        },
+        {
+          "mask": 55,
+          "rank": 600
+        },
+        {
+          "mask": 47,
+          "rank": 605
+        }
+      ],
+      "source_indices": [
+        0,
+        12
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 515,
+      "key": "158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158",
+      "samples": [
+        {
+          "mask": 8,
+          "rank": 147
+        },
+        {
+          "mask": 9,
+          "rank": 147
+        },
+        {
+          "mask": 16,
+          "rank": 387
+        }
+      ],
+      "source_indices": [
+        0,
+        14
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 513,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+      "samples": [
+        {
+          "mask": 13,
+          "rank": 0
+        },
+        {
+          "mask": 29,
+          "rank": 0
+        },
+        {
+          "mask": 13,
+          "rank": 2
+        }
+      ],
+      "source_indices": [
+        0,
+        7
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 512,
+      "key": "16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 810
+        },
+        {
+          "mask": 30,
+          "rank": 810
+        },
+        {
+          "mask": 31,
+          "rank": 810
+        }
+      ],
+      "source_indices": [
+        109,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 505,
+      "key": "b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231",
+      "samples": [
+        {
+          "mask": 22,
+          "rank": 617
+        },
+        {
+          "mask": 13,
+          "rank": 624
+        },
+        {
+          "mask": 22,
+          "rank": 630
+        }
+      ],
+      "source_indices": [
+        96,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 485,
+      "key": "6d2e4128c784627b01fdf6513ed433ec6ab2c1c8a0fcf082c21e14a67526bbd1",
+      "samples": [
+        {
+          "mask": 45,
+          "rank": 857
+        },
+        {
+          "mask": 54,
+          "rank": 857
+        },
+        {
+          "mask": 63,
+          "rank": 857
+        }
+      ],
+      "source_indices": [
+        161,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    }
+  ],
+  "trusted_as_proof": false,
+  "union_family_count": 470
+}

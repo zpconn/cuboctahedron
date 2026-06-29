@@ -27866,3 +27866,44 @@ add nontrivial family keys, so the current source-index/state key has not yet
 shown saturation.  Before production Lean emission, we need a broader
 checkpointed growth curve or a stronger quotient that can explain and bound the
 remaining family-key growth.
+
+### Phase 6Z.6K.8AP.16DU.9EG checkpoint: classifier census union summary
+
+Phase 6Z.6K.8AP.16DU.9EG adds
+`scripts/summarize_classifier_census_union.py`, a diagnostic helper that reads
+checkpointed census aggregate reports, loads their compact window checkpoints,
+and reports family-key reuse/new-key growth across reports.  It is not proof
+evidence; it is a bookkeeping tool for deciding whether the current quotient is
+approaching saturation.
+
+Command:
+
+```bash
+python3 scripts/summarize_classifier_census_union.py \
+  --input scripts/generated/phase6z6k8ap16du9ee_classifier_census_multiwindow.json \
+  --input scripts/generated/phase6z6k8ap16du9ef_classifier_census_density.json \
+  --json scripts/generated/phase6z6k8ap16du9eg_classifier_census_union.json \
+  --md scripts/generated/phase6z6k8ap16du9eg_classifier_census_union.md \
+  --top-limit 20 \
+  --line-per-family-numerator 15056 \
+  --line-per-family-denominator 405
+```
+
+Result:
+
+- Reports summarized: `2`
+- Sampled ranks: `225000`
+- GoodDirection cases: `46448`
+- Union families: `470`
+- New families from 9EF beyond 9EE: `65`
+- 9EF reuse fraction: `70.18%`
+- Diagnostic projected Lean lines at the 9EB smoke ratio: `17473`
+
+Decision: accepted as a lightweight growth-summary tool.  The current sampled
+family catalog is still small enough that theorem-valued Lean emission would
+probably be source-size manageable, but the `65` new keys in only `50,000`
+additional sampled ranks show the quotient has not saturated.  The next
+decision gate should be a broader checkpointed growth curve with more
+strategically chosen windows, or a stronger semantic quotient if new-key growth
+continues at this rate.  This remains diagnostic only and cannot substitute for
+Lean-checked exhaustive coverage.
