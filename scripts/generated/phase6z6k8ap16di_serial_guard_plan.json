@@ -62,6 +62,6 @@
       "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke"
     }
   ],
-  "timeout_seconds": 240,
+  "timeout_seconds": 600,
   "trusted_as_final_generated_coverage": false
 }

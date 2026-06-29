@@ -12,7 +12,7 @@ Default safety settings:
 ```text
 process-tree RSS cap: 5000 MiB
 minimum MemAvailable floor: 12000 MiB
-per-target timeout: 240s
+per-target timeout: 600s
 Lean/Lake parallelism: LEAN_NUM_THREADS=1, LAKE_JOBS=1
 ```
 

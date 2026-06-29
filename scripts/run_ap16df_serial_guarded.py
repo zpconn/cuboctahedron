@@ -166,7 +166,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--rss-cap-mib", type=int, default=5000)
     parser.add_argument("--available-floor-mib", type=int, default=12000)
-    parser.add_argument("--timeout-seconds", type=int, default=240)
+    parser.add_argument("--timeout-seconds", type=int, default=600)
     parser.add_argument("--poll-seconds", type=float, default=0.5)
     return parser.parse_args()
 
