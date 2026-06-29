@@ -1,0 +1,27 @@
+{
+  "candidate_count": 64,
+  "decision": {
+    "notes": [
+      "validates the multi-candidate classifier theorem surface",
+      "does not prove the catalog-completeness premise",
+      "does not import rank-local singleton candidate-facts shards",
+      "does not enumerate masks that fail GoodDirection"
+    ],
+    "status": "surface-smoke-generated"
+  },
+  "lean_output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorCandidateCatalogSurfaceSmoke.lean",
+  "mode": "candidate_catalog_surface_smoke",
+  "next_required_proof": {
+    "description": "prove that every identity-linear Boolean GoodDirection survivor in the range belongs to one generated candidate carrying source and row facts",
+    "theorem_premise": "hcomplete"
+  },
+  "observed_good_direction_cases": 6454,
+  "phase": "6Z.6K.8AP.16DU.0",
+  "range": [
+    0,
+    5000
+  ],
+  "schema_version": 1,
+  "total_candidate_groups": 195,
+  "trusted_as_proof": false
+}
