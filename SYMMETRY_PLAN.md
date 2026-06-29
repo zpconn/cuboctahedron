@@ -23776,6 +23776,51 @@ Decision:
   equals `impactNormalWalshFromPrefix generatedWord 0 prefixM`, and compare
   its guarded build time to DU.9CC's direct normal proof (`5.51s`).
 
+### Phase 6Z.6K.8AP.16DU.9CE checkpoint: trace-style one-normal smoke accepted but slower at index 0
+
+Phase 6Z.6K.8AP.16DU.9CE tests the DU.9CD trace surface on the same
+rank-`6000745`, impact-index-`0` fixture as DU.9CC.
+
+Files:
+
+```text
+scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertNormalTraceMicroSmoke.lean
+```
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertNormalTraceMicroSmoke
+exit = 0
+elapsed = 6.06s
+peak tree RSS = 4023 MiB
+min MemAvailable = 46140 MiB
+rss cap = 8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CC direct normal index-0 micro:      5.51s, 4052 MiB
+DU.9CE trace-style normal index-0 micro: 6.06s, 4023 MiB
+```
+
+Decision:
+
+- Accept DU.9CE as a memory-safe smoke.  It introduces no banned proof
+  features and the trace surface compiles through a generated use site.
+- Do not claim the trace wrapper improves index-0 normal proofs.  For the
+  trivial prefix matrix at impact `0`, the extra trace layer is slightly
+  slower.
+- The meaningful next comparison is a harder impact, such as index `7`, where
+  `pairPrefixLinearNat generatedWord 7` is nontrivial.  Generalize the DU.9CC
+  and DU.9CE emitters to accept an impact index, or create index-7 variants,
+  then compare direct-vs-trace guarded builds before changing the Data-chain
+  emitters.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
