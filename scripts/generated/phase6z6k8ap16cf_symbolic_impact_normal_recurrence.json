@@ -1,0 +1,348 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16CF",
+  "status": "accepted_profile",
+  "rank": 100805,
+  "anchor_mask": 4,
+  "pair_word": [
+    "x",
+    "y",
+    "y",
+    "dm11",
+    "d11m",
+    "z",
+    "z",
+    "d111",
+    "d111",
+    "d1m1",
+    "d1m1",
+    "d11m",
+    "dm11"
+  ],
+  "selected_impacts": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    10
+  ],
+  "construction": "symbolic pair-word recurrence for pre-impact copied normals",
+  "uses_mask_interpolation_for_construction": false,
+  "validation_uses_64_mask_replay": true,
+  "trusted_as_proof": false,
+  "vector_recurrence_reused_from_ap16ce": true,
+  "all_normal_matches_ap16by_interpolation": true,
+  "all_dot_matches_ap16by_expected": true,
+  "all_exact_mask_evaluations_match": true,
+  "impact_reports": [
+    {
+      "impact": 1,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 1,
+          "max_degree": 0,
+          "terms": {
+            "1": "-1"
+          }
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 0,
+          "max_degree": 0,
+          "terms": {}
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 0,
+          "max_degree": 0,
+          "terms": {}
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 6,
+        "max_degree": 1,
+        "terms": {
+          "1": "4",
+          "z": "32/9",
+          "d111": "104/27",
+          "d11m": "8/9",
+          "d1m1": "40/27",
+          "dm11": "-8/3"
+        }
+      }
+    },
+    {
+      "impact": 2,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 0,
+          "max_degree": 0,
+          "terms": {}
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "y": "1"
+          }
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 0,
+          "max_degree": 0,
+          "terms": {}
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 6,
+        "max_degree": 2,
+        "terms": {
+          "1": "4",
+          "y*z": "16/9",
+          "y*d111": "-56/27",
+          "y*d11m": "40/9",
+          "y*d1m1": "56/27",
+          "y*dm11": "8/3"
+        }
+      }
+    },
+    {
+      "impact": 4,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "dm11": "1"
+          }
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "dm11": "1"
+          }
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "dm11": "1"
+          }
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 7,
+        "max_degree": 2,
+        "terms": {
+          "1": "8",
+          "y*dm11": "4",
+          "z*dm11": "-4/3",
+          "d111*dm11": "-40/9",
+          "d11m*dm11": "8/3",
+          "d1m1*dm11": "40/9",
+          "dm11": "-4"
+        }
+      }
+    },
+    {
+      "impact": 5,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d11m": "-1/3"
+          }
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d11m": "5/3"
+          }
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d11m": "-1/3"
+          }
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 7,
+        "max_degree": 2,
+        "terms": {
+          "1": "8",
+          "y*d11m": "20/3",
+          "z*d11m": "4",
+          "d111*d11m": "-8/3",
+          "d11m": "4/3",
+          "d11m*d1m1": "8/3",
+          "d11m*dm11": "8/3"
+        }
+      }
+    },
+    {
+      "impact": 6,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "z": "-8/9"
+          }
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "z": "4/9"
+          }
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "z": "1/9"
+          }
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 7,
+        "max_degree": 2,
+        "terms": {
+          "1": "4",
+          "y*z": "16/9",
+          "z": "32/9",
+          "z*d111": "8/3",
+          "z*d11m": "8/3",
+          "z*d1m1": "8/3",
+          "z*dm11": "-8/9"
+        }
+      }
+    },
+    {
+      "impact": 8,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d111": "-13/9"
+          }
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d111": "-7/9"
+          }
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d111": "5/9"
+          }
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 7,
+        "max_degree": 2,
+        "terms": {
+          "1": "8",
+          "y*d111": "-28/9",
+          "z*d111": "4",
+          "d111": "52/9",
+          "d111*d11m": "-8/3",
+          "d111*d1m1": "8/3",
+          "d111*dm11": "-40/9"
+        }
+      }
+    },
+    {
+      "impact": 10,
+      "normal_matches_ap16by_interpolation": true,
+      "dot_matches_ap16by_expected": true,
+      "all_exact_mask_evaluations_match": true,
+      "normal_summary": [
+        {
+          "axis": "x",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d1m1": "-5/9"
+          }
+        },
+        {
+          "axis": "y",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d1m1": "7/9"
+          }
+        },
+        {
+          "axis": "z",
+          "nonzero_terms": 1,
+          "max_degree": 1,
+          "terms": {
+            "d1m1": "13/9"
+          }
+        }
+      ],
+      "dot_summary": {
+        "nonzero_terms": 7,
+        "max_degree": 2,
+        "terms": {
+          "1": "8",
+          "y*d1m1": "28/9",
+          "z*d1m1": "4",
+          "d111*d1m1": "8/3",
+          "d11m*d1m1": "8/3",
+          "d1m1": "20/9",
+          "d1m1*dm11": "40/9"
+        }
+      }
+    }
+  ],
+  "mismatch_count": 0,
+  "mismatches": [],
+  "next_step": "Port the vector and normal recurrences into a small Lean symbolic/scaled denominator evaluator so AP16CD can replace bounded mask replay with a semantic theorem."
+}

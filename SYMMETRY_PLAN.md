@@ -13226,6 +13226,54 @@ Acceptance:
   a Lean-checked symbolic/scaled denominator evaluator theorem.  Keep the
   AP16CD coefficient side (`WalshAffineVec3.dot` and
   `WalshQuadraticImpactObstruction`) unchanged.
+- [x] Implement Phase 6Z.6K.8AP.16CF symbolic impact-normal recurrence
+  profile:
+  AP16CF adds
+  `scripts/profile_ap16cf_symbolic_impact_normal_recurrence.py` and the
+  diagnostic reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16cf_symbolic_impact_normal_recurrence.json
+  scripts/generated/phase6z6k8ap16cf_symbolic_impact_normal_recurrence.md
+  ```
+
+  The profile computes the copied pre-impact normal for each AP16BS selected
+  impact from the exact symbolic recurrence:
+
+  - the prefix linear matrix is determined only by the pair-word prefix,
+    because opposite faces share the same linear reflection;
+  - the chosen side of the opposite-face pair contributes only a Walsh sign bit;
+  - the copied canonical normal is multiplied by that sign bit.
+
+  It then combines this symbolic normal recurrence with the AP16CE symbolic
+  translation-vector recurrence and checks the dot-product coefficients against
+  the AP16BY/AP16BS expected denominator Walsh polynomials.
+
+  Result:
+
+  ```text
+  status: accepted_profile
+  rank: 100805
+  selected impacts: [1, 2, 4, 5, 6, 8, 10]
+  construction uses mask interpolation: false
+  validation replays all 64 masks externally: true
+  all normal matches against AP16BY: true
+  all dot products match AP16BY expected polynomials: true
+  all exact mask evaluations match: true
+  ```
+
+  Decision: accepted as the diagnostic checkpoint that closes the coefficient
+  discovery side of AP16CD.  For the selected rank/subcube, both symbolic
+  inputs to the denominator dot product are recoverable by direct recurrences,
+  and their product is the expected WalshQuadratic.  This is still not final
+  proof evidence: the recurrence-to-`impactDenomAtRank` bridge is externally
+  validated by 64-mask replay.
+
+  Next proof-engineering target: port these vector/normal recurrences into a
+  small Lean symbolic/scaled denominator evaluator and prove the semantic
+  theorem that its evaluated dot product equals `impactDenomAtRank`.  That
+  theorem should replace AP16CD's bounded mask replay while keeping the
+  existing `WalshSymbolicQuadraticImpactObstruction` erasure API.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
