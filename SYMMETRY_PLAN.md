@@ -537,7 +537,10 @@ passed in 13.04s at 4.063 GiB peak tree RSS.  DU.9CV then patches one
 generated-style cube leaf to use that theorem; its focused guarded build
 passed in 20.54s at 4.736 GiB peak tree RSS.  This is a useful constant-factor
 bridge, not a reason to revive rank-local weighted-cube chains as the main
-coverage strategy.
+coverage strategy.  DU.9CW replays the membership-surface audit and confirms
+all endpoint adapters are present; the remaining theorem is the semantic
+classifier-key/source-row membership theorem under identity-linear
+`GoodDirection`.
 DU.9F adds the candidate-catalog facts adapter for the equivalent
 `generatedCandidateKeyAt` catalog target.  DU.9G rejects rank-prefix,
 mask-only, and singleton-signature membership routes.  DU.9H then audits the
@@ -25350,6 +25353,60 @@ Decision:
 - Next strategic work remains the classifier/source-language membership proof
   or a stronger pseudo-Boolean/global-template theorem that prevents most
   weighted-cube leaves from being generated at all.
+
+### Phase 6Z.6K.8AP.16DU.9CW checkpoint: membership surface audit replayed
+
+Phase 6Z.6K.8AP.16DU.9CW replays the existing membership-surface audit after
+the DU.9CU/DU.9CV fallback-cube cleanup, to ensure the main production
+frontier has not moved back toward wrapper work.
+
+Command:
+
+```text
+python3 scripts/audit_ap16du9ai_membership_surface.py
+```
+
+Result:
+
+```text
+status:             accepted-surfaces-present
+missing surfaces:   0
+```
+
+The audit confirms the following endpoint surfaces are already present:
+
+- classifier facts/predicate catalogs to all-Good coverage;
+- classifier facts/predicate catalogs to descriptor coverage;
+- selector-coordinate catalogs to all-Good and descriptor coverage;
+- row-property existential source/row coverage;
+- descriptor coverage erasure to all-Good coverage.
+
+Remaining theorem shape:
+
+```lean
+forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+  0 <= rank ->
+    rank < 5000 ->
+      totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+          (matId : Mat3 Rat) ->
+        GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+          exists key : ClassifierKey,
+            SourceIndexStateSourceFacts
+              key.toSourceIndexStateKey rank mask /\
+            SourceIndexStateRowFacts
+              key.toSourceIndexStateKey rank mask
+```
+
+Decision:
+
+- Do not add more endpoint wrappers until a generator requires a genuinely new
+  premise shape.
+- The next production-relevant task is to prove or generate the semantic
+  membership theorem itself, preferably through a shared source-index/state
+  family classifier or selector-coordinate theorem.
+- Do not prove this by `fin_cases` over masks, by replaying bad-direction
+  masks, by a giant key table, or by rank-local compact-Walsh membership
+  covers.
 
 ## Explicit Non-Goals
 
