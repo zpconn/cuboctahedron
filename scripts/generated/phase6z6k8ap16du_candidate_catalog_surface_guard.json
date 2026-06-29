@@ -5,12 +5,12 @@
     "-lc",
     "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke"
   ],
-  "elapsed_seconds": 17.019950023997808,
+  "elapsed_seconds": 10.006762666002032,
   "exit_code": 0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4119480,
-  "max_tree_rss_mib": 4022.9296875,
-  "min_available_seen_kib": 47185444,
-  "min_available_seen_mib": 46079.53515625,
+  "max_tree_rss_kib": 4186920,
+  "max_tree_rss_mib": 4088.7890625,
+  "min_available_seen_kib": 47124820,
+  "min_available_seen_mib": 46020.33203125,
   "rss_cap_mib": 6500.0
 }

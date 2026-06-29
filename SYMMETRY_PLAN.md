@@ -15616,16 +15616,21 @@ Acceptance:
 - [x] Implement Phase 6Z.6K.8AP.16DU.0 bounded positive-survivor candidate
   catalog surface smoke:
   AP16DU.0 emits the first bounded multi-candidate catalog surface selected by
-  AP16DT.  It generates a private finite `GeneratedCandidate` catalog with 64
-  shared positive candidate groups for the range `[0,5000)`, defines the
-  source-position specs, keys, and row producers for those candidates, and
-  proves that a catalog-completeness premise erases to
+  AP16DT.  A preflight audit first rejected the global top-64 candidate chunk
+  for the theorem range: it covered 4,330 of the 4,693 profiled
+  GoodDirection cases in `[0,5000)` and left 363 cases uncovered.  The surface
+  was therefore regenerated from the range-specific candidate list.  It now
+  generates a private finite `GeneratedCandidate` catalog with 125 shared
+  positive candidate groups for `[0,5000)`, defines the source-position specs,
+  keys, and row producers for those candidates, and proves that a
+  catalog-completeness premise erases to
   `AllTranslationGoodCoverageOnRange 0 5000`.
 
   New generator:
 
   ```text
   scripts/generate_ap16du_candidate_catalog_surface_smoke.py
+  scripts/audit_ap16du_candidate_chunk_range_coverage.py
   ```
 
   Generated Lean:
@@ -15637,7 +15642,10 @@ Acceptance:
   Commands:
 
   ```text
+  python3 scripts/audit_ap16du_candidate_chunk_range_coverage.py --jobs 4
   python3 scripts/generate_ap16du_candidate_catalog_surface_smoke.py
+  python3 scripts/generate_ap16du_candidate_catalog_surface_smoke.py --range-audit scripts/generated/phase6z6k8ap16du_candidate_chunk_range_coverage.json
+  python3 -m py_compile scripts/audit_ap16du_candidate_chunk_range_coverage.py
   python3 -m py_compile scripts/generate_ap16du_candidate_catalog_surface_smoke.py
   python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6500 --poll-seconds 1 --json scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorCandidateCatalogSurfaceSmoke'
   ```
@@ -15646,11 +15654,11 @@ Acceptance:
 
   ```text
   build: passed
-  elapsed: 17.02s
-  peak process-tree RSS: 4022.93 MiB
-  min available memory observed: 46079.54 MiB
-  candidate groups in chunk: 64
-  profiled GoodDirection cases represented by chunk: 6454
+  elapsed: 10.01s
+  peak process-tree RSS: 4088.79 MiB
+  min available memory observed: 46020.33 MiB
+  candidate groups in range-specific catalog: 125
+  profiled GoodDirection cases represented by catalog: 4693
   ```
 
   This is accepted only as a theorem-surface/erasure smoke.  It does not prove
@@ -15671,6 +15679,8 @@ Acceptance:
   Reports:
 
   ```text
+  scripts/generated/phase6z6k8ap16du_candidate_chunk_range_coverage.json
+  scripts/generated/phase6z6k8ap16du_candidate_chunk_range_coverage.md
   scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_smoke.json
   scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_smoke.md
   scripts/generated/phase6z6k8ap16du_candidate_catalog_surface_guard.json

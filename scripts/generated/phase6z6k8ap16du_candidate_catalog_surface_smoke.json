@@ -1,5 +1,5 @@
 {
-  "candidate_count": 64,
+  "candidate_count": 125,
   "decision": {
     "notes": [
       "validates the multi-candidate classifier theorem surface",
@@ -15,13 +15,14 @@
     "description": "prove that every identity-linear Boolean GoodDirection survivor in the range belongs to one generated candidate carrying source and row facts",
     "theorem_premise": "hcomplete"
   },
-  "observed_good_direction_cases": 6454,
+  "observed_good_direction_cases": 4693,
   "phase": "6Z.6K.8AP.16DU.0",
   "range": [
     0,
     5000
   ],
   "schema_version": 1,
+  "selection": "range-audit",
   "total_candidate_groups": 195,
   "trusted_as_proof": false
 }

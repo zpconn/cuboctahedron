@@ -6,8 +6,9 @@ for the AP16DT candidate-catalog classifier route.
 - Status: `surface-smoke-generated`
 - Lean output: `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorCandidateCatalogSurfaceSmoke.lean`
 - Range: `[0, 5000]`
-- Candidate groups in chunk: `64`
-- Profiled GoodDirection cases represented by chunk: `6454`
+- Candidate groups in chunk: `125`
+- Selection: `range-audit`
+- Profiled GoodDirection cases represented by chunk: `4693`
 - Total candidate groups in AP16I profile: `195`
 
 The generated theorem still takes `hcomplete` as a premise.  The next

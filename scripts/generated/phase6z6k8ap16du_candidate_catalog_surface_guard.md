@@ -11,10 +11,11 @@ python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6500 --poll-seconds 1 -
 ```
 
 - Exit code: `0`
-- Elapsed seconds: `17.02`
-- Peak process-tree RSS: `4022.93 MiB`
-- Minimum available memory observed: `46079.54 MiB`
+- Elapsed seconds: `10.01`
+- Peak process-tree RSS: `4088.79 MiB`
+- Minimum available memory observed: `46020.33 MiB`
 - RSS cap: `6500 MiB`
 
-This validates the generated multi-candidate catalog surface and erasure path.
-It does not prove the remaining catalog-completeness premise `hcomplete`.
+This validates the regenerated range-specific 125-candidate catalog surface
+and erasure path.  It does not prove the remaining catalog-completeness
+premise `hcomplete`.

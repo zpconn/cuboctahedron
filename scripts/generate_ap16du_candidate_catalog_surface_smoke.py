@@ -51,6 +51,31 @@ def selected_candidates(profile: dict[str, Any], *, chunk: int, chunk_size: int)
     return candidates[start:stop]
 
 
+def selected_candidates_from_range_audit(
+    profile: dict[str, Any],
+    audit: dict[str, Any],
+) -> list[dict[str, Any]]:
+    by_key = {
+        row["key"]: row
+        for row in profile.get("positive_candidate_catalog", [])
+    }
+    selected: list[dict[str, Any]] = []
+    missing: list[str] = []
+    for row in audit.get("range_candidate_keys", []):
+        key = row["key"]
+        candidate = by_key.get(key)
+        if candidate is None:
+            missing.append(key)
+        else:
+            selected.append(candidate)
+    if missing:
+        raise SystemExit(
+            "range audit names candidate keys missing from AP16I profile: "
+            + ", ".join(missing[:5])
+        )
+    return selected
+
+
 def emit_candidate_catalog_module(
     *,
     profile: dict[str, Any],
@@ -90,7 +115,12 @@ def emit_candidate_catalog_module(
         exact SourceIndexStateRowFacts.of_rows h.2 }}"""
         )
 
-    observed_cases = sum(int(group.get("case_count", 0)) for group in candidates)
+    observed_cases = int(
+        plan.get("range_audit_payload", {}).get(
+            "profiled_good_direction_cases",
+            sum(int(group.get("case_count", 0)) for group in candidates),
+        )
+    )
     chunk_size = plan["candidate_catalog_route"]["chunk_size"]
     text = f"""import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
 
@@ -112,7 +142,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvi
 
 set_option linter.unusedVariables false
 
-/-- First AP16DT candidate chunk: `{len(candidates)}` shared candidate groups. -/
+/-- AP16DU selected candidate catalog: `{len(candidates)}` shared candidate groups. -/
 inductive GeneratedCandidate
   | {ctor_lines}
 deriving DecidableEq, Repr
@@ -164,7 +194,7 @@ private def generatedCatalogClassifier
   completeBool := hcomplete
 
 /--
-AP16DU.0 surface theorem for the first candidate chunk.
+AP16DU.0 surface theorem for the selected candidate catalog.
 
 The selected chunk has `{len(candidates)}` candidate groups out of
 `{plan["profile_summary"]["positive_candidate_groups"]}` and accounts for
@@ -202,7 +232,12 @@ def write_reports(
     json_path: Path,
     md_path: Path,
 ) -> None:
-    observed_cases = sum(int(group.get("case_count", 0)) for group in candidates)
+    observed_cases = int(
+        plan.get("range_audit_payload", {}).get(
+            "profiled_good_direction_cases",
+            sum(int(group.get("case_count", 0)) for group in candidates),
+        )
+    )
     payload = {
         "schema_version": 1,
         "phase": "6Z.6K.8AP.16DU.0",
@@ -212,6 +247,7 @@ def write_reports(
         "range": profile["ranges"][0],
         "candidate_count": len(candidates),
         "observed_good_direction_cases": observed_cases,
+        "selection": "range-audit" if plan.get("range_audit_selection") else "global-chunk",
         "total_candidate_groups": plan["profile_summary"]["positive_candidate_groups"],
         "decision": {
             "status": "surface-smoke-generated",
@@ -243,6 +279,7 @@ def write_reports(
         f"- Lean output: `{output}`",
         f"- Range: `{payload['range']}`",
         f"- Candidate groups in chunk: `{len(candidates)}`",
+        f"- Selection: `{payload['selection']}`",
         f"- Profiled GoodDirection cases represented by chunk: `{observed_cases}`",
         f"- Total candidate groups in AP16I profile: `{payload['total_candidate_groups']}`",
         "",
@@ -263,6 +300,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
     parser.add_argument("--chunk", type=int, default=0)
     parser.add_argument("--chunk-size", type=int, default=64)
+    parser.add_argument(
+        "--range-audit",
+        type=Path,
+        default=None,
+        help="optional AP16DU range-coverage audit JSON; when set, select all candidate keys used in that range",
+    )
     return parser.parse_args()
 
 
@@ -270,7 +313,14 @@ def main() -> None:
     args = parse_args()
     profile = read_json(args.profile)
     plan = read_json(args.plan)
-    candidates = selected_candidates(profile, chunk=args.chunk, chunk_size=args.chunk_size)
+    if args.range_audit is None:
+        candidates = selected_candidates(profile, chunk=args.chunk, chunk_size=args.chunk_size)
+    else:
+        audit = read_json(args.range_audit)
+        candidates = selected_candidates_from_range_audit(profile, audit)
+        plan = dict(plan)
+        plan["range_audit_selection"] = str(args.range_audit)
+        plan["range_audit_payload"] = audit
     if not candidates:
         raise SystemExit("selected candidate chunk is empty")
     emit_candidate_catalog_module(
@@ -289,7 +339,13 @@ def main() -> None:
     )
     print(f"wrote {args.output}")
     print(f"candidate_count={len(candidates)}")
-    print(f"observed_cases={sum(int(group.get('case_count', 0)) for group in candidates)}")
+    observed_cases = int(
+        plan.get("range_audit_payload", {}).get(
+            "profiled_good_direction_cases",
+            sum(int(group.get("case_count", 0)) for group in candidates),
+        )
+    )
+    print(f"observed_cases={observed_cases}")
     print(f"wrote {args.json}")
     print(f"wrote {args.md}")
 
