@@ -242,7 +242,8 @@ bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
 denominator trace consumers, AP16CR's reusable compact-denominator bridge,
 AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
 symbolic-normal nonzero-impact consumer smoke, AP16CV/AP16CW's shallow
-consumer root and manifest-batch smoke, plus AP16CP's
+consumer root and manifest-batch smoke, AP16CX's GoodDirection-to-compact-dot
+positivity bridge, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14191,6 +14192,69 @@ Acceptance:
   connect a compact denominator equality to the positive-survivor membership
   bridge, still with an explicit `GoodDirectionAtRank` premise and no
   `fin_cases mask` replay over bad-direction masks.
+- [x] Implement Phase 6Z.6K.8AP.16CX GoodDirection-to-compact-dot positivity
+  bridge:
+  AP16CX extends
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshCompactDenomBridge.lean
+  ```
+
+  with generic theorems:
+
+  ```lean
+  walshDot_pos_of_goodDirection
+  walshDot_pos_of_goodDirection_wordImpact
+  ```
+
+  These prove that once a generated consumer has rewritten an internal
+  `impactDenomAtRank` to a compact Walsh dot product, the semantic
+  `GoodDirectionAtRank` premise gives positivity of that dot product.  This is
+  the first proof-facing bridge from the AP16 compact denominator trace route
+  into positive-survivor membership evidence.
+
+  The manifest emitter now also exports, in each consumer fixture:
+
+  ```lean
+  generatedDotPositive_mask*_of_goodDirection
+  ```
+
+  so fixture modules no longer merely prove denominator equality; they can
+  consume an explicit `GoodDirectionAtRank` hypothesis and produce compact-dot
+  positivity without replaying `totalAff` or bounded denominator calculations.
+
+  Guarded builds:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cx_compact_denom_bridge_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshCompactDenomBridge'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cx_compact_denom_good_direction_root_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomAllSmoke'
+  ```
+
+  Results:
+
+  ```text
+  bridge: passed, elapsed 2.50s, peak tree RSS 3844 MiB,
+    minimum available memory 46165 MiB
+  manifest root: passed, elapsed 15.52s, peak tree RSS 3970 MiB,
+    minimum available memory 45997 MiB
+  ```
+
+  Decision: accepted.  The next AP16 target should use these compact-dot
+  positivity theorems inside a small positive-survivor membership smoke, proving
+  at least one `generatedGoodMaskMember` implication from semantic denominator
+  signatures rather than from Boolean replay over all masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

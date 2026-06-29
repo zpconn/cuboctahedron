@@ -106,6 +106,14 @@ theorem generatedDenomDotCompact_mask6 :
     (generatedNormal_eval_eq_compact generatedMask6)
     generatedVector_mask6_eq_translationVector
 
+theorem generatedDotPositive_mask6_of_goodDirection
+    (hgood : GoodDirectionAtRank generatedRank generatedMask6) :
+    0 < Cuboctahedron.dot (generatedNormal.eval generatedMask6)
+      (generatedVector.eval generatedMask6) :=
+  walshDot_pos_of_goodDirection
+    generatedDenomDotCompact_mask6
+    hgood
+
 theorem compactDenomGeneratedSmoke_builds : True := by
   trivial
 

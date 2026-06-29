@@ -31,6 +31,47 @@ theorem impactDenomAtRank_wordImpact_eq_walshDot
   rw [impactDenomAtRank_wordImpact_eq_compact, hunrank, ← hnormal,
     hvector]
 
+private theorem wordImpact_ne_zero (i : WordIndex) :
+    wordImpact i ≠ (0 : Impact15) := by
+  simp [wordImpact, afterStart]
+
+private theorem wordImpact_ne_last (i : WordIndex) :
+    wordImpact i ≠ lastImpact := by
+  intro h
+  have hv := congrArg Fin.val h
+  simp [wordImpact, afterStart, lastImpact] at hv
+  omega
+
+theorem walshDot_pos_of_goodDirection
+    {r : Fin numPairWords} {mask : SignMask} {i : WordIndex}
+    {normal vector : WalshAffineVec3}
+    (hdenom :
+      impactDenomAtRank r mask (wordImpact i) =
+        Cuboctahedron.dot (normal.eval mask) (vector.eval mask))
+    (hgood : GoodDirectionAtRank r mask) :
+    0 < Cuboctahedron.dot (normal.eval mask) (vector.eval mask) := by
+  have hpos :
+      0 < impactDenomAtRank r mask (wordImpact i) :=
+    hgood ⟨wordImpact i, wordImpact_ne_zero i, wordImpact_ne_last i⟩
+  simpa [hdenom] using hpos
+
+theorem walshDot_pos_of_goodDirection_wordImpact
+    {r : Fin numPairWords} {mask : SignMask} {i : WordIndex}
+    {w : PairWord} {normal vector : WalshAffineVec3}
+    (hunrank : unrankPairWord r = w)
+    (hnormal :
+      normal.eval mask =
+        matVec (pairPrefixLinearNat w i.val)
+          (scalarMul (signedCoeffAt w mask i)
+            (canonicalNormalQ (w.get i))))
+    (hvector : vector.eval mask = translationVectorOfChoice w mask)
+    (hgood : GoodDirectionAtRank r mask) :
+    0 < Cuboctahedron.dot (normal.eval mask) (vector.eval mask) :=
+  walshDot_pos_of_goodDirection
+    (impactDenomAtRank_wordImpact_eq_walshDot
+      hunrank hnormal hvector)
+    hgood
+
 end ImpactSubcube
 end PositiveSurvivorClassifier
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
