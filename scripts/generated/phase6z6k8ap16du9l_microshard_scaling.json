@@ -1,0 +1,49 @@
+{
+  "phase": "6Z.6K.8AP.16DU.9L.microshard_scaling",
+  "trusted_as_proof": false,
+  "description": "Temporary /tmp Lean micro-shards generated from the public-support selector slice emitter and checked with lake env lean under the RSS guard.",
+  "range": [
+    0,
+    1
+  ],
+  "good_direction_survivors_in_range": 16,
+  "runs": [
+    {
+      "positive_survivors": 2,
+      "exit_code": 0,
+      "elapsed_seconds": 6.034687414001382,
+      "max_tree_rss_mib": 4183.53125,
+      "min_available_seen_mib": 46016.453125
+    },
+    {
+      "positive_survivors": 4,
+      "exit_code": 0,
+      "elapsed_seconds": 7.022958422996453,
+      "max_tree_rss_mib": 4306.58984375,
+      "min_available_seen_mib": 45853.82421875
+    },
+    {
+      "positive_survivors": 8,
+      "exit_code": 0,
+      "elapsed_seconds": 10.011694048997015,
+      "max_tree_rss_mib": 4686.41796875,
+      "min_available_seen_mib": 45373.76953125
+    },
+    {
+      "positive_survivors": 16,
+      "exit_code": 0,
+      "elapsed_seconds": 15.020670664998761,
+      "max_tree_rss_mib": 5135.84375,
+      "min_available_seen_mib": 44729.16796875
+    }
+  ],
+  "decision": {
+    "status": "accepted-bounded-scaling-smoke",
+    "notes": [
+      "The old all-positive one-file slice failed before public classifier supports were exposed.",
+      "After public support exposure, the full 16-positive-survivor rank-0 slice checks under the 6.5 GiB cap.",
+      "This remains bounded telemetry, not production coverage.",
+      "The next production test should emit persistent bounded micro-shards for a multi-rank window, avoiding bad-direction replay."
+    ]
+  }
+}

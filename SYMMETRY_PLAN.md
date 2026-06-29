@@ -553,6 +553,12 @@ public `ClassifierKey` catalog in 7.02s at 4.192 GiB peak tree RSS. The next
 DU.9 work should not retry the full `[0,1)` catalog in one file; it should
 scale this public-support path through bounded positive-survivor micro-shards
 or a stronger selector-membership theorem.
+The first DU.9L micro-shard scaling telemetry is favorable: temporary
+public-support selector shards with 2, 4, 8, and all 16 rank-0 positive
+survivors passed under the 6.5 GiB guard, with the full 16-survivor shard at
+15.02s and 5.136 GiB peak tree RSS.  This reopens a bounded micro-shard emitter
+as a viable next experiment, provided it remains GoodDirection-only and does
+not replay the 48 bad-direction masks.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16622,6 +16628,32 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9k_selector_lookup_slice_guard.json
   scripts/generated/phase6z6k8ap16du9l_public_classifier_support_guard.json
   scripts/generated/phase6z6k8ap16du9l_selector_public_source_row_guard.json
+  ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9L public-support micro-shard scaling:
+  DU.9L then tested the same public-support selector/source-row theorem on
+  temporary `/tmp` shards containing 2, 4, 8, and all 16 positive survivors for
+  rank `0`.  All runs used `lake env lean`, `LEAN_NUM_THREADS=1`,
+  `LAKE_JOBS=1`, and the 6.5 GiB RSS guard.
+
+  ```text
+  survivors=2   exit=0, elapsed=6.03s,  peak_tree_rss=4184 MiB
+  survivors=4   exit=0, elapsed=7.02s,  peak_tree_rss=4307 MiB
+  survivors=8   exit=0, elapsed=10.01s, peak_tree_rss=4686 MiB
+  survivors=16  exit=0, elapsed=15.02s, peak_tree_rss=5136 MiB
+  ```
+
+  Decision: public support exposure fixes the previous source/row-fact
+  mismatch and the full rank-0 positive-survivor slice is now memory-safe.
+  This is still not production coverage, but it validates a persistent
+  bounded micro-shard emitter as the next DU.9 experiment.  That emitter should
+  stay GoodDirection-only, avoid all bad-direction replay, and build shard
+  leaves serially under the guard before any root composition.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9l_microshard_scaling.json
+  scripts/generated/phase6z6k8ap16du9l_microshard_scaling.md
   ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
