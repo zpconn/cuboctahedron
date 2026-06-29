@@ -23605,6 +23605,71 @@ Decision:
   Compare that guarded result with DU.9CA before deciding whether to run the
   full DU.9BZ Data target.
 
+### Phase 6Z.6K.8AP.16DU.9CB checkpoint: old-dot microtarget wins the comparison
+
+Phase 6Z.6K.8AP.16DU.9CB implements the apples-to-apples baseline requested
+by DU.9CA:
+
+```text
+scripts/emit_ap16du9cb_trace_cert_olddot_micro_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertOldDotMicroSmoke.lean
+```
+
+It uses the same rank, same one unfolded normal, and same one dot polynomial as
+DU.9CA, but proves the dot equality in the older DU.9BW style:
+
+```lean
+apply WalshQuadratic.ext <;>
+  norm_num [WalshAffineVec3.dot, WalshAffine.mul, ...]
+```
+
+Cheap/static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cb_trace_cert_olddot_micro_smoke.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9cb_trace_cert_olddot_micro_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertOldDotMicroSmoke.lean
+```
+
+Focused guarded build:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertOldDotMicroSmoke
+exit = 0
+elapsed = 8.01s
+peak tree RSS = 4075 MiB
+min MemAvailable = 46063 MiB
+rss cap = 8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CA coefficient-dot one-dot micro: 10.01s, 4041 MiB
+DU.9CB old-dot one-dot micro:         8.01s, 4075 MiB
+```
+
+Decision:
+
+- Reject DU.9BZ as the next scaling target.  It is generated/static-clean, but
+  the matched one-dot comparison shows the coefficient-level proof style is
+  slower at essentially the same memory footprint.
+- Keep `WalshDotCoefficientFacts.lean` as reusable scaffolding, but do not run
+  the full DU.9BZ Data/root check unless a later emitter can reuse those facts
+  with less local proof overhead.
+- Prefer DU.9BW's old-dot Data-chain topology for rank-6000745-like trace
+  certificate leaves: it remains the faster accepted end-to-end topology among
+  the Data-chain variants measured so far.
+- The next useful optimization should target a different cost center, likely
+  either:
+  - avoiding repeated generated normal proofs in Data modules, or
+  - proving dot-data equalities from precomputed compact integer identities
+    rather than many local `Rat`/`norm_num` reductions.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
