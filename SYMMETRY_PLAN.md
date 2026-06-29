@@ -13424,10 +13424,79 @@ Acceptance:
 
   Decision: accepted as a memory-safe conditional AP16CD replacement smoke.
   It does not yet prove the generated Walsh vector recurrence itself.  The
-  next proof-engineering target is AP16CJ: prove the generated
-  `WalshAffineVec3` vector component equals `translationVectorOfChoice` using a
-  compact, reusable recurrence/evaluation lemma, not by unfolding `totalAff`
-  and not by bounded mask replay.
+  next proof-engineering target is AP16CJ: first provide the compact,
+  reusable Walsh-vector recurrence/evaluation lemma, then make the generator
+  emit small coefficient-equality facts against that recurrence.
+- [x] Implement Phase 6Z.6K.8AP.16CJ Walsh-affine translation vector
+  recurrence:
+  AP16CJ adds
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TranslationWalshVector.lean`.
+
+  This module mirrors `translationVectorOfChoice` as a `WalshAffineVec3`
+  recurrence over the six translation sign bits.  It defines coefficient-level
+  affine operations, proves their `eval` lemmas, defines
+  `signedCoeffWalshAt`, proves `signedCoeffWalshAt_eval`, then proves:
+
+  ```lean
+  theorem translationPrefixWalshVectorNat_eval
+      (w : PairWord) (mask : SignMask) :
+      forall n : Nat, n <= 13 ->
+        (translationPrefixWalshVectorNat w n).eval mask =
+          translationPrefixVectorNat w mask n
+
+  theorem translationVectorWalshOfChoice_eval
+      (w : PairWord) (mask : SignMask) :
+      (translationVectorWalshOfChoice w).eval mask =
+        translationVectorOfChoice w mask
+  ```
+
+  This is the reusable vector half of the AP16CH compact denominator bridge.
+  It is deliberately independent of generated rank data, `totalAff`
+  unfolding, and bounded mask replay.
+
+  Guarded builds:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cj_translation_walsh_vector_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cj_compact_denom_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke'
+  ```
+
+  Results:
+
+  ```text
+  TranslationWalshVector passed
+  elapsed: 1.00s on the cached rerun
+  peak tree RSS: 789 MiB
+  minimum available memory: 46458 MiB
+
+  CompactDenomSmoke passed
+  elapsed: 2.51s
+  peak tree RSS: 4036 MiB
+  minimum available memory: 46156 MiB
+  ```
+
+  One AP16CJ experiment tried to close the concrete generated-vector
+  x-coordinate premise inside `ImpactSubcubeWalshSymbolicCompactDenomSmoke`
+  by unfolding the new Walsh recurrence for rank `100805`.  That proved the
+  module is not the right place for raw recurrence normalization: Lean left
+  large unreduced `Vector.get`/prefix-product goals and the proof became a
+  local simplification project.  The accepted next step is therefore not more
+  ad hoc unfolding.  The generator should emit small coefficient-equality
+  facts, e.g. `generatedVector.x = (translationVectorWalshOfChoice w).x` or
+  the corresponding component facts, and the smoke/production leaves should
+  use `translationVectorWalshOfChoice_eval` to erase those facts to
+  `translationVectorOfChoice`.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
