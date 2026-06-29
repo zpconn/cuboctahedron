@@ -14972,6 +14972,45 @@ Acceptance:
   prebuild/import shared trace facts differently, or run a deliberately scoped
   one-target cap-calibration probe before any larger emission.  Do not raise
   the production cap for the full batch without such a focused calibration.
+- [x] Run Phase 6Z.6K.8AP.16DJ one-target trace cap calibration:
+  To distinguish an overly tight 5 GiB cap from a true runaway trace fixture,
+  the first AP16DJ trace target was regenerated alone and built under a 6.5 GiB
+  guard:
+
+  ```text
+  python3 scripts/generate_ap16cm_walsh_vector_trace_smoke.py \
+    --rank 6000745 \
+    --lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank6000745Smoke.lean \
+    --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745Smoke
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16dj_trace_rank6000745_cap6500.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745Smoke'
+  ```
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dj_trace_rank6000745_cap6500.json
+  scripts/generated/phase6z6k8ap16dj_trace_rank6000745_cap6500.md
+  ```
+
+  Result:
+
+  ```text
+  status: passed
+  elapsed: 14.52s
+  peak tree RSS: 5587 MiB
+  min available memory seen: 44339 MiB
+  ```
+
+  The generated trace source was removed after the calibration.  Decision:
+  the trace fixture is buildable and not runaway, but it exceeds the current
+  5 GiB production gate.  Do not retry the full AP16DJ batch at a raised cap
+  without either an explicit cap-policy change or a trace-size reduction.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
