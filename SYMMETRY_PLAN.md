@@ -15185,6 +15185,64 @@ Acceptance:
   predicates to the source-position/row producer classifier surface, producing
   a nonempty positive-survivor membership theorem without `fin_cases mask`
   replay over masks that fail `GoodDirection`.
+- [x] Implement Phase 6Z.6K.8AP.16DM compact Walsh batch classifier adapter:
+  AP16DM adds
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    CompactWalshBatchClassifierSmoke.lean
+  ```
+
+  The smoke consumes AP16DL's public compact Walsh theorem for rank `6000480`:
+
+  ```lean
+  rank6000480_goodMaskMember_of_GoodDirection
+  ```
+
+  and plugs it into the existing AP16J semantic signature classifier
+  constructor:
+
+  ```lean
+  PositiveSurvivorSignatureClassifierOnRange.of_singleAnchorSignatureMultiFactSplit
+  ```
+
+  Source-position and row-producer facts remain explicit parameters.  This is
+  intentional: AP16DM proves only that compact Walsh good-mask evidence can
+  discharge the positive-survivor membership premise, without finite replay
+  over masks that fail `GoodDirectionAtRank`.  The next generated layer still
+  has to supply the source/row facts from the pair-sign producer hierarchy.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 5000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16dm_compact_walsh_batch_classifier_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.CompactWalshBatchClassifierSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 3.00s
+  peak process-tree RSS: 4036 MiB
+  minimum MemAvailable seen: 46123 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dm_compact_walsh_batch_classifier_guard.json
+  scripts/generated/phase6z6k8ap16dm_compact_walsh_batch_classifier_guard.md
+  ```
+
+  Decision: accepted as a theorem-surface bridge.  The next AP16 target should
+  instantiate the explicit source/row fact parameters for one AP16DJ good-mask
+  predicate using the existing pair-sign producer evidence, still over a
+  singleton/bounded rank and still without enumerating non-GoodDirection masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
