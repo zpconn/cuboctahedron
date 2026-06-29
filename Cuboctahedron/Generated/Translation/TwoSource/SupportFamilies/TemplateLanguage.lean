@@ -226,6 +226,40 @@ theorem TemplateLanguageCoverageOnIdentityRange.of_keyAt_source_row
   exact TemplateLanguageMember.to_templateLanguageWitness
     (TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows)
 
+/-- Erase an existing source/row facts bridge to template-language coverage. -/
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsBridge
+    {lo hi : Nat}
+    (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  rcases bridge hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact TemplateLanguageMember.to_templateLanguageWitness
+    (TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows)
+
+/-- Erase an existing source/row predicate bridge to template-language coverage. -/
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowPredicateBridge
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi :=
+  TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsBridge
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge)
+
+/-- Erase an existing finite source/row facts catalog to template-language coverage. -/
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsCatalog
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowFactsGoodCatalogOnRange keyAt lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi :=
+  TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsBridge
+    (SourceRowFactsGoodCatalogOnRange.to_bridge catalog)
+
+/-- Erase an existing finite source/row predicate catalog to template-language coverage. -/
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowPredicateCatalog
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowPredicateGoodCatalogOnRange keyAt lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi :=
+  TemplateLanguageCoverageOnIdentityRange.of_sourceRowPredicateBridge
+    (SourceRowPredicateGoodCatalogOnRange.to_bridge catalog)
+
 /-- Concatenate adjacent template-language coverage ranges. -/
 theorem TemplateLanguageCoverageOnIdentityRange.concat
     {lo mid hi : Nat}

@@ -28568,3 +28568,47 @@ compression theorem: production still needs a compressed proof of the
 gain is that the public output remains the accepted template-language coverage
 theorem, while `keyAt` and concrete supports can stay private inside generated
 modules.
+
+### Phase 6Z.6K.8AP.16DU.9ET checkpoint: catalog-to-template erasure
+
+Phase 6Z.6K.8AP.16DU.9ET extends
+`TemplateLanguage.lean` with adapters from the existing source/row bridge and
+finite-catalog APIs:
+
+```lean
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsBridge
+    {lo hi : Nat}
+    (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowPredicateBridge
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsCatalog
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowFactsGoodCatalogOnRange keyAt lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+
+theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowPredicateCatalog
+    {n lo hi : Nat} {keyAt : Fin n -> SourceIndexStateKey}
+    (catalog : SourceRowPredicateGoodCatalogOnRange keyAt lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:03.76`, `max_rss_kb=3271712`.
+
+Decision: existing bounded selector/catalog smokes can now be migrated to the
+accepted template-language output without changing their local fact proofs.
+This does not make finite catalogs production-acceptable as the primary
+compression coordinate; earlier gates still reject catalog/rank granularity.
+It does, however, ensure any residual bounded catalog experiments export the
+same semantic theorem surface as the future production route.
