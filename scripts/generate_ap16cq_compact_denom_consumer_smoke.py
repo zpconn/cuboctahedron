@@ -14,9 +14,11 @@ pair-prefix recurrence.
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from fractions import Fraction
 from pathlib import Path
+from typing import Any
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
@@ -48,6 +50,15 @@ DEFAULT_LEAN = Path(
 DEFAULT_NAMESPACE = (
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
     "ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke"
+)
+DEFAULT_MANIFEST = Path("scripts/generated/phase6z6k8ap16cw_compact_denom_manifest.json")
+DEFAULT_ROOT_LEAN = Path(
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
+    "ImpactSubcubeWalshSymbolicCompactDenomAllSmoke.lean"
+)
+DEFAULT_ROOT_NAMESPACE = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "ImpactSubcubeWalshSymbolicCompactDenomAllSmoke"
 )
 
 WalshAffine = dict[tuple[int, ...], Fraction]
@@ -247,8 +258,89 @@ def build_lean(
     return "\n".join(lines)
 
 
+def build_root_lean(*, entries: list[dict[str, Any]], namespace: str) -> str:
+    imports = [str(entry["namespace"]) for entry in entries]
+    lines: list[str] = []
+    for module in imports:
+        lines.append(f"import {module}")
+    lines.extend([
+        "",
+        "/-!",
+        "Generated AP16 compact-denominator consumer root smoke.",
+        "",
+        "This module imports the manifest-selected compact-denominator consumer",
+        "fixtures and checks that their exported smoke theorems compose without",
+        "root-level denominator arithmetic.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "theorem allCompactDenomConsumerSmokes_build :",
+        "    True := by",
+    ])
+    for idx, entry in enumerate(entries):
+        label = str(entry.get("label", f"entry{idx}"))
+        safe_label = "".join(ch if ch.isalnum() else "_" for ch in label)
+        lines.extend([
+            f"  have h_{idx}_{safe_label} : True :=",
+            f"    {entry['namespace']}.compactDenomGeneratedSmoke_builds",
+        ])
+    lines.extend([
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    return "\n".join(lines)
+
+
+def read_manifest(path: Path) -> dict[str, Any]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("manifest must be a JSON object")
+    entries = data.get("entries")
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("manifest must contain a nonempty `entries` list")
+    for idx, entry in enumerate(entries):
+        if not isinstance(entry, dict):
+            raise ValueError(f"manifest entry {idx} must be an object")
+        for key in ["rank", "mask", "impact_index", "trace_namespace", "lean", "namespace"]:
+            if key not in entry:
+                raise ValueError(f"manifest entry {idx} is missing `{key}`")
+    return data
+
+
+def write_manifest_batch(path: Path) -> None:
+    manifest = read_manifest(path)
+    entries = manifest["entries"]
+    for entry in entries:
+        lean_path = Path(str(entry["lean"]))
+        lean_path.parent.mkdir(parents=True, exist_ok=True)
+        lean_path.write_text(
+            build_lean(
+                rank=int(entry["rank"]),
+                mask=int(entry["mask"]),
+                impact_index=int(entry["impact_index"]),
+                trace_namespace=str(entry["trace_namespace"]),
+                namespace=str(entry["namespace"]),
+            ),
+            encoding="utf-8",
+        )
+        print(f"wrote {lean_path}")
+
+    root_lean = Path(str(manifest.get("root_lean", DEFAULT_ROOT_LEAN)))
+    root_namespace = str(manifest.get("root_namespace", DEFAULT_ROOT_NAMESPACE))
+    root_lean.parent.mkdir(parents=True, exist_ok=True)
+    root_lean.write_text(
+        build_root_lean(entries=entries, namespace=root_namespace),
+        encoding="utf-8",
+    )
+    print(f"wrote {root_lean}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--manifest", type=Path)
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
     parser.add_argument("--mask", type=int, default=DEFAULT_MASK)
     parser.add_argument("--impact-index", type=int, default=DEFAULT_IMPACT_INDEX)
@@ -256,6 +348,10 @@ def main() -> None:
     parser.add_argument("--lean", type=Path, default=DEFAULT_LEAN)
     parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
     args = parser.parse_args()
+
+    if args.manifest is not None:
+        write_manifest_batch(args.manifest)
+        return
 
     args.lean.parent.mkdir(parents=True, exist_ok=True)
     args.lean.write_text(

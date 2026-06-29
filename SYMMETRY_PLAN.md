@@ -241,8 +241,8 @@ also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
 bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
 denominator trace consumers, AP16CR's reusable compact-denominator bridge,
 AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
-symbolic-normal nonzero-impact consumer smoke, AP16CV's shallow consumer
-root smoke, plus AP16CP's
+symbolic-normal nonzero-impact consumer smoke, AP16CV/AP16CW's shallow
+consumer root and manifest-batch smoke, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14141,6 +14141,56 @@ Acceptance:
   manifest to generate multiple impact/source fixtures through this same
   emitter route, or connect one compact denominator equality to the positive
   survivor membership premise without enumerating non-GoodDirection masks.
+- [x] Implement Phase 6Z.6K.8AP.16CW manifest-batched compact-denominator
+  emitter:
+  AP16CW extends
+  `scripts/generate_ap16cq_compact_denom_consumer_smoke.py` with a JSON
+  manifest mode:
+
+  ```text
+  python3 scripts/generate_ap16cq_compact_denom_consumer_smoke.py \
+    --manifest scripts/generated/phase6z6k8ap16cw_compact_denom_manifest.json
+  ```
+
+  The tracked manifest currently contains the three AP16 compact-denominator
+  fixtures validated in AP16CU/AP16CV and emits both the individual consumers
+  and the shallow root:
+
+  ```text
+  scripts/generated/phase6z6k8ap16cw_compact_denom_manifest.json
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomAllSmoke.lean
+  ```
+
+  This is a tooling/ergonomics step, not a scale-up.  It keeps the batch size
+  fixed at the three current fixtures, avoids broad imports, and gives future
+  AP16 smoke batches a reproducible manifest boundary.
+
+  Guarded root build after manifest regeneration:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cw_manifest_compact_denom_all_smoke_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomAllSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 8.01s
+  peak tree RSS: 3700 MiB
+  minimum available memory: 46228 MiB
+  ```
+
+  Decision: accepted as the reproducible batch-generation path for the current
+  compact-denominator consumer smokes.  The next proof-facing AP16 target should
+  connect a compact denominator equality to the positive-survivor membership
+  bridge, still with an explicit `GoodDirectionAtRank` premise and no
+  `fin_cases mask` replay over bad-direction masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
