@@ -27034,3 +27034,67 @@ Decision: accepted.  The Lean API from Boolean classifier membership to public
 The remaining production blocker is not erasure; it is proving the Boolean
 classifier membership premise over broad ranges by semantic, reusable family
 facts.
+
+### Phase 6Z.6K.8AP.16DU.9DU checkpoint: generic Boolean descriptor adapters accepted
+
+Phase 6Z.6K.8AP.16DU.9DU moves two repeated generated proof blocks into the
+hand-written descriptor-language bridge:
+
+```lean
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.of_sourceRowFacts :
+    ... ->
+    SourceIndexStateDescriptorBoolCoverageOnRange lo hi
+
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.of_sourcePredicateRows :
+    ... ->
+    SourceIndexStateDescriptorBoolCoverageOnRange lo hi
+```
+
+The regenerated `SourceIndexStateClassifierDU3Smoke` now calls those generic
+constructors from the classifier-specific `ClassifierKey` premises, rather than
+re-emitting the source/row-to-descriptor proof directly.  The public theorem
+names from DU.9DT remain available:
+
+```lean
+classifierDescriptorBoolCoverage_of_key_source_row_bool
+classifierAllGoodCoverage_of_key_source_row_bool
+classifierDescriptorBoolCoverage_of_key_source_predicate_bool
+classifierAllGoodCoverage_of_key_source_predicate_bool
+```
+
+Generation command:
+
+```bash
+python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json \
+  --family-count 125 \
+  --phase 6Z.6K.8AP.16DU.9DU \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9du_generic_bool_descriptor_adapters.json \
+  --md scripts/generated/phase6z6k8ap16du9du_generic_bool_descriptor_adapters.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9du_generic_bool_descriptor_adapters_guard.json \
+  -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 timeout 240s \
+    lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `8.02s`
+- Peak tree RSS: `4273.64 MiB`
+- Minimum available memory observed: `45708.77 MiB`
+
+Decision: accepted.  This is a small maintainability win for the production
+emitter: future Boolean descriptor classifier shards can use the generic bridge
+constructors and keep local generated proofs focused on the actual membership
+premise.

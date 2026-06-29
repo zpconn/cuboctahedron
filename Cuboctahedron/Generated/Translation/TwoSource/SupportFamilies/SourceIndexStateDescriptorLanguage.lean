@@ -158,6 +158,44 @@ def SourceIndexStateDescriptorBoolLanguageOnRange.of_coverage
     intro rank mask hlt hlo hhi hM hgoodBool
     exact coverage hlt hlo hhi hM hgoodBool
 
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.of_sourceRowFacts
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : SourceIndexStateKey,
+                  SourceIndexStateSourceFacts key rank mask /\
+                    SourceIndexStateRowFacts key rank mask) :
+    SourceIndexStateDescriptorBoolCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgoodBool
+  rcases hcomplete hlt hlo hhi hM hgoodBool with ⟨key, hsource, hrows⟩
+  exact ⟨key.toDescriptor, key.matches_of_source_row hsource hrows⟩
+
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.of_sourcePredicateRows
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+                exists key : SourceIndexStateKey,
+                  SourceIndexStateSourcePredicate
+                    key.firstIndex key.secondIndex key.support rank mask /\
+                    key.template.Rows key.support rank mask) :
+    SourceIndexStateDescriptorBoolCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgoodBool
+  rcases hcomplete hlt hlo hhi hM hgoodBool with ⟨key, hsource, hrows⟩
+  have hsourceMatches : key.toDescriptor.SourceMatches rank mask := by
+    intro hlt'
+    exact hsource hlt'
+  exact ⟨key.toDescriptor, ⟨hsourceMatches, hrows⟩⟩
+
 def SourceIndexStateDescriptorBoolLanguageOnRange.to_goodLanguage
     {lo hi : Nat}
     (language : SourceIndexStateDescriptorBoolLanguageOnRange lo hi) :

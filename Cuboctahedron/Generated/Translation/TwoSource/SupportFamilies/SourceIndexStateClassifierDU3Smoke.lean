@@ -7,7 +7,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9DT.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9DU.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -4052,10 +4052,10 @@ theorem classifierDescriptorBoolCoverage_of_key_source_row_bool
                     SourceIndexStateRowFacts
                       key.toSourceIndexStateKey rank mask) :
     SourceIndexStateDescriptorBoolCoverageOnRange 0 5000 := by
+  apply SourceIndexStateDescriptorBoolCoverageOnRange.of_sourceRowFacts
   intro rank mask hlt hlo hhi hM hgoodBool
   rcases hcomplete hlt hlo hhi hM hgoodBool with ⟨key, hsource, hrows⟩
-  exact ⟨key.toSourceIndexStateKey.toDescriptor,
-    key.toSourceIndexStateKey.matches_of_source_row hsource hrows⟩
+  exact ⟨key.toSourceIndexStateKey, hsource, hrows⟩
 
 theorem classifierSourceRowFactsBridge_of_key_source_row_bool
     (hcomplete :
@@ -4176,14 +4176,10 @@ theorem classifierDescriptorBoolCoverage_of_key_source_predicate_bool
                     key.toSourceIndexStateKey.template.Rows
                       key.toSourceIndexStateKey.support rank mask) :
     SourceIndexStateDescriptorBoolCoverageOnRange 0 5000 := by
+  apply SourceIndexStateDescriptorBoolCoverageOnRange.of_sourcePredicateRows
   intro rank mask hlt hlo hhi hM hgoodBool
   rcases hcomplete hlt hlo hhi hM hgoodBool with ⟨key, hsource, hrows⟩
-  have hsourceMatches :
-      key.toSourceIndexStateKey.toDescriptor.SourceMatches rank mask := by
-    intro hlt'
-    exact hsource hlt'
-  exact ⟨key.toSourceIndexStateKey.toDescriptor,
-    ⟨hsourceMatches, hrows⟩⟩
+  exact ⟨key.toSourceIndexStateKey, hsource, hrows⟩
 
 theorem classifierSourceRowFactsBridge_of_key_source_predicate_bool
     (hcomplete :
