@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
@@ -28,12 +29,12 @@ from generate_ap16dc_compact_walsh_cover_smoke import (  # noqa: E402
     emit_lean as emit_cover_lean,
     write_report as write_cover_report,
 )
-from generate_ap16bl_impact_subcube_smoke import DEFAULT_PROFILE, selected_subcubes  # noqa: E402
-from generate_ap16bo_walsh_bound_smoke import selected_data  # noqa: E402
+from generate_ap16bl_impact_subcube_smoke import selected_subcubes  # noqa: E402
+from generate_ap16bo_walsh_bound_smoke import term_bound  # noqa: E402
 from generate_ap16t_precomputed_signature_smoke import (  # noqa: E402
     classified_cases_and_bad_masks_for_signature,
-    select_signature_containing_rank_mask,
 )
+from profile_ap16bj_walsh_subcube_cover import compute_walsh_forms  # noqa: E402
 
 
 BASE_NS = "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies"
@@ -169,6 +170,32 @@ def write_cover_profile(source_by_rank: dict[int, dict[str, Any]], rank: int) ->
     return payload
 
 
+def selected_data_from_forms(
+    *,
+    cover_path: Path,
+    rank: int,
+    selected_index: int,
+    forms: dict[int, dict[tuple[int, ...], Fraction]],
+) -> dict[str, Any]:
+    selected_profile = json.loads(cover_path.read_text(encoding="utf-8"))
+    selected = selected_profile["selected"][selected_index]
+    coeffs = forms[int(selected["impact"]) - 1]
+    terms = [
+        (subset, coeff)
+        for subset, coeff in sorted(coeffs.items(), key=lambda item: (len(item[0]), item[0]))
+        if coeff
+    ]
+    bounds = [term_bound(selected["label"], subset, coeff) for subset, coeff in terms]
+    return {
+        "rank": rank,
+        "selected_index": selected_index,
+        "selected": selected,
+        "terms": terms,
+        "bounds": bounds,
+        "bound_sum": sum(bounds, Fraction(0)),
+    }
+
+
 def emit_signature(entry: dict[str, Any], source_by_rank: dict[int, dict[str, Any]]) -> dict[str, Any]:
     rank = int(entry["rank"])
     anchor_mask = int(entry["anchor_mask"])
@@ -183,13 +210,19 @@ def emit_signature(entry: dict[str, Any], source_by_rank: dict[int, dict[str, An
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     write_manifest_batch(manifest_path)
 
-    profile = json.loads(DEFAULT_PROFILE.read_text(encoding="utf-8"))
-    signature = select_signature_containing_rank_mask(profile, rank, anchor_mask)
-    good_masks = [int(mask) for mask in signature["good_masks"]]
-    classified_cases_and_bad_masks_for_signature(rank, good_masks)
+    good_masks = [int(mask) for mask in cover_payload["good_masks"]]
+    _cases, bad_masks, _stats = classified_cases_and_bad_masks_for_signature(rank, good_masks)
+    forms, failures = compute_walsh_forms(rank, good_masks, bad_masks)
+    if failures:
+        raise RuntimeError(f"Walsh validation failed for rank {rank}: {failures[:3]}")
     subcubes = selected_subcubes(cover_json(rank))
     all_data = [
-        selected_data(DEFAULT_PROFILE, cover_json(rank), rank, anchor_mask, index)
+        selected_data_from_forms(
+            cover_path=cover_json(rank),
+            rank=rank,
+            selected_index=index,
+            forms=forms,
+        )
         for index in range(len(subcubes))
     ]
     covered_bad_masks = {
