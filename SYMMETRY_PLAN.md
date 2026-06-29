@@ -23396,6 +23396,71 @@ Decision:
   facts that avoid repeated `WalshAffineVec3.dot` normalization in a single
   module.
 
+### Phase 6Z.6K.8AP.16DU.9BX checkpoint: split dot-data chain accepted as telemetry
+
+Phase 6Z.6K.8AP.16DU.9BX tests the first DU.9BW follow-up: split the shared
+dot-data module into a serial chain:
+
+```text
+Data -> Dot00 -> Dot01 -> ... -> Dot12 -> Cube00 -> ... -> Cube10 -> Root
+```
+
+The new bounded emitter is:
+
+```text
+scripts/emit_ap16du9bx_trace_cert_split_dot_chain_smoke.py
+```
+
+It emits one Base Data module containing the shared rank, word, translation
+vector alias, generated impact normals, and normal correctness facts; thirteen
+small Dot modules proving one dot-polynomial equality each; then the same
+per-cube weighted trace-certificate modules as DU.9BW.
+
+Focused guarded checks:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertSplitDotChainDataSmoke
+exit = 0
+elapsed = 32.56s
+peak tree RSS = 5613 MiB
+min MemAvailable = 44254 MiB
+rss cap = 8192 MiB
+
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertSplitDotChainDot12Smoke
+exit = 0
+elapsed = 59.11s
+peak tree RSS = 4140 MiB
+min MemAvailable = 46045 MiB
+rss cap = 8192 MiB
+
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertSplitDotChainSmoke
+exit = 0
+elapsed = 113.65s
+peak tree RSS = 4213 MiB
+min MemAvailable = 45948 MiB
+rss cap = 8192 MiB
+```
+
+Result:
+
+- Splitting does lower the heaviest single Data-module check from DU.9BW's
+  `42.66s / 5985 MiB` to `32.56s / 5613 MiB`.
+- The full root is slower than DU.9BW (`113.65s` vs `103.76s`) because the
+  thirteen extra Dot modules add serial overhead.
+- Peak root memory remains essentially the same (`4213 MiB` vs `4217 MiB`).
+
+Decision:
+
+- Keep DU.9BX as useful memory telemetry and a fallback if a future larger
+  Data module crosses the RSS cap.
+- Prefer DU.9BW's all-dot Data module for rank-6000745-like leaves because it
+  gives the better end-to-end wall time at the same safe memory band.
+- The next optimization should not split mechanically again.  It should reduce
+  the arithmetic inside the Data/Dot equality proof itself, for example by
+  generating coefficient-level dot certificates or a reusable
+  `WalshAffineVec3.dot` coefficient checker that avoids `norm_num` over all
+  affine definitions.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
