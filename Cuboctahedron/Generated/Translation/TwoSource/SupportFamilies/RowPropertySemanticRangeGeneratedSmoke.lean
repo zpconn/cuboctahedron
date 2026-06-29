@@ -21,69 +21,69 @@ private theorem semanticFacts_of_shard000_case
       SemanticFactsLanguage key firstRole secondRole rank mask := by
   cases hcase with
   | c000 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c000 ClassifierKey.k000
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c001 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c001 ClassifierKey.k000
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c002 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c002 ClassifierKey.k003
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c003 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c003 ClassifierKey.k000
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c004 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c004 ClassifierKey.k000
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c005 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c005 ClassifierKey.k004
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c006 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c006 ClassifierKey.k000
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c007 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c007 ClassifierKey.k041
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c008 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c008 ClassifierKey.k003
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c009 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c009 ClassifierKey.k004
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c010 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c010 ClassifierKey.k004
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c011 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c011 ClassifierKey.k035
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c012 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c012 ClassifierKey.k035
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c013 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c013 ClassifierKey.k001
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c014 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c014 ClassifierKey.k001
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
   | c015 =>
-      exact semanticFacts_of_shard000_key
+      exact semanticFacts_of_shard000_key_nonexact
         Shard000.SelectorPositiveCase.c015 ClassifierKey.k004
-        (by simp [Shard000.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard000.selectorCoordAt]) (by decide)
 
 private theorem semanticFacts_of_shard001_case
     {rank : Nat} {mask : SignMask}
@@ -92,69 +92,69 @@ private theorem semanticFacts_of_shard001_case
       SemanticFactsLanguage key firstRole secondRole rank mask := by
   cases hcase with
   | c000 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c000 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c001 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c001 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c002 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c002 ClassifierKey.k003
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c003 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c003 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c004 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c004 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c005 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c005 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c006 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c006 ClassifierKey.k031
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c007 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c007 ClassifierKey.k003
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c008 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c008 ClassifierKey.k004
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c009 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c009 ClassifierKey.k035
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c010 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c010 ClassifierKey.k001
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c011 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c011 ClassifierKey.k001
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c012 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c012 ClassifierKey.k004
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c013 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c013 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c014 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c014 ClassifierKey.k000
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
   | c015 =>
-      exact semanticFacts_of_shard001_key
+      exact semanticFacts_of_shard001_key_nonexact
         Shard001.SelectorPositiveCase.c015 ClassifierKey.k004
-        (by simp [Shard001.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard001.selectorCoordAt]) (by decide)
 
 private theorem semanticFacts_of_shard002_case
     {rank : Nat} {mask : SignMask}
@@ -163,45 +163,45 @@ private theorem semanticFacts_of_shard002_case
       SemanticFactsLanguage key firstRole secondRole rank mask := by
   cases hcase with
   | c000 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c000 ClassifierKey.k000
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c001 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c001 ClassifierKey.k000
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c002 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c002 ClassifierKey.k025
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c003 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c003 ClassifierKey.k032
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c004 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c004 ClassifierKey.k078
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c005 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c005 ClassifierKey.k004
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c006 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c006 ClassifierKey.k002
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c007 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c007 ClassifierKey.k001
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c008 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c008 ClassifierKey.k001
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
   | c009 =>
-      exact semanticFacts_of_shard002_key
+      exact semanticFacts_of_shard002_key_nonexact
         Shard002.SelectorPositiveCase.c009 ClassifierKey.k014
-        (by simp [Shard002.selectorCoordAt]) (by decide) (by decide) (by decide)
+        (by simp [Shard002.selectorCoordAt]) (by decide)
 
 def semanticLanguage0_1 :
     SemanticRowMembershipLanguageOnRange 0 1 where

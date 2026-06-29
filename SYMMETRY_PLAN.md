@@ -25523,6 +25523,62 @@ scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness.md
 scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness_guard.json
 ```
 
+### Phase 6Z.6K.8AP.16DU.9CZ checkpoint: generated semantic range uses non-exact bridge
+
+Phase 6Z.6K.8AP.16DU.9CZ updates the deterministic semantic range emitter:
+
+```text
+scripts/generate_ap16du9as_semantic_range_smoke.py
+```
+
+The generated `[0,4)` smoke now calls:
+
+```lean
+semanticFacts_of_shard000_key_nonexact
+semanticFacts_of_shard001_key_nonexact
+semanticFacts_of_shard002_key_nonexact
+```
+
+instead of the earlier non-axis-only bridge.  This keeps the existing bounded
+semantic range proof on the same theorem surface that DU.9CY validated for the
+full `[0,5000)` source-index/state classifier window, including the newly
+supported axis templates.
+
+Regenerated module:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  RowPropertySemanticRangeGeneratedSmoke.lean
+```
+
+Guarded build:
+
+```text
+module: Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  RowPropertySemanticRangeGeneratedSmoke
+exit=0
+elapsed=4.00s
+peak process-tree RSS=4159 MiB
+min available memory observed=46040 MiB
+```
+
+Decision:
+
+- DU.9CZ is accepted as generated-consumer validation for the non-exact
+  semantic bridge.
+- The remaining hard task is not row-role expressiveness anymore; it is the
+  compact membership proof that `GoodDirectionAtRank`/`goodDirectionAtRankBool`
+  selects one of the semantic source-index/state cases across `[0,5000)`.
+- The next emitter should target that membership theorem directly, preferably
+  through a classifier/selector decision procedure over source-index/state
+  coordinates, not through compact-Walsh rank-local membership covers.
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9cz_semantic_range_generated_nonexact_guard.json
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

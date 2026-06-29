@@ -73,9 +73,9 @@ def shard_case_theorem(shard: str, rows: list[SelectorCase]) -> str:
         lines.extend(
             [
                 f"  | {row.ctor} =>",
-                f"      exact semanticFacts_of_{shard.lower()}_key",
+                f"      exact semanticFacts_of_{shard.lower()}_key_nonexact",
                 f"        {shard}.SelectorPositiveCase.{row.ctor} ClassifierKey.{row.key}",
-                f"        (by simp [{shard}.selectorCoordAt]) (by decide) (by decide) (by decide)",
+                f"        (by simp [{shard}.selectorCoordAt]) (by decide)",
             ]
         )
     return "\n".join(lines)
