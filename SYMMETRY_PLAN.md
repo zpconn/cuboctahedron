@@ -18166,6 +18166,79 @@ Acceptance:
   theorem over meaningful ranges, but it can now target either descriptor
   coverage directly or classifier-key source/row facts with no additional
   endpoint glue.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AG predicate-catalog descriptor bridge:
+  DU.9AG extends the same reproducible classifier smoke emitter so
+  predicate-level source/row membership has the same descriptor endpoint as
+  fact-record membership.  The regenerated bounded classifier module adds:
+
+  ```lean
+  theorem classifierDescriptorCoverage_of_sourceIndexPredicateCatalog
+      (hcomplete :
+        SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+      SourceIndexStateDescriptorGoodCoverageOnRange 0 5000
+
+  theorem classifierDescriptorCoverage_of_key_source_predicate
+      (hcomplete :
+        forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+          0 <= rank ->
+            rank < 5000 ->
+              totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                  (matId : Mat3 Rat) ->
+                GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                  exists key : ClassifierKey,
+                    SourceIndexStateSourcePredicate
+                      key.toSourceIndexStateKey.firstIndex
+                      key.toSourceIndexStateKey.secondIndex
+                      key.toSourceIndexStateKey.support rank mask /\
+                      key.toSourceIndexStateKey.template.Rows
+                        key.toSourceIndexStateKey.support rank mask) :
+      SourceIndexStateDescriptorGoodCoverageOnRange 0 5000
+  ```
+
+  This gives the next generated membership emitter two equivalent semantic
+  export paths:
+
+  - prove fact records for a public classifier key, then use DU.9AF;
+  - prove source/row predicates for a public classifier key, then use DU.9AG.
+
+  Both paths erase to descriptor coverage and avoid certificate-valued
+  public theorems.
+
+  Commands:
+
+  ```text
+  python3 scripts/generate_source_index_state_classifier_smoke.py \
+    --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json \
+    --family-count 125 \
+    --phase 6Z.6K.8AP.16DU.9AG \
+    --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean \
+    --json scripts/generated/phase6z6k8ap16du9ag_classifier_descriptor_predicate_bridge_smoke.json \
+    --md scripts/generated/phase6z6k8ap16du9ag_classifier_descriptor_predicate_bridge_smoke.md \
+    --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+
+  python3 -m py_compile scripts/generate_source_index_state_classifier_smoke.py
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 12000 \
+    --poll-seconds 1 \
+    --json scripts/generated/phase6z6k8ap16du9ag_classifier_descriptor_predicate_bridge_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build: passed
+  elapsed: 5.00s
+  peak process-tree RSS: 4253.96 MiB
+  min available memory observed: 45901.51 MiB
+  ```
+
+  Decision: DU.9AG is accepted as descriptor-endpoint bridge infrastructure.
+  The actual remaining proof obligation remains the semantic membership
+  theorem; DU.9AF/DU.9AG make sure that whichever membership form is cheaper
+  can feed the same descriptor coverage endpoint.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
