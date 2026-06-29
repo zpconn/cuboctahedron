@@ -23265,6 +23265,60 @@ Decision:
   `weightedQuadraticFromAffineData` and all Walsh affine multiplication in each
   cube module.
 
+### Phase 6Z.6K.8AP.16DU.9BV checkpoint: dot-data weighted quadratic bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9BV adds the first hand-written core for the DU.9BU
+per-cube runtime bottleneck.  The expensive generated field is:
+
+```lean
+poly_eq : weightedQuadraticFromAffineData normal vector weights = poly
+```
+
+which currently unfolds all Walsh affine dot products inside every cube module.
+DU.9BV extends:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean
+```
+
+with:
+
+```lean
+def weightedQuadraticFromDotData
+theorem weightedQuadraticFromAffineData_eq_fromDotData
+```
+
+The intended generated shape is now:
+
+1. Data module proves, once, each impact dot polynomial:
+   `WalshAffineVec3.dot (normal i) vector = dotPoly i`;
+2. each cube module proves only the weighted combination:
+   `weightedQuadraticFromDotData dotPoly cubeWeights = cubeScaledPoly`;
+3. `weightedQuadraticFromAffineData_eq_fromDotData` bridges back to the
+   existing `WeightedWalshQuadraticTraceCertificate` API.
+
+Focused guarded build:
+
+```text
+scripts/generated/phase6z6k8ap16du9bv_dotdata_core_guard.json
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticTraceCertificate
+exit = 0
+elapsed = 4.00s
+peak tree RSS = 4023 MiB
+min MemAvailable = 46117 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept the dot-data bridge as the next optimization surface.
+- The next generated smoke should extend the DU.9BU chain so the Data module
+  also exports 13 precomputed dot polynomials and dot-equality proofs, then
+  each cube should use `weightedQuadraticFromDotData` for its `poly_eq`.
+- The acceptance metric is per-cube time: it must improve materially from the
+  DU.9BU `~49-50s` per cube before this path can be considered production
+  plausible.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

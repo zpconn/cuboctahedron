@@ -61,6 +61,66 @@ def weightedQuadraticFromAffineData
           (WalshQuadratic.scale weights.w12 q12)))
       (WalshQuadratic.scale weights.w13 q13))
 
+def weightedQuadraticFromDotData
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) : WalshQuadratic :=
+  let q1 := dotPoly ⟨0, by decide⟩
+  let q2 := dotPoly ⟨1, by decide⟩
+  let q3 := dotPoly ⟨2, by decide⟩
+  let q4 := dotPoly ⟨3, by decide⟩
+  let q5 := dotPoly ⟨4, by decide⟩
+  let q6 := dotPoly ⟨5, by decide⟩
+  let q7 := dotPoly ⟨6, by decide⟩
+  let q8 := dotPoly ⟨7, by decide⟩
+  let q9 := dotPoly ⟨8, by decide⟩
+  let q10 := dotPoly ⟨9, by decide⟩
+  let q11 := dotPoly ⟨10, by decide⟩
+  let q12 := dotPoly ⟨11, by decide⟩
+  let q13 := dotPoly ⟨12, by decide⟩
+  WalshQuadratic.add
+    (WalshQuadratic.add
+      (WalshQuadratic.add
+        (WalshQuadratic.add
+          (WalshQuadratic.scale weights.w1 q1)
+          (WalshQuadratic.scale weights.w2 q2))
+        (WalshQuadratic.add
+          (WalshQuadratic.scale weights.w3 q3)
+          (WalshQuadratic.scale weights.w4 q4)))
+      (WalshQuadratic.add
+        (WalshQuadratic.add
+          (WalshQuadratic.scale weights.w5 q5)
+          (WalshQuadratic.scale weights.w6 q6))
+        (WalshQuadratic.add
+          (WalshQuadratic.scale weights.w7 q7)
+          (WalshQuadratic.scale weights.w8 q8))))
+    (WalshQuadratic.add
+      (WalshQuadratic.add
+        (WalshQuadratic.add
+          (WalshQuadratic.scale weights.w9 q9)
+          (WalshQuadratic.scale weights.w10 q10))
+        (WalshQuadratic.add
+          (WalshQuadratic.scale weights.w11 q11)
+          (WalshQuadratic.scale weights.w12 q12)))
+      (WalshQuadratic.scale weights.w13 q13))
+
+theorem weightedQuadraticFromAffineData_eq_fromDotData
+    {normal : WordIndex -> WalshAffineVec3}
+    {vector : WalshAffineVec3}
+    {dotPoly : WordIndex -> WalshQuadratic}
+    {weights : DenominatorCube.InternalImpactWeights}
+    (hDot : forall i : WordIndex,
+      WalshAffineVec3.dot (normal i) vector = dotPoly i) :
+    weightedQuadraticFromAffineData normal vector weights =
+      weightedQuadraticFromDotData dotPoly weights := by
+  unfold weightedQuadraticFromAffineData weightedQuadraticFromDotData
+  rw [hDot ⟨0, by decide⟩, hDot ⟨1, by decide⟩,
+    hDot ⟨2, by decide⟩, hDot ⟨3, by decide⟩,
+    hDot ⟨4, by decide⟩, hDot ⟨5, by decide⟩,
+    hDot ⟨6, by decide⟩, hDot ⟨7, by decide⟩,
+    hDot ⟨8, by decide⟩, hDot ⟨9, by decide⟩,
+    hDot ⟨10, by decide⟩, hDot ⟨11, by decide⟩,
+    hDot ⟨12, by decide⟩]
+
 theorem weightedQuadraticFromAffineData_eq_direct
     {w : PairWord}
     {normal : WordIndex -> WalshAffineVec3}
