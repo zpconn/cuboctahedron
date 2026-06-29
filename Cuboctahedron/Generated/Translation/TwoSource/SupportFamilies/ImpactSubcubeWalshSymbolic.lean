@@ -33,7 +33,7 @@ structure WalshAffine where
   d11m : Rat
   d1m1 : Rat
   dm11 : Rat
-deriving Repr
+deriving DecidableEq, Repr
 
 def WalshAffine.eval (a : WalshAffine) (mask : SignMask) : Rat :=
   a.c +
@@ -118,7 +118,7 @@ structure WalshAffineVec3 where
   x : WalshAffine
   y : WalshAffine
   z : WalshAffine
-deriving Repr
+deriving DecidableEq, Repr
 
 def WalshAffineVec3.eval (v : WalshAffineVec3) (mask : SignMask) :
     Vec3 Rat where

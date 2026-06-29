@@ -13453,6 +13453,9 @@ Acceptance:
   This is the reusable vector half of the AP16CH compact denominator bridge.
   It is deliberately independent of generated rank data, `totalAff`
   unfolding, and bounded mask replay.
+  AP16CJ also derives `DecidableEq` for the small `WalshAffine` and
+  `WalshAffineVec3` coefficient records so generated leaves may use kernel
+  equality checks when their right-hand sides are already normalized records.
 
   Guarded builds:
 
@@ -13491,10 +13494,14 @@ Acceptance:
   by unfolding the new Walsh recurrence for rank `100805`.  That proved the
   module is not the right place for raw recurrence normalization: Lean left
   large unreduced `Vector.get`/prefix-product goals and the proof became a
-  local simplification project.  The accepted next step is therefore not more
-  ad hoc unfolding.  The generator should emit small coefficient-equality
-  facts, e.g. `generatedVector.x = (translationVectorWalshOfChoice w).x` or
-  the corresponding component facts, and the smoke/production leaves should
+  local simplification project.  A second experiment tried
+  `generatedVector = translationVectorWalshOfChoice generatedWord := by
+  decide` after adding `DecidableEq`; this also rejected, because the kernel
+  equality check got stuck on unreduced `Rat.num` terms inside the recurrence.
+  The accepted next step is therefore not more ad hoc unfolding and not raw
+  record `decide` against the recurrence expression.  The generator should
+  emit small already-normalized coefficient-equality facts, or a compact
+  checked normalized recurrence trace, and the smoke/production leaves should
   use `translationVectorWalshOfChoice_eval` to erase those facts to
   `translationVectorOfChoice`.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
