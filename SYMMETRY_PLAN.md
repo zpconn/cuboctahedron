@@ -26296,3 +26296,66 @@ GoodDirectionAtRank r mask -> WindowSurvivor r mask
 by a compact denominator/signature/state method.  Scaling the descriptor-side
 window further is secondary; the real remaining blocker is the
 GoodDirection-to-survivor-language bridge.
+
+### Phase 6Z.6K.8AP.16DU.9DH checkpoint: GoodDirection survivor bridge audited
+
+Phase 6Z.6K.8AP.16DU.9DH adds a no-Lean diagnostic for the missing
+`GoodDirectionAtRank -> survivor language` bridge:
+
+- Script:
+  `scripts/audit_du9dh_gooddirection_survivor_bridge.py`
+- Reports:
+  `scripts/generated/phase6z6k8ap16du9dh_gooddirection_survivor_bridge.json`
+  and
+  `scripts/generated/phase6z6k8ap16du9dh_gooddirection_survivor_bridge.md`
+
+The audit reuses the `[0,3)` DU.9DG window:
+
+- Identity ranks: `0`, `2`
+- Nonidentity ranks: `1`
+- GoodDirection survivors: `29`
+- Bad-direction masks: `99`
+- Source-index/state families: `7`
+- Largest source-index/state family: `10` cases
+
+Prior signals summarized by the audit:
+
+- Denominator signatures are still mostly rank-local
+  (`denominator-signatures-still-mostly-rank-local` from 16BC).
+- `source_index_state` remains the selected fact-free,
+  member-list-free semantic candidate from 8G.
+- The descriptor membership profile status is `accepted-next-lean-smoke`.
+- DU.9DB remains `blocked-on-semantic-membership-theorem`.
+- DU.9DC confirms the semantic coverage contract is present and the generator
+  obligation is open.
+
+Rejected bridge routes:
+
+- Do not scale local bad-mask denominator contradictions.  DU.9DE proves they
+  work on rank `0`, but they are too memory-expensive and recreate dense
+  bad-direction evidence.
+- Do not use rank-local Boolean membership.  DU.9DB showed
+  `goodDirectionAtRankBool` gets stuck even in a singleton smoke.
+- Do not group completed ranks by full denominator signatures; 16BC shows that
+  coordinate is almost rank-local.
+
+Accepted next theorem shape:
+
+```lean
+forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+  0 <= rank ->
+  rank < 3 ->
+    totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+        (matId : Mat3 Rat) ->
+      GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+        exists key : SourceIndexStateKey,
+          SourceIndexStateSourceFacts key rank mask /\
+          SourceIndexStateRowFacts key rank mask
+```
+
+Decision: the next proof-producing smoke should try to prove source/row facts
+for one broad source-index/state family from `GoodDirectionAtRank` premises,
+or else demonstrate that an additional symbolic state predicate is needed.
+If that route fails, the fallback should be a symbolic Walsh/state-language
+bridge: 16BI shows denominator signs can be degree-2 Walsh forms, so affine
+mask-cube proofs are not expressive enough.
