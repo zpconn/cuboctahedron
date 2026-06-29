@@ -26966,3 +26966,71 @@ surface as the survivor-window emitter.  The next useful step is to build the
 safe semantic survivor-membership premise that feeds this Boolean descriptor
 surface without reviving compact rank-local denominator roots or any giant
 Boolean reduction.
+
+### Phase 6Z.6K.8AP.16DU.9DT checkpoint: classifier Boolean all-Good surface accepted
+
+Phase 6Z.6K.8AP.16DU.9DT extends the DU.9DS classifier Boolean descriptor
+surface to the final all-Good coverage target.  The regenerated
+`SourceIndexStateClassifierDU3Smoke` now includes:
+
+```lean
+theorem classifierSourceRowFactsBridge_of_key_source_row_bool :
+    ... ->
+    SourceRowFactsGoodBridgeOnRange 0 5000
+
+theorem classifierAllGoodCoverage_of_key_source_row_bool :
+    ... ->
+    AllTranslationGoodCoverageOnRange 0 5000
+
+theorem classifierSourceRowFactsBridge_of_key_source_predicate_bool :
+    ... ->
+    SourceRowFactsGoodBridgeOnRange 0 5000
+
+theorem classifierAllGoodCoverage_of_key_source_predicate_bool :
+    ... ->
+    AllTranslationGoodCoverageOnRange 0 5000
+```
+
+These corollaries use
+`SourceIndexStateDescriptorBoolCoverageOnRange.to_factsBridge` and
+`SourceIndexStateDescriptorBoolCoverageOnRange.to_allGoodCoverage`, so generated
+classifier modules can expose the public translation coverage surface directly
+after proving Boolean source/row membership.
+
+Generation command:
+
+```bash
+python3 scripts/generate_source_index_state_classifier_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du2_source_index_state_classifier_profile.json \
+  --family-count 125 \
+  --phase 6Z.6K.8AP.16DU.9DT \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9dt_classifier_bool_allgood_surface.json \
+  --md scripts/generated/phase6z6k8ap16du9dt_classifier_bool_allgood_surface.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dt_classifier_bool_allgood_surface_guard.json \
+  -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 timeout 240s \
+    lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `9.01s`
+- Peak tree RSS: `4310.90 MiB`
+- Minimum available memory observed: `45781.86 MiB`
+
+Decision: accepted.  The Lean API from Boolean classifier membership to public
+`AllTranslationGoodCoverageOnRange` is now available for the DU3 smoke shape.
+The remaining production blocker is not erasure; it is proving the Boolean
+classifier membership premise over broad ranges by semantic, reusable family
+facts.
