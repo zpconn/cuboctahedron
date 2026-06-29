@@ -22783,6 +22783,93 @@ Decision:
   `translationVectorWalshOfChoice` or `translationPrefixWalshVectorNat` inside
   each weighted-cube obstruction leaf.
 
+### Phase 6Z.6K.8AP.16DU.9BO checkpoint: trace-based weighted quadratic certificate API accepted
+
+Phase 6Z.6K.8AP.16DU.9BO adds the trace-based certificate API promised by the
+DU.9BN rejection:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean
+```
+
+The module defines a compact weighted quadratic over generated affine data:
+
+```lean
+weightedQuadraticFromAffineData
+weightedQuadraticFromAffineData_eq_direct
+```
+
+and a generated-leaf target:
+
+```lean
+structure DenominatorCube.WeightedWalshQuadraticTraceCertificate
+    (r : Fin numPairWords)
+    (weights : InternalImpactWeights)
+    (poly : WalshQuadratic)
+```
+
+with fields:
+
+- the explicit pair word for the rank;
+- `rank_word : unrankPairWord r = word`;
+- a compact generated affine Walsh translation vector;
+- `TranslationWalshVectorTrace word vector`;
+- compact generated affine Walsh normals for the 13 internal impacts;
+- `normal_eq` against `impactNormalWalshAt`;
+- one coefficient equality:
+
+```lean
+weightedQuadraticFromAffineData normal vector weights = poly
+```
+
+The exported semantic bridges are:
+
+```lean
+WeightedWalshQuadraticTraceCertificate.quadratic_eq
+WeightedWalshQuadraticTraceCertificate.coeffEval_eq_weightedDirect
+```
+
+These connect the generated `poly` to `weightedDirectWalshDotAtRank` without
+unfolding the full translation Walsh recurrence inside the weighted-cube
+obstruction leaf.
+
+First focused build:
+
+```text
+scripts/generated/phase6z6k8ap16du9bo_weighted_walsh_trace_certificate_guard.json
+exit = 1
+elapsed = 3.50s
+peak tree RSS = 3909 MiB
+reason = proof-shape failure: pointwise normal rewrites did not rewrite the
+         normal function extensionally
+```
+
+The proof was corrected by rewriting the entire normal function with `funext`.
+Retry:
+
+```text
+scripts/generated/phase6z6k8ap16du9bo_weighted_walsh_trace_certificate_guard_retry1.json
+exit = 0
+elapsed = 2.50s
+peak tree RSS = 3905 MiB
+min MemAvailable = 46250 MiB
+rss cap = 8192 MiB
+```
+
+Forbidden-term scan for the new Lean file produced no matches.
+
+Decision:
+
+- Accept the trace-based certificate API as the next production-facing
+  equality bridge target.
+- Future generated leaves should stop trying to unfold
+  `weightedDirectWalshQuadraticAtRank` directly.  They should instead emit:
+  compact affine normal/vector records, local trace equations, and one
+  coefficient equality against `weightedQuadraticFromAffineData`.
+- The next bounded smoke should instantiate this structure for rank `6000745`
+  with generated trace data, but must remain guarded and should start with one
+  selected weighted cube before attempting the full 11-cube cover.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
