@@ -550,11 +550,17 @@ DU.9AL adds direct source/key bridges from semantic row roles to
 `SourceIndexStateRowFacts`, `key.Matches`, and `RowPropertyParametricCovered`,
 building in 3.00s at 3.987 GiB peak RSS. DU.9AM then adds a semantic
 row-membership range language and erases it to descriptor/all-Good coverage,
-building in 5.00s at 3.330 GiB peak RSS. Therefore the next DU.9 proof target
-should prove or generate a bounded `SemanticRowMembershipLanguageOnRange`
-theorem from identity-linear `GoodDirectionAtRank`, source-index facts, and
-semantic row roles; it should not carry full row/source arithmetic through
-`decide`, compare opaque hashes, or replay compact certificates.
+building in 5.00s at 3.330 GiB peak RSS. DU.9AN then proves the first real
+nonempty semantic row-membership case: rank `0` / mask `8` is routed from the
+public DU.9L selector-positive source/row facts through the new
+`eqEqPosVarFirst` semantic row adapter to `RowPropertyParametricCovered`.  The
+helper bridge builds in 3.00s at 3.860 GiB peak RSS and the case smoke builds
+in 3.01s at 3.664 GiB peak RSS. Therefore the next DU.9 proof target should
+scale this semantic-membership proof shape from one case to a bounded
+`SemanticRowMembershipLanguageOnRange` theorem from identity-linear
+`GoodDirectionAtRank`, source-index facts, and semantic row roles; it should
+not carry full row/source arithmetic through `decide`, compare opaque hashes,
+or replay compact certificates.
 DU.9L resolves the private-support mismatch found in the first selector slice:
 the bounded classifier generator now emits public support/descriptor values,
 `SourceIndexStateClassifierDU3Smoke` rebuilds in 12.01s at 4.293 GiB peak tree
@@ -18520,6 +18526,61 @@ Acceptance:
 
   ```text
   scripts/generated/phase6z6k8ap16du9am_row_property_semantic_language_guard.json
+  ```
+
+- [x] Add Phase 6Z.6K.8AP.16DU.9AN nonempty semantic row-membership smoke:
+  DU.9AN adds the first proof-producing instance of the DU.9AM semantic row
+  membership surface:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticCaseSmoke.lean
+  ```
+
+  It also extends the semantic helper module with:
+
+  ```lean
+  theorem RowPairSemantic.of_eqEqPosVarFirst_source_row
+  ```
+
+  This one-template adapter turns existing DU.9L public selector-positive
+  `SourceIndexStateSourceFacts` and `SourceIndexStateRowFacts` into the
+  semantic row-role payload
+  `RowPairSemantic .eqEqPos .fixedPP ...`.  The smoke applies it to the real
+  GoodDirection survivor at rank `0` / mask `8`, proves an existential
+  semantic row-membership witness, and erases that witness to:
+
+  ```lean
+  RowPropertyParametricCovered 0 rank0Mask8
+  ```
+
+  Guarded builds:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemantic
+  exit=0
+  elapsed=3.00s
+  peak process-tree RSS=3860.24 MiB
+  min available memory observed=46217.76 MiB
+
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticCaseSmoke
+  exit=0
+  elapsed=3.01s
+  peak process-tree RSS=3664.39 MiB
+  min available memory observed=46329.96 MiB
+  ```
+
+  Decision: DU.9AN is accepted as the first nonempty semantic-membership
+  proof.  It validates the desired generator-facing shape: prove source facts
+  and semantic row roles, then erase through `SourceIndexStateKey` and
+  `RowPropertyParametricCovered`.  The next step should scale this from one
+  `eqEqPosVarFirst` case to a bounded range or positive-survivor shard, adding
+  other row-template adapters only when the emitted shard needs them.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9an_row_property_semantic_helper_guard.json
+  scripts/generated/phase6z6k8ap16du9an_row_property_semantic_case_smoke_guard.json
   ```
 
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:

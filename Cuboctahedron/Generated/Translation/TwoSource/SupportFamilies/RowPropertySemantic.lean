@@ -278,6 +278,37 @@ theorem SourceIndexStateKey.covered_of_source_semantic
   key.covered_of_source_row hsource
     (SourceIndexStateRowFacts.of_semantic hcompat hsem)
 
+/--
+Build the semantic row-pair payload for the most common DU.9 row-property
+pattern from the older source/row-fact surface.
+
+This is a one-template adapter, not a complete converse from row facts to
+semantic row roles.  It is enough for the first semantic membership smoke and
+keeps the weighted constant fact sourced from the already-checked generic
+row-relation theorem.
+-/
+theorem RowPairSemantic.of_eqEqPosVarFirst_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.eqEqPosVarFirst)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .eqEqPos .fixedPP key.support r mask := by
+  intro hlt
+  have hshapeRows : EqEqPosVarFirstRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : EqEqPosVarFirst key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    eqEqPosVarFirst_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
 theorem rowPropertySemantic_builds : True := by
   trivial
 
