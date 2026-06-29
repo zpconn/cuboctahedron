@@ -26201,3 +26201,98 @@ The next emitter should generalize DU.9DF from rank 0 to a bounded identity
 window, but it should continue to leave the `GoodDirection -> survivor
 language` theorem explicit.  That lets us profile descriptor-family scaling
 independently from the harder survivor-language membership proof.
+
+### Phase 6Z.6K.8AP.16DU.9DG checkpoint: bounded survivor-only descriptor window accepted
+
+Phase 6Z.6K.8AP.16DU.9DG generalizes the DU.9DF survivor-only descriptor
+surface from rank `0` to a small bounded rank window.  It keeps the same
+production-shaped split: no local bad-direction denominator proofs are emitted;
+instead, the theorem assumes a compact survivor-language premise and proves
+the descriptor/apply side for every GoodDirection survivor in the window.
+
+Artifacts:
+
+- Generator:
+  `scripts/generate_window_survivor_only_descriptor_smoke.py`
+- Generated Lean:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SemanticSurvivorOnlyWindow000000000_000000003Smoke.lean`
+- Reports:
+  `scripts/generated/phase6z6k8ap16du9dg_window_survivor_only_descriptor.json`
+  and
+  `scripts/generated/phase6z6k8ap16du9dg_window_survivor_only_descriptor.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9dg_window_survivor_only_descriptor_guard.json`
+
+The emitted main theorem is:
+
+```lean
+theorem windowDescriptorGoodCoverage_of_survivor
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 3
+```
+
+and it erases through:
+
+```lean
+theorem windowAllGoodCoverage_of_survivor
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    AllTranslationGoodCoverageOnRange 0 3
+```
+
+Window profile:
+
+- Range: `[0,3)`
+- Identity ranks: `0`, `2`
+- Nonidentity ranks: `1`
+- GoodDirection survivors: `29`
+- Bad-direction masks proved locally: `0`
+- Unsupported survivor templates: `0`
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dg_window_survivor_only_descriptor_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SemanticSurvivorOnlyWindow000000000_000000003Smoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `27.07s`
+- Peak tree RSS: `6066.55 MiB`
+- Minimum available memory observed: `42805.00 MiB`
+
+Decision: accepted as a bounded descriptor-side diagnostic.  The RSS profile is
+safe under the 8 GiB guard, but it is high enough that the next scaling move
+must remain guarded and modest.  This checkpoint confirms that descriptor
+coverage over multiple identity ranks can be proved without reviving
+bad-direction masks, compact translation certificates, packed blobs, or
+rank-local Boolean membership roots.
+
+Next target: prove the missing survivor-language premise
+
+```lean
+GoodDirectionAtRank r mask -> WindowSurvivor r mask
+```
+
+by a compact denominator/signature/state method.  Scaling the descriptor-side
+window further is secondary; the real remaining blocker is the
+GoodDirection-to-survivor-language bridge.

@@ -1,0 +1,376 @@
+{
+  "counts": {
+    "bad_direction_masks": 99,
+    "good_direction_survivors": 29,
+    "identity_words": 2,
+    "nonidentity_words": 1,
+    "pair_words_scanned": 3,
+    "unsupported": 0
+  },
+  "decision": {
+    "notes": [
+      "diagnostic only",
+      "descriptor side only",
+      "survivor membership premise explicit",
+      "contains no bad-direction or nonidentity local proof blocks"
+    ],
+    "status": "emitted-window-survivor-only-descriptor-smoke"
+  },
+  "good": [
+    {
+      "case_name": "case_000000",
+      "ctor": "r000000000_m08",
+      "family_name": "fam_000",
+      "mask": 8,
+      "rank": 0,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000001",
+      "ctor": "r000000000_m09",
+      "family_name": "fam_001",
+      "mask": 9,
+      "rank": 0,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000002",
+      "ctor": "r000000000_m13",
+      "family_name": "fam_002",
+      "mask": 13,
+      "rank": 0,
+      "source_indices": [
+        0,
+        7
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_name": "case_000003",
+      "ctor": "r000000000_m16",
+      "family_name": "fam_003",
+      "mask": 16,
+      "rank": 0,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000004",
+      "ctor": "r000000000_m18",
+      "family_name": "fam_004",
+      "mask": 18,
+      "rank": 0,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000005",
+      "ctor": "r000000000_m22",
+      "family_name": "fam_005",
+      "mask": 22,
+      "rank": 0,
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000006",
+      "ctor": "r000000000_m24",
+      "family_name": "fam_006",
+      "mask": 24,
+      "rank": 0,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000007",
+      "ctor": "r000000000_m28",
+      "family_name": "fam_007",
+      "mask": 28,
+      "rank": 0,
+      "source_indices": [
+        167,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000008",
+      "ctor": "r000000000_m29",
+      "family_name": "fam_008",
+      "mask": 29,
+      "rank": 0,
+      "source_indices": [
+        0,
+        7
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_name": "case_000009",
+      "ctor": "r000000000_m30",
+      "family_name": "fam_009",
+      "mask": 30,
+      "rank": 0,
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000010",
+      "ctor": "r000000000_m31",
+      "family_name": "fam_010",
+      "mask": 31,
+      "rank": 0,
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000011",
+      "ctor": "r000000000_m45",
+      "family_name": "fam_011",
+      "mask": 45,
+      "rank": 0,
+      "source_indices": [
+        2,
+        13
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "case_name": "case_000012",
+      "ctor": "r000000000_m47",
+      "family_name": "fam_012",
+      "mask": 47,
+      "rank": 0,
+      "source_indices": [
+        2,
+        13
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "case_name": "case_000013",
+      "ctor": "r000000000_m54",
+      "family_name": "fam_013",
+      "mask": 54,
+      "rank": 0,
+      "source_indices": [
+        24,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_name": "case_000014",
+      "ctor": "r000000000_m55",
+      "family_name": "fam_014",
+      "mask": 55,
+      "rank": 0,
+      "source_indices": [
+        24,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_name": "case_000015",
+      "ctor": "r000000000_m63",
+      "family_name": "fam_015",
+      "mask": 63,
+      "rank": 0,
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000016",
+      "ctor": "r000000002_m08",
+      "family_name": "fam_016",
+      "mask": 8,
+      "rank": 2,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000017",
+      "ctor": "r000000002_m09",
+      "family_name": "fam_017",
+      "mask": 9,
+      "rank": 2,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000018",
+      "ctor": "r000000002_m13",
+      "family_name": "fam_018",
+      "mask": 13,
+      "rank": 2,
+      "source_indices": [
+        0,
+        7
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_name": "case_000019",
+      "ctor": "r000000002_m16",
+      "family_name": "fam_019",
+      "mask": 16,
+      "rank": 2,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000020",
+      "ctor": "r000000002_m18",
+      "family_name": "fam_020",
+      "mask": 18,
+      "rank": 2,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000021",
+      "ctor": "r000000002_m24",
+      "family_name": "fam_021",
+      "mask": 24,
+      "rank": 2,
+      "source_indices": [
+        23,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000022",
+      "ctor": "r000000002_m28",
+      "family_name": "fam_022",
+      "mask": 28,
+      "rank": 2,
+      "source_indices": [
+        1,
+        13
+      ],
+      "template_id": "opp_1m_var_second"
+    },
+    {
+      "case_name": "case_000023",
+      "ctor": "r000000002_m29",
+      "family_name": "fam_023",
+      "mask": 29,
+      "rank": 2,
+      "source_indices": [
+        0,
+        7
+      ],
+      "template_id": "eq_eq_pos_var_second"
+    },
+    {
+      "case_name": "case_000024",
+      "ctor": "r000000002_m30",
+      "family_name": "fam_024",
+      "mask": 30,
+      "rank": 2,
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    },
+    {
+      "case_name": "case_000025",
+      "ctor": "r000000002_m47",
+      "family_name": "fam_025",
+      "mask": 47,
+      "rank": 2,
+      "source_indices": [
+        2,
+        13
+      ],
+      "template_id": "opp_m1_var_second"
+    },
+    {
+      "case_name": "case_000026",
+      "ctor": "r000000002_m54",
+      "family_name": "fam_026",
+      "mask": 54,
+      "rank": 2,
+      "source_indices": [
+        24,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_name": "case_000027",
+      "ctor": "r000000002_m55",
+      "family_name": "fam_027",
+      "mask": 55,
+      "rank": 2,
+      "source_indices": [
+        24,
+        1
+      ],
+      "template_id": "opp_1m_var_first"
+    },
+    {
+      "case_name": "case_000028",
+      "ctor": "r000000002_m63",
+      "family_name": "fam_028",
+      "mask": 63,
+      "rank": 2,
+      "source_indices": [
+        83,
+        0
+      ],
+      "template_id": "eq_eq_pos_var_first"
+    }
+  ],
+  "phase": "6Z.6K.8AP.16DU.9DG",
+  "rank_range": [
+    0,
+    3
+  ],
+  "schema_version": 1,
+  "trusted_as_proof": false
+}
