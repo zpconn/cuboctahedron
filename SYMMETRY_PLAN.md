@@ -22320,6 +22320,68 @@ Decision:
   equality and cube nonpositivity.  Do not unfold
   `translationVectorWalshOfChoice` inside generated weighted-cube leaves.
 
+### Phase 6Z.6K.8AP.16DU.9BI checkpoint: weighted coefficient-certificate profile accepted
+
+Phase 6Z.6K.8AP.16DU.9BI adds the exact external profiler for the route
+selected after DU.9BH:
+
+```text
+scripts/profile_ap16du9bi_weighted_coeff_certificates.py
+```
+
+The profiler consumes the DU.9BA rank-`6000745` weighted-cube profile and
+records the data a future Lean checker should consume without replaying the
+translation Walsh recurrence:
+
+- compact quadratic coefficient records;
+- a positive integer scale clearing all rational denominators;
+- scaled integer coefficients;
+- exact cube nonpositivity telemetry;
+- whether each cube can be proved by term bounds or needs finite vertex
+  splitting.
+
+Run:
+
+```text
+python3 -m py_compile scripts/profile_ap16du9bi_weighted_coeff_certificates.py
+/usr/bin/time -v python3 scripts/profile_ap16du9bi_weighted_coeff_certificates.py
+```
+
+Result:
+
+```text
+elapsed = 1.28s
+maximum resident set size = 26992 KiB
+selected weighted cubes = 11
+all weighted values validated on 64 masks = True
+all cubes nonpositive = True
+term-bound cubes = 5
+vertex-split cubes = 6
+max coefficient denominator scale = 9
+max absolute scaled coefficient = 216
+total nonzero scaled coefficients = 105
+estimated Lean lines for this rank-local certificate surface = 942
+```
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9bi_weighted_coeff_certificate_profile.json
+scripts/generated/phase6z6k8ap16du9bi_weighted_coeff_certificate_profile.md
+```
+
+Decision:
+
+- Accept integer-scaled quadratic coefficient certificates as the next
+  production-facing proof surface for weighted denominator cubes.
+- The next Lean work should add a small checker/theorem surface for scaled
+  `WalshQuadratic` records: coefficient equality is checked from integer
+  fields and a positive scale, while cube nonpositivity is checked by either
+  term-bound or vertex-split proofs.
+- Continue rejecting generated recurrence replay in weighted-cube leaves.
+  The coefficient certificate should be the bridge between external exact
+  polynomial computation and Lean-checked `weightedDenomAtRank` obstruction.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

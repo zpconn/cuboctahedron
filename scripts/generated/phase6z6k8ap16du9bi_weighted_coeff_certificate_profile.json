@@ -1,0 +1,723 @@
+{
+  "all_cubes_nonpositive": true,
+  "all_weighted_values_validated_on_all_masks": true,
+  "cube_count": 11,
+  "cubes": [
+    {
+      "coeff_scale": 9,
+      "cube_max": "0",
+      "cube_max_masks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 90,
+      "fixed_bits": {
+        "d11m": false,
+        "d1m1": false
+      },
+      "free_bits": [
+        "y",
+        "z",
+        "d111",
+        "dm11"
+      ],
+      "index": 0,
+      "label": "***00*",
+      "mask_count": 16,
+      "max_abs_scaled_coeff": 216,
+      "nonzero_coefficients": 14,
+      "scaled_coefficients": {
+        "c": 216,
+        "d111": 80,
+        "d111_d11m": 40,
+        "d111_d1m1": 40,
+        "d111_dm11": 0,
+        "d11m": 84,
+        "d11m_d1m1": -48,
+        "d11m_dm11": -24,
+        "d1m1": 84,
+        "d1m1_dm11": -24,
+        "dm11": -48,
+        "y": 0,
+        "y_d111": 0,
+        "y_d11m": 36,
+        "y_d1m1": -36,
+        "y_dm11": 0,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 0,
+        "z_d11m": -36,
+        "z_d1m1": 36,
+        "z_dm11": 0
+      },
+      "suggested_nonpos_method": "vertex_split",
+      "support": [
+        1,
+        2,
+        8
+      ],
+      "term_bound_nonpositive": false,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "2",
+        "1",
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 3,
+      "cube_max": "0",
+      "cube_max_masks": [
+        32,
+        33,
+        34,
+        35,
+        40,
+        41,
+        42,
+        43,
+        48,
+        49,
+        50,
+        51,
+        56,
+        57,
+        58,
+        59
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 90,
+      "fixed_bits": {
+        "d111": false,
+        "dm11": true
+      },
+      "free_bits": [
+        "y",
+        "z",
+        "d11m",
+        "d1m1"
+      ],
+      "index": 1,
+      "label": "**0**1",
+      "mask_count": 16,
+      "max_abs_scaled_coeff": 168,
+      "nonzero_coefficients": 14,
+      "scaled_coefficients": {
+        "c": 168,
+        "d111": 140,
+        "d111_d11m": 40,
+        "d111_d1m1": 40,
+        "d111_dm11": -32,
+        "d11m": 48,
+        "d11m_d1m1": 0,
+        "d11m_dm11": -8,
+        "d1m1": 48,
+        "d1m1_dm11": -8,
+        "dm11": -60,
+        "y": 0,
+        "y_d111": 12,
+        "y_d11m": 0,
+        "y_d1m1": 0,
+        "y_dm11": 12,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 12,
+        "z_d11m": 0,
+        "z_d1m1": 0,
+        "z_dm11": 12
+      },
+      "suggested_nonpos_method": "vertex_split",
+      "support": [
+        1,
+        4,
+        5
+      ],
+      "term_bound_nonpositive": false,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "6",
+        "1",
+        "3"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "-20/9",
+      "cube_max_masks": [
+        56
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 91,
+      "fixed_bits": {
+        "d111": false,
+        "d11m": true,
+        "d1m1": true
+      },
+      "free_bits": [
+        "y",
+        "z",
+        "dm11"
+      ],
+      "index": 2,
+      "label": "**011*",
+      "mask_count": 8,
+      "max_abs_scaled_coeff": 72,
+      "nonzero_coefficients": 7,
+      "scaled_coefficients": {
+        "c": 72,
+        "d111": 60,
+        "d111_d11m": 40,
+        "d111_d1m1": 40,
+        "d111_dm11": -24,
+        "d11m": 0,
+        "d11m_d1m1": 0,
+        "d11m_dm11": 0,
+        "d1m1": 0,
+        "d1m1_dm11": 0,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 12,
+        "y_d11m": 0,
+        "y_d1m1": 0,
+        "y_dm11": 0,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 12,
+        "z_d11m": 0,
+        "z_d1m1": 0,
+        "z_dm11": 0
+      },
+      "suggested_nonpos_method": "term_bound",
+      "support": [
+        5
+      ],
+      "term_bound_nonpositive": true,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "0",
+      "cube_max_masks": [
+        48,
+        49,
+        52,
+        53,
+        56,
+        57,
+        60,
+        61
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 81,
+      "fixed_bits": {
+        "d1m1": true,
+        "dm11": true,
+        "z": false
+      },
+      "free_bits": [
+        "y",
+        "d111",
+        "d11m"
+      ],
+      "index": 3,
+      "label": "*0**11",
+      "mask_count": 8,
+      "max_abs_scaled_coeff": 216,
+      "nonzero_coefficients": 14,
+      "scaled_coefficients": {
+        "c": 216,
+        "d111": 0,
+        "d111_d11m": 0,
+        "d111_d1m1": 40,
+        "d111_dm11": -24,
+        "d11m": 0,
+        "d11m_d1m1": -24,
+        "d11m_dm11": -24,
+        "d1m1": 36,
+        "d1m1_dm11": -48,
+        "dm11": -36,
+        "y": 0,
+        "y_d111": 0,
+        "y_d11m": 0,
+        "y_d1m1": -36,
+        "y_dm11": 36,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 16,
+        "z_d11m": -48,
+        "z_d1m1": 84,
+        "z_dm11": 84
+      },
+      "suggested_nonpos_method": "vertex_split",
+      "support": [
+        2,
+        4,
+        11
+      ],
+      "term_bound_nonpositive": false,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "0",
+      "cube_max_masks": [
+        4,
+        12,
+        36,
+        44
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 81,
+      "fixed_bits": {
+        "d111": true,
+        "d1m1": false,
+        "y": false
+      },
+      "free_bits": [
+        "z",
+        "d11m",
+        "dm11"
+      ],
+      "index": 4,
+      "label": "0*1*0*",
+      "mask_count": 8,
+      "max_abs_scaled_coeff": 108,
+      "nonzero_coefficients": 10,
+      "scaled_coefficients": {
+        "c": 108,
+        "d111": 0,
+        "d111_d11m": 0,
+        "d111_d1m1": 40,
+        "d111_dm11": 0,
+        "d11m": 0,
+        "d11m_d1m1": -24,
+        "d11m_dm11": 0,
+        "d1m1": 36,
+        "d1m1_dm11": -24,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 8,
+        "y_d11m": 24,
+        "y_d1m1": -60,
+        "y_dm11": 24,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 0,
+        "z_d11m": 0,
+        "z_d1m1": 36,
+        "z_dm11": 0
+      },
+      "suggested_nonpos_method": "vertex_split",
+      "support": [
+        2,
+        10
+      ],
+      "term_bound_nonpositive": false,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1",
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "-28/9",
+      "cube_max_masks": [
+        21,
+        23
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 85,
+      "fixed_bits": {
+        "d11m": false,
+        "d1m1": true,
+        "dm11": false,
+        "y": true
+      },
+      "free_bits": [
+        "z",
+        "d111"
+      ],
+      "index": 5,
+      "label": "1**010",
+      "mask_count": 4,
+      "max_abs_scaled_coeff": 36,
+      "nonzero_coefficients": 5,
+      "scaled_coefficients": {
+        "c": 36,
+        "d111": 0,
+        "d111_d11m": 0,
+        "d111_d1m1": 0,
+        "d111_dm11": 0,
+        "d11m": 0,
+        "d11m_d1m1": 0,
+        "d11m_dm11": 0,
+        "d1m1": 0,
+        "d1m1_dm11": 0,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 8,
+        "y_d11m": 24,
+        "y_d1m1": -24,
+        "y_dm11": 24,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 0,
+        "z_d11m": 0,
+        "z_d1m1": 0,
+        "z_dm11": 0
+      },
+      "suggested_nonpos_method": "term_bound",
+      "support": [
+        10
+      ],
+      "term_bound_nonpositive": true,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "-28/9",
+      "cube_max_masks": [
+        14,
+        15
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 85,
+      "fixed_bits": {
+        "d11m": true,
+        "d1m1": false,
+        "dm11": false,
+        "z": true
+      },
+      "free_bits": [
+        "y",
+        "d111"
+      ],
+      "index": 6,
+      "label": "*1*100",
+      "mask_count": 4,
+      "max_abs_scaled_coeff": 36,
+      "nonzero_coefficients": 5,
+      "scaled_coefficients": {
+        "c": 36,
+        "d111": 0,
+        "d111_d11m": 0,
+        "d111_d1m1": 0,
+        "d111_dm11": 0,
+        "d11m": 0,
+        "d11m_d1m1": 0,
+        "d11m_dm11": 0,
+        "d1m1": 0,
+        "d1m1_dm11": 0,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 0,
+        "y_d11m": 0,
+        "y_d1m1": 0,
+        "y_dm11": 0,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 8,
+        "z_d11m": -24,
+        "z_d1m1": 24,
+        "z_dm11": 24
+      },
+      "suggested_nonpos_method": "term_bound",
+      "support": [
+        11
+      ],
+      "term_bound_nonpositive": true,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "0",
+      "cube_max_masks": [
+        4,
+        20,
+        36,
+        52
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 81,
+      "fixed_bits": {
+        "d111": true,
+        "d11m": false,
+        "z": false
+      },
+      "free_bits": [
+        "y",
+        "d1m1",
+        "dm11"
+      ],
+      "index": 7,
+      "label": "*010**",
+      "mask_count": 8,
+      "max_abs_scaled_coeff": 108,
+      "nonzero_coefficients": 10,
+      "scaled_coefficients": {
+        "c": 108,
+        "d111": 0,
+        "d111_d11m": 40,
+        "d111_d1m1": 0,
+        "d111_dm11": 0,
+        "d11m": 36,
+        "d11m_d1m1": -24,
+        "d11m_dm11": -24,
+        "d1m1": 0,
+        "d1m1_dm11": 0,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 0,
+        "y_d11m": 36,
+        "y_d1m1": 0,
+        "y_dm11": 0,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 8,
+        "z_d11m": -60,
+        "z_d1m1": 24,
+        "z_dm11": 24
+      },
+      "suggested_nonpos_method": "vertex_split",
+      "support": [
+        8,
+        11
+      ],
+      "term_bound_nonpositive": false,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1",
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "-4/3",
+      "cube_max_masks": [
+        18
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 91,
+      "fixed_bits": {
+        "d111": false,
+        "d1m1": true,
+        "dm11": false,
+        "z": true
+      },
+      "free_bits": [
+        "y",
+        "d11m"
+      ],
+      "index": 8,
+      "label": "*10*10",
+      "mask_count": 4,
+      "max_abs_scaled_coeff": 72,
+      "nonzero_coefficients": 7,
+      "scaled_coefficients": {
+        "c": 72,
+        "d111": 60,
+        "d111_d11m": 40,
+        "d111_d1m1": 40,
+        "d111_dm11": -24,
+        "d11m": 0,
+        "d11m_d1m1": 0,
+        "d11m_dm11": 0,
+        "d1m1": 0,
+        "d1m1_dm11": 0,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 12,
+        "y_d11m": 0,
+        "y_d1m1": 0,
+        "y_dm11": 0,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 12,
+        "z_d11m": 0,
+        "z_d1m1": 0,
+        "z_dm11": 0
+      },
+      "suggested_nonpos_method": "term_bound",
+      "support": [
+        5
+      ],
+      "term_bound_nonpositive": true,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "-8/9",
+      "cube_max_masks": [
+        60,
+        62
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 76,
+      "fixed_bits": {
+        "d11m": true,
+        "d1m1": true,
+        "dm11": true,
+        "y": false
+      },
+      "free_bits": [
+        "z",
+        "d111"
+      ],
+      "index": 9,
+      "label": "0**111",
+      "mask_count": 4,
+      "max_abs_scaled_coeff": 144,
+      "nonzero_coefficients": 12,
+      "scaled_coefficients": {
+        "c": 144,
+        "d111": 0,
+        "d111_d11m": 40,
+        "d111_d1m1": 0,
+        "d111_dm11": -24,
+        "d11m": 36,
+        "d11m_d1m1": -24,
+        "d11m_dm11": -48,
+        "d1m1": 0,
+        "d1m1_dm11": -24,
+        "dm11": -36,
+        "y": 0,
+        "y_d111": 0,
+        "y_d11m": 36,
+        "y_d1m1": 0,
+        "y_dm11": 36,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 0,
+        "z_d11m": -36,
+        "z_d1m1": 0,
+        "z_dm11": 36
+      },
+      "suggested_nonpos_method": "vertex_split",
+      "support": [
+        4,
+        8
+      ],
+      "term_bound_nonpositive": false,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1",
+        "1"
+      ]
+    },
+    {
+      "coeff_scale": 9,
+      "cube_max": "-4/3",
+      "cube_max_masks": [
+        9
+      ],
+      "cube_nonpositive": true,
+      "estimated_lean_lines": 91,
+      "fixed_bits": {
+        "d111": false,
+        "d11m": true,
+        "dm11": false,
+        "y": true
+      },
+      "free_bits": [
+        "z",
+        "d1m1"
+      ],
+      "index": 10,
+      "label": "1*01*0",
+      "mask_count": 4,
+      "max_abs_scaled_coeff": 72,
+      "nonzero_coefficients": 7,
+      "scaled_coefficients": {
+        "c": 72,
+        "d111": 60,
+        "d111_d11m": 40,
+        "d111_d1m1": 40,
+        "d111_dm11": -24,
+        "d11m": 0,
+        "d11m_d1m1": 0,
+        "d11m_dm11": 0,
+        "d1m1": 0,
+        "d1m1_dm11": 0,
+        "dm11": 0,
+        "y": 0,
+        "y_d111": 12,
+        "y_d11m": 0,
+        "y_d1m1": 0,
+        "y_dm11": 0,
+        "yz": 0,
+        "z": 0,
+        "z_d111": 12,
+        "z_d11m": 0,
+        "z_d1m1": 0,
+        "z_dm11": 0
+      },
+      "suggested_nonpos_method": "term_bound",
+      "support": [
+        5
+      ],
+      "term_bound_nonpositive": true,
+      "weighted_values_validated_on_all_masks": true,
+      "weights": [
+        "1"
+      ]
+    }
+  ],
+  "estimated_lean_lines": 942,
+  "individual_denominator_forms_validated": true,
+  "max_abs_scaled_coeff": 216,
+  "max_coeff_scale": 9,
+  "phase": "Phase 6Z.6K.8AP.16DU.9BI",
+  "rank": 6000745,
+  "source_du9ba": "scripts/generated/phase6z6k8ap16du9ba_rank6000745_weighted_cube_profile_v2.json",
+  "term_bound_cube_count": 5,
+  "total_nonzero_coefficients": 105,
+  "vertex_split_cube_count": 6,
+  "word": [
+    "x",
+    "d1m1",
+    "d1m1",
+    "dm11",
+    "d111",
+    "d111",
+    "dm11",
+    "d11m",
+    "d11m",
+    "y",
+    "z",
+    "y",
+    "z"
+  ]
+}
