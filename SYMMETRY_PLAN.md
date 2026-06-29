@@ -17242,6 +17242,69 @@ Acceptance:
   change the production blocker: the proof-producing emitter still needs a
   shared GoodDirection-to-selector-coordinate membership theorem over large
   ranges.
+- [x] Add Phase 6Z.6K.8AP.16DU.9R.2 key-based selector-catalog constructors:
+  DU.9R.2 adds two theorem-valued constructors that let future production
+  shards target the DU.9R selector catalog without replaying selector lookup
+  details in every generated file:
+
+  ```lean
+  SelectorCoordinateFactsGoodCatalogOnRangeFor.of_keyAt_source_row
+
+  SelectorCoordinateFactsGoodCatalogOnRangeFor.of_classifierKey_source_row
+  ```
+
+  The preferred generated shape is now:
+
+  ```lean
+  private def keyAt : Nat -> SignMask -> ClassifierKey := ...
+
+  theorem shard_catalog :
+      SelectorCoordinateFactsGoodCatalogOnRangeFor
+        (fun rank mask => selectorCoordinateOfKey (keyAt rank mask))
+        lo hi := by
+    apply SelectorCoordinateFactsGoodCatalogOnRangeFor.of_keyAt_source_row
+    -- prove semantic source/row facts for `keyAt rank mask`
+  ```
+
+  A second constructor supports emitters that recover an existential
+  `ClassifierKey` plus a coordinate equality.  Both constructors are purely
+  Prop-level adapters: they introduce no concrete membership evidence, no
+  compact-cover data, no Boolean checker reduction, and no public theorem
+  statement containing generated data.
+
+  Focused checks:
+
+  ```text
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9RRangeAdapter
+    exit=0, elapsed=5.4s
+
+  lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateSelectorDU9SRangeSmoke
+    first concurrent attempt:
+      exit=1
+      reason: artifact race while another Lake process was rebuilding
+              SourceIndexStateSelectorDU9RRangeAdapter.olean
+    serial retry:
+      exit=0, elapsed=2.05s
+
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9RRangeAdapter.lean
+    exit=0
+    elapsed=1.55s
+    max_rss=3295096 KiB
+  ```
+
+  Decision: DU.9R.2 is accepted as bridge infrastructure.  It is a small,
+  memory-safe step toward the production selector-membership emitter: generated
+  leaves can now keep key-selection data private and export a semantic
+  range-catalog theorem.  The actual remaining blocker is unchanged but
+  sharper: prove or generate, at shared-family scale, the semantic
+  `GoodDirectionAtRank -> keyAt source/row facts` obligation.  Avoid running
+  overlapping Lake builds for targets sharing freshly changed dependencies;
+  the DU.9S concurrent failure was a `.olean` write race, not a theorem
+  failure.
 - [x] Add Phase 6Z.6K.8AP.16DU.9S range-parametric selector-catalog smoke:
   DU.9S proves the new DU.9R production-shaped target on the real nonempty
   bounded range `[0,1)`.

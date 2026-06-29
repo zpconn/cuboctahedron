@@ -56,6 +56,64 @@ theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.single
   subst rank'
   exact h hlt hM hgood
 
+/--
+Build a selector-coordinate catalog from a generated key selector.
+
+This is the intended low-data production shape: a leaf may keep its `keyAt`
+function private, prove semantic source/row facts for that key under
+`GoodDirectionAtRank`, and then export only the range catalog theorem.
+-/
+theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.of_keyAt_source_row
+    {keyAt : Nat -> SignMask -> ClassifierKey}
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                SourceIndexStateSourceFacts
+                  (keyAt rank mask).toSourceIndexStateKey rank mask /\
+                  SourceIndexStateRowFacts
+                    (keyAt rank mask).toSourceIndexStateKey rank mask) :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor
+      (fun rank mask => selectorCoordinateOfKey (keyAt rank mask)) lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with ⟨hsource, hrows⟩
+  exact selectorCoordinateSourceRowFacts_of_key hsource hrows
+
+/--
+Build a selector-coordinate catalog from an existential generated classifier
+key plus a coordinate equality.
+
+This form is useful for shard emitters that discover the key through a local
+case split or symbolic classifier, while still exporting only the semantic
+selector-coordinate catalog.
+-/
+theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.of_classifierKey_source_row
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  coordAt rank mask = selectorCoordinateOfKey key /\
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                  SourceIndexStateRowFacts
+                    key.toSourceIndexStateKey rank mask) :
+    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with
+    ⟨key, hcoord, hsource, hrows⟩
+  rw [hcoord]
+  exact selectorCoordinateSourceRowFacts_of_key hsource hrows
+
 /-- Erase a range-parametric selector-coordinate catalog to source/row facts. -/
 theorem SelectorCoordinateFactsGoodCatalogOnRangeFor.to_sourceIndexFactsCatalog
     {coordAt : Nat -> SignMask -> SelectorCoordinate}
