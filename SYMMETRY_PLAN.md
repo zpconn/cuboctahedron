@@ -18695,6 +18695,57 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9ap_row_property_semantic_exists_nonaxis_guard.json
   ```
 
+- [x] Add Phase 6Z.6K.8AP.16DU.9AQ bounded semantic row-membership range smoke:
+  DU.9AQ adds the first nonempty
+  `SemanticRowMembershipLanguageOnRange` instance proved directly from
+  `GoodDirectionAtRank` and the DU.9L selector-positive source/row facts:
+
+  ```lean
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRangeSmoke.semanticLanguage0_1 :
+    SemanticRowMembershipLanguageOnRange 0 1
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRangeSmoke.allGoodCoverage0_1 :
+    AllTranslationGoodCoverageOnRange 0 1
+  ```
+
+  The proof uses DU.9P's rank-0 GoodDirection membership theorem to get a
+  DU.9L selector-positive case, extracts public
+  `SourceIndexStateSourceFacts` and `SourceIndexStateRowFacts` from shard 0,
+  applies DU.9AP's non-axis existential row-role bridge for each real
+  positive survivor in rank `0`, and erases the resulting semantic language
+  through DU.9AM to the public all-Good coverage target.
+
+  Guarded build:
+
+  ```text
+  command=lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertySemanticRangeSmoke.lean
+  exit=0
+  elapsed=2.50s
+  peak process-tree RSS=3738 MiB
+  min available memory observed=46298 MiB
+  ```
+
+  Decision: DU.9AQ is accepted as the first bounded proof-producing
+  GoodDirection-to-semantic-language range module.  It shows the preferred
+  final generated leaf shape can be:
+
+  ```lean
+  def semanticLanguage_lo_hi :
+    SemanticRowMembershipLanguageOnRange lo hi
+  ```
+
+  with only semantic source/row facts exposed, then erased to
+  `AllTranslationGoodCoverageOnRange lo hi`.  The next production step is to
+  emit the same shape for a larger bounded selector-positive shard, while
+  keeping axis and `exactTwoSourceValid` cases either absent from the shard or
+  handled by dedicated semantic adapters.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9aq_row_property_semantic_range_smoke_guard.json
+  ```
+
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
