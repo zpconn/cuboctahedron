@@ -1,6 +1,6 @@
 # Phase 6Z.6K.8AP.16DF Two-Signature Compact Cover Smoke
 
-Status: rejected by focused guarded Lean build.
+Status: accepted by AP16DI guarded serial build.
 
 - rank 100805 cover namespace: `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke`
 - rank 101105 cover namespace: `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank101105Smoke`
@@ -9,44 +9,34 @@ Status: rejected by focused guarded Lean build.
 - rank 101105 selected word impacts: `[1, 3, 5, 6, 7, 8, 11]`
 - root Lean file: `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke.lean`
 
-This was bounded smoke evidence only.  The generated Lean artifacts were
-removed after the guarded build failed or was interrupted, so this report is
-diagnostic and not imported by the package.
+This is bounded smoke evidence only.  It validates namespace-safe composition
+of two AP16DC-style cover modules after selected-impact modules are built
+serially under a memory guard.
 
-Guarded build:
-
-```text
-python3 scripts/run_memory_guarded.py \
-  --max-tree-rss-mib 7000 \
-  --min-available-mib 12000 \
-  --poll-seconds 0.5 \
-  --json /tmp/ap16df_two_signature_cover_build.json \
-  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke'
-```
-
-Result:
+Accepted guarded serial build:
 
 ```text
-killed by memory guard
-elapsed: 492.42s
-peak tree RSS: 7002.96 MiB
-minimum available memory: 42898.13 MiB
+python3 scripts/run_ap16df_serial_guarded.py \
+  --generate \
+  --json /tmp/ap16df_serial_guarded/summary_pass.json \
+  --rss-cap-mib 5000 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600
 ```
 
-Follow-up: the normal proof bottleneck was narrowed and replaced with the
-generic theorem `impactNormalWalshAt_eval`.  Focused guarded builds passed for:
+Representative focused checks:
 
 ```text
-Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector
-elapsed: 6.09s
-peak tree RSS: 4062.42 MiB
+rank101105 cover:
+  elapsed: 12.52s
+  peak tree RSS: 4309.70 MiB
 
-Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact11FastSmoke
-elapsed: 14.54s
-peak tree RSS: 4171.68 MiB
+two-signature root after cached leaves:
+  elapsed: 2.50s
+  peak tree RSS: 4031.95 MiB
 ```
 
-Decision: the AP16DF two-signature root remains rejected.  The reusable
-normal bridge is accepted as a prerequisite, but composing multiple generated
-selected-impact modules in one root is still not memory-safe enough for the
-path forward.
+The generated Lean artifacts are not committed as production coverage; they
+are regenerated on demand by
+`scripts/generate_ap16df_two_signature_compact_cover_smoke.py` and checked by
+`scripts/run_ap16df_serial_guarded.py`.

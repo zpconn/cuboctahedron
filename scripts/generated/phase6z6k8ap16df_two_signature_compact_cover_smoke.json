@@ -1,6 +1,6 @@
 {
   "phase": "Phase 6Z.6K.8AP.16DF",
-  "status": "rejected_guarded_build_memory_cap",
+  "status": "accepted_guarded_serial_build",
   "trusted_as_final_generated_coverage": false,
   "rank100805_cover_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverSmoke",
   "rank101105_cover": {
@@ -28,29 +28,23 @@
   "rank101105_uncovered_count": 0,
   "root_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke.lean",
   "root_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke",
-  "guarded_build": {
-    "command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 7000 --min-available-mib 12000 --poll-seconds 0.5 --json /tmp/ap16df_two_signature_cover_build.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke'",
-    "result": "killed_by_memory_guard",
-    "elapsed_seconds": 492.42,
-    "peak_tree_rss_mib": 7002.96,
-    "min_available_mib": 42898.13
-  },
-  "second_attempt": {
-    "result": "manually_interrupted_before_oom",
-    "reason": "The root target began importing multiple selected-impact generated modules. The user requested stopping before another OOM-risk run."
-  },
-  "accepted_prerequisites": [
-    {
-      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector",
-      "elapsed_seconds": 6.09,
-      "peak_tree_rss_mib": 4062.42
-    },
-    {
-      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact11FastSmoke",
-      "elapsed_seconds": 14.54,
-      "peak_tree_rss_mib": 4171.68
+  "guarded_serial_build": {
+    "runner": "scripts/run_ap16df_serial_guarded.py",
+    "summary_json": "scripts/generated/phase6z6k8ap16di_serial_guard_run.json",
+    "result": "passed",
+    "rss_cap_mib": 5000,
+    "timeout_seconds": 600,
+    "representative_uncached_checks": {
+      "rank101105_cover": {
+        "elapsed_seconds": 12.52,
+        "peak_tree_rss_mib": 4309.7
+      },
+      "two_signature_root_after_cached_leaves": {
+        "elapsed_seconds": 2.5,
+        "peak_tree_rss_mib": 4031.95
+      }
     }
-  ],
+  },
   "generated_lean_artifacts_committed": false,
-  "rejection_reason": "The compact normal bridge fixes the single-impact proof shape, but composing multiple generated selected-impact modules in one root remains above the memory budget. The unaccepted root and rank101105 generated artifacts were removed to keep the package buildable."
+  "note": "The AP16DF Lean artifacts are generated on demand by scripts/generate_ap16df_two_signature_compact_cover_smoke.py and checked by the AP16DI serial guard runner."
 }

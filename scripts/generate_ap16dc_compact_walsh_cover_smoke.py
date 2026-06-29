@@ -87,6 +87,7 @@ def lean_module_from_path(path: str) -> str:
 
 def emit_dot_coefficients(entry: dict[str, Any]) -> list[str]:
     ns = entry["namespace"]
+    trace_ns = entry.get("trace_namespace", TRACE_NS)
     return [
         "private theorem generatedDotCoefficients :",
         f"    WalshAffineVec3.dot {ns}.generatedNormal {ns}.generatedVector = generatedPoly := by",
@@ -97,10 +98,10 @@ def emit_dot_coefficients(entry: dict[str, Any]) -> list[str]:
         f"    {ns}.generatedNormal_y,",
         f"    {ns}.generatedNormal_z,",
         f"    {ns}.generatedVector,",
-        f"    {TRACE_NS}.generatedVector,",
-        f"    {TRACE_NS}.generatedVector_x,",
-        f"    {TRACE_NS}.generatedVector_y,",
-        f"    {TRACE_NS}.generatedVector_z,",
+        f"    {trace_ns}.generatedVector,",
+        f"    {trace_ns}.generatedVector_x,",
+        f"    {trace_ns}.generatedVector_y,",
+        f"    {trace_ns}.generatedVector_z,",
         "    WalshAffineVec3.dot, WalshQuadratic.add, WalshAffine.mul",
         "  ]",
         "  try norm_num",
@@ -169,7 +170,7 @@ def emit_obstruction_def(
         "",
         "private def generatedSymbolicObstruction :",
         "    (cube : GeneratedCompactSubcube) ->",
-        "      WalshSymbolicQuadraticImpactObstruction 100805",
+        f"      WalshSymbolicQuadraticImpactObstruction {rank}",
         "        (generatedSubcubeMember cube)",
     ]
     for index, subcube in enumerate(subcubes):
@@ -285,7 +286,7 @@ def emit_lean(
         "/-!",
         "Generated AP.16DC compact-denominator Walsh impact-subcube cover smoke.",
         "",
-        "This module covers all AP16BJ selected bad-mask subcubes for rank 100805.",
+        f"This module covers all AP16BJ selected bad-mask subcubes for rank {rank}.",
         "Its denominator bridge uses the AP16DB compact denominator consumers, not",
         "bounded per-mask replay.",
         "-/",
