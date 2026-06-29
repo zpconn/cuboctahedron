@@ -27269,3 +27269,50 @@ families grow only from `146` to `177`.  Memory remains tiny relative to the
 45 GiB safe budget.  The next diagnostic, if needed, may scale further using
 the same guard and four workers, but only as a Python profiler run; do not
 start a broad Lean build or generated-source emission from this result.
+
+### Phase 6Z.6K.8AP.16DU.9DY checkpoint: disjoint 25k classifier window accepted
+
+Phase 6Z.6K.8AP.16DU.9DY checks whether the low family count in the initial
+rank prefix is misleading by running the same jobs-aware Python-only diagnostic
+on a disjoint mid-space window, `[60000000,60025000)`.
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4096 \
+  --min-available-mib 16384 \
+  --poll-seconds 1 \
+  --json scripts/generated/phase6z6k8ap16du9dy_parallel_classifier_profile_60000000_60025000_guard.json \
+  -- python3 scripts/profile_source_index_state_computable_classifier.py \
+    --rank-start 60000000 \
+    --limit 25000 \
+    --jobs 4 \
+    --max-rule-count 300 \
+    --top-limit 20 \
+    --json scripts/generated/phase6z6k8ap16du9dy_parallel_classifier_profile_60000000_60025000.json \
+    --md scripts/generated/phase6z6k8ap16du9dy_parallel_classifier_profile_60000000_60025000.md
+```
+
+Result:
+
+- Exit: `0`
+- Status: `accepted-next-smoke`
+- Rank window: `[60000000,60025000)`
+- Jobs: `4`
+- Identity words: `318`
+- GoodDirection survivors: `115`
+- Not-GoodDirection masks: `20237`
+- Source-index/state families: `32`
+- Largest family: `31`
+- Elapsed: `13.01s`
+- Peak tree RSS: `104.66 MiB`
+- Minimum available memory observed: `46387.26 MiB`
+
+Decision: accepted.  The disjoint mid-space sample is much sparser than the
+initial `[0,25000)` sample (`115` versus `11527` GoodDirection survivors, `32`
+versus `177` families).  This supports using guarded, jobs-aware Python
+profiling to map density before any production Lean emission.  The next
+profiler should sample several disjoint windows and aggregate family keys so we
+can estimate global source-index/state family count without relying on rank
+prefix behavior.
