@@ -22004,6 +22004,80 @@ Decision:
   check the small polynomial/certificate, not replay the full 13-step Walsh
   recurrence for each mask or cube.
 
+### Phase 6Z.6K.8AP.16DU.9BE checkpoint: weighted Walsh polynomial telemetry accepted
+
+Phase 6Z.6K.8AP.16DU.9BE adds a small exact external profiler:
+
+```text
+scripts/profile_ap16du9be_weighted_walsh_poly.py
+```
+
+It reads the accepted DU.9BA witnessable weighted-cube cover for rank
+`6000745`, computes the exact Walsh polynomial for each selected sparse
+weighted denominator combination, validates each polynomial on all 64 masks,
+and records both the exact cube maximum and the simple termwise cube upper
+bound.  This is telemetry only, not proof data.
+
+Command:
+
+```text
+python3 -m py_compile scripts/profile_ap16du9be_weighted_walsh_poly.py
+/usr/bin/time -v python3 scripts/profile_ap16du9be_weighted_walsh_poly.py
+```
+
+Result:
+
+```text
+elapsed = 1.28s
+maximum resident set size = 26860 KiB
+all individual denominator forms validated = true
+all weighted polynomials validated on 64 masks = true
+selected cubes = 11
+all term-bound sums nonpositive = false
+exact term-bound count = 5
+```
+
+The corrected run targets:
+
+```text
+rank = 6000745
+word = x d1m1 d1m1 dm11 d111 d111 dm11 d11m d11m y z y z
+```
+
+Summary:
+
+| cube | support | weights | terms | degree | term bound | actual max | decision |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| `***00*` | `1,2,8` | `2,1,1` | 14 | 2 | `400/9` | `0` | termwise too loose |
+| `**0**1` | `1,4,5` | `6,1,3` | 14 | 2 | `80` | `0` | termwise too loose |
+| `**011*` | `5` | `1` | 7 | 2 | `-20/9` | `-20/9` | termwise works |
+| `*0**11` | `2,4,11` | `1,1,2` | 14 | 2 | `248/9` | `0` | termwise too loose |
+| `0*1*0*` | `2,10` | `1,1` | 10 | 2 | `32/3` | `0` | termwise too loose |
+| `1**010` | `10` | `1` | 5 | 2 | `-28/9` | `-28/9` | termwise works |
+| `*1*100` | `11` | `1` | 5 | 2 | `-28/9` | `-28/9` | termwise works |
+| `*010**` | `8,11` | `1,1` | 10 | 2 | `32/3` | `0` | termwise too loose |
+| `*10*10` | `5` | `1` | 7 | 2 | `-4/3` | `-4/3` | termwise works |
+| `0**111` | `4,8` | `1,1` | 12 | 2 | `112/9` | `-8/9` | termwise too loose |
+| `1*01*0` | `5` | `1` | 7 | 2 | `-4/3` | `-4/3` | termwise works |
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9be_weighted_walsh_poly_profile.json
+scripts/generated/phase6z6k8ap16du9be_weighted_walsh_poly_profile.md
+```
+
+Decision:
+
+- Accept compact weighted Walsh polynomials as the next proof surface: all
+  selected witnesses are quadratic and validate exactly on all 64 masks.
+- Reject naive independent termwise cube bounds as a complete proof mechanism:
+  they prove only 5 of the 11 selected DU.9BA cubes.
+- The next Lean smoke should prove cube nonpositivity by evaluating the compact
+  quadratic on the finite cube vertices, or by a sharper generated
+  pseudo-Boolean certificate, rather than by replaying the full Walsh
+  recurrence or using only absolute-value term bounds.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -22087,3 +22161,6 @@ Decision:
   as generated proof evidence.  DU.9BD proves the route is memory-safe for one
   mask but far too slow for production coverage without precomputed compact
   polynomial or integer certificates.
+- Do not rely on naive termwise Walsh cube upper bounds as the full
+  weighted-cube proof method.  DU.9BE shows they are useful for some small
+  cubes but too loose for the whole accepted DU.9BA cover.
