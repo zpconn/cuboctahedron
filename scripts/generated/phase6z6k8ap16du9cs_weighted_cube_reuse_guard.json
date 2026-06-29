@@ -1,0 +1,25 @@
+{
+  "available_floor_mib": 8192.0,
+  "command": [
+    "python3",
+    "scripts/profile_ap16du9cs_weighted_cube_reuse.py",
+    "--max-ranks",
+    "12",
+    "--jobs",
+    "4",
+    "--seconds-per-cube",
+    "1.5",
+    "--seconds-per-candidate",
+    "0.20",
+    "--output",
+    "scripts/generated/phase6z6k8ap16du9cs_weighted_cube_reuse.json"
+  ],
+  "elapsed_seconds": 101.26705073099583,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 127708,
+  "max_tree_rss_mib": 124.71484375,
+  "min_available_seen_kib": 47730576,
+  "min_available_seen_mib": 46611.890625,
+  "rss_cap_mib": 2048.0
+}

@@ -25025,6 +25025,130 @@ Decision:
   such chains.  DU.9CR should be treated as the preferred fallback surface for
   residual weighted-cube leaves, not as the main proof strategy.
 
+### Phase 6Z.6K.8AP.16DU.9CS checkpoint: weighted-cube polynomial reuse is weak
+
+Phase 6Z.6K.8AP.16DU.9CS asks the next scaling question after DU.9CR:
+do the accepted weighted-cube witnesses actually repeat across ranks strongly
+enough to become a low-count family backend?  The answer from the bounded
+diagnostic is no.
+
+Added:
+
+```text
+scripts/profile_ap16du9cs_weighted_cube_reuse.py
+```
+
+The profiler is diagnostic only.  It selects real identity-linear ranks with
+GoodDirection survivors from the AP.16I positive-survivor catalog, reruns the
+exact DU.9BA witnessable weighted-cube search for each sampled rank, and then
+computes the exact scaled Walsh coefficient record each selected cube would
+ask Lean to check.  It hashes four layers:
+
+```text
+witness_key          cube label + weighted denominator support
+scaled_poly_key      witness key + exact scaled coefficient record
+normalized_poly_key  witness key + gcd-normalized coefficient record
+sign_shape_key       witness key + coefficient sign pattern
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/profile_ap16du9cs_weighted_cube_reuse.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/profile_ap16du9cs_weighted_cube_reuse.py
+```
+
+The Python compile passed, and the forbidden-token scan returned no matches.
+
+Two-rank guarded smoke:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 2048 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cs_weighted_cube_reuse_smoke_guard.json \
+  -- python3 scripts/profile_ap16du9cs_weighted_cube_reuse.py \
+     --max-ranks 2 \
+     --jobs 2 \
+     --seconds-per-cube 0.5 \
+     --seconds-per-candidate 0.05 \
+     --output scripts/generated/phase6z6k8ap16du9cs_weighted_cube_reuse_smoke.json
+```
+
+Smoke result:
+
+```text
+exit code:             0
+elapsed:               11.51s
+peak tree RSS:         76 MiB
+minimum MemAvailable:  46624 MiB
+ranks profiled:        2
+selected cubes:        20
+unique scaled keys:    20
+decision:              weak-reuse
+```
+
+Bounded reuse profile:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 2048 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cs_weighted_cube_reuse_guard.json \
+  -- python3 scripts/profile_ap16du9cs_weighted_cube_reuse.py \
+     --max-ranks 12 \
+     --jobs 4 \
+     --seconds-per-cube 1.5 \
+     --seconds-per-candidate 0.20 \
+     --output scripts/generated/phase6z6k8ap16du9cs_weighted_cube_reuse.json
+```
+
+Result:
+
+```text
+exit code:                         0
+elapsed:                           101.27s
+peak tree RSS:                     124 MiB
+minimum MemAvailable:              46611 MiB
+ranks profiled:                    12
+selected weighted cubes:           141
+ranks with uncovered bad masks:    0
+unique witness keys:               99
+unique scaled polynomial keys:     123
+unique normalized polynomial keys: 123
+unique sign-shape keys:            103
+scaled polynomial reuse fraction:  21.28%
+normalized polynomial reuse:       21.28%
+decision:                          weak-reuse
+```
+
+Interpretation:
+
+- The exact weighted-cube search remains memory-safe and parallelizable as an
+  external diagnostic.
+- The actual Lean-relevant scaled coefficient records remain too rank-specific
+  for a low-count production family.  Even in a hand-picked AP.16I sample,
+  141 selected cubes produce 123 exact scaled-polynomial keys.
+- Do not scale a backend whose primary family key is the actual DU.9CR
+  weighted-cube scaled polynomial.  It would likely drift back toward many
+  expensive rank-local chains.
+- DU.9CR remains the preferred fallback for a rare residual cube, but the main
+  translation proof must move one level more semantic: denominator-cube /
+  pseudo-Boolean / source-language theorems that avoid specializing the full
+  weighted polynomial per completed rank.
+
+Next useful direction:
+
+- Keep the AP.16 GoodDirection split and positive-survivor classifier surface.
+- Do not emit per-bad-mask witnesses or per-rank weighted polynomial chains as
+  production coverage.
+- Profile or formalize a denominator-cube/pseudo-Boolean theorem over
+  symbolic sign variables, or a source-language theorem that proves the
+  survivor classifier before denominator tables specialize to completed ranks.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
