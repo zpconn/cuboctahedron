@@ -237,9 +237,10 @@ the Phase 6Z.6K.8AP.16BN generated-style Walsh polynomial bound smoke, plus
 the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
 6Z.6K.8AP.16BP all-selected-subcube Walsh-bound smoke, through the Phase
 6Z.6K.8AP.16BQ Walsh cover bridge surface.  The current Walsh-vector path now
-also includes AP16CJ's reusable translation-vector recurrence and AP16CL's
-trace bridge, after rejecting raw `decide` against the recurrence as too
-reducer-heavy.
+also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
+bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
+denominator trace consumers, and AP16CP's multi-fixture trace import smoke,
+after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -13820,6 +13821,62 @@ Acceptance:
   AP16 target is to generate a compact denominator consumer for the rank
   `101105` fixture, proving at least one `impactDenomAtRank ... = dot ...`
   equality from the second trace theorem.
+- [x] Implement Phase 6Z.6K.8AP.16CQ second compact denominator trace
+  consumer:
+  AP16CQ adds
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke.lean
+  ```
+
+  The smoke imports the AP16CP rank-`101105` trace fixture and consumes its
+  public theorem
+
+  ```lean
+  generatedVector_eval_eq_translationVector
+  ```
+
+  to close a compact-denominator equality for mask `6` and the first internal
+  word impact:
+
+  ```lean
+  theorem generatedDenomDotCompact_mask6 :
+      impactDenomAtRank generatedRank generatedMask6
+          (wordImpact firstWordImpactIndex) =
+        Cuboctahedron.dot (generatedNormal.eval generatedMask6)
+          (generatedVector.eval generatedMask6)
+  ```
+
+  This is the second rank fixture using the AP16CL/AP16CM trace route and the
+  AP16CH compact recurrence.  It also improves on AP16CN by consuming the full
+  vector-equality theorem directly rather than threading only one coordinate
+  equality through a local helper.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cq_compact_denom_rank101105_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 2.50s
+  peak tree RSS: 4051 MiB
+  minimum available memory: 45948 MiB
+  ```
+
+  Decision: accepted as a memory-safe second compact denominator trace
+  consumer.  The next AP16 target should factor this consumer pattern into an
+  emitter or reusable helper so additional trace fixtures can close compact
+  denominator equalities without copying local normal boilerplate.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
