@@ -17596,6 +17596,53 @@ Acceptance:
   hard blocker remains the same: prove or generate the actual
   `GoodDirectionAtRank -> RowPropertyParametricCovered` or selector source/row
   facts over meaningful ranges without rank-local compact-cover replay.
+- [x] Add Phase 6Z.6K.8AP.16DU.9X source-index-state key erasure to row-property coverage:
+  DU.9X adds the direct constructor
+
+  ```lean
+  RowPropertyParametricCoverageOnIdentityRange.of_keyAt_source_row
+  ```
+
+  to `RowPropertyAllGoodBridge`.  A generated chunk that already has a private
+  `keyAt : Nat -> SignMask -> SourceIndexStateKey` can now prove source and
+  row facts for that key and immediately obtain
+  `RowPropertyParametricCoverageOnIdentityRange lo hi`, then erase through
+  DU.9V to `AllTranslationGoodCoverageOnRange lo hi`.
+
+  This deliberately stays generic over `SourceIndexStateKey`; classifier-key
+  and selector-coordinate specializations remain in DU.9R, where the necessary
+  classifier imports already live.  The direct attempt to add a classifier-key
+  specialization here failed quickly on an import/name mismatch and was
+  removed so this bridge stays small and low in the import graph.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      RowPropertyAllGoodBridge.lean
+    first attempt:
+      exit=1
+      elapsed=4.14s
+      max_rss=3271984 KiB
+      reason=classifier-key specialization imported no classifier namespace
+    retry:
+      exit=0
+      elapsed=2.14s
+      max_rss=3273208 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      RowPropertyAllGoodBridge
+    exit=0
+    elapsed=2.27s
+    max_rss=3296852 KiB
+  ```
+
+  Decision: DU.9X is accepted as bridge infrastructure.  It narrows the
+  production emitter target further: prove source/row facts for one
+  source-index-state key selector, then compose with DU.9X/DU.9V/DU.9W.  It
+  still does not solve the hard membership theorem itself.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:

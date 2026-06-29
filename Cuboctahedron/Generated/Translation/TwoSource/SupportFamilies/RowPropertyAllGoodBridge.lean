@@ -16,6 +16,7 @@ open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyQuotient
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 
 /-- Direct row-property membership target, without packaging a named family. -/
 abbrev RowPropertyParametricCoverageOnIdentityRange (lo hi : Nat) : Prop :=
@@ -59,6 +60,31 @@ theorem RowPropertyParametricCoverageOnIdentityRange.concat
   by_cases hmid : r < mid
   · exact left r hlt mask hlo hmid hM hgood
   · exact right r hlt mask (Nat.le_of_not_lt hmid) hhi hM hgood
+
+/--
+Build direct row-property coverage from a generated source-index/state key
+selector plus source/row facts.
+
+This is the row-property analogue of the selector-coordinate catalog
+constructors: generated chunks may keep `keyAt` private, prove source and row
+facts for that key, and export only this semantic coverage theorem.
+-/
+theorem RowPropertyParametricCoverageOnIdentityRange.of_keyAt_source_row
+    {keyAt : Nat -> SignMask -> SourceIndexStateKey}
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                SourceIndexStateSourceFacts (keyAt rank mask) rank mask /\
+                  SourceIndexStateRowFacts (keyAt rank mask) rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with ⟨hsource, hrows⟩
+  exact SourceIndexStateKey.covered_of_source_row hsource hrows
 
 /-- Erase a named row-property membership family to the public all-Good range target. -/
 theorem RowPropertyMembershipCoverageOnIdentityRange.to_allGoodCoverage
