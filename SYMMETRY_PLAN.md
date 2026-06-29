@@ -26414,3 +26414,70 @@ Production emitters should target that bridge directly and then erase through
 the hand-written adapters.  They should not emit `WindowSurvivor` constructors
 as the final public route, and they should not revive bad-direction mask
 proofs.
+
+### Phase 6Z.6K.8AP.16DU.9DJ checkpoint: survivor path erases to source-row bridge
+
+Phase 6Z.6K.8AP.16DU.9DJ adds a small composition smoke:
+
+- Lean module:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceRowFactsBridgeFromSurvivorWindowSmoke.lean`
+- Report:
+  `scripts/generated/phase6z6k8ap16du9dj_source_row_facts_bridge_from_survivor.md`
+- Guard:
+  `scripts/generated/phase6z6k8ap16du9dj_source_row_facts_bridge_from_survivor_guard.json`
+
+It imports the DU.9DG survivor-only descriptor smoke and the DU.9DI source-row
+facts adapter, then proves:
+
+```lean
+theorem windowSourceRowFactsBridge_of_survivor
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    SourceRowFactsGoodBridgeOnRange 0 3
+
+theorem windowAllGoodCoverage_of_survivor_via_sourceRowFacts
+    (hsurvivor :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+        rank < 3 ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+              WindowSurvivor rank mask) :
+    AllTranslationGoodCoverageOnRange 0 3
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dj_source_row_facts_bridge_from_survivor_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceRowFactsBridgeFromSurvivorWindowSmoke
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `5.51s`
+- Peak tree RSS: `4009.64 MiB`
+- Minimum available memory observed: `46095.90 MiB`
+
+Decision: accepted.  The survivor-language path composes cleanly into the
+source-row facts target without duplicating the 29 concrete survivor case
+proofs.  The remaining blocker is still the first premise:
+
+```lean
+GoodDirectionAtRank r mask -> WindowSurvivor r mask
+```
+
+or, preferably, a direct proof of `SourceRowFactsGoodBridgeOnRange lo hi` that
+does not route through `WindowSurvivor` at all.
