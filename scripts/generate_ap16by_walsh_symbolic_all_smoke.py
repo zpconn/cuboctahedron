@@ -143,21 +143,31 @@ def coeffs_to_affine(coeffs: dict[tuple[int, ...], Fraction]) -> dict[tuple[int,
     return {subset: coeff for subset, coeff in coeffs.items() if coeff}
 
 
-def emit_walsh_affine(name: str, coeffs: dict[tuple[int, ...], Fraction]) -> list[str]:
+def emit_walsh_affine(
+    name: str,
+    coeffs: dict[tuple[int, ...], Fraction],
+    *,
+    visibility: str = "private ",
+) -> list[str]:
     coeffs = coeffs_to_affine(coeffs)
-    lines = [f"private def {name} : WalshAffine where"]
+    lines = [f"{visibility}def {name} : WalshAffine where"]
     for field, subset in AFFINE_FIELDS:
         lines.append(f"  {field} := {lean_rat(coeffs.get(subset, Fraction(0)))}")
     return lines
 
 
-def emit_walsh_vec(name: str, components: list[dict[tuple[int, ...], Fraction]]) -> list[str]:
+def emit_walsh_vec(
+    name: str,
+    components: list[dict[tuple[int, ...], Fraction]],
+    *,
+    visibility: str = "private ",
+) -> list[str]:
     lines: list[str] = []
     for axis, coeffs in zip(["x", "y", "z"], components, strict=True):
-        lines.extend(emit_walsh_affine(f"{name}_{axis}", coeffs))
+        lines.extend(emit_walsh_affine(f"{name}_{axis}", coeffs, visibility=visibility))
         lines.append("")
     lines.extend([
-        f"private def {name} : WalshAffineVec3 where",
+        f"{visibility}def {name} : WalshAffineVec3 where",
         f"  x := {name}_x",
         f"  y := {name}_y",
         f"  z := {name}_z",

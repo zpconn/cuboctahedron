@@ -244,7 +244,7 @@ AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
 symbolic-normal nonzero-impact consumer smoke, AP16CV/AP16CW's shallow
 consumer root and manifest-batch smoke, AP16CX's GoodDirection-to-compact-dot
 positivity bridge, AP16CY's rank-wide compact-denominator consumer theorem,
-plus AP16CP's
+AP16CZ's compact-denominator subcube obstruction smoke, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14314,6 +14314,86 @@ Acceptance:
   `WalshSymbolicQuadraticImpactObstruction` or a similarly erased adapter, and
   then use `BadMaskCover.goodMaskMember_of_goodDirection` to derive positive
   survivor membership without mask replay.
+- [x] Implement Phase 6Z.6K.8AP.16CZ compact-denominator subcube obstruction
+  smoke:
+  AP16CZ makes the AP16CY surface usable by downstream generated modules:
+
+  - the compact-denominator emitter now exposes the small generated
+    `generatedRank`, `generatedWord`, `generatedVector`, `generatedNormal`,
+    `generatedMask*`, and `firstWordImpactIndex` constants instead of hiding
+    them behind private names;
+  - the shared Walsh-vector helper keeps its previous default private output,
+    but accepts a `visibility` parameter so this consumer path can intentionally
+    export only the tiny constants needed by semantic leaves;
+  - a new module
+
+    ```text
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      ImpactSubcubeWalshSymbolicCompactDenomSubcubeSmoke.lean
+    ```
+
+    instantiates one nonpoint Boolean subcube (`z = false`,
+    `d111 = false`, `d11m = false`) as a
+    `WalshSymbolicQuadraticImpactObstruction`.
+
+  The new smoke proves:
+
+  ```lean
+  generatedCube_notGood :
+    generatedCube.Member mask ->
+      ¬ GoodDirectionAtRank (⟨100805, hlt⟩ : Fin numPairWords) mask
+  ```
+
+  The denominator-to-dot equality comes from the imported rank-wide compact
+  theorem:
+
+  ```lean
+  ImpactSubcubeWalshSymbolicCompactDenomSmoke.generatedDenomDotCompact mask
+  ```
+
+  rather than from a bounded `fin_cases mask` replay.  The remaining proof is
+  a small symbolic Walsh quadratic coefficient equality plus coefficient-wise
+  subcube upper bounds.  This validates the intended production ladder:
+
+  ```text
+  compact denominator trace
+    -> symbolic quadratic impact obstruction
+    -> impact subcube obstruction
+    -> BadMaskCover / GoodDirection survivor membership
+  ```
+
+  Guarded builds:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cz_compact_subcube_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSubcubeSmoke'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cz_compact_root_rebuild.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomAllSmoke'
+  ```
+
+  Results:
+
+  ```text
+  subcube smoke: passed, elapsed 12.01s, peak tree RSS 4068 MiB,
+    minimum available memory 46118 MiB
+  compact root: passed, elapsed 14.07s, peak tree RSS 4144 MiB,
+    minimum available memory 46026 MiB
+  ```
+
+  Decision: accepted as the first nonpoint compact-denominator family
+  obstruction smoke.  The next AP16 target should wrap one or more such
+  subcube obstructions into an actual `BadMaskCover` for a bounded positive
+  survivor set, proving `generatedGoodMaskMember` from
+  `GoodDirectionAtRank` without enumerating all 64 masks.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

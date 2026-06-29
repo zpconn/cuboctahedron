@@ -19,18 +19,18 @@ set_option linter.unusedSimpArgs false
 set_option linter.unusedTactic false
 set_option linter.unreachableTactic false
 
-private abbrev generatedRank : Fin numPairWords :=
+abbrev generatedRank : Fin numPairWords :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedRank
 
-private abbrev generatedWord : PairWord :=
+abbrev generatedWord : PairWord :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedWord
 
-private abbrev generatedVector : WalshAffineVec3 :=
+abbrev generatedVector : WalshAffineVec3 :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank101105Smoke.generatedVector
 
-private def generatedMask6 : SignMask := ⟨6, by decide⟩
+def generatedMask6 : SignMask := ⟨6, by decide⟩
 
-private def generatedNormal_x : WalshAffine where
+def generatedNormal_x : WalshAffine where
   c := -1
   y := 0
   z := 0
@@ -39,7 +39,7 @@ private def generatedNormal_x : WalshAffine where
   d1m1 := 0
   dm11 := 0
 
-private def generatedNormal_y : WalshAffine where
+def generatedNormal_y : WalshAffine where
   c := 0
   y := 0
   z := 0
@@ -48,7 +48,7 @@ private def generatedNormal_y : WalshAffine where
   d1m1 := 0
   dm11 := 0
 
-private def generatedNormal_z : WalshAffine where
+def generatedNormal_z : WalshAffine where
   c := 0
   y := 0
   z := 0
@@ -57,14 +57,14 @@ private def generatedNormal_z : WalshAffine where
   d1m1 := 0
   dm11 := 0
 
-private def generatedNormal : WalshAffineVec3 where
+def generatedNormal : WalshAffineVec3 where
   x := generatedNormal_x
   y := generatedNormal_y
   z := generatedNormal_z
 
-private def selectedWordImpactIndex : WordIndex := ⟨0, by decide⟩
+def selectedWordImpactIndex : WordIndex := ⟨0, by decide⟩
 
-private abbrev firstWordImpactIndex : WordIndex := selectedWordImpactIndex
+abbrev firstWordImpactIndex : WordIndex := selectedWordImpactIndex
 
 private theorem generatedWord_get_selected :
     generatedWord.get firstWordImpactIndex = PairId.x := by
