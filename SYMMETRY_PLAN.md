@@ -16924,6 +16924,38 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9p_rank2_du9p_root_guard.json
   scripts/generated/phase6z6k8ap16du9p_rank2_du9p_root_guard_retry1.json
   ```
+- [x] Emit and guard-check Phase 6Z.6K.8AP.16DU.9P rank-3 compact-cover stack:
+  Rank 3 follows the same DU.9P rank-slice/root-override workflow as ranks 0
+  and 2.  The focused guarded build passed without requiring another generator
+  fix:
+
+  ```text
+  module:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      ImpactSubcubeWalshSymbolicCompactDenomDU9PRank3BatchSmoke
+  exit=0, elapsed=94.11s, peak_tree_rss=4386 MiB, min_available=45732 MiB
+  ```
+
+  Decision: all three DU.9P positive-survivor ranks (`0`, `2`, `3`) now have
+  Lean-checked compact-Walsh GoodDirection-to-good-mask membership evidence
+  under the 5 GiB serial guard.  The next proof-producing step is no longer
+  another per-rank compact-cover leaf; it is the bounded membership root:
+
+  ```lean
+  GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+    SourceIndexStateSelectorDU9LMicro.SelectorPositiveCase rank mask
+  ```
+
+  for exactly ranks `0`, `2`, and `3`, then DU.9N can erase that selector
+  membership to `TranslationGoodCaseKilled`.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9p_rank3_compact_walsh_rank_slice_prep.json
+  scripts/generated/phase6z6k8ap16du9p_rank3_compact_walsh_batch_generation.json
+  scripts/generated/phase6z6k8ap16du9p_rank3_du9p_root_guard.json
+  ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
   disjoint sampled windows using memory-safe Python parallelism.  The run:
