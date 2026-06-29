@@ -18810,6 +18810,56 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9ar_row_property_semantic_range2_4_guard.json
   ```
 
+- [x] Add Phase 6Z.6K.8AP.16DU.9AS deterministic semantic range emitter:
+  DU.9AS adds:
+
+  ```text
+  scripts/generate_ap16du9as_semantic_range_smoke.py
+  ```
+
+  The emitter parses the existing DU.9L selector microshard
+  `selectorCoordAt` tables, extracts the emitted `(rank, mask,
+  ClassifierKey)` cases, and writes a bounded proof-producing semantic range
+  module:
+
+  ```lean
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRangeGeneratedSmoke.semanticLanguage0_1 :
+    SemanticRowMembershipLanguageOnRange 0 1
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRangeGeneratedSmoke.semanticLanguage2_4 :
+    SemanticRowMembershipLanguageOnRange 2 4
+
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRangeGeneratedSmoke.allGoodCoverage0_4 :
+    AllTranslationGoodCoverageOnRange 0 4
+  ```
+
+  This is intentionally the same theorem surface as DU.9AQ/DU.9AR, but
+  generated from the source microshard tables rather than hand-written.  It
+  keeps proof data semantic: the generated cases only select public
+  constructor/key facts, then call DU.9AR's selector-to-semantic bridge.
+
+  Guarded build:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticRangeGeneratedSmoke
+  exit=0
+  elapsed=3.00s
+  peak process-tree RSS=3835 MiB
+  min available memory observed=46156 MiB
+  ```
+
+  A first generated build caught an emitter indentation bug before any memory
+  issue; after fixing the emitter, the same focused target built comfortably
+  below the 8 GiB guard.  This validates the production direction: generate
+  semantic range leaves from DU.9L-style tables, not from checked
+  `TranslationCert` witnesses or rank-local compact-cover replay.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9as_row_property_semantic_generated_range_guard.json
+  ```
+
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
