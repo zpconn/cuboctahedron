@@ -247,9 +247,16 @@ positivity bridge, AP16CY's rank-wide compact-denominator consumer theorem,
 AP16CZ's compact-denominator subcube obstruction smoke, AP16DA's
 `BadMaskCover` erasure smoke, AP16DB's rank-100805 selected-impact compact
 denominator root, and AP16DC's all-20 compact-denominator Walsh subcube cover
-smoke, plus AP16CP's
+smoke, plus AP16DF's rejected two-signature compact-cover root and AP16DH's
+accepted generic `impactNormalWalshAt_eval` normal bridge, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
+AP16DF is a useful negative checkpoint: the old selected-impact normal proof
+was fixed for focused modules, but composing multiple generated selected-impact
+modules in one root still crossed the 7 GiB guard and was manually interrupted
+on retry before an OOM-risk run.  Scaling must therefore compose smaller
+semantic theorem surfaces or share selected-impact facts across roots, not
+import many full compact-denominator selected-impact modules at once.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -17105,3 +17112,8 @@ Current strategic assessment:
   for 60 facts.  Keep that route for bounded smoke/regression only; production
   translation coverage should use the pair-sign producer hierarchy and the
   semantic membership bridge.
+- Do not scale AP16DF-style roots that import multiple full
+  compact-denominator selected-impact modules.  Even after replacing the
+  six-bit normal proof with `impactNormalWalshAt_eval`, the two-signature root
+  remains rejected under the 7 GiB guard.  Future compact-denominator work must
+  export smaller semantic facts or balanced micro-roots before composition.

@@ -75,20 +75,21 @@ private theorem generatedFirstSignedCoeff (mask : SignMask) :
       (if signedPositiveAt generatedWord mask firstWordImpactIndex then 1 else -1 : Rat) := by
   rfl
 
+private theorem generatedNormal_eq_impactNormalWalsh :
+    generatedNormal =
+      impactNormalWalshAt generatedWord firstWordImpactIndex := by
+  apply WalshAffineVec3.ext <;>
+    apply WalshAffine.ext <;>
+    simp [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, impactNormalWalshAt, WalshAffineVec3.smulConst, WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero, signedCoeffWalshAt, countPairBeforeNat, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot] <;>
+    norm_num [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, impactNormalWalshAt, WalshAffineVec3.smulConst, WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero, signedCoeffWalshAt, countPairBeforeNat, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot]
+
 private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
     generatedNormal.eval mask =
       matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)
         (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)
           (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) := by
-  by_cases h_y : maskBitForPair mask PairId.y <;>
-    by_cases h_z : maskBitForPair mask PairId.z <;>
-    by_cases h_d111 : maskBitForPair mask PairId.d111 <;>
-    by_cases h_d11m : maskBitForPair mask PairId.d11m <;>
-    by_cases h_d1m1 : maskBitForPair mask PairId.d1m1 <;>
-    by_cases h_dm11 : maskBitForPair mask PairId.dm11
-    <;> apply Vec3.ext
-    <;> simp [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval, SignBit.value, SignBit.toPairId, signedCoeffAt, signedPositiveAt, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, countPairBeforeNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]
-    <;> norm_num [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval, SignBit.value, SignBit.toPairId, signedCoeffAt, signedPositiveAt, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, countPairBeforeNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]
+  rw [generatedNormal_eq_impactNormalWalsh]
+  exact impactNormalWalshAt_eval generatedWord mask firstWordImpactIndex
 
 private theorem generatedVector_eq_translationVector (mask : SignMask) :
     generatedVector.eval mask =

@@ -123,46 +123,53 @@ def normal_eval_simp_names() -> str:
 
 
 def emit_normal_eval_proof(normal_const: list[Fraction] | None) -> list[str]:
-    lines = [
+    _ = normal_const
+    eq_defs = ", ".join([
+        "generatedNormal",
+        "generatedNormal_x",
+        "generatedNormal_y",
+        "generatedNormal_z",
+        "impactNormalWalshAt",
+        "WalshAffineVec3.smulConst",
+        "WalshAffine.scale",
+        "WalshAffine.bit",
+        "WalshAffine.neg",
+        "WalshAffine.zero",
+        "signedCoeffWalshAt",
+        "countPairBeforeNat",
+        "generatedWord",
+        "firstWordImpactIndex",
+        "selectedWordImpactIndex",
+        "generatedWord_get_selected",
+        "pairPrefixLinearNat",
+        "canonicalNormalQ",
+        "scalarMul",
+        "matVec",
+        "matMul",
+        "matId",
+        "reflM",
+        "matSub",
+        "scalarMat",
+        "outer",
+        "dot",
+    ])
+    return [
+        "private theorem generatedNormal_eq_impactNormalWalsh :",
+        "    generatedNormal =",
+        "      impactNormalWalshAt generatedWord firstWordImpactIndex := by",
+        "  apply WalshAffineVec3.ext <;>",
+        "    apply WalshAffine.ext <;>",
+        f"    simp [{eq_defs}] <;>",
+        f"    norm_num [{eq_defs}]",
+        "",
         "private theorem generatedNormal_eval_eq_compact (mask : SignMask) :",
         "    generatedNormal.eval mask =",
         "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
         "        (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
         "          (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) := by",
+        "  rw [generatedNormal_eq_impactNormalWalsh]",
+        "  exact impactNormalWalshAt_eval generatedWord mask firstWordImpactIndex",
     ]
-    if normal_const is not None:
-        lines.extend([
-            "  have hCompact :",
-            "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
-            "          (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
-            "            (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) =",
-            f"        {{ x := ({lean_rat(normal_const[0])} : Rat), y := {lean_rat(normal_const[1])}, z := {lean_rat(normal_const[2])} }} := by",
-            "    simp [signedCoeffAt, signedPositiveAt, generatedWord_get_selected]",
-            "    apply Vec3.ext <;>",
-            "      norm_num [firstWordImpactIndex, selectedWordImpactIndex,",
-            "        pairPrefixLinearNat, canonicalNormalQ,",
-            "        scalarMul, matVec, matId]",
-            "  rw [hCompact]",
-            "  apply Vec3.ext <;>",
-            "    norm_num [generatedNormal, generatedNormal_x, generatedNormal_y,",
-            "      generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,",
-            "      firstWordImpactIndex, selectedWordImpactIndex]",
-        ])
-        return lines
-
-    simp_names = normal_eval_simp_names()
-    lines.extend([
-        "  by_cases h_y : maskBitForPair mask PairId.y <;>",
-        "    by_cases h_z : maskBitForPair mask PairId.z <;>",
-        "    by_cases h_d111 : maskBitForPair mask PairId.d111 <;>",
-        "    by_cases h_d11m : maskBitForPair mask PairId.d11m <;>",
-        "    by_cases h_d1m1 : maskBitForPair mask PairId.d1m1 <;>",
-        "    by_cases h_dm11 : maskBitForPair mask PairId.dm11",
-        "    <;> apply Vec3.ext",
-        f"    <;> simp [{simp_names}, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]",
-        f"    <;> norm_num [{simp_names}, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]",
-    ])
-    return lines
 
 
 def build_lean(

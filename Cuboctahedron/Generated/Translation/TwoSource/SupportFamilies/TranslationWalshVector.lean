@@ -303,6 +303,21 @@ theorem translationVectorWalshOfChoice_eval
     WalshAffineVec3.add_eval, WalshAffineVec3.const_eval,
     translationPrefixWalshVectorNat_eval]
 
+def impactNormalWalshAt (w : PairWord) (i : WordIndex) :
+    WalshAffineVec3 :=
+  WalshAffineVec3.smulConst (signedCoeffWalshAt w i)
+    (matVec (pairPrefixLinearNat w i.val)
+      (canonicalNormalQ (w.get i)))
+
+theorem impactNormalWalshAt_eval
+    (w : PairWord) (mask : SignMask) (i : WordIndex) :
+    (impactNormalWalshAt w i).eval mask =
+      matVec (pairPrefixLinearNat w i.val)
+        (scalarMul (signedCoeffAt w mask i)
+          (canonicalNormalQ (w.get i))) := by
+  rw [impactNormalWalshAt, WalshAffineVec3.smulConst_eval,
+    signedCoeffWalshAt_eval, matVec_scalarMul]
+
 def translationPrefixWalshStep
     (w : PairWord) (n : Nat) (hn : n < 13)
     (pref : WalshAffineVec3) : WalshAffineVec3 :=

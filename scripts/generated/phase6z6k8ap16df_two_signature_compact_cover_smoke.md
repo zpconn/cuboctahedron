@@ -10,8 +10,8 @@ Status: rejected by focused guarded Lean build.
 - root Lean file: `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomTwoSignatureCoverSmoke.lean`
 
 This was bounded smoke evidence only.  The generated Lean artifacts were
-removed after the guarded build failed, so this report is diagnostic and not
-imported by the package.
+removed after the guarded build failed or was interrupted, so this report is
+diagnostic and not imported by the package.
 
 Guarded build:
 
@@ -33,8 +33,20 @@ peak tree RSS: 7002.96 MiB
 minimum available memory: 42898.13 MiB
 ```
 
-Decision: rejected.  The rank-101105 cover is mathematically covered by the
-external exact profiler, but the generated selected-impact normal proof path is
-too memory-heavy for scaling.  The next path should avoid generating/importing
-full selected-impact compact denominator modules for each new rank, or should
-first replace the six-bit normal proof with a cheaper symbolic theorem.
+Follow-up: the normal proof bottleneck was narrowed and replaced with the
+generic theorem `impactNormalWalshAt_eval`.  Focused guarded builds passed for:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector
+elapsed: 6.09s
+peak tree RSS: 4062.42 MiB
+
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact11FastSmoke
+elapsed: 14.54s
+peak tree RSS: 4171.68 MiB
+```
+
+Decision: the AP16DF two-signature root remains rejected.  The reusable
+normal bridge is accepted as a prerequisite, but composing multiple generated
+selected-impact modules in one root is still not memory-safe enough for the
+path forward.

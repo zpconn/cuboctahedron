@@ -35,6 +35,21 @@ structure WalshAffine where
   dm11 : Rat
 deriving DecidableEq, Repr
 
+@[ext]
+theorem WalshAffine.ext
+    {a b : WalshAffine}
+    (hc : a.c = b.c)
+    (hy : a.y = b.y)
+    (hz : a.z = b.z)
+    (hd111 : a.d111 = b.d111)
+    (hd11m : a.d11m = b.d11m)
+    (hd1m1 : a.d1m1 = b.d1m1)
+    (hdm11 : a.dm11 = b.dm11) :
+    a = b := by
+  cases a
+  cases b
+  simp_all
+
 def WalshAffine.eval (a : WalshAffine) (mask : SignMask) : Rat :=
   a.c +
   a.y * SignBit.value mask SignBit.y +
@@ -119,6 +134,17 @@ structure WalshAffineVec3 where
   y : WalshAffine
   z : WalshAffine
 deriving DecidableEq, Repr
+
+@[ext]
+theorem WalshAffineVec3.ext
+    {a b : WalshAffineVec3}
+    (hx : a.x = b.x)
+    (hy : a.y = b.y)
+    (hz : a.z = b.z) :
+    a = b := by
+  cases a
+  cases b
+  simp_all
 
 def WalshAffineVec3.eval (v : WalshAffineVec3) (mask : SignMask) :
     Vec3 Rat where

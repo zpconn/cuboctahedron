@@ -35,6 +35,22 @@
     "peak_tree_rss_mib": 7002.96,
     "min_available_mib": 42898.13
   },
+  "second_attempt": {
+    "result": "manually_interrupted_before_oom",
+    "reason": "The root target began importing multiple selected-impact generated modules. The user requested stopping before another OOM-risk run."
+  },
+  "accepted_prerequisites": [
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TranslationWalshVector",
+      "elapsed_seconds": 6.09,
+      "peak_tree_rss_mib": 4062.42
+    },
+    {
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact11FastSmoke",
+      "elapsed_seconds": 14.54,
+      "peak_tree_rss_mib": 4171.68
+    }
+  ],
   "generated_lean_artifacts_committed": false,
-  "rejection_reason": "The two-signature root forced a slow rank-101105 selected-impact proof to exceed the 7000 MiB process-tree cap. The generated Lean artifacts were removed to keep the package buildable; reports remain diagnostic only."
+  "rejection_reason": "The compact normal bridge fixes the single-impact proof shape, but composing multiple generated selected-impact modules in one root remains above the memory budget. The unaccepted root and rank101105 generated artifacts were removed to keep the package buildable."
 }
