@@ -127,17 +127,42 @@ def source_matches_lines_for_slice(family_index: int, member: Any) -> list[str]:
 
 def source_facts_expr(case_name: str, family_index: int, key_index: int) -> list[str]:
     fam = family_def_name(family_index)
+    key = f"ClassifierKey.{key_ctor(key_index)}"
+    global_support = f"{CLASSIFIER_NAMESPACE}.fam_{key_index:03d}_support"
     return [
+        f"private theorem {case_name}_selectorSourceFacts :",
+        f"    SourceIndexStateSourceFacts {key}.toSourceIndexStateKey",
+        f"      {case_name}_rank.val {case_name}_mask := by",
+        "  exact",
         "    { firstSource := fun hlt => by",
         f"        have hs := {case_name}_sourceMatches hlt",
-        f"        simpa [ClassifierKey.toSourceIndexStateKey, {fam}_desc] using hs.1",
+        f"        simpa [ClassifierKey.toSourceIndexStateKey, {fam}_desc, {fam}_support,",
+        f"          {global_support}] using hs.1",
         "      secondSource := fun hlt => by",
         f"        have hs := {case_name}_sourceMatches hlt",
-        f"        simpa [ClassifierKey.toSourceIndexStateKey, {fam}_desc] using hs.2.1",
+        f"        simpa [ClassifierKey.toSourceIndexStateKey, {fam}_desc, {fam}_support,",
+        f"          {global_support}] using hs.2.1",
         "      sourceChecks := fun hlt => by",
         f"        have hs := {case_name}_sourceMatches hlt",
-        f"        simpa [ClassifierKey.toSourceIndexStateKey, {fam}_desc] using hs.2.2",
+        f"        simpa [ClassifierKey.toSourceIndexStateKey, {fam}_desc, {fam}_support,",
+        f"          {global_support}] using hs.2.2",
         "    }",
+        "",
+        f"private theorem {case_name}_selectorRowFacts :",
+        f"    SourceIndexStateRowFacts {key}.toSourceIndexStateKey",
+        f"      {case_name}_rank.val {case_name}_mask := by",
+        "  exact SourceIndexStateRowFacts.of_rows (by",
+        f"    simpa [ClassifierKey.toSourceIndexStateKey, SourceIndexTemplate.Rows,",
+        f"      {global_support}, {case_name}_support] using {case_name}_rows)",
+        "",
+        f"private theorem {case_name}_selectorSourceRowFacts :",
+        "    SelectorCoordinateSourceRowFacts",
+        f"      (selectorCoordinateOfKey {key})",
+        f"      {case_name}_rank.val {case_name}_mask :=",
+        "  selectorCoordinateSourceRowFacts_of_key",
+        f"    {case_name}_selectorSourceFacts",
+        f"    {case_name}_selectorRowFacts",
+        "",
     ]
 
 
@@ -198,6 +223,26 @@ def positive_survivor_theorem_lines(data: WindowData) -> list[str]:
         lines.append(f"      exact ⟨_, by simpa [selectorCoordAt] using {name}_selectorLookup⟩")
     lines.extend([
         "",
+        "/--",
+        "Every emitted positive survivor mask has source/row facts for the",
+        "classifier key selected by its coordinate.",
+        "-/",
+        "theorem selectorPositiveSourceRowFacts",
+        "    {mask : SignMask} (hmask : SelectorPositiveMask mask) :",
+        f"    SelectorCoordinateSourceRowFacts (selectorCoordAt {rank} mask)",
+        f"      {rank} mask := by",
+        "  cases hmask with",
+    ])
+    for mask in masks:
+        key = RankMask(rank, mask)
+        _family_index, member = data.covered[key]
+        name = lean_case_name(member.symbolic.index)
+        lines.append(f"  | m{mask:02d} =>")
+        lines.append(
+            f"      simpa [selectorCoordAt, {name}_rank, {name}_mask] using {name}_selectorSourceRowFacts"
+        )
+    lines.extend([
+        "",
         "theorem selectorCatalogSlice_builds : True := by",
         "  trivial",
         "",
@@ -241,7 +286,9 @@ def module_lines(namespace: str, data: WindowData, global_index_by_key: dict[str
         lines.extend(descriptor_lines(index, family))
     for key in sorted(data.covered, key=lambda item: item.mask):
         family_index, member = data.covered[key]
+        global_key_index = global_index_by_key[data.families[family_index].key]
         lines.extend(applies_lines(family_index, member))
+        lines.extend(source_facts_expr(lean_case_name(member.symbolic.index), family_index, global_key_index))
         lines.extend(
             selector_lookup_lines(
                 family_index,
@@ -281,17 +328,19 @@ def markdown(payload: dict[str, Any]) -> str:
         "  {mask : SignMask} (hmask : SelectorPositiveMask mask) :",
         "  ∃ key : ClassifierKey,",
         "    keyOfSelectorCoordinate? (selectorCoordAt 0 mask) = some key",
+        "",
+        "theorem selectorPositiveSourceRowFacts",
+        "  {mask : SignMask} (hmask : SelectorPositiveMask mask) :",
+        "  SelectorCoordinateSourceRowFacts (selectorCoordAt 0 mask) 0 mask",
         "```",
         "",
         "This is not production coverage. A full catalog attempt on the same",
         "slice replayed 48 bad-direction masks and was killed by the memory",
         "guard at 7.88 GiB RSS; an all-positive-survivor version was also",
-        "killed under the same guard. A one-survivor public source/row-fact",
-        "attempt then failed because global classifier keys point to private",
-        "support definitions while the slice rebuilt local copies. The",
-        "production path needs a shared public source/row producer bridge or",
-        "support exposure before selector-coordinate leaves can erase to the",
-        "finite public catalog.",
+        "killed under the same guard. After exposing the classifier supports",
+        "publicly, the one-survivor public source/row-fact slice builds under",
+        "the guard. Scaling still needs bounded micro-shards or a stronger",
+        "membership theorem before this becomes production coverage.",
         "",
     ])
 

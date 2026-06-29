@@ -6,7 +6,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9E.
+semantic classifier surface for Phase 6Z.6K.8K.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -20,10 +20,10 @@ set_option linter.unusedVariables false
 
 /-- Classifier smoke family `07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199`.
 Observed bounded GoodDirection cases: 1237. -/
-private def fam_000_support : TwoSourceFarkasSupport where
+def fam_000_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmmm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_000_desc : SourceIndexStateFamilyDescriptor where
+def fam_000_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 23
   secondIndex := 0
   support := fam_000_support
@@ -31,10 +31,10 @@ private def fam_000_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217`.
 Observed bounded GoodDirection cases: 519. -/
-private def fam_001_support : TwoSourceFarkasSupport where
+def fam_001_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_001_desc : SourceIndexStateFamilyDescriptor where
+def fam_001_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 24
   secondIndex := 1
   support := fam_001_support
@@ -42,10 +42,10 @@ private def fam_001_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07`.
 Observed bounded GoodDirection cases: 304. -/
-private def fam_002_support : TwoSourceFarkasSupport where
+def fam_002_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmpm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_002_desc : SourceIndexStateFamilyDescriptor where
+def fam_002_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 25
   secondIndex := 2
   support := fam_002_support
@@ -53,10 +53,10 @@ private def fam_002_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085`.
 Observed bounded GoodDirection cases: 271. -/
-private def fam_003_support : TwoSourceFarkasSupport where
+def fam_003_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_003_desc : SourceIndexStateFamilyDescriptor where
+def fam_003_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 7
   support := fam_003_support
@@ -64,10 +64,10 @@ private def fam_003_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261`.
 Observed bounded GoodDirection cases: 152. -/
-private def fam_004_support : TwoSourceFarkasSupport where
+def fam_004_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_004_desc : SourceIndexStateFamilyDescriptor where
+def fam_004_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 83
   secondIndex := 0
   support := fam_004_support
@@ -75,10 +75,10 @@ private def fam_004_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db`.
 Observed bounded GoodDirection cases: 93. -/
-private def fam_005_support : TwoSourceFarkasSupport where
+def fam_005_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_005_desc : SourceIndexStateFamilyDescriptor where
+def fam_005_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 15
   support := fam_005_support
@@ -86,10 +86,10 @@ private def fam_005_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494`.
 Observed bounded GoodDirection cases: 81. -/
-private def fam_006_support : TwoSourceFarkasSupport where
+def fam_006_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_006_desc : SourceIndexStateFamilyDescriptor where
+def fam_006_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 83
   secondIndex := 1
   support := fam_006_support
@@ -97,10 +97,10 @@ private def fam_006_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9`.
 Observed bounded GoodDirection cases: 76. -/
-private def fam_007_support : TwoSourceFarkasSupport where
+def fam_007_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_007_desc : SourceIndexStateFamilyDescriptor where
+def fam_007_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 10
   support := fam_007_support
@@ -108,10 +108,10 @@ private def fam_007_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41`.
 Observed bounded GoodDirection cases: 75. -/
-private def fam_008_support : TwoSourceFarkasSupport where
+def fam_008_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_008_desc : SourceIndexStateFamilyDescriptor where
+def fam_008_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 13
   support := fam_008_support
@@ -119,10 +119,10 @@ private def fam_008_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112`.
 Observed bounded GoodDirection cases: 73. -/
-private def fam_009_support : TwoSourceFarkasSupport where
+def fam_009_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_009_desc : SourceIndexStateFamilyDescriptor where
+def fam_009_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 11
   support := fam_009_support
@@ -130,10 +130,10 @@ private def fam_009_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986`.
 Observed bounded GoodDirection cases: 70. -/
-private def fam_010_support : TwoSourceFarkasSupport where
+def fam_010_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨1, by decide⟩ Face.tmpp
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_010_desc : SourceIndexStateFamilyDescriptor where
+def fam_010_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 26
   secondIndex := 3
   support := fam_010_support
@@ -141,10 +141,10 @@ private def fam_010_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231`.
 Observed bounded GoodDirection cases: 69. -/
-private def fam_011_support : TwoSourceFarkasSupport where
+def fam_011_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_011_desc : SourceIndexStateFamilyDescriptor where
+def fam_011_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 96
   secondIndex := 0
   support := fam_011_support
@@ -152,10 +152,10 @@ private def fam_011_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `d408ca12e5b1e62c0ed7e2950cfaaa0b4af5f29e1ebdca8a0e7d97d1091eecab`.
 Observed bounded GoodDirection cases: 62. -/
-private def fam_012_support : TwoSourceFarkasSupport where
+def fam_012_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_012_desc : SourceIndexStateFamilyDescriptor where
+def fam_012_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 10
   support := fam_012_support
@@ -163,10 +163,10 @@ private def fam_012_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `5651cb30a48af7c1f0528abbffbbcf4eb1954a09872946c492757538dfa5516f`.
 Observed bounded GoodDirection cases: 61. -/
-private def fam_013_support : TwoSourceFarkasSupport where
+def fam_013_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_013_desc : SourceIndexStateFamilyDescriptor where
+def fam_013_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 12
   support := fam_013_support
@@ -174,10 +174,10 @@ private def fam_013_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `be3dd4a888d16f51b23fd34ec28e9487d7bfc244316bb453c8d15aed5684bede`.
 Observed bounded GoodDirection cases: 61. -/
-private def fam_014_support : TwoSourceFarkasSupport where
+def fam_014_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_014_desc : SourceIndexStateFamilyDescriptor where
+def fam_014_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 7
   support := fam_014_support
@@ -185,10 +185,10 @@ private def fam_014_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `16806f7f8e27292c741217ef7a837fcf043172e9fbaeff17cd706c9d4f669c70`.
 Observed bounded GoodDirection cases: 59. -/
-private def fam_015_support : TwoSourceFarkasSupport where
+def fam_015_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_015_desc : SourceIndexStateFamilyDescriptor where
+def fam_015_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 109
   secondIndex := 0
   support := fam_015_support
@@ -196,10 +196,10 @@ private def fam_015_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `158dc5c1e36d751952d13ae96d984e2aa1489e8060db73a4fe1355bf35743158`.
 Observed bounded GoodDirection cases: 57. -/
-private def fam_016_support : TwoSourceFarkasSupport where
+def fam_016_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨10, by decide⟩
-private def fam_016_desc : SourceIndexStateFamilyDescriptor where
+def fam_016_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 14
   support := fam_016_support
@@ -207,10 +207,10 @@ private def fam_016_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1b2f2002758c280a9b4957a255b1ec03b9e18b94f1bf0534886c497a37096b40`.
 Observed bounded GoodDirection cases: 55. -/
-private def fam_017_support : TwoSourceFarkasSupport where
+def fam_017_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨5, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_017_desc : SourceIndexStateFamilyDescriptor where
+def fam_017_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 70
   secondIndex := 1
   support := fam_017_support
@@ -218,10 +218,10 @@ private def fam_017_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `3deda5bfda7dd10dab177ab07d85e4bec5bae07344e932072d7bcd7ef986f363`.
 Observed bounded GoodDirection cases: 48. -/
-private def fam_018_support : TwoSourceFarkasSupport where
+def fam_018_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_018_desc : SourceIndexStateFamilyDescriptor where
+def fam_018_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 84
   secondIndex := 0
   support := fam_018_support
@@ -229,10 +229,10 @@ private def fam_018_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `07cbb2ceea4f8ff57a4ac592b07a0a13ffcbc802d180f8be174645bd87902851`.
 Observed bounded GoodDirection cases: 48. -/
-private def fam_019_support : TwoSourceFarkasSupport where
+def fam_019_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_019_desc : SourceIndexStateFamilyDescriptor where
+def fam_019_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 15
   support := fam_019_support
@@ -240,10 +240,10 @@ private def fam_019_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `49dc29bc5a3a346e57575f61d2b4fdb2f12956835c68063381b703d6ac1f887b`.
 Observed bounded GoodDirection cases: 46. -/
-private def fam_020_support : TwoSourceFarkasSupport where
+def fam_020_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_020_desc : SourceIndexStateFamilyDescriptor where
+def fam_020_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 162
   secondIndex := 0
   support := fam_020_support
@@ -251,10 +251,10 @@ private def fam_020_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `9ee6b2e564d663d2a48b04a5f6c09a2f659d7008458c98b9a5c078536ec01da9`.
 Observed bounded GoodDirection cases: 44. -/
-private def fam_021_support : TwoSourceFarkasSupport where
+def fam_021_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_021_desc : SourceIndexStateFamilyDescriptor where
+def fam_021_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 148
   secondIndex := 0
   support := fam_021_support
@@ -262,10 +262,10 @@ private def fam_021_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `6d2e4128c784627b01fdf6513ed433ec6ab2c1c8a0fcf082c21e14a67526bbd1`.
 Observed bounded GoodDirection cases: 40. -/
-private def fam_022_support : TwoSourceFarkasSupport where
+def fam_022_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_022_desc : SourceIndexStateFamilyDescriptor where
+def fam_022_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 161
   secondIndex := 0
   support := fam_022_support
@@ -273,10 +273,10 @@ private def fam_022_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `5d42d8292a7d7142ba67583f3d246cb5b3891e05248fcb95384cdeaf865d0757`.
 Observed bounded GoodDirection cases: 39. -/
-private def fam_023_support : TwoSourceFarkasSupport where
+def fam_023_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_023_desc : SourceIndexStateFamilyDescriptor where
+def fam_023_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 7
   support := fam_023_support
@@ -284,10 +284,10 @@ private def fam_023_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `e668d65886e9e5a322e49bde53aff82a78282617526ce8979ad65d248a06ba90`.
 Observed bounded GoodDirection cases: 38. -/
-private def fam_024_support : TwoSourceFarkasSupport where
+def fam_024_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨5, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_024_desc : SourceIndexStateFamilyDescriptor where
+def fam_024_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 71
   secondIndex := 2
   support := fam_024_support
@@ -295,10 +295,10 @@ private def fam_024_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `eec6cea09d6d89c03f3c4577319600781c82fe093551478e4074800b6ef59c13`.
 Observed bounded GoodDirection cases: 35. -/
-private def fam_025_support : TwoSourceFarkasSupport where
+def fam_025_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_025_desc : SourceIndexStateFamilyDescriptor where
+def fam_025_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 136
   secondIndex := 0
   support := fam_025_support
@@ -306,10 +306,10 @@ private def fam_025_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `0de4b553cb365d97c53ec9cdcf885e866e1c74c6bf37a6a1ce09dd25e2072981`.
 Observed bounded GoodDirection cases: 33. -/
-private def fam_026_support : TwoSourceFarkasSupport where
+def fam_026_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_026_desc : SourceIndexStateFamilyDescriptor where
+def fam_026_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 122
   secondIndex := 0
   support := fam_026_support
@@ -317,10 +317,10 @@ private def fam_026_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `bcaa49bdf67db120feb9ad4dda9a69450799ee1076adb235c86f602b449e273d`.
 Observed bounded GoodDirection cases: 32. -/
-private def fam_027_support : TwoSourceFarkasSupport where
+def fam_027_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨0, by decide⟩
   second := TranslationConstraintSource.ordering ⟨12, by decide⟩
-private def fam_027_desc : SourceIndexStateFamilyDescriptor where
+def fam_027_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 0
   secondIndex := 16
   support := fam_027_support
@@ -328,10 +328,10 @@ private def fam_027_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `cb6f6bc2af727b7b07a1a5f93b6bb4b547714996ae906018ac0e2560d8102162`.
 Observed bounded GoodDirection cases: 31. -/
-private def fam_028_support : TwoSourceFarkasSupport where
+def fam_028_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_028_desc : SourceIndexStateFamilyDescriptor where
+def fam_028_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 175
   secondIndex := 0
   support := fam_028_support
@@ -339,10 +339,10 @@ private def fam_028_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `a445f3e2b5975118165424df3ba770aae54b1007aa5a3f120a1a1d8614499c3b`.
 Observed bounded GoodDirection cases: 28. -/
-private def fam_029_support : TwoSourceFarkasSupport where
+def fam_029_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.tpmm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_029_desc : SourceIndexStateFamilyDescriptor where
+def fam_029_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 183
   secondIndex := 0
   support := fam_029_support
@@ -350,10 +350,10 @@ private def fam_029_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `dbcf419ae9e07ff307f82ab76c38130544ba6f8432769e038bdb3f3cb3d892f1`.
 Observed bounded GoodDirection cases: 28. -/
-private def fam_030_support : TwoSourceFarkasSupport where
+def fam_030_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_030_desc : SourceIndexStateFamilyDescriptor where
+def fam_030_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 135
   secondIndex := 0
   support := fam_030_support
@@ -361,10 +361,10 @@ private def fam_030_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `bbbd1b52ffaff83f416f83cf6570a124f64b171786df2a706b8e6f478a7c5e6a`.
 Observed bounded GoodDirection cases: 28. -/
-private def fam_031_support : TwoSourceFarkasSupport where
+def fam_031_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_031_desc : SourceIndexStateFamilyDescriptor where
+def fam_031_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 13
   support := fam_031_support
@@ -372,10 +372,10 @@ private def fam_031_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `4fda77f1bb3ebbed92f40e150884471b84d123e5b2d9d45e0eaff7690fb57cc9`.
 Observed bounded GoodDirection cases: 27. -/
-private def fam_032_support : TwoSourceFarkasSupport where
+def fam_032_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_032_desc : SourceIndexStateFamilyDescriptor where
+def fam_032_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 109
   secondIndex := 1
   support := fam_032_support
@@ -383,10 +383,10 @@ private def fam_032_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `5d9efeb0452e392fa179cd0e334cda41a13e7d69baa6637ee7b719a887e6e56d`.
 Observed bounded GoodDirection cases: 27. -/
-private def fam_033_support : TwoSourceFarkasSupport where
+def fam_033_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_033_desc : SourceIndexStateFamilyDescriptor where
+def fam_033_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 15
   support := fam_033_support
@@ -394,10 +394,10 @@ private def fam_033_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1f4f8742fa2970d296e3fbf12e541c66c254d7c7dd433859bf0e6d97828c2309`.
 Observed bounded GoodDirection cases: 26. -/
-private def fam_034_support : TwoSourceFarkasSupport where
+def fam_034_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_034_desc : SourceIndexStateFamilyDescriptor where
+def fam_034_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 110
   secondIndex := 0
   support := fam_034_support
@@ -405,10 +405,10 @@ private def fam_034_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232`.
 Observed bounded GoodDirection cases: 25. -/
-private def fam_035_support : TwoSourceFarkasSupport where
+def fam_035_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_035_desc : SourceIndexStateFamilyDescriptor where
+def fam_035_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 13
   support := fam_035_support
@@ -416,10 +416,10 @@ private def fam_035_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `173645791fcf6158993df04a06cad8e6c9277a4a5116eeeae8320100bc7ad399`.
 Observed bounded GoodDirection cases: 24. -/
-private def fam_036_support : TwoSourceFarkasSupport where
+def fam_036_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_036_desc : SourceIndexStateFamilyDescriptor where
+def fam_036_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 11
   support := fam_036_support
@@ -427,10 +427,10 @@ private def fam_036_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `8a4f0d011c71c3855f0555c3626724c8b000efab7f757f1019e23747d7b7642b`.
 Observed bounded GoodDirection cases: 23. -/
-private def fam_037_support : TwoSourceFarkasSupport where
+def fam_037_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_037_desc : SourceIndexStateFamilyDescriptor where
+def fam_037_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 12
   support := fam_037_support
@@ -438,10 +438,10 @@ private def fam_037_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `361051690e66824158e97e2c729d59a1207b25b91c241331954e3400c134e0d0`.
 Observed bounded GoodDirection cases: 23. -/
-private def fam_038_support : TwoSourceFarkasSupport where
+def fam_038_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_038_desc : SourceIndexStateFamilyDescriptor where
+def fam_038_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 84
   secondIndex := 2
   support := fam_038_support
@@ -449,10 +449,10 @@ private def fam_038_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `cb8990495e80e4e83ff3dd6dbc52d2311080437714265957a3e06912a1fb84fc`.
 Observed bounded GoodDirection cases: 22. -/
-private def fam_039_support : TwoSourceFarkasSupport where
+def fam_039_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_039_desc : SourceIndexStateFamilyDescriptor where
+def fam_039_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 175
   secondIndex := 1
   support := fam_039_support
@@ -460,10 +460,10 @@ private def fam_039_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `5b8f1619d9cedeebccbff7692bcab9431eb53ed757cb015fe838ebbaead6de0b`.
 Observed bounded GoodDirection cases: 21. -/
-private def fam_040_support : TwoSourceFarkasSupport where
+def fam_040_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨12, by decide⟩
-private def fam_040_desc : SourceIndexStateFamilyDescriptor where
+def fam_040_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 16
   support := fam_040_support
@@ -471,10 +471,10 @@ private def fam_040_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e`.
 Observed bounded GoodDirection cases: 20. -/
-private def fam_041_support : TwoSourceFarkasSupport where
+def fam_041_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.tmmm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_041_desc : SourceIndexStateFamilyDescriptor where
+def fam_041_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 167
   secondIndex := 0
   support := fam_041_support
@@ -482,10 +482,10 @@ private def fam_041_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1051d2b13a449cbd9f9812d12bc8463552e4a275d660b1b6ee617c733cf3b31c`.
 Observed bounded GoodDirection cases: 20. -/
-private def fam_042_support : TwoSourceFarkasSupport where
+def fam_042_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨1, by decide⟩
   second := TranslationConstraintSource.ordering ⟨10, by decide⟩
-private def fam_042_desc : SourceIndexStateFamilyDescriptor where
+def fam_042_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 1
   secondIndex := 14
   support := fam_042_support
@@ -493,10 +493,10 @@ private def fam_042_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `7a65f29590123bf426961881b2f8d72a554244ebd7db1928e6211cc43dbd193d`.
 Observed bounded GoodDirection cases: 20. -/
-private def fam_043_support : TwoSourceFarkasSupport where
+def fam_043_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_043_desc : SourceIndexStateFamilyDescriptor where
+def fam_043_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 83
   secondIndex := 2
   support := fam_043_support
@@ -504,10 +504,10 @@ private def fam_043_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `001142d72c22dac0fd41e429a47c6f32d0f7456e0dce2c45057120b7f77f0162`.
 Observed bounded GoodDirection cases: 18. -/
-private def fam_044_support : TwoSourceFarkasSupport where
+def fam_044_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_044_desc : SourceIndexStateFamilyDescriptor where
+def fam_044_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 162
   secondIndex := 1
   support := fam_044_support
@@ -515,10 +515,10 @@ private def fam_044_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `47d53ad973ee3257ce12e4c767a004934ccfea4a0a38986e4f22ff0a1aed0ca2`.
 Observed bounded GoodDirection cases: 18. -/
-private def fam_045_support : TwoSourceFarkasSupport where
+def fam_045_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_045_desc : SourceIndexStateFamilyDescriptor where
+def fam_045_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 184
   secondIndex := 1
   support := fam_045_support
@@ -526,10 +526,10 @@ private def fam_045_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `4c72072d32d9dd31f185019209d6ca8aa3959da9f2b28659eab68975586f92ef`.
 Observed bounded GoodDirection cases: 17. -/
-private def fam_046_support : TwoSourceFarkasSupport where
+def fam_046_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_046_desc : SourceIndexStateFamilyDescriptor where
+def fam_046_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 97
   secondIndex := 0
   support := fam_046_support
@@ -537,10 +537,10 @@ private def fam_046_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `46754c731c77c053bab64c67da53dcc1b5f174fe3ff8b9895806bf6c39f4d95a`.
 Observed bounded GoodDirection cases: 17. -/
-private def fam_047_support : TwoSourceFarkasSupport where
+def fam_047_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_047_desc : SourceIndexStateFamilyDescriptor where
+def fam_047_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 96
   secondIndex := 1
   support := fam_047_support
@@ -548,10 +548,10 @@ private def fam_047_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `34387ab3bfde9bdfb349636d90cee3997629820bb8557064c077fb0b72f06add`.
 Observed bounded GoodDirection cases: 17. -/
-private def fam_048_support : TwoSourceFarkasSupport where
+def fam_048_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_048_desc : SourceIndexStateFamilyDescriptor where
+def fam_048_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 11
   support := fam_048_support
@@ -559,10 +559,10 @@ private def fam_048_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `147d32d3e6369b719c07fd7542de34216dd48db412037fcc9097fce80947ce1c`.
 Observed bounded GoodDirection cases: 16. -/
-private def fam_049_support : TwoSourceFarkasSupport where
+def fam_049_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.tppp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_049_desc : SourceIndexStateFamilyDescriptor where
+def fam_049_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 95
   secondIndex := 0
   support := fam_049_support
@@ -570,10 +570,10 @@ private def fam_049_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `4295d2e8233f5dbac79b0d712f2b60b2c1f9bbb4a65b79e19eb3b7beac461229`.
 Observed bounded GoodDirection cases: 16. -/
-private def fam_050_support : TwoSourceFarkasSupport where
+def fam_050_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_050_desc : SourceIndexStateFamilyDescriptor where
+def fam_050_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 161
   secondIndex := 1
   support := fam_050_support
@@ -581,10 +581,10 @@ private def fam_050_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1d541f124fdc98e8359dbed4c921475f339905d1cad066ae7a7e52d1924c1179`.
 Observed bounded GoodDirection cases: 15. -/
-private def fam_051_support : TwoSourceFarkasSupport where
+def fam_051_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_051_desc : SourceIndexStateFamilyDescriptor where
+def fam_051_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 84
   secondIndex := 1
   support := fam_051_support
@@ -592,10 +592,10 @@ private def fam_051_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `61aa251701456fbb0bece3b5f02f752aeb17216d8fa047e5114685764c27ddf2`.
 Observed bounded GoodDirection cases: 15. -/
-private def fam_052_support : TwoSourceFarkasSupport where
+def fam_052_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.tpmm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_052_desc : SourceIndexStateFamilyDescriptor where
+def fam_052_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 92
   secondIndex := 1
   support := fam_052_support
@@ -603,10 +603,10 @@ private def fam_052_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1d429d67ee13df82ba88a3e685c5f449bb51da67ccfb2381ebb6429b3b02fd2e`.
 Observed bounded GoodDirection cases: 13. -/
-private def fam_053_support : TwoSourceFarkasSupport where
+def fam_053_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_053_desc : SourceIndexStateFamilyDescriptor where
+def fam_053_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 106
   secondIndex := 0
   support := fam_053_support
@@ -614,10 +614,10 @@ private def fam_053_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `2331829ae5f9c9473447cdc0d7e31e8e2c9371e462f2a7f75cdaa02627990bfb`.
 Observed bounded GoodDirection cases: 13. -/
-private def fam_054_support : TwoSourceFarkasSupport where
+def fam_054_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tmmm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_054_desc : SourceIndexStateFamilyDescriptor where
+def fam_054_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 115
   secondIndex := 0
   support := fam_054_support
@@ -625,10 +625,10 @@ private def fam_054_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `ab516b7ad129e4f1cee4b2c8ec44af498c782ec815a52eb4bd0cc2b1e0c25814`.
 Observed bounded GoodDirection cases: 13. -/
-private def fam_055_support : TwoSourceFarkasSupport where
+def fam_055_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_055_desc : SourceIndexStateFamilyDescriptor where
+def fam_055_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 149
   secondIndex := 0
   support := fam_055_support
@@ -636,10 +636,10 @@ private def fam_055_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `7a15080fd1fc18351ab493b05ba7ccdff63eef25273e8bd050bd328d075d5e21`.
 Observed bounded GoodDirection cases: 13. -/
-private def fam_056_support : TwoSourceFarkasSupport where
+def fam_056_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_056_desc : SourceIndexStateFamilyDescriptor where
+def fam_056_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 122
   secondIndex := 1
   support := fam_056_support
@@ -647,10 +647,10 @@ private def fam_056_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `f2d8c0c0c4893e42bc01b07592ca364b1399a95bed0c91aeb13cc2c01b1ebad2`.
 Observed bounded GoodDirection cases: 13. -/
-private def fam_057_support : TwoSourceFarkasSupport where
+def fam_057_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_057_desc : SourceIndexStateFamilyDescriptor where
+def fam_057_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 10
   support := fam_057_support
@@ -658,10 +658,10 @@ private def fam_057_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `3b759ab3163ba9496a7005928678cb5a209032fa5b627ee33ba282b0bdd0155e`.
 Observed bounded GoodDirection cases: 12. -/
-private def fam_058_support : TwoSourceFarkasSupport where
+def fam_058_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_058_desc : SourceIndexStateFamilyDescriptor where
+def fam_058_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 12
   support := fam_058_support
@@ -669,10 +669,10 @@ private def fam_058_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `4c6ff9165c9b0df23d40bbb5ff34c1a7b846bc771a0a38da6434f7fa604e061a`.
 Observed bounded GoodDirection cases: 11. -/
-private def fam_059_support : TwoSourceFarkasSupport where
+def fam_059_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tppp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_059_desc : SourceIndexStateFamilyDescriptor where
+def fam_059_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 121
   secondIndex := 0
   support := fam_059_support
@@ -680,10 +680,10 @@ private def fam_059_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `29c667e5aa818ea6f1b958dd1d1050e310d4a3d40eb8ec4a842957f47cc4fc73`.
 Observed bounded GoodDirection cases: 11. -/
-private def fam_060_support : TwoSourceFarkasSupport where
+def fam_060_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_060_desc : SourceIndexStateFamilyDescriptor where
+def fam_060_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 136
   secondIndex := 1
   support := fam_060_support
@@ -691,10 +691,10 @@ private def fam_060_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `843502ed659adec3e8be559efd41763a66b8f79a231413413bfc62074b30741b`.
 Observed bounded GoodDirection cases: 11. -/
-private def fam_061_support : TwoSourceFarkasSupport where
+def fam_061_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_061_desc : SourceIndexStateFamilyDescriptor where
+def fam_061_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 148
   secondIndex := 1
   support := fam_061_support
@@ -702,10 +702,10 @@ private def fam_061_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `c05b3d59255e1cb9689a33957c160b34cf7f5fb51fa9849d03bfcac29208d36a`.
 Observed bounded GoodDirection cases: 11. -/
-private def fam_062_support : TwoSourceFarkasSupport where
+def fam_062_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_062_desc : SourceIndexStateFamilyDescriptor where
+def fam_062_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 135
   secondIndex := 1
   support := fam_062_support
@@ -713,10 +713,10 @@ private def fam_062_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `b2c2b4aeb41065c716685a0856f222542bb43aa5316afe386195f7f1197aebb9`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_063_support : TwoSourceFarkasSupport where
+def fam_063_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
   second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_063_desc : SourceIndexStateFamilyDescriptor where
+def fam_063_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 44
   secondIndex := 5
   support := fam_063_support
@@ -724,10 +724,10 @@ private def fam_063_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `481c7323fda36e8ef4929813929eecc89d2ea51c29714e570b34eccef32656a1`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_064_support : TwoSourceFarkasSupport where
+def fam_064_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_064_desc : SourceIndexStateFamilyDescriptor where
+def fam_064_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 83
   secondIndex := 3
   support := fam_064_support
@@ -735,10 +735,10 @@ private def fam_064_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `532409d578c514296ef6541d25a6ab0d243fafccca9374ece710a7e0db264366`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_065_support : TwoSourceFarkasSupport where
+def fam_065_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_065_desc : SourceIndexStateFamilyDescriptor where
+def fam_065_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 84
   secondIndex := 3
   support := fam_065_support
@@ -746,10 +746,10 @@ private def fam_065_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `62f5ae522c0e7133d5843c313ca60aeae4e0b20c912d1f80286ac540b2b6eb8a`.
 Observed bounded GoodDirection cases: 10. -/
-private def fam_066_support : TwoSourceFarkasSupport where
+def fam_066_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tppp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_066_desc : SourceIndexStateFamilyDescriptor where
+def fam_066_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 147
   secondIndex := 0
   support := fam_066_support
@@ -757,10 +757,10 @@ private def fam_066_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `816fb1690bf595f3f53f759dcd2f42cc8ce6594c546823c5f917337a089f58d5`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_067_support : TwoSourceFarkasSupport where
+def fam_067_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_067_desc : SourceIndexStateFamilyDescriptor where
+def fam_067_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 119
   secondIndex := 0
   support := fam_067_support
@@ -768,10 +768,10 @@ private def fam_067_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `96da7bf37914b164ca484ce81cc9db786995bfe2c87b149569e6b9118f6c2c45`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_068_support : TwoSourceFarkasSupport where
+def fam_068_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_068_desc : SourceIndexStateFamilyDescriptor where
+def fam_068_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 123
   secondIndex := 0
   support := fam_068_support
@@ -779,10 +779,10 @@ private def fam_068_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `f58e8057dc1ef59724f47203d7b7cee139d6b386b440a531b6e8043e0830769d`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_069_support : TwoSourceFarkasSupport where
+def fam_069_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tmmm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_069_desc : SourceIndexStateFamilyDescriptor where
+def fam_069_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 141
   secondIndex := 0
   support := fam_069_support
@@ -790,10 +790,10 @@ private def fam_069_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1e08e15088e7db1c3371fea0a75c650ee857b2d52d2b26d85d58092c011ca83b`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_070_support : TwoSourceFarkasSupport where
+def fam_070_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_070_desc : SourceIndexStateFamilyDescriptor where
+def fam_070_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 162
   secondIndex := 2
   support := fam_070_support
@@ -801,10 +801,10 @@ private def fam_070_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `548ef76c4ca70a698bc32c47af5db80f61529e06e13bb8e3a7091ea372d4cad6`.
 Observed bounded GoodDirection cases: 9. -/
-private def fam_071_support : TwoSourceFarkasSupport where
+def fam_071_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨10, by decide⟩
-private def fam_071_desc : SourceIndexStateFamilyDescriptor where
+def fam_071_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 14
   support := fam_071_support
@@ -812,10 +812,10 @@ private def fam_071_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `83c116b44a85395f6e8bb8fc0165b509e6bf845face95355ce26acb6aa1b1fc3`.
 Observed bounded GoodDirection cases: 8. -/
-private def fam_072_support : TwoSourceFarkasSupport where
+def fam_072_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
   second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_072_desc : SourceIndexStateFamilyDescriptor where
+def fam_072_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 44
   secondIndex := 5
   support := fam_072_support
@@ -823,10 +823,10 @@ private def fam_072_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `323821661c9a96d8517395d7e2ed673c7ac9f6e241d41aa3d6f0c54b617725bc`.
 Observed bounded GoodDirection cases: 8. -/
-private def fam_073_support : TwoSourceFarkasSupport where
+def fam_073_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_073_desc : SourceIndexStateFamilyDescriptor where
+def fam_073_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 110
   secondIndex := 1
   support := fam_073_support
@@ -834,10 +834,10 @@ private def fam_073_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1afd926769caf85b6cb8fda2a1c4e48332f30dcd4d0662289f18b8a8db4e4b81`.
 Observed bounded GoodDirection cases: 8. -/
-private def fam_074_support : TwoSourceFarkasSupport where
+def fam_074_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_074_desc : SourceIndexStateFamilyDescriptor where
+def fam_074_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 110
   secondIndex := 2
   support := fam_074_support
@@ -845,10 +845,10 @@ private def fam_074_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `68ca43ad6da1bf21837ad43de8916779d8c9b7674f02fd42c9fb46275e56520c`.
 Observed bounded GoodDirection cases: 8. -/
-private def fam_075_support : TwoSourceFarkasSupport where
+def fam_075_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_075_desc : SourceIndexStateFamilyDescriptor where
+def fam_075_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 136
   secondIndex := 2
   support := fam_075_support
@@ -856,10 +856,10 @@ private def fam_075_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `1720c5c6897de884a3f69d37a00482f5017602df26b88e99a3a0e35b3b08aa9f`.
 Observed bounded GoodDirection cases: 7. -/
-private def fam_076_support : TwoSourceFarkasSupport where
+def fam_076_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_076_desc : SourceIndexStateFamilyDescriptor where
+def fam_076_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 149
   secondIndex := 1
   support := fam_076_support
@@ -867,10 +867,10 @@ private def fam_076_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `2aa04a3f1c0161cddde4e21a8863c0aac8e84249606d7a160e9c70dbbf46c954`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_077_support : TwoSourceFarkasSupport where
+def fam_077_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_077_desc : SourceIndexStateFamilyDescriptor where
+def fam_077_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 103
   secondIndex := 0
   support := fam_077_support
@@ -878,10 +878,10 @@ private def fam_077_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `969bdd36c0ff690c62a0b53d598d08baaaffcf117b705925f574eaf39d9931f0`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_078_support : TwoSourceFarkasSupport where
+def fam_078_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tpmm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_078_desc : SourceIndexStateFamilyDescriptor where
+def fam_078_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 105
   secondIndex := 0
   support := fam_078_support
@@ -889,10 +889,10 @@ private def fam_078_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `d4e65bfbc9e67385f31f52e017e32313a9a2ca70d91dc9c9d5f4086405a5ad02`.
 Observed bounded GoodDirection cases: 6. -/
-private def fam_079_support : TwoSourceFarkasSupport where
+def fam_079_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨5, by decide⟩ Face.tmpp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_079_desc : SourceIndexStateFamilyDescriptor where
+def fam_079_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 79
   secondIndex := 2
   support := fam_079_support
@@ -900,10 +900,10 @@ private def fam_079_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `bb0db39a94e945010710a13b20ce302ef100c2c9d34f71cf3b7a51b2570971f5`.
 Observed bounded GoodDirection cases: 5. -/
-private def fam_080_support : TwoSourceFarkasSupport where
+def fam_080_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
   second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_080_desc : SourceIndexStateFamilyDescriptor where
+def fam_080_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 44
   secondIndex := 5
   support := fam_080_support
@@ -911,10 +911,10 @@ private def fam_080_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `cef979f926b1ef7b5e3a24b79cf5f7690874d0f5a634700e4c34e4d5cbd42d9e`.
 Observed bounded GoodDirection cases: 5. -/
-private def fam_081_support : TwoSourceFarkasSupport where
+def fam_081_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.tpmm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_081_desc : SourceIndexStateFamilyDescriptor where
+def fam_081_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 170
   secondIndex := 1
   support := fam_081_support
@@ -922,10 +922,10 @@ private def fam_081_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `5719f1cb445c3857a4e02a857afbadbdf33a000c7ca5e68c983d5afffb99860d`.
 Observed bounded GoodDirection cases: 5. -/
-private def fam_082_support : TwoSourceFarkasSupport where
+def fam_082_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_082_desc : SourceIndexStateFamilyDescriptor where
+def fam_082_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 175
   secondIndex := 2
   support := fam_082_support
@@ -933,10 +933,10 @@ private def fam_082_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `faf63347c7518a5cc22aea93ba3de544023b93bec0e0607cf96e2b74be7aa298`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_083_support : TwoSourceFarkasSupport where
+def fam_083_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨3, by decide⟩ Face.xp
   second := TranslationConstraintSource.ordering ⟨1, by decide⟩
-private def fam_083_desc : SourceIndexStateFamilyDescriptor where
+def fam_083_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 44
   secondIndex := 5
   support := fam_083_support
@@ -944,10 +944,10 @@ private def fam_083_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `cf5366200f297cbeca3798128ccc225f8b0f70a7f0dffe7a8a4ceaca806f93f2`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_084_support : TwoSourceFarkasSupport where
+def fam_084_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨13, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_084_desc : SourceIndexStateFamilyDescriptor where
+def fam_084_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 175
   secondIndex := 3
   support := fam_084_support
@@ -955,10 +955,10 @@ private def fam_084_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `29c29249413755d9d6fbbc65c672e06248f54014ce6ad4eaf1d254591260718a`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_085_support : TwoSourceFarkasSupport where
+def fam_085_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
   second := TranslationConstraintSource.ordering ⟨7, by decide⟩
-private def fam_085_desc : SourceIndexStateFamilyDescriptor where
+def fam_085_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 3
   secondIndex := 11
   support := fam_085_support
@@ -966,10 +966,10 @@ private def fam_085_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `528b0624732053da7c91dc90d6c1fed9083253786a9dc7c40d92fc5edb96fbe7`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_086_support : TwoSourceFarkasSupport where
+def fam_086_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
   second := TranslationConstraintSource.ordering ⟨11, by decide⟩
-private def fam_086_desc : SourceIndexStateFamilyDescriptor where
+def fam_086_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 3
   secondIndex := 15
   support := fam_086_support
@@ -977,10 +977,10 @@ private def fam_086_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `4c80d6d47a288b82736f6b0fc75612d8a4fe3591ce9d2cd2095462fb71689fcd`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_087_support : TwoSourceFarkasSupport where
+def fam_087_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_087_desc : SourceIndexStateFamilyDescriptor where
+def fam_087_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 129
   secondIndex := 0
   support := fam_087_support
@@ -988,10 +988,10 @@ private def fam_087_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `4d5bf70423567c2e7433ceccdc7938df76413ba090a96b126de74f17eead2669`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_088_support : TwoSourceFarkasSupport where
+def fam_088_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tmpp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_088_desc : SourceIndexStateFamilyDescriptor where
+def fam_088_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 131
   secondIndex := 0
   support := fam_088_support
@@ -999,10 +999,10 @@ private def fam_088_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `698bc5fc0b761af936d02e66853f313943632c3c9abf425807a742b732b440f1`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_089_support : TwoSourceFarkasSupport where
+def fam_089_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_089_desc : SourceIndexStateFamilyDescriptor where
+def fam_089_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 168
   secondIndex := 1
   support := fam_089_support
@@ -1010,10 +1010,10 @@ private def fam_089_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `761dc9499a87ec31338360a64ad84cb878d4d7d480a3adbe57558b7563495a13`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_090_support : TwoSourceFarkasSupport where
+def fam_090_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨6, by decide⟩ Face.tppm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_090_desc : SourceIndexStateFamilyDescriptor where
+def fam_090_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 94
   secondIndex := 1
   support := fam_090_support
@@ -1021,10 +1021,10 @@ private def fam_090_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `e6ecc14cf76933734aba08afe610bc685156b5d6e354da396c37a2db9099cd91`.
 Observed bounded GoodDirection cases: 4. -/
-private def fam_091_support : TwoSourceFarkasSupport where
+def fam_091_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨2, by decide⟩
   second := TranslationConstraintSource.ordering ⟨12, by decide⟩
-private def fam_091_desc : SourceIndexStateFamilyDescriptor where
+def fam_091_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 2
   secondIndex := 16
   support := fam_091_support
@@ -1032,10 +1032,10 @@ private def fam_091_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `7659a13ad32f460ad82d3854a24dec02c246f9199e2b5034f1f0eccddebb8b43`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_092_support : TwoSourceFarkasSupport where
+def fam_092_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_092_desc : SourceIndexStateFamilyDescriptor where
+def fam_092_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 142
   secondIndex := 1
   support := fam_092_support
@@ -1043,10 +1043,10 @@ private def fam_092_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `8cee0d6d22494cfef07e639f2f8101e1a940b0a83fae4b876952365613b515c5`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_093_support : TwoSourceFarkasSupport where
+def fam_093_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.tmpm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_093_desc : SourceIndexStateFamilyDescriptor where
+def fam_093_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 156
   secondIndex := 1
   support := fam_093_support
@@ -1054,10 +1054,10 @@ private def fam_093_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `c7ecaa84912e11bf981f33a9429149f9aabf3ad114bccc532cfcca21be76d3b9`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_094_support : TwoSourceFarkasSupport where
+def fam_094_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_094_desc : SourceIndexStateFamilyDescriptor where
+def fam_094_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 106
   secondIndex := 1
   support := fam_094_support
@@ -1065,10 +1065,10 @@ private def fam_094_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `e22d34bd0c03bfe6d95d801bcc8f23d799b2437efb4a47ddd1a990cec25e64b5`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_095_support : TwoSourceFarkasSupport where
+def fam_095_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_095_desc : SourceIndexStateFamilyDescriptor where
+def fam_095_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 116
   secondIndex := 1
   support := fam_095_support
@@ -1076,10 +1076,10 @@ private def fam_095_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `06178f226b91c5dc66569704243eb46e675f6a96a5da266da8b72c225ac18867`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_096_support : TwoSourceFarkasSupport where
+def fam_096_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tppm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_096_desc : SourceIndexStateFamilyDescriptor where
+def fam_096_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 107
   secondIndex := 2
   support := fam_096_support
@@ -1087,10 +1087,10 @@ private def fam_096_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `a8779ef21d07f80a863f92a4d0b3a9e5785baca760e90b9f12ba91df5af57a50`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_097_support : TwoSourceFarkasSupport where
+def fam_097_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_097_desc : SourceIndexStateFamilyDescriptor where
+def fam_097_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 135
   secondIndex := 2
   support := fam_097_support
@@ -1098,10 +1098,10 @@ private def fam_097_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `ed3ac5ebe0f22e996ccdc49444bcb4d4f654d18f000f93ba9045dde9248c9980`.
 Observed bounded GoodDirection cases: 3. -/
-private def fam_098_support : TwoSourceFarkasSupport where
+def fam_098_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_098_desc : SourceIndexStateFamilyDescriptor where
+def fam_098_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 122
   secondIndex := 2
   support := fam_098_support
@@ -1109,10 +1109,10 @@ private def fam_098_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `261b107818d73610bf19cd2422ad5a5a15aa2db118565d49f769d88fe7dd9116`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_099_support : TwoSourceFarkasSupport where
+def fam_099_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_099_desc : SourceIndexStateFamilyDescriptor where
+def fam_099_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 162
   secondIndex := 3
   support := fam_099_support
@@ -1120,10 +1120,10 @@ private def fam_099_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `791bde5f13376c14e6042c151b82330109e8588c0c31a5af92154edcabe5b913`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_100_support : TwoSourceFarkasSupport where
+def fam_100_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_100_desc : SourceIndexStateFamilyDescriptor where
+def fam_100_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 135
   secondIndex := 3
   support := fam_100_support
@@ -1131,10 +1131,10 @@ private def fam_100_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `c86d5f78ead3788d4d966f9088f2e8edd3bf1b8168c045981a10937fb62179b6`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_101_support : TwoSourceFarkasSupport where
+def fam_101_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_101_desc : SourceIndexStateFamilyDescriptor where
+def fam_101_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 136
   secondIndex := 3
   support := fam_101_support
@@ -1142,10 +1142,10 @@ private def fam_101_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `533c62403ad2eb955c1259cebc86a5a3d5b25f9f764082c9d2fa9e95e2e6b1dc`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_102_support : TwoSourceFarkasSupport where
+def fam_102_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
   second := TranslationConstraintSource.ordering ⟨8, by decide⟩
-private def fam_102_desc : SourceIndexStateFamilyDescriptor where
+def fam_102_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 3
   secondIndex := 12
   support := fam_102_support
@@ -1153,10 +1153,10 @@ private def fam_102_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `96b2befe815713eb1405e2ed5322c7ed566364e61b1db132e586bfe00f5cbe45`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_103_support : TwoSourceFarkasSupport where
+def fam_103_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
   second := TranslationConstraintSource.ordering ⟨6, by decide⟩
-private def fam_103_desc : SourceIndexStateFamilyDescriptor where
+def fam_103_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 3
   secondIndex := 10
   support := fam_103_support
@@ -1164,10 +1164,10 @@ private def fam_103_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `0c0e4ba6e28fbb5874ffec38e757ce56802f082962201133f6dc0141b060a995`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_104_support : TwoSourceFarkasSupport where
+def fam_104_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨12, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_104_desc : SourceIndexStateFamilyDescriptor where
+def fam_104_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 171
   secondIndex := 0
   support := fam_104_support
@@ -1175,10 +1175,10 @@ private def fam_104_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `a2fbb31fbbeeefd08afff7a3908b400e2e1214a38a3130e20bb6b23ace12b601`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_105_support : TwoSourceFarkasSupport where
+def fam_105_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.tmpp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_105_desc : SourceIndexStateFamilyDescriptor where
+def fam_105_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 157
   secondIndex := 0
   support := fam_105_support
@@ -1186,10 +1186,10 @@ private def fam_105_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `0ecaa87684a0c92fd960150153069bd51d9b48ef31194d140b5a7072c33c704c`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_106_support : TwoSourceFarkasSupport where
+def fam_106_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tmpm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_106_desc : SourceIndexStateFamilyDescriptor where
+def fam_106_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 130
   secondIndex := 1
   support := fam_106_support
@@ -1197,10 +1197,10 @@ private def fam_106_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `fe6dcb0e1d5af6cc7f6e5b61abf78e5a6c655ce793a9a24af1459862db39f388`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_107_support : TwoSourceFarkasSupport where
+def fam_107_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.tppm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_107_desc : SourceIndexStateFamilyDescriptor where
+def fam_107_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 120
   secondIndex := 1
   support := fam_107_support
@@ -1208,10 +1208,10 @@ private def fam_107_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `3c44231cc1af8934c73ab9eb42337f5296972af30c98905c6664e173469df457`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_108_support : TwoSourceFarkasSupport where
+def fam_108_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_108_desc : SourceIndexStateFamilyDescriptor where
+def fam_108_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 149
   secondIndex := 2
   support := fam_108_support
@@ -1219,10 +1219,10 @@ private def fam_108_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `429f67e86b5e2b117910d87608a2db32b48f40a35c792b4acf398b0947b1195e`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_109_support : TwoSourceFarkasSupport where
+def fam_109_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨8, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_109_desc : SourceIndexStateFamilyDescriptor where
+def fam_109_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 109
   secondIndex := 2
   support := fam_109_support
@@ -1230,10 +1230,10 @@ private def fam_109_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `e123e95ce12fb8512a98acdcdc060cc8e1427e5e426c456b02f2df50bb835096`.
 Observed bounded GoodDirection cases: 2. -/
-private def fam_110_support : TwoSourceFarkasSupport where
+def fam_110_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_110_desc : SourceIndexStateFamilyDescriptor where
+def fam_110_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 129
   secondIndex := 2
   support := fam_110_support
@@ -1241,10 +1241,10 @@ private def fam_110_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `47176201eb0b3d5d695e4244013e6e3072f3da7cbf82ab9c7d8a5a13674701e1`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_111_support : TwoSourceFarkasSupport where
+def fam_111_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_111_desc : SourceIndexStateFamilyDescriptor where
+def fam_111_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 149
   secondIndex := 3
   support := fam_111_support
@@ -1252,10 +1252,10 @@ private def fam_111_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `a69cfe6ad1368ef7300e79a82ff9c35f64a4345c54ad6c36b20f507965dee9a6`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_112_support : TwoSourceFarkasSupport where
+def fam_112_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xm
   second := TranslationConstraintSource.xpStart ⟨3, by decide⟩
-private def fam_112_desc : SourceIndexStateFamilyDescriptor where
+def fam_112_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 97
   secondIndex := 3
   support := fam_112_support
@@ -1263,10 +1263,10 @@ private def fam_112_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `3a68db823e3ef8c4a98812fd192baa9639a65f71318383b97cc6603e5261f0c9`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_113_support : TwoSourceFarkasSupport where
+def fam_113_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
   second := TranslationConstraintSource.ordering ⟨9, by decide⟩
-private def fam_113_desc : SourceIndexStateFamilyDescriptor where
+def fam_113_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 3
   secondIndex := 13
   support := fam_113_support
@@ -1274,10 +1274,10 @@ private def fam_113_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `f41d89c94570751027877deb81edfce2542f9ef7a6ecf672d9de6b9c2f1825ed`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_114_support : TwoSourceFarkasSupport where
+def fam_114_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.xpStart ⟨3, by decide⟩
   second := TranslationConstraintSource.ordering ⟨3, by decide⟩
-private def fam_114_desc : SourceIndexStateFamilyDescriptor where
+def fam_114_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 3
   secondIndex := 7
   support := fam_114_support
@@ -1285,10 +1285,10 @@ private def fam_114_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `001a251e22ea75e84d02a831e58f6d59397e6d628cc1d425ea350e5f5ec6c67e`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_115_support : TwoSourceFarkasSupport where
+def fam_115_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.tmmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_115_desc : SourceIndexStateFamilyDescriptor where
+def fam_115_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 155
   secondIndex := 0
   support := fam_115_support
@@ -1296,10 +1296,10 @@ private def fam_115_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `491ab65e3856052d89136c84270aec642ba2db00cb1703515fd03cb363c985d6`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_116_support : TwoSourceFarkasSupport where
+def fam_116_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_116_desc : SourceIndexStateFamilyDescriptor where
+def fam_116_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 132
   secondIndex := 0
   support := fam_116_support
@@ -1307,10 +1307,10 @@ private def fam_116_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `75e98d2c542afd61a6c6486d1b6b074792edce1fb08c39198f5ce0411f1d9a86`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_117_support : TwoSourceFarkasSupport where
+def fam_117_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tppm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_117_desc : SourceIndexStateFamilyDescriptor where
+def fam_117_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 133
   secondIndex := 0
   support := fam_117_support
@@ -1318,10 +1318,10 @@ private def fam_117_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `79089357fe2a7330c14fe99d945a21a58606b251d89bb36df66626486216add2`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_118_support : TwoSourceFarkasSupport where
+def fam_118_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.tppm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_118_desc : SourceIndexStateFamilyDescriptor where
+def fam_118_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 107
   secondIndex := 0
   support := fam_118_support
@@ -1329,10 +1329,10 @@ private def fam_118_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `b94b0068fbf0a1a1e792d25a42dc8c3a5df1e29b9ba015d7a9d6674c84fce0cb`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_119_support : TwoSourceFarkasSupport where
+def fam_119_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tpmp
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_119_desc : SourceIndexStateFamilyDescriptor where
+def fam_119_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 145
   secondIndex := 0
   support := fam_119_support
@@ -1340,10 +1340,10 @@ private def fam_119_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `dd193a21ab942c2c9dc699bf18754b7ff8f85bf72f7dacd37e9d51aa49b3f66b`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_120_support : TwoSourceFarkasSupport where
+def fam_120_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tmpm
   second := TranslationConstraintSource.xpStart ⟨0, by decide⟩
-private def fam_120_desc : SourceIndexStateFamilyDescriptor where
+def fam_120_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 143
   secondIndex := 0
   support := fam_120_support
@@ -1351,10 +1351,10 @@ private def fam_120_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `bafce296cc2cf71ac2c9cdac79f931bb5af2e44854ca7b0febd280fb49b804b6`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_121_support : TwoSourceFarkasSupport where
+def fam_121_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨9, by decide⟩ Face.tmmm
   second := TranslationConstraintSource.xpStart ⟨1, by decide⟩
-private def fam_121_desc : SourceIndexStateFamilyDescriptor where
+def fam_121_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 128
   secondIndex := 1
   support := fam_121_support
@@ -1362,10 +1362,10 @@ private def fam_121_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `30ec9eaa33b87b60a1df0ed4f0d5ee1a76841a2b9ee6076bae5dbc127f539617`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_122_support : TwoSourceFarkasSupport where
+def fam_122_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨11, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_122_desc : SourceIndexStateFamilyDescriptor where
+def fam_122_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 148
   secondIndex := 2
   support := fam_122_support
@@ -1373,10 +1373,10 @@ private def fam_122_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `6e00befec663a240ed810da0b71168fa5b7db247c7948f1eeca4cc91b07023cc`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_123_support : TwoSourceFarkasSupport where
+def fam_123_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨10, by decide⟩ Face.tmpm
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_123_desc : SourceIndexStateFamilyDescriptor where
+def fam_123_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 143
   secondIndex := 2
   support := fam_123_support
@@ -1384,10 +1384,10 @@ private def fam_123_desc : SourceIndexStateFamilyDescriptor where
 
 /-- Classifier smoke family `db68a14c074edb744fab08556d2d2441f01c202e494cbc2220c2912d941ee576`.
 Observed bounded GoodDirection cases: 1. -/
-private def fam_124_support : TwoSourceFarkasSupport where
+def fam_124_support : TwoSourceFarkasSupport where
   first := TranslationConstraintSource.interior ⟨7, by decide⟩ Face.xp
   second := TranslationConstraintSource.xpStart ⟨2, by decide⟩
-private def fam_124_desc : SourceIndexStateFamilyDescriptor where
+def fam_124_desc : SourceIndexStateFamilyDescriptor where
   firstIndex := 96
   secondIndex := 2
   support := fam_124_support

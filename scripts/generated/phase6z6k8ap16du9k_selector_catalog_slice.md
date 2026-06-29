@@ -19,14 +19,16 @@ theorem selectorPositiveLookup
   {mask : SignMask} (hmask : SelectorPositiveMask mask) :
   ∃ key : ClassifierKey,
     keyOfSelectorCoordinate? (selectorCoordAt 0 mask) = some key
+
+theorem selectorPositiveSourceRowFacts
+  {mask : SignMask} (hmask : SelectorPositiveMask mask) :
+  SelectorCoordinateSourceRowFacts (selectorCoordAt 0 mask) 0 mask
 ```
 
 This is not production coverage. A full catalog attempt on the same
 slice replayed 48 bad-direction masks and was killed by the memory
 guard at 7.88 GiB RSS; an all-positive-survivor version was also
-killed under the same guard. A one-survivor public source/row-fact
-attempt then failed because global classifier keys point to private
-support definitions while the slice rebuilt local copies. The
-production path needs a shared public source/row producer bridge or
-support exposure before selector-coordinate leaves can erase to the
-finite public catalog.
+killed under the same guard. After exposing the classifier supports
+publicly, the one-survivor public source/row-fact slice builds under
+the guard. Scaling still needs bounded micro-shards or a stronger
+membership theorem before this becomes production coverage.

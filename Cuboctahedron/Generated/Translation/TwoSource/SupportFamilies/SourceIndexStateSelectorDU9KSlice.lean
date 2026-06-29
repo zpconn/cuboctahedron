@@ -261,6 +261,39 @@ private theorem case_000000_applies :
     by simpa [SourceIndexTemplate.Rows, fam_000_desc, fam_000_support, case_000000_support] using case_000000_rows
   ⟩
 
+private theorem case_000000_selectorSourceFacts :
+    SourceIndexStateSourceFacts ClassifierKey.k000.toSourceIndexStateKey
+      case_000000_rank.val case_000000_mask := by
+  exact
+    { firstSource := fun hlt => by
+        have hs := case_000000_sourceMatches hlt
+        simpa [ClassifierKey.toSourceIndexStateKey, fam_000_desc, fam_000_support,
+          Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke.fam_000_support] using hs.1
+      secondSource := fun hlt => by
+        have hs := case_000000_sourceMatches hlt
+        simpa [ClassifierKey.toSourceIndexStateKey, fam_000_desc, fam_000_support,
+          Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke.fam_000_support] using hs.2.1
+      sourceChecks := fun hlt => by
+        have hs := case_000000_sourceMatches hlt
+        simpa [ClassifierKey.toSourceIndexStateKey, fam_000_desc, fam_000_support,
+          Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke.fam_000_support] using hs.2.2
+    }
+
+private theorem case_000000_selectorRowFacts :
+    SourceIndexStateRowFacts ClassifierKey.k000.toSourceIndexStateKey
+      case_000000_rank.val case_000000_mask := by
+  exact SourceIndexStateRowFacts.of_rows (by
+    simpa [ClassifierKey.toSourceIndexStateKey, SourceIndexTemplate.Rows,
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke.fam_000_support, case_000000_support] using case_000000_rows)
+
+private theorem case_000000_selectorSourceRowFacts :
+    SelectorCoordinateSourceRowFacts
+      (selectorCoordinateOfKey ClassifierKey.k000)
+      case_000000_rank.val case_000000_mask :=
+  selectorCoordinateSourceRowFacts_of_key
+    case_000000_selectorSourceFacts
+    case_000000_selectorRowFacts
+
 private theorem case_000000_selectorLookup :
     keyOfSelectorCoordinate? (selectorCoordinateOfKey ClassifierKey.k000) =
       some ClassifierKey.k000 :=
@@ -285,6 +318,18 @@ theorem selectorPositiveLookup
   cases hmask with
   | m08 =>
       exact ⟨_, by simpa [selectorCoordAt] using case_000000_selectorLookup⟩
+
+/--
+Every emitted positive survivor mask has source/row facts for the
+classifier key selected by its coordinate.
+-/
+theorem selectorPositiveSourceRowFacts
+    {mask : SignMask} (hmask : SelectorPositiveMask mask) :
+    SelectorCoordinateSourceRowFacts (selectorCoordAt 0 mask)
+      0 mask := by
+  cases hmask with
+  | m08 =>
+      simpa [selectorCoordAt, case_000000_rank, case_000000_mask] using case_000000_selectorSourceRowFacts
 
 theorem selectorCatalogSlice_builds : True := by
   trivial

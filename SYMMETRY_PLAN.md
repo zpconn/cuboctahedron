@@ -544,6 +544,15 @@ peak tree RSS. Therefore the next DU.9 proof target should prove or generate
 this template/source-index/row-property selector theorem from identity-linear
 `GoodDirectionAtRank` and then derive source/row facts theorem-valuedly; it
 should not carry full row/source arithmetic through `decide`.
+DU.9L resolves the private-support mismatch found in the first selector slice:
+the bounded classifier generator now emits public support/descriptor values,
+`SourceIndexStateClassifierDU3Smoke` rebuilds in 12.01s at 4.293 GiB peak tree
+RSS, and the one-survivor selector slice now proves
+`SelectorCoordinateSourceRowFacts (selectorCoordAt 0 mask) 0 mask` against the
+public `ClassifierKey` catalog in 7.02s at 4.192 GiB peak tree RSS. The next
+DU.9 work should not retry the full `[0,1)` catalog in one file; it should
+scale this public-support path through bounded positive-survivor micro-shards
+or a stronger selector-membership theorem.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16560,18 +16569,21 @@ Acceptance:
      cap=6500 MiB
      ```
 
-  3. A one-survivor public source/row-fact attempt stayed memory-safe but failed
-     semantically: the global `ClassifierKey.k000.toSourceIndexStateKey` points
-     to the classifier module's private support definition, while the slice
-     rebuilt an identical local support value.  Lean will not identify those
-     by definitional equality:
+  3. A one-survivor public source/row-fact attempt stayed memory-safe but first
+     failed semantically: the global `ClassifierKey.k000.toSourceIndexStateKey`
+     pointed to the classifier module's private support definition, while the
+     slice rebuilt an identical local support value.  Lean would not identify
+     those by definitional equality:
 
      ```text
      exit=1, elapsed=7.01s, peak_tree_rss=4170 MiB
      ```
 
-  The accepted smoke therefore proves the smaller lookup-only statement for one
-  positive survivor:
+  DU.9L fixes that by making the classifier support and descriptor values
+  public and regenerating the one-survivor slice to target the exact
+  `ClassifierKey.k000.toSourceIndexStateKey` value.  The accepted smoke now
+  proves both selector lookup and public source/row facts for one positive
+  survivor:
 
   ```lean
   inductive SelectorPositiveMask : SignMask -> Prop
@@ -16580,20 +16592,24 @@ Acceptance:
       {mask : SignMask} (hmask : SelectorPositiveMask mask) :
       ∃ key : ClassifierKey,
         keyOfSelectorCoordinate? (selectorCoordAt 0 mask) = some key
+
+  theorem selectorPositiveSourceRowFacts
+      {mask : SignMask} (hmask : SelectorPositiveMask mask) :
+      SelectorCoordinateSourceRowFacts (selectorCoordAt 0 mask) 0 mask
   ```
 
   The focused guarded build passed:
 
   ```text
   lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9KSlice
-  exit=0, elapsed=6.00s, peak_tree_rss=4162 MiB, min_available=46030 MiB
+  exit=0, elapsed=7.02s, peak_tree_rss=4192 MiB, min_available=45998 MiB
   ```
 
-  Decision: selector lookup is cheap and viable, but selector leaves must not
-  rebuild source/row facts against local support copies.  The next production
-  route needs either a shared public source/row producer bridge for the existing
-  classifier catalog or support exposure that lets generated leaves target the
-  exact public `SourceIndexStateKey` values without private-support mismatch.
+  Decision: selector lookup and exact public source/row facts are both viable
+  for one positive survivor.  Full catalog replay remains rejected, and the
+  all-positive one-file slice remains rejected.  The next production route
+  should scale the public-support selector facts with bounded micro-shards or
+  replace per-survivor fact replay with a stronger selector-membership theorem.
 
   Reports:
 
@@ -16604,6 +16620,8 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9k_selector_all_positive_rejected_guard.json
   scripts/generated/phase6z6k8ap16du9k_selector_positive_slice_guard.json
   scripts/generated/phase6z6k8ap16du9k_selector_lookup_slice_guard.json
+  scripts/generated/phase6z6k8ap16du9l_public_classifier_support_guard.json
+  scripts/generated/phase6z6k8ap16du9l_selector_public_source_row_guard.json
   ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on

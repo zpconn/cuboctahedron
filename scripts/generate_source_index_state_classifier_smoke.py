@@ -74,11 +74,15 @@ def descriptor_lines(index: int, family: Any) -> list[str]:
     name = family_name(index)
     template_ctor = TEMPLATE_TO_SOURCE_INDEX[family.template_id]
     first = family.members[0].symbolic
+    public_support_lines = [
+        line.replace("private def", "def", 1)
+        for line in support_lines(name, first.case.first_source, first.case.second_source)
+    ]
     return [
         f"/-- Classifier smoke family `{family.key}`.",
         f"Observed bounded GoodDirection cases: {family.count}. -/",
-        *support_lines(name, first.case.first_source, first.case.second_source),
-        f"private def {name}_desc : SourceIndexStateFamilyDescriptor where",
+        *public_support_lines,
+        f"def {name}_desc : SourceIndexStateFamilyDescriptor where",
         f"  firstIndex := {family.source_indices[0]}",
         f"  secondIndex := {family.source_indices[1]}",
         f"  support := {name}_support",
