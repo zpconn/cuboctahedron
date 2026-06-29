@@ -15823,17 +15823,58 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_guard.json
   scripts/generated/phase6z6k8ap16du3_source_index_state_classifier_guard.md
   ```
-- [ ] Implement Phase 6Z.6K.8AP.16DU.4 source-index/state classifier
-  completeness bridge:
-  prove or emit the bounded `[0,5000)` theorem that arbitrary
-  identity-linear `GoodDirectionAtRank` translation survivors belong to one of
-  the 125 AP16DU.3 descriptor families.  This bridge must target semantic
-  coverage directly, not an ordinary `TranslationCert`; it must avoid
-  `fin_cases mask`/all-mask replay, avoid singleton positive-survivor
-  signatures, and stay under the established guarded build cap.  If the direct
-  predicate is still too hard, add a compact trace/source-position lemma whose
-  type mentions only the reusable source-index/state family, not concrete
-  rank/mask examples.
+- [x] Implement Phase 6Z.6K.8AP.16DU.4 source-index/state classifier bridge
+  surface:
+  DU.4 adds the exact theorem surface needed after DU.3:
+
+  ```lean
+  abbrev classifierCompletenessOnIdentityRange : Prop :=
+    RowPropertyMembershipCoverageOnIdentityRange classifierFamily 0 5000
+
+  theorem classifierAllGoodCoverage
+      (hcomplete : classifierCompletenessOnIdentityRange) :
+      AllTranslationGoodCoverageOnRange 0 5000
+  ```
+
+  This proves that once a future generated/computable classifier supplies the
+  membership theorem `hcomplete`, the 125-family source-index/state surface
+  erases directly to public all-GoodDirection translation coverage.  The bridge
+  targets semantic coverage directly and does not introduce an ordinary
+  `TranslationCert`, bad-direction evidence, rank/mask examples, or a finite
+  all-mask replay.
+
+  Command:
+
+  ```text
+  python3 scripts/run_memory_guarded.py --max-tree-rss-mib 6500 --poll-seconds 1 --json scripts/generated/phase6z6k8ap16du4_classifier_bridge_guard.json -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 180s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke'
+  ```
+
+  Result:
+
+  ```text
+  build: passed
+  elapsed: 9.00s
+  peak process-tree RSS: 3977.94 MiB
+  min available memory observed: 46155.46 MiB
+  ```
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du4_classifier_bridge_guard.json
+  scripts/generated/phase6z6k8ap16du4_classifier_bridge_guard.md
+  ```
+- [ ] Implement Phase 6Z.6K.8AP.16DU.5 actual source-index/state classifier
+  completeness theorem:
+  prove or emit the bounded `[0,5000)` `classifierCompletenessOnIdentityRange`
+  theorem: arbitrary identity-linear `GoodDirectionAtRank` translation
+  survivors must belong to one of the 125 AP16DU.3 descriptor families.  This
+  is the hard AP16DU proof obligation.  It must avoid `fin_cases mask`/
+  all-mask replay, avoid singleton positive-survivor signatures, stay under the
+  established guarded build cap, and keep the theorem type semantic rather than
+  certificate-valued.  If the direct descriptor predicate is still too hard,
+  add a compact trace/source-position lemma whose type mentions only the
+  reusable source-index/state family, not concrete rank/mask examples.
 - [ ] Implement Phase 6Z.6K.8AP.16 production source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,

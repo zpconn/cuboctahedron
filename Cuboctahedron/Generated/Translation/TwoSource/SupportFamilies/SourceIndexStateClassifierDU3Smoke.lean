@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 
 /-!
 Generated GoodDirection-only source-index/state classifier smoke.
@@ -12,6 +13,7 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIn
 
 open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 
 set_option linter.unusedVariables false
@@ -1776,6 +1778,25 @@ def classifierFamily : RowPropertyMembershipFamily where
 
 theorem classifierKillsOn : classifierFamily.KillsOn :=
   classifierFamily.killsOn
+
+/--
+AP16DU.4 bridge target for this bounded classifier surface.
+
+The remaining proof-producing obligation is exactly the `hcomplete` premise:
+every identity-linear GoodDirection survivor in `[0,5000)` must satisfy one of
+the 125 source-index/state descriptor families in `classifierFamily`.  Once a
+future generated/computable classifier proves that membership fact, this theorem
+erases it directly to the public all-GoodDirection coverage surface.
+-/
+abbrev classifierCompletenessOnIdentityRange : Prop :=
+  RowPropertyMembershipCoverageOnIdentityRange classifierFamily 0 5000
+
+theorem classifierAllGoodCoverage
+    (hcomplete : classifierCompletenessOnIdentityRange) :
+    AllTranslationGoodCoverageOnRange 0 5000 := by
+  intro rank hlo hhi hlt mask hM
+  exact classifierFamily.identityRangeKills
+    hcomplete rank hlt mask hlo hhi hM
 
 theorem fam_000_goodKilled
     {r : Nat} {hlt : r < numPairWords} {mask : SignMask}
