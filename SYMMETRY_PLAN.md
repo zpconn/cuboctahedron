@@ -22614,6 +22614,93 @@ Decision:
   benchmarked; otherwise the proof would only show nonpositivity of generated
   polynomials, not of the actual weighted denominators.
 
+### Phase 6Z.6K.8AP.16DU.9BM checkpoint: weighted Walsh quadratic bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9BM adds the generic weighted quadratic bridge:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadratic.lean
+```
+
+The module reuses the already accepted affine-Walsh algebra:
+
+```lean
+WalshAffineVec3.dot_coeffEval
+```
+
+and adds:
+
+```lean
+WalshQuadratic.scale
+WalshQuadratic.scale_coeffEval
+directWalshQuadraticAtWord
+weightedDirectWalshQuadraticAtWord
+weightedDirectWalshQuadraticAtWord_coeffEval
+DenominatorCube.weightedDirectWalshQuadraticAtRank
+DenominatorCube.weightedDirectWalshQuadraticAtRank_coeffEval
+```
+
+The key theorem is:
+
+```lean
+theorem DenominatorCube.weightedDirectWalshQuadraticAtRank_coeffEval
+    (r : Fin numPairWords) (mask : SignMask)
+    (weights : InternalImpactWeights) :
+    (weightedDirectWalshQuadraticAtRank r weights).coeffEval mask =
+      weightedDirectWalshDotAtRank r mask weights
+```
+
+This moves the identity bridge one level closer to production: generated
+weighted-cube leaves no longer need to reason about a 13-denominator weighted
+sum directly.  They can instead prove a coefficient equality between:
+
+```lean
+weightedDirectWalshQuadraticAtRank r weights
+```
+
+and a generated/scaled `WalshQuadratic` record, then combine:
+
+1. `weightedDenomAtRank_eq_weightedDirectWalshDotAtRank`;
+2. `weightedDirectWalshQuadraticAtRank_coeffEval`;
+3. generated coefficient equality;
+4. scaled integer nonpositivity from DU.9BJ/DU.9BL.
+
+Focused validation:
+
+```text
+rg -n "sorry|admit|native_decide|unsafe|axiom" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadratic.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9bm_weighted_walsh_quadratic_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadratic
+```
+
+Result:
+
+```text
+forbidden-term scan = no matches
+exit = 0
+elapsed = 7.51s
+peak tree RSS = 3981 MiB
+min MemAvailable = 46179 MiB
+rss cap = 8192 MiB
+```
+
+Decision:
+
+- Accept the generic weighted Walsh quadratic bridge.
+- The remaining production identity task is now smaller and more explicit:
+  generated leaves must prove coefficient equality between
+  `weightedDirectWalshQuadraticAtRank r weights` and their compact
+  `ScaledWalshQuadratic.toQuadratic`.
+- That equality should be proved by generated coefficient records/traces, not
+  by mask enumeration and not by unfolding `translationVectorWalshOfChoice` in
+  every generated obstruction leaf.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
