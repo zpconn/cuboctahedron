@@ -1,0 +1,447 @@
+{
+  "best_deterministic_coordinate": {
+    "ambiguous_coordinate_count": 0,
+    "coordinate_count": 125,
+    "deterministic": true,
+    "fields": [
+      "template",
+      "source_indices",
+      "row_property"
+    ],
+    "max_keys_per_coordinate": 1,
+    "name": "template_source_indices_row_property",
+    "top_ambiguous": []
+  },
+  "case_count": 4693,
+  "coordinate_reports": [
+    {
+      "ambiguous_coordinate_count": 9,
+      "coordinate_count": 9,
+      "deterministic": false,
+      "fields": [
+        "template"
+      ],
+      "max_keys_per_coordinate": 37,
+      "name": "template",
+      "top_ambiguous": [
+        {
+          "case_count": 2046,
+          "coordinate": "('eq_eq_pos_var_first',)",
+          "key_count": 37
+        },
+        {
+          "case_count": 894,
+          "coordinate": "('opp_1m_var_first',)",
+          "key_count": 27
+        },
+        {
+          "case_count": 439,
+          "coordinate": "('opp_m1_var_first',)",
+          "key_count": 18
+        },
+        {
+          "case_count": 102,
+          "coordinate": "('eq_eq_neg_var_first',)",
+          "key_count": 9
+        },
+        {
+          "case_count": 738,
+          "coordinate": "('eq_eq_pos_var_second',)",
+          "key_count": 8
+        },
+        {
+          "case_count": 287,
+          "coordinate": "('opp_1m_var_second',)",
+          "key_count": 8
+        },
+        {
+          "case_count": 146,
+          "coordinate": "('opp_m1_var_second',)",
+          "key_count": 8
+        },
+        {
+          "case_count": 14,
+          "coordinate": "('eq_eq_neg_var_second',)",
+          "key_count": 6
+        },
+        {
+          "case_count": 27,
+          "coordinate": "('axis_a_only',)",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 1,
+      "coordinate_count": 122,
+      "deterministic": false,
+      "fields": [
+        "source_indices"
+      ],
+      "max_keys_per_coordinate": 4,
+      "name": "source_indices",
+      "top_ambiguous": [
+        {
+          "case_count": 27,
+          "coordinate": "((44, 5),)",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 1,
+      "coordinate_count": 122,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "source_indices"
+      ],
+      "max_keys_per_coordinate": 4,
+      "name": "template_source_indices",
+      "top_ambiguous": [
+        {
+          "case_count": 27,
+          "coordinate": "('axis_a_only', (44, 5))",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 30,
+      "coordinate_count": 41,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "first_source_skeleton",
+        "second_source_skeleton"
+      ],
+      "max_keys_per_coordinate": 8,
+      "name": "template_source_skeletons",
+      "top_ambiguous": [
+        {
+          "case_count": 738,
+          "coordinate": "('eq_eq_pos_var_second', ('xpStart', 0), ('ordering', None))",
+          "key_count": 8
+        },
+        {
+          "case_count": 287,
+          "coordinate": "('opp_1m_var_second', ('xpStart', 1), ('ordering', None))",
+          "key_count": 8
+        },
+        {
+          "case_count": 146,
+          "coordinate": "('opp_m1_var_second', ('xpStart', 2), ('ordering', None))",
+          "key_count": 8
+        },
+        {
+          "case_count": 112,
+          "coordinate": "('eq_eq_pos_var_first', ('interior', 7), ('xpStart', 0))",
+          "key_count": 6
+        },
+        {
+          "case_count": 84,
+          "coordinate": "('eq_eq_pos_var_first', ('interior', 10), ('xpStart', 0))",
+          "key_count": 6
+        },
+        {
+          "case_count": 52,
+          "coordinate": "('eq_eq_pos_var_first', ('interior', 9), ('xpStart', 0))",
+          "key_count": 6
+        },
+        {
+          "case_count": 14,
+          "coordinate": "('eq_eq_neg_var_second', ('xpStart', 3), ('ordering', None))",
+          "key_count": 6
+        },
+        {
+          "case_count": 118,
+          "coordinate": "('eq_eq_pos_var_first', ('interior', 8), ('xpStart', 0))",
+          "key_count": 5
+        },
+        {
+          "case_count": 115,
+          "coordinate": "('opp_1m_var_first', ('interior', 6), ('xpStart', 1))",
+          "key_count": 4
+        },
+        {
+          "case_count": 108,
+          "coordinate": "('eq_eq_pos_var_first', ('interior', 12), ('xpStart', 0))",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 5,
+      "coordinate_count": 96,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "first_source",
+        "second_source"
+      ],
+      "max_keys_per_coordinate": 8,
+      "name": "template_full_sources",
+      "top_ambiguous": [
+        {
+          "case_count": 738,
+          "coordinate": "('eq_eq_pos_var_second', ('xpStart', 0), ('ordering', None))",
+          "key_count": 8
+        },
+        {
+          "case_count": 287,
+          "coordinate": "('opp_1m_var_second', ('xpStart', 1), ('ordering', None))",
+          "key_count": 8
+        },
+        {
+          "case_count": 146,
+          "coordinate": "('opp_m1_var_second', ('xpStart', 2), ('ordering', None))",
+          "key_count": 8
+        },
+        {
+          "case_count": 14,
+          "coordinate": "('eq_eq_neg_var_second', ('xpStart', 3), ('ordering', None))",
+          "key_count": 6
+        },
+        {
+          "case_count": 27,
+          "coordinate": "('axis_a_only', ('interior', 3, 'xp'), ('ordering', None))",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 1,
+      "coordinate_count": 122,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "source_indices",
+        "first_source",
+        "second_source"
+      ],
+      "max_keys_per_coordinate": 4,
+      "name": "template_source_indices_full_sources",
+      "top_ambiguous": [
+        {
+          "case_count": 27,
+          "coordinate": "('axis_a_only', (44, 5), ('interior', 3, 'xp'), ('ordering', None))",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 1,
+      "coordinate_count": 122,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "source_indices",
+        "first_source_skeleton",
+        "second_source_skeleton"
+      ],
+      "max_keys_per_coordinate": 4,
+      "name": "template_source_indices_skeletons",
+      "top_ambiguous": [
+        {
+          "case_count": 27,
+          "coordinate": "('axis_a_only', (44, 5), ('interior', 3), ('ordering', None))",
+          "key_count": 4
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 8,
+      "coordinate_count": 12,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "row_property"
+      ],
+      "max_keys_per_coordinate": 37,
+      "name": "template_row_property",
+      "top_ambiguous": [
+        {
+          "case_count": 2046,
+          "coordinate": "('eq_eq_pos_var_first', '89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df')",
+          "key_count": 37
+        },
+        {
+          "case_count": 894,
+          "coordinate": "('opp_1m_var_first', '83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082')",
+          "key_count": 27
+        },
+        {
+          "case_count": 439,
+          "coordinate": "('opp_m1_var_first', '0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403')",
+          "key_count": 18
+        },
+        {
+          "case_count": 102,
+          "coordinate": "('eq_eq_neg_var_first', '516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b')",
+          "key_count": 9
+        },
+        {
+          "case_count": 738,
+          "coordinate": "('eq_eq_pos_var_second', '8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976')",
+          "key_count": 8
+        },
+        {
+          "case_count": 287,
+          "coordinate": "('opp_1m_var_second', '9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382')",
+          "key_count": 8
+        },
+        {
+          "case_count": 146,
+          "coordinate": "('opp_m1_var_second', '563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd')",
+          "key_count": 8
+        },
+        {
+          "case_count": 14,
+          "coordinate": "('eq_eq_neg_var_second', '02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5')",
+          "key_count": 6
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 0,
+      "coordinate_count": 125,
+      "deterministic": true,
+      "fields": [
+        "template",
+        "source_indices",
+        "row_property"
+      ],
+      "max_keys_per_coordinate": 1,
+      "name": "template_source_indices_row_property",
+      "top_ambiguous": []
+    },
+    {
+      "ambiguous_coordinate_count": 4,
+      "coordinate_count": 99,
+      "deterministic": false,
+      "fields": [
+        "template",
+        "first_source",
+        "second_source",
+        "row_property"
+      ],
+      "max_keys_per_coordinate": 8,
+      "name": "template_sources_row_property",
+      "top_ambiguous": [
+        {
+          "case_count": 738,
+          "coordinate": "('eq_eq_pos_var_second', ('xpStart', 0), ('ordering', None), '8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976')",
+          "key_count": 8
+        },
+        {
+          "case_count": 287,
+          "coordinate": "('opp_1m_var_second', ('xpStart', 1), ('ordering', None), '9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382')",
+          "key_count": 8
+        },
+        {
+          "case_count": 146,
+          "coordinate": "('opp_m1_var_second', ('xpStart', 2), ('ordering', None), '563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd')",
+          "key_count": 8
+        },
+        {
+          "case_count": 14,
+          "coordinate": "('eq_eq_neg_var_second', ('xpStart', 3), ('ordering', None), '02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5')",
+          "key_count": 6
+        }
+      ]
+    },
+    {
+      "ambiguous_coordinate_count": 0,
+      "coordinate_count": 125,
+      "deterministic": true,
+      "fields": [
+        "template",
+        "source_indices",
+        "first_source",
+        "second_source",
+        "row_property"
+      ],
+      "max_keys_per_coordinate": 1,
+      "name": "template_source_indices_sources_row_property",
+      "top_ambiguous": []
+    }
+  ],
+  "counts": {
+    "covered_cases": 4693,
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 31168,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "This emits no Lean and is not proof evidence.",
+      "Coordinates that are not deterministic should not be used as final membership keys.",
+      "A deterministic coordinate is only a proof target; Lean must still prove it from identity plus GoodDirection."
+    ],
+    "status": "source-index-state-coordinate-audited"
+  },
+  "family_count": 125,
+  "mode": "source_index_state_selector_audit",
+  "phase": "6Z.6K.8AP.16DU.9H",
+  "range": [
+    0,
+    5000
+  ],
+  "schema_version": 1,
+  "top_families": [
+    {
+      "case_count": 1237,
+      "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199"
+    },
+    {
+      "case_count": 519,
+      "key": "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217"
+    },
+    {
+      "case_count": 304,
+      "key": "a781759219e5c92e7bf68c6cb4c21987fb5a17290c17eb050d2c16c071373e07"
+    },
+    {
+      "case_count": 271,
+      "key": "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085"
+    },
+    {
+      "case_count": 152,
+      "key": "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261"
+    },
+    {
+      "case_count": 93,
+      "key": "69a677d29b138362a0f675eaa8c179b8b353ce6abbab1d2f9d604aa09b4e00db"
+    },
+    {
+      "case_count": 81,
+      "key": "09a0b955cbaf1d58fbed56d6ff63cad1629744eb298c9fcb4a18ba2a45e61494"
+    },
+    {
+      "case_count": 76,
+      "key": "7e4254e8e8a89467666d4f70d090bb4af72f4df73a95a4ab07e2be3aaf5aa1e9"
+    },
+    {
+      "case_count": 75,
+      "key": "fb009e73e064ec37183f65545575cf3f84cf3e090c82d717d7c5e1e800b62f41"
+    },
+    {
+      "case_count": 73,
+      "key": "fd9ce00531fecbcf8326b152478e0b00bff3405c9eb247ee8d463229b8d70112"
+    },
+    {
+      "case_count": 70,
+      "key": "eafef9e31856b5e1ccfdc5629c05195138270da7d876e45835853904fb264986"
+    },
+    {
+      "case_count": 69,
+      "key": "b3cef9b2770de6d05c9b1eefe272e6cabbdf7ba5411cb17f52e5f16d0c879231"
+    }
+  ],
+  "trusted_as_proof": false
+}

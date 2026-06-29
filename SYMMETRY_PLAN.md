@@ -529,6 +529,18 @@ key-membership premise to `classifierCompletenessOnIdentityRange` and
 DU.9C further weakens the production membership target to source facts plus
 row facts for a public `ClassifierKey`, matching the existing producer-language
 architecture; its guarded build passed in 7.00s at 4.164 GiB peak tree RSS.
+DU.9F adds the candidate-catalog facts adapter for the equivalent
+`generatedCandidateKeyAt` catalog target.  DU.9G rejects rank-prefix,
+mask-only, and singleton-signature membership routes.  DU.9H then audits the
+source-index/state selector coordinates and finds the smallest deterministic
+bounded coordinate is `template_source_indices_row_property`: `template` alone,
+`source_indices` alone, `template_source_indices`, source skeletons, and full
+sources are all still ambiguous, but adding the row-property digest determines
+the selected key across all 4,693 GoodDirection cases in `[0,5000)`.
+Therefore the next DU.9 proof target should prove or generate this
+template/source-index/row-property selector theorem and then derive source/row
+facts theorem-valuedly; it should not carry full row/source arithmetic through
+`decide`.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -16349,6 +16361,47 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9g_candidate_membership_structure_audit.json
   scripts/generated/phase6z6k8ap16du9g_candidate_membership_structure_audit.md
   ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9H source-index/state selector audit:
+  DU.9H refines the remaining bounded `hcomplete` problem by asking which
+  source/row coordinates determine the selected 125-family key on `[0,5000)`.
+  It is a diagnostic only, not proof evidence.  The run:
+
+  ```text
+  /usr/bin/time -v python3 scripts/audit_ap16du9h_source_index_state_selector.py
+  ```
+
+  passed in 1:04.39 wall time with 42,652 KiB peak RSS.  It represents all
+  4,693 bounded GoodDirection cases and all 125 source-index/state families.
+  The coordinate audit reports:
+
+  ```text
+  template:                            9 coordinates, 9 ambiguous, max 37 keys
+  source_indices:                    122 coordinates, 1 ambiguous, max 4 keys
+  template_source_indices:           122 coordinates, 1 ambiguous, max 4 keys
+  template_full_sources:              96 coordinates, 5 ambiguous, max 8 keys
+  template_source_indices_full_sources:
+                                      122 coordinates, 1 ambiguous, max 4 keys
+  template_row_property:              12 coordinates, 8 ambiguous, max 37 keys
+  template_source_indices_row_property:
+                                      125 coordinates, 0 ambiguous, max 1 key
+  template_source_indices_sources_row_property:
+                                      125 coordinates, 0 ambiguous, max 1 key
+  ```
+
+  The smallest deterministic audited coordinate is therefore
+  `template_source_indices_row_property`.  This is the new DU.9 target: prove
+  or emit a selector theorem from identity-linear `GoodDirectionAtRank` to this
+  coordinate, then use that coordinate to recover the public catalog key and
+  theorem-valued source/row facts.  Full sources are not a useful replacement:
+  even `template_full_sources` remains ambiguous, and full source/row `decide`
+  has already caused an internal OOM in AP.16R.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9h_source_index_state_selector_audit.json
+  scripts/generated/phase6z6k8ap16du9h_source_index_state_selector_audit.md
+  ```
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
@@ -16388,8 +16441,8 @@ Acceptance:
 
   followed by `classifierCompletenessOnIdentityRange_of_key_source_row`.
   However, the preferred next proof-producing step is now a catalog/language
-  emitter for either `classifierSourceIndexKeyAt` or
-  `generatedCandidateKeyAt`, followed by
+  emitter keyed by `template_source_indices_row_property`, targeting either
+  `classifierSourceIndexKeyAt` or `generatedCandidateKeyAt`, followed by
   `classifierAllGoodCoverage_of_sourceIndexFactsCatalog`,
   `classifierAllGoodCoverage_of_sourceIndexPredicateCatalog`, or
   `generatedCandidateCatalogAllGoodCoverage_viaFactsCatalog`.
