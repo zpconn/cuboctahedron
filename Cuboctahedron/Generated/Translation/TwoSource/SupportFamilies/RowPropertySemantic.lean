@@ -309,6 +309,160 @@ theorem RowPairSemantic.of_eqEqPosVarFirst_source_row
   exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
     by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
 
+theorem RowPairSemantic.of_eqEqPosVarSecond_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.eqEqPosVarSecond)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .fixedPP .eqEqPos key.support r mask := by
+  intro hlt
+  have hshapeRows : EqEqPosVarSecondRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : EqEqPosVarSecond key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    eqEqPosVarSecond_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
+theorem RowPairSemantic.of_eqEqNegVarFirst_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.eqEqNegVarFirst)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .eqEqNeg .fixedMM key.support r mask := by
+  intro hlt
+  have hshapeRows : EqEqNegVarFirstRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : EqEqNegVarFirst key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    eqEqNegVarFirst_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
+theorem RowPairSemantic.of_eqEqNegVarSecond_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.eqEqNegVarSecond)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .fixedMM .eqEqNeg key.support r mask := by
+  intro hlt
+  have hshapeRows : EqEqNegVarSecondRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : EqEqNegVarSecond key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    eqEqNegVarSecond_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
+theorem RowPairSemantic.of_oppOneMinusVarFirst_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.oppOneMinusVarFirst)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .oppPos .fixedPM key.support r mask := by
+  intro hlt
+  have hshapeRows : OppOneMinusVarFirstRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : OppOneMinusVarFirst key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    oppOneMinusVarFirst_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
+theorem RowPairSemantic.of_oppOneMinusVarSecond_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.oppOneMinusVarSecond)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .fixedPM .oppPos key.support r mask := by
+  intro hlt
+  have hshapeRows : OppOneMinusVarSecondRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : OppOneMinusVarSecond key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    oppOneMinusVarSecond_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
+theorem RowPairSemantic.of_oppMinusOneVarFirst_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.oppMinusOneVarFirst)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .oppNeg .fixedMP key.support r mask := by
+  intro hlt
+  have hshapeRows : OppMinusOneVarFirstRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : OppMinusOneVarFirst key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    oppMinusOneVarFirst_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
+theorem RowPairSemantic.of_oppMinusOneVarSecond_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.oppMinusOneVarSecond)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    RowPairSemantic .fixedMP .oppNeg key.support r mask := by
+  intro hlt
+  have hshapeRows : OppMinusOneVarSecondRows key.support r mask := by
+    simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+  have hshape : OppMinusOneVarSecond key.support r mask := by
+    intro hlt'
+    rcases hshapeRows hlt' with ⟨hfirst, hsecond⟩
+    exact ⟨hsource.sourceChecks hlt', hfirst, hsecond⟩
+  have happlies : SupportPair.Applies key.support r mask :=
+    oppMinusOneVarSecond_applies_of_shape hshape
+  rcases hshapeRows hlt with ⟨hfirst, hsecond⟩
+  rcases happlies hlt with
+    ⟨_hfirstSource, _hsecondSource, _hw1, _hw2, _hpos,
+      _hwa, _hwb, hwc⟩
+  exact ⟨hsource.sourceChecks hlt, hfirst, hsecond,
+    by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hwc⟩
+
 theorem rowPropertySemantic_builds : True := by
   trivial
 

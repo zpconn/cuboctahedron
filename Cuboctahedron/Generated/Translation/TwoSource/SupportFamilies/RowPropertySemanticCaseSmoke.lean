@@ -19,6 +19,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexSt
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke
 
 abbrev rank0Mask8 : SignMask := ⟨8, by decide⟩
+abbrev rank0Mask13 : SignMask := ⟨13, by decide⟩
 
 private theorem rank0Mask8_source_row :
     SourceIndexStateSourceFacts
@@ -52,6 +53,42 @@ theorem rank0Mask8_semanticMembership :
 theorem rank0Mask8_covered :
     RowPropertyParametricCovered 0 rank0Mask8 := by
   rcases rank0Mask8_semanticMembership with
+    ⟨key, firstRole, secondRole, hsource, hcompat, hsem⟩
+  exact SourceIndexStateKey.covered_of_source_semantic
+    hsource hcompat hsem
+
+private theorem rank0Mask13_source_row :
+    SourceIndexStateSourceFacts
+        ClassifierKey.k003.toSourceIndexStateKey 0 rank0Mask13 /\
+      SourceIndexStateRowFacts
+        ClassifierKey.k003.toSourceIndexStateKey 0 rank0Mask13 := by
+  have hfacts :
+      SelectorCoordinateSourceRowFacts
+        (selectorCoordinateOfKey ClassifierKey.k003) 0 rank0Mask13 := by
+    simpa [rank0Mask13,
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard000.selectorCoordAt] using
+      Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard000.selectorPositiveSourceRowFacts
+        Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.Shard000.SelectorPositiveCase.c002
+  unfold SelectorCoordinateSourceRowFacts at hfacts
+  rw [keyOfSelectorCoordinate?_selectorCoordinateOfKey] at hfacts
+  simpa using hfacts
+
+theorem rank0Mask13_semanticMembership :
+    exists key : SourceIndexStateKey,
+      exists firstRole secondRole : RowRole,
+        SourceIndexStateSourceFacts key 0 rank0Mask13 /\
+          RowTemplateSemantic key.template firstRole secondRole /\
+            RowPairSemantic firstRole secondRole key.support 0 rank0Mask13 := by
+  rcases rank0Mask13_source_row with ⟨hsource, hrows⟩
+  refine ⟨ClassifierKey.k003.toSourceIndexStateKey,
+    RowRole.fixedPP, RowRole.eqEqPos, hsource, ?_, ?_⟩
+  · exact RowTemplateSemantic.eqEqPosVarSecond
+  · exact RowPairSemantic.of_eqEqPosVarSecond_source_row
+      hsource (by rfl) hrows
+
+theorem rank0Mask13_covered :
+    RowPropertyParametricCovered 0 rank0Mask13 := by
+  rcases rank0Mask13_semanticMembership with
     ⟨key, firstRole, secondRole, hsource, hcompat, hsem⟩
   exact SourceIndexStateKey.covered_of_source_semantic
     hsource hcompat hsem

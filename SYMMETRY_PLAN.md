@@ -555,8 +555,12 @@ nonempty semantic row-membership case: rank `0` / mask `8` is routed from the
 public DU.9L selector-positive source/row facts through the new
 `eqEqPosVarFirst` semantic row adapter to `RowPropertyParametricCovered`.  The
 helper bridge builds in 3.00s at 3.860 GiB peak RSS and the case smoke builds
-in 3.01s at 3.664 GiB peak RSS. Therefore the next DU.9 proof target should
-scale this semantic-membership proof shape from one case to a bounded
+in 3.01s at 3.664 GiB peak RSS. DU.9AO expands the helper to all eight
+non-axis row templates and extends the smoke with rank `0` / mask `13`, which
+uses the `eqEqPosVarSecond` semantic adapter; the helper builds in 7.00s at
+3.205 GiB peak RSS and the two-template smoke builds in 4.01s at 3.282 GiB
+peak RSS. Therefore the next DU.9 proof target should scale this
+semantic-membership proof shape from hand-picked cases to a bounded
 `SemanticRowMembershipLanguageOnRange` theorem from identity-linear
 `GoodDirectionAtRank`, source-index facts, and semantic row roles; it should
 not carry full row/source arithmetic through `decide`, compare opaque hashes,
@@ -18581,6 +18585,63 @@ Acceptance:
   ```text
   scripts/generated/phase6z6k8ap16du9an_row_property_semantic_helper_guard.json
   scripts/generated/phase6z6k8ap16du9an_row_property_semantic_case_smoke_guard.json
+  ```
+
+- [x] Add Phase 6Z.6K.8AP.16DU.9AO non-axis semantic row-template adapters:
+  DU.9AO generalizes the DU.9AN helper from the single
+  `eqEqPosVarFirst` case to all eight non-axis row-template cases:
+
+  ```lean
+  theorem RowPairSemantic.of_eqEqPosVarFirst_source_row
+  theorem RowPairSemantic.of_eqEqPosVarSecond_source_row
+  theorem RowPairSemantic.of_eqEqNegVarFirst_source_row
+  theorem RowPairSemantic.of_eqEqNegVarSecond_source_row
+  theorem RowPairSemantic.of_oppOneMinusVarFirst_source_row
+  theorem RowPairSemantic.of_oppOneMinusVarSecond_source_row
+  theorem RowPairSemantic.of_oppMinusOneVarFirst_source_row
+  theorem RowPairSemantic.of_oppMinusOneVarSecond_source_row
+  ```
+
+  Each adapter takes the existing public source/row facts for a
+  `SourceIndexStateKey`, reconstructs the corresponding row-template shape,
+  invokes the already-checked row-relation theorem to recover the weighted
+  constant nonpositivity fact, and produces a semantic `RowPairSemantic`
+  payload.  Axis templates are intentionally not folded into this generic
+  helper yet: `AxisAOnlyRows`/`AxisBOnlyRows` record a negative product but do
+  not choose the positive/negative row-role orientation, so an axis adapter
+  needs an extra orientation fact rather than a fake rewrite.
+
+  The smoke was extended with rank `0` / mask `13`, which uses
+  `ClassifierKey.k003` and the `eqEqPosVarSecond` adapter.  It now checks two
+  real GoodDirection survivors through two different non-axis semantic
+  templates.
+
+  Guarded builds:
+
+  ```text
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemantic
+  exit=0
+  elapsed=7.00s
+  peak process-tree RSS=3205.25 MiB
+  min available memory observed=46325.56 MiB
+
+  command=lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticCaseSmoke
+  exit=0
+  elapsed=4.01s
+  peak process-tree RSS=3282.30 MiB
+  min available memory observed=46325.44 MiB
+  ```
+
+  Decision: DU.9AO is accepted as the reusable non-axis semantic adapter
+  layer.  The next work should either emit a bounded semantic-membership range
+  shard using these adapters, or add a small axis-orientation semantic adapter
+  only if a chosen shard requires an axis template.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9ao_row_property_semantic_nonaxis_guard.json
+  scripts/generated/phase6z6k8ap16du9ao_row_property_semantic_case_smoke_guard.json
   ```
 
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
