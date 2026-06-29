@@ -212,19 +212,167 @@ For a fixed pair word and sign mask, all crossing-order and face-interior
 requirements become strict linear inequalities in the two unknowns `y` and
 `z`.
 
-The proof then uses a certificate of contradiction. The certificate gives
-nonnegative rational multipliers for some of the inequalities. Lean checks
-that, when those inequalities are added with those multipliers, the left side
-cancels and the result is impossible.
+When these inequalities cannot all be true at once, the proof uses a Farkas
+certificate to show the contradiction in a way that Lean can check exactly.
 
-This is a Farkas-style certificate. In plain language:
+## Farkas Certificates
+
+A **linear inequality** is an inequality where the unknowns appear only to the
+first power. In the translation case the unknowns are the starting coordinates
+`y` and `z`, so Lean stores each strict inequality in the form
 
 ```text
-If all these inequalities were true, their checked weighted sum would say
-0 < a number that is <= 0.
+a*y + b*z < c
 ```
 
-That cannot happen, so the proposed orbit does not exist.
+where `a`, `b`, and `c` are rational numbers.
+
+One inequality is often called a **row**, because a system of linear
+inequalities can be written as a table: one row per inequality.
+
+A **feasible** system is a system with at least one solution. Here that means
+there is some real pair `(y, z)` satisfying every row. An **infeasible** system
+has no such pair.
+
+The Farkas idea is a way to prove infeasibility without searching over all
+possible `(y, z)`.
+
+Suppose the system contains these two rows:
+
+```text
+y < 0
+-y < 0
+```
+
+The second row says `y > 0`, so the two rows are clearly inconsistent. A
+Farkas certificate proves that by adding them:
+
+```text
+ y < 0
+-y < 0
+-------
+ 0 < 0
+```
+
+The final line is impossible. That is the whole idea.
+
+The real certificates are the same, just with more rows and rational weights.
+A **multiplier** is the rational number used to scale one row before adding it
+to the others. Lean requires these multipliers to be nonnegative, because
+multiplying an inequality by a nonnegative number keeps the inequality pointing
+the same way.
+
+For example, if a row says
+
+```text
+a*y + b*z < c
+```
+
+and `q >= 0`, then scaling by `q` gives
+
+```text
+q*a*y + q*b*z <= q*c
+```
+
+If `q > 0`, the scaled inequality is still strict:
+
+```text
+q*a*y + q*b*z < q*c
+```
+
+Lean's Farkas checker needs at least one positive multiplier so that the final
+sum is strict.
+
+### What The Certificate Contains
+
+In Lean, `FarkasCert` is a sparse certificate. **Sparse** means it mentions
+only the rows it uses, not every row in the system.
+
+Each certificate term contains:
+
+```text
+row index, rational multiplier
+```
+
+Lean checks five things:
+
+1. every row index is actually present in the list of constraints;
+2. every multiplier is nonnegative;
+3. at least one multiplier is positive;
+4. after scaling and adding the selected rows, the `y` coefficient is `0` and
+   the `z` coefficient is `0`;
+5. the resulting right-hand side is `<= 0`.
+
+If all checks pass, the weighted sum has the form
+
+```text
+0*y + 0*z < c
+```
+
+with `c <= 0`. Since `0*y + 0*z` is `0`, this says
+
+```text
+0 < c <= 0
+```
+
+which is impossible.
+
+So the certificate does not say "I tried many points and found none." It says
+"if a point satisfied all rows, then exact arithmetic would prove `0 < c <= 0`."
+
+### Why This Is Sound
+
+The soundness theorem is the part Lean trusts:
+
+```text
+if checkFarkas constraints cert = true,
+then no real y,z satisfy all constraints.
+```
+
+The checker itself is just exact rational arithmetic over a finite list. The
+soundness theorem is the mathematical proof that a passing certificate really
+rules out a solution.
+
+This is only the direction the project needs. The classical Farkas lemma also
+says, under suitable hypotheses, that such certificates exist whenever a
+linear system is infeasible. The final theorem does not trust that existence
+claim from outside Lean. External scripts may search for certificates, but
+Lean still checks each emitted certificate.
+
+### Source And Two-Source Farkas
+
+The project also uses **source-indexed** Farkas certificates. A source-indexed
+certificate names where a row comes from instead of merely saying "row 17."
+For example, a source might be:
+
+```text
+the start point is inside Face.xp
+the fifth impact is inside this face
+```
+
+Lean turns those named sources into ordinary rows and then runs the same
+Farkas checker.
+
+A **two-source Farkas support** is the small special case where the
+contradiction uses two named rows. Many current translation survivors die this
+way: two geometric inequalities are enough to cancel the `y` and `z`
+coefficients and leave an impossible constant inequality.
+
+```mermaid
+flowchart TD
+    A["translation case gives strict inequalities in y,z"]
+    B["choose a few rows"]
+    C["multiply rows by nonnegative rationals"]
+    D["add them"]
+    E{"do y and z coefficients cancel?"}
+    F{"is the constant <= 0?"}
+    G["0 < c <= 0 contradiction"]
+    H["no feasible starting point"]
+
+    A --> B --> C --> D --> E
+    E -- "yes" --> F
+    F -- "yes" --> G --> H
+```
 
 ## Good Direction
 
@@ -271,6 +419,188 @@ flowchart TD
     B -- "no" --> C
     B -- "yes" --> D --> E
 ```
+
+## Walsh Sign Polynomials
+
+The word **Walsh** in this project refers to a simple way of writing exact
+functions of sign choices.
+
+In the translation branch, a sign mask has six independent yes/no choices:
+
+```text
+y, z, d111, d11m, d1m1, dm11.
+```
+
+Instead of treating those choices as `true` and `false`, the Walsh viewpoint
+treats each choice as a number:
+
+```text
+chosen positive ->  1
+chosen negative -> -1
+```
+
+So a sign mask becomes a point in a six-dimensional Boolean cube, where
+"Boolean cube" just means all `64` possible assignments of six variables, each
+equal to `1` or `-1`.
+
+A **Walsh monomial** is a product of sign variables. In this project, the
+Walsh monomials used for the denominator path have degree at most two, meaning
+they use zero, one, or two sign variables. For example:
+
+```text
+1
+y
+d111
+y * z
+z * dm11
+```
+
+A **Walsh polynomial** is a rational linear combination of such monomials:
+
+```text
+3/2 - y/4 + (z * dm11)/8
+```
+
+This is still exact rational arithmetic. There are no approximations and no
+rounding thresholds.
+
+You do not need to trust any separate theory of Walsh transforms here. In the
+Lean proof, this is just a small exact language for constants, signs, and
+products of two signs.
+
+### Why This Helps
+
+For a fixed pair word, many translation quantities depend on the sign mask in
+a very structured way. In particular, an internal impact denominator can often
+be represented as a small Walsh polynomial in the six sign variables.
+
+That matters because `GoodDirection` requires every internal impact
+denominator to be positive. Therefore, if Lean proves that one internal
+denominator is always nonpositive on some collection of masks, then every mask
+in that collection is impossible.
+
+The collection of masks is usually described as a **subcube**. A subcube fixes
+some sign bits and leaves the rest free. For example:
+
+```text
+y = 1, d111 = -1, all other bits free
+```
+
+This subcube contains `16` masks, because two bits are fixed and four bits are
+still free.
+
+```mermaid
+flowchart TD
+    A["one pair word"]
+    B["six sign variables"]
+    C["internal denominator as Walsh polynomial"]
+    D["subcube of masks"]
+    E["Lean-checked upper bound: polynomial <= 0 on the subcube"]
+    F["contradicts GoodDirection"]
+    G["all masks in the subcube are killed"]
+
+    A --> B --> C
+    D --> E
+    C --> E --> F --> G
+```
+
+### How Lean Checks It
+
+Lean does not trust a script that says "this polynomial is negative." The
+Walsh path breaks that claim into small exact pieces.
+
+`SignBit` names the six sign variables. `MaskSubcube` says which variables are
+fixed and which are free. `WalshMonomial`, `WalshTerm`, and `WalshPoly` give
+the basic exact polynomial language.
+
+A generated proof can then provide a `WalshSubcubeUpperBound`. This object
+contains:
+
+- one rational upper bound for each polynomial term;
+- a proof that each term is below its bound on the subcube;
+- a proof that the sum of the bounds is `<= 0`.
+
+From those three facts, the hand-written theorem proves that the whole
+polynomial is `<= 0` on every mask in the subcube.
+
+The next wrapper is `WalshImpactObstruction`. It adds the missing geometric
+link:
+
+```text
+this internal impact denominator = this Walsh polynomial
+```
+
+Once Lean has that equality, the obstruction becomes an ordinary
+`ImpactSubcubeObstruction`: every mask in the subcube violates
+`GoodDirection`.
+
+### The Quadratic Layer
+
+Most current Walsh denominator work uses a more compact form called
+`WalshQuadratic`.
+
+Here **quadratic** means "degree at most two": the expression may use constants,
+single sign variables such as `y`, and products of two sign variables such as
+`y * z`, but not products of three or more sign variables.
+
+This degree bound comes from the shape of the translation formula. The copied
+impact normal is affine in the sign bits, meaning it is a constant plus a
+linear combination of the six signs. The translation vector is also affine in
+the sign bits. The denominator is their dot product. A dot product of two
+affine sign expressions has degree at most two.
+
+`WalshQuadratic` stores the `22` possible coefficients directly:
+
+```text
+constant
+6 one-bit coefficients
+15 two-bit coefficients
+```
+
+The direct coefficient record avoids asking Lean to unfold a generic polynomial
+sum for every generated case. `WalshQuadraticSubcubeUpperBound` proves the
+same kind of nonpositivity result, but slot-by-slot over those `22`
+coefficients.
+
+### The Symbolic Bridge
+
+The most important trust question is:
+
+```text
+Why is this Walsh expression really the geometric denominator?
+```
+
+The symbolic bridge answers that without branching over all `64` masks.
+
+`WalshAffine` represents an affine sign expression. `WalshAffineVec3` is a
+three-dimensional vector whose coordinates are affine sign expressions. The
+module `TranslationWalshVector.lean` builds the unfolded translation vector by
+a recurrence that mirrors the ordinary exact translation recurrence, but keeps
+the result as Walsh-affine data.
+
+Then `ImpactSubcubeWalshSymbolic.lean` proves the algebraic step:
+
+```text
+dot(Walsh-affine normal, Walsh-affine translation vector)
+  = WalshQuadratic coefficients
+```
+
+The compact denominator bridge connects this symbolic dot product back to
+`impactDenomAtRank`, the ordinary denominator used by `GoodDirection`.
+
+So the trusted path is:
+
+```text
+exact recurrence for Walsh-affine normal/vector
+-> exact dot product coefficients
+-> exact subcube upper bound
+-> denominator <= 0 on the subcube
+-> contradiction to GoodDirection
+```
+
+The generator may suggest the coefficients, subcubes, and bounds. Lean checks
+the recurrence equalities, coefficient equalities, subcube membership, and
+nonpositivity proof.
 
 ## Symmetry
 
@@ -658,8 +988,12 @@ the corresponding Lean coverage.
   exact enumeration.
 - `Cuboctahedron/Search/Certificates.lean`: non-identity and translation
   certificate checkers and their soundness theorems.
+- `Cuboctahedron/Search/LinearConstraints.lean`: the strict two-variable
+  rational inequality language used by translation certificates.
 - `Cuboctahedron/Search/Farkas2D.lean`: the reusable strict linear-inequality
   contradiction theorem.
+- `Cuboctahedron/Search/TwoSourceFarkas.lean`: the small source-indexed
+  two-row Farkas support checker.
 - `Cuboctahedron/Search/TranslationGoodDirection.lean`: the proof that any
   feasible translation orbit satisfies `GoodDirection`.
 - `Cuboctahedron/Search/PairWordSymmetry.lean`: started-face symmetry group
@@ -681,6 +1015,16 @@ the corresponding Lean coverage.
   target for translation Farkas and GoodDirection coverage.
 - `Cuboctahedron/Generated/Translation/TwoSource/*`: current two-source
   Farkas and support-family generator/checker interface.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalsh.lean`:
+  basic Walsh sign-polynomial and subcube obstruction language.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshQuadratic.lean`:
+  compact degree-at-most-two coefficient records and subcube bounds.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolic.lean`:
+  symbolic Walsh-affine dot-product bridge to quadratic denominator records.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TranslationWalshVector.lean`:
+  Walsh-affine recurrence for translation vectors.
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshCompactDenomBridge.lean`:
+  compact bridge from Walsh dot products back to ordinary impact denominators.
 - `Cuboctahedron/Generated/PublicEvidence/*`: lightweight marker modules for
   externally checked public interval evidence.
 - `evidence/public_interval_shards/*`: generated proof shards kept outside the

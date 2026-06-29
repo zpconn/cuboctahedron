@@ -249,6 +249,7 @@ AP16CZ's compact-denominator subcube obstruction smoke, AP16DA's
 denominator root, and AP16DC's all-20 compact-denominator Walsh subcube cover
 smoke, plus AP16DF's guarded-serial two-signature compact-cover smoke and
 AP16DH's accepted generic `impactNormalWalshAt_eval` normal bridge, plus
+AP16DJ's bounded compact-cover batch plan, plus
 AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
@@ -259,7 +260,10 @@ constants, and the two-signature root builds after selected-impact leaves are
 prebuilt under a 5 GiB cap.  Scaling must still compose smaller semantic
 theorem surfaces or share selected-impact facts across roots; AP16DI is
 operational safety tooling and is now the required route for any future
-AP16DF-style experiment.
+AP16DF-style experiment.  AP16DJ is the next bounded scaling gate: it plans a
+five-signature compact-cover batch with 51 serial Lean targets under the same
+5 GiB RSS cap, and rejects an eight-signature batch as too large for the next
+safe smoke.
 Phase 6P is rejected: the diagnostic survivor-bitset
 classes still fragment into multiple source-Farkas skeletons. Phase 6Q and
 Phase 6R are complete: the conditional trusted proof skeleton now runs from
@@ -14671,7 +14675,8 @@ Acceptance:
   namespaces, and a root that imports the cover modules.  Build those pieces
   serially with memory guards; do not jump to the 20-signature sample until the
   two-signature shard is checked.
-- [x] Reject Phase 6Z.6K.8AP.16DF two-signature compact cover smoke:
+- [x] Implement and guard Phase 6Z.6K.8AP.16DF two-signature compact cover
+  smoke:
   AP16DF adds a generator:
 
   ```text
@@ -14701,8 +14706,8 @@ Acceptance:
   scripts/generated/phase6z6k8ap16df_two_signature_compact_cover_smoke.md
   ```
 
-  The generated Lean artifacts were intentionally removed after the focused
-  guarded build failed, so they are not imported by the package.
+  The first broad guarded root build failed and the generated Lean artifacts
+  were intentionally removed, so they were not imported by the package.
 
   Guarded build:
 
@@ -14724,19 +14729,48 @@ Acceptance:
   minimum available memory: 42898.13 MiB
   ```
 
-  Decision: rejected.  This did not threaten the machine because the guard
-  terminated the process at 7 GiB RSS, but it proves that AP16DC cannot scale
-  by simply generating/importing fresh selected-impact compact denominator
-  modules per survivor signature.  The culprit is the six-bit symbolic normal
-  proof path for nonzero impacts.  Next work should either:
+  Initial decision: rejected as a broad generated-root build.  This did not
+  threaten the machine because the guard terminated the process at 7 GiB RSS,
+  but it proved that AP16DC could not be scaled by asking Lake to build a fresh
+  selected-impact dependency tree all at once.  The culprit was the nonzero
+  impact normal proof path plus root-level dependency scheduling, not large
+  coefficients.
+
+  AP16DI later re-ran the same AP16DF evidence through a strict serial guard:
+
+  ```text
+  scripts/run_ap16df_serial_guarded.py --generate
+  ```
+
+  Accepted AP16DI result:
+
+  ```text
+  status: passed
+  targets: 12
+  process-tree RSS cap: 5000 MiB
+  minimum MemAvailable floor: 12000 MiB
+  rank101105 cover, uncached/fixed:
+    elapsed: 12.52s
+    peak tree RSS: 4309.70 MiB
+  two-signature root after cached leaves:
+    elapsed: 2.50s
+    peak tree RSS: 4031.95 MiB
+  ```
+
+  Final decision: AP16DF is accepted only as a bounded smoke when built through
+  AP16DI's serial guard.  The guard is now mandatory for every AP16DF-style
+  experiment.  This does not make the compact-cover route production-ready:
+  scaling still must either export smaller semantic facts, share selected-impact
+  facts across roots, or prove a stronger signature-level membership theorem.
+  Next work should either:
 
   1. replace selected-impact compact-denominator normal proofs with a shared
      symbolic theorem that avoids six-bit per-impact `norm_num`, or
   2. shift the compact Walsh cover to use reusable impact-normal trace fixtures
      keyed by `(word prefix state, impact)` instead of per-rank modules.
 
-  Until one of those is implemented, do not scale AP16DC beyond the accepted
-  rank-100805 smoke.
+  Until one of those is implemented or a bounded serial batch gate passes, do
+  not scale AP16DC/AP16DF-style evidence by ordinary broad `lake build`.
 - [x] Implement Phase 6Z.6K.8AP.16DG rank-101105 normal-complexity diagnostic:
   AP16DG reruns the existing AP16CF symbolic impact-normal recurrence profiler
   for the AP16DF rejected rank:
@@ -14776,6 +14810,50 @@ Acceptance:
   normal-recurrence proof/checker that establishes the compact normal equality
   from small symbolic records, without replaying the full prefix-linear
   recurrence inside every generated impact module.
+- [x] Implement Phase 6Z.6K.8AP.16DJ compact Walsh-cover batch planner:
+  AP16DJ adds a planning-only script:
+
+  ```text
+  scripts/plan_ap16dj_compact_walsh_batch.py
+  ```
+
+  It consumes the AP16DD compact-cover scaling report and selects a bounded
+  batch for the next guarded AP16DF-style emission.  It does not emit Lean and
+  does not run Lake.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dj_compact_walsh_batch_plan.json
+  scripts/generated/phase6z6k8ap16dj_compact_walsh_batch_plan.md
+  ```
+
+  Checked planner runs:
+
+  ```text
+  python3 scripts/plan_ap16dj_compact_walsh_batch.py --limit 5
+  python3 scripts/plan_ap16dj_compact_walsh_batch.py \
+    --limit 8 \
+    --output /tmp/ap16dj_compact_walsh_batch_plan_limit8.json
+  ```
+
+  Result for the accepted five-signature plan:
+
+  ```text
+  selected signatures: 5
+  selected subcubes total: 87
+  selected subcubes max: 24
+  selected word-impact union: [0,1,3,4,6,7,8,9,10]
+  planned serial Lean targets: 51
+  accepted for next guarded emission: true
+  ```
+
+  The eight-signature dry run produced 81 serial targets and was rejected by
+  the current bounded-target gate.  Decision: accepted as the next safe scaling
+  plan.  The next implementation step is to generalize the AP16DF generator to
+  consume the AP16DJ batch manifest, emit only those five signatures, and build
+  every generated target serially under the AP16DI guard.  Do not use broad
+  package builds for this step.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
@@ -17120,3 +17198,7 @@ Current strategic assessment:
   selected-impact leaves one at a time under a strict RSS cap before composing
   roots.  Future production compact-denominator work should still export
   smaller semantic facts or balanced micro-roots before composition.
+- Do not expand the compact Walsh-cover smoke beyond AP16DJ's five-signature
+  batch until that exact batch has been generated and built serially under the
+  AP16DI guard.  The AP16DJ eight-signature dry run is explicitly rejected at
+  the current gate because it would require 81 serial Lean targets.

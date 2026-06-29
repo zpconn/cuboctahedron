@@ -1,0 +1,205 @@
+{
+  "entries": [
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 197,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank6000745",
+      "rank": 6000745,
+      "selected_subcube_count": 16,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        4,
+        7,
+        9,
+        10
+      ],
+      "signature_key_prefix": "e378237f035fcae5"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 212,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank6000625",
+      "rank": 6000625,
+      "selected_subcube_count": 16,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        4,
+        6,
+        9,
+        10
+      ],
+      "signature_key_prefix": "7640df3ffbdd5cb8"
+    },
+    {
+      "anchor_mask": 14,
+      "bad_mask_count": 58,
+      "candidate_subcube_count": 261,
+      "good_mask_count": 6,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank6000480",
+      "rank": 6000480,
+      "selected_subcube_count": 17,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        4,
+        6,
+        7,
+        9
+      ],
+      "signature_key_prefix": "14931975d9969f8b"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 58,
+      "candidate_subcube_count": 228,
+      "good_mask_count": 6,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank6000720",
+      "rank": 6000720,
+      "selected_subcube_count": 24,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        4,
+        7,
+        8,
+        10
+      ],
+      "signature_key_prefix": "98a1a30835c91bc6"
+    },
+    {
+      "anchor_mask": 5,
+      "bad_mask_count": 52,
+      "candidate_subcube_count": 205,
+      "good_mask_count": 12,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank6000662",
+      "rank": 6000662,
+      "selected_subcube_count": 14,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        4,
+        7,
+        9,
+        10
+      ],
+      "signature_key_prefix": "9ab594e6d0794512"
+    }
+  ],
+  "excluded_ranks": [
+    100805,
+    101105
+  ],
+  "gate": {
+    "accepted_for_next_guarded_emission": true,
+    "lean_build_policy": {
+      "LAKE_JOBS": 1,
+      "LEAN_NUM_THREADS": 1,
+      "available_floor_mib": 12000,
+      "parallelism": "serial for generated Lean targets",
+      "per_target_timeout_seconds": 600,
+      "rss_cap_mib": 5000,
+      "stop_on_first_failure": true
+    },
+    "reasons": [],
+    "representative_ap16di_telemetry": {
+      "note": "These are planning constants from AP16DI.  AP16DJ must collect fresh per-target telemetry before any larger batch.",
+      "root_after_cached_leaves_peak_mib": 4031.95,
+      "uncached_cover_peak_mib": 4309.7
+    }
+  },
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "requested_limit": 5,
+  "schema_version": 1,
+  "source_profile": "scripts/generated/phase6z6k8ap16dd_compact_walsh_cover_scaling.json",
+  "summary": {
+    "good_masks": {
+      "max": 13,
+      "mean": 9.6,
+      "min": 6
+    },
+    "planned_modules": {
+      "batch_root_modules": 1,
+      "signature_modules": 50,
+      "total": 51
+    },
+    "planned_serial_lean_targets": 51,
+    "rank_count": 5,
+    "selected_subcubes": {
+      "max": 24,
+      "mean": 17.4,
+      "min": 14,
+      "total": 87
+    },
+    "selected_word_impact_union_count": 9,
+    "selected_word_impacts_per_signature": {
+      "max": 7,
+      "mean": 7.0,
+      "min": 7
+    },
+    "selected_word_impacts_union": [
+      0,
+      1,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signature_count": 5
+  },
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}
