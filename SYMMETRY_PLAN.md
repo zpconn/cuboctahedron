@@ -22870,6 +22870,41 @@ Decision:
   with generated trace data, but must remain guarded and should start with one
   selected weighted cube before attempting the full 11-cube cover.
 
+### Phase 6Z.6K.8AP.16DU.9BP checkpoint: rank trace-root dependency rejected
+
+Phase 6Z.6K.8AP.16DU.9BP tested whether the accepted DU.9BO trace-certificate
+API could safely reuse the existing generated rank-`6000745` split trace root
+as its translation-vector witness dependency:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745SplitSmoke
+```
+
+The focused guarded build was:
+
+```text
+scripts/generated/phase6z6k8ap16du9bp_rank6000745_trace_root_guard.json
+exit = -15
+elapsed = 7.51s
+peak tree RSS = 18680 MiB
+min MemAvailable = 44282 MiB
+rss cap = 8192 MiB
+reason = killed by memory guard before the import path could complete
+```
+
+Decision:
+
+- Reject importing rank-wide split trace roots as dependencies of production
+  weighted-cube obstruction leaves.
+- Do not raise the cap for this path: the dependency crossed 18 GiB RSS almost
+  immediately and would reintroduce the same OOM risk that the weighted
+  coefficient route was designed to avoid.
+- Keep the DU.9BO API, but require future trace witnesses to be smaller than
+  the rank-wide split root.  The next experiment should profile individual
+  trace data/step modules, or generate a new per-coefficient/per-impact witness
+  surface whose exported theorem has a small type and whose own focused build
+  stays below the 8 GiB guard.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -22966,3 +23001,6 @@ Decision:
 - Do not prove generated coefficient identity by directly unfolding
   `weightedDirectWalshQuadraticAtRank` at a concrete rank; DU.9BN crossed the
   8 GiB guard while proving only the constant coefficient for rank `6000745`.
+- Do not import rank-wide split Walsh-vector trace roots as weighted
+  trace-certificate dependencies; DU.9BP crossed 18.7 GiB RSS under the 8 GiB
+  focused-build guard before completing.
