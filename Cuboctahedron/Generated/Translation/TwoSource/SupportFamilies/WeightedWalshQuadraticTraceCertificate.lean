@@ -103,6 +103,27 @@ def weightedQuadraticFromDotData
           (WalshQuadratic.scale weights.w12 q12)))
       (WalshQuadratic.scale weights.w13 q13))
 
+theorem weightedQuadraticFromDotData_c
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) :
+    (weightedQuadraticFromDotData dotPoly weights).c =
+      weights.w1 * (dotPoly ⟨0, by decide⟩).c +
+        weights.w2 * (dotPoly ⟨1, by decide⟩).c +
+        weights.w3 * (dotPoly ⟨2, by decide⟩).c +
+        weights.w4 * (dotPoly ⟨3, by decide⟩).c +
+        weights.w5 * (dotPoly ⟨4, by decide⟩).c +
+        weights.w6 * (dotPoly ⟨5, by decide⟩).c +
+        weights.w7 * (dotPoly ⟨6, by decide⟩).c +
+        weights.w8 * (dotPoly ⟨7, by decide⟩).c +
+        weights.w9 * (dotPoly ⟨8, by decide⟩).c +
+        weights.w10 * (dotPoly ⟨9, by decide⟩).c +
+        weights.w11 * (dotPoly ⟨10, by decide⟩).c +
+        weights.w12 * (dotPoly ⟨11, by decide⟩).c +
+        weights.w13 * (dotPoly ⟨12, by decide⟩).c := by
+  unfold weightedQuadraticFromDotData
+  simp [WalshQuadratic.add, WalshQuadratic.scale]
+  ring
+
 theorem weightedQuadraticFromAffineData_eq_fromDotData
     {normal : WordIndex -> WalshAffineVec3}
     {vector : WalshAffineVec3}

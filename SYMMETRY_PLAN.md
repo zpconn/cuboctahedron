@@ -24275,6 +24275,135 @@ Decision:
   that checks the 22 scaled coefficient equalities by small integer facts
   without recomputing the whole weighted dot polynomial in each field proof.
 
+### Phase 6Z.6K.8AP.16DU.9CM checkpoint: shared coefficient formula accepted
+
+Phase 6Z.6K.8AP.16DU.9CM adds the first reusable coefficient projection lemma
+for `weightedQuadraticFromDotData`:
+
+```lean
+theorem weightedQuadraticFromDotData_c
+    (dotPoly : WordIndex -> WalshQuadratic)
+    (weights : DenominatorCube.InternalImpactWeights) :
+    (weightedQuadraticFromDotData dotPoly weights).c =
+      weights.w1 * (dotPoly ⟨0, by decide⟩).c + ... +
+        weights.w13 * (dotPoly ⟨12, by decide⟩).c
+```
+
+The generated smoke then proves the same DU.9CL constant coefficient equality
+by rewriting with this theorem and normalizing only the selected generated dot
+records.
+
+Files:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean
+scripts/emit_ap16du9cm_dotpoly_one_coeff_formula_smoke.py
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffFormulaSmoke.lean
+scripts/generated/phase6z6k8ap16du9cm_dotpoly_one_coeff_formula_smoke.json
+scripts/generated/phase6z6k8ap16du9cm_dotpoly_one_coeff_formula_smoke.md
+scripts/generated/phase6z6k8ap16du9cm_dotpoly_one_coeff_formula_guard.json
+scripts/generated/phase6z6k8ap16du9cm_dotpoly_one_coeff_formula_lean_guard.json
+scripts/generated/phase6z6k8ap16du9cm_coeff_formula_core_guard.json
+```
+
+Static checks:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9cm_dotpoly_one_coeff_formula_smoke.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticTraceCertificate.lean \
+  scripts/emit_ap16du9cm_dotpoly_one_coeff_formula_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffFormulaSmoke.lean
+wc -l scripts/emit_ap16du9cm_dotpoly_one_coeff_formula_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffFormulaSmoke.lean
+```
+
+The forbidden-token scan was clean.  The generated script has `165` lines and
+the generated Lean smoke has `66` lines.
+
+Focused guarded builds:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cm_coeff_formula_core_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticTraceCertificate
+```
+
+Core result:
+
+```text
+exit code:             0
+elapsed:               6.51s
+Lean target time:      4.4s
+peak tree RSS:         4013 MiB
+minimum MemAvailable:  46127 MiB
+RSS cap:               8192 MiB
+```
+
+Generated smoke build:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cm_dotpoly_one_coeff_formula_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffFormulaSmoke
+```
+
+Result:
+
+```text
+exit code:             0
+elapsed:               14.54s
+Lean target time:      1.3s
+peak tree RSS:         4685 MiB
+minimum MemAvailable:  45033 MiB
+RSS cap:               8192 MiB
+```
+
+The elapsed time includes rebuilding the traced-normal Data module after the
+core dependency changed.  A direct import-aware Lean check gives the cleaner
+leaf-only measurement:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 8192 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9cm_dotpoly_one_coeff_formula_lean_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertDotPolyOneCoeffFormulaSmoke.lean
+
+exit code:             0
+elapsed:               2.01s
+peak tree RSS:         3941 MiB
+minimum MemAvailable:  46209 MiB
+RSS cap:               8192 MiB
+```
+
+Comparison:
+
+```text
+DU.9CL one coefficient by direct unfold:  7.51s guarded, 4.9s target
+DU.9CM one coefficient by formula:        2.01s direct Lean, 1.3s target
+```
+
+Decision:
+
+- Accept the shared coefficient-formula direction.  It is the first dot-poly
+  experiment that materially lowers the coefficient proof cost.
+- Extend the formula layer to all 22 `WalshQuadratic` coefficient fields, but
+  avoid 22 independent generated arithmetic proofs as the production endpoint.
+- Next optimization surface: generate a full 22-field formula-based smoke and
+  measure whether a single extensional proof using the shared field formulas
+  beats the current `weightedQuadraticFromDotData` unfold.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
