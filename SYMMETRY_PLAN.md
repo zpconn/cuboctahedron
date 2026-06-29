@@ -245,7 +245,8 @@ symbolic-normal nonzero-impact consumer smoke, AP16CV/AP16CW's shallow
 consumer root and manifest-batch smoke, AP16CX's GoodDirection-to-compact-dot
 positivity bridge, AP16CY's rank-wide compact-denominator consumer theorem,
 AP16CZ's compact-denominator subcube obstruction smoke, AP16DA's
-`BadMaskCover` erasure smoke, plus AP16CP's
+`BadMaskCover` erasure smoke, AP16DB's rank-100805 selected-impact compact
+denominator root, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14450,6 +14451,61 @@ Acceptance:
   generalize the smoke from one complement-style subcube to a small generated
   set of subcube obstructions whose complement is an actual positive survivor
   signature.
+- [x] Implement Phase 6Z.6K.8AP.16DB selected-impact compact-denominator
+  root for rank 100805:
+  The AP16BJ/AP16BS artifacts show that the rank-100805 positive survivor
+  signature has 8 GoodDirection masks and 56 bad masks, covered by 20 selected
+  Walsh subcubes using only seven internal impacts:
+
+  ```text
+  selected impacts: 1, 2, 4, 5, 6, 8, 10
+  corresponding wordImpact indices: 0, 1, 3, 4, 5, 7, 9
+  ```
+
+  AP16DB adds a separate manifest:
+
+  ```text
+  scripts/generated/phase6z6k8ap16db_rank100805_selected_impacts_manifest.json
+  ```
+
+  and uses the AP16CY compact-denominator emitter to generate one consumer per
+  selected impact plus a shallow root:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomRank100805SelectedImpactsSmoke.lean
+  ```
+
+  This root provides the denominator-dot equality inputs needed for a future
+  20-subcube `BadMaskCover` whose complement is the actual rank-100805 positive
+  survivor signature.
+
+  Guarded build:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16db_rank100805_selected_impacts_build.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 300s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank100805SelectedImpactsSmoke'
+  ```
+
+  Result:
+
+  ```text
+  passed
+  elapsed: 292.45s
+  peak tree RSS: 4837 MiB
+  minimum available memory: 45107 MiB
+  slowest generated impact proof: impact index 9, 109s
+  ```
+
+  Decision: accepted as memory-safe selected-impact evidence, but with a
+  build-time warning.  The path is good enough for the bounded rank-100805
+  20-subcube cover smoke.  Before scaling beyond a small bounded cover, improve
+  the nonzero-impact normal proof generator or shard selected impacts so slow
+  proofs do not dominate the final build.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
