@@ -522,6 +522,118 @@ theorem RowPairSemantic.exists_nonaxis_of_source_row
   | exactTwoSourceValid =>
       exact False.elim (hnotExact htemplate)
 
+theorem RowPairSemantic.exists_axisA_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.axisAOnly)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    ∃ firstRole secondRole : RowRole,
+      RowTemplateSemantic key.template firstRole secondRole /\
+        RowPairSemantic firstRole secondRole key.support r mask := by
+  by_cases hr : r < numPairWords
+  · have hshapeRows : AxisAOnlyRows key.support r mask := by
+      simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+    rcases hshapeRows hr with ⟨hfirstB, hsecondB, hprod, hc⟩
+    have hfirst_ne : (FirstLineAt key.support r hr mask).a ≠ 0 := by
+      intro hzero
+      rw [hzero, zero_mul] at hprod
+      nlinarith
+    cases lt_or_gt_of_ne hfirst_ne with
+    | inl hfirst_neg =>
+        have hsecond_pos : 0 < (SecondLineAt key.support r hr mask).a := by
+          nlinarith
+        refine ⟨.axisAOnlyNeg, .axisAOnlyPos, ?_, ?_⟩
+        · simpa [htemplate] using RowTemplateSemantic.axisAOnlyNegPos
+        · intro hlt
+          have hproof : hlt = hr := Subsingleton.elim _ _
+          subst hlt
+          exact ⟨hsource.sourceChecks hr,
+            ⟨hfirstB, hfirst_neg⟩,
+            ⟨hsecondB, hsecond_pos⟩,
+            by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hc⟩
+    | inr hfirst_pos =>
+        have hsecond_neg : (SecondLineAt key.support r hr mask).a < 0 := by
+          nlinarith
+        refine ⟨.axisAOnlyPos, .axisAOnlyNeg, ?_, ?_⟩
+        · simpa [htemplate] using RowTemplateSemantic.axisAOnlyPosNeg
+        · intro hlt
+          have hproof : hlt = hr := Subsingleton.elim _ _
+          subst hlt
+          exact ⟨hsource.sourceChecks hr,
+            ⟨hfirstB, hfirst_pos⟩,
+            ⟨hsecondB, hsecond_neg⟩,
+            by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hc⟩
+  · refine ⟨.axisAOnlyPos, .axisAOnlyNeg, ?_, ?_⟩
+    · simpa [htemplate] using RowTemplateSemantic.axisAOnlyPosNeg
+    · intro hlt
+      exact False.elim (hr hlt)
+
+theorem RowPairSemantic.exists_axisB_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (htemplate : key.template = SourceIndexTemplate.axisBOnly)
+    (hrows : SourceIndexStateRowFacts key r mask) :
+    ∃ firstRole secondRole : RowRole,
+      RowTemplateSemantic key.template firstRole secondRole /\
+        RowPairSemantic firstRole secondRole key.support r mask := by
+  by_cases hr : r < numPairWords
+  · have hshapeRows : AxisBOnlyRows key.support r mask := by
+      simpa [htemplate, SourceIndexTemplate.Rows] using hrows.rows
+    rcases hshapeRows hr with ⟨hfirstA, hsecondA, hprod, hc⟩
+    have hfirst_ne : (FirstLineAt key.support r hr mask).b ≠ 0 := by
+      intro hzero
+      rw [hzero, zero_mul] at hprod
+      nlinarith
+    cases lt_or_gt_of_ne hfirst_ne with
+    | inl hfirst_neg =>
+        have hsecond_pos : 0 < (SecondLineAt key.support r hr mask).b := by
+          nlinarith
+        refine ⟨.axisBOnlyNeg, .axisBOnlyPos, ?_, ?_⟩
+        · simpa [htemplate] using RowTemplateSemantic.axisBOnlyNegPos
+        · intro hlt
+          have hproof : hlt = hr := Subsingleton.elim _ _
+          subst hlt
+          exact ⟨hsource.sourceChecks hr,
+            ⟨hfirstA, hfirst_neg⟩,
+            ⟨hsecondA, hsecond_pos⟩,
+            by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hc⟩
+    | inr hfirst_pos =>
+        have hsecond_neg : (SecondLineAt key.support r hr mask).b < 0 := by
+          nlinarith
+        refine ⟨.axisBOnlyPos, .axisBOnlyNeg, ?_, ?_⟩
+        · simpa [htemplate] using RowTemplateSemantic.axisBOnlyPosNeg
+        · intro hlt
+          have hproof : hlt = hr := Subsingleton.elim _ _
+          subst hlt
+          exact ⟨hsource.sourceChecks hr,
+            ⟨hfirstA, hfirst_pos⟩,
+            ⟨hsecondA, hsecond_neg⟩,
+            by simpa [weightedCNonposAt, FirstLineAt, SecondLineAt] using hc⟩
+  · refine ⟨.axisBOnlyPos, .axisBOnlyNeg, ?_, ?_⟩
+    · simpa [htemplate] using RowTemplateSemantic.axisBOnlyPosNeg
+    · intro hlt
+      exact False.elim (hr hlt)
+
+/--
+Recover semantic row roles from source/row facts for every row template
+currently represented in `RowTemplateSemantic`, excluding only
+`exactTwoSourceValid`.
+-/
+theorem RowPairSemantic.exists_nonexact_of_source_row
+    {key : SourceIndexStateKey} {r : Nat} {mask : SignMask}
+    (hsource : SourceIndexStateSourceFacts key r mask)
+    (hrows : SourceIndexStateRowFacts key r mask)
+    (hnotExact : key.template ≠ SourceIndexTemplate.exactTwoSourceValid) :
+    ∃ firstRole secondRole : RowRole,
+      RowTemplateSemantic key.template firstRole secondRole /\
+        RowPairSemantic firstRole secondRole key.support r mask := by
+  by_cases haxisA : key.template = SourceIndexTemplate.axisAOnly
+  · exact RowPairSemantic.exists_axisA_of_source_row hsource haxisA hrows
+  by_cases haxisB : key.template = SourceIndexTemplate.axisBOnly
+  · exact RowPairSemantic.exists_axisB_of_source_row hsource haxisB hrows
+  exact RowPairSemantic.exists_nonaxis_of_source_row
+    hsource hrows haxisA haxisB hnotExact
+
 theorem rowPropertySemantic_builds : True := by
   trivial
 

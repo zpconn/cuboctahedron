@@ -25408,6 +25408,121 @@ Decision:
   masks, by a giant key table, or by rank-local compact-Walsh membership
   covers.
 
+### Phase 6Z.6K.8AP.16DU.9CX checkpoint: semantic template readiness audited
+
+Phase 6Z.6K.8AP.16DU.9CX adds a reproducible, memory-guarded audit:
+
+```text
+scripts/audit_ap16du9cx_semantic_template_readiness.py
+```
+
+The audit asks whether the current `RowPropertySemantic` adapters are enough
+for the bounded `[0,5000)` source-index/state classifier window.  The first
+run, before adding axis adapters, showed:
+
+```text
+GoodDirection survivors:       4,693
+source-index/state families:   125
+unsupported cases:             27
+unsupported families:          4
+unsupported template:          axis_a_only
+peak RSS:                      62 MiB
+```
+
+Decision:
+
+- The existing non-axis semantic row-role bridge covers 4,666/4,693 bounded
+  GoodDirection survivors.
+- The only bounded blocker is axis orientation for `axis_a_only`; there are no
+  `exact_two_source_valid` cases in `[0,5000)`.
+- Add a genuine axis semantic adapter before attempting a full `[0,5000)`
+  semantic range emitter.  Do not work around these 27 cases with compact
+  Walsh replay.
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness.json
+scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness.md
+scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness_guard.json
+```
+
+### Phase 6Z.6K.8AP.16DU.9CY checkpoint: axis semantic adapter accepted
+
+Phase 6Z.6K.8AP.16DU.9CY extends the semantic row-role bridge with exact
+axis-orientation adapters:
+
+```lean
+theorem RowPairSemantic.exists_axisA_of_source_row
+theorem RowPairSemantic.exists_axisB_of_source_row
+theorem RowPairSemantic.exists_nonexact_of_source_row
+```
+
+and extends the selector bridge with generator-facing non-exact adapters:
+
+```lean
+theorem semanticFacts_of_source_row_nonexact
+theorem semanticFacts_of_shard000_key_nonexact
+theorem semanticFacts_of_shard001_key_nonexact
+theorem semanticFacts_of_shard002_key_nonexact
+```
+
+The axis proof uses the existing `AxisAOnlyRows`/`AxisBOnlyRows` product
+negativity to choose the positive/negative orientation once, then transports
+that choice across the proof argument `hlt : r < numPairWords` by proof
+irrelevance.  It remains semantic theorem infrastructure, not generated
+certificate replay.
+
+Guarded builds:
+
+```text
+module: Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemantic
+exit=0
+elapsed=9.01s
+peak process-tree RSS=4084 MiB
+min available memory observed=45309 MiB
+
+module: Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticSelectorBridge
+exit=0
+elapsed=11.52s
+peak process-tree RSS=4010 MiB
+min available memory observed=45492 MiB
+```
+
+After the adapter landed, DU.9CX was rerun under the same guard and reported:
+
+```text
+status:                       current-adapters-cover-window
+GoodDirection survivors:       4,693
+source-index/state families:   125
+unsupported cases:             0
+unsupported families:          0
+peak RSS:                      62 MiB
+```
+
+Decision:
+
+- The semantic row-role adapter layer now covers every bounded
+  source-index/state family in `[0,5000)` except for templates not present in
+  the audited window.
+- The next proof-producing emitter should generate a full `[0,5000)`
+  `SemanticRowMembershipLanguageOnRange` module using
+  `exists_nonexact_of_source_row` / `semanticFacts_of_*_key_nonexact`, and then
+  erase it to `AllTranslationGoodCoverageOnRange 0 5000`.
+- If a future window contains `exact_two_source_valid`, add an explicit
+  semantic endpoint for that template rather than falling back to rank-local
+  compact-Walsh membership.
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9cy_row_property_semantic_axis_guard.json
+scripts/generated/phase6z6k8ap16du9cy_row_property_semantic_selector_bridge_guard.json
+scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness.json
+scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness.md
+scripts/generated/phase6z6k8ap16du9cx_semantic_template_readiness_guard.json
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

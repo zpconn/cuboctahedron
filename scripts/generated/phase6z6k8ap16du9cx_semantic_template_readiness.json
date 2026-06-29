@@ -1,0 +1,124 @@
+{
+  "cases_by_status": {
+    "supported_nonexact": 4693
+  },
+  "cases_by_template": {
+    "axis_a_only": 27,
+    "eq_eq_neg_var_first": 102,
+    "eq_eq_neg_var_second": 14,
+    "eq_eq_pos_var_first": 2046,
+    "eq_eq_pos_var_second": 738,
+    "opp_1m_var_first": 894,
+    "opp_1m_var_second": 287,
+    "opp_m1_var_first": 439,
+    "opp_m1_var_second": 146
+  },
+  "counts": {
+    "covered_cases": 4693,
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 31168,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "next_step": "Generate a bounded semantic row-membership range module for the full audited window using the current non-exact adapters.",
+    "notes": [
+      "This audit emits no Lean and is not trusted as proof.",
+      "Supported non-exact cases are exactly those handled by RowPairSemantic.exists_nonexact_of_source_row.",
+      "Exact-two-source cases still need a separate semantic adapter or endpoint."
+    ],
+    "status": "current-adapters-cover-window"
+  },
+  "examples_by_status": {
+    "needs_exact_two_source_adapter": [],
+    "supported_nonexact": [
+      {
+        "family_index": 0,
+        "mask": 8,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      },
+      {
+        "family_index": 0,
+        "mask": 9,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      },
+      {
+        "family_index": 3,
+        "mask": 13,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_second"
+      },
+      {
+        "family_index": 0,
+        "mask": 16,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      },
+      {
+        "family_index": 0,
+        "mask": 18,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      },
+      {
+        "family_index": 4,
+        "mask": 22,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      },
+      {
+        "family_index": 0,
+        "mask": 24,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      },
+      {
+        "family_index": 41,
+        "mask": 28,
+        "rank": 0,
+        "status": "supported_nonexact",
+        "template_id": "eq_eq_pos_var_first"
+      }
+    ],
+    "unknown_template": []
+  },
+  "families_by_status": {
+    "supported_nonexact": 125
+  },
+  "families_by_template": {
+    "axis_a_only": 4,
+    "eq_eq_neg_var_first": 9,
+    "eq_eq_neg_var_second": 6,
+    "eq_eq_pos_var_first": 37,
+    "eq_eq_pos_var_second": 8,
+    "opp_1m_var_first": 27,
+    "opp_1m_var_second": 8,
+    "opp_m1_var_first": 18,
+    "opp_m1_var_second": 8
+  },
+  "good_direction_survivors": 4693,
+  "identity_rank_count": 487,
+  "limit": 5000,
+  "nonidentity_rank_count": 4513,
+  "phase": "6Z.6K.8AP.16DU.9CX",
+  "rank_end": 5000,
+  "rank_start": 0,
+  "schema_version": 1,
+  "source_index_state_family_count": 125,
+  "trusted_as_proof": false,
+  "unsupported_cases": 0,
+  "unsupported_families": 0
+}
