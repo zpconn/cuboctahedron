@@ -17740,6 +17740,48 @@ Acceptance:
   ranges, but generated shards now have both public export paths:
   selector-coordinate catalogs through DU.9R, or direct row-property coverage
   through DU.9Z/DU.9X/DU.9V.
+- [x] Add Phase 6Z.6K.8AP.16DU.9Z.1 direct all-Good selector lookup helper:
+  DU.9Z.1 extends the same adapter with:
+
+  ```lean
+  allGoodCoverage_of_selectorLookup_source_row :
+    ... ->
+      AllTranslationGoodCoverageOnRange lo hi
+  ```
+
+  This is just the composition of
+  `rowPropertyCoverage_of_selectorLookup_source_row` with DU.9V's
+  row-property-to-all-Good erasure.  It gives future generated selector shards
+  a single public theorem to call when they already prove lookup/source/row
+  facts.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateSelectorDU9ZRowPropertyAdapter.lean
+    first attempt:
+      exit=1
+      elapsed=2.65s
+      max_rss=3259200 KiB
+      reason=missing namespace open for AllTranslationGoodCoverageOnRange
+    retry:
+      exit=0
+      elapsed=2.05s
+      max_rss=3255484 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateSelectorDU9ZRowPropertyAdapter
+    exit=0
+    elapsed=2.07s
+    max_rss=3271860 KiB
+  ```
+
+  Decision: DU.9Z.1 is accepted as a convenience bridge.  It does not change
+  the remaining membership/completeness burden, but it reduces the amount of
+  root glue future generated selector chunks need to export.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
