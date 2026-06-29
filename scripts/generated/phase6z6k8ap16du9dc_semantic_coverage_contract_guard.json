@@ -1,0 +1,15 @@
+{
+  "available_floor_mib": 16384.0,
+  "command": [
+    "python3",
+    "scripts/audit_ap16du9dc_semantic_coverage_contract.py"
+  ],
+  "elapsed_seconds": 0.5016538759955438,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 384,
+  "max_tree_rss_mib": 0.375,
+  "min_available_seen_kib": 47807088,
+  "min_available_seen_mib": 46686.609375,
+  "rss_cap_mib": 1024.0
+}

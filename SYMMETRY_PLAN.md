@@ -25778,6 +25778,94 @@ scripts/generated/phase6z6k8ap16du9db_bool_smoke.md
 scripts/generated/phase6z6k8ap16du9db_bool_smoke_guard.json
 ```
 
+### Phase 6Z.6K.8AP.16DU.9DC checkpoint: semantic coverage contract audited
+
+Phase 6Z.6K.8AP.16DU.9DC adds a contract audit:
+
+```text
+scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+This is not proof evidence.  It checks that the hand-written Lean bridge layer
+already exposes the right Prop-level target for GoodDirection-only
+positive-survivor coverage, so the next proof-producing step can focus on the
+missing generated semantic membership theorem.
+
+Guarded command:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1024 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract_guard.json \
+  -- python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Results:
+
+```text
+status:                         contract-present-generator-obligation-open
+all required surfaces present:  true
+elapsed:                        0.50s
+peak tree RSS:                  0 MiB reported by guard
+min available memory:           46686 MiB
+```
+
+Confirmed theorem surfaces:
+
+```text
+SourcePositionRowProducerGoodCoverageOnRange
+SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+PositiveSurvivorMembershipSmoke.allGoodCoverage_of_positiveSingleCandidateClassifier
+SourceIndexStateClassifierDU3Smoke.sourceIndexFactsCatalog_of_classifierKey_source_row
+SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage
+```
+
+Decision:
+
+- The accepted production target is:
+
+  ```lean
+  SourcePositionRowProducerGoodCoverageOnRange lo hi
+  ```
+
+  or the equivalent descriptor-level target:
+
+  ```lean
+  SourceIndexStateDescriptorGoodCoverageOnRange lo hi
+  ```
+
+- The missing generated obligation is exactly the `hclass` theorem:
+
+  ```lean
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            candidate rank mask
+  ```
+
+  where `candidate` must be a semantic source-position/row-producer predicate
+  that yields `SourcePairPositionSpec.Predicate` and
+  `SourceIndexStateRowProducer.Applies`/`SourceIndexStateRowFacts`.
+
+- Do **not** add another adapter layer before a generator tries this target.
+  The bridge is already present.  The next generator must prove `hclass`
+  directly from semantic source-position/source-row facts, without
+  `classifierAppliesBool`, compact-Walsh membership imports, or rank-local
+  Boolean reduction.
+
+Reports:
+
+```text
+scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract.json
+scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract.md
+scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract_guard.json
+```
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

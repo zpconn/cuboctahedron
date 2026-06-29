@@ -1,0 +1,46 @@
+{
+  "all_required_surfaces_present": true,
+  "checks": {
+    "descriptor_to_all_good_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+      "needle": "theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage",
+      "present": true
+    },
+    "du3_prop_first_source_row_adapter_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "needle": "theorem sourceIndexFactsCatalog_of_classifierKey_source_row",
+      "present": true
+    },
+    "generated_smoke_hclass_is_hypothesis": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "needle": "(hclass :",
+      "present": true
+    },
+    "positive_single_candidate_classifier_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean",
+      "needle": "theorem allGoodCoverage_of_positiveSingleCandidateClassifier",
+      "present": true
+    },
+    "source_position_coverage_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+      "needle": "def SourcePositionRowProducerGoodCoverageOnRange",
+      "present": true
+    },
+    "source_position_to_all_good_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+      "needle": "theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage",
+      "present": true
+    }
+  },
+  "conclusion": {
+    "accepted_production_target": "SourcePositionRowProducerGoodCoverageOnRange lo hi, or the equivalent SourceIndexStateDescriptorGoodCoverageOnRange lo hi",
+    "missing_generated_obligation": "For each nonempty range/family, prove hclass: every identity-linear GoodDirection survivor belongs to the semantic candidate/source-position row-producer predicate, without classifierAppliesBool, compact-Walsh membership imports, or rank-local Boolean reduction.",
+    "rejected_surfaces": [
+      "classifierAppliesBool membership proved by decide",
+      "goodDirectionAtRankBool -> classifierAppliesBool singleton reduction",
+      "rank-family-map membership tables",
+      "compact-Walsh membership roots as the production bridge"
+    ],
+    "status": "contract-present-generator-obligation-open"
+  }
+}

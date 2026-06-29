@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+"""Audit the AP16DU semantic coverage contract.
+
+This diagnostic is intentionally proof-neutral: it does not certify any
+geometry.  It records which Lean surfaces already exist for the
+GoodDirection-only positive-survivor route and which premise still has to be
+produced by generated proof evidence.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT_JSON = ROOT / "scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract.json"
+OUT_MD = ROOT / "scripts/generated/phase6z6k8ap16du9dc_semantic_coverage_contract.md"
+
+
+FILES = {
+    "source_position_producer_language": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+    "positive_survivor_membership_smoke": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean",
+    "positive_survivor_membership_generated_smoke": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+    "source_index_state_classifier_du3": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+    "source_index_state_descriptor_language": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+}
+
+
+CHECKS = {
+    "source_position_coverage_exists": (
+        "source_position_producer_language",
+        "def SourcePositionRowProducerGoodCoverageOnRange",
+    ),
+    "source_position_to_all_good_exists": (
+        "source_position_producer_language",
+        "theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage",
+    ),
+    "positive_single_candidate_classifier_exists": (
+        "positive_survivor_membership_smoke",
+        "theorem allGoodCoverage_of_positiveSingleCandidateClassifier",
+    ),
+    "generated_smoke_hclass_is_hypothesis": (
+        "positive_survivor_membership_generated_smoke",
+        "(hclass :",
+    ),
+    "du3_prop_first_source_row_adapter_exists": (
+        "source_index_state_classifier_du3",
+        "theorem sourceIndexFactsCatalog_of_classifierKey_source_row",
+    ),
+    "descriptor_to_all_good_exists": (
+        "source_index_state_descriptor_language",
+        "theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage",
+    ),
+}
+
+
+def contains(path: Path, needle: str) -> bool:
+    return needle in path.read_text()
+
+
+def main() -> None:
+    results = {}
+    for name, (file_key, needle) in CHECKS.items():
+        path = FILES[file_key]
+        results[name] = {
+            "file": str(path.relative_to(ROOT)),
+            "needle": needle,
+            "present": contains(path, needle),
+        }
+
+    all_present = all(item["present"] for item in results.values())
+
+    conclusion = {
+        "status": "contract-present-generator-obligation-open"
+        if all_present
+        else "contract-surface-missing",
+        "accepted_production_target": (
+            "SourcePositionRowProducerGoodCoverageOnRange lo hi, or the "
+            "equivalent SourceIndexStateDescriptorGoodCoverageOnRange lo hi"
+        ),
+        "missing_generated_obligation": (
+            "For each nonempty range/family, prove hclass: every "
+            "identity-linear GoodDirection survivor belongs to the semantic "
+            "candidate/source-position row-producer predicate, without "
+            "classifierAppliesBool, compact-Walsh membership imports, or "
+            "rank-local Boolean reduction."
+        ),
+        "rejected_surfaces": [
+            "classifierAppliesBool membership proved by decide",
+            "goodDirectionAtRankBool -> classifierAppliesBool singleton reduction",
+            "rank-family-map membership tables",
+            "compact-Walsh membership roots as the production bridge",
+        ],
+    }
+
+    payload = {
+        "checks": results,
+        "all_required_surfaces_present": all_present,
+        "conclusion": conclusion,
+    }
+
+    OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
+    OUT_JSON.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+    lines = [
+        "# Phase 6Z.6K.8AP.16DU.9DC Semantic Coverage Contract Audit",
+        "",
+        "This diagnostic records the current Lean theorem surface for the",
+        "GoodDirection-only positive-survivor route.  It is not proof evidence;",
+        "it is a contract for the next proof-producing generator.",
+        "",
+        "## Checks",
+        "",
+        "| Check | Present | File |",
+        "| --- | ---: | --- |",
+    ]
+    for name, item in results.items():
+        lines.append(
+            f"| `{name}` | `{str(item['present']).lower()}` | `{item['file']}` |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Conclusion",
+            "",
+            f"Status: `{conclusion['status']}`.",
+            "",
+            "Accepted production target:",
+            "",
+            f"> {conclusion['accepted_production_target']}",
+            "",
+            "Missing generated obligation:",
+            "",
+            f"> {conclusion['missing_generated_obligation']}",
+            "",
+            "Rejected surfaces:",
+            "",
+        ]
+    )
+    for item in conclusion["rejected_surfaces"]:
+        lines.append(f"- {item}")
+
+    OUT_MD.write_text("\n".join(lines) + "\n")
+
+    print(json.dumps(payload, indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
