@@ -23319,6 +23319,83 @@ Decision:
   DU.9BU `~49-50s` per cube before this path can be considered production
   plausible.
 
+### Phase 6Z.6K.8AP.16DU.9BW checkpoint: dot-data chained trace certificates accepted
+
+Phase 6Z.6K.8AP.16DU.9BW implements the DU.9BV follow-up with a bounded
+generated emitter:
+
+```text
+scripts/emit_ap16du9bw_trace_cert_dotdata_chain_smoke.py
+```
+
+The generated smoke keeps the accepted DU.9BU serial chain topology, but moves
+the repeated impact-normal/translation-vector dot products into the shared
+Data module:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertDotDataChainDataSmoke.lean
+  WeightedDenomCubeRank6000745TraceCertDotDataChainCube00Smoke.lean
+  ...
+  WeightedDenomCubeRank6000745TraceCertDotDataChainCube10Smoke.lean
+  WeightedDenomCubeRank6000745TraceCertDotDataChainSmoke.lean
+```
+
+The Data module exports `generatedDot : WordIndex -> WalshQuadratic` and
+`generatedDot_eq`, proving once that each generated dot polynomial equals the
+corresponding `WalshAffineVec3.dot` computation.  Each cube module then proves
+only:
+
+```lean
+weightedQuadraticFromDotData Data.generatedDot cubeWeights =
+  cubeScaledPoly.toQuadratic
+```
+
+and obtains the trace-certificate `poly_eq` via
+`weightedQuadraticFromAffineData_eq_fromDotData`.
+
+Focused guarded checks:
+
+```text
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotDataChainDataSmoke
+exit = 0
+elapsed = 42.66s
+peak tree RSS = 5985 MiB
+min MemAvailable = 43503 MiB
+rss cap = 8192 MiB
+
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotDataChainCube00Smoke
+exit = 0
+elapsed = 11.51s
+peak tree RSS = 4202 MiB
+min MemAvailable = 45976 MiB
+rss cap = 8192 MiB
+
+target = Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertDotDataChainSmoke
+exit = 0
+elapsed = 103.76s
+peak tree RSS = 4217 MiB
+min MemAvailable = 45951 MiB
+rss cap = 8192 MiB
+```
+
+This is a decisive constant-factor improvement over DU.9BU: the full 11-cube
+chain drops from `588.48s` to `103.76s`, and each cube drops from roughly
+`49-50s` to about `10s`, while peak memory drops from `5583 MiB` for the old
+root to `4217 MiB` for the dot-data root after the Data module is checked.
+
+Decision:
+
+- Accept the dot-data chain topology as the current best weighted-cube trace
+  proof surface.
+- Do not run broad or parallel Lean builds for this path yet.  The safe
+  production form should keep serial chained imports and use the memory guard.
+- The next proof-engineering target is to reduce the one-time Data module
+  cost.  Candidate moves are: split dot-data proofs into a small dot-proof
+  chain, or replace the 13 dot equality proofs with generated coefficient
+  facts that avoid repeated `WalshAffineVec3.dot` normalization in a single
+  module.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

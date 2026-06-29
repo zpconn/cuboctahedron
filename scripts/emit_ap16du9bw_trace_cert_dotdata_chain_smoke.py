@@ -1,0 +1,428 @@
+#!/usr/bin/env python3
+"""Emit chained weighted trace-certificate smoke modules with shared dot data.
+
+DU.9BU proved that chained per-cube trace certificates are memory-safe, but
+each cube spent roughly 50 seconds reproving the same affine dot products.
+This DU.9BW emitter keeps the accepted chain topology and moves the 13
+impact-normal dot translation-vector polynomials into the shared Data module.
+
+The cube modules then prove only:
+
+  weightedQuadraticFromDotData generatedDot weights = scaledPoly.toQuadratic
+
+and transport that equality back through
+`weightedQuadraticFromAffineData_eq_fromDotData`.
+
+This is a smoke/telemetry backend only. It is not final generated coverage.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from fractions import Fraction
+from pathlib import Path
+from typing import Any
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+import check_certificates_independently as exact  # noqa: E402
+from emit_ap16du9bs_trace_cert_one_cube_smoke import (  # noqa: E402
+    BASE_DIR,
+    BASE_MODULE,
+    DEFAULT_PROFILE,
+    DEFAULT_RANK,
+    DEFAULT_TRACE_MODULE,
+    normal_eq_defs,
+)
+from emit_ap16du9bt_trace_cert_cover_smoke import (  # noqa: E402
+    cube_prefix,
+    emit_cube_named,
+    emit_int_nonpos_named,
+    emit_scaled_poly_named,
+    emit_weights_named,
+)
+from generate_ap16by_walsh_symbolic_all_smoke import (  # noqa: E402
+    QUADRATIC_FIELDS,
+    dot_coefficients,
+    emit_walsh_vec,
+    lean_rat,
+)
+from generate_ap16cq_compact_denom_consumer_smoke import (  # noqa: E402
+    symbolic_impact_normal,
+)
+from profile_ap16ce_symbolic_translation_vector_recurrence import (  # noqa: E402
+    symbolic_translation_vector,
+)
+
+
+BASE_NAME = "WeightedDenomCubeRank6000745TraceCertDotDataChain"
+DEFAULT_REPORT = Path(
+    "scripts/generated/phase6z6k8ap16du9bw_trace_cert_dotdata_chain_smoke.json"
+)
+
+
+def module_name(suffix: str) -> str:
+    return f"{BASE_MODULE}.{BASE_NAME}{suffix}Smoke"
+
+
+def lean_path(suffix: str) -> Path:
+    return BASE_DIR / f"{BASE_NAME}{suffix}Smoke.lean"
+
+
+def emit_quadratic_public(name: str, coeffs: dict[tuple[int, ...], Fraction]) -> list[str]:
+    unsupported = [
+        (subset, coeff) for subset, coeff in coeffs.items()
+        if coeff and (len(subset) > 2 or tuple(sorted(subset)) != tuple(subset))
+    ]
+    if unsupported:
+        raise ValueError(f"expected degree-at-most-two Walsh coefficients, found {unsupported}")
+    lines = [f"def {name} : WalshQuadratic where"]
+    for field, subset in QUADRATIC_FIELDS:
+        lines.append(f"  {field} := {lean_rat(coeffs.get(subset, Fraction(0)))}")
+    return lines
+
+
+def emit_normals_public(word: list[str]) -> list[str]:
+    lines: list[str] = []
+    for index, pair_id in enumerate(word):
+        name = f"generatedNormal{index:02d}"
+        lines.extend(emit_walsh_vec(name, symbolic_impact_normal(word, index), visibility=""))
+        lines.append("")
+        lines.extend([
+            f"theorem generatedWord_get_{index:02d} :",
+            f"    generatedWord.get ({index} : WordIndex) = PairId.{pair_id} := by",
+            "  rfl",
+            "",
+            f"theorem generatedNormal{index:02d}_eq :",
+            f"    {name} = impactNormalWalshAt generatedWord ({index} : WordIndex) := by",
+            "  apply WalshAffineVec3.ext <;>",
+            "    apply WalshAffine.ext <;>",
+            f"    simp [{normal_eq_defs(name, index)}] <;>",
+            f"    norm_num [{normal_eq_defs(name, index)}]",
+            "",
+        ])
+    lines.extend([
+        "def generatedNormal : WordIndex -> WalshAffineVec3",
+    ])
+    for index in range(13):
+        lines.append(f"  | ⟨{index}, _⟩ => generatedNormal{index:02d}")
+    lines.append("")
+    lines.extend([
+        "theorem generatedNormal_eq",
+        "    (i : WordIndex) :",
+        "    generatedNormal i = impactNormalWalshAt generatedWord i := by",
+        "  fin_cases i",
+    ])
+    for index in range(13):
+        lines.append(f"  · simpa [generatedNormal] using generatedNormal{index:02d}_eq")
+    return lines
+
+
+def emit_dot_data(word: list[str], trace_module: str) -> list[str]:
+    vector_coeffs = symbolic_translation_vector(word)
+    lines: list[str] = []
+    for index in range(13):
+        dot_name = f"generatedDot{index:02d}"
+        dot_coeffs = dot_coefficients(symbolic_impact_normal(word, index), vector_coeffs)
+        lines.extend(emit_quadratic_public(dot_name, dot_coeffs))
+        lines.append("")
+        defs = ", ".join([
+            "WalshAffineVec3.dot",
+            "WalshAffine.mul",
+            "WalshAffine.add",
+            "WalshAffine.const",
+            "WalshQuadratic.add",
+            f"generatedNormal{index:02d}",
+            f"generatedNormal{index:02d}_x",
+            f"generatedNormal{index:02d}_y",
+            f"generatedNormal{index:02d}_z",
+            "generatedVector",
+            f"{trace_module}.generatedVector",
+            f"{trace_module}.generatedVector_x",
+            f"{trace_module}.generatedVector_y",
+            f"{trace_module}.generatedVector_z",
+            dot_name,
+        ])
+        lines.extend([
+            f"theorem generatedDot{index:02d}_eq :",
+            f"    WalshAffineVec3.dot generatedNormal{index:02d} generatedVector =",
+            f"      generatedDot{index:02d} := by",
+            "  apply WalshQuadratic.ext <;>",
+            f"    norm_num [{defs}]",
+            "",
+        ])
+    lines.extend([
+        "def generatedDot : WordIndex -> WalshQuadratic",
+    ])
+    for index in range(13):
+        lines.append(f"  | ⟨{index}, _⟩ => generatedDot{index:02d}")
+    lines.append("")
+    lines.extend([
+        "theorem generatedDot_eq",
+        "    (i : WordIndex) :",
+        "    WalshAffineVec3.dot (generatedNormal i) generatedVector = generatedDot i := by",
+        "  fin_cases i",
+    ])
+    for index in range(13):
+        lines.append(
+            f"  · simpa [generatedNormal, generatedDot] using generatedDot{index:02d}_eq"
+        )
+    return lines
+
+
+def build_data_module(*, rank: int, trace_module: str, namespace: str) -> str:
+    word = exact.pair_word_at_rank(rank)
+    lines = [
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticTraceCertificate",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedCoeffCertificate",
+        f"import {trace_module}",
+        "",
+        "/-!",
+        "Generated DU.9BW shared dot-data module for chained weighted trace",
+        "certificate smoke modules.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
+        "",
+        "set_option maxHeartbeats 0",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "",
+        "abbrev generatedRank : Fin numPairWords :=",
+        f"  {trace_module}.generatedRank",
+        "",
+        "abbrev generatedWord : PairWord :=",
+        f"  {trace_module}.generatedWord",
+        "",
+        "abbrev generatedVector : WalshAffineVec3 :=",
+        f"  {trace_module}.generatedVector",
+        "",
+        *emit_normals_public(word),
+        "",
+        *emit_dot_data(word, trace_module),
+        "",
+        "theorem dotDataChainDataSmoke_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def emit_dot_poly_eq_named(name: str, data_module: str) -> list[str]:
+    all_defs = [
+        "weightedQuadraticFromDotData",
+        f"{data_module}.generatedDot",
+        f"{name}Weights",
+        f"{name}ScaledPoly",
+        "ScaledWalshQuadratic.toQuadratic",
+        "ScaledWalshQuadratic.coeffRat",
+        "WalshQuadratic.add",
+        "WalshQuadratic.scale",
+    ]
+    for index in range(13):
+        all_defs.append(f"{data_module}.generatedDot{index:02d}")
+    defs = ", ".join(all_defs)
+    return [
+        f"private theorem {name}DotPoly_eq :",
+        f"    weightedQuadraticFromDotData",
+        f"        {data_module}.generatedDot {name}Weights =",
+        f"      {name}ScaledPoly.toQuadratic := by",
+        "  apply WalshQuadratic.ext <;>",
+        f"    norm_num [{defs}]",
+        "",
+        f"private theorem {name}Poly_eq :",
+        f"    weightedQuadraticFromAffineData",
+        f"        {data_module}.generatedNormal {data_module}.generatedVector",
+        f"        {name}Weights = {name}ScaledPoly.toQuadratic := by",
+        "  exact",
+        "    (weightedQuadraticFromAffineData_eq_fromDotData",
+        f"      (normal := {data_module}.generatedNormal)",
+        f"      (vector := {data_module}.generatedVector)",
+        f"      (dotPoly := {data_module}.generatedDot)",
+        f"      (weights := {name}Weights)",
+        f"      {data_module}.generatedDot_eq).trans",
+        f"      {name}DotPoly_eq",
+    ]
+
+
+def emit_trace_cert_named(name: str, data_module: str, trace_module: str) -> list[str]:
+    return [
+        f"private def {name}TraceCert :",
+        f"    DenominatorCube.WeightedWalshQuadraticTraceCertificate",
+        f"      {data_module}.generatedRank {name}Weights {name}ScaledPoly.toQuadratic where",
+        f"  word := {data_module}.generatedWord",
+        f"  rank_word := {trace_module}.generatedUnrank_builds",
+        f"  vector := {data_module}.generatedVector",
+        f"  vector_trace := {trace_module}.generatedTrace",
+        f"  normal := {data_module}.generatedNormal",
+        f"  normal_eq := {data_module}.generatedNormal_eq",
+        f"  poly_eq := {name}Poly_eq",
+        "",
+        f"theorem {name}WeightedDirect_nonpos_on_cube",
+        f"    {{mask : SignMask}} (hmask : {name}Cube.Member mask) :",
+        f"    DenominatorCube.weightedDirectWalshDotAtRank",
+        f"        {data_module}.generatedRank mask {name}Weights <= 0 := by",
+        f"  have hcoeff := {name}TraceCert.coeffEval_eq_weightedDirect mask",
+        f"  have hnonpos := {name}ScaledPoly_coeffEval_nonpos_on_cube hmask",
+        "  rw [hcoeff] at hnonpos",
+        "  exact hnonpos",
+    ]
+
+
+def build_cube_module(
+    *,
+    cube: dict[str, Any],
+    index: int,
+    import_module: str,
+    data_module: str,
+    trace_module: str,
+    namespace: str,
+) -> str:
+    name = cube_prefix(cube)
+    lines = [
+        f"import {import_module}",
+        "",
+        f"/-! Generated DU.9BW dot-data chained cube module {index}. -/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
+        "",
+        "set_option maxHeartbeats 0",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "",
+        *emit_weights_named(name, cube["weights"], cube["support"]),
+        "",
+        *emit_cube_named(name, cube),
+        *emit_scaled_poly_named(name, cube),
+        "",
+        *emit_int_nonpos_named(name, cube),
+        "",
+        *emit_dot_poly_eq_named(name, data_module),
+        "",
+        *emit_trace_cert_named(name, data_module, trace_module),
+        "",
+        f"theorem dotDataChainCube{index:02d}Smoke_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def build_root_module(*, import_module: str, namespace: str) -> str:
+    return "\n".join([
+        f"import {import_module}",
+        "",
+        "/-! Generated DU.9BW dot-data chained weighted trace-certificate root smoke. -/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "theorem weightedTraceCertDotDataChainSmoke_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
+    parser.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
+    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument("--trace-module", default=DEFAULT_TRACE_MODULE)
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    profile = json.loads(args.profile.read_text(encoding="utf-8"))
+    if profile["rank"] != args.rank:
+        raise SystemExit(f"unexpected profile rank {profile['rank']}")
+    cubes = list(profile["cubes"])
+
+    data_suffix = "Data"
+    data_module = module_name(data_suffix)
+    lean_path(data_suffix).write_text(
+        build_data_module(
+            rank=args.rank,
+            trace_module=args.trace_module,
+            namespace=data_module,
+        ),
+        encoding="utf-8",
+    )
+
+    previous_module = data_module
+    cube_modules: list[str] = []
+    for index, cube in enumerate(cubes):
+        suffix = f"Cube{index:02d}"
+        cube_module = module_name(suffix)
+        lean_path(suffix).write_text(
+            build_cube_module(
+                cube=cube,
+                index=index,
+                import_module=previous_module,
+                data_module=data_module,
+                trace_module=args.trace_module,
+                namespace=cube_module,
+            ),
+            encoding="utf-8",
+        )
+        cube_modules.append(cube_module)
+        previous_module = cube_module
+
+    root_module = module_name("")
+    lean_path("").write_text(
+        build_root_module(import_module=previous_module, namespace=root_module),
+        encoding="utf-8",
+    )
+
+    payload = {
+        "phase": "Phase 6Z.6K.8AP.16DU.9BW",
+        "trusted_as_proof": False,
+        "trusted_as_final_generated_coverage": False,
+        "rank": args.rank,
+        "cube_count": len(cubes),
+        "trace_module": args.trace_module,
+        "data_module": data_module,
+        "cube_modules": cube_modules,
+        "root_module": root_module,
+        "root_path": str(lean_path("")),
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    args.report.with_suffix(".md").write_text(
+        "\n".join([
+            "# Phase 6Z.6K.8AP.16DU.9BW Trace-Certificate Dot-Data Chain Smoke",
+            "",
+            f"- rank: `{args.rank}`",
+            f"- cube count: `{len(cubes)}`",
+            f"- data module: `{data_module}`",
+            f"- root module: `{root_module}`",
+            f"- root path: `{lean_path('')}`",
+            "",
+        ]),
+        encoding="utf-8",
+    )
+    print(f"wrote {lean_path('')} via {len(cubes)} dot-data chained cube modules")
+
+
+if __name__ == "__main__":
+    main()
