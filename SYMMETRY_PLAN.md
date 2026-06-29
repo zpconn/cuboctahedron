@@ -14932,6 +14932,46 @@ Acceptance:
   system memory is idle and the runner is permitted to stop on the first target
   exceeding the guard.  Broad `lake build` remains forbidden for this generated
   batch.
+- [x] Reject Phase 6Z.6K.8AP.16DJ five-signature emission under the 5 GiB guard:
+  The guarded emission/build command was:
+
+  ```text
+  python3 scripts/run_ap16dj_serial_guarded.py \
+    --emit \
+    --json /tmp/ap16dj_serial_guarded/summary_emit.json \
+    --out-dir /tmp/ap16dj_serial_guarded/targets_emit
+  ```
+
+  The emitter bug from the first attempt was fixed by carrying `good_masks`
+  from the AP16DD cover payload directly, rather than rediscovering the sampled
+  ranks in the older top-signature profile.  The retry emitted the five-signature
+  batch, then stopped on the first guarded Lean target:
+
+  ```text
+  failed target:
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      ImpactSubcubeWalshVectorTraceRank6000745Smoke
+  kind: trace
+  elapsed: 27.53s
+  killed reason:
+    process-tree RSS 5063.98 MiB exceeded 5000 MiB cap
+  min available memory seen: 44826.52 MiB
+  ```
+
+  Report:
+
+  ```text
+  scripts/generated/phase6z6k8ap16dj_serial_guard_emit_failed.json
+  scripts/generated/phase6z6k8ap16dj_serial_guard_emit_failed.md
+  ```
+
+  The generated Lean and per-rank AP16DJ reports from the failed emission were
+  removed, and the batch-generation report was restored to dry-run status.
+  Decision: rejected under the current 5 GiB production gate.  The next compact
+  denominator scaling step must either reduce the generated trace fixture cost,
+  prebuild/import shared trace facts differently, or run a deliberately scoped
+  one-target cap-calibration probe before any larger emission.  Do not raise
+  the production cap for the full batch without such a focused calibration.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
