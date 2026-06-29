@@ -23502,6 +23502,57 @@ Decision:
   equalities to use `WalshDotCoefficientFacts.lean`, then compare Data/root
   build time against DU.9BW's current `42.66s` Data and `103.76s` root.
 
+### Phase 6Z.6K.8AP.16DU.9BZ checkpoint: coefficient-dot chain generated, Lean check paused
+
+Phase 6Z.6K.8AP.16DU.9BZ implements the next emitter experiment proposed by
+DU.9BY:
+
+```text
+scripts/emit_ap16du9bz_trace_cert_coeff_dot_chain_smoke.py
+
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  WeightedDenomCubeRank6000745TraceCertCoeffDotChainDataSmoke.lean
+  WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube00Smoke.lean
+  ...
+  WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube10Smoke.lean
+  WeightedDenomCubeRank6000745TraceCertCoeffDotChainSmoke.lean
+```
+
+The generated Data module proves each Walsh dot equality by invoking
+`WalshAffineVec3.dot_eq_of_coeffs` and discharging the 22 coefficient equations
+with small local `norm_num` goals, rather than proving each full dot equality
+by one large `ext <;> norm_num` block.
+
+Cheap/static checks completed:
+
+```text
+python3 -m py_compile scripts/emit_ap16du9bz_trace_cert_coeff_dot_chain_smoke.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_ap16du9bz_trace_cert_coeff_dot_chain_smoke.py \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertCoeffDotChainDataSmoke.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertCoeffDotChainSmoke.lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube00Smoke.lean
+```
+
+The emitter compiles, the sampled generated files contain no banned proof
+tokens, and the generated file sizes are modest (`1374` lines for Data,
+`137` lines for Cube00, `10` lines for the root).
+
+Decision:
+
+- Do **not** run the full DU.9BZ Data/root Lean check immediately after an OOM
+  warning.  DU.9BZ is only generated/static-clean, not accepted.
+- Before checking the full Data target, add or emit a smaller coefficient-dot
+  microtarget that exercises one or two generated dot equalities through
+  `WalshAffineVec3.dot_eq_of_coeffs` under the same RSS guard.
+- If the microtarget is at least as safe as DU.9BY and materially faster than
+  DU.9BW's dot-data proof style, then run the full DU.9BZ Data target through
+  `scripts/run_memory_guarded.py` with the usual 8 GiB process-tree cap.
+- If the microtarget is slower or memory-heavier, reject DU.9BZ without running
+  the full root; the many small coefficient goals may cost more than DU.9BW's
+  coarser dot-data proof.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.

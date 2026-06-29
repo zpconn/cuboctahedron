@@ -1,0 +1,25 @@
+{
+  "cube_count": 11,
+  "cube_modules": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube00Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube01Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube02Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube03Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube04Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube05Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube06Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube07Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube08Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube09Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainCube10Smoke"
+  ],
+  "data_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainDataSmoke",
+  "dot_count": 13,
+  "phase": "Phase 6Z.6K.8AP.16DU.9BZ",
+  "rank": 6000745,
+  "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeRank6000745TraceCertCoeffDotChainSmoke",
+  "root_path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeRank6000745TraceCertCoeffDotChainSmoke.lean",
+  "trace_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745ChainSplitSmoke",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}
