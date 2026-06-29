@@ -1,0 +1,152 @@
+{
+  "accepted_components": [
+    "split producer hierarchy has reusable conditional source/row -> killed facts",
+    "positive-survivor profiler groups only GoodDirection survivors and emits zero bad-direction evidence"
+  ],
+  "ap16dr_route": {
+    "next_target": "SourcePositionRowProducerGoodCoverageOnRange lo hi",
+    "producer_hierarchy_within_budget": true,
+    "singleton_route_decision": "rejected-for-production",
+    "status": "accepted-production-route-audit"
+  },
+  "ap16i_profile": {
+    "ambiguous_good_survivor_memberships": 0,
+    "bad_direction_evidence_emitted": 0,
+    "bounded_generation_estimate": {
+      "candidate_chunks_at_64_candidates": 4,
+      "proof_parallelism": "Python generation may use --jobs 4; Lean smoke builds should stay serial/focused",
+      "rough_lean_lines": 15098,
+      "row_modules": 21,
+      "source_language_modules": 191
+    },
+    "duplicate_rank_mask_memberships": 0,
+    "good_direction_cases": 7112,
+    "positive_candidate_groups": 195,
+    "positive_survivor_signatures": 757,
+    "ranges": [
+      [
+        0,
+        5000
+      ],
+      [
+        100000,
+        102500
+      ],
+      [
+        1000000,
+        1002500
+      ],
+      [
+        10000000,
+        10002500
+      ],
+      [
+        30000000,
+        30002500
+      ],
+      [
+        60000000,
+        60002500
+      ],
+      [
+        90000000,
+        90002500
+      ]
+    ],
+    "status": "accepted-positive-survivor-membership-profile"
+  },
+  "decision": {
+    "notes": [
+      "split producer hierarchy exports conditional facts only, not range/state coverage",
+      "AP16DS still needs the GoodDirection -> source-position/row-producer classifier"
+    ],
+    "status": "blocked-missing-production-classifier"
+  },
+  "existing_smoke_surfaces": {
+    "generated_membership_surface_files": [
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifierGeneratedSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean"
+    ],
+    "rank_local_all_good_file_count": 44,
+    "rank_local_all_good_files": [
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CatalogMembershipSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsRank6000480Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsRank6000625Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsRank6000662Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsRank6000720Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsRank6000745Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerMembershipBridge.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorClassifierGeneratedSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorFactoredSignatureSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorPrecomputedSignatureSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard001Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard002Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard003Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard004Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard005Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard006Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedManifestRoutingShard007Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRank6000480RoutingSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRank6000625RoutingSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRank6000662RoutingSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRank6000720RoutingSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRank6000745RoutingSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingShard001Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedRoutingSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard001Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard002Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5Global4RoutingShard003Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5GlobalRoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5GlobalRoutingShard001Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5ManifestRoutingShard000Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSharedTop5ManifestRoutingShard001Smoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean",
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateBoundedAPSmoke/All.lean"
+    ],
+    "sparse_rank_root_files": [
+      "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/CompactWalshBatchClassifierFactsFiveRankSmoke.lean"
+    ]
+  },
+  "inputs": {
+    "ap16dr_audit": "scripts/generated/phase6z6k8ap16dr_translation_production_route_audit.json",
+    "ap16i_profile": "scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json",
+    "split_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PairSignProducerCoverageScalingSplit50k"
+  },
+  "mode": "production_membership_slice_audit",
+  "phase": "6Z.6K.8AP.16DS",
+  "rejected_substitutes": [
+    "rank-local singleton/sparse all-Good smoke exists but is not the production coordinate"
+  ],
+  "required_next_emitter": {
+    "erases_to": [
+      "SourcePositionRowProducerGoodCoverageOnRange lo hi",
+      "AllTranslationGoodCoverageOnRange lo hi"
+    ],
+    "must_not_use": [
+      "rank-local singleton candidate-facts shards as the production coordinate",
+      "finite replay over all 64 masks at a rank",
+      "generated bad-direction evidence",
+      "large Bool checker reduction"
+    ],
+    "must_prove": "forall rank mask, hM -> goodDirectionAtRankBool = true -> exists compact survivor signature/candidate carrying source-position and row facts",
+    "name": "ap16dt_positive_survivor_classifier_slice",
+    "preferred_theorem": "PositiveSurvivorBoolSignatureClassifierOnRange lo hi"
+  },
+  "schema_version": 1,
+  "split_hierarchy_scan": {
+    "chunk_files": 5,
+    "complete_export_files": [],
+    "conditional_good_killed_theorems": 315,
+    "conditional_row_applies_theorems": 315,
+    "conditional_source_applies_theorems": 315,
+    "coverage_export_files": []
+  },
+  "trusted_as_proof": false
+}
