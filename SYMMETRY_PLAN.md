@@ -540,10 +540,14 @@ the selected key across all 4,693 GoodDirection cases in `[0,5000)`.
 The follow-up selector smoke exposes this coordinate in Lean as 12
 `RowPropertyDigest` constructors plus `selectorCoordinateOfKey` and
 `selectorCoordinateAt`; its focused guarded build passed in 3.02s at 4.06 GiB
-peak tree RSS. Therefore the next DU.9 proof target should prove or generate
-this template/source-index/row-property selector theorem from identity-linear
-`GoodDirectionAtRank` and then derive source/row facts theorem-valuedly; it
-should not carry full row/source arithmetic through `decide`.
+peak tree RSS. DU.9AJ then reconstructs the hidden row-property payloads and
+finds 12 digests, zero recomputation mismatches, and zero nonsemantic payloads:
+the digest is exactly a compact semantic row payload of row roles plus weighted
+Farkas facts. Therefore the next DU.9 proof target should prove or generate
+this template/source-index/semantic-row-property selector theorem from
+identity-linear `GoodDirectionAtRank` and then derive source/row facts
+theorem-valuedly; it should not carry full row/source arithmetic through
+`decide` or compare opaque hashes.
 DU.9L resolves the private-support mismatch found in the first selector slice:
 the bounded classifier generator now emits public support/descriptor values,
 `SourceIndexStateClassifierDU3Smoke` rebuilds in 12.01s at 4.293 GiB peak tree
@@ -18334,6 +18338,43 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9ai_membership_surface_audit.json
   scripts/generated/phase6z6k8ap16du9ai_membership_surface_audit.md
   ```
+
+- [x] Run Phase 6Z.6K.8AP.16DU.9AJ row-property semantics audit:
+  DU.9AJ adds a focused reproducible audit:
+
+  ```text
+  scripts/audit_ap16du9aj_row_property_semantics.py
+  ```
+
+  The audit reconstructs the actual row-property payload behind every bounded
+  DU.9 `RowPropertyDigest` from the two selected rows.  The payload consists of
+  the row-template id, first/second row roles, the weighted-zero facts for the
+  `a` and `b` coefficients, the weighted non-positive `c` fact, and any diamond
+  obstruction rows.  It is planning telemetry only, not proof evidence.
+
+  Result on `[0,5000)`:
+
+  ```text
+  status: row-property-digests-match-semantic-payloads
+  row-property digests: 12
+  digest mismatches: 0
+  nonsemantic payloads: 0
+  ```
+
+  Decision: the row-property digest is not a mysterious classifier oracle; in
+  the bounded AP16DU classifier it is exactly a compact semantic row payload.
+  The next Lean-producing step should expose this as a semantic descriptor or
+  theorem target and prove row predicates from the descriptor/source-index
+  state.  It should not compare hashes, and it should not add more endpoint
+  bridges before proving membership.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9aj_row_property_semantics_audit.json
+  scripts/generated/phase6z6k8ap16du9aj_row_property_semantics_audit.md
+  ```
+
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:

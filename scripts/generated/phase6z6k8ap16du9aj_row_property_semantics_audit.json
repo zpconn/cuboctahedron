@@ -1,0 +1,310 @@
+{
+  "counts": {
+    "covered_cases": 4693,
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 31168,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "This is not proof evidence.",
+      "The audit shows whether the opaque RowPropertyDigest can be replaced by a small semantic row-property descriptor.",
+      "The next Lean-producing step should expose/prove semantic row-property predicates, not compare hashes."
+    ],
+    "status": "row-property-digests-match-semantic-payloads"
+  },
+  "digest_mismatch_count": 0,
+  "digest_mismatches": [],
+  "family_count": 125,
+  "mode": "row_property_semantics_audit",
+  "nonsemantic_payload_count": 0,
+  "nonsemantic_payloads": [],
+  "phase": "6Z.6K.8AP.16DU.9AJ",
+  "range": [
+    0,
+    5000
+  ],
+  "row_property_digest_count": 12,
+  "schema_version": 1,
+  "template_digest_counts": {
+    "axis_a_only": 4,
+    "eq_eq_neg_var_first": 1,
+    "eq_eq_neg_var_second": 1,
+    "eq_eq_pos_var_first": 1,
+    "eq_eq_pos_var_second": 1,
+    "opp_1m_var_first": 1,
+    "opp_1m_var_second": 1,
+    "opp_m1_var_first": 1,
+    "opp_m1_var_second": 1
+  },
+  "top_digests": [
+    {
+      "case_count": 2046,
+      "digest": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+      "payload": {
+        "diamond_rows": [
+          "first"
+        ],
+        "first_role": "eq_eq_pos",
+        "second_role": "fixed(1,1)",
+        "template_id": "eq_eq_pos_var_first",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 894,
+      "digest": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+      "payload": {
+        "diamond_rows": [
+          "first"
+        ],
+        "first_role": "opp_pos",
+        "second_role": "fixed(1,-1)",
+        "template_id": "opp_1m_var_first",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 738,
+      "digest": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+      "payload": {
+        "diamond_rows": [
+          "second"
+        ],
+        "first_role": "fixed(1,1)",
+        "second_role": "eq_eq_pos",
+        "template_id": "eq_eq_pos_var_second",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 439,
+      "digest": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+      "payload": {
+        "diamond_rows": [
+          "first"
+        ],
+        "first_role": "opp_neg",
+        "second_role": "fixed(-1,1)",
+        "template_id": "opp_m1_var_first",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 287,
+      "digest": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+      "payload": {
+        "diamond_rows": [
+          "second"
+        ],
+        "first_role": "fixed(1,-1)",
+        "second_role": "opp_pos",
+        "template_id": "opp_1m_var_second",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 146,
+      "digest": "563cf2d72f3676cad2594c8249b599264a619732f6212068c0fa71a8666039dd",
+      "payload": {
+        "diamond_rows": [
+          "second"
+        ],
+        "first_role": "fixed(-1,1)",
+        "second_role": "opp_neg",
+        "template_id": "opp_m1_var_second",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 102,
+      "digest": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+      "payload": {
+        "diamond_rows": [
+          "first"
+        ],
+        "first_role": "eq_eq_neg",
+        "second_role": "fixed(-1,-1)",
+        "template_id": "eq_eq_neg_var_first",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 14,
+      "digest": "02f4b044f40d3c9c9494bbc6e57dd6bfb8069b2ba6d91594099ff0846fcc43e5",
+      "payload": {
+        "diamond_rows": [
+          "second"
+        ],
+        "first_role": "fixed(-1,-1)",
+        "second_role": "eq_eq_neg",
+        "template_id": "eq_eq_neg_var_second",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 10,
+      "digest": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+      "payload": {
+        "diamond_rows": [
+          "first"
+        ],
+        "first_role": "axis_a_only:pos",
+        "second_role": "axis_a_only:neg",
+        "template_id": "axis_a_only",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 8,
+      "digest": "f4b1c7cd7e6e1ebda46e9b2c6906006966949d1a40e2e8d9f378220f6b6981ee",
+      "payload": {
+        "diamond_rows": [
+          "first"
+        ],
+        "first_role": "axis_a_only:neg",
+        "second_role": "axis_a_only:pos",
+        "template_id": "axis_a_only",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 5,
+      "digest": "99f0182e8e5325302f13d261b30a448ebe459a6be20e38295401a040d484dc96",
+      "payload": {
+        "diamond_rows": [],
+        "first_role": "axis_a_only:neg",
+        "second_role": "axis_a_only:pos",
+        "template_id": "axis_a_only",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "case_count": 4,
+      "digest": "67d04282e1a33e89975ad13a686bad42feaddc86b524d2cd9631411d556dce4c",
+      "payload": {
+        "diamond_rows": [],
+        "first_role": "axis_a_only:pos",
+        "second_role": "axis_a_only:neg",
+        "template_id": "axis_a_only",
+        "weighted_c_nonpos": true,
+        "weighted_zero": [
+          true,
+          true
+        ]
+      }
+    }
+  ],
+  "top_role_shapes": [
+    {
+      "case_count": 2046,
+      "first_role": "eq_eq_pos",
+      "second_role": "fixed(1,1)",
+      "template": "eq_eq_pos_var_first"
+    },
+    {
+      "case_count": 894,
+      "first_role": "opp_pos",
+      "second_role": "fixed(1,-1)",
+      "template": "opp_1m_var_first"
+    },
+    {
+      "case_count": 738,
+      "first_role": "fixed(1,1)",
+      "second_role": "eq_eq_pos",
+      "template": "eq_eq_pos_var_second"
+    },
+    {
+      "case_count": 439,
+      "first_role": "opp_neg",
+      "second_role": "fixed(-1,1)",
+      "template": "opp_m1_var_first"
+    },
+    {
+      "case_count": 287,
+      "first_role": "fixed(1,-1)",
+      "second_role": "opp_pos",
+      "template": "opp_1m_var_second"
+    },
+    {
+      "case_count": 146,
+      "first_role": "fixed(-1,1)",
+      "second_role": "opp_neg",
+      "template": "opp_m1_var_second"
+    },
+    {
+      "case_count": 102,
+      "first_role": "eq_eq_neg",
+      "second_role": "fixed(-1,-1)",
+      "template": "eq_eq_neg_var_first"
+    },
+    {
+      "case_count": 14,
+      "first_role": "axis_a_only:pos",
+      "second_role": "axis_a_only:neg",
+      "template": "axis_a_only"
+    },
+    {
+      "case_count": 14,
+      "first_role": "fixed(-1,-1)",
+      "second_role": "eq_eq_neg",
+      "template": "eq_eq_neg_var_second"
+    },
+    {
+      "case_count": 13,
+      "first_role": "axis_a_only:neg",
+      "second_role": "axis_a_only:pos",
+      "template": "axis_a_only"
+    }
+  ],
+  "trusted_as_proof": false
+}
