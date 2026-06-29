@@ -26,6 +26,40 @@ abbrev RowPropertyParametricCoverageOnIdentityRange (lo hi : Nat) : Prop :=
           GoodDirectionAtRank ⟨r, hlt⟩ mask ->
             RowPropertyParametricCovered r mask
 
+/-- Empty interval constructor for direct row-property parametric coverage. -/
+theorem RowPropertyParametricCoverageOnIdentityRange.empty
+    {lo hi : Nat}
+    (h : hi <= lo) :
+    RowPropertyParametricCoverageOnIdentityRange lo hi := by
+  intro r _hlt _mask hlo hhi _hM _hgood
+  omega
+
+/-- Singleton interval constructor for direct row-property parametric coverage. -/
+theorem RowPropertyParametricCoverageOnIdentityRange.single
+    {rank : Nat}
+    (h :
+      forall {mask : SignMask} (hlt : rank < numPairWords),
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            RowPropertyParametricCovered rank mask) :
+    RowPropertyParametricCoverageOnIdentityRange rank (rank + 1) := by
+  intro r hlt mask hlo hhi hM hgood
+  have hrank : r = rank := by omega
+  subst r
+  exact h hlt hM hgood
+
+/-- Concatenate adjacent direct row-property parametric coverage intervals. -/
+theorem RowPropertyParametricCoverageOnIdentityRange.concat
+    {lo mid hi : Nat}
+    (left : RowPropertyParametricCoverageOnIdentityRange lo mid)
+    (right : RowPropertyParametricCoverageOnIdentityRange mid hi) :
+    RowPropertyParametricCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  by_cases hmid : r < mid
+  · exact left r hlt mask hlo hmid hM hgood
+  · exact right r hlt mask (Nat.le_of_not_lt hmid) hhi hM hgood
+
 /-- Erase a named row-property membership family to the public all-Good range target. -/
 theorem RowPropertyMembershipCoverageOnIdentityRange.to_allGoodCoverage
     {family : RowPropertyMembershipFamily} {lo hi : Nat}

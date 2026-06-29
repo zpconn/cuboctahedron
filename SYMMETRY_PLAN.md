@@ -17510,6 +17510,92 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9u_selector_coordinate_broad_windows.json
   scripts/generated/phase6z6k8ap16du9u_selector_coordinate_broad_windows.md
   ```
+- [x] Add Phase 6Z.6K.8AP.16DU.9V row-property all-Good erasure bridge:
+  DU.9V adds the downstream module
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    RowPropertyAllGoodBridge
+  ```
+
+  The bridge is intentionally below `PairSignProducerMembershipBridge` in the
+  import graph to avoid a cycle with `MembershipBridge`.  It exposes two
+  small erasure theorem surfaces:
+
+  ```lean
+  RowPropertyMembershipCoverageOnIdentityRange.to_allGoodCoverage
+  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+  ```
+
+  This gives future generated row-property membership chunks a direct public
+  target:
+
+  ```lean
+  AllTranslationGoodCoverageOnRange lo hi
+  ```
+
+  without exporting raw certificates, ordinary `TranslationCert` witnesses, or
+  per-rank/mask checker data.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      RowPropertyAllGoodBridge.lean
+    exit=0
+    elapsed=5.40s
+    max_rss=3204004 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      RowPropertyAllGoodBridge
+    exit=0
+    elapsed=2.07s
+    max_rss=3240896 KiB
+  ```
+
+  Decision: DU.9V is accepted as bridge infrastructure only.  It does not
+  prove the missing selector/member classifier, but it broadens the safe
+  theorem surface available to the eventual generated emitter.
+- [x] Add Phase 6Z.6K.8AP.16DU.9W composable row-property coverage constructors:
+  DU.9W strengthens the same bridge with interval constructors for direct
+  row-property parametric coverage:
+
+  ```lean
+  RowPropertyParametricCoverageOnIdentityRange.empty
+  RowPropertyParametricCoverageOnIdentityRange.single
+  RowPropertyParametricCoverageOnIdentityRange.concat
+  ```
+
+  These are Prop-level combinators over Nat intervals.  They introduce no
+  generated data and no computation over rank/mask tables.  Their purpose is
+  to let future generated row-property chunks export tiny direct-coverage
+  theorems and compose them as a balanced semantic tree before erasing to the
+  public all-Good target.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      RowPropertyAllGoodBridge.lean
+    exit=0
+    elapsed=4.70s
+    max_rss=3255168 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      RowPropertyAllGoodBridge
+    exit=0
+    elapsed=2.09s
+    max_rss=3281136 KiB
+  ```
+
+  Decision: DU.9W is accepted as compositional bridge infrastructure.  The
+  hard blocker remains the same: prove or generate the actual
+  `GoodDirectionAtRank -> RowPropertyParametricCovered` or selector source/row
+  facts over meaningful ranges without rank-local compact-cover replay.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
@@ -19668,41 +19754,6 @@ subcubes covers the complement of the positive-survivor predicate, and
 `BadMaskCover` API.  The next proof-producing task is to generate the first
 rank-`100805` `ImpactSubcubeCover` smoke whose subcube nonpositivity facts are
 checked by Lean from exact Walsh/subcube bounds, not trusted from JSON.
-
-Phase 6Z.6K.8AP.16DU.9V adds a tiny downstream all-Good erasure bridge for row-property
-membership families:
-
-```text
-Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyAllGoodBridge.lean
-```
-
-This file deliberately imports below the existing membership/source-index
-stack to avoid an import cycle.  It exposes two theorem surfaces:
-
-```lean
-RowPropertyMembershipCoverageOnIdentityRange.to_allGoodCoverage
-RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
-```
-
-The first erases a named row-property membership family to
-`AllTranslationGoodCoverageOnRange`; the second lets a future generated
-chunk prove direct parametric row-property coverage and erase it to the same
-public all-Good target.  This does not prove any new generated membership
-facts, and it does not change the open AP.16BK/BJ task of checking exact
-Walsh/subcube nonpositivity.  It does, however, give future emitters a small
-semantic theorem target that avoids exporting certificate data or replaying
-rank/mask checkers.
-
-Focused validation was memory-safe:
-
-```text
-/usr/bin/time -v lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/RowPropertyAllGoodBridge.lean
-/usr/bin/time -v lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
-```
-
-The direct Lean check passed in 5.40s with 3,204,004 KiB max RSS.  The focused
-Lake build passed in 2.07s with 3,240,896 KiB max RSS.  No broad package build
-or parallel Lean build was run at this checkpoint.
 
 Do not return to the current nonidentity prefix-kill emitter,
 translation/Farkas emitter, translation bad-direction box emitter, or symbolic
