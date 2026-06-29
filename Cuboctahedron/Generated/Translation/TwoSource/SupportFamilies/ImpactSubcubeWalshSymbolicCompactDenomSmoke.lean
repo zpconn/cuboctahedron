@@ -13,9 +13,11 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSu
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube
 
+set_option maxHeartbeats 0
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedTactic false
+set_option linter.unreachableTactic false
 
 private abbrev generatedRank : Fin numPairWords :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceSmoke.generatedRank
@@ -60,15 +62,18 @@ private def generatedNormal : WalshAffineVec3 where
   y := generatedNormal_y
   z := generatedNormal_z
 
-private def firstWordImpactIndex : WordIndex := ⟨0, by decide⟩
+private def selectedWordImpactIndex : WordIndex := ⟨0, by decide⟩
 
-private theorem generatedWord_get_first :
+private abbrev firstWordImpactIndex : WordIndex := selectedWordImpactIndex
+
+private theorem generatedWord_get_selected :
     generatedWord.get firstWordImpactIndex = PairId.x := by
   rfl
 
 private theorem generatedFirstSignedCoeff (mask : SignMask) :
-    signedCoeffAt generatedWord mask firstWordImpactIndex = (-1 : Rat) := by
-  simp [signedCoeffAt, signedPositiveAt, generatedWord_get_first]
+    signedCoeffAt generatedWord mask firstWordImpactIndex =
+      (if signedPositiveAt generatedWord mask firstWordImpactIndex then 1 else -1 : Rat) := by
+  rfl
 
 private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
     generatedNormal.eval mask =
@@ -80,15 +85,16 @@ private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
           (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)
             (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) =
         { x := (-1 : Rat), y := 0, z := 0 } := by
-    rw [generatedFirstSignedCoeff mask, generatedWord_get_first]
+    simp [signedCoeffAt, signedPositiveAt, generatedWord_get_selected]
     apply Vec3.ext <;>
-      norm_num [firstWordImpactIndex, pairPrefixLinearNat, canonicalNormalQ,
+      norm_num [firstWordImpactIndex, selectedWordImpactIndex,
+        pairPrefixLinearNat, canonicalNormalQ,
         scalarMul, matVec, matId]
   rw [hCompact]
   apply Vec3.ext <;>
     norm_num [generatedNormal, generatedNormal_x, generatedNormal_y,
       generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,
-      firstWordImpactIndex]
+      firstWordImpactIndex, selectedWordImpactIndex]
 
 private theorem generatedVector_mask0_eq_translationVector :
     generatedVector.eval generatedMask0 =

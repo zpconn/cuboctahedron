@@ -5,9 +5,10 @@ The generated Lean module imports an existing AP16CM/AP16CO Walsh-vector trace
 fixture and proves one compact denominator equality through
 `impactDenomAtRank_wordImpact_eq_walshDot`.
 
-This smoke intentionally targets impact index 0, where the compact normal is
-constant for the current fixture family.  Wider impact support should reuse the
-same bridge theorem but generate a proof for the symbolic normal recurrence.
+The impact-0 path is the smallest validated case, where the compact normal is
+constant.  For nonzero impacts, the emitter generates a six-bit exact symbolic
+normal proof by case-splitting the sign mask and normalizing the small
+pair-prefix recurrence.
 """
 
 from __future__ import annotations
@@ -66,7 +67,7 @@ def symbolic_impact_normal(word: list[str], impact_index: int) -> WalshVec3:
     return clean_vec(result)
 
 
-def constant_vec(vector: WalshVec3) -> list[Fraction]:
+def maybe_constant_vec(vector: WalshVec3) -> list[Fraction] | None:
     constants: list[Fraction] = []
     for component in vector:
         unsupported = [
@@ -74,12 +75,83 @@ def constant_vec(vector: WalshVec3) -> list[Fraction]:
             if subset and coeff
         ]
         if unsupported:
-            raise ValueError(
-                "this smoke currently supports only constant compact normals; "
-                f"found {unsupported}"
-            )
+            return None
         constants.append(component.get((), Fraction(0)))
     return constants
+
+
+def normal_eval_simp_names() -> str:
+    return ", ".join([
+        "generatedNormal",
+        "generatedNormal_x",
+        "generatedNormal_y",
+        "generatedNormal_z",
+        "WalshAffineVec3.eval",
+        "WalshAffine.eval",
+        "SignBit.value",
+        "SignBit.toPairId",
+        "signedCoeffAt",
+        "signedPositiveAt",
+        "generatedWord",
+        "firstWordImpactIndex",
+        "selectedWordImpactIndex",
+        "generatedWord_get_selected",
+        "pairPrefixLinearNat",
+        "countPairBeforeNat",
+        "canonicalNormalQ",
+        "scalarMul",
+        "matVec",
+        "matMul",
+        "matId",
+        "reflM",
+        "matSub",
+        "scalarMat",
+        "outer",
+        "dot",
+    ])
+
+
+def emit_normal_eval_proof(normal_const: list[Fraction] | None) -> list[str]:
+    lines = [
+        "private theorem generatedNormal_eval_eq_compact (mask : SignMask) :",
+        "    generatedNormal.eval mask =",
+        "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
+        "        (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
+        "          (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) := by",
+    ]
+    if normal_const is not None:
+        lines.extend([
+            "  have hCompact :",
+            "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
+            "          (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
+            "            (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) =",
+            f"        {{ x := ({lean_rat(normal_const[0])} : Rat), y := {lean_rat(normal_const[1])}, z := {lean_rat(normal_const[2])} }} := by",
+            "    simp [signedCoeffAt, signedPositiveAt, generatedWord_get_selected]",
+            "    apply Vec3.ext <;>",
+            "      norm_num [firstWordImpactIndex, selectedWordImpactIndex,",
+            "        pairPrefixLinearNat, canonicalNormalQ,",
+            "        scalarMul, matVec, matId]",
+            "  rw [hCompact]",
+            "  apply Vec3.ext <;>",
+            "    norm_num [generatedNormal, generatedNormal_x, generatedNormal_y,",
+            "      generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,",
+            "      firstWordImpactIndex, selectedWordImpactIndex]",
+        ])
+        return lines
+
+    simp_names = normal_eval_simp_names()
+    lines.extend([
+        "  by_cases h_y : maskBitForPair mask PairId.y <;>",
+        "    by_cases h_z : maskBitForPair mask PairId.z <;>",
+        "    by_cases h_d111 : maskBitForPair mask PairId.d111 <;>",
+        "    by_cases h_d11m : maskBitForPair mask PairId.d11m <;>",
+        "    by_cases h_d1m1 : maskBitForPair mask PairId.d1m1 <;>",
+        "    by_cases h_dm11 : maskBitForPair mask PairId.dm11",
+        "    <;> apply Vec3.ext",
+        f"    <;> simp [{simp_names}, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]",
+        f"    <;> norm_num [{simp_names}, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]",
+    ])
+    return lines
 
 
 def build_lean(
@@ -90,16 +162,11 @@ def build_lean(
     trace_namespace: str,
     namespace: str,
 ) -> str:
-    if impact_index != 0:
-        raise ValueError("this smoke currently supports only impact index 0")
     word = exact.pair_word_at_rank(rank)
-    if word[impact_index] != "x":
-        raise ValueError(
-            "impact index 0 smoke expects the first pair to be x; "
-            f"rank {rank} starts with {word[impact_index]}"
-        )
+    if not (0 <= impact_index < len(word)):
+        raise ValueError(f"impact index must be in [0,{len(word)}), got {impact_index}")
     normal = symbolic_impact_normal(word, impact_index)
-    normal_const = constant_vec(normal)
+    normal_const = maybe_constant_vec(normal)
 
     lines: list[str] = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshCompactDenomBridge",
@@ -117,9 +184,11 @@ def build_lean(
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
         "",
+        "set_option maxHeartbeats 0",
         "set_option maxRecDepth 10000",
         "set_option linter.unusedSimpArgs false",
         "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
         "",
         "private abbrev generatedRank : Fin numPairWords :=",
         f"  {trace_namespace}.generatedRank",
@@ -136,36 +205,23 @@ def build_lean(
     lines.extend(emit_walsh_vec("generatedNormal", normal))
     lines.extend([
         "",
-        f"private def firstWordImpactIndex : WordIndex := ⟨{impact_index}, by decide⟩",
+        f"private def selectedWordImpactIndex : WordIndex := ⟨{impact_index}, by decide⟩",
         "",
-        "private theorem generatedWord_get_first :",
-        "    generatedWord.get firstWordImpactIndex = PairId.x := by",
+        "private abbrev firstWordImpactIndex : WordIndex := selectedWordImpactIndex",
+        "",
+        "private theorem generatedWord_get_selected :",
+        f"    generatedWord.get firstWordImpactIndex = PairId.{word[impact_index]} := by",
         "  rfl",
         "",
         "private theorem generatedFirstSignedCoeff (mask : SignMask) :",
-        "    signedCoeffAt generatedWord mask firstWordImpactIndex = (-1 : Rat) := by",
-        "  simp [signedCoeffAt, signedPositiveAt, generatedWord_get_first]",
+        "    signedCoeffAt generatedWord mask firstWordImpactIndex =",
+        "      (if signedPositiveAt generatedWord mask firstWordImpactIndex then 1 else -1 : Rat) := by",
+        "  rfl",
         "",
-        "private theorem generatedNormal_eval_eq_compact (mask : SignMask) :",
-        "    generatedNormal.eval mask =",
-        "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
-        "        (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
-        "          (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) := by",
-        "  have hCompact :",
-        "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
-        "          (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
-        "            (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) =",
-        f"        {{ x := ({lean_rat(normal_const[0])} : Rat), y := {lean_rat(normal_const[1])}, z := {lean_rat(normal_const[2])} }} := by",
-        "    rw [generatedFirstSignedCoeff mask, generatedWord_get_first]",
-        "    apply Vec3.ext <;>",
-        "      norm_num [firstWordImpactIndex, pairPrefixLinearNat, canonicalNormalQ,",
-        "        scalarMul, matVec, matId]",
-        "  rw [hCompact]",
-        "  apply Vec3.ext <;>",
-        "    norm_num [generatedNormal, generatedNormal_x, generatedNormal_y,",
-        "      generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,",
-        "      firstWordImpactIndex]",
-        "",
+    ])
+    lines.extend(emit_normal_eval_proof(normal_const))
+    lines.append("")
+    lines.extend([
         f"private theorem generatedVector_mask{mask}_eq_translationVector :",
         f"    generatedVector.eval generatedMask{mask} =",
         f"      translationVectorOfChoice generatedWord generatedMask{mask} :=",

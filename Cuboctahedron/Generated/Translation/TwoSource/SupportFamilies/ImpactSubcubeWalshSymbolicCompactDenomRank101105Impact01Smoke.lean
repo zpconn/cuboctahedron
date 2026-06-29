@@ -8,7 +8,7 @@ The module consumes an existing Walsh-vector trace fixture and closes one
 compact denominator equality via `impactDenomAtRank_wordImpact_eq_walshDot`.
 -/
 
-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact01Smoke
 
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube
@@ -31,7 +31,7 @@ private abbrev generatedVector : WalshAffineVec3 :=
 private def generatedMask6 : SignMask := ⟨6, by decide⟩
 
 private def generatedNormal_x : WalshAffine where
-  c := -1
+  c := 0
   y := 0
   z := 0
   d111 := 0
@@ -41,7 +41,7 @@ private def generatedNormal_x : WalshAffine where
 
 private def generatedNormal_y : WalshAffine where
   c := 0
-  y := 0
+  y := 1
   z := 0
   d111 := 0
   d11m := 0
@@ -62,12 +62,12 @@ private def generatedNormal : WalshAffineVec3 where
   y := generatedNormal_y
   z := generatedNormal_z
 
-private def selectedWordImpactIndex : WordIndex := ⟨0, by decide⟩
+private def selectedWordImpactIndex : WordIndex := ⟨1, by decide⟩
 
 private abbrev firstWordImpactIndex : WordIndex := selectedWordImpactIndex
 
 private theorem generatedWord_get_selected :
-    generatedWord.get firstWordImpactIndex = PairId.x := by
+    generatedWord.get firstWordImpactIndex = PairId.y := by
   rfl
 
 private theorem generatedFirstSignedCoeff (mask : SignMask) :
@@ -80,21 +80,15 @@ private theorem generatedNormal_eval_eq_compact (mask : SignMask) :
       matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)
         (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)
           (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) := by
-  have hCompact :
-      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)
-          (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)
-            (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) =
-        { x := (-1 : Rat), y := 0, z := 0 } := by
-    simp [signedCoeffAt, signedPositiveAt, generatedWord_get_selected]
-    apply Vec3.ext <;>
-      norm_num [firstWordImpactIndex, selectedWordImpactIndex,
-        pairPrefixLinearNat, canonicalNormalQ,
-        scalarMul, matVec, matId]
-  rw [hCompact]
-  apply Vec3.ext <;>
-    norm_num [generatedNormal, generatedNormal_x, generatedNormal_y,
-      generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval,
-      firstWordImpactIndex, selectedWordImpactIndex]
+  by_cases h_y : maskBitForPair mask PairId.y <;>
+    by_cases h_z : maskBitForPair mask PairId.z <;>
+    by_cases h_d111 : maskBitForPair mask PairId.d111 <;>
+    by_cases h_d11m : maskBitForPair mask PairId.d11m <;>
+    by_cases h_d1m1 : maskBitForPair mask PairId.d1m1 <;>
+    by_cases h_dm11 : maskBitForPair mask PairId.dm11
+    <;> apply Vec3.ext
+    <;> simp [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval, SignBit.value, SignBit.toPairId, signedCoeffAt, signedPositiveAt, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, countPairBeforeNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]
+    <;> norm_num [generatedNormal, generatedNormal_x, generatedNormal_y, generatedNormal_z, WalshAffineVec3.eval, WalshAffine.eval, SignBit.value, SignBit.toPairId, signedCoeffAt, signedPositiveAt, generatedWord, firstWordImpactIndex, selectedWordImpactIndex, generatedWord_get_selected, pairPrefixLinearNat, countPairBeforeNat, canonicalNormalQ, scalarMul, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, h_y, h_z, h_d111, h_d11m, h_d1m1, h_dm11]
 
 private theorem generatedVector_mask6_eq_translationVector :
     generatedVector.eval generatedMask6 =
@@ -115,4 +109,4 @@ theorem generatedDenomDotCompact_mask6 :
 theorem compactDenomGeneratedSmoke_builds : True := by
   trivial
 
-end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact01Smoke

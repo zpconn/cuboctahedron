@@ -240,7 +240,8 @@ the Phase 6Z.6K.8AP.16BO scripted Walsh-bound emitter smoke, and the Phase
 also includes AP16CJ's reusable translation-vector recurrence, AP16CL's trace
 bridge, AP16CM/AP16CO generated trace fixtures, AP16CN/AP16CQ compact
 denominator trace consumers, AP16CR's reusable compact-denominator bridge,
-AP16CS/AP16CT compact-denominator consumer emitter checks, plus AP16CP's
+AP16CS/AP16CT compact-denominator consumer emitter checks, AP16CU's
+symbolic-normal nonzero-impact consumer smoke, plus AP16CP's
 multi-fixture trace import smoke,
 after rejecting raw `decide` against the recurrence as too reducer-heavy.
 Phase 6P is rejected: the diagnostic survivor-bitset
@@ -14021,6 +14022,75 @@ Acceptance:
   next AP16 target should broaden the emitter beyond constant impact-`0`
   normals by adding symbolic-normal trace support, or use an explicit manifest
   to batch only impact-`0` cases while that support is developed.
+- [x] Implement Phase 6Z.6K.8AP.16CU symbolic-normal compact denominator
+  consumer smoke:
+  AP16CU extends
+  `scripts/generate_ap16cq_compact_denom_consumer_smoke.py` beyond the
+  constant-normal impact-`0` case.  For nonzero word-impact indices, the
+  emitter now generates a symbolic unfolded-normal proof by splitting the six
+  sign-mask bits and simplifying the exact `pairPrefixLinearNat` /
+  `signedCoeffAt` normal expression.  This keeps the proof route on the
+  AP16CR bridge:
+
+  ```lean
+  impactDenomAtRank_wordImpact_eq_walshDot
+  ```
+
+  rather than replaying bounded denominator calculations.  The first nonzero
+  impact smoke is:
+
+  ```text
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+    ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact01Smoke.lean
+  ```
+
+  The generated consumer modules set `maxHeartbeats 0` locally because the
+  nonzero symbolic-normal proof is a finite exact simplification over six mask
+  bits.  This does not add trust and avoids the prior heartbeat-only failure.
+  Builds were run one at a time under `run_memory_guarded.py`; no broad Lake
+  build or parallel Lean build was used after the OOM warning.
+
+  Guarded builds:
+
+  ```text
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cu_original_consumer_final_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomSmoke'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cu_rank101105_impact0_consumer_final_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Smoke'
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 12000 \
+    --poll-seconds 0.5 \
+    --json /tmp/ap16cu_rank101105_impact1_consumer_final_guard.json \
+    -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 240s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank101105Impact01Smoke'
+  ```
+
+  Results:
+
+  ```text
+  original rank 100805 impact 0: passed, elapsed 2.53s, peak tree RSS 3808 MiB,
+    minimum available memory 46138 MiB
+  rank 101105 impact 0: passed, elapsed 1.50s, peak tree RSS 799 MiB,
+    minimum available memory 46477 MiB
+  rank 101105 impact 1: passed, elapsed 12.07s, peak tree RSS 3947 MiB,
+    minimum available memory 45947 MiB
+  ```
+
+  Decision: accepted as a memory-safe generated symbolic-normal smoke for
+  nonzero impacts.  The next AP16 target should connect this emitter to a
+  small manifest of positive-survivor impact/source fixtures or add a shallow
+  group/root smoke over the generated compact-denominator consumers before
+  attempting any larger membership bridge.
 - [ ] Implement Phase 6Z.6K.8AP.16 nonempty source/row language membership:
   generate or prove a real `SourcePositionRowProducerGoodLanguageOnRange lo hi`,
   `SourceIndexStateDescriptorGoodCoverageOnRange lo hi`,
