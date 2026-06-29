@@ -584,6 +584,19 @@ and `3`, then map the resulting good-mask disjunctions to the DU.9N combined
 `SelectorPositiveCase` constructors.  The audit explicitly rejects the
 tempting all-64-mask `fin_cases` replay route because AP.16H already showed it
 recreates the bad-direction evidence burden.
+DU.9P closes that bounded `[0,4)` route end-to-end: compact Walsh membership
+bridges prove GoodDirection-to-positive-language membership for ranks `0`,
+`2`, and `3`, an existing row-relation singleton handles rank `1`, and the
+bounded all-Good root checks at `AllTranslationGoodCoverageOnRange 0 4`.
+DU.9Q then profiles whether that rank-local compact-cover route is reusable
+enough to become production evidence.  It is not: across sampled windows,
+12 profiled GoodDirection ranks produce 12 distinct structural compact-cover
+patterns despite zero uncovered masks.  Therefore DU.9P remains valuable
+bounded proof smoke, but production coverage should not scale by generating
+one compact-Walsh cover/root per rank.  The next production translation move
+must be a stronger shared membership theorem over selector/source-state
+coordinates, or another semantic theorem that avoids rank-local positive-mask
+cover proofs.
 
 Dashboard note: Phase 6Z.6K.8AP.16D/AP.16E are accepted as bridge
 infrastructure, AP.16F rejects the generic source-lookup converse route, and
@@ -17072,6 +17085,41 @@ Acceptance:
   scripts/generated/phase6z6k8ap16du9p_compact_allgood_root_guard.json
   scripts/generated/phase6z6k8ap16du9p_compact_allgood_root_guard_retry1.json
   scripts/generated/phase6z6k8ap16du9p_compact_allgood_root_guard_retry2.json
+  ```
+- [x] Run Phase 6Z.6K.8AP.16DU.9Q compact-cover reuse profile:
+  DU.9Q checks whether the DU.9P rank-local compact-Walsh membership proof can
+  be scaled as production evidence.  The profiler collects GoodDirection masks
+  from three sampled windows and reruns the exact AP16BJ compact subcube cover
+  search on a bounded set of positive-survivor ranks:
+
+  ```text
+  python3 scripts/profile_du9q_compact_cover_reuse.py --max-ranks 12 --jobs 4
+  ```
+
+  The run finished in 40.72s with four Python workers and tiny memory use.
+  It collected 297 ranks with GoodDirection masks, profiled 12 ranks, and found
+  zero uncovered bad masks.  The compression signal is the problem:
+
+  ```text
+  unique_good_mask_sets=10
+  unique_structural_patterns=12
+  unique_impact_patterns=5
+  selected_subcubes mean/max = 17.42 / 21
+  status = rejected-rank-local-compact-cover-sample
+  ```
+
+  Decision: do not scale DU.9P compact covers as the production AP membership
+  proof.  They remain bounded smoke proving the intended erasure path is sound,
+  but the structural patterns are rank-local.  The next real production route
+  must prove GoodDirection-to-selector membership through shared
+  selector/source-state coordinates or a stronger semantic theorem, not by
+  emitting compact-Walsh membership roots for every GoodDirection rank.
+
+  Reports:
+
+  ```text
+  scripts/generated/phase6z6k8ap16du9q_compact_cover_reuse_profile.json
+  scripts/generated/phase6z6k8ap16du9q_compact_cover_reuse_profile.md
   ```
 - [x] Run Phase 6Z.6K.8AP.16DU.9I sampled selector-coordinate window profile:
   DU.9I checks whether the DU.9H selector coordinate remains deterministic on
