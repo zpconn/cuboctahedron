@@ -124,13 +124,24 @@ def emit_data(rank: int, namespace: str, stem: str) -> Path:
     return path
 
 
-def emit_step(rank: int, namespace: str, stem: str, index: int) -> Path:
+def emit_step(
+    rank: int,
+    namespace: str,
+    stem: str,
+    index: int,
+    *,
+    chain_imports: bool = False,
+) -> Path:
     _ = rank
     path = path_for(f"{stem}Step{index:02d}Smoke")
-    data_module = f"{BASE_MODULE}.{stem}DataSmoke"
+    import_module = (
+        f"{BASE_MODULE}.{stem}DataSmoke"
+        if not chain_imports or index == 0
+        else f"{BASE_MODULE}.{stem}Step{index - 1:02d}Smoke"
+    )
     step_defs = trace_norm_defs([index, index + 1], include_step=True, include_final=False)
     lines = [
-        f"import {data_module}",
+        f"import {import_module}",
         "",
         "/-!",
         f"Generated AP16DK split Walsh-vector trace step `{index}`.",
@@ -150,12 +161,16 @@ def emit_step(rank: int, namespace: str, stem: str, index: int) -> Path:
     return path
 
 
-def emit_final(namespace: str, stem: str) -> Path:
+def emit_final(namespace: str, stem: str, *, chain_imports: bool = False) -> Path:
     path = path_for(f"{stem}FinalSmoke")
-    data_module = f"{BASE_MODULE}.{stem}DataSmoke"
+    import_module = (
+        f"{BASE_MODULE}.{stem}Step12Smoke"
+        if chain_imports
+        else f"{BASE_MODULE}.{stem}DataSmoke"
+    )
     final_defs = trace_norm_defs([13], include_step=False, include_final=True)
     lines = [
-        f"import {data_module}",
+        f"import {import_module}",
         "",
         "/-!",
         "Generated AP16DK split Walsh-vector trace final-vector proof.",
@@ -177,16 +192,19 @@ def emit_final(namespace: str, stem: str) -> Path:
     return path
 
 
-def emit_root(namespace: str, stem: str) -> Path:
+def emit_root(namespace: str, stem: str, *, chain_imports: bool = False) -> Path:
     path = path_for(f"{stem}Smoke")
-    imports = [
-        f"import {BASE_MODULE}.{stem}DataSmoke",
-        *[
-            f"import {BASE_MODULE}.{stem}Step{index:02d}Smoke"
-            for index in range(13)
-        ],
-        f"import {BASE_MODULE}.{stem}FinalSmoke",
-    ]
+    if chain_imports:
+        imports = [f"import {BASE_MODULE}.{stem}FinalSmoke"]
+    else:
+        imports = [
+            f"import {BASE_MODULE}.{stem}DataSmoke",
+            *[
+                f"import {BASE_MODULE}.{stem}Step{index:02d}Smoke"
+                for index in range(13)
+            ],
+            f"import {BASE_MODULE}.{stem}FinalSmoke",
+        ]
     lines = [
         *imports,
         "",
@@ -243,6 +261,7 @@ def write_report(
     rank: int,
     namespace: str,
     stem: str,
+    dependency_mode: str,
     paths: list[Path],
     report: Path,
 ) -> None:
@@ -254,6 +273,7 @@ def write_report(
         "rank": rank,
         "namespace": namespace,
         "root_module": f"{BASE_MODULE}.{stem}Smoke",
+        "dependency_mode": dependency_mode,
         "targets": [
             {
                 "kind": (
@@ -278,6 +298,7 @@ def write_report(
             "",
             f"- rank: `{rank}`",
             f"- root module: `{payload['root_module']}`",
+            f"- dependency mode: `{dependency_mode}`",
             f"- targets: `{len(paths)}`",
             "",
             "| kind | module |",
@@ -305,6 +326,16 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Fully-qualified Lean namespace. Defaults to the generated root module name.",
     )
+    parser.add_argument(
+        "--dependency-mode",
+        choices=("sibling", "chain"),
+        default="sibling",
+        help=(
+            "Import topology for the split step modules. `sibling` preserves "
+            "the original AP16DK layout; `chain` imports Step(n-1) from Step(n) "
+            "so Lake cannot build all step proofs in parallel from a cold root."
+        ),
+    )
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
 
@@ -313,11 +344,28 @@ def main() -> None:
     args = parse_args()
     stem = args.stem or f"ImpactSubcubeWalshVectorTraceRank{args.rank}Split"
     namespace = args.namespace or f"{BASE_MODULE}.{stem}Smoke"
+    chain_imports = args.dependency_mode == "chain"
     paths = [emit_data(args.rank, namespace, stem)]
-    paths.extend(emit_step(args.rank, namespace, stem, index) for index in range(13))
-    paths.append(emit_final(namespace, stem))
-    paths.append(emit_root(namespace, stem))
-    write_report(rank=args.rank, namespace=namespace, stem=stem, paths=paths, report=args.report)
+    paths.extend(
+        emit_step(
+            args.rank,
+            namespace,
+            stem,
+            index,
+            chain_imports=chain_imports,
+        )
+        for index in range(13)
+    )
+    paths.append(emit_final(namespace, stem, chain_imports=chain_imports))
+    paths.append(emit_root(namespace, stem, chain_imports=chain_imports))
+    write_report(
+        rank=args.rank,
+        namespace=namespace,
+        stem=stem,
+        dependency_mode=args.dependency_mode,
+        paths=paths,
+        report=args.report,
+    )
     print(f"wrote {len(paths)} files; root={BASE_MODULE}.{stem}Smoke")
 
 

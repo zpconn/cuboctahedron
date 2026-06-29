@@ -22982,6 +22982,74 @@ Decision:
 - Production generated evidence must not rely on manual prebuilding of sibling
   steps; the source dependency graph itself must enforce the safe order.
 
+### Phase 6Z.6K.8AP.16DU.9BR checkpoint: chained trace-root cold build accepted
+
+Phase 6Z.6K.8AP.16DU.9BR implements the DU.9BQ import-topology fix in the
+AP16DK split trace emitter:
+
+```text
+scripts/generate_ap16dk_split_walsh_vector_trace_smoke.py
+```
+
+The emitter now accepts:
+
+```text
+--dependency-mode sibling
+--dependency-mode chain
+```
+
+The original `sibling` mode is preserved for reproducing older smoke fixtures.
+The new `chain` mode emits:
+
+```text
+Data
+Step00 imports Data
+Step01 imports Step00
+...
+Step12 imports Step11
+Final imports Step12
+Root imports Final
+```
+
+so a cold root build cannot schedule all step proofs as independent siblings.
+
+The generated rank-`6000745` chained fixture is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank6000745ChainSplitSmoke
+```
+
+Generation report:
+
+```text
+scripts/generated/phase6z6k8ap16du9br_chained_trace_smoke.json
+scripts/generated/phase6z6k8ap16du9br_chained_trace_smoke.md
+```
+
+Cold guarded root build:
+
+```text
+scripts/generated/phase6z6k8ap16du9br_chained_trace_root_guard.json
+exit = 0
+elapsed = 69.14s
+peak tree RSS = 4212 MiB
+min MemAvailable = 45931 MiB
+rss cap = 8192 MiB
+```
+
+Forbidden-term scan over the generator patch and generated chain fixture found
+no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision:
+
+- Accept chained trace roots as the memory-safe trace-witness topology for
+  weighted trace-certificate experiments.
+- Do not scale or import sibling-style trace roots in production-facing
+  generated evidence.
+- The next weighted-cube trace-certificate smoke should use the chained root
+  for rank `6000745`, instantiate the DU.9BO certificate for one selected
+  weighted cube, and build the resulting leaf cold under the 8 GiB guard.
+
 ## Explicit Non-Goals
 
 - Do not continue scaling raw `[0,8)` interval shards to the full rank range.
@@ -23082,4 +23150,5 @@ Decision:
   weighted trace-certificate dependencies; DU.9BP crossed 18.7 GiB RSS under
   the 8 GiB focused-build guard.  DU.9BQ shows the same pieces are safe when
   built serially, so future emitters should encode that order in the import
-  graph rather than depending on manual prebuilds.
+  graph rather than depending on manual prebuilds.  DU.9BR provides the
+  accepted chained import topology.
