@@ -26684,3 +26684,61 @@ rank-local compact membership roots.  The remaining blocker is still semantic:
 prove identity-linear `GoodDirectionAtRank` implies membership in one of these
 classifier/descriptor/source-row families without replaying compact
 rank-local denominator membership.
+
+### Phase 6Z.6K.8AP.16DU.9DO checkpoint: descriptor Boolean bridge accepted
+
+Phase 6Z.6K.8AP.16DU.9DO adds a descriptor-level Boolean GoodDirection bridge.
+Generated shards may now target descriptor membership from
+`goodDirectionAtRankBool = true`, while the public theorem remains semantic via
+`goodDirectionAtRankBool_eq_true_of_goodDirection`.
+
+New theorem/definition surfaces:
+
+```lean
+def SourceIndexStateDescriptorBoolCoverageOnRange (lo hi : Nat) : Prop
+
+structure SourceIndexStateDescriptorBoolLanguageOnRange (lo hi : Nat)
+
+def SourceIndexStateDescriptorBoolLanguageOnRange.to_goodLanguage
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorBoolLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodLanguageOnRange lo hi
+
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi
+
+theorem SourceIndexStateDescriptorBoolLanguageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorBoolLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi
+
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9do_descriptor_bool_bridge_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `6.51s`
+- Peak tree RSS: `3962.82 MiB`
+- Minimum available memory observed: `46152.95 MiB`
+
+Decision: accepted.  This is not a return to reducing large Boolean
+GoodDirection checkers inside Lean.  It is only a small adapter target for
+future generated family evidence whose Boolean membership proof has already
+been decomposed into safe descriptor/source-row facts.

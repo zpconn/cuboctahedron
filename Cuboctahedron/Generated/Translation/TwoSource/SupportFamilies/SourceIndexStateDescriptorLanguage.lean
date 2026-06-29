@@ -92,6 +92,48 @@ def SourceIndexStateDescriptorGoodCoverageOnRange (lo hi : Nat) : Prop :=
             exists desc : SourceIndexStateFamilyDescriptor,
               desc.Applies rank mask
 
+/--
+Boolean-GoodDirection variant of descriptor coverage.
+
+This is a generator-facing target for chunks whose membership proof is most
+naturally phrased from `goodDirectionAtRankBool = true`.  The adapter below
+keeps the public theorem semantic by using
+`goodDirectionAtRankBool_eq_true_of_goodDirection`; generated modules should
+not reduce `goodDirectionAtRankBool` over large rank/mask sets in this bridge.
+-/
+def SourceIndexStateDescriptorBoolCoverageOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+            exists desc : SourceIndexStateFamilyDescriptor,
+              desc.Applies rank mask
+
+/--
+Descriptor language with a Boolean-GoodDirection completeness premise.
+
+This mirrors `SourceIndexStateDescriptorGoodLanguageOnRange`, but lets a
+generated shard prove membership from the Boolean GoodDirection theorem surface
+and then erase immediately to the semantic coverage bridge.
+-/
+structure SourceIndexStateDescriptorBoolLanguageOnRange (lo hi : Nat) where
+  Language : SourceIndexStateFamilyDescriptor -> Nat -> SignMask -> Prop
+  applies :
+    forall {desc : SourceIndexStateFamilyDescriptor}
+      {rank : Nat} {mask : SignMask},
+        Language desc rank mask -> desc.Applies rank mask
+  completeBool :
+    forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+      lo <= rank ->
+        rank < hi ->
+          totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+              (matId : Mat3 Rat) ->
+            goodDirectionAtRankBool ⟨rank, hlt⟩ mask = true ->
+              exists desc : SourceIndexStateFamilyDescriptor,
+                Language desc rank mask
+
 def SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage
     {lo hi : Nat}
     (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
@@ -104,6 +146,37 @@ def SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage
     intro rank mask hlt hlo hhi hM hgood
     exact coverage hlt hlo hhi hM hgood
 
+def SourceIndexStateDescriptorBoolLanguageOnRange.of_coverage
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    SourceIndexStateDescriptorBoolLanguageOnRange lo hi where
+  Language := fun desc rank mask => desc.Applies rank mask
+  applies := by
+    intro desc rank mask hmem
+    exact hmem
+  completeBool := by
+    intro rank mask hlt hlo hhi hM hgoodBool
+    exact coverage hlt hlo hhi hM hgoodBool
+
+def SourceIndexStateDescriptorBoolLanguageOnRange.to_goodLanguage
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorBoolLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodLanguageOnRange lo hi where
+  Language := language.Language
+  applies := language.applies
+  complete := by
+    intro rank mask hlt hlo hhi hM hgood
+    exact language.completeBool hlt hlo hhi hM
+      (goodDirectionAtRankBool_eq_true_of_goodDirection hgood)
+
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    SourceIndexStateDescriptorGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact coverage hlt hlo hhi hM
+    (goodDirectionAtRankBool_eq_true_of_goodDirection hgood)
+
 def SourceIndexStateDescriptorGoodLanguageOnRange.empty
     {lo hi : Nat} (h : hi <= lo) :
     SourceIndexStateDescriptorGoodLanguageOnRange lo hi where
@@ -113,6 +186,17 @@ def SourceIndexStateDescriptorGoodLanguageOnRange.empty
     cases hmem
   complete := by
     intro rank mask hlt hlo hhi hM hgood
+    exact False.elim ((Nat.not_lt_of_ge h) (lt_of_le_of_lt hlo hhi))
+
+def SourceIndexStateDescriptorBoolLanguageOnRange.empty
+    {lo hi : Nat} (h : hi <= lo) :
+    SourceIndexStateDescriptorBoolLanguageOnRange lo hi where
+  Language := fun _ _ _ => False
+  applies := by
+    intro desc rank mask hmem
+    cases hmem
+  completeBool := by
+    intro rank mask hlt hlo hhi hM hgoodBool
     exact False.elim ((Nat.not_lt_of_ge h) (lt_of_le_of_lt hlo hhi))
 
 def SourceIndexStateDescriptorGoodLanguageOnRange.concat
@@ -134,6 +218,28 @@ def SourceIndexStateDescriptorGoodLanguageOnRange.concat
       exact ⟨desc, Or.inl hmem⟩
     · have hmid_le : mid <= rank := Nat.le_of_not_lt hmid
       rcases right.complete hlt hmid_le hhi hM hgood with ⟨desc, hmem⟩
+      exact ⟨desc, Or.inr hmem⟩
+
+def SourceIndexStateDescriptorBoolLanguageOnRange.concat
+    {lo mid hi : Nat}
+    (left : SourceIndexStateDescriptorBoolLanguageOnRange lo mid)
+    (right : SourceIndexStateDescriptorBoolLanguageOnRange mid hi) :
+    SourceIndexStateDescriptorBoolLanguageOnRange lo hi where
+  Language := fun desc rank mask =>
+    left.Language desc rank mask \/ right.Language desc rank mask
+  applies := by
+    intro desc rank mask hmem
+    cases hmem with
+    | inl hleft => exact left.applies hleft
+    | inr hright => exact right.applies hright
+  completeBool := by
+    intro rank mask hlt hlo hhi hM hgoodBool
+    by_cases hmid : rank < mid
+    · rcases left.completeBool hlt hlo hmid hM hgoodBool with ⟨desc, hmem⟩
+      exact ⟨desc, Or.inl hmem⟩
+    · have hmid_le : mid <= rank := Nat.le_of_not_lt hmid
+      rcases right.completeBool hlt hmid_le hhi hM hgoodBool with
+        ⟨desc, hmem⟩
       exact ⟨desc, Or.inr hmem⟩
 
 def SourceIndexStateDescriptorGoodLanguageOnRange.to_predicateLanguage
@@ -172,12 +278,26 @@ theorem SourceIndexStateDescriptorGoodLanguageOnRange.to_factsBridge
   SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange
     (SourceIndexStateDescriptorGoodLanguageOnRange.to_bridge language)
 
+theorem SourceIndexStateDescriptorBoolLanguageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorBoolLanguageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourceIndexStateDescriptorGoodLanguageOnRange.to_factsBridge
+    (SourceIndexStateDescriptorBoolLanguageOnRange.to_goodLanguage language)
+
 theorem SourceIndexStateDescriptorGoodLanguageOnRange.to_allGoodCoverage
     {lo hi : Nat}
     (language : SourceIndexStateDescriptorGoodLanguageOnRange lo hi) :
     AllTranslationGoodCoverageOnRange lo hi :=
   SourceRowPredicateGoodLanguageOnRange.to_allGoodCoverage
     (SourceIndexStateDescriptorGoodLanguageOnRange.to_predicateLanguage language)
+
+theorem SourceIndexStateDescriptorBoolLanguageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorBoolLanguageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceIndexStateDescriptorGoodLanguageOnRange.to_allGoodCoverage
+    (SourceIndexStateDescriptorBoolLanguageOnRange.to_goodLanguage language)
 
 theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_bridge
     {lo hi : Nat}
@@ -186,6 +306,13 @@ theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_bridge
   SourceIndexStateDescriptorGoodLanguageOnRange.to_bridge
     (SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage coverage)
 
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_bridge
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    SourceRowPredicateGoodBridgeOnRange lo hi :=
+  SourceIndexStateDescriptorGoodCoverageOnRange.to_bridge
+    (SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage coverage)
+
 theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge
     {lo hi : Nat}
     (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
@@ -193,12 +320,26 @@ theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge
   SourceIndexStateDescriptorGoodLanguageOnRange.to_factsBridge
     (SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage coverage)
 
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_factsBridge
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    SourceRowFactsGoodBridgeOnRange lo hi :=
+  SourceIndexStateDescriptorGoodCoverageOnRange.to_factsBridge
+    (SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage coverage)
+
 theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage
     {lo hi : Nat}
     (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
     AllTranslationGoodCoverageOnRange lo hi :=
   SourceIndexStateDescriptorGoodLanguageOnRange.to_allGoodCoverage
     (SourceIndexStateDescriptorGoodLanguageOnRange.of_coverage coverage)
+
+theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_allGoodCoverage
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage
+    (SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage coverage)
 
 theorem SourceRowFactsGoodBridgeOnRange.to_descriptorCoverage
     {lo hi : Nat}
