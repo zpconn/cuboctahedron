@@ -77,6 +77,30 @@ theorem goodDirectionAtRankBool_eq_true_of_goodDirection
      h ⟨⟨12, by decide⟩, by constructor <;> decide⟩,
      h ⟨⟨13, by decide⟩, by constructor <;> decide⟩⟩
 
+theorem goodDirection_of_goodDirectionAtRankBool_eq_true
+    {r : Fin numPairWords} {mask : SignMask}
+    (h : goodDirectionAtRankBool r mask = true) :
+    GoodDirectionAtRank r mask := by
+  simp [goodDirectionAtRankBool, internalImpactList] at h
+  intro i
+  rcases i with ⟨i, hi0, hilast⟩
+  fin_cases i
+  · exact False.elim (hi0 rfl)
+  · exact h.1
+  · exact h.2.1
+  · exact h.2.2.1
+  · exact h.2.2.2.1
+  · exact h.2.2.2.2.1
+  · exact h.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.2.2.2.2.2.1
+  · exact h.2.2.2.2.2.2.2.2.2.2.2.2
+  · exact False.elim (hilast rfl)
+
 def TranslationFeasibleAtRank
     (r : Fin numPairWords) (mask : SignMask) : Prop :=
   exists seq,

@@ -169,6 +169,17 @@ def SourceIndexStateDescriptorBoolLanguageOnRange.to_goodLanguage
     exact language.completeBool hlt hlo hhi hM
       (goodDirectionAtRankBool_eq_true_of_goodDirection hgood)
 
+def SourceIndexStateDescriptorGoodLanguageOnRange.to_boolLanguage
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorGoodLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorBoolLanguageOnRange lo hi where
+  Language := language.Language
+  applies := language.applies
+  completeBool := by
+    intro rank mask hlt hlo hhi hM hgoodBool
+    exact language.complete hlt hlo hhi hM
+      (goodDirection_of_goodDirectionAtRankBool_eq_true hgoodBool)
+
 theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage
     {lo hi : Nat}
     (coverage : SourceIndexStateDescriptorBoolCoverageOnRange lo hi) :
@@ -176,6 +187,14 @@ theorem SourceIndexStateDescriptorBoolCoverageOnRange.to_goodCoverage
   intro rank mask hlt hlo hhi hM hgood
   exact coverage hlt hlo hhi hM
     (goodDirectionAtRankBool_eq_true_of_goodDirection hgood)
+
+theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_boolCoverage
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
+    SourceIndexStateDescriptorBoolCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgoodBool
+  exact coverage hlt hlo hhi hM
+    (goodDirection_of_goodDirectionAtRankBool_eq_true hgoodBool)
 
 def SourceIndexStateDescriptorGoodLanguageOnRange.empty
     {lo hi : Nat} (h : hi <= lo) :

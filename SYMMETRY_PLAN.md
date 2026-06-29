@@ -26742,3 +26742,60 @@ Decision: accepted.  This is not a return to reducing large Boolean
 GoodDirection checkers inside Lean.  It is only a small adapter target for
 future generated family evidence whose Boolean membership proof has already
 been decomposed into safe descriptor/source-row facts.
+
+### Phase 6Z.6K.8AP.16DU.9DP checkpoint: GoodDirection Boolean equivalence accepted
+
+Phase 6Z.6K.8AP.16DU.9DP proves the finite converse for the GoodDirection
+Boolean surface:
+
+```lean
+theorem goodDirection_of_goodDirectionAtRankBool_eq_true
+    {r : Fin numPairWords} {mask : SignMask}
+    (h : goodDirectionAtRankBool r mask = true) :
+    GoodDirectionAtRank r mask
+```
+
+Together with the existing
+`goodDirectionAtRankBool_eq_true_of_goodDirection`, this gives exact
+equivalence between semantic and Boolean GoodDirection.  The converse is a
+finite case split over the 13 internal impacts; it does not reduce any
+rank-specific denominator computations.
+
+DU.9DP also adds descriptor coverage adapters in the reverse direction:
+
+```lean
+def SourceIndexStateDescriptorGoodLanguageOnRange.to_boolLanguage
+    {lo hi : Nat}
+    (language : SourceIndexStateDescriptorGoodLanguageOnRange lo hi) :
+    SourceIndexStateDescriptorBoolLanguageOnRange lo hi
+
+theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_boolCoverage
+    {lo hi : Nat}
+    (coverage : SourceIndexStateDescriptorGoodCoverageOnRange lo hi) :
+    SourceIndexStateDescriptorBoolCoverageOnRange lo hi
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 8192 \
+  --min-available-mib 16384 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9dp_gooddirection_bool_equiv_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateDescriptorLanguage
+```
+
+Result:
+
+- Exit: `0`
+- Elapsed: `34.07s`
+- Peak tree RSS: `7011.87 MiB`
+- Minimum available memory observed: `45687.01 MiB`
+
+Decision: accepted under the 8 GiB guard.  Future generated descriptor chunks
+can choose either semantic `GoodDirectionAtRank` or Boolean
+`goodDirectionAtRankBool = true` membership facts without changing the final
+public theorem surface.  This makes Boolean-facing emitters viable only when
+their Boolean proof has already been decomposed into safe family facts; it does
+not make huge Boolean reductions acceptable.
