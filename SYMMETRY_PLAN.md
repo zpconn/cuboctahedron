@@ -17984,6 +17984,61 @@ Acceptance:
   task is now sharper: prove the semantic `hcomplete` premise for meaningful
   ranges using state/signature membership, then erase directly to
   row-property/all-Good coverage.
+- [x] Add Phase 6Z.6K.8AP.16DU.9AD descriptor-coverage endpoint smoke:
+  DU.9AD adds the bounded smoke module
+
+  ```text
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+    SourceIndexStateDescriptorDU9ADCoverageSmoke
+  ```
+
+  proving the exact descriptor target for the nonempty bounded ranges where
+  DU.9P already supplies compact GoodDirection membership:
+
+  ```lean
+  descriptorCoverage0_1 :
+    SourceIndexStateDescriptorGoodCoverageOnRange 0 1
+
+  descriptorCoverage2_3 :
+    SourceIndexStateDescriptorGoodCoverageOnRange 2 3
+
+  descriptorCoverage3_4 :
+    SourceIndexStateDescriptorGoodCoverageOnRange 3 4
+  ```
+
+  The bridge uses `selectorPositiveSourceRowFacts` to obtain a
+  `SourceIndexStateKey`, then exposes `key.toDescriptor` and
+  `key.matches_of_source_row`.  The same module also erases these descriptor
+  coverage theorems to `AllTranslationGoodCoverageOnRange`.
+
+  Focused checks:
+
+  ```text
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+      SourceIndexStateDescriptorDU9ADCoverageSmoke.lean
+    first attempt:
+      exit=1
+      elapsed=6.71s
+      max_rss=3348168 KiB
+      reason=missing namespace open for AllTranslationGoodCoverageOnRange
+    retry:
+      exit=0
+      elapsed=1.63s
+      max_rss=3354136 KiB
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+      SourceIndexStateDescriptorDU9ADCoverageSmoke
+    exit=0
+    elapsed=3.67s
+    max_rss=3380732 KiB
+  ```
+
+  Decision: DU.9AD is accepted as endpoint smoke.  It confirms the exact
+  descriptor coverage theorem is usable and cheap.  It does not solve
+  production membership because the bounded proof still depends on DU.9P's
+  rank-local compact membership facts.
 - [ ] Implement Phase 6Z.6K.8AP.16DU.9 actual classifier completeness theorem:
   prove or emit the bounded `[0,5000)` Prop-level catalog theorem required by
   DU.9D or the equivalent candidate-catalog theorem added by DU.9F:
