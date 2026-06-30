@@ -1,0 +1,27 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "python3",
+    "scripts/profile_next_compact_hcover_ranks.py",
+    "--rank-start",
+    "896",
+    "--limit",
+    "64",
+    "--jobs",
+    "4",
+    "--target-missing",
+    "4",
+    "--json",
+    "scripts/generated/phase6z6k8ap16du9iq_next_compact_hcover_ranks_896_960.json",
+    "--md",
+    "scripts/generated/phase6z6k8ap16du9iq_next_compact_hcover_ranks_896_960.md"
+  ],
+  "elapsed_seconds": 1.001529246015707,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 103424,
+  "max_tree_rss_mib": 101.0,
+  "min_available_seen_kib": 47364508,
+  "min_available_seen_mib": 46254.40234375,
+  "rss_cap_mib": 1000.0
+}

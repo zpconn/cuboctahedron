@@ -39325,3 +39325,45 @@ Decision: the DU9IP batch root is accepted.  The next generated-coverage
 frontier should start after the accepted `[832,896)` DU9IP h-cover window, using
 the same one-rank-at-a-time serial Lean guard unless a profiling-only Python
 stage proves a memory-safe parallelization is harmless.
+
+### Phase 6Z6K8AP16DU9IQ - next frontier selected
+
+The next compact h-cover frontier after DU9IP was scanned over `[896,960)`.
+This was a profiling-only Python pass, not proof evidence.  It used bounded
+parallelism (`--jobs 4`) inside the `1000 MiB` process-tree guard.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9iq_next_compact_hcover_ranks_896_960_guard.json \
+  -- \
+  python3 scripts/profile_next_compact_hcover_ranks.py \
+    --rank-start 896 \
+    --limit 64 \
+    --jobs 4 \
+    --target-missing 4 \
+    --json scripts/generated/phase6z6k8ap16du9iq_next_compact_hcover_ranks_896_960.json \
+    --md scripts/generated/phase6z6k8ap16du9iq_next_compact_hcover_ranks_896_960.md
+```
+
+Diagnostic summary:
+
+- status: `accepted-next-targets`;
+- rank range: `[896,960)`;
+- jobs: `4`;
+- identity ranks: `7`;
+- identity ranks with GoodDirection masks: `7`;
+- GoodDirection cases: `75`;
+- Not-GoodDirection masks: `373`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`;
+- recommended next DU9IQ targets:
+  `896`, `897`, `899`, and `903`;
+- guard peak RSS: `101 MiB`;
+- minimum available memory seen: `46254 MiB`.
+
+Decision: start DU9IQ with the four recommended ranks.  As with DU9IP, Python
+profiling/generation may use small guarded worker pools, but generated Lean
+rank leaves and roots must remain serial under the memory guard.
