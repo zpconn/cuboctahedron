@@ -241,6 +241,22 @@ structure WeightedDenomCubeObstruction
       Member mask ->
         weightedDenomAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask weights <= 0
 
+def WeightedDenomCubeObstruction.ofNonnegative
+    {rank : Nat} {Member : SignMask -> Prop}
+    (weights : InternalImpactWeights)
+    (hNonneg : weights.Nonnegative)
+    (hPos : weights.PositiveSome)
+    (hNonpos :
+      forall {mask : SignMask} (hlt : rank < numPairWords),
+        Member mask ->
+          weightedDenomAtRank (⟨rank, hlt⟩ : Fin numPairWords) mask weights <= 0) :
+    WeightedDenomCubeObstruction rank Member where
+  weights := weights
+  positive_of_good := by
+    intro mask hlt _hmember hgood
+    exact weightedDenomAtRank_pos_of_goodDirection hlt hNonneg hPos hgood
+  nonpos := hNonpos
+
 theorem WeightedDenomCubeObstruction.notGood
     {rank : Nat} {Member : SignMask -> Prop}
     (obstruction : WeightedDenomCubeObstruction rank Member)

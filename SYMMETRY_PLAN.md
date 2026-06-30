@@ -40253,3 +40253,66 @@ erases to `BadMaskCover.goodMaskMember_of_goodDirection`.  The smoke must keep
 the same forbidden-route constraints: no compact-Walsh roots, no `fin_cases
 mask`, no rank-local Boolean reduction, no `pairPrefixLinearNat` replay, and no
 large generated arrays.
+
+### Phase 6Z6K8AP16DU9IQ - weighted denominator-cube API smoke accepted
+
+The first Lean step after the optimized weighted hmask cover deliberately
+targets the erased denominator-cube theorem surface, not the old compact-Walsh
+trace producer.  A reusable constructor was added:
+
+- `DenominatorCube.WeightedDenomCubeObstruction.ofNonnegative`
+
+It packages the generic proof that nonnegative weights, at least one positive
+weight, and `GoodDirectionAtRank` force the weighted denominator sum to be
+strictly positive.  Generated leaves therefore only need to prove their local
+nonpositivity bound; they do not need to replay the positivity argument.
+
+A DU9IQ API smoke was added for the accepted rank-`896` support-2 cube:
+
+- file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQObstructionAPISmoke.lean`;
+- cube pattern: `1**0*0`;
+- support: `[2,6]`;
+- weights: `[1,1]`;
+- exported check:
+  `goodDirection_excludes_cube`.
+
+This smoke intentionally takes the arithmetic bound as a local premise.  It
+proves the composition path:
+
+```text
+local weighted-denominator nonpos on cube
+  -> WeightedDenomCubeObstruction
+  -> WeightedDenomCubeCover
+  -> BadMaskCover.goodMaskMember_of_goodDirection
+  -> GoodDirection masks are outside the cube
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_api_smoke_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQObstructionAPISmoke
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `16.52s`;
+- peak tree RSS: `4050 MiB`;
+- minimum available memory seen: `45866 MiB`;
+- `DenominatorCube` rebuilt in about `10s`;
+- the new DU9IQ API smoke built in about `1.3s`.
+
+Decision: the erased weighted-cover consumer surface is accepted.  The current
+remaining DU9IQ hmask task is narrower: build a lightweight arithmetic
+producer for the weighted cube nonpositivity premise.  The old
+`WeightedWalshQuadraticTraceCertificate` files remain useful as correctness
+references, but the production producer must avoid compact-Walsh roots,
+`pairPrefixLinearNat` replay, `fin_cases mask`, rank-local Boolean reduction,
+and large public generated arrays.
