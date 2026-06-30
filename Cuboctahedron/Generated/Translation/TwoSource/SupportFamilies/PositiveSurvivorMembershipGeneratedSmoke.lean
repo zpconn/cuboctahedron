@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 /-!
 Generated positive-survivor membership smoke for AP.16I.
@@ -15,6 +16,7 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Positive
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorMembershipSmoke
 
@@ -78,6 +80,32 @@ theorem generatedGroupAllGoodCoverage
     AllTranslationGoodCoverageOnRange 0 5000 :=
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     (generatedGroupSourcePositionCoverage hclass)
+
+theorem generatedGroupTemplateMemberBridge
+    (hclass :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedCandidate rank mask) :
+    TemplateLanguageMemberBridgeOnRange 0 5000 :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
+    (generatedGroupSourcePositionCoverage hclass)
+
+theorem generatedGroupTemplateCoverage
+    (hclass :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedCandidate rank mask) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000 :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (generatedGroupTemplateMemberBridge hclass)
 
 theorem generatedPositiveSurvivorMembershipSmoke_builds : True := by
   trivial

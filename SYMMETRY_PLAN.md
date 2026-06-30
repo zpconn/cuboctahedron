@@ -29245,3 +29245,52 @@ bridge.  It is deliberately empty-range and therefore not coverage evidence.
 It validates that future nonempty source-position language chunks can export
 the current template-language theorem surface without routing through old
 all-good coverage first.
+
+### Phase 6Z.6K.8AP.16DU.9FG checkpoint: nonempty source-position template bridge smoke
+
+Phase 6Z.6K.8AP.16DU.9FG updates
+`scripts/generate_ap16i_positive_membership_smoke.py` so the generated
+AP.16I nonempty source-position membership smoke also exports the current
+template-language target:
+
+```lean
+theorem generatedGroupTemplateMemberBridge
+    (hclass : ...) :
+    TemplateLanguageMemberBridgeOnRange 0 5000
+
+theorem generatedGroupTemplateCoverage
+    (hclass : ...) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000
+```
+
+The emitted theorem still assumes the bounded `hclass` classifier premise.
+That is intentional: this checkpoint tests the theorem-surface migration from
+nonempty `SourcePositionRowProducerGoodCoverageOnRange 0 5000` to the
+current `TemplateLanguageMemberBridgeOnRange 0 5000` target without claiming
+that the classifier premise has been discharged globally.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_ap16i_positive_membership_smoke.py
+```
+
+Result: passed in `elapsed=0:00.06`, `max_rss_kb=17548`, emitting the
+representative AP.16I candidate group with `1316` bounded observed cases.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean
+```
+
+Result: passed in `elapsed=0:05.01`, `max_rss_kb=3271540`.
+
+Decision: accepted as a nonempty theorem-surface smoke.  It shows that a
+bounded generated source-position coverage theorem can now be consumed as a
+template member bridge directly.  It is not global evidence; the remaining
+production obligation is still to generate compressed theorem-valued domains
+or languages that discharge the `hclass`/membership premise over complete
+semantic families without falling back to rank or mask singleton leaves.
