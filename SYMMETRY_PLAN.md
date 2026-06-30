@@ -43464,3 +43464,66 @@ weighted cubes cover the full non-survivor complement, connecting this cover
 root to the existing selector/source-row catalog.  If the selected cubes are
 only partial for a rank, the plan must record the missing cube families before
 claiming a full GoodDirection-to-selector bridge.
+
+### Phase 6Z6K8AP16DU9IQ17 - rank-896 positive-mask bridge accepted
+
+The full rank-`896` traced weighted-cover root was connected to the known
+rank-`896` positive-survivor mask set in a bounded audit module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke
+```
+
+The module defines the explicit survivor predicate
+
+```lean
+rank896PositiveMaskMember mask
+```
+
+for the `13` mask values
+
+```text
+9, 13, 16, 18, 22, 24, 28, 30, 31, 45, 47, 54, 55
+```
+
+and exports:
+
+```lean
+rank896PositiveMaskMember_of_outsideBatchGoodMaskMember :
+  OutsideBatchGoodMaskMember mask -> rank896PositiveMaskMember mask
+
+goodDirection_rank896PositiveMaskMember :
+  GoodDirectionAtRank (⟨896, hlt⟩ : Fin numPairWords) mask ->
+    rank896PositiveMaskMember mask
+```
+
+The first theorem is a finite bounded audit: each non-survivor mask is
+contradicted by one named traced weighted cube, and each survivor mask is closed
+by the explicit value list.  The second theorem composes that audit with the
+checked `WeightedDenomCubeCover` from the all-`14` traced direct-bridge root.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_positive_masks_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `7.51s` | `4080 MiB` | `45788 MiB` | `0` |
+
+Decision: accepted as a bounded end-to-end bridge from `GoodDirectionAtRank` to
+the rank-`896` positive survivor mask predicate using only traced
+weighted-denominator cube evidence.  It is not yet the production bridge:
+production should replace the finite mask audit with generated source-row or
+selector membership facts, so the hmask cover feeds directly into the
+translation semantic selector catalog without enumerating all `64` masks in
+each rank-local glue module.
