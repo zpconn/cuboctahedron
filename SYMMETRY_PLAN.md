@@ -34746,3 +34746,60 @@ Decision: rank `362` is accepted under the DU9IH split-cover path.  The three
 largest DU9IH roots (`369`, `363`, `362`) have now all passed under the same
 serial `4200 MiB` guard.  Continue with the remaining DU9IH roots in descending
 risk order, starting with rank `365` and then rank `360`.
+
+### Phase 6Z6K8AP16DU9IH - rank 365 split cover accepted
+
+Rank `365` is the next DU9IH high-risk target after ranks `369`, `363`, and
+`362`.  It was emitted with trace step `12`, final-vector component splitting,
+and selected-impact component splitting requested:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 365 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank365_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 12
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `19`;
+- guarded targets: `50`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank365_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank365_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank365_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `50`;
+- maximum process-tree RSS: `4195.30 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomRank365Impact11Smoke`;
+- minimum observed available memory: `45853.21 MiB`;
+- total guarded elapsed time across targets: `183.25s`;
+- killed targets: none.
+
+Decision: rank `365` is accepted, but it is a near-cap pass.  The
+selected-impact target for impact `11` came within roughly `5 MiB` of the
+`4200 MiB` cap, so the next rank should keep the same serial guard and should
+request selected-impact component splitting for the actual zero-based selected
+impact whenever the emitter supports it.  Continue with rank `360` next; do not
+batch these high-risk roots into a broad Lake build.
