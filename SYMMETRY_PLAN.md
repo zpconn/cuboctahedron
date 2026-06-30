@@ -31299,3 +31299,28 @@ heavy-cover builds.
 Decision: accepted.  All six DU9GU compact cover roots have now passed under
 the serial guard.  The next safe checkpoint is the shallow DU9GU batch-root
 guard; continue using one Lean target at a time for cover roots.
+
+### Phase 6Z.6K.8AP.16DU.9GX checkpoint: DU9GU shallow batch root under guard
+
+Phase 6Z.6K.8AP.16DU.9GX verifies the shallow DU9GU batch root after all six
+cover roots passed:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gu_serial_guard_batch_root.json \
+  --out-dir /tmp/ap16dj_du9gu_serial_guarded/batch_root \
+  --target-kind batch_root \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=2.50s`, with `peak_tree_rss=3696.6 MiB` and
+`min_available=46158.4 MiB`.
+
+Decision: accepted.  DU9GU now has guarded cover-root and shallow-root
+telemetry, completing the third six-rank compact hcover batch.  The next step
+is to query the missing-rank frontier after DU9GH, DU9GO, and DU9GU so the next
+batch can be chosen from already-verified coverage state.
