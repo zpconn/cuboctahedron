@@ -1,0 +1,21 @@
+{
+  "ranks": [
+    834,
+    837,
+    839,
+    840
+  ],
+  "root_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverBatchSmoke.lean",
+  "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverBatchSmoke",
+  "schema_version": 1,
+  "status": "emitted_pending_guarded_build",
+  "tag": "DU9IP",
+  "targets": [
+    {
+      "kind": "split_batch_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverBatchSmoke"
+    }
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

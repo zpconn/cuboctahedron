@@ -39270,3 +39270,58 @@ Decision: rank `840` is accepted.  All four DU9IP ranks (`834`, `837`, `839`,
 and `840`) have now passed their individual guarded split-cover builds.  Next
 assemble the DU9IP batch root over those accepted rank roots and guard that
 root alone; it should stay comparable to the DU9IO batch-root check.
+
+### Phase 6Z6K8AP16DU9IP - batch root accepted
+
+The DU9IP batch root was emitted over the four individually accepted split
+rank roots: `834`, `837`, `839`, and `840`.
+
+```bash
+python3 scripts/generate_ap16du_split_batch_root.py \
+  --emit \
+  --tag DU9IP \
+  --rank 834 \
+  --rank 837 \
+  --rank 839 \
+  --rank 840 \
+  --report scripts/generated/phase6z6k8ap16du9ip_split_cover_batch_root_generation.json \
+  --note 'DU9IP ranks 834, 837, 839, and 840 were checked individually under serial memory guards before this root was emitted.'
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- root module:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverBatchSmoke`;
+- planned guarded targets: `1`.
+
+The batch root was then checked by itself under the serial memory guard:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ip_split_cover_batch_root_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ip_split_cover_batch_root_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9ip_split_cover_batch_root_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- completed targets: `1 / 1`;
+- maximum target RSS: `3955.86 MiB`;
+- minimum available memory seen: `45793.38 MiB`;
+- elapsed time: `3.00s`;
+- root target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverBatchSmoke`.
+
+The generated batch-root Lean file was scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: the DU9IP batch root is accepted.  The next generated-coverage
+frontier should start after the accepted `[832,896)` DU9IP h-cover window, using
+the same one-rank-at-a-time serial Lean guard unless a profiling-only Python
+stage proves a memory-safe parallelization is harmless.
