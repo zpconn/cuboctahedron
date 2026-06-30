@@ -32661,3 +32661,70 @@ component-split the heavy trace step/final vector equalities, keep selected
 impact normal splitting on demand, and run the selected-impact/subcube/root
 coverage checks serially under the `4200 MiB` guard.  Rank `125` is the next
 prepared DU9HM rank to process with the same envelope.
+
+### Phase 6Z.6K.8AP.16DU.9HW checkpoint: rank125 selected-impact split accepted
+
+Phase 6Z.6K.8AP.16DU.9HW applies the accepted rank89/rank120/rank122/rank123
+topology to rank `125`.  The first cover-target run correctly stopped at the
+memory guard on selected impact `11`, so the rank was regenerated with only
+that selected impact split into normal-component files.  No memory cap increase
+was used.
+
+Initial regeneration command:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json \
+  --rank 125 \
+  --tag DU9HN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HN' \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank125_component_final_generation.json
+```
+
+The initial report contained `52` guarded targets.  The trace prerequisite
+guard passed, but the first selected-impact/subcube/root guard stopped safely
+at `rank125_impact11`:
+
+| Target group | Result | Targets | Peak tree RSS | Minimum available memory |
+| --- | --- | ---: | ---: | ---: |
+| trace prerequisites through split root | passed | 22 | `4155.71 MiB` (`trace_final_x`) | `45779.22 MiB` |
+| initial selected-impact/root, split subcubes, split root | stopped by guard | 30 | `4216.09 MiB` (`rank125_impact11`) | `45693.26 MiB` |
+
+The accepted regeneration added only:
+
+```bash
+--component-selected-impact 11
+```
+
+That raised the generated target count to `55` by adding normal-component
+files for impact `11`.  The focused component guard and final cover guard then
+passed under the same `4200 MiB` cap:
+
+| Target group | Result | Targets | Peak tree RSS | Minimum available memory |
+| --- | --- | ---: | ---: | ---: |
+| impact `11` normal components plus assembled impact | passed | 4 | `4151.98 MiB` (`rank125_impact11_z`) | `45750.68 MiB` |
+| selected-impact/root, split subcubes, split root | passed | 33 | `4161.48 MiB` (split-cover root) | `45764.10 MiB` |
+
+The final accepted rank125 proof surface is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HNSplitCoverRank125Smoke
+```
+
+and it exposes the expected
+`generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`
+theorem for rank `125`.
+
+Decision: accepted.  Rank125 confirms the current OOM-avoidance rule: when a
+selected-impact target crosses the `4200 MiB` cap, split that selected impact
+by normal component and rerun the focused component guard before the final
+cover guard.  Do not raise the cap while this finer split resolves the target.
+The prepared DU9HM ranks `89`, `120`, `122`, `123`, and `125` now all have
+accepted bounded smoke surfaces; the next strategy step is to decide how these
+bounded rank surfaces feed the broader portfolio/root coverage path rather than
+expanding this exact per-rank pattern blindly.
