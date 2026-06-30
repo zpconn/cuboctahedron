@@ -42708,3 +42708,83 @@ Result:
 Decision: accepted.  The 13-survivor rank did not increase memory pressure; it
 was slightly lighter than the smaller singleton leaves.  Continue with rank
 `897` next, still one heavy leaf at a time.
+
+### Phase 6Z6K8AP16DU9IQ6 - rank 897 singleton integrated
+
+Rank `897` was selected as the second 13-survivor singleton stress test:
+
+- rank: `897`;
+- GoodDirection survivor masks:
+  `[8, 13, 16, 18, 24, 29, 30, 31, 45, 47, 54, 55, 63]`;
+- candidate source-position groups: `7`;
+- bad-direction witnesses kept local to the signature: `51`.
+
+The rank-local positive precomputed-signature module was generated:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositivePrecomputedSignatureSmoke
+```
+
+Guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank897_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `60.67s` | `7877 MiB` | `40071 MiB` | `0` |
+
+A stable wrapper was added:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank897AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 897 898
+
+rank897AllGoodRankKilled :
+  AllTranslationGoodRankKilled 897
+```
+
+The sparse root now covers six accepted singleton signatures:
+
+```lean
+acceptedSingletonRanks : List Nat := [896, 897, 903, 905, 911, 955]
+
+acceptedSingletonAllGoodCoverage :
+  CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks
+```
+
+Guarded sparse-root rebuild:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_accepted_singletons_root_rank897_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.50s` | `4021 MiB` | `46034 MiB` | `0` |
+
+Decision: accepted.  Two 13-survivor singleton leaves now build below `8 GiB`
+RSS.  Continue with rank `899`, the remaining and largest `[896,960)`
+singleton with `16` survivor masks.  Keep the same guard; if it fails, do not
+raise the cap as the first response, split the proof surface instead.
