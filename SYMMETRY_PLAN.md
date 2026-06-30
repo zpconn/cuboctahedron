@@ -35100,3 +35100,42 @@ passed the same serial `4200 MiB` guard.  The next checkpoint should assemble or
 profile the accepted DU9IH rank set rather than launching any broad package
 build; if a root or group module is needed, introduce it behind the same
 focused, RSS-guarded workflow first.
+
+### Phase 6Z6K8AP16DU9IH - split batch root accepted
+
+The DU9IH split batch root was added as:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9IHSplitCoverBatchSmoke.lean
+```
+
+This root mirrors the accepted DU9IG split batch root: it imports only the nine
+already-guarded DU9IH rank roots, re-exports one
+`generatedGoodMaskMember_of_GoodDirection` adapter per rank, and proves a tiny
+`batchSplitCompactWalshCoverSmoke_builds : True` theorem.  It deliberately does
+not revive the older monolithic compact-Walsh batch route.
+
+The focused serial guard command was:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_batch_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IHSplitCoverBatchSmoke'
+```
+
+Guard summary:
+
+- exit code: `0`;
+- killed reason: none;
+- maximum process-tree RSS: `3976.52 MiB`;
+- minimum observed available memory: `46114.79 MiB`;
+- elapsed time: `3.00s`.
+
+Decision: DU9IH is accepted as a bounded split-cover batch.  The next compact
+h-cover window should continue the same operational pattern: pick the next
+bounded rank batch, emit/check each split rank root serially under the RSS
+guard, and only then add a shallow batch root over the accepted rank roots.
