@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 35000.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard001"
+  ],
+  "elapsed_seconds": 39.104504099988844,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 6572996,
+  "max_tree_rss_mib": 6418.94140625,
+  "min_available_seen_kib": 44035020,
+  "min_available_seen_mib": 43002.94921875,
+  "rss_cap_mib": 10000.0
+}
