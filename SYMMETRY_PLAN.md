@@ -32967,3 +32967,100 @@ using `--component-trace-step 12 --component-trace-final` as the default, and
 run guarded trace/cover checks serially under the `4200 MiB` cap.  If a
 selected-impact target stops at the guard, split that selected impact by normal
 component before rerunning the final cover guard.
+
+### Phase 6Z.6K.8AP.16DU.9IB checkpoint: rank `129` split cover accepted
+
+Phase 6Z.6K.8AP.16DU.9IB begins the proof-producing pass for the 9IA
+`[128,192)` batch.  The first rank, `129`, was emitted as a split-cover shard
+with trace step `12` and the final trace vector split by component:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_source.json \
+  --rank 129 \
+  --tag DU9IB \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IB' \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank129_component_final_generation.json
+```
+
+Generation result:
+
+- rank: `129`;
+- selected subcubes: `22`;
+- emitted/expected targets: `53`;
+- selected impacts: `[0, 1, 3, 5, 6, 8, 11]`;
+- final proof surface:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IBSplitCoverRank129Smoke`;
+- exported theorem:
+  `generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`.
+
+The guarded trace-prerequisite build was run serially with Lean/Lake
+single-threaded:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank129_component_final_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ib_rank129_trace_guard_4200.json \
+  --out-dir /tmp/ap16du9ib_rank129_trace_guard_4200 \
+  --target-kind trace_data \
+  --target-kind trace_step_00 \
+  --target-kind trace_step_01 \
+  --target-kind trace_step_02 \
+  --target-kind trace_step_03 \
+  --target-kind trace_step_04 \
+  --target-kind trace_step_05 \
+  --target-kind trace_step_06 \
+  --target-kind trace_step_07 \
+  --target-kind trace_step_08 \
+  --target-kind trace_step_09 \
+  --target-kind trace_step_10 \
+  --target-kind trace_step_11 \
+  --target-kind trace_step_12_x \
+  --target-kind trace_step_12_y \
+  --target-kind trace_step_12_z \
+  --target-kind trace_step_12 \
+  --target-kind trace_final_x \
+  --target-kind trace_final_y \
+  --target-kind trace_final_z \
+  --target-kind trace_final \
+  --target-kind trace \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Trace guard result: passed with `22` targets.  The maximum tree RSS was
+`4157.48 MiB` at `trace_final_z`; the minimum available memory observed was
+`45876.90 MiB`, also at `trace_final_z`.
+
+The guarded selected-impact/subcube/root build was then run:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank129_component_final_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ib_rank129_cover_targets_guard_4200.json \
+  --out-dir /tmp/ap16du9ib_rank129_cover_targets_guard_4200 \
+  --target-kind selected_impact_normal_component \
+  --target-kind selected_impact \
+  --target-kind selected_impacts_root \
+  --target-kind split_cover_subcube \
+  --target-kind split_cover_root \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Cover guard result: passed with `31` targets.  The maximum tree RSS was
+`4166.85 MiB` at selected impact `11`; the minimum available memory observed
+was `45834.00 MiB`, also at selected impact `11`.  The final split-cover root
+itself peaked at `4132.50 MiB`.
+
+Decision: accepted.  No selected-impact normal-component split was needed for
+rank `129`.  Continue DU9IB by emitting the next 9IA rank, `131`, with the same
+component trace/final split strategy and the same `4200 MiB` serial guard.
