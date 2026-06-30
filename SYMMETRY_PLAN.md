@@ -42071,3 +42071,63 @@ This root is still a smoke/group proof surface, not final exhaustive coverage.
 The next scaling step should use the DU9IQ source/profile artifacts to choose
 the next semantic slice or to add a verified adapter from this group root into
 the larger translation coverage API.
+
+### Phase 6Z6K8AP16DU9IQ - rank-903 semantic leaf surface accepted
+
+The DU9IQ traced direct-bridge emitter was upgraded so every generated
+weighted-denominator leaf now exports the semantic GoodDirection contradiction
+surface, not only a `True` smoke theorem:
+
+- `notGoodDirection`;
+- `translationGoodCaseKilled_of_member`.
+
+These theorems reuse the existing hand-written denominator-cube theorem:
+`weightedDenomAtRank_pos_of_goodDirection`.  The generated arithmetic work is
+still concentrated in each leaf's already-checked `weightedDenom_nonpos`
+theorem; the new semantic theorem is a short contradiction between
+`0 < weightedDenomAtRank ...` and `weightedDenomAtRank ... <= 0`.
+
+Files regenerated for rank `903`:
+
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx40Smoke` through
+  `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx51Smoke`.
+
+All twelve upgraded leaves were checked serially under the `12 GiB` guard:
+
+- leaf count: `12`;
+- failures: `0`;
+- total serial elapsed time: `41.56s`;
+- worst leaf elapsed time:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx40_semantic_guard.json`
+  at `9.51s`;
+- worst leaf peak tree RSS:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx51_semantic_guard.json`
+  at `4146 MiB`;
+- lowest available memory seen during serial leaf builds: `45918 MiB`.
+
+Important build-order lesson: immediately rebuilding the rank-`903` all-root
+after regenerating twelve stale leaves caused Lake to fan out enough dependent
+work that the memory guard killed the process before it endangered the
+machine:
+
+- guard:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank903_all_semantic_guard.json`;
+- exit: `-15`;
+- elapsed time: `6.51s`;
+- peak tree RSS: `30917 MiB`;
+- kill reason: process-tree RSS exceeded the `12000 MiB` cap.
+
+After warming the twelve leaves one-by-one, the same rank-`903` all-root passed
+under the guard:
+
+- guard:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank903_all_semantic_guard_warm.json`;
+- elapsed time: `3.50s`;
+- peak tree RSS: `7168 MiB`;
+- minimum available memory seen: `45629 MiB`.
+
+Decision: accepted with a stricter build workflow.  Any future regeneration of
+multiple DU9IQ direct-bridge leaves must first warm the leaves serially under
+guard, then build the shallow aggregate root.  Cold aggregate builds over stale
+heavy leaves are explicitly disallowed because they can exceed the safe memory
+budget even when the individual leaves are small.

@@ -1,3 +1,4 @@
+import Cuboctahedron.Generated.Coverage.TranslationSurvivors
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ReducedWalshQuadraticBound
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticObstruction
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank903Idx01Smoke
@@ -16,6 +17,7 @@ namespace WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx49Smoke
 
 open PositiveSurvivorClassifier
 open PositiveSurvivorClassifier.ImpactSubcube
+open Cuboctahedron.Generated.Coverage
 open DenominatorCube
 
 set_option maxHeartbeats 0
@@ -341,6 +343,26 @@ theorem weightedDenom_nonpos
   weightedDenom_nonpos_of_reduced_bound
     (fun hlt hmember => direct_eq hlt hmember)
     hlt hmember
+
+theorem notGoodDirection
+    {mask : SignMask} (hlt : rank903 < numPairWords)
+    (hmember : cube11x0x0.Member mask) :
+    ¬ GoodDirectionAtRank (⟨rank903, hlt⟩ : Fin numPairWords) mask := by
+  intro hgood
+  have hpos :
+      0 <
+        weightedDenomAtRank
+          (⟨rank903, hlt⟩ : Fin numPairWords) mask weights2_12 :=
+    weightedDenomAtRank_pos_of_goodDirection hlt weights2_12_nonnegative
+      weights2_12_positive hgood
+  exact (not_lt_of_ge (weightedDenom_nonpos hlt hmember)) hpos
+
+theorem translationGoodCaseKilled_of_member
+    {mask : SignMask} (hlt : rank903 < numPairWords)
+    (hmember : cube11x0x0.Member mask) :
+    TranslationGoodCaseKilled (⟨rank903, hlt⟩ : Fin numPairWords) mask := by
+  intro hgood
+  exact False.elim ((notGoodDirection hlt hmember) hgood)
 
 theorem tracedDirectBridgeGeneratedSmoke_builds : True := by
   trivial
