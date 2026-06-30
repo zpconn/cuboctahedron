@@ -36019,3 +36019,48 @@ Decision: rank `501` is accepted.  All four DU9IJ proof-producing rank roots
 (`449`, `498`, `501`, and `503`) have now passed under the serial `4200 MiB`
 guard.  The next safe checkpoint is a shallow DU9IJ split batch smoke root
 that imports only these accepted rank roots.
+
+### Phase 6Z6K8AP16DU9IJ - split batch root accepted
+
+After all four DU9IJ rank roots passed under individual guards, the shallow
+batch root was created at:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IJSplitCoverBatchSmoke.lean
+```
+
+The root imports only the accepted rank roots:
+
+- `449`;
+- `498`;
+- `501`;
+- `503`.
+
+It re-exports one semantic `GoodDirection` adapter theorem per rank and a
+small build-smoke theorem referencing the imported rank roots.  It does not
+import the older monolithic compact-Walsh batch route.
+
+Guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ij_split_cover_batch_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IJSplitCoverBatchSmoke'
+```
+
+Guard result:
+
+- exit code: `0`;
+- maximum process-tree RSS: `4083.75 MiB`;
+- minimum observed available memory: `45991.68 MiB`;
+- elapsed wall time: `2.50s`;
+- killed reason: none.
+
+Decision: the DU9IJ split batch root is accepted.  The current accepted split
+batch roots are now DU9II and DU9IJ.  Continue by selecting the next compact
+h-cover window or by promoting the accepted split batch roots into the
+higher-level generated coverage assembly; either path should keep using
+rank-level guarded builds and shallow roots rather than broad package builds.
