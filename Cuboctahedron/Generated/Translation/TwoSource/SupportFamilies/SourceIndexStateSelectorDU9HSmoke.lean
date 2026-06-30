@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 /-!
 Generated DU.9H selector-coordinate smoke.
@@ -15,6 +16,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBri
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 set_option linter.unusedVariables false
 
@@ -511,6 +513,20 @@ theorem SelectorCoordinateFactsGoodCatalogOnRange.to_allGoodCoverage
     AllTranslationGoodCoverageOnRange 0 5000 :=
   SourceRowFactsGoodCatalogOnRange.to_allGoodCoverage
     (SelectorCoordinateFactsGoodCatalogOnRange.to_sourceIndexFactsCatalog catalog)
+
+theorem SelectorCoordinateFactsGoodCatalogOnRange.to_templateLanguageCoverage
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    (catalog : SelectorCoordinateFactsGoodCatalogOnRange coordAt 0 5000) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000 :=
+  TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsCatalog
+    (SelectorCoordinateFactsGoodCatalogOnRange.to_sourceIndexFactsCatalog catalog)
+
+theorem SelectorCoordinateFactsGoodCatalogOnRange.to_allGoodCoverage_via_template
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    (catalog : SelectorCoordinateFactsGoodCatalogOnRange coordAt 0 5000) :
+    AllTranslationGoodCoverageOnRange 0 5000 :=
+  TemplateLanguageCoverageOnIdentityRange.to_allGoodCoverage
+    (SelectorCoordinateFactsGoodCatalogOnRange.to_templateLanguageCoverage catalog)
 
 /-- Smoke theorem: every generated classifier key has a public selector coordinate. -/
 theorem selectorCoordinateSmoke_builds : True := by

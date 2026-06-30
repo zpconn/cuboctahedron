@@ -28612,3 +28612,57 @@ This does not make finite catalogs production-acceptable as the primary
 compression coordinate; earlier gates still reject catalog/rank granularity.
 It does, however, ensure any residual bounded catalog experiments export the
 same semantic theorem surface as the future production route.
+
+### Phase 6Z.6K.8AP.16DU.9EU checkpoint: selector-smoke template erasure
+
+Phase 6Z.6K.8AP.16DU.9EU migrates the bounded selector-coordinate smoke
+module itself onto the accepted template-language output.  The module
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9HSmoke.lean`
+now imports `TemplateLanguage.lean` and exposes:
+
+```lean
+theorem SelectorCoordinateFactsGoodCatalogOnRange.to_templateLanguageCoverage
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    (catalog : SelectorCoordinateFactsGoodCatalogOnRange coordAt 0 5000) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000
+
+theorem SelectorCoordinateFactsGoodCatalogOnRange.to_allGoodCoverage_via_template
+    {coordAt : Nat -> SignMask -> SelectorCoordinate}
+    (catalog : SelectorCoordinateFactsGoodCatalogOnRange coordAt 0 5000) :
+    AllTranslationGoodCoverageOnRange 0 5000
+```
+
+The first theorem erases selector-coordinate source/row facts directly to the
+new template-language theorem surface.  The second keeps the older all-good
+surface available, but only as an adapter through template-language coverage.
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
+```
+
+Result: passed in `elapsed=0:05.79`, `max_rss_kb=3296012`.
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9HSmoke.lean
+```
+
+Result: passed in `elapsed=0:05.34`, `max_rss_kb=3539376`.
+
+Safety note: this checkpoint was run after another OOM warning.  Host-level
+process and memory checks showed no active Lean/Lake/project Python job and
+approximately `45 GiB` available memory before the check.  The check stayed in
+the already-observed 3-4 GiB RSS range.  Continue to avoid broad Lean builds
+or multi-job Lean checks until a module has a measured RSS profile and a
+memory budget.
+
+Decision: selector-coordinate smokes are now consistent with the accepted
+translation proof surface.  This is still not a production compression
+coordinate: finite selector catalogs over bounded rank ranges remain a
+diagnostic migration path only.  The next proof-producing work should make a
+compressed algebraic/state-language source-row theorem feed
+`TemplateLanguageCoverageOnIdentityRange`, rather than scaling selector
+catalogs.
