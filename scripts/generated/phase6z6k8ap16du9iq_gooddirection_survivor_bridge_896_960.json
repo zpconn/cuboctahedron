@@ -1,0 +1,134 @@
+{
+  "accepted_next_theorem_shape": "forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),\n  896 <= rank ->\n  rank < 960 ->\n    totalLinearOfPairWord (unrankPairWord \u27e8rank, hlt\u27e9) =\n        (matId : Mat3 Rat) ->\n      GoodDirectionAtRank \u27e8rank, hlt\u27e9 mask ->\n        exists key : SourceIndexStateKey,\n          SourceIndexStateSourceFacts key rank mask /\\\n          SourceIndexStateRowFacts key rank mask",
+  "decision": {
+    "notes": [
+      "Keep DU.9DG descriptor-side theorem shape.",
+      "Do not scale local bad-mask denominator contradictions.",
+      "Do not use rank-local Boolean GoodDirection membership.",
+      "The next Lean smoke should prove source/row facts for one broad source-index/state family from GoodDirection premises, or prove that an additional symbolic state predicate is required."
+    ],
+    "status": "implement-source-index-state-bridge-smoke"
+  },
+  "phase": "Phase 6Z.6K.8AP.16DU.9DH",
+  "prior_signals": {
+    "denominator_signature_status": "denominator-signatures-still-mostly-rank-local",
+    "descriptor_membership_status": "accepted-next-lean-smoke",
+    "du9db_route_status": "blocked-on-semantic-membership-theorem",
+    "du9dc_contract_status": "contract-present-generator-obligation-open",
+    "nonenum_chosen_candidate": "source_index_state"
+  },
+  "routes": [
+    {
+      "name": "local_bad_mask_denominator_contradictions",
+      "reason": "DU.9DE showed this can prove a tiny complete hclass, but it spent substantial memory on concrete non-GoodDirection masks. DU.9DG deliberately avoided this path.",
+      "status": "reject"
+    },
+    {
+      "name": "rank_local_boolean_membership",
+      "reason": "DU.9DB Boolean smoke got stuck on goodDirectionAtRankBool comparisons even for singleton membership; this is not the production bridge.",
+      "status": "reject"
+    },
+    {
+      "name": "completed_rank_denominator_signature_grouping",
+      "reason": "16BC denominator-signature status is 'denominator-signatures-still-mostly-rank-local'; completed-rank denominator signatures are not compressing enough for a global bridge.",
+      "status": "reject"
+    },
+    {
+      "name": "source_index_state_semantic_bridge",
+      "reason": "8G selected source_index_state as stable, fact-free, and member-list-free; DU.9DC confirms the semantic coverage contract is already present.",
+      "status": "next"
+    },
+    {
+      "name": "symbolic_walsh_or_state_language_bridge",
+      "reason": "16BI shows denominator signs can be degree-2 Walsh forms, so if source_index_state still cannot prove membership directly, the fallback should be a symbolic Walsh/state-language theorem rather than affine mask cubes.",
+      "status": "fallback"
+    }
+  ],
+  "trusted_as_proof": false,
+  "window": {
+    "bad_direction_masks": 373,
+    "good_direction_survivors": 75,
+    "identity_ranks": [
+      896,
+      897,
+      899,
+      903,
+      905,
+      911,
+      955
+    ],
+    "largest_family_size": 20,
+    "limit": 64,
+    "nonidentity_ranks": [
+      898,
+      900,
+      901,
+      902,
+      904,
+      906,
+      907,
+      908,
+      909,
+      910,
+      912,
+      913,
+      914,
+      915,
+      916,
+      917,
+      918,
+      919,
+      920,
+      921,
+      922,
+      923,
+      924,
+      925,
+      926,
+      927,
+      928,
+      929,
+      930,
+      931,
+      932,
+      933,
+      934,
+      935,
+      936,
+      937,
+      938,
+      939,
+      940,
+      941,
+      942,
+      943,
+      944,
+      945,
+      946,
+      947,
+      948,
+      949,
+      950,
+      951,
+      952,
+      953,
+      954,
+      956,
+      957,
+      958,
+      959
+    ],
+    "rank_start": 896,
+    "source_index_state_families": 19,
+    "top_family_sizes": [
+      20,
+      9,
+      7,
+      6,
+      3,
+      3,
+      3,
+      3
+    ]
+  }
+}

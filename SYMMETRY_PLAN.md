@@ -39818,3 +39818,47 @@ python3 scripts/run_ap16dj_serial_guarded.py \
 Decision: keep using the serial guard for any future focused Lean checks, but
 require this explicit interrupted/failure status before interpreting a partial
 JSON file.  This is operational safety tooling only; it is not proof evidence.
+
+### Phase 6Z6K8AP16DU9IQ - semantic route re-audited
+
+After the rank `903` compact-Walsh trace bottleneck, the DU9IQ window
+`[896,960)` was re-audited against the semantic row/template route instead of
+the rank-local Walsh-subcube route.
+
+Commands:
+
+```bash
+python3 scripts/audit_ap16du9cx_semantic_template_readiness.py \
+  --rank-start 896 \
+  --limit 64 \
+  --json scripts/generated/phase6z6k8ap16du9iq_semantic_template_readiness_896_960.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_semantic_template_readiness_896_960.md
+
+python3 scripts/audit_du9dh_gooddirection_survivor_bridge.py \
+  --rank-start 896 \
+  --limit 64 \
+  --out-json scripts/generated/phase6z6k8ap16du9iq_gooddirection_survivor_bridge_896_960.json \
+  --out-md scripts/generated/phase6z6k8ap16du9iq_gooddirection_survivor_bridge_896_960.md
+
+python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Results:
+
+- semantic template readiness status:
+  `current-adapters-cover-window`;
+- GoodDirection survivors in `[896,960)`: `75`;
+- source-index/state families in `[896,960)`: `19`;
+- unsupported semantic-template cases: `0`;
+- unsupported semantic-template families: `0`;
+- GoodDirection survivor bridge audit status:
+  `implement-source-index-state-bridge-smoke`;
+- semantic coverage contract status:
+  `contract-present-generator-obligation-open`.
+
+Decision: stop trying to finish DU9IQ rank `903` through the current
+compact-Walsh trace target.  The semantic row/template adapters already cover
+the DU9IQ window; the remaining production obligation is the known
+GoodDirection-to-source-index/state-domain bridge, proved without
+`fin_cases mask`, compact-Walsh membership roots, rank-local Boolean reduction,
+or replaying `pairPrefixLinearNat` inside generated leaves.
