@@ -30266,3 +30266,34 @@ bounded hcover smoke first, using
 `TemplateLanguageDomainCoversIdentityRange.single` or `concat` plus the
 candidate-union/source-position erasure path.  Only after that builds should we
 try the mixed source-skeleton/row target.
+
+### Phase 6Z.6K.8AP.16DU.9GA checkpoint: quotient targets are not range hcover
+
+Phase 6Z.6K.8AP.16DU.9GA adds
+`scripts/audit_hcover_smoke_target_range_fit.py`, a proof-neutral range-fit
+audit for the selected 9FZ targets.  It checks whether each selected semantic
+quotient group covers all GoodDirection survivors at its sample ranks.
+
+Run command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_hcover_smoke_target_range_fit.py
+```
+
+Result: passed in `elapsed=0:00.64`, `max_rss_kb=25556`.
+
+Findings:
+
+| Target | Sample ranks | GoodDirection cases at rank 0 | Target cases at rank 0 | Concrete keys needed |
+| --- | ---: | ---: | ---: | ---: |
+| Baseline quotient group | `1` | `16` | `5` | `6` |
+| Mixed quotient group | `4` | `16` | `5` | `6` |
+
+Decision: accepted and the 9FZ wording is refined.  A quotient group is a
+member-bridge component, not by itself a range-level hcover theorem.  The first
+range-level generated hcover smoke should instead target the singleton rank
+`0` with the union of all `6` concrete/source-position candidate groups needed
+by that rank.  The selected baseline/mixed quotient groups remain useful
+ingredients for member-bridge factoring, but complete hcover must cover every
+GoodDirection survivor in the rank window.

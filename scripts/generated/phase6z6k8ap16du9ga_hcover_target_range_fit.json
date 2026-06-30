@@ -1,0 +1,110 @@
+{
+  "decision": {
+    "next_gate": "Emit the first range-level smoke as a singleton rank whose domain is the union of all concrete/source-position candidate groups needed by that rank.  Use the quotient targets as member bridge components, not as complete hcover ranges by themselves.",
+    "status": "quotient-targets-not-range-hcover-by-themselves"
+  },
+  "phase": "6Z.6K.8AP.16DU.9GA",
+  "recommended_range_smoke": {
+    "candidate_union_key_count": 6,
+    "candidate_union_keys": [
+      "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+      "1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e",
+      "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+      "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+      "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+      "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232"
+    ],
+    "rank": 0
+  },
+  "targets": {
+    "baseline": {
+      "covers_all_sample_ranks": false,
+      "rank_reports": [
+        {
+          "concrete_keys_needed_for_rank": [
+            "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+            "1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e",
+            "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+            "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+            "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+            "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232"
+          ],
+          "good_direction_cases": 16,
+          "good_direction_concrete_keys": 6,
+          "matching_target_cases": 5,
+          "rank": 0,
+          "target_covers_rank": false
+        }
+      ],
+      "sample_ranks": [
+        0
+      ],
+      "target": "baseline_template_source_skeletons_integer_scaled",
+      "target_family_key_count": 1
+    },
+    "mixed": {
+      "covers_all_sample_ranks": false,
+      "rank_reports": [
+        {
+          "concrete_keys_needed_for_rank": [
+            "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+            "1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e",
+            "54d0c8c40e9b0d9f9519cb7c7408f01fbde155d55fa47406050bae66230fa261",
+            "976bc3a2ee25ce8a02c2dddf48cec166060bf46e866b86a4ef0107b559468085",
+            "eb4c456fc66410a7b8aa45c64cb8e7e30799ef477fdc1b2697e1e1f95417a217",
+            "f4720b9b7c334ff3bd51b6ed20a9ebe7147a3827ee0d000ff0ef889dbb1da232"
+          ],
+          "good_direction_cases": 16,
+          "good_direction_concrete_keys": 6,
+          "matching_target_cases": 5,
+          "rank": 0,
+          "target_covers_rank": false
+        },
+        {
+          "concrete_keys_needed_for_rank": [
+            "12635681dc0d692360c1d4b360714c63d07f45d16298d6d0d58d2586f80dc6ac",
+            "9c314735fc70994884564418e32f5c67b4d27e4bbebc86ecc37b5cc2bc62d19b"
+          ],
+          "good_direction_cases": 2,
+          "good_direction_concrete_keys": 2,
+          "matching_target_cases": 1,
+          "rank": 45000184,
+          "target_covers_rank": false
+        },
+        {
+          "concrete_keys_needed_for_rank": [
+            "30574aa8b68c7f76dfe0fe00ac99e515b1da356a1e453fc0d533915f95a992eb",
+            "cb6f6bc2af727b7b07a1a5f93b6bb4b547714996ae906018ac0e2560d8102162"
+          ],
+          "good_direction_cases": 2,
+          "good_direction_concrete_keys": 2,
+          "matching_target_cases": 1,
+          "rank": 45003885,
+          "target_covers_rank": false
+        },
+        {
+          "concrete_keys_needed_for_rank": [
+            "1fbb3ca1bb9f9d06de3fcfe2b546b99940e647fba253b01170c57f26e4cf605e",
+            "253616397651d8f80158fbe86ee50967575a66461ada0d125e0613286400ab08",
+            "80a1bd8823e230092ab8df8cf6113d13599779e9e0e325e10ed17eb9fd3989d9",
+            "bcaa49bdf67db120feb9ad4dda9a69450799ee1076adb235c86f602b449e273d"
+          ],
+          "good_direction_cases": 5,
+          "good_direction_concrete_keys": 4,
+          "matching_target_cases": 1,
+          "rank": 95000493,
+          "target_covers_rank": false
+        }
+      ],
+      "sample_ranks": [
+        0,
+        45000184,
+        45003885,
+        95000493
+      ],
+      "target": "mixed_template_source_skeletons_row",
+      "target_family_key_count": 4
+    }
+  },
+  "trusted_as_proof": false
+}
