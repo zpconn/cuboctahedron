@@ -50,10 +50,26 @@ membership profile.  It is not proof evidence.
 | `9,16,18,22,24,28,29,30,31,45,54,55,63` | `8` |
 | `8,9,16,18,22,24,28,29,30,45,47,55,63` | `8` |
 
+## Top Good-Mask-Set Groups
+
+| Masks | Signatures | Cases | Candidate Union | Candidate Maps |
+| --- | ---: | ---: | ---: | ---: |
+| `8,9,13,16,18,22,24,28,29,30,31,45,47,54,55,63` | `30` | `480` | `40` | `30` |
+| `10,11,15,16,18,20,26,28,29,30,31,45,47,52,53,61` | `12` | `192` | `34` | `12` |
+| `7,9,13,15,18,22,23,24,28,31,39,47,55` | `11` | `143` | `24` | `11` |
+| `8,9,13,16,18,22,28,30,31,45,54,55,63` | `8` | `104` | `27` | `8` |
+| `8,9,13,18,24,28,29,30,31,45,47,54,63` | `8` | `104` | `27` | `8` |
+| `9,13,16,18,22,24,28,30,31,45,47,54,55` | `8` | `104` | `25` | `8` |
+| `8,9,13,16,18,24,28,29,30,47,54,55,63` | `8` | `104` | `20` | `8` |
+| `8,9,13,18,22,24,28,29,31,45,47,54,55` | `8` | `104` | `25` | `8` |
+| `9,16,18,22,24,28,29,30,31,45,54,55,63` | `8` | `104` | `26` | `8` |
+| `8,9,16,18,22,24,28,29,30,45,47,55,63` | `8` | `104` | `24` | `8` |
+
 ## Interpretation
 
 - One domain per signature: `757`.
 - One domain per mask-to-candidate map: `757`.
+- One domain per good-mask set: `362`.
 - One member-bridge obligation per candidate group: `195`.
 
 Next gate: Do not group by mask-to-candidate map in this bounded sample: it has no compression.  Instead, emit a bounded domain smoke whose TemplateLanguageMemberBridgeOnDomain is factored through reusable positive candidate groups/source-position shapes, then keep the signature-specific coverage premise separate.

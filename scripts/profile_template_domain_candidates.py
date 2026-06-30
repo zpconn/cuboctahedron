@@ -86,9 +86,50 @@ def summarize(profile: dict[str, Any]) -> dict[str, Any]:
     candidate_map_counts = Counter(signature_candidate_maps)
     mask_set_counts = Counter(signature_mask_sets)
 
-    signatures_per_candidate_set: dict[str, int] = {}
-    for key, count in candidate_set_counts.items():
-        signatures_per_candidate_set[" | ".join(key)] = count
+    good_mask_set_groups: dict[tuple[int, ...], dict[str, Any]] = defaultdict(
+        lambda: {
+            "signature_count": 0,
+            "case_count": 0,
+            "rank_count": 0,
+            "candidate_keys": set(),
+            "candidate_map_count": 0,
+            "candidate_maps": Counter(),
+        }
+    )
+    for sig, mask_key, candidate_set, candidate_map in zip(
+        signatures,
+        signature_mask_sets,
+        signature_candidate_sets,
+        signature_candidate_maps,
+    ):
+        group = good_mask_set_groups[mask_key]
+        group["signature_count"] += 1
+        group["case_count"] += int(sig.get("case_count", 0))
+        group["rank_count"] += int(sig.get("rank_count", 0))
+        group["candidate_keys"].update(candidate_set)
+        group["candidate_maps"][candidate_map] += 1
+
+    top_good_mask_set_groups = []
+    for mask_key, group in good_mask_set_groups.items():
+        candidate_maps = group["candidate_maps"]
+        top_good_mask_set_groups.append(
+            {
+                "masks": list(mask_key),
+                "signature_count": group["signature_count"],
+                "case_count": group["case_count"],
+                "rank_count": group["rank_count"],
+                "candidate_union_size": len(group["candidate_keys"]),
+                "candidate_map_count": len(candidate_maps),
+                "top_candidate_map_multiplicity": candidate_maps.most_common(1)[0][1]
+                if candidate_maps
+                else 0,
+                "candidate_keys": sorted(group["candidate_keys"]),
+            }
+        )
+    top_good_mask_set_groups.sort(
+        key=lambda item: (item["signature_count"], item["case_count"]),
+        reverse=True,
+    )
 
     if len(candidate_map_counts) == len(signatures):
         next_gate = (
@@ -155,6 +196,7 @@ def summarize(profile: dict[str, Any]) -> dict[str, Any]:
             {"masks": list(key), "signature_count": count}
             for key, count in mask_set_counts.most_common(10)
         ],
+        "top_good_mask_set_groups": top_good_mask_set_groups[:20],
         "top_candidate_sets": [
             {"candidate_keys": list(key), "signature_count": count}
             for key, count in candidate_set_counts.most_common(10)
@@ -180,6 +222,7 @@ def summarize(profile: dict[str, Any]) -> dict[str, Any]:
         "interpretation": {
             "one_domain_per_signature": len(signatures),
             "one_domain_per_mask_to_candidate_map": len(candidate_map_counts),
+            "one_domain_per_good_mask_set": len(mask_set_counts),
             "one_member_bridge_obligation_per_candidate_group": len(candidates),
             "mask_to_candidate_map_status": mask_map_status,
             "next_gate": next_gate,
@@ -250,11 +293,30 @@ def write_markdown(payload: dict[str, Any], path: Path) -> None:
     lines.extend(
         [
             "",
+            "## Top Good-Mask-Set Groups",
+            "",
+            "| Masks | Signatures | Cases | Candidate Union | Candidate Maps |",
+            "| --- | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for item in payload["top_good_mask_set_groups"][:10]:
+        lines.append(
+            f"| `{','.join(str(mask) for mask in item['masks'])}` | "
+            f"`{item['signature_count']}` | "
+            f"`{item['case_count']}` | "
+            f"`{item['candidate_union_size']}` | "
+            f"`{item['candidate_map_count']}` |"
+        )
+
+    lines.extend(
+        [
+            "",
             "## Interpretation",
             "",
             f"- One domain per signature: `{interp['one_domain_per_signature']}`.",
             "- One domain per mask-to-candidate map: "
             f"`{interp['one_domain_per_mask_to_candidate_map']}`.",
+            f"- One domain per good-mask set: `{interp['one_domain_per_good_mask_set']}`.",
             "- One member-bridge obligation per candidate group: "
             f"`{interp['one_member_bridge_obligation_per_candidate_group']}`.",
             "",

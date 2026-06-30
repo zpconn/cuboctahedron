@@ -29683,3 +29683,71 @@ domain, and the reusable domain member bridge supplies template-language
 membership.  The remaining work is to scale the coverage side from one
 signature to compressed classes of signatures/states without using raw
 rank/mask tables.
+
+### Phase 6Z.6K.8AP.16DU.9FO checkpoint: good-mask-set union profile and scaling smoke
+
+Phase 6Z.6K.8AP.16DU.9FO extends
+`scripts/profile_template_domain_candidates.py` to summarize good-mask-set
+groups by signature count, bounded case count, candidate-union size, and
+mask-to-candidate-map count.
+
+Profile command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/profile_template_domain_candidates.py
+```
+
+Result: passed in `elapsed=0:00.05`, `max_rss_kb=18824`.
+
+The top good-mask set in the bounded AP.16I profile has:
+
+- `30` signatures;
+- `480` bounded observed cases;
+- `40` candidate groups in its reusable candidate union;
+- `30` distinct mask-to-candidate maps.
+
+This confirms the previous rejection of exact mask-to-candidate-map grouping:
+even inside the top good-mask-set group, every signature still has its own
+candidate map.  The useful sharing is instead the reusable candidate-domain
+member bridge for the `40` candidate groups.
+
+The same phase updates `scripts/generate_template_domain_union_smoke.py` with
+`--selection top-good-mask-set`, then regenerates
+`PositiveSurvivorTemplateDomainUnionSmoke.lean` for the full `40`-candidate
+union associated with that top good-mask set.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_template_domain_union_smoke.py \
+    --selection top-good-mask-set
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=17800`, with
+`candidate_union_size=40`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 240s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean
+```
+
+Result: passed in `elapsed=0:07.51`, `max_rss_kb=3283628`.
+
+The semantic contract audit still passes:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12932`.
+
+Decision: accepted as a useful scaling datapoint for the member-bridge layer.
+A `40`-candidate reusable union checks in about the same memory envelope as
+the smaller smokes and under ten seconds.  The remaining unsolved task is not
+candidate-domain member composition; it is proving the coverage side for
+many signatures/states without enumerating rank/mask singleton facts.
