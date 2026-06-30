@@ -31261,3 +31261,41 @@ highest-RSS compact cover root so far, but it still fits under the 4.5 GiB
 guard.  This confirms that compact cover roots should remain serial; do not run
 two of these Lean targets concurrently.  Next step: run all six DU9GU cover
 roots under the serial guard.
+
+### Phase 6Z.6K.8AP.16DU.9GW checkpoint: all DU9GU cover roots under guard
+
+Phase 6Z.6K.8AP.16DU.9GW runs the all-cover-root guard for the third compact
+hcover batch:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gu_serial_guard_covers_all.json \
+  --out-dir /tmp/ap16dj_du9gu_serial_guarded/covers_all \
+  --target-kind cover \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed.  The uncached cover roots remain tightly clustered in time and
+memory:
+
+| Rank | Elapsed seconds | Peak tree RSS MiB | Min available MiB |
+| ---: | ---: | ---: | ---: |
+| `45` | `91.66` | `4341.8` | `45637.4` |
+| `47` | `92.19` | `4333.7` | `45721.4` |
+| `49` | `88.76` | `4397.8` | `45582.5` |
+| `57` | `89.17` | `4336.0` | `45647.0` |
+| `59` | `93.69` | `4355.6` | `45603.3` |
+| `60` | `1.00` | `798.9` | `46403.8` |
+
+Rank `60` was already cached by the 9GV largest-cover stress probe, so the
+all-cover pass only replayed it.  The important uncached maximum is rank `49`
+at `4397.8 MiB`, still under the `4500 MiB` cap but too close for concurrent
+heavy-cover builds.
+
+Decision: accepted.  All six DU9GU compact cover roots have now passed under
+the serial guard.  The next safe checkpoint is the shallow DU9GU batch-root
+guard; continue using one Lean target at a time for cover roots.
