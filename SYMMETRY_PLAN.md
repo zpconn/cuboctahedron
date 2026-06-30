@@ -34188,3 +34188,41 @@ Dry-run result:
 Decision: DU9IG prep is accepted.  Next, emit split-cover modules rank by rank
 with `--component-trace-step 12 --component-trace-final`, guard each rank under
 the `4200 MiB` RSS cap, and only then add a shallow DU9IG split batch root.
+
+### Phase 6Z6K8AP16DU9IG - rank 261 split cover accepted
+
+The first DU9IG proof-producing rank, `261`, was emitted with the split-cover
+topology and with trace step `12` plus final-vector component splitting:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank261_generation.json
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank261_generation.md
+```
+
+Generation summary:
+
+- rank: `261`;
+- good masks: `7`;
+- selected subcubes: `19`;
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 11]`;
+- generated guarded targets: `50`.
+
+The serial guarded build passed:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank261_guard_4200.json
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `50`;
+- maximum process-tree RSS: `4168.01 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomRank261Impact11Smoke`;
+- minimum observed available memory: `45932.86 MiB`;
+- summed guarded target elapsed time: `189.76s`.
+
+Decision: rank `261` is accepted under the DU9IG split-cover path.  Continue
+rank by rank; do not create a DU9IG batch root until all five rank roots have
+passed the same guard.
