@@ -60,6 +60,8 @@ calculations are exact rational arithmetic.
 A billiard path normally bends at each bounce. The standard trick is to
 **unfold** it.
 
+<img width="6000" height="3390" alt="proof strategy overview" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
+
 Instead of reflecting the moving ball, reflect the room. After each impact,
 copy the cuboctahedron across the hit face. In this unfolded world, the
 billiard path is one straight line through reflected copies.
@@ -856,8 +858,6 @@ the final family theorem and the final coverage theorem.
 ## Proof Architecture
 
 The final proof has four mathematical layers and one generated-evidence layer.
-
-<img width="6000" height="3390" alt="proof strategy overview" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
 
 ```mermaid
 flowchart TD
