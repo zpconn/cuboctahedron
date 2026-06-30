@@ -35568,3 +35568,63 @@ Decision: rank `447` is accepted.  Here the peak was the split trace final
 `Y` component rather than the split-cover root, which confirms that the
 component split remains doing useful work.  Only rank `413` remains in this
 DU9II rank batch before a shallow batch-root smoke should be attempted.
+
+### Phase 6Z6K8AP16DU9II - rank 413 split cover accepted
+
+The sixth and final DU9II proof-producing rank in the current batch was
+generated from the prepared batch plan/source pair:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json \
+  --rank 413 \
+  --tag DU9II \
+  --phase 'Phase 6Z.6K.8AP.16DU.9II' \
+  --report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank413_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 8
+```
+
+Generated shape:
+
+- selected impacts: `[0, 1, 3, 5, 6, 7, 8]`;
+- selected subcubes: `19`;
+- guarded targets: `59`;
+- selected-impact normal component targets:
+  `rank413_impact6_x/y/z`, `rank413_impact7_x/y/z`, and
+  `rank413_impact8_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank413_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ii_split_cover_rank413_guard_4200.json \
+  --out-dir /tmp/ap16du9ii_split_cover_rank413_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `59`;
+- maximum process-tree RSS: `4166.47 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank413SplitFinalXSmoke`;
+- minimum observed available memory: `45845.10 MiB`;
+- total guarded elapsed time across targets: `197.76s`;
+- killed targets: none.
+
+Decision: rank `413` is accepted.  All six DU9II proof-producing ranks now
+have individually guarded split-cover roots.  The next bounded action is to
+create a shallow DU9II batch smoke root that imports only those six accepted
+rank roots and re-exports their semantic adapters, then guard that root
+separately before treating the batch as assembled.
