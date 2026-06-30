@@ -32728,3 +32728,49 @@ The prepared DU9HM ranks `89`, `120`, `122`, `123`, and `125` now all have
 accepted bounded smoke surfaces; the next strategy step is to decide how these
 bounded rank surfaces feed the broader portfolio/root coverage path rather than
 expanding this exact per-rank pattern blindly.
+
+### Phase 6Z.6K.8AP.16DU.9HX checkpoint: DU9HM shallow split batch root accepted
+
+Phase 6Z.6K.8AP.16DU.9HX wires the six accepted DU9HM split-cover rank roots
+into a shallow batch root:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HMBatchSmoke.lean
+```
+
+This root imports only the accepted split-cover rank roots for:
+
+```text
+87, 89, 120, 122, 123, 125
+```
+
+and re-exports one `rank*_goodMaskMember_of_GoodDirection` theorem per rank.
+It deliberately does not import or revive the rejected monolithic DU9HM cover
+root shape.
+
+Guarded build command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9hx_hm_batch_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HMBatchSmoke'
+```
+
+Result:
+
+| Target | Result | Elapsed | Peak tree RSS | Minimum available memory |
+| --- | --- | ---: | ---: | ---: |
+| DU9HM shallow split batch root | passed | `7.01s` | `4097.54 MiB` | `45983.88 MiB` |
+
+Decision: accepted.  The rank-level split-cover surfaces for the DU9HM batch
+can be composed through a small theorem-valued root without creating a new
+memory hotspot.  This should be the pattern for future bounded batches: build
+and guard individual split-cover rank roots first, then add a shallow batch
+root that imports only accepted rank roots and exports semantic GoodDirection
+membership adapters.  The next safe scaling move is to run the frontier
+diagnostic using the accepted DU9HM batch root as a covered-batch source, then
+select the next bounded window/batch from the remaining compact hcover ranks.
