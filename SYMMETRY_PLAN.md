@@ -29614,3 +29614,72 @@ candidate-group domains can be combined cheaply, and the public theorem still
 mentions only `TemplateLanguageMemberBridgeOnRange`.  The next hard task is to
 prove or generate `hcover` from compressed signature/state facts, not from a
 rank/mask table.
+
+### Phase 6Z.6K.8AP.16DU.9FN checkpoint: singleton signature routes through candidate union
+
+Phase 6Z.6K.8AP.16DU.9FN extends
+`scripts/generate_ap16l_signature_membership_smoke.py` so the singleton
+signature smoke proves its semantic GoodDirection survivors land in a reusable
+candidate-union domain:
+
+```lean
+private def generatedCandidateTemplateDomain
+    (candidate : GeneratedCandidate) :
+    TemplateLanguageDomain
+
+private def generatedSignatureCandidateUnionDomain :
+    TemplateLanguageDomain
+
+private theorem generatedSignatureCandidateUnionDomainCovers
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageDomainCoversIdentityRange
+      generatedSignatureCandidateUnionDomain 100805 100806
+
+private theorem generatedSignatureCandidateUnionDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedSignatureCandidateUnionDomain
+
+theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaCandidateUnion
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageMemberBridgeOnRange 100805 100806
+```
+
+This is the first bounded smoke where the coverage side routes a signature
+into a reusable candidate-union domain, and the member side is proved by the
+candidate-domain bridge rather than by a signature-specific domain containing
+the facts directly.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_ap16l_signature_membership_smoke.py
+```
+
+Result: passed in `elapsed=0:00.04`, `max_rss_kb=17896`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean
+```
+
+Result: passed in `elapsed=0:05.49`, `max_rss_kb=3270824`.
+
+The semantic contract audit now guards the candidate-union singleton route:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.01`, `max_rss_kb=12776`.
+
+Decision: accepted as the strongest bounded template-domain architecture
+smoke so far.  It demonstrates the intended production split on one signature:
+signature/state coverage proves membership in a reusable candidate-union
+domain, and the reusable domain member bridge supplies template-language
+membership.  The remaining work is to scale the coverage side from one
+signature to compressed classes of signatures/states without using raw
+rank/mask tables.

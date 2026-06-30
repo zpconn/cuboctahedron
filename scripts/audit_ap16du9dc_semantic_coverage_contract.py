@@ -103,6 +103,18 @@ CHECKS = {
         "positive_survivor_signature_membership_generated_smoke",
         "theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain",
     ),
+    "signature_smoke_candidate_union_domain_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "private def generatedSignatureCandidateUnionDomain",
+    ),
+    "signature_smoke_candidate_union_domain_member_bridge_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "private theorem generatedSignatureCandidateUnionDomainMemberBridge",
+    ),
+    "signature_smoke_template_bridge_via_candidate_union_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaCandidateUnion",
+    ),
     "domain_union_smoke_exists": (
         "positive_survivor_template_domain_union_smoke",
         "private def generatedUnionTemplateDomain",

@@ -194,6 +194,56 @@ private def generatedSignatureTemplateDomain : TemplateLanguageDomain :=
       generatedGoodMaskMember mask /\\
         generatedSignatureFacts mask
 
+private def generatedCandidateTemplateDomain
+    (candidate : GeneratedCandidate) : TemplateLanguageDomain :=
+  fun rank mask =>
+    rank = {anchor} /\\
+      generatedSignatureFacts mask /\\
+        generatedCandidateOfMask mask = candidate
+
+private theorem generatedCandidateTemplateDomainMemberBridge
+    (candidate : GeneratedCandidate) :
+    TemplateLanguageMemberBridgeOnDomain
+      (generatedCandidateTemplateDomain candidate) := by
+  intro rank mask hlt hmem hM hgood
+  rcases hmem with ⟨hrank, hfacts, hcand⟩
+  subst rank
+  subst candidate
+  have hfirst :
+      (generatedKey (generatedCandidateOfMask mask)).firstIndex =
+        (generatedSpec (generatedCandidateOfMask mask)).first.index := by
+    cases generatedCandidateOfMask mask <;> rfl
+  have hsecond :
+      (generatedKey (generatedCandidateOfMask mask)).secondIndex =
+        (generatedSpec (generatedCandidateOfMask mask)).second.index := by
+    cases generatedCandidateOfMask mask <;> rfl
+  have hsupport :
+      (generatedKey (generatedCandidateOfMask mask)).support =
+        (generatedSpec (generatedCandidateOfMask mask)).support := by
+    cases generatedCandidateOfMask mask <;> rfl
+  have hsource :
+      SourceIndexStateSourceFacts
+        (generatedKey (generatedCandidateOfMask mask)) {anchor} mask :=
+    (generatedSpec (generatedCandidateOfMask mask)).sourceFacts
+      hfirst hsecond hsupport hfacts.1
+  have hrows :
+      SourceIndexStateRowFacts
+        (generatedKey (generatedCandidateOfMask mask)) {anchor} mask :=
+    (generatedRowProducer (generatedCandidateOfMask mask)).rowFacts hfacts.2
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
+private def generatedSignatureCandidateUnionDomain : TemplateLanguageDomain :=
+  fun rank mask =>
+    exists candidate : GeneratedCandidate,
+      generatedCandidateTemplateDomain candidate rank mask
+
+private theorem generatedSignatureCandidateUnionDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedSignatureCandidateUnionDomain := by
+  intro rank mask hlt hmem hM hgood
+  rcases hmem with ⟨candidate, hcandidate⟩
+  exact generatedCandidateTemplateDomainMemberBridge candidate hlt hcandidate hM hgood
+
 private theorem generatedSignatureTemplateDomainCovers
     (hmask :
       forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
@@ -210,6 +260,23 @@ private theorem generatedSignatureTemplateDomainCovers
   subst rank
   have hmember : generatedGoodMaskMember mask := hmask hlt hgood
   exact ⟨rfl, hmember, hfacts hmember⟩
+
+private theorem generatedSignatureCandidateUnionDomainCovers
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageDomainCoversIdentityRange
+      generatedSignatureCandidateUnionDomain {anchor} {hi} := by
+  intro rank mask hlt hlo hhi hM hgood
+  have hrank : rank = {anchor} := by omega
+  subst rank
+  have hmember : generatedGoodMaskMember mask := hmask hlt hgood
+  exact ⟨generatedCandidateOfMask mask, rfl, hfacts hmember, rfl⟩
 
 private theorem generatedSignatureTemplateDomainMemberBridge :
     TemplateLanguageMemberBridgeOnDomain
@@ -410,6 +477,20 @@ theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain
     (generatedSignatureTemplateDomainCovers hmask hfacts)
     generatedSignatureTemplateDomainMemberBridge
 
+theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaCandidateUnion
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageMemberBridgeOnRange {anchor} {hi} :=
+  TemplateLanguageMemberBridgeOnDomain.to_range
+    (generatedSignatureCandidateUnionDomainCovers hmask hfacts)
+    generatedSignatureCandidateUnionDomainMemberBridge
+
 theorem generatedSingletonSignatureSemanticTemplateCoverage
     (hmask :
       forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
@@ -435,6 +516,19 @@ theorem generatedSingletonSignatureSemanticTemplateCoverageViaDomain
     TemplateLanguageCoverageOnIdentityRange {anchor} {hi} :=
   TemplateLanguageMemberBridgeOnRange.to_coverage
     (generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain hmask hfacts)
+
+theorem generatedSingletonSignatureSemanticTemplateCoverageViaCandidateUnion
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageCoverageOnIdentityRange {anchor} {hi} :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (generatedSingletonSignatureSemanticTemplateMemberBridgeViaCandidateUnion hmask hfacts)
 
 theorem generatedPositiveSurvivorSignatureMembershipSmoke_builds : True := by
   trivial

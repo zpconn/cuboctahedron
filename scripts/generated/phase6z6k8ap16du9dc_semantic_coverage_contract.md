@@ -24,6 +24,9 @@ it is a contract for the next proof-producing generator.
 | `signature_smoke_template_domain_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
 | `signature_smoke_template_domain_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
 | `signature_smoke_template_member_bridge_via_domain_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
+| `signature_smoke_candidate_union_domain_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
+| `signature_smoke_candidate_union_domain_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
+| `signature_smoke_template_bridge_via_candidate_union_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
 | `domain_union_smoke_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean` |
 | `domain_union_smoke_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean` |
 | `domain_union_smoke_template_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean` |
