@@ -48,10 +48,11 @@ polyhedron.  This converts the problem into an exact finite obstruction
 problem for affine reflection products.  The non-translation products are
 ruled out by forced-axis obstructions.  The translation products reduce to
 systems of strict linear inequalities in two variables and are ruled out by
-Farkas certificates, positive-denominator obstructions, and sign-polynomial
-families.  The exhaustive finite verification is large, and the authoritative
-proof of that verification is the accompanying Lean formalization in the
-GitHub repository.
+Farkas certificates, positive-denominator obstructions, and Walsh
+sign-polynomial families.  The exhaustive finite verification is large, and
+the authoritative proof of that verification is the accompanying Lean
+formalization in the GitHub repository.  The final compressed strategy was
+shaped in part by source-size, memory, and build-time constraints.
 \end{abstract}
 
 \section{Introduction}
@@ -553,6 +554,39 @@ The exhaustive verification has three conceptual layers:
 This is the part for which the GitHub formalization is the real proof.  The
 printed article explains why such certificates prove the theorem; the
 formalization checks that the certificates exist for every finite case.
+
+\subsection*{Resource pressure as a source of structure}
+
+One lesson of the formalization is that the computational constraints were not
+merely an implementation nuisance.  They became a source of mathematical
+structure.  The most direct proof-search strategies produced perfectly
+reasonable local obstructions: one can ask a program to inspect a case, find a
+certificate, and move on.  Logically, many of these early ideas were adequate.
+Practically, they did not scale to a Lean proof.  They either emitted far too
+much raw source code, or forced Lean to elaborate and replay proof terms whose
+memory use and wall-clock cost were prohibitive.  Some early extrapolations of
+one angle of attack led to running-time estimates on the order of thousands of
+years.
+
+At first, when the search was not seriously resource bounded, it naturally
+found the simplest certificates that worked case by case.  Tightening the
+memory and time budgets changed the nature of the search.  It made a merely
+correct obstruction unsatisfactory unless it also compressed, reused, and
+compiled.  Those constraints forced the search toward families, semantic
+classifiers, source-indexed row relations, sign-polynomial subcube
+obstructions, and other proof surfaces that were not apparent from the raw
+geometry alone.
+
+In that sense, the eventual strategy was not obtained by first discovering a
+small proof and then implementing it.  The proof architecture emerged through
+many rounds of failed but informative attempts, each ruled out by source size,
+RAM usage, or build time.  The useful ideas then began to compound: a
+denominator obstruction became more valuable once expressed over subcubes; a
+two-row Farkas contradiction became more valuable once indexed by geometric
+sources; a classifier became more valuable once it avoided even mentioning the
+cases already eliminated by the positive-denominator theorem.  The resource
+bounds acted as a kind of experimental pressure, turning proof search from a
+large enumeration of facts into a search for reusable mathematical language.
 
 \begin{thebibliography}{9}
 
