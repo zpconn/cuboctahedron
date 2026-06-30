@@ -31202,3 +31202,62 @@ Decision: accepted.  DU9GU is comparable to DU9GH and DU9GO at the dry-run
 stage.  The safe sequence remains unchanged: emit, plan-only guard target list,
 one largest-cover probe, all cover roots, then shallow batch root.  Do not run a
 broad package build.
+
+### Phase 6Z.6K.8AP.16DU.9GV checkpoint: DU9GU emission and largest-cover guard probe
+
+Phase 6Z.6K.8AP.16DU.9GV emits the third compact hcover Lean batch for ranks
+`45`, `47`, `49`, `57`, `59`, and `60`, then verifies only the largest cover
+root under the memory guard.
+
+Emission command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke
+```
+
+Result: passed in `elapsed=0:03.80`, `max_rss_kb=28552`; the generation
+report status is now `emitted_pending_guarded_build`.
+
+Guard plan result: `151` guarded targets with the same kind distribution as the
+prior six-rank batches.
+
+Cover-root source sizes:
+
+| Rank | Cover-root lines |
+| ---: | ---: |
+| `45` | `4916` |
+| `47` | `4399` |
+| `49` | `4645` |
+| `57` | `4139` |
+| `59` | `5400` |
+| `60` | `5625` |
+
+Rank `60` was the largest cover root, so the first Lean stress probe was:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gu_serial_guard_cover_rank60.json \
+  --out-dir /tmp/ap16dj_du9gu_serial_guarded/cover_rank60 \
+  --target-kind cover \
+  --module-contains CoverRank60 \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=95.71s`, with `peak_tree_rss=4384 MiB` and
+`min_available=45563 MiB`.
+
+Decision: accepted with extra caution.  DU9GU rank `60` is the largest and
+highest-RSS compact cover root so far, but it still fits under the 4.5 GiB
+guard.  This confirms that compact cover roots should remain serial; do not run
+two of these Lean targets concurrently.  Next step: run all six DU9GU cover
+roots under the serial guard.

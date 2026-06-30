@@ -1,0 +1,667 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [],
+    "target_kind": []
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [],
+  "rss_cap_mib": 5000,
+  "status": "plan_only",
+  "target_count": 151,
+  "targets": [
+    {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitFinalSmoke"
+    },
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank45SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact9",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact09Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank45_impact10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45Impact10Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank45SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank45Smoke"
+    },
+    {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitFinalSmoke"
+    },
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank47SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact9",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact09Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank47_impact11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47Impact11Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank47SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank47Smoke"
+    },
+    {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitFinalSmoke"
+    },
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank49SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact08Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank49_impact9",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49Impact09Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank49SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank49Smoke"
+    },
+    {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitFinalSmoke"
+    },
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank57SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact08Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank57_impact10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57Impact10Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank57SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank57Smoke"
+    },
+    {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitFinalSmoke"
+    },
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank59SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact08Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank59_impact11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59Impact11Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank59SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank59Smoke"
+    },
+    {
+      "kind": "trace_data",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitDataSmoke"
+    },
+    {
+      "kind": "trace_step_00",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep00Smoke"
+    },
+    {
+      "kind": "trace_step_01",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep01Smoke"
+    },
+    {
+      "kind": "trace_step_02",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep02Smoke"
+    },
+    {
+      "kind": "trace_step_03",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep03Smoke"
+    },
+    {
+      "kind": "trace_step_04",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep04Smoke"
+    },
+    {
+      "kind": "trace_step_05",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep05Smoke"
+    },
+    {
+      "kind": "trace_step_06",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep06Smoke"
+    },
+    {
+      "kind": "trace_step_07",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep07Smoke"
+    },
+    {
+      "kind": "trace_step_08",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep08Smoke"
+    },
+    {
+      "kind": "trace_step_09",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep09Smoke"
+    },
+    {
+      "kind": "trace_step_10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep10Smoke"
+    },
+    {
+      "kind": "trace_step_11",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep11Smoke"
+    },
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitStep12Smoke"
+    },
+    {
+      "kind": "trace_final",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitFinalSmoke"
+    },
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank60SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact08Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank60_impact10",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60Impact10Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank60SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank60Smoke"
+    },
+    {
+      "kind": "batch_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke"
+    }
+  ],
+  "timeout_seconds": 600,
+  "trusted_as_final_generated_coverage": false
+}
