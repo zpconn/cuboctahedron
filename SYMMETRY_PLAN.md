@@ -40871,3 +40871,54 @@ step is to execute this plan incrementally:
 Do not run a single broad `lake build` over the planned batch until every
 target has a measured individual RSS and the aggregate root is known to import
 only cached theorem surfaces.
+
+### Phase 6Z6K8AP16DU9IQ - traced bridge batch accepted
+
+The rank-`896`, limit-`6` traced bridge batch was executed with the planned
+serial memory policy.  Python emission was allowed to run concurrently because
+it only writes small source/report files; every Lean target was checked
+one-at-a-time through `scripts/run_memory_guarded.py` with:
+
+```bash
+--max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5
+```
+
+The missing normal traces were emitted and checked:
+
+- idx `00`: exit `0`, elapsed `7.01s`, peak tree RSS `4067 MiB`,
+  minimum available memory `45624 MiB`;
+- idx `03`: exit `0`, elapsed `4.01s`, peak tree RSS `4060 MiB`,
+  minimum available memory `45694 MiB`;
+- idx `07`: exit `0`, elapsed `3.50s`, peak tree RSS `4059 MiB`,
+  minimum available memory `45694 MiB`;
+- idx `09`: exit `0`, elapsed `3.50s`, peak tree RSS `4067 MiB`,
+  minimum available memory `45695 MiB`.
+
+The six standalone reduced direct-bridge leaves were then emitted and checked:
+
+- bridge idx `00`: exit `0`, elapsed `3.00s`, peak tree RSS `4089 MiB`,
+  minimum available memory `45667 MiB`;
+- bridge idx `01`: exit `0`, elapsed `3.50s`, peak tree RSS `4088 MiB`,
+  minimum available memory `45678 MiB`;
+- bridge idx `02`: exit `0`, elapsed `3.00s`, peak tree RSS `4106 MiB`,
+  minimum available memory `45655 MiB`;
+- bridge idx `03`: exit `0`, elapsed `3.50s`, peak tree RSS `4099 MiB`,
+  minimum available memory `45670 MiB`;
+- bridge idx `04`: exit `0`, elapsed `3.00s`, peak tree RSS `4083 MiB`,
+  minimum available memory `45682 MiB`;
+- bridge idx `05`: exit `0`, elapsed `3.00s`, peak tree RSS `4063 MiB`,
+  minimum available memory `45702 MiB`.
+
+One generator proof-script issue was found and fixed during the batch: singleton
+support bridges can close the weighted polynomial equality during `simp`, so
+the emitter now writes `try ring_nf` instead of a mandatory `ring_nf` for that
+final normalization step.
+
+Decision: accepted.  This is the first bounded DU9IQ weighted-denominator
+batch where multiple support patterns, multiple normal traces, singleton
+supports, support-2 cubes, and non-unit weights all build through the traced
+direct bridge surface without reviving the OOM-prone local unfolding path.  The
+next safe scaling step is a tiny aggregate theorem/root for these six cached
+leaves, or a second bounded batch using the same planner/emitter pattern.  Keep
+the aggregate root theorem-valued and shallow; do not import a broad uncached
+DU9IQ source tree in a normal build.

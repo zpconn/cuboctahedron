@@ -1,7 +1,7 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ReducedWalshQuadraticBound
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticObstruction
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx01Smoke
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke
 
 /-!
 Generated DU9IQ traced direct bridge smoke.
@@ -12,7 +12,7 @@ and normal traces instead of unfolding rank-local normal recurrences.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
-namespace WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx02Smoke
+namespace WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx01Smoke
 
 open PositiveSurvivorClassifier
 open PositiveSurvivorClassifier.ImpactSubcube
@@ -35,73 +35,73 @@ abbrev generatedVector : WalshAffineVec3 :=
 abbrev generatedNormal01 : WalshAffineVec3 :=
   Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx01Smoke.generatedNormal01
 
-abbrev generatedNormal10 : WalshAffineVec3 :=
-  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke.generatedNormal10
+abbrev generatedNormal05 : WalshAffineVec3 :=
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.generatedNormal05
 
 def rank896 : Nat := 896
 
-def cube0x1x0x : MaskSubcube where
+def cube1xx0x0 : MaskSubcube where
   fixed
-    | SignBit.y => some false
-    | SignBit.d111 => some true
-    | SignBit.d1m1 => some false
+    | SignBit.y => some true
+    | SignBit.d11m => some false
+    | SignBit.dm11 => some false
     | _ => none
 
-def weights2_11 : InternalImpactWeights where
+def weights2_6 : InternalImpactWeights where
   w1 := 0
-  w2 := 2
+  w2 := 1
   w3 := 0
   w4 := 0
   w5 := 0
-  w6 := 0
+  w6 := 1
   w7 := 0
   w8 := 0
   w9 := 0
   w10 := 0
-  w11 := 1
+  w11 := 0
   w12 := 0
   w13 := 0
 
-private theorem weights2_11_nonnegative :
-    weights2_11.Nonnegative := by
-  norm_num [weights2_11, InternalImpactWeights.Nonnegative]
+private theorem weights2_6_nonnegative :
+    weights2_6.Nonnegative := by
+  norm_num [weights2_6, InternalImpactWeights.Nonnegative]
 
-private theorem weights2_11_positive :
-    weights2_11.PositiveSome := by
-  norm_num [weights2_11, InternalImpactWeights.PositiveSome]
+private theorem weights2_6_positive :
+    weights2_6.PositiveSome := by
+  norm_num [weights2_6, InternalImpactWeights.PositiveSome]
 
-def poly896_2_11 : WalshQuadratic where
-  c := 16
+def poly896_2_6 : WalshQuadratic where
+  c := 12
   y := 0
   z := 0
   d111 := 0
-  d11m := 0
-  d1m1 := 4/3
+  d11m := 4
+  d1m1 := 0
   dm11 := 0
   yz := 0
-  y_d111 := 16/3
-  y_d11m := 16/3
-  y_d1m1 := -140/9
-  y_dm11 := 16/3
+  y_d111 := 8/3
+  y_d11m := 20/3
+  y_d1m1 := -40/9
+  y_dm11 := 8/3
   z_d111 := 0
-  z_d11m := 0
-  z_d1m1 := 4/3
+  z_d11m := -4
+  z_d1m1 := 0
   z_dm11 := 0
-  d111_d11m := 0
-  d111_d1m1 := -8/3
+  d111_d11m := 8/3
+  d111_d1m1 := 0
   d111_dm11 := 0
   d11m_d1m1 := -40/9
-  d11m_dm11 := 0
-  d1m1_dm11 := -40/9
+  d11m_dm11 := -8/3
+  d1m1_dm11 := 0
 
-private def reduced896_2_11 : WalshQuadratic where
-  c := -32/9
+private def reduced896_2_6 : WalshQuadratic where
+  c := -4
   y := 0
-  z := -4/3
+  z := 4
   d111 := 0
-  d11m := -8/9
+  d11m := 0
   d1m1 := 0
-  dm11 := -8/9
+  dm11 := 0
   yz := 0
   y_d111 := 0
   y_d11m := 0
@@ -118,73 +118,73 @@ private def reduced896_2_11 : WalshQuadratic where
   d11m_dm11 := 0
   d1m1_dm11 := 0
 
-private theorem poly896_2_11_eq_reduced_on_cube
-    {mask : SignMask} (hmask : cube0x1x0x.Member mask) :
-    poly896_2_11.coeffEval mask = reduced896_2_11.coeffEval mask := by
-  have hy : maskBitForPair mask SignBit.y.toPairId = false := by
-    simpa [cube0x1x0x, MaskSubcube.Member] using hmask SignBit.y
-  have hd111 : maskBitForPair mask SignBit.d111.toPairId = true := by
-    simpa [cube0x1x0x, MaskSubcube.Member] using hmask SignBit.d111
-  have hd1m1 : maskBitForPair mask SignBit.d1m1.toPairId = false := by
-    simpa [cube0x1x0x, MaskSubcube.Member] using hmask SignBit.d1m1
+private theorem poly896_2_6_eq_reduced_on_cube
+    {mask : SignMask} (hmask : cube1xx0x0.Member mask) :
+    poly896_2_6.coeffEval mask = reduced896_2_6.coeffEval mask := by
+  have hy : maskBitForPair mask SignBit.y.toPairId = true := by
+    simpa [cube1xx0x0, MaskSubcube.Member] using hmask SignBit.y
+  have hd11m : maskBitForPair mask SignBit.d11m.toPairId = false := by
+    simpa [cube1xx0x0, MaskSubcube.Member] using hmask SignBit.d11m
+  have hdm11 : maskBitForPair mask SignBit.dm11.toPairId = false := by
+    simpa [cube1xx0x0, MaskSubcube.Member] using hmask SignBit.dm11
   by_cases hz : maskBitForPair mask SignBit.z.toPairId
   all_goals
-    by_cases hd11m : maskBitForPair mask SignBit.d11m.toPairId
+    by_cases hd111 : maskBitForPair mask SignBit.d111.toPairId
     all_goals
-      by_cases hdm11 : maskBitForPair mask SignBit.dm11.toPairId
+      by_cases hd1m1 : maskBitForPair mask SignBit.d1m1.toPairId
       all_goals
-        simp [poly896_2_11, reduced896_2_11, WalshQuadratic.coeffEval, SignBit.value, hy, hd111, hd1m1, hz, hd11m, hdm11]
+        simp [poly896_2_6, reduced896_2_6, WalshQuadratic.coeffEval, SignBit.value, hy, hd11m, hdm11, hz, hd111, hd1m1]
         norm_num
 
-private def reducedBound896_2_11 :
-    WalshQuadraticReducedAbsBound cube0x1x0x poly896_2_11 where
-  reduced := reduced896_2_11
+private def reducedBound896_2_6 :
+    WalshQuadraticReducedAbsBound cube1xx0x0 poly896_2_6 where
+  reduced := reduced896_2_6
   eq_on_cube := by
     intro mask hmask
-    exact poly896_2_11_eq_reduced_on_cube hmask
+    exact poly896_2_6_eq_reduced_on_cube hmask
   abs_bound_nonpos := by
-    norm_num [reduced896_2_11, WalshQuadratic.absBoundSum]
+    norm_num [reduced896_2_6, WalshQuadratic.absBoundSum]
 
-private def cubeBound896_2_11 :
-    WalshQuadraticCubeBound cube0x1x0x poly896_2_11 :=
-  WalshQuadraticCubeBound.leaf reducedBound896_2_11
+private def cubeBound896_2_6 :
+    WalshQuadraticCubeBound cube1xx0x0 poly896_2_6 :=
+  WalshQuadraticCubeBound.leaf reducedBound896_2_6
 
-private theorem poly896_2_11_nonpos
-    {mask : SignMask} (hmask : cube0x1x0x.Member mask) :
-    poly896_2_11.coeffEval mask <= 0 :=
-  cubeBound896_2_11.coeffEval_nonpos hmask
+private theorem poly896_2_6_nonpos
+    {mask : SignMask} (hmask : cube1xx0x0.Member mask) :
+    poly896_2_6.coeffEval mask <= 0 :=
+  cubeBound896_2_6.coeffEval_nonpos hmask
 
-def reducedObstruction896_2_11
+def reducedObstruction896_2_6
     (direct_eq :
       forall {mask : SignMask} (hlt : rank896 < numPairWords),
-        cube0x1x0x.Member mask ->
+        cube1xx0x0.Member mask ->
           weightedDirectWalshDotAtRank
-            (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_11 =
-            poly896_2_11.coeffEval mask) :
-    WeightedWalshQuadraticNonposObstruction rank896 cube0x1x0x.Member where
-  weights := weights2_11
-  nonnegative := weights2_11_nonnegative
-  positive_some := weights2_11_positive
-  poly := poly896_2_11
+            (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_6 =
+            poly896_2_6.coeffEval mask) :
+    WeightedWalshQuadraticNonposObstruction rank896 cube1xx0x0.Member where
+  weights := weights2_6
+  nonnegative := weights2_6_nonnegative
+  positive_some := weights2_6_positive
+  poly := poly896_2_6
   direct_eq := by
     intro mask hlt hmember
     exact direct_eq hlt hmember
   poly_nonpos := by
     intro mask hmember
-    exact poly896_2_11_nonpos hmember
+    exact poly896_2_6_nonpos hmember
 
 theorem weightedDenom_nonpos_of_reduced_bound
     (direct_eq :
       forall {mask : SignMask} (hlt : rank896 < numPairWords),
-        cube0x1x0x.Member mask ->
+        cube1xx0x0.Member mask ->
           weightedDirectWalshDotAtRank
-            (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_11 =
-            poly896_2_11.coeffEval mask)
+            (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_6 =
+            poly896_2_6.coeffEval mask)
     {mask : SignMask} (hlt : rank896 < numPairWords)
-    (hmember : cube0x1x0x.Member mask) :
+    (hmember : cube1xx0x0.Member mask) :
     weightedDenomAtRank
-      (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_11 <= 0 :=
-  (reducedObstruction896_2_11 direct_eq).nonpos hlt hmember
+      (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_6 <= 0 :=
+  (reducedObstruction896_2_6 direct_eq).nonpos hlt hmember
 
 private def dot01 : WalshQuadratic where
   c := 4
@@ -210,29 +210,29 @@ private def dot01 : WalshQuadratic where
   d11m_dm11 := 0
   d1m1_dm11 := 0
 
-private def dot10 : WalshQuadratic where
+private def dot05 : WalshQuadratic where
   c := 8
   y := 0
   z := 0
   d111 := 0
-  d11m := 0
-  d1m1 := 4/3
+  d11m := 4
+  d1m1 := 0
   dm11 := 0
   yz := 0
   y_d111 := 0
-  y_d11m := 0
-  y_d1m1 := -20/3
+  y_d11m := 4
+  y_d1m1 := 0
   y_dm11 := 0
   z_d111 := 0
-  z_d11m := 0
-  z_d1m1 := 4/3
+  z_d11m := -4
+  z_d1m1 := 0
   z_dm11 := 0
-  d111_d11m := 0
-  d111_d1m1 := -8/3
+  d111_d11m := 8/3
+  d111_d1m1 := 0
   d111_dm11 := 0
   d11m_d1m1 := -40/9
-  d11m_dm11 := 0
-  d1m1_dm11 := -40/9
+  d11m_dm11 := -8/3
+  d1m1_dm11 := 0
 
 private theorem generatedRank_eq
     (hlt : rank896 < numPairWords) :
@@ -280,63 +280,63 @@ private theorem direct01_eq_of_val
     (⟨rank896, hlt⟩ : Fin numPairWords) mask (j := (1 : WordIndex)) hi]
   exact direct01_eq mask hlt
 
-private theorem dot10_eq :
-    WalshAffineVec3.dot generatedNormal10 generatedVector = dot10 := by
-  norm_num [dot10, generatedNormal10, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke.generatedNormal10, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke.generatedNormal10_x, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke.generatedNormal10_y, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke.generatedNormal10_z, generatedVector, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_x, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_y, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_z, WalshAffineVec3.dot, WalshQuadratic.add, WalshAffine.mul]
+private theorem dot05_eq :
+    WalshAffineVec3.dot generatedNormal05 generatedVector = dot05 := by
+  norm_num [dot05, generatedNormal05, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.generatedNormal05, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.generatedNormal05_x, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.generatedNormal05_y, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.generatedNormal05_z, generatedVector, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_x, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_y, Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_z, WalshAffineVec3.dot, WalshQuadratic.add, WalshAffine.mul]
 
-private theorem dot10_eval
+private theorem dot05_eval
     (mask : SignMask) :
-    dot (generatedNormal10.eval mask) (generatedVector.eval mask) =
-      dot10.coeffEval mask := by
-  have h := WalshAffineVec3.dot_coeffEval generatedNormal10 generatedVector mask
-  rw [dot10_eq] at h
+    dot (generatedNormal05.eval mask) (generatedVector.eval mask) =
+      dot05.coeffEval mask := by
+  have h := WalshAffineVec3.dot_coeffEval generatedNormal05 generatedVector mask
+  rw [dot05_eq] at h
   exact h.symm
 
-private theorem direct10_eq
+private theorem direct05_eq
     (mask : SignMask) (hlt : rank896 < numPairWords) :
     directWalshDotAtRank
-        (⟨rank896, hlt⟩ : Fin numPairWords) mask (10 : WordIndex) =
-      dot (generatedNormal10.eval mask) (generatedVector.eval mask) := by
+        (⟨rank896, hlt⟩ : Fin numPairWords) mask (5 : WordIndex) =
+      dot (generatedNormal05.eval mask) (generatedVector.eval mask) := by
   rw [generatedRank_eq hlt]
   unfold directWalshDotAtRank
   rw [Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedUnrank_builds]
-  rw [← Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke.generatedNormal10_eq]
+  rw [← Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.generatedNormal05_eq]
   rw [← Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke.generatedVector_eq_translationVectorWalsh]
 
-private theorem direct10_eq_of_val
+private theorem direct05_eq_of_val
     (mask : SignMask) (hlt : rank896 < numPairWords)
-    {i : WordIndex} (hi : i.val = 10) :
+    {i : WordIndex} (hi : i.val = 5) :
     directWalshDotAtRank
         (⟨rank896, hlt⟩ : Fin numPairWords) mask i =
-      dot (generatedNormal10.eval mask) (generatedVector.eval mask) := by
+      dot (generatedNormal05.eval mask) (generatedVector.eval mask) := by
   rw [directWalshDotAtRank_eq_of_val
-    (⟨rank896, hlt⟩ : Fin numPairWords) mask (j := (10 : WordIndex)) hi]
-  exact direct10_eq mask hlt
+    (⟨rank896, hlt⟩ : Fin numPairWords) mask (j := (5 : WordIndex)) hi]
+  exact direct05_eq mask hlt
 
 private theorem dot_sum_eval
     (mask : SignMask) :
-    2 * dot01.coeffEval mask + dot10.coeffEval mask =
-      poly896_2_11.coeffEval mask := by
-  simp [dot01, dot10, poly896_2_11,
+    dot01.coeffEval mask + dot05.coeffEval mask =
+      poly896_2_6.coeffEval mask := by
+  simp [dot01, dot05, poly896_2_6,
     WalshQuadratic.coeffEval]
   try ring_nf
 
 theorem direct_eq
     {mask : SignMask} (hlt : rank896 < numPairWords)
-    (_hmember : cube0x1x0x.Member mask) :
+    (_hmember : cube1xx0x0.Member mask) :
     weightedDirectWalshDotAtRank
-        (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_11 =
-      poly896_2_11.coeffEval mask := by
+        (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_6 =
+      poly896_2_6.coeffEval mask := by
   unfold weightedDirectWalshDotAtRank
-  norm_num [weights2_11]
-  rw [direct01_eq_of_val (mask := mask) (hlt := hlt) (hi := rfl), direct10_eq_of_val (mask := mask) (hlt := hlt) (hi := rfl), dot01_eval mask, dot10_eval mask]
+  norm_num [weights2_6]
+  rw [direct01_eq_of_val (mask := mask) (hlt := hlt) (hi := rfl), direct05_eq_of_val (mask := mask) (hlt := hlt) (hi := rfl), dot01_eval mask, dot05_eval mask]
   exact dot_sum_eval mask
 
 theorem weightedDenom_nonpos
     {mask : SignMask} (hlt : rank896 < numPairWords)
-    (hmember : cube0x1x0x.Member mask) :
+    (hmember : cube1xx0x0.Member mask) :
     weightedDenomAtRank
-      (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_11 <= 0 :=
+      (⟨rank896, hlt⟩ : Fin numPairWords) mask weights2_6 <= 0 :=
   weightedDenom_nonpos_of_reduced_bound
     (fun hlt hmember => direct_eq hlt hmember)
     hlt hmember
@@ -344,5 +344,5 @@ theorem weightedDenom_nonpos
 theorem tracedDirectBridgeGeneratedSmoke_builds : True := by
   trivial
 
-end WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx02Smoke
+end WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx01Smoke
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies

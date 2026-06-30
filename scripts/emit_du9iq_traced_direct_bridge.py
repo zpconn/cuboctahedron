@@ -578,7 +578,7 @@ def emit_module(
         f"      {poly}.coeffEval mask := by",
         f"  simp [{', '.join([dot_name(impact - 1) for impact in support])}, {poly},",
         f"    {reduced_module + '.' + poly + ', ' if not standalone_reduced else ''}WalshQuadratic.coeffEval]",
-        "  ring_nf",
+        "  try ring_nf",
         "",
         "theorem direct_eq",
         f"    {{mask : SignMask}} (hlt : {rank_name} < numPairWords)",
