@@ -41175,3 +41175,29 @@ after adding the third root.  The next DU9IQ scaling step should move to the
 next rank or next profile slice, not continue re-planning rank `896`; first run
 the planner/report-only path for the next candidate rank and inspect whether it
 requires any new normal trace modules.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 frontier planned, not emitted
+
+The reduced-bound profile was scanned after completing rank `896`.  The next
+candidate is rank `897`:
+
+- total direct-reduced summaries for rank `897`: `14`;
+- existing bridge leaves before this step: `0`;
+- first bounded frontier planned: summaries `14` through `19`;
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897.md`.
+
+The bounded rank-`897`, limit-`6` plan requires normal trace indices
+`0`, `1`, `3`, `5`, `7`, `9`, and `10`.  Unlike the later rank-`896`
+frontiers, these traces do not already exist, and the rank-`897`
+`WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke` module is also absent.
+
+Decision: planning accepted, execution deferred until the rank-`897` trace
+chain prerequisite is generated and checked on its own under the same memory
+guard.  Do not emit rank-`897` bridge leaves until:
+
+1. the vector trace chain exists and has a guard result;
+2. the seven required normal traces build serially under guard;
+3. only then emit the six bridge leaves and their shallow aggregate.
