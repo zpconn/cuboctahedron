@@ -30297,3 +30297,36 @@ range-level generated hcover smoke should instead target the singleton rank
 by that rank.  The selected baseline/mixed quotient groups remain useful
 ingredients for member-bridge factoring, but complete hcover must cover every
 GoodDirection survivor in the rank window.
+
+### Phase 6Z.6K.8AP.16DU.9GB checkpoint: rank-0 survivor-only smoke replayed
+
+Phase 6Z.6K.8AP.16DU.9GB replays the existing rank-0 survivor-only descriptor
+smoke after the 9GA range-fit correction.  This is the currently available
+baseline range-level smoke shape: it covers all `16` GoodDirection survivors
+at rank `0` from an explicit survivor-mask premise, and it avoids proving any
+bad-direction denominator contradictions locally.
+
+Regeneration command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_rank0_survivor_only_descriptor_smoke.py
+```
+
+Result: passed in `elapsed=0:00.34`, `max_rss_kb=26224`; no generated source
+diff was produced.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 240s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SemanticSurvivorOnlyRank0Smoke.lean
+```
+
+Result: passed in `elapsed=0:24.34`, `max_rss_kb=4440208`.
+
+Decision: accepted as the baseline smoke telemetry.  The descriptor/candidate
+side is safe and already proof-carrying for rank `0`; the remaining hard
+premise is still the first half of hcover, namely proving
+`GoodDirectionAtRank (⟨0, _⟩ : Fin numPairWords) mask -> Rank0SurvivorMask mask`
+without reverting to an expensive finite bad-mask denominator replay.
