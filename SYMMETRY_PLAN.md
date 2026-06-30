@@ -31363,3 +31363,49 @@ above are the authoritative 9GY provenance.
 Decision: accepted.  The next generated batch should be a single-rank compact
 hcover batch for rank `62`, which should complete the current `[0,64)` bounded
 identity-rank smoke window without adding unnecessary heavy roots.
+
+### Phase 6Z.6K.8AP.16DU.9GZ checkpoint: compact cover profile for final `[0,64)` hcover rank
+
+Phase 6Z.6K.8AP.16DU.9GZ first regenerates a compatible
+positive-survivor profile for the bounded `[0,64)` window:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 0:64 \
+  --jobs 4 \
+  --candidate-gate 2000 \
+  --signature-gate 2000 \
+  --json scripts/generated/phase6z6k8ap16du9gz_positive_survivor_membership_0_64.json \
+  --md scripts/generated/phase6z6k8ap16du9gz_positive_survivor_membership_0_64.md
+```
+
+Result: passed in `elapsed=0.98s`, `max_rss_kb=27488`, with `264`
+GoodDirection cases, `21` positive survivor signatures, `29` positive
+candidate groups, and no ambiguous or duplicate GoodDirection memberships.
+
+Then it profiles the one remaining rank `62` using anchor mask `8`:
+
+```bash
+/usr/bin/time -v python3 - <<'PY'
+from pathlib import Path
+from scripts.profile_ap16bj_walsh_subcube_cover import profile
+result = profile(
+    Path('scripts/generated/phase6z6k8ap16du9gz_positive_survivor_membership_0_64.json'),
+    62,
+    8,
+)
+PY
+```
+
+Result: passed in `elapsed=1.33s`, `max_rss_kb=26440`.
+
+Rank `62` profile summary:
+
+| Rank | Anchor mask | Good masks | Bad masks | Candidates | Selected subcubes | Uncovered | Walsh validated |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| `62` | `8` | `13` | `51` | `173` | `19` | `0` | yes |
+
+Decision: accepted.  Rank `62` has a compact Walsh subcube cover with no
+uncovered masks.  Next step: prepare a single-rank AP16DJ-compatible hcover
+batch for rank `62`, dry-run it, and only then emit Lean under the same serial
+guard policy used for DU9GH/DU9GO/DU9GU.
