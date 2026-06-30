@@ -213,12 +213,16 @@ def emit_step_from_components(
     namespace: str,
     stem: str,
     index: int,
+    *,
+    chain_imports: bool = False,
 ) -> Path:
     path = path_for(f"{stem}Step{index:02d}Smoke")
     imports = [
         f"import {BASE_MODULE}.{stem}Step{index:02d}{component.upper()}Smoke"
         for component in TRACE_COMPONENTS
     ]
+    if chain_imports and index > 0:
+        imports.insert(0, f"import {BASE_MODULE}.{stem}Step{index - 1:02d}Smoke")
     lines = [
         *imports,
         "",
@@ -348,7 +352,10 @@ def emit_final_from_components(namespace: str, stem: str) -> Path:
 def emit_root(namespace: str, stem: str, *, chain_imports: bool = False) -> Path:
     path = path_for(f"{stem}Smoke")
     if chain_imports:
-        imports = [f"import {BASE_MODULE}.{stem}FinalSmoke"]
+        imports = [
+            f"import {BASE_MODULE}.{stem}Step12Smoke",
+            f"import {BASE_MODULE}.{stem}FinalSmoke",
+        ]
     else:
         imports = [
             f"import {BASE_MODULE}.{stem}DataSmoke",
@@ -540,7 +547,7 @@ def main() -> None:
         if index in component_steps:
             for component in TRACE_COMPONENTS:
                 paths.append(emit_step_component(args.rank, namespace, stem, index, component))
-            paths.append(emit_step_from_components(namespace, stem, index))
+            paths.append(emit_step_from_components(namespace, stem, index, chain_imports=chain_imports))
         else:
             paths.append(
                 emit_step(

@@ -1,0 +1,18 @@
+{
+  "available_floor_mib": 35000.0,
+  "command": [
+    "env",
+    "LAKE_JOBS=1",
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke"
+  ],
+  "elapsed_seconds": 7.01134615499177,
+  "exit_code": -15,
+  "killed_reason": "process-tree RSS 13384 MiB exceeded 12000 MiB cap",
+  "max_tree_rss_kib": 13706180,
+  "max_tree_rss_mib": 13384.94140625,
+  "min_available_seen_kib": 45781784,
+  "min_available_seen_mib": 44708.7734375,
+  "rss_cap_mib": 12000.0
+}

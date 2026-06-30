@@ -1,0 +1,10 @@
+{
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke",
+  "normal_index": 5,
+  "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke.lean",
+  "phase": "Phase 6Z.6K.8AP.16DU.9CE",
+  "rank": 896,
+  "trace_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

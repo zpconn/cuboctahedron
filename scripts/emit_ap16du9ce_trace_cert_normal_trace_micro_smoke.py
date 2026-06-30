@@ -45,12 +45,12 @@ def name_suffix(index: int) -> str:
     return "" if index == 0 else f"Idx{index:02d}"
 
 
-def module_name(index: int) -> str:
-    return f"{BASE_MODULE}.{BASE_NAME}{name_suffix(index)}Smoke"
+def module_name(index: int, stem: str = BASE_NAME) -> str:
+    return f"{BASE_MODULE}.{stem}{name_suffix(index)}Smoke"
 
 
-def lean_path(index: int) -> Path:
-    return BASE_DIR / f"{BASE_NAME}{name_suffix(index)}Smoke.lean"
+def lean_path(index: int, stem: str = BASE_NAME) -> Path:
+    return BASE_DIR / f"{stem}{name_suffix(index)}Smoke.lean"
 
 
 def mat_entry(matrix: object, row: int, col: int) -> Fraction:
@@ -190,14 +190,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
     parser.add_argument("--index", type=int, default=0)
     parser.add_argument("--trace-module", default=DEFAULT_TRACE_MODULE)
+    parser.add_argument(
+        "--stem",
+        default=BASE_NAME,
+        help="Lean module stem under SupportFamilies.",
+    )
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    namespace = module_name(args.index)
-    path = lean_path(args.index)
+    namespace = module_name(args.index, args.stem)
+    path = lean_path(args.index, args.stem)
     path.write_text(
         build_module(
             rank=args.rank,

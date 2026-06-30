@@ -40653,3 +40653,89 @@ must emit coefficient/dot facts as already-checked generated theorem inputs
 without local `impactNormalWalshAt` equality proofs, or use an
 integer/projective coefficient producer that never unfolds rank-level normal
 recurrences inside the obstruction leaf.
+
+### Phase 6Z6K8AP16DU9IQ - traced direct bridge accepted
+
+After an OOM-risk warning, a host/process audit showed no active heavy Lean or
+Python build process in the current sandbox.  The next work stayed on guarded,
+serial Lean builds only; no broad package build or parallel Lean build was
+used.
+
+Two older routes remain rejected and should not be retried as production
+paths:
+
+- sibling impact-normal compact-denominator targets were accidentally probed
+  in parallel and both were killed by guards (`impact01` at `12502 MiB` over a
+  `12000 MiB` cap, `impact05` at `15765 MiB` over a `12000 MiB` cap).  This
+  confirmed that cold sibling-parallel Lean builds of these heavy targets are
+  not safe.
+- the previous affine-data and word-quadratic local-unfold bridges ballooned
+  to `41156 MiB` and `36168 MiB`, respectively, before guard termination.
+
+Accepted replacement route:
+
+1. The split Walsh-vector trace emitter was fixed so chain-mode component
+   steps import the previous step, preserving the transitive trace chain.
+2. A fresh rank-`896` chain vector trace was emitted:
+   `WeightedDenomCubeDU9IQVectorTraceRank896Chain*`.
+3. The chain trace root required a higher cap than the ordinary compact
+   smokes:
+   - `12000 MiB` guard: clean guard stop at `13384 MiB`;
+   - `18000 MiB` guard: success in `31.54s` with `13234 MiB` peak tree RSS.
+   This is accepted as a guarded prebuild dependency, not as a module to
+   import broadly.
+4. The normal-trace micro emitter was parameterized by stem and used to emit
+   only the two normals required by the support `[2,6]`:
+   - `WeightedDenomCubeDU9IQNormalTraceRank896Idx01Smoke`;
+   - `WeightedDenomCubeDU9IQNormalTraceRank896Idx05Smoke`.
+   Both focused guarded builds passed under a `12000 MiB` cap with about
+   `4.1 GiB` peak tree RSS.
+5. A new direct bridge file,
+   `WeightedDenomCubeDU9IQDirectBridgeSmoke.lean`, imports only the accepted
+   reduced-bound smoke plus the two normal traces and the vector trace root.
+   It proves the missing generated premise
+
+   ```lean
+   weightedDirectWalshDotAtRank ... weights2_6 =
+     poly896_2_6.coeffEval mask
+   ```
+
+   by composing traced normal/vector dot polynomials and a small value-based
+   `WordIndex` congruence lemma, rather than unfolding `impactNormalWalshAt`
+   locally.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_guard.json \
+  -- env LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeSmoke
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `3.00s`;
+- peak tree RSS: `4010 MiB`;
+- minimum available memory seen: `45906 MiB`.
+
+Decision: accepted.  This is the first DU9IQ support-2 weighted-denominator
+cube whose reduced Walsh bound is connected all the way back to the actual
+rank-level `weightedDirectWalshDotAtRank` without local rank-normal unfolding.
+The safe scaling rule is now:
+
+- prebuild large vector trace chains serially under an explicit guard;
+- generate only the normal traces needed by a weighted support;
+- keep final obstruction leaves thin, importing traced facts and proving only
+  dot-polynomial composition;
+- do not run cold sibling Lean targets in parallel unless their combined
+  measured RSS is comfortably below the 45 GiB practical RAM budget.
+
+Next DU9IQ work: turn this hand-shaped direct bridge into a generator pattern
+for the remaining accepted weighted cubes, with reports that record each
+support's vector-trace cap, normal-trace cap, direct-bridge cap, and whether
+the bridge exports a semantic `BadMaskCover`/all-Good coverage theorem.
