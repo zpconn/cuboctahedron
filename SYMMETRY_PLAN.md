@@ -36181,3 +36181,62 @@ DU9IK batch route is not a proof path.  Emit and guard ranks `519` and `561`
 one at a time with split trace and selected-impact components, then assemble a
 shallow DU9IK split batch root only after both rank roots pass under the
 `4200 MiB` guard.
+
+### Phase 6Z6K8AP16DU9IK - rank 519 split cover accepted
+
+The first DU9IK proof-producing rank was emitted with split trace components
+and selected-impact normal components for the three heavier selected impacts:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_source.json \
+  --rank 519 \
+  --tag DU9IK \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IK' \
+  --report scripts/generated/phase6z6k8ap16du9ik_split_cover_rank519_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 8
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 8]`;
+- selected subcubes: `15`;
+- guarded targets: `55`;
+- selected-impact normal component targets:
+  - `rank519_impact6_x`, `rank519_impact6_y`, `rank519_impact6_z`;
+  - `rank519_impact7_x`, `rank519_impact7_y`, `rank519_impact7_z`;
+  - `rank519_impact8_x`, `rank519_impact8_y`, `rank519_impact8_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ik_split_cover_rank519_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ik_split_cover_rank519_guard_4200.json \
+  --out-dir /tmp/ap16du9ik_split_cover_rank519_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `55`;
+- peak tree RSS: `4146.01 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IKSplitCoverRank519Smoke`;
+- minimum available memory observed: `45851.51 MiB`;
+- summed target elapsed time: `190.25s`;
+- killed targets: `0`.
+
+Decision: rank `519` is accepted.  Continue serially with rank `561` using the
+same selected-impact component split and the same `4200 MiB` guard before
+creating the shallow DU9IK split batch root.
