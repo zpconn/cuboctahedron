@@ -37597,3 +37597,63 @@ The `generate_ap16du_split_compact_cover.py` theorem-only leaf/root emission
 should be reused for the remaining DU9IM ranks.  Keep heavy Lean builds
 serial and guarded; a `4200 MiB` cap is currently the correct single-target
 guard for this topology, while a `4100 MiB` cap is too tight for the root.
+
+### Phase 6Z6K8AP16DU9IM - rank 659 theorem-only split cover accepted
+
+Rank `659` was emitted with the same theorem-only split-cover topology as the
+accepted rank `641` artifact:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_source.json \
+  --rank 659 \
+  --tag DU9IM \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IM' \
+  --report scripts/generated/phase6z6k8ap16du9im_split_cover_rank659_generation_direct_subcube_root.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 10
+```
+
+The emitted topology again had `53` guarded build targets: split Walsh-vector
+trace targets, selected impact denominator targets, `13` theorem-only subcube
+leaves, and one split-cover root.
+
+The accepted full guarded pass was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9im_split_cover_rank659_generation_direct_subcube_root.json \
+  --json scripts/generated/phase6z6k8ap16du9im_split_cover_rank659_direct_full_guard_4200.json \
+  --out-dir /tmp/ap16du9im_split_cover_rank659_direct_full_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Full guarded pass summary:
+
+- status: `passed`;
+- target count: `53`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS: `4171.27 MiB`;
+- peak target: split-cover root
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverRank659Smoke`;
+- next-highest targets:
+  - `trace_step_12_z`: `4159.97 MiB`;
+  - `trace_final_x`: `4149.25 MiB`;
+  - `trace_step_11`: `4148.41 MiB`;
+  - `trace_final_z`: `4146.12 MiB`;
+- minimum available memory seen during the guard: `45892.03 MiB`.
+
+Decision: rank `659` is accepted.  The root is slightly heavier than the
+accepted rank-641 root (`4171.27 MiB` versus `4156.08 MiB`), so the remaining
+DU9IM ranks should continue one at a time under the same serial `4200 MiB`
+process-tree guard.  Do not broaden this into a package build or parallel
+Lean run.  Continue with ranks `647`, `654`, and finally the higher-risk rank
+`657`.
