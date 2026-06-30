@@ -30230,3 +30230,39 @@ normal forms, then prove candidate-union membership through
 production proof through exact mask-to-candidate maps, exact candidate sets
 without further quotienting, template-only quotients that hide multiple source
 obligations, or rank/mask singleton tables.
+
+### Phase 6Z.6K.8AP.16DU.9FZ checkpoint: hcover smoke targets selected
+
+Phase 6Z.6K.8AP.16DU.9FZ adds
+`scripts/plan_hcover_smoke_targets.py`, a proof-neutral target planner for the
+next bounded hcover smoke.  It reads the quotient diagnostics and selects:
+
+1. a baseline `template_source_skeletons_integer_scaled` group, close to one
+   concrete family but using the production candidate-union/domain surface;
+2. a mixed `template_source_skeletons_row` group with four concrete families,
+   four supports, and four row normal forms;
+3. a `template_row` stress group that is explicitly rejected as the first
+   target because it hides too many source obligations.
+
+Run command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/plan_hcover_smoke_targets.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12864`.
+
+Selected target summary:
+
+| Target | Cases | Concrete families | Supports | Integer row forms |
+| --- | ---: | ---: | ---: | ---: |
+| Baseline skeleton/integer | `11163` | `1` | `1` | `1` |
+| Mixed skeleton/row | `11573` | `4` | `4` | `4` |
+| Rejected template/row stress | `29662` | `103` | n/a | n/a |
+
+Decision: accepted.  The next implementation step should emit the baseline
+bounded hcover smoke first, using
+`TemplateLanguageDomainCoversIdentityRange.single` or `concat` plus the
+candidate-union/source-position erasure path.  Only after that builds should we
+try the mixed source-skeleton/row target.

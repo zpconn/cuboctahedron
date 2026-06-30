@@ -1,0 +1,168 @@
+{
+  "decision": {
+    "baseline_gate": "Emit a bounded hcover smoke for the baseline group first.  It should use TemplateLanguageDomainCoversIdentityRange.single or concat and the candidate-union/source-position erasure path, but it is allowed to be close to one concrete family.",
+    "do_not_start_with": "Do not start with the template_row stress group: it has high case count but hides too many distinct source obligations.",
+    "mixed_gate": "After the baseline builds, emit a mixed source-skeleton/row smoke over the selected multi-family group.  This is the first useful test that candidate-union hcover can share above exact source indices without hiding everything in a template-only predicate.",
+    "status": "targets-selected-generator-obligation-open"
+  },
+  "inputs": {
+    "classifier_quotients": "scripts/generated/phase6z6k8ap16du9ej_classifier_census_quotients.json",
+    "normal_form_quotients": "scripts/generated/phase6z6k8ap16du9en_normal_form_quotients.json"
+  },
+  "phase": "6Z.6K.8AP.16DU.9FZ",
+  "targets": {
+    "baseline_template_source_skeletons_integer_scaled": {
+      "case_count": 11163,
+      "concrete_family_count": 1,
+      "exact_row_shape_count": 1,
+      "integer_scaled_count": 1,
+      "key": "2f9c6c77583874a7cb127697d2457378b68dc5aecbb109f872ac6390f57c2c68",
+      "payload": {
+        "integer_scaled": {
+          "first_line": [
+            -3,
+            -3,
+            -25
+          ],
+          "multipliers": [
+            1,
+            1
+          ],
+          "second_line": [
+            1,
+            1,
+            1
+          ]
+        },
+        "source_skeletons": [
+          "{\"impact\": \"1\", \"kind\": \"interior\"}",
+          "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+        ],
+        "template": "eq_eq_pos_var_first"
+      },
+      "sample_families": [
+        {
+          "case_count": 11163,
+          "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+          "sample": {
+            "mask": 8,
+            "rank": 0
+          },
+          "source_indices": [
+            23,
+            0
+          ]
+        }
+      ],
+      "support_count": 1
+    },
+    "mixed_template_source_skeletons_row": {
+      "case_count": 11573,
+      "concrete_family_count": 4,
+      "exact_row_shape_count": 4,
+      "integer_scaled_count": 4,
+      "key": "3e680075e7cd9fe7ee2b24e068c82fdb1ccb68e2558e843208b7222519463872",
+      "payload": {
+        "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+        "source_skeletons": [
+          "{\"impact\": \"1\", \"kind\": \"interior\"}",
+          "{\"impact\": \"index:0\", \"kind\": \"xpStart\"}"
+        ],
+        "template": "eq_eq_pos_var_first"
+      },
+      "sample_families": [
+        {
+          "case_count": 11163,
+          "family_key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+          "sample": {
+            "mask": 8,
+            "rank": 0
+          },
+          "source_indices": [
+            23,
+            0
+          ]
+        },
+        {
+          "case_count": 350,
+          "family_key": "253616397651d8f80158fbe86ee50967575a66461ada0d125e0613286400ab08",
+          "sample": {
+            "mask": 34,
+            "rank": 95000493
+          },
+          "source_indices": [
+            19,
+            0
+          ]
+        },
+        {
+          "case_count": 51,
+          "family_key": "9c314735fc70994884564418e32f5c67b4d27e4bbebc86ecc37b5cc2bc62d19b",
+          "sample": {
+            "mask": 53,
+            "rank": 45000184
+          },
+          "source_indices": [
+            18,
+            0
+          ]
+        },
+        {
+          "case_count": 9,
+          "family_key": "30574aa8b68c7f76dfe0fe00ac99e515b1da356a1e453fc0d533915f95a992eb",
+          "sample": {
+            "mask": 10,
+            "rank": 45003885
+          },
+          "source_indices": [
+            27,
+            0
+          ]
+        }
+      ],
+      "support_count": 4
+    },
+    "rejected_template_row_stress": {
+      "case_count": 29662,
+      "concrete_family_count": 103,
+      "exact_row_shape_count": null,
+      "integer_scaled_count": null,
+      "key": "de265919187b4ec6ae40f1c73590334c7985d8c80e45d0ad63146e6ee9948f19",
+      "payload": {
+        "row_property": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+        "template": "eq_eq_pos_var_first"
+      },
+      "sample_families": [
+        {
+          "case_count": 11163,
+          "key": "07df79ba535ad420c5b600b5315e79c9af7b32caa4c46b14074a0a6f51780199",
+          "source_indices": [
+            23,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "case_count": 2726,
+          "key": "baf26eae8e191cb2a2726b22ed51187143ca62f8947470b5c1fa71a6a5313c1c",
+          "source_indices": [
+            52,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "case_count": 1600,
+          "key": "afd6038feda84892c17a4d0954f5559c4cb5396ec87bd64792d38c8a733e0f78",
+          "source_indices": [
+            70,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "support_count": null
+    }
+  },
+  "trusted_as_proof": false
+}
