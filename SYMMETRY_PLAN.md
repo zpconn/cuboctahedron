@@ -34803,3 +34803,61 @@ selected-impact target for impact `11` came within roughly `5 MiB` of the
 request selected-impact component splitting for the actual zero-based selected
 impact whenever the emitter supports it.  Continue with rank `360` next; do not
 batch these high-risk roots into a broad Lake build.
+
+### Phase 6Z6K8AP16DU9IH - rank 360 split cover accepted
+
+Rank `360` was emitted after rank `365`.  The plan entry uses selected
+word-impact `11`, so this run explicitly split that selected-impact normal
+proof into `x/y/z` component theorem files before guarding:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 360 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank360_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `19`;
+- guarded targets: `53`;
+- selected-impact normal component targets: `rank360_impact11_x`,
+  `rank360_impact11_y`, and `rank360_impact11_z`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank360_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank360_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank360_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `53`;
+- maximum process-tree RSS: `4163.84 MiB`;
+- peak target: `ImpactSubcubeWalshVectorTraceRank360SplitStep12YSmoke`;
+- minimum observed available memory: `45902.58 MiB`;
+- total guarded elapsed time across targets: `191.76s`;
+- killed targets: none.
+
+Decision: rank `360` is accepted.  Splitting selected-impact `11` avoided the
+near-cap selected-impact behavior seen on rank `365`; the rank's peak moved
+back to the known trace-step `12Y` target.  The remaining DU9IH ranks are
+`323`, `357`, `377`, and `371`; continue in descending selected-subcube risk
+order with rank `323` next, still using serial guarded builds and selected
+impact component splitting when a high-memory selected word-impact is present.
