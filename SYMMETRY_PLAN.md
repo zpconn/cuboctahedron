@@ -33543,3 +33543,122 @@ Decision: accepted.  Rank `149` stayed comfortably below the `4200 MiB` serial
 guard and used fewer split subcubes than ranks `144` and `147`.  Continue DU9IB
 with rank `177`, retaining the exact target-kind planning step before each
 guarded build.
+
+### Phase 6Z.6K.8AP.16DU.9IB checkpoint: rank `177` split cover accepted
+
+The seventh 9IA rank, `177`, was emitted with the same component trace/final
+split strategy:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_source.json \
+  --rank 177 \
+  --tag DU9IB \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IB' \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank177_component_final_generation.json
+```
+
+Generation result:
+
+- rank: `177`;
+- selected subcubes: `22`;
+- emitted/expected targets: `53`;
+- selected impacts: `[0, 1, 3, 5, 6, 7, 11]`;
+- final proof surface:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IBSplitCoverRank177Smoke`;
+- exported theorem:
+  `generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`.
+
+The guarded trace-prerequisite build used the standard DU9IB trace target set:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank177_component_final_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ib_rank177_trace_guard_4200.json \
+  --out-dir /tmp/ap16du9ib_rank177_trace_guard_4200 \
+  --target-kind trace_data \
+  --target-kind trace_step_00 \
+  --target-kind trace_step_01 \
+  --target-kind trace_step_02 \
+  --target-kind trace_step_03 \
+  --target-kind trace_step_04 \
+  --target-kind trace_step_05 \
+  --target-kind trace_step_06 \
+  --target-kind trace_step_07 \
+  --target-kind trace_step_08 \
+  --target-kind trace_step_09 \
+  --target-kind trace_step_10 \
+  --target-kind trace_step_11 \
+  --target-kind trace_step_12_x \
+  --target-kind trace_step_12_y \
+  --target-kind trace_step_12_z \
+  --target-kind trace_step_12 \
+  --target-kind trace_final_x \
+  --target-kind trace_final_y \
+  --target-kind trace_final_z \
+  --target-kind trace_final \
+  --target-kind trace \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Trace guard result: passed with `22` targets.  The maximum tree RSS was
+`4151.40 MiB` at `trace_final_z`; the minimum available memory observed was
+`45906.85 MiB`, also at `trace_final_z`.
+
+Because rank `177` selected impact `11`, and impact `11` had been the cap-edge
+target for rank `147`, it was probed first as a single guarded target:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank177_component_final_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ib_rank177_impact11_guard_4200.json \
+  --out-dir /tmp/ap16du9ib_rank177_impact11_guard_4200 \
+  --target-kind selected_impact \
+  --module-contains Rank177Impact11 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Impact-11 probe result: passed with `1` target.  The maximum tree RSS was
+`4178.08 MiB` and the minimum available memory observed was `45850.37 MiB`.
+This is the tightest accepted DU9IB target so far, leaving roughly `22 MiB` of
+RSS headroom under the current `4200 MiB` cap.
+
+The guarded selected-impact/subcube/root build was then run over the complete
+cover target set:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ib_split_cover_rank177_component_final_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ib_rank177_cover_targets_guard_4200.json \
+  --out-dir /tmp/ap16du9ib_rank177_cover_targets_guard_4200 \
+  --target-kind selected_impact \
+  --target-kind selected_impacts_root \
+  --target-kind split_cover_subcube \
+  --target-kind split_cover_root \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Cover guard result: passed with `31` targets.  The maximum tree RSS was
+`4152.14 MiB` at the split-cover root; the minimum available memory observed was
+`45909.22 MiB`, also at the split-cover root.  Host memory after the run
+remained healthy, with about `46549 MiB` available.
+
+Decision: accepted, but near the current memory edge.  Rank `177` validates the
+split-cover strategy for a larger `22`-subcube rank, but future ranks containing
+impact `11` or roots with comparable source size should keep the single-target
+preflight before the full cover run.  If any target exceeds or approaches the
+cap more closely than rank `177`, split that selected impact/root before
+attempting a complete target set.
