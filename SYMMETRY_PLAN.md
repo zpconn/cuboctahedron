@@ -40532,3 +40532,55 @@ next DU9IQ step is a generated-style smoke that uses this reduced-bound surface
 for selected weighted cubes while keeping the coefficient-equality link small:
 emit local coefficient/dot facts rather than unfolding
 `weightedDirectWalshQuadraticAtRank`.
+
+### Phase 6Z6K8AP16DU9IQ - reduced-bound obstruction smoke accepted
+
+A generated-style DU9IQ smoke now exercises the reduced-bound core on the
+accepted rank-`896` weighted cube:
+
+- file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQReducedBoundSmoke.lean`;
+- rank: `896`;
+- cube pattern: `1**0*0`;
+- support: `[2,6]`;
+- weights: `[1,1]`;
+- original weighted Walsh polynomial nonzero terms: `10`;
+- reduced polynomial on the cube: `-4 + 4*z`;
+- reduced absolute bound: `0`.
+
+The smoke proves the local nonpositivity using
+`WalshQuadraticReducedAbsBound` and then packages it as a
+`WeightedWalshQuadraticNonposObstruction`.  Crucially, the theorem keeps the
+direct equality
+
+```lean
+weightedDirectWalshDotAtRank ... = poly896_2_6.coeffEval mask
+```
+
+as an explicit generated premise.  This confirms the intended surface:
+generated leaves can use reduced quadratic bounds without asking Lean to unfold
+`weightedDirectWalshQuadraticAtRank`.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_reduced_bound_smoke_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQReducedBoundSmoke
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `3.50s`;
+- peak tree RSS: `4084 MiB`;
+- minimum available memory seen: `46058 MiB`.
+
+Decision: the reduced-bound obstruction surface is accepted for a concrete
+DU9IQ cube.  The next step is to emit/check the missing coefficient-equality
+facts for this cube through compact dot-data or coefficient records.  Do not
+prove that equality by unfolding the rank-level weighted Walsh recurrence.
