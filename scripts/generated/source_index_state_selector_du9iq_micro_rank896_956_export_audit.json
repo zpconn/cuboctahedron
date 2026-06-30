@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "declarations": 21,
+      "imports": 3,
+      "lines": 160,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke",
+      "olean_bytes": 98016,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke.lean",
+      "private_declarations": 14,
+      "public_declarations": 7
+    },
+    {
+      "declarations": 747,
+      "imports": 1,
+      "lines": 6727,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard000",
+      "olean_bytes": 51722112,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard000.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard000.lean",
+      "private_declarations": 742,
+      "public_declarations": 5
+    },
+    {
+      "declarations": 747,
+      "imports": 1,
+      "lines": 6727,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard001",
+      "olean_bytes": null,
+      "olean_exists": false,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard001.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard001.lean",
+      "private_declarations": 742,
+      "public_declarations": 5
+    },
+    {
+      "declarations": 285,
+      "imports": 1,
+      "lines": 2503,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard002",
+      "olean_bytes": null,
+      "olean_exists": false,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard002.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard002.lean",
+      "private_declarations": 280,
+      "public_declarations": 5
+    }
+  ],
+  "globs": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/*.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke.lean"
+  ],
+  "olean_root": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean",
+  "root": "/home/zpconn/code/cuboctahedron",
+  "summary": {
+    "file_count": 4,
+    "total_declarations": 1800,
+    "total_lines": 16117,
+    "total_olean_bytes": 51820128,
+    "total_private_declarations": 1778,
+    "total_public_declarations": 22
+  }
+}

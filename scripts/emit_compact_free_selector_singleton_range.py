@@ -26,21 +26,45 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SUPPORT = ROOT / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies"
 MICRO = SUPPORT / "SourceIndexStateSelectorDU9LMicro"
+DEFAULT_SUPPORT_NS = "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies"
+DEFAULT_MICRO_NS = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "SourceIndexStateSelectorDU9LMicro"
+)
 
 
 def read(path: Path) -> str:
     return path.read_text()
 
 
-def cover_masks(rank: int) -> list[int]:
-    path = SUPPORT / f"ImpactSubcubeWalshSymbolicCompactDenomCoverRank{rank}Smoke.lean"
+def module_path(module: str) -> Path:
+    return ROOT / Path(*module.split(".")).with_suffix(".lean")
+
+
+def parse_prop_masks(text: str, predicate: str) -> list[int]:
+    pattern = re.compile(
+        rf"def {re.escape(predicate)} \(mask : SignMask\) : Prop :=\n"
+        r"(?P<body>.*?)(?:\n\n(?:private\s+)?(?:def|theorem|lemma|inductive|structure|/--)|\Z)",
+        re.S,
+    )
+    match = pattern.search(text)
+    if not match:
+        raise SystemExit(f"could not find predicate {predicate}")
+    return [
+        int(mask)
+        for mask in re.findall(r"mask\.val = (\d+)", match.group("body"))
+    ]
+
+
+def cover_masks(rank: int, *, cover_path: Path, predicate: str) -> list[int]:
+    path = cover_path
     text = read(path).split("namespace Subcube000", 1)[0]
-    return [int(m.group(1)) for m in re.finditer(r"mask\.val = (\d+)", text)]
+    return parse_prop_masks(text, predicate)
 
 
-def shard_cases(rank: int) -> dict[int, tuple[str, str]]:
+def shard_cases(rank: int, *, micro_dir: Path) -> dict[int, tuple[str, str]]:
     cases: dict[int, tuple[str, str]] = {}
-    for shard_path in sorted(MICRO.glob("Shard*.lean")):
+    for shard_path in sorted(micro_dir.glob("Shard*.lean")):
         shard = shard_path.stem
         text = read(shard_path)
         pattern = re.compile(
@@ -97,7 +121,8 @@ def emit_single_shard_case_bridge(
     masks: list[int],
     cases: dict[int, tuple[str, str]],
     cover_ns: str,
-    batch_ns: str,
+    positive_predicate: str,
+    positive_theorem: str,
 ) -> list[str]:
     lines: list[str] = []
     for mask in masks:
@@ -120,7 +145,7 @@ def emit_single_shard_case_bridge(
         [
             f"theorem rank{rank}_selectorPositive_of_generatedGoodMaskMember",
             "    {mask : SignMask}",
-            f"    (hmember : {cover_ns}.generatedGoodMaskMember mask) :",
+            f"    (hmember : {cover_ns}.{positive_predicate} mask) :",
             f"    {shard}.SelectorPositiveCase {rank} mask := by",
             f"  rcases hmember with {rcases}",
         ]
@@ -135,7 +160,7 @@ def emit_single_shard_case_bridge(
             f"    (hgood : GoodDirectionAtRank (⟨{rank}, hlt⟩ : Fin numPairWords) mask) :",
             f"    {shard}.SelectorPositiveCase {rank} mask :=",
             f"  rank{rank}_selectorPositive_of_generatedGoodMaskMember",
-            f"    ({batch_ns}.rank{rank}_goodMaskMember_of_GoodDirection hlt hgood)",
+            f"    ({cover_ns}.{positive_theorem} hlt hgood)",
             "",
             f"theorem selectorCatalog{rank}_{rank + 1} :",
             f"    SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt{rank}_{rank + 1} {rank} {rank + 1} := by",
@@ -156,7 +181,8 @@ def emit_split_shard_case_bridge(
     masks: list[int],
     cases: dict[int, tuple[str, str]],
     cover_ns: str,
-    batch_ns: str,
+    positive_predicate: str,
+    positive_theorem: str,
 ) -> list[str]:
     rcases = " | ".join(["h" for _ in masks])
     lines: list[str] = [
@@ -164,8 +190,8 @@ def emit_split_shard_case_bridge(
         f"    {{mask : SignMask}} (hlt : {rank} < numPairWords)",
         f"    (hgood : GoodDirectionAtRank (⟨{rank}, hlt⟩ : Fin numPairWords) mask) :",
         f"    SelectorCoordinateSourceRowFacts (coordAt{rank}_{rank + 1} {rank} mask) {rank} mask := by",
-        f"  have hmember : {cover_ns}.generatedGoodMaskMember mask :=",
-        f"    {batch_ns}.rank{rank}_goodMaskMember_of_GoodDirection hlt hgood",
+        f"  have hmember : {cover_ns}.{positive_predicate} mask :=",
+        f"    {cover_ns}.{positive_theorem} hlt hgood",
         f"  rcases hmember with {rcases}",
     ]
     for mask in masks:
@@ -193,39 +219,55 @@ def emit_split_shard_case_bridge(
     return lines
 
 
-def emit(rank: int) -> tuple[Path, str]:
-    masks = cover_masks(rank)
-    cases = shard_cases(rank)
+def emit(
+    rank: int,
+    *,
+    micro_dir: Path,
+    micro_namespace: str,
+    positive_module: str | None,
+    positive_predicate: str | None,
+    positive_theorem: str | None,
+    module: str | None,
+    output: Path | None,
+) -> tuple[Path, str]:
+    support_ns = DEFAULT_SUPPORT_NS
+    if positive_module is None:
+        cover_module = (
+            f"{support_ns}.ImpactSubcubeWalshSymbolicCompactDenomCoverRank{rank}Smoke"
+        )
+        positive_module = (
+            f"{support_ns}.ImpactSubcubeWalshSymbolicCompactDenomDU9PRank{rank}BatchSmoke"
+        )
+        positive_predicate = "generatedGoodMaskMember"
+        positive_theorem = f"rank{rank}_goodMaskMember_of_GoodDirection"
+        cover_path = SUPPORT / f"ImpactSubcubeWalshSymbolicCompactDenomCoverRank{rank}Smoke.lean"
+    else:
+        cover_module = positive_module
+        positive_predicate = positive_predicate or f"rank{rank}PositiveMaskMember"
+        positive_theorem = positive_theorem or f"goodDirection_rank{rank}PositiveMaskMember"
+        cover_path = module_path(positive_module)
+
+    masks = cover_masks(rank, cover_path=cover_path, predicate=positive_predicate)
+    cases = shard_cases(rank, micro_dir=micro_dir)
     missing = [mask for mask in masks if mask not in cases]
     if missing:
         raise SystemExit(f"missing DU.9L cases for rank {rank}: {missing}")
     shards = sorted({cases[mask][0] for mask in masks})
     lo = rank
     hi = rank + 1
-    module = f"SourceIndexStateSelectorDU9CompactFreeRange{rank}Smoke"
-    output = SUPPORT / f"{module}.lean"
-    ns = (
-        "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
-        f"{module}"
-    )
-    support_ns = "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies"
-    cover_ns = (
-        f"{support_ns}.ImpactSubcubeWalshSymbolicCompactDenomCoverRank{rank}Smoke"
-    )
-    batch_ns = (
-        f"{support_ns}.ImpactSubcubeWalshSymbolicCompactDenomDU9PRank{rank}BatchSmoke"
-    )
+    module = module or f"SourceIndexStateSelectorDU9CompactFreeRange{rank}Smoke"
+    output = output or SUPPORT / f"{module}.lean"
+    ns = f"{support_ns}.{module}"
+    cover_ns = cover_module
 
     imports = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9RRangeAdapter",
     ]
     imports.extend(
-        f"import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro.{shard}"
+        f"import {micro_namespace}.{shard}"
         for shard in shards
     )
-    imports.append(
-        f"import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9PRank{rank}BatchSmoke"
-    )
+    imports.append(f"import {positive_module}")
 
     split_note = (
         "single microshard"
@@ -252,7 +294,7 @@ def emit(rank: int) -> tuple[Path, str]:
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9RRangeAdapter",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke",
-        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro",
+        f"open {micro_namespace}",
         "",
         *coord_dispatcher(rank=lo, hi=hi, cases=cases, masks=masks),
         "private theorem signMask_eq_of_val_eq",
@@ -271,7 +313,8 @@ def emit(rank: int) -> tuple[Path, str]:
                 masks=masks,
                 cases=cases,
                 cover_ns=cover_ns,
-                batch_ns=batch_ns,
+                positive_predicate=positive_predicate,
+                positive_theorem=positive_theorem,
             )
         )
     else:
@@ -281,7 +324,8 @@ def emit(rank: int) -> tuple[Path, str]:
                 masks=masks,
                 cases=cases,
                 cover_ns=cover_ns,
-                batch_ns=batch_ns,
+                positive_predicate=positive_predicate,
+                positive_theorem=positive_theorem,
             )
         )
 
@@ -312,8 +356,24 @@ def emit(rank: int) -> tuple[Path, str]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rank", type=int, required=True)
+    parser.add_argument("--micro-dir", type=Path, default=MICRO)
+    parser.add_argument("--micro-namespace", default=DEFAULT_MICRO_NS)
+    parser.add_argument("--positive-module")
+    parser.add_argument("--positive-predicate")
+    parser.add_argument("--positive-theorem")
+    parser.add_argument("--module")
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    output, text = emit(args.rank)
+    output, text = emit(
+        args.rank,
+        micro_dir=args.micro_dir,
+        micro_namespace=args.micro_namespace,
+        positive_module=args.positive_module,
+        positive_predicate=args.positive_predicate,
+        positive_theorem=args.positive_theorem,
+        module=args.module,
+        output=args.output,
+    )
     output.write_text(text)
     print(output)
 

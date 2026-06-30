@@ -632,6 +632,37 @@ def rows_tail(cc: SymbolicCase) -> list[str]:
             *row_fact_lines(name, "second", "OppNegRow", "rowSecond"),
             f"  exact ⟨{name}_fixedFirst, {name}_rowSecond⟩",
         ]
+    if cc.template_id == "axis_a_only":
+        return [
+            f"  have {name}_firstBZero :",
+            f"      (FirstLineAt {name}_support {name}_rank.val hlt {name}_mask).b = 0 := by",
+            f"    rw [FirstLineAt, hfirst]",
+            f"    norm_num [{name}_firstLine]",
+            f"  have {name}_secondBZero :",
+            f"      (SecondLineAt {name}_support {name}_rank.val hlt {name}_mask).b = 0 := by",
+            f"    rw [SecondLineAt, hsecond]",
+            f"    norm_num [{name}_secondLine]",
+            f"  have {name}_aProductNeg :",
+            f"      (FirstLineAt {name}_support {name}_rank.val hlt {name}_mask).a *",
+            f"          (SecondLineAt {name}_support {name}_rank.val hlt {name}_mask).a < 0 := by",
+            f"    rw [FirstLineAt, SecondLineAt, hfirst, hsecond]",
+            f"    norm_num [{name}_firstLine, {name}_secondLine]",
+            f"  have {name}_weightedCNonpos :",
+            f"      (SupportPair.multipliersAt {name}_support",
+            f"          {name}_rank.val hlt {name}_mask).1 *",
+            f"          (FirstLineAt {name}_support {name}_rank.val hlt {name}_mask).c +",
+            f"        (SupportPair.multipliersAt {name}_support",
+            f"          {name}_rank.val hlt {name}_mask).2 *",
+            f"          (SecondLineAt {name}_support {name}_rank.val hlt {name}_mask).c <= 0 := by",
+            f"    rw [SupportPair.multipliersAt, hseq, hb,",
+            f"      TwoSourceFarkasSupport.multipliers, {name}_firstLine_eq,",
+            f"      {name}_secondLine_eq, FirstLineAt, SecondLineAt, hfirst, hsecond]",
+            f"    norm_num [{name}_firstLine, {name}_secondLine,",
+            f"      TwoSourceFarkasSupport.multipliersForLines,",
+            f"      TwoSourceFarkasSupport.orientNonnegative]",
+            f"  exact ⟨{name}_firstBZero, {name}_secondBZero,",
+            f"    {name}_aProductNeg, {name}_weightedCNonpos⟩",
+        ]
     if cc.template_id == "axis_b_only":
         return [
             f"  have {name}_firstAZero :",

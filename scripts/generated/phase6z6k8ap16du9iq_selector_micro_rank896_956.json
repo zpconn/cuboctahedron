@@ -1,0 +1,371 @@
+{
+  "decision": {
+    "notes": [
+      "This is bounded telemetry, not final generated coverage.",
+      "The generated leaves are GoodDirection-only and do not replay bad-direction masks.",
+      "Build leaves serially under the memory guard before composing roots."
+    ],
+    "status": "microshards-emitted"
+  },
+  "emitted_survivors": 75,
+  "global_key_count": 19,
+  "global_keys_touched": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    8,
+    10,
+    12,
+    15,
+    22,
+    26,
+    29,
+    34,
+    38,
+    40,
+    42,
+    59,
+    63,
+    75
+  ],
+  "limit": 60,
+  "local_family_count": 19,
+  "max_survivors_per_shard": 32,
+  "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956",
+  "out_dir": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956",
+  "phase": "6Z.6K.8AP.16DU9IQ31",
+  "rank_end": 956,
+  "rank_start": 896,
+  "schema_version": 1,
+  "shard_count": 3,
+  "shards": [
+    {
+      "case_count": 32,
+      "cases": [
+        {
+          "mask": 9,
+          "rank": 896
+        },
+        {
+          "mask": 13,
+          "rank": 896
+        },
+        {
+          "mask": 16,
+          "rank": 896
+        },
+        {
+          "mask": 18,
+          "rank": 896
+        },
+        {
+          "mask": 22,
+          "rank": 896
+        },
+        {
+          "mask": 24,
+          "rank": 896
+        },
+        {
+          "mask": 28,
+          "rank": 896
+        },
+        {
+          "mask": 30,
+          "rank": 896
+        },
+        {
+          "mask": 31,
+          "rank": 896
+        },
+        {
+          "mask": 45,
+          "rank": 896
+        },
+        {
+          "mask": 47,
+          "rank": 896
+        },
+        {
+          "mask": 54,
+          "rank": 896
+        },
+        {
+          "mask": 55,
+          "rank": 896
+        },
+        {
+          "mask": 8,
+          "rank": 897
+        },
+        {
+          "mask": 13,
+          "rank": 897
+        },
+        {
+          "mask": 16,
+          "rank": 897
+        },
+        {
+          "mask": 18,
+          "rank": 897
+        },
+        {
+          "mask": 24,
+          "rank": 897
+        },
+        {
+          "mask": 29,
+          "rank": 897
+        },
+        {
+          "mask": 30,
+          "rank": 897
+        },
+        {
+          "mask": 31,
+          "rank": 897
+        },
+        {
+          "mask": 45,
+          "rank": 897
+        },
+        {
+          "mask": 47,
+          "rank": 897
+        },
+        {
+          "mask": 54,
+          "rank": 897
+        },
+        {
+          "mask": 55,
+          "rank": 897
+        },
+        {
+          "mask": 63,
+          "rank": 897
+        },
+        {
+          "mask": 8,
+          "rank": 899
+        },
+        {
+          "mask": 9,
+          "rank": 899
+        },
+        {
+          "mask": 13,
+          "rank": 899
+        },
+        {
+          "mask": 16,
+          "rank": 899
+        },
+        {
+          "mask": 18,
+          "rank": 899
+        },
+        {
+          "mask": 22,
+          "rank": 899
+        }
+      ],
+      "index": 0,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard000",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard000.lean"
+    },
+    {
+      "case_count": 32,
+      "cases": [
+        {
+          "mask": 24,
+          "rank": 899
+        },
+        {
+          "mask": 28,
+          "rank": 899
+        },
+        {
+          "mask": 29,
+          "rank": 899
+        },
+        {
+          "mask": 30,
+          "rank": 899
+        },
+        {
+          "mask": 31,
+          "rank": 899
+        },
+        {
+          "mask": 45,
+          "rank": 899
+        },
+        {
+          "mask": 47,
+          "rank": 899
+        },
+        {
+          "mask": 54,
+          "rank": 899
+        },
+        {
+          "mask": 55,
+          "rank": 899
+        },
+        {
+          "mask": 63,
+          "rank": 899
+        },
+        {
+          "mask": 18,
+          "rank": 903
+        },
+        {
+          "mask": 22,
+          "rank": 903
+        },
+        {
+          "mask": 24,
+          "rank": 903
+        },
+        {
+          "mask": 25,
+          "rank": 903
+        },
+        {
+          "mask": 54,
+          "rank": 903
+        },
+        {
+          "mask": 55,
+          "rank": 903
+        },
+        {
+          "mask": 63,
+          "rank": 903
+        },
+        {
+          "mask": 18,
+          "rank": 905
+        },
+        {
+          "mask": 22,
+          "rank": 905
+        },
+        {
+          "mask": 24,
+          "rank": 905
+        },
+        {
+          "mask": 41,
+          "rank": 905
+        },
+        {
+          "mask": 54,
+          "rank": 905
+        },
+        {
+          "mask": 55,
+          "rank": 905
+        },
+        {
+          "mask": 57,
+          "rank": 905
+        },
+        {
+          "mask": 63,
+          "rank": 905
+        },
+        {
+          "mask": 9,
+          "rank": 911
+        },
+        {
+          "mask": 16,
+          "rank": 911
+        },
+        {
+          "mask": 18,
+          "rank": 911
+        },
+        {
+          "mask": 22,
+          "rank": 911
+        },
+        {
+          "mask": 24,
+          "rank": 911
+        },
+        {
+          "mask": 45,
+          "rank": 911
+        },
+        {
+          "mask": 50,
+          "rank": 911
+        }
+      ],
+      "index": 1,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard001",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard001.lean"
+    },
+    {
+      "case_count": 11,
+      "cases": [
+        {
+          "mask": 54,
+          "rank": 911
+        },
+        {
+          "mask": 55,
+          "rank": 911
+        },
+        {
+          "mask": 57,
+          "rank": 911
+        },
+        {
+          "mask": 63,
+          "rank": 911
+        },
+        {
+          "mask": 16,
+          "rank": 955
+        },
+        {
+          "mask": 18,
+          "rank": 955
+        },
+        {
+          "mask": 22,
+          "rank": 955
+        },
+        {
+          "mask": 54,
+          "rank": 955
+        },
+        {
+          "mask": 56,
+          "rank": 955
+        },
+        {
+          "mask": 57,
+          "rank": 955
+        },
+        {
+          "mask": 63,
+          "rank": 955
+        }
+      ],
+      "index": 2,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard002",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956/Shard002.lean"
+    }
+  ],
+  "total_good_direction_survivors": 75,
+  "trusted_as_proof": false
+}

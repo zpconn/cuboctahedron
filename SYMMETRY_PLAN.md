@@ -44545,3 +44545,117 @@ Revised next step:
    carry per-rank private case data.
 4. Keep the tiny positive-mask bridge-cover modules as good candidates for
    reusable imports, because their `.olean` footprint is about `2-3 MiB`.
+
+### Phase 6Z6K8AP16DU9IQ31 - compact-free selector microshard path accepted for rank 896
+
+The corrected generated source-row closures were replaced, for one bounded
+rank, by the lighter compact-free selector route:
+
+```text
+GoodDirectionAtRank
+  -> tiny weighted positive-mask bridge
+  -> selector microshard positive case
+  -> selector/source-row facts
+  -> AllTranslationGoodCoverageOnRange
+```
+
+Two generator scripts were extended:
+
+- `scripts/generate_symbolic_row_family_smoke.py` now supports the
+  `axis_a_only` row template in the symbolic row-tail generator, mirroring the
+  existing `axis_b_only` support.
+- `scripts/emit_compact_free_selector_singleton_range.py` is now parameterized
+  by microshard directory/namespace and by the positive-mask bridge module, so
+  it can consume the corrected DU9IQ weighted positive-mask bridge instead of
+  the old compact-Walsh rank-local modules.
+
+A bounded selector microshard set was generated for `[896,956)`:
+
+```bash
+python3 scripts/generate_ap16du9l_selector_microshards.py \
+  --rank-start 896 \
+  --limit 60 \
+  --max-survivors 128 \
+  --max-survivors-per-shard 32 \
+  --out-dir Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --json scripts/generated/phase6z6k8ap16du9iq_selector_micro_rank896_956.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_selector_micro_rank896_956.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --phase 6Z.6K.8AP.16DU9IQ31
+```
+
+The generator emitted `75` GoodDirection survivor cases across `3` shards:
+
+| shard | cases | source size |
+| --- | ---: | ---: |
+| `Shard000` | `32` | `331421` bytes |
+| `Shard001` | `32` | `331451` bytes |
+| `Shard002` | `11` | `123386` bytes |
+
+For rank `896`, the compact-free singleton range module was generated with:
+
+```bash
+python3 scripts/emit_compact_free_selector_singleton_range.py \
+  --rank 896 \
+  --micro-dir Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --micro-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke \
+  --module SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke.lean
+```
+
+The module exports:
+
+```lean
+selectorCatalog896_897_allGood :
+  AllTranslationGoodCoverageOnRange 896 897
+```
+
+Focused guarded builds:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_micro_rank896_956_shard000_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard000
+
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_compact_free_range896_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke
+```
+
+Build telemetry:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `SourceIndexStateSelectorDU9IQMicroRank896_956.Shard000` | `41.61s` | `6239.06 MiB` | `43159.82 MiB` | `0` |
+| `SourceIndexStateSelectorDU9IQCompactFreeRange896Smoke` | `2.50s` | `4105.54 MiB` | `45978.36 MiB` | `0` |
+
+Export-surface audit:
+
+| audited files | source lines | declarations | private declarations | public declarations | existing `.olean` bytes |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| `4` | `16117` | `1800` | `1778` | `22` | `51820128` |
+
+Decision: accepted as the preferred direction after Phase 6Z6K8AP16DU9IQ29.
+The rank-local compact-free range module is tiny (`~96 KiB` `.olean`) and can
+be imported by roots cheaply once its selector microshard dependencies are
+built. The selector microshard still has a nontrivial build cost, but it is
+shared across several corrected ranks and is far lighter than the generated
+source-row closure modules.
+
+Next steps:
+
+1. Guard-build `Shard001` and `Shard002` only when needed by ranks `897`,
+   `899`, `903`, `905`, `911`, or `955`.
+2. Emit compact-free singleton range modules for the other corrected complete
+   ranks using the tiny weighted positive-mask bridge modules.
+3. Do not use the compact-free route to claim rank `911` closed until a
+   separate nonpositive-mask cover repairs masks `32`, `34`, and `41`.
