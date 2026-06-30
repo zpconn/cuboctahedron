@@ -36300,3 +36300,38 @@ Decision: rank `561` is accepted.  Both DU9IK proof-producing ranks are now
 accepted under the serial `4200 MiB` guard.  The next DU9IK action is to create
 and guard only the shallow split batch root importing the accepted rank roots;
 do not revive the monolithic DU9IK batch root.
+
+### Phase 6Z6K8AP16DU9IK - shallow split batch root accepted
+
+The DU9IK batch root was created as a shallow smoke root importing only the two
+individually guarded rank roots:
+
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9IKSplitCoverRank519Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9IKSplitCoverRank561Smoke`.
+
+It forwards the rank-local `generatedGoodMaskMember_of_GoodDirection` theorems
+and exposes only a trivial build marker.  It does not import or rebuild the
+older monolithic DU9IK compact-Walsh batch route.
+
+Guard command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ik_split_cover_batch_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IKSplitCoverBatchSmoke'
+```
+
+Guard summary:
+
+- exit code: `0`;
+- elapsed time: `4.00s`;
+- peak tree RSS: `3753.34 MiB`;
+- minimum available memory observed: `46080.13 MiB`;
+- killed reason: none.
+
+Decision: DU9IK is accepted as a split-cover batch.  The safe pattern remains:
+emit heavy rank roots one at a time, guard them serially, then compose only
+shallow accepted roots.
