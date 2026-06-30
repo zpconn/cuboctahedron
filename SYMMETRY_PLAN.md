@@ -35330,3 +35330,63 @@ Decision: rank `389` is accepted.  The peak still sits close to the
 guard.  Prefer proactive selected-impact component splitting for any rank whose
 selected impact pattern includes the higher-risk impacts already seen in DU9IH
 or rank `389`.
+
+### Phase 6Z6K8AP16DU9II - rank 384 split cover accepted
+
+Rank `384` was emitted after rank `389`.  Its plan entry has `15` selected
+subcubes and selected word-impacts `[0, 1, 3, 5, 6, 8, 9]`.  The run again
+used trace step `12`, final-vector component splitting, and proactive normal
+component splitting for selected impacts `6`, `8`, and `9`:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json \
+  --rank 384 \
+  --tag DU9II \
+  --phase 'Phase 6Z.6K.8AP.16DU.9II' \
+  --report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank384_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 9
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `15`;
+- guarded targets: `55`;
+- selected-impact normal component targets:
+  `rank384_impact6_x/y/z`, `rank384_impact8_x/y/z`, and
+  `rank384_impact9_x/y/z`.
+
+The rank was checked with the same serial guard:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank384_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ii_split_cover_rank384_guard_4200.json \
+  --out-dir /tmp/ap16du9ii_split_cover_rank384_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `55`;
+- maximum process-tree RSS: `4165.92 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank384SplitFinalYSmoke`;
+- minimum observed available memory: `45898.49 MiB`;
+- total guarded elapsed time across targets: `185.75s`;
+- killed targets: none.
+
+Decision: rank `384` is accepted.  The trace-final `Y` component remains the
+batch peak pattern, so the `4200 MiB` guard is still mandatory for every
+remaining DU9II rank.
