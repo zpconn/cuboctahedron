@@ -36777,3 +36777,102 @@ to pass under the guard.  Resume rank `609` using filtered one-target or
 small-slice guarded invocations with `--target-index`, still with
 `LEAN_NUM_THREADS=1`, `LAKE_JOBS=1`, and the `4200 MiB` RSS cap.  Do not raise
 the cap and do not run DU9IL Lean targets concurrently.
+
+### Phase 6Z6K8AP16DU9IL - rank 609 segmented resume accepted
+
+Rank `609` was completed by stitching together the interrupted first guard and
+two filtered follow-up guards.  The extra telemetry is intentionally retained,
+because it confirms the lower `4100 MiB` cap stops safely before danger and
+that a still-tight `4160 MiB` cap is sufficient for the remaining subcubes and
+rank root.
+
+First filtered resume:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_remaining_guard_4100.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank609_remaining_guard_4100 \
+  --rss-cap-mib 4100 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 43 --target-index 44 --target-index 45 --target-index 46 \
+  --target-index 47 --target-index 48 --target-index 49 --target-index 50 \
+  --target-index 51 --target-index 52 --target-index 53 --target-index 54 \
+  --target-index 55
+```
+
+This build intentionally stopped on `rank609_subcube007`:
+
+- status: `failed_or_guard_stopped`;
+- passed before stop: `3 / 13`;
+- failed target: `rank609_subcube007`;
+- stop reason: `process-tree RSS 4112 MiB exceeded 4100 MiB cap`;
+- peak tree RSS: `4112.19 MiB`;
+- minimum available memory observed: `45921.01 MiB`.
+
+Single-target retry:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_target046_guard_4160.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank609_target046_guard_4160 \
+  --rss-cap-mib 4160 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 46
+```
+
+Single-target retry summary:
+
+- status: `passed`;
+- target: `rank609_subcube007`;
+- peak tree RSS: `4098.01 MiB`;
+- minimum available memory observed: `45934.12 MiB`;
+- elapsed time: `3.00s`.
+
+Final filtered resume:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_remaining2_guard_4160.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank609_remaining2_guard_4160 \
+  --rss-cap-mib 4160 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 47 --target-index 48 --target-index 49 --target-index 50 \
+  --target-index 51 --target-index 52 --target-index 53 --target-index 54 \
+  --target-index 55
+```
+
+Final filtered resume summary:
+
+- status: `passed`;
+- target count: `9`;
+- peak tree RSS: `4134.56 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Smoke`;
+- peak kind: `split_cover_root`;
+- minimum available memory observed: `45896.40 MiB`;
+- summed target elapsed time: `28.54s`;
+- killed targets: `0`.
+
+Combined acceptance:
+
+- the interrupted first guard passed `43` unique targets;
+- the `4100 MiB` guard passed `3` more unique targets and safely killed
+  `rank609_subcube007`;
+- the `4160 MiB` single-target retry passed `rank609_subcube007`;
+- the final `4160 MiB` filtered guard passed the remaining `9` targets;
+- unique rank `609` generated targets passed: `56 / 56`.
+
+Decision: rank `609` is accepted, but only under segmented, serial guard
+discipline.  The practical safe pattern for the remaining DU9IL ranks is now:
+build prerequisites and easy subcubes in small filtered batches, retry any
+near-cap subcube alone, and build the rank root alone or in the final tiny
+batch.  Do not run DU9IL Lean targets concurrently.

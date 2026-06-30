@@ -1,0 +1,49 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [
+      46
+    ],
+    "target_kind": []
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Subcube007Smoke"
+      ],
+      "elapsed_seconds": 3.003924812976038,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "split_cover_subcube",
+      "label": "rank609_subcube007",
+      "max_tree_rss_kib": 4196360,
+      "max_tree_rss_mib": 4098.0078125,
+      "min_available_seen_kib": 47036540,
+      "min_available_seen_mib": 45934.12109375,
+      "rss_cap_mib": 4160.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Subcube007Smoke",
+      "target_json": "/tmp/ap16du9il_split_cover_rank609_target046_guard_4160/000_ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Subcube007Smoke.json"
+    }
+  ],
+  "rss_cap_mib": 4160,
+  "status": "passed",
+  "target_count": 1,
+  "targets": [
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank609_subcube007",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Subcube007Smoke"
+    }
+  ],
+  "timeout_seconds": 900,
+  "trusted_as_final_generated_coverage": false
+}
