@@ -486,6 +486,111 @@ a sign mask in that subcube.
 This is immediate from the positive-denominator condition.
 \end{proof}
 
+\subsection{Weighted Walsh subcube certificates}
+
+The preceding subcube obstruction is useful, but in practice a slightly more
+flexible version compresses better.  Instead of asking one denominator to be
+nonpositive on a subcube, one may use a nonnegative linear combination of
+several denominators.
+
+\begin{lemma}[Weighted denominator subcube obstruction]
+Fix a translation-type pair word, and let
+\[
+  D_1,\ldots,D_{13}:\{\pm1\}^6\to\Q
+\]
+be the internal impact denominators.  Let \(C\subset\{\pm1\}^6\) be a subcube.
+Suppose there are rational weights \(\lambda_i\ge 0\), not all zero, such that
+\[
+  W(s)=\sum_{i=1}^{13}\lambda_iD_i(s)\le 0
+\]
+for every \(s\in C\).  Then no feasible translation witness has sign mask
+lying in \(C\).
+\end{lemma}
+
+\begin{proof}
+For a feasible translation witness all internal denominators have the required
+strict positive sign, so \(D_i(s)>0\) for every \(i\).  Since the weights are
+nonnegative and at least one is positive, this gives
+\[
+  \sum_i\lambda_iD_i(s)>0.
+\]
+This contradicts the assumed inequality \(W(s)\le0\) on the subcube.
+\end{proof}
+
+The weighted sum \(W\) is again a rational Walsh polynomial of degree at most
+two.  A very small certificate can prove that \(W\le0\) on a subcube after the
+fixed signs have been substituted.
+
+\begin{lemma}[Reduced Walsh bound]
+Let \(C\) be a subcube of \(\{\pm1\}^6\).  After substituting the signs fixed
+by \(C\), suppose a Walsh polynomial \(W\) reduces on the remaining free signs
+to
+\[
+  W_{\mathrm{red}}(t_1,\ldots,t_m)
+    = a_\varnothing+\sum_{\varnothing\ne A\subseteq\{1,\ldots,m\}}
+      a_A\prod_{j\in A}t_j,
+  \qquad t_j\in\{\pm1\}.
+\]
+If
+\[
+  a_\varnothing+\sum_{\varnothing\ne A}|a_A|\le0,
+\]
+then \(W(s)\le0\) for every \(s\in C\).
+\end{lemma}
+
+\begin{proof}
+For every free sign assignment, each monomial \(\prod_{j\in A}t_j\) is either
+\(1\) or \(-1\).  Hence
+\[
+  a_A\prod_{j\in A}t_j\le |a_A|
+\]
+for every nonconstant monomial.  Summing these inequalities gives
+\[
+  W_{\mathrm{red}}(t_1,\ldots,t_m)
+    \le a_\varnothing+\sum_{\varnothing\ne A}|a_A|\le0.
+\]
+Since \(W_{\mathrm{red}}\) agrees with \(W\) on the subcube, the claim follows.
+\end{proof}
+
+\begin{remark}[A typical reduced certificate]
+The reduced-bound certificate is often much smaller than the unreduced Walsh
+polynomial from which it came.  In the enumeration used by the finite
+verification, the translation pair word with enumeration rank \(r=896\) has a
+subcube described, in the bit order
+\[
+  y,\ z,\ d_{111},\ d_{11\bar{1}},\ d_{1\bar{1}1},\ d_{\bar{1}11},
+\]
+by the pattern
+\[
+  1**0*0.
+\]
+That is, \(y=1\), \(d_{11\bar{1}}=-1\), and
+\(d_{\bar{1}11}=-1\), while the other three signs are free.  For this subcube,
+the weighted denominator
+\[
+  W=D_2+D_6
+\]
+reduces to the one-variable expression
+\[
+  W_{\mathrm{red}}=-4+4z.
+\]
+Its reduced Walsh bound is
+\[
+  -4+|4|=0,
+\]
+so \(W\le0\) on the whole subcube.  By the weighted denominator obstruction,
+no feasible translation witness can have a sign mask in this subcube.
+
+In one representative finite certificate family, \(90\) of \(91\) selected
+weighted subcubes were discharged directly by the reduced bound above, and
+the remaining subcube was discharged after fixing one additional sign.  The
+largest original weighted Walsh polynomial in that family had \(12\) nonzero
+terms; after substitution, the largest reduced polynomial had \(6\) nonzero
+terms and degree at most \(2\).  These figures are not used as axioms; they
+only describe the compressed certificate surface that the Lean formalization
+checks exactly.
+\end{remark}
+
 \begin{proposition}[Translation finite verification]
 No started unfolded omnihedral witness realizes a translation-type signed
 itinerary.
@@ -497,8 +602,9 @@ one of its \(64\) sign masks.  For each signed itinerary it supplies one of
 the following rational obstructions:
 \begin{enumerate}[leftmargin=2em]
 \item an internal denominator is nonpositive;
-\item a subcube sign-polynomial certificate proves that an internal
-  denominator is nonpositive for the whole family containing the sign mask;
+\item a subcube sign-polynomial certificate proves that either an internal
+  denominator, or a nonnegative weighted sum of internal denominators, is
+  nonpositive for the whole family containing the sign mask;
 \item a Farkas certificate proves that the associated strict linear system in
   \(y,z\) is infeasible;
 \item a two-row template certificate proves the same infeasibility by naming
