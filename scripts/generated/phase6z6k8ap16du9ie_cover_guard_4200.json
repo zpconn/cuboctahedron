@@ -1,0 +1,294 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "failed_target": {
+    "kind": "cover",
+    "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke"
+  },
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [],
+    "target_kind": [
+      "selected_impact",
+      "selected_impacts_root",
+      "cover"
+    ]
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact00Smoke"
+      ],
+      "elapsed_seconds": 3.003575112001272,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact0",
+      "max_tree_rss_kib": 4150956,
+      "max_tree_rss_mib": 4053.66796875,
+      "min_available_seen_kib": 47134544,
+      "min_available_seen_mib": 46029.828125,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact00Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/000_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact00Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact01Smoke"
+      ],
+      "elapsed_seconds": 3.0039569869986735,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact1",
+      "max_tree_rss_kib": 4157396,
+      "max_tree_rss_mib": 4059.95703125,
+      "min_available_seen_kib": 47135408,
+      "min_available_seen_mib": 46030.671875,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact01Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/001_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact01Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact03Smoke"
+      ],
+      "elapsed_seconds": 4.0052002019947395,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact3",
+      "max_tree_rss_kib": 4159468,
+      "max_tree_rss_mib": 4061.98046875,
+      "min_available_seen_kib": 47121664,
+      "min_available_seen_mib": 46017.25,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact03Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/002_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact03Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact05Smoke"
+      ],
+      "elapsed_seconds": 4.506469240004662,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact5",
+      "max_tree_rss_kib": 4183128,
+      "max_tree_rss_mib": 4085.0859375,
+      "min_available_seen_kib": 47105116,
+      "min_available_seen_mib": 46001.08984375,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact05Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/003_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact05Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact06Smoke"
+      ],
+      "elapsed_seconds": 5.507662490999792,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact6",
+      "max_tree_rss_kib": 4200208,
+      "max_tree_rss_mib": 4101.765625,
+      "min_available_seen_kib": 47082884,
+      "min_available_seen_mib": 45979.37890625,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact06Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/004_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact06Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact07Smoke"
+      ],
+      "elapsed_seconds": 7.009965098986868,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact7",
+      "max_tree_rss_kib": 4204452,
+      "max_tree_rss_mib": 4105.91015625,
+      "min_available_seen_kib": 47082124,
+      "min_available_seen_mib": 45978.63671875,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact07Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/005_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact07Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact08Smoke"
+      ],
+      "elapsed_seconds": 8.011801814020146,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank209_impact8",
+      "max_tree_rss_kib": 4205184,
+      "max_tree_rss_mib": 4106.625,
+      "min_available_seen_kib": 47075768,
+      "min_available_seen_mib": 45972.4296875,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact08Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/006_ImpactSubcubeWalshSymbolicCompactDenomRank209Impact08Smoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke"
+      ],
+      "elapsed_seconds": 2.5029084740090184,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impacts_root",
+      "max_tree_rss_kib": 3789488,
+      "max_tree_rss_mib": 3700.671875,
+      "min_available_seen_kib": 47293764,
+      "min_available_seen_mib": 46185.31640625,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/007_ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke"
+      ],
+      "elapsed_seconds": 13.517076274001738,
+      "exit_code": -15,
+      "killed_reason": "process-tree RSS 4201 MiB exceeded 4200 MiB cap",
+      "kind": "cover",
+      "max_tree_rss_kib": 4302552,
+      "max_tree_rss_mib": 4201.7109375,
+      "min_available_seen_kib": 46943668,
+      "min_available_seen_mib": 45843.42578125,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke",
+      "target_json": "/tmp/ap16du9ie_cover_guard_4200/008_ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke.json"
+    }
+  ],
+  "rss_cap_mib": 4200,
+  "status": "failed_or_guard_stopped",
+  "target_count": 18,
+  "targets": [
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact6",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact06Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank209_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209Impact08Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact0",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact00Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact1",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact01Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact3",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact03Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact5",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact05Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact6",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact06Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact7",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact07Smoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank251_impact8",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251Impact08Smoke"
+    },
+    {
+      "kind": "selected_impacts_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank251SelectedImpactsSmoke"
+    },
+    {
+      "kind": "cover",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank251Smoke"
+    }
+  ],
+  "timeout_seconds": 900,
+  "trusted_as_final_generated_coverage": false
+}

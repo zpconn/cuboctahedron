@@ -286,10 +286,20 @@ def selected_data_from_forms(
     }
 
 
-def emit_signature(entry: dict[str, Any], source_by_rank: dict[int, dict[str, Any]]) -> dict[str, Any]:
+def emit_signature(
+    entry: dict[str, Any],
+    source_by_rank: dict[int, dict[str, Any]],
+    *,
+    component_trace_steps: set[int] | None = None,
+    component_trace_final: bool = False,
+) -> dict[str, Any]:
     rank = int(entry["rank"])
     anchor_mask = int(entry["anchor_mask"])
-    trace_paths = emit_split_trace(rank)
+    trace_paths = emit_split_trace(
+        rank,
+        component_steps=component_trace_steps,
+        component_final=component_trace_final,
+    )
 
     cover_payload = write_cover_profile(source_by_rank, rank)
     manifest = manifest_for_entry(entry)
@@ -403,11 +413,17 @@ def planned_targets(
     entries: list[dict[str, Any]],
     *,
     root_lean: Path = ROOT_LEAN,
+    component_trace_steps: set[int] | None = None,
+    component_trace_final: bool = False,
 ) -> list[dict[str, str]]:
     targets: list[dict[str, str]] = []
     for entry in entries:
         rank = int(entry["rank"])
-        for kind, path in trace_target_paths(rank):
+        for kind, path in trace_target_paths(
+            rank,
+            component_steps=component_trace_steps,
+            component_final=component_trace_final,
+        ):
             targets.append({"kind": kind, "module": module_from_path(path)})
         for impact in entry["selected_word_impacts"]:
             targets.append({
@@ -475,6 +491,21 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Actually emit Lean files and per-signature reports.",
     )
+    parser.add_argument(
+        "--component-trace-step",
+        action="append",
+        type=int,
+        default=[],
+        help=(
+            "Split this trace step into x/y/z component theorem files. "
+            "May be repeated."
+        ),
+    )
+    parser.add_argument(
+        "--component-trace-final",
+        action="store_true",
+        help="Split the trace final-vector proof into x/y/z component theorem files.",
+    )
     return parser.parse_args()
 
 
@@ -483,11 +514,20 @@ def main() -> None:
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     entries = list(plan["entries"])
     source_by_rank = load_source_by_rank(args.source)
+    component_trace_steps = set(args.component_trace_step)
+    component_trace_final = bool(args.component_trace_final)
 
     emitted_payloads = []
     if args.emit:
         for entry in entries:
-            emitted_payloads.append(emit_signature(entry, source_by_rank))
+            emitted_payloads.append(
+                emit_signature(
+                    entry,
+                    source_by_rank,
+                    component_trace_steps=component_trace_steps,
+                    component_trace_final=component_trace_final,
+                )
+            )
         write_root(
             entries,
             root_lean=args.root_lean,
@@ -501,6 +541,8 @@ def main() -> None:
         "trusted_as_proof": False,
         "trusted_as_final_generated_coverage": False,
         "trace_layout": "split",
+        "component_trace_steps": sorted(component_trace_steps),
+        "component_trace_final": component_trace_final,
         "plan": str(args.plan),
         "source": str(args.source),
         "emitted_lean": bool(args.emit),
@@ -508,7 +550,12 @@ def main() -> None:
         "emitted_signature_reports": emitted_payloads,
         "root_lean": str(args.root_lean),
         "root_module": module_from_path(args.root_lean),
-        "targets": planned_targets(entries, root_lean=args.root_lean),
+        "targets": planned_targets(
+            entries,
+            root_lean=args.root_lean,
+            component_trace_steps=component_trace_steps,
+            component_trace_final=component_trace_final,
+        ),
     }
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

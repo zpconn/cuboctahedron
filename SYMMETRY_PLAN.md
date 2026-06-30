@@ -33939,3 +33939,100 @@ kinds serially through `scripts/run_ap16dj_serial_guarded.py` with the
 `4200 MiB` RSS cap and `12000 MiB` available-memory floor.  Do not attach the
 DU9IE root to any broader normal-build import path until those focused guarded
 builds pass.
+
+### Phase 6Z.6K.8AP.16DU.9IE checkpoint: split DU9IE batch accepted under guard
+
+The DU9IE two-rank batch for `[192,256)` has now been emitted and checked
+through focused guarded builds.  This remains bounded generated smoke evidence,
+not final generated coverage.
+
+The batch generator was extended with two memory-splitting controls:
+
+- `--component-trace-step N`, used here with `N = 12`;
+- `--component-trace-final`, used here to split the final vector proof into
+  x/y/z component theorem files.
+
+This preserved the existing generated proof topology while allowing the largest
+trace obligations to be checked as smaller component modules.  The generated
+DU9IE batch report is:
+
+```text
+scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_generation.json
+scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_generation.md
+```
+
+The first guarded trace attempt exposed the high-memory trace outliers safely:
+
+- unsplit `trace_step_12` for rank `209`: `4203.26 MiB`, stopped by the
+  `4200 MiB` process-tree RSS cap;
+- after splitting step 12, unsplit `trace_final` for rank `209`:
+  `4206.09 MiB`, stopped by the same cap.
+
+With both step 12 and final-vector component splitting enabled, the serial
+trace guard passed:
+
+```text
+scripts/generated/phase6z6k8ap16du9ie_trace_guard_4200.json
+```
+
+Summary:
+
+- target count: `44`;
+- status: `passed`;
+- maximum process-tree RSS: `4147.03 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank209SplitFinalXSmoke`.
+
+The monolithic compact cover root was then tried once under the same guard and
+stopped safely:
+
+```text
+scripts/generated/phase6z6k8ap16du9ie_cover_guard_4200.json
+```
+
+Summary:
+
+- status: `failed_or_guard_stopped`;
+- failed target:
+  `ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke`;
+- maximum process-tree RSS: `4201.71 MiB`;
+- minimum observed available memory: `45843.43 MiB`.
+
+Decision: do not raise the memory cap for this path.  Instead, use the existing
+split compact-cover topology, which moves each selected bad-mask subcube
+obstruction into its own module and leaves only the finite mask-completeness
+wrapper in the rank root.
+
+The DU9IE split-cover modules were emitted for ranks `209` and `251`:
+
+```text
+scripts/generated/phase6z6k8ap16du9ie_split_cover_rank209_generation.json
+scripts/generated/phase6z6k8ap16du9ie_split_cover_rank251_generation.json
+```
+
+Guarded split-cover results:
+
+| Target set | Status | Targets | Max RSS |
+| --- | --- | ---: | ---: |
+| Rank `209` split subcubes/root | `passed` | `18` | `4114.09 MiB` |
+| Rank `251` split subcubes/root | `passed` | `20` | `4124.02 MiB` |
+| DU9IE split batch root | `passed` | `1` | `3699.10 MiB` |
+
+The accepted split batch root is:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IESplitCoverBatchSmoke.lean
+```
+
+and the corresponding guard reports are:
+
+```text
+scripts/generated/phase6z6k8ap16du9ie_split_cover_rank209_guard_4200.json
+scripts/generated/phase6z6k8ap16du9ie_split_cover_rank251_guard_4200.json
+scripts/generated/phase6z6k8ap16du9ie_split_cover_batch_root_guard_4200.json
+```
+
+Decision: DU9IE is accepted.  The next forward step is to audit `[192,256)` with
+the DU9IE ranks marked as covered, then profile the next bounded window.  Keep
+normal builds away from the monolithic DU9IE `CoverRank...` modules; use the
+split DU9IE root as the accepted path.
