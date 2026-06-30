@@ -44444,3 +44444,52 @@ DU9IQ reduced weighted-cover frontier is now exhausted for complete ranks:
 blocked on masks `32`, `34`, and `41`. The next step is to either fold rank
 `955` into the bounded accepted root or move to the unresolved-rank repair path
 for rank `911`.
+
+### Phase 6Z6K8AP16DU9IQ29 - corrected generated root rejected under guard
+
+After rank `955` closed the corrected complete-rank frontier, an aggregate-root
+experiment was attempted for the corrected generated weighted path over exactly:
+
+```text
+896, 897, 899, 903, 905, 955
+```
+
+The proposed root intentionally excluded rank `911`, because the corrected
+weighted profiler still leaves masks `32`, `34`, and `41` uncovered for that
+rank. The root imported one corrected generated source-row closure per closed
+rank and exported only a sparse `CoversRanks AllTranslationGoodRankKilled`
+theorem.
+
+The focused guarded build was deliberately run before keeping the root:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_corrected_generated_root_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQCorrectedGeneratedRootSmoke
+```
+
+Guard result:
+
+| layer | elapsed | peak tree RSS | min available | exit | reason |
+| --- | ---: | ---: | ---: | ---: | --- |
+| corrected generated root | `9.51s` | `14299.54 MiB` | `45122.70 MiB` | `-15` | exceeded `12000 MiB` cap |
+
+Decision: rejected. The guard stopped the build while plenty of system memory
+remained, so no OOM occurred, but the experiment confirms that ordinary roots
+which import several heavy corrected generated source-row closures are not the
+right production aggregation surface. The untracked Lean root/wrapper files
+from this experiment were discarded; only the guard telemetry is retained.
+
+Next steps:
+
+1. Do not raise the root cap just to make this aggregate pass.
+2. Keep using serial guarded builds for individual heavy leaves.
+3. Build a lighter export layer before any multi-rank root: exported theorem
+   modules must not force Lean to load all heavy source-row closures together.
+4. In parallel, pursue the rank-`911` repair only through a new checked
+   reduced-bound family for masks `32`, `34`, and `41`, not by reviving the
+   invalid summary `70`.
