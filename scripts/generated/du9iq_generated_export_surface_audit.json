@@ -1,0 +1,162 @@
+{
+  "files": [
+    {
+      "declarations": 4,
+      "imports": 1,
+      "lines": 146,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke",
+      "olean_bytes": 2665552,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke.lean",
+      "private_declarations": 0,
+      "public_declarations": 4
+    },
+    {
+      "declarations": 4,
+      "imports": 1,
+      "lines": 146,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke",
+      "olean_bytes": 2669160,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke.lean",
+      "private_declarations": 0,
+      "public_declarations": 4
+    },
+    {
+      "declarations": 4,
+      "imports": 1,
+      "lines": 142,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke",
+      "olean_bytes": 2544552,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke.lean",
+      "private_declarations": 0,
+      "public_declarations": 4
+    },
+    {
+      "declarations": 4,
+      "imports": 1,
+      "lines": 142,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank903PositiveMasksGeneratedSmoke",
+      "olean_bytes": 2294120,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank903PositiveMasksGeneratedSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank903PositiveMasksGeneratedSmoke.lean",
+      "private_declarations": 0,
+      "public_declarations": 4
+    },
+    {
+      "declarations": 4,
+      "imports": 1,
+      "lines": 144,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke",
+      "olean_bytes": 2407952,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke.lean",
+      "private_declarations": 0,
+      "public_declarations": 4
+    },
+    {
+      "declarations": 4,
+      "imports": 1,
+      "lines": 144,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke",
+      "olean_bytes": 2366432,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke.lean",
+      "private_declarations": 0,
+      "public_declarations": 4
+    },
+    {
+      "declarations": 972,
+      "imports": 2,
+      "lines": 7903,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositiveGeneratedPrecomputedSignatureSmoke",
+      "olean_bytes": 96669776,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank896PositiveGeneratedPrecomputedSignatureSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank896PositiveGeneratedPrecomputedSignatureSmoke.lean",
+      "private_declarations": 965,
+      "public_declarations": 7
+    },
+    {
+      "declarations": 972,
+      "imports": 2,
+      "lines": 7887,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositiveGeneratedPrecomputedSignatureSmoke",
+      "olean_bytes": 93607088,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank897PositiveGeneratedPrecomputedSignatureSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank897PositiveGeneratedPrecomputedSignatureSmoke.lean",
+      "private_declarations": 965,
+      "public_declarations": 7
+    },
+    {
+      "declarations": 999,
+      "imports": 2,
+      "lines": 8286,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositiveGeneratedPrecomputedSignatureSmoke",
+      "olean_bytes": 87403312,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank899PositiveGeneratedPrecomputedSignatureSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank899PositiveGeneratedPrecomputedSignatureSmoke.lean",
+      "private_declarations": 992,
+      "public_declarations": 7
+    },
+    {
+      "declarations": 918,
+      "imports": 2,
+      "lines": 7225,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositiveGeneratedPrecomputedSignatureSmoke",
+      "olean_bytes": 93317200,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903PositiveGeneratedPrecomputedSignatureSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903PositiveGeneratedPrecomputedSignatureSmoke.lean",
+      "private_declarations": 911,
+      "public_declarations": 7
+    },
+    {
+      "declarations": 927,
+      "imports": 2,
+      "lines": 7342,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositiveGeneratedPrecomputedSignatureSmoke",
+      "olean_bytes": 87731832,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank905PositiveGeneratedPrecomputedSignatureSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank905PositiveGeneratedPrecomputedSignatureSmoke.lean",
+      "private_declarations": 920,
+      "public_declarations": 7
+    },
+    {
+      "declarations": 918,
+      "imports": 2,
+      "lines": 7252,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955PositiveGeneratedPrecomputedSignatureSmoke",
+      "olean_bytes": 89729656,
+      "olean_exists": true,
+      "olean_path": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank955PositiveGeneratedPrecomputedSignatureSmoke.olean",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank955PositiveGeneratedPrecomputedSignatureSmoke.lean",
+      "private_declarations": 911,
+      "public_declarations": 7
+    }
+  ],
+  "globs": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank*PositiveGeneratedPrecomputedSignatureSmoke.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank*PositiveMasksGeneratedSmoke.lean"
+  ],
+  "olean_root": "/home/zpconn/code/cuboctahedron/.lake/build/lib/lean",
+  "root": "/home/zpconn/code/cuboctahedron",
+  "summary": {
+    "file_count": 12,
+    "total_declarations": 5730,
+    "total_lines": 46759,
+    "total_olean_bytes": 563406632,
+    "total_private_declarations": 5664,
+    "total_public_declarations": 66
+  }
+}

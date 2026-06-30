@@ -44493,3 +44493,55 @@ Next steps:
 4. In parallel, pursue the rank-`911` repair only through a new checked
    reduced-bound family for masks `32`, `34`, and `41`, not by reviving the
    invalid summary `70`.
+
+### Phase 6Z6K8AP16DU9IQ30 - generated export-surface audit accepted
+
+To avoid repeating the corrected-root near-miss, a lightweight audit script was
+added:
+
+```text
+scripts/audit_generated_export_surface.py
+```
+
+It inspects generated `.lean` files and existing `.olean` artifacts only; it
+does not invoke Lean or Lake. The DU9IQ corrected generated source-row and
+positive-cover modules were audited with:
+
+```bash
+python3 scripts/audit_generated_export_surface.py \
+  --glob 'Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank*PositiveGeneratedPrecomputedSignatureSmoke.lean' \
+  --glob 'Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank*PositiveMasksGeneratedSmoke.lean' \
+  --json scripts/generated/du9iq_generated_export_surface_audit.json \
+  --markdown scripts/generated/du9iq_generated_export_surface_audit.md
+```
+
+Audit summary:
+
+| file class | count | source lines | declarations | private declarations | public declarations | existing `.olean` bytes |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| corrected source-row + positive-cover modules | `12` | `46759` | `5730` | `5664` | `66` | `563406632` |
+
+The source-row closure modules dominate the import surface:
+
+| module kind | per-module `.olean` size |
+| --- | ---: |
+| rank-local positive generated source-row closure | `83.35-92.19 MiB` |
+| positive-mask bridge cover | `2.19-2.55 MiB` |
+
+Decision: accepted as diagnostic infrastructure, and it explains the Phase
+6Z6K8AP16DU9IQ29 rejection. The public theorem surface is already small, but
+Lean still has to load the heavy private environment of each rank-local
+source-row closure when a root imports it. That means ordinary light wrappers
+cannot solve the aggregation problem by themselves.
+
+Revised next step:
+
+1. Treat rank-local source-row closure modules as serially checked leaf
+   diagnostics only.
+2. Do not aggregate several rank-local source-row closure modules into a normal
+   root, even through thin wrapper modules.
+3. Move the production proof surface toward shared symbolic/source-index
+   families whose public modules contain the family theorem directly and do not
+   carry per-rank private case data.
+4. Keep the tiny positive-mask bridge-cover modules as good candidates for
+   reusable imports, because their `.olean` footprint is about `2-3 MiB`.
