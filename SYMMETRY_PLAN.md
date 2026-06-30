@@ -32774,3 +32774,100 @@ root that imports only accepted rank roots and exports semantic GoodDirection
 membership adapters.  The next safe scaling move is to run the frontier
 diagnostic using the accepted DU9HM batch root as a covered-batch source, then
 select the next bounded window/batch from the remaining compact hcover ranks.
+
+### Phase 6Z.6K.8AP.16DU.9HY checkpoint: frontier after HM batch
+
+Phase 6Z.6K.8AP.16DU.9HY reruns the bounded `[64,128)` frontier diagnostic
+with the accepted DU9HF mixed root and DU9HM split batch root represented by
+explicit covered ranks:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 64 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --covered-rank 65 \
+  --covered-rank 72 \
+  --covered-rank 78 \
+  --covered-rank 80 \
+  --covered-rank 84 \
+  --covered-rank 86 \
+  --covered-rank 87 \
+  --covered-rank 89 \
+  --covered-rank 120 \
+  --covered-rank 122 \
+  --covered-rank 123 \
+  --covered-rank 125 \
+  --json scripts/generated/phase6z6k8ap16du9hy_next_compact_hcover_ranks_after_hm_64_128.json \
+  --md scripts/generated/phase6z6k8ap16du9hy_next_compact_hcover_ranks_after_hm_64_128.md
+```
+
+Result: passed in `0.85s` wall time with `25.3 MiB` maximum RSS.
+
+Window summary:
+
+- rank range: `[64,128)`;
+- identity ranks: `12`;
+- identity ranks with GoodDirection masks: `12`;
+- GoodDirection cases: `138`;
+- not-GoodDirection masks: `630`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`;
+- explicitly covered ranks:
+  `[65, 72, 78, 80, 84, 86, 87, 89, 120, 122, 123, 125]`.
+
+The diagnostic still reports `[87, 89, 120, 122, 123, 125]` in its
+`recommended_target_rows` because those rows have compact hcover data, but each
+row is also marked `guarded_batch_exists: true`.  Treat this scan as confirming
+that `[64,128)` is covered by the accepted DU9HF and DU9HM batch roots, not as a
+request to regenerate those six ranks.
+
+### Phase 6Z.6K.8AP.16DU.9HZ checkpoint: next bounded window selected
+
+Phase 6Z.6K.8AP.16DU.9HZ scans the next bounded window `[128,192)`:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 128 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --json scripts/generated/phase6z6k8ap16du9hz_next_compact_hcover_ranks_128_192.json \
+  --md scripts/generated/phase6z6k8ap16du9hz_next_compact_hcover_ranks_128_192.md
+```
+
+Result: passed in `0.47s` wall time with `25.3 MiB` maximum RSS.
+
+Window summary:
+
+- rank range: `[128,192)`;
+- identity ranks: `9`;
+- identity ranks with GoodDirection masks: `9`;
+- GoodDirection cases: `90`;
+- not-GoodDirection masks: `486`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`;
+- next recommended compact hcover ranks:
+  `[129, 131, 137, 144, 147, 149, 177, 179]`.
+
+Per-rank GoodDirection counts for the recommended targets:
+
+| Rank | GoodDirection masks |
+| ---: | ---: |
+| `129` | `11` |
+| `131` | `13` |
+| `137` | `8` |
+| `144` | `8` |
+| `147` | `11` |
+| `149` | `13` |
+| `177` | `7` |
+| `179` | `8` |
+
+Decision: accepted.  The next proof-producing batch should target
+`129, 131, 137, 144, 147, 149, 177, 179`.  Keep the split-cover topology as the
+default, use low-memory Python preparation with `--jobs 4`, and build Lean
+targets serially under the `4200 MiB` guard.  Because this batch has eight
+targets instead of six, prefer preparing/profiling first and then splitting the
+emission into smaller guarded chunks if any rank shows DU9HN-style trace or
+selected-impact pressure.
