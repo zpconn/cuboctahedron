@@ -43137,3 +43137,69 @@ Decision: accepted as the first compact-free nonempty selector range catalog.
 The next production step is to replace the rank-local bad-mask-cover premise
 with reusable semantic families/signature languages so larger ranges can
 produce the same catalog theorem without per-rank finite mask splits.
+
+### Phase 6Z6K8AP16DU9IQ12 - compact-free singleton range emitter accepted
+
+The rank-0 compact-free selector range pattern was factored into a reusable
+bounded emitter:
+
+```text
+scripts/emit_compact_free_selector_singleton_range.py
+```
+
+The emitter scans:
+
+- the rank-local positive-mask predicate in
+  `ImpactSubcubeWalshSymbolicCompactDenomCoverRank{r}Smoke`;
+- the DU.9L microshard constructors for `SelectorPositiveCase r mask`;
+
+and emits a compact-free singleton range module proving:
+
+```lean
+SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt_r_(r+1) r (r+1)
+SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt r (r+1)
+AllTranslationGoodCoverageOnRange r (r+1)
+```
+
+It deliberately refuses ranks whose positive cases span multiple microshards;
+those need an explicit split-shard coordinate dispatcher rather than pretending
+there is a single `selectorCoordAt`.
+
+The first emitted follow-up is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange2Smoke
+```
+
+with exported theorem:
+
+```lean
+selectorCatalog2_3 :
+  SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt2_3 2 3
+
+selectorCatalog2_3_allGood :
+  AllTranslationGoodCoverageOnRange 2 3
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9_compact_free_range2_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange2Smoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `7.51s` | `3942 MiB` | `45866 MiB` | `0` |
+
+Decision: accepted.  We now have a reproducible compact-free singleton-range
+surface for ranks whose selector-positive cases live in one DU.9L microshard.
+The next bounded target is rank `3`, which spans `Shard001` and `Shard002` and
+therefore requires a split-shard `coordAt` dispatcher before the same range
+catalog can be emitted.
