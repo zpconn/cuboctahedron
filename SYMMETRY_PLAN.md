@@ -43527,3 +43527,68 @@ production should replace the finite mask audit with generated source-row or
 selector membership facts, so the hmask cover feeds directly into the
 translation semantic selector catalog without enumerating all `64` masks in
 each rank-local glue module.
+
+### Phase 6Z6K8AP16DU9IQ18 - weighted cover closes rank-896 source-row catalog
+
+The existing rank-`896` positive-survivor source-row catalog was given a second
+closed semantic theorem that uses the traced weighted-denominator cover instead
+of the older private rank-local bad-mask cover.
+
+Touched module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke
+```
+
+New theorem:
+
+```lean
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 896 897
+```
+
+The theorem reuses the existing precomputed source-row facts and the semantic
+singleton signature classifier.  Its membership premise is discharged by:
+
+```lean
+WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke
+  .goodDirection_rank896PositiveMaskMember
+```
+
+followed by a local equivalence from that public positive-mask predicate to the
+catalog's private `generatedGoodMaskMember`.  This gives a complete bounded
+rank-`896` path:
+
+```text
+GoodDirectionAtRank
+  -> traced weighted cube outside-batch theorem
+  -> explicit rank-896 positive mask predicate
+  -> precomputed source-row selector facts
+  -> AllTranslationGoodCoverageOnRange 896 897
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank896_positive_signature_weighted_close_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `66.19s` | `7949 MiB` | `39923 MiB` | `0` |
+
+Decision: accepted as the first bounded composition of traced weighted
+denominator-cube hmask evidence with the actual source-row semantic coverage
+catalog.  The build is comfortably under the `12 GiB` guard but high enough
+that production generation should keep this shape sharded and serial/low-jobs.
+Next work should move the weighted positive-mask bridge into the generator so
+new rank/signature modules can emit this theorem surface directly, without
+hand-patching a private predicate adapter.

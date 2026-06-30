@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke
 
 /-!
 Generated AP.16T precomputed positive-survivor signature smoke.
@@ -7874,5 +7875,33 @@ theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :
     (by
       intro mask hlt hgood
       exact generatedGoodMaskMember_of_GoodDirection_viaCover hlt hgood)
+
+private theorem generatedGoodMaskMember_of_weightedPositiveMaskMember
+    {mask : SignMask}
+    (h :
+      WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke.rank896PositiveMaskMember
+        mask) :
+    generatedGoodMaskMember mask := by
+  fin_cases mask <;>
+    simp [
+      WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke.rank896PositiveMaskMember,
+      generatedGoodMaskMember] at h ⊢
+
+/--
+AP.16T weighted-cover closed semantic singleton-signature coverage theorem.
+
+This is the same source-row catalog as
+`generatedSingletonSignatureClosedSemanticAllGoodCoverage`, but it closes the
+semantic positive-mask premise through the traced weighted-denominator cube
+cover rather than the older rank-local bad-mask cover.
+-/
+theorem generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+    AllTranslationGoodCoverageOnRange 896 897 :=
+  generatedSingletonSignatureSemanticAllGoodCoverage
+    (by
+      intro mask hlt hgood
+      exact generatedGoodMaskMember_of_weightedPositiveMaskMember
+        (WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke.goodDirection_rank896PositiveMaskMember
+          hlt hgood))
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke
