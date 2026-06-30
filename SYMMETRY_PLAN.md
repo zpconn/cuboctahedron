@@ -33803,3 +33803,70 @@ Decision: accepted.  The `[128,192)` DU9IB split-cover batch now has a guarded
 shallow root analogous to the earlier DU9HM batch root.  Next step: rerun the
 frontier diagnostic with the DU9IB batch represented as audited coverage for
 `[128,192)`, then select the next bounded compact h-cover window/ranks.
+
+### Phase 6Z.6K.8AP.16DU.9ID checkpoint: `[128,192)` frontier closed and `[192,256)` selected
+
+Phase 6Z.6K.8AP.16DU.9ID first reruns the `[128,192)` frontier diagnostic with
+the accepted DU9IB batch represented by explicit covered ranks:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 128 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --covered-rank 129 \
+  --covered-rank 131 \
+  --covered-rank 137 \
+  --covered-rank 144 \
+  --covered-rank 147 \
+  --covered-rank 149 \
+  --covered-rank 177 \
+  --covered-rank 179 \
+  --json scripts/generated/phase6z6k8ap16du9ic_next_compact_hcover_ranks_after_ib_128_192.json \
+  --md scripts/generated/phase6z6k8ap16du9ic_next_compact_hcover_ranks_after_ib_128_192.md
+```
+
+Result: passed in `0.48s` wall time with `25.5 MiB` maximum RSS.  The diagnostic
+still lists the eight DU9IB ranks in `recommended_target_rows`, but every row is
+marked `guarded_batch_exists: true` and has `uncovered_masks = 0` and
+`non_two_source_masks = 0`.  Treat this as confirming that `[128,192)` is
+covered by the accepted DU9IB batch root, not as a request to regenerate those
+ranks.
+
+The next bounded window `[192,256)` was then scanned:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 192 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --json scripts/generated/phase6z6k8ap16du9id_next_compact_hcover_ranks_192_256.json \
+  --md scripts/generated/phase6z6k8ap16du9id_next_compact_hcover_ranks_192_256.md
+```
+
+Result: passed in `0.19s` wall time with `25.2 MiB` maximum RSS.
+
+Window summary:
+
+- rank range: `[192,256)`;
+- identity ranks: `2`;
+- GoodDirection cases: `14`;
+- not-GoodDirection masks: `114`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`;
+- next recommended compact h-cover ranks: `[209, 251]`.
+
+Per-rank GoodDirection counts for the recommended targets:
+
+| Rank | GoodDirection masks |
+| ---: | ---: |
+| `209` | `7` |
+| `251` | `7` |
+
+Decision: accepted.  The next proof-producing batch should target ranks `209`
+and `251`.  Use the split-cover topology with component trace/final splitting
+by default, and keep Lean builds serial under the `4200 MiB` RSS guard.  Because
+this is only a two-rank window, prepare a small DU9IE plan/source pair rather
+than recycling a six- or eight-rank batch shape.
