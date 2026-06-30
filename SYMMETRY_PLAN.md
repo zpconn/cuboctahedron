@@ -42965,3 +42965,51 @@ Decision: accepted as bounded emitter infrastructure.  Future singleton
 batches should be generated through this script, but the proof strategy still
 needs a larger-family membership route; continuing to scale singleton
 signatures is diagnostic/support work, not the production proof path.
+
+### Phase 6Z6K8AP16DU9IQ9 - compact-free selector source/row surface exposed
+
+The larger-family route needs generated modules to prove semantic
+source/row facts directly, without importing the rejected compact
+rank-local membership bridge.  The existing nonempty
+`RowPropertySemanticCaseSmoke` already proved two real rank-`0`
+GoodDirection survivor cases using the DU.9L source/row facts and semantic
+row-role adapters, but the direct selector-coordinate source/row facts were
+private.
+
+The module now exposes two public compact-free selector facts:
+
+```lean
+rank0Mask8_selectorCoordinateSourceRowFacts :
+  SelectorCoordinateSourceRowFacts
+    (selectorCoordinateOfKey ClassifierKey.k000) 0 rank0Mask8
+
+rank0Mask13_selectorCoordinateSourceRowFacts :
+  SelectorCoordinateSourceRowFacts
+    (selectorCoordinateOfKey ClassifierKey.k003) 0 rank0Mask13
+```
+
+These theorems are intentionally small theorem surfaces for future generated
+membership emitters: they expose selector-coordinate source/row evidence
+without requiring `SourceIndexStateSelectorDU9PCompactMembership`.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/row_property_semantic_case_selector_source_row_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticCaseSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `10.51s` | `4103 MiB` | `45327 MiB` | `0` |
+
+Decision: accepted as a small API step toward the production
+source-index/state membership route.  This does not solve range membership by
+itself, but it gives the next generated selector-family smoke a compact-free
+source/row fact surface to consume.

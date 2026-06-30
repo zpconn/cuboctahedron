@@ -37,6 +37,12 @@ private theorem rank0Mask8_source_row :
   rw [keyOfSelectorCoordinate?_selectorCoordinateOfKey] at hfacts
   simpa using hfacts
 
+theorem rank0Mask8_selectorCoordinateSourceRowFacts :
+    SelectorCoordinateSourceRowFacts
+      (selectorCoordinateOfKey ClassifierKey.k000) 0 rank0Mask8 := by
+  rcases rank0Mask8_source_row with ⟨hsource, hrows⟩
+  exact selectorCoordinateSourceRowFacts_of_key hsource hrows
+
 theorem rank0Mask8_semanticMembership :
     exists key : SourceIndexStateKey,
       exists firstRole secondRole : RowRole,
@@ -72,6 +78,12 @@ private theorem rank0Mask13_source_row :
   unfold SelectorCoordinateSourceRowFacts at hfacts
   rw [keyOfSelectorCoordinate?_selectorCoordinateOfKey] at hfacts
   simpa using hfacts
+
+theorem rank0Mask13_selectorCoordinateSourceRowFacts :
+    SelectorCoordinateSourceRowFacts
+      (selectorCoordinateOfKey ClassifierKey.k003) 0 rank0Mask13 := by
+  rcases rank0Mask13_source_row with ⟨hsource, hrows⟩
+  exact selectorCoordinateSourceRowFacts_of_key hsource hrows
 
 theorem rank0Mask13_semanticMembership :
     exists key : SourceIndexStateKey,
