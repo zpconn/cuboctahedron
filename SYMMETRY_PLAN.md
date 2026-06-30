@@ -30065,3 +30065,48 @@ Result: passed in `elapsed=0:00.02`, `max_rss_kb=12856`, with
 Decision: accepted.  The coverage assembly API is now symmetric with the
 member-bridge API: generated roots can use empty/concat/mono/or assembly
 without requiring list/array folds or runtime search in Lean.
+
+### Phase 6Z.6K.8AP.16DU.9FV checkpoint: hcover obligation split profile
+
+Phase 6Z.6K.8AP.16DU.9FV adds
+`scripts/profile_hcover_obligations.py`, a no-Lean diagnostic over the bounded
+positive-survivor membership catalog.  It splits the remaining
+candidate-union `hcover` premise into the two proof obligations exposed by the
+current classifier surface:
+
+- `hmask`: prove that `GoodDirectionAtRank` implies membership in the
+  signature's positive mask set;
+- `hfacts`: map positive-mask membership to reusable source-position and
+  row-producer candidate facts.
+
+Run command:
+
+```bash
+python3 scripts/profile_hcover_obligations.py
+```
+
+Result:
+
+| Metric | Value |
+| --- | ---: |
+| Positive-survivor signatures | `757` |
+| Positive candidate groups | `195` |
+| Unique good-mask sets | `362` |
+| Unique candidate sets | `717` |
+| Unique mask-to-candidate maps | `757` |
+| Raw GoodDirection rank/mask cases | `7,112` |
+| Reusable candidate-group facts | `195` |
+
+The `hmask` side has a possible best-case quotient by good-mask set (`362`
+sets in this bounded profile), but most signatures remain rank-local
+(`signature_rank_count` median and p90 are both `1`).  The `hfacts` side must
+not be routed through exact mask-to-candidate maps: the profile reports `757`
+maps for `757` signatures.  Exact candidate sets are only mildly better
+(`717`), so they are not yet an acceptable production coordinate either.
+
+Decision: accepted as a planning checkpoint.  Do not emit exact
+mask-to-candidate-map or exact candidate-set coverage as the production
+`hcover` proof.  Keep the `195` candidate facts/source-position obligations as
+the reusable downstream layer, and seek a compressed state/signature theorem
+that proves `GoodDirection -> membership in a reusable candidate-union domain`
+without enumerating rank/mask singleton facts.

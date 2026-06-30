@@ -1,0 +1,1063 @@
+{
+  "counts": {
+    "positive_candidate_groups": 195,
+    "positive_survivor_signatures": 757,
+    "unique_candidate_sets": 717,
+    "unique_good_mask_sets": 362,
+    "unique_mask_to_candidate_maps": 757
+  },
+  "hfacts_obligation_estimates": {
+    "candidate_map_entries_per_signature": {
+      "max": 16,
+      "median": 8,
+      "min": 1,
+      "p90": 13,
+      "p99": 16,
+      "total": 6845
+    },
+    "candidate_union_size_per_signature": {
+      "max": 11,
+      "median": 6,
+      "min": 1,
+      "p90": 8,
+      "p99": 9,
+      "total": 4232
+    },
+    "one_map_per_mask_to_candidate_map": 757,
+    "one_map_per_signature": 757,
+    "one_union_per_candidate_set": 717,
+    "reusable_candidate_group_facts": 195
+  },
+  "hmask_obligation_estimates": {
+    "best_case_one_theorem_per_good_mask_set": 362,
+    "one_theorem_per_signature": 757,
+    "raw_rank_mask_cases": 7112,
+    "signature_case_count": {
+      "max": 24,
+      "median": 8,
+      "min": 1,
+      "p90": 13,
+      "p99": 22,
+      "total": 7112
+    },
+    "signature_good_mask_count": {
+      "max": 16,
+      "median": 8,
+      "min": 1,
+      "p90": 13,
+      "p99": 16,
+      "total": 6845
+    },
+    "signature_rank_count": {
+      "max": 4,
+      "median": 1,
+      "min": 1,
+      "p90": 1,
+      "p99": 2,
+      "total": 796
+    }
+  },
+  "interpretation": {
+    "exact_candidate_set_status": "candidate-for-sharing",
+    "exact_mask_to_candidate_map_status": "rejected-signature-local",
+    "recommended_next_gate": "Do not emit exact mask-to-candidate or candidate-set coverage as the production hcover proof.  The bounded catalog shows those coordinates remain essentially signature-local.  Keep the 195 candidate facts and source-position obligations reusable, and seek a compressed state/signature theorem proving GoodDirection -> membership in a reusable candidate-union domain."
+  },
+  "profile": {
+    "ranges": [
+      [
+        0,
+        5000
+      ],
+      [
+        100000,
+        102500
+      ],
+      [
+        1000000,
+        1002500
+      ],
+      [
+        10000000,
+        10002500
+      ],
+      [
+        30000000,
+        30002500
+      ],
+      [
+        60000000,
+        60002500
+      ],
+      [
+        90000000,
+        90002500
+      ]
+    ],
+    "ranks_with_good_direction": 796,
+    "total_good_direction_cases": 7112,
+    "windows": [
+      {
+        "counts": {
+          "covered_cases": 4693,
+          "good_direction_survivors": 4693,
+          "identity_words": 487,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 4513,
+          "not_good_direction_masks": 26475,
+          "pair_words_scanned": 5000,
+          "translation_sign_assignments": 31168,
+          "uncovered_cases": 0
+        },
+        "family_count": 125,
+        "range": [
+          0,
+          5000
+        ],
+        "represented_case_count": 4693
+      },
+      {
+        "counts": {
+          "covered_cases": 296,
+          "good_direction_survivors": 296,
+          "identity_words": 66,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2434,
+          "not_good_direction_masks": 3928,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 4224,
+          "uncovered_cases": 0
+        },
+        "family_count": 37,
+        "range": [
+          100000,
+          102500
+        ],
+        "represented_case_count": 296
+      },
+      {
+        "counts": {
+          "covered_cases": 50,
+          "good_direction_survivors": 50,
+          "identity_words": 11,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2489,
+          "not_good_direction_masks": 654,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 704,
+          "uncovered_cases": 0
+        },
+        "family_count": 12,
+        "range": [
+          1000000,
+          1002500
+        ],
+        "represented_case_count": 50
+      },
+      {
+        "counts": {
+          "covered_cases": 2069,
+          "good_direction_survivors": 2069,
+          "identity_words": 235,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2265,
+          "not_good_direction_masks": 12971,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 15040,
+          "uncovered_cases": 0
+        },
+        "family_count": 136,
+        "range": [
+          10000000,
+          10002500
+        ],
+        "represented_case_count": 2069
+      },
+      {
+        "counts": {
+          "covered_cases": 0,
+          "good_direction_survivors": 0,
+          "identity_words": 127,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2373,
+          "not_good_direction_masks": 8128,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 8128,
+          "uncovered_cases": 0
+        },
+        "family_count": 0,
+        "range": [
+          30000000,
+          30002500
+        ],
+        "represented_case_count": 0
+      },
+      {
+        "counts": {
+          "covered_cases": 0,
+          "good_direction_survivors": 0,
+          "identity_words": 27,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2473,
+          "not_good_direction_masks": 1728,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 1728,
+          "uncovered_cases": 0
+        },
+        "family_count": 0,
+        "range": [
+          60000000,
+          60002500
+        ],
+        "represented_case_count": 0
+      },
+      {
+        "counts": {
+          "covered_cases": 4,
+          "good_direction_survivors": 4,
+          "identity_words": 5,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2495,
+          "not_good_direction_masks": 316,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 320,
+          "uncovered_cases": 0
+        },
+        "family_count": 1,
+        "range": [
+          90000000,
+          90002500
+        ],
+        "represented_case_count": 4
+      }
+    ]
+  },
+  "top_good_mask_set_groups": [
+    {
+      "candidate_map_count": 30,
+      "candidate_union_size": 40,
+      "case_count": 480,
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 30,
+      "signature_count": 30,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 12,
+      "candidate_union_size": 34,
+      "case_count": 192,
+      "masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "rank_count": 12,
+      "signature_count": 12,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 11,
+      "candidate_union_size": 24,
+      "case_count": 143,
+      "masks": [
+        7,
+        9,
+        13,
+        15,
+        18,
+        22,
+        23,
+        24,
+        28,
+        31,
+        39,
+        47,
+        55
+      ],
+      "rank_count": 11,
+      "signature_count": 11,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 27,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 27,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        13,
+        18,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 25,
+      "case_count": 104,
+      "masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 20,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 25,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 26,
+      "case_count": 104,
+      "masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 24,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        45,
+        47,
+        55,
+        63
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 28,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 8,
+      "candidate_union_size": 24,
+      "case_count": 104,
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        47,
+        55
+      ],
+      "rank_count": 8,
+      "signature_count": 8,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 12,
+      "case_count": 78,
+      "masks": [
+        0,
+        4,
+        8,
+        12,
+        13,
+        16,
+        20,
+        22,
+        28,
+        31,
+        45,
+        54,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 23,
+      "case_count": 78,
+      "masks": [
+        8,
+        9,
+        16,
+        22,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 21,
+      "case_count": 78,
+      "masks": [
+        8,
+        13,
+        16,
+        22,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 22,
+      "case_count": 78,
+      "masks": [
+        8,
+        13,
+        16,
+        18,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 14,
+      "case_count": 78,
+      "masks": [
+        8,
+        13,
+        18,
+        24,
+        26,
+        29,
+        30,
+        47,
+        50,
+        54,
+        58,
+        62,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 17,
+      "case_count": 78,
+      "masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 16,
+      "case_count": 66,
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        45,
+        62,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    },
+    {
+      "candidate_map_count": 6,
+      "candidate_union_size": 17,
+      "case_count": 66,
+      "masks": [
+        0,
+        9,
+        13,
+        18,
+        22,
+        28,
+        29,
+        30,
+        45,
+        54,
+        63
+      ],
+      "rank_count": 6,
+      "signature_count": 6,
+      "top_candidate_map_multiplicity": 1
+    }
+  ],
+  "top_good_mask_sets": [
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 30
+    },
+    {
+      "masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "signature_count": 12
+    },
+    {
+      "masks": [
+        7,
+        9,
+        13,
+        15,
+        18,
+        22,
+        23,
+        24,
+        28,
+        31,
+        39,
+        47,
+        55
+      ],
+      "signature_count": 11
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        18,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        45,
+        47,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        47,
+        55
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        0,
+        4,
+        8,
+        12,
+        13,
+        16,
+        20,
+        22,
+        28,
+        31,
+        45,
+        54,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        8,
+        9,
+        16,
+        22,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        8,
+        13,
+        16,
+        22,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        8,
+        13,
+        16,
+        18,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        8,
+        13,
+        18,
+        24,
+        26,
+        29,
+        30,
+        47,
+        50,
+        54,
+        58,
+        62,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        45,
+        62,
+        63
+      ],
+      "signature_count": 6
+    },
+    {
+      "masks": [
+        0,
+        9,
+        13,
+        18,
+        22,
+        28,
+        29,
+        30,
+        45,
+        54,
+        63
+      ],
+      "signature_count": 6
+    }
+  ],
+  "trusted_as_proof": false
+}
