@@ -31456,3 +31456,72 @@ Decision: accepted.  The final bounded `[0,64)` missing rank has a small
 single-rank plan.  Next step: emit the DU9HA Lean files, inspect the guard
 target list, probe the cover root, then run the cover and batch root under the
 same serial memory guard.
+
+### Phase 6Z.6K.8AP.16DU.9HB checkpoint: rank62 hcover emission and guards
+
+Phase 6Z.6K.8AP.16DU.9HB emits the rank `62` DU9HA Lean files and checks the
+cover root plus shallow batch root under the serial guard.
+
+Emission command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke
+```
+
+Result: passed in `elapsed=0.68s`, `max_rss_kb=28104`; the report status is
+now `emitted_pending_guarded_build`.
+
+Generated target/file summary:
+
+- `26` planned guarded targets;
+- cover root: `4916` lines;
+- shallow batch root: `24` lines;
+- selected-impact root: `37` lines;
+- selected word impacts: `[0, 1, 3, 5, 7, 8, 11]`.
+
+Cover-root guard command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ha_serial_guard_cover_rank62.json \
+  --out-dir /tmp/ap16dj_du9ha_serial_guarded/cover_rank62 \
+  --target-kind cover \
+  --module-contains CoverRank62 \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=100.17s`, with `peak_tree_rss=4344.6 MiB` and
+`min_available=45617.7 MiB`.
+
+Batch-root guard command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ha_serial_guard_batch_root.json \
+  --out-dir /tmp/ap16dj_du9ha_serial_guarded/batch_root \
+  --target-kind batch_root \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=2.50s`, with `peak_tree_rss=3701.1 MiB` and
+`min_available=46177.4 MiB`.
+
+Decision: accepted.  The rank `62` DU9HA batch is guarded and completes the
+bounded `[0,64)` compact hcover rank set.  Next step: rerun the
+next-target/frontier diagnostic over `[0,64)` with DU9GH, DU9GO, DU9GU, and
+DU9HA included to confirm that no identity ranks in this bounded smoke window
+remain without compact hcover coverage.

@@ -1,0 +1,47 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [],
+    "target_kind": [
+      "batch_root"
+    ]
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke"
+      ],
+      "elapsed_seconds": 2.5028681270050583,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "batch_root",
+      "max_tree_rss_kib": 3789976,
+      "max_tree_rss_mib": 3701.1484375,
+      "min_available_seen_kib": 47285652,
+      "min_available_seen_mib": 46177.39453125,
+      "rss_cap_mib": 4500.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke",
+      "target_json": "/tmp/ap16dj_du9ha_serial_guarded/batch_root/000_ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke.json"
+    }
+  ],
+  "rss_cap_mib": 4500,
+  "status": "passed",
+  "target_count": 1,
+  "targets": [
+    {
+      "kind": "batch_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke"
+    }
+  ],
+  "timeout_seconds": 600,
+  "trusted_as_final_generated_coverage": false
+}
