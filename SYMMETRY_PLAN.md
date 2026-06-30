@@ -40428,3 +40428,63 @@ Result:
 - elapsed: `1.50s`;
 - peak tree RSS: `824 MiB`;
 - minimum available memory seen: `46417 MiB`.
+
+### Phase 6Z6K8AP16DU9IQ - reduced weighted quadratic profile accepted
+
+After the direct rank-level unfolding route was rejected, a new exact Python
+diagnostic was added:
+
+- `scripts/profile_du9iq_weighted_reduced_quadratic_bounds.py`.
+
+It consumes the accepted DU9IQ weighted denominator-cube cover, computes each
+selected weighted Walsh polynomial, substitutes the cube's fixed sign bits,
+collects cancellations, and then bounds the remaining reduced polynomial by
+
+```text
+constant + sum(abs(nonconstant coefficients)).
+```
+
+This is telemetry only, not proof evidence.
+
+Run:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_du9iq_weighted_reduced_quadratic_bounds.py \
+  --json scripts/generated/phase6z6k8ap16du9iq_weighted_reduced_quadratic_bounds_profile.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_weighted_reduced_quadratic_bounds_profile.md
+```
+
+Result:
+
+- status: `accepted-reduced-weighted-quadratic-profile`;
+- next step: `emit-lean-reduced-weighted-quadratic-smoke`;
+- ranks: `7`;
+- selected weighted cubes: `91`;
+- invalid reductions: `0`;
+- direct reduced-bound cubes: `90`;
+- split-needed cubes: `1`;
+- max split leaves: `2`;
+- max split depth: `1`;
+- max original nonzero terms: `12`;
+- max reduced nonzero terms: `6`;
+- max reduced degree: `2`;
+- exact bound matches actual max for `90` cubes;
+- elapsed time: `8.94s`;
+- peak RSS: `27884 KiB`.
+
+The single direct-bound outlier is rank `911`, pattern `**0*01`, support
+`[6,7]`, weights `[1,7]`.  Splitting once on `d11m` yields two reduced-bound
+leaves:
+
+```text
+**0001  bound -8/9
+**0101  bound -16/9
+```
+
+Decision: the local nonpositivity proof shape is now clear and small.  The
+next Lean step should add a reusable reduced-quadratic certificate surface:
+generated leaves provide the reduced coefficient record, a fixed-bit
+substitution/equality proof, and either a direct absolute-value bound or a
+one-level split tree.  This still does not solve the coefficient-equality link
+to the actual rank denominator; that link must be emitted as small dot-data or
+coefficient facts rather than by unfolding `weightedDirectWalshQuadraticAtRank`.
