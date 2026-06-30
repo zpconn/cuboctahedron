@@ -42205,3 +42205,67 @@ translation step should replace it with a lighter semantic row-template or
 source-fact bridge, preferably one that proves the row relation from compact
 integer/source witnesses without reconstructing the full rank/mask
 `translationSeqAtRankMask` decision inside Lean.
+
+### Phase 6Z6K8AP16DU9IQ2 - rank-903 positive precomputed signature accepted
+
+The positive-survivor half of rank `903` now has a memory-safe smoke path.  A
+new emitter was added:
+
+```text
+scripts/generate_ap16t_precomputed_signature_smoke.py
+```
+
+It reads the bounded survivor-membership profile:
+
+```text
+scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json
+```
+
+and emits a singleton precomputed-signature module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke
+```
+
+The generated module covers the rank-`903` survivor signature:
+
+- rank: `903`;
+- GoodDirection survivor masks: `[18, 22, 24, 25, 54, 55, 63]`;
+- candidate source-position groups: `5`;
+- bad-direction witnesses kept local to the signature: `57`.
+
+This route intentionally avoids the rejected source-index/row `by decide`
+surface.  Instead, the emitter precomputes the small source-position signature
+and row facts needed by the semantic two-source templates, then exposes only
+the rank-local GoodDirection survivor consequence.  The generated source keeps
+its data private and suppresses only local generated-code linter noise:
+
+```lean
+set_option linter.unnecessarySeqFocus false
+set_option linter.unreachableTactic false
+```
+
+Guarded build command:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank903_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `62.16s` | `8097.9 MiB` | `40331.2 MiB` | `0` |
+
+Decision: accepted as the first memory-safe positive-survivor semantic bridge
+for a rank-local singleton signature.  The next AP.16T step should compose this
+positive bridge with the four accepted rank-`903` bad-mask shards to produce a
+closed rank-`903` semantic coverage theorem, then generalize the precomputed
+signature emitter over bounded windows.  Broad `lake build` remains disallowed;
+future generated leaves must continue to build under the memory guard before
+any aggregate root imports them.
