@@ -188,6 +188,58 @@ private def generatedSignatureFacts (mask : SignMask) : Prop :=
     (generatedRowProducer (generatedCandidateOfMask mask)).Applies
       (generatedKey (generatedCandidateOfMask mask)) {anchor} mask
 
+private def generatedSignatureTemplateDomain : TemplateLanguageDomain :=
+  fun rank mask =>
+    rank = {anchor} /\\
+      generatedGoodMaskMember mask /\\
+        generatedSignatureFacts mask
+
+private theorem generatedSignatureTemplateDomainCovers
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageDomainCoversIdentityRange
+      generatedSignatureTemplateDomain {anchor} {hi} := by
+  intro rank mask hlt hlo hhi hM hgood
+  have hrank : rank = {anchor} := by omega
+  subst rank
+  have hmember : generatedGoodMaskMember mask := hmask hlt hgood
+  exact ⟨rfl, hmember, hfacts hmember⟩
+
+private theorem generatedSignatureTemplateDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedSignatureTemplateDomain := by
+  intro rank mask hlt hmem hM hgood
+  rcases hmem with ⟨hrank, hmember, hfacts⟩
+  subst rank
+  have hfirst :
+      (generatedKey (generatedCandidateOfMask mask)).firstIndex =
+        (generatedSpec (generatedCandidateOfMask mask)).first.index := by
+    cases generatedCandidateOfMask mask <;> rfl
+  have hsecond :
+      (generatedKey (generatedCandidateOfMask mask)).secondIndex =
+        (generatedSpec (generatedCandidateOfMask mask)).second.index := by
+    cases generatedCandidateOfMask mask <;> rfl
+  have hsupport :
+      (generatedKey (generatedCandidateOfMask mask)).support =
+        (generatedSpec (generatedCandidateOfMask mask)).support := by
+    cases generatedCandidateOfMask mask <;> rfl
+  have hsource :
+      SourceIndexStateSourceFacts
+        (generatedKey (generatedCandidateOfMask mask)) {anchor} mask :=
+    (generatedSpec (generatedCandidateOfMask mask)).sourceFacts
+      hfirst hsecond hsupport hfacts.1
+  have hrows :
+      SourceIndexStateRowFacts
+        (generatedKey (generatedCandidateOfMask mask)) {anchor} mask :=
+    (generatedRowProducer (generatedCandidateOfMask mask)).rowFacts hfacts.2
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
 private def generatedSignatureClassifier
     (hmask :
       forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
@@ -344,6 +396,20 @@ theorem generatedSingletonSignatureSemanticTemplateMemberBridge
   SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
     (generatedSingletonSignatureSemanticSourcePositionCoverage hmask hfacts)
 
+theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageMemberBridgeOnRange {anchor} {hi} :=
+  TemplateLanguageMemberBridgeOnDomain.to_range
+    (generatedSignatureTemplateDomainCovers hmask hfacts)
+    generatedSignatureTemplateDomainMemberBridge
+
 theorem generatedSingletonSignatureSemanticTemplateCoverage
     (hmask :
       forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
@@ -356,6 +422,19 @@ theorem generatedSingletonSignatureSemanticTemplateCoverage
     TemplateLanguageCoverageOnIdentityRange {anchor} {hi} :=
   TemplateLanguageMemberBridgeOnRange.to_coverage
     (generatedSingletonSignatureSemanticTemplateMemberBridge hmask hfacts)
+
+theorem generatedSingletonSignatureSemanticTemplateCoverageViaDomain
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageCoverageOnIdentityRange {anchor} {hi} :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain hmask hfacts)
 
 theorem generatedPositiveSurvivorSignatureMembershipSmoke_builds : True := by
   trivial

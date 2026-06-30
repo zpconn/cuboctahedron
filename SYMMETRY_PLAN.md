@@ -29376,3 +29376,75 @@ protects the theorem-surface migration while still reporting the real
 production gap as open: generate compressed semantic domains/languages that
 prove every identity-linear GoodDirection survivor belongs to the template
 domain, without rank-local Boolean reduction or singleton mask/rank leaves.
+
+### Phase 6Z.6K.8AP.16DU.9FJ checkpoint: singleton signature domain split
+
+Phase 6Z.6K.8AP.16DU.9FJ updates
+`scripts/generate_ap16l_signature_membership_smoke.py` so the singleton
+signature smoke explicitly demonstrates the preferred production split:
+
+```lean
+private def generatedSignatureTemplateDomain :
+    TemplateLanguageDomain
+
+private theorem generatedSignatureTemplateDomainCovers
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageDomainCoversIdentityRange
+      generatedSignatureTemplateDomain 100805 100806
+
+private theorem generatedSignatureTemplateDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedSignatureTemplateDomain
+
+theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageMemberBridgeOnRange 100805 100806
+```
+
+This separates the two pieces the production generator must eventually
+provide:
+
+1. a coverage theorem proving every identity-linear GoodDirection case belongs
+   to a compressed semantic domain; and
+2. a member bridge proving any case in that domain yields template-language
+   membership.
+
+For this singleton smoke, the domain is intentionally narrow:
+`rank = 100805` plus the generated positive-mask and source/row facts.  This
+is not scalable coverage evidence, but it validates the intended theorem
+shape without introducing a rank/mask table.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_ap16l_signature_membership_smoke.py
+```
+
+Result: passed in `elapsed=0:00.04`, `max_rss_kb=17852`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean
+```
+
+Result: passed in `elapsed=0:07.12`, `max_rss_kb=3281680`.
+
+The semantic contract audit was also extended to guard the new domain-split
+surface:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12672`, with
+`all_required_surfaces_present = true`.
+
+Decision: accepted as a production-shape smoke.  The next real compression
+task is no longer to define another public target; it is to synthesize
+larger semantic domains where `TemplateLanguageDomainCoversIdentityRange` is
+proved by algebraic/state language facts rather than singleton positive-mask
+premises.

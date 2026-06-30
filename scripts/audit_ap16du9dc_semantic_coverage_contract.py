@@ -77,6 +77,18 @@ CHECKS = {
         "positive_survivor_signature_membership_generated_smoke",
         "theorem generatedSingletonSignatureSemanticTemplateMemberBridge",
     ),
+    "signature_smoke_template_domain_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "private def generatedSignatureTemplateDomain",
+    ),
+    "signature_smoke_template_domain_member_bridge_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "private theorem generatedSignatureTemplateDomainMemberBridge",
+    ),
+    "signature_smoke_template_member_bridge_via_domain_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain",
+    ),
     "du3_prop_first_source_row_adapter_exists": (
         "source_index_state_classifier_du3",
         "theorem sourceIndexFactsCatalog_of_classifierKey_source_row",
