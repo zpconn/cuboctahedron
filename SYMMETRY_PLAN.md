@@ -40922,3 +40922,41 @@ next safe scaling step is a tiny aggregate theorem/root for these six cached
 leaves, or a second bounded batch using the same planner/emitter pattern.  Keep
 the aggregate root theorem-valued and shallow; do not import a broad uncached
 DU9IQ source tree in a normal build.
+
+### Phase 6Z6K8AP16DU9IQ - traced bridge batch aggregate accepted
+
+A shallow aggregate root was added for the six accepted rank-`896` traced
+direct bridge leaves:
+
+- module:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke`;
+- file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke.lean`.
+
+The root imports only the six cached bridge leaves and re-exports tiny
+`True` theorem surfaces from each leaf.  It deliberately does not repeat any
+weighted-denominator arithmetic and does not import a broad uncached DU9IQ
+tree.
+
+Guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_guard.json \
+  -- env LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke
+```
+
+Result: exit `0`, elapsed `3.00s`, peak tree RSS `3857 MiB`, minimum
+available memory `45888 MiB`.
+
+Decision: accepted.  The first bounded DU9IQ traced-bridge batch now has both
+per-leaf checked arithmetic and a composable shallow root.  The next scaling
+step should preserve this two-tier rule: checked leaves remain independent and
+serially buildable; aggregate roots are theorem-valued and import only cached
+leaf surfaces.  The next useful experiment is either a second bounded batch
+from the same rank/profile or a small generator mode that emits this aggregate
+root automatically from the batch plan.

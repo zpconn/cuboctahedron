@@ -1,0 +1,41 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx00Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx01Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx02Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx03Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx04Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx05Smoke
+
+/-!
+Shallow aggregate for the first bounded DU9IQ traced direct bridge batch.
+
+The imported leaves contain the checked arithmetic.  This module only proves
+that the six theorem surfaces compose without name conflicts or broad local
+unfolding.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
+namespace WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke
+
+theorem idx00_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx00Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx01_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx01Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx02_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx02Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx03_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx03Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx04_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx04Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx05_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx05Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem batchRank896Smoke_builds : True := by
+  trivial
+
+end WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
