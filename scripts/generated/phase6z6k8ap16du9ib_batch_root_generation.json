@@ -1,0 +1,14 @@
+{
+  "description": "One-target guarded build report for the shallow DU9IB split-cover batch root.",
+  "phase": "Phase 6Z.6K.8AP.16DU.9IB",
+  "status": "emitted_pending_guarded_build",
+  "targets": [
+    {
+      "kind": "batch_root",
+      "label": "du9ib_batch_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IBBatchSmoke"
+    }
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

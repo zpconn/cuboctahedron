@@ -33760,3 +33760,46 @@ with the same serial guarded workflow for any subsequent generated ranks:
 generate exact split-cover modules, inspect the target mix, preflight impact
 `11` if present, then build only the exact trace and cover target kinds under
 the `4200 MiB` RSS cap.
+
+### Phase 6Z.6K.8AP.16DU.9IC checkpoint: DU9IB shallow batch root accepted
+
+After all eight DU9IB split-cover rank roots passed their guarded trace and
+cover target checks, a shallow theorem-only batch root was added:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9IBBatchSmoke.lean
+```
+
+This root imports only the accepted split-cover roots for ranks:
+
+```text
+129, 131, 137, 144, 147, 149, 177, 179
+```
+
+It exports per-rank GoodDirection adapters such as
+`rank129_goodMaskMember_of_GoodDirection` and a final
+`splitBatchCompactWalshCoverSmoke_builds : True` smoke theorem.  It does not
+reintroduce monolithic selected-impact or subcube evidence.
+
+The root was checked through a one-target guarded report:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ib_batch_root_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ib_batch_root_guard_4200.json \
+  --out-dir /tmp/ap16du9ib_batch_root_guard_4200 \
+  --target-kind batch_root \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Guard result: passed with `1` target.  The maximum tree RSS was `4048.32 MiB`;
+the minimum available memory observed was `46072.17 MiB`.
+
+Decision: accepted.  The `[128,192)` DU9IB split-cover batch now has a guarded
+shallow root analogous to the earlier DU9HM batch root.  Next step: rerun the
+frontier diagnostic with the DU9IB batch represented as audited coverage for
+`[128,192)`, then select the next bounded compact h-cover window/ranks.
