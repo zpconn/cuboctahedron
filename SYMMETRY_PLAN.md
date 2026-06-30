@@ -42545,3 +42545,87 @@ first built one at a time under guard.  Do not ask Lake to discover and build
 multiple invalidated heavy imports through a common root.  The next safe step is
 to try rank `911` as another singleton signature, again using the individual
 leaf -> wrapper -> sparse-root update sequence.
+
+### Phase 6Z6K8AP16DU9IQ4 - rank 911 singleton integrated
+
+Rank `911` was selected as the next singleton signature after the sparse root
+became stable:
+
+- rank: `911`;
+- GoodDirection survivor masks:
+  `[9, 16, 18, 22, 24, 45, 50, 54, 55, 57, 63]`;
+- candidate source-position groups: `6`;
+- bad-direction witnesses kept local to the signature: `53`.
+
+The rank-local positive precomputed-signature module was generated with the
+rank-local namespace convention introduced in Phase 6Z6K8AP16DU9IQ3:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank911PositivePrecomputedSignatureSmoke
+```
+
+Guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank911_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank911PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `62.66s` | `8062 MiB` | `39652 MiB` | `0` |
+
+A stable wrapper was added:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank911ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank911AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 911 912
+
+rank911AllGoodRankKilled :
+  AllTranslationGoodRankKilled 911
+```
+
+The sparse root now covers four accepted singleton signatures:
+
+```lean
+acceptedSingletonRanks : List Nat := [903, 905, 911, 955]
+
+acceptedSingletonAllGoodCoverage :
+  CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks
+```
+
+Guarded sparse-root rebuild:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_accepted_singletons_root_rank911_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.51s` | `4047 MiB` | `45987 MiB` | `0` |
+
+Decision: accepted.  The rank-local namespace convention and individual-leaf
+build discipline are working.  The next safe singleton candidates from the
+`[896,960)` profile are `896`, `897`, and `899`, which have larger survivor
+sets (`13`, `13`, and `16` masks respectively).  Continue with one candidate at
+a time under the same guard; if a leaf crosses the `12 GiB` cap, stop and
+prefer a thinner/split proof surface over increasing parallelism.
