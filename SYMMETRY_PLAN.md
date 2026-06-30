@@ -36240,3 +36240,63 @@ Guard summary:
 Decision: rank `519` is accepted.  Continue serially with rank `561` using the
 same selected-impact component split and the same `4200 MiB` guard before
 creating the shallow DU9IK split batch root.
+
+### Phase 6Z6K8AP16DU9IK - rank 561 split cover accepted
+
+The second DU9IK proof-producing rank was emitted with the same split trace
+and selected-impact component topology:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_source.json \
+  --rank 561 \
+  --tag DU9IK \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IK' \
+  --report scripts/generated/phase6z6k8ap16du9ik_split_cover_rank561_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 8
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 8]`;
+- selected subcubes: `15`;
+- guarded targets: `55`;
+- selected-impact normal component targets:
+  - `rank561_impact6_x`, `rank561_impact6_y`, `rank561_impact6_z`;
+  - `rank561_impact7_x`, `rank561_impact7_y`, `rank561_impact7_z`;
+  - `rank561_impact8_x`, `rank561_impact8_y`, `rank561_impact8_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ik_split_cover_rank561_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ik_split_cover_rank561_guard_4200.json \
+  --out-dir /tmp/ap16du9ik_split_cover_rank561_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `55`;
+- peak tree RSS: `4145.46 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank561SplitStep12XSmoke`;
+- minimum available memory observed: `45851.88 MiB`;
+- summed target elapsed time: `186.75s`;
+- killed targets: `0`.
+
+Decision: rank `561` is accepted.  Both DU9IK proof-producing ranks are now
+accepted under the serial `4200 MiB` guard.  The next DU9IK action is to create
+and guard only the shallow split batch root importing the accepted rank roots;
+do not revive the monolithic DU9IK batch root.
