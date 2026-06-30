@@ -1,0 +1,272 @@
+{
+  "anchor_mask": 7,
+  "bad_mask_count": 51,
+  "candidate_count": 232,
+  "good_masks": [
+    7,
+    9,
+    13,
+    15,
+    18,
+    22,
+    23,
+    24,
+    28,
+    31,
+    39,
+    47,
+    55
+  ],
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "profile_path": "scripts/generated/phase6z6k8ap16du9ii_rank389_walsh_subcube_cover.json",
+  "rank": 389,
+  "selected": [
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "dm11": 1
+      },
+      "impact": 1,
+      "label": "**0**1",
+      "masks": [
+        32,
+        33,
+        34,
+        35,
+        40,
+        41,
+        42,
+        43,
+        48,
+        49,
+        50,
+        51,
+        56,
+        57,
+        58,
+        59
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d1m1": -1,
+        "y": -1
+      },
+      "impact": 2,
+      "label": "0*1*0*",
+      "masks": [
+        4,
+        6,
+        12,
+        14,
+        36,
+        38,
+        44,
+        46
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": -1,
+        "z": -1
+      },
+      "impact": 4,
+      "label": "*010**",
+      "masks": [
+        4,
+        5,
+        20,
+        21,
+        36,
+        37,
+        52,
+        53
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d1m1": 1,
+        "y": 1
+      },
+      "impact": 2,
+      "label": "1*0*1*",
+      "masks": [
+        17,
+        19,
+        25,
+        27,
+        49,
+        51,
+        57,
+        59
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d1m1": -1,
+        "dm11": -1,
+        "y": -1
+      },
+      "impact": 7,
+      "label": "0*0*00",
+      "masks": [
+        0,
+        2,
+        8,
+        10
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": 1,
+        "d1m1": 1,
+        "dm11": 1
+      },
+      "impact": 9,
+      "label": "**1111",
+      "masks": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "max_value": "-4"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": 1,
+        "z": 1
+      },
+      "impact": 4,
+      "label": "*101**",
+      "masks": [
+        10,
+        11,
+        26,
+        27,
+        42,
+        43,
+        58,
+        59
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": -1,
+        "dm11": -1,
+        "z": -1
+      },
+      "impact": 11,
+      "label": "*000*0",
+      "masks": [
+        0,
+        1,
+        16,
+        17
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d1m1": 1,
+        "dm11": 1,
+        "y": -1
+      },
+      "impact": 9,
+      "label": "0*1*11",
+      "masks": [
+        52,
+        54,
+        60,
+        62
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": -1,
+        "d11m": -1,
+        "y": 1,
+        "z": 1
+      },
+      "impact": 6,
+      "label": "1100**",
+      "masks": [
+        3,
+        19,
+        35,
+        51
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": 1,
+        "dm11": 1,
+        "z": -1
+      },
+      "impact": 9,
+      "label": "*011*1",
+      "masks": [
+        44,
+        45,
+        60,
+        61
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": 1,
+        "d1m1": 1,
+        "y": -1,
+        "z": 1
+      },
+      "impact": 11,
+      "label": "01111*",
+      "masks": [
+        30,
+        62
+      ],
+      "max_value": "-4/3"
+    },
+    {
+      "fixed_bits": {
+        "d111": 1,
+        "d11m": 1,
+        "d1m1": 1,
+        "y": 1,
+        "z": -1
+      },
+      "impact": 7,
+      "label": "10111*",
+      "masks": [
+        29,
+        61
+      ],
+      "max_value": "-4/3"
+    }
+  ],
+  "selected_count": 13,
+  "trusted_as_proof": false,
+  "uncovered_count": 0,
+  "uncovered_masks": [],
+  "walsh_validated": true,
+  "walsh_validation_failures": []
+}
