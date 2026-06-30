@@ -31008,3 +31008,42 @@ same 4.5 GiB guard as DU9GH, but it is close enough to the cap that DU9GO Lean
 checks must remain serial unless later probes show materially lower per-target
 RSS.  Next step: run all six DU9GO cover roots under the serial guard, then run
 the shallow DU9GO batch root if the cover-root run passes.
+
+### Phase 6Z.6K.8AP.16DU.9GQ checkpoint: all DU9GO cover roots under guard
+
+Phase 6Z.6K.8AP.16DU.9GQ verifies all six DU9GO cover roots under the serial
+memory guard.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9go_serial_guard_covers_all.json \
+  --out-dir /tmp/ap16dj_du9go_serial_guarded/covers_all \
+  --target-kind cover \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=7:48.25`, with no guard kills and no swap.
+
+| Rank | Result | Elapsed | Peak tree RSS | Min available |
+| ---: | :---: | ---: | ---: | ---: |
+| `29` | pass | `94.74s` | `4329.1 MiB` | `45644.3 MiB` |
+| `30` | pass | `96.23s` | `4334.5 MiB` | `45655.5 MiB` |
+| `32` | pass | `91.67s` | `4353.4 MiB` | `45637.7 MiB` |
+| `40` | pass | `91.24s` | `4349.3 MiB` | `45625.8 MiB` |
+| `42` | pass | `93.16s` | `4320.6 MiB` | `45695.5 MiB` |
+| `44` | pass | `1.00s` | `799.3 MiB` | `46403.5 MiB` |
+
+Rank `44` was cached from the 9GP largest-cover probe; its uncached probe was
+`109.28s` with `4353 MiB` peak tree RSS.
+
+Decision: accepted.  DU9GO now has guarded cover-root checks for every targeted
+rank.  The observed uncached peaks remain close to the 4.5 GiB cap, so cover
+roots should continue to run serially.  Next step: run the shallow DU9GO
+batch-root module under the same guard and record whether the root import layer
+is still cheap.
