@@ -28666,3 +28666,77 @@ diagnostic migration path only.  The next proof-producing work should make a
 compressed algebraic/state-language source-row theorem feed
 `TemplateLanguageCoverageOnIdentityRange`, rather than scaling selector
 catalogs.
+
+### Phase 6Z.6K.8AP.16DU.9EV checkpoint: generator emits template coverage
+
+Phase 6Z.6K.8AP.16DU.9EV updates
+`scripts/generate_source_index_state_classifier_smoke.py` so regenerated
+bounded classifier smoke modules import `TemplateLanguage.lean` and expose the
+accepted template-language theorem surface automatically.  The regenerated
+`SourceIndexStateClassifierDU3Smoke.lean` now includes:
+
+```lean
+theorem classifierTemplateLanguageCoverage_of_sourceIndexFactsCatalog
+    (hcomplete :
+      SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000
+
+theorem classifierTemplateLanguageCoverage_of_sourceIndexPredicateCatalog
+    (hcomplete :
+      SourceRowPredicateGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000
+
+theorem classifierTemplateLanguageCoverage_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    TemplateLanguageCoverageOnIdentityRange 0 5000
+```
+
+Regeneration command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s \
+  python3 scripts/generate_source_index_state_classifier_smoke.py \
+    --jobs 1 --family-count 125 --phase 6Z.6K.8AP.16DU.9EV
+```
+
+Result: emitted the bounded smoke in `elapsed=1:03.98`,
+`max_rss_kb=37840`, selected all `125` bounded families covering `4693`
+bounded cases.
+
+Lean validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean
+```
+
+Result: passed in `elapsed=0:04.22`, `max_rss_kb=3291080`.
+
+After correcting an accidental five-family regeneration, the full 125-family
+module was rechecked:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean
+```
+
+Result: passed in `elapsed=0:03.70`, `max_rss_kb=3519988`.
+
+Decision: future bounded classifier smokes will naturally export
+`TemplateLanguageCoverageOnIdentityRange` instead of needing manual
+post-generation edits.  This remains a smoke/migration route; the selected
+125-family `[0,5000)` catalog is not a production proof.  The production
+work should now move from "can existing smokes erase to template language?"
+to "can we prove the template-language membership existential over compressed
+state/algebraic families without selector catalogs?"

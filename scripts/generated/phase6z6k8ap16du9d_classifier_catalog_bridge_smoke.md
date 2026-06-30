@@ -1,11 +1,13 @@
-# Phase 6Z.6K.8K Source-Index/State Classifier Smoke
+# Phase 6Z.6K.8AP.16DU.9EV Source-Index/State Classifier Smoke
 
 This generated smoke is not global coverage. It packages selected
 source-index/state descriptors into a GoodDirection-only classifier
 without concrete rank/mask replay.
 
 - Selected families: `125`
-- Rank window used for selection: `[0, 5000)`
+- Selection scope: `[0, 5000)`
+- Source key surface: `kind_impact`
+- Jobs used for collection: `1`
 - Lean module: `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean`
 
 ## Selected Families

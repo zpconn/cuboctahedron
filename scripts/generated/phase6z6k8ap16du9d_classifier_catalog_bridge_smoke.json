@@ -1,5 +1,22 @@
 {
   "collected_family_count": 125,
+  "collection_counts": {
+    "covered_cases": 4693,
+    "good_direction_survivors": 4693,
+    "identity_words": 487,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 4513,
+    "not_good_direction_masks": 26475,
+    "pair_words_scanned": 5000,
+    "translation_sign_assignments": 31168,
+    "uncovered_cases": 0
+  },
+  "collection_ranges": [
+    [
+      0,
+      5000
+    ]
+  ],
   "decision": {
     "notes": [
       "no concrete rank/mask examples are emitted",
@@ -8,9 +25,10 @@
     ],
     "status": "classifier-smoke-emitted"
   },
+  "jobs": 1,
   "lean_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
   "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke",
-  "phase": "6Z.6K.8K",
+  "phase": "6Z.6K.8AP.16DU.9EV",
   "rank_end": 5000,
   "rank_start": 0,
   "requested_family_count": 125,
@@ -4059,5 +4077,6 @@
     }
   ],
   "selected_family_count": 125,
+  "source_key_surface": "kind_impact",
   "trusted_as_proof": false
 }
