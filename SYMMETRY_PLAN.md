@@ -34306,3 +34306,66 @@ Decision: rank `269` is accepted under the DU9IG split-cover path.  Continue
 with rank `315` next.  Because the peak remains within roughly `35 MiB` of the
 current cap, this branch remains serial-only unless a lower-memory proof shape
 is introduced.
+
+### Phase 6Z6K8AP16DU9IG - rank 315 split cover accepted
+
+Rank `315` is the largest DU9IG target in this batch by selected-subcube count.
+The first emission used the standard split-cover topology:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank315_generation.json
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank315_generation.md
+```
+
+The initial serial guard correctly stopped before any system-level memory risk:
+
+- failed target: `ImpactSubcubeWalshSymbolicCompactDenomRank315Impact11Smoke`;
+- observed process-tree RSS at termination: `4203 MiB`;
+- configured cap: `4200 MiB`;
+- minimum observed available memory at that point remained above `45 GiB`.
+
+The rank was then regenerated with selected word-impact `11` split into
+component normal proofs:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_source.json \
+  --rank 315 \
+  --tag DU9IG \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IG' \
+  --report scripts/generated/phase6z6k8ap16du9ig_split_cover_rank315_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 11
+```
+
+Generation summary after the component split:
+
+- rank: `315`;
+- good masks: `7`;
+- selected subcubes: `21`;
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 11]`;
+- component-selected impacts: `[11]`;
+- generated guarded targets: `55`.
+
+The regenerated serial guarded build passed:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank315_guard_4200.json
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `55`;
+- maximum process-tree RSS: `4181.00 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IGSplitCoverRank315Smoke`;
+- minimum observed available memory: `45915.63 MiB`;
+- summed guarded target elapsed time: `119.16s`.
+
+Decision: rank `315` is accepted under the DU9IG split-cover path only with
+`--component-selected-impact 11`.  Future high-memory selected-impact failures
+should use this component split before considering any RSS-cap increase.
