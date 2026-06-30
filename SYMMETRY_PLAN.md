@@ -37316,3 +37316,125 @@ batch roots are DU9II, DU9IJ, DU9IK, and DU9IL.  Continue by selecting the
 next compact h-cover window or by promoting these accepted split batch roots
 into the higher-level generated coverage API; do not revive any monolithic
 DU9IL batch root.
+
+### Phase 6Z6K8AP16DU9IM - next compact window and batch prep accepted
+
+After accepting DU9IL, the next low-memory compact h-cover frontier scan covered
+ranks `[640,704)`:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 640 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --json scripts/generated/phase6z6k8ap16du9im_next_compact_hcover_ranks_640_704.json \
+  --md scripts/generated/phase6z6k8ap16du9im_next_compact_hcover_ranks_640_704.md
+```
+
+Result:
+
+- status: `accepted-next-targets`;
+- identity ranks with `GoodDirection` masks: `5`;
+- `GoodDirection` cases: `53`;
+- recommended targets: `641`, `647`, `654`, `657`, `659`;
+- maximum RSS: `24920 kB`.
+
+The positive-survivor membership profile was run with the full `sample-limit`
+and signature/candidate gates:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 640:704 \
+  --jobs 4 \
+  --sample-limit 64 \
+  --signature-gate 64 \
+  --candidate-gate 64 \
+  --json scripts/generated/phase6z6k8ap16du9im_positive_survivor_membership_640_704_full.json \
+  --md scripts/generated/phase6z6k8ap16du9im_positive_survivor_membership_640_704_full.md
+```
+
+Result:
+
+- status: `accepted-positive-survivor-membership-profile`;
+- ranks with `GoodDirection` survivors: `5`;
+- `GoodDirection` cases: `53`;
+- positive candidate groups: `14`;
+- positive survivor signatures: `5`;
+- bad-direction evidence emitted: `0`;
+- duplicate rank/mask memberships: `0`;
+- ambiguous `GoodDirection` memberships: `0`;
+- maximum RSS: `26912 kB`.
+
+The compact Walsh cover scaling pass covered all 5 signatures:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py \
+  --profile scripts/generated/phase6z6k8ap16du9im_positive_survivor_membership_640_704_full.json \
+  --output scripts/generated/phase6z6k8ap16du9im_compact_walsh_cover_scaling_full.json \
+  --limit 64
+```
+
+Result:
+
+- sampled signatures: `5`;
+- uncovered signatures: `0`;
+- selected subcubes total: `81`;
+- selected subcubes min/max/mean: `13 / 22 / 16.20`;
+- selected word impacts union: `[0, 1, 3, 5, 6, 8, 9, 10, 11]`;
+- maximum RSS: `27192 kB`.
+
+The five target ranks were materialized as standalone compact Walsh cover
+profiles, all with zero uncovered masks:
+
+| Rank | Anchor mask | Selected subcubes | Uncovered | Candidate subcubes | Good masks | Selected word impacts |
+| ---: | ----------: | ----------------: | --------: | -----------------: | --- | --- |
+| 641 | 9 | 13 | 0 | 232 | `[9, 16, 22, 24, 25, 29, 30, 41, 45, 55, 57, 61, 63]` | `[0, 1, 3, 5, 6, 8, 10]` |
+| 647 | 16 | 16 | 0 | 270 | `[16, 18, 22, 24, 41, 54, 57, 63]` | `[0, 1, 3, 5, 6, 8, 9]` |
+| 654 | 8 | 17 | 0 | 264 | `[8, 22, 24, 25, 28, 30, 57, 63]` | `[0, 1, 3, 5, 6, 8, 9]` |
+| 657 | 8 | 22 | 0 | 196 | `[8, 16, 22, 24, 28, 29, 31, 41, 47, 55, 63]` | `[0, 1, 3, 5, 6, 8, 11]` |
+| 659 | 9 | 13 | 0 | 232 | `[9, 16, 22, 24, 25, 29, 30, 41, 45, 55, 57, 61, 63]` | `[0, 1, 3, 5, 6, 8, 10]` |
+
+Batch preparation command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9im_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IMBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IM' \
+  --signature-key-prefix du9im
+```
+
+Result:
+
+- ranks: `641`, `647`, `654`, `657`, `659`;
+- maximum RSS: `14400 kB`;
+- wrote DU9IM batch plan/source/prep reports under `scripts/generated/`.
+
+The old monolithic generator was run only as dry-run telemetry:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IMBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMBatchSmoke \
+  --component-trace-step 12 \
+  --component-trace-final
+```
+
+Dry-run result:
+
+- status: `dry_run`;
+- entries/signatures: `5`;
+- planned targets: `156`;
+- maximum RSS: `27292 kB`.
+
+Decision: DU9IM prep is accepted as planning telemetry.  As with DU9IL, do
+not build or emit the monolithic DU9IM batch root.  Emit and guard ranks
+one at a time, sorted by selected-subcube risk: `641`, `659`, `647`, `654`,
+then `657`.  Rank `657` has a 22-subcube cover and should be treated as the
+highest-risk rank in this window.

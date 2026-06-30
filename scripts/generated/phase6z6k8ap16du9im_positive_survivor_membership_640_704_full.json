@@ -1,0 +1,2297 @@
+{
+  "ambiguous_good_survivor_memberships": 0,
+  "ambiguous_samples": [],
+  "bad_direction_evidence_emitted": 0,
+  "bounded_generation_estimate": {
+    "candidate_chunks_at_64_candidates": 1,
+    "proof_parallelism": "Python generation may use --jobs 4; Lean smoke builds should stay serial/focused",
+    "rough_lean_lines": 994,
+    "row_modules": 7,
+    "source_language_modules": 14
+  },
+  "candidates_per_good_mask_histogram": {
+    "1": 53
+  },
+  "counts": {
+    "covered_cases": 53,
+    "good_direction_survivors": 53,
+    "identity_words": 5,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 59,
+    "not_good_direction_masks": 267,
+    "pair_words_scanned": 64,
+    "translation_sign_assignments": 320,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "candidate_gate": 64,
+    "notes": [
+      "the profile groups only GoodDirection survivors",
+      "denominator-nonpositive masks are intentionally not enumerated",
+      "future Lean evidence should consume a GoodDirection premise and prove positive membership"
+    ],
+    "signature_gate": 64,
+    "status": "accepted-positive-survivor-membership-profile"
+  },
+  "descriptor_family_count": 14,
+  "duplicate_rank_mask_memberships": 0,
+  "duplicate_samples": [],
+  "jobs": 4,
+  "masks_per_rank_histogram": {
+    "11": 1,
+    "13": 2,
+    "8": 2
+  },
+  "next_lean_surface": {
+    "erasure_path": [
+      "SourcePositionRowProducerGoodCoverageOnRange.of_coverage",
+      "SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage",
+      "semanticGeneratedCoverageOfAllGoodIntervals"
+    ],
+    "forbidden_shape": "do not prove forall mask by fin_cases over all 64 masks; do not emit denominator-nonpositive witnesses for masks that fail GoodDirection",
+    "membership_goal": "produce one SourcePairPositionSpec, one SourceIndexStateRowProducer, and one SourceIndexStateKey",
+    "premises": [
+      "rank < numPairWords",
+      "lo <= rank",
+      "rank < hi",
+      "totalLinearOfPairWord (unrankPairWord rank) = matId",
+      "GoodDirectionAtRank rank mask"
+    ],
+    "target": "SourcePositionRowProducerGoodCoverageOnRange lo hi"
+  },
+  "phase": "6Z.6K.8AP.16I",
+  "positive_candidate_catalog": [
+    {
+      "case_count": 14,
+      "descriptor_count": 1,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 5,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 9,
+          "rank": 641,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 641,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 24,
+          "rank": 641,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 647,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 10,
+      "descriptor_count": 1,
+      "key": "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+      "mask_count": 3,
+      "rank_count": 4,
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 641,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 41,
+          "rank": 641,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 57,
+          "rank": 641,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 41,
+          "rank": 647,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 8,
+      "descriptor_count": 1,
+      "key": "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2",
+      "mask_count": 4,
+      "rank_count": 4,
+      "sample": [
+        {
+          "mask": 25,
+          "rank": 641,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 61,
+          "rank": 641,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 25,
+          "rank": 654,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 28,
+          "rank": 654,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 5,
+      "descriptor_count": 1,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 3,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 55,
+          "rank": 641,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 647,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 22,
+          "rank": 654,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 55,
+          "rank": 657,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "key": "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c",
+      "mask_count": 2,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 22,
+          "rank": 657,
+          "sourceIndices": [
+            0,
+            12
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 659,
+          "sourceIndices": [
+            0,
+            12
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 30,
+          "rank": 659,
+          "sourceIndices": [
+            0,
+            12
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 12,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e88, by decide\u27e9",
+          "obligation": "ordering:8"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "key": "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e",
+      "mask_count": 2,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 22,
+          "rank": 641,
+          "sourceIndices": [
+            96,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 30,
+          "rank": 641,
+          "sourceIndices": [
+            96,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 22,
+          "rank": 647,
+          "sourceIndices": [
+            96,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 7,
+          "index": 96,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e87, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "75444ebdf518871a7a3a9ec0d20d01008372ff1d2f4589d08b7fb94b0551fccf",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 641,
+          "sourceIndices": [
+            129,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 647,
+          "sourceIndices": [
+            129,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmp",
+          "impact": 9,
+          "index": 129,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e89, by decide\u27e9 Face.tmmp 7",
+          "obligation": "interior:9:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 654,
+          "sourceIndices": [
+            26,
+            3
+          ],
+          "template": "eq_eq_neg_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 659,
+          "sourceIndices": [
+            26,
+            3
+          ],
+          "template": "eq_eq_neg_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "excludedFaceSetSize": 9,
+          "face": "tmpp",
+          "impact": 1,
+          "index": 26,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpp 8",
+          "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+          "slot": 8
+        },
+        {
+          "dynamic": false,
+          "index": 3,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e83, by decide\u27e9",
+          "obligation": "xpStart:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_neg_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 47,
+          "rank": 657,
+          "sourceIndices": [
+            2,
+            15
+          ],
+          "template": "opp_m1_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        },
+        {
+          "dynamic": false,
+          "index": 15,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e811, by decide\u27e9",
+          "obligation": "ordering:11"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 659,
+          "sourceIndices": [
+            1,
+            16
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 16,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e812, by decide\u27e9",
+          "obligation": "ordering:12"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "ae35ce47550c1a64ed8e6ee9661b6eec254f77e1d6f3aa8843e031e50c845c07",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 30,
+          "rank": 654,
+          "sourceIndices": [
+            84,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 12,
+          "face": "xm",
+          "impact": 6,
+          "index": 84,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xm 1",
+          "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 1
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 57,
+          "rank": 654,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 657,
+          "sourceIndices": [
+            1,
+            7
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "f01869a5e93096b978dd3ec4b88423e2a2ce2d71b1e8c937cf41548815f56d2b",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 641,
+          "sourceIndices": [
+            184,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm"
+          ],
+          "excludedFaceSetSize": 11,
+          "face": "tpmp",
+          "impact": 13,
+          "index": 184,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e813, by decide\u27e9 Face.tpmp 10",
+          "obligation": "interior:13:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+          "slot": 10
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    }
+  ],
+  "positive_candidate_group_count": 14,
+  "positive_survivor_signature_catalog": [
+    {
+      "case_count": 13,
+      "good_masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "key": "3c5203e823e67f0465bf69b22881b599df6f4d038881a07ee7cd1c54db18cfb4",
+      "mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "25": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "45": [
+          "f01869a5e93096b978dd3ec4b88423e2a2ce2d71b1e8c937cf41548815f56d2b"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "57": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "61": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "63": [
+          "75444ebdf518871a7a3a9ec0d20d01008372ff1d2f4589d08b7fb94b0551fccf"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        641
+      ]
+    },
+    {
+      "case_count": 13,
+      "good_masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "key": "d617e2e56b0e5550cb1c0f756ec8dc6332cf53ffb2618ab823ca131b4844b79c",
+      "mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "25": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "45": [
+          "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "57": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "61": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "63": [
+          "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        659
+      ]
+    },
+    {
+      "case_count": 11,
+      "good_masks": [
+        8,
+        16,
+        22,
+        24,
+        28,
+        29,
+        31,
+        41,
+        47,
+        55,
+        63
+      ],
+      "key": "1306d57e6f99f840dc83aa362870ec6deb14c12a06881649670b2abeba1ba22c",
+      "mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "31": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "47": [
+          "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        657
+      ]
+    },
+    {
+      "case_count": 8,
+      "good_masks": [
+        16,
+        18,
+        22,
+        24,
+        41,
+        54,
+        57,
+        63
+      ],
+      "key": "0889e2d30113bdc5568bfbf78af175a1d66e8d660e484cc54e1016f2ac9b52af",
+      "mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "57": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "63": [
+          "75444ebdf518871a7a3a9ec0d20d01008372ff1d2f4589d08b7fb94b0551fccf"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        647
+      ]
+    },
+    {
+      "case_count": 8,
+      "good_masks": [
+        8,
+        22,
+        24,
+        25,
+        28,
+        30,
+        57,
+        63
+      ],
+      "key": "5f1f9e1355a7984d31384fbc37f3a8aac647361a74344c62fc0c76fb504bc763",
+      "mask_candidates": {
+        "22": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "25": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "28": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "30": [
+          "ae35ce47550c1a64ed8e6ee9661b6eec254f77e1d6f3aa8843e031e50c845c07"
+        ],
+        "57": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "63": [
+          "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        654
+      ]
+    }
+  ],
+  "positive_survivor_signature_count": 5,
+  "ranges": [
+    [
+      640,
+      704
+    ]
+  ],
+  "ranks_with_good_direction": 5,
+  "reusable_obligation_count": 21,
+  "row_group_count": 7,
+  "schema_version": 1,
+  "source_language_failure_samples": [],
+  "source_language_group_count": 14,
+  "source_language_validation_failures": {},
+  "source_pair_spec_group_count": 14,
+  "top_positive_candidate_groups": [
+    {
+      "case_count": 14,
+      "descriptor_count": 1,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 5,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 9,
+          "rank": 641,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 641,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 24,
+          "rank": 641,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 647,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 10,
+      "descriptor_count": 1,
+      "key": "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+      "mask_count": 3,
+      "rank_count": 4,
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 641,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 41,
+          "rank": 641,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 57,
+          "rank": 641,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 41,
+          "rank": 647,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 8,
+      "descriptor_count": 1,
+      "key": "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2",
+      "mask_count": 4,
+      "rank_count": 4,
+      "sample": [
+        {
+          "mask": 25,
+          "rank": 641,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 61,
+          "rank": 641,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 25,
+          "rank": 654,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 28,
+          "rank": 654,
+          "sourceIndices": [
+            83,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 5,
+      "descriptor_count": 1,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 3,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 55,
+          "rank": 641,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 647,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 22,
+          "rank": 654,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 55,
+          "rank": 657,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "key": "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c",
+      "mask_count": 2,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 22,
+          "rank": 657,
+          "sourceIndices": [
+            0,
+            12
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 659,
+          "sourceIndices": [
+            0,
+            12
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 30,
+          "rank": 659,
+          "sourceIndices": [
+            0,
+            12
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 12,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e88, by decide\u27e9",
+          "obligation": "ordering:8"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "key": "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e",
+      "mask_count": 2,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 22,
+          "rank": 641,
+          "sourceIndices": [
+            96,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 30,
+          "rank": 641,
+          "sourceIndices": [
+            96,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 22,
+          "rank": 647,
+          "sourceIndices": [
+            96,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 7,
+          "index": 96,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e87, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "75444ebdf518871a7a3a9ec0d20d01008372ff1d2f4589d08b7fb94b0551fccf",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 641,
+          "sourceIndices": [
+            129,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 647,
+          "sourceIndices": [
+            129,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmp",
+          "impact": 9,
+          "index": 129,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e89, by decide\u27e9 Face.tmmp 7",
+          "obligation": "interior:9:tmmp:slot7:excluded=tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 654,
+          "sourceIndices": [
+            26,
+            3
+          ],
+          "template": "eq_eq_neg_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 659,
+          "sourceIndices": [
+            26,
+            3
+          ],
+          "template": "eq_eq_neg_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm"
+          ],
+          "excludedFaceSetSize": 9,
+          "face": "tmpp",
+          "impact": 1,
+          "index": 26,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpp 8",
+          "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+          "slot": 8
+        },
+        {
+          "dynamic": false,
+          "index": 3,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e83, by decide\u27e9",
+          "obligation": "xpStart:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_neg_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 47,
+          "rank": 657,
+          "sourceIndices": [
+            2,
+            15
+          ],
+          "template": "opp_m1_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        },
+        {
+          "dynamic": false,
+          "index": 15,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e811, by decide\u27e9",
+          "obligation": "ordering:11"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 659,
+          "sourceIndices": [
+            1,
+            16
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 16,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e812, by decide\u27e9",
+          "obligation": "ordering:12"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "ae35ce47550c1a64ed8e6ee9661b6eec254f77e1d6f3aa8843e031e50c845c07",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 30,
+          "rank": 654,
+          "sourceIndices": [
+            84,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 12,
+          "face": "xm",
+          "impact": 6,
+          "index": 84,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xm 1",
+          "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 1
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 57,
+          "rank": 654,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 657,
+          "sourceIndices": [
+            1,
+            7
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "f01869a5e93096b978dd3ec4b88423e2a2ce2d71b1e8c937cf41548815f56d2b",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 641,
+          "sourceIndices": [
+            184,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm"
+          ],
+          "excludedFaceSetSize": 11,
+          "face": "tpmp",
+          "impact": 13,
+          "index": 184,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e813, by decide\u27e9 Face.tpmp 10",
+          "obligation": "interior:13:tpmp:slot10:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm",
+          "slot": 10
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    }
+  ],
+  "top_positive_survivor_signatures": [
+    {
+      "candidate_count": 7,
+      "case_count": 13,
+      "good_masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "key": "3c5203e823e67f0465bf69b22881b599df6f4d038881a07ee7cd1c54db18cfb4",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "25": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "45": [
+          "f01869a5e93096b978dd3ec4b88423e2a2ce2d71b1e8c937cf41548815f56d2b"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "57": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "61": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "63": [
+          "75444ebdf518871a7a3a9ec0d20d01008372ff1d2f4589d08b7fb94b0551fccf"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        641
+      ]
+    },
+    {
+      "candidate_count": 7,
+      "case_count": 13,
+      "good_masks": [
+        9,
+        16,
+        22,
+        24,
+        25,
+        29,
+        30,
+        41,
+        45,
+        55,
+        57,
+        61,
+        63
+      ],
+      "key": "d617e2e56b0e5550cb1c0f756ec8dc6332cf53ffb2618ab823ca131b4844b79c",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "25": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "45": [
+          "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "57": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "61": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "63": [
+          "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        659
+      ]
+    },
+    {
+      "candidate_count": 7,
+      "case_count": 11,
+      "good_masks": [
+        8,
+        16,
+        22,
+        24,
+        28,
+        29,
+        31,
+        41,
+        47,
+        55,
+        63
+      ],
+      "key": "1306d57e6f99f840dc83aa362870ec6deb14c12a06881649670b2abeba1ba22c",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "30101f6dd9e8be38738ef010f7dee32e3e1c170356718aa49c99fcb9a871e38c"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "31": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "47": [
+          "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        657
+      ]
+    },
+    {
+      "candidate_count": 5,
+      "case_count": 8,
+      "good_masks": [
+        16,
+        18,
+        22,
+        24,
+        41,
+        54,
+        57,
+        63
+      ],
+      "key": "0889e2d30113bdc5568bfbf78af175a1d66e8d660e484cc54e1016f2ac9b52af",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "41": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "57": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "63": [
+          "75444ebdf518871a7a3a9ec0d20d01008372ff1d2f4589d08b7fb94b0551fccf"
+        ]
+      },
+      "sample_ranks": [
+        647
+      ]
+    },
+    {
+      "candidate_count": 6,
+      "case_count": 8,
+      "good_masks": [
+        8,
+        22,
+        24,
+        25,
+        28,
+        30,
+        57,
+        63
+      ],
+      "key": "5f1f9e1355a7984d31384fbc37f3a8aac647361a74344c62fc0c76fb504bc763",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "22": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "25": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "28": [
+          "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+        ],
+        "30": [
+          "ae35ce47550c1a64ed8e6ee9661b6eec254f77e1d6f3aa8843e031e50c845c07"
+        ],
+        "57": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "63": [
+          "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        654
+      ]
+    }
+  ],
+  "total_good_direction_cases": 53,
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "counts": {
+        "covered_cases": 53,
+        "good_direction_survivors": 53,
+        "identity_words": 5,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 59,
+        "not_good_direction_masks": 267,
+        "pair_words_scanned": 64,
+        "translation_sign_assignments": 320,
+        "uncovered_cases": 0
+      },
+      "family_count": 14,
+      "range": [
+        640,
+        704
+      ],
+      "represented_case_count": 53
+    }
+  ]
+}
