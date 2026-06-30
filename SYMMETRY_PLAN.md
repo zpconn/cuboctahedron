@@ -43071,3 +43071,69 @@ Decision: accepted as a generated compact-free theorem-surface smoke.  The
 remaining production blocker is still range membership: proving that a whole
 selector/source-row family covers every `GoodDirectionAtRank` survivor in its
 language without falling back to compact rank-local membership.
+
+### Phase 6Z6K8AP16DU9IQ11 - compact-free selector range-0 catalog accepted
+
+The next selector/source-row checkpoint moves from individual exported cases to
+the production-shaped range target:
+
+```lean
+SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt0_1 0 1
+```
+
+New module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange0Smoke
+```
+
+This module proves:
+
+```lean
+rank0_selectorPositive_of_GoodDirection :
+  GoodDirectionAtRank (⟨0, hlt⟩ : Fin numPairWords) mask ->
+    Shard000.SelectorPositiveCase 0 mask
+
+selectorCatalog0_1 :
+  SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt0_1 0 1
+
+selectorCatalog0_1_sourceIndexFacts :
+  SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 1
+
+selectorCatalog0_1_allGood :
+  AllTranslationGoodCoverageOnRange 0 1
+```
+
+Import discipline:
+
+- imports DU.9R range adapter;
+- imports DU.9L shard-0 source/row facts;
+- imports the rank-0 bad-mask cover root;
+- does **not** import `SourceIndexStateSelectorDU9PCompactMembership`.
+
+This is still a bounded smoke: it uses the rank-0 bad-mask cover to derive
+positive-mask membership, and then erases directly through shard-0 selector
+facts.  The important improvement over DU.9S is that the range-catalog proof no
+longer routes through the rejected compact membership bridge.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9_compact_free_range0_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange0Smoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `2.50s` | `4019 MiB` | `45802 MiB` | `0` |
+
+Decision: accepted as the first compact-free nonempty selector range catalog.
+The next production step is to replace the rank-local bad-mask-cover premise
+with reusable semantic families/signature languages so larger ranges can
+produce the same catalog theorem without per-rank finite mask splits.
