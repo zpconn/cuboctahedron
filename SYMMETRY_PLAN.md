@@ -43942,3 +43942,97 @@ weighted-cover/source-row path to semantic all-Good translation coverage.  The
 source-row cost remains near the rank-`896` profile, so the next safe scaling
 step is to repeat this generated path for ranks `899` and `903`, whose
 direct-bridge leaves already exist, still one heavy source-row build at a time.
+
+### Phase 6Z6K8AP16DU9IQ24 - generated rank-899 weighted source-row path accepted
+
+Rank `899` was the next ready DU9IQ weighted pipeline candidate.  Its existing
+direct-bridge leaves `28-39` were packaged into generated cover roots:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank899AllGeneratedSmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke
+```
+
+The selected weighted cubes leave these GoodDirection survivor masks:
+
+```text
+8, 9, 13, 16, 18, 22, 24, 28, 29, 30, 31, 45, 47, 54, 55, 63
+```
+
+Generation command:
+
+```bash
+python3 scripts/emit_du9iq_traced_bridge_cover.py \
+  --rank 899 \
+  --indices 28-39 \
+  --stem WeightedDenomCubeDU9IQDirectBridgeCoverRank899AllGeneratedSmoke \
+  --report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank899_all_generated.json \
+  --positive-stem WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke \
+  --positive-masks 8,9,13,16,18,22,24,28,29,30,31,45,47,54,55,63 \
+  --positive-report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank899_positive_masks_generated.json
+```
+
+Focused guarded positive-bridge build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank899_positive_masks_generated_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke
+```
+
+Positive-bridge result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `8.01s` | `4200 MiB` | `45813 MiB` | `0` |
+
+Generated source-row module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Generation command:
+
+```bash
+python3 scripts/generate_ap16t_precomputed_signature_smoke.py \
+  --rank 899 \
+  --mask 8 \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank899PositiveGeneratedPrecomputedSignatureSmoke.lean \
+  --weighted-positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank899PositiveMasksGeneratedSmoke
+```
+
+The source-row module exports:
+
+```lean
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 899 900
+```
+
+Focused guarded source-row build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank899_positive_generated_signature_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Source-row result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `54.64s` | `7611 MiB` | `40579 MiB` | `0` |
+
+Decision: accepted.  Rank `899` now has the same generated end-to-end
+weighted-cover/source-row path to `AllTranslationGoodCoverageOnRange 899 900`.
+The rank-`899` source-row module is slightly cheaper than ranks `896` and
+`897`, so the measured serial guard remains appropriate.  The next ready rank
+is `903`, using direct-bridge indices `40-51`.
