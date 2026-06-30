@@ -1,0 +1,37 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact00Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact01Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact03Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact05Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact06Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact08Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact09Smoke
+
+/-!
+Generated AP16 compact-denominator consumer root smoke.
+
+This module imports the manifest-selected compact-denominator consumer
+fixtures and checks that their exported smoke theorems compose without
+root-level denominator arithmetic.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144SelectedImpactsSmoke
+
+theorem allCompactDenomConsumerSmokes_build :
+    True := by
+  have h_0_rank144_mask7_impact0 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact00Smoke.compactDenomGeneratedSmoke_builds
+  have h_1_rank144_mask7_impact1 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact01Smoke.compactDenomGeneratedSmoke_builds
+  have h_2_rank144_mask7_impact3 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact03Smoke.compactDenomGeneratedSmoke_builds
+  have h_3_rank144_mask7_impact5 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact05Smoke.compactDenomGeneratedSmoke_builds
+  have h_4_rank144_mask7_impact6 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact06Smoke.compactDenomGeneratedSmoke_builds
+  have h_5_rank144_mask7_impact8 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact08Smoke.compactDenomGeneratedSmoke_builds
+  have h_6_rank144_mask7_impact9 : True :=
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144Impact09Smoke.compactDenomGeneratedSmoke_builds
+  trivial
+
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank144SelectedImpactsSmoke
