@@ -176,6 +176,11 @@
       "needle": "theorem TemplateLanguageDomainCoversIdentityRange.or_right",
       "present": true
     },
+    "template_domain_coverage_single_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageDomainCoversIdentityRange.single",
+      "present": true
+    },
     "template_domain_to_range_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
       "needle": "theorem TemplateLanguageMemberBridgeOnDomain.to_range",

@@ -30110,3 +30110,46 @@ mask-to-candidate-map or exact candidate-set coverage as the production
 the reusable downstream layer, and seek a compressed state/signature theorem
 that proves `GoodDirection -> membership in a reusable candidate-union domain`
 without enumerating rank/mask singleton facts.
+
+### Phase 6Z.6K.8AP.16DU.9FW checkpoint: singleton domain coverage combinator
+
+Phase 6Z.6K.8AP.16DU.9FW adds the tiny hand-written combinator:
+
+```lean
+theorem TemplateLanguageDomainCoversIdentityRange.single
+```
+
+This theorem proves domain coverage for `[anchor, anchor+1)` from one
+anchor-local semantic case proof.  It factors out the repeated generated
+argument that any `rank` in `[anchor, anchor+1)` is equal to `anchor`, so future
+singleton or micro-window hcover leaves can focus only on the real semantic
+obligation:
+
+```lean
+GoodDirectionAtRank ⟨anchor, hlt⟩ mask -> domain anchor mask
+```
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
+```
+
+Result: passed in `elapsed=0:10.86`, `max_rss_kb=3282096`.
+
+The semantic coverage contract audit now guards the new combinator:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12868`, with
+`all_required_surfaces_present=true`.
+
+Decision: accepted.  This is not a production compression theorem by itself,
+but it is a reusable Prop-level assembly lemma.  It keeps future generated
+singleton/domain smoke files from re-emitting local Nat interval proofs while
+preserving the main rule that hcover must come from compressed
+state/signature/algebraic membership, not rank/mask tables.

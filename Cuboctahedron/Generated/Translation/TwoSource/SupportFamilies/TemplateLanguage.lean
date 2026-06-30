@@ -183,6 +183,21 @@ theorem TemplateLanguageDomainCoversIdentityRange.empty
   intro rank mask hlt hlo hhi hM hgood
   exact False.elim ((Nat.not_lt_of_ge h) (lt_of_le_of_lt hlo hhi))
 
+theorem TemplateLanguageDomainCoversIdentityRange.single
+    {domain : TemplateLanguageDomain} {anchor : Nat}
+    (hcase :
+      forall {mask : SignMask} (hlt : anchor < numPairWords),
+        totalLinearOfPairWord (unrankPairWord ⟨anchor, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨anchor, hlt⟩ mask ->
+            domain anchor mask) :
+    TemplateLanguageDomainCoversIdentityRange domain anchor (anchor + 1) := by
+  intro rank mask hlt hlo hhi hM hgood
+  have hleAnchor : rank <= anchor := Nat.le_of_lt_succ hhi
+  have hrank : rank = anchor := Nat.le_antisymm hleAnchor hlo
+  subst rank
+  exact hcase hlt hM hgood
+
 theorem TemplateLanguageDomainCoversIdentityRange.concat
     {domain : TemplateLanguageDomain} {lo mid hi : Nat}
     (left : TemplateLanguageDomainCoversIdentityRange domain lo mid)

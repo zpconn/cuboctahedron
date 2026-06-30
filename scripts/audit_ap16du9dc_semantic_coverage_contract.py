@@ -171,6 +171,10 @@ CHECKS = {
         "template_language",
         "theorem TemplateLanguageDomainCoversIdentityRange.empty",
     ),
+    "template_domain_coverage_single_exists": (
+        "template_language",
+        "theorem TemplateLanguageDomainCoversIdentityRange.single",
+    ),
     "template_domain_coverage_concat_exists": (
         "template_language",
         "theorem TemplateLanguageDomainCoversIdentityRange.concat",
