@@ -37438,3 +37438,67 @@ not build or emit the monolithic DU9IM batch root.  Emit and guard ranks
 one at a time, sorted by selected-subcube risk: `641`, `659`, `647`, `654`,
 then `657`.  Rank `657` has a 22-subcube cover and should be treated as the
 highest-risk rank in this window.
+
+### Phase 6Z6K8AP16DU9IM - rank 641 split-cover memory checkpoint
+
+Rank `641` was emitted with the split compact-cover generator:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_source.json \
+  --rank 641 \
+  --tag DU9IM \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IM' \
+  --report scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 10
+```
+
+The emitted topology had `53` build targets: `39` prereq/selected-impact
+targets, `13` subcube leaves, and one split-cover root.  The first guarded
+prereq run used a serial process-tree RSS cap of `4200 MiB`:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_prereq_guard_4200.json \
+  --out-dir /tmp/ap16du9im_split_cover_rank641_prereq_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 0 ... --target-index 38
+```
+
+The run was interrupted deliberately before completion after `28 / 39`
+prereq targets passed.  No target had failed, and no Lean/Lake process was
+left running, but the peak per-target RSS was too close to the cap:
+
+- status at interruption: `running`;
+- passed targets: `28 / 39`;
+- failed targets: `0`;
+- peak tree RSS seen: `4165.99 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank641SplitFinalXSmoke`;
+- minimum available memory seen: `45861.64 MiB`.
+
+Important diagnosis: the high peak is not caused by the subcube leaves.
+Tiny component leaves also load a large import stack because the selected
+impact denominator modules import the rank's full Walsh-vector trace root
+before proving compact denominator facts.  The current DU9IM rank-641 shape
+therefore has a roughly `4.0 GiB` serial baseline and is not accepted as a
+memory-safe proof artifact.
+
+Decision: do not resume the rank-641 `4200 MiB` guard as-is, and do not wire
+the emitted rank-641 files into any accepted root.  The next implementation
+step should reduce the selected-impact import footprint, for example by
+emitting lower-memory denominator bridges that consume only the needed
+trace/data component facts instead of importing the full trace root, or by
+using a semantic row/diamond bridge that avoids replaying rank-local trace
+proofs for every selected impact.  Only after a replacement shape passes
+with a comfortable guard margin should rank `641` be accepted.
