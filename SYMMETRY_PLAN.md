@@ -44766,3 +44766,47 @@ through the compact-free selector route.  The next corrected complete ranks
 available to try are `903` and `905`, both already covered by `Shard001`.
 Rank `955` will require `Shard002`; rank `911` still requires the separate
 nonpositive-mask repair before it can be counted closed.
+
+### Phase 6Z6K8AP16DU9IQ34 - compact-free selector range accepted for rank 903
+
+Rank `903` is a single-shard compact-free range using
+`SourceIndexStateSelectorDU9IQMicroRank896_956.Shard001`.  It was emitted with:
+
+```bash
+python3 scripts/emit_compact_free_selector_singleton_range.py \
+  --rank 903 \
+  --micro-dir Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --micro-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank903PositiveMasksGeneratedSmoke \
+  --module SourceIndexStateSelectorDU9IQCompactFreeRange903Smoke \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange903Smoke.lean
+```
+
+The module exports:
+
+```lean
+selectorCatalog903_904_allGood :
+  AllTranslationGoodCoverageOnRange 903 904
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_compact_free_range903_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQCompactFreeRange903Smoke
+```
+
+Telemetry:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `SourceIndexStateSelectorDU9IQCompactFreeRange903Smoke` | `4.01s` | `4049.73 MiB` | `46008.34 MiB` | `0` |
+
+Decision: accepted. Corrected rank `903` is now closed through the
+compact-free selector route.  Corrected ranks closed by this route so far:
+`896`, `897`, `899`, and `903`.
