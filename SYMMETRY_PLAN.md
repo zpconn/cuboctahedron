@@ -42028,3 +42028,46 @@ rank-local batch roots.  The initial DU9IQ recommended ranks `896`, `897`,
 step should inspect the broader DU9IQ profile frontier and decide whether to
 promote these rank roots into a bounded DU9IQ group root or move to the next
 profile slice.
+
+### Phase 6Z6K8AP16DU9IQ - recommended-rank group root accepted
+
+The four closed initial DU9IQ recommended ranks were promoted into a shallow
+group root that imports only rank-local aggregate surfaces:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeRecommendedRanksSmoke
+```
+
+Imported rank roots:
+
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank897AllSmoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank899AllSmoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank903AllSmoke`.
+
+Generated report files:
+
+- JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_recommended_ranks_super_aggregate.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_recommended_ranks_super_aggregate.md`;
+- guard:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_recommended_ranks_super_aggregate_guard.json`.
+
+The group root passed under the `12 GiB` guard:
+
+- elapsed time: `4.01s`;
+- peak tree RSS: `4099 MiB`;
+- minimum available memory seen: `45986 MiB`.
+
+Decision: accepted.  The four original DU9IQ profile ranks now have a
+bounded import hierarchy:
+
+```text
+leaf bridges -> rank batch roots -> rank all/combined roots -> recommended-rank group root
+```
+
+This root is still a smoke/group proof surface, not final exhaustive coverage.
+The next scaling step should use the DU9IQ source/profile artifacts to choose
+the next semantic slice or to add a verified adapter from this group root into
+the larger translation coverage API.
