@@ -30802,3 +30802,32 @@ the serial guard.  This makes the shallow batch root the next meaningful probe,
 but the observed `4.3 GiB` cover-root plateau means ordinary broad Lake builds
 remain unsafe.  Continue with a single guarded `batch_root` target before
 attempting any larger root or plan-prefix build.
+
+### Phase 6Z.6K.8AP.16DU.9GL checkpoint: shallow six-rank batch root guarded
+
+Phase 6Z.6K.8AP.16DU.9GL builds the shallow batch root for the emitted six-rank
+batch after the six cover roots have been guarded.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gh_serial_guard_batch_root.json \
+  --out-dir /tmp/ap16dj_du9gh_serial_guarded/batch_root \
+  --target-kind batch_root \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=2.51s`, with `peak_tree_rss=3994 MiB` and
+`min_available=46087 MiB`.
+
+Decision: accepted.  The six-rank DU.9GH compact hcover batch now has guarded
+checks for its cover roots and its shallow batch root.  This still covers only
+the six targeted missing ranks (`5`, `9`, `11`, `17`, `24`, `27`), not a broad
+range.  The next scaling move should be a coverage adapter that combines the
+already checked `[0,4)` compact range with this six-rank hcover batch, followed
+by a new profiler query for the remaining missing ranks in `[0,64)`.
