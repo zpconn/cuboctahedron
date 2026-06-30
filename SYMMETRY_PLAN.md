@@ -30475,3 +30475,53 @@ ranks without existing compact Walsh cover roots, then emit only the missing
 compact cover modules needed to grow the hcover range.  Continue using focused
 module builds and RSS capture; do not import AP16DO-style heavy singleton
 facts through ordinary broad roots without the serial guard.
+
+### Phase 6Z.6K.8AP.16DU.9GF checkpoint: next compact hcover rank profiler
+
+Phase 6Z.6K.8AP.16DU.9GF adds
+`scripts/profile_next_compact_hcover_ranks.py`, a no-Lean diagnostic that scans
+a bounded rank window with the existing exact translation classifier, records
+identity-linear ranks with GoodDirection masks, and checks whether the compact
+Walsh cover and DU.9P batch roots already exist.
+
+Run command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 0 --limit 64 --jobs 4 --target-missing 6
+```
+
+Result: passed in `elapsed=0:01.04`, `max_rss_kb=24820`.
+
+Summary over `[0,64)`:
+
+| Metric | Value |
+| --- | ---: |
+| Identity ranks | `22` |
+| Identity ranks with GoodDirection masks | `22` |
+| GoodDirection cases | `264` |
+| Not-GoodDirection masks | `1144` |
+| Uncovered masks | `0` |
+| Non-two-source masks | `0` |
+
+Recommended missing compact hcover targets:
+
+| Rank | Good masks | Compact cover | DU.9P batch |
+| ---: | ---: | :---: | :---: |
+| `5` | `16` | no | no |
+| `9` | `13` | no | no |
+| `11` | `11` | no | no |
+| `17` | `7` | no | no |
+| `24` | `7` | no | no |
+| `27` | `13` | no | no |
+
+Decision: accepted.  This confirms that the first `[0,4)` compact range root
+is not a one-off: the nearby identity ranks have small GoodDirection survivor
+sets, and the missing work is explicitly the compact Walsh cover emission for
+those ranks.  The profiler uses safe parallelism (`--jobs 4`) and stays far
+below the memory budget.
+
+Next step: generate compact Walsh rank slices for the first small target batch
+(`5`, `9`, `11`, `17`, `24`, `27`) using the existing DU.9P/AP16DJ guarded
+pipeline, then build the emitted targets serially or with an explicit RSS guard
+before adding a larger hcover range root.
