@@ -38249,3 +38249,38 @@ the strict serial guard.  The next production step should continue the same
 pattern: compose only shallow accepted roots, use plan-only selection before
 every build, and reject any broader root that breaches the `4200 MiB` cap or
 requires lowering the available-memory floor.
+
+### Phase 6Z6K8AP16DU9IO - next frontier selected
+
+The next compact h-cover frontier after DU9IN was scanned over `[768,832)` with
+bounded, memory-light Python parallelism:
+
+```bash
+python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 768 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 4 \
+  --json scripts/generated/phase6z6k8ap16du9io_next_compact_hcover_ranks_768_832.json \
+  --md scripts/generated/phase6z6k8ap16du9io_next_compact_hcover_ranks_768_832.md
+```
+
+Diagnostic summary:
+
+- status: `accepted-next-targets`;
+- rank range: `[768,832)`;
+- jobs: `4`;
+- identity ranks: `11`;
+- identity ranks with GoodDirection masks: `11`;
+- GoodDirection cases: `122`;
+- Not-GoodDirection masks: `582`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`;
+- recommended next DU9IO targets:
+  `790`, `798`, `800`, and `808`.
+
+Decision: start DU9IO with the four recommended ranks.  Generate and guard one
+rank at a time, using the same theorem-only split-cover topology and the same
+strict serial guard discipline as DU9IN.  Python profiling/generation may use
+bounded parallelism where memory-light; Lean checking remains serial and
+guarded.
