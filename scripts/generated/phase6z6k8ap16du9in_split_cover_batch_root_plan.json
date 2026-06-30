@@ -1,0 +1,25 @@
+{
+  "available_floor_mib": 30000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [],
+    "target_kind": []
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9in_split_cover_batch_root_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [],
+  "rss_cap_mib": 4200,
+  "status": "plan_only",
+  "target_count": 1,
+  "targets": [
+    {
+      "kind": "split_batch_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverBatchSmoke"
+    }
+  ],
+  "timeout_seconds": 900,
+  "trusted_as_final_generated_coverage": false
+}

@@ -38184,3 +38184,68 @@ root, now checked independently.  All four DU9IN selected ranks
 (`714`, `716`, `724`, and `748`) are now accepted.  The next step is to emit a
 shallow DU9IN batch root importing only these four accepted rank roots and check
 it serially under a memory guard.  Do not use a monolithic or wide root.
+
+### Phase 6Z6K8AP16DU9IN - four-rank batch root accepted
+
+A reusable thin batch-root emitter was added:
+
+```text
+scripts/generate_ap16du_split_batch_root.py
+```
+
+It emits only a shallow root that imports already accepted split rank roots and
+re-exports their GoodDirection-to-good-mask adapters.  It does not generate new
+certificate data and does not run Lean.
+
+The DU9IN four-rank root was emitted with:
+
+```bash
+python3 scripts/generate_ap16du_split_batch_root.py \
+  --emit \
+  --tag DU9IN \
+  --rank 714 \
+  --rank 716 \
+  --rank 724 \
+  --rank 748 \
+  --report scripts/generated/phase6z6k8ap16du9in_split_cover_batch_root_generation.json \
+  --note 'DU9IN ranks 714, 716, 724, and 748 were checked individually under serial memory guards before this root was emitted.'
+```
+
+The emitted Lean root is:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverBatchSmoke.lean
+```
+
+Plan-only guard selection confirmed exactly one target.  The guarded build was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9in_split_cover_batch_root_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9in_split_cover_batch_root_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9in_split_cover_batch_root_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guarded pass summary:
+
+- status: `passed`;
+- target count: `1`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS: `3902.97 MiB`;
+- target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverBatchSmoke`;
+- minimum available memory seen: `46111.65 MiB`.
+
+The new emitter and DU9IN batch root were scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: the DU9IN four-rank batch root is accepted.  This confirms that
+shallow composition over the four accepted DU9IN rank roots is memory-safe under
+the strict serial guard.  The next production step should continue the same
+pattern: compose only shallow accepted roots, use plan-only selection before
+every build, and reject any broader root that breaches the `4200 MiB` cap or
+requires lowering the available-memory floor.
