@@ -1,10 +1,10 @@
 # Phase 6Z.6K.8AP.16DJ Compact Walsh Batch Generation
 
-Status: `dry_run`.
+Status: `emitted_pending_guarded_build`.
 
 This is bounded smoke infrastructure, not final generated coverage.
 
-- emitted Lean: `False`
+- emitted Lean: `True`
 - signatures: `6`
 - planned guarded targets: `151`
 - root module: `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke`

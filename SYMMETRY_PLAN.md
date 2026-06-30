@@ -30941,3 +30941,70 @@ Decision: accepted.  DU9GO has the same target count shape as DU9GH and is
 ready for bounded Lean emission.  Use the same safety sequence: emit, plan-only
 guard target list, one large-cover probe, all cover roots, then shallow
 batch-root.  Do not run the full broad Lake package.
+
+### Phase 6Z.6K.8AP.16DU.9GP checkpoint: DU9GO emission and largest-cover guard probe
+
+Phase 6Z.6K.8AP.16DU.9GP emits the second compact hcover Lean batch for ranks
+`29`, `30`, `32`, `40`, `42`, and `44`, then verifies only the largest cover
+root under the memory guard.
+
+Emission command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke
+```
+
+Result: passed in `elapsed=0:03.84`, `max_rss_kb=28488`; the generation
+report status is now `emitted_pending_guarded_build`.
+
+Guard plan command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9go_serial_guard_plan.json \
+  --out-dir /tmp/ap16dj_du9go_serial_guarded/targets
+```
+
+Result: planned `151` guarded targets:
+
+- `6` trace data modules;
+- `78` trace step modules;
+- `6` trace final modules;
+- `6` trace root modules;
+- `42` selected-impact modules;
+- `6` selected-impact roots;
+- `6` cover roots;
+- `1` shallow batch root.
+
+The largest cover root by source size was rank `44` (`4916` lines), so the
+first Lean stress probe was:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9go_serial_guard_cover_rank44.json \
+  --out-dir /tmp/ap16dj_du9go_serial_guarded/cover_rank44 \
+  --target-kind cover \
+  --module-contains CoverRank44 \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=109.28s`, with `peak_tree_rss=4353 MiB` and
+`min_available=45642 MiB`.
+
+Decision: accepted with caution.  The largest DU9GO cover root fits under the
+same 4.5 GiB guard as DU9GH, but it is close enough to the cap that DU9GO Lean
+checks must remain serial unless later probes show materially lower per-target
+RSS.  Next step: run all six DU9GO cover roots under the serial guard, then run
+the shallow DU9GO batch root if the cover-root run passes.
