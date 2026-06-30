@@ -36462,3 +36462,64 @@ ranks one at a time in ascending selected-subcube risk, keeping the selected
 impact component split.  Start with the 13-subcube ranks `602` and `603`, then
 continue through the 16-subcube ranks before attempting the larger future
 signatures with 20-24 selected subcubes.
+
+### Phase 6Z6K8AP16DU9IL - rank 602 split cover accepted
+
+The first DU9IL proof-producing rank was one of the two lowest selected-subcube
+targets in the batch.  It was emitted with split trace components and
+selected-impact normal components for the higher-risk selected impacts:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_source.json \
+  --rank 602 \
+  --tag DU9IL \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IL' \
+  --report scripts/generated/phase6z6k8ap16du9il_split_cover_rank602_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 9 \
+  --component-selected-impact 10
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 5, 6, 9, 10]`;
+- selected subcubes: `13`;
+- guarded targets: `52`;
+- selected-impact normal component targets:
+  - `rank602_impact6_x`, `rank602_impact6_y`, `rank602_impact6_z`;
+  - `rank602_impact9_x`, `rank602_impact9_y`, `rank602_impact9_z`;
+  - `rank602_impact10_x`, `rank602_impact10_y`, `rank602_impact10_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank602_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank602_guard_4200.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank602_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `52`;
+- peak tree RSS: `4143.29 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank602SplitFinalXSmoke`;
+- minimum available memory observed: `45890.19 MiB`;
+- summed target elapsed time: `191.25s`;
+- killed targets: `0`.
+
+Decision: rank `602` is accepted, but it is a near-cap pass.  Keep the
+remaining DU9IL rank roots strictly serial under the `4200 MiB` guard and keep
+selected-impact component splitting enabled.  Continue with the other
+13-subcube rank, `603`, before moving to the 16-subcube ranks.
