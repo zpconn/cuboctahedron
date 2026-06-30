@@ -44272,3 +44272,57 @@ new memory rule for future complete ranks: build vector/normal/bridge leaves
 serially first, then build warmed aggregate roots. Do not cold-build aggregate
 roots for fresh generated ranks. The remaining complete ranks from the
 `[896,960)` DU9IQ profile are `911` and `955`.
+
+### Phase 6Z6K8AP16DU9IQ27 - weighted candidate profiler corrected
+
+The next attempted DU9IQ rank was `911`, following the weighted pipeline
+candidate profiler output from Phase 6Z6K8AP16DU9IQ22. The rank-`911`
+vector trace, normal traces, and direct bridge leaves could be emitted and
+leaf-built with the same serial guard discipline as rank `905`, but the
+generated bridge-cover step correctly rejected the rank:
+
+```text
+selected cubes do not cover non-survivor mask 32
+```
+
+The failing pattern was `xx0x01`, corresponding to weighted summary index
+`70` (`**0*01`). That summary had
+`reduced_bound_nonpositive = false`, so it is not a valid input to the
+reduced-bound bridge theorem. The candidate profiler was therefore too
+permissive: it grouped all weighted summaries by rank instead of filtering to
+summaries already certified by the reduced-bound profile.
+
+The profiler was corrected so `weighted_summaries_by_rank` only retains
+summaries with:
+
+```text
+reduced_bound_nonpositive = true
+```
+
+After rerunning:
+
+```bash
+python3 scripts/profile_du9iq_weighted_pipeline_candidates.py \
+  --output scripts/generated/weighted_denom_cube_du9iq_weighted_pipeline_candidates_latest.json
+```
+
+the corrected bounded result is:
+
+```text
+complete ranks:   896, 897, 899, 903, 905, 955
+incomplete ranks: 911
+```
+
+For rank `911`, the corrected reduced-cube cover has `12` cubes, covers `50`
+nonpositive masks, and leaves exactly these nonpositive masks uncovered:
+
+```text
+32, 34, 41
+```
+
+Decision: rank `911` is removed from the reduced weighted-cover frontier until
+a new checked reduced-bound family covers masks `32`, `34`, and `41`. The
+partial untracked rank-`911` bridge leaves from this attempted path were
+discarded. The next valid complete candidate from the corrected profile is
+rank `955`. Continue with the same memory discipline established for rank
+`905`: serial leaf-first builds, then warmed aggregate roots only.

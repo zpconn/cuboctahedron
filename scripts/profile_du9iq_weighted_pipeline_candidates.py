@@ -61,6 +61,8 @@ def positive_masks_by_rank(data: dict[str, Any]) -> dict[int, list[int]]:
 def weighted_summaries_by_rank(data: dict[str, Any]) -> dict[int, list[dict[str, Any]]]:
     result: dict[int, list[dict[str, Any]]] = {}
     for summary in data["summaries"]:
+        if not bool(summary.get("reduced_bound_nonpositive", False)):
+            continue
         result.setdefault(int(summary["rank"]), []).append(summary)
     return result
 
