@@ -37271,3 +37271,48 @@ accepted split covers for ranks `582`, `585`, `587`, `600`, `602`, `603`,
 `605`, and `609`.  The memory-safe operating pattern is unchanged: keep
 DU9IL prerequisites at `4200 MiB`, subcubes at `4160 MiB`, and roots alone
 at `4200 MiB`; do not run DU9IL Lean targets concurrently.
+
+### Phase 6Z6K8AP16DU9IL - shallow split batch root accepted
+
+After all eight DU9IL split rank roots were accepted, a shallow batch adapter
+was added:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverBatchSmoke.lean
+```
+
+The root imports only the accepted rank roots:
+
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank582Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank585Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank587Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank600Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank602Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank603Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank605Smoke`;
+- `ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Smoke`.
+
+It exposes one `rankNNN_goodMaskMember_of_GoodDirection` adapter per accepted
+rank, plus a `batchSplitCompactWalshCoverSmoke_builds : True` smoke theorem.
+
+Focused serial build:
+
+```bash
+/usr/bin/time -v bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverBatchSmoke'
+```
+
+Build summary:
+
+- status: passed;
+- target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverBatchSmoke`;
+- elapsed wall time: `2.97s`;
+- maximum resident set size: `3413724 KiB` (`3333.71 MiB`);
+- exit status: `0`.
+
+Decision: the DU9IL split batch root is accepted.  The current accepted split
+batch roots are DU9II, DU9IJ, DU9IK, and DU9IL.  Continue by selecting the
+next compact h-cover window or by promoting these accepted split batch roots
+into the higher-level generated coverage API; do not revive any monolithic
+DU9IL batch root.
