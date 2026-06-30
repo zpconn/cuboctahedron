@@ -42269,3 +42269,57 @@ closed rank-`903` semantic coverage theorem, then generalize the precomputed
 signature emitter over bounded windows.  Broad `lake build` remains disallowed;
 future generated leaves must continue to build under the memory guard before
 any aggregate root imports them.
+
+### Phase 6Z6K8AP16DU9IQ2 - rank-903 closed semantic wrapper accepted
+
+The rank-`903` precomputed-signature module already exports the closed semantic
+coverage theorem:
+
+```lean
+generatedSingletonSignatureClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 903 904
+```
+
+So the composition step is a tiny stable wrapper rather than another heavy
+generated proof.  New module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank903AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 903 904
+
+rank903AllGoodRankKilled :
+  AllTranslationGoodRankKilled 903
+```
+
+The first guarded build caught only a namespace qualification error and stayed
+well inside the guard (`4003 MiB` peak tree RSS).  After qualifying the
+`PairSignProducerMembershipBridge` theorem namespace, the focused target built:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank903_closed_semantic_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903ClosedSemanticSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.00s` | `4069 MiB` | `45975 MiB` | `0` |
+
+Decision: accepted.  Rank `903` now has a stable, small semantic
+`AllTranslationGoodCoverageOnRange 903 904` surface that downstream aggregate
+roots can import.  The next step is to generalize the precomputed-signature
+emitter over bounded windows/signature classes while preserving this wrapper
+pattern: heavy local proof in the leaf, tiny exported semantic theorem in the
+aggregate-facing module, and every new target built under the memory guard
+before it is imported by a broader root.
