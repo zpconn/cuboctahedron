@@ -41274,3 +41274,50 @@ guard, and only build the root after all dependencies are cached.  The next
 rank-`897` step is to emit the seven required normal traces
 `0`, `1`, `3`, `5`, `7`, `9`, and `10`, and build them serially under a
 guard before emitting any direct bridge leaves.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 normal trace prerequisites accepted
+
+The seven normal traces required by the first rank-`897` direct-bridge
+frontier were emitted against the accepted vector trace root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke
+```
+
+Generated normal-trace modules:
+
+- `WeightedDenomCubeDU9IQNormalTraceRank897Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank897Idx01Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank897Idx03Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank897Idx05Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank897Idx07Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank897Idx09Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank897Idx10Smoke`.
+
+Each module was built serially with:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json <per-index-guard.json> \
+  -- env LAKE_JOBS=1 lake build <normal-trace-module>
+```
+
+All seven builds passed:
+
+- target count: `7`;
+- total serial elapsed time: `21.53s`;
+- worst target:
+  `WeightedDenomCubeDU9IQNormalTraceRank897Idx07Smoke`;
+- worst target elapsed time: `3.00s`;
+- worst target peak tree RSS: `4136 MiB`;
+- lowest available memory seen: `45925 MiB`.
+
+Decision: accepted.  The rank-`897` vector trace chain and all normal-trace
+prerequisites for the first bounded bridge frontier are now checked under
+memory guard.  The next safe step is to emit only the six planned rank-`897`
+direct bridge leaves and their shallow aggregate, building each leaf/root
+serially under the `12 GiB` guard.  Do not broaden to a full rank or cold
+generated-root build.
