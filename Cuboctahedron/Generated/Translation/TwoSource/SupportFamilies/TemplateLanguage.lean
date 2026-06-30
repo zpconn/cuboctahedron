@@ -134,6 +134,23 @@ theorem TemplateLanguageMemberBridgeOnRange.to_coverage
   exact TemplateLanguageMember.to_templateLanguageWitness
     (bridge hlt hlo hhi hM hgood)
 
+/-- Erase an existing source/row facts bridge to the preferred member bridge. -/
+theorem TemplateLanguageMemberBridgeOnRange.of_sourceRowFactsBridge
+    {lo hi : Nat}
+    (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases bridge hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
+/-- Erase an existing source/row predicate bridge to the preferred member bridge. -/
+theorem TemplateLanguageMemberBridgeOnRange.of_sourceRowPredicateBridge
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi :=
+  TemplateLanguageMemberBridgeOnRange.of_sourceRowFactsBridge
+    (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge)
+
 /-- Empty range coverage, useful for balanced generated interval assembly. -/
 theorem TemplateLanguageCoverageOnIdentityRange.empty
     {lo hi : Nat}
@@ -256,11 +273,9 @@ theorem TemplateLanguageCoverageOnIdentityRange.of_keyAt_source_row
 theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsBridge
     {lo hi : Nat}
     (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
-    TemplateLanguageCoverageOnIdentityRange lo hi := by
-  intro r hlt mask hlo hhi hM hgood
-  rcases bridge hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
-  exact TemplateLanguageMember.to_templateLanguageWitness
-    (TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows)
+    TemplateLanguageCoverageOnIdentityRange lo hi :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (TemplateLanguageMemberBridgeOnRange.of_sourceRowFactsBridge bridge)
 
 /-- Erase an existing source/row predicate bridge to template-language coverage. -/
 theorem TemplateLanguageCoverageOnIdentityRange.of_sourceRowPredicateBridge

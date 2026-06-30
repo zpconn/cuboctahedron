@@ -28837,3 +28837,39 @@ surface that the production route should use.  This removes one more catalog
 dependency from the theorem path, but it does not solve the central remaining
 problem: proving `TemplateLanguageMemberBridgeOnRange` for large compressed
 state/algebraic languages without enumerating rank/mask cases.
+
+### Phase 6Z.6K.8AP.16DU.9EY checkpoint: compatibility bridges factor through member bridge
+
+Phase 6Z.6K.8AP.16DU.9EY updates `TemplateLanguage.lean` so the older
+source-row compatibility bridges also factor through the preferred member
+bridge:
+
+```lean
+theorem TemplateLanguageMemberBridgeOnRange.of_sourceRowFactsBridge
+    {lo hi : Nat}
+    (bridge : SourceRowFactsGoodBridgeOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi
+
+theorem TemplateLanguageMemberBridgeOnRange.of_sourceRowPredicateBridge
+    {lo hi : Nat}
+    (bridge : SourceRowPredicateGoodBridgeOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi
+```
+
+`TemplateLanguageCoverageOnIdentityRange.of_sourceRowFactsBridge` now erases
+via `TemplateLanguageMemberBridgeOnRange.to_coverage`.
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:01.59`, `max_rss_kb=3290296`.
+
+Decision: all compatibility routes now flow through the same theorem-shaped
+obligation that the production route should prove directly.  This makes the
+next frontier crisp: produce a compressed, Lean-checked
+`TemplateLanguageMemberBridgeOnRange` (or a state-language analogue that
+implies it) for meaningful ranges without finite selector catalogs.
