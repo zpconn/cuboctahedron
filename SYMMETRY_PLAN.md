@@ -42397,3 +42397,57 @@ rank-local successes (`903` and `955`) and a patched shared axis-template proof
 surface.  The next step is to generate one more singleton signature with a
 larger positive-mask set, then build a tiny aggregate root over the accepted
 singleton wrappers only.  The previous guard discipline remains mandatory.
+
+### Phase 6Z6K8AP16DU9IQ2 - third singleton signature accepted
+
+Rank `905` was selected as the next larger singleton signature:
+
+- rank: `905`;
+- GoodDirection survivor masks: `[18, 22, 24, 41, 54, 55, 57, 63]`;
+- candidate source-position groups: `5`;
+- bad-direction witnesses kept local to the signature: `56`.
+
+The positive precomputed-signature module built under the standard guard:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank905_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `62.16s` | `8037 MiB` | `39729 MiB` | `0` |
+
+A stable wrapper was added:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank905AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 905 906
+
+rank905AllGoodRankKilled :
+  AllTranslationGoodRankKilled 905
+```
+
+The wrapper target built under guard:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `2.50s` | `3712 MiB` | `46116 MiB` | `0` |
+
+Decision: accepted.  The rank-local precomputed-signature route now covers
+three singleton signatures (`903`, `905`, `955`) with stable aggregate-facing
+semantic wrappers.  The next step should build a tiny aggregate root over these
+three wrappers, then proceed to the next singleton (`911`, 11 survivor masks)
+only if the aggregate root remains memory-light.
