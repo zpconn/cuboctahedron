@@ -30386,3 +30386,51 @@ theorem
 not the global strategy, but it exercises the missing first half of hcover in a
 compact shape before generalizing to denominator-cube or state-language
 families.
+
+### Phase 6Z.6K.8AP.16DU.9GD checkpoint: rank-0 compact hcover adapter
+
+Phase 6Z.6K.8AP.16DU.9GD adds
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SemanticRank0CompactHcoverSmoke.lean`.
+This is a small theorem adapter, not a new heavy generated cover.
+
+Observation: the repo already contains the compact Walsh impact-subcube cover
+for rank `0`:
+
+```lean
+ImpactSubcubeWalshSymbolicCompactDenomDU9PRank0BatchSmoke
+  .rank0_goodMaskMember_of_GoodDirection
+```
+
+That theorem proves the missing first half of hcover for rank `0` through
+existing compact impact-subcube denominator obstructions.  The new adapter
+bridges its `generatedGoodMaskMember` disjunction to the
+`Rank0SurvivorMask` inductive used by the survivor-only descriptor smoke, then
+closes the no-premise coverage theorems:
+
+```lean
+rank0SurvivorMask_of_goodDirection
+rank0DescriptorGoodCoverage_viaCompactWalsh
+rank0AllGoodCoverage_viaCompactWalsh
+```
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 300s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SemanticRank0CompactHcoverSmoke.lean
+```
+
+Result: passed in `elapsed=0:03.25`, `max_rss_kb=3264484`.
+
+Decision: accepted.  The bounded rank-0 hcover smoke now proves both halves:
+
+1. compact Walsh impact-subcubes prove
+   `GoodDirectionAtRank rank0 mask -> Rank0SurvivorMask mask`;
+2. the survivor-only descriptor smoke maps every survivor mask to a reusable
+   source-index/state descriptor and then to
+   `AllTranslationGoodCoverageOnRange 0 1`.
+
+The next step should generalize this route beyond the singleton rank by
+building a small rank-window adapter over existing compact Walsh cover roots
+for ranks that already have them (`0`, `2`, `3` in the DU.9P fixture), then
+profile which additional ranks require compact cover generation.
