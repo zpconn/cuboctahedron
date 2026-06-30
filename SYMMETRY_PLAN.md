@@ -31780,3 +31780,49 @@ is the highest-RSS compact cover root so far and leaves only about `52 MiB` of
 headroom under the `4500 MiB` cap.  Continue this batch only with serial cover
 roots; do not run multiple cover roots concurrently, and do not broaden to a
 package build.
+
+### Phase 6Z.6K.8AP.16DU.9HH checkpoint: DU9HF cover-all guard stopped before OOM risk
+
+After the DU9HF largest-cover probe, a serial all-cover guard was started for
+the six ranks `65`, `72`, `78`, `80`, `84`, and `86`:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hf_serial_guard_covers_all.json \
+  --out-dir /tmp/ap16dj_du9hf_serial_guarded/covers_all \
+  --target-kind cover \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+The run was manually interrupted during rank `84` after an OOM warning.  A
+host process audit immediately afterwards showed no active Lean/Lake/project
+Python job and about `46.5 GiB` available memory, so the interruption prevented
+a machine-risking event rather than recovering from a crash.
+
+Completed targets recorded in
+`scripts/generated/phase6z6k8ap16du9hf_serial_guard_covers_all.json`:
+
+| Rank | Exit | Elapsed | Peak tree RSS | Min available |
+| ---: | ---: | ---: | ---: | ---: |
+| `65` | `0` | `91.68s` | `4401.2 MiB` | `45583.0 MiB` |
+| `72` | `0` | `1.00s` cached replay | `799.1 MiB` | `46414.2 MiB` |
+| `78` | `0` | `93.14s` | `4440.1 MiB` | `45540.6 MiB` |
+| `80` | `0` | `93.63s` | `4367.1 MiB` | `45613.8 MiB` |
+
+Rank `72` had already passed the explicit stress probe in `96.73s` with
+`4447.4 MiB` peak tree RSS and `45510.1 MiB` minimum available memory.
+
+Decision: stop treating DU9HF's current cover-root shape as a comfortable
+production topology.  It is technically below the `4500 MiB` process-tree guard,
+but several targets sit in the `4.36-4.45 GiB` band and the largest probe left
+only about `52 MiB` of process-cap headroom.  Do not continue the interrupted
+six-rank cover-all run unchanged.  The next proof-producing move must reduce
+the cover-root memory envelope, for example by splitting each rank cover into
+smaller semantic subcover roots and aggregating only theorem-valued facts, or
+by first proving that a lower per-target cap can check a representative smaller
+subcover.  Keep Python profiling parallel when memory-light, but keep Lean
+cover checks serial and guarded.
