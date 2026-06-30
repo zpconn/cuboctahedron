@@ -34980,3 +34980,61 @@ targets comfortably below the cap, and the peak returned to a trace-step
 component target.  The remaining DU9IH ranks are `377` and `371`; continue with
 rank `377` next under the same serial guard and split the larger selected
 impacts before checking.
+
+### Phase 6Z6K8AP16DU9IH - rank 377 split cover accepted
+
+Rank `377` was emitted after rank `357`.  The plan entry uses selected
+word-impacts `[0, 1, 3, 5, 6, 8, 9]`; this run split selected impacts `8` and
+`9` into normal-coordinate component theorem files:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 377 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank377_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 8 \
+  --component-selected-impact 9
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `16`;
+- guarded targets: `53`;
+- selected-impact normal component targets:
+  `rank377_impact8_x/y/z` and `rank377_impact9_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank377_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank377_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank377_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `53`;
+- maximum process-tree RSS: `4175.85 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IHSplitCoverRank377Smoke`;
+- minimum observed available memory: `45890.61 MiB`;
+- total guarded elapsed time across targets: `182.75s`;
+- killed targets: none.
+
+Decision: rank `377` is accepted.  The root split-cover target was the peak and
+is close enough to the `4200 MiB` cap that the final DU9IH rank should keep the
+strict serial guard, with selected-impact component splitting before checking.
+The only remaining DU9IH rank is `371`; continue with rank `371` next.
