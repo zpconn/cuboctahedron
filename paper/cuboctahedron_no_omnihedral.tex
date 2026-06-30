@@ -588,6 +588,130 @@ cases already eliminated by the positive-denominator theorem.  The resource
 bounds acted as a kind of experimental pressure, turning proof search from a
 large enumeration of facts into a search for reusable mathematical language.
 
+\subsection*{Experimental theorem surfaces}
+
+There is consequently a useful distinction between two kinds of theorems in
+the formal proof artifact.  The first kind consists of the structural
+soundness results: the unfolding criterion, the rank enumeration, the Farkas
+certificate theorem, the positive-denominator condition, and the Walsh
+subcube obstruction principle.  These are ordinary mathematical lemmas with
+short conceptual proofs.
+
+The second kind consists of generated or semi-generated theorem surfaces whose
+statements record patterns extracted from the exact formal computation.  Such
+theorems are still fully checked by Lean, but their purpose is different.
+They need not provide a compact human explanation for why a particular list of
+subcubes, row sources, or family descriptors is the right list.  Rather, they
+assert that the extracted list is sound for its stated range or family, and
+the proof is an exact replay of the relevant arithmetic, symbolic equalities,
+and certificate checks.
+
+Examples include the following.
+\begin{enumerate}[leftmargin=2em]
+\item Generated Walsh-subcube cover theorems: for a fixed translation rank,
+  a collection of Boolean subcubes and quadratic Walsh polynomials proves that
+  all masks outside a specified good-mask set violate a positive-denominator
+  condition.  The general Walsh bound theorem is conceptual; the particular
+  subcubes, coefficients, and covering list are extracted data.
+\item Source-index/state classifier theorems: a generated family descriptor
+  may say that two named geometric constraint sources, together with one
+  row-template relation, produce a two-source Farkas contradiction for every
+  rank and mask matching that descriptor.  The soundness of the row relation
+  is conceptual; the catalog of descriptors is an experimental compression of
+  many individual cases.
+\item Non-identity parametric-family theorems: intervals of pair-word ranks
+  may be covered by certificate-producing functions with a common failure
+  type, such as a forced direction or forced-axis obstruction.  These theorems
+  are certified summaries of formal case data, not a hand classification of
+  all geometric mechanisms in the non-identity branch.
+\end{enumerate}
+
+The Walsh good-mask sets also expose a small but definite structural pattern.
+This pattern is not needed for the proof of nonexistence, but it is a useful
+example of an experimental theorem surface that can be stated without
+appealing to numerical approximation.
+
+\begin{theorem}[Good-mask profile in the compact Walsh cover family]
+Let
+\[
+\begin{aligned}
+\mathcal R=\{&
+0,2,3,5,9,11,17,24,27,29,30,32,40,42,44,45,47,49,\\
+&57,59,60,62,65,72,78,80,84,86,6000480,6000625,\\
+&6000662,6000720,6000745\}.
+\end{aligned}
+\]
+For each \(r\in\mathcal R\), let \(G_r\subset\{0,\ldots,63\}\) be the
+good-mask set appearing in the generated compact-Walsh cover theorem for rank
+\(r\).  Write the six mask bits in the order
+\[
+  y,\ z,\ d_{111},\ d_{11\bar{1}},\ d_{1\bar{1}1},\ d_{\bar{1}11},
+\]
+where the first two bits correspond to the two noninitial square-pair signs
+and the last four bits correspond to the triangular opposite-face pairs.
+Then:
+\begin{enumerate}[leftmargin=2em]
+\item \(6\le |G_r|\le 16\) for every \(r\in\mathcal R\), and
+  \[
+    \sum_{r\in\mathcal R}|G_r|=379.
+  \]
+\item Among these \(379\) good-mask occurrences, the numbers of true bits in
+  the six positions above are respectively
+  \[
+    180,\ 180,\ 257,\ 261,\ 263,\ 118.
+  \]
+\item If \(m\in G_r\) and the bit \(d_{\bar{1}11}\) of \(m\) is true, then at
+  least two of the three bits
+  \[
+    d_{111},\quad d_{11\bar{1}},\quad d_{1\bar{1}1}
+  \]
+  are true.
+\item The all-true mask lies in \(G_r\) for every \(r\in\mathcal R\) except
+  \(r=6000480\).  The subcube
+  \[
+    d_{111}=d_{11\bar{1}}=d_{1\bar{1}1}=\text{true},
+    \qquad d_{\bar{1}11}=\text{false}
+  \]
+  intersects \(G_r\) for \(31\) of the \(33\) ranks in \(\mathcal R\), and is
+  contained in \(G_r\) for \(10\) of them.
+\end{enumerate}
+Moreover, for each \(r\in\mathcal R\), the generated compact-Walsh theorem
+proves that every sign mask at rank \(r\) satisfying the positive-denominator
+condition lies in \(G_r\).
+\end{theorem}
+
+\begin{proof}
+For each listed rank, the generated Lean module defines \(G_r\) by an explicit
+finite disjunction of mask values.  The cardinality, bit-count, all-true-mask,
+and subcube-intersection assertions are obtained by decomposing these integers
+in base two using the displayed bit order.  The triangular support implication
+is the same finite check: none of the listed masks has \(d_{\bar{1}11}\) true
+while fewer than two of \(d_{111},d_{11\bar{1}},d_{1\bar{1}1}\) are true.
+
+The final sentence is the semantic part of the generated cover theorem.  Each
+rank-local compact-Walsh module proves that a mask satisfying
+\(\texttt{GoodDirectionAtRank}\) belongs to its displayed \(G_r\); equivalently,
+every mask outside \(G_r\) is eliminated by one of the certified
+Walsh-subcube positive-denominator obstructions.
+\end{proof}
+
+Thus, in this cover family, the fourth triangular pair
+\(d_{\bar{1}11}\) appears as an exceptional sign: it survives only when
+supported by at least two of the other three triangular signs.  The two square
+signs are nearly balanced across the same data, while three of the triangular
+bits are strongly biased toward truth and \(d_{\bar{1}11}\) is strongly biased
+toward falsity.  This does not constitute a classification of all possible
+translation ranks, but it is a precise extracted theorem about the
+certified compact-Walsh cover surface currently used in the proof artifact.
+
+This distinction does not weaken the proof.  In the final argument, only the
+checked statements and their proved soundness matter.  It does, however,
+describe how some of the mathematical structure was discovered.  The generated
+experimental surfaces function like certified observations: they expose
+regularities that were not initially visible as human-readable lemmas, and
+some of those observations can later be promoted into cleaner reusable
+theorem schemas.
+
 \begin{thebibliography}{9}
 
 \bibitem{tabachnikov}
