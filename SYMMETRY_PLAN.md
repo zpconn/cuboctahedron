@@ -42323,3 +42323,77 @@ emitter over bounded windows/signature classes while preserving this wrapper
 pattern: heavy local proof in the leaf, tiny exported semantic theorem in the
 aggregate-facing module, and every new target built under the memory guard
 before it is imported by a broader root.
+
+### Phase 6Z6K8AP16DU9IQ2 - second singleton signature accepted
+
+The bounded profile
+`phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json` contains seven
+singleton survivor-signature classes.  Rank `955` was selected as the second
+low-risk generalization target because it matches rank `903`'s positive-mask
+size:
+
+- rank: `955`;
+- GoodDirection survivor masks: `[16, 18, 22, 54, 56, 57, 63]`;
+- candidate source-position groups: `5`;
+- bad-direction witnesses kept local to the signature: `57`.
+
+The first rank-`955` build failed without OOM on an `axis_a_only` generated
+row-template proof.  The weighted-`c` inequality itself was true, but the
+generated proof unfolded to large `translationConstraintSourceLine` terms and
+did not rewrite through the precomputed line facts.  The shared row-relation
+classifier emitter was patched:
+
+```text
+scripts/generate_translation_row_relation_classifier.py
+```
+
+The `axis_a_only` weighted-`c` proof now unfolds only
+`SupportPair.multipliersAt`/`TwoSourceFarkasSupport.multipliers`, changes the
+goal back to `FirstLineAt`/`SecondLineAt`, and then rewrites with the local
+`hfirst`/`hsecond` facts.  This keeps the proof at the semantic row level
+instead of forcing Lean to reduce raw source-line expressions.
+
+After regeneration, the focused positive-signature target built:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank955_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `63.17s` | `8156 MiB` | `39601 MiB` | `0` |
+
+A stable wrapper was then added:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank955AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 955 956
+
+rank955AllGoodRankKilled :
+  AllTranslationGoodRankKilled 955
+```
+
+The wrapper target built under guard:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `2.50s` | `3712 MiB` | `46114 MiB` | `0` |
+
+Decision: accepted.  The precomputed-signature route now has two independent
+rank-local successes (`903` and `955`) and a patched shared axis-template proof
+surface.  The next step is to generate one more singleton signature with a
+larger positive-mask set, then build a tiny aggregate root over the accepted
+singleton wrappers only.  The previous guard discipline remains mandatory.
