@@ -30191,3 +30191,42 @@ Result: passed in `elapsed=0:04.30`, `max_rss_kb=3259996`.
 Decision: accepted.  This does not change the remaining hard obligation, but
 it validates that generated singleton hcover smoke can route through the
 shared Prop-level singleton combinator.
+
+### Phase 6Z.6K.8AP.16DU.9FY checkpoint: hcover route frontier summarized
+
+Phase 6Z.6K.8AP.16DU.9FY adds
+`scripts/summarize_hcover_route_frontier.py`, a proof-neutral planning audit
+that reads the recent bounded reports and records the current hcover frontier
+in one place.
+
+Run command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/summarize_hcover_route_frontier.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=13440`.
+
+Summary:
+
+| Metric | Value |
+| --- | ---: |
+| Semantic contract present | `True` |
+| Source-language validation failures | `0` |
+| Source-language obligations | `68` |
+| Source-index/state families sampled | `125` |
+| Exact mask-to-candidate maps | `757` |
+| Positive-survivor signatures | `757` |
+| Template/source-skeleton/row quotient groups | `138` |
+| Template/row quotient groups | `25` |
+| Normal-form template-integer groups | `583` |
+
+Decision: accepted as the current route frontier.  The next generated hcover
+smoke should target a domain keyed above exact rank/mask maps but below
+template-only facts.  It should reuse source-position obligations and row
+normal forms, then prove candidate-union membership through
+`TemplateLanguageDomainCoversIdentityRange.single`/`concat`.  Do not route the
+production proof through exact mask-to-candidate maps, exact candidate sets
+without further quotienting, template-only quotients that hide multiple source
+obligations, or rank/mask singleton tables.
