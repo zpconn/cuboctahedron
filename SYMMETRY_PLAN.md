@@ -42874,3 +42874,94 @@ adding isolated singleton ranks by hand; it is to turn this rank-local namespace
 and sparse-root pattern into a small emitter that can generate bounded batches
 of singleton-signature modules plus an aggregate root, while preserving the
 same guarded build order.
+
+### Phase 6Z6K8AP16DU9IQ8 - singleton batch/root emitter accepted
+
+The bounded DU9IQ singleton wrapper/root pattern was factored into a
+reproducible emitter:
+
+```text
+scripts/emit_du9iq_singleton_batch_root.py
+```
+
+The emitter reads a positive-survivor membership profile, selects only
+`rank_count = 1` signatures, and writes:
+
+- rank-local closed semantic wrappers;
+- a sparse aggregate root over the selected singleton ranks;
+- a JSON report;
+- a Markdown build-order report with generation commands and guarded build
+  commands.
+
+It intentionally does **not** run broad builds and does **not** generate or
+check the heavy positive precomputed-signature leaves itself.  Heavy leaves
+remain a separate, serial guarded step.
+
+For the `[896,960)` DU9IQ profile, the emitter selected the seven already
+accepted singleton ranks:
+
+```text
+[896, 897, 899, 903, 905, 911, 955]
+```
+
+and regenerated:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+with:
+
+```lean
+acceptedSingletonRanks : List Nat := [896, 897, 899, 903, 905, 911, 955]
+
+acceptedSingletonAllGoodCoverage :
+  CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks
+```
+
+The initial root-first rebuild after regenerating all wrappers was guard-killed
+under the `18 GiB` cap:
+
+| target | elapsed | peak tree RSS | min available | exit | reason |
+| --- | ---: | ---: | ---: | ---: | --- |
+| root first, wrappers invalidated | `7.51s` | `19415 MiB` | `44465 MiB` | `-15` | exceeded `18 GiB` guard |
+
+This was not an OOM event, but it confirms the standing rule: do not compile a
+root that imports multiple invalidated generated wrappers/leaves.  Warm the
+wrappers first.
+
+The regenerated wrappers were then built one at a time or in safe pairs under
+the `18 GiB` cap:
+
+| rank | elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: | ---: |
+| `896` | `2.50s` | `3968 MiB` | `45491 MiB` | `0` |
+| `897` | `2.50s` | `3990 MiB` | `44976 MiB` | `0` |
+| `899` | `2.50s` | `3997 MiB` | `44972 MiB` | `0` |
+| `903` | `2.50s` | `3989 MiB` | `44980 MiB` | `0` |
+| `905` | `2.50s` | `3994 MiB` | `44968 MiB` | `0` |
+| `911` | `2.50s` | `3994 MiB` | `45063 MiB` | `0` |
+| `955` | `2.50s` | `3994 MiB` | `45162 MiB` | `0` |
+
+After those wrapper `.olean`s were warm, the sparse root passed again under the
+strict `12 GiB` cap:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_singleton_batch_root_root_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `2.50s` | `3768 MiB` | `45578 MiB` | `0` |
+
+Decision: accepted as bounded emitter infrastructure.  Future singleton
+batches should be generated through this script, but the proof strategy still
+needs a larger-family membership route; continuing to scale singleton
+signatures is diagnostic/support work, not the production proof path.

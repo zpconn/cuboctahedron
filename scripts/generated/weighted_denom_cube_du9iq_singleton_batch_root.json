@@ -1,0 +1,210 @@
+{
+  "build_discipline": [
+    "Do not invoke a broad lake build from this emitter.",
+    "Generate missing positive leaves first.",
+    "Build invalidated positive leaves serially under run_memory_guarded.py.",
+    "Build the sparse root only after heavy leaves are warm."
+  ],
+  "phase": "Phase 6Z6K8AP16DU9IQ singleton batch root emitter",
+  "positive_generation_commands": [
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 896 --mask 9 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke.lean",
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 897 --mask 8 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank897PositivePrecomputedSignatureSmoke.lean",
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 899 --mask 8 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank899PositivePrecomputedSignatureSmoke.lean",
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 903 --mask 18 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke.lean",
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 905 --mask 18 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke.lean",
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 911 --mask 9 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank911PositivePrecomputedSignatureSmoke.lean",
+    "python3 scripts/generate_ap16t_precomputed_signature_smoke.py --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json --rank 955 --mask 16 --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank955PositivePrecomputedSignatureSmoke.lean"
+  ],
+  "positive_guarded_build_commands": [
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank896_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke",
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank897_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositivePrecomputedSignatureSmoke",
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank899_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositivePrecomputedSignatureSmoke",
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank903_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke",
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank905_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke",
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank911_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank911PositivePrecomputedSignatureSmoke",
+    "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_rank955_positive_precomputed_signature_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955PositivePrecomputedSignatureSmoke"
+  ],
+  "profile": "scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json",
+  "ranks": [
+    896,
+    897,
+    899,
+    903,
+    905,
+    911,
+    955
+  ],
+  "root_guarded_build_command": "env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_singleton_batch_root_root_guard.json -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke",
+  "root_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke",
+  "root_output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke.lean",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false,
+  "wrappers": [
+    {
+      "candidate_group_count": 8,
+      "good_mask_count": 13,
+      "good_masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank896ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke",
+      "rank": 896,
+      "signature_key": "99b0f198d1cfaed7cda5d410776dee771cca12407f72e28f54d57952f704f50c"
+    },
+    {
+      "candidate_group_count": 7,
+      "good_mask_count": 13,
+      "good_masks": [
+        8,
+        13,
+        16,
+        18,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank897ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank897PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositivePrecomputedSignatureSmoke",
+      "rank": 897,
+      "signature_key": "7fd4e6b38b35f52d36be337feb9c4352cd9fdd1c10388cac90ccf2b8d0ab4426"
+    },
+    {
+      "candidate_group_count": 10,
+      "good_mask_count": 16,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank899ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank899PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositivePrecomputedSignatureSmoke",
+      "rank": 899,
+      "signature_key": "93cd8703d5590568fc599db05dc448c04aca95821e43f31a749d3a9021e53e2a"
+    },
+    {
+      "candidate_group_count": 5,
+      "good_mask_count": 7,
+      "good_masks": [
+        18,
+        22,
+        24,
+        25,
+        54,
+        55,
+        63
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke",
+      "rank": 903,
+      "signature_key": "3f2c0e96e6aeaaaf02d7de2ad710b911fefcb1da3050b20a810f0cbbf4b8d56b"
+    },
+    {
+      "candidate_group_count": 5,
+      "good_mask_count": 8,
+      "good_masks": [
+        18,
+        22,
+        24,
+        41,
+        54,
+        55,
+        57,
+        63
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank905ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke",
+      "rank": 905,
+      "signature_key": "c8096c334f7bf930f5d03ee8e55c5d938408e371bd16a94eb3afd75d3db0335d"
+    },
+    {
+      "candidate_group_count": 6,
+      "good_mask_count": 11,
+      "good_masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        45,
+        50,
+        54,
+        55,
+        57,
+        63
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank911ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank911ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank911PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank911PositivePrecomputedSignatureSmoke",
+      "rank": 911,
+      "signature_key": "18f4f1c8f89c423fed2a130cf53974f0d559c590a88520f47b10957337333bfd"
+    },
+    {
+      "candidate_group_count": 5,
+      "good_mask_count": 7,
+      "good_masks": [
+        16,
+        18,
+        22,
+        54,
+        56,
+        57,
+        63
+      ],
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955ClosedSemanticSmoke",
+      "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank955ClosedSemanticSmoke.lean",
+      "positive_leaf": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank955PositivePrecomputedSignatureSmoke.lean",
+      "positive_leaf_exists": true,
+      "positive_leaf_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955PositivePrecomputedSignatureSmoke",
+      "rank": 955,
+      "signature_key": "66772308fb7a6db2c0673b4a989dd1c47ca85466a7b12935546c3faac19634da"
+    }
+  ]
+}

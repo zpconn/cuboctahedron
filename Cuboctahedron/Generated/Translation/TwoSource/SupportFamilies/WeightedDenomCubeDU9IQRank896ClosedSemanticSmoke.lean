@@ -4,9 +4,11 @@ import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDen
 Stable wrapper for the rank-896 DU9IQ closed semantic coverage smoke.
 
 The imported precomputed-signature module carries the local source-position
-facts for the thirteen GoodDirection survivor masks and local bad-direction
-witnesses for the remaining masks.  This file exposes only the small semantic
-coverage theorem needed by aggregate roots.
+facts for the 13 GoodDirection survivor masks and local
+bad-direction witnesses for the remaining masks.  This file exposes only
+the small semantic coverage theorem needed by aggregate roots.
+
+Candidate source-position groups: `8`.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896ClosedSemanticSmoke

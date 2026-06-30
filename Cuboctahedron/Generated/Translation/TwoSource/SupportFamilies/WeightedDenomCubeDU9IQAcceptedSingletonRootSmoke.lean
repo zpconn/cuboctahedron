@@ -8,11 +8,11 @@ import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDen
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955ClosedSemanticSmoke
 
 /-!
-Sparse root for the accepted DU9IQ singleton closed-semantic smokes.
+Sparse root for DU9IQ singleton closed-semantic smokes.
 
-The accepted singleton ranks are intentionally collected through their small
-closed-semantic wrappers.  This file does not import the generator internals
-directly and exports only a Prop-level sparse coverage theorem.
+The selected singleton ranks are intentionally collected through their
+small closed-semantic wrappers.  This file does not import generator
+internals directly and exports only a Prop-level sparse coverage theorem.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
@@ -53,14 +53,14 @@ theorem rank955AllGoodRankKilled :
 
 theorem acceptedSingletonAllGoodCoverage :
     CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks :=
-  CoversRanks.cons rank896AllGoodRankKilled
-    (CoversRanks.cons rank897AllGoodRankKilled
+  (CoversRanks.cons rank896AllGoodRankKilled
+      (CoversRanks.cons rank897AllGoodRankKilled
       (CoversRanks.cons rank899AllGoodRankKilled
-        (CoversRanks.cons rank903AllGoodRankKilled
-          (CoversRanks.cons rank905AllGoodRankKilled
-            (CoversRanks.cons rank911AllGoodRankKilled
-              (CoversRanks.cons rank955AllGoodRankKilled
-                (CoversRanks.nil AllTranslationGoodRankKilled)))))))
+      (CoversRanks.cons rank903AllGoodRankKilled
+      (CoversRanks.cons rank905AllGoodRankKilled
+      (CoversRanks.cons rank911AllGoodRankKilled
+      (CoversRanks.cons rank955AllGoodRankKilled
+      (CoversRanks.nil AllTranslationGoodRankKilled))))))))
 
 theorem weightedDenomCubeDU9IQAcceptedSingletonRootSmoke_builds : True := by
   trivial
