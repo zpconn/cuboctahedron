@@ -31076,3 +31076,52 @@ diagnostic/smoke batch for targeted ranks, not final generated coverage.  Next
 step: query the next missing compact-hcover frontier after both guarded batches
 (`DU9GH` and `DU9GO`) are treated as covered by diagnostics, then profile the
 next small rank batch with low-memory Python parallelism.
+
+### Phase 6Z.6K.8AP.16DU.9GS checkpoint: next missing hcover ranks after DU9GH and DU9GO
+
+Phase 6Z.6K.8AP.16DU.9GS updates
+`scripts/profile_next_compact_hcover_ranks.py` so
+`--covered-batch-generation-report` and `--covered-batch-guard-summary` may be
+passed multiple times.  The diagnostic now unions all guarded batch cover ranks
+instead of excluding only one batch.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 0 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 6 \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9gh_serial_guard_batch_root.json \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9go_serial_guard_batch_root.json \
+  --json scripts/generated/phase6z6k8ap16du9gs_next_compact_hcover_ranks.json \
+  --md scripts/generated/phase6z6k8ap16du9gs_next_compact_hcover_ranks.md
+```
+
+Result: passed in `elapsed=0:00.98`, `max_rss_kb=25296`, using four Python
+workers.
+
+Diagnostic-covered ranks from guarded batches:
+
+```text
+5, 9, 11, 17, 24, 27, 29, 30, 32, 40, 42, 44
+```
+
+Recommended next target ranks:
+
+| Rank | Good masks | Not-GoodDirection masks |
+| ---: | ---: | ---: |
+| `45` | `13` | `51` |
+| `47` | `16` | `48` |
+| `49` | `7` | `57` |
+| `57` | `11` | `53` |
+| `59` | `13` | `51` |
+| `60` | `11` | `53` |
+
+Decision: accepted.  The next compact hcover batch should target ranks
+`45`, `47`, `49`, `57`, `59`, and `60`.  Continue with low-memory parallel
+Walsh subcube profiling first; do not emit Lean for this batch until each rank
+has `uncovered = 0`.

@@ -147,18 +147,30 @@ def guarded_batch_covered_ranks(
     return ranks
 
 
+def guarded_batches_covered_ranks(
+    generation_reports: list[Path] | None,
+    guard_summaries: list[Path] | None,
+) -> set[int]:
+    generation_reports = generation_reports or []
+    guard_summaries = guard_summaries or []
+    ranks: set[int] = set()
+    for generation_report, guard_summary in zip(generation_reports, guard_summaries):
+        ranks.update(guarded_batch_covered_ranks(generation_report, guard_summary))
+    return ranks
+
+
 def profile(
     *,
     rank_start: int,
     limit: int,
     jobs: int,
     target_missing: int,
-    covered_batch_generation_report: Path | None = None,
-    covered_batch_guard_summary: Path | None = None,
+    covered_batch_generation_reports: list[Path] | None = None,
+    covered_batch_guard_summaries: list[Path] | None = None,
 ) -> dict[str, Any]:
-    batch_covered_ranks = guarded_batch_covered_ranks(
-        covered_batch_generation_report,
-        covered_batch_guard_summary,
+    batch_covered_ranks = guarded_batches_covered_ranks(
+        covered_batch_generation_reports,
+        covered_batch_guard_summaries,
     )
     if jobs <= 1:
         rows = scan_window((rank_start, limit, batch_covered_ranks))
@@ -210,8 +222,8 @@ def profile(
         "uncovered_masks": sum(int(row.get("uncovered_masks", 0)) for row in identity_rows),
         "non_two_source_masks": sum(int(row.get("non_two_source_masks", 0)) for row in identity_rows),
         "status_counts": dict(sorted(status_counts.items())),
-        "covered_batch_generation_report": str(covered_batch_generation_report) if covered_batch_generation_report else None,
-        "covered_batch_guard_summary": str(covered_batch_guard_summary) if covered_batch_guard_summary else None,
+        "covered_batch_generation_reports": [str(p) for p in (covered_batch_generation_reports or [])],
+        "covered_batch_guard_summaries": [str(p) for p in (covered_batch_guard_summaries or [])],
         "guarded_batch_covered_ranks": sorted(batch_covered_ranks),
         "identity_rows": identity_rows,
         "missing_compact_cover_rows": missing_rows,
@@ -289,9 +301,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--target-missing", type=int, default=4)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
-    parser.add_argument("--covered-batch-generation-report", type=Path, default=None)
-    parser.add_argument("--covered-batch-guard-summary", type=Path, default=None)
-    return parser.parse_args()
+    parser.add_argument("--covered-batch-generation-report", type=Path, action="append", default=[])
+    parser.add_argument("--covered-batch-guard-summary", type=Path, action="append", default=[])
+    args = parser.parse_args()
+    if len(args.covered_batch_generation_report) != len(args.covered_batch_guard_summary):
+        parser.error(
+            "--covered-batch-generation-report and --covered-batch-guard-summary "
+            "must be provided the same number of times"
+        )
+    return args
 
 
 def main() -> None:
@@ -301,8 +319,8 @@ def main() -> None:
         limit=args.limit,
         jobs=args.jobs,
         target_missing=args.target_missing,
-        covered_batch_generation_report=args.covered_batch_generation_report,
-        covered_batch_guard_summary=args.covered_batch_guard_summary,
+        covered_batch_generation_reports=args.covered_batch_generation_report,
+        covered_batch_guard_summaries=args.covered_batch_guard_summary,
     )
     args.json.parent.mkdir(parents=True, exist_ok=True)
     args.json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
