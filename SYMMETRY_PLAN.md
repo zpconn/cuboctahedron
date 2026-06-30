@@ -36711,3 +36711,69 @@ Decision: rank `605` is accepted.  Together with rank `600`, the low-candidate
 close to the cap for concurrent Lean builds.  Continue in increasing
 candidate-subcube risk: rank `609`, then `582`, `585`, and `587`, unless a rank
 requires additional splitting.
+
+### Phase 6Z6K8AP16DU9IL - rank 609 split cover interrupted before acceptance
+
+Rank `609` was emitted as the next 16-subcube DU9IL target:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_source.json \
+  --rank 609 \
+  --tag DU9IL \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IL' \
+  --report scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 11
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 8, 11]`;
+- selected subcubes: `16`;
+- guarded targets: `56`;
+- selected-impact normal component targets:
+  - `rank609_impact6_x`, `rank609_impact6_y`, `rank609_impact6_z`;
+  - `rank609_impact8_x`, `rank609_impact8_y`, `rank609_impact8_z`;
+  - `rank609_impact11_x`, `rank609_impact11_y`, `rank609_impact11_z`.
+
+The initial guard command was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank609_guard_4200.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank609_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Partial guard summary before manual interruption:
+
+- status in JSON: `running`;
+- completed targets: `43 / 56`;
+- peak tree RSS before interruption: `4187.05 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank609SplitStep12XSmoke`;
+- peak kind: `trace_step_12_x`;
+- minimum available memory observed: `45835.76 MiB`;
+- summed completed-target elapsed time: `154.70s`;
+- killed targets: `0`;
+- last completed target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank609Subcube003Smoke`.
+
+Decision: rank `609` is **not accepted yet**.  The guard was stopped
+intentionally after the OOM warning rather than allowed to continue.  The
+completed targets show the same near-cap profile as ranks `600`, `603`, and
+`605`, but acceptance requires the remaining target indices `43` through `55`
+to pass under the guard.  Resume rank `609` using filtered one-target or
+small-slice guarded invocations with `--target-index`, still with
+`LEAN_NUM_THREADS=1`, `LAKE_JOBS=1`, and the `4200 MiB` RSS cap.  Do not raise
+the cap and do not run DU9IL Lean targets concurrently.
