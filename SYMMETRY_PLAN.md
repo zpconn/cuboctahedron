@@ -35959,3 +35959,63 @@ Guard summary:
 Decision: rank `449` is accepted.  The DU9IJ batch now has accepted split
 rank roots for `449`, `498`, and `503`; continue serially with rank `501`
 before assembling the shallow DU9IJ split batch root.
+
+### Phase 6Z6K8AP16DU9IJ - rank 501 split cover accepted
+
+The fourth and final DU9IJ proof-producing rank used the largest validated
+cover in the prepared batch:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ij_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ij_compact_hcover_batch_source.json \
+  --rank 501 \
+  --tag DU9IJ \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IJ' \
+  --report scripts/generated/phase6z6k8ap16du9ij_split_cover_rank501_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 11
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 11]`;
+- selected subcubes: `18`;
+- guarded targets: `58`;
+- selected-impact normal component targets:
+  - `rank501_impact6_x`, `rank501_impact6_y`, `rank501_impact6_z`;
+  - `rank501_impact7_x`, `rank501_impact7_y`, `rank501_impact7_z`;
+  - `rank501_impact11_x`, `rank501_impact11_y`, `rank501_impact11_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ij_split_cover_rank501_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ij_split_cover_rank501_guard_4200.json \
+  --out-dir /tmp/ap16du9ij_split_cover_rank501_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `58`;
+- peak tree RSS: `4157.13 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank501SplitStep11Smoke`;
+- minimum available memory observed: `45841.20 MiB`;
+- summed target elapsed time: `199.76s`;
+- killed targets: `0`.
+
+Decision: rank `501` is accepted.  All four DU9IJ proof-producing rank roots
+(`449`, `498`, `501`, and `503`) have now passed under the serial `4200 MiB`
+guard.  The next safe checkpoint is a shallow DU9IJ split batch smoke root
+that imports only these accepted rank roots.
