@@ -151,6 +151,31 @@
       "needle": "abbrev TemplateLanguageMemberBridgeOnDomain",
       "present": true
     },
+    "template_domain_coverage_concat_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageDomainCoversIdentityRange.concat",
+      "present": true
+    },
+    "template_domain_coverage_empty_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageDomainCoversIdentityRange.empty",
+      "present": true
+    },
+    "template_domain_coverage_mono_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageDomainCoversIdentityRange.mono",
+      "present": true
+    },
+    "template_domain_coverage_or_left_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageDomainCoversIdentityRange.or_left",
+      "present": true
+    },
+    "template_domain_coverage_or_right_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageDomainCoversIdentityRange.or_right",
+      "present": true
+    },
     "template_domain_to_range_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
       "needle": "theorem TemplateLanguageMemberBridgeOnDomain.to_range",

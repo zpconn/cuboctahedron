@@ -167,6 +167,26 @@ CHECKS = {
         "template_language",
         "theorem TemplateLanguageMemberBridgeOnDomain.to_range",
     ),
+    "template_domain_coverage_empty_exists": (
+        "template_language",
+        "theorem TemplateLanguageDomainCoversIdentityRange.empty",
+    ),
+    "template_domain_coverage_concat_exists": (
+        "template_language",
+        "theorem TemplateLanguageDomainCoversIdentityRange.concat",
+    ),
+    "template_domain_coverage_mono_exists": (
+        "template_language",
+        "theorem TemplateLanguageDomainCoversIdentityRange.mono",
+    ),
+    "template_domain_coverage_or_left_exists": (
+        "template_language",
+        "theorem TemplateLanguageDomainCoversIdentityRange.or_left",
+    ),
+    "template_domain_coverage_or_right_exists": (
+        "template_language",
+        "theorem TemplateLanguageDomainCoversIdentityRange.or_right",
+    ),
     "du3_domain_bridge_smoke_exists": (
         "source_index_state_classifier_du3",
         "theorem classifierSourceRowDomainMemberBridge",

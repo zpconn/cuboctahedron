@@ -176,6 +176,48 @@ abbrev TemplateLanguageDomainCoversIdentityRange
           GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
             domain rank mask
 
+theorem TemplateLanguageDomainCoversIdentityRange.empty
+    {domain : TemplateLanguageDomain} {lo hi : Nat}
+    (h : hi <= lo) :
+    TemplateLanguageDomainCoversIdentityRange domain lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact False.elim ((Nat.not_lt_of_ge h) (lt_of_le_of_lt hlo hhi))
+
+theorem TemplateLanguageDomainCoversIdentityRange.concat
+    {domain : TemplateLanguageDomain} {lo mid hi : Nat}
+    (left : TemplateLanguageDomainCoversIdentityRange domain lo mid)
+    (right : TemplateLanguageDomainCoversIdentityRange domain mid hi) :
+    TemplateLanguageDomainCoversIdentityRange domain lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  by_cases hmid : rank < mid
+  · exact left hlt hlo hmid hM hgood
+  · exact right hlt (Nat.le_of_not_lt hmid) hhi hM hgood
+
+theorem TemplateLanguageDomainCoversIdentityRange.mono
+    {domain superdomain : TemplateLanguageDomain} {lo hi : Nat}
+    (hsub : forall {rank : Nat} {mask : SignMask},
+      domain rank mask -> superdomain rank mask)
+    (hcover : TemplateLanguageDomainCoversIdentityRange domain lo hi) :
+    TemplateLanguageDomainCoversIdentityRange superdomain lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact hsub (hcover hlt hlo hhi hM hgood)
+
+theorem TemplateLanguageDomainCoversIdentityRange.or_left
+    {left right : TemplateLanguageDomain} {lo hi : Nat}
+    (hcover : TemplateLanguageDomainCoversIdentityRange left lo hi) :
+    TemplateLanguageDomainCoversIdentityRange
+      (fun rank mask => left rank mask \/ right rank mask) lo hi :=
+  TemplateLanguageDomainCoversIdentityRange.mono
+    (fun h => Or.inl h) hcover
+
+theorem TemplateLanguageDomainCoversIdentityRange.or_right
+    {left right : TemplateLanguageDomain} {lo hi : Nat}
+    (hcover : TemplateLanguageDomainCoversIdentityRange right lo hi) :
+    TemplateLanguageDomainCoversIdentityRange
+      (fun rank mask => left rank mask \/ right rank mask) lo hi :=
+  TemplateLanguageDomainCoversIdentityRange.mono
+    (fun h => Or.inr h) hcover
+
 /-- The domain proves template membership for every case it contains. -/
 abbrev TemplateLanguageMemberBridgeOnDomain
     (domain : TemplateLanguageDomain) : Prop :=

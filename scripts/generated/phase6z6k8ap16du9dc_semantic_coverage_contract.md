@@ -40,6 +40,11 @@ it is a contract for the next proof-producing generator.
 | `template_member_bridge_to_coverage_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
 | `template_domain_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
 | `template_domain_to_range_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_coverage_empty_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_coverage_concat_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_coverage_mono_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_coverage_or_left_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_coverage_or_right_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
 | `du3_domain_bridge_smoke_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean` |
 
 ## Conclusion

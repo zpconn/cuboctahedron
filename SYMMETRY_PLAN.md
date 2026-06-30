@@ -30024,3 +30024,44 @@ directly to `TemplateLanguageMemberBridgeOnRange`, and through
 obligation is still the same hard one: prove the candidate-union coverage
 premise from compressed signature/state/algebraic facts, without rank/mask
 tables.
+
+### Phase 6Z.6K.8AP.16DU.9FU checkpoint: domain coverage assembly combinators
+
+Phase 6Z.6K.8AP.16DU.9FU adds tiny Prop-level assembly combinators for
+`TemplateLanguageDomainCoversIdentityRange`:
+
+```lean
+theorem TemplateLanguageDomainCoversIdentityRange.empty
+theorem TemplateLanguageDomainCoversIdentityRange.concat
+theorem TemplateLanguageDomainCoversIdentityRange.mono
+theorem TemplateLanguageDomainCoversIdentityRange.or_left
+theorem TemplateLanguageDomainCoversIdentityRange.or_right
+```
+
+These are the coverage-side counterparts to the existing domain-member bridge
+combinators.  They do not compute over generated data; they only support
+future balanced generated roots that assemble semantic coverage domains across
+adjacent rank accountability windows or along semantic subset inclusions.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
+```
+
+Result: passed in `elapsed=0:04.69`, `max_rss_kb=3282580`.
+
+The semantic contract audit now guards these combinators:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12856`, with
+`all_required_surfaces_present=true`.
+
+Decision: accepted.  The coverage assembly API is now symmetric with the
+member-bridge API: generated roots can use empty/concat/mono/or assembly
+without requiring list/array folds or runtime search in Lean.
