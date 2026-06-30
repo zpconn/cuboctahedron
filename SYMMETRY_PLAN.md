@@ -36649,3 +36649,65 @@ Decision: rank `600` is accepted.  The first 16-subcube target did not exceed
 the `4200 MiB` guard, but it also did not create meaningful headroom.  Continue
 with one-rank-at-a-time guarded runs for the remaining 16-subcube DU9IL ranks.
 Do not parallelize these Lean builds; the root target can itself be the peak.
+
+### Phase 6Z6K8AP16DU9IL - rank 605 split cover accepted
+
+Rank `605` is the paired low-candidate 16-subcube target with the same selected
+impact set as rank `600`.  It was emitted with the same split topology:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_source.json \
+  --rank 605 \
+  --tag DU9IL \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IL' \
+  --report scripts/generated/phase6z6k8ap16du9il_split_cover_rank605_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 9 \
+  --component-selected-impact 11
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 9, 11]`;
+- selected subcubes: `16`;
+- guarded targets: `56`;
+- selected-impact normal component targets:
+  - `rank605_impact6_x`, `rank605_impact6_y`, `rank605_impact6_z`;
+  - `rank605_impact9_x`, `rank605_impact9_y`, `rank605_impact9_z`;
+  - `rank605_impact11_x`, `rank605_impact11_y`, `rank605_impact11_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank605_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank605_guard_4200.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank605_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `56`;
+- peak tree RSS: `4172.20 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank605SplitStep12XSmoke`;
+- peak kind: `trace_step_12_x`;
+- minimum available memory observed: `45866.87 MiB`;
+- summed target elapsed time: `196.27s`;
+- killed targets: `0`.
+
+Decision: rank `605` is accepted.  Together with rank `600`, the low-candidate
+16-subcube class is viable under the serial `4200 MiB` guard, but still too
+close to the cap for concurrent Lean builds.  Continue in increasing
+candidate-subcube risk: rank `609`, then `582`, `585`, and `587`, unless a rank
+requires additional splitting.
