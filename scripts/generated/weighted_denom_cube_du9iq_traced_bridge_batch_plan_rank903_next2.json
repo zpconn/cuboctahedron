@@ -1,0 +1,33 @@
+{
+  "bridge_task_count": 0,
+  "bridge_tasks": [],
+  "limit": 6,
+  "memory_policy": "serial Lean builds only; do not run this batch through a cold broad lake build",
+  "normal_indices": [],
+  "normal_task_count": 0,
+  "normal_tasks": [],
+  "normal_trace_stem": "WeightedDenomCubeDU9IQNormalTraceRank903",
+  "phase": "Phase 6Z6K8AP16DU9IQ traced direct bridge batch plan",
+  "profile": "scripts/generated/phase6z6k8ap16du9iq_weighted_reduced_quadratic_bounds_profile.json",
+  "rank": 903,
+  "selected_count": 0,
+  "skip_existing_bridges": true,
+  "skipped_existing_bridge_count": 12,
+  "skipped_existing_bridge_summaries": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false,
+  "vector_trace_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank903ChainSmoke"
+}
