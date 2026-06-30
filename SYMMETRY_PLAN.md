@@ -43791,3 +43791,46 @@ the dominant cost.  The next scaling question is not proof shape but batching:
 profile whether several rank/signature slices can share one source-row module
 or whether each slice must remain around this `~8 GiB`, `~1 minute` build
 profile.
+
+### Phase 6Z6K8AP16DU9IQ22 - weighted pipeline candidate profiler accepted
+
+A reusable profiler now joins the DU9IQ weighted-cube profile with the
+positive-survivor signature profile:
+
+```text
+scripts/profile_du9iq_weighted_pipeline_candidates.py
+```
+
+It reports, for each rank present in both inputs, whether the selected weighted
+cubes cover every mask outside the rank's positive-survivor mask set.  The
+profiler is not proof; it is a pre-generation gate that prevents attempting a
+Lean positive bridge for ranks whose weighted cubes are only partial.
+
+Run:
+
+```bash
+python3 scripts/profile_du9iq_weighted_pipeline_candidates.py \
+  --output scripts/generated/phase6z6k8ap16du9iq_weighted_pipeline_candidates_896_960.json
+```
+
+Result:
+
+```text
+complete ranks: 896, 897, 899, 903, 905, 911, 955
+incomplete ranks: none
+```
+
+The report also records the selected cube index for each non-survivor mask,
+mirroring the data needed by the generated positive bridge modules.
+
+Generated report:
+
+```text
+scripts/generated/phase6z6k8ap16du9iq_weighted_pipeline_candidates_896_960.json
+```
+
+Decision: accepted.  The bounded `896-960` sample has seven ranks ready for the
+full generated weighted-cover/source-row pipeline.  This gives a concrete next
+batch: generate positive bridges and source-row coverage modules for ranks
+`897, 899, 903, 905, 911, 955`, then measure whether the per-rank source-row
+module cost stays near the rank-`896` profile or varies significantly.
