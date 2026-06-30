@@ -1,0 +1,17 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "scripts/generated/diagnostics/rank903_final_y_rfl_probe.lean"
+  ],
+  "elapsed_seconds": 1.5017746300145518,
+  "exit_code": 1,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3697320,
+  "max_tree_rss_mib": 3610.6640625,
+  "min_available_seen_kib": 47227120,
+  "min_available_seen_mib": 46120.234375,
+  "rss_cap_mib": 3800.0
+}

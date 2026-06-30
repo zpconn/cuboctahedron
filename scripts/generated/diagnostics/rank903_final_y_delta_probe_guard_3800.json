@@ -1,0 +1,17 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "scripts/generated/diagnostics/rank903_final_y_delta_probe.lean"
+  ],
+  "elapsed_seconds": 6.51396863599075,
+  "exit_code": -15,
+  "killed_reason": "process-tree RSS 3951 MiB exceeded 3800 MiB cap",
+  "max_tree_rss_kib": 4046744,
+  "max_tree_rss_mib": 3951.8984375,
+  "min_available_seen_kib": 47067648,
+  "min_available_seen_mib": 45964.5,
+  "rss_cap_mib": 3800.0
+}

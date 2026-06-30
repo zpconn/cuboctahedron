@@ -39770,3 +39770,19 @@ another guarded Lean pass, regenerate rank `903` with finer splits on the
 currently heaviest targets, especially the final vector-trace component and the
 DU9IQ root target.  Keep the current partially generated files unaccepted until a
 fresh guarded pass completes all targets under the cap.
+
+Follow-up diagnostics checked whether the heaviest observed trace target could
+be made safe by a local proof-shape change:
+
+- `generatedTrace_final_y` with `by rfl` failed quickly; peak RSS was
+  `3610 MiB`, but the equality is not definitional.
+- factoring out the final delta vector reduced the all-in-one theorem shape but
+  still exceeded a `3800 MiB` guard, then exceeded a `4050 MiB` guard, and then
+  exceeded a `4100 MiB` guard before completion.
+
+Decision: the rank `903` bottleneck is not solved by another shallow split of
+the current Walsh-vector trace equality.  Do not retry the same generated target
+set with a higher cap.  The next safe path is to change the proof surface so
+generated leaves avoid replaying `pairPrefixLinearNat`/rational reflection
+arithmetic for final trace components, or to bypass this smoke trace layer with
+a stronger semantic family theorem.

@@ -1,0 +1,17 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "scripts/generated/diagnostics/rank903_final_y_delta_probe.lean"
+  ],
+  "elapsed_seconds": 6.507784692978021,
+  "exit_code": 1,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4062212,
+  "max_tree_rss_mib": 3967.00390625,
+  "min_available_seen_kib": 47050296,
+  "min_available_seen_mib": 45947.5546875,
+  "rss_cap_mib": 4050.0
+}
