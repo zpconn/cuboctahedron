@@ -29956,3 +29956,71 @@ coverage over reusable candidate catalogs: prove one compressed existential
 union-domain coverage theorem, then erase it through the hand-written Lean
 adapter rather than emitting a separate source/row proof for every candidate
 at every occurrence.
+
+### Phase 6Z.6K.8AP.16DU.9FT checkpoint: all-candidate union emits source-position coverage
+
+Phase 6Z.6K.8AP.16DU.9FT updates
+`scripts/generate_template_domain_union_smoke.py` so the all-candidate
+union smoke exports source-position and all-Good coverage from the same
+union-domain coverage premise:
+
+```lean
+theorem generatedUnionSourcePositionCoverageViaDomain :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi
+
+theorem generatedUnionAllGoodCoverageViaSourcePosition :
+    AllTranslationGoodCoverageOnRange lo hi
+```
+
+This makes the generated smoke exercise the new
+`SourcePositionRowProducerGoodCoverageOnRange.of_candidateUnionDomain` API on
+the full bounded candidate catalog (`195` candidate groups), not just on the
+empty hand-written smoke.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_template_domain_union_smoke.py \
+    --selection all-candidates
+```
+
+Result: passed in `elapsed=0:00.05`, `max_rss_kb=17832`, with
+`candidate_count=195`.
+
+Focused Lean checks:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+```
+
+Result: passed in `elapsed=0:01.04`, `max_rss_kb=842664` because the target
+was already fresh.
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 300s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean
+```
+
+Result: passed in `elapsed=0:06.08`, `max_rss_kb=3414644`.
+
+The semantic contract audit now guards both the generic source-position domain
+adapters and the generated all-candidate source-position coverage route:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12680`, with
+`all_required_surfaces_present=true`.
+
+Decision: accepted.  The bounded generated route now has two compatible
+semantic erasures from a compressed candidate-union coverage premise:
+directly to `TemplateLanguageMemberBridgeOnRange`, and through
+`SourcePositionRowProducerGoodCoverageOnRange` to
+`AllTranslationGoodCoverageOnRange`.  The remaining missing generated
+obligation is still the same hard one: prove the candidate-union coverage
+premise from compressed signature/state/algebraic facts, without rank/mask
+tables.

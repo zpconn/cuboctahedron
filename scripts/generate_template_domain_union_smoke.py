@@ -267,6 +267,39 @@ theorem generatedUnionTemplateMemberBridgeViaDomain
     (generatedUnionTemplateDomainCovers hcover)
     generatedUnionTemplateDomainMemberBridge
 
+theorem generatedUnionSourcePositionCoverageViaDomain
+    (hcover :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedUnionTemplateDomain rank mask) :
+    SourcePositionRowProducerGoodCoverageOnRange {lo} {hi} :=
+  SourcePositionRowProducerGoodCoverageOnRange.of_candidateUnionDomain
+    generatedSpec generatedRowProducer generatedKey
+    (by intro candidate; cases candidate <;> rfl)
+    (by intro candidate; cases candidate <;> rfl)
+    (by intro candidate; cases candidate <;> rfl)
+    (by
+      intro rank mask hlt hlo hhi hM hgood
+      simpa [generatedUnionTemplateDomain, generatedCandidateDomain] using
+        hcover hlt hlo hhi hM hgood)
+
+theorem generatedUnionAllGoodCoverageViaSourcePosition
+    (hcover :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedUnionTemplateDomain rank mask) :
+    AllTranslationGoodCoverageOnRange {lo} {hi} :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    (generatedUnionSourcePositionCoverageViaDomain hcover)
+
 theorem generatedUnionTemplateCoverageViaDomain
     (hcover :
       forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),

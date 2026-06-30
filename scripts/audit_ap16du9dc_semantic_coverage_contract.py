@@ -55,6 +55,14 @@ CHECKS = {
         "source_position_producer_language",
         "theorem SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge",
     ),
+    "source_position_single_candidate_domain_adapter_exists": (
+        "source_position_producer_language",
+        "theorem SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidateDomain",
+    ),
+    "source_position_candidate_union_domain_adapter_exists": (
+        "source_position_producer_language",
+        "theorem SourcePositionRowProducerGoodCoverageOnRange.of_candidateUnionDomain",
+    ),
     "positive_single_candidate_classifier_exists": (
         "positive_survivor_membership_smoke",
         "theorem allGoodCoverage_of_positiveSingleCandidateClassifier",
@@ -126,6 +134,14 @@ CHECKS = {
     "domain_union_smoke_template_bridge_exists": (
         "positive_survivor_template_domain_union_smoke",
         "theorem generatedUnionTemplateMemberBridgeViaDomain",
+    ),
+    "domain_union_smoke_source_position_coverage_exists": (
+        "positive_survivor_template_domain_union_smoke",
+        "theorem generatedUnionSourcePositionCoverageViaDomain",
+    ),
+    "domain_union_smoke_all_good_via_source_position_exists": (
+        "positive_survivor_template_domain_union_smoke",
+        "theorem generatedUnionAllGoodCoverageViaSourcePosition",
     ),
     "du3_prop_first_source_row_adapter_exists": (
         "source_index_state_classifier_du3",

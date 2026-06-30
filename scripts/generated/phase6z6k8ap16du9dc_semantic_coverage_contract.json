@@ -6,6 +6,11 @@
       "needle": "theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage",
       "present": true
     },
+    "domain_union_smoke_all_good_via_source_position_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean",
+      "needle": "theorem generatedUnionAllGoodCoverageViaSourcePosition",
+      "present": true
+    },
     "domain_union_smoke_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean",
       "needle": "private def generatedUnionTemplateDomain",
@@ -14,6 +19,11 @@
     "domain_union_smoke_member_bridge_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean",
       "needle": "private theorem generatedUnionTemplateDomainMemberBridge",
+      "present": true
+    },
+    "domain_union_smoke_source_position_coverage_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean",
+      "needle": "theorem generatedUnionSourcePositionCoverageViaDomain",
       "present": true
     },
     "domain_union_smoke_template_bridge_exists": {
@@ -106,6 +116,11 @@
       "needle": "theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain",
       "present": true
     },
+    "source_position_candidate_union_domain_adapter_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+      "needle": "theorem SourcePositionRowProducerGoodCoverageOnRange.of_candidateUnionDomain",
+      "present": true
+    },
     "source_position_coverage_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
       "needle": "def SourcePositionRowProducerGoodCoverageOnRange",
@@ -119,6 +134,11 @@
     "source_position_language_to_template_member_bridge_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
       "needle": "theorem SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge",
+      "present": true
+    },
+    "source_position_single_candidate_domain_adapter_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+      "needle": "theorem SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidateDomain",
       "present": true
     },
     "source_position_to_all_good_exists": {
