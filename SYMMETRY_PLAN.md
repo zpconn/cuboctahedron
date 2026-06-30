@@ -34226,3 +34226,43 @@ Guard summary:
 Decision: rank `261` is accepted under the DU9IG split-cover path.  Continue
 rank by rank; do not create a DU9IG batch root until all five rank roots have
 passed the same guard.
+
+### Phase 6Z6K8AP16DU9IG - rank 263 split cover accepted
+
+The second DU9IG proof-producing rank, `263`, was emitted with the same
+split-cover topology and with trace step `12` plus final-vector component
+splitting:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank263_generation.json
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank263_generation.md
+```
+
+Generation summary:
+
+- rank: `263`;
+- good masks: `8`;
+- selected subcubes: `16`;
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 10]`;
+- generated guarded targets: `47`.
+
+The serial guarded build passed:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank263_guard_4200.json
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `47`;
+- maximum process-tree RSS: `4168.28 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomRank263Impact10Smoke`;
+- minimum observed available memory: `45922.85 MiB`;
+- summed guarded target elapsed time: `169.23s`.
+
+Decision: rank `263` is accepted under the DU9IG split-cover path.  Continue
+with rank `269` next, still serial and guarded under the `4200 MiB` cap.  The
+peak remains close enough to the cap that this path should not be parallelized
+until the per-rank topology is made lighter or the cap is reduced per worker.
