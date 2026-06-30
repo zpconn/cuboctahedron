@@ -29804,3 +29804,64 @@ the current bottleneck is now isolated to the coverage side:
 `TemplateLanguageDomainCoversIdentityRange` must be proved by a compressed
 signature/state/algebraic language, but the downstream domain-member bridge is
 cheap enough to compose.
+
+### Phase 6Z.6K.8AP.16DU.9FQ checkpoint: regenerate and check all source-position obligations
+
+Phase 6Z.6K.8AP.16DU.9FQ makes the source-position obligation smoke
+reproducible for the current AP16DU9FC profile.  The earlier
+`SourcePositionObligations.lean` file covered the older `[0,1000)` / 44
+obligation profile.  This checkpoint reruns the profiler with a large enough
+sample limit to retain all current obligations, adds
+`scripts/generate_source_position_obligations.py`, and regenerates
+`SourcePositionObligations.lean` for all `68` profiled source-position
+obligations.
+
+Profile command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s \
+  python3 scripts/profile_source_index_state_language.py \
+    --rank-start 0 --limit 5000 --jobs 4 --sample-limit 200 \
+    --json scripts/generated/phase6z6k8ap16du9fc_source_language_profile.json \
+    --md scripts/generated/phase6z6k8ap16du9fc_source_language_profile.md
+```
+
+Result: passed in `elapsed=0:22.78`, `max_rss_kb=41756`.
+
+Generated counts:
+
+- source-language obligations: `68`;
+- static obligations: `13`;
+- dynamic interior obligations: `55`;
+- source-index/state families: `125`;
+- source groups: `122`;
+- source occurrences: `244`;
+- validation failures: `0`.
+
+Generation command:
+
+```bash
+python3 scripts/generate_source_position_obligations.py
+```
+
+Result: generated `SourcePositionObligations.lean` with all `68` obligations.
+The generated theorem style remains semantic and reusable: static obligations
+use `lookup_xpStart` / `lookup_ordering`, while dynamic obligations use
+`lookup_interior_of_excluded_slot` from `SourcePositionLanguage`.  No theorem
+does rank/mask finite replay.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionObligations.lean
+```
+
+Result: passed in `elapsed=0:06.67`, `max_rss_kb=3353856`.
+
+Decision: accepted.  The source-position sublayer is now reproducible for the
+current bounded profile and remains within the same safe memory envelope as the
+other semantic smokes.  This removes one hand-maintained piece from the
+coverage side.  The next bottleneck remains the higher-level proof that
+signatures/states satisfy these source-position predicates over a domain,
+rather than only proving the reusable lookup obligations themselves.

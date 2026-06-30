@@ -32,6 +32,14 @@ rank/mask replay in the producer-membership bridge.
 | 153 | 4 | `ordering` | `False` | `ordering:6` |
 | 129 | 4 | `ordering` | `False` | `ordering:9` |
 | 118 | 4 | `ordering` | `False` | `ordering:7` |
+| 116 | 15 | `xpStart` | `False` | `xpStart:3` |
+| 98 | 4 | `ordering` | `False` | `ordering:8` |
+| 96 | 4 | `interior` | `True` | `interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp` |
+| 88 | 3 | `interior` | `True` | `interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp` |
+| 87 | 3 | `interior` | `True` | `interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp` |
+| 86 | 3 | `ordering` | `False` | `ordering:10` |
+| 75 | 4 | `interior` | `True` | `interior:12:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp` |
+| 70 | 1 | `interior` | `True` | `interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm` |
 
 ## Notes
 
