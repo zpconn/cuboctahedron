@@ -34861,3 +34861,64 @@ back to the known trace-step `12Y` target.  The remaining DU9IH ranks are
 `323`, `357`, `377`, and `371`; continue in descending selected-subcube risk
 order with rank `323` next, still using serial guarded builds and selected
 impact component splitting when a high-memory selected word-impact is present.
+
+### Phase 6Z6K8AP16DU9IH - rank 323 split cover accepted
+
+Rank `323` was emitted after rank `360`.  The plan entry uses selected
+word-impacts `[0, 1, 3, 5, 6, 7, 9]`; to keep the memory ceiling conservative,
+this run split both selected impacts `7` and `9` into normal-coordinate
+component theorem files:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 323 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank323_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 7 \
+  --component-selected-impact 9
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `17`;
+- guarded targets: `54`;
+- selected-impact normal component targets:
+  `rank323_impact7_x/y/z` and `rank323_impact9_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank323_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank323_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank323_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `54`;
+- maximum process-tree RSS: `4172.09 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IHSplitCoverRank323Smoke`;
+- minimum observed available memory: `45898.55 MiB`;
+- total guarded elapsed time across targets: `184.24s`;
+- killed targets: none.
+
+Decision: rank `323` is accepted.  The root split-cover target is close enough
+to the cap that future DU9IH ranks should continue to use serial guarded builds
+and targeted component splitting rather than any broad Lake build.  The
+remaining DU9IH ranks are `357`, `377`, and `371`; continue with rank `357`
+next, with selected-impact component splitting for the larger selected impacts
+before running the guard.
