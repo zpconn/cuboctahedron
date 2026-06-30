@@ -36586,3 +36586,66 @@ than rank `602`.  Do not run DU9IL split-cover Lean targets in parallel, and do
 not build the monolithic DU9IL batch root.  The next DU9IL targets should remain
 single-rank, serial, memory-guarded jobs.  If a 16-subcube rank exceeds the
 guard, add another component split before retrying instead of raising the cap.
+
+### Phase 6Z6K8AP16DU9IL - rank 600 split cover accepted
+
+The first 16-subcube DU9IL target was chosen from the lowest candidate-subcube
+class in the prepared batch (`197` candidate subcubes).  It was emitted as a
+single-rank split cover, with trace step/final splitting and normal-component
+splitting for selected impacts `6`, `9`, and `11`:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_source.json \
+  --rank 600 \
+  --tag DU9IL \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IL' \
+  --report scripts/generated/phase6z6k8ap16du9il_split_cover_rank600_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 9 \
+  --component-selected-impact 11
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 9, 11]`;
+- selected subcubes: `16`;
+- guarded targets: `56`;
+- selected-impact normal component targets:
+  - `rank600_impact6_x`, `rank600_impact6_y`, `rank600_impact6_z`;
+  - `rank600_impact9_x`, `rank600_impact9_y`, `rank600_impact9_z`;
+  - `rank600_impact11_x`, `rank600_impact11_y`, `rank600_impact11_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank600_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank600_guard_4200.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank600_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `56`;
+- peak tree RSS: `4149.88 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank600Smoke`;
+- peak kind: `split_cover_root`;
+- minimum available memory observed: `45872.02 MiB`;
+- summed target elapsed time: `197.76s`;
+- killed targets: `0`.
+
+Decision: rank `600` is accepted.  The first 16-subcube target did not exceed
+the `4200 MiB` guard, but it also did not create meaningful headroom.  Continue
+with one-rank-at-a-time guarded runs for the remaining 16-subcube DU9IL ranks.
+Do not parallelize these Lean builds; the root target can itself be the peak.
