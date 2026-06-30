@@ -1,7 +1,9 @@
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitDataSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitFinalXSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitFinalYSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitFinalZSmoke
 
 /-!
-Generated AP16DK split Walsh-vector trace final-vector proof.
+Generated AP16DK split Walsh-vector trace final-vector proof from components.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke
@@ -21,7 +23,10 @@ theorem generatedTrace_final :
       WalshAffineVec3.add (generatedPrefix 13)
         (WalshAffineVec3.const
           (matVec (pairPrefixLinearNat generatedWord 13)
-            (pairReflectionDeltaQ PairId.x))) := by
-  simp [generatedPrefix, WalshAffineVec3.add, WalshAffineVec3.const, WalshAffineVec3.smulConst, WalshAffine.add, WalshAffine.const, WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero, pairPrefixLinearNat, pairReflectionDeltaQ, reflD, canonicalOffsetQ, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, scalarMul, canonicalNormalQ, generatedVector, generatedVector_x, generatedVector_y, generatedVector_z, generatedPref13, generatedPref13_x, generatedPref13_y, generatedPref13_z] <;> norm_num [generatedPrefix, WalshAffineVec3.add, WalshAffineVec3.const, WalshAffineVec3.smulConst, WalshAffine.add, WalshAffine.const, WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero, pairPrefixLinearNat, pairReflectionDeltaQ, reflD, canonicalOffsetQ, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, scalarMul, canonicalNormalQ, generatedVector, generatedVector_x, generatedVector_y, generatedVector_z, generatedPref13, generatedPref13_x, generatedPref13_y, generatedPref13_z]
+            (pairReflectionDeltaQ PairId.x))) :=
+  WalshAffineVec3.ext
+    generatedTrace_final_x
+    generatedTrace_final_y
+    generatedTrace_final_z
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke

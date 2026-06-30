@@ -32369,3 +32369,90 @@ equations or an integer/scaled representation, rather than asking Lean to unfold
 `translationVectorOfChoice` over the whole word in one theorem.  Continue to
 avoid broad package builds and avoid running rank89 outliers above the low guard
 until the structural refactor has a successful pilot.
+
+### Phase 6Z.6K.8AP.16DU.9HS checkpoint: rank89 component trace split accepted
+
+Phase 6Z.6K.8AP.16DU.9HS implements the structural low-memory split requested
+by 9HQ/9HR without increasing the RSS envelope.  The generator now supports:
+
+- `--component-step N`, which emits `StepNX`, `StepNY`, and `StepNZ` theorem
+  files and assembles the original step theorem with `WalshAffineVec3.ext`;
+- `--component-final`, which emits `FinalX`, `FinalY`, and `FinalZ` theorem
+  files and assembles the original final-vector theorem with
+  `WalshAffineVec3.ext`;
+- split-cover reports that include the new component targets so the serial
+  memory guard can build them individually.
+
+This keeps the public theorem surface unchanged:
+
+```lean
+generatedTrace_step_12 :
+  generatedPrefix (12 + 1) =
+    translationPrefixWalshStepAt generatedWord (12 : WordIndex)
+      (generatedPrefix 12)
+
+generatedTrace_final :
+  generatedVector =
+    WalshAffineVec3.add (generatedPrefix 13)
+      (WalshAffineVec3.const
+        (matVec (pairPrefixLinearNat generatedWord 13)
+          (pairReflectionDeltaQ PairId.x)))
+```
+
+but removes the need for Lean to normalize the full vector equalities in one
+target.
+
+Regeneration command:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json \
+  --rank 89 \
+  --tag DU9HN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HN' \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank89_component_final_generation.json
+```
+
+The new report has `48` targets:
+
+- `24` ordinary prerequisite targets from the old split trace;
+- `3` component targets for `trace_step_12`;
+- `3` component targets for `trace_final`;
+- `7` selected-impact targets;
+- `1` selected-impacts root;
+- `17` split-cover subcube targets;
+- `1` split-cover root.
+
+Focused guarded checks, all with `--rss-cap-mib 4200`,
+`--available-floor-mib 12000`, `LEAN_NUM_THREADS=1`, and `LAKE_JOBS=1`:
+
+| Target group | Result | Targets | Peak tree RSS | Minimum available memory |
+| --- | --- | ---: | ---: | ---: |
+| `trace_step_12_x/y/z` plus assembled `trace_step_12` | passed | 4 | `4147.94 MiB` | `45826.61 MiB` |
+| `trace_final_x/y/z`, assembled `trace_final`, and trace root | passed | 5 | `4165.81 MiB` | `45863.02 MiB` |
+| selected impacts, selected root, split subcubes, split root | passed | 26 | `4190.74 MiB` | `45830.02 MiB` |
+
+The final accepted rank89 proof surface is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HNSplitCoverRank89Smoke
+```
+
+and it exposes the expected
+`generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`
+theorem for rank `89`.
+
+Decision: accepted.  The component-vector split is now the preferred response
+to isolated AP16DK/AP16DJ vector-equality outliers.  It is better than raising
+the guard to the old `4400 MiB` envelope because it keeps all rank89 targets
+below the stricter `4200 MiB` cap.  Future split-cover emissions should enable
+`--component-trace-step 12 --component-trace-final` by default for the remaining
+DU9HN ranks unless a dry-run or first focused guard shows the extra component
+targets are unnecessary.  Continue to avoid broad `lake build`; use serial
+guarded target runs and only consider memory-safe parallelism after several
+more component-split ranks show the same envelope.

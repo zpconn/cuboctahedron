@@ -374,10 +374,19 @@ def find_entry(plan: dict[str, Any], rank: int) -> dict[str, Any]:
     raise SystemExit(f"rank {rank} is not present in {plan.get('plan', 'plan')}")
 
 
-def prerequisite_targets(entry: dict[str, Any]) -> list[dict[str, str]]:
+def prerequisite_targets(
+    entry: dict[str, Any],
+    *,
+    component_trace_steps: set[int] | None = None,
+    component_trace_final: bool = False,
+) -> list[dict[str, str]]:
     rank = int(entry["rank"])
     targets: list[dict[str, str]] = []
-    for kind, path in trace_target_paths(rank):
+    for kind, path in trace_target_paths(
+        rank,
+        component_steps=component_trace_steps,
+        component_final=component_trace_final,
+    ):
         targets.append({"kind": kind, "module": module_from_path(path)})
     for impact in entry["selected_word_impacts"]:
         targets.append({
@@ -431,8 +440,14 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     emitted_files: list[str] = []
     emitted_trace_lean: list[str] = []
     entries_by_word_impact = impact_module_entries(manifest)
+    component_trace_steps = set(args.component_trace_step)
+    component_trace_final = bool(args.component_trace_final)
     if args.emit:
-        trace_paths = emit_split_trace(args.rank)
+        trace_paths = emit_split_trace(
+            args.rank,
+            component_steps=component_trace_steps,
+            component_final=component_trace_final,
+        )
         emitted_trace_lean = [str(path) for path in trace_paths]
         emitted_files.extend(emitted_trace_lean)
         for index, data in enumerate(all_data):
@@ -466,7 +481,11 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         )
         emitted_files.append(str(root_path))
 
-    targets = prerequisite_targets(entry)
+    targets = prerequisite_targets(
+        entry,
+        component_trace_steps=component_trace_steps,
+        component_trace_final=component_trace_final,
+    )
     targets.extend([
         {
             "kind": "split_cover_subcube",
@@ -493,6 +512,8 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "covered_bad_masks": sorted(covered_bad_masks),
         "selected_subcube_count": len(subcubes),
         "selected_word_impacts": sorted({int(s["impact"]) - 1 for s in subcubes}),
+        "component_trace_steps": sorted(component_trace_steps),
+        "component_trace_final": component_trace_final,
         "root_lean": str(root_lean(args.tag, args.rank)),
         "root_module": module_from_path(root_lean(args.tag, args.rank)),
         "emitted_trace_lean": emitted_trace_lean,
@@ -510,6 +531,21 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--phase", default=DEFAULT_PHASE)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--emit", action="store_true")
+    parser.add_argument(
+        "--component-trace-step",
+        action="append",
+        type=int,
+        default=[],
+        help=(
+            "Split this trace step into component theorem files. May be repeated. "
+            "Use for isolated high-memory trace outliers."
+        ),
+    )
+    parser.add_argument(
+        "--component-trace-final",
+        action="store_true",
+        help="Split the trace final-vector proof into component theorem files.",
+    )
     return parser.parse_args()
 
 
@@ -522,6 +558,8 @@ def write_markdown(payload: dict[str, Any], path: Path) -> None:
         f"- rank: `{payload['rank']}`",
         f"- selected subcubes: `{payload['selected_subcube_count']}`",
         f"- selected word impacts: `{payload['selected_word_impacts']}`",
+        f"- component trace steps: `{payload['component_trace_steps']}`",
+        f"- component trace final: `{payload['component_trace_final']}`",
         f"- root module: `{payload['root_module']}`",
         f"- targets: `{len(payload['targets'])}`",
         f"- prerequisite targets: `{sum(1 for target in payload['targets'] if not target['kind'].startswith('split_cover_'))}`",

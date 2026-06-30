@@ -7,7 +7,8 @@ production gate.  This AP16DK emitter keeps the same theorem surface but splits
 the work into:
 
 * a data module containing the generated word, prefix vectors, and final vector;
-* one module per local prefix-step proof;
+* one module per local prefix-step proof, optionally split into one theorem per
+  vector component for high-memory tail steps;
 * one final-vector proof module;
 * a tiny root module that assembles `TranslationWalshVectorTrace`.
 
@@ -43,6 +44,7 @@ DEFAULT_REPORT = Path(
     "scripts/generated/phase6z6k8ap16dk_split_trace_smoke.json"
 )
 DEFAULT_SPLIT_RANK = 6000745
+TRACE_COMPONENTS = ("x", "y", "z")
 
 
 def module_from_path(path: Path) -> str:
@@ -161,6 +163,73 @@ def emit_step(
     return path
 
 
+def emit_step_component(
+    rank: int,
+    namespace: str,
+    stem: str,
+    index: int,
+    component: str,
+) -> Path:
+    _ = rank
+    if component not in TRACE_COMPONENTS:
+        raise ValueError(f"unknown trace component: {component}")
+    path = path_for(f"{stem}Step{index:02d}{component.upper()}Smoke")
+    step_defs = trace_norm_defs([index, index + 1], include_step=True, include_final=False)
+    lines = [
+        f"import {BASE_MODULE}.{stem}DataSmoke",
+        "",
+        "/-!",
+        f"Generated AP16DK split Walsh-vector trace step `{index}` component `{component}`.",
+        "-/",
+        "",
+        *prelude(namespace),
+        f"theorem generatedTrace_step_{index:02d}_{component} :",
+        f"    (generatedPrefix ({index} + 1)).{component} =",
+        f"      (translationPrefixWalshStepAt generatedWord ({index} : WordIndex)",
+        f"        (generatedPrefix {index})).{component} := by",
+        f"  simp [{step_defs}] <;> norm_num [{step_defs}]",
+        "",
+        f"end {namespace}",
+        "",
+    ]
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def emit_step_from_components(
+    namespace: str,
+    stem: str,
+    index: int,
+) -> Path:
+    path = path_for(f"{stem}Step{index:02d}Smoke")
+    imports = [
+        f"import {BASE_MODULE}.{stem}Step{index:02d}{component.upper()}Smoke"
+        for component in TRACE_COMPONENTS
+    ]
+    lines = [
+        *imports,
+        "",
+        "/-!",
+        f"Generated AP16DK split Walsh-vector trace step `{index}` from component proofs.",
+        "-/",
+        "",
+        *prelude(namespace),
+        f"theorem generatedTrace_step_{index:02d} :",
+        f"    generatedPrefix ({index} + 1) =",
+        f"      translationPrefixWalshStepAt generatedWord ({index} : WordIndex)",
+        f"        (generatedPrefix {index}) :=",
+        "  WalshAffineVec3.ext",
+        f"    generatedTrace_step_{index:02d}_x",
+        f"    generatedTrace_step_{index:02d}_y",
+        f"    generatedTrace_step_{index:02d}_z",
+        "",
+        f"end {namespace}",
+        "",
+    ]
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
 def emit_final(namespace: str, stem: str, *, chain_imports: bool = False) -> Path:
     path = path_for(f"{stem}FinalSmoke")
     import_module = (
@@ -184,6 +253,70 @@ def emit_final(namespace: str, stem: str, *, chain_imports: bool = False) -> Pat
         "          (matVec (pairPrefixLinearNat generatedWord 13)",
         "            (pairReflectionDeltaQ PairId.x))) := by",
         f"  simp [{final_defs}] <;> norm_num [{final_defs}]",
+        "",
+        f"end {namespace}",
+        "",
+    ]
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def emit_final_component(
+    namespace: str,
+    stem: str,
+    component: str,
+) -> Path:
+    if component not in TRACE_COMPONENTS:
+        raise ValueError(f"unknown trace component: {component}")
+    path = path_for(f"{stem}Final{component.upper()}Smoke")
+    final_defs = trace_norm_defs([13], include_step=False, include_final=True)
+    lines = [
+        f"import {BASE_MODULE}.{stem}DataSmoke",
+        "",
+        "/-!",
+        f"Generated AP16DK split Walsh-vector trace final-vector component `{component}`.",
+        "-/",
+        "",
+        *prelude(namespace),
+        f"theorem generatedTrace_final_{component} :",
+        f"    generatedVector.{component} =",
+        f"      (WalshAffineVec3.add (generatedPrefix 13)",
+        f"        (WalshAffineVec3.const",
+        f"          (matVec (pairPrefixLinearNat generatedWord 13)",
+        f"            (pairReflectionDeltaQ PairId.x)))).{component} := by",
+        f"  simp [{final_defs}] <;> norm_num [{final_defs}]",
+        "",
+        f"end {namespace}",
+        "",
+    ]
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def emit_final_from_components(namespace: str, stem: str) -> Path:
+    path = path_for(f"{stem}FinalSmoke")
+    imports = [
+        f"import {BASE_MODULE}.{stem}Final{component.upper()}Smoke"
+        for component in TRACE_COMPONENTS
+    ]
+    lines = [
+        *imports,
+        "",
+        "/-!",
+        "Generated AP16DK split Walsh-vector trace final-vector proof from components.",
+        "-/",
+        "",
+        *prelude(namespace),
+        "theorem generatedTrace_final :",
+        "    generatedVector =",
+        "      WalshAffineVec3.add (generatedPrefix 13)",
+        "        (WalshAffineVec3.const",
+        "          (matVec (pairPrefixLinearNat generatedWord 13)",
+        "            (pairReflectionDeltaQ PairId.x))) :=",
+        "  WalshAffineVec3.ext",
+        "    generatedTrace_final_x",
+        "    generatedTrace_final_y",
+        "    generatedTrace_final_z",
         "",
         f"end {namespace}",
         "",
@@ -262,6 +395,8 @@ def write_report(
     namespace: str,
     stem: str,
     dependency_mode: str,
+    component_steps: list[int],
+    component_final: bool,
     paths: list[Path],
     report: Path,
 ) -> None:
@@ -274,12 +409,28 @@ def write_report(
         "namespace": namespace,
         "root_module": f"{BASE_MODULE}.{stem}Smoke",
         "dependency_mode": dependency_mode,
+        "component_steps": component_steps,
+        "component_final": component_final,
         "targets": [
             {
                 "kind": (
                     "data" if "DataSmoke" in path.name else
+                    "final_component" if (
+                        component_final
+                        and any(
+                            f"Final{component.upper()}Smoke" in path.name
+                            for component in TRACE_COMPONENTS
+                        )
+                    ) else
                     "final" if "FinalSmoke" in path.name else
                     "root" if path.name == f"{stem}Smoke.lean" else
+                    "step_component" if (
+                        any(
+                            f"Step{index:02d}{component.upper()}Smoke" in path.name
+                            for index in component_steps
+                            for component in TRACE_COMPONENTS
+                        )
+                    ) else
                     "step"
                 ),
                 "module": module_from_path(path),
@@ -299,6 +450,8 @@ def write_report(
             f"- rank: `{rank}`",
             f"- root module: `{payload['root_module']}`",
             f"- dependency mode: `{dependency_mode}`",
+            f"- component steps: `{component_steps}`",
+            f"- component final: `{component_final}`",
             f"- targets: `{len(paths)}`",
             "",
             "| kind | module |",
@@ -336,6 +489,21 @@ def parse_args() -> argparse.Namespace:
             "so Lake cannot build all step proofs in parallel from a cold root."
         ),
     )
+    parser.add_argument(
+        "--component-step",
+        action="append",
+        type=int,
+        default=[],
+        help=(
+            "Split this local step proof into x/y/z component theorem files. "
+            "May be repeated. Intended for isolated high-memory tail steps."
+        ),
+    )
+    parser.add_argument(
+        "--component-final",
+        action="store_true",
+        help="Split the final-vector proof into x/y/z component theorem files.",
+    )
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
 
@@ -345,24 +513,40 @@ def main() -> None:
     stem = args.stem or f"ImpactSubcubeWalshVectorTraceRank{args.rank}Split"
     namespace = args.namespace or f"{BASE_MODULE}.{stem}Smoke"
     chain_imports = args.dependency_mode == "chain"
+    component_steps = sorted(set(args.component_step))
+    invalid_steps = [index for index in component_steps if index < 0 or index >= 13]
+    if invalid_steps:
+        raise SystemExit(f"component steps must be in [0, 13): {invalid_steps}")
     paths = [emit_data(args.rank, namespace, stem)]
-    paths.extend(
-        emit_step(
-            args.rank,
-            namespace,
-            stem,
-            index,
-            chain_imports=chain_imports,
-        )
-        for index in range(13)
-    )
-    paths.append(emit_final(namespace, stem, chain_imports=chain_imports))
+    for index in range(13):
+        if index in component_steps:
+            for component in TRACE_COMPONENTS:
+                paths.append(emit_step_component(args.rank, namespace, stem, index, component))
+            paths.append(emit_step_from_components(namespace, stem, index))
+        else:
+            paths.append(
+                emit_step(
+                    args.rank,
+                    namespace,
+                    stem,
+                    index,
+                    chain_imports=chain_imports,
+                )
+            )
+    if args.component_final:
+        for component in TRACE_COMPONENTS:
+            paths.append(emit_final_component(namespace, stem, component))
+        paths.append(emit_final_from_components(namespace, stem))
+    else:
+        paths.append(emit_final(namespace, stem, chain_imports=chain_imports))
     paths.append(emit_root(namespace, stem, chain_imports=chain_imports))
     write_report(
         rank=args.rank,
         namespace=namespace,
         stem=stem,
         dependency_mode=args.dependency_mode,
+        component_steps=component_steps,
+        component_final=bool(args.component_final),
         paths=paths,
         report=args.report,
     )

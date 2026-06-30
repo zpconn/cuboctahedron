@@ -1,7 +1,9 @@
-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitDataSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12XSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12YSmoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12ZSmoke
 
 /-!
-Generated AP16DK split Walsh-vector trace step `12`.
+Generated AP16DK split Walsh-vector trace step `12` from component proofs.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke
@@ -19,7 +21,10 @@ set_option linter.unnecessarySeqFocus false
 theorem generatedTrace_step_12 :
     generatedPrefix (12 + 1) =
       translationPrefixWalshStepAt generatedWord (12 : WordIndex)
-        (generatedPrefix 12) := by
-  simp [generatedPrefix, WalshAffineVec3.add, WalshAffineVec3.const, WalshAffineVec3.smulConst, WalshAffine.add, WalshAffine.const, WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero, pairPrefixLinearNat, pairReflectionDeltaQ, reflD, canonicalOffsetQ, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, scalarMul, canonicalNormalQ, translationPrefixWalshStepAt, signedCoeffWalshAt, countPairBeforeNat, generatedPref12, generatedPref12_x, generatedPref12_y, generatedPref12_z, generatedPref13, generatedPref13_x, generatedPref13_y, generatedPref13_z] <;> norm_num [generatedPrefix, WalshAffineVec3.add, WalshAffineVec3.const, WalshAffineVec3.smulConst, WalshAffine.add, WalshAffine.const, WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero, pairPrefixLinearNat, pairReflectionDeltaQ, reflD, canonicalOffsetQ, matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot, scalarMul, canonicalNormalQ, translationPrefixWalshStepAt, signedCoeffWalshAt, countPairBeforeNat, generatedPref12, generatedPref12_x, generatedPref12_y, generatedPref12_z, generatedPref13, generatedPref13_x, generatedPref13_y, generatedPref13_z]
+        (generatedPrefix 12) :=
+  WalshAffineVec3.ext
+    generatedTrace_step_12_x
+    generatedTrace_step_12_y
+    generatedTrace_step_12_z
 
 end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke

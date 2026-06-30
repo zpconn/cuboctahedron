@@ -29,10 +29,15 @@ from generate_ap16dc_compact_walsh_cover_smoke import (  # noqa: E402
     write_report as write_cover_report,
 )
 from generate_ap16dk_split_walsh_vector_trace_smoke import (  # noqa: E402
+    TRACE_COMPONENTS,
     emit_data as emit_trace_data,
     emit_final as emit_trace_final,
+    emit_final_component as emit_trace_final_component,
+    emit_final_from_components as emit_trace_final_from_components,
     emit_root as emit_trace_root,
     emit_step as emit_trace_step,
+    emit_step_component as emit_trace_step_component,
+    emit_step_from_components as emit_trace_step_from_components,
 )
 from generate_ap16bl_impact_subcube_smoke import selected_subcubes  # noqa: E402
 from generate_ap16bo_walsh_bound_smoke import term_bound  # noqa: E402
@@ -87,28 +92,70 @@ def trace_step_lean(rank: int, index: int) -> Path:
     return BASE_DIR / f"{trace_stem(rank)}Step{index:02d}Smoke.lean"
 
 
+def trace_step_component_lean(rank: int, index: int, component: str) -> Path:
+    return BASE_DIR / f"{trace_stem(rank)}Step{index:02d}{component.upper()}Smoke.lean"
+
+
 def trace_final_lean(rank: int) -> Path:
     return BASE_DIR / f"{trace_stem(rank)}FinalSmoke.lean"
 
 
-def trace_target_paths(rank: int) -> list[tuple[str, Path]]:
-    return [
-        ("trace_data", trace_data_lean(rank)),
-        *[
-            (f"trace_step_{index:02d}", trace_step_lean(rank, index))
-            for index in range(13)
-        ],
+def trace_final_component_lean(rank: int, component: str) -> Path:
+    return BASE_DIR / f"{trace_stem(rank)}Final{component.upper()}Smoke.lean"
+
+
+def trace_target_paths(
+    rank: int,
+    *,
+    component_steps: set[int] | None = None,
+    component_final: bool = False,
+) -> list[tuple[str, Path]]:
+    component_steps = component_steps or set()
+    targets: list[tuple[str, Path]] = [("trace_data", trace_data_lean(rank))]
+    for index in range(13):
+        if index in component_steps:
+            for component in TRACE_COMPONENTS:
+                targets.append((
+                    f"trace_step_{index:02d}_{component}",
+                    trace_step_component_lean(rank, index, component),
+                ))
+        targets.append((f"trace_step_{index:02d}", trace_step_lean(rank, index)))
+    if component_final:
+        for component in TRACE_COMPONENTS:
+            targets.append((
+                f"trace_final_{component}",
+                trace_final_component_lean(rank, component),
+            ))
+    targets.extend([
         ("trace_final", trace_final_lean(rank)),
         ("trace", trace_lean(rank)),
-    ]
+    ])
+    return targets
 
 
-def emit_split_trace(rank: int) -> list[Path]:
+def emit_split_trace(
+    rank: int,
+    *,
+    component_steps: set[int] | None = None,
+    component_final: bool = False,
+) -> list[Path]:
+    component_steps = component_steps or set()
     stem = trace_stem(rank)
     namespace = trace_namespace(rank)
     paths = [emit_trace_data(rank, namespace, stem)]
-    paths.extend(emit_trace_step(rank, namespace, stem, index) for index in range(13))
-    paths.append(emit_trace_final(namespace, stem))
+    for index in range(13):
+        if index in component_steps:
+            for component in TRACE_COMPONENTS:
+                paths.append(emit_trace_step_component(rank, namespace, stem, index, component))
+            paths.append(emit_trace_step_from_components(namespace, stem, index))
+        else:
+            paths.append(emit_trace_step(rank, namespace, stem, index))
+    if component_final:
+        for component in TRACE_COMPONENTS:
+            paths.append(emit_trace_final_component(namespace, stem, component))
+        paths.append(emit_trace_final_from_components(namespace, stem))
+    else:
+        paths.append(emit_trace_final(namespace, stem))
     paths.append(emit_trace_root(namespace, stem))
     return paths
 
