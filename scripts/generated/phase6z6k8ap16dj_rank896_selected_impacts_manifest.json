@@ -1,0 +1,72 @@
+{
+  "entries": [
+    {
+      "impact_index": 0,
+      "label": "rank896_mask9_impact0",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact00Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact00Smoke",
+      "rank": 896,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    },
+    {
+      "impact_index": 1,
+      "label": "rank896_mask9_impact1",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact01Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact01Smoke",
+      "rank": 896,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    },
+    {
+      "impact_index": 3,
+      "label": "rank896_mask9_impact3",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact03Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact03Smoke",
+      "rank": 896,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    },
+    {
+      "impact_index": 5,
+      "label": "rank896_mask9_impact5",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact05Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact05Smoke",
+      "rank": 896,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    },
+    {
+      "impact_index": 7,
+      "label": "rank896_mask9_impact7",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact07Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact07Smoke",
+      "rank": 896,
+      "split_normal_components": true,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    },
+    {
+      "impact_index": 9,
+      "label": "rank896_mask9_impact9",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact09Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact09Smoke",
+      "rank": 896,
+      "split_normal_components": true,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    },
+    {
+      "impact_index": 10,
+      "label": "rank896_mask9_impact10",
+      "lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896Impact10Smoke.lean",
+      "mask": 9,
+      "namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896Impact10Smoke",
+      "rank": 896,
+      "split_normal_components": true,
+      "trace_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank896SplitSmoke"
+    }
+  ],
+  "root_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank896SelectedImpactsSmoke.lean",
+  "root_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank896SelectedImpactsSmoke"
+}
