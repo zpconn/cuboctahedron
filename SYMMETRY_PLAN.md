@@ -37777,3 +37777,64 @@ and validates the theorem-only topology for a 17-subcube DU9IM rank.  The
 remaining rank `657` has the largest cover in this DU9IM window (`22`
 subcubes) and should be handled as a high-risk serial guard run, with no
 parallel Lean work nearby.
+
+### Phase 6Z6K8AP16DU9IM - rank 657 theorem-only split cover accepted
+
+Rank `657` was emitted with the theorem-only split-cover generator.  Because
+this was the largest and highest-risk DU9IM rank in the current batch, the
+selected impact denominator targets were split for impacts `6`, `8`, and `11`:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_source.json \
+  --rank 657 \
+  --tag DU9IM \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IM' \
+  --report scripts/generated/phase6z6k8ap16du9im_split_cover_rank657_generation_direct_subcube_root.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 11
+```
+
+The emitted topology had `62` guarded build targets: the split trace targets,
+selected impact denominator targets, `22` theorem-only subcube leaves, and one
+split-cover root.
+
+The accepted full guarded pass was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9im_split_cover_rank657_generation_direct_subcube_root.json \
+  --json scripts/generated/phase6z6k8ap16du9im_split_cover_rank657_direct_full_guard_4200.json \
+  --out-dir /tmp/ap16du9im_split_cover_rank657_direct_full_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Full guarded pass summary:
+
+- status: `passed`;
+- target count: `62`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS: `4159.01 MiB`;
+- peak target: `trace_step_12_z`;
+- split-cover root RSS: `4128.03 MiB`;
+- next-highest targets:
+  - `trace_final_z`: `4153.05 MiB`;
+  - `trace_step_12_x`: `4150.03 MiB`;
+  - `trace_step_12_y`: `4143.59 MiB`;
+  - `rank657_impact11_x`: `4137.89 MiB`;
+- minimum available memory stayed above the `12000 MiB` floor throughout the
+  guard.
+
+Decision: rank `657` is accepted.  This completes the current DU9IM
+theorem-only split-cover batch for ranks `641`, `659`, `647`, `654`, and
+`657`.  The safe next step is to emit a shallow DU9IM batch root that imports
+only these accepted rank roots, then run that root serially under the same
+guard before considering any broader integration.
