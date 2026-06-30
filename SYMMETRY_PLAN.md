@@ -43657,3 +43657,74 @@ source-row slices can be emitted directly with a weighted-cover closed theorem.
 The next scaling task is to emit positive-mask bridge modules from the traced
 weighted-cover emitter automatically, then call this AP.16T emitter with those
 module names for a bounded multi-rank batch.
+
+### Phase 6Z6K8AP16DU9IQ20 - traced cover emitter generates positive bridge
+
+The traced weighted-cover emitter now optionally emits the rank-local
+positive-mask bridge module as well as the cover root:
+
+```text
+scripts/emit_du9iq_traced_bridge_cover.py
+```
+
+New options:
+
+```text
+--positive-stem
+--positive-masks
+--positive-report
+```
+
+The emitter derives the six-bit cube pattern from each traced direct-bridge
+leaf's public cube definition, verifies that the selected cubes cover every
+non-survivor mask outside `--positive-masks`, and emits:
+
+```lean
+rank896PositiveMaskMember
+
+rank896PositiveMaskMember_of_outsideBatchGoodMaskMember :
+  OutsideBatchGoodMaskMember mask -> rank896PositiveMaskMember mask
+
+goodDirection_rank896PositiveMaskMember :
+  GoodDirectionAtRank (⟨896, hlt⟩ : Fin numPairWords) mask ->
+    rank896PositiveMaskMember mask
+```
+
+Generated smoke module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke
+```
+
+Generated reports:
+
+```text
+scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_positive_masks_generated.json
+scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_positive_masks_generated_guard.json
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_positive_masks_generated_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `7.51s` | `4156 MiB` | `45805 MiB` | `0` |
+
+Decision: accepted.  The weighted-cover root and positive-mask bridge are now
+both reproducible generated artifacts.  The emitter also records the
+non-survivor mask-to-cube map, which is useful for audits and for later
+portfolio profiling.  Next step: generate a source-row module using the
+generated positive bridge module name, so the entire rank-`896`
+GoodDirection-to-coverage path is generated end-to-end rather than mixed
+generated/manual.
