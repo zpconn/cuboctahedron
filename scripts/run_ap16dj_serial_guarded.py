@@ -216,27 +216,35 @@ def main() -> int:
         print(json.dumps(summary, indent=2, sort_keys=True))
         return 0
 
-    for index, target in enumerate(targets):
-        result = run_guarded_target(
-            target["module"],
-            index=index,
-            out_dir=args.out_dir,
-            rss_cap_mib=args.rss_cap_mib,
-            available_floor_mib=args.available_floor_mib,
-            timeout_seconds=args.timeout_seconds,
-            poll_seconds=args.poll_seconds,
-        )
-        result["kind"] = target["kind"]
-        if "label" in target:
-            result["label"] = target["label"]
-        summary["results"].append(result)
-        write_summary(args.json, summary)
-        if result.get("exit_code") != 0:
-            summary["status"] = "failed_or_guard_stopped"
-            summary["failed_target"] = target
+    write_summary(args.json, summary)
+    try:
+        for index, target in enumerate(targets):
+            result = run_guarded_target(
+                target["module"],
+                index=index,
+                out_dir=args.out_dir,
+                rss_cap_mib=args.rss_cap_mib,
+                available_floor_mib=args.available_floor_mib,
+                timeout_seconds=args.timeout_seconds,
+                poll_seconds=args.poll_seconds,
+            )
+            result["kind"] = target["kind"]
+            if "label" in target:
+                result["label"] = target["label"]
+            summary["results"].append(result)
             write_summary(args.json, summary)
-            print(json.dumps(summary, indent=2, sort_keys=True))
-            return 1
+            if result.get("exit_code") != 0:
+                summary["status"] = "failed_or_guard_stopped"
+                summary["failed_target"] = target
+                write_summary(args.json, summary)
+                print(json.dumps(summary, indent=2, sort_keys=True))
+                return 1
+    except KeyboardInterrupt:
+        summary["status"] = "interrupted"
+        summary["completed_target_count"] = len(summary["results"])
+        write_summary(args.json, summary)
+        print(json.dumps(summary, indent=2, sort_keys=True))
+        return 130
 
     summary["status"] = "passed"
     write_summary(args.json, summary)

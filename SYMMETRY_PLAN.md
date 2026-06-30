@@ -39786,3 +39786,33 @@ set with a higher cap.  The next safe path is to change the proof surface so
 generated leaves avoid replaying `pairPrefixLinearNat`/rational reflection
 arithmetic for final trace components, or to bypass this smoke trace layer with
 a stronger semantic family theorem.
+
+### Phase 6Z6K8AP16DU9IQ - guard interrupt status hardened
+
+The serial guarded runner was patched after the rank `903` abort because a
+manual interrupt left the summary JSON with `status: "running"`.  Future guarded
+runs now write an initial summary before the first target and catch
+`KeyboardInterrupt`, recording:
+
+- `status: "interrupted"`;
+- `completed_target_count`;
+- the partial `results` list accumulated before interruption.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/run_ap16dj_serial_guarded.py
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9iq_split_cover_rank903_generation.json \
+  --json /tmp/rank903_guard_runner_plan_after_interrupt_patch.json \
+  --out-dir /tmp/rank903_guard_runner_plan_after_interrupt_patch \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Decision: keep using the serial guard for any future focused Lean checks, but
+require this explicit interrupted/failure status before interpreting a partial
+JSON file.  This is operational safety tooling only; it is not proof evidence.
