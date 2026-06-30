@@ -39,10 +39,14 @@ from generate_ap16dj_compact_walsh_batch import (  # noqa: E402
     BASE_DIR,
     BASE_NS,
     cover_json,
+    emit_split_trace,
+    impact_lean,
     load_source_by_rank,
     manifest_for_entry,
     selected_data_from_forms,
     selected_manifest_json,
+    selected_root_lean,
+    trace_target_paths,
     write_cover_profile,
 )
 from generate_ap16cq_compact_denom_consumer_smoke import write_manifest_batch  # noqa: E402
@@ -57,6 +61,7 @@ DEFAULT_PLAN = Path("scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_
 DEFAULT_SOURCE = Path("scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_source.json")
 DEFAULT_REPORT = Path("scripts/generated/phase6z6k8ap16du9hi_split_cover_rank84_generation.json")
 DEFAULT_TAG = "DU9HI"
+DEFAULT_PHASE = "Phase 6Z.6K.8AP.16DU.9HI"
 
 
 def rank_suffix(rank: int) -> str:
@@ -369,6 +374,24 @@ def find_entry(plan: dict[str, Any], rank: int) -> dict[str, Any]:
     raise SystemExit(f"rank {rank} is not present in {plan.get('plan', 'plan')}")
 
 
+def prerequisite_targets(entry: dict[str, Any]) -> list[dict[str, str]]:
+    rank = int(entry["rank"])
+    targets: list[dict[str, str]] = []
+    for kind, path in trace_target_paths(rank):
+        targets.append({"kind": kind, "module": module_from_path(path)})
+    for impact in entry["selected_word_impacts"]:
+        targets.append({
+            "kind": "selected_impact",
+            "label": f"rank{rank}_impact{impact}",
+            "module": module_from_path(impact_lean(rank, int(impact))),
+        })
+    targets.append({
+        "kind": "selected_impacts_root",
+        "module": module_from_path(selected_root_lean(rank)),
+    })
+    return targets
+
+
 def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     entry = find_entry(plan, args.rank)
@@ -406,8 +429,12 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         raise SystemExit(f"rank {args.rank} selected subcubes do not cover bad masks: {missing}")
 
     emitted_files: list[str] = []
+    emitted_trace_lean: list[str] = []
     entries_by_word_impact = impact_module_entries(manifest)
     if args.emit:
+        trace_paths = emit_split_trace(args.rank)
+        emitted_trace_lean = [str(path) for path in trace_paths]
+        emitted_files.extend(emitted_trace_lean)
         for index, data in enumerate(all_data):
             word_impact = int(data["selected"]["impact"]) - 1
             if word_impact not in entries_by_word_impact:
@@ -439,20 +466,21 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         )
         emitted_files.append(str(root_path))
 
-    targets = [
+    targets = prerequisite_targets(entry)
+    targets.extend([
         {
             "kind": "split_cover_subcube",
             "label": f"rank{args.rank}_subcube{index:03d}",
             "module": module_from_path(subcube_lean(args.tag, args.rank, index)),
         }
         for index in range(len(subcubes))
-    ]
+    ])
     targets.append({
         "kind": "split_cover_root",
         "module": module_from_path(root_lean(args.tag, args.rank)),
     })
     return {
-        "phase": "Phase 6Z.6K.8AP.16DU.9HI",
+        "phase": args.phase,
         "schema_version": 1,
         "status": "emitted_pending_guarded_build" if args.emit else "dry_run",
         "trusted_as_proof": False,
@@ -467,6 +495,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "selected_word_impacts": sorted({int(s["impact"]) - 1 for s in subcubes}),
         "root_lean": str(root_lean(args.tag, args.rank)),
         "root_module": module_from_path(root_lean(args.tag, args.rank)),
+        "emitted_trace_lean": emitted_trace_lean,
         "emitted_files": emitted_files,
         "targets": targets,
     }
@@ -478,6 +507,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--rank", type=int, default=84)
     parser.add_argument("--tag", default=DEFAULT_TAG)
+    parser.add_argument("--phase", default=DEFAULT_PHASE)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--emit", action="store_true")
     return parser.parse_args()
@@ -485,7 +515,7 @@ def parse_args() -> argparse.Namespace:
 
 def write_markdown(payload: dict[str, Any], path: Path) -> None:
     lines = [
-        "# Phase 6Z.6K.8AP.16DU.9HI Split Compact Cover",
+        f"# {payload['phase']} Split Compact Cover",
         "",
         f"Status: `{payload['status']}`.",
         "",
@@ -494,9 +524,14 @@ def write_markdown(payload: dict[str, Any], path: Path) -> None:
         f"- selected word impacts: `{payload['selected_word_impacts']}`",
         f"- root module: `{payload['root_module']}`",
         f"- targets: `{len(payload['targets'])}`",
+        f"- prerequisite targets: `{sum(1 for target in payload['targets'] if not target['kind'].startswith('split_cover_'))}`",
+        f"- split targets: `{sum(1 for target in payload['targets'] if target['kind'].startswith('split_cover_'))}`",
         "",
         "This topology replaces one large rank cover root with one subcube",
         "obstruction module per selected subcube plus a thin rank root.",
+        "The target list also includes trace and selected-impact prerequisites",
+        "so guarded builds can prebuild dependencies without reviving the old",
+        "monolithic cover root.",
         "",
     ]
     path.write_text("\n".join(lines), encoding="utf-8")

@@ -32137,3 +32137,48 @@ cover-all root for this HM batch.  The next implementation step is to make the
 split-cover emitter expose prerequisite target metadata in its generation
 report, so guarded serial builds can prebuild trace/selected-impact
 dependencies without falling back to an AP16DJ monolithic generation report.
+
+### Phase 6Z.6K.8AP.16DU.9HN checkpoint: split reports include prerequisite targets
+
+Phase 6Z.6K.8AP.16DU.9HN updates
+`scripts/generate_ap16du_split_compact_cover.py` so split-cover generation
+reports include the trace and selected-impact prerequisite targets before the
+split-cover targets.  This is an operational safety change: it lets
+`scripts/run_ap16dj_serial_guarded.py` prebuild dependencies serially from the
+split generation report itself, without using or reviving an AP16DJ monolithic
+cover-root report.
+
+The report target order is now:
+
+1. `trace_data`;
+2. `trace_step_00` through `trace_step_12`;
+3. `trace_final`;
+4. `trace`;
+5. one `selected_impact` target per selected word impact;
+6. `selected_impacts_root`;
+7. one `split_cover_subcube` target per selected subcube;
+8. `split_cover_root`.
+
+The split emitter also emits the trace files in `--emit` mode and records them
+under `emitted_trace_lean`, so emitted reports and target lists agree.
+
+Dry-run reports were regenerated for the next six HM ranks with tag `DU9HN`:
+
+| Rank | Prerequisite targets | Split targets | Total targets |
+| ---: | ---: | ---: | ---: |
+| 87 | 24 | 17 | 41 |
+| 89 | 24 | 18 | 42 |
+| 120 | 24 | 22 | 46 |
+| 122 | 24 | 25 | 49 |
+| 123 | 24 | 21 | 45 |
+| 125 | 24 | 22 | 46 |
+
+The dry-run commands were low-memory generator runs only; no split cover Lean
+subcube/root files were emitted yet, and no Lean builds were run in this phase.
+`python3 -m py_compile scripts/generate_ap16du_split_compact_cover.py` passed.
+
+Decision: accepted.  Next step is to emit the DU9HN split files rank by rank,
+then run prerequisite and split-cover targets serially under the memory guard.
+Keep the existing caps: `4300 MiB` for ordinary cached split targets, isolated
+`4400 MiB` only for prerequisite outliers that have already demonstrated they
+need it, and stop immediately on the first guard failure.
