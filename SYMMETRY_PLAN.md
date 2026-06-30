@@ -32605,3 +32605,59 @@ selected-impact normal splitting should remain an on-demand fallback rather
 than a default.  The remaining prepared DU9HM ranks are `123` and `125`; run
 them in the same order with the `4200 MiB` serial guard and only add
 `--component-selected-impact` if a selected-impact target stops under the cap.
+
+### Phase 6Z.6K.8AP.16DU.9HV checkpoint: rank123 split cover accepted
+
+Phase 6Z.6K.8AP.16DU.9HV applies the accepted rank89/rank120/rank122 topology
+to rank `123`.  This rank emitted `20` split-cover subcubes and, like rank122,
+did not require any selected-impact normal-component split.
+
+Regeneration command:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json \
+  --rank 123 \
+  --tag DU9HN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HN' \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank123_component_final_generation.json
+```
+
+The emitted report contains `51` guarded targets:
+
+- `24` ordinary split-trace prerequisite targets;
+- `3` component targets for `trace_step_12`;
+- `3` component targets for `trace_final`;
+- `7` selected-impact targets;
+- `1` selected-impacts root;
+- `20` split-cover subcube targets;
+- `1` split-cover root.
+
+Focused guarded checks, all with `--rss-cap-mib 4200`,
+`--available-floor-mib 12000`, `LEAN_NUM_THREADS=1`, and `LAKE_JOBS=1`:
+
+| Target group | Result | Targets | Peak tree RSS | Minimum available memory |
+| --- | --- | ---: | ---: | ---: |
+| trace prerequisites through split root | passed | 22 | `4175.04 MiB` (`trace_step_11`) | `45723.89 MiB` |
+| selected-impact/root, split subcubes, split root | passed | 29 | `4154.20 MiB` (split-cover root) | `45762.54 MiB` |
+
+The final accepted rank123 proof surface is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HNSplitCoverRank123Smoke
+```
+
+and it exposes the expected
+`generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`
+theorem for rank `123`.
+
+Decision: accepted.  Rank123 reinforces the current memory-safe default:
+component-split the heavy trace step/final vector equalities, keep selected
+impact normal splitting on demand, and run the selected-impact/subcube/root
+coverage checks serially under the `4200 MiB` guard.  Rank `125` is the next
+prepared DU9HM rank to process with the same envelope.
