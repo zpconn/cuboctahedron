@@ -38463,3 +38463,85 @@ Decision: rank `790` is accepted.  Continue DU9IO with ranks `798`, `800`,
 and `808` one at a time under the same guarded serial discipline.  Do not
 parallelize these Lean checks; the accepted rank is close enough to the
 `4200 MiB` cap that bounded serial checking remains the safe path.
+
+### Phase 6Z6K8AP16DU9IO - rank 798 split cover accepted
+
+Rank `798` was emitted from the same DU9IO compact h-cover batch.  Its compact
+Walsh profile contains `22` selected subcubes.  The selected normal-component
+splits were impacts `6`, `7`, and `11`; the vector trace split again kept step
+`12` and the final trace explicit.
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9io_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9io_compact_hcover_batch_source.json \
+  --rank 798 \
+  --tag DU9IO \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IO' \
+  --report scripts/generated/phase6z6k8ap16du9io_split_cover_rank798_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected rank: `798`;
+- selected subcubes: `22`;
+- planned guarded targets: `62`.
+
+A plan-only pass confirmed the target list:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9io_split_cover_rank798_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9io_split_cover_rank798_plan.json \
+  --out-dir /tmp/ap16du9io_split_cover_rank798_plan \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+The full guarded serial Lean pass was then run:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9io_split_cover_rank798_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9io_split_cover_rank798_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9io_split_cover_rank798_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- completed targets: `62 / 62`;
+- maximum target RSS:
+  `4167.15 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank798SplitFinalZSmoke`);
+- minimum available memory seen:
+  `45872.00 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank798SplitFinalZSmoke`);
+- root target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IOSplitCoverRank798Smoke`;
+- root target RSS:
+  `4155.94 MiB`;
+- root target minimum available memory:
+  `45873.98 MiB`.
+
+The generated rank `798` Lean files were scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: rank `798` is accepted.  Continue DU9IO with ranks `800` and `808`
+one at a time, preserving the serial Lean guard.  Rank `798` again sits close
+to the `4200 MiB` cap, so any future component split relaxation must be
+profiled separately rather than assumed safe.
