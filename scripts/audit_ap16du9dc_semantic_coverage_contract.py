@@ -27,6 +27,8 @@ FILES = {
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
     "positive_survivor_signature_membership_generated_smoke": ROOT
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean",
+    "positive_survivor_template_domain_union_smoke": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean",
     "source_index_state_classifier_du3": ROOT
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
     "source_index_state_descriptor_language": ROOT
@@ -100,6 +102,18 @@ CHECKS = {
     "signature_smoke_template_member_bridge_via_domain_exists": (
         "positive_survivor_signature_membership_generated_smoke",
         "theorem generatedSingletonSignatureSemanticTemplateMemberBridgeViaDomain",
+    ),
+    "domain_union_smoke_exists": (
+        "positive_survivor_template_domain_union_smoke",
+        "private def generatedUnionTemplateDomain",
+    ),
+    "domain_union_smoke_member_bridge_exists": (
+        "positive_survivor_template_domain_union_smoke",
+        "private theorem generatedUnionTemplateDomainMemberBridge",
+    ),
+    "domain_union_smoke_template_bridge_exists": (
+        "positive_survivor_template_domain_union_smoke",
+        "theorem generatedUnionTemplateMemberBridgeViaDomain",
     ),
     "du3_prop_first_source_row_adapter_exists": (
         "source_index_state_classifier_du3",

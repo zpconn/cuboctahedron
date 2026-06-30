@@ -29551,3 +29551,66 @@ next production-relevant move is to generate a bounded domain that is a
 disjunction of several candidate-group domains, with one shared member bridge
 per candidate group and a separate coverage theorem that routes each
 GoodDirection survivor into the appropriate candidate domain.
+
+### Phase 6Z.6K.8AP.16DU.9FM checkpoint: candidate-domain union smoke
+
+Phase 6Z.6K.8AP.16DU.9FM adds
+`scripts/generate_template_domain_union_smoke.py`, which emits
+`PositiveSurvivorTemplateDomainUnionSmoke.lean`.  The generated smoke takes
+the top four positive candidate groups from the bounded AP.16I profile,
+defines one reusable candidate domain per group, combines them into an
+existential union domain, and proves:
+
+```lean
+private theorem generatedCandidateDomainMemberBridge
+    (candidate : GeneratedCandidate) :
+    TemplateLanguageMemberBridgeOnDomain
+      (generatedCandidateDomain candidate)
+
+private theorem generatedUnionTemplateDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedUnionTemplateDomain
+
+theorem generatedUnionTemplateMemberBridgeViaDomain
+    (hcover : ...) :
+    TemplateLanguageMemberBridgeOnRange 0 5000
+```
+
+The four candidate groups cover `1316`, `547`, `497`, and `339` bounded
+observed cases in the diagnostic profile, for `2699` observed cases total.
+The theorem still does not prove range coverage; `hcover` is intentionally
+the remaining production obligation.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_template_domain_union_smoke.py --candidate-count 4
+```
+
+Result: passed in `elapsed=0:00.03`, `max_rss_kb=17984`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean
+```
+
+Result: passed in `elapsed=0:04.36`, `max_rss_kb=3257584`.
+
+The semantic contract audit now guards the union-domain surface:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12716`.
+
+Decision: accepted as the first bounded union-domain theorem-shape smoke.
+This validates the member-bridge composition layer: several reusable
+candidate-group domains can be combined cheaply, and the public theorem still
+mentions only `TemplateLanguageMemberBridgeOnRange`.  The next hard task is to
+prove or generate `hcover` from compressed signature/state facts, not from a
+rank/mask table.
