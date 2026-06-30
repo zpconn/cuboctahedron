@@ -41070,3 +41070,54 @@ step should remain shallow: either emit one combined aggregate over the two
 accepted frontiers, or run the skip-existing planner again for summaries
 `12`-`17`.  Do not increase the Lean build fan-out until a combined aggregate
 has been checked and remains near the current ~4 GiB import surface.
+
+### Phase 6Z6K8AP16DU9IQ - combined traced bridge aggregate accepted
+
+A reusable super-aggregate emitter was added:
+
+- script: `scripts/emit_du9iq_traced_bridge_super_aggregate.py`;
+- generated module:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke`;
+- generated file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke.lean`;
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_combined_super_aggregate.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_combined_super_aggregate.md`.
+
+The super-aggregate imports the two accepted shallow batch roots:
+
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke`.
+
+It re-exports only tiny `True` theorem surfaces from those roots and does not
+import the individual bridge leaves directly.  This is the desired hierarchy
+shape: arithmetic stays in independently checked leaf modules; batch roots and
+super-roots compose theorem surfaces.
+
+Guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_combined_super_aggregate_guard.json \
+  -- env LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke
+```
+
+Result:
+
+- exit `0`;
+- elapsed `7.01s`;
+- peak tree RSS `3897 MiB`;
+- minimum available memory `46036 MiB`.
+
+Decision: accepted.  A two-level DU9IQ hierarchy over twelve traced bridge
+leaves now builds safely below the direct-bridge cap and without broad local
+unfolding.  The next safe scaling step is a third skip-existing frontier
+(`12`-`17`) under the same serial leaf guard, followed by another shallow
+aggregate composition check.  If any future combined root rises materially
+above this ~4 GiB import surface, stop and split the hierarchy into smaller
+groups before emitting more leaves.
