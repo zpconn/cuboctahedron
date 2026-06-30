@@ -1,0 +1,261 @@
+{
+  "entries": [
+    {
+      "anchor_mask": 9,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 196,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank129",
+      "rank": 129,
+      "selected_subcube_count": 22,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        11
+      ],
+      "signature_key_prefix": "du9ia_rank129"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 232,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank131",
+      "rank": 131,
+      "selected_subcube_count": 13,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        10
+      ],
+      "signature_key_prefix": "du9ia_rank131"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 56,
+      "candidate_subcube_count": 264,
+      "good_mask_count": 8,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank137",
+      "rank": 137,
+      "selected_subcube_count": 17,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        9
+      ],
+      "signature_key_prefix": "du9ia_rank137"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 56,
+      "candidate_subcube_count": 270,
+      "good_mask_count": 8,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank144",
+      "rank": 144,
+      "selected_subcube_count": 16,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        9
+      ],
+      "signature_key_prefix": "du9ia_rank144"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 212,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank147",
+      "rank": 147,
+      "selected_subcube_count": 16,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        11
+      ],
+      "signature_key_prefix": "du9ia_rank147"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 232,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank149",
+      "rank": 149,
+      "selected_subcube_count": 13,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        10
+      ],
+      "signature_key_prefix": "du9ia_rank149"
+    },
+    {
+      "anchor_mask": 13,
+      "bad_mask_count": 57,
+      "candidate_subcube_count": 215,
+      "good_mask_count": 7,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank177",
+      "rank": 177,
+      "selected_subcube_count": 22,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        11
+      ],
+      "signature_key_prefix": "du9ia_rank177"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 56,
+      "candidate_subcube_count": 273,
+      "good_mask_count": 8,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank179",
+      "rank": 179,
+      "selected_subcube_count": 13,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        10
+      ],
+      "signature_key_prefix": "du9ia_rank179"
+    }
+  ],
+  "gate": {
+    "accepted": true,
+    "lake_jobs": 1,
+    "lean_num_threads": 1,
+    "max_tree_rss_mib": 5000,
+    "min_available_mib": 12000,
+    "reason": "compact hcover batch profiles are Walsh-validated with zero uncovered masks; Lean emission still requires guarded builds"
+  },
+  "phase": "Phase 6Z.6K.8AP.16DU.9IA",
+  "schema_version": 1,
+  "source_profiles": [
+    "scripts/generated/phase6z6k8ap16du9ia_rank129_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank131_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank137_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank144_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank147_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank149_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank177_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ia_rank179_walsh_subcube_cover.json"
+  ],
+  "summary": {
+    "planned_serial_lean_targets": 81,
+    "rank_count": 8,
+    "selected_subcube_total": 132,
+    "selected_word_impact_union_count": 10,
+    "selected_word_impacts_union": [
+      0,
+      1,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "signature_count": 8
+  },
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

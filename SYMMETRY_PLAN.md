@@ -32871,3 +32871,99 @@ targets serially under the `4200 MiB` guard.  Because this batch has eight
 targets instead of six, prefer preparing/profiling first and then splitting the
 emission into smaller guarded chunks if any rank shows DU9HN-style trace or
 selected-impact pressure.
+
+### Phase 6Z.6K.8AP.16DU.9IA checkpoint: `[128,192)` compact hcover prep accepted
+
+Phase 6Z.6K.8AP.16DU.9IA profiles and prepares the next bounded compact hcover
+batch selected by 9HZ:
+
+```text
+129, 131, 137, 144, 147, 149, 177, 179
+```
+
+First, the positive-survivor membership profile for `[128,192)` was:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 128:192 \
+  --jobs 4 \
+  --candidate-gate 2000 \
+  --signature-gate 2000 \
+  --json scripts/generated/phase6z6k8ap16du9ia_positive_survivor_membership_128_192.json \
+  --md scripts/generated/phase6z6k8ap16du9ia_positive_survivor_membership_128_192.md
+```
+
+Result: accepted in `0.48s` wall time with `26.9 MiB` maximum RSS:
+
+- GoodDirection cases: `90`;
+- ranks with GoodDirection: `9`;
+- positive survivor signatures: `9`;
+- positive candidate groups: `17`;
+- ambiguous memberships: `0`;
+- duplicates: `0`;
+- bad-direction evidence emitted: `0`.
+
+Then the compact Walsh subcube cover profiler was run for the eight selected
+ranks using the first GoodDirection mask from the frontier scan as the anchor.
+The runs were parallel Python-only jobs and stayed around `30 MiB` RSS each.
+
+| Rank | Anchor mask | Good masks | Bad masks | Candidate subcubes | Selected subcubes | Uncovered | Walsh validated | Selected impacts |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: | --- |
+| `129` | `9` | `11` | `53` | `196` | `22` | `0` | yes | `[0, 1, 3, 5, 6, 8, 11]` |
+| `131` | `7` | `13` | `51` | `232` | `13` | `0` | yes | `[0, 1, 3, 5, 6, 8, 10]` |
+| `137` | `7` | `8` | `56` | `264` | `17` | `0` | yes | `[0, 1, 3, 5, 6, 8, 9]` |
+| `144` | `7` | `8` | `56` | `270` | `16` | `0` | yes | `[0, 1, 3, 5, 6, 8, 9]` |
+| `147` | `8` | `11` | `53` | `212` | `16` | `0` | yes | `[0, 1, 3, 5, 6, 8, 11]` |
+| `149` | `7` | `13` | `51` | `232` | `13` | `0` | yes | `[0, 1, 3, 5, 6, 8, 10]` |
+| `177` | `13` | `7` | `57` | `215` | `22` | `0` | yes | `[0, 1, 3, 5, 6, 7, 11]` |
+| `179` | `7` | `8` | `56` | `273` | `13` | `0` | yes | `[0, 1, 3, 5, 6, 7, 10]` |
+
+The batch prep command was:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9ia_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IABatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IABatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IA' \
+  --signature-key-prefix du9ia
+```
+
+Result: passed in `0.02s`, with about `14.2 MiB` maximum RSS.  It wrote:
+
+```text
+scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_plan.json
+scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_source.json
+scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_prep.{json,md}
+```
+
+The dry-run generation command was:
+
+```bash
+python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ia_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IABatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IABatchSmoke
+```
+
+Result: dry run accepted with `8` signatures and `201` planned targets:
+
+- `8` trace data targets;
+- `8` targets for each trace step `0` through `12`;
+- `8` trace-final targets;
+- `8` trace-root targets;
+- `56` selected-impact targets;
+- `8` selected-impact roots;
+- `8` cover roots;
+- `1` shallow batch root.
+
+Decision: accepted for split-cover emission planning, but no Lean files were
+emitted in this phase.  Because the dry-run target list is larger than DU9HM,
+the next proof-producing phase should emit the split-cover files rank by rank,
+using `--component-trace-step 12 --component-trace-final` as the default, and
+run guarded trace/cover checks serially under the `4200 MiB` cap.  If a
+selected-impact target stops at the guard, split that selected impact by normal
+component before rerunning the final cover guard.
