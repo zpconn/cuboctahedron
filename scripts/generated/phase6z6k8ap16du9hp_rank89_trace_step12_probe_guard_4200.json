@@ -1,0 +1,51 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "failed_target": {
+    "kind": "trace_step_12",
+    "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12Smoke"
+  },
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [],
+    "target_kind": [
+      "trace_step_12"
+    ]
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9hn_split_cover_rank89_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12Smoke"
+      ],
+      "elapsed_seconds": 15.520013785018818,
+      "exit_code": -15,
+      "killed_reason": "process-tree RSS 4201 MiB exceeded 4200 MiB cap",
+      "kind": "trace_step_12",
+      "max_tree_rss_kib": 4302220,
+      "max_tree_rss_mib": 4201.38671875,
+      "min_available_seen_kib": 46960832,
+      "min_available_seen_mib": 45860.1875,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12Smoke",
+      "target_json": "/tmp/ap16du9hp_rank89_trace_step12_probe_guard_4200/000_ImpactSubcubeWalshVectorTraceRank89SplitStep12Smoke.json"
+    }
+  ],
+  "rss_cap_mib": 4200,
+  "status": "failed_or_guard_stopped",
+  "target_count": 1,
+  "targets": [
+    {
+      "kind": "trace_step_12",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitStep12Smoke"
+    }
+  ],
+  "timeout_seconds": 600,
+  "trusted_as_final_generated_coverage": false
+}

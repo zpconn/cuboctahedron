@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 12000.0,
+  "command": [
+    "bash",
+    "-lc",
+    "cat >/tmp/rank89_step12_decide_probe.lean <<'LEAN'\nimport Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitDataSmoke\n\nnamespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke\n\nopen Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier\nopen Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube\n\nset_option maxHeartbeats 0\nset_option maxRecDepth 10000\n\ntheorem generatedTrace_step_12_decide_probe :\n    generatedPrefix (12 + 1) =\n      translationPrefixWalshStepAt generatedWord (12 : WordIndex)\n        (generatedPrefix 12) := by\n  decide\n\nend Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke\nLEAN\nlake env lean /tmp/rank89_step12_decide_probe.lean"
+  ],
+  "elapsed_seconds": 2.5026454409817234,
+  "exit_code": 1,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4045940,
+  "max_tree_rss_mib": 3951.11328125,
+  "min_available_seen_kib": 47257568,
+  "min_available_seen_mib": 46149.96875,
+  "rss_cap_mib": 4200.0
+}

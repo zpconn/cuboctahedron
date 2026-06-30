@@ -32297,3 +32297,47 @@ must avoid assuming the rank87 outlier envelope automatically transfers: probe
 `trace_step_12` and `trace_final` separately, stop on the first guard failure,
 and consider splitting or postponing the outlier targets rather than raising the
 cap above `4400 MiB`.
+
+### Phase 6Z.6K.8AP.16DU.9HQ checkpoint: rank89 trace outlier capped probes
+
+Phase 6Z.6K.8AP.16DU.9HQ probes the next rank89 prerequisite outlier under a
+stricter cap before attempting any `4400 MiB` run.
+
+The ordinary generated `trace_step_12` target was run alone with a `4200 MiB`
+tree-RSS cap:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank89_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hp_rank89_trace_step12_probe_guard_4200.json \
+  --out-dir /tmp/ap16du9hp_rank89_trace_step12_probe_guard_4200 \
+  --target-kind trace_step_12 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: stopped safely by the guard in `15.52s` after reaching
+`4201.39 MiB`.  Minimum available memory stayed at `45860.19 MiB`, so this was
+a controlled guard stop, not a host OOM event.
+
+Three temporary proof-form probes were then run through
+`scripts/run_memory_guarded.py`, each capped at `4200 MiB`:
+
+| Probe | Result | Peak tree RSS |
+| --- | --- | ---: |
+| direct `rfl` on `generatedPrefix (12 + 1)` | failed fast | 3951 MiB |
+| direct `rfl` on `generatedPref13` | failed fast | 3591 MiB |
+| component-destruct `rfl` on `generatedPref13` | failed fast | 3859 MiB |
+| kernel `decide` on the concrete equality | failed fast | 3951 MiB |
+
+These probes show that the outlier is not merely import memory and is not fixed
+by replacing the generated `simp/norm_num` proof with `rfl` or `decide`.  The
+next implementation direction is a generator-level trace refactor: keep the
+explicit `generatedVector_x/y/z` fields needed by subcube coefficient proofs,
+but introduce a cheaper trace/eval bridge so the final vector-to-translation
+theorem no longer has to replay the full local step arithmetic at the tail of
+the word.  Do not rerun rank89 `trace_step_12` above `4200 MiB` until that
+refactor or an equivalent split is in place, unless the user explicitly chooses
+to accept the known rank87-style `4400 MiB` outlier envelope.
