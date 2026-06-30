@@ -41201,3 +41201,76 @@ guard.  Do not emit rank-`897` bridge leaves until:
 1. the vector trace chain exists and has a guard result;
 2. the seven required normal traces build serially under guard;
 3. only then emit the six bridge leaves and their shallow aggregate.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 vector trace chain serial build accepted
+
+The rank-`897` vector-trace prerequisite was generated with the split AP16DK
+trace emitter:
+
+```bash
+python3 scripts/generate_ap16dk_split_walsh_vector_trace_smoke.py \
+  --rank 897 \
+  --stem WeightedDenomCubeDU9IQVectorTraceRank897Chain \
+  --dependency-mode chain \
+  --component-step 3 \
+  --component-step 11 \
+  --component-final \
+  --report scripts/generated/weighted_denom_cube_du9iq_vector_trace_rank897_chain_generation.json
+```
+
+The generated root is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke
+```
+
+The split trace contains `25` targets: a data module, steps `00` through
+`12`, component shards for steps `03` and `11`, final `X/Y/Z` component
+shards, a final combiner, and the root combiner.  The generation report is:
+
+- JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_vector_trace_rank897_chain_generation.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_vector_trace_rank897_chain_generation.md`.
+
+The broad cold root build was intentionally tried under the memory guard and
+rejected:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 18000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_vector_trace_rank897_chain_guard_18g.json \
+  -- env LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke
+```
+
+The guard killed that root build before an OOM:
+
+- exit code: `-15`;
+- reason: process-tree RSS `28736 MiB` exceeded the `18000 MiB` cap;
+- elapsed: `16.02s`;
+- peak tree RSS: `28737 MiB`;
+- minimum available memory seen: `44031 MiB`.
+
+The same evidence was then built safely by compiling the `25` generated targets
+serially, still with `LAKE_JOBS=1` and the same `18 GiB` RSS cap.  All
+per-target builds passed:
+
+- targets checked: `25`;
+- total serial elapsed time: `85.12s`;
+- worst target:
+  `WeightedDenomCubeDU9IQVectorTraceRank897ChainStep12Smoke`;
+- worst target elapsed time: `11.52s`;
+- worst target peak tree RSS: `4357 MiB`;
+- lowest available memory seen during accepted per-target builds: `45738 MiB`.
+
+Decision: accepted, but only for the serial target-by-target build path.  Do
+not use a broad cold root build for this trace chain; it is guard-rejected and
+too close to the machine's OOM cliff.  Future generated trace roots should be
+handled the same way: emit a target list, build each target under the memory
+guard, and only build the root after all dependencies are cached.  The next
+rank-`897` step is to emit the seven required normal traces
+`0`, `1`, `3`, `5`, `7`, `9`, and `10`, and build them serially under a
+guard before emitting any direct bridge leaves.
