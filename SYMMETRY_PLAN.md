@@ -35038,3 +35038,65 @@ Decision: rank `377` is accepted.  The root split-cover target was the peak and
 is close enough to the `4200 MiB` cap that the final DU9IH rank should keep the
 strict serial guard, with selected-impact component splitting before checking.
 The only remaining DU9IH rank is `371`; continue with rank `371` next.
+
+### Phase 6Z6K8AP16DU9IH - rank 371 split cover accepted
+
+Rank `371` was emitted after rank `377`.  The plan entry uses selected
+word-impacts `[0, 1, 3, 5, 6, 8, 10]`; this run split selected impacts `6`,
+`8`, and `10` into normal-coordinate component theorem files to keep the final
+DU9IH checkpoint safely under the memory ceiling:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 371 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank371_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 10
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `13`;
+- guarded targets: `53`;
+- selected-impact normal component targets:
+  `rank371_impact6_x/y/z`, `rank371_impact8_x/y/z`, and
+  `rank371_impact10_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank371_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank371_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank371_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `53`;
+- maximum process-tree RSS: `4162.63 MiB`;
+- peak target: `ImpactSubcubeWalshVectorTraceRank371SplitFinalYSmoke`;
+- minimum observed available memory: `45896.21 MiB`;
+- total guarded elapsed time across targets: `182.74s`;
+- killed targets: none.
+
+Decision: rank `371` is accepted.  All ranks in the DU9IH bounded batch
+(`369`, `363`, `362`, `365`, `360`, `323`, `357`, `377`, and `371`) have now
+passed the same serial `4200 MiB` guard.  The next checkpoint should assemble or
+profile the accepted DU9IH rank set rather than launching any broad package
+build; if a root or group module is needed, introduce it behind the same
+focused, RSS-guarded workflow first.
