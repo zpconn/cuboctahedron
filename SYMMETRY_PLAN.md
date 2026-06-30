@@ -34419,3 +34419,42 @@ DU9IG proof-producing rank roots (`261`, `263`, `269`, `315`, `317`) now have
 individual serial guarded acceptance records.  The next step is to add only the
 shallow DU9IG split batch root, without rebuilding the heavy leaves in a broad
 package import.
+
+### Phase 6Z6K8AP16DU9IG - split batch root accepted
+
+The DU9IG split batch root was added as:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9IGSplitCoverBatchSmoke.lean
+```
+
+This root intentionally follows the accepted DU9IE split-cover pattern: it
+imports only the five already-guarded rank roots, re-exports one
+`generatedGoodMaskMember_of_GoodDirection` adapter per rank, and proves a tiny
+`batchSplitCompactWalshCoverSmoke_builds : True` theorem.  It does not import
+the older monolithic compact-Walsh batch route.
+
+The focused serial guard command was:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ig_split_cover_batch_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IGSplitCoverBatchSmoke'
+```
+
+Guard summary:
+
+- exit code: `0`;
+- killed reason: none;
+- maximum process-tree RSS: `4094.76 MiB`;
+- minimum observed available memory: `46081.29 MiB`;
+- elapsed time: `2.50s`.
+
+Decision: DU9IG is accepted as a bounded split-cover batch.  The next compact
+h-cover window should repeat this safer route: prepare a small bounded rank
+batch, emit/check each split rank root serially under the RSS guard, and only
+then add a shallow batch root over the accepted rank roots.
