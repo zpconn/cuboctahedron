@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx12To13Smoke
 
 /-!
 Shallow super-aggregate for DU9IQ traced direct bridge batches `WeightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke`.
@@ -17,6 +18,9 @@ theorem batch00_builds : True :=
 
 theorem batch01_builds : True :=
   WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke.weightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke_builds
+
+theorem batch02_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx12To13Smoke.weightedDenomCubeDU9IQDirectBridgeBatchRank896Idx12To13Smoke_builds
 
 theorem weightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke_builds : True := by
   trivial

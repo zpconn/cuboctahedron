@@ -7,12 +7,12 @@
     "build",
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896CombinedSmoke"
   ],
-  "elapsed_seconds": 7.007704946008744,
+  "elapsed_seconds": 2.502877079998143,
   "exit_code": 0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3991460,
-  "max_tree_rss_mib": 3897.91015625,
-  "min_available_seen_kib": 47141884,
-  "min_available_seen_mib": 46036.99609375,
+  "max_tree_rss_kib": 4051084,
+  "max_tree_rss_mib": 3956.13671875,
+  "min_available_seen_kib": 47160044,
+  "min_available_seen_mib": 46054.73046875,
   "rss_cap_mib": 12000.0
 }

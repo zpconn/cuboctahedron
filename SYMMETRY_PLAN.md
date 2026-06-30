@@ -41085,7 +41085,7 @@ A reusable super-aggregate emitter was added:
 - Markdown:
   `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_combined_super_aggregate.md`.
 
-The super-aggregate imports the two accepted shallow batch roots:
+The first accepted super-aggregate imported the two accepted shallow batch roots:
 
 - `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke`;
 - `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke`.
@@ -41121,3 +41121,57 @@ unfolding.  The next safe scaling step is a third skip-existing frontier
 aggregate composition check.  If any future combined root rises materially
 above this ~4 GiB import surface, stop and split the hierarchy into smaller
 groups before emitting more leaves.
+
+### Phase 6Z6K8AP16DU9IQ - rank-896 traced bridge frontier completed
+
+The skip-existing planner was run again for rank `896`:
+
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896_next2.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896_next2.md`;
+- skipped existing bridge leaves: summaries `0` through `11`;
+- selected bridge summaries: `12` and `13`;
+- unique normal traces: indices `5`, `9`, and `10`;
+- all required normal traces already existed.
+
+This final frontier for rank `896` was intentionally tiny.  The two new
+standalone reduced direct-bridge leaves were emitted and checked serially:
+
+- bridge idx `12`: pattern `*010*0`, support `[6,10]`, weights `[1,1]`,
+  exit `0`, elapsed `6.01s`, peak tree RSS `4064 MiB`, minimum available
+  memory `45936 MiB`;
+- bridge idx `13`: pattern `10111*`, support `[11]`, weights `[1]`,
+  exit `0`, elapsed `2.50s`, peak tree RSS `4060 MiB`, minimum available
+  memory `45954 MiB`.
+
+A shallow root was emitted for this final frontier:
+
+- module:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx12To13Smoke`;
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_idx12_to_13_aggregate.json`;
+- guarded build: exit `0`, elapsed `2.50s`, peak tree RSS `3667 MiB`,
+  minimum available memory `46120 MiB`.
+
+The combined rank-`896` super-aggregate was then regenerated to import all
+three batch roots:
+
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx12To13Smoke`.
+
+Refreshed combined-root guarded build:
+
+- exit `0`;
+- elapsed `2.50s`;
+- peak tree RSS `3956 MiB`;
+- minimum available memory `46054 MiB`.
+
+Decision: accepted.  Rank `896` now has fourteen traced direct bridge leaves
+composed through three shallow batch roots and one super-root, all checked
+under the memory guard.  The import surface remains stable near 4 GiB even
+after adding the third root.  The next DU9IQ scaling step should move to the
+next rank or next profile slice, not continue re-planning rank `896`; first run
+the planner/report-only path for the next candidate rank and inspect whether it
+requires any new normal trace modules.
