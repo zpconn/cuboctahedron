@@ -1,0 +1,73 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [
+      21,
+      29
+    ],
+    "target_kind": []
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_generation_theorem_trace.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank641SplitSmoke"
+      ],
+      "elapsed_seconds": 7.507939525996335,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "trace",
+      "max_tree_rss_kib": 3979592,
+      "max_tree_rss_mib": 3886.3203125,
+      "min_available_seen_kib": 47200144,
+      "min_available_seen_mib": 46093.890625,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank641SplitSmoke",
+      "target_json": "/tmp/ap16du9im_split_cover_rank641_theorem_trace_probe_guard_4200/000_ImpactSubcubeWalshVectorTraceRank641SplitSmoke.json"
+    },
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank641Impact06Smoke"
+      ],
+      "elapsed_seconds": 9.011213947000215,
+      "exit_code": 0,
+      "killed_reason": null,
+      "kind": "selected_impact",
+      "label": "rank641_impact6",
+      "max_tree_rss_kib": 4180604,
+      "max_tree_rss_mib": 4082.62109375,
+      "min_available_seen_kib": 47060120,
+      "min_available_seen_mib": 45957.1484375,
+      "rss_cap_mib": 4200.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank641Impact06Smoke",
+      "target_json": "/tmp/ap16du9im_split_cover_rank641_theorem_trace_probe_guard_4200/001_ImpactSubcubeWalshSymbolicCompactDenomRank641Impact06Smoke.json"
+    }
+  ],
+  "rss_cap_mib": 4200,
+  "status": "passed",
+  "target_count": 2,
+  "targets": [
+    {
+      "kind": "trace",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank641SplitSmoke"
+    },
+    {
+      "kind": "selected_impact",
+      "label": "rank641_impact6",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomRank641Impact06Smoke"
+    }
+  ],
+  "timeout_seconds": 900,
+  "trusted_as_final_generated_coverage": false
+}

@@ -238,23 +238,21 @@ def build_lean(rank: int, namespace: str = DEFAULT_NAMESPACE) -> str:
         "",
     ])
     lines.extend([
-        "private def generatedTrace :",
-        "    TranslationWalshVectorTrace generatedWord generatedVector where",
-        "  pref := generatedPrefix",
-        "  zero_eq := generatedTrace_zero",
-        "  step_eq := by",
-        "    intro i",
-        "    fin_cases i",
-    ])
-    for index in range(len(prefixes) - 1):
-        bullet = "    ·"
-        lines.append(f"{bullet} exact generatedTrace_step_{index:02d}")
-    lines.extend([
-        "  final_eq := generatedTrace_final",
-        "",
         "theorem generatedVector_eq_translationVectorWalsh :",
         "    generatedVector = translationVectorWalshOfChoice generatedWord :=",
-        "  TranslationWalshVectorTrace.final_eq_translationVectorWalsh generatedTrace",
+        "  TranslationWalshVectorTrace.final_eq_translationVectorWalsh {",
+        "    pref := generatedPrefix",
+        "    zero_eq := generatedTrace_zero",
+        "    step_eq := by",
+        "      intro i",
+        "      fin_cases i",
+    ])
+    for index in range(len(prefixes) - 1):
+        bullet = "      ·"
+        lines.append(f"{bullet} exact generatedTrace_step_{index:02d}")
+    lines.extend([
+        "    final_eq := generatedTrace_final",
+        "  }",
         "",
         "theorem generatedVector_eval_eq_translationVector (mask : SignMask) :",
         "    generatedVector.eval mask = translationVectorOfChoice generatedWord mask := by",

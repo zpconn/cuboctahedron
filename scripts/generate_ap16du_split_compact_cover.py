@@ -27,7 +27,9 @@ if str(SCRIPT_DIR) not in sys.path:
 from generate_ap16cb_walsh_quadratic_bound_smoke import (  # noqa: E402
     emit_cube,
     emit_fixed_theorems,
-    emit_upper,
+    emit_quadratic,
+    fixed_cases,
+    PAIR_TO_LEAN,
 )
 from generate_ap16dc_compact_walsh_cover_smoke import (  # noqa: E402
     emit_dot_coefficients,
@@ -59,6 +61,7 @@ from generate_ap16t_precomputed_signature_smoke import (  # noqa: E402
     classified_cases_and_bad_masks_for_signature,
 )
 from profile_ap16bj_walsh_subcube_cover import compute_walsh_forms  # noqa: E402
+from profile_ap16bi_denominator_sign_forms import VAR_NAMES  # noqa: E402
 
 
 DEFAULT_PLAN = Path("scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_plan.json")
@@ -103,6 +106,50 @@ def public_cube(lines: list[str]) -> list[str]:
     ]
 
 
+def emit_direct_poly_nonpos(data: dict[str, Any]) -> list[str]:
+    """Emit coefficient polynomial data plus a direct cube nonpositivity theorem.
+
+    Earlier split-cover leaves produced proof-carrying `generatedUpper` and
+    `generatedSymbolicObstruction` structures.  Those structures live in
+    `Type`, so their proof fields can become import-time data.  This direct
+    theorem keeps the generated arithmetic in `Prop` and lets Lean discard the
+    proof term after checking the leaf.
+    """
+    label = data["selected"]["label"]
+    coeffs = {subset: coeff for subset, coeff in data["terms"]}
+    fixed_names = {name for name, _sign in fixed_cases(label)}
+    free_names = [name for name in VAR_NAMES if name not in fixed_names]
+
+    lines: list[str] = []
+    lines.extend(emit_quadratic("generatedPoly", coeffs))
+    lines.extend([
+        "",
+        "private theorem generatedPoly_nonpos",
+        "    {mask : SignMask} (hmask : generatedSubcubeMember mask) :",
+        "    generatedPoly.coeffEval mask <= 0 := by",
+    ])
+    for name in sorted(fixed_names, key=VAR_NAMES.index):
+        lines.append(f"  have h_{name} := generatedCube_{name} hmask")
+    simp_args = [
+        "WalshQuadratic.coeffEval",
+        "generatedPoly",
+        "SignBit.value",
+        "SignBit.toPairId",
+    ]
+    simp_args.extend(f"h_{name}" for name in VAR_NAMES)
+    if free_names:
+        for idx, name in enumerate(free_names):
+            indent = "  " if idx == 0 else "    "
+            lines.append(
+                f"{indent}by_cases h_{name} : "
+                f"maskBitForPair mask {PAIR_TO_LEAN[name]} <;>"
+            )
+        lines.append(f"    norm_num [{', '.join(simp_args)}]")
+    else:
+        lines.append(f"  norm_num [{', '.join(simp_args)}]")
+    return lines
+
+
 def emit_subcube_module(
     *,
     tag: str,
@@ -145,7 +192,7 @@ def emit_subcube_module(
         "  generatedCube.Member mask",
         "",
     ])
-    lines.extend(emit_upper(data))
+    lines.extend(emit_direct_poly_nonpos(data))
     lines.append("")
     lines.extend(emit_dot_coefficients(entry))
     lines.append("")
@@ -167,34 +214,20 @@ def emit_subcube_module(
         f"  simp [generatedImpact, {entry_ns}.firstWordImpactIndex,",
         f"    {entry_ns}.selectedWordImpactIndex, wordImpact, afterStart, lastImpact] at hv",
         "",
-        "private def generatedSymbolicObstruction :",
-        f"    WalshSymbolicQuadraticImpactObstruction {rank} generatedSubcubeMember where",
-        "  impact := generatedImpact",
-        "  not_zero := generatedImpact_not_zero",
-        "  not_last := generatedImpact_not_last",
-        "  cube := generatedCube",
-        "  member_cube := by",
-        "    intro mask hmember",
-        "    exact hmember",
-        f"  normal := {entry_ns}.generatedNormal",
-        f"  vector := {entry_ns}.generatedVector",
-        "  poly := generatedPoly",
-        "  dot_coefficients := generatedDotCoefficients",
-        "  upper := generatedUpper",
-        "  denom_dot_eq := by",
-        "    intro mask hlt hmember",
-        "    rw [generatedRank_eq hlt]",
-        f"    exact {entry_ns}.generatedDenomDotCompact mask",
-        "",
         "theorem generatedNonpos",
         "    {mask : SignMask} (hlt :",
         f"      {rank} < numPairWords)",
         "    (hmember : generatedSubcubeMember mask) :",
         "    impactDenomAtRank",
         f"      (⟨{rank}, hlt⟩ : Fin numPairWords) mask generatedImpact <= 0 := by",
-        "  exact",
-        "    (generatedSymbolicObstruction.toWalshQuadraticImpactObstruction",
-        "      |>.toImpactSubcubeObstruction).nonpos hlt hmember",
+        "  rw [generatedRank_eq hlt]",
+        "  rw [generatedImpact]",
+        f"  rw [{entry_ns}.generatedDenomDotCompact mask]",
+        f"  have hdot := WalshAffineVec3.dot_coeffEval {entry_ns}.generatedNormal",
+        f"    {entry_ns}.generatedVector mask",
+        "  rw [generatedDotCoefficients] at hdot",
+        "  rw [← hdot]",
+        "  exact generatedPoly_nonpos hmember",
         "",
         "theorem splitSubcubeSmoke_builds : True := by",
         "  trivial",
@@ -231,25 +264,27 @@ def emit_member_def(subcube_count: int, tag: str, rank: int) -> list[str]:
     return lines
 
 
-def emit_obstruction_def(subcube_count: int, tag: str, rank: int) -> list[str]:
+def emit_notgood_theorem(subcube_count: int, tag: str, rank: int) -> list[str]:
     lines = [
         "",
-        "private def generatedObstruction :",
-        "    (cube : GeneratedCompactSubcube) ->",
-        f"      ImpactSubcubeObstruction {rank} (generatedSubcubeMember cube)",
+        "private theorem generatedSubcube_notGood",
+        "    (cube : GeneratedCompactSubcube)",
+        "    {mask : SignMask}",
+        f"    (hlt : {rank} < numPairWords)",
+        "    (hmember : generatedSubcubeMember cube mask) :",
+        f"    ¬ GoodDirectionAtRank (⟨{rank}, hlt⟩ : Fin numPairWords) mask := by",
+        "  cases cube",
     ]
     for index in range(subcube_count):
-        ctor = cube_ctor(index)
         ns = subcube_namespace(tag, rank, index)
         lines.extend([
-            f"  | .{ctor} => {{",
-            f"      impact := {ns}.generatedImpact",
-            f"      not_zero := {ns}.generatedImpact_not_zero",
-            f"      not_last := {ns}.generatedImpact_not_last",
-            "      nonpos := by",
-            "        intro mask hlt hmember",
-            f"        exact {ns}.generatedNonpos hlt hmember",
-            "    }",
+            "  · exact not_goodDirectionAtRank_of_nonpositive_denom",
+            f"      (r := (⟨{rank}, hlt⟩ : Fin numPairWords))",
+            "      (mask := mask)",
+            f"      (i := {ns}.generatedImpact)",
+            f"      {ns}.generatedImpact_not_zero",
+            f"      {ns}.generatedImpact_not_last",
+            f"      ({ns}.generatedNonpos hlt hmember)",
         ])
     return lines
 
@@ -293,21 +328,13 @@ def emit_complete(
             ])
 
     lines.extend([
-        "",
-        "private def generatedImpactSubcubeCover :",
-        f"    ImpactSubcubeCover {rank} generatedGoodMaskMember where",
-        "  Family := GeneratedCompactSubcube",
-        "  Member := generatedSubcubeMember",
-        "  obstruction := generatedObstruction",
-        "  complete := by",
-        "    intro mask hnot",
-        "    exact generatedSubcube_complete hnot",
-        "",
         "theorem generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes",
         f"    {{mask : SignMask}} (hlt : {rank} < numPairWords)",
         f"    (hgood : GoodDirectionAtRank (⟨{rank}, hlt⟩ : Fin numPairWords) mask) :",
-        "    generatedGoodMaskMember mask :=",
-        "  generatedImpactSubcubeCover.goodMaskMember_of_goodDirection hlt hgood",
+        "    generatedGoodMaskMember mask := by",
+        "  by_contra hnot",
+        "  rcases generatedSubcube_complete hnot with ⟨cube, hmember⟩",
+        "  exact generatedSubcube_notGood cube hlt hmember hgood",
         "",
         "theorem splitCompactWalshCoverSmoke_builds : True := by",
         "  trivial",
@@ -355,7 +382,7 @@ def emit_root_module(
         "",
     ])
     lines.extend(emit_member_def(len(subcubes), tag, rank))
-    lines.extend(emit_obstruction_def(len(subcubes), tag, rank))
+    lines.extend(emit_notgood_theorem(len(subcubes), tag, rank))
     lines.extend(emit_complete(rank=rank, tag=tag, good_masks=good_masks, subcubes=subcubes))
     lines.extend([
         "",

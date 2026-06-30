@@ -346,29 +346,27 @@ def emit_root(namespace: str, stem: str, *, chain_imports: bool = False) -> Path
         "-/",
         "",
         *prelude(namespace),
-        "def generatedTrace :",
-        "    TranslationWalshVectorTrace generatedWord generatedVector where",
-        "  pref := generatedPrefix",
-        "  zero_eq := by",
-        "    norm_num [generatedPrefix, WalshAffineVec3.add, WalshAffineVec3.const,",
-        "      WalshAffineVec3.smulConst, WalshAffine.add, WalshAffine.const,",
-        "      WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero,",
-        "      pairPrefixLinearNat, pairReflectionDeltaQ, reflD, canonicalOffsetQ,",
-        "      matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot,",
-        "      scalarMul, canonicalNormalQ, generatedPref00, generatedPref00_x,",
-        "      generatedPref00_y, generatedPref00_z, WalshAffineVec3.zero]",
-        "  step_eq := by",
-        "    intro i",
-        "    fin_cases i",
-    ]
-    for index in range(13):
-        lines.append(f"    · exact generatedTrace_step_{index:02d}")
-    lines.extend([
-        "  final_eq := generatedTrace_final",
-        "",
         "theorem generatedVector_eq_translationVectorWalsh :",
         "    generatedVector = translationVectorWalshOfChoice generatedWord :=",
-        "  TranslationWalshVectorTrace.final_eq_translationVectorWalsh generatedTrace",
+        "  TranslationWalshVectorTrace.final_eq_translationVectorWalsh {",
+        "    pref := generatedPrefix",
+        "    zero_eq := by",
+        "      norm_num [generatedPrefix, WalshAffineVec3.add, WalshAffineVec3.const,",
+        "        WalshAffineVec3.smulConst, WalshAffine.add, WalshAffine.const,",
+        "        WalshAffine.scale, WalshAffine.bit, WalshAffine.neg, WalshAffine.zero,",
+        "        pairPrefixLinearNat, pairReflectionDeltaQ, reflD, canonicalOffsetQ,",
+        "        matVec, matMul, matId, reflM, matSub, scalarMat, outer, dot,",
+        "        scalarMul, canonicalNormalQ, generatedPref00, generatedPref00_x,",
+        "        generatedPref00_y, generatedPref00_z, WalshAffineVec3.zero]",
+        "    step_eq := by",
+        "      intro i",
+        "      fin_cases i",
+    ]
+    for index in range(13):
+        lines.append(f"      · exact generatedTrace_step_{index:02d}")
+    lines.extend([
+        "    final_eq := generatedTrace_final",
+        "  }",
         "",
         "theorem generatedVector_eval_eq_translationVector (mask : SignMask) :",
         "    generatedVector.eval mask = translationVectorOfChoice generatedWord mask := by",

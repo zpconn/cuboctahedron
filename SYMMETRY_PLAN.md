@@ -37494,11 +37494,106 @@ before proving compact denominator facts.  The current DU9IM rank-641 shape
 therefore has a roughly `4.0 GiB` serial baseline and is not accepted as a
 memory-safe proof artifact.
 
-Decision: do not resume the rank-641 `4200 MiB` guard as-is, and do not wire
-the emitted rank-641 files into any accepted root.  The next implementation
-step should reduce the selected-impact import footprint, for example by
-emitting lower-memory denominator bridges that consume only the needed
-trace/data component facts instead of importing the full trace root, or by
-using a semantic row/diamond bridge that avoids replaying rank-local trace
-proofs for every selected impact.  Only after a replacement shape passes
-with a comfortable guard margin should rank `641` be accepted.
+Decision at this checkpoint: do not resume the original rank-641 `4200 MiB`
+guard as-is, and do not wire the original emitted rank-641 files into any
+accepted root.  This decision is superseded by the theorem-only refactor
+checkpoint below.
+
+### Phase 6Z6K8AP16DU9IM - rank 641 theorem-only split cover accepted
+
+The rank-641 split-cover memory problem was traced to generated
+proof-carrying structures living in `Type`:
+
+- the Walsh-vector trace roots exported `generatedTrace` structures;
+- subcube leaves exported `generatedUpper` and
+  `generatedSymbolicObstruction` structures;
+- the split-cover root exported `generatedObstruction` and
+  `generatedImpactSubcubeCover` structures.
+
+The generators now emit theorem-only proof surfaces instead:
+
+- `scripts/generate_ap16dk_split_walsh_vector_trace_smoke.py` and
+  `scripts/generate_ap16cm_walsh_vector_trace_smoke.py` emit
+  `generatedVector_eq_translationVectorWalsh` directly via
+  `TranslationWalshVectorTrace.final_eq_translationVectorWalsh`, without an
+  exported trace structure;
+- `scripts/generate_ap16du_split_compact_cover.py` emits each subcube's
+  coefficient polynomial plus a private theorem `generatedPoly_nonpos`, and
+  proves `generatedNonpos` directly from the selected impact dot-product
+  bridge;
+- the split-cover root emits `generatedSubcube_notGood` and the public
+  `generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`
+  theorem directly, without an exported `ImpactSubcubeCover` object.
+
+The direct theorem-only rank-641 emission command was:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_source.json \
+  --rank 641 \
+  --tag DU9IM \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IM' \
+  --report scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_generation_direct_subcube_root.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 10
+```
+
+Focused guarded probes:
+
+- trace-root theorem-only probe:
+  `phase6z6k8ap16du9im_split_cover_rank641_theorem_trace_probe_guard_4200.json`;
+  the split trace root peaked at `3886.32 MiB`, and the selected impact-6
+  target peaked at `4082.62 MiB`;
+- pre-refactor subcube/root guard:
+  `phase6z6k8ap16du9im_split_cover_rank641_theorem_trace_full_guard_4100.json`;
+  stopped safely at subcube002, `4103.68 MiB`, showing the subcube/root
+  objects still needed the theorem-only refactor;
+- direct subcube002 probe:
+  `phase6z6k8ap16du9im_split_cover_rank641_direct_subcube002_guard_4100.json`;
+  passed at `4058.65 MiB`;
+- direct tail probe:
+  `phase6z6k8ap16du9im_split_cover_rank641_direct_tail_guard_4100.json`;
+  all remaining subcube leaves passed under `4100 MiB`, with the largest
+  subcube at `4082.25 MiB`; the root itself exceeded that artificial cap by
+  only `2.52 MiB`;
+- direct root probe:
+  `phase6z6k8ap16du9im_split_cover_rank641_direct_root_guard_4200.json`;
+  passed at `4156.08 MiB`.
+
+The accepted single clean full guarded pass is:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_generation_direct_subcube_root.json \
+  --json scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_direct_full_guard_4200.json \
+  --out-dir /tmp/ap16du9im_split_cover_rank641_direct_full_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Full guarded pass summary:
+
+- status: `passed`;
+- target count: `53`;
+- guard cap: `4200 MiB`;
+- full-pass maximum process-tree RSS: `793.09 MiB` because the fresh heavy
+  targets had already been built by the focused probes;
+- meaningful fresh-target high-water marks:
+  - selected impact probe: `4082.62 MiB`;
+  - subcube002: `4058.65 MiB`;
+  - largest subcube in the tail: `4082.25 MiB`;
+  - split-cover root: `4156.08 MiB`;
+- minimum available memory during the fresh root probe: `45908.43 MiB`.
+
+Decision: rank `641` is accepted under the theorem-only split-cover topology.
+The `generate_ap16du_split_compact_cover.py` theorem-only leaf/root emission
+should be reused for the remaining DU9IM ranks.  Keep heavy Lean builds
+serial and guarded; a `4200 MiB` cap is currently the correct single-target
+guard for this topology, while a `4100 MiB` cap is too tight for the root.

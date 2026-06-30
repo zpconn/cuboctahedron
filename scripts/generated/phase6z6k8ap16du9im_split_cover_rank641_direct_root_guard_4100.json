@@ -1,0 +1,51 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "failed_target": {
+    "kind": "split_cover_root",
+    "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverRank641Smoke"
+  },
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [
+      52
+    ],
+    "target_kind": []
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9im_split_cover_rank641_generation_direct_subcube_root.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverRank641Smoke"
+      ],
+      "elapsed_seconds": 8.51139980100561,
+      "exit_code": -15,
+      "killed_reason": "process-tree RSS 4102 MiB exceeded 4100 MiB cap",
+      "kind": "split_cover_root",
+      "max_tree_rss_kib": 4200564,
+      "max_tree_rss_mib": 4102.11328125,
+      "min_available_seen_kib": 47051576,
+      "min_available_seen_mib": 45948.8046875,
+      "rss_cap_mib": 4100.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverRank641Smoke",
+      "target_json": "/tmp/ap16du9im_split_cover_rank641_direct_root_guard_4100/000_ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverRank641Smoke.json"
+    }
+  ],
+  "rss_cap_mib": 4100,
+  "status": "failed_or_guard_stopped",
+  "target_count": 1,
+  "targets": [
+    {
+      "kind": "split_cover_root",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverRank641Smoke"
+    }
+  ],
+  "timeout_seconds": 900,
+  "trusted_as_final_generated_coverage": false
+}
