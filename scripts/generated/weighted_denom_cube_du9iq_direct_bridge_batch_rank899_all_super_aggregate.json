@@ -1,0 +1,12 @@
+{
+  "batch_count": 2,
+  "batch_modules": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank899Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke"
+  ],
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank899AllSmoke",
+  "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeBatchRank899AllSmoke.lean",
+  "phase": "Phase 6Z6K8AP16DU9IQ traced direct bridge super-aggregate",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}
