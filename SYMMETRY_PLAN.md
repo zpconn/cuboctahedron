@@ -31163,3 +31163,42 @@ uncovered masks.  Next step: prepare a DU9GT/DU9GU AP16DJ-compatible
 plan/source pair, dry-run the emitter, then emit and guard-check only if the
 planned target count and file sizes remain comparable to the prior six-rank
 batches.
+
+### Phase 6Z.6K.8AP.16DU.9GU checkpoint: third hcover batch prep and dry-run
+
+Phase 6Z.6K.8AP.16DU.9GU prepares an AP16DJ-compatible plan/source pair for
+the third compact hcover batch: ranks `45`, `47`, `49`, `57`, `59`, and `60`.
+
+Prep command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9gt_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9GU' \
+  --signature-key-prefix du9gu
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=14208`, producing a
+plan/source pair for ranks `45`, `47`, `49`, `57`, `59`, and `60`.
+
+AP16DJ dry-run command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GUBatchSmoke
+```
+
+Result: passed in `elapsed=0:00.07`, `max_rss_kb=27140`, with status
+`dry_run`, `6` signatures, and `151` planned guarded targets.
+
+Decision: accepted.  DU9GU is comparable to DU9GH and DU9GO at the dry-run
+stage.  The safe sequence remains unchanged: emit, plan-only guard target list,
+one largest-cover probe, all cover roots, then shallow batch root.  Do not run a
+broad package build.
