@@ -31,6 +31,16 @@
       "needle": "def SourcePositionRowProducerGoodCoverageOnRange",
       "present": true
     },
+    "source_position_coverage_to_template_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+      "needle": "theorem SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge",
+      "present": true
+    },
+    "source_position_language_to_template_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
+      "needle": "theorem SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge",
+      "present": true
+    },
     "source_position_to_all_good_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
       "needle": "theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage",

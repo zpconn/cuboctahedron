@@ -29179,3 +29179,27 @@ than an older all-good bridge.  This still does not prove global coverage: a
 future generated/state-language module must prove
 `SourcePositionRowProducerGoodCoverageOnRange` (or the corresponding language)
 for large compressed domains.
+
+### Phase 6Z.6K.8AP.16DU.9FE checkpoint: contract guards source-position template bridge
+
+Phase 6Z.6K.8AP.16DU.9FE updates the semantic coverage contract audit so it
+checks that source-position producer coverage now reaches the current template
+member-bridge target:
+
+- `source_position_language_to_template_member_bridge_exists`
+- `source_position_coverage_to_template_member_bridge_exists`
+
+Audit command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.04`, `max_rss_kb=12524`, with
+`all_required_surfaces_present = true`.
+
+Decision: accepted as proof-neutral contract maintenance.  The audit now
+tracks the production-relevant bridge from source-position language to
+`TemplateLanguageMemberBridgeOnRange`, while continuing to mark the real
+generated obligation as open.

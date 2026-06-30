@@ -43,6 +43,14 @@ CHECKS = {
         "source_position_producer_language",
         "theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage",
     ),
+    "source_position_language_to_template_member_bridge_exists": (
+        "source_position_producer_language",
+        "theorem SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge",
+    ),
+    "source_position_coverage_to_template_member_bridge_exists": (
+        "source_position_producer_language",
+        "theorem SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge",
+    ),
     "positive_single_candidate_classifier_exists": (
         "positive_survivor_membership_smoke",
         "theorem allGoodCoverage_of_positiveSingleCandidateClassifier",
