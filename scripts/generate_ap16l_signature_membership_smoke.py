@@ -152,6 +152,7 @@ def emit_module(profile: dict[str, Any], group: dict[str, Any], signature: dict[
     )
 
     text = f"""import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 /-!
 Generated singleton positive-survivor signature-membership smoke for AP.16L.
@@ -171,6 +172,7 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Positive
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier
 
@@ -302,6 +304,58 @@ theorem generatedSingletonSignatureSemanticAllGoodCoverage
     AllTranslationGoodCoverageOnRange {anchor} {hi} :=
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     (generatedSingletonSignatureSemanticSourcePositionCoverage hmask hfacts)
+
+theorem generatedSingletonSignatureTemplateMemberBridge
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        goodDirectionAtRankBool ⟨{anchor}, hlt⟩ mask = true ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageMemberBridgeOnRange {anchor} {hi} :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
+    (generatedSingletonSignatureSourcePositionCoverage hmask hfacts)
+
+theorem generatedSingletonSignatureTemplateCoverage
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        goodDirectionAtRankBool ⟨{anchor}, hlt⟩ mask = true ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageCoverageOnIdentityRange {anchor} {hi} :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (generatedSingletonSignatureTemplateMemberBridge hmask hfacts)
+
+theorem generatedSingletonSignatureSemanticTemplateMemberBridge
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageMemberBridgeOnRange {anchor} {hi} :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
+    (generatedSingletonSignatureSemanticSourcePositionCoverage hmask hfacts)
+
+theorem generatedSingletonSignatureSemanticTemplateCoverage
+    (hmask :
+      forall {{mask : SignMask}} (hlt : {anchor} < numPairWords),
+        GoodDirectionAtRank ⟨{anchor}, hlt⟩ mask ->
+          generatedGoodMaskMember mask)
+    (hfacts :
+      forall {{mask : SignMask}},
+        generatedGoodMaskMember mask ->
+          generatedSignatureFacts mask) :
+    TemplateLanguageCoverageOnIdentityRange {anchor} {hi} :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (generatedSingletonSignatureSemanticTemplateMemberBridge hmask hfacts)
 
 theorem generatedPositiveSurvivorSignatureMembershipSmoke_builds : True := by
   trivial

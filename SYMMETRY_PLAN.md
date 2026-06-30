@@ -29294,3 +29294,57 @@ template member bridge directly.  It is not global evidence; the remaining
 production obligation is still to generate compressed theorem-valued domains
 or languages that discharge the `hclass`/membership premise over complete
 semantic families without falling back to rank or mask singleton leaves.
+
+### Phase 6Z.6K.8AP.16DU.9FH checkpoint: singleton signature template bridge smoke
+
+Phase 6Z.6K.8AP.16DU.9FH updates
+`scripts/generate_ap16l_signature_membership_smoke.py` so the singleton
+positive-survivor signature-membership smoke exports the same
+template-language target from both Boolean and semantic GoodDirection
+variants:
+
+```lean
+theorem generatedSingletonSignatureTemplateMemberBridge
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageMemberBridgeOnRange 100805 100806
+
+theorem generatedSingletonSignatureTemplateCoverage
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageCoverageOnIdentityRange 100805 100806
+
+theorem generatedSingletonSignatureSemanticTemplateMemberBridge
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageMemberBridgeOnRange 100805 100806
+
+theorem generatedSingletonSignatureSemanticTemplateCoverage
+    (hmask : ...) (hfacts : ...) :
+    TemplateLanguageCoverageOnIdentityRange 100805 100806
+```
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_ap16l_signature_membership_smoke.py
+```
+
+Result: passed in `elapsed=0:00.07`, `max_rss_kb=18388`.  The generated
+singleton signature is anchored at rank `100805` with positive masks
+`4,6,11,22,30,31,59,63`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean
+```
+
+Result: passed in `elapsed=0:03.79`, `max_rss_kb=3276152`.
+
+Decision: accepted as a second bounded, nonempty theorem-surface smoke.
+Together with 9FG, this confirms that both the AP.16I group-level and AP.16L
+singleton-signature paths can now terminate at
+`TemplateLanguageMemberBridgeOnRange`/`TemplateLanguageCoverageOnIdentityRange`
+instead of the older all-good-only target.  It remains smoke: the production
+work is still to replace the narrow `hmask`/`hfacts` premises with compressed
+state/domain language theorems that cover all GoodDirection survivors.
