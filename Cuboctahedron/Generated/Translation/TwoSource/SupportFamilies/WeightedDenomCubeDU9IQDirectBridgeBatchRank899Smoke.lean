@@ -1,0 +1,41 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx28Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx29Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx30Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx31Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx32Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx33Smoke
+
+/-!
+Shallow aggregate for DU9IQ traced direct bridge batch `WeightedDenomCubeDU9IQDirectBridgeBatchRank899Smoke`.
+
+The imported leaves contain the checked arithmetic.  This module only
+proves that the theorem surfaces compose without name conflicts or broad
+local unfolding.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
+namespace WeightedDenomCubeDU9IQDirectBridgeBatchRank899Smoke
+
+theorem idx28_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx28Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx29_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx29Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx30_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx30Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx31_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx31Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx32_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx32Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx33_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx33Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem weightedDenomCubeDU9IQDirectBridgeBatchRank899Smoke_builds : True := by
+  trivial
+
+end WeightedDenomCubeDU9IQDirectBridgeBatchRank899Smoke
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies

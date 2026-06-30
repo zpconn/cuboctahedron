@@ -41634,3 +41634,41 @@ Decision: accepted.  Rank `899` now has all prerequisites for bridge summaries
 checked under explicit guards.  The next step is to emit the six standalone
 reduced direct-bridge leaves from the rank-`899` batch plan, build each one
 serially under the `12 GiB` guard, and then compose a shallow batch aggregate.
+
+### Phase 6Z6K8AP16DU9IQ - rank-899 traced bridge frontier accepted
+
+The first bounded rank-`899` direct-bridge frontier was emitted and checked
+from the accepted plan:
+
+- selected bridge summaries: `28`, `29`, `30`, `31`, `32`, and `33`;
+- generated bridge leaves:
+  `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx28Smoke` through
+  `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx33Smoke`;
+- generated batch root:
+  `WeightedDenomCubeDU9IQDirectBridgeBatchRank899Smoke`.
+
+Each bridge leaf was checked serially with `LAKE_JOBS=1` under a `12 GiB`
+tree-RSS cap and a `35 GiB` available-memory floor.
+
+Bridge-leaf telemetry:
+
+- bridge count: `6`;
+- failures: `0`;
+- total serial elapsed time: `18.53s`;
+- worst bridge target:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx28_guard.json`;
+- worst bridge elapsed time: `3.50s`;
+- worst bridge peak tree RSS: `4145 MiB`;
+- lowest available memory seen during bridge builds: `45942 MiB`.
+
+The shallow batch root also passed under the same guard:
+
+- elapsed time: `2.50s`;
+- peak tree RSS: `3733 MiB`;
+- minimum available memory seen: `46151 MiB`.
+
+Decision: accepted.  Rank `899` now has the first six traced DU9IQ bridge
+leaves and a shallow aggregate, all checked without broad uncached imports.
+The next scaling step is to run another rank-`899` frontier with
+`--skip-existing-bridges`, inspect whether it requires new normal traces, and
+continue the same guarded plan-first workflow.
