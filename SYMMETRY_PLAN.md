@@ -30869,3 +30869,35 @@ Decision: accepted.  The first DU9GH batch is now excluded from the diagnostic
 missing-target frontier, and the next six-rank compact hcover batch is ready for
 Walsh subcube cover profiling.  Continue with low-memory Python profiling first;
 do not emit the next Lean batch until each rank has an uncovered-count of zero.
+
+### Phase 6Z.6K.8AP.16DU.9GN checkpoint: compact cover profiles for next hcover batch
+
+Phase 6Z.6K.8AP.16DU.9GN profiles Walsh subcube covers for the next target
+ranks selected by 9GM: `29`, `30`, `32`, `40`, `42`, and `44`.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 - <<'PY'
+# parallel Python profiler over ranks 29, 30, 32, 40, 42, 44
+# using profile_ap16bj_walsh_subcube_cover.profile
+PY
+```
+
+Result: passed in `elapsed=0:02.86`, `max_rss_kb=26228`.
+
+Summary:
+
+| Rank | Anchor mask | Good masks | Bad masks | Candidates | Selected subcubes | Uncovered | Walsh validated |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| `29` | `8` | `11` | `53` | `212` | `16` | `0` | yes |
+| `30` | `8` | `13` | `51` | `197` | `16` | `0` | yes |
+| `32` | `8` | `11` | `53` | `212` | `16` | `0` | yes |
+| `40` | `8` | `7` | `57` | `235` | `17` | `0` | yes |
+| `42` | `8` | `16` | `48` | `201` | `17` | `0` | yes |
+| `44` | `8` | `13` | `51` | `173` | `19` | `0` | yes |
+
+Decision: accepted.  The second six-rank target batch has compact Walsh cover
+profiles with no uncovered masks.  Next step: prepare an AP16DJ-compatible
+plan/source pair for these ranks, dry-run the emitter, then emit Lean only if
+the guarded target count and file sizes look comparable to DU9GH.
