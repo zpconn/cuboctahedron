@@ -42629,3 +42629,82 @@ build discipline are working.  The next safe singleton candidates from the
 sets (`13`, `13`, and `16` masks respectively).  Continue with one candidate at
 a time under the same guard; if a leaf crosses the `12 GiB` cap, stop and
 prefer a thinner/split proof surface over increasing parallelism.
+
+### Phase 6Z6K8AP16DU9IQ5 - rank 896 singleton integrated
+
+Rank `896` was selected as the first 13-survivor singleton stress test:
+
+- rank: `896`;
+- GoodDirection survivor masks:
+  `[9, 13, 16, 18, 22, 24, 28, 30, 31, 45, 47, 54, 55]`;
+- candidate source-position groups: `8`;
+- bad-direction witnesses kept local to the signature: `51`.
+
+The rank-local positive precomputed-signature module was generated:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke
+```
+
+Guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank896_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `60.65s` | `7926 MiB` | `40063 MiB` | `0` |
+
+A stable wrapper was added:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank896AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 896 897
+
+rank896AllGoodRankKilled :
+  AllTranslationGoodRankKilled 896
+```
+
+The sparse root now covers five accepted singleton signatures:
+
+```lean
+acceptedSingletonRanks : List Nat := [896, 903, 905, 911, 955]
+
+acceptedSingletonAllGoodCoverage :
+  CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks
+```
+
+Guarded sparse-root rebuild:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_accepted_singletons_root_rank896_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.50s` | `4046 MiB` | `46017 MiB` | `0` |
+
+Decision: accepted.  The 13-survivor rank did not increase memory pressure; it
+was slightly lighter than the smaller singleton leaves.  Continue with rank
+`897` next, still one heavy leaf at a time.
