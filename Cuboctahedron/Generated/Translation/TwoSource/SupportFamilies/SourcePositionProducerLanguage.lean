@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 /-!
 Source-position plus row-producer language bridge.
@@ -17,6 +18,7 @@ namespace SourcePositionProducerLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 /--
 GoodDirection survivor language expressed by source positions and row
@@ -215,6 +217,53 @@ theorem SourcePositionRowProducerGoodLanguageOnRange.to_bridge
   SourceRowProducerGoodLanguageOnRange.to_bridge
     (SourcePositionRowProducerGoodLanguageOnRange.to_producerLanguage language)
 
+def SourcePositionRowProducerGoodLanguageOnRange.domain
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageDomain :=
+  fun rank mask =>
+    exists spec : SourcePairPositionSpec,
+      exists rowProducer : SourceIndexStateRowProducer,
+        exists key : SourceIndexStateKey,
+          language.Language spec rowProducer key rank mask
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.domainCovers
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageDomainCoversIdentityRange language.domain lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact language.complete hlt hlo hhi hM hgood
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.domainMemberBridge
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnDomain language.domain := by
+  intro rank mask hlt hmem _hM _hgood
+  rcases hmem with ⟨spec, rowProducer, key, hlanguage⟩
+  have hsource : SourceIndexStateSourceFacts key rank mask :=
+    spec.sourceFacts
+      (language.firstIndex hlanguage)
+      (language.secondIndex hlanguage)
+      (language.support hlanguage)
+      (language.source hlanguage)
+  have hrows : SourceIndexStateRowFacts key rank mask :=
+    rowProducer.rowFacts (language.rows hlanguage)
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi :=
+  TemplateLanguageMemberBridgeOnDomain.to_range
+    language.domainCovers language.domainMemberBridge
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_templateCoverage
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi :=
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    language.to_templateMemberBridge
+
 theorem SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage
     {lo hi : Nat}
     (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
@@ -240,6 +289,20 @@ theorem SourcePositionRowProducerGoodCoverageOnRange.to_bridge
     (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
     SourceRowFactsGoodBridgeOnRange lo hi :=
   SourcePositionRowProducerGoodLanguageOnRange.to_bridge
+    (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge
+    (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_templateCoverage
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_templateCoverage
     (SourcePositionRowProducerGoodLanguageOnRange.of_coverage coverage)
 
 theorem SourcePositionRowProducerGoodCoverageOnRange.to_killedBridge_of_fullRange

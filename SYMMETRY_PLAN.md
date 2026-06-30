@@ -29121,3 +29121,61 @@ step should define theorem-valued source-language obligations for static
 `xpStart`/`ordering` and dynamic interior face-position facts, then connect
 those obligations to `TemplateLanguageMemberBridgeOnDomain`.  The diagnostic
 does not prove global coverage and should not be used as a certificate.
+
+### Phase 6Z.6K.8AP.16DU.9FD checkpoint: source-position language to template domain
+
+Phase 6Z.6K.8AP.16DU.9FD wires the existing theorem-valued
+`SourcePositionProducerLanguage` into the current template-language domain
+target.  `SourcePositionProducerLanguage.lean` now imports `TemplateLanguage`
+and exposes:
+
+```lean
+def SourcePositionRowProducerGoodLanguageOnRange.domain
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageDomain
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.domainCovers
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageDomainCoversIdentityRange language.domain lo hi
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.domainMemberBridge
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnDomain language.domain
+
+theorem SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge
+    {lo hi : Nat}
+    (language : SourcePositionRowProducerGoodLanguageOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi
+
+theorem SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
+    {lo hi : Nat}
+    (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :
+    TemplateLanguageMemberBridgeOnRange lo hi
+```
+
+The proof uses the existing source-position facts:
+
+- `SourcePairPositionSpec.sourceFacts`
+- `SourceIndexStateRowProducer.rowFacts`
+- `TemplateLanguageMember.of_sourceIndexState_source_row`
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean
+```
+
+Result: passed in `elapsed=0:07.42`, `max_rss_kb=3268972`.
+
+Decision: accepted as a production-relevant Lean bridge.  The source-position
+language already contains the static `xpStart`/`ordering` and dynamic interior
+lookup lemmas identified by 9FC; it can now discharge the current
+`TemplateLanguageMemberBridgeOnRange` target through a semantic domain rather
+than an older all-good bridge.  This still does not prove global coverage: a
+future generated/state-language module must prove
+`SourcePositionRowProducerGoodCoverageOnRange` (or the corresponding language)
+for large compressed domains.
