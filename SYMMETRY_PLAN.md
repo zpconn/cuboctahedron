@@ -38046,3 +38046,53 @@ topology.  The peak remains close enough to the `4200 MiB` cap that no
 parallel Lean checking should be used for DU9IN rank leaves or roots.  Continue
 with ranks `724` and `748`, one at a time, under the same `4200 MiB` RSS cap
 and `12000 MiB` available-memory floor.
+
+### Phase 6Z6K8AP16DU9IN - rank 724 split cover accepted
+
+Rank `724` was emitted with theorem-only split-cover modules using selected
+normal-component split impacts `6`, `7`, and `9`, plus trace step `12` and the
+final trace:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9in_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9in_compact_hcover_batch_source.json \
+  --rank 724 \
+  --tag DU9IN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IN' \
+  --report scripts/generated/phase6z6k8ap16du9in_split_cover_rank724_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 9
+```
+
+The full serial memory-guarded pass was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9in_split_cover_rank724_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9in_split_cover_rank724_guard_4200.json \
+  --out-dir /tmp/ap16du9in_split_cover_rank724_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guarded pass summary:
+
+- status: `passed`;
+- target count: `56`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS: `4163.25 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverRank724Smoke`;
+- split-cover root RSS: `4163.25 MiB`;
+- minimum available memory seen: `45895.24 MiB`.
+
+Decision: rank `724` is accepted under the serial theorem-only split-cover
+topology.  Continue with rank `748` under the same serial `4200 MiB`
+process-tree cap and `12000 MiB` available-memory floor.
