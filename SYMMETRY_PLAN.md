@@ -36064,3 +36064,120 @@ batch roots are now DU9II and DU9IJ.  Continue by selecting the next compact
 h-cover window or by promoting the accepted split batch roots into the
 higher-level generated coverage assembly; either path should keep using
 rank-level guarded builds and shallow roots rather than broad package builds.
+
+### Phase 6Z6K8AP16DU9IK - next compact window and batch prep accepted
+
+The next compact h-cover planning window was profiled over ranks `[512, 576)`.
+This phase was intentionally kept to low-memory Python profiling and source
+planning only; no proof-producing Lean target was built during this checkpoint.
+
+Target selection command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 512 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --json scripts/generated/phase6z6k8ap16du9ik_next_compact_hcover_ranks_512_576.json \
+  --md scripts/generated/phase6z6k8ap16du9ik_next_compact_hcover_ranks_512_576.md
+```
+
+Result:
+
+- status: `accepted-next-targets`;
+- recommended targets: `519`, `561`;
+- maximum RSS: `25308 kB`.
+
+Positive-survivor membership command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 512:576 \
+  --jobs 4 \
+  --sample-limit 16 \
+  --signature-gate 16 \
+  --candidate-gate 32 \
+  --json scripts/generated/phase6z6k8ap16du9ik_positive_survivor_membership_512_576.json \
+  --md scripts/generated/phase6z6k8ap16du9ik_positive_survivor_membership_512_576.md
+```
+
+Result:
+
+- ranks with `GoodDirection` survivors: `2`;
+- `GoodDirection` cases: `14`;
+- positive candidate groups: `6`;
+- positive survivor signatures: `2`;
+- bad-direction evidence emitted: `0`;
+- duplicate rank/mask memberships: `0`;
+- ambiguous `GoodDirection` memberships: `0`;
+- maximum RSS: `26520 kB`.
+
+Compact Walsh cover scaling command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py \
+  --profile scripts/generated/phase6z6k8ap16du9ik_positive_survivor_membership_512_576.json \
+  --output scripts/generated/phase6z6k8ap16du9ik_compact_walsh_cover_scaling.json \
+  --limit 16
+```
+
+Result:
+
+- sampled signatures: `2`;
+- uncovered signatures: `0`;
+- selected subcubes total: `30`;
+- selected subcubes min/max/mean: `15 / 15 / 15.0`;
+- selected word impacts union: `[0, 1, 3, 5, 6, 7, 8]`;
+- maximum RSS: `26764 kB`.
+
+Per-rank compact cover profiles:
+
+| Rank | Anchor mask | Selected subcubes | Uncovered | Candidate subcubes |
+| ---: | ----------: | ----------------: | --------: | -----------------: |
+| 519 | 6 | 15 | 0 | 250 |
+| 561 | 5 | 15 | 0 | 250 |
+
+Batch preparation command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9ik_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IKBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IKBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IK' \
+  --signature-key-prefix du9ik
+```
+
+Result:
+
+- ranks: `519`, `561`;
+- maximum RSS: `14592 kB`;
+- wrote DU9IK batch plan/source/prep reports under `scripts/generated/`.
+
+The old monolithic batch generator was run only as dry-run telemetry:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ik_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IKBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IKBatchSmoke \
+  --component-trace-step 12 \
+  --component-trace-final
+```
+
+Dry-run result:
+
+- status: `dry_run`;
+- signatures: `2`;
+- planned targets: `63`;
+- maximum RSS: `27284 kB`.
+
+Decision: DU9IK prep is accepted as planning telemetry, but the monolithic
+DU9IK batch route is not a proof path.  Emit and guard ranks `519` and `561`
+one at a time with split trace and selected-impact components, then assemble a
+shallow DU9IK split batch root only after both rank roots pass under the
+`4200 MiB` guard.

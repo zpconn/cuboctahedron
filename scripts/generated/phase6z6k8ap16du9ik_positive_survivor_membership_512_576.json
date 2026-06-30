@@ -1,0 +1,940 @@
+{
+  "ambiguous_good_survivor_memberships": 0,
+  "ambiguous_samples": [],
+  "bad_direction_evidence_emitted": 0,
+  "bounded_generation_estimate": {
+    "candidate_chunks_at_64_candidates": 1,
+    "proof_parallelism": "Python generation may use --jobs 4; Lean smoke builds should stay serial/focused",
+    "rough_lean_lines": 586,
+    "row_modules": 6,
+    "source_language_modules": 5
+  },
+  "candidates_per_good_mask_histogram": {
+    "1": 14
+  },
+  "counts": {
+    "covered_cases": 14,
+    "good_direction_survivors": 14,
+    "identity_words": 2,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 62,
+    "not_good_direction_masks": 114,
+    "pair_words_scanned": 64,
+    "translation_sign_assignments": 128,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "candidate_gate": 32,
+    "notes": [
+      "the profile groups only GoodDirection survivors",
+      "denominator-nonpositive masks are intentionally not enumerated",
+      "future Lean evidence should consume a GoodDirection premise and prove positive membership"
+    ],
+    "signature_gate": 16,
+    "status": "accepted-positive-survivor-membership-profile"
+  },
+  "descriptor_family_count": 6,
+  "duplicate_rank_mask_memberships": 0,
+  "duplicate_samples": [],
+  "jobs": 4,
+  "masks_per_rank_histogram": {
+    "7": 2
+  },
+  "next_lean_surface": {
+    "erasure_path": [
+      "SourcePositionRowProducerGoodCoverageOnRange.of_coverage",
+      "SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage",
+      "semanticGeneratedCoverageOfAllGoodIntervals"
+    ],
+    "forbidden_shape": "do not prove forall mask by fin_cases over all 64 masks; do not emit denominator-nonpositive witnesses for masks that fail GoodDirection",
+    "membership_goal": "produce one SourcePairPositionSpec, one SourceIndexStateRowProducer, and one SourceIndexStateKey",
+    "premises": [
+      "rank < numPairWords",
+      "lo <= rank",
+      "rank < hi",
+      "totalLinearOfPairWord (unrankPairWord rank) = matId",
+      "GoodDirectionAtRank rank mask"
+    ],
+    "target": "SourcePositionRowProducerGoodCoverageOnRange lo hi"
+  },
+  "phase": "6Z.6K.8AP.16I",
+  "positive_candidate_catalog": [
+    {
+      "case_count": 8,
+      "descriptor_count": 1,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 5,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 8,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 24,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 7,
+          "rank": 519,
+          "sourceIndices": [
+            0,
+            10
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 7,
+          "rank": 561,
+          "sourceIndices": [
+            0,
+            10
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 10,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e86, by decide\u27e9",
+          "obligation": "ordering:6"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "3e6f279a7442625d0778d9331861878e9b39552d77e9442be72827f660096e18",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 5,
+          "rank": 561,
+          "sourceIndices": [
+            44,
+            5
+          ],
+          "template": "axis_a_only"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 3,
+          "index": 44,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 5,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e81, by decide\u27e9",
+          "obligation": "ordering:1"
+        }
+      ],
+      "template_ids": [
+        "axis_a_only"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 519,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 22,
+          "rank": 561,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "ea2539f6bce58000b2f8ea7649f3b8ebe3f1652168bce6c9df9e6c358d70953e",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 6,
+          "rank": 519,
+          "sourceIndices": [
+            44,
+            5
+          ],
+          "template": "axis_a_only"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 3,
+          "index": 44,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 5,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e81, by decide\u27e9",
+          "obligation": "ordering:1"
+        }
+      ],
+      "template_ids": [
+        "axis_a_only"
+      ]
+    }
+  ],
+  "positive_candidate_group_count": 6,
+  "positive_survivor_signature_catalog": [
+    {
+      "case_count": 7,
+      "good_masks": [
+        5,
+        7,
+        8,
+        9,
+        16,
+        22,
+        24
+      ],
+      "key": "63c17537cdd6f9fed79b3f3931d0f3e4c5f2060de90d9a31e17031f7d070abc2",
+      "mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "5": [
+          "3e6f279a7442625d0778d9331861878e9b39552d77e9442be72827f660096e18"
+        ],
+        "7": [
+          "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        561
+      ]
+    },
+    {
+      "case_count": 7,
+      "good_masks": [
+        6,
+        7,
+        8,
+        13,
+        16,
+        18,
+        24
+      ],
+      "key": "ccf792a26fdb7d315e14ede9d87f2ca319615a82d2fb420ceba109732abd7164",
+      "mask_candidates": {
+        "13": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "6": [
+          "ea2539f6bce58000b2f8ea7649f3b8ebe3f1652168bce6c9df9e6c358d70953e"
+        ],
+        "7": [
+          "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        519
+      ]
+    }
+  ],
+  "positive_survivor_signature_count": 2,
+  "ranges": [
+    [
+      512,
+      576
+    ]
+  ],
+  "ranks_with_good_direction": 2,
+  "reusable_obligation_count": 11,
+  "row_group_count": 6,
+  "schema_version": 1,
+  "source_language_failure_samples": [],
+  "source_language_group_count": 5,
+  "source_language_validation_failures": {},
+  "source_pair_spec_group_count": 5,
+  "top_positive_candidate_groups": [
+    {
+      "case_count": 8,
+      "descriptor_count": 1,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 5,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 8,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 16,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 24,
+          "rank": 519,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 7,
+          "rank": 519,
+          "sourceIndices": [
+            0,
+            10
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 7,
+          "rank": 561,
+          "sourceIndices": [
+            0,
+            10
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 10,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e86, by decide\u27e9",
+          "obligation": "ordering:6"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "3e6f279a7442625d0778d9331861878e9b39552d77e9442be72827f660096e18",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 5,
+          "rank": 561,
+          "sourceIndices": [
+            44,
+            5
+          ],
+          "template": "axis_a_only"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 3,
+          "index": 44,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 5,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e81, by decide\u27e9",
+          "obligation": "ordering:1"
+        }
+      ],
+      "template_ids": [
+        "axis_a_only"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 519,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 22,
+          "rank": 561,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "ea2539f6bce58000b2f8ea7649f3b8ebe3f1652168bce6c9df9e6c358d70953e",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 6,
+          "rank": 519,
+          "sourceIndices": [
+            44,
+            5
+          ],
+          "template": "axis_a_only"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 3,
+          "index": 44,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 5,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e81, by decide\u27e9",
+          "obligation": "ordering:1"
+        }
+      ],
+      "template_ids": [
+        "axis_a_only"
+      ]
+    }
+  ],
+  "top_positive_survivor_signatures": [
+    {
+      "candidate_count": 4,
+      "case_count": 7,
+      "good_masks": [
+        5,
+        7,
+        8,
+        9,
+        16,
+        22,
+        24
+      ],
+      "key": "63c17537cdd6f9fed79b3f3931d0f3e4c5f2060de90d9a31e17031f7d070abc2",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "5": [
+          "3e6f279a7442625d0778d9331861878e9b39552d77e9442be72827f660096e18"
+        ],
+        "7": [
+          "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        561
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "case_count": 7,
+      "good_masks": [
+        6,
+        7,
+        8,
+        13,
+        16,
+        18,
+        24
+      ],
+      "key": "ccf792a26fdb7d315e14ede9d87f2ca319615a82d2fb420ceba109732abd7164",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "6": [
+          "ea2539f6bce58000b2f8ea7649f3b8ebe3f1652168bce6c9df9e6c358d70953e"
+        ],
+        "7": [
+          "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        519
+      ]
+    }
+  ],
+  "total_good_direction_cases": 14,
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "counts": {
+        "covered_cases": 14,
+        "good_direction_survivors": 14,
+        "identity_words": 2,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 62,
+        "not_good_direction_masks": 114,
+        "pair_words_scanned": 64,
+        "translation_sign_assignments": 128,
+        "uncovered_cases": 0
+      },
+      "family_count": 6,
+      "range": [
+        512,
+        576
+      ],
+      "represented_case_count": 14
+    }
+  ]
+}
