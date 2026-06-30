@@ -1,0 +1,1332 @@
+{
+  "counts": {
+    "covered_cases": 75,
+    "good_direction_survivors": 75,
+    "identity_words": 7,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 57,
+    "not_good_direction_masks": 373,
+    "pair_words_scanned": 64,
+    "translation_sign_assignments": 448,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "notes": [
+      "source lookup splits into static xpStart/ordering facts and interior face-position facts",
+      "no sampled source group needs rank/mask finite replay at this abstraction level"
+    ],
+    "status": "accepted-next-lean-smoke"
+  },
+  "dynamic_obligation_count": 14,
+  "jobs": 4,
+  "max_interior_excluded_face_set_size": 13,
+  "mode": "source_index_state_language_profile",
+  "rank_end": 960,
+  "rank_start": 896,
+  "schema_version": 1,
+  "source_group_count": 19,
+  "source_index_state_family_count": 19,
+  "source_language_obligation_count": 24,
+  "source_occurrence_count": 38,
+  "static_obligation_count": 10,
+  "top_obligations": [
+    {
+      "caseCount": 47,
+      "dynamic": false,
+      "familyCount": 9,
+      "kind": "xpStart",
+      "obligation": "xpStart:0",
+      "occurrenceCount": 9,
+      "sample": [
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 20,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "3a2924aa5bdbec3a5329bab98173034188d967d93ba7605c96c85f733e8934bc",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "fc805e5aa43cbf59fd54e11b9b4cc4bf2c46e5b085bcbdba6c2acab8157c72dc",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "27a3084b923bb5236f8cc839b571250cffc7405f7417c98d5743dcc8c7d753d4",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c5ec5e493c6af976a1b03f30aeb9d26ee4dd468f968a4361500947da83fa8093",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 0,
+            "index": 0,
+            "kind": "xpStart",
+            "obligation": "xpStart:0",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 0,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "8b9860bf1b03698c2e5b816aa6d65a36f6345895abd06affbaa3b1e84c613982",
+          "sourceIndex": 0,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 20,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 20,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm"
+            ],
+            "excludedFaceSetSize": 6,
+            "face": "tmmm",
+            "faceIndex": 6,
+            "impact": 1,
+            "index": 23,
+            "kind": "interior",
+            "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+            "slot": 5,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmm",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658",
+          "sourceIndex": 23,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 17,
+      "dynamic": false,
+      "familyCount": 5,
+      "kind": "xpStart",
+      "obligation": "xpStart:1",
+      "occurrenceCount": 5,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "96db83cdd7dfbc306ef127f08ef94f5c3d71c27df72ac9f8545d0cd54e7b6dcb",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "b2680d819fee8747dcca856d2980d906bdf5e5ef0fb1042fb131650341dacbc1",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "df66f4d09d995af9598edddf3f11fdf3faae819a11a4cf6f534a2a37f31d7c48",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 1,
+            "index": 1,
+            "kind": "xpStart",
+            "obligation": "xpStart:1",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 1,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+          "sourceIndex": 1,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 9,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 9,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm"
+            ],
+            "excludedFaceSetSize": 7,
+            "face": "tmmp",
+            "faceIndex": 7,
+            "impact": 1,
+            "index": 24,
+            "kind": "interior",
+            "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+            "slot": 6,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmmp",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f",
+          "sourceIndex": 24,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 8,
+      "dynamic": false,
+      "familyCount": 3,
+      "kind": "xpStart",
+      "obligation": "xpStart:2",
+      "occurrenceCount": 3,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        },
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 2,
+            "index": 2,
+            "kind": "xpStart",
+            "obligation": "xpStart:2",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 2,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "bc3c3f42aacb1d847258109c055cea04afc822f2739a74efdebc85827b65df42",
+          "sourceIndex": 2,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 7,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "ordering",
+      "obligation": "ordering:3",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 7,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 7,
+            "index": 7,
+            "kind": "ordering",
+            "obligation": "ordering:3",
+            "step": 3,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 3
+          },
+          "sourceGroupKey": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13",
+          "sourceIndex": 7,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 6,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "ordering",
+      "obligation": "ordering:9",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 6,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 13,
+            "index": 13,
+            "kind": "ordering",
+            "obligation": "ordering:9",
+            "step": 9,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 9
+          },
+          "sourceGroupKey": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b",
+          "sourceIndex": 13,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp"
+            ],
+            "excludedFaceSetSize": 8,
+            "face": "tmpm",
+            "faceIndex": 8,
+            "impact": 1,
+            "index": 25,
+            "kind": "interior",
+            "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+            "slot": 7,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmpm",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404",
+          "sourceIndex": 25,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 6,
+            "index": 84,
+            "kind": "interior",
+            "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e",
+          "sourceIndex": 84,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 83,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 6,
+            "index": 83,
+            "kind": "interior",
+            "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 6,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28",
+          "sourceIndex": 83,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 8,
+            "index": 110,
+            "kind": "interior",
+            "obligation": "interior:8:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "fc805e5aa43cbf59fd54e11b9b4cc4bf2c46e5b085bcbdba6c2acab8157c72dc",
+          "sourceIndex": 110,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 8,
+            "index": 109,
+            "kind": "interior",
+            "obligation": "interior:8:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "3a2924aa5bdbec3a5329bab98173034188d967d93ba7605c96c85f733e8934bc",
+          "sourceIndex": 109,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 3,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 3,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 122,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 9,
+            "index": 122,
+            "kind": "interior",
+            "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 9,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4",
+          "sourceIndex": 122,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 135,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 12,
+            "face": "xm",
+            "faceIndex": 1,
+            "impact": 10,
+            "index": 136,
+            "kind": "interior",
+            "obligation": "interior:10:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 1,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xm",
+            "impact": 10,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "bc3c3f42aacb1d847258109c055cea04afc822f2739a74efdebc85827b65df42",
+          "sourceIndex": 136,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 161,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 12,
+            "index": 161,
+            "kind": "interior",
+            "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 12,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "c5ec5e493c6af976a1b03f30aeb9d26ee4dd468f968a4361500947da83fa8093",
+          "sourceIndex": 161,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 18,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm"
+            ],
+            "excludedFaceSetSize": 9,
+            "face": "tmpp",
+            "faceIndex": 9,
+            "impact": 1,
+            "index": 26,
+            "kind": "interior",
+            "obligation": "interior:1:tmpp:slot8:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm",
+            "slot": 8,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tmpp",
+            "impact": 1,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "53696c059bbf359ca7a6c7accc921f9fa16dfba896d6532ca0eab7f9821a867c",
+          "sourceIndex": 26,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:8:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 109,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "tppp",
+            "faceIndex": 13,
+            "impact": 8,
+            "index": 121,
+            "kind": "interior",
+            "obligation": "interior:8:tppp:slot12:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm",
+            "slot": 12,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tppp",
+            "impact": 8,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "27a3084b923bb5236f8cc839b571250cffc7405f7417c98d5743dcc8c7d753d4",
+          "sourceIndex": 121,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "ordering",
+      "obligation": "ordering:10",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 14,
+            "index": 14,
+            "kind": "ordering",
+            "obligation": "ordering:10",
+            "step": 10,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 10
+          },
+          "sourceGroupKey": "96db83cdd7dfbc306ef127f08ef94f5c3d71c27df72ac9f8545d0cd54e7b6dcb",
+          "sourceIndex": 14,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "ordering",
+      "obligation": "ordering:6",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 10,
+            "index": 10,
+            "kind": "ordering",
+            "obligation": "ordering:6",
+            "step": 6,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 6
+          },
+          "sourceGroupKey": "b2680d819fee8747dcca856d2980d906bdf5e5ef0fb1042fb131650341dacbc1",
+          "sourceIndex": 10,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 2,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "xpStart",
+      "obligation": "xpStart:3",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 2,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 3,
+            "index": 3,
+            "kind": "xpStart",
+            "obligation": "xpStart:3",
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "index": 3,
+            "kind": "xpStart"
+          },
+          "sourceGroupKey": "53696c059bbf359ca7a6c7accc921f9fa16dfba896d6532ca0eab7f9821a867c",
+          "sourceIndex": 3,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:13:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 174,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xp",
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp"
+            ],
+            "excludedFaceSetSize": 10,
+            "face": "tpmm",
+            "faceIndex": 10,
+            "impact": 13,
+            "index": 183,
+            "kind": "interior",
+            "obligation": "interior:13:tpmm:slot9:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp",
+            "slot": 9,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "tpmm",
+            "impact": 13,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "8b9860bf1b03698c2e5b816aa6d65a36f6345895abd06affbaa3b1e84c613982",
+          "sourceIndex": 183,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": true,
+      "familyCount": 1,
+      "kind": "interior",
+      "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "blockStart": 44,
+            "dynamic": true,
+            "excludedFaceSet": [
+              "xm",
+              "yp",
+              "ym",
+              "zp",
+              "zm",
+              "tmmm",
+              "tmmp",
+              "tmpm",
+              "tmpp",
+              "tpmm",
+              "tpmp",
+              "tppm",
+              "tppp"
+            ],
+            "excludedFaceSetSize": 13,
+            "face": "xp",
+            "faceIndex": 0,
+            "impact": 3,
+            "index": 44,
+            "kind": "interior",
+            "obligation": "interior:3:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+            "slot": 0,
+            "valid": true
+          },
+          "ordinal": 0,
+          "source": {
+            "face": "xp",
+            "impact": 3,
+            "kind": "interior"
+          },
+          "sourceGroupKey": "46b74a54a57a25ed51e207d17428b8f88e3a57422f9046833bc6157d56270cb6",
+          "sourceIndex": 44,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "ordering",
+      "obligation": "ordering:1",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 5,
+            "index": 5,
+            "kind": "ordering",
+            "obligation": "ordering:1",
+            "step": 1,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 1
+          },
+          "sourceGroupKey": "46b74a54a57a25ed51e207d17428b8f88e3a57422f9046833bc6157d56270cb6",
+          "sourceIndex": 5,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    },
+    {
+      "caseCount": 1,
+      "dynamic": false,
+      "familyCount": 1,
+      "kind": "ordering",
+      "obligation": "ordering:12",
+      "occurrenceCount": 1,
+      "sample": [
+        {
+          "caseCount": 1,
+          "familyCount": 1,
+          "language": {
+            "dynamic": false,
+            "expectedIndex": 16,
+            "index": 16,
+            "kind": "ordering",
+            "obligation": "ordering:12",
+            "step": 12,
+            "valid": true
+          },
+          "ordinal": 1,
+          "source": {
+            "kind": "ordering",
+            "step": 12
+          },
+          "sourceGroupKey": "df66f4d09d995af9598edddf3f11fdf3faae819a11a4cf6f534a2a37f31d7c48",
+          "sourceIndex": 16,
+          "validationFailures": {}
+        }
+      ],
+      "valid": true
+    }
+  ],
+  "trusted_as_proof": false,
+  "validation_failure_count": 0
+}

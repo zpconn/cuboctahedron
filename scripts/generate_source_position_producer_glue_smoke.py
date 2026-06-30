@@ -58,6 +58,14 @@ DEFAULT_NAMESPACE = (
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
     "SourcePositionProducerGlueSmoke"
 )
+DEFAULT_SOURCE_IMPORT = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "SourcePositionProducerSmoke"
+)
+DEFAULT_ROW_IMPORT = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies."
+    "SourceIndexStateRowFactProducerSmoke"
+)
 
 
 def source_group_name(index: int) -> str:
@@ -188,13 +196,17 @@ def module_lines(
     source_groups: list[dict[str, Any]],
     row_groups: list[dict[str, Any]],
     *,
+    source_import: str,
+    row_import: str,
+    source_open: str,
+    row_open: str,
     phase: str,
 ) -> list[str]:
     source_lookup = {str(group["key"]): index for index, group in enumerate(source_groups)}
     row_lookup = {str(group["key"]): index for index, group in enumerate(row_groups)}
     lines = [
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke",
-        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke",
+        f"import {source_import}",
+        f"import {row_import}",
         "",
         "/-!",
         "Generated source-position + row producer glue smoke.",
@@ -211,8 +223,8 @@ def module_lines(
         "open Cuboctahedron.Generated.Coverage",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
-        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerSmoke",
-        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerSmoke",
+        f"open {source_open}",
+        f"open {row_open}",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SymbolicFacts",
         "",
         "set_option linter.unusedVariables false",
@@ -317,6 +329,10 @@ def main() -> None:
     parser.add_argument("--phase", default="6Z.6K.8Z")
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--source-key-surface", default="kind_impact")
+    parser.add_argument("--source-import", default=DEFAULT_SOURCE_IMPORT)
+    parser.add_argument("--row-import", default=DEFAULT_ROW_IMPORT)
+    parser.add_argument("--source-open", default=DEFAULT_SOURCE_IMPORT)
+    parser.add_argument("--row-open", default=DEFAULT_ROW_IMPORT)
     args = parser.parse_args()
 
     namespace = validate_module_namespace(args.namespace)
@@ -355,6 +371,10 @@ def main() -> None:
             families,
             source_groups,
             row_groups,
+            source_import=args.source_import,
+            row_import=args.row_import,
+            source_open=args.source_open,
+            row_open=args.row_open,
             phase=args.phase,
         )),
     )

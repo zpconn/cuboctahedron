@@ -39970,3 +39970,84 @@ The next step is to prove that membership theorem for DU9IQ without
 `fin_cases mask`, compact-Walsh membership roots, rank-local Boolean
 reduction, or replaying `pairPrefixLinearNat`, then scale that theorem surface
 over additional frontier windows under the same guarded rules.
+
+### Phase 6Z6K8AP16DU9IQ - source-position producer stack accepted
+
+The DU9IQ semantic route was advanced from split facts to the next
+source-position/source-row producer layer.  This is still a bounded smoke, not
+global coverage, but it checks the production shape we want: source-position
+facts, row facts, and their glue are theorem-valued and contain no concrete
+rank/mask membership replay.
+
+The source-index/state language profiler was run on `[896,960)`:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_source_index_state_language.py \
+  --rank-start 896 \
+  --limit 64 \
+  --jobs 4 \
+  --sample-limit 80 \
+  --json scripts/generated/phase6z6k8ap16du9iq_source_index_state_language_profile_896_960.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_source_index_state_language_profile_896_960.md
+```
+
+Profile result:
+
+- status: `accepted-next-lean-smoke`;
+- source-index/state families: `19`;
+- source groups: `19`;
+- source occurrences: `38`;
+- source-language obligations: `24`;
+- static obligations: `10`;
+- dynamic interior obligations: `14`;
+- maximum interior excluded-face set size: `13`;
+- validation failures: `0`.
+
+Three bounded theorem-valued modules were then emitted:
+
+- `SourcePositionObligationsDU9IQ.lean`, with `24` source-position
+  obligations;
+- `SourcePositionProducerDU9IQSmoke.lean`, with `19` source groups covering
+  `19` descriptor families and `75` GoodDirection cases;
+- `SourceIndexStateRowFactProducerDU9IQSmoke.lean`, with `7` row groups
+  covering the same `19` descriptor families and `75` GoodDirection cases.
+
+The glue generator was also generalized so future smokes can import custom
+source and row producer modules:
+
+```bash
+python3 scripts/generate_source_position_producer_glue_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du9iq_source_index_state_fact_production_896_960.json \
+  --jobs 4 \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerGlueDU9IQSmoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9iq_source_position_producer_glue_smoke.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_source_position_producer_glue_smoke.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerGlueDU9IQSmoke \
+  --source-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerDU9IQSmoke \
+  --row-import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerDU9IQSmoke \
+  --source-open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerDU9IQSmoke \
+  --row-open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateRowFactProducerDU9IQSmoke \
+  --phase '6Z.6K.8AP.16DU.9IQ source-position producer glue'
+```
+
+Guarded focused validations stayed below the safety cap:
+
+- `SourcePositionObligationsDU9IQ.lean`: exit `0`, elapsed `3.50s`, peak
+  tree RSS `3860 MiB`, minimum available memory `46034 MiB`;
+- `SourcePositionProducerDU9IQSmoke` Lake target: exit `0`, elapsed `7.01s`,
+  peak tree RSS `4031 MiB`, minimum available memory `45647 MiB`;
+- `SourceIndexStateRowFactProducerDU9IQSmoke` Lake target: exit `0`, elapsed
+  `2.50s`, peak tree RSS `3670 MiB`, minimum available memory `45854 MiB`;
+- `SourcePositionProducerGlueDU9IQSmoke` Lake target: exit `0`, elapsed
+  `2.50s`, peak tree RSS `4034 MiB`, minimum available memory `45683 MiB`.
+
+Forbidden-term scans for the generated glue found no `sorry`, `admit`,
+`axiom`, `native_decide`, `unsafe`, `fin_cases mask`,
+`classifierAppliesBool`, `CompactWalsh`, or `pairPrefixLinearNat`.
+
+Decision: the DU9IQ source-position producer stack is accepted as a
+memory-safe semantic smoke.  The remaining live obligation is now narrower:
+prove the GoodDirection membership/domain theorem that selects one of these
+source-position/row-producer candidates for arbitrary rank/mask inputs in the
+range.  That theorem must still avoid compact-Walsh roots, `fin_cases mask`,
+rank-local Boolean reduction, and `pairPrefixLinearNat` replay.
