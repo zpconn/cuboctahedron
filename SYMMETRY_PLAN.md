@@ -33870,3 +33870,72 @@ and `251`.  Use the split-cover topology with component trace/final splitting
 by default, and keep Lean builds serial under the `4200 MiB` RSS guard.  Because
 this is only a two-rank window, prepare a small DU9IE plan/source pair rather
 than recycling a six- or eight-rank batch shape.
+
+### Phase 6Z.6K.8AP.16DU.9IE checkpoint: `[192,256)` DU9IE batch prep accepted
+
+Phase 6Z.6K.8AP.16DU.9IE prepares the next compact h-cover batch for the two
+recommended ranks from `[192,256)`: `209` and `251`.  This checkpoint is still
+planning/dry-run telemetry, not proof evidence.
+
+The positive-survivor profile was run first:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 192:256 \
+  --jobs 4 \
+  --candidate-gate 2000 \
+  --signature-gate 2000 \
+  --json scripts/generated/phase6z6k8ap16du9ie_positive_survivor_membership_192_256.json \
+  --md scripts/generated/phase6z6k8ap16du9ie_positive_survivor_membership_192_256.md
+```
+
+Result: accepted in `0.19s` wall time with `26.7 MiB` maximum RSS.
+
+Summary:
+
+- ranks with GoodDirection survivors: `2`;
+- GoodDirection cases: `14`;
+- positive candidate groups: `9`;
+- positive survivor signatures: `2`;
+- ambiguous memberships: `0`;
+- bad-direction evidence emitted: `0`.
+
+The compact Walsh subcube cover profiler then used the first GoodDirection mask
+for each rank as the anchor:
+
+| Rank | Anchor mask | Good masks | Selected subcubes | Uncovered bad masks |
+| ---: | ---: | ---: | ---: | ---: |
+| `209` | `7` | `7` | `17` | `0` |
+| `251` | `6` | `7` | `19` | `0` |
+
+The combined profile step took `3.27s` wall time with `26.4 MiB` maximum RSS.
+
+The DU9IE batch plan/source was prepared here:
+
+```text
+scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_plan.json
+scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_source.json
+scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_prep.json
+scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_prep.md
+```
+
+Dry-run generation was then checked:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ie_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IEBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IEBatchSmoke
+```
+
+Result: accepted as a dry run in `0.06s` wall time with `27.1 MiB` maximum RSS.
+The dry-run report contains `2` signatures and `51` planned Lean targets.
+
+Decision: accepted for emission next.  Emit the DU9IE split-cover modules only
+after this checkpoint is committed.  Then build the exact trace and cover target
+kinds serially through `scripts/run_ap16dj_serial_guarded.py` with the
+`4200 MiB` RSS cap and `12000 MiB` available-memory floor.  Do not attach the
+DU9IE root to any broader normal-build import path until those focused guarded
+builds pass.
