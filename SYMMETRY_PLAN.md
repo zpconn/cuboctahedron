@@ -30761,3 +30761,44 @@ thin.  Continue using one-target or small filtered guard runs.  If several cover
 targets show similar RSS, do not parallelize these cover builds; save
 parallelism for low-RSS profiling scripts and perhaps tiny trace-step targets
 only after enough telemetry exists.
+
+### Phase 6Z.6K.8AP.16DU.9GK checkpoint: all six cover roots guarded
+
+Phase 6Z.6K.8AP.16DU.9GK uses the targeted guard filters from 9GJ to build all
+six cover roots, still serially and still under the `4500 MiB` RSS cap.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gh_serial_guard_covers_all.json \
+  --out-dir /tmp/ap16dj_du9gh_serial_guarded/covers_all \
+  --target-kind cover \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=7:45.34`.
+
+Per-cover guarded telemetry:
+
+| Target | Elapsed | Peak tree RSS | Min available |
+| --- | ---: | ---: | ---: |
+| `CoverRank5` | `92.71s` | `4316 MiB` | `45663 MiB` |
+| `CoverRank9` | `93.19s` | `4330 MiB` | `45633 MiB` |
+| `CoverRank11` | `91.73s` | `4337 MiB` | `45618 MiB` |
+| `CoverRank17` | `92.25s` | `4346 MiB` | `45624 MiB` |
+| `CoverRank24` | `94.26s` | `4364 MiB` | `45588 MiB` |
+| `CoverRank27` | `1.00s` | `796 MiB` | `46398 MiB` |
+
+`CoverRank27` was already cached from the 9GJ one-target probe; its uncached
+9GJ telemetry was `97.71s` and `4329 MiB`.
+
+Decision: accepted.  The six per-rank compact cover roots are now checked under
+the serial guard.  This makes the shallow batch root the next meaningful probe,
+but the observed `4.3 GiB` cover-root plateau means ordinary broad Lake builds
+remain unsafe.  Continue with a single guarded `batch_root` target before
+attempting any larger root or plan-prefix build.
