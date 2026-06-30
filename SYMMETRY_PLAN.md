@@ -31725,3 +31725,58 @@ Selected word impacts:
 Decision: accepted.  The `[64,128)` six-rank batch is comparable to DU9GH,
 DU9GO, and DU9GU at the dry-run stage.  Next step: emit the Lean files, inspect
 cover-root sizes, then run cover roots serially under the `4500 MiB` guard.
+
+### Phase 6Z.6K.8AP.16DU.9HG checkpoint: `[64,128)` emission and largest-cover probe
+
+Phase 6Z.6K.8AP.16DU.9HG emits the `[64,128)` six-rank Lean batch and probes
+the largest cover root first.
+
+Emission command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke
+```
+
+Result: passed in `elapsed=3.75s`, `max_rss_kb=28488`; the report status is
+now `emitted_pending_guarded_build`.
+
+Cover-root source sizes:
+
+| Rank | Cover-root lines |
+| ---: | ---: |
+| `65` | `5399` |
+| `72` | `5641` |
+| `78` | `5625` |
+| `80` | `5400` |
+| `84` | `4399` |
+| `86` | `4149` |
+
+Rank `72` is the largest cover root, so the first Lean stress probe was:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hf_serial_guard_cover_rank72.json \
+  --out-dir /tmp/ap16dj_du9hf_serial_guarded/cover_rank72 \
+  --target-kind cover \
+  --module-contains CoverRank72 \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=96.73s`, with `peak_tree_rss=4447.4 MiB` and
+`min_available=45510.1 MiB`.
+
+Decision: accepted with a stricter warning.  Rank `72` fits under the guard but
+is the highest-RSS compact cover root so far and leaves only about `52 MiB` of
+headroom under the `4500 MiB` cap.  Continue this batch only with serial cover
+roots; do not run multiple cover roots concurrently, and do not broaden to a
+package build.
