@@ -1,0 +1,25 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx20To25Smoke
+
+/-!
+Shallow super-aggregate for DU9IQ traced direct bridge batches `WeightedDenomCubeDU9IQDirectBridgeBatchRank897CombinedSmoke`.
+
+The imported batch roots contain only theorem surfaces from checked
+leaves.  This module proves that those roots compose without importing
+a broad uncached DU9IQ tree or replaying arithmetic.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
+namespace WeightedDenomCubeDU9IQDirectBridgeBatchRank897CombinedSmoke
+
+theorem batch00_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeBatchRank897Smoke.weightedDenomCubeDU9IQDirectBridgeBatchRank897Smoke_builds
+
+theorem batch01_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx20To25Smoke.weightedDenomCubeDU9IQDirectBridgeBatchRank897Idx20To25Smoke_builds
+
+theorem weightedDenomCubeDU9IQDirectBridgeBatchRank897CombinedSmoke_builds : True := by
+  trivial
+
+end WeightedDenomCubeDU9IQDirectBridgeBatchRank897CombinedSmoke
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies

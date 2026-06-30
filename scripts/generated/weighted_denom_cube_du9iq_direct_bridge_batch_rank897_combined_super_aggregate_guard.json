@@ -1,0 +1,18 @@
+{
+  "available_floor_mib": 35000.0,
+  "command": [
+    "env",
+    "LAKE_JOBS=1",
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897CombinedSmoke"
+  ],
+  "elapsed_seconds": 2.503260044992203,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4071636,
+  "max_tree_rss_mib": 3976.20703125,
+  "min_available_seen_kib": 47178656,
+  "min_available_seen_mib": 46072.90625,
+  "rss_cap_mib": 12000.0
+}

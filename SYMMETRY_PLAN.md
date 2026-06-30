@@ -41432,3 +41432,37 @@ checked through two shallow aggregate roots.  The next step is either to emit a
 two-root rank-`897` super-aggregate or to plan the next `--skip-existing`
 frontier; if a super-aggregate is emitted, it must remain a theorem-surface
 combiner only and be built under the same guard.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 combined bridge aggregate accepted
+
+The two accepted rank-`897` shallow roots were composed into a super-aggregate:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897CombinedSmoke
+```
+
+It imports only:
+
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank897Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx20To25Smoke`.
+
+Generated report files:
+
+- JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank897_combined_super_aggregate.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank897_combined_super_aggregate.md`;
+- guard:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank897_combined_super_aggregate_guard.json`.
+
+Guarded build result:
+
+- elapsed time: `2.50s`;
+- peak tree RSS: `3976 MiB`;
+- minimum available memory seen: `46072 MiB`.
+
+Decision: accepted.  Rank `897` now has twelve traced DU9IQ bridge leaves
+through two batch roots and one combined super-root.  The next step should plan
+another rank-`897` frontier with `--skip-existing-bridges` and continue the
+same bounded pattern; do not import this combined root into broad generated
+coverage yet.
