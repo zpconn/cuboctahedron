@@ -40739,3 +40739,55 @@ Next DU9IQ work: turn this hand-shaped direct bridge into a generator pattern
 for the remaining accepted weighted cubes, with reports that record each
 support's vector-trace cap, normal-trace cap, direct-bridge cap, and whether
 the bridge exports a semantic `BadMaskCover`/all-Good coverage theorem.
+
+### Phase 6Z6K8AP16DU9IQ - traced direct bridge emitter accepted
+
+The hand-shaped traced direct bridge has now been converted into a reusable
+emitter pattern:
+
+- script:
+  `scripts/emit_du9iq_traced_direct_bridge.py`;
+- generated smoke:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedSmoke.lean`;
+- source profile:
+  `scripts/generated/phase6z6k8ap16du9iq_weighted_reduced_quadratic_bounds_profile.json`;
+- selected profile row: summary index `1`, rank `896`, cube `1**0*0`,
+  support `[2,6]`, weights `[1,1]`;
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated.json`.
+
+The emitter recomputes the candidate dot-polynomial coefficients externally,
+checks that they match the exact rank Walsh denominator forms, and emits Lean
+that verifies:
+
+1. each sparse support dot polynomial from the traced normal and traced
+   translation vector;
+2. the weighted sum against the public reduced-bound polynomial;
+3. the exact rank-level `weightedDirectWalshDotAtRank` premise required by
+   `WeightedDenomCubeDU9IQReducedBoundSmoke.weightedDenom_nonpos_of_reduced_bound`.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_guard.json \
+  -- env LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedSmoke
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `7.01s`;
+- peak tree RSS: `4076 MiB`;
+- minimum available memory seen: `45560 MiB`.
+
+Decision: accepted.  The production-facing pattern should now be emitted from
+profiles rather than hand-written.  The next safe scaling step is not to
+generate all DU9IQ cubes at once; instead, emit one additional support pattern
+that uses different weights or a different normal pair, prebuild any required
+normal traces serially, and confirm the generated bridge remains below the
+12 GiB direct-bridge cap.
