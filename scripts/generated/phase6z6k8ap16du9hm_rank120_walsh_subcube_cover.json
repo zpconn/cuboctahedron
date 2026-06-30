@@ -1,0 +1,386 @@
+{
+  "phase": "Phase 6Z.6K.8AP.16BJ",
+  "rank": 120,
+  "anchor_mask": 8,
+  "good_masks": [
+    8,
+    9,
+    13,
+    18,
+    22,
+    24,
+    28,
+    29,
+    31,
+    45,
+    47,
+    54,
+    55
+  ],
+  "bad_mask_count": 51,
+  "walsh_validated": true,
+  "walsh_validation_failures": [],
+  "candidate_count": 173,
+  "selected_count": 21,
+  "uncovered_count": 0,
+  "uncovered_masks": [],
+  "selected": [
+    {
+      "label": "**0*01",
+      "masks": [
+        32,
+        33,
+        34,
+        35,
+        40,
+        41,
+        42,
+        43
+      ],
+      "impact": 1,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "d111": -1,
+        "d1m1": -1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "0*100*",
+      "masks": [
+        4,
+        6,
+        36,
+        38
+      ],
+      "impact": 10,
+      "max_value": "-4/9",
+      "fixed_bits": {
+        "y": -1,
+        "d111": 1,
+        "d11m": -1,
+        "d1m1": -1
+      }
+    },
+    {
+      "label": "0**111",
+      "masks": [
+        56,
+        58,
+        60,
+        62
+      ],
+      "impact": 12,
+      "max_value": "-4/9",
+      "fixed_bits": {
+        "y": -1,
+        "d11m": 1,
+        "d1m1": 1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "110*1*",
+      "masks": [
+        19,
+        27,
+        51,
+        59
+      ],
+      "impact": 6,
+      "max_value": "-4/3",
+      "fixed_bits": {
+        "y": 1,
+        "z": 1,
+        "d111": -1,
+        "d1m1": 1
+      }
+    },
+    {
+      "label": "*000*0",
+      "masks": [
+        0,
+        1,
+        16,
+        17
+      ],
+      "impact": 7,
+      "max_value": "-4/3",
+      "fixed_bits": {
+        "z": -1,
+        "d111": -1,
+        "d11m": -1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "*0101*",
+      "masks": [
+        20,
+        21,
+        52,
+        53
+      ],
+      "impact": 4,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "z": -1,
+        "d111": 1,
+        "d11m": -1,
+        "d1m1": 1
+      }
+    },
+    {
+      "label": "*1*100",
+      "masks": [
+        10,
+        11,
+        14,
+        15
+      ],
+      "impact": 4,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "z": 1,
+        "d11m": 1,
+        "d1m1": -1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "*1*000",
+      "masks": [
+        2,
+        3,
+        6,
+        7
+      ],
+      "impact": 10,
+      "max_value": "-4/9",
+      "fixed_bits": {
+        "z": 1,
+        "d11m": -1,
+        "d1m1": -1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "0*1*01",
+      "masks": [
+        36,
+        38,
+        44,
+        46
+      ],
+      "impact": 2,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "y": -1,
+        "d111": 1,
+        "d1m1": -1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "*0*011",
+      "masks": [
+        48,
+        49,
+        52,
+        53
+      ],
+      "impact": 4,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "z": -1,
+        "d11m": -1,
+        "d1m1": 1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "*0*111",
+      "masks": [
+        56,
+        57,
+        60,
+        61
+      ],
+      "impact": 12,
+      "max_value": "-4/9",
+      "fixed_bits": {
+        "z": -1,
+        "d11m": 1,
+        "d1m1": 1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "1*0*10",
+      "masks": [
+        17,
+        19,
+        25,
+        27
+      ],
+      "impact": 2,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "y": 1,
+        "d111": -1,
+        "d1m1": 1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "*010*1",
+      "masks": [
+        36,
+        37,
+        52,
+        53
+      ],
+      "impact": 4,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "z": -1,
+        "d111": 1,
+        "d11m": -1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "*0*000",
+      "masks": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "impact": 7,
+      "max_value": "-44/9",
+      "fixed_bits": {
+        "z": -1,
+        "d11m": -1,
+        "d1m1": -1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "*101*0",
+      "masks": [
+        10,
+        11,
+        26,
+        27
+      ],
+      "impact": 4,
+      "max_value": "-28/9",
+      "fixed_bits": {
+        "z": 1,
+        "d111": -1,
+        "d11m": 1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "*1100*",
+      "masks": [
+        6,
+        7,
+        38,
+        39
+      ],
+      "impact": 10,
+      "max_value": "-4/9",
+      "fixed_bits": {
+        "z": 1,
+        "d111": 1,
+        "d11m": -1,
+        "d1m1": -1
+      }
+    },
+    {
+      "label": "*1*111",
+      "masks": [
+        58,
+        59,
+        62,
+        63
+      ],
+      "impact": 7,
+      "max_value": "-20/9",
+      "fixed_bits": {
+        "z": 1,
+        "d11m": 1,
+        "d1m1": 1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "01111*",
+      "masks": [
+        30,
+        62
+      ],
+      "impact": 7,
+      "max_value": "-4/3",
+      "fixed_bits": {
+        "y": -1,
+        "z": 1,
+        "d111": 1,
+        "d11m": 1,
+        "d1m1": 1
+      }
+    },
+    {
+      "label": "1110*0",
+      "masks": [
+        7,
+        23
+      ],
+      "impact": 12,
+      "max_value": "-4/9",
+      "fixed_bits": {
+        "y": 1,
+        "z": 1,
+        "d111": 1,
+        "d11m": -1,
+        "dm11": -1
+      }
+    },
+    {
+      "label": "*10011",
+      "masks": [
+        50,
+        51
+      ],
+      "impact": 6,
+      "max_value": "-4",
+      "fixed_bits": {
+        "z": 1,
+        "d111": -1,
+        "d11m": -1,
+        "d1m1": 1,
+        "dm11": 1
+      }
+    },
+    {
+      "label": "001100",
+      "masks": [
+        12
+      ],
+      "impact": 6,
+      "max_value": "-4",
+      "fixed_bits": {
+        "y": -1,
+        "z": -1,
+        "d111": 1,
+        "d11m": 1,
+        "d1m1": -1,
+        "dm11": -1
+      }
+    }
+  ],
+  "trusted_as_proof": false
+}

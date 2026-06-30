@@ -32081,3 +32081,59 @@ Decision: accepted.  The next bounded scaling batch should target those six
 ranks.  Use the split-cover topology directly for the new batch rather than
 emitting monolithic cover roots first; the rank84/rank86 experience shows that
 split roots are the safer default at this stage.
+
+### Phase 6Z.6K.8AP.16DU.9HM checkpoint: next six-rank split batch prepared
+
+Phase 6Z.6K.8AP.16DU.9HM profiles and prepares the next bounded compact
+hcover batch selected by 9HL:
+
+```text
+87, 89, 120, 122, 123, 125
+```
+
+The profiling/prep files are:
+
+```text
+scripts/generated/phase6z6k8ap16du9hm_rank87_walsh_subcube_cover.{json,md}
+scripts/generated/phase6z6k8ap16du9hm_rank89_walsh_subcube_cover.{json,md}
+scripts/generated/phase6z6k8ap16du9hm_rank120_walsh_subcube_cover.{json,md}
+scripts/generated/phase6z6k8ap16du9hm_rank122_walsh_subcube_cover.{json,md}
+scripts/generated/phase6z6k8ap16du9hm_rank123_walsh_subcube_cover.{json,md}
+scripts/generated/phase6z6k8ap16du9hm_rank125_walsh_subcube_cover.{json,md}
+scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json
+scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json
+scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_prep.{json,md}
+```
+
+The rank profiles all validated their Walsh forms and found zero uncovered
+bad-direction masks:
+
+| Rank | Good masks | Bad masks | Candidate subcubes | Selected subcubes | Uncovered |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 87 | 13 | 51 | 197 | 16 | 0 |
+| 89 | 16 | 48 | 201 | 17 | 0 |
+| 120 | 13 | 51 | 173 | 21 | 0 |
+| 122 | 8 | 56 | 211 | 24 | 0 |
+| 123 | 8 | 56 | 211 | 20 | 0 |
+| 125 | 13 | 51 | 173 | 21 | 0 |
+
+The batch prep command was:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9hm_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HMBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HMBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HM' \
+  --signature-key-prefix du9hm
+```
+
+Result: passed in `0.02s`, with about `14 MiB` maximum RSS.  This is still
+diagnostic/planning evidence only, not proof evidence.
+
+Decision: accepted for split emission.  Do not emit or build the old monolithic
+cover-all root for this HM batch.  The next implementation step is to make the
+split-cover emitter expose prerequisite target metadata in its generation
+report, so guarded serial builds can prebuild trace/selected-impact
+dependencies without falling back to an AP16DJ monolithic generation report.
