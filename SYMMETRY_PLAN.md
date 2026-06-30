@@ -34692,3 +34692,57 @@ Decision: rank `363` is accepted under the DU9IH split-cover path.  Continue
 with rank `362` next, still using selected-impact component splitting and the
 same serial `4200 MiB` guard.  Do not batch these high-risk roots into a broad
 Lake build.
+
+### Phase 6Z6K8AP16DU9IH - rank 362 split cover accepted
+
+Rank `362` is the third high-risk DU9IH target in the descending
+selected-subcube order.  It was emitted with trace step `12`, final-vector
+component splitting, and selected-impact component splitting enabled:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 362 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank362_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `20`;
+- guarded targets: `50`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank362_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank362_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank362_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `50`;
+- maximum process-tree RSS: `4163.60 MiB`;
+- peak target: `ImpactSubcubeWalshVectorTraceRank362SplitStep12YSmoke`;
+- minimum observed available memory: `45920.68 MiB`;
+- total guarded elapsed time across targets: `181.74s`;
+- killed targets: none.
+
+Decision: rank `362` is accepted under the DU9IH split-cover path.  The three
+largest DU9IH roots (`369`, `363`, `362`) have now all passed under the same
+serial `4200 MiB` guard.  Continue with the remaining DU9IH roots in descending
+risk order, starting with rank `365` and then rank `360`.
