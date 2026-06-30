@@ -38096,3 +38096,61 @@ Guarded pass summary:
 Decision: rank `724` is accepted under the serial theorem-only split-cover
 topology.  Continue with rank `748` under the same serial `4200 MiB`
 process-tree cap and `12000 MiB` available-memory floor.
+
+### Phase 6Z6K8AP16DU9IN - rank 748 split cover interrupted before acceptance
+
+Rank `748` was emitted with theorem-only split-cover modules using selected
+normal-component split impacts `6`, `7`, and `8`, plus trace step `12` and the
+final trace:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9in_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9in_compact_hcover_batch_source.json \
+  --rank 748 \
+  --tag DU9IN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IN' \
+  --report scripts/generated/phase6z6k8ap16du9in_split_cover_rank748_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 8
+```
+
+The serial memory-guarded lane was started with the same cap used for ranks
+`714`, `716`, and `724`:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9in_split_cover_rank748_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9in_split_cover_rank748_guard_4200.json \
+  --out-dir /tmp/ap16du9in_split_cover_rank748_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+The run was manually interrupted after an OOM warning before the final target
+completed.  The machine did not OOM, and no heavy Lean/Lake processes were
+left running after interruption.  The partial guard report recorded:
+
+- status in JSON: `running` because the wrapper was interrupted;
+- completed target count: `56 / 57`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS among completed targets: `4156.71 MiB`;
+- peak completed target:
+  `ImpactSubcubeWalshVectorTraceRank748SplitFinalXSmoke`;
+- minimum available memory seen: `45890.38 MiB`;
+- remaining unchecked target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverRank748Smoke`.
+
+Decision: rank `748` is **not accepted yet**.  The next safe step is not to
+restart the whole 57-target lane.  Instead, check only the remaining split-cover
+root under a guarded serial command, preferably with an even more conservative
+available-memory floor and no parallel Lean workers.  If that root approaches
+the `4200 MiB` cap again, split the DU9IN rank `748` root or add a thinner root
+surface before acceptance.  Do not compose a DU9IN batch root until rank `748`
+has a complete guard report with status `passed`.
