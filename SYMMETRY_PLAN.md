@@ -31125,3 +31125,41 @@ Decision: accepted.  The next compact hcover batch should target ranks
 `45`, `47`, `49`, `57`, `59`, and `60`.  Continue with low-memory parallel
 Walsh subcube profiling first; do not emit Lean for this batch until each rank
 has `uncovered = 0`.
+
+### Phase 6Z.6K.8AP.16DU.9GT checkpoint: compact cover profiles for third hcover batch
+
+Phase 6Z.6K.8AP.16DU.9GT profiles Walsh subcube covers for the next target
+ranks selected by 9GS: `45`, `47`, `49`, `57`, `59`, and `60`.
+
+The first attempt reused anchor mask `8` for every rank and failed immediately
+because rank `49` does not contain mask `8` in its GoodDirection survivor set.
+The successful run therefore chose the first GoodDirection survivor as the
+anchor for each rank.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 - <<'PY'
+# parallel Python profiler over ranks 45, 47, 49, 57, 59, 60
+# using profile_ap16bj_walsh_subcube_cover.profile
+PY
+```
+
+Result: passed in `elapsed=0:02.70`, `max_rss_kb=26172`.
+
+Summary:
+
+| Rank | Anchor mask | Good masks | Bad masks | Candidates | Selected subcubes | Uncovered | Walsh validated |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| `45` | `8` | `13` | `51` | `173` | `19` | `0` | yes |
+| `47` | `8` | `16` | `48` | `201` | `17` | `0` | yes |
+| `49` | `13` | `7` | `57` | `227` | `18` | `0` | yes |
+| `57` | `8` | `11` | `53` | `212` | `16` | `0` | yes |
+| `59` | `8` | `13` | `51` | `173` | `21` | `0` | yes |
+| `60` | `0` | `11` | `53` | `196` | `22` | `0` | yes |
+
+Decision: accepted.  The third compact hcover target batch has profiles with no
+uncovered masks.  Next step: prepare a DU9GT/DU9GU AP16DJ-compatible
+plan/source pair, dry-run the emitter, then emit and guard-check only if the
+planned target count and file sizes remain comparable to the prior six-rank
+batches.

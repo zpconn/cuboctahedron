@@ -1,0 +1,96 @@
+{
+  "all_uncovered_zero": true,
+  "all_walsh_validated": true,
+  "phase": "Phase 6Z.6K.8AP.16DU.9GT",
+  "rank_anchor_masks": {
+    "45": 8,
+    "47": 8,
+    "49": 13,
+    "57": 8,
+    "59": 8,
+    "60": 0
+  },
+  "ranks": [
+    45,
+    47,
+    49,
+    57,
+    59,
+    60
+  ],
+  "rows": [
+    {
+      "anchor_mask": 8,
+      "bad_masks": 51,
+      "candidates": 173,
+      "good_masks": 13,
+      "json": "scripts/generated/phase6z6k8ap16du9gt_rank45_walsh_subcube_cover.json",
+      "md": "scripts/generated/phase6z6k8ap16du9gt_rank45_walsh_subcube_cover.md",
+      "rank": 45,
+      "selected": 19,
+      "uncovered": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 8,
+      "bad_masks": 48,
+      "candidates": 201,
+      "good_masks": 16,
+      "json": "scripts/generated/phase6z6k8ap16du9gt_rank47_walsh_subcube_cover.json",
+      "md": "scripts/generated/phase6z6k8ap16du9gt_rank47_walsh_subcube_cover.md",
+      "rank": 47,
+      "selected": 17,
+      "uncovered": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 13,
+      "bad_masks": 57,
+      "candidates": 227,
+      "good_masks": 7,
+      "json": "scripts/generated/phase6z6k8ap16du9gt_rank49_walsh_subcube_cover.json",
+      "md": "scripts/generated/phase6z6k8ap16du9gt_rank49_walsh_subcube_cover.md",
+      "rank": 49,
+      "selected": 18,
+      "uncovered": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 8,
+      "bad_masks": 53,
+      "candidates": 212,
+      "good_masks": 11,
+      "json": "scripts/generated/phase6z6k8ap16du9gt_rank57_walsh_subcube_cover.json",
+      "md": "scripts/generated/phase6z6k8ap16du9gt_rank57_walsh_subcube_cover.md",
+      "rank": 57,
+      "selected": 16,
+      "uncovered": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 8,
+      "bad_masks": 51,
+      "candidates": 173,
+      "good_masks": 13,
+      "json": "scripts/generated/phase6z6k8ap16du9gt_rank59_walsh_subcube_cover.json",
+      "md": "scripts/generated/phase6z6k8ap16du9gt_rank59_walsh_subcube_cover.md",
+      "rank": 59,
+      "selected": 21,
+      "uncovered": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 0,
+      "bad_masks": 53,
+      "candidates": 196,
+      "good_masks": 11,
+      "json": "scripts/generated/phase6z6k8ap16du9gt_rank60_walsh_subcube_cover.json",
+      "md": "scripts/generated/phase6z6k8ap16du9gt_rank60_walsh_subcube_cover.md",
+      "rank": 60,
+      "selected": 22,
+      "uncovered": 0,
+      "walsh_validated": true
+    }
+  ],
+  "trusted_as_proof": false
+}
