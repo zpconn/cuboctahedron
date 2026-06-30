@@ -39768,8 +39768,10 @@ Decision: do not resume rank `903` under the current target shape.  The margin i
 too narrow and the guard was already replaying substantial dependencies.  Before
 another guarded Lean pass, regenerate rank `903` with finer splits on the
 currently heaviest targets, especially the final vector-trace component and the
-DU9IQ root target.  Keep the current partially generated files unaccepted until a
-fresh guarded pass completes all targets under the cap.
+DU9IQ root target.  The current partially generated rank `903` Lean/report files
+were removed from the working tree after diagnostics so they cannot be picked up
+by an accidental broad build.  Rank `903` remains unaccepted until a fresh
+guarded pass completes all targets under the cap.
 
 Follow-up diagnostics checked whether the heaviest observed trace target could
 be made safe by a local proof-shape change:
