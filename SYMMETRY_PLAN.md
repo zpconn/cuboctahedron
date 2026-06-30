@@ -31826,3 +31826,86 @@ smaller semantic subcover roots and aggregating only theorem-valued facts, or
 by first proving that a lower per-target cap can check a representative smaller
 subcover.  Keep Python profiling parallel when memory-light, but keep Lean
 cover checks serial and guarded.
+
+### Phase 6Z.6K.8AP.16DU.9HI checkpoint: split rank84 compact cover accepted
+
+Phase 6Z.6K.8AP.16DU.9HI implements the safer split-cover topology suggested
+by the DU9HF interruption.  Instead of one large rank cover file containing
+all selected subcube arithmetic, it emits:
+
+- one subcube-obstruction module per selected subcube;
+- a thin rank root that imports those subcube modules and proves only the
+  finite 64-mask completeness wrapper.
+
+New emitter:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py
+```
+
+Dry-run command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16du_split_compact_cover.py \
+  --rank 84 \
+  --tag DU9HI \
+  --report scripts/generated/phase6z6k8ap16du9hi_split_cover_rank84_generation.json
+```
+
+Result: passed in `elapsed=0.73s`, `max_rss_kb=27508`, with `17` planned
+subcube targets plus one split root.
+
+Emission command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --rank 84 \
+  --tag DU9HI \
+  --report scripts/generated/phase6z6k8ap16du9hi_split_cover_rank84_generation.json
+```
+
+Result: passed in `elapsed=0.70s`, `max_rss_kb=27504`.  The split rank root is
+only `531` lines; the heavy arithmetic is isolated in `17` subcube modules.
+
+Subcube guard command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hi_split_cover_rank84_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hi_serial_guard_rank84_split_subcubes.json \
+  --out-dir /tmp/ap16dj_du9hi_serial_guarded/rank84_split_subcubes \
+  --target-kind split_cover_subcube \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed for all `17` subcube targets in aggregate `elapsed=55.06s`;
+the largest recorded target used `4133.4 MiB` peak tree RSS.
+
+Split-root guard command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hi_split_cover_rank84_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hi_serial_guard_rank84_split_root.json \
+  --out-dir /tmp/ap16dj_du9hi_serial_guarded/rank84_split_root \
+  --target-kind split_cover_root \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=4.51s`, with `peak_tree_rss=4139.9 MiB` and
+`min_available=45954.0 MiB`.
+
+Decision: accepted as the replacement topology for the interrupted DU9HF rank
+cover work.  The per-target RSS is still around `4.1 GiB`, so Lean builds must
+remain serial and guarded, but the split root no longer reaches the `4.36-4.45
+GiB` old-cover band and keeps the most expensive arithmetic out of the rank
+aggregate.  Next step: apply the same split-cover emitter to rank `86` and, if
+that passes under the same `4200 MiB` cap, emit split-cover roots for the
+previous DU9HF ranks only as needed for a thinner DU9HF batch root.
