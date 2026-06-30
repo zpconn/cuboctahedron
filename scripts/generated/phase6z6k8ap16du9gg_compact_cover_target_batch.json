@@ -1,0 +1,97 @@
+{
+  "decision": {
+    "notes": [
+      "diagnostic only: compact cover profiles are not Lean proof evidence",
+      "next step is rank-slice preparation and guarded Lean emission for this target batch"
+    ],
+    "status": "accepted-profile-batch"
+  },
+  "jobs": 4,
+  "phase": "6Z.6K.8AP.16DU.9GG",
+  "schema_version": 1,
+  "source_profile": "scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json",
+  "summary": {
+    "all_walsh_validated": true,
+    "rank_count": 6,
+    "total_bad_masks": 317,
+    "total_candidates": 1245,
+    "total_good_masks": 67,
+    "total_selected_subcubes": 102,
+    "total_uncovered_masks": 0
+  },
+  "targets": [
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 48,
+      "candidate_count": 201,
+      "good_mask_count": 16,
+      "markdown": "scripts/generated/phase6z6k8ap16du9gg_rank5_walsh_subcube_cover.md",
+      "profile": "scripts/generated/phase6z6k8ap16du9gg_rank5_walsh_subcube_cover.json",
+      "rank": 5,
+      "selected_count": 17,
+      "uncovered_count": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 9,
+      "bad_mask_count": 51,
+      "candidate_count": 197,
+      "good_mask_count": 13,
+      "markdown": "scripts/generated/phase6z6k8ap16du9gg_rank9_walsh_subcube_cover.md",
+      "profile": "scripts/generated/phase6z6k8ap16du9gg_rank9_walsh_subcube_cover.json",
+      "rank": 9,
+      "selected_count": 16,
+      "uncovered_count": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 53,
+      "candidate_count": 212,
+      "good_mask_count": 11,
+      "markdown": "scripts/generated/phase6z6k8ap16du9gg_rank11_walsh_subcube_cover.md",
+      "profile": "scripts/generated/phase6z6k8ap16du9gg_rank11_walsh_subcube_cover.json",
+      "rank": 11,
+      "selected_count": 16,
+      "uncovered_count": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 16,
+      "bad_mask_count": 57,
+      "candidate_count": 235,
+      "good_mask_count": 7,
+      "markdown": "scripts/generated/phase6z6k8ap16du9gg_rank17_walsh_subcube_cover.md",
+      "profile": "scripts/generated/phase6z6k8ap16du9gg_rank17_walsh_subcube_cover.json",
+      "rank": 17,
+      "selected_count": 16,
+      "uncovered_count": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 57,
+      "candidate_count": 227,
+      "good_mask_count": 7,
+      "markdown": "scripts/generated/phase6z6k8ap16du9gg_rank24_walsh_subcube_cover.md",
+      "profile": "scripts/generated/phase6z6k8ap16du9gg_rank24_walsh_subcube_cover.json",
+      "rank": 24,
+      "selected_count": 18,
+      "uncovered_count": 0,
+      "walsh_validated": true
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 51,
+      "candidate_count": 173,
+      "good_mask_count": 13,
+      "markdown": "scripts/generated/phase6z6k8ap16du9gg_rank27_walsh_subcube_cover.md",
+      "profile": "scripts/generated/phase6z6k8ap16du9gg_rank27_walsh_subcube_cover.json",
+      "rank": 27,
+      "selected_count": 19,
+      "uncovered_count": 0,
+      "walsh_validated": true
+    }
+  ],
+  "trusted_as_proof": false
+}

@@ -30525,3 +30525,65 @@ Next step: generate compact Walsh rank slices for the first small target batch
 (`5`, `9`, `11`, `17`, `24`, `27`) using the existing DU.9P/AP16DJ guarded
 pipeline, then build the emitted targets serially or with an explicit RSS guard
 before adding a larger hcover range root.
+
+### Phase 6Z.6K.8AP.16DU.9GG checkpoint: compact cover profiles for first missing batch
+
+Phase 6Z.6K.8AP.16DU.9GG profiles compact Walsh subcube covers for the first
+six missing hcover target ranks selected by 9GF: `5`, `9`, `11`, `17`, `24`,
+and `27`.  This stage emits only JSON/MD diagnostic profiles; it does not emit
+Lean and is not proof evidence.
+
+Batch profiling command:
+
+```bash
+/usr/bin/time -v python3 - <<'PY'
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pathlib import Path
+import json, sys
+sys.path.insert(0, 'scripts')
+from profile_ap16bj_walsh_subcube_cover import profile, write_markdown
+
+targets = [(5,8),(9,9),(11,8),(17,16),(24,8),(27,8)]
+source = Path('scripts/generated/phase6z6k8ap16i_positive_survivor_membership.json')
+
+def run(item):
+    rank, mask = item
+    out = Path(f'scripts/generated/phase6z6k8ap16du9gg_rank{rank}_walsh_subcube_cover.json')
+    data = profile(source, rank, mask)
+    data['phase'] = 'Phase 6Z.6K.8AP.16DU.9GG'
+    data['source_profile'] = str(source)
+    out.write_text(json.dumps(data, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+    write_markdown(data, out.with_suffix('.md'))
+    return rank, data['selected_count'], data['uncovered_count'], data['candidate_count']
+
+with ProcessPoolExecutor(max_workers=4) as pool:
+    futures = [pool.submit(run, target) for target in targets]
+    for future in as_completed(futures):
+        print(future.result())
+PY
+```
+
+Result: passed in `elapsed=0:03.10`, `max_rss_kb=26416`.
+
+Summary:
+
+| Rank | Anchor mask | Good masks | Bad masks | Candidates | Selected subcubes | Uncovered | Walsh validated |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| `5` | `8` | `16` | `48` | `201` | `17` | `0` | yes |
+| `9` | `9` | `13` | `51` | `197` | `16` | `0` | yes |
+| `11` | `8` | `11` | `53` | `212` | `16` | `0` | yes |
+| `17` | `16` | `7` | `57` | `235` | `16` | `0` | yes |
+| `24` | `8` | `7` | `57` | `227` | `18` | `0` | yes |
+| `27` | `8` | `13` | `51` | `173` | `19` | `0` | yes |
+
+Decision: accepted.  The first missing target batch has compact Walsh cover
+profiles with no uncovered masks and very low memory usage under four-worker
+parallel profiling.  The profile also confirms that these ranks remain small:
+only `77` total GoodDirection masks and `102` selected compact subcubes across
+the six ranks.
+
+Next step: convert these profiles into AP16DJ/DU.9P rank-slice plans and emit
+the corresponding split-trace, selected-impact, compact-cover, and shallow
+batch roots.  Build those emitted Lean targets only through the serial RSS
+guard first; do not attach them to a broad root until their per-target memory
+profile is recorded.
