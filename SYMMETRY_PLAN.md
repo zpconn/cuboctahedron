@@ -41538,3 +41538,60 @@ exist, all were checked serially under guard, and an all-root composes the three
 rank-local batch roots.  The next scaling step is to run the same plan-first
 process for the next candidate rank or profile slice, keeping vector traces,
 normal traces, bridge leaves, and aggregates checkpointed separately.
+
+### Phase 6Z6K8AP16DU9IQ - rank-899 vector trace chain serial build accepted
+
+The next DU9IQ traced-bridge profile slice starts at rank `899`.  A first
+bounded plan selected six bridge summaries, `28` through `33`, and recorded the
+new prerequisites:
+
+- plan JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank899.json`;
+- plan Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank899.md`;
+- required normal traces: indices `0`, `1`, `3`, `5`, `7`, `9`, and `11`;
+- required vector trace root:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank899ChainSmoke`.
+
+The split Walsh-vector trace emitter then generated the full rank-`899` chain:
+
+```bash
+python3 scripts/generate_ap16dk_split_walsh_vector_trace_smoke.py \
+  --rank 899 \
+  --stem WeightedDenomCubeDU9IQVectorTraceRank899Chain \
+  --dependency-mode chain \
+  --component-step 3 \
+  --component-step 11 \
+  --component-final \
+  --report scripts/generated/weighted_denom_cube_du9iq_vector_trace_rank899_chain_generation.json
+```
+
+Generated trace modules:
+
+- `WeightedDenomCubeDU9IQVectorTraceRank899ChainDataSmoke`;
+- `WeightedDenomCubeDU9IQVectorTraceRank899ChainStep00Smoke` through
+  `WeightedDenomCubeDU9IQVectorTraceRank899ChainStep12Smoke`;
+- split component modules for steps `03`, `11`, and the final vector;
+- root `WeightedDenomCubeDU9IQVectorTraceRank899ChainSmoke`.
+
+All 25 generated targets were checked serially with `LAKE_JOBS=1` under an
+`18 GiB` tree-RSS cap and a `30 GiB` available-memory floor.  No broad cold root
+build was attempted.
+
+Guarded build telemetry:
+
+- target count: `25`;
+- failures: `0`;
+- total serial elapsed time: `89.62s`;
+- worst target:
+  `weighted_denom_cube_du9iq_vector_trace_rank899_WeightedDenomCubeDU9IQVectorTraceRank899ChainStep12Smoke_guard_18g.json`;
+- worst target elapsed time: `11.02s`;
+- worst peak tree RSS: `4346 MiB`;
+- lowest available memory seen: `45748 MiB`.
+
+Decision: accepted.  Rank `899` now has its vector trace chain checked and
+ready for the first bounded bridge frontier.  The next step is to emit the
+seven required normal traces against
+`WeightedDenomCubeDU9IQVectorTraceRank899ChainSmoke`, build each normal trace
+serially under the `12 GiB` guard, and only then emit bridge leaves `28`
+through `33`.
