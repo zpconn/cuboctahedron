@@ -44659,3 +44659,50 @@ Next steps:
    ranks using the tiny weighted positive-mask bridge modules.
 3. Do not use the compact-free route to claim rank `911` closed until a
    separate nonpositive-mask cover repairs masks `32`, `34`, and `41`.
+
+### Phase 6Z6K8AP16DU9IQ32 - compact-free selector range accepted for rank 897
+
+Rank `897` is also contained in
+`SourceIndexStateSelectorDU9IQMicroRank896_956.Shard000`, so no additional
+selector microshard needed to be built. The compact-free singleton range module
+was emitted with the parameterized selector emitter:
+
+```bash
+python3 scripts/emit_compact_free_selector_singleton_range.py \
+  --rank 897 \
+  --micro-dir Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --micro-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke \
+  --module SourceIndexStateSelectorDU9IQCompactFreeRange897Smoke \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange897Smoke.lean
+```
+
+The module exports:
+
+```lean
+selectorCatalog897_898_allGood :
+  AllTranslationGoodCoverageOnRange 897 898
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_compact_free_range897_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQCompactFreeRange897Smoke
+```
+
+Telemetry:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `SourceIndexStateSelectorDU9IQCompactFreeRange897Smoke` | `2.50s` | `4066 MiB` | `46003 MiB` | `0` |
+
+Decision: accepted. The compact-free route has now closed corrected ranks
+`896` and `897` without importing the heavy generated source-row closures.
+Rank `899` will require `Shard001` because its positive masks span
+`Shard000` and `Shard001`.
