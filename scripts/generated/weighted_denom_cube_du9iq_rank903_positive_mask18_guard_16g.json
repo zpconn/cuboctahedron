@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 35000.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositiveMask18Smoke"
+  ],
+  "elapsed_seconds": 16.02369284798624,
+  "exit_code": -15,
+  "killed_reason": "MemAvailable 34790 MiB fell below 35000 MiB floor",
+  "max_tree_rss_kib": 15615504,
+  "max_tree_rss_mib": 15249.515625,
+  "min_available_seen_kib": 35625228,
+  "min_available_seen_mib": 34790.26171875,
+  "rss_cap_mib": 16000.0
+}

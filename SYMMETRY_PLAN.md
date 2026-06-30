@@ -42131,3 +42131,77 @@ multiple DU9IQ direct-bridge leaves must first warm the leaves serially under
 guard, then build the shallow aggregate root.  Cold aggregate builds over stale
 heavy leaves are explicitly disallowed because they can exceed the safe memory
 budget even when the individual leaves are small.
+
+### Phase 6Z6K8AP16DU9IQ - rank-903 bad-mask semantic shards accepted, positive side blocked
+
+The rank-`903` semantic wrapper experiment was split into two pieces:
+
+1. bad-mask evidence: use the twelve existing weighted-denominator cube leaves
+   to prove `¬ GoodDirectionAtRank` for all 57 non-survivor masks;
+2. positive-survivor evidence: use source-index/row facts to erase the seven
+   GoodDirection survivor masks into `TranslationGoodCaseKilled`.
+
+The bad-mask side is accepted.  A new emitter was added:
+
+```text
+scripts/emit_du9iq_rank903_semantic_wrapper.py
+```
+
+In its default mode it emits only the buildable bad-mask shards:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903BadMaskFactsASmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903BadMaskFactsBSmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903BadMaskFactsCSmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903BadMaskFactsDSmoke
+```
+
+Generated report:
+
+```text
+scripts/generated/weighted_denom_cube_du9iq_rank903_semantic_wrapper.json
+```
+
+The default report records:
+
+- rank: `903`;
+- GoodDirection survivor masks: `[18, 22, 24, 25, 54, 55, 63]`;
+- bad masks covered by weighted cubes: `57`;
+- positive/wrapper emission disabled by default:
+  `include_positive_experimental = false`.
+
+All four bad-mask shards passed under the `12 GiB` guard:
+
+| shard | elapsed | peak tree RSS | min available |
+| --- | ---: | ---: | ---: |
+| A | `4.51s` | `4081.8 MiB` | `45943.7 MiB` |
+| B | `2.50s` | `4112.7 MiB` | `45957.8 MiB` |
+| C | `2.50s` | `4093.8 MiB` | `45974.9 MiB` |
+| D | `2.50s` | `4097.7 MiB` | `45970.9 MiB` |
+
+Decision: accepted for the bad-mask half of the semantic wrapper.  This is the
+first rank-local module family that turns weighted denominator cube
+obstructions into concrete per-mask `¬ GoodDirectionAtRank` theorems without
+replaying ordinary translation certificates.
+
+The positive-survivor side is blocked in its current form.  The emitter has an
+explicit `--include-positive-experimental` flag that can regenerate the
+positive-survivor and full wrapper modules, but these modules are not emitted
+by default and are not part of the normal source tree.  The experiment showed
+that even a single survivor mask using `SourceIndexStateSourceFacts` and
+`SourceIndexStateRowFacts` via `by decide` is too memory-heavy:
+
+- with default heartbeats, mask `18` failed on heartbeat timeout at peak
+  `7764.2 MiB`;
+- with `set_option maxHeartbeats 0` and the `12 GiB` cap, mask `18` was killed
+  at peak `12199.5 MiB`;
+- with a `16 GiB` cap and the same `35 GiB` available-memory floor, mask `18`
+  was killed when available memory fell to `34790.3 MiB`, with peak tree RSS
+  `15249.5 MiB`.
+
+Decision: rejected for production.  The source-index/row `by decide` proof
+surface must not be used as the final GoodDirection survivor backend.  The next
+translation step should replace it with a lighter semantic row-template or
+source-fact bridge, preferably one that proves the row relation from compact
+integer/source witnesses without reconstructing the full rank/mask
+`translationSeqAtRankMask` decision inside Lean.

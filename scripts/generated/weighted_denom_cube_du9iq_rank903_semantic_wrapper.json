@@ -1,0 +1,319 @@
+{
+  "bad_chunk_outputs": [
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903BadMaskFactsASmoke.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903BadMaskFactsBSmoke.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903BadMaskFactsCSmoke.lean",
+    "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank903BadMaskFactsDSmoke.lean"
+  ],
+  "bad_mask_count": 57,
+  "cube_assignment": {
+    "0": {
+      "cube": "cubex000x0",
+      "idx": 48,
+      "pattern": "*000*0"
+    },
+    "1": {
+      "cube": "cubex000x0",
+      "idx": 48,
+      "pattern": "*000*0"
+    },
+    "10": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "11": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "12": {
+      "cube": "cubexxx100",
+      "idx": 47,
+      "pattern": "***100"
+    },
+    "13": {
+      "cube": "cubexxx100",
+      "idx": 47,
+      "pattern": "***100"
+    },
+    "14": {
+      "cube": "cubexxx100",
+      "idx": 47,
+      "pattern": "***100"
+    },
+    "15": {
+      "cube": "cubexxx100",
+      "idx": 47,
+      "pattern": "***100"
+    },
+    "16": {
+      "cube": "cubex000x0",
+      "idx": 48,
+      "pattern": "*000*0"
+    },
+    "17": {
+      "cube": "cubex000x0",
+      "idx": 48,
+      "pattern": "*000*0"
+    },
+    "19": {
+      "cube": "cube11x0x0",
+      "idx": 49,
+      "pattern": "11*0*0"
+    },
+    "2": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "20": {
+      "cube": "cubex01x1x",
+      "idx": 45,
+      "pattern": "*01*1*"
+    },
+    "21": {
+      "cube": "cubex01x1x",
+      "idx": 45,
+      "pattern": "*01*1*"
+    },
+    "23": {
+      "cube": "cube11x0x0",
+      "idx": 49,
+      "pattern": "11*0*0"
+    },
+    "26": {
+      "cube": "cubex101x0",
+      "idx": 50,
+      "pattern": "*101*0"
+    },
+    "27": {
+      "cube": "cubex101x0",
+      "idx": 50,
+      "pattern": "*101*0"
+    },
+    "28": {
+      "cube": "cubexx1110",
+      "idx": 40,
+      "pattern": "**1110"
+    },
+    "29": {
+      "cube": "cubexx1110",
+      "idx": 40,
+      "pattern": "**1110"
+    },
+    "3": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "30": {
+      "cube": "cubexx1110",
+      "idx": 40,
+      "pattern": "**1110"
+    },
+    "31": {
+      "cube": "cubexx1110",
+      "idx": 40,
+      "pattern": "**1110"
+    },
+    "32": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "33": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "34": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "35": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "36": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "37": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "38": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "39": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "4": {
+      "cube": "cubexx100x",
+      "idx": 51,
+      "pattern": "**100*"
+    },
+    "40": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "41": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "42": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "43": {
+      "cube": "cubex10x0x",
+      "idx": 42,
+      "pattern": "*10*0*"
+    },
+    "44": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "45": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "46": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "47": {
+      "cube": "cubexx1x01",
+      "idx": 43,
+      "pattern": "**1*01"
+    },
+    "48": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "49": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "5": {
+      "cube": "cubexx100x",
+      "idx": 51,
+      "pattern": "**100*"
+    },
+    "50": {
+      "cube": "cubexx0x11",
+      "idx": 44,
+      "pattern": "**0*11"
+    },
+    "51": {
+      "cube": "cubexx0x11",
+      "idx": 44,
+      "pattern": "**0*11"
+    },
+    "52": {
+      "cube": "cubex01x1x",
+      "idx": 45,
+      "pattern": "*01*1*"
+    },
+    "53": {
+      "cube": "cubex01x1x",
+      "idx": 45,
+      "pattern": "*01*1*"
+    },
+    "56": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "57": {
+      "cube": "cubex00xx1",
+      "idx": 41,
+      "pattern": "*00**1"
+    },
+    "58": {
+      "cube": "cubexx0x11",
+      "idx": 44,
+      "pattern": "**0*11"
+    },
+    "59": {
+      "cube": "cubexx0x11",
+      "idx": 44,
+      "pattern": "**0*11"
+    },
+    "6": {
+      "cube": "cubexx100x",
+      "idx": 51,
+      "pattern": "**100*"
+    },
+    "60": {
+      "cube": "cubex01x1x",
+      "idx": 45,
+      "pattern": "*01*1*"
+    },
+    "61": {
+      "cube": "cubex01x1x",
+      "idx": 45,
+      "pattern": "*01*1*"
+    },
+    "62": {
+      "cube": "cube0xx1x1",
+      "idx": 46,
+      "pattern": "0**1*1"
+    },
+    "7": {
+      "cube": "cube11x0x0",
+      "idx": 49,
+      "pattern": "11*0*0"
+    },
+    "8": {
+      "cube": "cubexxx100",
+      "idx": 47,
+      "pattern": "***100"
+    },
+    "9": {
+      "cube": "cubexxx100",
+      "idx": 47,
+      "pattern": "***100"
+    }
+  },
+  "good_mask_split_families": {
+    "18": 0,
+    "22": 5,
+    "24": 0,
+    "25": 14,
+    "54": 13,
+    "55": 13,
+    "63": 15
+  },
+  "good_masks": [
+    18,
+    22,
+    24,
+    25,
+    54,
+    55,
+    63
+  ],
+  "include_positive_experimental": false,
+  "output": null,
+  "positive_mask_outputs": {},
+  "positive_output": null,
+  "rank": 903
+}
