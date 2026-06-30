@@ -5,12 +5,12 @@
     "build",
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange2Smoke"
   ],
-  "elapsed_seconds": 7.50891505999607,
+  "elapsed_seconds": 2.5034637299831957,
   "exit_code": 0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4037168,
-  "max_tree_rss_mib": 3942.546875,
-  "min_available_seen_kib": 46967140,
-  "min_available_seen_mib": 45866.34765625,
+  "max_tree_rss_kib": 4027644,
+  "max_tree_rss_mib": 3933.24609375,
+  "min_available_seen_kib": 47041412,
+  "min_available_seen_mib": 45938.87890625,
   "rss_cap_mib": 12000.0
 }

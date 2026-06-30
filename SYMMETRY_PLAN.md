@@ -43203,3 +43203,68 @@ surface for ranks whose selector-positive cases live in one DU.9L microshard.
 The next bounded target is rank `3`, which spans `Shard001` and `Shard002` and
 therefore requires a split-shard `coordAt` dispatcher before the same range
 catalog can be emitted.
+
+### Phase 6Z6K8AP16DU9IQ13 - split-shard singleton range emitter accepted
+
+The singleton-range emitter now also supports ranks whose positive
+GoodDirection survivor cases are split across multiple DU.9L microshards.  For
+split ranks it emits:
+
+- imports for every needed DU.9L shard;
+- a small `coordAt` dispatcher keyed by survivor mask value;
+- one direct proof from
+  `GoodDirectionAtRank -> SelectorCoordinateSourceRowFacts`;
+- the same range catalog erasures as the one-shard path.
+
+This avoids a fake single-shard coordinate and keeps the final exported theorem
+surface unchanged.
+
+The first split-shard module is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange3Smoke
+```
+
+It proves:
+
+```lean
+selectorCatalog3_4 :
+  SelectorCoordinateFactsGoodCatalogOnRangeFor coordAt3_4 3 4
+
+selectorCatalog3_4_allGood :
+  AllTranslationGoodCoverageOnRange 3 4
+```
+
+The dispatcher sends masks `8`, `9`, and `13` to `Shard001`; all remaining
+rank-`3` survivor masks are covered by `Shard002`.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9_compact_free_range3_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange3Smoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.00s` | `3977 MiB` | `45871 MiB` | `0` |
+
+The rank-`2` module was regenerated with the updated emitter and rebuilt:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `SourceIndexStateSelectorDU9CompactFreeRange2Smoke` | `2.50s` | `3933 MiB` | `45938 MiB` | `0` |
+
+Decision: accepted for bounded singleton selector ranges, including split
+microshard cases.  This closes the old `[0,4)` fixture at the singleton-range
+level without importing `SourceIndexStateSelectorDU9PCompactMembership`: ranks
+`0`, `2`, and `3` now have compact-free selector catalogs, while rank `1` is
+handled by the existing row-relation classifier path.  The next step is to add
+a small compact-free `[0,4)` aggregate root using these singleton catalogs and
+the rank-`1` classifier theorem, then measure that root under guard.

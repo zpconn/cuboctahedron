@@ -7,7 +7,7 @@ Generated compact-free selector range smoke for `[2,3)`.
 
 The module avoids `SourceIndexStateSelectorDU9PCompactMembership` and
 erases the rank-local positive-mask proof directly through DU.9L
-source/row facts.  It is a bounded singleton-range smoke, not a
+source/row facts (single microshard).  It is a bounded singleton-range smoke, not a
 production family backend.
 -/
 
@@ -17,6 +17,7 @@ open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9RRangeAdapter
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9HSmoke
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9LMicro
 
 def coordAt2_3 (rank : Nat) (mask : SignMask) :
