@@ -105,6 +105,26 @@ def write_summary(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def select_targets(args: argparse.Namespace, targets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    selected = list(targets)
+    if args.target_kind:
+        kinds = set(args.target_kind)
+        selected = [target for target in selected if target.get("kind") in kinds]
+    if args.module_contains:
+        needles = list(args.module_contains)
+        selected = [
+            target
+            for target in selected
+            if all(needle in target.get("module", "") for needle in needles)
+        ]
+    if args.target_index:
+        indexes = set(args.target_index)
+        selected = [target for index, target in enumerate(selected) if index in indexes]
+    if args.max_targets is not None:
+        selected = selected[: args.max_targets]
+    return selected
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -143,6 +163,25 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Optional prefix of targets to build for a very small smoke.",
     )
+    parser.add_argument(
+        "--target-kind",
+        action="append",
+        default=[],
+        help="Only build targets of this kind. May be repeated.",
+    )
+    parser.add_argument(
+        "--module-contains",
+        action="append",
+        default=[],
+        help="Only build targets whose module name contains this substring. May be repeated.",
+    )
+    parser.add_argument(
+        "--target-index",
+        action="append",
+        type=int,
+        default=[],
+        help="Only build this zero-based index after other filters. May be repeated.",
+    )
     return parser.parse_args()
 
 
@@ -151,9 +190,7 @@ def main() -> int:
     if args.emit:
         run_generator_emit()
     report = load_generation_report(args.generation_report)
-    targets = list(report["targets"])
-    if args.max_targets is not None:
-        targets = targets[: args.max_targets]
+    targets = select_targets(args, list(report["targets"]))
     summary: dict[str, Any] = {
         "phase": "Phase 6Z.6K.8AP.16DJ",
         "description": "Serial guarded AP16DJ batch build plan",
@@ -164,6 +201,12 @@ def main() -> int:
         "available_floor_mib": args.available_floor_mib,
         "timeout_seconds": args.timeout_seconds,
         "target_count": len(targets),
+        "filters": {
+            "target_kind": args.target_kind,
+            "module_contains": args.module_contains,
+            "target_index": args.target_index,
+            "max_targets": args.max_targets,
+        },
         "targets": targets,
         "results": [],
         "status": "plan_only" if args.plan_only else "running",

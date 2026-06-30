@@ -30708,3 +30708,56 @@ enough to the `4500 MiB` cap that the next action must remain conservative:
 build only a tiny guarded prefix, or first reorder the guard plan to put the
 largest expected targets under explicit observation.  Do not run the whole
 `151`-target batch or any broad root without the serial guard.
+
+### Phase 6Z.6K.8AP.16DU.9GJ checkpoint: targeted guard filters and largest-cover probe
+
+Phase 6Z.6K.8AP.16DU.9GJ extends
+`scripts/run_ap16dj_serial_guarded.py` with safe target-selection filters:
+
+- `--target-kind`
+- `--module-contains`
+- `--target-index`
+
+This lets us probe likely-heavy targets directly instead of using only a plan
+prefix.  The change is operational safety tooling only; it does not alter proof
+evidence.
+
+Cover plan command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gh_serial_guard_cover_plan.json \
+  --out-dir /tmp/ap16dj_du9gh_serial_guarded/cover \
+  --target-kind cover
+```
+
+Result: produced a six-target cover-only guard plan for ranks `5`, `9`, `11`,
+`17`, `24`, and `27`.
+
+Largest-looking cover probe:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gh_serial_guard_cover_rank27.json \
+  --out-dir /tmp/ap16dj_du9gh_serial_guarded/cover_rank27 \
+  --target-kind cover \
+  --module-contains CoverRank27 \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed.  The target
+`Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomCoverRank27Smoke`
+built in `elapsed=97.71s`, with `peak_tree_rss=4329 MiB` and
+`min_available=45657 MiB`.
+
+Decision: accepted as a stronger memory-safety probe.  The largest source file
+in this six-rank batch can build under the `4500 MiB` guard, but the margin is
+thin.  Continue using one-target or small filtered guard runs.  If several cover
+targets show similar RSS, do not parallelize these cover builds; save
+parallelism for low-RSS profiling scripts and perhaps tiny trace-step targets
+only after enough telemetry exists.
