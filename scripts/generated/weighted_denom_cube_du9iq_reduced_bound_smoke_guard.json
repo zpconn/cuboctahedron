@@ -5,12 +5,12 @@
     "build",
     "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQReducedBoundSmoke"
   ],
-  "elapsed_seconds": 3.504447951010661,
+  "elapsed_seconds": 2.5032478960056324,
   "exit_code": 0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4182256,
-  "max_tree_rss_mib": 4084.234375,
-  "min_available_seen_kib": 47164020,
-  "min_available_seen_mib": 46058.61328125,
-  "rss_cap_mib": 5500.0
+  "max_tree_rss_kib": 4148048,
+  "max_tree_rss_mib": 4050.828125,
+  "min_available_seen_kib": 46859332,
+  "min_available_seen_mib": 45761.06640625,
+  "rss_cap_mib": 12000.0
 }

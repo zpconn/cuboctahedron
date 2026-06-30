@@ -21,16 +21,16 @@ open DenominatorCube
 
 set_option maxHeartbeats 0
 
-private def rank896 : Nat := 896
+def rank896 : Nat := 896
 
-private def cube1xx0x0 : MaskSubcube where
+def cube1xx0x0 : MaskSubcube where
   fixed
     | SignBit.y => some true
     | SignBit.d11m => some false
     | SignBit.dm11 => some false
     | _ => none
 
-private def weights2_6 : InternalImpactWeights where
+def weights2_6 : InternalImpactWeights where
   w1 := 0
   w2 := 1
   w3 := 0
@@ -59,7 +59,7 @@ support `[2,6]`, weights `[1,1]`, as computed by the exact external profiler.
 This file treats the coefficient record as generated data and checks only the
 local reduced-bound proof.
 -/
-private def poly896_2_6 : WalshQuadratic where
+def poly896_2_6 : WalshQuadratic where
   c := 12
   y := 0
   z := 0

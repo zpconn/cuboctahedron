@@ -255,6 +255,26 @@ theorem WeightedWalshQuadraticTraceCertificate.coeffEval_eq_weightedDirect
   rw [← cert.quadratic_eq]
   exact weightedDirectWalshQuadraticAtRank_coeffEval r mask weights
 
+theorem coeffEval_eq_weightedDirect_of_affineData
+    {r : Fin numPairWords}
+    {w : PairWord}
+    {normal : WordIndex -> WalshAffineVec3}
+    {vector : WalshAffineVec3}
+    {weights : InternalImpactWeights}
+    {poly : WalshQuadratic}
+    (hrank : unrankPairWord r = w)
+    (hNormal : forall i : WordIndex, normal i = impactNormalWalshAt w i)
+    (hVector : vector = translationVectorWalshOfChoice w)
+    (hPoly : weightedQuadraticFromAffineData normal vector weights = poly)
+    (mask : SignMask) :
+    poly.coeffEval mask = weightedDirectWalshDotAtRank r mask weights := by
+  have hq : weightedDirectWalshQuadraticAtRank r weights = poly := by
+    unfold weightedDirectWalshQuadraticAtRank
+    rw [hrank]
+    exact (weightedQuadraticFromAffineData_eq_direct hNormal hVector).symm.trans hPoly
+  rw [← hq]
+  exact weightedDirectWalshQuadraticAtRank_coeffEval r mask weights
+
 theorem WeightedWalshQuadraticTraceCertificate.weightedDirect_nonpos_of_coeffEval_nonpos
     {r : Fin numPairWords}
     {weights : InternalImpactWeights}

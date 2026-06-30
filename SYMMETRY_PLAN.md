@@ -40576,11 +40576,66 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 - exit: `0`;
-- elapsed: `3.50s`;
-- peak tree RSS: `4084 MiB`;
-- minimum available memory seen: `46058 MiB`.
+- elapsed: `2.50s`;
+- peak tree RSS: `4050 MiB`;
+- minimum available memory seen: `45761 MiB`.
 
 Decision: the reduced-bound obstruction surface is accepted for a concrete
 DU9IQ cube.  The next step is to emit/check the missing coefficient-equality
 facts for this cube through compact dot-data or coefficient records.  Do not
 prove that equality by unfolding the rank-level weighted Walsh recurrence.
+
+### Phase 6Z6K8AP16DU9IQ - affine bridge accepted, unfolding bridge rejected
+
+The next coefficient-equality attempt split into two outcomes.
+
+Accepted:
+
+- made the accepted rank-`896` reduced-bound smoke's tiny generated objects
+  public (`rank896`, `cube1xx0x0`, `weights2_6`, `poly896_2_6`) so later
+  bridge files can reuse the exact accepted cube/polynomial;
+- added
+  `DenominatorCube.coeffEval_eq_weightedDirect_of_affineData`, a non-trace
+  bridge theorem that connects a compact affine-data polynomial equality to
+  `weightedDirectWalshDotAtRank`.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_walsh_trace_affine_bridge_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticTraceCertificate
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `19.53s`;
+- peak tree RSS: `10243 MiB`;
+- minimum available memory seen: `45026 MiB`.
+
+Rejected:
+
+- a support-only rank-`896` bridge file was attempted with only the two
+  nonzero weighted rows (`w2`, `w6`);
+- despite the small support, proving the coefficient equality by unfolding
+  `impactNormalWalshAt generatedWord` still expanded the rank-local reflection
+  product and caused Lean to balloon;
+- the memory guard killed it before system pressure became dangerous.
+
+Guard result:
+
+- exit: `-15`;
+- killed reason: `process-tree RSS 41156 MiB exceeded 8000 MiB cap`;
+- elapsed before kill: `22.04s`;
+- minimum available memory seen: `42635 MiB`.
+
+Decision: do not pursue in-file unfolding for DU9IQ coefficient equality, even
+on two-row supports.  The next bridge must emit coefficient/dot facts as
+already-checked generated theorem inputs, or use an integer/projective
+coefficient producer that never unfolds rank-level normal recurrences inside
+the obstruction leaf.
