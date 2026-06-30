@@ -30901,3 +30901,43 @@ Decision: accepted.  The second six-rank target batch has compact Walsh cover
 profiles with no uncovered masks.  Next step: prepare an AP16DJ-compatible
 plan/source pair for these ranks, dry-run the emitter, then emit Lean only if
 the guarded target count and file sizes look comparable to DU9GH.
+
+### Phase 6Z.6K.8AP.16DU.9GO checkpoint: second hcover batch prep and dry-run
+
+Phase 6Z.6K.8AP.16DU.9GO generalizes
+`scripts/prepare_compact_hcover_rank_batch.py` so it can set the phase label
+and generated signature-key prefix instead of hardcoding DU9GH.
+
+Prep command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9gn_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9GO' \
+  --signature-key-prefix du9go
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=14208`, producing a
+plan/source pair for ranks `29`, `30`, `32`, `40`, `42`, and `44`.
+
+AP16DJ dry-run command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GOBatchSmoke
+```
+
+Result: passed in `elapsed=0:00.07`, `max_rss_kb=27144`, with status
+`dry_run`, `6` signatures, and `151` planned guarded targets.
+
+Decision: accepted.  DU9GO has the same target count shape as DU9GH and is
+ready for bounded Lean emission.  Use the same safety sequence: emit, plan-only
+guard target list, one large-cover probe, all cover roots, then shallow
+batch-root.  Do not run the full broad Lake package.

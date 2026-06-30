@@ -30,13 +30,13 @@ def selected_word_impacts(profile: dict[str, Any]) -> list[int]:
     return sorted({int(candidate["impact"]) - 1 for candidate in profile["selected"]})
 
 
-def entry_from_profile(profile: dict[str, Any]) -> dict[str, Any]:
+def entry_from_profile(profile: dict[str, Any], signature_key_prefix: str) -> dict[str, Any]:
     rank = int(profile["rank"])
     impacts = selected_word_impacts(profile)
     return {
         "rank": rank,
         "anchor_mask": int(profile["anchor_mask"]),
-        "signature_key_prefix": f"du9gh_rank{rank}",
+        "signature_key_prefix": f"{signature_key_prefix}_rank{rank}",
         "good_mask_count": len(profile["good_masks"]),
         "bad_mask_count": int(profile["bad_mask_count"]),
         "selected_subcube_count": int(profile["selected_count"]),
@@ -74,8 +74,13 @@ def build_payloads(
     output_prefix: Path,
     root_lean: str,
     root_namespace: str,
+    phase: str,
+    signature_key_prefix: str,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    entries = [entry_from_profile(profile) for profile in profiles]
+    entries = [
+        entry_from_profile(profile, signature_key_prefix)
+        for profile in profiles
+    ]
     selected_union = sorted({
         impact for entry in entries for impact in entry["selected_word_impacts"]
     })
@@ -83,7 +88,7 @@ def build_payloads(
     source_path = output_prefix.with_name(output_prefix.name + "_source.json")
     generation_path = output_prefix.with_name(output_prefix.name + "_generation.json")
     plan = {
-        "phase": "Phase 6Z.6K.8AP.16DU.9GH",
+        "phase": phase,
         "schema_version": 1,
         "trusted_as_proof": False,
         "trusted_as_final_generated_coverage": False,
@@ -114,7 +119,7 @@ def build_payloads(
         },
     }
     source = {
-        "phase": "Phase 6Z.6K.8AP.16DU.9GH",
+        "phase": phase,
         "schema_version": 1,
         "trusted_as_proof": False,
         "source_profiles": [profile["profile_path"] for profile in profiles],
@@ -125,7 +130,7 @@ def build_payloads(
         "results": profiles,
     }
     report = {
-        "phase": "Phase 6Z.6K.8AP.16DU.9GH",
+        "phase": phase,
         "schema_version": 1,
         "trusted_as_proof": False,
         "plan": str(plan_path),
@@ -156,7 +161,7 @@ def build_payloads(
 
 def write_markdown(report: dict[str, Any], path: Path) -> None:
     lines = [
-        "# Phase 6Z.6K.8AP.16DU.9GH Compact Hcover Batch Prep",
+        f"# {report['phase']} Compact Hcover Batch Prep",
         "",
         "This report is planning telemetry, not proof evidence.",
         "",
@@ -205,6 +210,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-prefix", type=Path, default=DEFAULT_OUTPUT_PREFIX)
     parser.add_argument("--root-lean", default=DEFAULT_ROOT_LEAN)
     parser.add_argument("--root-namespace", default=DEFAULT_ROOT_NAMESPACE)
+    parser.add_argument("--phase", default="Phase 6Z.6K.8AP.16DU.9GH")
+    parser.add_argument("--signature-key-prefix", default="du9gh")
     return parser.parse_args()
 
 
@@ -221,6 +228,8 @@ def main() -> None:
         output_prefix=args.output_prefix,
         root_lean=args.root_lean,
         root_namespace=args.root_namespace,
+        phase=args.phase,
+        signature_key_prefix=args.signature_key_prefix,
     )
     plan_path = args.output_prefix.with_name(args.output_prefix.name + "_plan.json")
     source_path = args.output_prefix.with_name(args.output_prefix.name + "_source.json")
