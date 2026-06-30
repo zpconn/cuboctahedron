@@ -43393,3 +43393,74 @@ survivor predicate through weighted denominator cubes rather than through
 rank-local compact-Walsh/finite-mask roots.  Keep the same rule: serial guarded
 leaf builds, shallow theorem-valued cover roots, and no cold broad `lake build`
 over uncached trace trees.
+
+### Phase 6Z6K8AP16DU9IQ16 - traced bridge cover emitter accepted
+
+The rank-`896` cover root pattern was factored into a reusable generator:
+
+```text
+scripts/emit_du9iq_traced_bridge_cover.py
+```
+
+The emitter reads a bounded list of already checked direct-bridge leaves,
+extracts each public cube and weight definition, and emits a theorem-valued
+`WeightedDenomCubeCover`.  It does not inspect trace arithmetic or re-run any
+certificate checker; the arithmetic stays in the individual direct-bridge
+leaves.
+
+First generated full rank-`896` cover root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896AllSmoke
+```
+
+Input indices:
+
+```text
+0-13
+```
+
+Generated report:
+
+```text
+scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_all.json
+```
+
+The exported theorem has the same semantic shape as the partial cover:
+
+```lean
+goodDirection_outside_weighted_batch :
+  GoodDirectionAtRank (⟨896, hlt⟩ : Fin numPairWords) mask ->
+    OutsideBatchGoodMaskMember mask
+```
+
+but `OutsideBatchGoodMaskMember` is now outside all `14` selected rank-`896`
+weighted cubes.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_all_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896AllSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `6.51s` | `3976 MiB` | `45603 MiB` | `0` |
+
+Decision: accepted.  This turns the traced direct-bridge batch into a reusable
+hmask-cover theorem surface with generator support.  It is still a bounded
+rank-local theorem because the positive survivor predicate is "outside these
+selected cubes" rather than the final source-index/state selector membership
+predicate.  The next step is to emit a glue module for a rank whose selected
+weighted cubes cover the full non-survivor complement, connecting this cover
+root to the existing selector/source-row catalog.  If the selected cubes are
+only partial for a rank, the plan must record the missing cube families before
+claiming a full GoodDirection-to-selector bridge.
