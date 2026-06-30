@@ -167,11 +167,13 @@ def profile(
     target_missing: int,
     covered_batch_generation_reports: list[Path] | None = None,
     covered_batch_guard_summaries: list[Path] | None = None,
+    explicit_covered_ranks: list[int] | None = None,
 ) -> dict[str, Any]:
     batch_covered_ranks = guarded_batches_covered_ranks(
         covered_batch_generation_reports,
         covered_batch_guard_summaries,
     )
+    batch_covered_ranks.update(explicit_covered_ranks or [])
     if jobs <= 1:
         rows = scan_window((rank_start, limit, batch_covered_ranks))
     else:
@@ -224,6 +226,7 @@ def profile(
         "status_counts": dict(sorted(status_counts.items())),
         "covered_batch_generation_reports": [str(p) for p in (covered_batch_generation_reports or [])],
         "covered_batch_guard_summaries": [str(p) for p in (covered_batch_guard_summaries or [])],
+        "explicit_covered_ranks": sorted(set(explicit_covered_ranks or [])),
         "guarded_batch_covered_ranks": sorted(batch_covered_ranks),
         "identity_rows": identity_rows,
         "missing_compact_cover_rows": missing_rows,
@@ -303,6 +306,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
     parser.add_argument("--covered-batch-generation-report", type=Path, action="append", default=[])
     parser.add_argument("--covered-batch-guard-summary", type=Path, action="append", default=[])
+    parser.add_argument(
+        "--covered-rank",
+        type=int,
+        action="append",
+        default=[],
+        help=(
+            "Mark this rank as covered by an externally audited batch root, "
+            "for example a mixed/split root whose accepted guard report is "
+            "tracked separately. May be repeated."
+        ),
+    )
     args = parser.parse_args()
     if len(args.covered_batch_generation_report) != len(args.covered_batch_guard_summary):
         parser.error(
@@ -321,6 +335,7 @@ def main() -> None:
         target_missing=args.target_missing,
         covered_batch_generation_reports=args.covered_batch_generation_report,
         covered_batch_guard_summaries=args.covered_batch_guard_summary,
+        explicit_covered_ranks=args.covered_rank,
     )
     args.json.parent.mkdir(parents=True, exist_ok=True)
     args.json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

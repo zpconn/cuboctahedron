@@ -32040,3 +32040,44 @@ root.  The next production-scaling step is to teach the coverage/frontier
 diagnostics that a guarded mixed/split batch can mark ranks `65`, `72`, `78`,
 `80`, `84`, and `86` as covered without counting the old rank84/rank86
 monolithic cover roots as part of the path forward.
+
+### Phase 6Z.6K.8AP.16DU.9HL checkpoint: frontier diagnostic recognizes audited mixed batches
+
+Phase 6Z.6K.8AP.16DU.9HL updates
+`scripts/profile_next_compact_hcover_ranks.py` with an explicit
+`--covered-rank` option.  This keeps the diagnostic honest: ranks can be marked
+covered by an audited mixed/split batch root without pretending they came from
+an AP16DJ monolithic generation report.
+
+The post-mixed `[64,128)` frontier scan was:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 64 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --covered-rank 65 \
+  --covered-rank 72 \
+  --covered-rank 78 \
+  --covered-rank 80 \
+  --covered-rank 84 \
+  --covered-rank 86 \
+  --json scripts/generated/phase6z6k8ap16du9hl_next_compact_hcover_ranks_after_mixed_64_128.json \
+  --md scripts/generated/phase6z6k8ap16du9hl_next_compact_hcover_ranks_after_mixed_64_128.md
+```
+
+Result: passed in `0.87s` wall time, with only `25.5 MiB` maximum RSS.  The
+scan found `12` identity ranks with `138` GoodDirection cases, `630`
+Not-GoodDirection masks, and zero uncovered/non-two-source masks in the window.
+With ranks `65`, `72`, `78`, `80`, `84`, and `86` marked as covered by the
+accepted mixed batch, the next missing compact hcover ranks are:
+
+```text
+87, 89, 120, 122, 123, 125
+```
+
+Decision: accepted.  The next bounded scaling batch should target those six
+ranks.  Use the split-cover topology directly for the new batch rather than
+emitting monolithic cover roots first; the rank84/rank86 experience shows that
+split roots are the safer default at this stage.
