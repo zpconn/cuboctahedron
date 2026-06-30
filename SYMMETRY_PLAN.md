@@ -41376,3 +41376,59 @@ approaching the memory cap.  The next scaling step is to plan the next bounded
 frontier with `--skip-existing-bridges`, inspect whether it needs new normal
 traces, and repeat this same trace-first, serial-guarded bridge process.  Do
 not run a broad cold root build.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 second traced bridge frontier accepted
+
+The next bounded rank-`897` frontier was planned with
+`--skip-existing-bridges`.  The planner skipped the existing summaries
+`14` through `19` and selected summaries `20` through `25`.
+
+Report files:
+
+- JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897_next.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897_next.md`.
+
+No new normal traces were needed.  The required normal trace indices
+`0`, `1`, `3`, `5`, `7`, and `10` already existed from the first frontier's
+trace-prerequisite build.
+
+Generated bridge leaves:
+
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx20Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx21Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx22Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx23Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx24Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx25Smoke`.
+
+Generated shallow aggregate:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx20To25Smoke
+```
+
+All six bridge leaves passed under the `12 GiB` guard:
+
+- bridge count: `6`;
+- total serial elapsed time: `18.52s`;
+- worst bridge target:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx22_guard.json`;
+- worst bridge elapsed time: `3.00s`;
+- worst bridge peak tree RSS: `4123 MiB`;
+- lowest available memory seen during bridge builds: `45939 MiB`.
+
+The shallow aggregate also passed:
+
+- aggregate guard:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank897_idx20_to_25_aggregate_guard.json`;
+- elapsed time: `2.50s`;
+- peak tree RSS: `3709 MiB`;
+- minimum available memory seen: `46142 MiB`.
+
+Decision: accepted.  Rank `897` now has twelve traced DU9IQ bridge leaves
+checked through two shallow aggregate roots.  The next step is either to emit a
+two-root rank-`897` super-aggregate or to plan the next `--skip-existing`
+frontier; if a super-aggregate is emitted, it must remain a theorem-surface
+combiner only and be built under the same guard.
