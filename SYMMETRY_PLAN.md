@@ -34036,3 +34036,60 @@ Decision: DU9IE is accepted.  The next forward step is to audit `[192,256)` with
 the DU9IE ranks marked as covered, then profile the next bounded window.  Keep
 normal builds away from the monolithic DU9IE `CoverRank...` modules; use the
 split DU9IE root as the accepted path.
+
+### Phase 6Z6K8AP16DU9IF/DU9IG - post-DU9IE audit and next compact window
+
+After accepting DU9IE, the `[192,256)` window was audited with ranks `209` and
+`251` marked as covered:
+
+```text
+scripts/generated/phase6z6k8ap16du9if_next_compact_hcover_ranks_after_ie_192_256.json
+scripts/generated/phase6z6k8ap16du9if_next_compact_hcover_ranks_after_ie_192_256.md
+```
+
+The audit is lightweight and parallel-safe (`--jobs 4`, about `25 MiB` RSS).
+It reported:
+
+- rank range: `[192,256)`;
+- identity ranks: `2`;
+- identity ranks with GoodDirection masks: `2`;
+- GoodDirection cases: `14`;
+- not-GoodDirection masks: `114`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`.
+
+The diagnostic still lists ranks `209` and `251`, but both are marked with
+guarded batch, split trace, and selected-impact coverage.  Treat `[192,256)` as
+covered by the accepted DU9IE split root; do not regenerate that window.
+
+The next bounded compact h-cover profiling pass was then run on `[256,320)`:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_next_compact_hcover_ranks_256_320.json
+scripts/generated/phase6z6k8ap16du9ig_next_compact_hcover_ranks_256_320.md
+```
+
+It reported:
+
+- rank range: `[256,320)`;
+- identity ranks: `5`;
+- identity ranks with GoodDirection masks: `5`;
+- GoodDirection cases: `41`;
+- not-GoodDirection masks: `279`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`.
+
+The accepted next DU9IG target ranks are:
+
+| Rank | GoodDirection masks |
+| ---: | ---: |
+| `261` | `7` |
+| `263` | `8` |
+| `269` | `11` |
+| `315` | `7` |
+| `317` | `8` |
+
+The next implementation step is DU9IG batch preparation for those five ranks.
+Use the split-cover topology by default, keep monolithic cover modules out of
+the accepted path, and continue checking all generated Lean under the
+`4200 MiB` process-tree RSS guard with a `12000 MiB` available-memory floor.

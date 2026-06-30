@@ -1,0 +1,222 @@
+{
+  "covered_batch_generation_reports": [],
+  "covered_batch_guard_summaries": [],
+  "decision": {
+    "notes": [
+      "diagnostic only: this is not proof evidence",
+      "compact cover roots should still be generated and Lean-checked separately"
+    ],
+    "status": "accepted-next-targets"
+  },
+  "explicit_covered_ranks": [
+    209,
+    251
+  ],
+  "good_direction_cases": 14,
+  "guarded_batch_covered_ranks": [
+    209,
+    251
+  ],
+  "identity_rank_count": 2,
+  "identity_ranks_with_good_masks": 2,
+  "identity_rows": [
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke.lean",
+      "du9p_batch_exists": false,
+      "du9p_batch_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9PRank209BatchSmoke.lean",
+      "good_mask_count": 7,
+      "good_masks": [
+        7,
+        13,
+        22,
+        28,
+        29,
+        45,
+        56
+      ],
+      "guarded_batch_exists": true,
+      "identity": true,
+      "non_two_source_masks": 0,
+      "not_good_masks": 57,
+      "rank": 209,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": true,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank209SplitSmoke.lean",
+      "split_trace_root_exists": true,
+      "status_counts": {
+        "covered": 7,
+        "not_good_direction": 57
+      },
+      "uncovered_masks": 0
+    },
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank251Smoke.lean",
+      "du9p_batch_exists": false,
+      "du9p_batch_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9PRank251BatchSmoke.lean",
+      "good_mask_count": 7,
+      "good_masks": [
+        6,
+        7,
+        13,
+        18,
+        24,
+        29,
+        45
+      ],
+      "guarded_batch_exists": true,
+      "identity": true,
+      "non_two_source_masks": 0,
+      "not_good_masks": 57,
+      "rank": 251,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank251SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": true,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank251SplitSmoke.lean",
+      "split_trace_root_exists": true,
+      "status_counts": {
+        "covered": 7,
+        "not_good_direction": 57
+      },
+      "uncovered_masks": 0
+    }
+  ],
+  "jobs": 4,
+  "missing_compact_cover_rows": [
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke.lean",
+      "du9p_batch_exists": false,
+      "du9p_batch_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9PRank209BatchSmoke.lean",
+      "good_mask_count": 7,
+      "good_masks": [
+        7,
+        13,
+        22,
+        28,
+        29,
+        45,
+        56
+      ],
+      "guarded_batch_exists": true,
+      "identity": true,
+      "non_two_source_masks": 0,
+      "not_good_masks": 57,
+      "rank": 209,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": true,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank209SplitSmoke.lean",
+      "split_trace_root_exists": true,
+      "status_counts": {
+        "covered": 7,
+        "not_good_direction": 57
+      },
+      "uncovered_masks": 0
+    },
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank251Smoke.lean",
+      "du9p_batch_exists": false,
+      "du9p_batch_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9PRank251BatchSmoke.lean",
+      "good_mask_count": 7,
+      "good_masks": [
+        6,
+        7,
+        13,
+        18,
+        24,
+        29,
+        45
+      ],
+      "guarded_batch_exists": true,
+      "identity": true,
+      "non_two_source_masks": 0,
+      "not_good_masks": 57,
+      "rank": 251,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank251SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": true,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank251SplitSmoke.lean",
+      "split_trace_root_exists": true,
+      "status_counts": {
+        "covered": 7,
+        "not_good_direction": 57
+      },
+      "uncovered_masks": 0
+    }
+  ],
+  "non_two_source_masks": 0,
+  "not_good_direction_masks": 114,
+  "phase": "6Z.6K.8AP.16DU.9GF",
+  "rank_count": 64,
+  "rank_end": 256,
+  "rank_start": 192,
+  "recommended_target_rows": [
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank209Smoke.lean",
+      "du9p_batch_exists": false,
+      "du9p_batch_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9PRank209BatchSmoke.lean",
+      "good_mask_count": 7,
+      "good_masks": [
+        7,
+        13,
+        22,
+        28,
+        29,
+        45,
+        56
+      ],
+      "guarded_batch_exists": true,
+      "identity": true,
+      "non_two_source_masks": 0,
+      "not_good_masks": 57,
+      "rank": 209,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank209SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": true,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank209SplitSmoke.lean",
+      "split_trace_root_exists": true,
+      "status_counts": {
+        "covered": 7,
+        "not_good_direction": 57
+      },
+      "uncovered_masks": 0
+    },
+    {
+      "compact_cover_exists": false,
+      "compact_cover_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomCoverRank251Smoke.lean",
+      "du9p_batch_exists": false,
+      "du9p_batch_module": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9PRank251BatchSmoke.lean",
+      "good_mask_count": 7,
+      "good_masks": [
+        6,
+        7,
+        13,
+        18,
+        24,
+        29,
+        45
+      ],
+      "guarded_batch_exists": true,
+      "identity": true,
+      "non_two_source_masks": 0,
+      "not_good_masks": 57,
+      "rank": 251,
+      "selected_impacts_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomRank251SelectedImpactsSmoke.lean",
+      "selected_impacts_root_exists": true,
+      "split_trace_root": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank251SplitSmoke.lean",
+      "split_trace_root_exists": true,
+      "status_counts": {
+        "covered": 7,
+        "not_good_direction": 57
+      },
+      "uncovered_masks": 0
+    }
+  ],
+  "schema_version": 1,
+  "status_counts": {
+    "covered": 14,
+    "not_good_direction": 114
+  },
+  "trusted_as_proof": false,
+  "uncovered_masks": 0
+}
