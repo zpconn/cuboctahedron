@@ -31909,3 +31909,97 @@ GiB` old-cover band and keeps the most expensive arithmetic out of the rank
 aggregate.  Next step: apply the same split-cover emitter to rank `86` and, if
 that passes under the same `4200 MiB` cap, emit split-cover roots for the
 previous DU9HF ranks only as needed for a thinner DU9HF batch root.
+
+### Phase 6Z.6K.8AP.16DU.9HJ checkpoint: split rank86 compact cover accepted
+
+Phase 6Z.6K.8AP.16DU.9HJ applies the split-cover topology from 9HI to rank
+`86`, with stricter OOM hygiene after the old monolithic DU9HF cover path was
+interrupted.  The generator planned `16` subcube targets plus one thin split
+root:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16du_split_compact_cover.py \
+  --rank 86 \
+  --tag DU9HJ \
+  --report scripts/generated/phase6z6k8ap16du9hj_split_cover_rank86_generation.json
+
+/usr/bin/time -v python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --rank 86 \
+  --tag DU9HJ \
+  --report scripts/generated/phase6z6k8ap16du9hj_split_cover_rank86_generation.json
+```
+
+Both generator runs passed in under one second with peak RSS around `27 MiB`.
+The first guarded split-subcube attempts were intentionally conservative and
+stopped safely before machine risk:
+
+- `4200 MiB` cap on the split subcube batch stopped at subcube `000` while
+  uncached rank86 dependencies were still being built.
+- `4300 MiB` cap on the same batch also stopped at subcube `000`, again during
+  dependency compilation rather than the final split leaf shape.
+- `4300 MiB` cap on the remaining prerequisite batch stopped at
+  `trace_final` with `4308 MiB` tree RSS.
+
+Those stops are useful telemetry: rank86 needs a narrow one-target `4400 MiB`
+lane for two trace prerequisites, but does not require raising the split-cover
+leaf/root cap after prerequisites are cached.  The isolated prerequisite checks
+were:
+
+| Target group | Cap | Result | Peak tree RSS | Min available |
+| --- | ---: | --- | ---: | ---: |
+| `trace_data` | `4300 MiB` | passed | `797.0 MiB` | high |
+| `trace_step_12` | `4400 MiB` | passed | `4344.3 MiB` | `45745.5 MiB` |
+| `trace_final` | `4400 MiB` | passed | `4331.5 MiB` | `45753.6 MiB` |
+| `trace` plus selected impacts | `4300 MiB` | passed | `4153.6 MiB` | `45914.7 MiB` |
+
+After those prerequisites were cached, the actual split-cover checks passed
+comfortably under the lower cap:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hj_split_cover_rank86_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hj_serial_guard_rank86_split_subcubes_after_prereqs_4300.json \
+  --out-dir /tmp/ap16dj_du9hj_serial_guarded/rank86_split_subcubes_after_prereqs_4300 \
+  --target-kind split_cover_subcube \
+  --rss-cap-mib 4300 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hj_split_cover_rank86_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hj_serial_guard_rank86_split_root_4300.json \
+  --out-dir /tmp/ap16dj_du9hj_serial_guarded/rank86_split_root_4300 \
+  --target-kind split_cover_root \
+  --rss-cap-mib 4300 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Results:
+
+- all `16` split subcube leaves passed in aggregate `elapsed=48.51s`;
+  the largest recorded split leaf used `4113.0 MiB` peak tree RSS;
+- the split rank root passed in `elapsed=4.51s`, with
+  `peak_tree_rss=4161.9 MiB` and `min_available=45934.7 MiB`;
+- a banned-token scan on the split emitter plus representative rank86 root and
+  subcube files found no `sorry`, `admit`, `axiom`, `native_decide`, or
+  `unsafe` tokens.
+
+Decision: accepted.  Rank `84` and rank `86` both validate the split-cover
+topology as the replacement for the interrupted monolithic DU9HF cover roots.
+The practical rule is now:
+
+- heavy Lean proof leaves remain serial and guarded;
+- split subcube leaves/root should use a `4300 MiB` cap after prerequisites are
+  cached;
+- trace prerequisite outliers may use an isolated `4400 MiB` cap, but do not
+  raise above `4400 MiB` without a fresh user decision;
+- do not revive the old monolithic cover-all path for this batch.
+
+Next step: build a thin `[64,128)` batch assembly that reuses the already
+accepted covers for ranks `65`, `72`, `78`, and `80`, and the split roots for
+ranks `84` and `86`, or regenerate the earlier four ranks through the split
+topology only if the mixed root shows import-memory pressure.

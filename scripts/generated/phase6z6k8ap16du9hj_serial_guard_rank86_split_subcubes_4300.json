@@ -1,0 +1,129 @@
+{
+  "available_floor_mib": 12000,
+  "description": "Serial guarded AP16DJ batch build plan",
+  "emitted_before_build": false,
+  "failed_target": {
+    "kind": "split_cover_subcube",
+    "label": "rank86_subcube000",
+    "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube000Smoke"
+  },
+  "filters": {
+    "max_targets": null,
+    "module_contains": [],
+    "target_index": [],
+    "target_kind": [
+      "split_cover_subcube"
+    ]
+  },
+  "generation_report": "scripts/generated/phase6z6k8ap16du9hj_split_cover_rank86_generation.json",
+  "phase": "Phase 6Z.6K.8AP.16DJ",
+  "results": [
+    {
+      "available_floor_mib": 12000.0,
+      "command": [
+        "bash",
+        "-lc",
+        "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube000Smoke"
+      ],
+      "elapsed_seconds": 14.021906262991251,
+      "exit_code": -15,
+      "killed_reason": "process-tree RSS 4300 MiB exceeded 4300 MiB cap",
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube000",
+      "max_tree_rss_kib": 4403976,
+      "max_tree_rss_mib": 4300.7578125,
+      "min_available_seen_kib": 46902348,
+      "min_available_seen_mib": 45803.07421875,
+      "rss_cap_mib": 4300.0,
+      "target": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube000Smoke",
+      "target_json": "/tmp/ap16dj_du9hj_serial_guarded/rank86_split_subcubes_4300/000_ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube000Smoke.json"
+    }
+  ],
+  "rss_cap_mib": 4300,
+  "status": "failed_or_guard_stopped",
+  "target_count": 16,
+  "targets": [
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube000",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube000Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube001",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube001Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube002",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube002Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube003",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube003Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube004",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube004Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube005",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube005Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube006",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube006Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube007",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube007Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube008",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube008Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube009",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube009Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube010",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube010Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube011",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube011Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube012",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube012Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube013",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube013Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube014",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube014Smoke"
+    },
+    {
+      "kind": "split_cover_subcube",
+      "label": "rank86_subcube015",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HJSplitCoverRank86Subcube015Smoke"
+    }
+  ],
+  "timeout_seconds": 600,
+  "trusted_as_final_generated_coverage": false
+}
