@@ -29348,3 +29348,31 @@ singleton-signature paths can now terminate at
 instead of the older all-good-only target.  It remains smoke: the production
 work is still to replace the narrow `hmask`/`hfacts` premises with compressed
 state/domain language theorems that cover all GoodDirection survivors.
+
+### Phase 6Z.6K.8AP.16DU.9FI checkpoint: contract guards nonempty template smokes
+
+Phase 6Z.6K.8AP.16DU.9FI updates
+`scripts/audit_ap16du9dc_semantic_coverage_contract.py` so the semantic
+coverage contract now guards the nonempty template-bridge smoke exports added
+in 9FG and 9FH:
+
+- `generated_smoke_template_member_bridge_exists`
+- `generated_smoke_template_coverage_exists`
+- `signature_smoke_template_member_bridge_exists`
+- `signature_smoke_semantic_template_member_bridge_exists`
+
+Audit command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12540`, with
+`all_required_surfaces_present = true`.
+
+Decision: accepted as proof-neutral contract maintenance.  The audit now
+protects the theorem-surface migration while still reporting the real
+production gap as open: generate compressed semantic domains/languages that
+prove every identity-linear GoodDirection survivor belongs to the template
+domain, without rank-local Boolean reduction or singleton mask/rank leaves.

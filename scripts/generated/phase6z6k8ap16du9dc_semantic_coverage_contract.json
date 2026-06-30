@@ -21,9 +21,29 @@
       "needle": "(hclass :",
       "present": true
     },
+    "generated_smoke_template_coverage_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "needle": "theorem generatedGroupTemplateCoverage",
+      "present": true
+    },
+    "generated_smoke_template_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "needle": "theorem generatedGroupTemplateMemberBridge",
+      "present": true
+    },
     "positive_single_candidate_classifier_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean",
       "needle": "theorem allGoodCoverage_of_positiveSingleCandidateClassifier",
+      "present": true
+    },
+    "signature_smoke_semantic_template_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean",
+      "needle": "theorem generatedSingletonSignatureSemanticTemplateMemberBridge",
+      "present": true
+    },
+    "signature_smoke_template_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean",
+      "needle": "theorem generatedSingletonSignatureTemplateMemberBridge",
       "present": true
     },
     "source_position_coverage_exists": {

@@ -25,6 +25,8 @@ FILES = {
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean",
     "positive_survivor_membership_generated_smoke": ROOT
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+    "positive_survivor_signature_membership_generated_smoke": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean",
     "source_index_state_classifier_du3": ROOT
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
     "source_index_state_descriptor_language": ROOT
@@ -58,6 +60,22 @@ CHECKS = {
     "generated_smoke_hclass_is_hypothesis": (
         "positive_survivor_membership_generated_smoke",
         "(hclass :",
+    ),
+    "generated_smoke_template_member_bridge_exists": (
+        "positive_survivor_membership_generated_smoke",
+        "theorem generatedGroupTemplateMemberBridge",
+    ),
+    "generated_smoke_template_coverage_exists": (
+        "positive_survivor_membership_generated_smoke",
+        "theorem generatedGroupTemplateCoverage",
+    ),
+    "signature_smoke_template_member_bridge_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "theorem generatedSingletonSignatureTemplateMemberBridge",
+    ),
+    "signature_smoke_semantic_template_member_bridge_exists": (
+        "positive_survivor_signature_membership_generated_smoke",
+        "theorem generatedSingletonSignatureSemanticTemplateMemberBridge",
     ),
     "du3_prop_first_source_row_adapter_exists": (
         "source_index_state_classifier_du3",

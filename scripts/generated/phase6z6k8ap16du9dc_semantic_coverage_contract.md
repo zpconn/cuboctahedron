@@ -14,6 +14,10 @@ it is a contract for the next proof-producing generator.
 | `source_position_coverage_to_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean` |
 | `positive_single_candidate_classifier_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipSmoke.lean` |
 | `generated_smoke_hclass_is_hypothesis` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
+| `generated_smoke_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
+| `generated_smoke_template_coverage_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
+| `signature_smoke_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
+| `signature_smoke_semantic_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
 | `du3_prop_first_source_row_adapter_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean` |
 | `descriptor_to_all_good_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean` |
 | `template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
