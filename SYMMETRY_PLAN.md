@@ -40051,3 +40051,49 @@ prove the GoodDirection membership/domain theorem that selects one of these
 source-position/row-producer candidates for arbitrary rank/mask inputs in the
 range.  That theorem must still avoid compact-Walsh roots, `fin_cases mask`,
 rank-local Boolean reduction, and `pairPrefixLinearNat` replay.
+
+### Phase 6Z6K8AP16DU9IQ - hmask bad-cover singleton route rejected
+
+The next DU9IQ membership subproblem is the `hmask` premise: given
+`GoodDirectionAtRank`, prove that the mask lies in the positive-survivor set
+used by the source-position/source-row producer stack.  A new diagnostic was
+added to measure whether this can be handled by bounded singleton bad-mask
+witnesses before emitting any Lean:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_du9iq_hmask_bad_cover.py \
+  --rank-start 896 \
+  --limit 64 \
+  --top 20 \
+  --singleton-gate 128 \
+  --json scripts/generated/phase6z6k8ap16du9iq_hmask_bad_cover_profile.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_hmask_bad_cover_profile.md
+```
+
+The profiler emits no Lean and is not trusted as proof.  It reuses the exact
+Python classifier only to size the obligation and choose the next proof
+surface.
+
+Result:
+
+- status: `reject-singleton-hmask-lean`;
+- next step: `profile-denominator-cube-or-impact-subcube-cover`;
+- rank window: `[896,960)`;
+- identity ranks: `7`;
+- GoodDirection cases: `75`;
+- bad-mask cases needing contradictions: `373`;
+- singleton gate: `128`;
+- estimated singleton Lean lines: `27975`;
+- elapsed time: `2.44s`;
+- peak RSS: `26672 KiB`.
+
+Decision: do not emit singleton `hmask` evidence, even for this DU9IQ bounded
+window.  The count is already too large for the final proof shape and would
+reopen the old rank/mask-local path.  Keep `hmask` as a premise at the
+source-position producer layer until a compressed `BadMaskCover` producer is
+available.  The next safe step is a diagnostic-only denominator-cube or
+impact-subcube cover profiler that groups the 373 bad masks by semantic
+denominator obstruction and reports whether a small `BadMaskCover` family can
+discharge `GoodDirection -> positive-survivor membership` without
+compact-Walsh roots, `fin_cases mask`, rank-local Boolean reduction, or
+`pairPrefixLinearNat` replay.
